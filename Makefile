@@ -3,7 +3,7 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean update update-dot-files update-opera
+.PHONY: all clean update
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
