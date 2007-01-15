@@ -58,16 +58,21 @@ $(DESTDIR)$(1):
 
 endef
 
-define GenerateRulesFromGroup  # (group_name)
+define GenerateRulesFromGroups  # (groups = (group_name*))
 $(foreach directory, \
-  $(call RemoveDuplicates,$(dir $(call CallRule,$(1),$(GROUP_$(1)_FILES)))), \
+  $(call RemoveDuplicates, \
+    $(foreach group, \
+      $(1), \
+      $(dir $(call CallRule,$(group),$(GROUP_$(group)_FILES))))), \
   $(call GenerateRulesToUpdateDirectory,$(directory)))
-$(foreach file, \
-   $(GROUP_$(1)_FILES), \
-   $(call GenerateRulesToUpdateFile,$(file),$(call CallRule,$(1),$(file))))
+$(foreach group, \
+  $(1), \
+  $(foreach file, \
+    $(GROUP_$(group)_FILES), \
+    $(call GenerateRulesToUpdateFile,$(file),$(call CallRule,$(group),$(file)))))
 endef
 
-$(eval $(foreach group,$(ALL_GROUPS),$(call GenerateRulesFromGroup,$(group))))
+$(eval $(call GenerateRulesFromGroups,$(ALL_GROUPS)))
 
 
 
