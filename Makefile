@@ -10,7 +10,7 @@ SHELL=/bin/sh
 DESTDIR=
 
 
-ALL_GROUPS=DOTS OPERA
+ALL_GROUPS=DOTS OPERA VIM
 
 GROUP_DOTS_FILES=\
   dot.bash_profile \
@@ -30,6 +30,30 @@ GROUP_OPERA_FILES=\
   opera/toolbar/my-toolbar.ini
 GROUP_OPERA_RULE=$(patsubst opera/%,$(GROUP_OPERA_DIR)/%,$(1))
 GROUP_OPERA_DIR=$(abspath opera/profile-link)
+
+GROUP_VIM_FILES=\
+  vim/dot.vim/colors/black_angus.vim \
+  vim/dot.vim/colors/gothic.vim \
+  vim/dot.vim/colors/less.vim \
+  $(GROUP_VIM_DOC_FILES) \
+  vim/dot.vim/ftplugin/bugs.vim \
+  vim/dot.vim/plugin/surround.vim \
+  vim/dot.vim/plugin/vcscommand.vim \
+  vim/dot.vim/plugin/vcscvs.vim \
+  vim/dot.vim/plugin/vcssvn.vim \
+  vim/dot.vim/syntax/bugs.vim \
+  vim/dot.vim/syntax/CVSAnnotate.vim \
+  vim/dot.vim/syntax/rest.vim \
+  vim/dot.vim/syntax/SVNAnnotate.vim \
+  vim/dot.vim/syntax/vcscommit.vim \
+  vim/dot.vimrc
+GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
+GROUP_VIM_DOC_FILES=\
+  vim/dot.vim/doc/surround.txt \
+  vim/dot.vim/doc/vcscommand.txt
+GROUP_VIM_POST_TARGETS=$(DESTDIR)$(HOME)/.vim/doc/tags
+$(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
+	vim -n -N -u NONE -U NONE -e -c 'helptags $(dir $@) | q'
 
 
 
@@ -70,6 +94,7 @@ $(foreach group, \
   $(foreach file, \
     $(GROUP_$(group)_FILES), \
     $(call GenerateRulesToUpdateFile,$(file),$(call CallRule,$(group),$(file)))))
+update: $(foreach group,$(1),$(GROUP_$(group)_POST_TARGETS))
 endef
 
 $(eval $(call GenerateRulesFromGroups,$(ALL_GROUPS)))
