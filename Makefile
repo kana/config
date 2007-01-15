@@ -17,6 +17,22 @@ UPDATE_FILE=cp
 # update  #{{{1
 update: update-dot-files update-opera
 
+RemoveDotPart=$(patsubst dot.%,.%,$(1))
+RemoveCurrentDirectory=$(filter-out ./,$(1))
+RemoveDuplicates=$(sort $(1))
+
+define TemplateUpdateFile  # (src, src-base-dir, dest-base-dir)
+$(DESTDIR)$(3)/$(call RemoveDotPart,$(1)): \
+  $(2)/$(1) \
+  $(DESTDIR)$(3)/$(call RemoveCurrentDirectory,$(dir $(1)))
+	$(UPDATE_FILE) '$$<' '$$@'
+endef
+
+define TemplateUpdateDir  # ((dir src), dest-base-dir)
+$(DESTDIR)$(2)/$(call RemoveDotPart,$(call RemoveCurrentDirectory,$(1))):
+	$(UPDATE_DIR) '$$@'
+endef
+
 
 # update-dot-files  #{{{2
 
@@ -32,10 +48,14 @@ update-dot-files: \
   $(DESTDIR)$(HOME)/ \
   $(patsubst dot.%,$(DESTDIR)$(HOME)/.%,$(DOT_FILES))
 
-$(DESTDIR)$(HOME)/:
-	$(UPDATE_DIR) $@
-$(DESTDIR)$(HOME)/.%: dot.%
-	$(UPDATE_FILE) $< $@
+$(foreach src, \
+  $(DOT_FILES), \
+  $(eval $(call TemplateUpdateFile,$(src),.,$(HOME))))
+
+$(foreach \
+  src_dir, \
+  $(call RemoveDuplicates,$(dir $(DOT_FILES))), \
+  $(eval $(call TemplateUpdateDir,$(src_dir),$(HOME))))
 
 
 # update-opera  #{{{2
@@ -52,23 +72,13 @@ OPERA_FILES=\
 update-opera: \
   $(addprefix $(DESTDIR)$(OPERA_USER_PROFILE)/,$(OPERA_FILES))
 
-define opera_file_template
-$(DESTDIR)$(OPERA_USER_PROFILE)/$(1): \
-  opera/$(1) \
-  $(DESTDIR)$(OPERA_USER_PROFILE)/$(dir $(1))
-	$(UPDATE_FILE) $$< '$$@'
-endef
-$(foreach i, \
-          $(OPERA_FILES), \
-          $(eval $(call opera_file_template,$(i))))
+$(foreach src, \
+  $(OPERA_FILES), \
+  $(eval $(call TemplateUpdateFile,$(src),opera,$(OPERA_USER_PROFILE))))
 
-define opera_dir_template
-$(DESTDIR)$(OPERA_USER_PROFILE)/$(1):
-	$(UPDATE_DIR) '$$@'
-endef
-$(foreach i, \
-          $(sort $(dir $(OPERA_FILES))), \
-          $(eval $(call opera_dir_template,$(i))))
+$(foreach src_dir, \
+  $(call RemoveDuplicates,$(dir $(OPERA_FILES))), \
+  $(eval $(call TemplateUpdateDir,$(src_dir),$(OPERA_USER_PROFILE))))
 
 
 
