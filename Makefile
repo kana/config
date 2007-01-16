@@ -15,6 +15,7 @@ ALL_GROUPS=DOTS OPERA SAMURIZE VIM
 GROUP_DOTS_FILES=\
   dot.bash_profile \
   dot.bashrc \
+  dot.bash/bash_completion \
   dot.bash/cdhist.sh \
   dot.inputrc \
   dot.mayu \

@@ -67,6 +67,10 @@ alias v='vim'
 
 source ~/.bash/cdhist.sh
 
+BASH_COMPLETION=~/.bash/bash_completion
+BASH_COMPLETION_DIR=~/.bash/NO_SUCH_DIR  # Don't use contrib for this.
+source $BASH_COMPLETION
+
 
 
 
