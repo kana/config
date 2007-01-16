@@ -65,7 +65,7 @@ alias v='vim'
 
 # ETC  {{{1
 
-source ~/bin/cdhist.sh
+source ~/.bash/cdhist.sh
 
 
 
