@@ -1,280 +1,88 @@
-# ==================
-# Mayu configuration
-# ==================
-#
-# $Id$
-#
-# Note:
-#     - Lock assignment
-#           - 9:      Ragnarok
-#           - Others: NOT USED
+# My .mayu
+# ========
+# $Id$ #{{{1
+
+
+
+
+# Common settings  #{{{1
+# ======================
 
 # Read default settings.
 include "dot.mayu"
 
-
-
-
-# Common settings
-# ===============
-#
-# The following bindings are disabled.
-# I think these keys should not be replaced any places.
-#
-#     key C-LeftSquareBracket = Escape
-
-mod windows		+=  !!RightWindows
-key W-RightWindows	=   &LoadSetting()
-mod shift		+=  !!RightShift
-key S-*RightShift	=   *BackSlash
-key *CapsLock		=   &Undefined
-key W-I			=   &WindowIdentify
+mod windows += !!RightWindows
+key W-RightWindows = &LoadSetting()
+mod shift += !!RightShift
+key S-*RightShift = *BackSlash
+key *CapsLock = &Undefined
+key W-I = &WindowIdentify
 
 
 
 
-# Somewhat for debbuging.
-# key *L8-W-Tab		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Next')", true)
-# key *L8-S-W-Tab		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Prev')", true)
-# key *L8-W-J		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Next')", true)
-# key *L8-W-K		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Prev')", true)
-# key L8-U-~W-*LeftWindows=   &Toggle(Lock8,off) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Cancel')", true)
-# key *L8-W-H		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Send LeftClick')", true)
-# key *L8-W-O		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Send RightClick')", true)
-# key *L8-S-W-H		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Send LeftDoubleClick')", true)
-# key *L8-S-W-O		=   &Toggle(Lock8, on) &PlugIn("BBMayuKon", "Kontroll", "broam('@BBAltTray.Send RightDoubleClick')", true)
-# key W-_9 = &HelpMessage("title", "message")
-# key W-_0 = &HelpMessage()
-
-
-
-
-# Application Launcher
-# ====================
-#
-# I use BBKeys, which is a plugin for Blackbox for Windows,
-# to launch some applications. So this section is disabled.
-# To enable this section, comment out next line
-#
-#     define enable_launcher
+# Application Launcher  #{{{1
+# ===========================
 
 if (enable_launcher)
-	key C-M-C	=   &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=connect",, ShowNormal)
-	key C-M-I	=   &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=iview",, ShowNormal)
-	key C-M-J	=   &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=jtrim",, ShowNormal)
-	key C-M-O	=   &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=opera",, ShowNormal)
-	key C-M-L	=   &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=latest",, ShowNormal)
-	key C-M-S	=   &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=cygwin",, ShowNormal)
-	key C-M-S-L	=   &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=limechat",, ShowNormal)
+  key C-M-C = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=connect",, ShowNormal)
+  key C-M-I = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=iview",, ShowNormal)
+  key C-M-J = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=jtrim",, ShowNormal)
+  key C-M-O = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=opera",, ShowNormal)
+  key C-M-L = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=latest",, ShowNormal)
+  key C-M-S = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=cygwin",, ShowNormal)
+  key C-M-S-L = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=limechat",, ShowNormal)
 endif
 
 
 
 
-# Opera
-# =====
-#
-# Just adding some 2-stroke keys (C-W xxx -- like vim's binding).
-
-# define enable_opera  # Removed, Opera allows n-stroke key (from ver 7 or 8).
-if (enable_opera)
-
-keymap2 Opera-CW : Global = &Undefined
-key C			=    C-K
-key H			=    _2
-key J			=    F9
-key K			=    F8
-key L			=    _1
-key C-C			=    C-K
-key C-H			=    _2
-key C-J			=    F9
-key C-K			=    F8
-key C-L			=    _1
-
-window Opera /\\Opera\.exe/ : Global
-key C-W			=   &Prefix(Opera-CW)
-
-endif
-
-
-
-
-# Explorer
-# ========
-#
-# I rarely use these settings, so this section is disabled.
-# To enable this section, comment out next line.
-#
-#     define enable_explorer
+# Explorer  #{{{1
+# ===============
 
 if (enable_explorer)
-	window	Explorer-All	/explorer.exe/ : Global
-	key C-F			=    PageDown
-	key C-B			=    PageUp
-	# key S-H		=    Left
-	# key S-J		=    Down
-	# key S-K		=    Up
-	# key S-L		=    Right
-	key C-H			=    BackSpace
+  window Explorer-All /explorer.exe/ : Global
+  key C-F = PageDown
+  key C-B = PageUp
+# key S-H = Left
+# key S-J = Down
+# key S-K = Up
+# key S-L = Right
+  key C-H = BackSpace
 endif
 
 
 
 
-# Ragnarok 
-# ========
+# PangYa  #{{{1
+# =============
 
-define enable_ragnarok
-if (enable_ragnarok)
-
-window	Ragnarok	/Ragnarok/ : Global
-
-key C-Space = &ShellExecute( \
-	        "open", \
-	        "C:\\cygwin\\usr\\win\\bin\\Python-2.3.4\\pythonw", \
-	        "C:\\cygwin\\home\\kana\\bin\\ro-move.py Ragnarok -3 -23", \
-	        , \
-	        ShowNormal \
-              )
-
-key C-LeftSquareBracket	=    Escape
-key C-Q			=    F12
-key Escape		=    Insert
-
-key C-W			=    Slash W Return
-key C-S-W		=    Slash W H E R E Return
-
-key C-*S-U		=    Home S-End *S-Delete
-key C-*S-K		=  S-End *S-Delete
-key C-*S-F		= *S-Right
-key C-*S-B		= *S-Left
-key C-P			=    Up
-key C-N			=    Down
-key C-*S-A		= *S-Home
-key C-*S-E		= *S-End
-key C-*S-H		= *S-BackSpace
-key C-*S-D		= *S-Delete
-# key C-C		=  C-Insert
-# key C-X		=  S-Delete
-key C-V			=  S-Insert
-key C-M			=    Return
-
-
-# Shortcuts
-# ---------
-#
-#   _[1-9] -> For F[1-9] in Page1
-# C-_[1-9] -> For F[1-9] in Page2
-# M-_[1-9] -> For F[1-9] in Page3
-
-keyseq $RO_BEFORE_CTRL = F12
-keyseq $RO_AFTER_CTRL = F12 F12
-keyseq $RO_BEFORE_ALT = F12 F12
-keyseq $RO_AFTER_ALT = F12
-
-key _1			=    F1
-key _2			=    F2
-key _3			=    F3
-key _4			=    F4
-key _5			=    F5
-key _6			=    F6
-key _7			=    F7
-key _8			=    F8
-key _9			=    F9
-# key _0		=    F10
-# key Minus		=    F11
-# key Equal		=    F12
-key BackSlash		=    Insert
-
-key C-_1		=    $RO_BEFORE_CTRL F1 $RO_AFTER_CTRL
-key C-_2		=    $RO_BEFORE_CTRL F2 $RO_AFTER_CTRL
-key C-_3		=    $RO_BEFORE_CTRL F3 $RO_AFTER_CTRL
-key C-_4		=    $RO_BEFORE_CTRL F4 $RO_AFTER_CTRL
-key C-_5		=    $RO_BEFORE_CTRL F5 $RO_AFTER_CTRL
-key C-_6		=    $RO_BEFORE_CTRL F6 $RO_AFTER_CTRL
-key C-_7		=    $RO_BEFORE_CTRL F7 $RO_AFTER_CTRL
-key C-_8		=    $RO_BEFORE_CTRL F8 $RO_AFTER_CTRL
-key C-_9		=    $RO_BEFORE_CTRL F9 $RO_AFTER_CTRL
-# key C-_0		=    $RO_BEFORE_CTRL F10 $RO_AFTER_CTRL
-# key C-Minus		=    $RO_BEFORE_CTRL F11 $RO_AFTER_CTRL
-# key C-Equal		=    $RO_BEFORE_CTRL F12 $RO_AFTER_CTRL
-
-key M-_1		=    $RO_BEFORE_ALT F1 $RO_AFTER_ALT
-key M-_2		=    $RO_BEFORE_ALT F2 $RO_AFTER_ALT
-key M-_3		=    $RO_BEFORE_ALT F3 $RO_AFTER_ALT
-key M-_4		=    $RO_BEFORE_ALT F4 $RO_AFTER_ALT
-key M-_5		=    $RO_BEFORE_ALT F5 $RO_AFTER_ALT
-key M-_6		=    $RO_BEFORE_ALT F6 $RO_AFTER_ALT
-key M-_7		=    $RO_BEFORE_ALT F7 $RO_AFTER_ALT
-key M-_8		=    $RO_BEFORE_ALT F8 $RO_AFTER_ALT
-key M-_9		=    $RO_BEFORE_ALT F9 $RO_AFTER_ALT
-# key M-_0		=    $RO_BEFORE_ALT F10 $RO_AFTER_ALT
-# key M-Minus		=    $RO_BEFORE_ALT F11 $RO_AFTER_ALT
-# key M-Equal		=    $RO_BEFORE_ALT F12 $RO_AFTER_ALT
-
-# Multiple shortcuts by 1 key.
-# &Wait(400) must be there to be processed these shortcuts surely.
-# 400 is the smallest and the best value,
-# because unprocessed shortcuts rarely occur (unless lag).
-key    M-S-A = &Toggle(Lock9, on)   Slash L _9 Space O N
-key L9-M-S-A = &Toggle(Lock9, off)  Slash L _9 Space O F F
-key L9-M-I = $RO_BEFORE_ALT F8 &Wait(400) F7 &Wait(400) F9 $RO_AFTER_ALT
-key L9-M-U = $RO_BEFORE_ALT F8 &Wait(400) F7 &Wait(400) F6 $RO_AFTER_ALT
-key L9-M-Y = $RO_BEFORE_ALT F8 &Wait(400) F6 &Wait(400) F5 $RO_AFTER_ALT
-key L9-M-T = $RO_BEFORE_ALT F8 &Wait(400) F7 &Wait(400) F5 $RO_AFTER_ALT
-
-
-# Emotions
-# --------
-
-key W-_1		=    M-_1
-key W-_2		=    M-_2
-key W-_3		=    M-_3
-key W-_4		=    M-_4
-key W-_5		=    M-_5
-key W-_6		=    M-_6
-key W-_7		=    M-_7
-key W-_8		=    M-_8
-key W-_9		=    M-_9
-key W-_0		=    M-_0
-key W-Minus		=    C-Minus
-key W-Equal		=    C-Equal
-key W-Backslash		=    C-Backslash
-
-endif	# enable_ragnarok
-
-
-
-
-# PangYa
-# ======
-
-# define enable_pangya
 if (enable_pangya)
-	window	PangYa	/PangYa/ : Global
-	key C-Space = &ShellExecute( \
-		"open", \
-		"C:\\cygwin\\usr\\win\\bin\\Python-2.3.4\\pythonw", \
-		"C:\\cygwin\\home\\kana\\bin\\ro-move.py PangYa -3 -23", \
-		, \
-		ShowNormal \
-	)
+  window PangYa /PangYa/ : Global
+  key C-Space = &ShellExecute( \
+                  "open", \
+                  "C:\\cygwin\\usr\\win\\bin\\Python-2.3.4\\pythonw", \
+                  "C:\\cygwin\\home\\kana\\bin\\ro-move.py PangYa -3 -23", \
+                  , \
+                  ShowNormal \
+                )
 endif
 
 
 
 
-# IrfanView
-# =========
+# IrfanView  #{{{1
+# ================
 
 define enable_irfanview
 if (enable_irfanview)
-	window IrfanView /IrfanView/ : Global
-	key C-F = C-Home
-	key C-B = C-End
+  window IrfanView /IrfanView/ : Global
+  key C-F = C-Home
+  key C-B = C-End
 endif
 
 
 
 
 # __END__
+# vim: foldmethod=marker et sts=2 sw=2
