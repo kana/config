@@ -10,7 +10,7 @@ SHELL=/bin/sh
 DESTDIR=
 
 
-ALL_GROUPS=DOTS OPERA VIM
+ALL_GROUPS=DOTS OPERA SAMURIZE VIM
 
 GROUP_DOTS_FILES=\
   dot.bash_profile \
@@ -54,6 +54,10 @@ GROUP_VIM_DOC_FILES=\
 GROUP_VIM_POST_TARGETS=$(DESTDIR)$(HOME)/.vim/doc/tags
 $(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
 	vim -n -N -u NONE -U NONE -e -c 'helptags $(dir $@) | q'
+
+GROUP_SAMURIZE_FILES=\
+  samurize/my-conf.ini
+GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 
 
