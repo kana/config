@@ -7,11 +7,13 @@ set editing-mode vi
 set input-meta on
 set mark-symlinked-directories on
 set output-meta on
-set show-all-if-ambiguous on
 set visible-stats on
 
 "\C- r": re-read-init-file
 "\C- \C-r": re-read-init-file
+
+"\C-  ": "\C-[A\C-ufg\C-m"
+"\C- \C- ": "\C-[A\C-ufg\C-m"
 
 # __END__
 # vim: filetype=readline
