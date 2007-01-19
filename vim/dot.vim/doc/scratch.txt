@@ -1,0 +1,76 @@
+*scratch.txt*	Emacs like scratch buffer
+
+Author:  kana <http://nicht.s8.xrea.com/>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+$Id$
+
+
+CONTENTS						*scratch-contents*
+
+Key mapings			|scratch-mappings|
+Customizing			|scratch-customizing|
+
+
+
+
+==============================================================================
+KEY MAPPINGS						*scratch-mappings*
+
+Scratch buffer local:
+
+CTRL-J		or					*CTRL-J*
+CTRL-M		or					*CTRL-M* *<CR>*
+<CR>			Execute the current line as a Vim script, then move
+			the cursor to the first non-blank character of the
+			next line.  If there is no more line, add one more
+			line and move the cursor to there.
+
+{Visual}CTRL-J	or					*v_CTRL-J*
+{Visual}CTRL-M	or					*v_CTRL-M* *v_<CR>*
+{Visual}<CR>		
+			Same as <CR>, but execute the highlighted text.
+
+
+Global:
+
+							*<Plug>Scratch_Open*
+<Plug>Scratch_Open	``Open'' the scratch buffer, i.e., create the buffer
+			if it does not exist, show if it is not visible, or
+			move the cursor to the window that shows it.
+
+<Leader>s
+			Mapped to |<Plug>Scratch_Open|.
+			This mapping is not defined if it already exists.
+
+
+
+
+==============================================================================
+CUSTOMIZING						*scratch-customizing*
+
+The following variables are used by this plugin.
+
+							*g:scratch_buffer_name*
+g:scratch_buffer_name   string (default: '*Scratch*')
+	The name of the scratch buffer.  Set this value before this plugin is
+	loaded (e.g. $MYVIMRC).
+
+						      *g:scratch_show_command*
+g:scratch_show_command  string (default: 'topleft split | hide buffer')
+	The command to show the scratch buffer.  When the plugin shows the
+	scratch buffer, it will execute the following script: >
+
+	execute g:scratch_show_command the_buffer_number_of_the_scratch_buffer
+<
+
+	Examples:
+
+	'topleft split | hide buffer' (default value)
+		Create new window at the top and show in it.
+	'hide buffer'
+		Show in the active window.
+
+
+
+
+vim:tw=78:ts=8:ft=help:norl:
