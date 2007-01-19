@@ -39,6 +39,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/colors/less.vim \
   $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/ftplugin/bugs.vim \
+  vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \
@@ -51,6 +52,7 @@ GROUP_VIM_FILES=\
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_DOC_FILES=\
+  vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
   vim/dot.vim/doc/vcscommand.txt
 GROUP_VIM_POST_TARGETS=$(DESTDIR)$(HOME)/.vim/doc/tags
