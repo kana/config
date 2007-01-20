@@ -28,7 +28,7 @@ endif
 
 " FUNCTIONS  "{{{1
 
-function! s:Scratch_Open()  " Create, show, or focus the scratch buffer.
+function! s:Open()  " Create, show, or focus the scratch buffer.
   let bufno = bufnr(s:EscapeWildcards(g:scratch_buffer_name))
 
   if bufno == -1  " The scratch buffer does not exists.
@@ -52,8 +52,8 @@ function! s:Scratch_Open()  " Create, show, or focus the scratch buffer.
     put ='\" In visual mode, <C-m> or <C-j> will evaluate the selected text.'
     put =''
     $
-    nnoremap <buffer> <silent> <CR>  :<C-u>call <SID>ExecuteLine()<CR>
-    vnoremap <buffer> <silent> <CR>  :<C-u>call <SID>ExecuteSelection()<CR>
+    nmap <buffer> <CR>  <Plug>Scratch_ExecuteLine
+    vmap <buffer> <CR>  <Plug>Scratch_ExecuteSelection
     nmap <buffer> <C-j>  <CR>
     vmap <buffer> <C-j>  <CR>
 
@@ -116,11 +116,17 @@ endfunction
 
 " KEY MAPPINGS  "{{{1
 
+noremap <script> <unique> <Plug>Scratch_Open  <SID>Open
+noremap <script> <unique> <Plug>Scratch_ExecuteLine  <SID>ExecuteLine
+noremap <script> <unique> <Plug>Scratch_ExecuteSelection  <SID>ExecuteSelection
+
+noremap <silent> <SID>Open  :<C-u>call <SID>Open()<CR>
+noremap <silent> <SID>ExecuteLine  :<C-u>call <SID>ExecuteLine()<CR>
+noremap <silent> <SID>ExecuteSelection  :<C-u>call <SID>ExecuteSelection()<CR>
+
 if !hasmapto('<Plug>Scratch_Open')
   silent! nmap <unique> <Leader>s  <Plug>Scratch_Open
 endif
-nnoremap <script> <unique> <silent> <Plug>Scratch_Open  <SID>Scratch_Open
-nnoremap <SID>Scratch_Open :<C-u>call <SID>Scratch_Open()<Return>
 
 
 
