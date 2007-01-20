@@ -16,11 +16,15 @@ Customizing			|scratch-customizing|
 ==============================================================================
 KEY MAPPINGS						*scratch-mappings*
 
+Any key mapping that don't start with <Plug> will not be defined if its {lhs}
+is already mapped to something or its {rhs} is already mapped from something.
+
+
 Scratch buffer local:
 
 CTRL-J		or					*CTRL-J*
 CTRL-M		or					*CTRL-M* *<CR>*
-			Mapped to |<Plug>Scratch_ExecuteLine|.
+<CR>			Mapped to |<Plug>Scratch_ExecuteLine|.
 
 {Visual}CTRL-J	or					*v_CTRL-J*
 {Visual}CTRL-M	or					*v_CTRL-M* *v_<CR>*
@@ -31,7 +35,6 @@ Global:
 
 <Leader>s
 			Mapped to |<Plug>Scratch_Open|.
-			This mapping is not defined if it already exists.
 
 							*<Plug>Scratch_Open*
 <Plug>Scratch_Open	``Open'' the scratch buffer, i.e., create the buffer
@@ -55,7 +58,8 @@ Global:
 ==============================================================================
 CUSTOMIZING						*scratch-customizing*
 
-The following variables are used by this plugin.
+
+VARIABLES						*scratch-variables*
 
 							*g:scratch_buffer_name*
 g:scratch_buffer_name   string (default: '*Scratch*')
@@ -64,7 +68,7 @@ g:scratch_buffer_name   string (default: '*Scratch*')
 
 						      *g:scratch_show_command*
 g:scratch_show_command  string (default: 'topleft split | hide buffer')
-	The command to show the scratch buffer.  When the plugin shows the
+	The command to show the scratch buffer.  When this plugin shows the
 	scratch buffer, it will execute the following script: >
 
 	execute g:scratch_show_command the_buffer_number_of_the_scratch_buffer
@@ -76,6 +80,21 @@ g:scratch_show_command  string (default: 'topleft split | hide buffer')
 		Create new window at the top and show in it.
 	'hide buffer'
 		Show in the active window.
+
+
+INITIALIZATION						*scratch-init*
+
+When the scratch buffer is created, an event will be triggered to initialize
+it.  If you want to add and/or override the default settings, use |autocmd|
+like the following: >
+	augroup Scratch
+	  autocmd User Initialize <any commands to initialize ...>
+	augroup END
+<
+The default settings are:
+- set 'filetype' as vim.  (if 'filetype' is not set)
+- put some informative message.  (if 'filetype' is vim)
+- define several buffer-local key mappings.
 
 
 

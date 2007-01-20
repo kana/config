@@ -44,18 +44,10 @@ function! s:Open()  " Create, show, or focus the scratch buffer.
     let scratch_bufnr = bufnr('%')
 
     " Set up some useful settings.
-    setlocal filetype=vim
-    0 put ='\" This buffer is for notes you don''t want to save,'
-    put ='\" and for Vim script evaluation.'
-    put ='\"'
-    put ='\" In normal mode, <C-m> or <C-j> will evaluate the current line.'
-    put ='\" In visual mode, <C-m> or <C-j> will evaluate the selected text.'
-    put =''
-    $
-    nmap <buffer> <CR>  <Plug>Scratch_ExecuteLine
-    vmap <buffer> <CR>  <Plug>Scratch_ExecuteSelection
-    nmap <buffer> <C-j>  <CR>
-    vmap <buffer> <C-j>  <CR>
+    if exists('#Scratch#User#Initialize')
+      doautocmd Scratch User Initialize
+    endif
+    call s:InitializeWithDefaultSettings()
 
     " Re-open with the specified command.
     if orig_bufnr == scratch_bufnr && tabpagewinnr(tabpagenr(), '$') == 1
@@ -109,6 +101,31 @@ endfunction
 
 function! s:EscapeWildcards(string)
   return escape(a:string, '*? ,{}[]\')
+endfunction
+
+function! s:InitializeWithDefaultSettings()
+  if &l:filetype == ''
+    setlocal filetype=vim
+  endif
+
+  if &l:filetype == 'vim'
+    0 put ='\" This buffer is for notes you don''t want to save,'
+    put ='\" and for Vim script evaluation.'
+    put ='\"'
+    put ='\" In normal mode, <C-m> or <C-j> will evaluate the current line.'
+    put ='\" In visual mode, <C-m> or <C-j> will evaluate the selected text.'
+    put =''
+    $
+  endif
+
+  if !hasmapto('<Plug>Scratch_ExecuteLine')
+    silent! nmap <buffer> <unique> <CR>  <Plug>Scratch_ExecuteLine
+    silent! nmap <buffer> <unique> <C-j>  <CR>
+  endif
+  if !hasmapto('<Plug>Scratch_ExecuteSelection')
+    silent! vmap <buffer> <unique> <CR>  <Plug>Scratch_ExecuteSelection
+    silent! vmap <buffer> <unique> <C-j>  <CR>
+  endif
 endfunction
 
 
