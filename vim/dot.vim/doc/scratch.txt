@@ -20,28 +20,35 @@ Scratch buffer local:
 
 CTRL-J		or					*CTRL-J*
 CTRL-M		or					*CTRL-M* *<CR>*
-<CR>			Execute the current line as a Vim script, then move
-			the cursor to the first non-blank character of the
-			next line.  If there is no more line, add one more
-			line and move the cursor to there.
+			Mapped to |<Plug>Scratch_ExecuteLine|.
 
 {Visual}CTRL-J	or					*v_CTRL-J*
 {Visual}CTRL-M	or					*v_CTRL-M* *v_<CR>*
-{Visual}<CR>		
-			Same as <CR>, but execute the highlighted text.
+{Visual}<CR>		Mapped to |<Plug>Scratch_ExecuteSelection|.
 
 
 Global:
+
+<Leader>s
+			Mapped to |<Plug>Scratch_Open|.
+			This mapping is not defined if it already exists.
 
 							*<Plug>Scratch_Open*
 <Plug>Scratch_Open	``Open'' the scratch buffer, i.e., create the buffer
 			if it does not exist, show if it is not visible, or
 			move the cursor to the window that shows it.
 
-<Leader>s
-			Mapped to |<Plug>Scratch_Open|.
-			This mapping is not defined if it already exists.
+						*<Plug>Scratch_ExecuteLine*
+<Plug>Scratch_ExecuteLine
+			Execute the current line as a Vim script, then move
+			the cursor to the first non-blank character of the
+			next line.  If there is no more line, add one more
+			line and move the cursor to there.
 
+					*<Plug>Scratch_ExecuteSelection*
+<Plug>Scratch_ExecuteSelection
+			Same as |<Plug>Scratch_ExecuteLine|, but execute the
+			highlighted text.
 
 
 
