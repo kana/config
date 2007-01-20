@@ -3,7 +3,7 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean update
+.PHONY: all clean package update
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
@@ -64,6 +64,21 @@ GROUP_SAMURIZE_FILES=\
 GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 
+ALL_PACKAGES=vim-scratch
+
+GROUP_vim_scratch_RULE=\
+  $(patsubst vim/dot.vim/%,$(GROUP_vim_scratch_ARCHIVE)/%,$(1))
+GROUP_vim_scratch_FILES=\
+  vim/dot.vim/doc/scratch.txt \
+  vim/dot.vim/plugin/scratch.vim
+GROUP_vim_scratch_POST_TARGETS=$(GROUP_vim_scratch_ARCHIVE).tar.bz2
+GROUP_vim_scratch_ARCHIVE=vim-scratch-0.0
+$(GROUP_vim_scratch_ARCHIVE).tar.bz2:
+	rm -f $@
+	tar jcvf $@ $(GROUP_vim_scratch_ARCHIVE)/
+	rm -r $(GROUP_vim_scratch_ARCHIVE)/
+
+
 
 
 # update  #{{{1
@@ -102,10 +117,23 @@ $(foreach group, \
   $(foreach file, \
     $(GROUP_$(group)_FILES), \
     $(call GenerateRulesToUpdateFile,$(file),$(call CallRule,$(group),$(file)))))
-update: $(foreach group,$(1),$(GROUP_$(group)_POST_TARGETS))
+update .PHONY: $(foreach group,$(1),$(GROUP_$(group)_POST_TARGETS))
 endef
 
 $(eval $(call GenerateRulesFromGroups,$(ALL_GROUPS)))
+
+
+
+
+# package  #{{{1
+# use `update' for packaging.
+
+PACKAGE_NAME=# Set from command line
+package:
+	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	fi
+	$(MAKE) 'ALL_GROUPS=$(subst -,_,$(PACKAGE_NAME))' update
 
 
 
