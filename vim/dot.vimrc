@@ -94,6 +94,29 @@ function! s:ToggleOption(option_name)
 endfunction
 
 
+function! s:ExtendHighlight(target_group, original_group, new_settings)
+  redir => resp
+  silent execute 'highlight' a:original_group
+  redir END
+  if resp =~# 'xxx cleared'
+    let original_settings = ''
+  elseif resp =~# 'xxx links to'
+    return ExtendHighlight(
+         \   a:target_group,
+         \   substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
+         \   a:new_settings
+         \ )
+  else  " xxx {key}={arg} ...
+    let original_settings
+      \ = substitute(resp, '\_.*xxx\(\(\s\+[^=\s]\+=[^=\s]\+\)*\)', '\1', '')
+  endif
+
+  execute 'highlight' a:target_group 'NONE'
+  execute 'highlight' a:target_group original_settings
+  execute 'highlight' a:target_group a:new_settings
+endfunction
+
+
 
 
 " Jump sections  "{{{2
