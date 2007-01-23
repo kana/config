@@ -101,19 +101,19 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
   if resp =~# 'xxx cleared'
     let original_settings = ''
   elseif resp =~# 'xxx links to'
-    return ExtendHighlight(
+    return s:ExtendHighlight(
          \   a:target_group,
          \   substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
          \   a:new_settings
          \ )
   else  " xxx {key}={arg} ...
-    let original_settings
-      \ = substitute(resp, '\_.*xxx\(\(\s\+[^=\s]\+=[^=\s]\+\)*\)', '\1', '')
+    let t = substitute(resp,'\_.*xxx\(\(\_s\+[^= \t]\+=[^= \t]\+\)*\)','\1','')
+    let original_settings = substitute(t, '\_s\+', ' ', 'g')
   endif
 
-  execute 'highlight' a:target_group 'NONE'
-  execute 'highlight' a:target_group original_settings
-  execute 'highlight' a:target_group a:new_settings
+  silent execute 'highlight' a:target_group 'NONE'
+             \ | 'highlight' a:target_group original_settings
+             \ | 'highlight' a:target_group a:new_settings
 endfunction
 
 
