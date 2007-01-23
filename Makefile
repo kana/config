@@ -55,7 +55,8 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
   vim/dot.vim/doc/vcscommand.txt
-GROUP_VIM_POST_TARGETS=$(DESTDIR)$(HOME)/.vim/doc/tags
+GROUP_VIM_POST_TARGETS=vim-update-local-helptags
+vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
 $(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
 	vim -n -N -u NONE -U NONE -e -c 'helptags $(dir $@) | q'
 
