@@ -112,8 +112,8 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
   endif
 
   silent execute 'highlight' a:target_group 'NONE'
-             \ | 'highlight' a:target_group original_settings
-             \ | 'highlight' a:target_group a:new_settings
+           \ '|' 'highlight' a:target_group original_settings
+           \ '|' 'highlight' a:target_group a:new_settings
 endfunction
 
 
