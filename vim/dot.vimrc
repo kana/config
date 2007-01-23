@@ -117,6 +117,15 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
 endfunction
 
 
+" :edit with specified 'fileencoding'.
+com! -nargs=? -complete=file -bang -bar Cp932 edit<bang> ++enc=cp932 <args>
+com! -nargs=? -complete=file -bang -bar Eucjp edit<bang> ++enc=euc-jp <args>
+com! -nargs=? -complete=file -bang -bar Iso2022jp Jis<bang> <args>
+com! -nargs=? -complete=file -bang -bar Jis edit<bang> ++enc=iso-2022-jp <args>
+com! -nargs=? -complete=file -bang -bar Sjis Cp932<bang> <args>
+com! -nargs=? -complete=file -bang -bar Utf8 edit<bang> ++enc=utf-8 <args>
+
+
 
 
 " Jump sections  "{{{2
