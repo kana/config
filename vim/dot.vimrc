@@ -320,6 +320,13 @@ augroup MyAutoCmd
 
   autocmd FileType *
     \ call <SID>FileType_any()
+
+  autocmd ColorScheme *
+    \   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
+    \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
+    \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
+    \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
+  doautocmd ColorScheme because-colorscheme-has-been-set-above.
 augroup END
 
 
