@@ -117,6 +117,24 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
 endfunction
 
 
+function! s:CreateTemporaryBuffer(name)
+    hide enew
+    setlocal bufhidden=wipe buflisted buftype=nofile noswapfile
+    file `=a:name`
+endfunction
+
+function! s:CreateCommandOutputBuffer(command)
+  call s:CreateTemporaryBuffer(a:command)
+  silent execute 'read !' a:command
+  1
+  delete
+endfunction
+
+command! -nargs=? -complete=file -bar SvnDiff
+  \ call s:CreateCommandOutputBuffer('svn diff')
+  \ | setfiletype diff
+
+
 " :edit with specified 'fileencoding'.
 com! -nargs=? -complete=file -bang -bar Cp932 edit<bang> ++enc=cp932 <args>
 com! -nargs=? -complete=file -bang -bar Eucjp edit<bang> ++enc=euc-jp <args>
@@ -260,6 +278,7 @@ nnoremap <Space> <Nop>
 nnoremap <Space>i :setlocal filetype? fileencoding? fileformat?<Return>
 nnoremap <Space>e :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap <Space>s :source %<Return>
+nnoremap <Leader>cD :top split \| SvnDiff<Return>
 
 " Move the next/previous error.
 nnoremap <C-J> :cn<Return>
