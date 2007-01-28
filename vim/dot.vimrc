@@ -295,6 +295,10 @@ nnoremap <C-i> <C-w>w
 nnoremap <S-Tab> <C-w>W
 nnoremap <Esc>i <C-w>W
 
+" Too lazy to press Shift key.
+nnoremap ; :
+vnoremap ; :
+
 
 " For command-line editting
 cnoremap <C-U> <C-E><C-U>
