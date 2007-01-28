@@ -299,6 +299,10 @@ nnoremap <Esc>i <C-w>W
 nnoremap ; :
 vnoremap ; :
 
+" Disable some dangerous key.
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+
 
 " For command-line editting
 cnoremap <C-U> <C-E><C-U>
