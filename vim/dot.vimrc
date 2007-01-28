@@ -274,11 +274,13 @@ endif
 " KEY MAPPINGS  "{{{1
 
 nnoremap \ :call <SID>ToggleOption('wrap')<Return>
+nnoremap <C-h> :h<Space>
 nnoremap <Space> <Nop>
 nnoremap <Space>i :setlocal filetype? fileencoding? fileformat?<Return>
 nnoremap <Space>e :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap <Space>ss :source %<Return>
 nnoremap <Space>s. :source $HOME/.vimrc<Return>
+vnoremap <Space>s :sort<Return>
 nnoremap <Leader>cD :top split \| SvnDiff<Return>
 
 " Move the next/previous error.
