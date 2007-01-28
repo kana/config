@@ -277,7 +277,8 @@ nnoremap \ :call <SID>ToggleOption('wrap')<Return>
 nnoremap <Space> <Nop>
 nnoremap <Space>i :setlocal filetype? fileencoding? fileformat?<Return>
 nnoremap <Space>e :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap <Space>s :source %<Return>
+nnoremap <Space>ss :source %<Return>
+nnoremap <Space>s. :source $HOME/.vimrc<Return>
 nnoremap <Leader>cD :top split \| SvnDiff<Return>
 
 " Move the next/previous error.
