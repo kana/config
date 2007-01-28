@@ -289,6 +289,12 @@ nnoremap <C-K> :cN<Return>
 nnoremap <F2> :e #<Return>
 nnoremap <Esc>2 :e #<Return> 
 
+" Visiting windows with one key.
+nnoremap <Tab> <C-w>w
+nnoremap <C-i> <C-w>w
+nnoremap <S-Tab> <C-w>W
+nnoremap <Esc>i <C-w>W
+
 
 " For command-line editting
 cnoremap <C-U> <C-E><C-U>
