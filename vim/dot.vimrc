@@ -303,6 +303,9 @@ vnoremap ; :
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
+" Don't confuse me.
+nnoremap Q q
+
 
 " For command-line editting
 cnoremap <C-U> <C-E><C-U>
