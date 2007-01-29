@@ -1,77 +1,107 @@
-# $Id$
+! $Id$
 
-rxvt*geometry:			80x25
-rxvt*background:		#CCCCCC
-rxvt*foreground:		#000000
-rxvt*color0:			#000000
-rxvt*color1:			#990000
-rxvt*color2:			#009900
-rxvt*color3:			#999900
-rxvt*color4:			#000099
-rxvt*color5:			#990099
-rxvt*color6:			#009999
-rxvt*color7:			#CCCCCC
-rxvt*color8:			#666666
-rxvt*color9:			#CC0000
-rxvt*color10:			#00CC00
-rxvt*color11:			#CCCC00
-rxvt*color12:			#4444CC
-rxvt*color13:			#CC00CC
-rxvt*color14:			#00CCCC
-rxvt*color15:			#FFFFFF
-# rxvt*colorBD:			#FFFFFF
-# rxvt*colorUL:			#009999
-# rxvt*cursorColor:
-# rxvt*cursorColor2:
-rxvt*reverseVideo:		True
-rxvt*jumpScroll:		True
-rxvt*inhertPixmap:		True
-rxvt*scrollColor:		#333333
-rxvt*troughColor:		#000000
-# rxvt*backgroundPixmap:
-# rxvt*menu:
-# rxvt*path:
-rxvt*font:			PC98_bs-16
-# rxvt*fontn:
-rxvt*boldFont:			PC98_bs-16
-rxvt*mfont:			PC98_bs-16
-# rxvt*mfontn:
-rxvt*multichar_encoding:	sjis
-# rxvt*greek_keyboard:
-# rxvt*greektoggle_key:
-# rxvt*selectstyle:
-rxvt*scrollstyle:		rxvt
-# rxvt*title:
-# rxvt*iconName:
-# rxvt*mapAlert:
-rxvt*visualBell:		False
-rxvt*loginShell:		False
-# rxvt*utmpInhibit:		False
-# rxvt*print-pipe:
-rxvt*scrollBar:			True
-rxvt*scrollBar_right:		False
-rxvt*scrollBar_floating:	False
-# rxvt*scrollBar_align:		center
-# rxvt*scrollTtyOutput:		True
-# rxvt*scrollWithBuffer:
-# rxvt*TtyKeypress:
-# rxvt*smallfont_key:
-# rxvt*bigfont_key:
-# rxvt*saveLines:
-# rxvt*internalBorder:
-# rxvt*externalBorder:
-# rxvt*termName:
-rxvt*linespace:			0
-# rxvt*meta8:
-rxvt*mouseWheelScrollpage:	True
-rxvt*multibyte_cursor:		True
-# rxvt*backspacekey:
-# rxvt*deletekey:
-# rxvt*cutchars:
-# rxvt*preeditType:
-# rxvt*inputMethod:
-# rxvt*modifier:
-# rxvt*answerbackString:
-# rxvt*keysym.sym:
+! COLOR
+! =====
 
-# __END__
+Rxvt.background:   #000000
+Rxvt.foreground:   #cccccc
+
+Rxvt.color0:       #000000
+Rxvt.color1:       #990000
+Rxvt.color2:       #009900
+Rxvt.color3:       #999900
+Rxvt.color4:       #000099
+Rxvt.color5:       #990099
+Rxvt.color6:       #009999
+Rxvt.color7:       #cccccc
+Rxvt.color8:       #666666
+Rxvt.color9:       #cc0000
+Rxvt.color10:      #00cc00
+Rxvt.color11:      #cccc00
+Rxvt.color12:      #0000cc
+Rxvt.color13:      #cc00cc
+Rxvt.color14:      #00cccc
+Rxvt.color15:      #ffffff
+
+Rxvt.cursorColor:  #cccccc
+Rxvt.cursorColor2: #000000
+
+! Rxvt.colorBD: ...
+! Rxvt.colorRV: ...
+! Rxvt.colorUL: ...
+! Rxvt.borderColor: ...
+! Rxvt.scrollColor: #999999
+! Rxvt.troughColor: #666666
+! Rxvt.pointerColor: ...
+
+
+! FONT
+! ====
+
+Rxvt.font: PC98_bs-16
+! Rxvt.fontN: ...
+Rxvt.mfont: PC98_bs-16
+! Rxvt.mfontN: ...
+Rxvt.boldFont: PC98_bs-16
+
+! Rxvt.bigfont_key: ...
+! Rxvt.smallfont_key: ...
+
+
+! MISC.
+! =====
+
+Rxvt.geometry: 80x25
+
+Rxvt.scrollBar: false
+! Rxvt.scrollBar_align: ...
+! Rxvt.scrollBar_floating: ...
+Rxvt.scrollBar_right: false
+Rxvt.scrollstyle: rxvt
+
+! Rxvt.backgroundPixmap: ...
+Rxvt.externalBorder: 0
+! Rxvt.iconName: ...
+Rxvt.inheritPixmap: false
+! Rxvt.inheritPixmapforce: ...
+Rxvt.internalBorder: 0
+Rxvt.lineSpace: 0
+Rxvt.reverseVideo: false
+! Rxvt.thickness: ...
+! Rxvt.title: ...
+! Rxvt.ufbackground: ...
+Rxvt.visualBell: false
+
+! Rxvt.keysym.SYM: ...
+
+! Rxvt.answerbackString: ...
+! Rxvt.backspacekey: ...
+! Rxvt.cutchars: ...
+! Rxvt.deletekey: ...
+! Rxvt.greek_keyboard: ...
+! Rxvt.greektoggle_key: ...
+! Rxvt.inputMethod: ...
+Rxvt.jumpScroll: true
+Rxvt.loginShell: false
+Rxvt.mapAlert: false
+! Rxvt.menu: ...
+Rxvt.meta8: false
+Rxvt.modifier: alt
+Rxvt.mouseWheelScrollPage: false
+Rxvt.multibyte_cursor: true
+Rxvt.multichar_encoding: sjis
+! Rxvt.path: ...
+! Rxvt.preeditType: ...
+! Rxvt.print-pipe: ...
+! Rxvt.saveLines: ...
+Rxvt.scrollTtyKeypress: true
+Rxvt.scrollTtyOutput: false
+Rxvt.scrollWithBuffer: false
+! Rxvt.selectstyle: ...
+Rxvt.termName: rxvt
+! Rxvt.tripleclickwords:  ...
+Rxvt.utmpInhibit: false
+
+
+! __END__
+! vim: filetype=xdefaults
