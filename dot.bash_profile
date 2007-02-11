@@ -12,9 +12,9 @@ fi
 
 # COMMON
 
-export PATH="~/bin:$PATH"
-export MANPATH="~/man:$MANPATH"
-export INFOPATH="~/info:$INFOPATH"
+export PATH="$HOME/bin:$PATH"
+export MANPATH="$HOME/man:$MANPATH"
+export INFOPATH="$HOME/info:$INFOPATH"
 
 # export DISPLAY=localhost:0.0  # Don't set to use some applications without X.
 export EDITOR=vim
