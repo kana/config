@@ -63,6 +63,7 @@ set directory=.,~/tmp
 set noequalalways
 set history=100
 set hlsearch
+set grepprg=internal
 set incsearch
 set mouse=
 set ruler
