@@ -59,6 +59,7 @@ set backspace=indent,eol,start
 set backup
 set backupcopy&
 set backupdir=.,~/tmp
+set cinoptions=:0,t0,(0,W1s
 set directory=.,~/tmp
 set noequalalways
 set history=100
