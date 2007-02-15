@@ -39,6 +39,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/colors/less.vim \
   $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/ftplugin/bugs.vim \
+  vim/dot.vim/plugin/buffuzzy.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/vcscommand.vim \
