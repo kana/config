@@ -426,6 +426,7 @@ onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 
 
 " FILETYPE  "{{{1
+" Misc.  "{{{2
 
 augroup MyAutoCmd
   autocmd!
@@ -468,6 +469,8 @@ endfunction
 
 
 
+" All  "{{{2
+
 function! s:FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings for them.
@@ -483,6 +486,8 @@ endfunction
 
 
 
+
+" C  "{{{2
 
 function! s:FileType_c()
   if !exists('s:TOFunc_c')  " BUGS: s:TOFunc_c is not reloadable.
@@ -525,6 +530,8 @@ endfunction
 
 
 
+" Dosini (.ini)  "{{{2
+
 function! s:FileType_dosini()
   nnoremap <buffer> <silent> ]]  :<C-u>call <SID>JumpSectionN('/^\[')<Return>
   nnoremap <buffer> <silent> ][  :<C-u>call <SID>JumpSectionN('/\n\[\@=')<CR>
@@ -535,10 +542,14 @@ endfunction
 
 
 
+" sh  "{{{2
+
 let g:is_bash = 1
 
 
 
+
+" Vim  "{{{2
 
 function! s:FileType_vim()
   call <SID>SetShortIndent()
