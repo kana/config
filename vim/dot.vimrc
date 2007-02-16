@@ -458,6 +458,12 @@ let g:is_bash = 1
 
 " MISC.  "{{{1
 
+" Plugin: vcscommand
+let g:VCSCommandDeleteOnHide = 1
+
+
+
+
 set secure
 
 " __END__
