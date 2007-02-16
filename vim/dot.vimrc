@@ -443,8 +443,7 @@ augroup MyAutoCmd
     \ | let python_highlight_space_errors=1
 
   autocmd FileType vim
-    \ call <SID>SetShortIndent()
-    \ | let vim_indent_cont = &shiftwidth
+    \ call <SID>FileType_vim()
 
   " Misc.
   autocmd FileType html,xhtml,xml,xslt,sh,tex
@@ -537,6 +536,34 @@ endfunction
 
 
 let g:is_bash = 1
+
+
+
+
+function! s:FileType_vim()
+  call <SID>SetShortIndent()
+  let vim_indent_cont = &shiftwidth
+
+  " BUGS: not supported case: functions in a function (like this function).
+  if !exists('s:TOFunc_vim')  " BUGS: s:TOFunc_vim is not reloadable.
+    let s:TOFunc_vim = {}
+
+    function! s:TOFunc_vim.AfterP(line)
+      return a:line =~# '^\s*endf\%[unction]\>'
+    endfunction
+    function! s:TOFunc_vim.MoveBefore()
+      normal [[
+    endfunction
+    function! s:TOFunc_vim.MoveAfter()
+      normal ][
+    endfunction
+
+    let s:TOFunc_vim.EndP = s:TOFunc_vim.AfterP
+    let s:TOFunc_vim.MoveBeginning = s:TOFunc_vim.MoveBefore
+    let s:TOFunc_vim.MoveEnd = s:TOFunc_vim.MoveAfter
+  endif
+  let b:TOFunc = s:TOFunc_vim
+endfunction
 
 
 
