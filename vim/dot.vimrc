@@ -335,8 +335,28 @@ vnoremap ; :
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
-" Don't confuse me.
+" Ex-mode will be never used and recordings are rarely used.
 nnoremap Q q
+
+" q for Quickfix
+nnoremap qj  :cnext<Return>
+nnoremap qk  :cprevious<Return>
+nnoremap qr  :crewind<Return>
+nnoremap qK  :cfirst<Return>
+nnoremap qJ  :clast<Return>
+nnoremap qf  :cnfile<Return>
+nnoremap qF  :cpfile<Return>
+nnoremap ql  :clist<Return>
+nnoremap qq  :cc<Return>
+nnoremap qo  :copen<Return>
+nnoremap qc  :cclose<Return>
+nnoremap qw  :cwindow<Return>
+nnoremap qp  :colder<Return>
+nnoremap qn  :cnewer<Return>
+nnoremap qm  :make<Return>
+nnoremap qM  :make<Space>
+nnoremap qg  :grep<Space>
+nnoremap q   <Nop>
 
 
 " For command-line editting
