@@ -247,13 +247,13 @@ if has('win32unix') && !has('clipboard')
   nnoremap <silent> "+y  :set operatorfunc=<SID>YankToClipboard<Return>g@
   nmap "+yy  V"+y
   nmap "+Y  "+yy
-  vnoremap <silent> "+y  :<C-U>call <SID>YankToClipboard(visualmode())<Return>
-  vnoremap <silent> "+Y  :<C-U>call <SID>YankToClipboard('V')<Return>
+  vnoremap <silent> "+y  :<C-u>call <SID>YankToClipboard(visualmode())<Return>
+  vnoremap <silent> "+Y  :<C-u>call <SID>YankToClipboard('V')<Return>
 
   nnoremap <silent> "+p  :call <SID>PutFromClipboard('', 'p')<Return>
   nnoremap <silent> "+P  :call <SID>PutFromClipboard('', 'P')<Return>
-  vnoremap <silent> "+p  :<C-U>call <SID>PutFromClipboard(visualmode(),'p')<CR>
-  vnoremap <silent> "+P  :<C-U>call <SID>PutFromClipboard(visualmode(),'P')<CR>
+  vnoremap <silent> "+p  :<C-u>call <SID>PutFromClipboard(visualmode(),'p')<CR>
+  vnoremap <silent> "+P  :<C-u>call <SID>PutFromClipboard(visualmode(),'P')<CR>
 
 
   " Main functions
@@ -294,7 +294,7 @@ if has('win32unix') && !has('clipboard')
     elseif a:motion_type == 'line'
       silent normal! '[V']
     elseif a:motion_type == 'block'
-      silent execute "normal! `[\<C-V>`]"
+      silent execute "normal! `[\<C-v>`]"
     else  " invoked from visual mode
       silent execute "normal! `<" . a:motion_type . "`>"
     endif
@@ -383,7 +383,7 @@ nnoremap q   <Nop>
 
 
 " For command-line editting  "{{{2
-cnoremap <C-U>  <C-E><C-U>
+cnoremap <C-u>  <C-e><C-u>
 
 cnoremap <Esc>h  <Left>
 cnoremap <Esc>j  <Down>
@@ -399,24 +399,24 @@ cnoremap <Esc>x  <Del>
 
 
 " Input the current date/time (Full, Date, Time).  "{{{2
-inoremap <Leader>dF  <C-R>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
-inoremap <Leader>df  <C-R>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
-inoremap <Leader>dd  <C-R>=strftime('%Y-%m-%d')<Return>
-inoremap <Leader>dT  <C-R>=strftime('%H:%M:%S')<Return>
-inoremap <Leader>dt  <C-R>=strftime('%H:%M')<Return>
+inoremap <Leader>dF  <C-r>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
+inoremap <Leader>df  <C-r>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
+inoremap <Leader>dd  <C-r>=strftime('%Y-%m-%d')<Return>
+inoremap <Leader>dT  <C-r>=strftime('%H:%M:%S')<Return>
+inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 
 
 
 
 " Enable ]] and other motions in visual and operator-pending mode.  "{{{2
-vnoremap <silent> ]]  :<C-U>call <SID>JumpSectionV(']]')<Return>
-vnoremap <silent> ][  :<C-U>call <SID>JumpSectionV('][')<Return>
-vnoremap <silent> [[  :<C-U>call <SID>JumpSectionV('[[')<Return>
-vnoremap <silent> []  :<C-U>call <SID>JumpSectionV('[]')<Return>
-onoremap <silent> ]]  :<C-U>call <SID>JumpSectionO(']]')<Return>
-onoremap <silent> ][  :<C-U>call <SID>JumpSectionO('][')<Return>
-onoremap <silent> [[  :<C-U>call <SID>JumpSectionO('[[')<Return>
-onoremap <silent> []  :<C-U>call <SID>JumpSectionO('[]')<Return>
+vnoremap <silent> ]]  :<C-u>call <SID>JumpSectionV(']]')<Return>
+vnoremap <silent> ][  :<C-u>call <SID>JumpSectionV('][')<Return>
+vnoremap <silent> [[  :<C-u>call <SID>JumpSectionV('[[')<Return>
+vnoremap <silent> []  :<C-u>call <SID>JumpSectionV('[]')<Return>
+onoremap <silent> ]]  :<C-u>call <SID>JumpSectionO(']]')<Return>
+onoremap <silent> ][  :<C-u>call <SID>JumpSectionO('][')<Return>
+onoremap <silent> [[  :<C-u>call <SID>JumpSectionO('[[')<Return>
+onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 
 
 
@@ -483,10 +483,10 @@ endfunction
 
 
 function! s:FileType_dosini()
-  nnoremap <buffer> <silent> ]]  :<C-U>call <SID>JumpSectionN('/^\[')<Return>
-  nnoremap <buffer> <silent> ][  :<C-U>call <SID>JumpSectionN('/\n\[\@=')<CR>
-  nnoremap <buffer> <silent> [[  :<C-U>call <SID>JumpSectionN('?^\[')<Return>
-  nnoremap <buffer> <silent> []  :<C-U>call <SID>JumpSectionN('?\n\[\@=')<CR>
+  nnoremap <buffer> <silent> ]]  :<C-u>call <SID>JumpSectionN('/^\[')<Return>
+  nnoremap <buffer> <silent> ][  :<C-u>call <SID>JumpSectionN('/\n\[\@=')<CR>
+  nnoremap <buffer> <silent> [[  :<C-u>call <SID>JumpSectionN('?^\[')<Return>
+  nnoremap <buffer> <silent> []  :<C-u>call <SID>JumpSectionN('?\n\[\@=')<CR>
 endfunction
 
 
