@@ -313,9 +313,9 @@ nnoremap <Space>s. :source $HOME/.vimrc<Return>
 vnoremap <Space>s :sort<Return>
 nnoremap <Leader>cD :top split \| SvnDiff<Return>
 
-" Move the next/previous error.
-nnoremap <C-J> :cn<Return>
-nnoremap <C-K> :cN<Return>
+" Jump list
+nnoremap <C-j> <C-i>
+nnoremap <C-k> <C-o>
 
 " Switch to the previously edited file (like Vz)
 nnoremap <F2> :e #<Return>
