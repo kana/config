@@ -490,6 +490,8 @@ endfunction
 " C  "{{{2
 
 function! s:FileType_c()
+  " BUGS: If the cursor is out of any functions,
+  "       this will affect the next function.
   if !exists('s:TOFunc_c')
     " Assumes that C functions are written in the following style:
     "
@@ -524,7 +526,6 @@ function! s:FileType_c()
     endfunction
     let s:TOFunc_c.MoveEnd = s:TOFunc_c.MoveAfter
   endif
-
   let b:TOFunc = s:TOFunc_c
 endfunction
 if exists('s:TOFunc_c')
