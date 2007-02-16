@@ -20,6 +20,10 @@ endif
 nnoremap <Plug>Buffuzzy  :<C-u>Buffuzzy<Return>
 command! -bang -bar Buffuzzy  call <SID>Open('<bang>')
 
+if !hasmapto('<Plug>Buffuzzy')
+  silent! nmap <unique> <Leader>b  <Plug>Buffuzzy
+endif
+
 
 
 
