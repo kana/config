@@ -80,7 +80,7 @@ set viminfo=<50,'10,h,r/a,n~/.viminfo
 " To detect the width and the height of the terminal automatically,
 " the followings must not be set.
 "
-" set columns=80  
+" set columns=80
 " set lines=25
 
 
@@ -314,6 +314,71 @@ endif
 
 
 
+" Text objects -- C functions  "{{{2
+"
+" Assumes that C functions are written in the following style:
+"
+"   return-type
+"   function-name(arg1, arg2, ..., argN)
+"   {
+"     ...
+"   }
+"
+" * return-type must be written in one line.
+"
+" * function-name must be followed by ``(''.
+"
+" * argument list may be written in one or more lines,
+"   but the last line must end with ``)''.
+"
+" BUGS: Visual mode will be linewise after these text objects.
+"
+" BUGS: In visual mode, the previous selection will be forgotten
+"       and will be replaced by new selection with this text object.
+"
+" BUGS: If the cursor is out of any C functions,
+"       these text objects will select the next C function after the cursor.
+
+function! s:TextObject_CFunction_Inner()
+  let current_position = getpos('.')
+
+  if getline('.') != '}'
+    normal ][
+  endif
+  let e = line('.')
+  normal [[
+  let b = line('.')
+
+  if 1 < e - b  " is there some code?
+    execute 'normal!' (b+1).'G'
+    normal! V
+    execute 'normal!' (e-1).'G'
+  else  " is there no code?
+    if mode() == 'n'  " operator-pending mode?
+      call setpos('.', current_position)
+    else  " visual mode?
+      normal! gv
+    endif
+  endif
+endfunction
+
+
+function! s:TextObject_CFunction_All()
+  if getline('.') != '}'
+    normal ][
+  endif
+  let e = line('.')
+  normal [[k$%0k
+  let b = line('.')
+
+  execute 'normal' b.'G'
+  normal V
+  execute 'normal' e.'G'
+endfunction
+
+
+
+
 
 
 
@@ -337,7 +402,7 @@ nnoremap <C-k>  <C-o>
 
 " Switch to the previously edited file (like Vz)
 nnoremap <F2>  :e #<Return>
-nnoremap <Esc>2  :e #<Return> 
+nnoremap <Esc>2  :e #<Return>
 
 " Visiting windows with one key.
 nnoremap <Tab>  <C-w>w
@@ -430,7 +495,10 @@ onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 augroup MyAutoCmd
   autocmd!
 
-  autocmd FileType dosini 
+  autocmd FileType c
+    \ call <SID>FileType_c()
+
+  autocmd FileType dosini
     \ call <SID>FileType_dosini()
 
   autocmd FileType python
@@ -477,6 +545,16 @@ function! s:FileType_any()
   silent! ounmap <buffer>  ][
   silent! ounmap <buffer>  []
   silent! ounmap <buffer>  [[
+endfunction
+
+
+
+
+function! s:FileType_c()
+  vnorem <buffer> <silent> if  :<C-u>call <SID>TextObject_CFunction_Inner()<CR>
+  vnorem <buffer> <silent> af  :<C-u>call <SID>TextObject_CFunction_All()<CR>
+  onorem <buffer> <silent> if  :<C-u>call <SID>TextObject_CFunction_Inner()<CR>
+  onorem <buffer> <silent> af  :<C-u>call <SID>TextObject_CFunction_All()<CR>
 endfunction
 
 
