@@ -555,26 +555,31 @@ function! s:FileType_vim()
   call <SID>SetShortIndent()
   let vim_indent_cont = &shiftwidth
 
-  " BUGS: not supported case: functions in a function (like this function).
-  if !exists('s:TOFunc_vim')  " BUGS: s:TOFunc_vim is not reloadable.
+  if !exists('s:TOFunc_vim')
     let s:TOFunc_vim = {}
+    let s:TOFunc_vim.BEGINNING = '^\s*fu\%[nction]\>'
+    let s:TOFunc_vim.END = '^\s*endf\%[unction]\>'
 
-    function! s:TOFunc_vim.AfterP(line)
-      return a:line =~# '^\s*endf\%[unction]\>'
+    function! s:TOFunc_vim.EndP(line)
+      return a:line =~# s:TOFunc_vim.END
     endfunction
-    function! s:TOFunc_vim.MoveBefore()
-      normal [[
+    function! s:TOFunc_vim.MoveBeginning()
+      normal! 0
+      call searchpair(s:TOFunc_vim.BEGINNING, '', s:TOFunc_vim.END, 'bW')
     endfunction
-    function! s:TOFunc_vim.MoveAfter()
-      normal ][
+    function! s:TOFunc_vim.MoveEnd()
+      call searchpair(s:TOFunc_vim.BEGINNING, '', s:TOFunc_vim.END, 'W')
     endfunction
 
-    let s:TOFunc_vim.EndP = s:TOFunc_vim.AfterP
-    let s:TOFunc_vim.MoveBeginning = s:TOFunc_vim.MoveBefore
-    let s:TOFunc_vim.MoveEnd = s:TOFunc_vim.MoveAfter
+    let s:TOFunc_vim.AfterP = s:TOFunc_vim.EndP
+    let s:TOFunc_vim.MoveBefore = s:TOFunc_vim.MoveBeginning
+    let s:TOFunc_vim.MoveAfter = s:TOFunc_vim.MoveEnd
   endif
   let b:TOFunc = s:TOFunc_vim
 endfunction
+if exists('s:TOFunc_vim')
+  unlet s:TOFunc_vim
+endif
 
 
 
