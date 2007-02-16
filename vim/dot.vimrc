@@ -490,7 +490,7 @@ endfunction
 " C  "{{{2
 
 function! s:FileType_c()
-  if !exists('s:TOFunc_c')  " BUGS: s:TOFunc_c is not reloadable.
+  if !exists('s:TOFunc_c')
     " Assumes that C functions are written in the following style:
     "
     "   return-type
@@ -519,13 +519,17 @@ function! s:FileType_c()
 
     let s:TOFunc_c.EndP = s:TOFunc_c.AfterP
     function! s:TOFunc_c.MoveBeginning()
-      normal [[k$%0k
+      normal [[
+      normal! k$%0k
     endfunction
     let s:TOFunc_c.MoveEnd = s:TOFunc_c.MoveAfter
   endif
 
   let b:TOFunc = s:TOFunc_c
 endfunction
+if exists('s:TOFunc_c')
+  unlet s:TOFunc_c
+endif
 
 
 
