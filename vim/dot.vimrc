@@ -160,7 +160,7 @@ com! -nargs=? -complete=file -bang -bar Utf8 edit<bang> ++enc=utf-8 <args>
 
 command! -complete=customlist,<SID>Complete_UnescapedBufferName -nargs=1
   \ Buffer buffer <args>
-cnoremap <expr> b<Space> getcmdtype()==':' && getcmdpos()==1 ? 'Buffer ' : 'b '
+cnoremap <expr> b<Space>  getcmdtype()==':'&&getcmdpos()==1 ? 'Buffer ' : 'b '
 
 
 function! s:Complete_UnescapedBufferName(ArgLead, CmdLine, CursorPos)
@@ -241,19 +241,19 @@ endfunction
 
 if has('win32unix') && !has('clipboard')
   " Key mapping
-  nmap "* "+
-  vmap "* "+
+  nmap "*  "+
+  vmap "*  "+
 
-  nnoremap <silent> "+y :set operatorfunc=<SID>YankToClipboard<Return>g@
-  nmap "+yy V"+y
-  nmap "+Y "+yy
-  vnoremap <silent> "+y :<C-U>call <SID>YankToClipboard(visualmode())<Return>
-  vnoremap <silent> "+Y :<C-U>call <SID>YankToClipboard('V')<Return>
+  nnoremap <silent> "+y  :set operatorfunc=<SID>YankToClipboard<Return>g@
+  nmap "+yy  V"+y
+  nmap "+Y  "+yy
+  vnoremap <silent> "+y  :<C-U>call <SID>YankToClipboard(visualmode())<Return>
+  vnoremap <silent> "+Y  :<C-U>call <SID>YankToClipboard('V')<Return>
 
-  nnoremap <silent> "+p :call <SID>PutFromClipboard('', 'p')<Return>
-  nnoremap <silent> "+P :call <SID>PutFromClipboard('', 'P')<Return>
-  vnoremap <silent> "+p :<C-U>call <SID>PutFromClipboard(visualmode(), 'p')<CR>
-  vnoremap <silent> "+P :<C-U>call <SID>PutFromClipboard(visualmode(), 'P')<CR>
+  nnoremap <silent> "+p  :call <SID>PutFromClipboard('', 'p')<Return>
+  nnoremap <silent> "+P  :call <SID>PutFromClipboard('', 'P')<Return>
+  vnoremap <silent> "+p  :<C-U>call <SID>PutFromClipboard(visualmode(),'p')<CR>
+  vnoremap <silent> "+P  :<C-U>call <SID>PutFromClipboard(visualmode(),'P')<CR>
 
 
   " Main functions
@@ -321,40 +321,40 @@ endif
 " KEY MAPPINGS  "{{{1
 " Misc.  "{{{2
 
-nnoremap \ :call <SID>ToggleOption('wrap')<Return>
-nnoremap <C-h> :h<Space>
-nnoremap <Space> <Nop>
-nnoremap <Space>i :setlocal filetype? fileencoding? fileformat?<Return>
-nnoremap <Space>e :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap <Space>ss :source %<Return>
-nnoremap <Space>s. :source $HOME/.vimrc<Return>
-vnoremap <Space>s :sort<Return>
-nnoremap <Leader>cD :top split \| SvnDiff<Return>
+nnoremap \  :call <SID>ToggleOption('wrap')<Return>
+nnoremap <C-h>  :h<Space>
+nnoremap <Space>  <Nop>
+nnoremap <Space>i  :setlocal filetype? fileencoding? fileformat?<Return>
+nnoremap <Space>e  :setlocal encoding? termencoding? fenc? fencs?<Return>
+nnoremap <Space>ss  :source %<Return>
+nnoremap <Space>s.  :source $HOME/.vimrc<Return>
+vnoremap <Space>s  :sort<Return>
+nnoremap <Leader>cD  :top split \| SvnDiff<Return>
 
 " Jump list
-nnoremap <C-j> <C-i>
-nnoremap <C-k> <C-o>
+nnoremap <C-j>  <C-i>
+nnoremap <C-k>  <C-o>
 
 " Switch to the previously edited file (like Vz)
-nnoremap <F2> :e #<Return>
-nnoremap <Esc>2 :e #<Return> 
+nnoremap <F2>  :e #<Return>
+nnoremap <Esc>2  :e #<Return> 
 
 " Visiting windows with one key.
-nnoremap <Tab> <C-w>w
-nnoremap <C-i> <C-w>w
-nnoremap <S-Tab> <C-w>W
-nnoremap <Esc>i <C-w>W
+nnoremap <Tab>  <C-w>w
+nnoremap <C-i>  <C-w>w
+nnoremap <S-Tab>  <C-w>W
+nnoremap <Esc>i  <C-w>W
 
 " Too lazy to press Shift key.
-nnoremap ; :
-vnoremap ; :
+nnoremap ;  :
+vnoremap ;  :
 
 " Disable some dangerous key.
-nnoremap ZZ <Nop>
-nnoremap ZQ <Nop>
+nnoremap ZZ  <Nop>
+nnoremap ZQ  <Nop>
 
 " Ex-mode will be never used and recordings are rarely used.
-nnoremap Q q
+nnoremap Q  q
 
 
 
@@ -383,40 +383,40 @@ nnoremap q   <Nop>
 
 
 " For command-line editting  "{{{2
-cnoremap <C-U> <C-E><C-U>
+cnoremap <C-U>  <C-E><C-U>
 
-cnoremap <Esc>h <Left>
-cnoremap <Esc>j <Down>
-cnoremap <Esc>k <Up>
-cnoremap <Esc>l <Right>
-cnoremap <Esc>H <Home>
-cnoremap <Esc>L <End>
-cnoremap <Esc>w <S-Right>
-cnoremap <Esc>b <S-Left>
-cnoremap <Esc>x <Del>
+cnoremap <Esc>h  <Left>
+cnoremap <Esc>j  <Down>
+cnoremap <Esc>k  <Up>
+cnoremap <Esc>l  <Right>
+cnoremap <Esc>H  <Home>
+cnoremap <Esc>L  <End>
+cnoremap <Esc>w  <S-Right>
+cnoremap <Esc>b  <S-Left>
+cnoremap <Esc>x  <Del>
 
 
 
 
 " Input the current date/time (Full, Date, Time).  "{{{2
-inoremap <Leader>dF <C-R>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
-inoremap <Leader>df <C-R>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
-inoremap <Leader>dd <C-R>=strftime('%Y-%m-%d')<Return>
-inoremap <Leader>dT <C-R>=strftime('%H:%M:%S')<Return>
-inoremap <Leader>dt <C-R>=strftime('%H:%M')<Return>
+inoremap <Leader>dF  <C-R>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
+inoremap <Leader>df  <C-R>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
+inoremap <Leader>dd  <C-R>=strftime('%Y-%m-%d')<Return>
+inoremap <Leader>dT  <C-R>=strftime('%H:%M:%S')<Return>
+inoremap <Leader>dt  <C-R>=strftime('%H:%M')<Return>
 
 
 
 
 " Enable ]] and other motions in visual and operator-pending mode.  "{{{2
-vnoremap <silent> ]] :<C-U>call <SID>JumpSectionV(']]')<Return>
-vnoremap <silent> ][ :<C-U>call <SID>JumpSectionV('][')<Return>
-vnoremap <silent> [[ :<C-U>call <SID>JumpSectionV('[[')<Return>
-vnoremap <silent> [] :<C-U>call <SID>JumpSectionV('[]')<Return>
-onoremap <silent> ]] :<C-U>call <SID>JumpSectionO(']]')<Return>
-onoremap <silent> ][ :<C-U>call <SID>JumpSectionO('][')<Return>
-onoremap <silent> [[ :<C-U>call <SID>JumpSectionO('[[')<Return>
-onoremap <silent> [] :<C-U>call <SID>JumpSectionO('[]')<Return>
+vnoremap <silent> ]]  :<C-U>call <SID>JumpSectionV(']]')<Return>
+vnoremap <silent> ][  :<C-U>call <SID>JumpSectionV('][')<Return>
+vnoremap <silent> [[  :<C-U>call <SID>JumpSectionV('[[')<Return>
+vnoremap <silent> []  :<C-U>call <SID>JumpSectionV('[]')<Return>
+onoremap <silent> ]]  :<C-U>call <SID>JumpSectionO(']]')<Return>
+onoremap <silent> ][  :<C-U>call <SID>JumpSectionO('][')<Return>
+onoremap <silent> [[  :<C-U>call <SID>JumpSectionO('[[')<Return>
+onoremap <silent> []  :<C-U>call <SID>JumpSectionO('[]')<Return>
 
 
 
@@ -469,24 +469,24 @@ endfunction
 function! s:FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings for them.
-  silent! vunmap <buffer> ]]
-  silent! vunmap <buffer> ][
-  silent! vunmap <buffer> []
-  silent! vunmap <buffer> [[
-  silent! ounmap <buffer> ]]
-  silent! ounmap <buffer> ][
-  silent! ounmap <buffer> []
-  silent! ounmap <buffer> [[
+  silent! vunmap <buffer>  ]]
+  silent! vunmap <buffer>  ][
+  silent! vunmap <buffer>  []
+  silent! vunmap <buffer>  [[
+  silent! ounmap <buffer>  ]]
+  silent! ounmap <buffer>  ][
+  silent! ounmap <buffer>  []
+  silent! ounmap <buffer>  [[
 endfunction
 
 
 
 
 function! s:FileType_dosini()
-  nnoremap <buffer> <silent> ]] :<C-U>call <SID>JumpSectionN('/^\[')<Return>
-  nnoremap <buffer> <silent> ][ :<C-U>call <SID>JumpSectionN('/\n\[\@=')<CR>
-  nnoremap <buffer> <silent> [[ :<C-U>call <SID>JumpSectionN('?^\[')<Return>
-  nnoremap <buffer> <silent> [] :<C-U>call <SID>JumpSectionN('?\n\[\@=')<CR>
+  nnoremap <buffer> <silent> ]]  :<C-U>call <SID>JumpSectionN('/^\[')<Return>
+  nnoremap <buffer> <silent> ][  :<C-U>call <SID>JumpSectionN('/\n\[\@=')<CR>
+  nnoremap <buffer> <silent> [[  :<C-U>call <SID>JumpSectionN('?^\[')<Return>
+  nnoremap <buffer> <silent> []  :<C-U>call <SID>JumpSectionN('?\n\[\@=')<CR>
 endfunction
 
 
