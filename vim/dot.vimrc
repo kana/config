@@ -329,6 +329,7 @@ nnoremap <Space>e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap <Space>ss  :source %<Return>
 nnoremap <Space>s.  :source $HOME/.vimrc<Return>
 vnoremap <Space>s  :sort<Return>
+nmap <Space>b  <Plug>Buffuzzy
 nnoremap <Leader>cD  :top split \| SvnDiff<Return>
 
 " Jump list
