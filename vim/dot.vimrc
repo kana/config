@@ -1,16 +1,12 @@
 " My .vimrc
-" $Id$  "{{{1
-
-
-
-
+" $Id$
 " SETTINGS WHICH ARE ABSOLUTELY NECESSARY  "{{{1
 
-" Use many extensions of vim.
+" To use many extensions of Vim.
 set nocompatible
 
 
-" Handle Japanese.
+" To deal with Japanese language.
 set encoding=japan
 if !exists('did_encoding_settings') && has('iconv')
   let s:enc_euc = 'euc-jp'
@@ -39,6 +35,10 @@ if !exists('did_encoding_settings') && has('iconv')
 
   let did_encoding_settings = 1
 endif
+
+
+
+
 
 
 
@@ -77,8 +77,9 @@ set titlestring=vi:\ %f\ %h%r%m
 
 set viminfo=<50,'10,h,r/a,n~/.viminfo
 
-"" The followings must not be set
-"" to detect the width and the height of the terminal automatically.
+" To detect the width and the height of the terminal automatically,
+" the followings must not be set.
+"
 " set columns=80  
 " set lines=25
 
@@ -88,7 +89,12 @@ let mapleader=','
 
 
 
+
+
+
+
 " UTILITY FUNCTIONS & COMMANDS "{{{1
+" Misc.  "{{{2
 
 function! s:ToggleOption(option_name)
   execute 'setlocal' a:option_name.'!'
@@ -137,7 +143,9 @@ command! -nargs=? -complete=file -bar SvnDiff
   \ | setfiletype diff
 
 
-" :edit with specified 'fileencoding'.
+
+
+" :edit with specified 'fileencoding'.  "{{{2
 com! -nargs=? -complete=file -bang -bar Cp932 edit<bang> ++enc=cp932 <args>
 com! -nargs=? -complete=file -bang -bar Eucjp edit<bang> ++enc=euc-jp <args>
 com! -nargs=? -complete=file -bang -bar Iso2022jp Jis<bang> <args>
@@ -146,10 +154,14 @@ com! -nargs=? -complete=file -bang -bar Sjis Cp932<bang> <args>
 com! -nargs=? -complete=file -bang -bar Utf8 edit<bang> ++enc=utf-8 <args>
 
 
+
+
 " :Buffer -- alternate :buffer with unescaped buffer name completion.  "{{{2
+
 command! -complete=customlist,<SID>Complete_UnescapedBufferName -nargs=1
   \ Buffer buffer <args>
 cnoremap <expr> b<Space> getcmdtype()==':' && getcmdpos()==1 ? 'Buffer ' : 'b '
+
 
 function! s:Complete_UnescapedBufferName(ArgLead, CmdLine, CursorPos)
   let candidates = []
@@ -223,9 +235,10 @@ endfunction
 
 
 
-" Yank/Put with the Windows' clipboard.  "{{{2
+" Yank/Put with the Windows' clipboard in Cygwin.  "{{{2
 " BUGS: Putting is always characterwise.
 " BUGS: The last <EOL> in text to be put is always stripped.
+
 if has('win32unix') && !has('clipboard')
   " Key mapping
   nmap "* "+
@@ -301,7 +314,12 @@ endif
 
 
 
+
+
+
+
 " KEY MAPPINGS  "{{{1
+" Misc.  "{{{2
 
 nnoremap \ :call <SID>ToggleOption('wrap')<Return>
 nnoremap <C-h> :h<Space>
@@ -338,7 +356,10 @@ nnoremap ZQ <Nop>
 " Ex-mode will be never used and recordings are rarely used.
 nnoremap Q q
 
-" q for Quickfix
+
+
+
+" Quickfix hotkeys  "{{{2
 nnoremap qj  :cnext<Return>
 nnoremap qk  :cprevious<Return>
 nnoremap qr  :crewind<Return>
@@ -359,7 +380,9 @@ nnoremap qg  :grep<Space>
 nnoremap q   <Nop>
 
 
-" For command-line editting
+
+
+" For command-line editting  "{{{2
 cnoremap <C-U> <C-E><C-U>
 
 cnoremap <Esc>h <Left>
@@ -373,7 +396,9 @@ cnoremap <Esc>b <S-Left>
 cnoremap <Esc>x <Del>
 
 
-" Input the current date/time (Full, Date, Time).
+
+
+" Input the current date/time (Full, Date, Time).  "{{{2
 inoremap <Leader>dF <C-R>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
 inoremap <Leader>df <C-R>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
 inoremap <Leader>dd <C-R>=strftime('%Y-%m-%d')<Return>
@@ -381,7 +406,9 @@ inoremap <Leader>dT <C-R>=strftime('%H:%M:%S')<Return>
 inoremap <Leader>dt <C-R>=strftime('%H:%M')<Return>
 
 
-" Enable ]] and other motions in visual and operator-pending mode.
+
+
+" Enable ]] and other motions in visual and operator-pending mode.  "{{{2
 vnoremap <silent> ]] :<C-U>call <SID>JumpSectionV(']]')<Return>
 vnoremap <silent> ][ :<C-U>call <SID>JumpSectionV('][')<Return>
 vnoremap <silent> [[ :<C-U>call <SID>JumpSectionV('[[')<Return>
@@ -390,6 +417,10 @@ onoremap <silent> ]] :<C-U>call <SID>JumpSectionO(']]')<Return>
 onoremap <silent> ][ :<C-U>call <SID>JumpSectionO('][')<Return>
 onoremap <silent> [[ :<C-U>call <SID>JumpSectionO('[[')<Return>
 onoremap <silent> [] :<C-U>call <SID>JumpSectionO('[]')<Return>
+
+
+
+
 
 
 
@@ -432,7 +463,12 @@ function! s:SetShortIndent()
   setlocal expandtab softtabstop=2 shiftwidth=2
 endfunction
 
+
+
+
 function! s:FileType_any()
+  " To use my global mappings for section jumping,
+  " remove buffer local mappings for them.
   silent! vunmap <buffer> ]]
   silent! vunmap <buffer> ][
   silent! vunmap <buffer> []
@@ -443,6 +479,9 @@ function! s:FileType_any()
   silent! ounmap <buffer> [[
 endfunction
 
+
+
+
 function! s:FileType_dosini()
   nnoremap <buffer> <silent> ]] :<C-U>call <SID>JumpSectionN('/^\[')<Return>
   nnoremap <buffer> <silent> ][ :<C-U>call <SID>JumpSectionN('/\n\[\@=')<CR>
@@ -451,7 +490,13 @@ function! s:FileType_dosini()
 endfunction
 
 
+
+
 let g:is_bash = 1
+
+
+
+
 
 
 
