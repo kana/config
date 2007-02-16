@@ -314,71 +314,6 @@ endif
 
 
 
-" Text objects -- C functions  "{{{2
-"
-" Assumes that C functions are written in the following style:
-"
-"   return-type
-"   function-name(arg1, arg2, ..., argN)
-"   {
-"     ...
-"   }
-"
-" * return-type must be written in one line.
-"
-" * function-name must be followed by ``(''.
-"
-" * argument list may be written in one or more lines,
-"   but the last line must end with ``)''.
-"
-" BUGS: Visual mode will be linewise after these text objects.
-"
-" BUGS: In visual mode, the previous selection will be forgotten
-"       and will be replaced by new selection with this text object.
-"
-" BUGS: If the cursor is out of any C functions,
-"       these text objects will select the next C function after the cursor.
-
-function! s:TextObject_CFunction_Inner()
-  let current_position = getpos('.')
-
-  if getline('.') != '}'
-    normal ][
-  endif
-  let e = line('.')
-  normal [[
-  let b = line('.')
-
-  if 1 < e - b  " is there some code?
-    execute 'normal!' (b+1).'G'
-    normal! V
-    execute 'normal!' (e-1).'G'
-  else  " is there no code?
-    if mode() == 'n'  " operator-pending mode?
-      call setpos('.', current_position)
-    else  " visual mode?
-      normal! gv
-    endif
-  endif
-endfunction
-
-
-function! s:TextObject_CFunction_All()
-  if getline('.') != '}'
-    normal ][
-  endif
-  let e = line('.')
-  normal [[k$%0k
-  let b = line('.')
-
-  execute 'normal' b.'G'
-  normal V
-  execute 'normal' e.'G'
-endfunction
-
-
-
-
 
 
 
@@ -551,10 +486,41 @@ endfunction
 
 
 function! s:FileType_c()
-  vnorem <buffer> <silent> if  :<C-u>call <SID>TextObject_CFunction_Inner()<CR>
-  vnorem <buffer> <silent> af  :<C-u>call <SID>TextObject_CFunction_All()<CR>
-  onorem <buffer> <silent> if  :<C-u>call <SID>TextObject_CFunction_Inner()<CR>
-  onorem <buffer> <silent> af  :<C-u>call <SID>TextObject_CFunction_All()<CR>
+  if !exists('s:TOFunc_c')  " BUGS: s:TOFunc_c is not reloadable.
+    " Assumes that C functions are written in the following style:
+    "
+    "   return-type
+    "   function-name(arg1, arg2, ..., argN)
+    "   {
+    "     ...
+    "   }
+    "
+    " * return-type must be written in one line.
+    "
+    " * function-name must be followed by ``(''.
+    "
+    " * argument list may be written in one or more lines,
+    "   but the last line must end with ``)''.
+    let s:TOFunc_c = {}
+
+    function! s:TOFunc_c.AfterP(line)
+      return a:line == '}'
+    endfunction
+    function! s:TOFunc_c.MoveBefore()
+      normal [[
+    endfunction
+    function! s:TOFunc_c.MoveAfter()
+      normal ][
+    endfunction
+
+    let s:TOFunc_c.EndP = s:TOFunc_c.AfterP
+    function! s:TOFunc_c.MoveBeginning()
+      normal [[k$%0k
+    endfunction
+    let s:TOFunc_c.MoveEnd = s:TOFunc_c.MoveAfter
+  endif
+
+  let b:TOFunc = s:TOFunc_c
 endfunction
 
 

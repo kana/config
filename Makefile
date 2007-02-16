@@ -42,6 +42,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/buffuzzy.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
+  vim/dot.vim/plugin/tofunc.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \
   vim/dot.vim/plugin/vcssvn.vim \
