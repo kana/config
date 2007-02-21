@@ -432,9 +432,6 @@ onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 augroup MyAutoCmd
   autocmd!
 
-  autocmd FileType c
-    \ call <SID>FileType_c()
-
   autocmd FileType dosini
     \ call <SID>FileType_dosini()
 
@@ -488,54 +485,6 @@ endfunction
 
 
 
-" C  "{{{2
-
-function! s:FileType_c()
-  " BUGS: If the cursor is out of any functions,
-  "       this will affect the next function.
-  if !exists('s:TOFunc_c')
-    " Assumes that C functions are written in the following style:
-    "
-    "   return-type
-    "   function-name(arg1, arg2, ..., argN)
-    "   {
-    "     ...
-    "   }
-    "
-    " * return-type must be written in one line.
-    "
-    " * function-name must be followed by ``(''.
-    "
-    " * argument list may be written in one or more lines,
-    "   but the last line must end with ``)''.
-    let s:TOFunc_c = {}
-
-    function! s:TOFunc_c.AfterP(line)
-      return a:line == '}'
-    endfunction
-    function! s:TOFunc_c.MoveBefore()
-      normal [[
-    endfunction
-    function! s:TOFunc_c.MoveAfter()
-      normal ][
-    endfunction
-
-    let s:TOFunc_c.EndP = s:TOFunc_c.AfterP
-    function! s:TOFunc_c.MoveBeginning()
-      normal [[
-      normal! k$%0k
-    endfunction
-    let s:TOFunc_c.MoveEnd = s:TOFunc_c.MoveAfter
-  endif
-  let b:TOFunc = s:TOFunc_c
-endfunction
-if exists('s:TOFunc_c')
-  unlet s:TOFunc_c
-endif
-
-
-
-
 " Dosini (.ini)  "{{{2
 
 function! s:FileType_dosini()
@@ -560,32 +509,7 @@ let g:is_bash = 1
 function! s:FileType_vim()
   call <SID>SetShortIndent()
   let vim_indent_cont = &shiftwidth
-
-  if !exists('s:TOFunc_vim')
-    let s:TOFunc_vim = {}
-    let s:TOFunc_vim.BEGINNING = '^\s*fu\%[nction]\>'
-    let s:TOFunc_vim.END = '^\s*endf\%[unction]\>'
-
-    function! s:TOFunc_vim.EndP(line)
-      return a:line =~# s:TOFunc_vim.END
-    endfunction
-    function! s:TOFunc_vim.MoveBeginning()
-      normal! 0
-      call searchpair(s:TOFunc_vim.BEGINNING, '', s:TOFunc_vim.END, 'bW')
-    endfunction
-    function! s:TOFunc_vim.MoveEnd()
-      call searchpair(s:TOFunc_vim.BEGINNING, '', s:TOFunc_vim.END, 'W')
-    endfunction
-
-    let s:TOFunc_vim.AfterP = s:TOFunc_vim.EndP
-    let s:TOFunc_vim.MoveBefore = s:TOFunc_vim.MoveBeginning
-    let s:TOFunc_vim.MoveAfter = s:TOFunc_vim.MoveEnd
-  endif
-  let b:TOFunc = s:TOFunc_vim
 endfunction
-if exists('s:TOFunc_vim')
-  unlet s:TOFunc_vim
-endif
 
 
 
