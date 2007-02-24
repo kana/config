@@ -58,6 +58,7 @@ GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
+  vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/doc/vcscommand.txt
 GROUP_VIM_POST_TARGETS=vim-update-local-helptags
 vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
