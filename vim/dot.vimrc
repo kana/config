@@ -146,12 +146,12 @@ command! -nargs=? -complete=file -bar SvnDiff
 
 
 " :edit with specified 'fileencoding'.  "{{{2
-com! -nargs=? -complete=file -bang -bar Cp932 edit<bang> ++enc=cp932 <args>
-com! -nargs=? -complete=file -bang -bar Eucjp edit<bang> ++enc=euc-jp <args>
-com! -nargs=? -complete=file -bang -bar Iso2022jp Jis<bang> <args>
+com! -nargs=? -complete=file -bang -bar Cp932  edit<bang> ++enc=cp932 <args>
+com! -nargs=? -complete=file -bang -bar Eucjp  edit<bang> ++enc=euc-jp <args>
+com! -nargs=? -complete=file -bang -bar Iso2022jp  Jis<bang> <args>
 com! -nargs=? -complete=file -bang -bar Jis edit<bang> ++enc=iso-2022-jp <args>
-com! -nargs=? -complete=file -bang -bar Sjis Cp932<bang> <args>
-com! -nargs=? -complete=file -bang -bar Utf8 edit<bang> ++enc=utf-8 <args>
+com! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
+com! -nargs=? -complete=file -bang -bar Utf8  edit<bang> ++enc=utf-8 <args>
 
 
 
@@ -159,7 +159,7 @@ com! -nargs=? -complete=file -bang -bar Utf8 edit<bang> ++enc=utf-8 <args>
 " :Buffer -- alternate :buffer with unescaped buffer name completion.  "{{{2
 
 command! -complete=customlist,<SID>Complete_UnescapedBufferName -nargs=1
-  \ Buffer buffer <args>
+  \ Buffer  buffer <args>
 cnoremap <expr> b<Space>  getcmdtype()==':'&&getcmdpos()==1 ? 'Buffer ' : 'b '
 
 
