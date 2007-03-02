@@ -331,6 +331,7 @@ nnoremap <Space>s.  :source $HOME/.vimrc<Return>
 vnoremap <Space>s  :sort<Return>
 nmap <Space>b  <Plug>Buffuzzy
 nnoremap <Leader>cD  :top split \| SvnDiff<Return>
+nnoremap <Space>/  :nohlsearch<Return>
 
 " Jump list
 nnoremap <C-j>  <C-i>
