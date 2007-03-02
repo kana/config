@@ -325,6 +325,7 @@ nnoremap \  :call <SID>ToggleOption('wrap')<Return>
 nnoremap <C-h>  :h<Space>
 nnoremap <Leader>cD  :top split \| SvnDiff<Return>
 
+
 " Various hotkeys prefixed by <Space>
 nnoremap <Space>  <Nop>
 nnoremap <Space>/  :nohlsearch<Return>
@@ -335,13 +336,16 @@ vnoremap <Space>s  :sort<Return>
 nnoremap <Space>s.  :source $HOME/.vimrc<Return>
 nnoremap <Space>ss  :source %<Return>
 
+
 " Jump list
 nnoremap <C-j>  <C-i>
 nnoremap <C-k>  <C-o>
 
+
 " Switch to the previously edited file (like Vz)
 nnoremap <F2>  :e #<Return>
 nnoremap <Esc>2  :e #<Return>
+
 
 " Visiting windows with one key.
 nnoremap <Tab>  <C-w>w
@@ -349,13 +353,16 @@ nnoremap <C-i>  <C-w>w
 nnoremap <S-Tab>  <C-w>W
 nnoremap <Esc>i  <C-w>W
 
+
 " Too lazy to press Shift key.
 noremap ;  :
 noremap :  ;
 
+
 " Disable some dangerous key.
 nnoremap ZZ  <Nop>
 nnoremap ZQ  <Nop>
+
 
 " Ex-mode will be never used and recordings are rarely used.
 nnoremap Q  q
