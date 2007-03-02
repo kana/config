@@ -350,8 +350,8 @@ nnoremap <S-Tab>  <C-w>W
 nnoremap <Esc>i  <C-w>W
 
 " Too lazy to press Shift key.
-nnoremap ;  :
-vnoremap ;  :
+noremap ;  :
+noremap :  ;
 
 " Disable some dangerous key.
 nnoremap ZZ  <Nop>
