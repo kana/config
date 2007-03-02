@@ -323,15 +323,17 @@ endif
 
 nnoremap \  :call <SID>ToggleOption('wrap')<Return>
 nnoremap <C-h>  :h<Space>
-nnoremap <Space>  <Nop>
-nnoremap <Space>i  :setlocal filetype? fileencoding? fileformat?<Return>
-nnoremap <Space>e  :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap <Space>ss  :source %<Return>
-nnoremap <Space>s.  :source $HOME/.vimrc<Return>
-vnoremap <Space>s  :sort<Return>
-nmap <Space>b  <Plug>Buffuzzy
 nnoremap <Leader>cD  :top split \| SvnDiff<Return>
+
+" Various hotkeys prefixed by <Space>
+nnoremap <Space>  <Nop>
 nnoremap <Space>/  :nohlsearch<Return>
+nmap     <Space>b  <Plug>Buffuzzy
+nnoremap <Space>e  :setlocal encoding? termencoding? fenc? fencs?<Return>
+nnoremap <Space>i  :setlocal filetype? fileencoding? fileformat?<Return>
+vnoremap <Space>s  :sort<Return>
+nnoremap <Space>s.  :source $HOME/.vimrc<Return>
+nnoremap <Space>ss  :source %<Return>
 
 " Jump list
 nnoremap <C-j>  <C-i>
