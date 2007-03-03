@@ -326,15 +326,19 @@ nnoremap <C-h>  :h<Space>
 nnoremap <Leader>cD  :top split \| SvnDiff<Return>
 
 
-" Various hotkeys prefixed by <Space>
-nnoremap <Space>  <Nop>
-nnoremap <Space>/  :nohlsearch<Return>
-nmap     <Space>b  <Plug>Buffuzzy
-nnoremap <Space>e  :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap <Space>i  :setlocal filetype? fileencoding? fileformat?<Return>
-vnoremap <Space>s  :sort<Return>
-nnoremap <Space>s.  :source $HOME/.vimrc<Return>
-nnoremap <Space>ss  :source %<Return>
+" Various hotkeys prefixed by <Space>.
+  " To show <Space> in the bottom line.
+map      <Space>  [Space]
+
+noremap  [Space]  <Nop>
+nnoremap [Space]/  :nohlsearch<Return>
+nmap     [Space]b  <Plug>Buffuzzy
+nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
+nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
+nnoremap [Space]s  <Nop>
+nnoremap [Space]s.  :source $HOME/.vimrc<Return>
+nnoremap [Space]ss  :source %<Return>
+vnoremap [Space]s  :sort<Return>
 
 
 " Jump list
