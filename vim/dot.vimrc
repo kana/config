@@ -374,6 +374,74 @@ nnoremap Q  q
 
 
 
+" Tag-related hotkeys  "{{{2
+" Fallback  "{{{3
+
+" ``T'' is also disabled for consistency.
+noremap  t  <Nop>
+noremap  T  <Nop>
+
+" Alternatives for the original actions.
+noremap  [Space]t  t
+noremap  [Space]T  T
+
+
+" Basics  "{{{3
+nmap     t<Space>  tt
+vmap     t<Space>  tt
+nnoremap tt  <C-]>
+vnoremap tt  <C-]>
+nnoremap tj  :tag<Return>
+nnoremap tk  :pop<Return>
+nnoremap tl  :tags<Return>
+nnoremap tn  :tnext<Return>
+nnoremap tp  :tprevious<Return>
+nnoremap tP  :tfirst<Return>
+nnoremap tN  :tlast<Return>
+
+" additionals, like Web browsers
+nmap     <C-m>  tt
+vmap     <C-m>  tt
+
+
+" With preview window  "{{{3
+nmap     t'<Space>  t't
+vmap     t'<Space>  t't
+nnoremap t't  <C-w>}
+vnoremap t't  <C-w>}
+nnoremap t'n  :ptnext<Return>
+nnoremap t'p  :ptpevious<Return>
+nnoremap t'P  :ptfirst<Return>
+nnoremap t'N  :ptlast<Return>
+
+" although :pclose is not related to tag.
+nnoremap t'c  :pclose
+
+
+" With :split  "{{{3
+nnoremap tst  :split<Return><C-]>
+vnoremap tst  :split<Return>gv<C-]>
+nmap     ts<Space>  tst
+vmap     ts<Space>  tst
+nnoremap tsn  :split \| tnext<Return>
+nnoremap tsp  :split \| tpevious<Return>
+nnoremap tsP  :split \| tfirst<Return>
+nnoremap tsN  :split \| tlast<Return>
+
+
+" With :vertical split  "{{{3
+nnoremap tvt  :vsplit<Return><C-]>
+vnoremap tvt  :vsplit<Return>gv<C-]>
+nmap     tv<Space>  tvt
+vmap     tv<Space>  tvt
+nnoremap tvn  :vsplit \| tnext<Return>
+nnoremap tvp  :vsplit \| tpevious<Return>
+nnoremap tvP  :vsplit \| tfirst<Return>
+nnoremap tvN  :vsplit \| tlast<Return>
+
+
+
+
 " Quickfix hotkeys  "{{{2
 " Fallback
 nnoremap q  <Nop>
