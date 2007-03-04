@@ -419,8 +419,8 @@ nnoremap t'c  :pclose
 
 
 " With :split  "{{{3
-nnoremap tst  :split<Return><C-]>
-vnoremap tst  :split<Return>gv<C-]>
+nnoremap tst  <C-w>]
+vnoremap tst  <C-w>]
 nmap     ts<Space>  tst
 vmap     ts<Space>  tst
 nnoremap tsn  :split \| tnext<Return>
@@ -430,8 +430,10 @@ nnoremap tsN  :split \| tlast<Return>
 
 
 " With :vertical split  "{{{3
-nnoremap tvt  :vsplit<Return><C-]>
-vnoremap tvt  :vsplit<Return>gv<C-]>
+  " |:vsplit|-then-|<C-]>| is simple
+  " but its modification to tag stacks is not same as |<C-w>]|.
+nnoremap tvt  <C-]>:vsplit<Return><C-w>p<C-t><C-w>p
+vnoremap tvt  <C-]>:vsplit<Return><C-w>p<C-t><C-w>p
 nmap     tv<Space>  tvt
 vmap     tv<Space>  tvt
 nnoremap tvn  :vsplit \| tnext<Return>
