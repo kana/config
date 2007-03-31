@@ -415,7 +415,7 @@ nnoremap t'P  :ptfirst<Return>
 nnoremap t'N  :ptlast<Return>
 
 " although :pclose is not related to tag.
-nnoremap t'c  :pclose
+nnoremap t'c  :pclose<Return>
 
 
 " With :split  "{{{3
