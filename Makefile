@@ -138,6 +138,7 @@ PACKAGE_NAME=# Set from command line
 package:
 	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	  false; \
 	fi
 	$(MAKE) 'ALL_GROUPS=$(subst -,_,$(PACKAGE_NAME))' update
 
