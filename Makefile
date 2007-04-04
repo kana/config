@@ -78,17 +78,28 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 # Package definitions  #{{{1
 ALL_PACKAGES=vim-scratch
 
-GROUP_vim_scratch_RULE=\
-  $(patsubst vim/dot.vim/%,$(GROUP_vim_scratch_ARCHIVE)/%,$(1))
-GROUP_vim_scratch_FILES=\
+PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.0
+PACKAGE_vim_scratch_RULE=\
+  $(patsubst vim/dot.vim/%,$(PACKAGE_vim_scratch_ARCHIVE)/%,$(1))
+PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
-GROUP_vim_scratch_POST_TARGETS=$(GROUP_vim_scratch_ARCHIVE).tar.bz2
-GROUP_vim_scratch_ARCHIVE=vim-scratch-0.0
-$(GROUP_vim_scratch_ARCHIVE).tar.bz2:
-	rm -f $@
-	tar jcvf $@ $(GROUP_vim_scratch_ARCHIVE)/
-	rm -r $(GROUP_vim_scratch_ARCHIVE)/
+
+
+# This must be written before calling GenerateRulesFromGroups.
+define GenerateSettingsForGroupFromPackage  # (package-name)
+GROUP_$(1)_RULE=$$(PACKAGE_$(1)_RULE)
+GROUP_$(1)_FILES=$(PACKAGE_$(1)_FILES)
+GROUP_$(1)_POST_TARGETS=$(PACKAGE_$(1)_ARCHIVE).tar.bz2
+$(PACKAGE_$(1)_ARCHIVE).tar.bz2:
+	rm -f $$@
+	tar jcvf $$@ $(PACKAGE_$(1)_ARCHIVE)/
+	rm -r $(PACKAGE_$(1)_ARCHIVE)/
+
+endef
+$(foreach package, \
+          $(subst -,_,$(ALL_PACKAGES)), \
+          $(eval $(call GenerateSettingsForGroupFromPackage,$(package))))
 
 
 
