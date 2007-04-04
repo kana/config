@@ -10,6 +10,9 @@ SHELL=/bin/sh
 DESTDIR=
 
 
+
+
+# Group definitions  #{{{1
 ALL_GROUPS=DOTS OPERA SAMURIZE VIM
 
 GROUP_DOTS_FILES=\
@@ -70,6 +73,9 @@ GROUP_SAMURIZE_FILES=\
 GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 
+
+
+# Package definitions  #{{{1
 ALL_PACKAGES=vim-scratch
 
 GROUP_vim_scratch_RULE=\
