@@ -86,6 +86,20 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/plugin/scratch.vim
 
 
+
+
+# package  #{{{1
+# use `update' for packaging.
+
+PACKAGE_NAME=# Set from command line
+package:
+	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	  false; \
+	fi
+	$(MAKE) 'ALL_GROUPS=$(subst -,_,$(PACKAGE_NAME))' update
+
+
 # This must be written before calling GenerateRulesFromGroups.
 define GenerateSettingsForGroupFromPackage  # (package-name)
 GROUP_$(1)_RULE=$$(PACKAGE_$(1)_RULE)
@@ -144,20 +158,6 @@ update .PHONY: $(foreach group,$(1),$(GROUP_$(group)_POST_TARGETS))
 endef
 
 $(eval $(call GenerateRulesFromGroups,$(ALL_GROUPS)))
-
-
-
-
-# package  #{{{1
-# use `update' for packaging.
-
-PACKAGE_NAME=# Set from command line
-package:
-	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
-	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
-	  false; \
-	fi
-	$(MAKE) 'ALL_GROUPS=$(subst -,_,$(PACKAGE_NAME))' update
 
 
 
