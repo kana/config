@@ -3,7 +3,7 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean package update
+.PHONY: all clean package _package update
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
@@ -79,8 +79,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 ALL_PACKAGES=vim-all vim-scratch vim-tofunc
 
 PACKAGE_vim_all_ARCHIVE=vim-all
-PACKAGE_vim_all_RULE=\
-  $(patsubst vim/%,$(PACKAGE_vim_all_ARCHIVE)/%,$(1))
+PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=\
   $(wildcard \
     vim/dot.vimrc \
@@ -92,15 +91,13 @@ PACKAGE_vim_all_FILES=\
    )
 
 PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.0
-PACKAGE_vim_scratch_RULE=\
-  $(patsubst vim/dot.vim/%,$(PACKAGE_vim_scratch_ARCHIVE)/%,$(1))
+PACKAGE_vim_scratch_BASE=vim/dot.vim
 PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
 
 PACKAGE_vim_tofunc_ARCHIVE=vim-tofunc-0.0
-PACKAGE_vim_tofunc_RULE=\
-  $(patsubst vim/dot.vim/%,$(PACKAGE_vim_tofunc_ARCHIVE)/%,$(1))
+PACKAGE_vim_tofunc_BASE=vim/dot.vim
 PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/ftplugin/c_tofunc.vim \
@@ -111,7 +108,6 @@ PACKAGE_vim_tofunc_FILES=\
 
 
 # package  #{{{1
-# use `update' for packaging.
 
 PACKAGE_NAME=# Set from command line
 package:
@@ -119,23 +115,16 @@ package:
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
-	$(MAKE) 'ALL_GROUPS=$(subst -,_,$(PACKAGE_NAME))' update
-
-
-# This must be written before calling GenerateRulesFromGroups.
-define GenerateSettingsForGroupFromPackage  # (package-name)
-GROUP_$(1)_RULE=$$(PACKAGE_$(1)_RULE)
-GROUP_$(1)_FILES=$(PACKAGE_$(1)_FILES)
-GROUP_$(1)_POST_TARGETS=$(PACKAGE_$(1)_ARCHIVE).tar.bz2
-$(PACKAGE_$(1)_ARCHIVE).tar.bz2:
-	rm -f $$@
-	tar jcvf $$@ $(PACKAGE_$(1)_ARCHIVE)/
-	rm -r $(PACKAGE_$(1)_ARCHIVE)/
-
-endef
-$(foreach package, \
-          $(subst -,_,$(ALL_PACKAGES)), \
-          $(eval $(call GenerateSettingsForGroupFromPackage,$(package))))
+	$(MAKE) 'package=$(subst -,_,$(PACKAGE_NAME))' _package
+_package:
+	ln -s $(PACKAGE_$(package)_BASE) $(PACKAGE_$(package)_ARCHIVE)
+	tar jcvf $(PACKAGE_$(package)_ARCHIVE).tar.bz2 \
+	         $(foreach file, \
+	                   $(PACKAGE_$(package)_FILES), \
+	                   $(patsubst $(PACKAGE_$(package)_BASE)/%, \
+	                              $(PACKAGE_$(package)_ARCHIVE)/%, \
+	                              $(file)))
+	rm $(PACKAGE_$(package)_ARCHIVE)
 
 
 
