@@ -156,38 +156,6 @@ com! -nargs=? -complete=file -bang -bar Utf8  edit<bang> ++enc=utf-8 <args>
 
 
 
-" :Buffer -- alternate :buffer with unescaped buffer name completion.  "{{{2
-
-command! -complete=customlist,<SID>Complete_UnescapedBufferName -nargs=1
-  \ Buffer  buffer <args>
-cnoremap <expr> b<Space>  getcmdtype()==':'&&getcmdpos()==1 ? 'Buffer ' : 'b '
-
-
-function! s:Complete_UnescapedBufferName(ArgLead, CmdLine, CursorPos)
-  let candidates = []
-  for name in s:GetAllListedBufferNames()
-    if stridx(toupper(name), toupper(a:ArgLead)) != -1  " case-insensitive
-      call add(candidates, name)
-    end
-  endfor
-  return candidates
-endfunction
-
-function! s:GetAllListedBufferNames()
-  let names = []
-  let i = 1
-  while i <= bufnr('$')
-    if buflisted(i)
-      call add(names, bufname(i))
-    endif
-    let i = i + 1
-  endwhile
-  return names
-endfunction
-
-
-
-
 " Jump sections  "{{{2
 
 " for normal mode.  a:pattern is '/regexp' or '?regexp'.
