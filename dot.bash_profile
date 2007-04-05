@@ -20,7 +20,7 @@ export INFOPATH="$HOME/info:$INFOPATH"
 export EDITOR=vim
 export PAGER=less
 export SHELL=/bin/bash
-export TERM=cygwin
+export TERM=rxvt-cygwin-native
 export TZ=JST-9
 
 
