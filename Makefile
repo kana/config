@@ -76,7 +76,20 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 
 # Package definitions  #{{{1
-ALL_PACKAGES=vim-scratch vim-tofunc
+ALL_PACKAGES=vim-all vim-scratch vim-tofunc
+
+PACKAGE_vim_all_ARCHIVE=vim-all
+PACKAGE_vim_all_RULE=\
+  $(patsubst vim/%,$(PACKAGE_vim_all_ARCHIVE)/%,$(1))
+PACKAGE_vim_all_FILES=\
+  $(wildcard \
+    vim/dot.vimrc \
+    vim/dot.vim/colors/*.vim \
+    vim/dot.vim/doc/*.txt \
+    vim/dot.vim/ftplugin/*.vim \
+    vim/dot.vim/plugin/*.vim \
+    vim/dot.vim/syntax/*.vim \
+   )
 
 PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.0
 PACKAGE_vim_scratch_RULE=\
