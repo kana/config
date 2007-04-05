@@ -46,6 +46,9 @@ endif
 " BASIC SETTINGS  "{{{1
 
 if 1 < &t_Co && has('syntax')
+  if &term ==# 'rxvt-cygwin-native'
+    set t_Co=256
+  endif
   syntax enable
   colorscheme default
   set background=dark
