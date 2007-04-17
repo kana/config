@@ -39,8 +39,8 @@ execute 'syntax match issueTitle /'.s:RE_TITLE.'/'
 syntax match issueItemDatetime '^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\ze'
 
 " issueInvalidTag is the fallback, so it must be placed at first.
-syntax match issueInvalidTag '\[[^\[\]]*\]'
-syntax match issueStateTag '\[\%(defered\|planned\|working\)\]'
+syntax match issueInvalidTag '\[[A-Za-z0-9._-]*\]'
+syntax match issueStateTag '\[\%(defered\|done\|pending\|planned\|working\)\]'
 syntax match issueValidTag
      \ '\[\%(\d\+\.\d\+\%(\.\d\+\|[ab]\d\+\)\?\|devnote\)\]'
 
