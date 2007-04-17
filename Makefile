@@ -43,6 +43,7 @@ GROUP_VIM_FILES=\
   $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/ftplugin/bugs.vim \
   vim/dot.vim/ftplugin/c_tofunc.vim \
+  vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/buffuzzy.vim \
   vim/dot.vim/plugin/scratch.vim \
@@ -53,6 +54,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/vcssvn.vim \
   vim/dot.vim/syntax/bugs.vim \
   vim/dot.vim/syntax/CVSAnnotate.vim \
+  vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
   vim/dot.vim/syntax/SVNAnnotate.vim \
   vim/dot.vim/syntax/vcscommit.vim \
