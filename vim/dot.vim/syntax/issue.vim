@@ -40,9 +40,12 @@ syntax match issueItemDatetime '^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\ze'
 
 " issueInvalidTag is the fallback, so it must be placed at first.
 syntax match issueInvalidTag '\[[A-Za-z0-9._-]*\]'
-syntax match issueStateTag '\[\%(defered\|done\|pending\|planned\|working\)\]'
-syntax match issueValidTag
-     \ '\[\%(\d\+\.\d\+\%(\.\d\+\|[ab]\d\+\)\?\|devnote\)\]'
+syntax match issueStateTag
+  \ '\[\%(defered\|done\|pending\|planned\|rejected\|working\)\]'
+syntax match issueCategoryTag
+  \ '\[\%(defect\|devnote\|enhancement\|spec\)\]'
+syntax match issueOtherTag
+  \ '\[\%(\d\+\.\d\+\%(\.\d\+\|[ab]\d\+\)\?\)\]'
 
 
 execute 'syntax region issueFoldByGroup1 keepend'
@@ -71,8 +74,9 @@ hi def link issueGroup3Header PreProc
 hi def link issueTitle Label
 hi def link issueItemDatetime Constant
 hi def link issueComment Comment
-hi def link issueStateTag Type
-hi def link issueValidTag Special
+hi def link issueStateTag Special
+hi def link issueCategoryTag Type
+hi def link issueOtherTag Normal
 hi def link issueInvalidTag Error
 
 
