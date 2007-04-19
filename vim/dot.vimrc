@@ -88,6 +88,7 @@ set viminfo=<50,'10,h,r/a,n~/.viminfo
 
 
 let mapleader=','
+let maplocalleader='.'
 
 
 
@@ -292,7 +293,6 @@ endif
 " KEY MAPPINGS  "{{{1
 " Misc.  "{{{2
 
-nnoremap \  :call <SID>ToggleOption('wrap')<Return>
 nnoremap <C-h>  :h<Space>
 nnoremap <Leader>cD  :top split \| SvnDiff<Return>
 
@@ -310,6 +310,7 @@ nnoremap [Space]s  <Nop>
 nnoremap [Space]s.  :source $HOME/.vimrc<Return>
 nnoremap [Space]ss  :source %<Return>
 vnoremap [Space]s  :sort<Return>
+nnoremap [Space]w  :call <SID>ToggleOption('wrap')<Return>
 
 
 " Jump list
@@ -341,6 +342,11 @@ nnoremap ZQ  <Nop>
 
 " Ex-mode will be never used and recordings are rarely used.
 nnoremap Q  q
+
+
+" Use a backslash (\) to repeat last change.
+" Since a dot (.) is used as <LocalLeader>.
+nnoremap \  .
 
 
 
