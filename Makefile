@@ -80,7 +80,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 
 # Package definitions  #{{{1
-ALL_PACKAGES=vim-all vim-scratch vim-tofunc
+ALL_PACKAGES=vim-all vim-scratch vim-tofunc vim-xml_move
 
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
@@ -99,6 +99,12 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
+
+PACKAGE_vim_xml_move_ARCHIVE=vim-xml_move-0.0
+PACKAGE_vim_xml_move_BASE=vim/dot.vim
+PACKAGE_vim_xml_move_FILES=\
+  vim/dot.vim/doc/xml_move.txt \
+  vim/dot.vim/ftplugin/xml_move.vim
 
 
 
