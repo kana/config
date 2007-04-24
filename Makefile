@@ -45,6 +45,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
+  vim/dot.vim/ftplugin/xml_move.vim \
   vim/dot.vim/plugin/buffuzzy.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
@@ -64,7 +65,8 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
   vim/dot.vim/doc/tofunc.txt \
-  vim/dot.vim/doc/vcscommand.txt
+  vim/dot.vim/doc/vcscommand.txt \
+  vim/dot.vim/doc/xml_move.txt
 GROUP_VIM_POST_TARGETS=vim-update-local-helptags
 vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
 $(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
