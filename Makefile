@@ -82,15 +82,7 @@ ALL_PACKAGES=vim-all vim-scratch vim-tofunc
 
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
-PACKAGE_vim_all_FILES=\
-  $(wildcard \
-    vim/dot.vimrc \
-    vim/dot.vim/colors/*.vim \
-    vim/dot.vim/doc/*.txt \
-    vim/dot.vim/ftplugin/*.vim \
-    vim/dot.vim/plugin/*.vim \
-    vim/dot.vim/syntax/*.vim \
-   )
+PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 
 PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.0
 PACKAGE_vim_scratch_BASE=vim/dot.vim
