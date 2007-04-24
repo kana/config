@@ -68,30 +68,35 @@ The following key mappings are global.
 
 
 The following key mappings are local to each buffer.
+These mappings are not defined if the mappings already exist.
 
 Key sequence		Mapped to	~
-
+			     *<LocalLeader>j* *<LocalLeader>f* *<LocalLeader>F*
+					      *<LocalLeader>r* *<LocalLeader>R*
 <LocalLeader>j		<Plug>XmlMove_SObjNextHeadSR
 <LocalLeader>f		<Plug>XmlMove_SObjNextHeadSR
-<LocalLeader>F  	<Plug>XmlMove_SObjNextTailSR
-<LocalLeader>r  	<Plug>XmlMove_SObjPrevHeadSR
-<LocalLeader>R  	<Plug>XmlMove_SObjPrevTailSR
-
-<LocalLeader>k  	<Plug>XmlMove_EObjNextHeadSR
-<LocalLeader>d  	<Plug>XmlMove_EObjNextHeadSR
-<LocalLeader>D  	<Plug>XmlMove_EObjNextTailSR
-<LocalLeader>e  	<Plug>XmlMove_EObjPrevHeadSR
-<LocalLeader>E  	<Plug>XmlMove_EObjPrevTailSR
-
-<LocalLeader>s  	<Plug>XmlMove_TextNextHeadSR
-<LocalLeader>S  	<Plug>XmlMove_TextNextTailSR
-<LocalLeader>w  	<Plug>XmlMove_TextPrevHeadSR
-<LocalLeader>W  	<Plug>XmlMove_TextPrevTailSR
-
-<LocalLeader>a  	<Plug>XmlMove_AttrNextHeadSR
-<LocalLeader>A  	<Plug>XmlMove_AttrNextTailSR
-<LocalLeader>q  	<Plug>XmlMove_AttrPrevHeadSR
-<LocalLeader>Q  	<Plug>XmlMove_AttrPrevTailSR
+<LocalLeader>F		<Plug>XmlMove_SObjNextTailSR
+<LocalLeader>r		<Plug>XmlMove_SObjPrevHeadSR
+<LocalLeader>R		<Plug>XmlMove_SObjPrevTailSR
+			     *<LocalLeader>k* *<LocalLeader>d* *<LocalLeader>D*
+					      *<LocalLeader>e* *<LocalLeader>E*
+<LocalLeader>k		<Plug>XmlMove_EObjNextHeadSR
+<LocalLeader>d		<Plug>XmlMove_EObjNextHeadSR
+<LocalLeader>D		<Plug>XmlMove_EObjNextTailSR
+<LocalLeader>e		<Plug>XmlMove_EObjPrevHeadSR
+<LocalLeader>E		<Plug>XmlMove_EObjPrevTailSR
+					      *<LocalLeader>s* *<LocalLeader>S*
+					      *<LocalLeader>w* *<LocalLeader>W*
+<LocalLeader>s		<Plug>XmlMove_TextNextHeadSR
+<LocalLeader>S		<Plug>XmlMove_TextNextTailSR
+<LocalLeader>w		<Plug>XmlMove_TextPrevHeadSR
+<LocalLeader>W		<Plug>XmlMove_TextPrevTailSR
+					      *<LocalLeader>a* *<LocalLeader>A*
+					      *<LocalLeader>q* *<LocalLeader>Q*
+<LocalLeader>a		<Plug>XmlMove_AttrNextHeadSR
+<LocalLeader>A		<Plug>XmlMove_AttrNextTailSR
+<LocalLeader>q		<Plug>XmlMove_AttrPrevHeadSR
+<LocalLeader>Q		<Plug>XmlMove_AttrPrevTailSR
 
 
 
