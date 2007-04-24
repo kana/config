@@ -526,7 +526,7 @@ augroup MyAutoCmd
     \ call <SID>FileType_vim()
 
   " Misc.
-  autocmd FileType html,xhtml,xml,xslt,sh,tex
+  autocmd FileType html,xhtml,xml,xslt,lua,sh,tex
     \ call <SID>SetShortIndent()
 
   autocmd FileType *
