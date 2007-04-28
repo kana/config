@@ -1,0 +1,93 @@
+*xml_autons.txt*	do :XMLns according to the current buffer.
+
+Author: kana <http://nicht.s8.xrea.com>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+$Id$
+
+
+
+
+==============================================================================
+INTRODUCTION					*xml_autons-introduction*
+
+xml_autons is an additional Vim filetype plugin for XML to execute |:XMLns|
+according to the content of the current buffer.  This supports to use omni
+completion for XML (|ft-xml-omni|), because it requires to execute |:XMLns|.
+
+
+
+
+==============================================================================
+COMMANDS					*xml_autons-commands*
+
+:AutoXMLns						*:AutoXMLns*
+			Do |:XMLns| according to the content of the current
+			buffer.  For example, if the current buffer has the
+			following content: >
+
+			<?xml version="1.0" encoding="UTF-8" ?>
+			<xsl:stylesheet version="1.0"
+			  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+			  xmlns:h="http://www.w3.org/1999/xhtml"
+			  xmlns="http://www.w3.org/1999/xhtml"
+			  exclude-result-prefixes="xsl h">
+			  <!-- many templates ... -->
+			</xsl:stylesheet>
+<
+			:AutoXMLns will execute the following commands: >
+
+			:XMLns xsl xsl
+			:XMLns xhtml11 h
+			:XMLns xhtml11
+<
+			:AutoXMLns will be automatically executed for each
+			time you begin to edit an XML document, so that you
+			don't have to do it manually.
+
+			See also |g:AutoXMLns_Dict|.
+
+
+
+
+==============================================================================
+CUSTOMIZING					*xml_autons-customizing*
+
+g:AutoXMLns_Dict					*g:AutoXMLns_Dict*
+			|Dictionary| to translate a namespace URI to the
+			corresponding name for |:XMLns|.  For example, If you
+			prefer XHTML 1.0 Strict to XHTML 1.1, set as follows:
+>
+			let g:AutoXMLns_Dict['http://www.w3.org/1999/xhtml']
+			    \ = 'xhtml10s'
+<
+			As the default, XHTML 1.1 and XSLT are supported.
+
+
+
+
+==============================================================================
+BUGS						*xml_autons-bugs*
+
+- |:AutoXMLns| checks only namespace declarations in the root tag.  So that
+  declarations in other tags are ignored.  Because namespaces may be locally
+  overriden and |ft-xml-omni| cannot deal with such XML documents correctly.
+
+- |:AutoXMLns| checks only namespace URIs and doesn't check DTD decralations.
+  This may cause some accidents, for example, the namespace URI of XHTML 1.1
+  and the one of XHTML 1.0 Strict (and other variants) are same.  So that
+  :AutoXMLns may treat the current buffer as XHTML 1.1 even if the proper
+  version is XHTML 1.0 Strict.
+
+- |:AutoXMLns| uses |:XMLns|, so that this filetype plugin must be placed
+  |after-directory| to load it after the default filetype plugin.
+
+- When new |xml-omni-datafile| is added, you have to add the entry for it to
+  |g:AutoXMLns_Dict| manually.  It is convenient to compute the default values
+  of |g:AutoXMLns_Dict| from |xml-omni-datafile| in 'runtimepath', but
+  |xml-omni-datafile| doesn't contain the corresponding namespace URI.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:

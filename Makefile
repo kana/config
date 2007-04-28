@@ -37,6 +37,7 @@ GROUP_OPERA_RULE=$(patsubst opera/%,$(GROUP_OPERA_DIR)/%,$(1))
 GROUP_OPERA_DIR=$(abspath opera/profile-link)
 
 GROUP_VIM_FILES=\
+  vim/dot.vim/after/ftplugin/xml_autons.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
@@ -66,6 +67,7 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/surround.txt \
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/doc/vcscommand.txt \
+  vim/dot.vim/doc/xml_autons.txt \
   vim/dot.vim/doc/xml_move.txt
 GROUP_VIM_POST_TARGETS=vim-update-local-helptags
 vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
@@ -80,7 +82,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 
 # Package definitions  #{{{1
-ALL_PACKAGES=vim-all vim-scratch vim-tofunc vim-xml_move
+ALL_PACKAGES=vim-all vim-scratch vim-tofunc vim-xml_autons vim-xml_move
 
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
@@ -99,6 +101,12 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
+
+PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0
+PACKAGE_vim_xml_autons_BASE=vim/dot.vim
+PACKAGE_vim_xml_autons_FILES=\
+  vim/dot.vim/after/ftplugin/xml_autons.vim \
+  vim/dot.vim/doc/xml_autons.txt
 
 PACKAGE_vim_xml_move_ARCHIVE=vim-xml_move-0.0
 PACKAGE_vim_xml_move_BASE=vim/dot.vim
