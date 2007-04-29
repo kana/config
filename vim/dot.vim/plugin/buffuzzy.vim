@@ -1,4 +1,4 @@
-" buffuzzy -- Alternate :buffer with fuzzy pattern.
+" buffuzzy -- Alternate buffer selection with fuzzy pattern.
 " Author: kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " Version: 0.0
