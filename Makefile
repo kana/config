@@ -63,6 +63,7 @@ GROUP_VIM_FILES=\
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_DOC_FILES=\
+  vim/dot.vim/doc/buffuzzy.txt \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
   vim/dot.vim/doc/tofunc.txt \
@@ -82,11 +83,23 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 
 # Package definitions  #{{{1
-ALL_PACKAGES=vim-all vim-scratch vim-tofunc vim-xml_autons vim-xml_move
+ALL_PACKAGES=\
+  vim-all \
+  vim-buffuzzy \
+  vim-scratch \
+  vim-tofunc \
+  vim-xml_autons \
+  vim-xml_move
 
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
+
+PACKAGE_vim_buffuzzy_ARCHIVE=vim-buffuzzy-0.0
+PACKAGE_vim_buffuzzy_BASE=vim/dot.vim
+PACKAGE_vim_buffuzzy_FILES=\
+  vim/dot.vim/doc/buffuzzy.txt \
+  vim/dot.vim/plugin/buffuzzy.vim
 
 PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.0
 PACKAGE_vim_scratch_BASE=vim/dot.vim
