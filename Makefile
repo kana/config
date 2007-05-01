@@ -83,12 +83,17 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 # Package definitions  #{{{1
 ALL_PACKAGES=\
+  opera-all \
   vim-all \
   vim-buffuzzy \
   vim-scratch \
   vim-tofunc \
   vim-xml_autons \
   vim-xml_move
+
+PACKAGE_opera_all_ARCHIVE=opera-all
+PACKAGE_opera_all_BASE=opera
+PACKAGE_opera_all_FILES=$(GROUP_OPERA_FILES)
 
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
