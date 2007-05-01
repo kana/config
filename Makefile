@@ -28,7 +28,6 @@ GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
 
 GROUP_OPERA_FILES=\
   opera/keyboard/my-keyboard.ini \
-  opera/keyboard/standard_keyboard-stripped.ini \
   opera/menu/my-menu.ini \
   opera/search.ini \
   opera/styles/user.css \
