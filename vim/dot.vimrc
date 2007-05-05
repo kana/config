@@ -37,6 +37,13 @@ if !exists('did_encoding_settings') && has('iconv')
 endif
 
 
+if $ENV_ACCESS ==# 'cygwin'  " accessed from Windows.
+  set termencoding=cp932
+else  " accessd from *nix.
+  set termencoding=euc-jp
+endif
+
+
 
 
 
