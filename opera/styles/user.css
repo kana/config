@@ -15,4 +15,19 @@ a[target="_blank"]:after
   font-size: larger;
 }
 
+
+
+
+/* For www.bloglines.com: Hide favicons. */
+li.dragHandle {
+  background-image: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* For www.bloglines.com: Hide folder folding markers. */
+a.bl_toggle > img.toggle {
+  display: none;
+}
+
 /* __END__ */
