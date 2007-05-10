@@ -1,8 +1,8 @@
 *buffuzzy.txt*	Alternate buffer selection with fuzzy pattern.
 
-Author: kana <http://nicht.s8.xrea.com>
+Version 0.0.1
+Copyright (C) 2007 kana <http://nicht.s8.xrea.com>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-Version: 0.0
 $Id$
 
 
@@ -106,6 +106,19 @@ For example:
 - "f/" matches "ftplugin/foo.vim" and "after/ftplugin/foo.vim".
 
 - "f/." matches "ftplugin/foo.vim" but doesn't match "after/ftplugin/foo.vim".
+
+
+
+
+==============================================================================
+CHANGELOG						*buffuzzy-changelog*
+
+0.0.1	2007-05-11
+	- Restore the size of all windows after the buffer selection window is
+	  closed.
+
+0.0	2007-04-30
+	- First release.
 
 
 

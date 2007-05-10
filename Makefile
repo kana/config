@@ -99,7 +99,7 @@ PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 
-PACKAGE_vim_buffuzzy_ARCHIVE=vim-buffuzzy-0.0
+PACKAGE_vim_buffuzzy_ARCHIVE=vim-buffuzzy-0.0.1
 PACKAGE_vim_buffuzzy_BASE=vim/dot.vim
 PACKAGE_vim_buffuzzy_FILES=\
   vim/dot.vim/doc/buffuzzy.txt \

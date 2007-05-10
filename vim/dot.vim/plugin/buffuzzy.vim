@@ -1,7 +1,7 @@
 " buffuzzy -- Alternate buffer selection with fuzzy pattern.
-" Author: kana <http://nicht.s8.xrea.com/>
+" Version: 0.0.1
+" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" Version: 0.0
 " $Id$  "{{{1
 
 if exists('g:loaded_buffuzzy')
@@ -35,6 +35,11 @@ endif
 " MISC.  "{{{2
 
 function! s:Open(bang)
+  let s:winrestcmd = winrestcmd()
+  let s:bang = a:bang
+  let s:old_completeopt = &completeopt
+  set completeopt+=menuone
+
   top new
   setlocal buftype=nofile
   setlocal bufhidden=wipe
@@ -42,10 +47,6 @@ function! s:Open(bang)
   setlocal nobuflisted
   file `='*Fuzzy Buffer Search*'`
   1 wincmd _
-
-  let s:bang = a:bang
-  let s:old_completeopt = &completeopt
-  set completeopt+=menuone
 
   nnor <buffer>          <Return>  :call <SID>Switch('')<Return>
   nnor <buffer>          o         :call <SID>Switch('split')<Return>
@@ -79,6 +80,7 @@ function! s:Close()
 
   execute n 'wincmd w'
   let &completeopt = s:old_completeopt
+  execute s:winrestcmd
 endfunction
 
 
