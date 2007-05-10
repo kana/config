@@ -119,7 +119,7 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
 
-PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0
+PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
 PACKAGE_vim_xml_autons_FILES=\
   vim/dot.vim/after/ftplugin/xml_autons.vim \

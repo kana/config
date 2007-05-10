@@ -1,8 +1,9 @@
 " Additional Vim filetype plugin for XML to support moving around various objs
 " Language: xml
-" Author: kana <http://nicht.s8.xrea.com/>
+" Version: 0.0.1
+" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  %{{{1
+" $Id$  "{{{1
 
 if exists('b:did_ftplugin')
   finish
@@ -15,43 +16,7 @@ endif
 
 
 
-" KEY MAPPINGS  "{{{1
-
-noremap <silent> <Plug>XmlMove_SObjNextHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToSObjNextHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_SObjNextTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToSObjNextTailSR'))<Return>
-noremap <silent> <Plug>XmlMove_SObjPrevHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToSObjPrevHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_SObjPrevTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToSObjPrevTailSR'))<Return>
-noremap <silent> <Plug>XmlMove_EObjNextHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToEObjNextHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_EObjNextTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToEObjNextTailSR'))<Return>
-noremap <silent> <Plug>XmlMove_EObjPrevHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToEObjPrevHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_EObjPrevTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToEObjPrevTailSR'))<Return>
-noremap <silent> <Plug>XmlMove_TextNextHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToTextNextHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_TextNextTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToTextNextTailSR'))<Return>
-noremap <silent> <Plug>XmlMove_TextPrevHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToTextPrevHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_TextPrevTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToTextPrevTailSR'))<Return>
-noremap <silent> <Plug>XmlMove_AttrNextHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToAttrNextHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_AttrNextTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToAttrNextTailSR'))<Return>
-noremap <silent> <Plug>XmlMove_AttrPrevHeadSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToAttrPrevHeadSR'))<Return>
-noremap <silent> <Plug>XmlMove_AttrPrevTailSR
-      \ :<C-u>call <SID>W(function('<SID>MoveToAttrPrevTailSR'))<Return>
-
-
-
+" BUFFER-LOCAL PART  "{{{1
 
 silent! map <buffer> <unique> <LocalLeader>j  <Plug>XmlMove_SObjNextHeadSR
 silent! map <buffer> <unique> <LocalLeader>k  <Plug>XmlMove_SObjPrevHeadSR
@@ -80,7 +45,41 @@ silent! map <buffer> <unique> <LocalLeader>Q  <Plug>XmlMove_AttrPrevTailSR
 
 
 
-" REGULAR EXPRESSIONS FOR VARIOUS OBJECTS  "{{{1
+" COMMON PART  "{{{1
+
+if exists('s:loaded_xml_move')
+" KEY MAPPINGS  "{{{2
+
+function! s:M(name)
+  for mode in ['n', 'v', 'o']
+    execute mode.'noremap' '<silent>' '<Plug>XmlMove_'.a:name
+      \ ':<C-u>call <SID>W(function("<SID>MoveTo'.a:name.'"), "'.mode.'")<CR>'
+  endfor
+endfunction
+
+call s:M('SObjNextHeadSR')
+call s:M('SObjNextTailSR')
+call s:M('SObjPrevHeadSR')
+call s:M('SObjPrevTailSR')
+call s:M('EObjNextHeadSR')
+call s:M('EObjNextTailSR')
+call s:M('EObjPrevHeadSR')
+call s:M('EObjPrevTailSR')
+call s:M('TextNextHeadSR')
+call s:M('TextNextTailSR')
+call s:M('TextPrevHeadSR')
+call s:M('TextPrevTailSR')
+call s:M('AttrNextHeadSR')
+call s:M('AttrNextTailSR')
+call s:M('AttrPrevHeadSR')
+call s:M('AttrPrevTailSR')
+
+delfunction s:M
+
+
+
+
+" REGULAR EXPRESSIONS FOR VARIOUS OBJECTS  "{{{2
 
 " Spaces and other characters
 let s:S = '[ \t\n\r]'
@@ -139,11 +138,7 @@ let s:AObj = '\%('.s:SObj.'\|'.s:EObj.'\)'
 
 
 
-
-
-
-
-" FUNCTIONS (MAIN)  "{{{1
+" FUNCTIONS (MAIN)  "{{{2
 
 function! s:MoveToSObjNextHeadSR()
   return s:Search(s:SObj, '/^')
@@ -214,26 +209,33 @@ endfunction
 
 
 
-
-
-
-
-" FUNCTIONS (UTILITIES)  "{{{1
+" FUNCTIONS (UTILITIES)  "{{{2
 
 " Wrapper for moving functions.
 " * Support count.
 " * Mark the original position for '' and ``.
-function! s:W(f)
+function! s:W(f, mode)
   mark `
+  if a:mode == 'v'
+    execute 'normal!' "gv\<Esc>"
+  endif
   let i = 1
   while i <= v:count1
     let pos_once = getpos('.')
     if !a:f()
       call setpos('.', pos_once)
+      if a:mode == 'v'
+        normal! gv
+      endif
       return 0
     endif
     let i = i + 1
   endwhile
+  if a:mode == 'v'
+    let pos = getpos('.')
+    normal! gv
+    call setpos('.', pos)
+  endif
   return 1
 endfunction
 
@@ -329,11 +331,20 @@ endfunction
 
 
 
+"}}}2
+endif
+
+
+
+
 
 
 
 
 " ETC  "{{{1
+
+let s:loaded_xml_move = 1
+
 
 " BUGS: Don't set b:did_ftplugin to load other filetype plugins.  Because this
 " filetype plugin is an addition to the default ones and user filetype plugins

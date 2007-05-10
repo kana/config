@@ -1,7 +1,8 @@
 *xml_move.txt*	moving around various objects in XML documents.
 
-Author: kana <http://nicht.s8.xrea.com/>
-License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+Version 0.0.1
+Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+License MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
 
 
@@ -21,6 +22,7 @@ and text nodes.
 Key mappings					*xml_move-map*
 
 The following key mappings are global.
+Note that all moving commands are |exclusive|.
 
 <Plug>XmlMove_SObjNextHeadSR			*<Plug>XmlMove_SObjNextHeadSR*
 			Move to the head of the next SObj that is one of the
@@ -109,6 +111,19 @@ Issues						*xml_move-issues*
 * More better key mappings.
 
 * ...
+
+
+
+
+==============================================================================
+ChangeLog					*xml_move-changelog*
+
+0.0.1	2007-05-10
+	- Fix the bug that all moving commands doesn't work in Visual mode,
+	  i.e. visual selection will be canceled after moving.
+
+0.0	2007-04-24
+	- First release.
 
 
 
