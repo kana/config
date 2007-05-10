@@ -1,9 +1,9 @@
 " xml_autons - Additional Vim filetype plugin to set automatically :XMLns
 "              according to the content of the current buffer.
 " Language: xml
-" Author: kana <http://nicht.s8.xrea.com>
+" Version: 0.0.1
+" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-"
 " $Id$  "{{{1
 
 " This script is placed in the after-directory, so that b:did_ftplugin cannot
@@ -24,13 +24,18 @@ endif
 if !exists(':AutoXMLns')
   " INTERFACE  "{{{2
 
-  command! -bar AutoXMLns  call s:AutoXMLns()
+  command! -bar AutoXMLns  silent call s:AutoXMLns()
 
   " Namespace URI -> a part of filename for :XMLns
-  let g:AutoXMLns_Dict = {
-      \   'http://www.w3.org/1999/xhtml': 'xhtml11',
-      \   'http://www.w3.org/1999/XSL/Transform': 'xsl',
-      \ }
+  if !exists('g:AutoXMLns_Dict')
+    let g:AutoXMLns_Dict = {}
+  endif
+  if !exists('g:AutoXMLns_Dict["http://www.w3.org/1999/xhtml"]')
+    let g:AutoXMLns_Dict['http://www.w3.org/1999/xhtml'] = 'xhtml11'
+  endif
+  if !exists('g:AutoXMLns_Dict["http://www.w3.org/1999/XSL/Transform"]')
+    let g:AutoXMLns_Dict['http://www.w3.org/1999/XSL/Transform'] = 'xsl'
+  endif
 
 
 

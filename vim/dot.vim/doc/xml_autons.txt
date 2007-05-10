@@ -1,6 +1,7 @@
 *xml_autons.txt*	do :XMLns according to the current buffer.
 
-Author: kana <http://nicht.s8.xrea.com>
+Version 0.0.1
+Copyright (C) 2007 kana <http://nicht.s8.xrea.com>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
 
@@ -85,6 +86,23 @@ BUGS						*xml_autons-bugs*
   |g:AutoXMLns_Dict| manually.  It is convenient to compute the default values
   of |g:AutoXMLns_Dict| from |xml-omni-datafile| in 'runtimepath', but
   |xml-omni-datafile| doesn't contain the corresponding namespace URI.
+
+
+
+
+==============================================================================
+CHANGELOG						*xml_autons-changelog*
+
+
+0.0.1	2007-05-10
+	- |:AutoXMLns|: Suppress messages when the root tag is written in
+	  more than 'report' lines.
+
+	- |g:AutoXMLns_Dict|: Don't override user settings that were done
+	  before this filetype plugin is first loaded.
+
+0.0	2007-04-28
+	- First release.
 
 
 

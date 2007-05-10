@@ -125,7 +125,7 @@ PACKAGE_vim_xml_autons_FILES=\
   vim/dot.vim/after/ftplugin/xml_autons.vim \
   vim/dot.vim/doc/xml_autons.txt
 
-PACKAGE_vim_xml_move_ARCHIVE=vim-xml_move-0.0
+PACKAGE_vim_xml_move_ARCHIVE=vim-xml_move-0.0.1
 PACKAGE_vim_xml_move_BASE=vim/dot.vim
 PACKAGE_vim_xml_move_FILES=\
   vim/dot.vim/doc/xml_move.txt \
