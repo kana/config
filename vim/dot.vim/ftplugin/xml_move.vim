@@ -47,7 +47,7 @@ silent! map <buffer> <unique> <LocalLeader>Q  <Plug>XmlMove_AttrPrevTailSR
 
 " COMMON PART  "{{{1
 
-if exists('s:loaded_xml_move')
+if !exists('s:loaded_xml_move')
 " KEY MAPPINGS  "{{{2
 
 function! s:M(name)
