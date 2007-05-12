@@ -358,6 +358,18 @@ nnoremap \  .
 
 
 
+" For plugin: scratch  "{{{2
+" The default ``execution'' key, <C-m>, is used for tag jumping.
+" But in the scratch buffer, I don't use tag jumping, so override them.
+augroup Scratch
+  au!
+  au User Initialize  nmap <buffer> <C-m>  <Plug>Scratch_ExecuteLine
+  au User Initialize  vmap <buffer> <C-m>  <Plug>Scratch_ExecuteSelection
+augroup END
+
+
+
+
 " Tag-related hotkeys  "{{{2
 " Fallback  "{{{3
 
