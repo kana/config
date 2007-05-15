@@ -460,6 +460,7 @@ nnoremap qp  :colder<Return>
 nnoremap qn  :cnewer<Return>
 nnoremap qm  :make<Return>
 nnoremap qM  :make<Space>
+nnoremap q<Space>  :make<Space>
 nnoremap qg  :grep<Space>
 
 " For location list (mnemonic: Quickfix list for the current Window)
@@ -478,6 +479,7 @@ nnoremap qwp  :lolder<Return>
 nnoremap qwn  :lnewer<Return>
 nnoremap qwm  :lmake<Return>
 nnoremap qwM  :lmake<Space>
+nnoremap qw<Space>  :lmake<Space>
 nnoremap qwg  :lgrep<Space>
 
 
