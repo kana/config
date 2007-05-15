@@ -254,11 +254,11 @@ if has('win32unix') && !has('clipboard')
     call s:GetClipboardContent()
 
     if a:motion_type == ''
-      execute 'normal' a:put_type
+      execute 'normal!' a:put_type
       let @@ = old_reg
     else
       call s:SelectLastMotion(a:motion_type)
-      execute 'normal' a:put_type
+      execute 'normal!' a:put_type
     endif
   endfunction
 
