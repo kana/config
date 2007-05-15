@@ -74,10 +74,7 @@ endfunction
 
 
 function! s:ExecuteLine()
-  let reg_old = @@
-  yank  " the current line
-  execute @@
-  let @@ = reg_old
+  execute getline('.')
   call s:AddLastLineIfNecessary()
 endfunction
 
