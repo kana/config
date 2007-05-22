@@ -378,6 +378,10 @@ nnoremap Q  q
 nnoremap \  .
 
 
+" Search slashes easily (I'm too lazy to prefix backslashes to slashes.)
+cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
+
+
 
 
 " For plugin: scratch  "{{{2
