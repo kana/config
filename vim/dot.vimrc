@@ -511,6 +511,50 @@ nnoremap qwg        :lgrep<Space>
 
 
 
+" Tab-pages hotkeys  "{{{2
+" FIXME: sometimes, hit-enter prompt appears.  but no idea for the reason.
+" Misc.  "{{{3
+nnoremap <C-t>  <Nop>
+
+nnoremap <C-t>n  :<C-u>tabnew<Return>
+nnoremap <C-t>c  :<C-u>tabclose<Return>
+nnoremap <C-t>o  :<C-u>tabonly<Return>
+nnoremap <C-t>i  :<C-u>tabs<Return>
+
+nmap <C-t><C-n>  <C-t>n
+nmap <C-t><C-c>  <C-t>c
+nmap <C-t><C-o>  <C-t>o
+nmap <C-t><C-i>  <C-t>i
+
+
+" Moving around tabs.  "{{{3
+nnoremap <C-t>j  :<C-u>execute 'tabnext'
+                 \ 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<Return>
+nnoremap <C-t>k  :Execute tabprevious [count]<Return>
+nnoremap <C-t>K  :<C-u>tabfirst<Return>
+nnoremap <C-t>J  :<C-u>tablast<Return>
+nmap <C-t>t  <C-t>j
+nmap <C-t>T  <C-t>k
+
+nmap <C-t><C-j>  <C-t>j
+nmap <C-t><C-k>  <C-t>k
+nmap <C-t><C-t>  <C-t>t
+
+
+" Moving tabs themselves.  "{{{3
+nnoremap <C-t>l  :<C-u>execute 'tabmove'
+                 \ min([tabpagenr() + v:count1 - 1, tabpagenr('$')])<Return>
+nnoremap <C-t>h  :<C-u>execute 'tabmove'
+                 \ max([tabpagenr() - v:count1 - 1, 0])<Return>
+nnoremap <C-t>L  :<C-u>tabmove<Return>
+nnoremap <C-t>H  :<C-u>tabmove 0<Return>
+
+nmap <C-t><C-l>  <C-t>l
+nmap <C-t><C-h>  <C-t>h
+
+
+
+
 " For command-line editting  "{{{2
 cnoremap <C-u>  <C-e><C-u>
 
