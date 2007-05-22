@@ -154,6 +154,28 @@ command! -nargs=? -complete=file -bar SvnDiff
   \ | setfiletype diff
 
 
+function! s:Count(...)
+  if v:count == v:count1  " count is specified.
+    return v:count
+  else  " count is not specified.  (the default '' is useful for special value)
+    return a:0 == 0 ? '' : a:1
+  endif
+endfunction
+
+command! -nargs=* -complete=expression -range -count=0 Execute
+       \ call s:Execute(<f-args>)
+function! s:Execute(...)
+  let args = []
+  for a in a:000
+    if a ==# '[count]'
+      let a = s:Count()
+    endif
+    call add(args, a)
+  endfor
+  execute join(args)
+endfunction
+
+
 
 
 " :edit with specified 'fileencoding'.  "{{{2
@@ -445,42 +467,42 @@ nnoremap tvN  :vsplit \| tlast<Return>
 nnoremap q  <Nop>
 
 " For quickfix list
-nnoremap qj  :cnext<Return>
-nnoremap qk  :cprevious<Return>
-nnoremap qr  :crewind<Return>
-nnoremap qK  :cfirst<Return>
-nnoremap qJ  :clast<Return>
-nnoremap qfj  :cnfile<Return>
-nnoremap qfk  :cpfile<Return>
-nnoremap ql  :clist<Return>
-nnoremap qq  :cc<Return>
-nnoremap qo  :copen<Return>
-nnoremap qc  :cclose<Return>
-nnoremap qp  :colder<Return>
-nnoremap qn  :cnewer<Return>
-nnoremap qm  :make<Return>
-nnoremap qM  :make<Space>
+nnoremap qj        :Execute cnext [count]<Return>
+nnoremap qk        :Execute cprevious [count]<Return>
+nnoremap qr        :Execute crewind [count]<Return>
+nnoremap qK        :Execute cfirst [count]<Return>
+nnoremap qJ        :Execute clast [count]<Return>
+nnoremap qfj       :Execute cnfile [count]<Return>
+nnoremap qfk       :Execute cpfile [count]<Return>
+nnoremap ql        :clist<Return>
+nnoremap qq        :Execute cc [count]<Return>
+nnoremap qo        :Execute copen [count]<Return>
+nnoremap qc        :cclose<Return>
+nnoremap qp        :Execute colder [count]<Return>
+nnoremap qn        :Execute cnewer [count]<Return>
+nnoremap qm        :make<Return>
+nnoremap qM        :make<Space>
 nnoremap q<Space>  :make<Space>
-nnoremap qg  :grep<Space>
+nnoremap qg        :grep<Space>
 
 " For location list (mnemonic: Quickfix list for the current Window)
-nnoremap qwj  :lnext<Return>
-nnoremap qwk  :lprevious<Return>
-nnoremap qwr  :lrewind<Return>
-nnoremap qwK  :lfirst<Return>
-nnoremap qwJ  :llast<Return>
-nnoremap qwfj  :lnfile<Return>
-nnoremap qwfk  :lpfile<Return>
-nnoremap qwl  :llist<Return>
-nnoremap qwq  :ll<Return>
-nnoremap qwo  :lopen<Return>
-nnoremap qwc  :lclose<Return>
-nnoremap qwp  :lolder<Return>
-nnoremap qwn  :lnewer<Return>
-nnoremap qwm  :lmake<Return>
-nnoremap qwM  :lmake<Space>
+nnoremap qwj        :Execute lnext [count]<Return>
+nnoremap qwk        :Execute lprevious [count]<Return>
+nnoremap qwr        :Execute lrewind [count]<Return>
+nnoremap qwK        :Execute lfirst [count]<Return>
+nnoremap qwJ        :Execute llast [count]<Return>
+nnoremap qwfj       :Execute lnfile [count]<Return>
+nnoremap qwfk       :Execute lpfile [count]<Return>
+nnoremap qwl        :llist<Return>
+nnoremap qwq        :Execute ll [count]<Return>
+nnoremap qwo        :Execute lopen [count]<Return>
+nnoremap qwc        :lclose<Return>
+nnoremap qwp        :Execute lolder [count]<Return>
+nnoremap qwn        :Execute lnewer [count]<Return>
+nnoremap qwm        :lmake<Return>
+nnoremap qwM        :lmake<Space>
 nnoremap qw<Space>  :lmake<Space>
-nnoremap qwg  :lgrep<Space>
+nnoremap qwg        :lgrep<Space>
 
 
 
