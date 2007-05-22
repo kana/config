@@ -654,6 +654,13 @@ let g:VCSCommandDeleteOnHide = 1
 
 
 
+" Plugin: xml_autons
+let g:AutoXMLns_Dict = {}
+let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
+
+
+
+
 set secure
 
 " __END__
