@@ -734,7 +734,7 @@ function! s:FileType_xml()
     " Before: <code{|}
     " After:  <code>{|}</code>
   inoremap <buffer> >>  ><LT>/<C-x><C-o><C-r>=
-                     \    <SID>KeysToStopInsertCompletion()
+                     \    <SID>KeysToStopInsertModeCompletion()
                      \  <Return><C-o>F<LT>
 
     " Image: Wrap the cursor with the tag.
@@ -743,11 +743,11 @@ function! s:FileType_xml()
     "           {|}
     "         </code>
   inoremap <buffer> ><LT>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
-                        \    <SID>KeysToStopInsertCompletion()
+                        \    <SID>KeysToStopInsertModeCompletion()
                         \  <Return><C-o><Up><BS>
 endfunction
 
-function! s:KeysToStopInsertCompletion()
+function! s:KeysToStopInsertModeCompletion()
   if pumvisible()
     return "\<C-y>"
   else
