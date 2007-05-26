@@ -320,6 +320,10 @@ endif
 
 
 " KEY MAPPINGS  "{{{1
+" RULES:
+" - Don't use special keys such as <Tab>.
+"   Use equivalent keys such as <C-i> instead.
+
 " Misc.  "{{{2
 
 nnoremap <C-h>  :h<Space>
@@ -348,14 +352,12 @@ nnoremap <C-k>  <C-o>
 
 
 " Switch to the previously edited file (like Vz)
-nnoremap <F2>  :e #<Return>
 nnoremap <Esc>2  :e #<Return>
+nmap <F2>  <Esc>2
 
 
 " Visiting windows with one key.
-nnoremap <Tab>  <C-w>w
 nnoremap <C-i>  <C-w>w
-nnoremap <S-Tab>  <C-w>W
 nnoremap <Esc>i  <C-w>W
 
 
