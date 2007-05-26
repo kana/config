@@ -717,6 +717,10 @@ endfunction
 function! s:FileType_xml()
   call <SID>SetShortIndent()
 
+  " To deal with namespace prefixes and tag-name-including-hyphens.
+  setlocal iskeyword+=45  " hyphen (-)
+  setlocal iskeyword+=58  " colon (:)
+
   " Support to input.
   inoremap <buffer> <LT>?  </
   imap     <buffer> ?<LT>  <LT>?
