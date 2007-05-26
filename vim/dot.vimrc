@@ -384,6 +384,27 @@ nnoremap \  .
 cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 
 
+" Complete or indent.
+inoremap <expr> <C-i> (<SID>ShouldIndentRatherThanCompleteP()
+                     \ ? '<C-i>'
+                     \ : <SID>KeysToComplete())
+
+function! s:ShouldIndentRatherThanCompleteP()
+  let m = match(getline('.'), '\S')
+  return m == -1 || col('.')-1 <= m
+endfunction
+
+function! s:KeysToComplete()
+  if strlen(&omnifunc)
+    return "\<C-x>\<C-o>"
+  elseif &filetype ==# 'vim'
+    return "\<C-x>\<C-v>"
+  else
+    return "\<C-n>"
+  endif
+endfunction
+
+
 
 
 " For plugin: scratch  "{{{2
