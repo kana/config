@@ -639,8 +639,11 @@ augroup MyAutoCmd
   autocmd FileType vim
     \ call <SID>FileType_vim()
 
+  autocmd FileType html,xhtml,xml,xslt
+    \ call <SID>FileType_xml()
+
   " Misc.
-  autocmd FileType html,xhtml,xml,xslt,lua,sh,tex
+  autocmd FileType lua,sh,tex
     \ call <SID>SetShortIndent()
 
   autocmd FileType *
@@ -704,6 +707,36 @@ let g:is_bash = 1
 function! s:FileType_vim()
   call <SID>SetShortIndent()
   let vim_indent_cont = &shiftwidth
+endfunction
+
+
+
+
+" XML/SGML and other applications  "{{{2
+
+function! s:FileType_xml()
+  call <SID>SetShortIndent()
+
+  " Support to input.
+  inoremap <buffer> <LT>?  </
+  imap     <buffer> ?<LT>  <LT>?
+  inoremap <buffer> ?>  />
+  imap     <buffer> >?  ?>
+
+  " Complete end-tags or the tail of empty-element tags.
+  " In the followings, {|} means the cursor position.
+
+    " Image: Insert the end tag after the cursor.
+    " Before: <code{|}
+    " After:  <code>{|}</code>
+  inoremap <buffer> >>  ><LT>/<C-x><C-o><C-y><C-o>F<LT>
+
+    " Image: Wrap the cursor with the tag.
+    " Before: <code{|}
+    " After:  <code>
+    "           {|}
+    "         </code>
+  inoremap <buffer> ><LT>  ><Return>X<Return><LT>/<C-x><C-o><C-y><C-o><Up><BS>
 endfunction
 
 
