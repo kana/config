@@ -733,14 +733,26 @@ function! s:FileType_xml()
     " Image: Insert the end tag after the cursor.
     " Before: <code{|}
     " After:  <code>{|}</code>
-  inoremap <buffer> >>  ><LT>/<C-x><C-o><C-y><C-o>F<LT>
+  inoremap <buffer> >>  ><LT>/<C-x><C-o><C-r>=
+                     \    <SID>KeysToStopInsertCompletion()
+                     \  <Return><C-o>F<LT>
 
     " Image: Wrap the cursor with the tag.
     " Before: <code{|}
     " After:  <code>
     "           {|}
     "         </code>
-  inoremap <buffer> ><LT>  ><Return>X<Return><LT>/<C-x><C-o><C-y><C-o><Up><BS>
+  inoremap <buffer> ><LT>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
+                        \    <SID>KeysToStopInsertCompletion()
+                        \  <Return><C-o><Up><BS>
+endfunction
+
+function! s:KeysToStopInsertCompletion()
+  if pumvisible()
+    return "\<C-y>"
+  else
+    return "\<Space>\<BS>"
+  endif
 endfunction
 
 
