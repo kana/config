@@ -178,6 +178,29 @@ endfunction
 
 
 
+" High-level key sequences  "{{{2
+
+function! s:KeysToComplete()
+  if strlen(&omnifunc)
+    return "\<C-x>\<C-o>"
+  elseif &filetype ==# 'vim'
+    return "\<C-x>\<C-v>"
+  else
+    return "\<C-n>"
+  endif
+endfunction
+
+function! s:KeysToStopInsertModeCompletion()
+  if pumvisible()
+    return "\<C-y>"
+  else
+    return "\<Space>\<BS>"
+  endif
+endfunction
+
+
+
+
 " :edit with specified 'fileencoding'.  "{{{2
 com! -nargs=? -complete=file -bang -bar Cp932  edit<bang> ++enc=cp932 <args>
 com! -nargs=? -complete=file -bang -bar Eucjp  edit<bang> ++enc=euc-jp <args>
@@ -392,16 +415,6 @@ inoremap <expr> <C-i> (<SID>ShouldIndentRatherThanCompleteP()
 function! s:ShouldIndentRatherThanCompleteP()
   let m = match(getline('.'), '\S')
   return m == -1 || col('.')-1 <= m
-endfunction
-
-function! s:KeysToComplete()
-  if strlen(&omnifunc)
-    return "\<C-x>\<C-o>"
-  elseif &filetype ==# 'vim'
-    return "\<C-x>\<C-v>"
-  else
-    return "\<C-n>"
-  endif
 endfunction
 
 
@@ -745,14 +758,6 @@ function! s:FileType_xml()
   inoremap <buffer> ><LT>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
                         \    <SID>KeysToStopInsertModeCompletion()
                         \  <Return><C-o><Up><BS>
-endfunction
-
-function! s:KeysToStopInsertModeCompletion()
-  if pumvisible()
-    return "\<C-y>"
-  else
-    return "\<Space>\<BS>"
-  endif
 endfunction
 
 
