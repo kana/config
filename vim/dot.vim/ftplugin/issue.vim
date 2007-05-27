@@ -26,17 +26,17 @@ nnoremap <LocalLeader>s  :<C-u>call <SID>ShowStatus()<Return>
 function! s:ShowStatus()
   let pos = getpos('.')
 
-  let max = 0
-  let l:count = 0
+  let max_id = 0
+  let sum = 0
   global/^#/
     \ let line = getline('.')
     \
-    \ | let l:count = l:count + 1
+    \ | let sum = sum + 1
     \
-    \ | let t = str2nr(matchstr(line, '^#\zs\d\+\ze'))
-    \ | let max = max < t ? t : max
+    \ | let id = str2nr(matchstr(line, '^#\zs\d\+\ze'))
+    \ | let max_id = max_id < id ? id : max_id
 
-  echo 'Issue Status:' 'Next ID:' max+1 '/' 'Count:' l:count
+  echo 'Issue Status:' 'Next ID:' max_id+1 '/' 'Count:' sum
 
   call setpos('.', pos)
 endfunction
