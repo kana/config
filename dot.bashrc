@@ -5,7 +5,7 @@ umask 077  # Default permission
 ulimit -c 0  # Don't create core file
 
 
-CDPATH="$(echo . ~/freq{,/latest{,/working}} | tr ' ' ':')"
+export CDPATH="$(echo . ~/freq{,/latest{,/working}} | tr ' ' ':')"
 
 HISTSIZE=50000                          # History size
 HISTFILESIZE=$HISTSIZE                  # ... for history file
