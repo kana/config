@@ -83,6 +83,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 
 # Package definitions  #{{{1
 ALL_PACKAGES=\
+  all \
   opera-all \
   vim-all \
   vim-buffuzzy \
@@ -90,6 +91,13 @@ ALL_PACKAGES=\
   vim-tofunc \
   vim-xml_autons \
   vim-xml_move
+
+PACKAGE_all_ARCHIVE=all
+PACKAGE_all_BASE=.
+PACKAGE_all_FILES=./Makefile \
+                  $(foreach g, $(ALL_GROUPS), \
+                    $(foreach f, $(GROUP_$(g)_FILES), \
+                      ./$(f)))
 
 PACKAGE_opera_all_ARCHIVE=opera-all
 PACKAGE_opera_all_BASE=opera
