@@ -107,6 +107,16 @@ let maplocalleader='.'
 " UTILITY FUNCTIONS & COMMANDS "{{{1
 " Misc.  "{{{2
 
+function! s:ToggleBell()
+  if &visualbell
+    set novisualbell t_vb&
+    echo 'bell on'
+  else
+    set visualbell t_vb=
+    echo 'bell off'
+  endif
+endfunction
+
 function! s:ToggleOption(option_name)
   execute 'setlocal' a:option_name.'!'
   execute 'setlocal' a:option_name.'?'
@@ -362,6 +372,7 @@ nnoremap [Space]/  :nohlsearch<Return>
 nmap     [Space]b  <Plug>Buffuzzy
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
+nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
 nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
 nnoremap [Space]s  <Nop>
 nnoremap [Space]s.  :source $HOME/.vimrc<Return>
