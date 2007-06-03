@@ -362,11 +362,12 @@ nnoremap [Space]/  :nohlsearch<Return>
 nmap     [Space]b  <Plug>Buffuzzy
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
+nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
 nnoremap [Space]s  <Nop>
 nnoremap [Space]s.  :source $HOME/.vimrc<Return>
 nnoremap [Space]ss  :source %<Return>
 vnoremap [Space]s  :sort<Return>
-nnoremap [Space]w  :call <SID>ToggleOption('wrap')<Return>
+nmap     [Space]w  [Space]ow
 
 
 " Jump list
