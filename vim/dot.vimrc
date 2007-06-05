@@ -746,11 +746,17 @@ function! s:FileType_xml()
   setlocal iskeyword+=45  " hyphen (-)
   setlocal iskeyword+=58  " colon (:)
 
-  " Support to input.
+  " Support to input some parts of tags.
   inoremap <buffer> <LT>?  </
   imap     <buffer> ?<LT>  <LT>?
   inoremap <buffer> ?>  />
   imap     <buffer> >?  ?>
+
+  " Support to input some blocks.
+  inoremap <buffer> <LT>!C  <LT>![CDATA[]]><Left><Left><Left>
+  inoremap <buffer> <LT>#  <LT>!----><Left><Left><Left><C-r>=
+                         \   <SID>FileType_xml_comment_dispatch()
+                         \ <Return>
 
   " Complete end-tags or the tail of empty-element tags.
   " In the followings, {|} means the cursor position.
@@ -771,6 +777,20 @@ function! s:FileType_xml()
                         \    <SID>KeysToStopInsertModeCompletion()
                         \  <Return><C-o><Up><BS>
 endfunction
+
+
+function! s:FileType_xml_comment_dispatch()
+  let c = nr2char(getchar())
+  return get(s:FileType_xml_comment_data, c, c)
+endfunction
+let s:FileType_xml_comment_data = {
+  \   "\<Space>": "\<Space>\<Space>\<Left>",
+  \   "\<Return>": "\<Return>X\<Return>\<Up>\<End>\<BS>",
+  \   '_': '',
+  \   '-': '',
+  \   '{': '{{{',
+  \   '}': '}}}',
+  \ }
 
 
 
