@@ -804,6 +804,8 @@ let s:FileType_xml_comment_data = {
 " Plugin: vcscommand
 let g:VCSCommandDeleteOnHide = 1
 
+nmap <Leader>cR  <Plug>VCSDelete
+
 
 
 

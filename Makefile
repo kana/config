@@ -52,11 +52,13 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/tofunc.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \
+  vim/dot.vim/plugin/vcssvk.vim \
   vim/dot.vim/plugin/vcssvn.vim \
   vim/dot.vim/syntax/bugs.vim \
   vim/dot.vim/syntax/CVSAnnotate.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
+  vim/dot.vim/syntax/SVKAnnotate.vim \
   vim/dot.vim/syntax/SVNAnnotate.vim \
   vim/dot.vim/syntax/vcscommit.vim \
   vim/dot.vimrc
