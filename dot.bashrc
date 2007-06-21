@@ -60,6 +60,8 @@ alias q='exit'
 
 alias v='vim'
 
+alias ..='cd ..'
+
 
 
 
