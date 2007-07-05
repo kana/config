@@ -430,6 +430,11 @@ function! s:ShouldIndentRatherThanCompleteP()
 endfunction
 
 
+" Swap ` and ' -- I prefer ` to ' and ` is not easy to type.
+noremap ' `
+noremap ` '
+
+
 
 
 " For plugin: scratch  "{{{2
