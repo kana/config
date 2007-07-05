@@ -801,6 +801,15 @@ let s:FileType_xml_comment_data = {
 
 " MISC.  "{{{1
 
+" Plugin: surround
+
+" The default mapping ys for <Plug>Ysurround is not consistent with
+" the default mappings of vi -- y is for yank.
+nmap s  <Plug>Ysurround
+
+
+
+
 " Plugin: vcscommand
 let g:VCSCommandDeleteOnHide = 1
 
