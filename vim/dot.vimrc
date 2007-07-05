@@ -69,6 +69,8 @@ set backspace=indent,eol,start
 set backup
 set backupcopy&
 set backupdir=.,~/tmp
+set backupskip&
+set backupskip+=svn-commit.tmp
 set cinoptions=:0,t0,(0,W1s
 set directory=.,~/tmp
 set noequalalways
