@@ -758,24 +758,24 @@ function! s:FileType_xml()
                          \   <SID>FileType_xml_comment_dispatch()
                          \ <Return>
 
-  " Complete end-tags or the tail of empty-element tags.
-  " In the followings, {|} means the cursor position.
+  " Complete proper end-tags.
+  " In the following description, {|} means the cursor position.
 
-    " Image: Insert the end tag after the cursor.
+    " Insert the end tag after the cursor.
     " Before: <code{|}
     " After:  <code>{|}</code>
-  inoremap <buffer> >>  ><LT>/<C-x><C-o><C-r>=
-                     \    <SID>KeysToStopInsertModeCompletion()
-                     \  <Return><C-o>F<LT>
+  inoremap <buffer> <LT><LT>  ><LT>/<C-x><C-o><C-r>=
+                           \    <SID>KeysToStopInsertModeCompletion()
+                           \  <Return><C-o>F<LT>
 
-    " Image: Wrap the cursor with the tag.
+    " Wrap the cursor with the tag.
     " Before: <code{|}
     " After:  <code>
     "           {|}
     "         </code>
-  inoremap <buffer> ><LT>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
-                        \    <SID>KeysToStopInsertModeCompletion()
-                        \  <Return><C-o><Up><BS>
+  inoremap <buffer> >>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
+                     \    <SID>KeysToStopInsertModeCompletion()
+                     \  <Return><C-o><Up><BS>
 endfunction
 
 
