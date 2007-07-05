@@ -30,6 +30,7 @@ GROUP_OPERA_FILES=\
   opera/keyboard/my-keyboard.ini \
   opera/menu/my-menu.ini \
   opera/search.ini \
+  opera/skin/windows_skin3.zip \
   opera/styles/user.css \
   opera/toolbar/my-toolbar.ini
 GROUP_OPERA_RULE=$(patsubst opera/%,$(GROUP_OPERA_DIR)/%,$(1))
