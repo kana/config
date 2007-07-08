@@ -362,6 +362,7 @@ endif
 " Misc.  "{{{2
 
 nnoremap <C-h>  :h<Space>
+nnoremap <C-o>  :e<Space>
 nnoremap <Leader>cD  :top split \| SvnDiff<Return>
 
 
