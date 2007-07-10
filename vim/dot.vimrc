@@ -190,6 +190,41 @@ endfunction
 
 
 
+" Help-related stuffs  "{{{2
+
+function! s:HelpBufWinNR()
+  let wn = 1
+  while wn <= winnr('$')
+    let bn = winbufnr(wn)
+    if getbufvar(bn, '&buftype') == 'help'
+      return [bn, wn]
+    endif
+    let wn = wn + 1
+  endwhile
+  return [-1, 0]
+endfunction
+
+function! s:HelpWindowClose()
+  let [help_bufnr, help_winnr] = s:HelpBufWinNR()
+  if help_bufnr == -1
+    return
+  endif
+
+  let current_winnr = winnr()
+  execute help_winnr 'wincmd w'
+  execute 'wincmd c'
+  if current_winnr < help_winnr
+    execute current_winnr 'wincmd w'
+  elseif help_winnr < current_winnr
+    execute (current_winnr-1) 'wincmd w'
+  else
+    " NOP
+  endif
+endfunction
+
+
+
+
 " High-level key sequences  "{{{2
 
 function! s:KeysToComplete()
@@ -372,6 +407,7 @@ map      <Space>  [Space]
 
 noremap  [Space]  <Nop>
 nnoremap [Space]/  :nohlsearch<Return>
+nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
 nmap     [Space]b  <Plug>Buffuzzy
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
