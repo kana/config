@@ -148,22 +148,49 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
 endfunction
 
 
-function! s:CreateTemporaryBuffer(name)
-    hide enew
-    setlocal bufhidden=wipe buflisted buftype=nofile noswapfile
-    file `=a:name`
+function! s:RenameBuffer(name)
+  let name = a:name
+  let i = 0
+  while 1
+    if !bufexists(name)
+      break
+    endif
+    let i = i + 1
+    let name = a:name . ' (' . i . ')'
+  endwhile
+  file `=name`
 endfunction
 
-function! s:CreateCommandOutputBuffer(command)
-  call s:CreateTemporaryBuffer(a:command)
-  silent execute 'read !' a:command
+
+function! s:CreateTemporaryBuffer(name, how_to_open)
+  execute a:how_to_open
+  setlocal bufhidden=wipe buflisted buftype=nofile noswapfile
+  call s:RenameBuffer(a:name)
+endfunction
+
+function! s:CreateCommandOutputBuffer(command, ...)  " spliting_modifier?
+  let spliting_modifier = (1 <= a:0 ? a:1 : '')
+  let previous_window_nr = winnr()
+  let previous_windows_placement = winrestcmd()
+
+  call s:CreateTemporaryBuffer('CMD: '.a:command, spliting_modifier.' new')
+  execute 'read !' a:command
   1
   delete
-endfunction
 
-command! -nargs=? -complete=file -bar SvnDiff
-  \ call s:CreateCommandOutputBuffer('svn diff')
-  \ | setfiletype diff
+  if line('$') == 1 && getline(1) == ''
+    close
+    execute previous_windows_placement
+    execute previous_window_nr 'wincmd w'
+
+    redraw  " to ensure show the following message.
+    echomsg 'No output from the command:' a:command
+    return 0
+  else
+    filetype detect
+    return 1
+  endif
+endfunction
 
 
 function! s:Count(...)
@@ -398,7 +425,8 @@ endif
 
 nnoremap <C-h>  :h<Space>
 nnoremap <C-o>  :e<Space>
-nnoremap <Leader>cD  :top split \| SvnDiff<Return>
+nnoremap <silent> <Leader>cD
+       \ :<C-u>call <SID>CreateCommandOutputBuffer('svn diff', 'botright')<CR>
 
 
 " Various hotkeys prefixed by <Space>.
