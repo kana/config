@@ -443,7 +443,7 @@ function! s:EditFile(command, originalBuffer, statusText)
         vert rightbelow split
       endif
     endif
-    edit `=resultBufferName`
+    enew
     let b:VCSCommandCommand = a:command
     let b:VCSCommandOriginalBuffer = a:originalBuffer
     let b:VCSCommandSourceFile = bufname(a:originalBuffer)
@@ -452,6 +452,7 @@ function! s:EditFile(command, originalBuffer, statusText)
     set buftype=nofile
     set noswapfile
     let &filetype = vcsType . a:command
+    silent file `=resultBufferName`
 
     if a:statusText != ''
       let b:VCSCommandStatusText = a:statusText
@@ -908,6 +909,37 @@ function! VCSCommandRegisterModule(name, file, commandMap, mappingMap)
   endif
 endfunction
 
+" Function: VCSCommandSystem(expr) {{{2
+" Same as system(), but takes care of the character encoding of its result.
+" Returns: the output of the shell command a:expr.
+" Bugs: Don't support the optional second argument a:input.
+
+function! VCSCommandSystem(expr)
+  " Switch to the temporary buffer.
+  let viewinfo = winsaveview()
+  vnew
+  setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
+
+  " Execute the given command and get its result.
+  execute 'silent read !' a:expr
+  if 1 < line('$')
+    let original_register = @@
+    silent 1 delete
+    silent % yank
+    let result = @@
+    let @@ = original_register
+  else
+    let result = ''
+  endif
+
+  " Return to the original buffer.
+  close
+  call winrestview(viewinfo)
+  redraw  " to ensure showing messages after this command.
+
+  return result
+endfunction
+
 " Function: VCSCommandDoCommand(cmd, cmdName, statusText) {{{2
 " General skeleton for VCS function execution.
 " Returns: name of the new command buffer containing the command results
@@ -934,7 +966,7 @@ function! VCSCommandDoCommand(cmd, cmdName, statusText)
 
   let oldCwd = VCSCommandChangeToCurrentFileDir(fileName)
   try
-    let output = system(a:cmd . ' "' . realFileName . '"')
+    let output = VCSCommandSystem(a:cmd . ' "' . realFileName . '"')
   finally
     call VCSCommandChdir(oldCwd)
   endtry

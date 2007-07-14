@@ -183,7 +183,7 @@ endfunction
 function! s:svnFunctions.GetBufferInfo()
   let originalBuffer = VCSCommandGetOriginalBuffer(bufnr('%'))
   let fileName = bufname(originalBuffer)
-  let statusText = system(VCSCommandGetOption('VCSCommandSVNExec', 'svn') . ' status -vu "' . fileName . '"')
+  let statusText = VCSCommandSystem(VCSCommandGetOption('VCSCommandSVNExec', 'svn') . ' status -vu "' . fileName . '"')
   if(v:shell_error)
     return []
   endif
