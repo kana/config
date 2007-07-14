@@ -174,7 +174,7 @@ function! s:CreateCommandOutputBuffer(command, ...)  " spliting_modifier?
   let previous_windows_placement = winrestcmd()
 
   call s:CreateTemporaryBuffer('CMD: '.a:command, spliting_modifier.' new')
-  execute 'read !' a:command
+  silent execute 'read !' a:command
   1
   delete
 
