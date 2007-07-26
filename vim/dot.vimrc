@@ -175,8 +175,6 @@ function! s:CreateCommandOutputBuffer(command, ...)  " spliting_modifier?
 
   call s:CreateTemporaryBuffer('CMD: '.a:command, spliting_modifier.' new')
   silent execute 'read !' a:command
-  1
-  delete
 
   if line('$') == 1 && getline(1) == ''
     close
@@ -187,6 +185,8 @@ function! s:CreateCommandOutputBuffer(command, ...)  " spliting_modifier?
     echomsg 'No output from the command:' a:command
     return 0
   else
+    1
+    delete
     filetype detect
     return 1
   endif
