@@ -37,7 +37,7 @@ if !exists('did_encoding_settings') && has('iconv')
 endif
 
 
-if $ENV_ACCESS ==# 'cygwin'  " accessed from Windows.
+if $ENV_ACCESS ==# 'cygwin'  " am I accessing from Windows?
   set termencoding=cp932
 else  " accessd from *nix.
   set termencoding=euc-jp
@@ -89,7 +89,7 @@ set titlestring=vi:\ %f\ %h%r%m
 
 set viminfo=<50,'10,h,r/a,n~/.viminfo
 
-" To detect the width and the height of the terminal automatically,
+" To automatically detect the width and the height of the terminal,
 " the followings must not be set.
 "
 " set columns=80
@@ -276,6 +276,7 @@ endfunction
 
 
 " :edit with specified 'fileencoding'.  "{{{2
+
 com! -nargs=? -complete=file -bang -bar Cp932  edit<bang> ++enc=cp932 <args>
 com! -nargs=? -complete=file -bang -bar Eucjp  edit<bang> ++enc=euc-jp <args>
 com! -nargs=? -complete=file -bang -bar Iso2022jp  Jis<bang> <args>
@@ -334,11 +335,13 @@ endfunction
 
 
 " Yank/Put with the Windows' clipboard in Cygwin.  "{{{2
-" BUGS: Putting is always characterwise.
-" BUGS: The last <EOL> in text to be put is always stripped.
+" FIXME: Putting is always characterwise.
+" FIXME: The last <EOL> in text to be put is always stripped.
+" FIXME: <C-r>{register} in Insert-mode and Command-line mode is not supported.
+" FIXME: DRY: creating temporary buffer.
 
 if has('win32unix') && !has('clipboard')
-  " Key mapping
+  " Key mappings
   nmap "*  "+
   vmap "*  "+
 
@@ -364,7 +367,7 @@ if has('win32unix') && !has('clipboard')
     setlocal binary noendofline
     silent normal! P
     silent write! /dev/clipboard
-    bwipe
+    bwipeout
     let @@ = old_reg
   endfunction
 
@@ -405,7 +408,7 @@ if has('win32unix') && !has('clipboard')
     setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
     read !getclip
     silent normal! ggj0vG$hy
-    bwipe
+    bwipeout
   endfunction
 endif
 
@@ -418,8 +421,8 @@ endif
 
 " KEY MAPPINGS  "{{{1
 " RULES:
-" - Don't use special keys such as <Tab>.
-"   Use equivalent keys such as <C-i> instead.
+" - Separate {lhs} and {rhs} by two spaces.
+" - Write like <C-x>, not <C-X>.
 
 " Misc.  "{{{2
 
@@ -482,14 +485,14 @@ nnoremap Q  q
 nnoremap \  .
 
 
-" Search slashes easily (I'm too lazy to prefix backslashes to slashes.)
+" Search slashes easily (too lazy to prefix backslashes to slashes)
 cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 
 
 " Complete or indent.
-inoremap <expr> <C-i> (<SID>ShouldIndentRatherThanCompleteP()
-                     \ ? '<C-i>'
-                     \ : <SID>KeysToComplete())
+inoremap <expr> <C-i>  (<SID>ShouldIndentRatherThanCompleteP()
+                      \ ? '<C-i>'
+                      \ : <SID>KeysToComplete())
 
 function! s:ShouldIndentRatherThanCompleteP()
   let m = match(getline('.'), '\S')
@@ -505,8 +508,9 @@ noremap ` '
 
 
 " For plugin: scratch  "{{{2
-" The default ``execution'' key, <C-m>, is used for tag jumping.
-" But in the scratch buffer, I don't use tag jumping, so override them.
+" I already use <C-m> for tag jumping.
+" But I don't use it in the scratch buffer, so it should be overridden.
+
 augroup Scratch
   au!
   au User Initialize  nmap <buffer> <C-m>  <Plug>Scratch_ExecuteLine
@@ -676,6 +680,7 @@ nmap <C-t><C-h>  <C-t>h
 
 
 " For command-line editting  "{{{2
+
 cnoremap <C-u>  <C-e><C-u>
 
 cnoremap <Esc>h  <Left>
@@ -692,6 +697,7 @@ cnoremap <Esc>x  <Del>
 
 
 " Input the current date/time (Full, Date, Time).  "{{{2
+
 inoremap <Leader>dF  <C-r>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
 inoremap <Leader>df  <C-r>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
 inoremap <Leader>dd  <C-r>=strftime('%Y-%m-%d')<Return>
@@ -702,6 +708,7 @@ inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 
 
 " Enable ]] and other motions in visual and operator-pending mode.  "{{{2
+
 vnoremap <silent> ]]  :<C-u>call <SID>JumpSectionV(']]')<Return>
 vnoremap <silent> ][  :<C-u>call <SID>JumpSectionV('][')<Return>
 vnoremap <silent> [[  :<C-u>call <SID>JumpSectionV('[[')<Return>
@@ -883,6 +890,7 @@ nmap s  <Plug>Ysurround
 
 
 " Plugin: vcscommand
+
 let g:VCSCommandDeleteOnHide = 1
 
 nmap <Leader>cR  <Plug>VCSDelete
@@ -891,6 +899,7 @@ nmap <Leader>cR  <Plug>VCSDelete
 
 
 " Plugin: xml_autons
+
 let g:AutoXMLns_Dict = {}
 let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
