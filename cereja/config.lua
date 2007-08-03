@@ -16,7 +16,13 @@ ui.tray.hotkey_add('S-Ctrl-K', ui.tray.CMD_ICON_SHIFT_PREV)
 
 
 -- window
+local WM_SYSCOMMAND = 274
+local SC_MINIMIZE = 0xF020
 ui.hotkey.register('Alt-Shift-M', ui.window.minimize)
+ui.hotkey.register('Alt-Shift-Win-M',
+                   function ()
+                     ui.window.post_message(NULL, WM_SYSCOMMAND, SC_MINIMIZE)
+                   end)
 ui.hotkey.register('Alt-Shift-X', ui.window.maximize)
 ui.hotkey.register('Alt-Shift-R', ui.window.restore)
 ui.hotkey.register('Alt-Shift-V', ui.window.maximize_vertically)
@@ -30,9 +36,9 @@ ui.hotkey.register('Alt-Shift-Ctrl-K', ui.window.snap_to_top)
 ui.hotkey.register('Alt-Shift-Ctrl-L', ui.window.snap_to_right)
 ui.hotkey.register('Alt-Shift-Ctrl-J', ui.window.snap_to_bottom)
 ui.hotkey.register('Alt-Shift-Win-V',
-                   function () ui.window.move('c', 'r', 0, 0), end)
+                   function () ui.window.move('c', 'r', 0, 0) end)
 ui.hotkey.register('Alt-Shift-Win-H',
-                   function () ui.window.move('r', 'c', 0, 0), end)
+                   function () ui.window.move('r', 'c', 0, 0) end)
 
 
 -- launcher
