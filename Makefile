@@ -13,7 +13,13 @@ DESTDIR=
 
 
 # Group definitions  #{{{1
-ALL_GROUPS=DOTS OPERA SAMURIZE VIM
+ALL_GROUPS=CEREJA DOTS OPERA SAMURIZE VIM
+
+GROUP_CEREJA_FILES=\
+  cereja/config.lua \
+  cereja/login.lua \
+  cereja/logout.lua
+GROUP_CEREJA_RULE=$(patsubst %,$(HOME)/.%,$(1))
 
 GROUP_DOTS_FILES=\
   dot.bash_profile \
@@ -87,6 +93,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
 # Package definitions  #{{{1
 ALL_PACKAGES=\
   all \
+  cereja-all \
   opera-all \
   vim-all \
   vim-buffuzzy \
@@ -101,6 +108,10 @@ PACKAGE_all_FILES=./Makefile \
                   $(foreach g, $(ALL_GROUPS), \
                     $(foreach f, $(GROUP_$(g)_FILES), \
                       ./$(f)))
+
+PACKAGE_cereja_all_ARCHIVE=cereja-all
+PACKAGE_cereja_all_BASE=cereja
+PACKAGE_cereja_all_FILES=$(GROUP_CEREJA_FILES)
 
 PACKAGE_opera_all_ARCHIVE=opera-all
 PACKAGE_opera_all_BASE=opera
