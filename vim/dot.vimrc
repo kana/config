@@ -799,6 +799,14 @@ let s:FileType_xml_comment_data = {
 
 " MISC.  "{{{1
 
+" Plugin: cygclip
+
+" Because plugins will be loaded after ~/.vimrc.
+autocmd MyAutoCmd VimEnter *  call Cygclip_DefaultKeymappings()
+
+
+
+
 " Plugin: surround
 
 " The default mapping ys for <Plug>Ysurround is not consistent with
