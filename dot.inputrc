@@ -15,5 +15,8 @@ set visible-stats on
 "\C-  ": "\C-[Ax\C-ufg\C-m"
 "\C- \C- ": "\C-[Ax\C-ufg\C-m"
 
+"\C-j": "\C-[Ax\C-ucdhist_forward\C-m"
+"\C-k": "\C-[Ax\C-ucdhist_back\C-m"
+
 # __END__
 # vim: filetype=readline
