@@ -54,6 +54,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/ftplugin/xml_move.vim \
   vim/dot.vim/plugin/buffuzzy.vim \
+  vim/dot.vim/plugin/cygclip.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/tofunc.vim \
@@ -72,6 +73,7 @@ GROUP_VIM_FILES=\
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/buffuzzy.txt \
+  vim/dot.vim/doc/cygclip.txt \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
   vim/dot.vim/doc/tofunc.txt \
@@ -97,6 +99,7 @@ ALL_PACKAGES=\
   opera-all \
   vim-all \
   vim-buffuzzy \
+  vim-cygclip \
   vim-scratch \
   vim-tofunc \
   vim-xml_autons \
@@ -126,6 +129,12 @@ PACKAGE_vim_buffuzzy_BASE=vim/dot.vim
 PACKAGE_vim_buffuzzy_FILES=\
   vim/dot.vim/doc/buffuzzy.txt \
   vim/dot.vim/plugin/buffuzzy.vim
+
+PACKAGE_vim_cygclip_ARCHIVE=vim-cygclip-0.0
+PACKAGE_vim_cygclip_BASE=vim/dot.vim
+PACKAGE_vim_cygclip_FILES=\
+  vim/dot.vim/doc/cygclip.txt \
+  vim/dot.vim/plugin/cygclip.vim
 
 PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.0
 PACKAGE_vim_scratch_BASE=vim/dot.vim

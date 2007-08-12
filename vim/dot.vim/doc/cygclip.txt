@@ -1,0 +1,87 @@
+*cygclip.txt*	pseudo clipboard register for non-GUI version of Vim on Cygwin
+
+Version 0.0
+Copyright (C) 2007 kana <http://nicht.s8.xrea.com>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+$Id$
+
+
+
+
+==============================================================================
+INTRODUCTION						*cygclip-introduction*
+
+cygclip is a Vim plugin to provide pseudo clipboard register (|quotestar| or
+|quoteplus|) for non-GUI version of Vim on Cygwin.
+
+
+
+
+==============================================================================
+KEY MAPPINGS						*cygclip-keymappings*
+
+[count]<Plug>Cygclip_y{motion}				*<Plug>Cygclip_y*
+[count]<Plug>Cygclip_Y					*<Plug>Cygclip_Y*
+{Visual}<Plug>Cygclip_y					*v_<Plug>Cygclip_y*
+{Visual}<Plug>Cygclip_Y					*v_<Plug>Cygclip_Y*
+			Same as |y| or |Y|.
+			NOTE: <Plug>Cygclip_y accepts y as a motion.
+
+[count]<Plug>Cygclip_p					*<Plug>Cygclip_p*
+[count]<Plug>Cygclip_P					*<Plug>Cygclip_P*
+[count]<Plug>Cygclip_gp					*<Plug>Cygclip_gp*
+[count]<Plug>Cygclip_gP					*<Plug>Cygclip_gP*
+			Same as |p|, |P|, |gp| or |gP|.
+
+						*i_<Plug>Cygclip_insert*
+						*c_<Plug>Cygclip_insert*
+<Plug>Cygclip_insert	Insert the content of the clipboard like |i_CTRL-R|.
+	
+
+						*Cygclip_DefaultKeymappings()*
+cygclip provides Cygclip_DefaultKeymappings() to define some useful key
+mappings which are similar to Vim's default key mappings to yank/put.
+Call it from your |vimrc|.
+
+	Normal mode and Visual mode:
+
+		"+y{motion}	"*y{motion}	(Normal mode only)
+		"+y		"*y		(Visual mode only)
+		"+Y		"*Y
+
+		"+p		"*p
+		"+P		"*P
+		"+gp		"*gp
+		"+gP		"*gP
+
+	Insert mode and Command-line mode:
+
+		<C-r>+		<C-r>*
+
+
+
+
+==============================================================================
+BUGS							*cygclip-bugs*
+
+(a) The characteristic (i.e., characterwise, linewise or blockwise) of the
+clipboard content is not remembered.  It will be linewise if each line of the
+clipboard content ends with a newline, otherwise it will be characterwise.
+
+(b) Executing <Plug>Cygclip_y in Normal mode, the display of 'showcmd' is
+different from the ordinary one.
+
+
+
+
+==============================================================================
+CHANGELOG						*cygclip-changelog*
+
+0.0	2007-08-13
+	- First release.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
