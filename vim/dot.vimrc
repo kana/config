@@ -25,8 +25,10 @@ if !exists('did_encoding_settings') && has('iconv')
 
   " Make fileencodings
   let &fileencodings = 'ucs-bom'
-  let &fileencodings = &fileencodings . ',' . 'ucs-2le'
-  let &fileencodings = &fileencodings . ',' . 'ucs-2'
+  if &encoding !=# 'utf-8'
+    let &fileencodings = &fileencodings . ',' . 'ucs-2le'
+    let &fileencodings = &fileencodings . ',' . 'ucs-2'
+  endif
   let &fileencodings = &fileencodings . ',' . s:enc_jis
 
   if &encoding ==# 'utf-8'
