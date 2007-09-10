@@ -32,28 +32,62 @@ shopt -u sourcepath                     # Don't search PATH for `source'
 
 HISTSIZE=50000  # History size at runtime
 HISTFILESIZE=$HISTSIZE  # History size to save
-HISTIGNORE='&'  # Don't save matched lines
+
+# Don't save lines which are matched to these patterns:
+# 1. Same as the previous line.
+# 2. Starts with a whitespace.
+HISTIGNORE='&: *'
 
 
 
 
 # PROMPT
-
+#
 # user@host cwd (shlvl)
 # $
-_prompt_title='\[\e]0;\u@\h \w\007\]'
-_prompt_host='\[\e[32m\]\u@\h\[\e[0m\]'
-_prompt_cwd='\[\e[33m\]\w\[\e[0m\]'
-_prompt_main='\$ '
-if [[ 2 -le $SHLVL ]]; then  # is nested interactive shell?
-  _prompt_shlvl=' ($SHLVL)'
-else
-  _prompt_shlvl=''
-fi
-PS1="$_prompt_title
+
+_set_up_prompt() {
+  local _c_reset='\[\e[0m\]'
+  local _c_cyan='\[\e[36m\]'
+  local _c_green='\[\e[32m\]'
+  local _c_red='\[\e[31m\]'
+  local _c_yellow='\[\e[33m\]'
+
+  local _c_user
+  case "$USER" in
+    root) _c_user="$_c_red" ;;
+    *) _c_user="$_c_green" ;;
+  esac
+  local _c_host
+  case "$HOSTNAME" in
+    colinux) _c_host="$_c_cyan" ;;
+    *)
+      if [ -n "$_OLD_ENV_WORKING" ]; then
+        _c_host="$_c_cyan"
+      else
+        _c_host="$_c_green"
+      fi
+      ;;
+  esac
+
+  local _prompt_title='\[\e]0;\u@\h \w\007\]'
+  local _prompt_host="$_c_user\\u$_c_reset$_c_host@\\h$_c_reset"
+  local _prompt_cwd="$_c_yellow\\w$_c_reset"
+  local _prompt_main='\$ '
+  if [[ 2 -le $SHLVL ]]; then  # is nested interactive shell?
+    local _prompt_shlvl=' ($SHLVL)'
+  else
+    local _prompt_shlvl=''
+  fi
+
+  PS1="$_prompt_title
 $_prompt_host $_prompt_cwd$_prompt_shlvl
 $_prompt_main"
-unset _prompt_title _prompt_host _prompt_cwd _prompt_main _prompt_shlvl
+}
+
+_set_up_prompt
+
+unset -f _set_up_prompt
 
 
 
@@ -65,11 +99,11 @@ unset _prompt_title _prompt_host _prompt_cwd _prompt_main _prompt_shlvl
 # ALIASES  {{{1
 
 alias ls='ls --show-control-chars --color=auto'
-alias ll='ls -l'
 alias la='ls -a'
+alias ll='ls -l'
+alias lal='ls -al'
+alias lla='ls -la'
 alias altr='ls -altr'
-
-alias q='exit'
 
 alias v='vim'
 
