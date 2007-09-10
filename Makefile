@@ -26,6 +26,7 @@ GROUP_DOTS_FILES=\
   dot.bashrc \
   dot.bash.d/bash_completion \
   dot.bash.d/cdhist.sh \
+  dot.bash.d/svk-completion.pl \
   dot.inputrc \
   dot.mayu \
   dot.screenrc \

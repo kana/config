@@ -139,6 +139,9 @@ if [ -n "$BASH_COMPLETION" ] && [ -r "$BASH_COMPLETION" ]; then
 fi
 
 
+complete -C ~/.bash.d/svk-completion.pl -o default svk
+
+
 
 
 
