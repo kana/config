@@ -3,20 +3,23 @@
 # ====================
 
 escape ^Aa
-
+term xterm-256color
+defbce on
 defscrollback 1000
 
-caption splitonly "%?%F@%: %?%3n %t%? [%f]%?"
-
-vbell off
-vbell_msg "<<<***>>>"
+autodetach on  # detach on hangup
+pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
 
 hardcopydir "$HOME/.screen/"
-
-
-autodetach on  # detach on hangup
+nethack on
 startup_message off
-pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+vbell off
+vbell_msg "Bell in %t"
+
+caption splitonly "%?%F@%: %?%3n %t%? [%f]%?"
+hardstatus on
+hardstatus alwayslastline
+hardstatus string "%{.Wb}.: %-w%{.RW}%n %t%{-}%+w :. %=[%Y-%m-%d(%D) %02c]"
 
 
 
@@ -50,7 +53,7 @@ bind ^V	# digraph
 bind W	# width
 bind x	# lockscreen
 bind ^X	# lockscreen
-bind z	# subspend
+bind X	# remove
 bind .	# dumptermcap
 bind ^\	# quit
 bind >	# writebuf
@@ -61,21 +64,28 @@ bind =	# removebuf
 # MISC. {{{2
 # ----------
 
-bind D detach
+bind ^H help
+
 bind p paste .
 bind ^P paste .
 bind T title
 bind V version
 
+bind ^D eval 'echo -p "\^\^D%080="' 'command -c detach'
+bind -c detach d detach
+bind -c detach ^D detach
+bind -c detach D pow_detach
+
 
 # WINDOW {{{2
 # -----------
 #
-# Like vim's key bindings for window.
-# But use no prefix.  Because these are frequentry used.
+# Like Vim's key bindings for windows.
 
 bind n screen
 bind ^N screen
+bind c kill
+bind ^C kill
 
 bind j next
 bind ^J next
@@ -86,8 +96,8 @@ bind ^K prev
 # REGION {{{2
 # -----------
 #
-# Like vim's key bindings for window.
-# But use ^R instead of ^W.
+# Like Vim's key bindings for windows.
+# Use the prefix ^R instead of ^W.
 
 bind ^R eval 'echo -p "\^\^R%080="' 'command -c region'
 bind -c region n split
