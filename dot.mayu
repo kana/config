@@ -1,10 +1,6 @@
 # My .mayu
 # ========
-# $Id$ #{{{1
-
-
-
-
+# $Id$
 # Common settings  #{{{1
 # ======================
 
@@ -54,23 +50,6 @@ endif
 
 
 
-# PangYa  #{{{1
-# =============
-
-if (enable_pangya)
-  window PangYa /PangYa/ : Global
-  key C-Space = &ShellExecute( \
-                  "open", \
-                  "C:\\cygwin\\usr\\win\\bin\\Python-2.3.4\\pythonw", \
-                  "C:\\cygwin\\home\\kana\\bin\\ro-move.py PangYa -3 -23", \
-                  , \
-                  ShowNormal \
-                )
-endif
-
-
-
-
 # IrfanView  #{{{1
 # ================
 
@@ -84,5 +63,5 @@ endif
 
 
 
-# __END__
+# __END__  #{{{1
 # vim: foldmethod=marker et sts=2 sw=2
