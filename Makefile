@@ -24,8 +24,8 @@ GROUP_CEREJA_RULE=$(patsubst %,$(HOME)/.%,$(1))
 GROUP_DOTS_FILES=\
   dot.bash_profile \
   dot.bashrc \
-  dot.bash/bash_completion \
-  dot.bash/cdhist.sh \
+  dot.bash.d/bash_completion \
+  dot.bash.d/cdhist.sh \
   dot.inputrc \
   dot.mayu \
   dot.screenrc \

@@ -7,9 +7,37 @@ ulimit -c 0  # Don't create core file
 
 export CDPATH="$(echo . ~/freq{,/latest{,/working}} | tr ' ' ':')"
 
-HISTSIZE=50000                          # History size
-HISTFILESIZE=$HISTSIZE                  # ... for history file
-HISTIGNORE='&'                          # Don't save matching last line
+
+# Default values:
+#   On:
+#     cmdhist extquote force_fignore hostcomplete
+#     interactive_comments progcomp promptvars sourcepath
+#   Off:
+#     cdable_vars cdspell checkhash checkwinsize dotglob execfail extdebug
+#     extglob failglob gnu_errfmt histappend histreedit histverify huponexit
+#     igncr lithist mailwarn no_empty_cmd_completion nocaseglob nocasematch
+#     nullglob shift_verbose xpg_echo
+#   Differ for each instance:
+#     expand_aliases login_shell restricted_shell
+shopt -s checkwinsize                   # Auto recognizing window size
+shopt -s histappend                     # Don't overwrite HISTFILE
+shopt -s no_empty_cmd_completion        # Don't complete when empty line
+shopt -u hostcomplete                   # Don't complete hostname
+shopt -u sourcepath                     # Don't search PATH for `source'
+
+
+
+
+# HISTORY
+
+HISTSIZE=50000  # History size at runtime
+HISTFILESIZE=$HISTSIZE  # History size to save
+HISTIGNORE='&'  # Don't save matched lines
+
+
+
+
+# PROMPT
 
 # user@host cwd (shlvl)
 # $
@@ -28,23 +56,8 @@ $_prompt_main"
 unset _prompt_title _prompt_host _prompt_cwd _prompt_main _prompt_shlvl
 
 
-# Default values:
-#   On:
-#     cmdhist extquote force_fignore hostcomplete
-#     interactive_comments progcomp promptvars sourcepath
-#   Off:
-#     cdable_vars cdspell checkhash checkwinsize dotglob execfail extdebug
-#     extglob failglob gnu_errfmt histappend histreedit histverify huponexit
-#     igncr lithist mailwarn no_empty_cmd_completion nocaseglob nocasematch
-#     nullglob shift_verbose xpg_echo
-#   Differ for each instance:
-#     expand_aliases login_shell restricted_shell
 
-shopt -s checkwinsize                   # Auto recognizing window size
-shopt -s histappend                     # Don't overwrite HISTFILE
-shopt -s no_empty_cmd_completion        # Don't complete when empty line
-shopt -u hostcomplete                   # Don't complete hostname
-shopt -u sourcepath                     # Don't search PATH for `source'
+
 
 
 
@@ -65,13 +78,35 @@ alias ..='cd ..'
 
 
 
+
+
+
+
 # ETC  {{{1
 
-source ~/.bash/cdhist.sh
+source ~/.bash.d/cdhist.sh
 
-BASH_COMPLETION=~/.bash/bash_completion
-BASH_COMPLETION_DIR=~/.bash/NO_SUCH_DIR  # Don't use contrib for this.
-source $BASH_COMPLETION
+
+case "$ENV_WORKING" in
+  cygwin|linux)
+    BASH_COMPLETION=~/.bash.d/bash_completion
+    BASH_COMPLETION_DIR=~/.bash.d/NO_SUCH_DIR  # Don't use contrib for this.
+    ;;
+  colinux)
+    BASH_COMPLETION=/etc/bash_completion
+    # BASH_COMPLETION_DIR=...  # Don't set - use the default value.
+    ;;
+  *)
+    # NOP
+    ;;
+esac
+if [ -n "$BASH_COMPLETION" ] && [ -r "$BASH_COMPLETION" ]; then
+  source "$BASH_COMPLETION"
+fi
+
+
+
+
 
 
 
