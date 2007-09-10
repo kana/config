@@ -7,7 +7,11 @@ set nocompatible
 
 
 " To deal with Japanese language.
-set encoding=japan
+if $ENV_WORKING ==# 'colinux'
+  set encoding=utf-8
+else
+  set encoding=japan
+endif
 if !exists('did_encoding_settings') && has('iconv')
   let s:enc_euc = 'euc-jp'
   let s:enc_jis = 'iso-2022-jp'
@@ -20,15 +24,23 @@ if !exists('did_encoding_settings') && has('iconv')
   endif
 
   " Make fileencodings
+  let &fileencodings = 'ucs-bom'
+  let &fileencodings = &fileencodings . ',' . 'ucs-2le'
+  let &fileencodings = &fileencodings . ',' . 'ucs-2'
   let &fileencodings = &fileencodings . ',' . s:enc_jis
-  set fileencodings+=utf-8,ucs-2le,ucs-2
 
-  if &encoding =~# '^euc-\%(jp\|jisx0213\)$'
-    set fileencodings+=cp932
+  if &encoding ==# 'utf-8'
+    let &fileencodings = &fileencodings . ',' . s:enc_euc
+    let &fileencodings = &fileencodings . ',' . 'cp932'
+  elseif &encoding =~# '^euc-\%(jp\|jisx0213\)$'
     let &encoding = s:enc_euc
-  else
-    let &fileencodings = &fileencodings .','. s:enc_euc
+    let &fileencodings = &fileencodings . ',' . 'utf-8'
+    let &fileencodings = &fileencodings . ',' . 'cp932'
+  else  " cp932
+    let &fileencodings = &fileencodings . ',' . 'utf-8'
+    let &fileencodings = &fileencodings . ',' . s:enc_euc
   endif
+  let &fileencodings = &fileencodings . ',' . &encoding
 
   unlet s:enc_euc
   unlet s:enc_jis
@@ -37,10 +49,12 @@ if !exists('did_encoding_settings') && has('iconv')
 endif
 
 
-if $ENV_ACCESS ==# 'cygwin'  " am I accessing from Windows?
+if $ENV_ACCESS ==# 'cygwin'
   set termencoding=cp932
-else  " accessd from *nix.
+elseif $ENV_ACCESS ==# 'linux'
   set termencoding=euc-jp
+else  " 'colinux'
+  set termencoding=utf-8
 endif
 
 
@@ -85,7 +99,7 @@ set showmode
 set smartindent
 set updatetime=60000
 set title
-set titlestring=vi:\ %f\ %h%r%m
+set titlestring=Vim:\ %f\ %h%r%m
 
 set viminfo=<50,'10,h,r/a,n~/.viminfo
 
