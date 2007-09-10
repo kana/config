@@ -816,7 +816,10 @@ let s:FileType_xml_comment_data = {
 " Plugin: cygclip
 
 " Because plugins will be loaded after ~/.vimrc.
-autocmd MyAutoCmd VimEnter *  call Cygclip_DefaultKeymappings()
+autocmd MyAutoCmd VimEnter *
+      \   if exists('g:loaded_cygclip')
+      \ |  call Cygclip_DefaultKeymappings()
+      \ | endif
 
 
 
