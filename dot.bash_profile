@@ -24,7 +24,6 @@ _report_error() {  # variable-name message
 
 # What machine am I working on?
   # BUGS: The way to determine is not so good.
-_OLD_ENV_WORKING="$ENV_WORKING"
 if [ "$OSTYPE" == 'cygwin' ]; then
   export ENV_WORKING='cygwin'
 elif [ "$HOSTNAME" == 'colinux' ]; then
@@ -34,9 +33,12 @@ else
 fi
 
 # What machine am I accessing to $ENV_WORKING?
-  # Use $_OLD_ENV_WORKING on remote access,
-  # or otherwise use $ENV_WORKING.
-export ENV_ACCESS="${_OLD_ENV_WORKING:-$ENV_WORKING}"
+if [ "$TERM" == 'xterm-256color' ]; then
+  # FIXME: How to determine colinux or linux?
+  export ENV_ACCESS="$ENV_WORKING"
+else
+  export ENV_ACCESS='cygwin'
+fi
 
 
 if [ -d "$HOME/bin" ]; then export PATH="$HOME/bin:$PATH"; fi
