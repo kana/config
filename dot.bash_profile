@@ -76,7 +76,7 @@ IGNOREEOF=1  # Don't export -- only set for the login shell.
 
 # cvs
 export CVS_RSH=ssh
-if [ "$ENV_WORKING" = 'cygwin' ]; then
+if [ "$ENV_WORKING" == 'cygwin' ]; then
   export CVSROOT=$HOME/var/cvsroot
 fi
 
@@ -101,8 +101,28 @@ case "$ENV_ACCESS" in
 esac
 
 # make
-if [ "$ENV_WORKING" = 'cygwin' ]; then
+if [ "$ENV_WORKING" == 'cygwin' ]; then
   export MAKE_MODE=unix
+fi
+
+
+
+
+
+
+
+
+# X SETTINGS  {{{1
+
+if [ "$ENV_WORKING" == 'linux' ] && [ -n "$DISPLAY" ]; then
+  setxkbmap us
+  xmodmap ~/.xmodmaprc
+  if ! xset q | grep $HOME >/dev/null; then
+    for dir in ~/share/fonts/*; do
+      xset fp+ $dir
+    done
+    xset fp rehash
+  fi
 fi
 
 
