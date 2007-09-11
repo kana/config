@@ -7,6 +7,11 @@ ulimit -c 0  # Don't create core file
 
 export CDPATH="$(echo . ~/freq{,/latest{,/working,u}} | tr ' ' ':')"
 
+# For Subversion via SSH.
+if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
+  PATH="$HOME/bin:$PATH"
+fi
+
 
 # Default values:
 #   On:
