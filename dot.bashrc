@@ -5,7 +5,7 @@ umask 077  # Default permission
 ulimit -c 0  # Don't create core file
 
 
-export CDPATH="$(echo . ~/freq{,/latest{,/working}} | tr ' ' ':')"
+export CDPATH="$(echo . ~/freq{,/latest{,/working,u}} | tr ' ' ':')"
 
 
 # Default values:
