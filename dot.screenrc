@@ -6,6 +6,8 @@ escape ^Aa
 term xterm-256color
 defbce on
 defscrollback 1000
+defencoding utf-8
+encoding utf-8 utf-8
 
 autodetach on  # detach on hangup
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
