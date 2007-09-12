@@ -695,6 +695,10 @@ augroup MyAutoCmd
     \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
     \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
   doautocmd ColorScheme because-colorscheme-has-been-set-above.
+
+    " I consider that these buffers have another filetype=netrw.
+  autocmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
+    \ setlocal bufhidden=hide
 augroup END
 
 
