@@ -363,6 +363,7 @@ endfunction
 
 nnoremap <C-h>  :h<Space>
 nnoremap <C-o>  :e<Space>
+nnoremap <C-w>.  :e .<Return>
 nnoremap <silent> <Leader>cD
        \ :<C-u>call <SID>CreateCommandOutputBuffer('svn diff', 'botright')<CR>
 
