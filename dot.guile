@@ -1,0 +1,6 @@
+; $Id$
+
+(use-modules (ice-9 readline))
+(activate-readline)
+
+; __END__

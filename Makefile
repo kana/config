@@ -31,9 +31,14 @@ GROUP_DOTS_FILES=\
   dot.bash.d/cdhist.sh \
   dot.bash.d/svk-completion.pl \
   dot.inputrc \
+  dot.guile \
   dot.mayu \
   dot.screenrc \
-  dot.Xdefaults
+  dot.Xdefaults \
+  $(GROUP_DOTS_FILES_$(ENV_WORKING))
+GROUP_DOTS_FILES_linux=\
+  dot.xmodmaprc \
+  dot.xmodmaprc-dvorak
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
 
 GROUP_OPERA_FILES=\
