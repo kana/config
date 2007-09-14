@@ -7,12 +7,40 @@
 # Read default settings.
 include "dot.mayu"
 
-mod windows += !!RightWindows
-key W-RightWindows = &LoadSetting()
-mod shift += !!RightShift
-key S-*RightShift = *BackSlash
-key *CapsLock = &Undefined
+
+# Mayu specific settings.
+key A-C-S-W-M = &LoadSetting()
 key W-I = &WindowIdentify
+
+
+# Keyboard-layout specific settings.
+if (USE104)  # US layout (assumes HHK lite2)
+  # BackSlash is too far to type in this layout.
+  mod shift += !!RightShift
+  key *RightShift = *BackSlash
+
+  # disable the evil key.
+  key *CapsLock = &Undefined
+endif
+
+if (USE109)  # JIS layout (assumes "ordinary" one)
+  # treat CapsLock as LCtrl.
+  def alias CapsLock = Eisuu
+  mod ctrl += !!CapsLock
+  key *CapsLock = *LCtrl
+
+  # pseudo Space "bar".
+  key *Convert = *Space
+  key *NonConvert = *Space
+
+  # like AX layout.
+  def subst *IC-A-Kanji = $ToggleIME
+  def subst *Hiragana = $ToggleIME
+
+  # same as USE104.
+  mod shift += !!RightShift
+  key *RightShift = *Yen
+endif
 
 
 
