@@ -94,7 +94,8 @@ $(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
 
 GROUP_SAMURIZE_FILES=\
   samurize/my-conf.ini
-GROUP_SAMURIZE_RULE=$(patsubst samurize/%,/usr/win/bin/Samurize/Configs/%,$(1))
+GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
+GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 
 
