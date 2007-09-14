@@ -49,6 +49,11 @@ GROUP_OPERA_FILES=\
 GROUP_OPERA_RULE=$(patsubst opera/%,$(GROUP_OPERA_DIR)/%,$(1))
 GROUP_OPERA_DIR=$(abspath opera/profile-link)
 
+GROUP_SAMURIZE_FILES=\
+  samurize/my-conf.ini
+GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
+GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
+
 GROUP_VIM_FILES=\
   vim/dot.vim/after/ftplugin/xml_autons.vim \
   vim/dot.vim/colors/black_angus.vim \
@@ -91,11 +96,6 @@ GROUP_VIM_POST_TARGETS=vim-update-local-helptags
 vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
 $(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
 	vim -n -N -u NONE -U NONE -e -c 'helptags $(dir $@) | q'
-
-GROUP_SAMURIZE_FILES=\
-  samurize/my-conf.ini
-GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
-GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 
 
