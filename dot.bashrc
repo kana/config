@@ -67,7 +67,7 @@ _set_up_prompt() {
   case "$HOSTNAME" in
     colinux) _c_host="$_c_cyan" ;;
     *)
-      if [ -n "$_OLD_ENV_WORKING" ]; then
+      if [ "$ENV_WORKING" != "$ENV_ACCESS" ]; then
         _c_host="$_c_cyan"
       else
         _c_host="$_c_green"
