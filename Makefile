@@ -13,8 +13,11 @@ DESTDIR=
 
 
 # Group definitions  #{{{1
-ALL_GROUPS=DOTS VIM $(ALL_GROUPS_$(ENV_WORKING))
+ALL_GROUPS=$(ALL_GROUPS_common) $(ALL_GROUPS_$(ENV_WORKING))
+ALL_GROUPS_common=DOTS VIM
+ALL_GROUPS_colinux=
 ALL_GROUPS_cygwin=CEREJA OPERA SAMURIZE
+ALL_GROUPS_linux=DOTS_linux
 
 GROUP_CEREJA_FILES=\
   cereja/config.lua \
@@ -32,12 +35,13 @@ GROUP_DOTS_FILES=\
   dot.guile \
   dot.mayu \
   dot.screenrc \
-  dot.Xdefaults \
-  $(GROUP_DOTS_FILES_$(ENV_WORKING))
-GROUP_DOTS_FILES_linux=\
+  dot.Xdefaults
+GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
+
+GROUP_DOTS_linux_FILES=\
   dot.xmodmaprc \
   dot.xmodmaprc-dvorak
-GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
+GROUP_DOTS_linux_RULE=$(GROUP_DOTS_RULE)
 
 GROUP_OPERA_FILES=\
   opera/keyboard/my-keyboard.ini \
@@ -117,9 +121,10 @@ ALL_PACKAGES=\
 PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
 PACKAGE_all_FILES=./Makefile \
-                  $(foreach g, $(ALL_GROUPS), \
-                    $(foreach f, $(GROUP_$(g)_FILES), \
-                      ./$(f)))
+                  $(foreach w, common colinux cygwin linux, \
+                    $(foreach g, $(ALL_GROUPS_$(w)), \
+                      $(foreach f, $(GROUP_$(g)_FILES), \
+                        ./$(f))))
 
 PACKAGE_cereja_all_ARCHIVE=cereja-all
 PACKAGE_cereja_all_BASE=cereja
