@@ -40,6 +40,11 @@ else
   export ENV_ACCESS='cygwin'
 fi
 
+# Suitable character encoding for $ENV_WORKING
+export ENCODING_colinux='utf-8'
+export ENCODING_cygwin='cp932'
+export ENCODING_linux='euc-jp'
+
 
 if [ -d "$HOME/bin" ]; then export PATH="$HOME/bin:$PATH"; fi
 if [ -d "$HOME/man" ]; then export MANPATH="$HOME/man:$MANPATH"; fi
