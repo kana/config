@@ -55,11 +55,12 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
 GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
+  $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/after/ftplugin/xml_autons.vim \
+  vim/dot.vim/autoload/xml/svg11.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
-  $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/ftplugin/bugs.vim \
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/issue.vim \
