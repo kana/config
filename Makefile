@@ -16,7 +16,7 @@ DESTDIR=
 ALL_GROUPS=$(ALL_GROUPS_common) $(ALL_GROUPS_$(ENV_WORKING))
 ALL_GROUPS_common=DOTS VIM
 ALL_GROUPS_colinux=
-ALL_GROUPS_cygwin=CEREJA OPERA SAMURIZE
+ALL_GROUPS_cygwin=CEREJA DOTS_cygwin OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
 
 GROUP_CEREJA_FILES=\
@@ -33,10 +33,13 @@ GROUP_DOTS_FILES=\
   dot.bash.d/svk-completion.pl \
   dot.inputrc \
   dot.guile \
-  dot.mayu \
   dot.screenrc \
   dot.Xdefaults
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
+
+GROUP_DOTS_cygwin_FILES=\
+  dot.mayu
+GROUP_DOTS_cygwin_RULE=$(GROUP_DOTS_RULE)
 
 GROUP_DOTS_linux_FILES=\
   dot.xmodmaprc \
