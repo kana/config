@@ -15,8 +15,10 @@ DESTDIR=
 # Group definitions  #{{{1
 ALL_GROUPS=$(ALL_GROUPS_common) $(ALL_GROUPS_$(ENV_WORKING))
 ALL_GROUPS_common=DOTS VIM
-ALL_GROUPS_colinux=
-ALL_GROUPS_cygwin=CEREJA DOTS_cygwin OPERA SAMURIZE
+ALL_GROUPS_colinux=\
+  COLINUX_external \
+  $(if $(findstring root,$(USER)),COLINUX_internal)
+ALL_GROUPS_cygwin=CEREJA COLINUX_external DOTS_cygwin OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
 
 GROUP_CEREJA_FILES=\
@@ -24,6 +26,22 @@ GROUP_CEREJA_FILES=\
   cereja/login.lua \
   cereja/logout.lua
 GROUP_CEREJA_RULE=$(patsubst %,$(HOME)/.%,$(1))
+
+GROUP_COLINUX_internal_FILES=\
+  colinux/etc/fstab \
+  colinux/etc/hostname \
+  colinux/etc/hosts \
+  colinux/etc/hosts.allow \
+  colinux/etc/hosts.deny \
+  colinux/etc/network/interfaces \
+  colinux/etc/resolv.conf
+GROUP_COLINUX_internal_RULE=$(patsubst colinux/%,/%,$(1))
+
+GROUP_COLINUX_external_FILES=\
+  colinux/my-colinux.bat \
+  colinux/my.conf
+GROUP_COLINUX_external_RULE=\
+  $(patsubst colinux/%,/c/cygwin/usr/win/bin/coLinux/%,$(1))
 
 GROUP_DOTS_FILES=\
   dot.bash_profile \
@@ -125,7 +143,7 @@ PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
 PACKAGE_all_FILES=./Makefile \
                   $(foreach w, common colinux cygwin linux, \
-                    $(foreach g, $(ALL_GROUPS_$(w)), \
+                    $(foreach g, $(sort $(ALL_GROUPS_$(w))), \
                       $(foreach f, $(GROUP_$(g)_FILES), \
                         ./$(f))))
 
