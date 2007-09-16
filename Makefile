@@ -13,11 +13,13 @@ DESTDIR=
 
 
 # Group definitions  #{{{1
-ALL_GROUPS=$(ALL_GROUPS_common) $(ALL_GROUPS_$(ENV_WORKING))
+ALL_GROUPS=\
+  $(ALL_GROUPS_common) \
+  $(ALL_GROUPS_$(ENV_WORKING)) \
+  $(ALL_GROUPS_$(ENV_WORKING)_$(USER))
 ALL_GROUPS_common=DOTS VIM
-ALL_GROUPS_colinux=\
-  COLINUX_external \
-  $(if $(findstring root,$(USER)),COLINUX_internal)
+ALL_GROUPS_colinux=COLINUX_external
+ALL_GROUPS_colinux_root=COLINUX_internal
 ALL_GROUPS_cygwin=CEREJA COLINUX_external DOTS_cygwin OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
 
@@ -142,7 +144,7 @@ ALL_PACKAGES=\
 PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
 PACKAGE_all_FILES=./Makefile \
-                  $(foreach w, common colinux cygwin linux, \
+                  $(foreach w, common colinux colinux_root cygwin linux, \
                     $(foreach g, $(sort $(ALL_GROUPS_$(w))), \
                       $(foreach f, $(GROUP_$(g)_FILES), \
                         ./$(f))))
