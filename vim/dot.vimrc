@@ -441,6 +441,11 @@ noremap ' `
 noremap ` '
 
 
+" To be able to undo these types of deletion in Insert mode.
+inoremap <C-w>  <C-g>u<C-w>
+inoremap <C-u>  <C-g>u<C-u>
+
+
 
 
 " For plugin: scratch  "{{{2
