@@ -2,6 +2,21 @@
 " Language:	issue (my personal issue tracking memo)
 " Maintainer:	kana <http://nicht.s8.xrea.com/>
 " Last Change:	$Id$
+"
+" Structure:
+"
+"   GROUP1
+"   ======
+"
+"   GROUP2
+"   ------
+"
+"   GROUP3
+"   ``````
+"
+"   #1 issue
+"           2007-09-18T22:15:47
+"                   Note
 
 if exists('b:current_syntax')
   finish
@@ -34,18 +49,12 @@ syntax match issueComment '^;.*$'
 execute 'syntax match issueGroup1Header /'.s:RE_GROUP1_HEADER.'/'
 execute 'syntax match issueGroup2Header /'.s:RE_GROUP2_HEADER.'/'
 execute 'syntax match issueGroup3Header /'.s:RE_GROUP3_HEADER.'/'
-execute 'syntax match issueTitle /'.s:RE_TITLE.'/'
+execute 'syntax match issueTitle /'.s:RE_TITLE.'/ contains=issueCategories'
+  " FIXME: the following pattern is incomplete.
+  " it must be prefixed with /^#/, but doesn't work correctly.
+syntax match issueCategories /\d\+\zs\%( [a-z0-9]\+:\)\+\ze / contained
 
-syntax match issueItemDatetime '^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\ze'
-
-" issueInvalidTag is the fallback, so it must be placed at first.
-syntax match issueInvalidTag '\[[A-Za-z0-9._-]*\]'
-syntax match issueStateTag
-  \ '\[\%(defered\|done\|pending\|planned\|rejected\|working\)\]'
-syntax match issueCategoryTag
-  \ '\[\%(defect\|devnote\|enhancement\|spec\)\]'
-syntax match issueOtherTag
-  \ '\[\%(\d\+\.\d\+\%(\.\d\+\|[ab]\d\+\)\?\)\]'
+syntax match issueNoteDatetime '^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\ze'
 
 
 execute 'syntax region issueFoldByGroup1 keepend'
@@ -72,12 +81,9 @@ hi def link issueGroup1Header PreProc
 hi def link issueGroup2Header PreProc
 hi def link issueGroup3Header PreProc
 hi def link issueTitle Label
-hi def link issueItemDatetime Constant
+hi def link issueCategories Type
+hi def link issueNoteDatetime Constant
 hi def link issueComment Comment
-hi def link issueStateTag Special
-hi def link issueCategoryTag Type
-hi def link issueOtherTag Normal
-hi def link issueInvalidTag Error
 
 
 
