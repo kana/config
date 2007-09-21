@@ -232,6 +232,19 @@ function! s:Execute(...)
 endfunction
 
 
+" move the next line into the cursor position
+function! s:JoinHere()
+  let pos = getpos('.')
+  let r = @0
+
+  call setreg('0', getline(line('.') + 1), 'c')
+  normal! "0Pjdd
+
+  let @0 = r
+  call setpos('.', pos)
+endfunction
+
+
 
 
 " CMapABC: support input for Alternate Built-in Commands "{{{2
@@ -415,18 +428,7 @@ nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
 nmap     [Space]b  <Plug>Buffuzzy
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
-  " join-here - move the next line into the cursor position
 nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
-function! s:JoinHere()
-  let pos = getpos('.')
-  let r = @0
-
-  call setreg('0', getline(line('.') + 1), 'c')
-  normal! "0Pjdd
-
-  let @0 = r
-  call setpos('.', pos)
-endfunction
   " unjoin
 nnoremap [Space]j  i<Return><Esc>
 nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
