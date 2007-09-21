@@ -90,6 +90,7 @@ set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
 set directory=.,~/tmp
 set noequalalways
+set formatoptions=tcroqnlM1
 set history=100
 set hlsearch
 set grepprg=internal
