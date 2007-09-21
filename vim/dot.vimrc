@@ -433,6 +433,7 @@ nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
 nnoremap [Space]j  i<Return><Esc>
 nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
 nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
+nnoremap [Space]r  :registers<Return>
 nnoremap [Space]s  <Nop>
 nnoremap [Space]s.  :source $HOME/.vimrc<Return>
 nnoremap [Space]ss  :source %<Return>
