@@ -38,6 +38,14 @@ GROUP_COLINUX_internal_FILES=\
   colinux/etc/network/interfaces \
   colinux/etc/resolv.conf
 GROUP_COLINUX_internal_RULE=$(patsubst colinux/%,/%,$(1))
+GROUP_COLINUX_internal_POST_TARGETS=colinux-etc-fstab-inplace
+colinux-etc-fstab-inplace: /etc/fstab~
+/etc/fstab~: /etc/fstab
+	if [ -z '$(NORMAL_USER)' ]; then \
+	  echo 'NORMAL_USER is required.'; \
+	  false; \
+	fi
+	sed -e 's/@@USER@@/$(NORMAL_USER)/g' -i~ $<
 
 GROUP_COLINUX_external_FILES=\
   colinux/my-colinux.bat \
