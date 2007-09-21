@@ -48,6 +48,7 @@ colinux-etc-fstab-inplace: /etc/fstab~
 	sed -e 's/@@USER@@/$(NORMAL_USER)/g' -i~ $<
 
 GROUP_COLINUX_external_FILES=\
+  colinux/boot-checker.py \
   colinux/my-colinux.bat \
   colinux/my.conf
 GROUP_COLINUX_external_RULE=\
