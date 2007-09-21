@@ -89,7 +89,7 @@ done
 # apt-get source screen
 # apt-get build-dep screen
 # apt-get install ncurses-term
-# dpkg-source screen_4.0.3-0.3.dsc
+# dpkg-source -x screen_4.0.3-0.3.dsc
 # cd screen-4.0.3/
 # $EDITOR debian/rules
 # dpkg-buildpackage -us -uc
