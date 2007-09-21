@@ -57,6 +57,12 @@ ui.hotkey.register('Alt-Ctrl-L', function () bluewind('latest') end)
 ui.hotkey.register('Alt-Ctrl-O', function () bluewind('opera') end)
 ui.hotkey.register('Alt-Ctrl-S', function () bluewind('shell') end)
 
+ui.hotkey.register('Alt-Ctrl-Shift-Win-S', function ()
+  shell.execute(nil,
+                'C:\\Program Files\\Samurize\\Client.exe',
+                'i=Default reload')
+end)
+
 
 
 
