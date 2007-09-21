@@ -114,6 +114,11 @@ alias v='vim'
 
 alias ..='cd ..'
 
+alias umount-c='sudo umount /c'
+alias mount-c='mount-c-smbfs'
+alias mount-c-cofs='sudo mount -t cofs cofs0 /c -o defaults,noatime,noexec,user,uid=$USER,gid=users'
+alias mount-c-smbfs='sudo mount -t smbfs "//windows/C\$" /c -o defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER'
+
 
 
 
