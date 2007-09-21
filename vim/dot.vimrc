@@ -233,6 +233,42 @@ endfunction
 
 
 
+" CMapABC: support input for Alternate Built-in Commands "{{{2
+
+let s:CMapABC_Entries = []
+function! s:CMapABC_Add(original_pattern, alternate_name)
+  call add(s:CMapABC_Entries, [a:original_pattern, a:alternate_name])
+endfunction
+
+
+cnoremap <expr> <Space>  <SID>CMapABC()
+function! s:CMapABC()
+  let cmdline = getcmdline()
+  for [original_pattern, alternate_name] in s:CMapABC_Entries
+    if cmdline =~# original_pattern
+      return "\<C-u>" . alternate_name . ' '
+    endif
+  endfor
+  return ' '
+endfunction
+
+
+
+
+" Alternate :cd which uses 'cdpath' for completion  "{{{2
+
+command! -complete=customlist,<SID>CommandComplete_cdpath -nargs=1
+       \ CD  cd <args>
+
+function! s:CommandComplete_cdpath(arglead, cmdline, cursorpos)
+  return split(globpath(&cdpath, a:arglead . '*/'), "\n")
+endfunction
+
+call s:CMapABC_Add('^cd', 'CD')
+
+
+
+
 " Help-related stuffs  "{{{2
 
 function! s:HelpBufWinNR()
