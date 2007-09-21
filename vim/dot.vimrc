@@ -415,6 +415,14 @@ nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
 nmap     [Space]b  <Plug>Buffuzzy
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
+  " join-here - move the next line into the cursor position
+nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
+function! s:JoinHere()
+  s/\%#\(.*\)\n\(.*\)/\2\1/
+    " to avoid 'hlsearch' /\%#/ (cursor-position)
+  call histdel('search', -1)
+  let @/ = histget('search', -1)
+endfunction
   " unjoin
 nnoremap [Space]j  i<Return><Esc>
 nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
