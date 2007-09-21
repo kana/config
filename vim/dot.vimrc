@@ -418,10 +418,14 @@ nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
   " join-here - move the next line into the cursor position
 nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
 function! s:JoinHere()
-  s/\%#\(.*\)\n\(.*\)/\2\1/
-    " to avoid 'hlsearch' /\%#/ (cursor-position)
-  call histdel('search', -1)
-  let @/ = histget('search', -1)
+  let pos = getpos('.')
+  let r = @0
+
+  call setreg('0', getline(line('.') + 1), 'c')
+  normal! "0Pjdd
+
+  let @0 = r
+  call setpos('.', pos)
 endfunction
   " unjoin
 nnoremap [Space]j  i<Return><Esc>
