@@ -425,9 +425,18 @@ map      <Space>  [Space]
 noremap  [Space]  <Nop>
 nnoremap [Space]/  :nohlsearch<Return>
 nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
+  " append one character
+nnoremap [Space]A  A<Space><Esc>r
+nnoremap [Space]a  a<Space><Esc>r
 nmap     [Space]b  <Plug>Buffuzzy
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap [Space]i  :setlocal filetype? fileencoding? fileformat?<Return>
+nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
+  " insert one character
+nnoremap [Space]I  I<Space><Esc>r
+nnoremap [Space]i  i<Space><Esc>r
+nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
+  " unjoin
+nnoremap [Space]j  i<Return><Esc>
 nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
   " unjoin
 nnoremap [Space]j  i<Return><Esc>
