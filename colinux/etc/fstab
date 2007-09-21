@@ -8,6 +8,6 @@ proc            /proc           proc    defaults        0       0
 #/dev/hdc       /media/cdrom0   udf,iso9660 user,noauto     0       0
 
 #/dev/cofs0  /c  cofs  defaults,noatime,noexec,user,uid=@@USER@@,gid=users  0  0
-//10.0.2.2/C$  /c  smbfs  defaults,noatime,user,uid=@@USER@@,gid=users,fmask=0644,dmask=0755,username=@@USER@@  0  0
+#//10.0.2.2/C$  /c  smbfs  defaults,noatime,user,uid=@@USER@@,gid=users,fmask=0644,dmask=0755,username=@@USER@@  0  0
 
 # __END__
