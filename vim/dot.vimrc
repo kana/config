@@ -245,6 +245,18 @@ function! s:JoinHere()
 endfunction
 
 
+function! s:SCCSDiffAll()
+  if isdirectory('.svn')
+    let cmd = 'svn'
+  elseif isdirectory('CVS')
+    let cmd = 'cvs'
+  else
+    let cmd = 'svk'
+  endif
+  call <SID>CreateCommandOutputBuffer(cmd.' diff', 'botright')
+endfunction
+
+
 
 
 " CMapABC: support input for Alternate Built-in Commands "{{{2
@@ -414,8 +426,7 @@ endfunction
 nnoremap <C-h>  :h<Space>
 nnoremap <C-o>  :e<Space>
 nnoremap <C-w>.  :e .<Return>
-nnoremap <silent> <Leader>cD
-       \ :<C-u>call <SID>CreateCommandOutputBuffer('svn diff', 'botright')<CR>
+nnoremap <silent> <Leader>cD  :<C-u>call <SID>SCCSDiffAll()<CR>
 
 
 " Various hotkeys prefixed by <Space>.
