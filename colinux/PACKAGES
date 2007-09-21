@@ -4,6 +4,7 @@
 
 2007-09-20T17:08:16 u
 	dnsutils  # for dig, nslookup
+	traceroute
 
 coLinux->Windowsクロスコンパイル環境構築
 	mingw32
