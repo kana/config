@@ -1,5 +1,7 @@
 -- $Id$
 
+APP_DIR = 'C:\\cygwin\\usr\\win\\bin'
+
 -- Hotkey for reload_config should be registered at first
 -- to be able to reload this file even if this file is failed to load.
 ui.hotkey.reset()
@@ -42,7 +44,7 @@ ui.hotkey.register('Alt-Shift-Win-H',
 -- application launcher
 function bluewind(keyword)
   return shell.execute(nil,
-                       'C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe',
+                       APP_DIR .. '\\bluewind\\bluewind.exe',
                        '/Runcommand=' .. keyword)
 end
 
@@ -59,7 +61,7 @@ ui.hotkey.register('Alt-Ctrl-S', function () bluewind('shell') end)
 
 ui.hotkey.register('Alt-Ctrl-Shift-Win-S', function ()
   shell.execute(nil,
-                'C:\\Program Files\\Samurize\\Client.exe',
+                APP_DIR .. '\\Samurize\\Client.exe',
                 'i=Default reload')
 end)
 
