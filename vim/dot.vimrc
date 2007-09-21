@@ -421,6 +421,7 @@ nnoremap [Space]s  <Nop>
 nnoremap [Space]s.  :source $HOME/.vimrc<Return>
 nnoremap [Space]ss  :source %<Return>
 vnoremap [Space]s  :sort<Return>
+  " for backward compatibility
 nmap     [Space]w  [Space]ow
 
 
