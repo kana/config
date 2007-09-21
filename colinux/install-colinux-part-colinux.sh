@@ -81,20 +81,20 @@ do
   apt-get -y install $package
 done
 
-# echo '5.1. GNU screen with 256 colors'
-# echo '- Uncomment --enable-colors256'
-# echo -n '(continue)'; read
-# mkdir -p /usr/src
-# cd /usr/src
-# apt-get source screen
-# apt-get build-dep screen
-# apt-get install ncurses-term
-# dpkg-source -x screen_4.0.3-0.3.dsc
-# cd screen-4.0.3/
-# $EDITOR debian/rules
-# dpkg-buildpackage -us -uc
-# dpkg --install ../screen_4.0.3-0.3_i386.deb
-# cd
+echo '5.1. GNU screen with 256 colors'
+echo '- Uncomment --enable-colors256'
+echo -n '(continue)'; read
+mkdir -p /usr/src
+cd /usr/src
+apt-get source screen
+apt-get build-dep screen
+apt-get install ncurses-term
+dpkg-source -x screen_4.0.3-0.3.dsc
+cd screen-4.0.3/
+$EDITOR debian/rules
+dpkg-buildpackage -us -uc
+dpkg --install ../screen_4.0.3-0.3_i386.deb
+cd
 
 
 
