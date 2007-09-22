@@ -1,6 +1,18 @@
 -- $Id$
 
-APP_DIR = 'C:\\cygwin\\usr\\win\\bin'
+APPDIRS = {
+  'C:\\cygwin\\usr\\win\\bin',
+  'C:\\Program Files',
+}
+function appdir(app)
+  for _, dir in ipairs(APPDIRS) do
+    local path = dir .. '\\' .. app
+    if os.pathexistsp(path) then
+      return path
+    end
+  end
+  error(string.format('Application "%s" does not exist.', app))
+end
 
 -- Hotkey for reload_config should be registered at first
 -- to be able to reload this file even if this file is failed to load.
@@ -44,7 +56,7 @@ ui.hotkey.register('Alt-Shift-Win-H',
 -- application launcher
 function bluewind(keyword)
   return shell.execute(nil,
-                       APP_DIR .. '\\bluewind\\bluewind.exe',
+                       appdir('bluewind\\bluewind.exe'),
                        '/Runcommand=' .. keyword)
 end
 
@@ -61,7 +73,7 @@ ui.hotkey.register('Alt-Ctrl-S', function () bluewind('shell') end)
 
 ui.hotkey.register('Alt-Ctrl-Shift-Win-S', function ()
   shell.execute(nil,
-                APP_DIR .. '\\Samurize\\Client.exe',
+                appdir('Samurize\\Client.exe'),
                 'i=Default reload')
 end)
 
