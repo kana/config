@@ -103,6 +103,7 @@ set smartindent
 set updatetime=60000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
+set wildmenu
 
 set viminfo=<50,'10,h,r/a,n~/.viminfo
 
