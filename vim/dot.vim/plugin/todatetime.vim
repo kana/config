@@ -87,10 +87,10 @@ let s:PATTERNS.full = s:PATTERNS._date . 'T' . s:PATTERNS.time
                   \ . '\%(' . s:PATTERNS._tz . '\)\?'
 
 let s:PATTERNS.auto = '\%('
-                  \ .        s:PATTERNS.full
-                  \ . '\|' . s:PATTERNS.date
-                  \ . '\|' . s:PATTERNS.time
-                  \ . '\|' . s:PATTERNS.tz
+                  \ .        '\%(' . s:PATTERNS.full . '\)'
+                  \ . '\|' . '\%(' . s:PATTERNS.date . '\)'
+                  \ . '\|' . '\%(' . s:PATTERNS.time . '\)'
+                  \ . '\|' . '\%(' . s:PATTERNS.tz . '\)'
                   \ . '\)'
 
 
