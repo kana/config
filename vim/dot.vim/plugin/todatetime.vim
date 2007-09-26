@@ -17,17 +17,17 @@ endif
 
 " Key Mappings  "{{{1
 
-vnoremap <silent> <Plug>TODateTime_Auto  :<C-u>call TODateTime('auto', 'v')<CR>
-vnoremap <silent> <Plug>TODateTime_Full  :<C-u>call TODateTime('full', 'v')<CR>
-vnoremap <silent> <Plug>TODateTime_Date  :<C-u>call TODateTime('date', 'v')<CR>
-vnoremap <silent> <Plug>TODateTime_Time  :<C-u>call TODateTime('time', 'v')<CR>
-vnoremap <silent> <Plug>TODateTime_TZ    :<C-u>call TODateTime('tz', 'v')<CR>
+vnoremap <silent> <Plug>TODateTime_Auto  :<C-u>call <SID>TODateTime('auto', 'v')<CR>
+vnoremap <silent> <Plug>TODateTime_Full  :<C-u>call <SID>TODateTime('full', 'v')<CR>
+vnoremap <silent> <Plug>TODateTime_Date  :<C-u>call <SID>TODateTime('date', 'v')<CR>
+vnoremap <silent> <Plug>TODateTime_Time  :<C-u>call <SID>TODateTime('time', 'v')<CR>
+vnoremap <silent> <Plug>TODateTime_TZ    :<C-u>call <SID>TODateTime('tz', 'v')<CR>
 
-onoremap <silent> <Plug>TODateTime_Auto  :<C-u>call TODateTime('auto', 'o')<CR>
-onoremap <silent> <Plug>TODateTime_Full  :<C-u>call TODateTime('full', 'o')<CR>
-onoremap <silent> <Plug>TODateTime_Date  :<C-u>call TODateTime('date', 'o')<CR>
-onoremap <silent> <Plug>TODateTime_Time  :<C-u>call TODateTime('time', 'o')<CR>
-onoremap <silent> <Plug>TODateTime_TZ    :<C-u>call TODateTime('tz', 'o')<CR>
+onoremap <silent> <Plug>TODateTime_Auto  :<C-u>call <SID>TODateTime('auto', 'o')<CR>
+onoremap <silent> <Plug>TODateTime_Full  :<C-u>call <SID>TODateTime('full', 'o')<CR>
+onoremap <silent> <Plug>TODateTime_Date  :<C-u>call <SID>TODateTime('date', 'o')<CR>
+onoremap <silent> <Plug>TODateTime_Time  :<C-u>call <SID>TODateTime('time', 'o')<CR>
+onoremap <silent> <Plug>TODateTime_TZ    :<C-u>call <SID>TODateTime('tz', 'o')<CR>
 
 
 
@@ -62,7 +62,7 @@ endfunction
 
 " Details  "{{{1
 
-function! TODateTime(type, mode)
+function! s:TODateTime(type, mode)
   let pos = getpos('.')
   call search(s:PATTERNS[a:type], 'ecW')
   call search(s:PATTERNS[a:type], 'bcW')
