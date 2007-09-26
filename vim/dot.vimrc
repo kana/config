@@ -936,6 +936,16 @@ nmap s  <Plug>Ysurround
 
 
 
+" Plugin: todatetime
+
+autocmd MyAutoCmd VimEnter *
+      \   if exists('g:loaded_todatetime')
+      \ |  call TODateTime_DefaultKeymappings()
+      \ | endif
+
+
+
+
 " Plugin: vcscommand
 
 let g:VCSCommandDeleteOnHide = 1
