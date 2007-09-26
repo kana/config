@@ -76,9 +76,9 @@ endfunction
 let s:PATTERNS = {}
 
 let s:PATTERNS._tz = '\%(Z\|[+-]\d\d:\d\d\)'
-let s:PATTERNS.tz = '\%(:\d\d\)\zs' . s:PATTERNS._tz
+let s:PATTERNS.tz = '\%(:\d\d\%(\.\d\+\)\?\)\zs' . s:PATTERNS._tz
 
-let s:PATTERNS.time = '\d\d:\d\d\%(:\d\d\)\?'
+let s:PATTERNS.time = '\d\d:\d\d\%(:\d\d\%(\.\d\+\)\?\)\?'
 
 let s:PATTERNS._date = '\d\d\d\d-\d\d-\d\d'
 let s:PATTERNS.date = '\d\d\d\d\%(-\d\d\%(-\d\d\)\?\)\?'
