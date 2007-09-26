@@ -84,10 +84,15 @@ _set_up_prompt() {
   else
     local _prompt_shlvl=''
   fi
+  if [ -n "$WINDOW" ]; then  # auto-title in GNU screen
+    local _prompt_auto='\ek\e\\'
+  else
+    local _prompt_auto=''
+  fi
 
   PS1="$_prompt_title
 $_prompt_host $_prompt_cwd$_prompt_shlvl
-$_prompt_main"
+$_prompt_main$_prompt_auto"
 }
 
 _set_up_prompt
