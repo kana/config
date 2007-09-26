@@ -106,6 +106,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/cygclip.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
+  vim/dot.vim/plugin/todatetime.vim \
   vim/dot.vim/plugin/tofunc.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \
@@ -125,6 +126,7 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/cygclip.txt \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
+  vim/dot.vim/doc/todatetime.txt \
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/doc/vcscommand.txt \
   vim/dot.vim/doc/xml_autons.txt \
@@ -146,6 +148,7 @@ ALL_PACKAGES=\
   vim-buffuzzy \
   vim-cygclip \
   vim-scratch \
+  vim-todatetime \
   vim-tofunc \
   vim-xml_autons \
   vim-xml_move
@@ -187,6 +190,12 @@ PACKAGE_vim_scratch_BASE=vim/dot.vim
 PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
+
+PACKAGE_vim_todatetime_ARCHIVE=vim-todatetime-0.0
+PACKAGE_vim_todatetime_BASE=vim/dot.vim
+PACKAGE_vim_todatetime_FILES=\
+  vim/dot.vim/doc/todatetime.txt \
+  vim/dot.vim/plugin/todatetime.vim
 
 PACKAGE_vim_tofunc_ARCHIVE=vim-tofunc-0.0
 PACKAGE_vim_tofunc_BASE=vim/dot.vim
