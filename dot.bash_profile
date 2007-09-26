@@ -70,6 +70,8 @@ case "$ENV_ACCESS" in
     ;;
 esac
 
+export CYGHOME="/c/cygwin$HOME"
+
 
 
 
