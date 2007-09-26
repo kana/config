@@ -352,6 +352,15 @@ function! s:KeysToStopInsertModeCompletion()
 endfunction
 
 
+function! s:KeysToEscapeCommandlineModeIfEmpty(key)
+  if getcmdline() == ''
+    return "\<Esc>"
+  else
+    return a:key
+  end
+endfunction
+
+
 
 
 " :edit with specified 'fileencoding'.  "{{{2
@@ -701,8 +710,7 @@ nmap <C-t><C-h>  <C-t>h
 
 " For command-line editting  "{{{2
 
-cnoremap <C-u>  <C-e><C-u>
-
+" pseudo vi-like keys
 cnoremap <Esc>h  <Left>
 cnoremap <Esc>j  <Down>
 cnoremap <Esc>k  <Up>
@@ -712,6 +720,10 @@ cnoremap <Esc>L  <End>
 cnoremap <Esc>w  <S-Right>
 cnoremap <Esc>b  <S-Left>
 cnoremap <Esc>x  <Del>
+
+" escape Command-line mode if the command line is empty (like <C-h>)
+cnoremap <expr> <C-u>  <SID>KeysToEscapeCommandlineModeIfEmpty("\<C-u>")
+cnoremap <expr> <C-w>  <SID>KeysToEscapeCommandlineModeIfEmpty("\<C-w>")
 
 
 
