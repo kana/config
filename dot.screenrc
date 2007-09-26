@@ -22,7 +22,8 @@ vbell_msg "Bell in %t"
 caption splitonly "%?%F@%: %?%3n %t%? [%f]%?"
 hardstatus on
 hardstatus alwayslastline
-hardstatus string "%{.Wb}.: %-w%{.RW}%n %t%{-}%+w :. %=[%Y-%m-%d(%D) %02c]"
+hardstatus string '%{= Kw}%-w%{+bu}%n %t%{-}%+w%-18= | %D %m-%d %02c'
+shelltitle '$ | shell'
 
 
 
@@ -79,6 +80,8 @@ bind -c detach d detach
 bind -c detach ^D detach
 bind -c detach D pow_detach
 
+bind . source $HOME/.screenrc
+
 
 # WINDOW {{{2
 # -----------
@@ -130,13 +133,5 @@ bind -c region _ resize max
 
 
 
-# DEFAULT WINDOWS  {{{1
-# =====================
-
-screen -t main 0
-
-
-
-
+# __END__  #{{{1
 # vim: filetype=screen foldmethod=marker
-# __END__
