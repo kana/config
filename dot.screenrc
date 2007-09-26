@@ -19,7 +19,7 @@ startup_message off
 vbell off
 vbell_msg "Bell in %t"
 
-caption splitonly "%?%F@%: %?%3n %t%? [%f]%?"
+caption splitonly '%?%F@%: %?%3n %t%? [%f]%?'
 hardstatus on
 hardstatus alwayslastline
 hardstatus string '%{= Kw}%-w%{+bu}%n %t%{-}%+w%-18= | %D %m-%d %02c'
