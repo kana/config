@@ -478,7 +478,6 @@ nmap <F2>  <Esc>2
 nnoremap <C-i>  <C-w>w
 nnoremap <Esc>i  <C-w>W
 
-nmap <Tab>  <C-i>
 nmap <S-Tab>  <Esc>i
 
 
