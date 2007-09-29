@@ -534,6 +534,11 @@ inoremap <C-w>  <C-g>u<C-w>
 inoremap <C-u>  <C-g>u<C-u>
 
 
+" Search the word nearest to the cursor in new window.
+nnoremap <C-w>*  <C-w>s*
+nnoremap <C-w>#  <C-g>s#
+
+
 
 
 " For plugin: scratch  "{{{2
