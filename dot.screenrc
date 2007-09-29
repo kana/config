@@ -23,7 +23,7 @@ caption splitonly '%?%F@%: %?%3n %t%? [%f]%?'
 hardstatus on
 hardstatus alwayslastline
 hardstatus string '%{= Kw}%-w%{+bu}%n %t%{-}%+w%-18= | %D %m-%d %02c'
-shelltitle '$ |shell'
+shelltitle '$ |shell:'
 
 
 
