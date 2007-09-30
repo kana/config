@@ -955,6 +955,7 @@ autocmd MyAutoCmd VimEnter *
 " The default mapping ys for <Plug>Ysurround is not consistent with
 " the default mappings of vi -- y is for yank.
 nmap s  <Plug>Ysurround
+nmap ss <Plug>Yssurround
 
 
 
