@@ -172,15 +172,12 @@ function! s:wrap(string,char,type,...)
         let extraspace = ' '
     endif
     let idx = stridx(pairs,newchar)
+    let user_defined_object = s:get_user_defined_object(newchar)
     if newchar == ' '
         let before = ''
         let after  = ''
-    elseif exists("b:surround_".char2nr(newchar))
-        let all    = s:process(b:surround_{char2nr(newchar)})
-        let before = s:extractbefore(all)
-        let after  =  s:extractafter(all)
-    elseif exists("g:surround_".char2nr(newchar))
-        let all    = s:process(g:surround_{char2nr(newchar)})
+    elseif len(user_defined_object)
+        let all    = s:process(user_defined_object)
         let before = s:extractbefore(all)
         let after  =  s:extractafter(all)
     elseif newchar ==# "p"
