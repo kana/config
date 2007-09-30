@@ -27,11 +27,11 @@ Vim 7 is recommended for full functionality.
 
 MAPPINGS                                        *surround-mappings*
 
-Delete surroundings is *ds*.  The next character given determines the target
-to delete.  The exact nature of the target are explained in
-|surround-targets| but essentially it is the last character of a
-|text-object|.  This mapping deletes the difference between the "inner"
-object and "an" object.  This is easiest to understand with some examples:
+Delete surroundings is *ds* .  The next character given determines the target
+to delete.  The exact nature of the target are explained in |surround-targets|
+but essentially it is the last character of a |text-object|.  This mapping
+deletes the difference between the "inner" object and "an" object.  This is
+easiest to understand with some examples:
 
   Old text                  Command     New text ~
   "Hello *world!"           ds"         Hello world!
@@ -51,7 +51,7 @@ below in |surround-replacements|.  Once again, examples are in order.
 
 *ys* takes an valid Vim motion or text object as the first object, and wraps
 it using the second argument as with |cs|.  (Unfortunately there's no good
-mnemonic for "ys").
+mnemonic for "ys".)
 
   Old text                  Command     New text ~
   Hello w*orld!             ysiw)       Hello (world)!
@@ -114,7 +114,7 @@ that you can specify a numerical argument if you want to get to a tag other
 than the innermost one.
 
 The letters w, W, and s correspond to a |word|, a |WORD|, and a |sentence|,
-respectively.  These are special in that they have nothing do delete, and
+respectively.  These are special in that they have nothing to delete, and
 used with |ds| they are a no-op.  With |cs|, one could consider them a
 slight shortcut for ysi (cswb == ysiwb, more or less).
 
@@ -124,23 +124,27 @@ however, newlines are sometimes added and/or removed.
 REPLACEMENTS                                    *surround-replacements*
 
 A replacement argument is a single character, and is required by |cs|, |ys|,
-and |vs|.  Undefined replacement characters (with the exception of
-alphabetic characters) default to placing themselves at the beginning and
-end of the destination, which can be useful for characters like / and |.
+and |vs|.  Undefined replacement characters (with the exception of alphabetic
+characters) default to placing themselves at the beginning and end of the
+destination, which can be useful for characters like / and |.
 
-If either ), }, ], or > is used, the text is wrapped in the appropriate
-pair of characters.  Similar behavior can be found with (, {, and [ (but not
-<), which append an additional space to the inside.  Like with the targets
-above, b, B, r, and a are aliases for ), }, ], and >.
+If either ), }, ], or > is used, the text is wrapped in the appropriate pair
+of characters.  Similar behavior can be found with (, {, and [ (but not <),
+which append an additional space to the inside.  Like with the targets above,
+b, B, r, and a are aliases for ), }, ], and >.  To fulfill the common need for
+code blocks in C-style languages, <C-}> (which is really <C-]>) adds braces on
+lines separate from the content.
 
-If t or < is used, Vim prompts for an HTML/XML tag to insert.  You may
-specify attributes here and they will be stripped from the closing tag.
-End your input by pressing <CR> or >.  As an experimental feature, if <C-T>
-is used, the tags will appear on lines by themselves.
+If t or < is used, Vim prompts for an HTML/XML tag to insert.  You may specify
+attributes here and they will be stripped from the closing tag.  End your
+input by pressing <CR> or >.  If <C-T> is used, the tags will appear on lines
+by themselves.
 
-An experimental replacement of a LaTeX environment is provided on \ and l.
-The name of the environment and any arguments will be input from a prompt.
-The following shows the resulting environment from csp\tabular}{lc<CR>
+A deprecated replacement of a LaTeX environment is provided on \ and l.  The
+name of the environment and any arguments will be input from a prompt.  This
+will be removed once a more fully functional customization system is
+implemented.  The following shows the resulting environment from
+csp\tabular}{lc<CR>
 >
   \begin{tabular}{lc}
   \end{tabular}
@@ -164,6 +168,41 @@ replacements.
   let g:surround_45 = "<% \r %>"
   let g:surround_61 = "<%= \r %>"
 <
+Advanced, experimental, and subject to change:  One can also prompt for
+replacement text.  The syntax for this is to surround the replacement in pairs
+of low numbered controller characters.  If this sounds confusing, that's
+because it is (but it makes the parsing easy).  Consider the following example
+for a LaTeX environment on the "l" replacement.
+>
+  let g:surround_108 = "\\begin{\1environment: \1}\r\\end{\1\1}"
+<
+When this replacement is used,  the user is prompted with an "environment: "
+prompt for input.  This input is inserted between each set of \1's.
+Additional inputs up to \7 can be used.
+
+Furthermore, one can specify a regular expression substitution to apply.
+>
+  let g:surround_108 = "\\begin{\1environment: \1}\r\\end{\1\r}.*\r\1}"
+<
+This will remove anything after the first } in the input when the text is
+placed within the \end{} slot.  The first \r marks where the pattern begins,
+and the second where the replacement text begins.
+
+Here's a second example for creating an HTML <div>.  The substitution cleverly
+prompts for an id, but only adds id="" if it is non-blank.  You may have to
+read this one a few times slowly before you understand it.
+>
+  let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
+<
+Inputting text replacements is a proof of concept at this point. The ugly,
+unintuitive interface and the brevity of the documentation reflect this.
+
+Finally, It is possible to always append a string to surroundings in insert
+mode (and only insert mode).  This is useful with certain plugins and mappings
+that allow you to jump to such markings.
+>
+  let g:surround_insert_tail = "<++>"
+<
 ISSUES                                          *surround-issues*
 
 Vim could potentially get confused when deleting/changing occurs at the very
@@ -172,7 +211,8 @@ end of the line.  Please report any repeatable instances of this.
 Do we need to use |inputsave()|/|inputrestore()| with the tag replacement?
 
 Customization isn't very flexible.  Need a system that allows for prompting,
-like with HTML tags and LaTeX environments.
+like with HTML tags and LaTeX environments.  (There is an experimental
+interface for this now).
 
 Indenting is handled haphazardly.  Need to decide the most appropriate
 behavior and implement it.  Right now one can do :let b:surround_indent = 1
@@ -180,4 +220,5 @@ behavior and implement it.  Right now one can do :let b:surround_indent = 1
 should this be the default?
 
 It would be nice if |.| would work to repeat an operation.
+
  vim:tw=78:ts=8:ft=help:norl:
