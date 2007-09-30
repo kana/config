@@ -308,7 +308,9 @@ function! s:reindent() " {{{1
     endif
 endfunction " }}}1
 
-function! s:dosurround(...) " {{{1
+function! s:dosurround(...) "{{{1
+    " ([target-surrounding-object-char, [new-surrounding-object-char]])
+    " adjust arguments  "{{{2
     let scount = v:count1
     let char = (a:0 ? a:1 : s:inputtarget())
     let spc = ""
@@ -333,11 +335,31 @@ function! s:dosurround(...) " {{{1
             return s:beep()
         endif
     endif
+
+    " save and initialize some values  "{{{2
+    let cb_save = &clipboard
+    set clipboard-=unnamed
     let append = ""
     let original = getreg('"')
     let otype = getregtype('"')
     call setreg('"',"")
-    exe "norm d".(scount==1 ? "": scount)."i".char
+
+    " move the target text range into @@, then delete surroudings  "{{{2
+    let strcount = (scount == 1 ? "" : scount)
+    let user_defined_object = s:get_user_defined_object(char)
+    if len(user_defined_object)  " FIXME: [count] is not supported yet
+        let all = s:process(user_defined_object)
+        let before = s:extractbefore(all)
+        let after = s:extractafter(all)
+        call s:search_literally(before, 'bcW')
+        normal! v
+        call s:search_literally(after, 'ceW')
+        normal! d
+    elseif char == '/'
+        exe 'norm '.strcount.'[/d'.strcount.']/'
+    else
+        exe 'norm d'.strcount.'i'.char
+    endif
     "exe "norm vi".char."d"
     let keeper = getreg('"')
     let okeeper = keeper " for reindent below
@@ -347,7 +369,11 @@ function! s:dosurround(...) " {{{1
     endif
     let oldline = getline('.')
     let oldlnum = line('.')
-    if char ==# "p"
+    if len(user_defined_object)
+        call setreg('"', before.after, '')
+        let keeper = keeper[len(before):]
+        let keeper = keeper[:-(len(after)+1)]
+    elseif char ==# "p"
         "let append = matchstr(keeper,'\n*\%$')
         "let keeper = substitute(keeper,'\n*\%$','','')
         call setreg('"','','V')
@@ -389,11 +415,15 @@ function! s:dosurround(...) " {{{1
     if line('.') < oldlnum && regtype ==# "V"
         let pcmd = "p"
     endif
+
+    " surround @@ new objects  "{{{2
     call setreg('"',keeper,regtype)
     if newchar != ""
         call s:wrapreg('"',newchar)
     endif
-    silent exe "norm! ".pcmd.'`['
+
+    " put the result into the original position, then reindent  "{{{2
+    silent exe 'norm! ""'.pcmd.'`['
     if removed =~ '\n' || okeeper =~ '\n' || getreg('"') =~ '\n'
         call s:reindent()
     else
@@ -401,6 +431,8 @@ function! s:dosurround(...) " {{{1
     if getline('.') =~ '^\s\+$' && keeper =~ '^\s*\n'
         silent norm! cc
     endif
+
+    " restore the original value, set some values for later use  "{{{2
     call setreg('"',removed,regtype)
     let s:lastdel = removed
 endfunction " }}}1
@@ -479,6 +511,26 @@ function! s:closematch(str) " {{{1
         return ""
     endif
 endfunction " }}}1
+
+" Misc. functions  "{{{1
+function! s:search_literally(pattern, flags)
+    return search(s:literalize_pattern(a:pattern), a:flags)
+endfunction
+
+function! s:literalize_pattern(pattern)
+    return '\V'.substitute(a:pattern, '\', '\\', 'g')
+endfunction
+
+function! s:get_user_defined_object(char)
+    if exists("b:surround_".char2nr(a:char))
+        return b:surround_{char2nr(a:char)}
+    elseif exists("g:surround_".char2nr(a:char))
+        return g:surround_{char2nr(a:char)}
+    else
+        return ''
+    endif
+endfunction
+"}}}1
 
 nnoremap <silent> <Plug>Dsurround  :<C-U>call <SID>dosurround(<SID>inputtarget())<CR>
 nnoremap <silent> <Plug>Csurround  :<C-U>call <SID>changesurround()<CR>
