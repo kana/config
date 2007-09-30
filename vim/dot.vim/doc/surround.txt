@@ -229,6 +229,26 @@ It would be nice if |.| would work to repeat an operation.
 
 CHANGELOG					*surround-changelog*
 
+2007-10-01T03:43:51+09:00	kana	<http://nicht.s8.xrea.com/>
+
+	- Support dynamic template for |surround-customizing|.
+	  Now templates of user-defined surrounding objects may be functions
+	  or funcrefs which must return a template.
+
+	  For example, the following setting provides two-stroke keys "xa" and
+	  "xb" for some templates.
+>
+	  function g:surround_{char2nr('x')}()
+	    let c = nr2char(getchar())
+	    if c ==# 'b'
+	      return "(((\r)))"
+	    elseif c ==# 'B'
+	      return "{{{\r}}}"
+	    else
+	      return ''
+	    endif
+	  endfunction
+<
 2007-10-01T00:25:20+09:00	kana	<http://nicht.s8.xrea.com/>
 
 	- Support user-defined surrounding objects (|surround-customizing|) as

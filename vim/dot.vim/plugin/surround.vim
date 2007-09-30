@@ -616,11 +616,21 @@ endfunction
 
 function! s:get_user_defined_object(char)
     if exists("b:surround_".char2nr(a:char))
-        return b:surround_{char2nr(a:char)}
+        let Value = b:surround_{char2nr(a:char)}
+    elseif exists("*b:surround_".char2nr(a:char))
+        let Value = function('b:surround_'.char2nr(a:char))
     elseif exists("g:surround_".char2nr(a:char))
-        return g:surround_{char2nr(a:char)}
+        let Value = g:surround_{char2nr(a:char)}
+    elseif exists("*g:surround_".char2nr(a:char))
+        let Value = function('g:surround_'.char2nr(a:char))
     else
-        return ''
+        let Value = ''
+    endif
+
+    if type(Value) == type('string')
+        return Value
+    else  " function?
+        return Value()
     endif
 endfunction
 "}}}1
