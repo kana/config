@@ -3,6 +3,9 @@
 Author:  Tim Pope <vimNOSPAM@tpope.info>        *surround-author*
 License: Same terms as Vim itself (see |license|)
 
+NOTE: This is a modified version of surround.vim.  See |surround-changelog|
+for the detail of the difference from the original version.
+
 This plugin is only available if 'compatible' is not set.
 
 INTRODUCTION                                    *surround*
@@ -220,5 +223,21 @@ behavior and implement it.  Right now one can do :let b:surround_indent = 1
 should this be the default?
 
 It would be nice if |.| would work to repeat an operation.
+
+
+
+
+CHANGELOG					*surround-changelog*
+
+2007-10-01T00:25:20+09:00	kana	<http://nicht.s8.xrea.com/>
+
+	- Support user-defined surrounding objects (|surround-customizing|) as
+	  |surround-targets|.  The original version (1.26) does not support
+	  this feature.
+
+	  BUGS: [count] is not supported yet.
+
+
+
 
  vim:tw=78:ts=8:ft=help:norl:
