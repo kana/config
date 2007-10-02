@@ -26,7 +26,6 @@
 if (exists("g:loaded_surround") && g:loaded_surround) || &cp
     finish
 endif
-let g:loaded_surround = 1
 
 let s:cpo_save = &cpo
 set cpo&vim
@@ -706,6 +705,8 @@ endif
 " Misc.  "{{{1
 
 let &cpo = s:cpo_save
+
+let g:loaded_surround = 1
 
 
 
