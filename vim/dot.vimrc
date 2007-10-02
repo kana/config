@@ -941,7 +941,7 @@ let s:FileType_xml_comment_data = {
 " Plugin: cygclip  "{{{2
 
 " Because plugins will be loaded after ~/.vimrc.
-autocmd MyAutoCmd VimEnter *
+autocmd MyAutoCmd User DelayedSettings
       \   if exists('g:loaded_cygclip')
       \ |  call Cygclip_DefaultKeymappings()
       \ | endif
@@ -956,7 +956,7 @@ autocmd MyAutoCmd VimEnter *
 nmap s  <Plug>Ysurround
 nmap ss  <Plug>Yssurround
 
-autocmd MyAutoCmd VimEnter *
+autocmd MyAutoCmd User DelayedSettings
       \   if exists('g:loaded_surround') || exists('*SurroundRegister')
       \ |   call SurroundRegister('g', 'js', "「\r」")
       \ |   call SurroundRegister('g', 'jd', "『\r』")
@@ -967,9 +967,9 @@ autocmd MyAutoCmd VimEnter *
 
 " Plugin: todatetime  "{{{2
 
-autocmd MyAutoCmd VimEnter *
+autocmd MyAutoCmd User DelayedSettings
       \   if exists('g:loaded_todatetime')
-      \ |  call TODateTime_DefaultKeymappings()
+      \ |  call TODateTime_DefaultKeymappings(1)
       \ | endif
 
 
@@ -993,6 +993,17 @@ let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
 
 " Others  "{{{2
+
+if !exists('s:loaded_my_vimrc')
+  let s:loaded_my_vimrc = 1
+  autocmd MyAutoCmd VimEnter *
+    \ doautocmd MyAutoCmd User DelayedSettings
+else
+  doautocmd MyAutoCmd User DelayedSettings
+endif
+
+
+
 
 set secure
 
