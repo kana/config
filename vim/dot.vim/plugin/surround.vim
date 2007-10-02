@@ -45,30 +45,50 @@ function! s:getchar()
 endfunction
 
 function! s:inputtarget()
+    let key = ''
     let c = s:getchar()
-    while c =~ '^\d\+$'
-        let c = c . s:getchar()
+    while c =~ '\d'
+        let key = key . c
+        let c = s:getchar()
     endwhile
-    if c == " "
-        let c = c . s:getchar()
+
+    call feedkeys(c, 't')
+    let t = s:user_obj_input()
+    if t != ''
+        return key . t
     endif
-    if c =~ "\<Esc>\|\<C-C>\|\0"
+    let key = key . s:getchar()
+
+    if key == " "
+        let key = key . s:getchar()
+    endif
+    if key =~ "\<Esc>\|\<C-C>\|\0"
         return ""
     else
-        return c
+        return key
     endif
 endfunction
 
 function! s:inputreplacement()
     "echo '-- SURROUND --'
+    let key = ''
     let c = s:getchar()
     if c == " "
-        let c = c . s:getchar()
+        let key = key . c
+        let c = s:getchar()
     endif
-    if c =~ "\<Esc>" || c =~ "\<C-C>"
+
+    call feedkeys(c, 't')
+    let t = s:user_obj_input()
+    if t != ''
+        return key . t
+    endif
+    let key = key . s:getchar()
+
+    if key =~ "\<Esc>" || key =~ "\<C-C>"
         return ""
     else
-        return c
+        return key
     endif
 endfunction
 
@@ -182,7 +202,7 @@ function! s:wrap(string,char,type,...)
         let extraspace = ' '
     endif
     let idx = stridx(pairs,newchar)
-    let user_defined_object = s:get_user_defined_object(newchar)
+    let user_defined_object = s:user_obj_value(newchar)
     if newchar == ' '
         let before = ''
         let after  = ''
@@ -435,7 +455,7 @@ function! s:dosurround(...)  "{{{2
 
     " move the target text range into @@, then delete surroudings  "{{{3
     let strcount = (scount == 1 ? "" : scount)
-    let user_defined_object = s:get_user_defined_object(char)
+    let user_defined_object = s:user_obj_value(char)
     if len(user_defined_object)  " FIXME: [count] is not supported yet
         let all = s:process(user_defined_object)
         let before = s:extractbefore(all)
@@ -621,34 +641,234 @@ function! s:closematch(str)  "{{{2
 endfunction
  
 
+" Trie  "{{{2
+"
+" trie ::= {'root': node,
+"           'default_value': <any value>}
+" default-value ::= <any value>
+" node ::= {'value': <any value>,
+"           'children': {<a part of key (1 char)>: node,
+"                        ...}}
+
+let s:trie = {}
+let s:FALSE = 0
+let s:TRUE = !s:FALSE
+
+
+function! s:trie.new(default_value)  "{{{3
+    let new_instance = copy(s:trie)
+    let new_instance.root = s:trie.node.new(a:default_value)
+    let new_instance.default_value = a:default_value
+    return new_instance
+endfunction
+
+
+function! s:trie.dump()  "{{{3
+    echomsg 'Trie:'
+    echomsg '  default_value:' string(self.default_value)
+    call self.root.dump('root', 1)
+endfunction
+
+
+function! s:trie.put(sequence, value)  "{{{3
+    let node = self.root
+    let i = 0
+    while i < len(a:sequence)
+        let item = a:sequence[i]
+        if !has_key(node.children, item)
+            let node.children[item] = s:trie.node.new(self.default_value)
+        endif
+        let node = node.children[item]
+        let i = i + 1
+    endwhile
+    let old_value = node.value
+    let node.value = a:value
+    return old_value
+endfunction
+
+
+function! s:trie.get(sequence, accept_halfway_matchp, ...)  "{{{3
+    let default_value = a:0 ? a:1 : self.default_value
+    let node = self.root
+    let i = 0
+    while i < len(a:sequence)
+        let item = a:sequence[i]
+        if !has_key(node.children, item)
+            return default_value
+        endif
+        let node = node.children[item]
+        let i = i + 1
+    endwhile
+
+    if node.leafp() || a:accept_halfway_matchp
+        return node.value
+    else
+        return default_value
+    endif
+endfunction
+
+
+function! s:trie.take(sequence)  "{{{3
+    if len(a:sequence) == 0
+        throw 'empty sequence is not allowed'
+    endif
+    let parent = self.root
+    let node = self.root
+    let i = 0
+    while i < len(a:sequence)
+        let item = a:sequence[i]
+        if !has_key(node.children, item)
+            throw 'value corresponding to the given sequence is not found'
+        endif
+        let parent = node
+        let node = node.children[item]
+        let i = i + 1
+    endwhile
+    return remove(parent.children, item).value
+endfunction
+
+
+function! s:trie.get_incremental(accept_halfway_matchp, ...)  "{{{3
+    let state = {}
+    let state.accept_halfway_matchp = a:accept_halfway_matchp
+    let state.default_value = a:0 ? a:1 : self.default_value
+    let state.node = self.root
+    let state.i = 0
+
+    function state.feed(item)
+        if !has_key(self.node.children, a:item)
+            return [s:trie.FAILED, self.default_value]
+        endif
+        let self.node = self.node.children[a:item]
+        let self.i = self.i + 1
+
+        if self.node.leafp() || self.accept_halfway_matchp
+            return [s:trie.MATCHED, self.node.value]
+        else
+            return [s:trie.CONTINUED, self.default_value]
+        endif
+    endfunction
+
+    return state
+endfunction
+
+let s:trie.CONTINUED = ['CONTINUED']
+let s:trie.FAILED = ['FAILED']
+let s:trie.MATCHED = ['MATCHED']
+
+
+let s:trie.node = {}  "{{{3
+
+function! s:trie.node.new(value)
+    let new_instance = copy(s:trie.node)
+    let new_instance.value = a:value
+    let new_instance.children = {}
+    return new_instance
+endfunction
+
+function! s:trie.node.leafp()
+    return len(self.children) == 0
+endfunction
+
+function! s:trie.node.dump(label, lv)
+    echomsg s:indent(a:lv) string(a:label) ':' string(self.value)
+    for key in sort(keys(self.children))
+        call self.children[key].dump(key, a:lv+1)
+    endfor
+endfunction
+
+
+
+
+" User-defined surrounding objects  "{{{2
+
+function! s:user_obj_trie(type)
+    if a:type ==# 'b'
+        if !exists('b:surround_objects')
+            let b:surround_objects = s:trie.new('')
+        endif
+        return b:surround_objects
+    else  " a:type ==# 'g'
+        if !exists('g:surround_objects')
+            let g:surround_objects = s:trie.new('')
+        endif
+        return g:surround_objects
+    endif
+endfunction
+
+
+function! SurroundRegister(type, key, template)
+    return s:user_obj_trie(a:type).put(a:key, a:template)
+endfunction
+
+function! SurroundUnregister(type, key)
+    return s:user_obj_trie(a:type).take(a:key)
+endfunction
+
+
+function! s:user_obj_input()
+    let [result, key] = s:user_obj_input_sub('b')
+    if result is s:trie.FAILED
+        call feedkeys(key, 't')
+        let [result, key] = s:user_obj_input_sub('g')
+        if result is s:trie.FAILED
+            call feedkeys(key, 't')
+            return ''
+        endif
+    endif
+
+    return key
+endfunction
+
+function! s:user_obj_input_sub(type)
+    let state = s:user_obj_trie(a:type).get_incremental(s:FALSE, 'not-used')
+    let key = ''
+    while 1
+        let c = s:getchar()
+        let [result, _] = state.feed(c)
+        let key = key . c
+        if result is s:trie.MATCHED
+            break
+        elseif result is s:trie.FAILED
+            break
+        else  " result is s:trie.CONTINUED
+            " NOP
+        endif
+    endwhile
+    return [result, key]
+endfunction
+
+
+function! s:user_obj_value(key)
+    let Template = s:user_obj_trie('b').get(a:key, s:FALSE, '')
+    if Template == ''
+        let Template = s:user_obj_trie('g').get(a:key, s:FALSE, '')
+    endif
+
+    if type(Template) == type('string')
+        return Template
+    else  " function?
+        return Template()
+    endif
+endfunction
+
+
+
+
 " Misc. functions  "{{{2
 
 function! s:search_literally(pattern, flags)
     return search(s:literalize_pattern(a:pattern), a:flags)
 endfunction
 
+
 function! s:literalize_pattern(pattern)
     return '\V'.substitute(a:pattern, '\', '\\', 'g')
 endfunction
 
-function! s:get_user_defined_object(char)
-    if exists("b:surround_".char2nr(a:char))
-        let Value = b:surround_{char2nr(a:char)}
-    elseif exists("*b:surround_".char2nr(a:char))
-        let Value = function('b:surround_'.char2nr(a:char))
-    elseif exists("g:surround_".char2nr(a:char))
-        let Value = g:surround_{char2nr(a:char)}
-    elseif exists("*g:surround_".char2nr(a:char))
-        let Value = function('g:surround_'.char2nr(a:char))
-    else
-        let Value = ''
-    endif
 
-    if type(Value) == type('string')
-        return Value
-    else  " function?
-        return Value()
-    endif
+function! s:indent(level)
+    return repeat('  ', a:level)[1:]
 endfunction
 
 

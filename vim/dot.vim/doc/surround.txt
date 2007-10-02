@@ -154,6 +154,9 @@ csp\tabular}{lc<CR>
 <
 CUSTOMIZING                                     *surround-customizing*
 
+NOTE: There are some incompatible changes from the original version.
+See |surrounding-customizing-difference| for the detail.
+
 The following adds a potential replacement on "-" (ASCII 45) in PHP files.
 (To determine the ASCII code to use, :echo char2nr("-")).  The carriage
 return will be replaced by the original text.
@@ -206,6 +209,40 @@ that allow you to jump to such markings.
 >
   let g:surround_insert_tail = "<++>"
 <
+					*surrounding-customizing-difference*
+DIFFERENCE FROM THE ORIGINAL VERSION ~
+
+The original way - g:surround_{char2nr(key)} - is no longer supported.  Please
+use |SurroundRegister| and |SurroundUnregister| to register/unregister
+user-defined surrounding objects.
+
+Tips:
+	g:surround_{char2nr(key)} = template	~
+	b:surround_{char2nr(key)} = template	~
+and
+	call SurroundRegister('g', key, template)	~
+	call SurroundRegister('b', key, template)	~
+have same meaning.
+
+SurroundRegister({type}, {key}, {template})		*SurroundRegister*
+	Register new user-defined surrounding object.
+
+	{type}	('b' or 'g')
+		The scope of this object.
+		'b' means buffer-local and
+		'g' means global.
+
+	{key}	(string with 1 or more characters)
+		Key stroke for this object.
+
+	{template}
+		Template for this object.
+		See |surrounding-customizing| for the detail.
+
+SurroundUnregister({type}, {key})			*SurroundUnregister*
+	Unregister user-defined surrounding object corresponding to
+	the givin {key}.
+
 ISSUES                                          *surround-issues*
 
 Vim could potentially get confused when deleting/changing occurs at the very
@@ -228,6 +265,13 @@ It would be nice if |.| would work to repeat an operation.
 
 
 CHANGELOG					*surround-changelog*
+
+2007-10-01T22:46:14+09:00	kana	<http://nicht.s8.xrea.com/>
+
+	- INCOMPATIBLE CHANGE: the way of |surround-customizing| is changed.
+	  See |surrounding-customizing-difference| for the detail.
+
+	- Support n-stroke key for user-defined surrounding objects.
 
 2007-10-01T03:43:51+09:00	kana	<http://nicht.s8.xrea.com/>
 
