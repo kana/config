@@ -938,8 +938,7 @@ let s:FileType_xml_comment_data = {
 
 
 " MISC.  "{{{1
-
-" Plugin: cygclip
+" Plugin: cygclip  "{{{2
 
 " Because plugins will be loaded after ~/.vimrc.
 autocmd MyAutoCmd VimEnter *
@@ -950,7 +949,7 @@ autocmd MyAutoCmd VimEnter *
 
 
 
-" Plugin: surround
+" Plugin: surround  "{{{2
 
 " The default mapping ys for <Plug>Ysurround is not consistent with
 " the default mappings of vi -- y is for yank.
@@ -960,7 +959,7 @@ nmap ss <Plug>Yssurround
 
 
 
-" Plugin: todatetime
+" Plugin: todatetime  "{{{2
 
 autocmd MyAutoCmd VimEnter *
       \   if exists('g:loaded_todatetime')
@@ -970,7 +969,7 @@ autocmd MyAutoCmd VimEnter *
 
 
 
-" Plugin: vcscommand
+" Plugin: vcscommand  "{{{2
 
 let g:VCSCommandDeleteOnHide = 1
 
@@ -979,7 +978,7 @@ nmap <Leader>cR  <Plug>VCSDelete
 
 
 
-" Plugin: xml_autons
+" Plugin: xml_autons  "{{{2
 
 let g:AutoXMLns_Dict = {}
 let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
@@ -987,7 +986,12 @@ let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
 
 
+" Others  "{{{2
+
 set secure
+
+
+
 
 " __END__
 " vim: foldmethod=marker
