@@ -954,7 +954,13 @@ autocmd MyAutoCmd VimEnter *
 " The default mapping ys for <Plug>Ysurround is not consistent with
 " the default mappings of vi -- y is for yank.
 nmap s  <Plug>Ysurround
-nmap ss <Plug>Yssurround
+nmap ss  <Plug>Yssurround
+
+autocmd MyAutoCmd VimEnter *
+      \   if exists('g:loaded_surround') || exists('*SurroundRegister')
+      \ |   call SurroundRegister('g', 'js', "「\r」")
+      \ |   call SurroundRegister('g', 'jd', "『\r』")
+      \ | endif
 
 
 
@@ -994,4 +1000,4 @@ set secure
 
 
 " __END__
-" vim: foldmethod=marker
+" vim: fileencoding=utf-8 foldmethod=marker
