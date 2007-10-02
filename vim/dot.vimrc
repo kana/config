@@ -772,7 +772,7 @@ augroup MyAutoCmd
     \ call <SID>FileType_dosini()
 
   autocmd FileType python
-    \ call <SID>SetShortIndent()
+    \   call <SID>SetShortIndent()
     \ | let python_highlight_numbers=1
     \ | let python_highlight_builtins=1
     \ | let python_highlight_space_errors=1
@@ -943,7 +943,7 @@ let s:FileType_xml_comment_data = {
 " Because plugins will be loaded after ~/.vimrc.
 autocmd MyAutoCmd User DelayedSettings
       \   if exists('g:loaded_cygclip')
-      \ |  call Cygclip_DefaultKeymappings()
+      \ |   call Cygclip_DefaultKeymappings()
       \ | endif
 
 
@@ -969,7 +969,7 @@ autocmd MyAutoCmd User DelayedSettings
 
 autocmd MyAutoCmd User DelayedSettings
       \   if exists('g:loaded_todatetime')
-      \ |  call TODateTime_DefaultKeymappings(1)
+      \ |   call TODateTime_DefaultKeymappings(1)
       \ | endif
 
 
