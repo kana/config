@@ -1,3 +1,11 @@
+" surround.vim - Surrounding text objects
+" Author: Tim Pope <vimNOSPAM@tpope.info>
+" ModifiedBy: kana <http://nicht.s8.xrea.com>
+" BasedOn: Id: surround.vim,v 1.26 2007-07-31 14:20:47 tpope Exp
+" License: same as the original one, i.e., same as Vim itself.
+" $Id$  "{{{1
+" Original Header  "{{{2
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 " surround.vim - Surroundings
 " Author:       Tim Pope <vimNOSPAM@tpope.info>
 " GetLatestVimScripts: 1697 1 :AutoInstall: surround.vim
@@ -9,8 +17,8 @@
 " :help surround
 "
 " Licensed under the same terms as Vim itself.
-
-" ============================================================================
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+" "}}}2
 
 " Exit quickly when:
 " - this plugin was already loaded (or disabled)
@@ -23,7 +31,11 @@ let g:loaded_surround = 1
 let s:cpo_save = &cpo
 set cpo&vim
 
-" Input functions {{{1
+
+
+
+" Implementation  "{{{1
+" Input functions  "{{{2
 
 function! s:getchar()
     let c = getchar()
@@ -71,9 +83,8 @@ function! s:redraw()
     return ""
 endfunction
 
-" }}}1
 
-" Wrapping functions {{{1
+" Wrapping functions  "{{{2
 
 function! s:extractbefore(str)
     if a:str =~ '\r'
@@ -329,9 +340,9 @@ function! s:wrapreg(reg,char,...)
     let new = s:wrap(orig,a:char,type,special)
     call setreg(a:reg,new,type)
 endfunction
-" }}}1
 
-function! s:insert(...) " {{{1
+
+function! s:insert(...)  "{{{2
     " Optional argument causes the result to appear on 3 lines, not 1
     "call inputsave()
     let linemode = a:0 ? a:1 : 0
@@ -377,17 +388,19 @@ function! s:insert(...) " {{{1
     let @@ = reg_save
     let &clipboard = cb_save
     return "\<Del>"
-endfunction " }}}1
+endfunction
 
-function! s:reindent() " {{{1
+
+function! s:reindent()  "{{{2
     if exists("b:surround_indent") ? b:surround_indent : (exists("g:surround_indent") && g:surround_indent)
         silent norm! '[=']
     endif
-endfunction " }}}1
+endfunction
 
-function! s:dosurround(...) "{{{1
+
+function! s:dosurround(...)  "{{{2
     " ([target-surrounding-object-char, [new-surrounding-object-char]])
-    " adjust arguments  "{{{2
+    " adjust arguments  "{{{3
     let scount = v:count1
     let char = (a:0 ? a:1 : s:inputtarget())
     let spc = ""
@@ -413,7 +426,7 @@ function! s:dosurround(...) "{{{1
         endif
     endif
 
-    " save and initialize some values  "{{{2
+    " save and initialize some values  "{{{3
     let cb_save = &clipboard
     set clipboard-=unnamed
     let append = ""
@@ -421,7 +434,7 @@ function! s:dosurround(...) "{{{1
     let otype = getregtype('"')
     call setreg('"',"")
 
-    " move the target text range into @@, then delete surroudings  "{{{2
+    " move the target text range into @@, then delete surroudings  "{{{3
     let strcount = (scount == 1 ? "" : scount)
     let user_defined_object = s:get_user_defined_object(char)
     if len(user_defined_object)  " FIXME: [count] is not supported yet
@@ -498,13 +511,13 @@ function! s:dosurround(...) "{{{1
         let pcmd = "p"
     endif
 
-    " surround @@ new objects  "{{{2
+    " surround @@ new objects  "{{{3
     call setreg('"',keeper,regtype)
     if newchar != ""
         call s:wrapreg('"',newchar)
     endif
 
-    " put the result into the original position, then reindent  "{{{2
+    " put the result into the original position, then reindent  "{{{3
     silent exe 'norm! ""'.pcmd.'`['
     if removed =~ '\n' || okeeper =~ '\n' || getreg('"') =~ '\n'
         call s:reindent()
@@ -514,13 +527,14 @@ function! s:dosurround(...) "{{{1
         silent norm! cc
     endif
 
-    " restore the original value, set some values for later use  "{{{2
+    " restore the original value, set some values for later use  "{{{3
     call setreg('"',removed,regtype)
     let s:lastdel = removed
     let &clipboard = cb_save
-endfunction " }}}1
+endfunction
 
-function! s:changesurround() " {{{1
+
+function! s:changesurround()  "{{{2
     let a = s:inputtarget()
     if a == ""
         return s:beep()
@@ -530,9 +544,10 @@ function! s:changesurround() " {{{1
         return s:beep()
     endif
     call s:dosurround(a,b)
-endfunction " }}}1
+endfunction
 
-function! s:opfunc(type,...) " {{{1
+
+function! s:opfunc(type,...)  "{{{2
     let char = s:inputreplacement()
     if char == ""
         return s:beep()
@@ -587,9 +602,10 @@ endfunction
 
 function! s:opfunc2(arg)
     call s:opfunc(a:arg,1)
-endfunction " }}}1
+endfunction
 
-function! s:closematch(str) " {{{1
+
+function! s:closematch(str)  "{{{2
     " Close an open (, {, [, or < on the command line.
     let tail = matchstr(a:str,'.[^\[\](){}<>]*$')
     if tail =~ '^\[.\+'
@@ -603,9 +619,11 @@ function! s:closematch(str) " {{{1
     else
         return ""
     endif
-endfunction " }}}1
+endfunction
  
-" Misc. functions  "{{{1
+
+" Misc. functions  "{{{2
+
 function! s:search_literally(pattern, flags)
     return search(s:literalize_pattern(a:pattern), a:flags)
 endfunction
@@ -633,7 +651,11 @@ function! s:get_user_defined_object(char)
         return Value()
     endif
 endfunction
-"}}}1
+
+
+
+
+" Key Mappings  "{{{1
 
 nnoremap <silent> <Plug>Dsurround  :<C-U>call <SID>dosurround(<SID>inputtarget())<CR>
 nnoremap <silent> <Plug>Csurround  :<C-U>call <SID>changesurround()<CR>
@@ -678,6 +700,15 @@ if !exists("g:surround_no_mappings") || ! g:surround_no_mappings
     "imap     <C-S><C-S> <Plug>ISurround
 endif
 
+
+
+
+" Misc.  "{{{1
+
 let &cpo = s:cpo_save
 
+
+
+
+" __END__  "{{{1
 " vim:set ft=vim sw=4 sts=4 et:
