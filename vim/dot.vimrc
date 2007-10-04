@@ -1,4 +1,4 @@
-" My .vimrc
+﻿" My .vimrc
 " $Id$
 " SETTINGS WHICH ARE ABSOLUTELY NECESSARY  "{{{1
 
