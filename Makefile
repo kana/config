@@ -50,7 +50,8 @@ colinux-etc-fstab-inplace: /etc/fstab~
 GROUP_COLINUX_external_FILES=\
   colinux/boot-checker.py \
   colinux/my-colinux.bat \
-  colinux/my.conf
+  colinux/my.conf \
+  colinux/shproxs.py
 GROUP_COLINUX_external_RULE=\
   $(patsubst colinux/%,/c/cygwin/usr/win/bin/coLinux/%,$(1))
 
