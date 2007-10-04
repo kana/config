@@ -80,6 +80,7 @@ endif
 filetype plugin indent on
 
 
+set ambiwidth=double
 set autoindent
 set backspace=indent,eol,start
 set backup
