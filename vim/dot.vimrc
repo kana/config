@@ -234,15 +234,27 @@ function! s:Execute(...)
 endfunction
 
 
-" move the next line into the cursor position
-function! s:JoinHere()
+" like join (J), but move the next line into the cursor position.
+function! s:JoinHere(...)
+  let adjust_spacesp = a:0 ? a:1 : 1
   let pos = getpos('.')
-  let r = @0
+  let r = @"
 
-  call setreg('0', getline(line('.') + 1), 'c')
-  normal! "0Pjdd
+  if adjust_spacesp  " adjust spaces between texts being joined as same as J.
+    normal! D
+    let l = @"
 
-  let @0 = r
+    normal! J
+
+    call append(line('.'), '')
+    call setreg('"', l, 'c')
+    normal! jpkJ
+  else  " don't adjust spaces like gJ.
+    call setreg('"', getline(line('.') + 1), 'c')
+    normal! ""Pjdd
+  endif
+
+  let @" = r
   call setpos('.', pos)
 endfunction
 
