@@ -9,7 +9,7 @@ include "dot.mayu"
 
 
 # Mayu specific settings.
-key A-C-S-W-M = &LoadSetting()
+key A-C-S-W-M = &LoadSetting() &HelpMessage("~/.mayu", "has been reloaded.")
 key W-I = &WindowIdentify
 
 
