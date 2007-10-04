@@ -36,6 +36,7 @@ if (USE109)  # JIS layout (assumes "ordinary" one)
   # like AX layout.
   def subst *IC-A-Kanji = $ToggleIME
   def subst *Hiragana = $ToggleIME
+  def subst *RightAlt = $ToggleIME
 
   # same as USE104.
   mod shift += !!RightShift
