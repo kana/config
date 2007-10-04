@@ -490,8 +490,6 @@ nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
   " insert one character
 nnoremap [Space]I  I<Space><Esc>r
 nnoremap [Space]i  i<Space><Esc>r
-nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
-  " unjoin
 nnoremap [Space]j  i<Return><Esc>
 nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
   " unjoin
