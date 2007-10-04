@@ -8,10 +8,12 @@ function escape()
 
 function main()
 {
+  local DEFAULT_PORT=29552
+
   if [ $# = 1 ] || [ $# = 2 ]; then
     if [ "${1/:/}" = "$1" ]; then
       local server="$1"
-      local port=29552
+      local port=$DEFAULT_PORT
     else
       local server="${1%:*}"
       local port="${1#*:}"
@@ -22,12 +24,21 @@ function main()
       local command="$(echo -n "$2" | escape)"
     fi
   else
-    echo 'Usage: shproxc server[:port] [command]'
-    echo 'if command is ommitted, read from stdin.'
+    echo "Usage: shproxc server[:port=$DEFAULT_PORT] [command]"
+    echo "   or: shproxc server[:port=$DEFAULT_PORT] quit"
+    echo ''
+    echo 'Run {command} in the host which runs {server}.'
+    echo 'If {command} is ommitted, read it from stdin.'
+    echo ''
+    echo 'The latter usage will quit {server}.'
     return 1
   fi
 
-  curl --silent "http://$server:$port/run/$command"
+  if [ "$command" = 'quit' ]; then
+    curl --silent "http://$server:$port/quit"
+  else
+    curl --silent "http://$server:$port/run/$command"
+  fi
   return 0
 }
 
