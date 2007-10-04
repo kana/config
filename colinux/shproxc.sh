@@ -1,5 +1,6 @@
 #!/bin/bash
 # shproxc - wrapper client for shproxs.
+# $Id$
 
 function escape()
 {
