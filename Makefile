@@ -18,7 +18,7 @@ ALL_GROUPS=\
   $(ALL_GROUPS_$(ENV_WORKING)) \
   $(ALL_GROUPS_$(ENV_WORKING)_$(USER))
 ALL_GROUPS_common=DOTS VIM
-ALL_GROUPS_colinux=COLINUX_external
+ALL_GROUPS_colinux=COLINUX_external COLINUX_misc
 ALL_GROUPS_colinux_root=COLINUX_internal
 ALL_GROUPS_cygwin=CEREJA COLINUX_external DOTS_cygwin OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
@@ -54,6 +54,10 @@ GROUP_COLINUX_external_FILES=\
   colinux/shproxs.py
 GROUP_COLINUX_external_RULE=\
   $(patsubst colinux/%,/c/cygwin/usr/win/bin/coLinux/%,$(1))
+
+GROUP_COLINUX_misc_FILES=\
+  colinux/shproxc.sh
+GROUP_COLINUX_misc_RULE=$(patsubst colinux/%,$(HOME)/bin/%,$(1))
 
 GROUP_DOTS_FILES=\
   dot.bash_profile \
