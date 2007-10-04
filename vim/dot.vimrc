@@ -490,9 +490,10 @@ nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
   " insert one character
 nnoremap [Space]I  I<Space><Esc>r
 nnoremap [Space]i  i<Space><Esc>r
+nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
+nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
   " unjoin
 nnoremap [Space]j  i<Return><Esc>
-nnoremap [Space]J  :<C-u>call <SID>JoinHere()<Return>
 nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
 nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
 nnoremap [Space]q  :help quickref<Return>
