@@ -254,7 +254,29 @@ function! s:SCCSDiffAll()
   else
     let cmd = 'svk'
   endif
-  call <SID>CreateCommandOutputBuffer(cmd.' diff', 'botright')
+
+  let was_tab_boredp = s:BoringTabP()
+  let openp = s:CreateCommandOutputBuffer(cmd.' diff', 'botright')
+  if was_tab_boredp && openp
+    only  " close all boring windows.
+  endif
+endfunction
+
+
+function! s:BoringTabP(...)  " are all windows in the tab boring?
+  " boring window is a window which shows a boring buffer.
+  let tid = a:0 ? a:1 : tabpagenr()
+  for wid in range(1, tabpagewinnr(tid, '$'))
+    let bid = winbufnr(wid)
+    if !s:BoringBufferP(bid)
+      return 0
+    endif
+  endfor
+  return 1
+endfunction
+
+function! s:BoringBufferP(bid)  " is the buffer unnamed and not editted?
+  return bufname(a:bid) == '' && getbufvar(a:bid, '&modified') == 0
 endfunction
 
 
