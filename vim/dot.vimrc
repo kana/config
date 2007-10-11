@@ -521,7 +521,7 @@ endfunction
 
 
 " Key Mappings  "{{{1
-" Tag-related hotkeys  "{{{2
+" Tag jumping  "{{{2
 " Fallback  "{{{3
 
 " ``T'' is also disabled for consistency.
@@ -533,7 +533,8 @@ noremap  [Space]t  t
 noremap  [Space]T  T
 
 
-" Basics  "{{{3
+" Basic  "{{{3
+
 nmap     t<Space>  tt
 vmap     t<Space>  tt
 nnoremap tt  <C-]>
@@ -551,7 +552,8 @@ nmap     <C-m>  tt
 vmap     <C-m>  tt
 
 
-" With preview window  "{{{3
+" With the preview window  "{{{3
+
 nmap     t'<Space>  t't
 vmap     t'<Space>  t't
 nnoremap t't  <C-w>}
@@ -566,6 +568,7 @@ nnoremap t'c  :pclose<Return>
 
 
 " With :split  "{{{3
+
 nnoremap tst  <C-w>]
 vnoremap tst  <C-w>]
 nmap     ts<Space>  tst
@@ -577,6 +580,7 @@ nnoremap tsN  :split \| tlast<Return>
 
 
 " With :vertical split  "{{{3
+
   " |:vsplit|-then-|<C-]>| is simple
   " but its modification to tag stacks is not same as |<C-w>]|.
 nnoremap tvt  <C-]>:vsplit<Return><C-w>p<C-t><C-w>p
