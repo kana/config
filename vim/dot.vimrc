@@ -535,6 +535,7 @@ endfunction
 " FIXME: many {rhs}s use : without <C-u> (clearing count effect).
 " FIXME: some mappings are not countable.
 " Tag jumping  "{{{2
+" FIXME: the target window of :split/:vsplit version.
 " Fallback  "{{{3
 
 " ``T'' is also disabled for consistency.
