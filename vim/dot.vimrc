@@ -760,44 +760,64 @@ onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 
 
 
+" The <Space>  "{{{2
+"
+" Various hotkeys prefixed by <Space>.
+
+" to show <Space> in the bottom line.
+map      <Space>  [Space]
+
+" fallback
+noremap  [Space]  <Nop>
+
+
+nnoremap [Space]/  :nohlsearch<Return>
+
+nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
+
+  " append one character
+nnoremap [Space]A  A<Space><Esc>r
+nnoremap [Space]a  a<Space><Esc>r
+
+nmap     [Space]b  <Plug>Buffuzzy
+
+nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
+nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
+
+  " insert one character
+nnoremap [Space]I  I<Space><Esc>r
+nnoremap [Space]i  i<Space><Esc>r
+
+nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
+nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
+  " unjoin
+nnoremap [Space]j  i<Return><Esc>
+
+nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
+nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
+
+nnoremap [Space]q  :help quickref<Return>
+
+nnoremap [Space]r  :registers<Return>
+
+nnoremap [Space]s  <Nop>
+nnoremap [Space]s.  :source $HOME/.vimrc<Return>
+nnoremap [Space]ss  :source %<Return>
+
+vnoremap [Space]s  :sort<Return>
+
+  " for backward compatibility
+nmap     [Space]w  [Space]ow
+
+
+
+
 " Misc.  "{{{2
 
 nnoremap <C-h>  :h<Space>
 nnoremap <C-o>  :e<Space>
 nnoremap <C-w>.  :e .<Return>
 nnoremap <silent> <Leader>cD  :<C-u>call <SID>SCCSDiffAll()<CR>
-
-
-" Various hotkeys prefixed by <Space>.
-  " To show <Space> in the bottom line.
-map      <Space>  [Space]
-
-noremap  [Space]  <Nop>
-nnoremap [Space]/  :nohlsearch<Return>
-nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
-  " append one character
-nnoremap [Space]A  A<Space><Esc>r
-nnoremap [Space]a  a<Space><Esc>r
-nmap     [Space]b  <Plug>Buffuzzy
-nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
-  " insert one character
-nnoremap [Space]I  I<Space><Esc>r
-nnoremap [Space]i  i<Space><Esc>r
-nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
-nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
-  " unjoin
-nnoremap [Space]j  i<Return><Esc>
-nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
-nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
-nnoremap [Space]q  :help quickref<Return>
-nnoremap [Space]r  :registers<Return>
-nnoremap [Space]s  <Nop>
-nnoremap [Space]s.  :source $HOME/.vimrc<Return>
-nnoremap [Space]ss  :source %<Return>
-vnoremap [Space]s  :sort<Return>
-  " for backward compatibility
-nmap     [Space]w  [Space]ow
 
 
 " Jump list
