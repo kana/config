@@ -721,6 +721,9 @@ cnoremap <Esc>x  <Del>
 cnoremap <expr> <C-u>  <SID>KeysToEscapeCommandlineModeIfEmpty("\<C-u>")
 cnoremap <expr> <C-w>  <SID>KeysToEscapeCommandlineModeIfEmpty("\<C-w>")
 
+" Search slashes easily (too lazy to prefix backslashes to slashes)
+cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
+
 
 
 
@@ -850,10 +853,6 @@ nnoremap ZQ  <Nop>
 " Use a backslash (\) to repeat last change.
 " Since a dot (.) is used as <LocalLeader>.
 nnoremap \  .
-
-
-" Search slashes easily (too lazy to prefix backslashes to slashes)
-cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 
 
 " Complete or indent.
