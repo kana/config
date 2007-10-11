@@ -595,11 +595,19 @@ nnoremap tvN  :vsplit \| tlast<Return>
 
 
 
-" Quickfix hotkeys  "{{{2
-" Fallback
+" Quickfix  "{{{2
+" Fallback  "{{{3
+
+" the prefix key.
 nnoremap q  <Nop>
 
-" For quickfix list
+" alternative key for the original action.
+" -- Ex-mode will be never used and recordings are rarely used.
+nnoremap Q  q
+
+
+" For quickfix list  "{{{3
+
 nnoremap qj        :Execute cnext [count]<Return>
 nnoremap qk        :Execute cprevious [count]<Return>
 nnoremap qr        :Execute crewind [count]<Return>
@@ -618,7 +626,9 @@ nnoremap qM        :make<Space>
 nnoremap q<Space>  :make<Space>
 nnoremap qg        :grep<Space>
 
-" For location list (mnemonic: Quickfix list for the current Window)
+
+" For location list (mnemonic: Quickfix list for the current Window)  "{{{3
+
 nnoremap qwj        :Execute lnext [count]<Return>
 nnoremap qwk        :Execute lprevious [count]<Return>
 nnoremap qwr        :Execute lrewind [count]<Return>
@@ -794,10 +804,6 @@ noremap :  ;
 " Disable some dangerous key.
 nnoremap ZZ  <Nop>
 nnoremap ZQ  <Nop>
-
-
-" Ex-mode will be never used and recordings are rarely used.
-nnoremap Q  q
 
 
 " Use a backslash (\) to repeat last change.
