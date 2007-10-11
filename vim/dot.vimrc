@@ -1,5 +1,55 @@
 ﻿" My .vimrc
 " $Id$
+" Notes  "{{{1
+"
+" * This file consists of "sections".
+"
+" * Each section consists of zero or more "subsections".
+"
+" * The last subsection in a section is called as "Misc." subsection.
+"
+" * Whenever new subsection is inserted,
+"   it should be inserted just before Misc. subsection.
+"
+" * If a setting can be categorized into two or more sections,
+"   it should be put into the most bottom section in this file.
+"
+"   For example, key mappings for a specific plugin should be put into the
+"   Plugins section.
+"
+"
+" Coding Rule
+"
+" * Separate sections with 8 blank lines.
+"
+" * Separate subsections with 4 blank lines.
+"
+" * Character Encoding and Indentation:
+"   see the modelines in the bottom of this files.
+"
+" * Limit all lines to a maximum of 79 characters.
+"
+" * Separate {lhs} and {rhs} of key mappings with 2 spaces.
+"
+" * Separate {cmd} and {rep} of :command definitions with 2 spaces.
+"
+" * Key Notation:
+"
+"   - Control-keys: Write as <C-x>, neither <C-X> nor <c-x>.
+"
+"   - Carriage return: Write as <Return>, neither <Enter> nor <CR>.
+"
+"     - But <CR> may be used to follow the maximum line length.
+"
+"   - Other characters: Write as same as :help key-notation
+
+
+
+
+
+
+
+
 " SETTINGS WHICH ARE ABSOLUTELY NECESSARY  "{{{1
 
 " To use many extensions of Vim.
