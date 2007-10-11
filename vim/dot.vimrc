@@ -724,7 +724,13 @@ cnoremap <expr> <C-w>  <SID>KeysToEscapeCommandlineModeIfEmpty("\<C-w>")
 
 
 
-" Input the current date/time (Full, Date, Time).  "{{{2
+" Input: datetime  "{{{2
+"
+" Input the current date/time (Full, Date, Time).
+"
+" FIXME: use timezone of the system, instead of static one.
+"
+" FIXME: revise the {lhs}s, compare with the default keys of todatetime.
 
 inoremap <Leader>dF  <C-r>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
 inoremap <Leader>df  <C-r>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
