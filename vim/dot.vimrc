@@ -520,119 +520,7 @@ endfunction
 
 
 
-" KEY MAPPINGS  "{{{1
-" RULES:
-" - Separate {lhs} and {rhs} by two spaces.
-" - Write like <C-x>, not <C-X>.
-
-" Misc.  "{{{2
-
-nnoremap <C-h>  :h<Space>
-nnoremap <C-o>  :e<Space>
-nnoremap <C-w>.  :e .<Return>
-nnoremap <silent> <Leader>cD  :<C-u>call <SID>SCCSDiffAll()<CR>
-
-
-" Various hotkeys prefixed by <Space>.
-  " To show <Space> in the bottom line.
-map      <Space>  [Space]
-
-noremap  [Space]  <Nop>
-nnoremap [Space]/  :nohlsearch<Return>
-nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
-  " append one character
-nnoremap [Space]A  A<Space><Esc>r
-nnoremap [Space]a  a<Space><Esc>r
-nmap     [Space]b  <Plug>Buffuzzy
-nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
-  " insert one character
-nnoremap [Space]I  I<Space><Esc>r
-nnoremap [Space]i  i<Space><Esc>r
-nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
-nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
-  " unjoin
-nnoremap [Space]j  i<Return><Esc>
-nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
-nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
-nnoremap [Space]q  :help quickref<Return>
-nnoremap [Space]r  :registers<Return>
-nnoremap [Space]s  <Nop>
-nnoremap [Space]s.  :source $HOME/.vimrc<Return>
-nnoremap [Space]ss  :source %<Return>
-vnoremap [Space]s  :sort<Return>
-  " for backward compatibility
-nmap     [Space]w  [Space]ow
-
-
-" Jump list
-nnoremap <C-j>  <C-i>
-nnoremap <C-k>  <C-o>
-
-
-" Switch to the previously edited file (like Vz)
-nnoremap <Esc>2  :e #<Return>
-nmap <F2>  <Esc>2
-
-
-" Visiting windows with one key.
-nnoremap <C-i>  <C-w>w
-nnoremap <Esc>i  <C-w>W
-
-nmap <S-Tab>  <Esc>i
-
-
-" Too lazy to press Shift key.
-noremap ;  :
-noremap :  ;
-
-
-" Disable some dangerous key.
-nnoremap ZZ  <Nop>
-nnoremap ZQ  <Nop>
-
-
-" Ex-mode will be never used and recordings are rarely used.
-nnoremap Q  q
-
-
-" Use a backslash (\) to repeat last change.
-" Since a dot (.) is used as <LocalLeader>.
-nnoremap \  .
-
-
-" Search slashes easily (too lazy to prefix backslashes to slashes)
-cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
-
-
-" Complete or indent.
-inoremap <expr> <C-i>  (<SID>ShouldIndentRatherThanCompleteP()
-                      \ ? '<C-i>'
-                      \ : <SID>KeysToComplete())
-
-function! s:ShouldIndentRatherThanCompleteP()
-  let m = match(getline('.'), '\S')
-  return m == -1 || col('.')-1 <= m
-endfunction
-
-
-" Swap ` and ' -- I prefer ` to ' and ` is not easy to type.
-noremap ' `
-noremap ` '
-
-
-" To be able to undo these types of deletion in Insert mode.
-inoremap <C-w>  <C-g>u<C-w>
-inoremap <C-u>  <C-g>u<C-u>
-
-
-" Search the word nearest to the cursor in new window.
-nnoremap <C-w>*  <C-w>s*
-nnoremap <C-w>#  <C-g>s#
-
-
-
-
+" Key Mappings  "{{{1
 " For plugin: scratch  "{{{2
 " I already use <C-m> for tag jumping.
 " But I don't use it in the scratch buffer, so it should be overridden.
@@ -846,6 +734,114 @@ onoremap <silent> ]]  :<C-u>call <SID>JumpSectionO(']]')<Return>
 onoremap <silent> ][  :<C-u>call <SID>JumpSectionO('][')<Return>
 onoremap <silent> [[  :<C-u>call <SID>JumpSectionO('[[')<Return>
 onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
+
+
+
+
+" Misc.  "{{{2
+
+nnoremap <C-h>  :h<Space>
+nnoremap <C-o>  :e<Space>
+nnoremap <C-w>.  :e .<Return>
+nnoremap <silent> <Leader>cD  :<C-u>call <SID>SCCSDiffAll()<CR>
+
+
+" Various hotkeys prefixed by <Space>.
+  " To show <Space> in the bottom line.
+map      <Space>  [Space]
+
+noremap  [Space]  <Nop>
+nnoremap [Space]/  :nohlsearch<Return>
+nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
+  " append one character
+nnoremap [Space]A  A<Space><Esc>r
+nnoremap [Space]a  a<Space><Esc>r
+nmap     [Space]b  <Plug>Buffuzzy
+nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
+nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
+  " insert one character
+nnoremap [Space]I  I<Space><Esc>r
+nnoremap [Space]i  i<Space><Esc>r
+nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
+nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
+  " unjoin
+nnoremap [Space]j  i<Return><Esc>
+nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
+nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
+nnoremap [Space]q  :help quickref<Return>
+nnoremap [Space]r  :registers<Return>
+nnoremap [Space]s  <Nop>
+nnoremap [Space]s.  :source $HOME/.vimrc<Return>
+nnoremap [Space]ss  :source %<Return>
+vnoremap [Space]s  :sort<Return>
+  " for backward compatibility
+nmap     [Space]w  [Space]ow
+
+
+" Jump list
+nnoremap <C-j>  <C-i>
+nnoremap <C-k>  <C-o>
+
+
+" Switch to the previously edited file (like Vz)
+nnoremap <Esc>2  :e #<Return>
+nmap <F2>  <Esc>2
+
+
+" Visiting windows with one key.
+nnoremap <C-i>  <C-w>w
+nnoremap <Esc>i  <C-w>W
+
+nmap <S-Tab>  <Esc>i
+
+
+" Too lazy to press Shift key.
+noremap ;  :
+noremap :  ;
+
+
+" Disable some dangerous key.
+nnoremap ZZ  <Nop>
+nnoremap ZQ  <Nop>
+
+
+" Ex-mode will be never used and recordings are rarely used.
+nnoremap Q  q
+
+
+" Use a backslash (\) to repeat last change.
+" Since a dot (.) is used as <LocalLeader>.
+nnoremap \  .
+
+
+" Search slashes easily (too lazy to prefix backslashes to slashes)
+cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
+
+
+" Complete or indent.
+inoremap <expr> <C-i>  (<SID>ShouldIndentRatherThanCompleteP()
+                      \ ? '<C-i>'
+                      \ : <SID>KeysToComplete())
+
+function! s:ShouldIndentRatherThanCompleteP()
+  let m = match(getline('.'), '\S')
+  return m == -1 || col('.')-1 <= m
+endfunction
+
+
+" Swap ` and ' -- I prefer ` to ' and ` is not easy to type.
+noremap ' `
+noremap ` '
+
+
+" To be able to undo these types of deletion in Insert mode.
+inoremap <C-w>  <C-g>u<C-w>
+inoremap <C-u>  <C-g>u<C-u>
+
+
+" Search the word nearest to the cursor in new window.
+nnoremap <C-w>*  <C-w>s*
+nnoremap <C-w>#  <C-g>s#
 
 
 
