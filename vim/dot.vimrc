@@ -521,19 +521,6 @@ endfunction
 
 
 " Key Mappings  "{{{1
-" For plugin: scratch  "{{{2
-" I already use <C-m> for tag jumping.
-" But I don't use it in the scratch buffer, so it should be overridden.
-
-augroup Scratch
-  au!
-  au User Initialize  nmap <buffer> <C-m>  <Plug>Scratch_ExecuteLine
-  au User Initialize  vmap <buffer> <C-m>  <Plug>Scratch_ExecuteSelection
-augroup END
-
-
-
-
 " Tag-related hotkeys  "{{{2
 " Fallback  "{{{3
 
@@ -1033,6 +1020,19 @@ autocmd MyAutoCmd User DelayedSettings
       \   if exists('g:loaded_cygclip')
       \ |   call Cygclip_DefaultKeymappings()
       \ | endif
+
+
+
+
+" scratch  "{{{2
+
+" I already use <C-m> for tag jumping.
+" But I don't use it in the scratch buffer, so it should be overridden.
+augroup Scratch
+  au!
+  au User Initialize  nmap <buffer> <C-m>  <Plug>Scratch_ExecuteLine
+  au User Initialize  vmap <buffer> <C-m>  <Plug>Scratch_ExecuteSelection
+augroup END
 
 
 
