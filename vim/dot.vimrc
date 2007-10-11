@@ -4,7 +4,11 @@
 "
 " * This file consists of "sections".
 "
+"   - The name of each section should be one word.
+"
 " * Each section consists of zero or more "subsections".
+"
+"   - There is no rule for the name of each subsection.
 "
 " * The last subsection in a section should be named as "Misc.".
 "
@@ -32,6 +36,11 @@
 " * Separate {lhs} and {rhs} of key mappings with 2 spaces.
 "
 " * Separate {cmd} and {rep} of :command definitions with 2 spaces.
+"
+" * Write the full name for each command,
+"   e.g., write nnoremap not nn.
+"
+"     - But abbreviated names may be used to follow the maximum line length.
 "
 " * Key Notation:
 "
@@ -175,7 +184,169 @@ let maplocalleader='.'
 
 
 
-" UTILITY FUNCTIONS & COMMANDS "{{{1
+" Utilities  "{{{1
+" CMapABC: support input for Alternate Built-in Commands "{{{2
+
+let s:CMapABC_Entries = []
+function! s:CMapABC_Add(original_pattern, alternate_name)
+  call add(s:CMapABC_Entries, [a:original_pattern, a:alternate_name])
+endfunction
+
+
+cnoremap <expr> <Space>  <SID>CMapABC()
+function! s:CMapABC()
+  let cmdline = getcmdline()
+  for [original_pattern, alternate_name] in s:CMapABC_Entries
+    if cmdline =~# original_pattern
+      return "\<C-u>" . alternate_name . ' '
+    endif
+  endfor
+  return ' '
+endfunction
+
+
+
+
+" Alternate :cd which uses 'cdpath' for completion  "{{{2
+
+command! -complete=customlist,<SID>CommandComplete_cdpath -nargs=1
+       \ CD  cd <args>
+
+function! s:CommandComplete_cdpath(arglead, cmdline, cursorpos)
+  return split(globpath(&cdpath, a:arglead . '*/'), "\n")
+endfunction
+
+call s:CMapABC_Add('^cd', 'CD')
+
+
+
+
+" Help-related stuffs  "{{{2
+
+function! s:HelpBufWinNR()
+  let wn = 1
+  while wn <= winnr('$')
+    let bn = winbufnr(wn)
+    if getbufvar(bn, '&buftype') == 'help'
+      return [bn, wn]
+    endif
+    let wn = wn + 1
+  endwhile
+  return [-1, 0]
+endfunction
+
+function! s:HelpWindowClose()
+  let [help_bufnr, help_winnr] = s:HelpBufWinNR()
+  if help_bufnr == -1
+    return
+  endif
+
+  let current_winnr = winnr()
+  execute help_winnr 'wincmd w'
+  execute 'wincmd c'
+  if current_winnr < help_winnr
+    execute current_winnr 'wincmd w'
+  elseif help_winnr < current_winnr
+    execute (current_winnr-1) 'wincmd w'
+  else
+    " NOP
+  endif
+endfunction
+
+
+
+
+" High-level key sequences  "{{{2
+
+function! s:KeysToComplete()
+  if strlen(&omnifunc)
+    return "\<C-x>\<C-o>"
+  elseif &filetype ==# 'vim'
+    return "\<C-x>\<C-v>"
+  else
+    return "\<C-n>"
+  endif
+endfunction
+
+function! s:KeysToStopInsertModeCompletion()
+  if pumvisible()
+    return "\<C-y>"
+  else
+    return "\<Space>\<BS>"
+  endif
+endfunction
+
+
+function! s:KeysToEscapeCommandlineModeIfEmpty(key)
+  if getcmdline() == ''
+    return "\<Esc>"
+  else
+    return a:key
+  end
+endfunction
+
+
+
+
+" :edit with specified 'fileencoding'.  "{{{2
+
+com! -nargs=? -complete=file -bang -bar Cp932  edit<bang> ++enc=cp932 <args>
+com! -nargs=? -complete=file -bang -bar Eucjp  edit<bang> ++enc=euc-jp <args>
+com! -nargs=? -complete=file -bang -bar Iso2022jp  Jis<bang> <args>
+com! -nargs=? -complete=file -bang -bar Jis edit<bang> ++enc=iso-2022-jp <args>
+com! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
+com! -nargs=? -complete=file -bang -bar Utf8  edit<bang> ++enc=utf-8 <args>
+
+
+
+
+" Jump sections  "{{{2
+
+" for normal mode.  a:pattern is '/regexp' or '?regexp'.
+function! s:JumpSectionN(pattern)
+  let pattern = strpart(a:pattern, '1')
+  if strpart(a:pattern, 0, 1) == '/'
+    let flags = 'W'
+  else
+    let flags = 'Wb'
+  endif
+
+  mark '
+  let i = 0
+  while i < v:count1
+    if search(pattern, flags) == 0
+      if stridx(flags, 'b') != -1
+        normal! gg
+      else
+        normal! G
+      endif
+      break
+    endif
+    let i = i + 1
+  endwhile
+endfunction
+
+
+" for visual mode.  a:motion is '[[', '[]', ']]' or ']['.
+function! s:JumpSectionV(motion)
+  execute 'normal!' "gv\<Esc>"
+  execute 'normal' v:count1 . a:motion
+  let line = line('.')
+  let col = col('.')
+
+  normal! gv
+  call cursor(line, col)
+endfunction
+
+
+" for operator-pending mode.  a:motion is '[[', '[]', ']]' or ']['.
+function! s:JumpSectionO(motion)
+  execute 'normal' v:count1 . a:motion
+endfunction
+
+
+
+
 " Misc.  "{{{2
 
 function! s:ToggleBell()
@@ -340,168 +511,6 @@ endfunction
 
 function! s:BoringBufferP(bid)  " is the buffer unnamed and not editted?
   return bufname(a:bid) == '' && getbufvar(a:bid, '&modified') == 0
-endfunction
-
-
-
-
-" CMapABC: support input for Alternate Built-in Commands "{{{2
-
-let s:CMapABC_Entries = []
-function! s:CMapABC_Add(original_pattern, alternate_name)
-  call add(s:CMapABC_Entries, [a:original_pattern, a:alternate_name])
-endfunction
-
-
-cnoremap <expr> <Space>  <SID>CMapABC()
-function! s:CMapABC()
-  let cmdline = getcmdline()
-  for [original_pattern, alternate_name] in s:CMapABC_Entries
-    if cmdline =~# original_pattern
-      return "\<C-u>" . alternate_name . ' '
-    endif
-  endfor
-  return ' '
-endfunction
-
-
-
-
-" Alternate :cd which uses 'cdpath' for completion  "{{{2
-
-command! -complete=customlist,<SID>CommandComplete_cdpath -nargs=1
-       \ CD  cd <args>
-
-function! s:CommandComplete_cdpath(arglead, cmdline, cursorpos)
-  return split(globpath(&cdpath, a:arglead . '*/'), "\n")
-endfunction
-
-call s:CMapABC_Add('^cd', 'CD')
-
-
-
-
-" Help-related stuffs  "{{{2
-
-function! s:HelpBufWinNR()
-  let wn = 1
-  while wn <= winnr('$')
-    let bn = winbufnr(wn)
-    if getbufvar(bn, '&buftype') == 'help'
-      return [bn, wn]
-    endif
-    let wn = wn + 1
-  endwhile
-  return [-1, 0]
-endfunction
-
-function! s:HelpWindowClose()
-  let [help_bufnr, help_winnr] = s:HelpBufWinNR()
-  if help_bufnr == -1
-    return
-  endif
-
-  let current_winnr = winnr()
-  execute help_winnr 'wincmd w'
-  execute 'wincmd c'
-  if current_winnr < help_winnr
-    execute current_winnr 'wincmd w'
-  elseif help_winnr < current_winnr
-    execute (current_winnr-1) 'wincmd w'
-  else
-    " NOP
-  endif
-endfunction
-
-
-
-
-" High-level key sequences  "{{{2
-
-function! s:KeysToComplete()
-  if strlen(&omnifunc)
-    return "\<C-x>\<C-o>"
-  elseif &filetype ==# 'vim'
-    return "\<C-x>\<C-v>"
-  else
-    return "\<C-n>"
-  endif
-endfunction
-
-function! s:KeysToStopInsertModeCompletion()
-  if pumvisible()
-    return "\<C-y>"
-  else
-    return "\<Space>\<BS>"
-  endif
-endfunction
-
-
-function! s:KeysToEscapeCommandlineModeIfEmpty(key)
-  if getcmdline() == ''
-    return "\<Esc>"
-  else
-    return a:key
-  end
-endfunction
-
-
-
-
-" :edit with specified 'fileencoding'.  "{{{2
-
-com! -nargs=? -complete=file -bang -bar Cp932  edit<bang> ++enc=cp932 <args>
-com! -nargs=? -complete=file -bang -bar Eucjp  edit<bang> ++enc=euc-jp <args>
-com! -nargs=? -complete=file -bang -bar Iso2022jp  Jis<bang> <args>
-com! -nargs=? -complete=file -bang -bar Jis edit<bang> ++enc=iso-2022-jp <args>
-com! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
-com! -nargs=? -complete=file -bang -bar Utf8  edit<bang> ++enc=utf-8 <args>
-
-
-
-
-" Jump sections  "{{{2
-
-" for normal mode.  a:pattern is '/regexp' or '?regexp'.
-function! s:JumpSectionN(pattern)
-  let pattern = strpart(a:pattern, '1')
-  if strpart(a:pattern, 0, 1) == '/'
-    let flags = 'W'
-  else
-    let flags = 'Wb'
-  endif
-
-  mark '
-  let i = 0
-  while i < v:count1
-    if search(pattern, flags) == 0
-      if stridx(flags, 'b') != -1
-        normal! gg
-      else
-        normal! G
-      endif
-      break
-    endif
-    let i = i + 1
-  endwhile
-endfunction
-
-
-" for visual mode.  a:motion is '[[', '[]', ']]' or ']['.
-function! s:JumpSectionV(motion)
-  execute 'normal!' "gv\<Esc>"
-  execute 'normal' v:count1 . a:motion
-  let line = line('.')
-  let col = col('.')
-
-  normal! gv
-  call cursor(line, col)
-endfunction
-
-
-" for operator-pending mode.  a:motion is '[[', '[]', ']]' or ']['.
-function! s:JumpSectionO(motion)
-  execute 'normal' v:count1 . a:motion
 endfunction
 
 
