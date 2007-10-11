@@ -50,11 +50,15 @@
 
 
 
-" SETTINGS WHICH ARE ABSOLUTELY NECESSARY  "{{{1
+" Basic  "{{{1
+" Absolute  "{{{2
 
-" To use many extensions of Vim.
-set nocompatible
+set nocompatible  " to use many extensions of Vim.
 
+
+
+
+" Encoding  "{{{2
 
 " To deal with Japanese language.
 if $ENV_WORKING ==# 'colinux'
@@ -112,11 +116,7 @@ endif
 
 
 
-
-
-
-
-" BASIC SETTINGS  "{{{1
+" Options  "{{{2
 
 if 1 < &t_Co && has('syntax')
   if &term ==# 'rxvt-cygwin-native'
