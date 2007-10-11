@@ -1093,5 +1093,7 @@ set secure
 
 
 
-" __END__
-" vim: fileencoding=utf-8 foldmethod=marker
+" __END__  "{{{1
+" vim: fileencoding=utf-8 bomb
+" vim: expandtab softtabstop=2 shiftwidth=2
+" vim: foldmethod=marker
