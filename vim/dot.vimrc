@@ -704,7 +704,7 @@ nmap <C-t><C-h>  <C-t>h
 
 
 
-" For command-line editting  "{{{2
+" Command-line editting  "{{{2
 
 " pseudo vi-like keys
 cnoremap <Esc>h  <Left>
