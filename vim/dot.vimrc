@@ -532,6 +532,8 @@ endfunction
 
 
 " Key Mappings  "{{{1
+" FIXME: many {rhs}s use : without <C-u> (clearing count effect).
+" FIXME: some mappings are not countable.
 " Tag jumping  "{{{2
 " Fallback  "{{{3
 
