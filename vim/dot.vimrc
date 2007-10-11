@@ -741,7 +741,12 @@ inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 
 
 
-" Enable ]] and other motions in visual and operator-pending mode.  "{{{2
+" Section jumping  "{{{2
+"
+" Enable *consistent* ]] and other motions in Visual and Operator-pending
+" mode.  Because some ftplugins provide these motions only for Normal mode
+" and other ftplugins provides provide these motions with some faults, e.g.,
+" not countable.
 
 vnoremap <silent> ]]  :<C-u>call <SID>JumpSectionV(']]')<Return>
 vnoremap <silent> ][  :<C-u>call <SID>JumpSectionV('][')<Return>
