@@ -650,10 +650,18 @@ nnoremap qwg        :lgrep<Space>
 
 
 
-" Tab-pages hotkeys  "{{{2
+" Tab pages  "{{{2
+" The mappings defined here are similar to the ones for windows.
 " FIXME: sometimes, hit-enter prompt appears.  but no idea for the reason.
-" Misc.  "{{{3
+" Fallback  "{{{3
+
+" the prefix key.
+" -- see Tag jumping subsection for alternative keys for the original action
+"    of <C-t>.
 nnoremap <C-t>  <Nop>
+
+
+" Basic  "{{{3
 
 nnoremap <C-t>n  :<C-u>tabnew<Return>
 nnoremap <C-t>c  :<C-u>tabclose<Return>
@@ -667,6 +675,7 @@ nmap <C-t><C-i>  <C-t>i
 
 
 " Moving around tabs.  "{{{3
+
 nnoremap <C-t>j  :<C-u>execute 'tabnext'
                  \ 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<Return>
 nnoremap <C-t>k  :Execute tabprevious [count]<Return>
@@ -681,6 +690,7 @@ nmap <C-t><C-t>  <C-t>t
 
 
 " Moving tabs themselves.  "{{{3
+
 nnoremap <C-t>l  :<C-u>execute 'tabmove'
                  \ min([tabpagenr() + v:count1 - 1, tabpagenr('$')])<Return>
 nnoremap <C-t>h  :<C-u>execute 'tabmove'
