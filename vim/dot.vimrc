@@ -6,7 +6,7 @@
 "
 " * Each section consists of zero or more "subsections".
 "
-" * The last subsection in a section is called as "Misc." subsection.
+" * The last subsection in a section should be named as "Misc.".
 "
 " * Whenever new subsection is inserted,
 "   it should be inserted just before Misc. subsection.
@@ -1020,8 +1020,8 @@ let s:FileType_xml_comment_data = {
 
 
 
-" MISC.  "{{{1
-" Plugin: cygclip  "{{{2
+" Plugins  "{{{1
+" cygclip  "{{{2
 
 " Because plugins will be loaded after ~/.vimrc.
 autocmd MyAutoCmd User DelayedSettings
@@ -1032,7 +1032,7 @@ autocmd MyAutoCmd User DelayedSettings
 
 
 
-" Plugin: surround  "{{{2
+" surround  "{{{2
 
 " The default mapping ys for <Plug>Ysurround is not consistent with
 " the default mappings of vi -- y is for yank.
@@ -1048,7 +1048,7 @@ autocmd MyAutoCmd User DelayedSettings
 
 
 
-" Plugin: todatetime  "{{{2
+" todatetime  "{{{2
 
 autocmd MyAutoCmd User DelayedSettings
       \   if exists('g:loaded_todatetime')
@@ -1058,7 +1058,7 @@ autocmd MyAutoCmd User DelayedSettings
 
 
 
-" Plugin: vcscommand  "{{{2
+" vcscommand  "{{{2
 
 let g:VCSCommandDeleteOnHide = 1
 
@@ -1067,7 +1067,7 @@ nmap <Leader>cR  <Plug>VCSDelete
 
 
 
-" Plugin: xml_autons  "{{{2
+" xml_autons  "{{{2
 
 let g:AutoXMLns_Dict = {}
 let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
@@ -1075,7 +1075,11 @@ let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
 
 
-" Others  "{{{2
+
+
+
+
+" Fin.  "{{{1
 
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
@@ -1088,7 +1092,11 @@ endif
 
 
 
-set secure
+set secure  " must be written at the last.  see :help 'secure'.
+
+
+
+
 
 
 
