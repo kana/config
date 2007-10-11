@@ -520,6 +520,11 @@ function! s:BoringBufferP(bid)  " is the buffer unnamed and not editted?
 endfunction
 
 
+function! s:SetShortIndent()
+  setlocal expandtab softtabstop=2 shiftwidth=2
+endfunction
+
+
 
 
 
@@ -893,57 +898,15 @@ nnoremap <C-w>#  <C-g>s#
 
 
 
-" FILETYPE  "{{{1
-" Misc.  "{{{2
-
-augroup MyAutoCmd
-  autocmd FileType dosini
-    \ call <SID>FileType_dosini()
-
-  autocmd FileType python
-    \   call <SID>SetShortIndent()
-    \ | let python_highlight_numbers=1
-    \ | let python_highlight_builtins=1
-    \ | let python_highlight_space_errors=1
-
-  autocmd FileType vim
-    \ call <SID>FileType_vim()
-
-  autocmd FileType html,xhtml,xml,xslt
-    \ call <SID>FileType_xml()
-
-  " Misc.
-  autocmd FileType lua,sh,tex
-    \ call <SID>SetShortIndent()
-
-  autocmd FileType *
-    \ call <SID>FileType_any()
-
-  autocmd ColorScheme *
-    \   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
-    \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
-    \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
-    \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
-  doautocmd ColorScheme because-colorscheme-has-been-set-above.
-
-    " I consider that these buffers have another filetype=netrw.
-  autocmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
-    \ setlocal bufhidden=hide
-augroup END
-
-
-function! s:SetShortIndent()
-  setlocal expandtab softtabstop=2 shiftwidth=2
-endfunction
-
-
-
-
+" Filetypes  "{{{1
 " All  "{{{2
+
+autocmd MyAutoCmd FileType *
+  \ call <SID>FileType_any()
 
 function! s:FileType_any()
   " To use my global mappings for section jumping,
-  " remove buffer local mappings for them.
+  " remove buffer local mappings defined by ftplugin.
   silent! vunmap <buffer>  ]]
   silent! vunmap <buffer>  ][
   silent! vunmap <buffer>  []
@@ -955,9 +918,21 @@ function! s:FileType_any()
 endfunction
 
 
+" although this is not a filetype settings.
+autocmd MyAutoCmd ColorScheme *
+  \   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
+  \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
+  \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
+  \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
+doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
-" Dosini (.ini)  "{{{2
+
+
+" dosini (.ini)  "{{{2
+
+autocmd MyAutoCmd FileType dosini
+  \ call <SID>FileType_dosini()
 
 function! s:FileType_dosini()
   nnoremap <buffer> <silent> ]]  :<C-u>call <SID>JumpSectionN('/^\[')<Return>
@@ -969,14 +944,58 @@ endfunction
 
 
 
+" lua  "{{{2
+
+autocmd MyAutoCmd FileType lua
+  \ call <SID>SetShortIndent()
+
+
+
+
+" netrw  "{{{2
+"
+" Consider these buffers have "another" filetype=netrw.
+
+autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
+  \ setlocal bufhidden=hide
+
+
+
+
+" python  "{{{2
+
+autocmd MyAutoCmd FileType python
+  \   call <SID>SetShortIndent()
+  \ | let python_highlight_numbers=1
+  \ | let python_highlight_builtins=1
+  \ | let python_highlight_space_errors=1
+
+
+
+
 " sh  "{{{2
 
+autocmd MyAutoCmd FileType sh
+  \ call <SID>SetShortIndent()
+
+" FIXME: use $SHELL.
 let g:is_bash = 1
 
 
 
 
-" Vim  "{{{2
+" tex  "{{{2
+
+autocmd MyAutoCmd FileType tex
+  \ call <SID>SetShortIndent()
+
+
+
+
+" vim  "{{{2
+
+autocmd MyAutoCmd FileType vim
+  \ call <SID>FileType_vim()
 
 function! s:FileType_vim()
   call <SID>SetShortIndent()
@@ -987,6 +1006,9 @@ endfunction
 
 
 " XML/SGML and other applications  "{{{2
+
+autocmd MyAutoCmd FileType html,xhtml,xml,xslt
+  \ call <SID>FileType_xml()
 
 function! s:FileType_xml()
   call <SID>SetShortIndent()
