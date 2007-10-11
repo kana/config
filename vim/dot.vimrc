@@ -178,6 +178,12 @@ let mapleader=','
 let maplocalleader='.'
 
 
+" Use this group for any autocmd defined in this file.
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
+
 
 
 
@@ -891,8 +897,6 @@ nnoremap <C-w>#  <C-g>s#
 " Misc.  "{{{2
 
 augroup MyAutoCmd
-  autocmd!
-
   autocmd FileType dosini
     \ call <SID>FileType_dosini()
 
