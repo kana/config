@@ -893,6 +893,14 @@ nnoremap <C-w>*  <C-w>s*
 nnoremap <C-w>#  <C-g>s#
 
 
+" Synonyms for <> and [], same as plugin surround.
+vnoremap aa  a>
+vnoremap ia  i>
+
+vnoremap ar  a]
+vnoremap ir  i]
+
+
 
 
 
