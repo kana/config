@@ -80,7 +80,12 @@ bind -c detach d detach
 bind -c detach ^D detach
 bind -c detach D pow_detach
 
-bind . source $HOME/.screenrc
+bind . eval 'source $HOME/.screenrc' 'echo "~/.screenrc has been reloaded."'
+
+bind ^O eval 'echo -p "SSH? -- Cygwin / Linux / Windows"' 'command -c ssh'
+bind -c ssh ^C screen -t 'cygwin' ssh cygwin
+bind -c ssh ^L screen -t 'linux' ssh www
+bind -c ssh ^W screen -t 'windows' ssh windows
 
 
 # WINDOW {{{2
