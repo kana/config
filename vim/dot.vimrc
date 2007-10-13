@@ -796,8 +796,6 @@ nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
 nnoremap [Space]A  A<Space><Esc>r
 nnoremap [Space]a  a<Space><Esc>r
 
-nmap     [Space]b  <Plug>Buffuzzy
-
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
 
@@ -1092,6 +1090,17 @@ let s:FileType_xml_comment_data = {
 
 
 " Plugins  "{{{1
+" buffuzzy  "{{{2
+
+nmap <Leader>b  <Plug>Buffuzzy
+
+" retained for the backward compatibility,
+" but this should be prefixed by <Leader>.
+nmap [Space]b  <Plug>Buffuzzy
+
+
+
+
 " cygclip  "{{{2
 
 " Because plugins will be loaded after ~/.vimrc.
