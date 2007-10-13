@@ -82,10 +82,10 @@ bind -c detach D pow_detach
 
 bind . eval 'source $HOME/.screenrc' 'echo "~/.screenrc has been reloaded."'
 
-bind ^O eval 'echo -p "SSH? -- Cygwin / Linux / Windows"' 'command -c ssh'
-bind -c ssh ^C screen -t 'cygwin' ssh cygwin
-bind -c ssh ^L screen -t 'linux' ssh www
-bind -c ssh ^W screen -t 'windows' ssh windows
+bind ^O eval 'echo -p "Shell? -- Cygwin / Linux / Root"' 'command -c shell'
+bind -c shell ^C screen -t 'cygwin' ssh cygwin
+bind -c shell ^L screen -t 'linux' ssh www
+bind -c shell ^R screen -t 'root' sudo -i
 
 
 # WINDOW {{{2
