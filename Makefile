@@ -107,6 +107,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/todatetime.vim \
   vim/dot.vim/plugin/tofunc.vim \
+  vim/dot.vim/plugin/touser.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \
   vim/dot.vim/plugin/vcssvk.vim \
@@ -127,6 +128,7 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/surround.txt \
   vim/dot.vim/doc/todatetime.txt \
   vim/dot.vim/doc/tofunc.txt \
+  vim/dot.vim/doc/touser.txt \
   vim/dot.vim/doc/vcscommand.txt \
   vim/dot.vim/doc/xml_autons.txt \
   vim/dot.vim/doc/xml_move.txt
