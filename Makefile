@@ -151,6 +151,7 @@ ALL_PACKAGES=\
   vim-scratch \
   vim-todatetime \
   vim-tofunc \
+  vim-touser \
   vim-xml_autons \
   vim-xml_move
 
@@ -205,6 +206,12 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
+
+PACKAGE_vim_touser_ARCHIVE=vim-touser-0.0
+PACKAGE_vim_touser_BASE=vim/dot.vim
+PACKAGE_vim_touser_FILES=\
+  vim/dot.vim/doc/touser.txt \
+  vim/dot.vim/plugin/touser.vim
 
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
