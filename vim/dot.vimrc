@@ -532,6 +532,55 @@ function! s:SetShortIndent()
 endfunction
 
 
+" Are the windows :split'ed and :vsplit'ed?
+function! s:WindowsJumbledP()
+  " Calculate the terminal height by some values other than 'lines'.
+  " Don't consider about :vsplit.
+  let calculated_height = &cmdheight
+  let winid = winnr('$')
+  while 0 < winid
+    let calculated_height += 1  " statusline
+    let calculated_height += winheight(winid)
+    let winid = winid - 1
+  endwhile
+  if &laststatus == 0
+    let calculated_height -= 1
+  elseif &laststatus == 1 && winnr('$') == 1
+    let calculated_height -= 1
+  else  " &laststatus == 2
+    " nothing to do
+  endif
+
+  " Calculate the terminal width by some values other than 'columns'.
+  " Don't consider about :split.
+  let calculated_width = 0
+  let winid = winnr('$')
+  while 0 < winid
+    let calculated_width += 1  " VertSplit
+    let calculated_width += winwidth(winid)
+    let winid = winid - 1
+  endwhile
+  let calculated_width -= 1
+
+  " If the windows are only :split'ed, &lines == calculated_height.
+  " If the windows are only :vsplit'ed, &columns == calculated_width.
+  " If there is only one window, both pairs are same.
+  " If the windows are :split'ed and :vsplit'ed, both pairs are different.
+  return (&lines != calculated_height) && (&columns != calculated_width)
+endfunction
+
+
+function! s:MoveWindowThenEqualizeIfNecessary(direction)
+  let jumbled_beforep = s:WindowsJumbledP()
+  execute 'wincmd' a:direction
+  let jumbled_afterp = s:WindowsJumbledP()
+
+  if jumbled_beforep || jumbled_afterp
+    wincmd =
+  endif
+endfunction
+
+
 
 
 
@@ -843,10 +892,10 @@ nnoremap <Esc>j  <C-w>j
 nnoremap <Esc>k  <C-w>k
 nnoremap <Esc>l  <C-w>l
 
-nnoremap <Esc>H  <C-w>H
-nnoremap <Esc>J  <C-w>J
-nnoremap <Esc>K  <C-w>K
-nnoremap <Esc>L  <C-w>L
+nnoremap <Esc>H  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('H')<Return>
+nnoremap <Esc>J  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('J')<Return>
+nnoremap <Esc>K  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('K')<Return>
+nnoremap <Esc>L  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('L')<Return>
 
 nnoremap <C-i>  <C-w>w
 " <Tab> = <C-i>
