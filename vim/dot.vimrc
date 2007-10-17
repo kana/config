@@ -292,6 +292,13 @@ function! s:KeysToEscapeCommandlineModeIfEmpty(key)
 endfunction
 
 
+function! s:KeysToInsertOneCharacter()
+  echohl ModeMsg
+  echo '-- INSERT (one char) --'
+  return nr2char(getchar()) . "\<Esc>"
+endfunction
+
+
 
 
 " :edit with specified 'fileencoding'.  "{{{2
@@ -793,15 +800,15 @@ nnoremap [Space]/  :nohlsearch<Return>
 nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
 
   " append one character
-nnoremap [Space]A  A<Space><Esc>r
-nnoremap [Space]a  a<Space><Esc>r
+nnoremap [Space]A  A<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]a  a<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
 nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
 nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
 
   " insert one character
-nnoremap [Space]I  I<Space><Esc>r
-nnoremap [Space]i  i<Space><Esc>r
+nnoremap [Space]I  I<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]i  i<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
 nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
 nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
