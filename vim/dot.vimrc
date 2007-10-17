@@ -827,6 +827,28 @@ nmap     [Space]w  [Space]ow
 
 
 
+" Windows  "{{{2
+"
+" Synonyms for the default mappings, with single key strokes.
+
+nnoremap <Esc>h  <C-w>h
+nnoremap <Esc>j  <C-w>j
+nnoremap <Esc>k  <C-w>k
+nnoremap <Esc>l  <C-w>l
+
+nnoremap <Esc>H  <C-w>H
+nnoremap <Esc>J  <C-w>J
+nnoremap <Esc>K  <C-w>K
+nnoremap <Esc>L  <C-w>L
+
+nnoremap <C-i>  <C-w>w
+" <Tab> = <C-i>
+nnoremap <Esc>i  <C-w>W
+nmap <S-Tab>  <Esc>i
+
+
+
+
 " Misc.  "{{{2
 
 nnoremap <C-h>  :h<Space>
@@ -843,13 +865,6 @@ nnoremap <C-k>  <C-o>
 " Switch to the previously edited file (like Vz)
 nnoremap <Esc>2  :e #<Return>
 nmap <F2>  <Esc>2
-
-
-" Visiting windows with one key.
-nnoremap <C-i>  <C-w>w
-nnoremap <Esc>i  <C-w>W
-
-nmap <S-Tab>  <Esc>i
 
 
 " Too lazy to press Shift key.
