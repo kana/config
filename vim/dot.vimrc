@@ -1009,6 +1009,14 @@ doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
 
+" css  "{{{2
+
+autocmd MyAutoCmd FileType css
+  \ call <SID>SetShortIndent()
+
+
+
+
 " dosini (.ini)  "{{{2
 
 autocmd MyAutoCmd FileType dosini
