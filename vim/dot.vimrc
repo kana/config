@@ -164,8 +164,14 @@ set updatetime=60000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
 set wildmenu
-
 set viminfo=<50,'10,h,r/a,n~/.viminfo
+
+" default 'statusline' with 'fileencoding'.
+let &statusline = ''
+let &statusline .= '%<%f %h%m%r'
+let &statusline .= '%='
+let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
+let &statusline .= '  %-14.(%l,%c%V%) %P'
 
 " To automatically detect the width and the height of the terminal,
 " the followings must not be set.
