@@ -87,10 +87,10 @@ bind -c shell ^C screen -t 'cygwin' ssh cygwin
 bind -c shell ^L screen -t 'linux' ssh www
 bind -c shell ^R screen -t 'root' sudo -i
 
-bind ^E eval 'echo -p "Encoding? -- Cp932 / Euc-jp / Utf-8"' 'command -c shell'
-bind -c shell ^C eval 'encoding "sjis"'    'echo "cp932"'
-bind -c shell ^E eval 'encoding "euc-jp"'  'echo "euc-jp"'
-bind -c shell ^U eval 'encoding "utf-8"'   'echo "utf-8"'
+bind ^E eval 'echo -p "Encoding? -- Cp932 / Euc-jp / Utf-8"' 'command -c enc'
+bind -c enc ^C eval 'encoding "sjis"'    'echo "cp932"'
+bind -c enc ^E eval 'encoding "euc-jp"'  'echo "euc-jp"'
+bind -c enc ^U eval 'encoding "utf-8"'   'echo "utf-8"'
 
 
 # WINDOW {{{2
