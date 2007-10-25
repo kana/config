@@ -155,6 +155,7 @@ set history=100
 set hlsearch
 set grepprg=internal
 set incsearch
+set laststatus=2  " always show status lines.
 set mouse=
 set ruler
 set showcmd
