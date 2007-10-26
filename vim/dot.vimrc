@@ -986,7 +986,7 @@ vnoremap ir  i]
 
 
 " Filetypes  "{{{1
-" All  "{{{2
+" Any filetype   "{{{2
 
 autocmd MyAutoCmd FileType *
   \ call <SID>FileType_any()
