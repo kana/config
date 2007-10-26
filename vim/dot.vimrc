@@ -1006,8 +1006,10 @@ endfunction
 
 " Fix 'fileencoding' to use 'encoding'
 " if the buffer only contains 7-bit characters.
+" Note that if the buffer is not 'modifiable',
+" its 'fileencoding' cannot be changed, so that such buffers are skipped.
 autocmd MyAutoCmd BufReadPost *
-  \   if !search('[^\x00-\x7F]', 'cnw')
+  \   if &modifiable && !search('[^\x00-\x7F]', 'cnw')
   \ |   setlocal fileencoding=
   \ | endif
 
