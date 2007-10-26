@@ -868,7 +868,7 @@ nnoremap [Space]i  i<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
 nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
 nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
-  " unjoin
+  " unjoin  " BUGS: side effect - destroy the last inserted text (".).
 nnoremap [Space]j  i<Return><Esc>
 
 nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
