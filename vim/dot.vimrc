@@ -979,6 +979,10 @@ vnoremap ar  a]
 vnoremap ir  i]
 
 
+" Delete the content of the current line (not the line itself).
+nnoremap d<Space>  0d$
+
+
 
 
 
