@@ -588,6 +588,25 @@ function! s:MoveWindowThenEqualizeIfNecessary(direction)
 endfunction
 
 
+function! s:MoveWindowIntoNewTabPage()
+  let original_tabnr = tabpagenr()
+  let target_bufnr = bufnr('')
+
+  tabnew
+  let new_tabnr = tabpagenr()
+  execute target_bufnr 'buffer'
+
+  execute original_tabnr 'tabnext'
+  if 1 < winnr('$')
+    close
+  else
+    enew
+  endif
+
+  execute new_tabnr 'tabnext'
+endfunction
+
+
 
 
 
@@ -891,9 +910,8 @@ nmap     [Space]w  [Space]ow
 
 
 " Windows  "{{{2
-"
-" Synonyms for the default mappings, with single key strokes.
 
+" Synonyms for the default mappings, with single key strokes.
 nnoremap <Esc>h  <C-w>h
 nnoremap <Esc>j  <C-w>j
 nnoremap <Esc>k  <C-w>k
@@ -908,6 +926,12 @@ nnoremap <C-i>  <C-w>w
 " <Tab> = <C-i>
 nnoremap <Esc>i  <C-w>W
 nmap <S-Tab>  <Esc>i
+
+
+" Others.
+  " This {lhs} overrides the default action (Move cursor to top-left window).
+  " But I rarely use its {lhs}s, so this mapping is not problematic.
+nnoremap <C-w><C-t>  :<C-u>call <SID>MoveWindowIntoNewTabPage()<Return>
 
 
 
