@@ -990,7 +990,6 @@ vnoremap ir  i]
 
 autocmd MyAutoCmd FileType *
   \ call <SID>FileType_any()
-
 function! s:FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings defined by ftplugin.
@@ -1003,6 +1002,14 @@ function! s:FileType_any()
   silent! ounmap <buffer>  []
   silent! ounmap <buffer>  [[
 endfunction
+
+
+" Fix 'fileencoding' to use 'encoding'
+" if the buffer only contains 7-bit characters.
+autocmd MyAutoCmd BufReadPost *
+  \   if !search('[^\x00-\x7F]', 'cnw')
+  \ |   setlocal fileencoding=
+  \ | endif
 
 
 " although this is not a filetype settings.
