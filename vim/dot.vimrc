@@ -981,8 +981,8 @@ endfunction
 
 
 " Swap ` and ' -- I prefer ` to ' and ` is not easy to type.
-noremap ' `
-noremap ` '
+noremap '  `
+noremap `  '
 
 
 " To be able to undo these types of deletion in Insert mode.
