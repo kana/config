@@ -1020,6 +1020,11 @@ nnoremap d<Space>  0d$
 nnoremap gc  `[v`]
 
 
+" Make I/A available in characterwise-visual and linewise-visual.
+vnoremap I  <C-v>I
+vnoremap A  <C-v>A
+
+
 
 
 
