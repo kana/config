@@ -1012,6 +1012,7 @@ vnoremap ir  i]
 
 
 " Delete the content of the current line (not the line itself).
+" FIXME: can't be used with <Space>-prefixed mappings -- should be changed.
 nnoremap d<Space>  0d$
 
 
