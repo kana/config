@@ -1016,6 +1016,10 @@ vnoremap ir  i]
 nnoremap d<Space>  0d$
 
 
+" Like gv, but select the last changed text.
+nnoremap gc  `[v`]
+
+
 
 
 
