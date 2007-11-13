@@ -1000,9 +1000,13 @@ nnoremap <C-w>#  <C-g>s#
 
 
 " Synonyms for <> and [], same as plugin surround.
+onoremap aa  a>
+onoremap ia  i>
 vnoremap aa  a>
 vnoremap ia  i>
 
+onoremap ar  a]
+onoremap ir  i]
 vnoremap ar  a]
 vnoremap ir  i]
 
