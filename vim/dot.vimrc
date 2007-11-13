@@ -981,8 +981,12 @@ endfunction
 
 
 " Swap ` and ' -- I prefer ` to ' and ` is not easy to type.
-noremap '  `
-noremap `  '
+" <SID>jump-default and <SID>jump-another are the name for these actions
+" to use other places in this file.
+map '  <SID>jump-default
+map `  <SID>jump-another
+noremap <SID>jump-default  `
+noremap <SID>jump-another  '
 
 
 " To be able to undo these types of deletion in Insert mode.
