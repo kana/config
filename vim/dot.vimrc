@@ -1136,6 +1136,20 @@ autocmd MyAutoCmd FileType vim
 function! s:FileType_vim()
   call <SID>SetShortIndent()
   let vim_indent_cont = &shiftwidth
+
+  iabbr <buffer> jf  function!()<Return>
+                    \endfunction<Return>
+                    \<Up><Up><End><Left><Left>
+  iabbr <buffer> ji  if<Return>
+                    \endif<Return>
+                    \<Up><Up><End>
+  iabbr <buffer> je  if<Return>
+                    \else<Return>
+                    \endif<Return>
+                    \<Up><Up><Up><End>
+  iabbr <buffer> jw  while<Return>
+                    \endwhile<Return>
+                    \<Up><Up><End>
 endfunction
 
 
