@@ -1123,7 +1123,7 @@ endfunction
 " help  "{{{2
 
 autocmd MyAutoCmd FileType help
-  \ call textobj#user#define('<Bar>[^<Bar>]*<Bar>', '', '', {
+  \ call textobj#user#define('|[^|]*|', '', '', {
   \                            'move-to-next': '<buffer> gj',
   \                            'move-to-prev': '<buffer> gk',
   \                          })
