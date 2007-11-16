@@ -1012,8 +1012,9 @@ vnoremap ir  i]
 
 
 " Delete the content of the current line (not the line itself).
-" FIXME: can't be used with <Space>-prefixed mappings -- should be changed.
-nnoremap d<Space>  0d$
+" BUGS: not repeatable.
+" BUGS: the default behavior is overridden, but it's still available via "x".
+nnoremap dl  0d$
 
 
 " Like gv, but select the last changed text.
