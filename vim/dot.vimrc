@@ -1025,6 +1025,31 @@ vnoremap I  <C-v>I
 vnoremap A  <C-v>A
 
 
+" Start Insert mode with [count] blank lines.
+" (I prefer this behavior to the default behavior of [count]o/O
+"  -- repeat the next insertion [count] times.)
+nnoremap o  :<C-u>call <SID>StartInsertModeWithBlankLines('o')<Return>
+nnoremap O  :<C-u>call <SID>StartInsertModeWithBlankLines('O')<Return>
+
+function! s:StartInsertModeWithBlankLines(command)
+  " Do "[count]o<Esc>o" and so forth.
+  " BUGS: In map-<expr>, v:count and v:count1 don't hold correct values.
+  " FIXME: proper indenting in comments.
+  " FIXME: not repeatable perfectly (repeat insertion without blank lines).
+  let script = ''
+  if v:count == v:count1  " is [count] specified?
+    let script .= v:count . a:command . "\<Esc>"
+    if a:command ==# 'O'
+      " Adjust the cursor position.
+      let script .= "\<Down>" . v:count . "\<Up>"
+    endif
+  endif
+  let script .= a:command
+  call feedkeys(script, 'n')
+endfunction
+
+
+
 
 
 
