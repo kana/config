@@ -1120,6 +1120,17 @@ endfunction
 
 
 
+" help  "{{{2
+
+autocmd MyAutoCmd FileType help
+  \ call textobj#user#define('<Bar>[^<Bar>]*<Bar>', '', '', {
+  \                            'move-to-next': '<buffer> gj',
+  \                            'move-to-prev': '<buffer> gk',
+  \                          })
+
+
+
+
 " lua  "{{{2
 
 autocmd MyAutoCmd FileType lua
