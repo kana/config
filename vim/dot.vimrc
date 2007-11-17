@@ -1369,12 +1369,9 @@ autocmd MyAutoCmd User DelayedSettings
 
 
 
-" todatetime  "{{{2
+" textobj-datetime  "{{{2
 
-autocmd MyAutoCmd User DelayedSettings
-      \   if exists('g:loaded_todatetime')
-      \ |   call TODateTime_DefaultKeymappings(1)
-      \ | endif
+silent! call textobj#datetime#default_mappings(1)
 
 
 

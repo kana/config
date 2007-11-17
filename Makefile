@@ -92,8 +92,9 @@ GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 GROUP_VIM_FILES=\
   $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/after/ftplugin/xml_autons.vim \
-  vim/dot.vim/autoload/xml/svg11.vim \
+  vim/dot.vim/autoload/textobj/datetime.vim \
   vim/dot.vim/autoload/textobj/user.vim \
+  vim/dot.vim/autoload/xml/svg11.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
@@ -106,7 +107,6 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/cygclip.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
-  vim/dot.vim/plugin/todatetime.vim \
   vim/dot.vim/plugin/tofunc.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \
@@ -126,8 +126,8 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/cygclip.txt \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
+  vim/dot.vim/doc/textobj-datetime.txt \
   vim/dot.vim/doc/textobj-user.txt \
-  vim/dot.vim/doc/todatetime.txt \
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/doc/vcscommand.txt \
   vim/dot.vim/doc/xml_autons.txt \
@@ -149,8 +149,8 @@ ALL_PACKAGES=\
   vim-buffuzzy \
   vim-cygclip \
   vim-scratch \
+  vim-textobj-datetime \
   vim-textobj-user \
-  vim-todatetime \
   vim-tofunc \
   vim-xml_autons \
   vim-xml_move
@@ -193,11 +193,17 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
 
-PACKAGE_vim_todatetime_ARCHIVE=vim-todatetime-0.0
-PACKAGE_vim_todatetime_BASE=vim/dot.vim
-PACKAGE_vim_todatetime_FILES=\
-  vim/dot.vim/doc/todatetime.txt \
-  vim/dot.vim/plugin/todatetime.vim
+PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.1
+PACKAGE_vim_textobj_datetime_BASE=vim/dot.vim
+PACKAGE_vim_textobj_datetime_FILES=\
+  vim/dot.vim/autoload/textobj/datetime.vim \
+  vim/dot.vim/doc/textobj-datetime.txt
+
+PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.1
+PACKAGE_vim_textobj_user_BASE=vim/dot.vim
+PACKAGE_vim_textobj_user_FILES=\
+  vim/dot.vim/autoload/textobj/user.vim \
+  vim/dot.vim/doc/textobj-user.txt
 
 PACKAGE_vim_tofunc_ARCHIVE=vim-tofunc-0.0
 PACKAGE_vim_tofunc_BASE=vim/dot.vim
@@ -206,12 +212,6 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
-
-PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.1
-PACKAGE_vim_textobj_user_BASE=vim/dot.vim
-PACKAGE_vim_textobj_user_FILES=\
-  vim/dot.vim/autoload/textobj/user.vim \
-  vim/dot.vim/doc/textobj-user.txt
 
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
