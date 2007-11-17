@@ -1050,6 +1050,23 @@ function! s:StartInsertModeWithBlankLines(command)
 endfunction
 
 
+" Search for the selected text.
+vnoremap *  :<C-u>call <SID>SearchForTheSelectedText()<Return>
+
+  " FIXME: escape to search the selected text literaly.
+function! s:SearchForTheSelectedText()
+  let reg_u = @"
+  let reg_0 = @0
+
+  normal! gvy
+  let @/ = @0
+  call histadd('/', @0)
+  normal! n
+
+  let @0 = reg_0
+  let @" = reg_u
+endfunction
+
 
 
 
