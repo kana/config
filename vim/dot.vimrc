@@ -118,8 +118,10 @@ if $ENV_ACCESS ==# 'cygwin'
   set termencoding=cp932
 elseif $ENV_ACCESS ==# 'linux'
   set termencoding=euc-jp
-else  " 'colinux'
+elseif $ENV_ACCESS ==# 'colinux'
   set termencoding=utf-8
+else  " fallback
+  set termencoding=  " same as 'encoding'
 endif
 
 
