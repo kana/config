@@ -224,8 +224,8 @@ endfunction
 
 " Alternate :cd which uses 'cdpath' for completion  "{{{2
 
-command! -complete=customlist,<SID>CommandComplete_cdpath -nargs=1
-       \ CD  cd <args>
+command! -complete=customlist,<SID>CommandComplete_cdpath -nargs=1 CD
+      \ TabCD <args>
 
 function! s:CommandComplete_cdpath(arglead, cmdline, cursorpos)
   return split(globpath(&cdpath, a:arglead . '*/'), "\n")
@@ -365,6 +365,21 @@ endfunction
 function! s:JumpSectionO(motion)
   execute 'normal' v:count1 . a:motion
 endfunction
+
+
+
+
+" Per-tab current directory  "{{{2
+
+command! -nargs=1 TabCD
+      \   let t:cwd = <q-args>
+      \ | execute 'cd' t:cwd
+
+autocmd MyAutoCmd TabEnter *
+      \   if !exists('t:cwd')
+      \ |   let t:cwd = getcwd()
+      \ | endif
+      \ | execute 'cd' t:cwd
 
 
 
