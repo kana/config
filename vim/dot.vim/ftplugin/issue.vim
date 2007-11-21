@@ -20,11 +20,11 @@ setlocal foldmethod=syntax
 
 " Key mappings  "{{{1
 
-nnoremap <LocalLeader>s  :<C-u>call <SID>ShowStatus()<Return>
+nnoremap <buffer> <LocalLeader>s  :<C-u>call <SID>ShowStatus()<Return>
 
 
-nnoremap <LocalLeader>i  :<C-u>call <SID>NewIssue()<Return>
-nnoremap <LocalLeader>n  :<C-u>call <SID>NewNote()<Return>
+nnoremap <buffer> <LocalLeader>i  :<C-u>call <SID>NewIssue()<Return>
+nnoremap <buffer> <LocalLeader>n  :<C-u>call <SID>NewNote()<Return>
 
 
 "" Moving around elements (just a memo; not implemented yet).
