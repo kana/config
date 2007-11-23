@@ -176,8 +176,6 @@ let &statusline .= '%='
 let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
-let s:SID_PREFIX = matchstr(expand('<sfile>'), '<SNR>\d\+_')
-let &tabline = '%!' . s:SID_PREFIX . 'MyTabLine()'
 function! s:MyTabLine()  "{{{
   let s = ''
 
@@ -214,6 +212,10 @@ function! s:MyTabLine()  "{{{
   let s .= '%=%#TabLine#%999Xx%X'
   return s
 endfunction "}}}
+function! s:SID_PREFIX()
+ return matchstr(expand('<sfile>'), '<SNR>\d\+_')
+endfunction
+let &tabline = '%!' . s:SID_PREFIX() . 'MyTabLine()'
 
 " To automatically detect the width and the height of the terminal,
 " the followings must not be set.
