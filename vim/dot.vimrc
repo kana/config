@@ -176,6 +176,45 @@ let &statusline .= '%='
 let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
+let s:SID_PREFIX = matchstr(expand('<sfile>'), '<SNR>\d\+_')
+let &tabline = '%!' . s:SID_PREFIX . 'MyTabLine()'
+function! s:MyTabLine()  "{{{
+  let s = ''
+
+  for i in range(1, tabpagenr('$'))
+    let curbufnr = tabpagebuflist(i)[tabpagewinnr(i) - 1]
+
+    let prefix = ''
+    if 1 < tabpagewinnr(i, '$')
+      let prefix .= tabpagewinnr(i, '$')
+    endif
+    if getbufvar(curbufnr, '&modified')
+      let prefix .= '+'
+    endif
+
+    let curbufname = bufname(curbufnr)
+    if  curbufname == ''
+      let curbufname = '[No Name]'
+    endif
+    if getbufvar(curbufnr, '&buftype') !=# 'help'
+      let curbufname = fnamemodify(curbufname, ':t')
+    else
+      let curbufname = '[help] ' . fnamemodify(curbufname, ':t:r')
+    endif
+
+    let s .= '%'.i.'T'
+    let s .= (prefix != '' ? '%#Title#'.prefix.' ' : '')
+    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
+    let s .= curbufname
+    let s .= '%#TabLineFill#'
+    let s .= '  '
+  endfor
+
+  let s .= '%#TabLineFill#%T'
+  let s .= '%=%#TabLine#%999Xx%X'
+  return s
+endfunction "}}}
+
 " To automatically detect the width and the height of the terminal,
 " the followings must not be set.
 "
@@ -1126,6 +1165,16 @@ autocmd MyAutoCmd ColorScheme *
   \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
   \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
   \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
+  \
+  \ | highlight TabLineSel
+  \             term=bold,reverse
+  \             cterm=bold,underline ctermfg=lightgray ctermbg=237
+  \ | highlight TabLine
+  \             term=reverse
+  \             cterm=NONE           ctermfg=lightgray ctermbg=237
+  \ | highlight TabLineFill
+  \             term=reverse
+  \             cterm=NONE           ctermfg=lightgray ctermbg=237
 doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
