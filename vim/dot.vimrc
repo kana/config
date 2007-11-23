@@ -1264,6 +1264,16 @@ autocmd MyAutoCmd FileType tex
 
 
 
+" vcscommit  "{{{2
+" 'filetype' for the commit log buffer of vcscommand.
+
+autocmd MyAutoCmd FileType vcscommit
+  \   setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
+  \ | let &l:formatlistpat .= '\|\s*[*+-]\s*'
+
+
+
+
 " vim  "{{{2
 
 autocmd MyAutoCmd FileType vim
