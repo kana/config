@@ -104,7 +104,6 @@ GROUP_VIM_FILES=\
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/ftplugin/xml_move.vim \
-  vim/dot.vim/plugin/buffuzzy.vim \
   vim/dot.vim/plugin/cygclip.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
@@ -113,6 +112,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/vcscvs.vim \
   vim/dot.vim/plugin/vcssvk.vim \
   vim/dot.vim/plugin/vcssvn.vim \
+  vim/dot.vim/plugin/zapit.vim \
   vim/dot.vim/syntax/bugs.vim \
   vim/dot.vim/syntax/CVSAnnotate.vim \
   vim/dot.vim/syntax/issue.vim \
@@ -123,7 +123,6 @@ GROUP_VIM_FILES=\
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_DOC_FILES=\
-  vim/dot.vim/doc/buffuzzy.txt \
   vim/dot.vim/doc/cygclip.txt \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
@@ -147,14 +146,14 @@ ALL_PACKAGES=\
   cereja-all \
   opera-all \
   vim-all \
-  vim-buffuzzy \
   vim-cygclip \
   vim-scratch \
   vim-textobj-datetime \
   vim-textobj-user \
   vim-tofunc \
   vim-xml_autons \
-  vim-xml_move
+  vim-xml_move \
+  vim-zapit
 
 PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
@@ -175,12 +174,6 @@ PACKAGE_opera_all_FILES=$(GROUP_OPERA_FILES)
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
-
-PACKAGE_vim_buffuzzy_ARCHIVE=vim-buffuzzy-0.0.1
-PACKAGE_vim_buffuzzy_BASE=vim/dot.vim
-PACKAGE_vim_buffuzzy_FILES=\
-  vim/dot.vim/doc/buffuzzy.txt \
-  vim/dot.vim/plugin/buffuzzy.vim
 
 PACKAGE_vim_cygclip_ARCHIVE=vim-cygclip-0.0
 PACKAGE_vim_cygclip_BASE=vim/dot.vim
@@ -225,6 +218,11 @@ PACKAGE_vim_xml_move_BASE=vim/dot.vim
 PACKAGE_vim_xml_move_FILES=\
   vim/dot.vim/doc/xml_move.txt \
   vim/dot.vim/ftplugin/xml_move.vim
+
+PACKAGE_vim_zapit_ARCHIVE=vim-zapit-0.0
+PACKAGE_vim_zapit_BASE=vim/dot.vim
+PACKAGE_vim_zapit_FILES=\
+  vim/dot.vim/plugin/zapit.vim
 
 
 

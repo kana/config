@@ -1397,17 +1397,6 @@ let s:FileType_xml_comment_data = {
 
 
 " Plugins  "{{{1
-" buffuzzy  "{{{2
-
-nmap <Leader>b  <Plug>Buffuzzy
-
-" retained for the backward compatibility,
-" but this should be prefixed by <Leader>.
-nmap [Space]b  <Plug>Buffuzzy
-
-
-
-
 " cygclip  "{{{2
 
 " Because plugins will be loaded after ~/.vimrc.
@@ -1468,6 +1457,17 @@ nmap <Leader>cR  <Plug>VCSDelete
 
 let g:AutoXMLns_Dict = {}
 let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
+
+
+
+
+" zapit  "{{{2
+
+nnoremap <Leader>b  :<C-u>ZapitBuf<Return>
+
+" retained for the backward compatibility,
+" but this should be prefixed by <Leader>.
+nmap [Space]b  <Leader>b
 
 
 
