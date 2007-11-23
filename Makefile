@@ -95,7 +95,6 @@ GROUP_VIM_FILES=\
   vim/dot.vim/autoload/textobj/datetime.vim \
   vim/dot.vim/autoload/textobj/user.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
-  vim/dot.vim/autoload/textobj/user.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
