@@ -153,6 +153,8 @@ set cinoptions=:0,t0,(0,W1s
 set directory=.,~/tmp
 set noequalalways
 set formatoptions=tcroqnlM1
+set formatlistpat&
+let &formatlistpat .= '\|\s*[*+-]\s*'
 set history=100
 set hlsearch
 set grepprg=internal
@@ -1268,8 +1270,7 @@ autocmd MyAutoCmd FileType tex
 " 'filetype' for the commit log buffer of vcscommand.
 
 autocmd MyAutoCmd FileType vcscommit
-  \   setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
-  \ | let &l:formatlistpat .= '\|\s*[*+-]\s*'
+  \ setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
 
 
 
