@@ -1078,8 +1078,8 @@ nnoremap gc  `[v`]
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
-vnoremap I  <C-v>I
-vnoremap A  <C-v>A
+vnoremap <expr> I  visualmode() == "\<C-v>" ? 'I' : "\<C-v>I"
+vnoremap <expr> A  visualmode() == "\<C-v>" ? 'A' : "\<C-v>A"
 
 
 " Start Insert mode with [count] blank lines.
