@@ -12,6 +12,9 @@ endif
 setlocal foldmethod=syntax
 
 
+let s:RE_ISSUE_ID = '#\<\d\+\>'
+
+
 
 
 
@@ -22,10 +25,15 @@ setlocal foldmethod=syntax
 
 nnoremap <buffer> <LocalLeader>s  :<C-u>call <SID>ShowStatus()<Return>
 
-
 nnoremap <buffer> <LocalLeader>i  :<C-u>call <SID>NewIssue()<Return>
 nnoremap <buffer> <LocalLeader>n  :<C-u>call <SID>NewNote()<Return>
 
+nnoremap <buffer> <Return>  :<C-u>call <SID>JumpToIssue()<Return>
+
+call textobj#user#define(s:RE_ISSUE_ID, '', '', {
+   \                       'move-to-next': '<LocalLeader>j',
+   \                       'move-to-prev': '<LocalLeader>k',
+   \                     })
 
 "" Moving around elements (just a memo; not implemented yet).
 ""
@@ -73,6 +81,33 @@ function! s:NewNote()
   call append('.', ["\t".strftime('%Y-%m-%dT%H:%M:%S'), "\t\t", ''])
   normal! jj
   startinsert!
+endfunction
+
+
+
+
+function! s:JumpToIssue()
+  echo 'FIXME: Not Implemented Yet.'
+  return
+  let BAD = [0, 0]
+  let pos = [line('.'), col('.')]
+
+  let fb = textobj#user#move(s:RE_ISSUE_ID, 'n')
+  let fe = textobj#user#move(s:RE_ISSUE_ID, 'ne')
+  let fdiff = s:Distance(pos, fb, fe)
+
+  let bb = textobj#user#move(s:RE_ISSUE_ID, 'nb')
+  let be = textobj#user#move(s:RE_ISSUE_ID, 'nbe')
+  let bdiff = s:Distance(pos, bb, be)
+
+  if fdiff != BAD && bdiff != BAD
+    if s:LT(fdiff, bdiff)
+    endif
+  elseif fdiff != BAD && bdiff == BAD
+  elseif fdiff == BAD && bdiff != BAD
+  else  " if fdiff == BAD && bdiff == BAD
+    " nop
+  endif
 endfunction
 
 
