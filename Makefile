@@ -106,6 +106,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/cygclip.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
+  vim/dot.vim/plugin/surround_config.vim \
   vim/dot.vim/plugin/tofunc.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \

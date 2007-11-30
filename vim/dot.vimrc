@@ -1436,11 +1436,7 @@ augroup END
 nmap s  <Plug>Ysurround
 nmap ss  <Plug>Yssurround
 
-autocmd MyAutoCmd User DelayedSettings
-      \   if exists('g:loaded_surround') || exists('*SurroundRegister')
-      \ |   call SurroundRegister('g', 'js', "「\r」")
-      \ |   call SurroundRegister('g', 'jd', "『\r』")
-      \ | endif
+" See also ~/.vim/plugin/surround_config.vim .
 
 
 
