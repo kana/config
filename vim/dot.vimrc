@@ -1082,8 +1082,16 @@ nnoremap gc  `[v`]
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
-vnoremap <expr> I  visualmode() == "\<C-v>" ? 'I' : "\<C-v>I"
-vnoremap <expr> A  visualmode() == "\<C-v>" ? 'A' : "\<C-v>A"
+vnoremap I  :<C-u>call <SID>ForceBlockwiseVisual('I')<Return>
+vnoremap A  :<C-u>call <SID>ForceBlockwiseVisual('A')<Return>
+
+function! s:ForceBlockwiseVisual(next_key)
+  normal! gv
+  if visualmode() != "\<C-v>"
+    execute 'normal!' "\<C-v>"
+  endif
+  call feedkeys(a:next_key, 'n')
+endfunction
 
 
 " Start Insert mode with [count] blank lines.
