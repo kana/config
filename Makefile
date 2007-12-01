@@ -131,7 +131,8 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/doc/vcscommand.txt \
   vim/dot.vim/doc/xml_autons.txt \
-  vim/dot.vim/doc/xml_move.txt
+  vim/dot.vim/doc/xml_move.txt \
+  vim/dot.vim/doc/zapit.txt
 GROUP_VIM_POST_TARGETS=vim-update-local-helptags
 vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
 $(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
@@ -222,6 +223,7 @@ PACKAGE_vim_xml_move_FILES=\
 PACKAGE_vim_zapit_ARCHIVE=vim-zapit-0.0
 PACKAGE_vim_zapit_BASE=vim/dot.vim
 PACKAGE_vim_zapit_FILES=\
+  vim/dot.vim/doc/zapit.txt \
   vim/dot.vim/plugin/zapit.vim
 
 
