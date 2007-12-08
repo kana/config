@@ -23,7 +23,7 @@ caption splitonly '%?%F@%: %?%3n %t%? [%f]%?'
 hardstatus on
 hardstatus alwayslastline
 hardstatus string '%{= Kw}%-w%{+bu}%n %t%{-}%+w%-18= | %D %m-%d %02c'
-shelltitle '$ |shell:'
+shelltitle 'shell'
 
 
 
@@ -83,9 +83,9 @@ bind -c detach D pow_detach
 bind . eval 'source $HOME/.screenrc' 'echo "~/.screenrc has been reloaded."'
 
 bind ^O eval 'echo -p "Shell? -- Cygwin / Linux / Root"' 'command -c shell'
-bind -c shell ^C screen -t 'cygwin' ssh cygwin
-bind -c shell ^L screen -t 'linux' ssh www
-bind -c shell ^R screen -t 'root' sudo -i
+bind -c shell ^C eval 'screen -t "cygwin" ssh cygwin' 'encoding "sjis"'
+bind -c shell ^L eval 'screen -t "linux" ssh www' 'encoding "euc-jp"'
+bind -c shell ^R eval 'screen -t "root" sudo -i'
 
 bind ^E eval 'echo -p "Encoding? -- Cp932 / Euc-jp / Utf-8"' 'command -c enc'
 bind -c enc ^C eval 'encoding "sjis"'    'echo "cp932"'
