@@ -128,7 +128,7 @@ function! s:Start(mode, bang)  "{{{2
 
   let s:Bang = a:bang
   let s:CurrentMode = a:mode
-  let s:LastCol = s:INVALID_BUFNR
+  let s:LastCol = s:INVALID_COL
   let s:Orig_completeopt = &completeopt
   set completeopt+=menuone
   let s:Orig_ignorecase = &ignorecase

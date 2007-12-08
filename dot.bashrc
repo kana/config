@@ -90,9 +90,9 @@ _set_up_prompt() {
     local _prompt_auto=''
   fi
 
-  PS1="$_prompt_title
+  PS1="$_prompt_auto$_prompt_title
 $_prompt_host $_prompt_cwd$_prompt_shlvl
-$_prompt_main$_prompt_auto"
+$_prompt_main"
 }
 
 _set_up_prompt
