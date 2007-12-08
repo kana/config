@@ -243,7 +243,59 @@ augroup END
 
 
 " Utilities  "{{{1
-" CMapABC: support input for Alternate Built-in Commands "{{{2
+" MAP: wrapper for :map variants.  "{{{2
+"
+" :MAP {option}* {modes} {lhs} {rhs}
+"
+"   {option}
+"     One of the following string:
+"       <echo>    The mapping will be echoed on the command line.
+"                 Default: not echoed.
+"       <re>      The mapping will be remapped.
+"                 Default: not remapped.
+"
+"   {modes}
+"     String which consists of the following characters:
+"       c i l n o s v x
+"
+"   {lhs}, {rhs}
+"     Same as :map.
+
+command! -bar -complete=mapping -nargs=+ MAP  call s:MAP(<f-args>)
+
+function! s:MAP(...)
+  if !(3 <= a:0)
+    throw 'Insufficient arguments: '.string(a:000)
+  endif
+
+  let silentp = 1
+  let noremap = 1
+  let i = 0
+  while i < a:0
+    if a:000[i] ==# '<echo>'
+      let silentp = 0
+    elseif a:000[i] ==# '<re>'
+      let noremap = 0
+    else
+      break
+    endif
+    let i += 1
+  endwhile
+
+  let mapcmd = (noremap ? 'noremap' : 'map')
+  let silentoption = (silentp ? '<silent>' : '')
+  let j = 0
+  let modes = a:000[-3]
+  while j < len(modes)
+    execute (modes[j] . mapcmd) silentoption join(a:000[i+1:])
+    let j += 1
+  endwhile
+endfunction
+
+
+
+
+" CMapABC: support input for Alternate Built-in Commands  "{{{2
 
 let s:CMapABC_Entries = []
 function! s:CMapABC_Add(original_pattern, alternate_name)
