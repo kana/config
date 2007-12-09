@@ -282,12 +282,12 @@ function! s:MAP(...)
     let i += 1
   endwhile
 
-  let mapcmd = (noremap ? 'noremap' : 'map')
+  let mapcommand = (noremap ? 'noremap' : 'map')
   let silentoption = (silentp ? '<silent>' : '')
   let j = 0
-  let modes = a:000[-3]
+  let modes = a:000[i]
   while j < len(modes)
-    execute (modes[j] . mapcmd) silentoption join(a:000[i+1:])
+    execute (modes[j] . mapcommand) silentoption join(a:000[i+1:])
     let j += 1
   endwhile
 endfunction
