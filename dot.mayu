@@ -92,5 +92,19 @@ endif
 
 
 
+# PuTTY  #{{{1
+# ============
+
+define enable_putty
+if (enable_putty)
+  window PuTTY /:PuTTY/ : Global
+  key W-Left = &VK(LButton) &VK(U-LButton)
+  key W-Down = &VK(MButton) &VK(U-MButton)
+  key W-Right = &VK(RButton) &VK(U-RButton)
+endif
+
+
+
+
 # __END__  #{{{1
 # vim: foldmethod=marker et sts=2 sw=2
