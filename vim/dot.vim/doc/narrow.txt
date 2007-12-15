@@ -1,0 +1,97 @@
+*narrow.txt*	Emulate Emacs' narrowing feature
+
+Version 0.0
+Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+$Id$
+
+
+
+
+==============================================================================
+INTRODUCTION					*narrow-introduction*
+
+Narrow is a Vim plugin to emulate Emacs' narrowing feature.
+From GNU Emacs Manual:
+
+	Narrowing means focusing in on some portion of the buffer, making the
+	rest temporarily inaccessible. The portion which you can still get to
+	is called the accessible portion. Canceling the narrowing, which makes
+	the entire buffer once again accessible, is called widening. The
+	bounds of narrowing in effect in a buffer are called the buffer's
+	restriction.
+
+	Narrowing can make it easier to concentrate on a single subroutine or
+	paragraph by eliminating clutter. It can also be used to limit the
+	range of operation of a replace command or repeating keyboard macro.
+
+Note that there are some differences from the original behavior.
+See |narrow-bugs| for the detail.
+
+
+
+
+==============================================================================
+INTERFACES					*narrow-interfaces*
+
+						*:Narrow*
+:[range]Narrow
+	Narrow down to [range].  The default [range] is the current line.
+	If the buffer is already narrowed, nothing will happen.
+
+						*:Widen*
+:Widen
+	Widen to make the entire buffer visible again.
+	If the buffer is not narrowed, nothing will happen.
+
+						*narrow#Narrow()*
+narrow#Narrow({line1}, {line2})
+	Function version of |:Narrow|.
+	Narrow down to between {line1} and {line2}.
+	Return true on success or false on failure.
+
+						*narrow#Widen()*
+narrow#Widen()
+	Function version of |:Widen|.
+	Return true on success or false on failure.
+
+						*b:narrow_original_state*
+b:narrow_original_state
+	The variable to save the state of the buffer before narrowing.
+	This variable doesn't exist when the buffer is not narrowed.
+
+
+
+
+==============================================================================
+BUGS						*narrow-bugs*
+
+- Narrowing is based on Vim's |folding| feature.  So you can
+  * See hidden portions as folds.
+  * Show a hidden portion by |zR| or other commands.
+  * Move the cursor into a hidden portion.
+  * Modify the content of a hidden portion by |:s| or other commands.
+  In Emacs, these actions aren't allowed.
+
+- This plugin uses |:mkview| to save the current state of a buffer for
+  |:Widen|, and and |:mkview| writes a file.  So this plugin may be confused
+  when there are two or more Vim processes and they narrow/widen the same
+  buffers.
+
+- Temporary files written by |:mkview| will be created in the "narrow"
+  subdirectory in 'viewdir'.  For example, "~/.vim/view/narrow".
+
+
+
+
+==============================================================================
+CHANGELOG					*narrow-changelog*
+
+0.0	2007-12-15T22:34:52+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
