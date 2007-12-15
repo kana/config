@@ -7,7 +7,6 @@
 " MEMO: narrow-to-motion: v{motion}:Narrow<Return>
 
 function! narrow#Narrow(line1, line2)
-  " FIXME: set 'foldtext' for appearance.
   " Note that if you want to modify more options, don't forget to update
   " s:save_the_state_of_buffer() and s:load_the_state_of_buffer().
   if exists('b:narrow_original_state')
@@ -17,6 +16,7 @@ function! narrow#Narrow(line1, line2)
 
   let b:narrow_original_state = s:save_the_state_of_buffer()
   setlocal foldmethod=manual
+  setlocal foldtext=''
   call s:adjust_cursor_if_invoked_via_visual_mode(a:line1, a:line2)
   let pos = getpos('.')
     call s:clear_all_folds()
@@ -97,7 +97,7 @@ function! s:set_view_options()
   let s:original_viewdir = &viewdir
   let &viewdir = s:original_viewdir . '/narrow'
   let s:original_viewoptions = &viewoptions
-  let &viewoptions = 'folds,cursor'
+  let &viewoptions = 'folds'
 endfunction
 
 function! s:restore_view_options()
@@ -123,6 +123,7 @@ function! s:save_the_state_of_buffer()  "{{{2
 
   let original_state = {}
   let original_state.foldmethod = &l:foldmethod
+  let original_state.foldtext = &l:foldtext
   return original_state
 endfunction
 
@@ -135,6 +136,7 @@ function! s:load_the_state_of_buffer(original_state)  "{{{2
   call s:restore_view_options()
 
   let &l:foldmethod = a:original_state.foldmethod
+  let &l:foldtext = a:original_state.foldtext
 endfunction
 
 
