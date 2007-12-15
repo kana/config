@@ -189,7 +189,7 @@ PACKAGE_vim_cygclip_FILES=\
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.0
 PACKAGE_vim_narrow_BASE=vim/dot.vim
 PACKAGE_vim_narrow_FILES=\
-  vim/dot.vim/autoload/narrow.txt \
+  vim/dot.vim/autoload/narrow.vim \
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
 
