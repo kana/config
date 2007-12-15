@@ -1147,6 +1147,7 @@ endfunction
 
 
 " Start Insert mode with [count] blank lines.
+" The default [count] is 0, so no blank line is inserted.
 " (I prefer this behavior to the default behavior of [count]o/O
 "  -- repeat the next insertion [count] times.)
 nnoremap o  :<C-u>call <SID>StartInsertModeWithBlankLines('o')<Return>
@@ -1157,16 +1158,25 @@ function! s:StartInsertModeWithBlankLines(command)
   " BUGS: In map-<expr>, v:count and v:count1 don't hold correct values.
   " FIXME: proper indenting in comments.
   " FIXME: not repeatable perfectly (repeat insertion without blank lines).
-  let script = ''
-  if v:count == v:count1  " is [count] specified?
-    let script .= v:count . a:command . "\<Esc>"
-    if a:command ==# 'O'
-      " Adjust the cursor position.
-      let script .= "\<Down>" . v:count . "\<Up>"
-    endif
+
+  if v:count != v:count1  " [count] is not specified?
+    call feedkeys(a:command, 'n')
+    return
   endif
-  let script .= a:command
-  call feedkeys(script, 'n')
+
+  let script = v:count . a:command . "\<Esc>"
+  if a:command ==# 'O'
+    let script .= "\<Down>" . v:count . "\<Up>"  " Adjust the cursor position.
+  endif
+
+  execute 'normal!' script
+  redraw
+  echohl ModeMsg
+  echo '-- INSERT (open) --'
+  echohl None
+  let c = nr2char(getchar())
+  call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
+  call feedkeys(c, 'n')
 endfunction
 
 
