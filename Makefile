@@ -243,20 +243,33 @@ PACKAGE_vim_zapit_FILES=\
 # package  #{{{1
 
 PACKAGE_NAME=# Set from command line
+PACKAGE_TYPE=tar
+
+ALL_PACKAGE_TYPES=tar zip
+PACKAGE_COMMAND_tar=tar jcvf
+PACKAGE_SUFFIX_tar=.tar.bz2
+PACKAGE_COMMAND_zip=zip
+PACKAGE_SUFFIX_zip=.zip
+
 package:
 	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
+	if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
+	  false; \
+	fi
 	$(MAKE) 'package=$(subst -,_,$(PACKAGE_NAME))' _package
 _package:
 	ln -s $(PACKAGE_$(package)_BASE) $(PACKAGE_$(package)_ARCHIVE)
-	tar jcvf $(PACKAGE_$(package)_ARCHIVE).tar.bz2 \
-	         $(foreach file, \
-	                   $(PACKAGE_$(package)_FILES), \
-	                   $(patsubst $(PACKAGE_$(package)_BASE)/%, \
-	                              $(PACKAGE_$(package)_ARCHIVE)/%, \
-	                              $(file)))
+	$(PACKAGE_COMMAND_$(PACKAGE_TYPE)) \
+	  $(PACKAGE_$(package)_ARCHIVE)$(PACKAGE_SUFFIX_$(PACKAGE_TYPE)) \
+	  $(foreach file, \
+	            $(PACKAGE_$(package)_FILES), \
+	            $(patsubst $(PACKAGE_$(package)_BASE)/%, \
+	                       $(PACKAGE_$(package)_ARCHIVE)/%, \
+	                       $(file)))
 	rm $(PACKAGE_$(package)_ARCHIVE)
 
 
