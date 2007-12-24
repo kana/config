@@ -93,6 +93,7 @@ GROUP_VIM_FILES=\
   $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/after/ftplugin/xml_autons.vim \
   vim/dot.vim/autoload/narrow.vim \
+  vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/autoload/textobj/datetime.vim \
   vim/dot.vim/autoload/textobj/user.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
@@ -193,9 +194,10 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
 
-PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.0
+PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.1
 PACKAGE_vim_scratch_BASE=vim/dot.vim
 PACKAGE_vim_scratch_FILES=\
+  vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
 
