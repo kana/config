@@ -154,7 +154,7 @@ set directory=.,~/tmp
 set noequalalways
 set formatoptions=tcroqnlM1
 set formatlistpat&
-let &formatlistpat .= '\|\s*[*+-]\s*'
+let &formatlistpat .= '\|^\s*[*+-]\s*'
 set history=100
 set hlsearch
 set grepprg=internal
