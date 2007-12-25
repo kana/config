@@ -1481,13 +1481,13 @@ autocmd MyAutoCmd User DelayedSettings
 
 " scratch  "{{{2
 
-nnoremap <Leader>s  :<C-u>ScratchOpen<Return>
+nmap <Leader>s  <Plug>(scratch-open)
 
 
 " I already use <C-m> for tag jumping.
 " But I don't use it in the scratch buffer, so it should be overridden.
 autocmd MyAutoCmd User PluginScratchInitializeAfter
-      \ map <buffer> <C-m>  <Plug>scratch-evaluate
+      \ map <buffer> <C-m>  <Plug>(scratch-evaluate)
 
 
 

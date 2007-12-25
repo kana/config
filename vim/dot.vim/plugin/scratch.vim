@@ -19,13 +19,14 @@ endif
 
 command! -bar -nargs=0 ScratchOpen  call scratch#open()
 command! -bar -nargs=0 ScratchClose  call scratch#close()
-command! -bar -nargs=0 -range ScratchEvaluate
-      \ call scratch#evaluate_linewise(<line1>, <line2>, 1)
+command! -bang -bar -nargs=0 -range ScratchEvaluate
+      \ call scratch#evaluate_linewise(<line1>, <line2>, '<bang>' != '!')
 
 
-noremap <silent> <Plug>scratch-open  :<C-u>ScratchOpen<Return>
-noremap <silent> <Plug>scratch-close  :<C-u>ScratchClose<Return>
-noremap <silent> <Plug>scratch-evaluate  :ScratchEvaluate<Return>
+noremap <silent> <Plug>(scratch-open)  :<C-u>ScratchOpen<Return>
+noremap <silent> <Plug>(scratch-close)  :<C-u>ScratchClose<Return>
+noremap <silent> <Plug>(scratch-evaluate)  :ScratchEvaluate<Return>
+noremap <silent> <Plug>(scratch-evaluate!)  :ScratchEvaluate!<Return>
 
 
 

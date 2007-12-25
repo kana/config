@@ -53,12 +53,13 @@ COMMANDS						*scratch-commands*
 :ScratchClose						*:ScratchClose*
 	Close a window that shows the scratch buffer if able.
 
-:[range]ScratchEvaluate					*:ScratchEvaluate*
+:[range]ScratchEvaluate[!]				*:ScratchEvaluate*
 	Evaluate the [range] as a Vim script.
 	The default [range] is the current line.
-	After evaluating, the cursor will be moved to the next line of the
-	script.  If there is no line to move, new blank line will be appended
-	then the cursor will be moved to the new line.
+	Without [!], the cursor will be moved to the next line of the script
+	after evaluating.  If there is no line to move, new blank line will be
+	appended then the cursor will be moved to the new line.
+	With [!], such adjustment will not be done.
 
 
 ------------------------------------------------------------------------------
@@ -92,14 +93,17 @@ KEY MAPPINGS						*scratch-mappings*
 
 GLOBAL MAPPINGS ~
 
-<Plug>scratch-open					*<Plug>scratch-open*
+<Plug>(scratch-open)					*<Plug>(scratch-open)*
 	Do |:ScratchOpen|.
 
-<Plug>scratch-close					*<Plug>scratch-close*
+<Plug>(scratch-close)					*<Plug>(scratch-close)*
 	Do |:ScratchClose|.
 
-<Plug>scratch-evaluate				      *<Plug>scratch-evaluate*
-	Do |:ScratchEvaluate|.
+<Plug>(scratch-evaluate)			     *<Plug>(scratch-evaluate)*
+	Do |:ScratchEvaluate| without [!].
+
+<Plug>(scratch-evaluate!)			    *<Plug>(scratch-evaluate!)*
+	Do |:ScratchEvaluate| with [!].
 
 SCRATCH BUFFER-LOCAL MAPPINGS ~
 
