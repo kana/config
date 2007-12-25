@@ -84,27 +84,41 @@ endfunction
 
 
 
-function! scratch#evaluate_linewise(line1, line2)  "{{{2
+function! scratch#evaluate_linewise(line1, line2, adjust_cursorp)  "{{{2
   let bufnr = bufnr('')
   call scratch#evaluate([bufnr, a:line1, 1, 0],
-     \                  [bufnr, a:line2, len(getline(a:line2)), 0])
+     \                  [bufnr, a:line2, len(getline(a:line2)), 0],
+     \                  a:adjust_cursorp)
 endfunction
 
 
 
 
-function! scratch#evaluate(range_head, range_tail)  "{{{2
-  let original_reg_a = @a
+function! scratch#evaluate(range_head, range_tail, adjust_cursorp)  "{{{2
+  " Yank the script.
   let original_pos = getpos('.')
+  let original_reg_a = @a
     call setpos('.', a:range_head)
     normal! v
     call setpos('.', a:range_tail)
     silent normal! "ay
     let script = @a
-  call setpos('.', original_pos)
   let @a = original_reg_a
 
+  " Evaluate it.
   execute script
+
+  if a:adjust_cursorp
+    " Move to the next line of the script (add new line if necessary).
+    call setpos('.', a:range_tail)
+    if line('.') == line('$')
+      put =''
+    else
+      normal! +
+    endif
+  else
+    call setpos('.', original_pos)
+  endif
 endfunction
 
 

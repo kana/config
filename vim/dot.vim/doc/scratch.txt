@@ -54,8 +54,11 @@ COMMANDS						*scratch-commands*
 	Close a window that shows the scratch buffer if able.
 
 :[range]ScratchEvaluate					*:ScratchEvaluate*
-	Evaluate/Execute the [range] as a Vim script.
+	Evaluate the [range] as a Vim script.
 	The default [range] is the current line.
+	After evaluating, the cursor will be moved to the next line of the
+	script.  If there is no line to move, new blank line will be appended
+	then the cursor will be moved to the new line.
 
 
 ------------------------------------------------------------------------------
@@ -69,11 +72,15 @@ scratch#close()						*scratch#close()*
 	Function version of |:ScratchClose|.
 	The return value is not defined.
 
-scratch#evaluate_linewise({line1}, {line2})	  *scratch#evaluate_linewise()*
+						  *scratch#evaluate_linewise()*
+scratch#evaluate_linewise({line1}, {line2}, {adjust-cursorp})
 	Function version of |:ScratchEvaluate|.
+	If {adjust-cursorp} is true, the cursor position will be adjusted as
+	same as |:ScratchEvaluate|.  If {adjust-cursorp} is false, such
+	adjustment will not be done.
 	The return value is not defined.
 
-scratch#evaluate({pos1}, {pos2})			*scratch#evaluate()*
+scratch#evaluate({pos1}, {pos2}, {adjust-cursorp})	*scratch#evaluate()*
 	Same as |scratch#evaluate_linewise()|, but this takes the range of the
 	script to be evaluated as {pos1} and {pos2}, which are same as the
 	returning value of |getpos()|.

@@ -20,7 +20,7 @@ endif
 command! -bar -nargs=0 ScratchOpen  call scratch#open()
 command! -bar -nargs=0 ScratchClose  call scratch#close()
 command! -bar -nargs=0 -range ScratchEvaluate
-      \ call scratch#evaluate_linewise(<line1>, <line2>)
+      \ call scratch#evaluate_linewise(<line1>, <line2>, 1)
 
 
 noremap <silent> <Plug>scratch-open  :<C-u>ScratchOpen<Return>
