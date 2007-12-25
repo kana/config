@@ -157,8 +157,11 @@ The default initialization does:
 ==============================================================================
 BUGS						*scratch-bugs*
 
-- When |:edit| is executed on the scratch buffer, the content of the scratch
-  buffer will be cleared.
+- Don't do |:edit|, |:bunload| or |:bdelete| on the scratch buffer.  The
+  content of the scratch buffer and/or other information (e.g., mappings) will
+  be cleared.
+  If you did it accidentally, do |:bwipeout| then |:ScratchOpen| to recreate
+  the scratch buffer.
 
 - |:ScratchOpen| - To create the scratch buffer, the current buffer will be
   hidden temporary.
