@@ -399,6 +399,7 @@ endfunction
 function! s:KeysToInsertOneCharacter()
   echohl ModeMsg
   echo '-- INSERT (one char) --'
+  echohl None
   return nr2char(getchar()) . "\<Esc>"
 endfunction
 
