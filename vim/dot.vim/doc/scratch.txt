@@ -175,12 +175,10 @@ BUGS						*scratch-bugs*
   the scratch buffer.
 
 - |:ScratchOpen| - To create the scratch buffer, the current buffer will be
-  hidden temporary.
+  hidden temporary.  This behavior may cause some problems.
 
-- |:ScratchEvaluate| - Cursor adjustment is not good.
-
-- |:ScratchEvaluate| - Should this be able to evaluate any programming
-  language other than Vim script?
+- |:ScratchEvaluate| - Is it useful to evaluate any programming language other
+  than Vim script?
 
 
 
