@@ -1157,8 +1157,8 @@ nnoremap O  :<C-u>call <SID>StartInsertModeWithBlankLines('O')<Return>
 function! s:StartInsertModeWithBlankLines(command)
   " Do "[count]o<Esc>o" and so forth.
   " BUGS: In map-<expr>, v:count and v:count1 don't hold correct values.
-  " FIXME: proper indenting in comments.
-  " FIXME: not repeatable perfectly (repeat insertion without blank lines).
+  " FIXME: improper indenting in comments.
+  " FIXME: imperfect repeating (blank lines will not be repeated).
 
   if v:count != v:count1  " [count] is not specified?
     call feedkeys(a:command, 'n')
@@ -1178,6 +1178,9 @@ function! s:StartInsertModeWithBlankLines(command)
   let c = nr2char(getchar())
   call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
   call feedkeys(c, 'n')
+
+  " to undo the next inserted text and the preceding blank lines in 1 step.
+  undojoin
 endfunction
 
 
