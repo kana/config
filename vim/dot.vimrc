@@ -594,6 +594,13 @@ function! s:JoinHere(...)
   let pos = getpos('.')
   let r = @"
 
+  if line('.') == line('$')
+    echohl WarningMsg
+    echo 'Unable to join at the bottom line.'
+    echohl None
+    return
+  endif
+
   if adjust_spacesp  " adjust spaces between texts being joined as same as J.
     normal! D
     let l = @"
