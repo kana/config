@@ -1139,9 +1139,10 @@ vnoremap I  :<C-u>call <SID>ForceBlockwiseVisual('I')<Return>
 vnoremap A  :<C-u>call <SID>ForceBlockwiseVisual('A')<Return>
 
 function! s:ForceBlockwiseVisual(next_key)
-  normal! gv
-  if visualmode() != "\<C-v>"
-    execute 'normal!' "\<C-v>"
+  if visualmode() ==# 'V'
+    execute "normal! `<0\<C-v>`>$"
+  else
+    execute "normal! `<\<C-v>`>"
   endif
   call feedkeys(a:next_key, 'n')
 endfunction
