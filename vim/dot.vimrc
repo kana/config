@@ -1479,17 +1479,6 @@ let s:FileType_xml_comment_data = {
 
 
 " Plugins  "{{{1
-" cygclip  "{{{2
-
-" Because plugins will be loaded after ~/.vimrc.
-autocmd MyAutoCmd User DelayedSettings
-      \   if exists('g:loaded_cygclip')
-      \ |   call Cygclip_DefaultKeymappings()
-      \ | endif
-
-
-
-
 " scratch  "{{{2
 
 nmap <Leader>s  <Plug>(scratch-open)
@@ -1558,10 +1547,10 @@ nmap [Space]b  <Leader>b
 
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
-  autocmd MyAutoCmd VimEnter *
-    \ doautocmd MyAutoCmd User DelayedSettings
+  " autocmd MyAutoCmd VimEnter *
+  "   \ doautocmd MyAutoCmd User DelayedSettings
 else
-  doautocmd MyAutoCmd User DelayedSettings
+  " doautocmd MyAutoCmd User DelayedSettings
 endif
 
 

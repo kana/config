@@ -181,7 +181,7 @@ PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 
-PACKAGE_vim_cygclip_ARCHIVE=vim-cygclip-0.0
+PACKAGE_vim_cygclip_ARCHIVE=vim-cygclip-0.1
 PACKAGE_vim_cygclip_BASE=vim/dot.vim
 PACKAGE_vim_cygclip_FILES=\
   vim/dot.vim/doc/cygclip.txt \

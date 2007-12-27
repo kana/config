@@ -1,6 +1,6 @@
 *cygclip.txt*	pseudo clipboard register for non-GUI version of Vim on Cygwin
 
-Version 0.0
+Version 0.1
 Copyright (C) 2007 kana <http://nicht.s8.xrea.com>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
@@ -38,12 +38,14 @@ KEY MAPPINGS						*cygclip-keymappings*
 <Plug>Cygclip_insert	Insert the content of the clipboard like |i_CTRL-R|.
 	
 
+					   *g:cygclip_no_default_key_mappings*
 						*Cygclip_DefaultKeymappings()*
-cygclip provides Cygclip_DefaultKeymappings() to define some useful key
-mappings which are similar to Vim's default key mappings to yank/put.
-Call it from your |vimrc|.
+The following key mappings will be defined automatically (via
+Cygclip_DefaultKeymappings()).  If you don't want to define these default key
+mappings, define g:cygclip_no_default_key_mappings with any value before this
+plugin is loaded.
 
-	Normal mode and Visual mode:
+	Normal mode and Visual mode ~
 
 		"+y{motion}	"*y{motion}	(Normal mode only)
 		"+y		"*y		(Visual mode only)
@@ -54,7 +56,7 @@ Call it from your |vimrc|.
 		"+gp		"*gp
 		"+gP		"*gP
 
-	Insert mode and Command-line mode:
+	Insert mode and Command-line mode ~
 
 		<C-r>+		<C-r>*
 
@@ -71,11 +73,20 @@ clipboard content ends with a newline, otherwise it will be characterwise.
 (b) Executing <Plug>Cygclip_y in Normal mode, the display of 'showcmd' is
 different from the ordinary one.
 
+(c) This plugin just provide pseudo clipboard register for ordinary editing.
+So |getreg()|, |setreg()|, |expr-register| and other interface on clipboard
+register are not supported.
+
 
 
 
 ==============================================================================
 CHANGELOG						*cygclip-changelog*
+
+0.1	2007-12-27T22:47:34+09:00
+	- Modify to automatically define the default key mappings as this
+	  plugin is loaded.  See |g:cygclip_no_default_key_mappings| for how
+	  to suppress this behavior.
 
 0.0	2007-08-13
 	- First release.
