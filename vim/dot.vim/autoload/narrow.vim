@@ -1,5 +1,5 @@
 " narrow - Emulate Emacs' narrowing feature
-" Version: 0.0
+" Version: 0.1
 " Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$
@@ -15,6 +15,7 @@ function! narrow#Narrow(line1, line2)
   endif
 
   let b:narrow_original_state = s:save_the_state_of_buffer()
+  setlocal foldenable
   setlocal foldmethod=manual
   setlocal foldtext=''
   call s:adjust_cursor_if_invoked_via_visual_mode(a:line1, a:line2)
@@ -122,6 +123,7 @@ function! s:save_the_state_of_buffer()  "{{{2
   call s:restore_view_options()
 
   let original_state = {}
+  let original_state.foldenable = &l:foldenable
   let original_state.foldmethod = &l:foldmethod
   let original_state.foldtext = &l:foldtext
   return original_state
@@ -135,6 +137,7 @@ function! s:load_the_state_of_buffer(original_state)  "{{{2
   loadview
   call s:restore_view_options()
 
+  let &l:foldenable = a:original_state.foldenable
   let &l:foldmethod = a:original_state.foldmethod
   let &l:foldtext = a:original_state.foldtext
 endfunction
