@@ -1026,6 +1026,9 @@ vnoremap [Space]s  :sort<Return>
   " for backward compatibility
 nmap     [Space]w  [Space]ow
 
+  " for other use.
+noremap [Space]x  <Nop>
+
 
 
 
@@ -1479,6 +1482,14 @@ let s:FileType_xml_comment_data = {
 
 
 " Plugins  "{{{1
+" narrow  "{{{2
+
+noremap [Space]xn  :Narrow<Return>
+noremap [Space]xw  :<C-u>Widen<Return>
+
+
+
+
 " scratch  "{{{2
 
 nmap <Leader>s  <Plug>(scratch-open)
