@@ -37,7 +37,8 @@ INTERFACES					*narrow-interfaces*
 						*:Narrow*
 :[range]Narrow
 	Narrow down to [range].  The default [range] is the current line.
-	If the buffer is already narrowed, nothing will happen.
+	See |g:narrow_allow_overridingp| in the case of the buffer is already
+	narrowed.
 
 						*:Widen*
 :Widen
@@ -59,6 +60,12 @@ narrow#Widen()
 b:narrow_original_state
 	The variable to save the state of the buffer before narrowing.
 	This variable doesn't exist when the buffer is not narrowed.
+
+						*g:narrow_allow_overridingp*
+g:narrow_allow_overridingp
+	When the buffer is already narrowed, |:Narrow| is allowed if this
+	variable is set to true.  Otherwise it's not allowed, so nothing will
+	happen.
 
 
 
@@ -89,6 +96,8 @@ CHANGELOG					*narrow-changelog*
 
 0.1	2007-12-28T01:13:48+09:00
 	- Fix the bug that 'foldenable' is not set after |:Narrow|.
+	- Fix the bug that the cursor is moved to somewhere after |:Widen|.
+	- Add |g:narrow_allow_overridingp|.
 
 0.0	2007-12-15T22:34:52+09:00
 	- Initial version.

@@ -10,11 +10,14 @@ function! narrow#Narrow(line1, line2)
   " Note that if you want to modify more options, don't forget to update
   " s:save_the_state_of_buffer() and s:load_the_state_of_buffer().
   if exists('b:narrow_original_state')
-    echo 'The buffer is already narrowed.'
-    return 0
+    if !s:allow_overridingp()
+      echo 'The buffer is already narrowed.'
+      return 0
+    endif
+  else
+    let b:narrow_original_state = s:save_the_state_of_buffer()
   endif
 
-  let b:narrow_original_state = s:save_the_state_of_buffer()
   setlocal foldenable
   setlocal foldmethod=manual
   setlocal foldtext=''
@@ -24,7 +27,6 @@ function! narrow#Narrow(line1, line2)
     call s:fold_before(a:line1)
     call s:fold_after(a:line2)
   call setpos('.', pos)
-  echo mode()
   return 1
 endfunction
 
@@ -54,6 +56,13 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:allow_overridingp()  "{{{2
+  return exists('g:narrow_allow_overridingp') && g:narrow_allow_overridingp
+endfunction
+
+
+
+
 function! s:adjust_cursor_if_invoked_via_visual_mode(line1, line2)  "{{{2
   " Without this adjustment, the cursor is always positioned at '<.
   " BUGS: this discriminant isn't perfect but sufficient.
