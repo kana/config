@@ -984,22 +984,22 @@ onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 " Various hotkeys prefixed by <Space>.
 
 " to show <Space> in the bottom line.
-map      <Space>  [Space]
+map <Space>  [Space]
 
 " fallback
-noremap  [Space]  <Nop>
+noremap [Space]  <Nop>
 
 
-nnoremap [Space]/  :nohlsearch<Return>
+nnoremap [Space]/  :<C-u>nohlsearch<Return>
 
-nnoremap [Space]?  :call <SID>HelpWindowClose()<Return>
+nnoremap [Space]?  :<C-u>call <SID>HelpWindowClose()<Return>
 
   " append one character
 nnoremap [Space]A  A<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 nnoremap [Space]a  a<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
-nnoremap [Space]e  :setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap [Space]f  :setlocal filetype? fileencoding? fileformat?<Return>
+nnoremap [Space]e  :<C-u>setlocal encoding? termencoding? fenc? fencs?<Return>
+nnoremap [Space]f  :<C-u>setlocal filetype? fileencoding? fileformat?<Return>
 
   " insert one character
 nnoremap [Space]I  I<C-r>=<SID>KeysToInsertOneCharacter()<Return>
@@ -1010,21 +1010,22 @@ nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
   " unjoin  " BUGS: side effect - destroy the last inserted text (".).
 nnoremap [Space]j  i<Return><Esc>
 
-nnoremap [Space]ob  :call <SID>ToggleBell()<Return>
-nnoremap [Space]ow  :call <SID>ToggleOption('wrap')<Return>
+nnoremap [Space]o  <Nop>
+nnoremap [Space]ob  :<C-u>call <SID>ToggleBell()<Return>
+nnoremap [Space]ow  :<C-u>call <SID>ToggleOption('wrap')<Return>
 
-nnoremap [Space]q  :help quickref<Return>
+nnoremap [Space]q  :<C-u>help quickref<Return>
 
-nnoremap [Space]r  :registers<Return>
+nnoremap [Space]r  :<C-u>registers<Return>
 
 nnoremap [Space]s  <Nop>
-nnoremap [Space]s.  :source $HOME/.vimrc<Return>
-nnoremap [Space]ss  :source %<Return>
+nnoremap [Space]s.  :<C-u>source $MYVIMRC<Return>
+nnoremap [Space]ss  :<C-u>source %<Return>
 
 vnoremap [Space]s  :sort<Return>
 
   " for backward compatibility
-nmap     [Space]w  [Space]ow
+nmap [Space]w  [Space]ow
 
   " for other use.
 noremap [Space]x  <Nop>
