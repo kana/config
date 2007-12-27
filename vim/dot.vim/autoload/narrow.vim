@@ -37,9 +37,12 @@ function! narrow#Widen()
     return 0
   endif
 
-  call s:clear_all_folds()
-  call s:load_the_state_of_buffer(b:narrow_original_state)
-  unlet b:narrow_original_state
+  let pos = getpos('.')
+    call s:clear_all_folds()
+    call s:load_the_state_of_buffer(b:narrow_original_state)
+    unlet b:narrow_original_state
+  call setpos('.', pos)
+  normal! zz
   return 1
 endfunction
 
