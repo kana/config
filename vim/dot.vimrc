@@ -397,9 +397,7 @@ endfunction
 
 
 function! s:KeysToInsertOneCharacter()
-  echohl ModeMsg
-  echo '-- INSERT (one char) --'
-  echohl None
+  Echo ModeMsg '-- INSERT (one char) --'
   return nr2char(getchar()) . "\<Esc>"
 endfunction
 
@@ -595,9 +593,7 @@ function! s:JoinHere(...)
   let r = @"
 
   if line('.') == line('$')
-    echohl WarningMsg
-    echo 'Unable to join at the bottom line.'
-    echohl None
+    Echo ErrorMsg 'Unable to join at the bottom line.'
     return
   endif
 
@@ -724,6 +720,14 @@ function! s:MoveWindowIntoNewTabPage()
   endif
 
   execute new_tabnr 'tabnext'
+endfunction
+
+
+command! -bar -nargs=+ -range Echo  call <SID>Echo(<f-args>)
+function! s:Echo(hl_name, ...)
+  execute 'echohl' a:hl_name
+  execute 'echo' join(a:000)
+  echohl None
 endfunction
 
 
@@ -1067,7 +1071,7 @@ unlet i
 function! s:ScrollOtherWindow(cmd)
   if winnr('$') == 1 || winnr('#') == 0
     " Do nothing when there is only one window or no previous window.
-    echo 'There is no window to scroll.'
+    Echo ErrorMsg 'There is no window to scroll.'
   else
     execute 'normal!' "\<C-w>p"
     execute 'normal!' (s:Count() . a:cmd)
@@ -1203,8 +1207,7 @@ function! s:StartInsertModeWithBlankLines(command)
 
   execute 'normal!' script
   redraw
-  echohl ModeMsg
-  echo '-- INSERT (open) --'
+  Echo ModeMsg '-- INSERT (open) --'
   echohl None
   let c = nr2char(getchar())
   call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
