@@ -194,7 +194,7 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
 
-PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.1
+PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.1+
 PACKAGE_vim_scratch_BASE=vim/dot.vim
 PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/autoload/scratch.vim \

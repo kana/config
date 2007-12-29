@@ -1,6 +1,6 @@
 *scratch.txt*	Emacs like scratch buffer.
 
-Version 0.1
+Version 0.1+
 Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
@@ -185,6 +185,9 @@ BUGS						*scratch-bugs*
 
 ==============================================================================
 CHANGELOG					*scratch-changelog*
+
+0.1+	2007-12-29T09:35:06+09:00
+	- Modify |:ScratchEvaluate| to accept |line-continuation|.
 
 0.1	2007-12-25T03:57:18+09:00
 	- Rewrote.
