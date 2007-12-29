@@ -87,9 +87,11 @@ BUGS						*narrow-bugs*
 CHANGELOG					*narrow-changelog*
 
 0.2	2007-12-29T07:24:53+09:00
-	- Modify not to use temporary files.  Now |:Widen| correctly works
-	  even if the target buffer is |:Narrow|'ed by two or more Vim
-	  processes.
+	- Fix |:Narrow| and |:Widen| not to use temporary files.  Now |:Widen|
+	  correctly works even if the target buffer is |:Narrow|'ed by two or
+	  more Vim processes.
+	- Modify |:Narrow| to |zz| after narrowing for visibility.
+	- Modify |:Narrow| to include all lines of closed folds in [range].
 
 0.1	2007-12-28T01:13:48+09:00
 	- Fix the bug that 'foldenable' is not set after |:Narrow|.

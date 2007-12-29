@@ -18,15 +18,19 @@ function! narrow#Narrow(line1, line2)
     let b:narrow_original_state = s:save_the_state_of_buffer()
   endif
 
+  let line1 = s:normalize_line(a:line1, 'head')
+  let line2 = s:normalize_line(a:line2, 'tail')
+
   setlocal foldenable
   setlocal foldmethod=manual
   setlocal foldtext=''
-  call s:adjust_cursor_if_invoked_via_visual_mode(a:line1, a:line2)
+  call s:adjust_cursor_if_invoked_via_visual_mode(line1, line2)
   let pos = getpos('.')
     call s:clear_all_folds()
-    call s:fold_before(a:line1)
-    call s:fold_after(a:line2)
+    call s:fold_before(line1)
+    call s:fold_after(line2)
   call setpos('.', pos)
+  normal! zz
   return 1
 endfunction
 
@@ -71,6 +75,16 @@ function! s:adjust_cursor_if_invoked_via_visual_mode(line1, line2)  "{{{2
    \  && (line("'>") == a:line2))
     execute 'normal!' "gv\<Esc>"
   endif
+endfunction
+
+
+
+
+function! s:normalize_line(line, mode)  "{{{2
+  " Return the first/last line number of a closed fold if a:line is contained
+  " the fold, otherwise return a:line as is.
+  let pline = (a:mode ==# 'head' ? foldclosed(a:line) : foldclosedend(a:line))
+  return 0 < pline ? pline : a:line
 endfunction
 
 
