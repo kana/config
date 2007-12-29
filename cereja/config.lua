@@ -65,6 +65,7 @@ ui.hotkey.register('Win-Ctrl-C',
                    function ()
                      shell.execute('C:\\cygwin\\usr\\local\\bin\\plala.lnk')
                    end)
+ui.hotkey.register('Win-Ctrl-B', function () bluewind('bluewind') end)
 ui.hotkey.register('Win-Ctrl-H', function () bluewind('home') end)
 ui.hotkey.register('Win-Ctrl-I', function () bluewind('irfanview') end)
 ui.hotkey.register('Win-Ctrl-J', function () bluewind('jtrim') end)
@@ -72,6 +73,7 @@ ui.hotkey.register('Win-Ctrl-L', function () bluewind('latest') end)
 ui.hotkey.register('Win-Ctrl-O', function () bluewind('opera') end)
 ui.hotkey.register('Win-Ctrl-S', function () bluewind('shell') end)
 ui.hotkey.register('Win-Ctrl-T', function () bluewind('timedate') end)
+ui.hotkey.register('Win-Ctrl-W', function () bluewind('wmp') end)
 
 ui.hotkey.register('Alt-Ctrl-Shift-Win-S', function ()
   shell.execute(nil,
