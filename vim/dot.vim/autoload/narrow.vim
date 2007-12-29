@@ -1,5 +1,5 @@
 " narrow - Emulate Emacs' narrowing feature
-" Version: 0.1
+" Version: 0.2
 " Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$
@@ -105,39 +105,32 @@ endfunction
 
 
 
-" view options  "{{{2
-function! s:set_view_options()
-  let s:original_viewdir = &viewdir
-  let &viewdir = s:original_viewdir . '/narrow'
-  let s:original_viewoptions = &viewoptions
-  let &viewoptions = 'folds'
-endfunction
-
-function! s:restore_view_options()
-  let &viewdir = s:original_viewdir
-  let &viewoptions = s:original_viewoptions
-endfunction
-
-
-
-
 function! s:save_the_state_of_buffer()  "{{{2
-  call s:set_view_options()
-    " BUGS: :mkview doesn't create intermediate directories.
-    if !isdirectory(&viewdir)
-      call mkdir(&viewdir, 'p', 0700)
-    endif
-    " BUGS: :mkview doesn't save folds info when &l:buftype isn't ''.
-    let original_buftype = &l:buftype
-    let &l:buftype = ''
-      mkview
-    let &l:buftype = original_buftype
-  call s:restore_view_options()
-
   let original_state = {}
   let original_state.foldenable = &l:foldenable
   let original_state.foldmethod = &l:foldmethod
   let original_state.foldtext = &l:foldtext
+
+  " save folds
+  let original_state.foldstate = []
+  let original_pos = getpos('.')
+  let line = 1
+  while line <= line('$')
+    if 0 < foldclosed(line)  " is the first line of a fold?
+      call add(original_state.foldstate, line)
+      let line = foldclosedend(line) + 1
+    else
+      let previous_line = line
+      call cursor(previous_line, 0)
+      normal! zj
+      let line = line('.')
+      if line == previous_line
+        break  " no more folds.
+      endif
+    endif
+  endwhile
+  call setpos('.', original_pos)
+
   return original_state
 endfunction
 
@@ -145,13 +138,16 @@ endfunction
 
 
 function! s:load_the_state_of_buffer(original_state)  "{{{2
-  call s:set_view_options()
-  loadview
-  call s:restore_view_options()
-
   let &l:foldenable = a:original_state.foldenable
   let &l:foldmethod = a:original_state.foldmethod
   let &l:foldtext = a:original_state.foldtext
+
+  " restore folds.
+  %foldopen!
+  for line in a:original_state.foldstate
+    call cursor(line, 0)
+    foldclose
+  endfor
 endfunction
 
 
