@@ -96,6 +96,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/autoload/textobj/datetime.vim \
   vim/dot.vim/autoload/textobj/user.vim \
+  vim/dot.vim/autoload/vcsi.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
@@ -113,6 +114,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/tofunc.vim \
   vim/dot.vim/plugin/vcscommand.vim \
   vim/dot.vim/plugin/vcscvs.vim \
+  vim/dot.vim/plugin/vcsi.vim \
   vim/dot.vim/plugin/vcssvk.vim \
   vim/dot.vim/plugin/vcssvn.vim \
   vim/dot.vim/plugin/zapit.vim \
@@ -134,6 +136,7 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/textobj-user.txt \
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/doc/vcscommand.txt \
+  vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/doc/xml_autons.txt \
   vim/dot.vim/doc/xml_move.txt \
   vim/dot.vim/doc/zapit.txt
@@ -157,6 +160,7 @@ ALL_PACKAGES=\
   vim-textobj-datetime \
   vim-textobj-user \
   vim-tofunc \
+  vim-vcsi \
   vim-xml_autons \
   vim-xml_move \
   vim-zapit
@@ -220,6 +224,13 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
+
+PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.0
+PACKAGE_vim_vcsi_BASE=vim/dot.vim
+PACKAGE_vim_vcsi_FILES=\
+  vim/dot.vim/autoload/vcsi.vim \
+  vim/dot.vim/doc/vcsi.txt \
+  vim/dot.vim/plugin/vcsi.vim
 
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim

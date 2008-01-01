@@ -1,0 +1,199 @@
+*vcsi.txt*	Version Control System Interface
+
+Version 0.0
+Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+$Id$
+
+CONTENTS						*vcsi-contents*
+
+Introduction			|vcsi-introduction|
+Interface			|vcsi-interface|
+  Commands			  |vcsi-commands|
+  Functions			  |vcsi-functions|
+  Key Mapings			  |vcsi-key-mappings|
+Customizing			|vcsi-customizing|
+Bugs				|vcsi-bugs|
+ChangeLog			|vcsi-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION						*vcsi-introduction*
+
+This Vim plugin provides interface for several version control systems.  You
+will be able to commit, diff and other daily works quickly.  Note that this
+plugin doesn't provide interface for commands which are rarely used.
+
+Requirements:
+- Vim 7.0 or later.
+
+Supported version control systems:
+- svk
+- Subversion
+- CVS (future)
+
+
+
+
+==============================================================================
+INTERFACES						*vcsi-interface*
+
+------------------------------------------------------------------------------
+COMMANDS						*vcsi-commands*
+
+							*vcsi-item*
+Most of the following commands take zero or more {item}s, where each {item} is
+a file or directory.  If no {item} is given or {item} is "-", use the file or
+directory related to the current buffer.  If {item} is "all", use the current
+directory.
+
+:VcsiCommit [item] ...					*:VcsiCommit*
+	Open new buffer to edit commit log.
+	When the buffer is written, the change of [item]s will be committed.
+
+:[count]VcsiDiff [item [revision]]			*:VcsiDiff*
+	Open new buffer to show the difference between the {revision} of
+	{item} and the current {item}.
+
+	If {revision} is not given, use the latest revision.
+	If {count} is given, use the {count}th previous revision.
+	If both of them are given, nothing will happen.
+
+:VcsiInfo [item] ...					*:VcsiInfo*
+	Open new buffer to show the information of {item}s.
+
+:[count]VcsiLog	 [item [revision]]			*:VcsiLog*
+	Open new buffer to show the commit log of {item} from the {revision}
+	to the latest revision.
+
+	If {revision} is not given, use the oldest revision.
+	If {count} is given, use the {count}th previous revision.
+	If both of them are given, nothing will happen.
+
+:VcsiPropEdit						*:VcsiPropEdit*
+	Reserved for the future.
+
+:VcsiRevert [item] ...					*:VcsiRevert*
+	Revert the current change of {item}s, recursively.
+
+:VcsiStatus [item] ...					*:VcsiStatus*
+	Open new buffer to show the status of {item}s, recursively.
+
+:VcsiDefaultKeyMappings[!]			      *VcsiDefaultKeyMappings*
+	Define |vcsi-default-key-mappings|.
+	If [!] is specified, this may override existing mappings.
+
+
+------------------------------------------------------------------------------
+FUNCTIONS						*vcsi-functions*
+
+vcsi#commit([{item}, ...])				*vcsi#commit()*
+vcsi#diff([{item}, [{revision}]])			*vcsi#diff()*
+vcsi#info([{item}, ...])				*vcsi#info()*
+vcsi#log([{item}, [{revision}]])			*vcsi#log()*
+vcsi#propedit()						*vcsi#propedit()*
+vcsi#revert([{item}, ...])				*vcsi#revert()*
+vcsi#status([{item}, ...])				*vcsi#status()*
+	Function version of the corresponding command.
+	Return value is not defined.
+
+
+------------------------------------------------------------------------------
+KEY MAPPINGS						*vcsi-key-mappings*
+
+<Plug>(vcsi-commit-all)				*<Plug>(vcsi-commit-all)*
+<Plug>(vcsi-commit-it)				*<Plug>(vcsi-commit-it)*
+<Plug>(vcsi-diff-all)				*<Plug>(vcsi-diff-all)*
+<Plug>(vcsi-diff-it)				*<Plug>(vcsi-diff-it)*
+<Plug>(vcsi-info-all)				*<Plug>(vcsi-info-all)*
+<Plug>(vcsi-info-it)				*<Plug>(vcsi-info-it)*
+<Plug>(vcsi-log-all)				*<Plug>(vcsi-log-all)*
+<Plug>(vcsi-log-it)				*<Plug>(vcsi-log-it)*
+<Plug>(vcsi-propedit-all)			*<Plug>(vcsi-propedit-all)*
+<Plug>(vcsi-propedit-it)			*<Plug>(vcsi-propedit-it)*
+<Plug>(vcsi-revert-all)				*<Plug>(vcsi-revert-all)*
+<Plug>(vcsi-revert-it)				*<Plug>(vcsi-revert-it)*
+<Plug>(vcsi-status-all)				*<Plug>(vcsi-status-all)*
+<Plug>(vcsi-status-it)				*<Plug>(vcsi-status-it)*
+	These mappings are defined for Normal mode.
+	Each mapping executes the corresponding command.
+	"-all" version executes the corresponding command on "all".
+	"-it" version executes the corresponding command on "-".
+
+						*vcsi-default-key-mappings*
+The following key mappings will be defined as this plugin is loaded unless
+|g:vcsi_no_default_key_mappings| exists.  You can redefine these key mappings
+by |:VcsiDefaultKeyMappings|.
+
+	{lhs}			{rhs}
+	----------		----------------------- ~
+	<Leader>vC		<Plug>(vcsi-commit-all)
+	<Leader>vc		<Plug>(vcsi-commit-it)
+	<Leader>vD		<Plug>(vcsi-diff-all)
+	<Leader>vd		<Plug>(vcsi-diff-it)
+	<Leader>vI		<Plug>(vcsi-info-all)
+	<Leader>vi		<Plug>(vcsi-info-it)
+	<Leader>vL		<Plug>(vcsi-log-all)
+	<Leader>vl		<Plug>(vcsi-log-it)
+	<Leader>vR		<Plug>(vcsi-revert-all)
+	<Leader>vr		<Plug>(vcsi-revert-it)
+	<Leader>vS		<Plug>(vcsi-status-all)
+	<Leader>vs		<Plug>(vcsi-status-it)
+
+
+
+
+==============================================================================
+CUSTOMIZING						*vcsi-customizing*
+
+g:vcsi_open_command				*g:vcsi_open_command*
+g:vcsi_open_command_commit			*g:vcsi_open_command_commit*
+g:vcsi_open_command_diff			*g:vcsi_open_command_diff*
+g:vcsi_open_command_info			*g:vcsi_open_command_info*
+g:vcsi_open_command_log				*g:vcsi_open_command_log*
+g:vcsi_open_command_propedit			*g:vcsi_open_command_propedit*
+g:vcsi_open_command_revert			*g:vcsi_open_command_revert*
+g:vcsi_open_command_status			*g:vcsi_open_command_status*
+			    string (default: 'belowright split | hide buffer')
+
+	Specify the command to show a temporary buffer.  These values are used
+	like the following: >
+
+		execute g:vcsi_open_command buffer_number
+<
+	If g:vcsi_open_command_{command} exists, use it rather than
+	g:vcsi_open_command.
+
+g:vcsi_no_default_key_mappings		      *g:vcsi_no_default_key_mappings*
+	See |vcsi-default-key-mappings|.
+
+
+
+
+==============================================================================
+BUGS							*vcsi-bugs*
+
+- |vcsi-commands|: handling [count] is not implemented.
+
+- The following commands and corresponding functions are not implemented yet:
+  - |:VcsiCommit|
+  - |:VcsiPropEdit|
+
+- ...
+
+
+
+
+==============================================================================
+CHANGELOG						*vcsi-changelog*
+
+0.0	2007-12-29T14:49:35+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
