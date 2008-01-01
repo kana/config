@@ -466,8 +466,8 @@ endfunction
 " Per-tab current directory  "{{{2
 
 command! -nargs=1 TabCD
-      \   let t:cwd = <q-args>
-      \ | execute 'cd' t:cwd
+      \   execute 'cd' <q-args>
+      \ | let t:cwd = getcwd()
 
 autocmd MyAutoCmd TabEnter *
       \   if !exists('t:cwd')
