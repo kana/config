@@ -177,8 +177,7 @@ BUGS							*vcsi-bugs*
 
 - |vcsi-commands|: handling [count] is not implemented.
 
-- The following commands and corresponding functions are not implemented yet:
-  - |:VcsiCommit|
+- The following command and corresponding function are not implemented yet:
   - |:VcsiPropEdit|
 
 - ...

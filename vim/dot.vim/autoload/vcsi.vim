@@ -23,6 +23,7 @@ let s:INVALID_BUFNR = -1
 function! vcsi#commit(...)  "{{{2
   " args = item*
   let bufnr = s:create_commit_log_buffer({
+    \           'command': 'commit',
     \           'items': s:normalize_items(a:000),
     \         })
   return s:open_buffer(bufnr, 'commit')
@@ -35,14 +36,15 @@ function! vcsi#commit_finish()  "{{{2
   " Assumption: the current buffer is created by s:create_commit_log_buffer().
   let commit_log_file = tempname()
 
-    " FIXME: filtering message lines.
-  if writefile(getbufline('', 1, '$'), commit_log_file)
+  call cursor(line('$'), 0)
+  let log_tail_line = searchpos('^=== [^=]* ===$', 'bcW')[0] - 1
+  if writefile(getbufline('', 1, log_tail_line), commit_log_file)
     return  " error message is already published by writefile().
   endif
 
   let succeededp = s:execute_vcs_command({
      \               'command': 'commit',
-     \               'items': b:items_to_be_committed,
+     \               'items': b:vcsi_items_to_be_committed,
      \               'commit_log_file': commit_log_file
      \             })
   if succeededp
@@ -138,14 +140,25 @@ endfunction
 " - s:create_*_buffer() just creates a new buffer then returns its number,
 "   or returns s:INVALID_BUFNR on failure.
 function! s:create_commit_log_buffer(args)  "{{{2
-  " args = items:normalized-item*
-  throw 'FIXME: Not implemented yet.'
-  " TODO:
-  " - autocmd on write.
-  " - options.
-  " - messages.
-  " - b:items_to_be_committed
-  " - ...
+  " args = command:'commit' items:normalized-items
+  let bufnr = s:create_temporary_buffer()
+  let state = s:switch_to_buffer(bufnr)
+
+  silent file `=s:make_buffer_name(a:args)`
+
+    " BUGS: Don't forget to update message filtering in vcsi#commit_finish().
+  put ='=== Targets to be commited (this message will be removed). ==='
+  execute 'read !' s:make_vcs_command_script({
+        \            'command': 'status',
+        \            'items': a:args.items
+        \          })
+  call cursor(1, 0)
+  let b:vcsi_items_to_be_committed = a:args.items
+  setlocal buftype=acwrite nomodified
+  autocmd BufWriteCmd <buffer>  call vcsi#commit_finish()
+
+  silent call s:switch_back_buffer(state)
+  return bufnr
 endfunction
 
 
@@ -239,7 +252,7 @@ endfunction
 function! s:make_vcs_command_script(args)  "{{{2
   " args = command:vcs-command-name
   "        items:normalized-items
-  "        ommit_log_file:commit_log_file?
+  "        commit_log_file:commit_log_file?
   "        revision:revision?
   " FIXME: support other vcs (currently svk only)
   " FIXME: custom command name (e.g. use my-svk instead svk)
