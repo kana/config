@@ -87,6 +87,10 @@ if !exists('g:vcsi_open_command')
   let g:vcsi_open_command = 'belowright split | hide buffer'
 endif
 
+if !exists('g:vcsi_echo_scriptp')
+  let g:vcsi_echo_scriptp = 1
+endif
+
 
 
 

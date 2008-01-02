@@ -169,6 +169,10 @@ g:vcsi_open_command_status			*g:vcsi_open_command_status*
 g:vcsi_no_default_key_mappings		      *g:vcsi_no_default_key_mappings*
 	See |vcsi-default-key-mappings|.
 
+g:vcsi_echo_scriptp				*g:vcsi_echo_scriptp*
+				number (default: 1)
+	If this value is true, |:echomsg| for every vcs command to be run.
+
 
 
 
@@ -179,6 +183,9 @@ BUGS							*vcsi-bugs*
 
 - The following command and corresponding function are not implemented yet:
   - |:VcsiPropEdit|
+
+- |:VcsiCommit|: writing commit log buffer with |:wq| causes closing extra
+  window.
 
 - ...
 

@@ -51,7 +51,7 @@ function! vcsi#commit_finish()  "{{{2
     bwipeout!
   endif
 
-  if 0 && delete(commit_log_file)
+  if delete(commit_log_file)
     echohl ErrorMsg
     echomsg 'Failed to delete temporary file' string(commit_log_file)
     echohl None
@@ -256,18 +256,19 @@ function! s:make_vcs_command_script(args)  "{{{2
   "        revision:revision?
   " FIXME: support other vcs (currently svk only)
   " FIXME: custom command name (e.g. use my-svk instead svk)
-  let debug_prefix = (exists('g:vcsi_debuggingp') && g:vcsi_debuggingp
-    \                 ? 'echo'
-    \                 : '')
-  return join([debug_prefix, 'svk', a:args.command,
-       \      (a:args.command ==# 'revert'
-       \       ? '--recursive' : ''),
-       \      (len(get(a:args, 'revision', ''))
-       \       ? '-r '.a:args.revision : ''),
-       \      (has_key(a:args, 'commit_log_file')
-       \       ? '--file '.a:args.commit_log_file : ''),
-       \      (has_key(a:args, 'items')
-       \       ? join(a:args.items) : '')])
+  let script = join(['svk', a:args.command,
+    \               (a:args.command ==# 'revert'
+    \                ? '--recursive' : ''),
+    \               (len(get(a:args, 'revision', ''))
+    \                ? '-r '.a:args.revision : ''),
+    \               (has_key(a:args, 'commit_log_file')
+    \                ? '--file '.a:args.commit_log_file : ''),
+    \               (has_key(a:args, 'items')
+    \                ? join(a:args.items) : '')])
+  if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
+    echomsg 'vcsi:' string(script)
+  endif
+  return script
 endfunction
 
 
