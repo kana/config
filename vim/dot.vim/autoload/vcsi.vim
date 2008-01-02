@@ -51,7 +51,7 @@ function! vcsi#commit_finish()  "{{{2
     bwipeout!
   endif
 
-  if delete(commit_log_file)
+  if 0 && delete(commit_log_file)
     echohl ErrorMsg
     echomsg 'Failed to delete temporary file' string(commit_log_file)
     echohl None
@@ -92,7 +92,7 @@ function! vcsi#log(...)  "{{{2
   let bufnr = s:create_vcs_command_result_buffer({
     \           'command': 'log',
     \           'items': s:normalize_items([1 <= a:0 ? a:1 : '-']),
-    \           'revision': (2 <= a:0 ? a:2 : '1')
+    \           'revision': 'HEAD:' . (2 <= a:0 ? a:2 : '1')
     \         })
   return s:open_buffer(bufnr, 'log')
 endfunction
