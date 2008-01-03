@@ -44,7 +44,7 @@ function! vcsi#commit_finish()  "{{{2
 
   let succeededp = s:execute_vcs_command({
      \               'command': 'commit',
-     \               'items': b:vcsi_items_to_be_committed,
+     \               'items': b:vcsi_target_items,
      \               'commit_log_file': commit_log_file
      \             })
   if succeededp
@@ -153,7 +153,7 @@ function! s:create_commit_log_buffer(args)  "{{{2
         \            'items': a:args.items
         \          })
   call cursor(1, 0)
-  let b:vcsi_items_to_be_committed = a:args.items
+  let b:vcsi_target_items = a:args.items
   setlocal buftype=acwrite nomodified
   autocmd BufWriteCmd <buffer>  call vcsi#commit_finish()
 
@@ -198,6 +198,7 @@ function! s:create_vcs_command_result_buffer(args)  "{{{2
   let state = s:switch_to_buffer(bufnr)
 
   silent file `=s:make_buffer_name(a:args)`
+  let b:vcsi_target_items = a:args.items
 
     " FIXME: error cases.
   execute '1 read !' s:make_vcs_command_script(a:args)
@@ -278,12 +279,16 @@ function! s:normalize_items(unnormalized_items)  "{{{2
   let items = []
   for item in (len(a:unnormalized_items) ? a:unnormalized_items : ['-'])
     if item ==# 'all'
-      let item = '.'
+      call add(items, '.')
+    elseif item ==# '' || item ==# '-'
+      if exists('b:vcsi_target_items')
+        call extend(items, b:vcsi_target_items)
+      else
+        call add(items, bufname(''))
+      endif
+    else
+      call add(items, item)
     endif
-    if item ==# '' || item ==# '-'
-      let item = bufname('')
-    endif
-    call add(items, item)
   endfor
   return items
 endfunction
