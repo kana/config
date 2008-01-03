@@ -237,7 +237,9 @@ endfunction
 
 function! s:make_buffer_name(args)  "{{{2
   " args = {same as s:make_vcs_command_script()}
-  let base_name = 'vcsi - ' . a:args.command . ' - ' . join(a:args.items)
+  let base_name = 'vcsi:' . s:vcs_type(a:args.items)
+    \             . ' - ' . a:args.command
+    \             . ' - ' . join(a:args.items)
   let name = base_name
   let i = 0
   while bufexists(name)
@@ -255,19 +257,19 @@ function! s:make_vcs_command_script(args)  "{{{2
   "        items:normalized-items
   "        commit_log_file:commit_log_file?
   "        revision:revision?
-  " FIXME: support other vcs (currently svk only)
+  " FIXME: support other vcs (currently svk and Subversion only, ad hoc)
   " FIXME: custom command name (e.g. use my-svk instead svk)
-  let script = join(['svk', a:args.command,
+  let script = join([s:vcs_type(a:args.items), a:args.command,
     \               (a:args.command ==# 'revert'
     \                ? '--recursive' : ''),
     \               (len(get(a:args, 'revision', ''))
     \                ? '-r '.a:args.revision : ''),
     \               (has_key(a:args, 'commit_log_file')
     \                ? '--file '.a:args.commit_log_file : ''),
-    \               (has_key(a:args, 'items')
-    \                ? join(a:args.items) : '')])
+    \               join(map(a:args.items, "\"'\" . v:val . \"'\""))])
+  let script = substitute(script, ' \{2,}', ' ', 'g')
   if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
-    echomsg 'vcsi:' string(script)
+    echomsg 'vcsi:' script
   endif
   return script
 endfunction
@@ -328,6 +330,22 @@ function! s:switch_to_buffer(bufnr)  "{{{2
   execute 'hide' a:bufnr 'buffer'
 
   return state  " to switch back the original buffer.
+endfunction
+
+
+
+
+function! s:vcs_type(items)  "{{{2
+  " FIXME: directory separator on non-*nix platforms.
+  let prefix = fnamemodify(a:items[0], ':p:h') . '/'
+
+  if isdirectory(prefix . '.svn')
+    return 'svn'
+  " elseif isdirectory(prefix . 'CVS')
+  "   return 'cvs'
+  else
+    return 'svk'
+  endif
 endfunction
 
 

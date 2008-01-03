@@ -31,7 +31,7 @@ Requirements:
 
 Supported version control systems:
 - svk
-- Subversion (future)
+- Subversion
 - CVS (future)
 
 
@@ -44,11 +44,16 @@ INTERFACES						*vcsi-interface*
 COMMANDS						*vcsi-commands*
 
 							*vcsi-item*
-Most of the following commands take zero or more {item}s, where each {item} is
-a file or directory.  If {item} is "all", use the current directory.  If no
-{item} is given or {item} is "-", use the file or directory related to the
-current buffer, or use the target items if the current buffer is a temporary
-buffer created by one of the following commands.
+Most of the following commands take zero or more {item}s.
+- {item} is a file or directory.
+- If {item} is "all", it will be treated as the current directory.
+- If no {item} is given for a command, it will be treated as "-" is given.
+- If {item} is "-", it will be treated as the file or directory related to the
+  current buffer.  If the current buffer is created by one of the
+  |vcsi-commands|, it will be treated as the same {item}s for the current
+  buffer.
+- Note that every {item} must be in the same repository.
+
 
 :VcsiCommit [item] ...					*:VcsiCommit*
 	Open new buffer to edit commit log.
