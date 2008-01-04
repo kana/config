@@ -148,10 +148,21 @@ function! s:create_commit_log_buffer(args)  "{{{2
 
     " BUGS: Don't forget to update message filtering in vcsi#commit_finish().
   put ='=== Targets to be commited (this message will be removed). ==='
-  execute 'read !' s:make_vcs_command_script({
-        \            'command': 'status',
-        \            'items': a:args.items
-        \          })
+  if g:vcsi_status_in_commit_logp
+    execute '$read !' s:make_vcs_command_script({
+          \             'command': 'status',
+          \             'items': a:args.items
+          \           })
+  else
+    call append(line('$'), a:args.items)
+  endif
+  if g:vcsi_diff_in_commit_logp
+    execute '$read !' s:make_vcs_command_script({
+          \             'command': 'diff',
+          \             'items': a:args.items
+          \           })
+    setfiletype diff
+  endif
   call cursor(1, 0)
   let b:vcsi_target_items = a:args.items
   setlocal buftype=acwrite nomodified

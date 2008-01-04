@@ -179,6 +179,16 @@ g:vcsi_echo_scriptp				*g:vcsi_echo_scriptp*
 				number (default: 1)
 	If this value is true, |:echomsg| for every vcs command to be run.
 
+g:vcsi_status_in_commit_logp			*g:vcsi_status_in_commit_logp*
+				number (default: 0)
+	Whenever a buffer to edit commit log is created, the result of
+	|:VcsiStatus| will be automatically inserted as a comment.
+
+g:vcsi_diff_in_commit_logp			*g:vcsi_diff_in_commit_logp*
+				number (default: 0)
+	Whenever a buffer to edit commit log is created, the result of
+	|:VcsiDiff| will be automatically inserted as a comment.
+
 
 
 

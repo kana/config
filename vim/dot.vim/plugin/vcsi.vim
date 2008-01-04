@@ -83,12 +83,20 @@ endif
 
 " Variables  "{{{1
 
+if !exists('g:vcsi_echo_scriptp')
+  let g:vcsi_echo_scriptp = 1
+endif
+
+if !exists('g:vcsi_diff_in_commit_logp')
+  let g:vcsi_diff_in_commit_logp = 0
+endif
+
 if !exists('g:vcsi_open_command')
   let g:vcsi_open_command = 'belowright split | hide buffer'
 endif
 
-if !exists('g:vcsi_echo_scriptp')
-  let g:vcsi_echo_scriptp = 1
+if !exists('g:vcsi_status_in_commit_logp')
+  let g:vcsi_status_in_commit_logp = 0
 endif
 
 
