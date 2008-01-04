@@ -277,7 +277,7 @@ function! s:make_vcs_command_script(args)  "{{{2
     \                ? '-r '.a:args.revision : ''),
     \               (has_key(a:args, 'commit_log_file')
     \                ? '--file '.a:args.commit_log_file : ''),
-    \               join(map(a:args.items, "\"'\" . v:val . \"'\""))])
+    \               "'" . join(a:args.items, "' '") . "'"])
   let script = substitute(script, ' \{2,}', ' ', 'g')
   if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
     echomsg 'vcsi:' script
