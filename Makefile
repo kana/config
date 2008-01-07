@@ -200,7 +200,7 @@ PACKAGE_vim_textobj_datetime_FILES=\
   vim/dot.vim/autoload/textobj/datetime.vim \
   vim/dot.vim/doc/textobj-datetime.txt
 
-PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.1
+PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.2
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
