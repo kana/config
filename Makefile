@@ -101,7 +101,6 @@ GROUP_VIM_FILES=\
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
-  vim/dot.vim/ftplugin/bugs.vim \
   vim/dot.vim/ftplugin/c_tofunc.vim \
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/ftplugin/vim_tofunc.vim \
@@ -112,19 +111,10 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/surround_config.vim \
   vim/dot.vim/plugin/tofunc.vim \
-  vim/dot.vim/plugin/vcscommand.vim \
-  vim/dot.vim/plugin/vcscvs.vim \
   vim/dot.vim/plugin/vcsi.vim \
-  vim/dot.vim/plugin/vcssvk.vim \
-  vim/dot.vim/plugin/vcssvn.vim \
   vim/dot.vim/plugin/zapit.vim \
-  vim/dot.vim/syntax/bugs.vim \
-  vim/dot.vim/syntax/CVSAnnotate.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
-  vim/dot.vim/syntax/SVKAnnotate.vim \
-  vim/dot.vim/syntax/SVNAnnotate.vim \
-  vim/dot.vim/syntax/vcscommit.vim \
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_DOC_FILES=\
@@ -135,7 +125,6 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/textobj-datetime.txt \
   vim/dot.vim/doc/textobj-user.txt \
   vim/dot.vim/doc/tofunc.txt \
-  vim/dot.vim/doc/vcscommand.txt \
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/doc/xml_autons.txt \
   vim/dot.vim/doc/xml_move.txt \
