@@ -1318,7 +1318,7 @@ endfunction
 " help  "{{{2
 
 autocmd MyAutoCmd FileType help
-  \ call textobj#user#define('|[^|]*|', '', '', {
+  \ call textobj#user#define('|[^| \t]*|', '', '', {
   \                            'move-to-next': '<buffer> gj',
   \                            'move-to-prev': '<buffer> gk',
   \                          })
