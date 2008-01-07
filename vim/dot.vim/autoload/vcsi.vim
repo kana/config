@@ -165,7 +165,7 @@ function! s:create_commit_log_buffer(args)  "{{{2
   endif
   call cursor(1, 0)
   let b:vcsi_target_items = a:args.items
-  setlocal buftype=acwrite nomodified
+  setlocal buftype=acwrite nomodified filetype=vcsicommit
   autocmd BufWriteCmd <buffer>  call vcsi#commit_finish()
 
   silent call s:switch_back_buffer(state)
