@@ -61,7 +61,6 @@ endfunction
 " Misc.  "{{{1
 
 function! s:select(type, previous_mode)
-  echomsg 's:select' string(a:type) string(a:previous_mode)
   return textobj#user#select(s:PATTERNS[a:type], '', a:previous_mode)
 endfunction
 
