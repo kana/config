@@ -616,23 +616,6 @@ function! s:JoinHere(...)
 endfunction
 
 
-function! s:SCCSDiffAll()
-  if isdirectory('.svn')
-    let cmd = 'svn'
-  elseif isdirectory('CVS')
-    let cmd = 'cvs'
-  else
-    let cmd = 'svk'
-  endif
-
-  let was_tab_boredp = s:BoringTabP()
-  let openp = s:CreateCommandOutputBuffer(cmd.' diff', 'botright')
-  if was_tab_boredp && openp
-    only  " close all boring windows.
-  endif
-endfunction
-
-
 function! s:BoringTabP(...)  " are all windows in the tab boring?
   " boring window is a window which shows a boring buffer.
   let tid = a:0 ? a:1 : tabpagenr()
@@ -1088,7 +1071,6 @@ endfunction
 nnoremap <C-h>  :h<Space>
 nnoremap <C-o>  :e<Space>
 nnoremap <C-w>.  :e .<Return>
-nnoremap <silent> <Leader>cD  :<C-u>call <SID>SCCSDiffAll()<CR>
 
 
 " Jump list
@@ -1534,22 +1516,6 @@ nmap s  <Plug>Ysurround
 nmap ss  <Plug>Yssurround
 
 " See also ~/.vim/plugin/surround_config.vim .
-
-
-
-
-" textobj-datetime  "{{{2
-
-silent! call textobj#datetime#default_mappings(1)
-
-
-
-
-" vcscommand  "{{{2
-
-let g:VCSCommandDeleteOnHide = 1
-
-nmap <Leader>cR  <Plug>VCSDelete
 
 
 
