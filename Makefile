@@ -94,7 +94,6 @@ GROUP_VIM_FILES=\
   vim/dot.vim/after/ftplugin/xml_autons.vim \
   vim/dot.vim/autoload/narrow.vim \
   vim/dot.vim/autoload/scratch.vim \
-  vim/dot.vim/autoload/textobj/datetime.vim \
   vim/dot.vim/autoload/textobj/user.vim \
   vim/dot.vim/autoload/vcsi.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
@@ -110,6 +109,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/surround_config.vim \
+  vim/dot.vim/plugin/textobj/datetime.vim \
   vim/dot.vim/plugin/tofunc.vim \
   vim/dot.vim/plugin/vcsi.vim \
   vim/dot.vim/plugin/zapit.vim \
@@ -194,11 +194,11 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
 
-PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.1
+PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.2
 PACKAGE_vim_textobj_datetime_BASE=vim/dot.vim
 PACKAGE_vim_textobj_datetime_FILES=\
-  vim/dot.vim/autoload/textobj/datetime.vim \
-  vim/dot.vim/doc/textobj-datetime.txt
+  vim/dot.vim/doc/textobj-datetime.txt \
+  vim/dot.vim/plugin/textobj/datetime.vim
 
 PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.2
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim

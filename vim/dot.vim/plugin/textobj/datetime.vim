@@ -1,9 +1,21 @@
 " textobj-datetime - Text objects for date and time.
-" Version: 0.1
-" Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+" Version: 0.2
+" Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$
-" Interfaces  "{{{1
+" $Id$  "{{{1
+
+if exists('g:loaded_textobj_datetime')
+  finish
+endif
+
+
+
+
+
+
+
+
+" Interface  "{{{1
 
 vnoremap <silent> <Plug>textobj#datetime#auto
        \          :<C-u>call <SID>select('auto', 'v')<Return>
@@ -30,26 +42,34 @@ onoremap <silent> <Plug>textobj#datetime#tz
 
 
 
-function! textobj#datetime#default_mappings(...)
-  let forcep = (a:0 ? a:1 : 0)
+command! -bang -bar -nargs=0 TextobjDatetimeDefaultKeyMappings
+      \ call s:default_key_mappings('<bang>' == '!')
 
-  function! s:Map(forcep, lhs, rhs)
-    execute 'vmap' (a:forcep ? '' : '<unique>') a:lhs a:rhs
-    execute 'omap' (a:forcep ? '' : '<unique>') a:lhs a:rhs
+function! s:default_key_mappings(bangedp)
+  let forcedp = (a:bangedp ? '' : '<unique>')
+
+  function! s:Map(forcedp, lhs, rhs)
+    execute 'vmap' (a:forcedp ? '' : '<unique>') a:lhs a:rhs
+    execute 'omap' (a:forcedp ? '' : '<unique>') a:lhs a:rhs
   endfunction
 
-  call s:Map(forcep, 'ada', '<Plug>textobj#datetime#auto')
-  call s:Map(forcep, 'adf', '<Plug>textobj#datetime#full')
-  call s:Map(forcep, 'add', '<Plug>textobj#datetime#date')
-  call s:Map(forcep, 'adt', '<Plug>textobj#datetime#time')
-  call s:Map(forcep, 'adz', '<Plug>textobj#datetime#tz')
+  call s:Map(forcedp, 'ada', '<Plug>textobj#datetime#auto')
+  call s:Map(forcedp, 'adf', '<Plug>textobj#datetime#full')
+  call s:Map(forcedp, 'add', '<Plug>textobj#datetime#date')
+  call s:Map(forcedp, 'adt', '<Plug>textobj#datetime#time')
+  call s:Map(forcedp, 'adz', '<Plug>textobj#datetime#tz')
 
-  call s:Map(forcep, 'ida', '<Plug>textobj#datetime#auto')
-  call s:Map(forcep, 'idf', '<Plug>textobj#datetime#full')
-  call s:Map(forcep, 'idd', '<Plug>textobj#datetime#date')
-  call s:Map(forcep, 'idt', '<Plug>textobj#datetime#time')
-  call s:Map(forcep, 'idz', '<Plug>textobj#datetime#tz')
+  call s:Map(forcedp, 'ida', '<Plug>textobj#datetime#auto')
+  call s:Map(forcedp, 'idf', '<Plug>textobj#datetime#full')
+  call s:Map(forcedp, 'idd', '<Plug>textobj#datetime#date')
+  call s:Map(forcedp, 'idt', '<Plug>textobj#datetime#time')
+  call s:Map(forcedp, 'idz', '<Plug>textobj#datetime#tz')
+  return
 endfunction
+
+if !exists('g:textobj_datetime_no_default_key_mappings')
+  TextobjDatetimeDefaultKeyMappings
+endif
 
 
 
@@ -94,5 +114,16 @@ let s:PATTERNS.auto = '\%('
 
 
 
-" __END__  "{{{1
+" Fin.  "{{{1
+
+let g:loaded_textobj_datetime = 1
+
+
+
+
+
+
+
+
+" __END__
 " vim: foldmethod=marker
