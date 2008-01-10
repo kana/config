@@ -125,6 +125,24 @@ if [ "$ENV_WORKING" = 'colinux' ]; then
   alias mount-c-cofs='sudo mount -t cofs cofs0 /c -o defaults,noatime,noexec,user,uid=$USER,gid=users'
   alias mount-c-smbfs='sudo mount -t smbfs "//windows/C\$" /c -o defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER'
 
+  function mount-x() {
+    if [ $# != 1 ]; then
+      echo "Usage: mount-x {drive-letter}"
+      return 1
+    fi
+    sudo mount -t smbfs \
+         "//windows/$(echo "$1" | tr '[:lower:]' '[:upper:]')\$" "/$1" \
+         -o "defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER"
+  }
+
+  function umount-x() {
+    if [ $# != 1 ]; then
+      echo "Usage: umount-x {drive-letter}"
+      return 1
+    fi
+    sudo umount "/$1"
+  }
+
   alias shutdown-colinux='sudo halt; exit'
 fi
 
