@@ -1240,6 +1240,11 @@ function! s:FileType_any()
   silent! ounmap <buffer>  ][
   silent! ounmap <buffer>  []
   silent! ounmap <buffer>  [[
+
+  " Make omni completion available for all filetypes.
+  if &l:omnifunc == ''
+    setlocal omnifunc=syntaxcomplete#Complete
+  endif
 endfunction
 
 
