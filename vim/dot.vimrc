@@ -1337,6 +1337,14 @@ autocmd MyAutoCmd FileType python
 
 
 
+" ruby  "{{{2
+
+autocmd MyAutoCmd FileType ruby
+  \   call <SID>SetShortIndent()
+
+
+
+
 " sh  "{{{2
 
 autocmd MyAutoCmd FileType sh
