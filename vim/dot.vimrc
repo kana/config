@@ -547,13 +547,25 @@ function! s:MoveWindowThenEqualizeIfNecessary(direction)
 endfunction
 
 
-function! s:MoveWindowIntoNewTabPage()
+function! s:MoveWindowIntoTabPage(target_tabpagenr)
+  " Move the current window into a:target_tabpagenr.
+  " If a:target_tabpagenr is 0, move into new tab page.
   let original_tabnr = tabpagenr()
   let target_bufnr = bufnr('')
+  let window_view = winsaveview()
 
-  tabnew
-  let new_tabnr = tabpagenr()
-  execute target_bufnr 'buffer'
+  if a:target_tabpagenr == 0
+    tablast
+    tabnew
+    execute target_bufnr 'buffer'
+    let target_tabpagenr = tabpagenr()
+  else
+    execute a:target_tabpagenr 'tabnext'
+    let target_tabpagenr = a:target_tabpagenr
+    topleft new  " FIXME: be customizable?
+    execute target_bufnr 'buffer'
+  endif
+  call winrestview(window_view)
 
   execute original_tabnr 'tabnext'
   if 1 < winnr('$')
@@ -562,7 +574,7 @@ function! s:MoveWindowIntoNewTabPage()
     enew
   endif
 
-  execute new_tabnr 'tabnext'
+  execute target_tabpagenr 'tabnext'
 endfunction
 
 
@@ -1014,7 +1026,8 @@ unlet i
 
 " This {lhs} overrides the default action (Move cursor to top-left window).
 " But I rarely use its {lhs}s, so this mapping is not problematic.
-nnoremap <silent> <C-w><C-t>  :<C-u>call <SID>MoveWindowIntoNewTabPage()<CR>
+nnoremap <silent> <C-w><C-t>
+       \ :<C-u>call <SID>MoveWindowIntoTabPage(v:count)<Return>
 
 
 " like GNU Emacs' (scroll-other-window),
