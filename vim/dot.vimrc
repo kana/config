@@ -850,7 +850,9 @@ nnoremap <C-t>  <Nop>
 
 " Basic  "{{{3
 
-nnoremap <silent> <C-t>n  :<C-u>tabnew<Return>
+  " :tabnew creates new tab page at the next of the current one,
+  " but I prefer to create at the next of the last one.
+nnoremap <silent> <C-t>n  :<C-u>tablast \| tabnew<Return>
 nnoremap <silent> <C-t>c  :<C-u>tabclose<Return>
 nnoremap <silent> <C-t>o  :<C-u>tabonly<Return>
 nnoremap <silent> <C-t>i  :<C-u>tabs<Return>
