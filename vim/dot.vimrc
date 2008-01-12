@@ -54,15 +54,17 @@
 "
 " * Line continuation:
 "
-"   - Key mappings: Write \ at the previous column of the start of the {rhs}.
+"   - Key mappings and abbreviations: Write \ at the previous column of the
+"     start of the {rhs}.
 "
 "   - Others: Write \ at the same column of the end of the previous command.
+"     Note that don't include "!".
 "
 "   - Examples:
 "
-"     execute foo()
-"           \ . bar()
-"           \ . baz()
+"     silent! execute foo()
+"          \        . bar()
+"          \        . baz()
 "
 "     map <silent> xyzzy  :<C-u>execute foo()
 "                        \ bar()
@@ -97,8 +99,7 @@ if !exists('did_encoding_settings') && has('iconv')
   let s:enc_jis = 'iso-2022-jp'
 
   " Does iconv support JIS X 0213 ?
-  if iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213')
-     \ ==# "\xad\xc5\xad\xcb"
+  if iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'euc-jisx0213,euc-jp'
     let s:enc_jis = 'iso-2022-jp-3'
   endif
@@ -531,8 +532,8 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
   endif
 
   silent execute 'highlight' a:target_group 'NONE'
-           \ '|' 'highlight' a:target_group original_settings
-           \ '|' 'highlight' a:target_group a:new_settings
+       \     '|' 'highlight' a:target_group original_settings
+       \     '|' 'highlight' a:target_group a:new_settings
 endfunction
 
 
@@ -590,7 +591,7 @@ function! s:Count(...)
 endfunction
 
 command! -nargs=* -complete=expression -range -count=0 Execute
-       \ call s:Execute(<f-args>)
+      \ call s:Execute(<f-args>)
 function! s:Execute(...)
   let args = []
   for a in a:000
@@ -1247,7 +1248,7 @@ endfunction
 " Any filetype   "{{{2
 
 autocmd MyAutoCmd FileType *
-  \ call <SID>FileType_any()
+      \ call <SID>FileType_any()
 function! s:FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings defined by ftplugin.
@@ -1272,27 +1273,27 @@ endfunction
 " Note that if the buffer is not 'modifiable',
 " its 'fileencoding' cannot be changed, so that such buffers are skipped.
 autocmd MyAutoCmd BufReadPost *
-  \   if &modifiable && !search('[^\x00-\x7F]', 'cnw')
-  \ |   setlocal fileencoding=
-  \ | endif
+      \   if &modifiable && !search('[^\x00-\x7F]', 'cnw')
+      \ |   setlocal fileencoding=
+      \ | endif
 
 
 " although this is not a filetype settings.
 autocmd MyAutoCmd ColorScheme *
-  \   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
-  \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
-  \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
-  \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
-  \
-  \ | highlight TabLineSel
-  \             term=bold,reverse
-  \             cterm=bold,underline ctermfg=lightgray ctermbg=237
-  \ | highlight TabLine
-  \             term=reverse
-  \             cterm=NONE           ctermfg=lightgray ctermbg=237
-  \ | highlight TabLineFill
-  \             term=reverse
-  \             cterm=NONE           ctermfg=lightgray ctermbg=237
+      \   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
+      \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
+      \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
+      \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
+      \
+      \ | highlight TabLineSel
+      \             term=bold,reverse
+      \             cterm=bold,underline ctermfg=lightgray ctermbg=237
+      \ | highlight TabLine
+      \             term=reverse
+      \             cterm=NONE           ctermfg=lightgray ctermbg=237
+      \ | highlight TabLineFill
+      \             term=reverse
+      \             cterm=NONE           ctermfg=lightgray ctermbg=237
 doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
@@ -1301,7 +1302,7 @@ doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 " css  "{{{2
 
 autocmd MyAutoCmd FileType css
-  \ call <SID>SetShortIndent()
+      \ call <SID>SetShortIndent()
 
 
 
@@ -1309,7 +1310,7 @@ autocmd MyAutoCmd FileType css
 " dosini (.ini)  "{{{2
 
 autocmd MyAutoCmd FileType dosini
-  \ call <SID>FileType_dosini()
+      \ call <SID>FileType_dosini()
 
 function! s:FileType_dosini()
   nnoremap <buffer> <silent> ]]  :<C-u>call <SID>JumpSectionN('/^\[')<Return>
@@ -1324,10 +1325,10 @@ endfunction
 " help  "{{{2
 
 autocmd MyAutoCmd FileType help
-  \ call textobj#user#define('|[^| \t]*|', '', '', {
-  \                            'move-to-next': '<buffer> gj',
-  \                            'move-to-prev': '<buffer> gk',
-  \                          })
+      \ call textobj#user#define('|[^| \t]*|', '', '', {
+      \                            'move-to-next': '<buffer> gj',
+      \                            'move-to-prev': '<buffer> gk',
+      \                          })
 
 
 
@@ -1335,7 +1336,7 @@ autocmd MyAutoCmd FileType help
 " lua  "{{{2
 
 autocmd MyAutoCmd FileType lua
-  \ call <SID>SetShortIndent()
+      \ call <SID>SetShortIndent()
 
 
 
@@ -1345,7 +1346,7 @@ autocmd MyAutoCmd FileType lua
 " Consider these buffers have "another" filetype=netrw.
 
 autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
-  \ setlocal bufhidden=hide
+      \ setlocal bufhidden=hide
 
 
 
@@ -1353,10 +1354,10 @@ autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
 " python  "{{{2
 
 autocmd MyAutoCmd FileType python
-  \   call <SID>SetShortIndent()
-  \ | let python_highlight_numbers=1
-  \ | let python_highlight_builtins=1
-  \ | let python_highlight_space_errors=1
+      \   call <SID>SetShortIndent()
+      \ | let python_highlight_numbers=1
+      \ | let python_highlight_builtins=1
+      \ | let python_highlight_space_errors=1
 
 
 
@@ -1364,7 +1365,7 @@ autocmd MyAutoCmd FileType python
 " ruby  "{{{2
 
 autocmd MyAutoCmd FileType ruby
-  \   call <SID>SetShortIndent()
+      \   call <SID>SetShortIndent()
 
 
 
@@ -1372,7 +1373,7 @@ autocmd MyAutoCmd FileType ruby
 " sh  "{{{2
 
 autocmd MyAutoCmd FileType sh
-  \ call <SID>SetShortIndent()
+      \ call <SID>SetShortIndent()
 
 " FIXME: use $SHELL.
 let g:is_bash = 1
@@ -1383,7 +1384,7 @@ let g:is_bash = 1
 " tex  "{{{2
 
 autocmd MyAutoCmd FileType tex
-  \ call <SID>SetShortIndent()
+      \ call <SID>SetShortIndent()
 
 
 
@@ -1392,7 +1393,7 @@ autocmd MyAutoCmd FileType tex
 " 'filetype' for commit log buffers created by vcsi.
 
 autocmd MyAutoCmd FileType vcsicommit
-  \ setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
+      \ setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
 
 
 
@@ -1400,7 +1401,7 @@ autocmd MyAutoCmd FileType vcsicommit
 " vim  "{{{2
 
 autocmd MyAutoCmd FileType vim
-  \ call <SID>FileType_vim()
+      \ call <SID>FileType_vim()
 
 function! s:FileType_vim()
   call <SID>SetShortIndent()
@@ -1438,7 +1439,7 @@ endfunction
 " XML/SGML and other applications  "{{{2
 
 autocmd MyAutoCmd FileType html,xhtml,xml,xslt
-  \ call <SID>FileType_xml()
+      \ call <SID>FileType_xml()
 
 function! s:FileType_xml()
   call <SID>SetShortIndent()
@@ -1456,8 +1457,8 @@ function! s:FileType_xml()
   " Support to input some blocks.
   inoremap <buffer> <LT>!C  <LT>![CDATA[]]><Left><Left><Left>
   inoremap <buffer> <LT>#  <LT>!----><Left><Left><Left><C-r>=
-                         \   <SID>FileType_xml_comment_dispatch()
-                         \ <Return>
+                          \<SID>FileType_xml_comment_dispatch()
+                          \<Return>
 
   " Complete proper end-tags.
   " In the following description, {|} means the cursor position.
@@ -1466,8 +1467,8 @@ function! s:FileType_xml()
     " Before: <code{|}
     " After:  <code>{|}</code>
   inoremap <buffer> <LT><LT>  ><LT>/<C-x><C-o><C-r>=
-                           \    <SID>KeysToStopInsertModeCompletion()
-                           \  <Return><C-o>F<LT>
+                             \<SID>KeysToStopInsertModeCompletion()
+                             \<Return><C-o>F<LT>
 
     " Wrap the cursor with the tag.
     " Before: <code{|}
@@ -1475,8 +1476,8 @@ function! s:FileType_xml()
     "           {|}
     "         </code>
   inoremap <buffer> >>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
-                     \    <SID>KeysToStopInsertModeCompletion()
-                     \  <Return><C-o><Up><BS>
+                       \<SID>KeysToStopInsertModeCompletion()
+                       \<Return><C-o><Up><BS>
 endfunction
 
 
