@@ -312,10 +312,14 @@ endfunction
 
 function! s:open_buffer(bufnr, vcs_command_name)  "{{{2
   if bufexists(a:bufnr)
-    execute (exists('g:vcsi_open_command_{a:vcs_command_name}')
-         \          ? g:vcsi_open_command_{a:vcs_command_name}
-         \          : g:vcsi_open_command)
-         \         a:bufnr
+    if bufnr('') == a:bufnr && tabpagewinnr(tabpagenr(), '$') == 1
+      " nop, because the buffer a:bufnr is already showed.
+    else
+      execute (exists('g:vcsi_open_command_{a:vcs_command_name}')
+            \         ? g:vcsi_open_command_{a:vcs_command_name}
+            \         : g:vcsi_open_command)
+            \        a:bufnr
+    endif
     call setbufvar(a:bufnr, '&bufhidden', 'wipe')
   endif
   return bufnr('') == a:bufnr

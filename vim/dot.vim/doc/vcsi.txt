@@ -214,6 +214,8 @@ CHANGELOG						*vcsi-changelog*
 0.0.1	2008-01-13T00:02:47+09:00
 	- Fix the bug that most of temporary buffers are marked as modified.
 	- Fix the bug that hit-enter prompt is appeared in most of cases.
+	- Fix the bug that same temporary buffer is showed in two windows in
+	  some cases.
 
 0.0	2007-12-29T14:49:35+09:00
 	- Initial version.
