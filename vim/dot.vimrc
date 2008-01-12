@@ -819,53 +819,53 @@ nnoremap <silent> tvN        :<C-u>vsplit \| tlast<Return>
 " Fallback  "{{{3
 
 " the prefix key.
-nnoremap q  <Nop>
+nnoremap          q          <Nop>
 
 " alternative key for the original action.
 " -- Ex-mode will be never used and recordings are rarely used.
-nnoremap Q  q
+nnoremap          Q          q
 
 
 " For quickfix list  "{{{3
 
-nnoremap qj        :Execute cnext [count]<Return>
-nnoremap qk        :Execute cprevious [count]<Return>
-nnoremap qr        :Execute crewind [count]<Return>
-nnoremap qK        :Execute cfirst [count]<Return>
-nnoremap qJ        :Execute clast [count]<Return>
-nnoremap qfj       :Execute cnfile [count]<Return>
-nnoremap qfk       :Execute cpfile [count]<Return>
-nnoremap ql        :clist<Return>
-nnoremap qq        :Execute cc [count]<Return>
-nnoremap qo        :Execute copen [count]<Return>
-nnoremap qc        :cclose<Return>
-nnoremap qp        :Execute colder [count]<Return>
-nnoremap qn        :Execute cnewer [count]<Return>
-nnoremap qm        :make<Return>
-nnoremap qM        :make<Space>
-nnoremap q<Space>  :make<Space>
-nnoremap qg        :grep<Space>
+nnoremap <silent> qj         :Execute cnext [count]<Return>
+nnoremap <silent> qk         :Execute cprevious [count]<Return>
+nnoremap <silent> qr         :Execute crewind [count]<Return>
+nnoremap <silent> qK         :Execute cfirst [count]<Return>
+nnoremap <silent> qJ         :Execute clast [count]<Return>
+nnoremap <silent> qfj        :Execute cnfile [count]<Return>
+nnoremap <silent> qfk        :Execute cpfile [count]<Return>
+nnoremap <silent> ql         :<C-u>clist<Return>
+nnoremap <silent> qq         :Execute cc [count]<Return>
+nnoremap <silent> qo         :Execute copen [count]<Return>
+nnoremap <silent> qc         :<C-u>cclose<Return>
+nnoremap <silent> qp         :Execute colder [count]<Return>
+nnoremap <silent> qn         :Execute cnewer [count]<Return>
+nnoremap <silent> qm         :<C-u>make<Return>
+nnoremap <silent> qM         :<C-u>make<Space>
+nnoremap <silent> q<Space>   :<C-u>make<Space>
+nnoremap <silent> qg         :<C-u>grep<Space>
 
 
 " For location list (mnemonic: Quickfix list for the current Window)  "{{{3
 
-nnoremap qwj        :Execute lnext [count]<Return>
-nnoremap qwk        :Execute lprevious [count]<Return>
-nnoremap qwr        :Execute lrewind [count]<Return>
-nnoremap qwK        :Execute lfirst [count]<Return>
-nnoremap qwJ        :Execute llast [count]<Return>
-nnoremap qwfj       :Execute lnfile [count]<Return>
-nnoremap qwfk       :Execute lpfile [count]<Return>
-nnoremap qwl        :llist<Return>
-nnoremap qwq        :Execute ll [count]<Return>
-nnoremap qwo        :Execute lopen [count]<Return>
-nnoremap qwc        :lclose<Return>
-nnoremap qwp        :Execute lolder [count]<Return>
-nnoremap qwn        :Execute lnewer [count]<Return>
-nnoremap qwm        :lmake<Return>
-nnoremap qwM        :lmake<Space>
-nnoremap qw<Space>  :lmake<Space>
-nnoremap qwg        :lgrep<Space>
+nnoremap <silent> qwj        :Execute lnext [count]<Return>
+nnoremap <silent> qwk        :Execute lprevious [count]<Return>
+nnoremap <silent> qwr        :Execute lrewind [count]<Return>
+nnoremap <silent> qwK        :Execute lfirst [count]<Return>
+nnoremap <silent> qwJ        :Execute llast [count]<Return>
+nnoremap <silent> qwfj       :Execute lnfile [count]<Return>
+nnoremap <silent> qwfk       :Execute lpfile [count]<Return>
+nnoremap <silent> qwl        :<C-u>llist<Return>
+nnoremap <silent> qwq        :Execute ll [count]<Return>
+nnoremap <silent> qwo        :Execute lopen [count]<Return>
+nnoremap <silent> qwc        :<C-u>lclose<Return>
+nnoremap <silent> qwp        :Execute lolder [count]<Return>
+nnoremap <silent> qwn        :Execute lnewer [count]<Return>
+nnoremap <silent> qwm        :<C-u>lmake<Return>
+nnoremap <silent> qwM        :<C-u>lmake<Space>
+nnoremap <silent> qw<Space>  :<C-u>lmake<Space>
+nnoremap <silent> qwg        :<C-u>lgrep<Space>
 
 
 
