@@ -216,6 +216,7 @@ CHANGELOG						*vcsi-changelog*
 	- Fix the bug that hit-enter prompt is appeared in most of cases.
 	- Fix the bug that same temporary buffer is showed in two windows in
 	  some cases.
+	- Add "diff" syntax for commit log buffers.
 
 0.0	2007-12-29T14:49:35+09:00
 	- Initial version.
