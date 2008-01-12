@@ -955,8 +955,7 @@ cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 " Input the current date/time (Full, Date, Time).
 "
 " FIXME: use timezone of the system, instead of static one.
-"
-" FIXME: revise the {lhs}s, compare with the default keys of todatetime.
+" FIXME: revise the {lhs}s, compare with the default keys of textobj-datetime.
 
 inoremap <Leader>dF  <C-r>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
 inoremap <Leader>df  <C-r>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
@@ -970,9 +969,8 @@ inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 " Section jumping  "{{{2
 "
 " Enable *consistent* ]] and other motions in Visual and Operator-pending
-" mode.  Because some ftplugins provide these motions only for Normal mode
-" and other ftplugins provides provide these motions with some faults, e.g.,
-" not countable.
+" mode.  Because some ftplugins provide these motions only for Normal mode and
+" other ftplugins provide these motions with some faults, e.g., not countable.
 
 vnoremap <silent> ]]  :<C-u>call <SID>JumpSectionV(']]')<Return>
 vnoremap <silent> ][  :<C-u>call <SID>JumpSectionV('][')<Return>
