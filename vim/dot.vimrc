@@ -723,6 +723,18 @@ function! s:MoveWindowIntoNewTabPage()
 endfunction
 
 
+function! s:ScrollOtherWindow(scroll_command)
+  if winnr('$') == 1 || winnr('#') == 0
+    " Do nothing when there is only one window or no previous window.
+    Echo ErrorMsg 'There is no window to scroll.'
+  else
+    execute 'normal!' "\<C-w>p"
+    execute 'normal!' (s:Count() . a:scroll_command)
+    execute 'normal!' "\<C-w>p"
+  endif
+endfunction
+
+
 command! -bar -nargs=+ -range Echo  call <SID>Echo(<f-args>)
 function! s:Echo(hl_name, ...)
   execute 'echohl' a:hl_name
@@ -1041,45 +1053,33 @@ noremap [Space]x  <Nop>
 " Windows  "{{{2
 
 " Synonyms for the default mappings, with single key strokes.
-
-nnoremap <C-i>  <C-w>w
-" <Tab> = <C-i>
-nnoremap <Esc>i  <C-w>W
-nmap <S-Tab>  <Esc>i
-
+nmap     <Tab>    <C-i>
+nmap     <S-Tab>  <Esc>i
+nnoremap <C-i>    <C-w>w
+nnoremap <Esc>i   <C-w>W
   " For other mappings (<Esc>{x} to <C-w>{x}).
-nmap <Esc>  <C-w>
+nmap     <Esc>    <C-w>
 
 
-" Others.
+for i in ['H', 'J', 'K', 'L']
+  execute 'nnoremap <silent> <Esc>'.i
+        \ ':<C-u>call <SID>MoveWindowThenEqualizeIfNecessary("'.i.'")<Return>'
+endfor
+unlet i
 
-nnoremap <Esc>H  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('H')<Return>
-nnoremap <Esc>J  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('J')<Return>
-nnoremap <Esc>K  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('K')<Return>
-nnoremap <Esc>L  :<C-u>call <SID>MoveWindowThenEqualizeIfNecessary('L')<Return>
 
-  " This {lhs} overrides the default action (Move cursor to top-left window).
-  " But I rarely use its {lhs}s, so this mapping is not problematic.
-nnoremap <C-w><C-t>  :<C-u>call <SID>MoveWindowIntoNewTabPage()<Return>
+" This {lhs} overrides the default action (Move cursor to top-left window).
+" But I rarely use its {lhs}s, so this mapping is not problematic.
+nnoremap <silent> <C-w><C-t>  :<C-u>call <SID>MoveWindowIntoNewTabPage()<CR>
 
-  " like GNU Emacs' (scroll-other-window),
-  " but the target to scroll is the previous window.
+
+" like GNU Emacs' (scroll-other-window),
+" but the target to scroll is the previous window.
 for i in ['f', 'b', 'd', 'u', 'e', 'y']
   execute 'nnoremap <silent> <Esc><C-'.i.'>'
         \ ':<C-u>call <SID>ScrollOtherWindow("<Bslash><LT>C-'.i.'>")<Return>'
 endfor
 unlet i
-function! s:ScrollOtherWindow(cmd)
-  if winnr('$') == 1 || winnr('#') == 0
-    " Do nothing when there is only one window or no previous window.
-    Echo ErrorMsg 'There is no window to scroll.'
-  else
-    execute 'normal!' "\<C-w>p"
-    execute 'normal!' (s:Count() . a:cmd)
-    execute 'normal!' "\<C-w>p"
-  endif
-endfunction
-
 
 
 
