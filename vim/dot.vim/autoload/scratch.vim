@@ -53,7 +53,13 @@ function! scratch#open()  "{{{2
     " FIXME: DRY: 'switchbuf' useopen.
     let winnr = bufwinnr(s:bufnr)
     if winnr == -1  " The scratch buffer is not visible.
-      execute g:scratch_show_command s:bufnr
+      if bufname('')=='' && (!&l:modified) && tabpagewinnr(tabpagenr(),'$')==1
+        " The current tab is "empty", so don't use g:scratch_show_command to
+        " avoid show the scratch buffer in two windows.
+        execute 'buffer' s:bufnr
+      else
+        execute g:scratch_show_command s:bufnr
+      endif
     else
       execute winnr 'wincmd w'
     endif
