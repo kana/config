@@ -51,6 +51,23 @@
 "     - But <CR> may be used to follow the maximum line length.
 "
 "   - Other characters: Write as same as :help key-notation
+"
+" * Line continuation:
+"
+"   - Key mappings: Write \ at the previous column of the start of the {rhs}.
+"
+"   - Others: Write \ at the same column of the end of the previous command.
+"
+"   - Examples:
+"
+"     execute foo()
+"           \ . bar()
+"           \ . baz()
+"
+"     map <silent> xyzzy  :<C-u>execute foo()
+"                        \ bar()
+"                        \ baz()
+"                        \<Return>
 
 
 
@@ -866,10 +883,10 @@ nnoremap <C-t>  <Nop>
 
 " Basic  "{{{3
 
-nnoremap <C-t>n  :<C-u>tabnew<Return>
-nnoremap <C-t>c  :<C-u>tabclose<Return>
-nnoremap <C-t>o  :<C-u>tabonly<Return>
-nnoremap <C-t>i  :<C-u>tabs<Return>
+nnoremap <silent> <C-t>n  :<C-u>tabnew<Return>
+nnoremap <silent> <C-t>c  :<C-u>tabclose<Return>
+nnoremap <silent> <C-t>o  :<C-u>tabonly<Return>
+nnoremap <silent> <C-t>i  :<C-u>tabs<Return>
 
 nmap <C-t><C-n>  <C-t>n
 nmap <C-t><C-c>  <C-t>c
@@ -879,11 +896,12 @@ nmap <C-t><C-i>  <C-t>i
 
 " Moving around tabs.  "{{{3
 
-nnoremap <C-t>j  :<C-u>execute 'tabnext'
-                 \ 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<Return>
-nnoremap <C-t>k  :Execute tabprevious [count]<Return>
-nnoremap <C-t>K  :<C-u>tabfirst<Return>
-nnoremap <C-t>J  :<C-u>tablast<Return>
+nnoremap <silent> <C-t>j  :<C-u>execute 'tabnext'
+                         \ 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')
+                         \<Return>
+nnoremap <silent> <C-t>k  :Execute tabprevious [count]<Return>
+nnoremap <silent> <C-t>K  :<C-u>tabfirst<Return>
+nnoremap <silent> <C-t>J  :<C-u>tablast<Return>
 nmap <C-t>t  <C-t>j
 nmap <C-t>T  <C-t>k
 
@@ -894,12 +912,14 @@ nmap <C-t><C-t>  <C-t>t
 
 " Moving tabs themselves.  "{{{3
 
-nnoremap <C-t>l  :<C-u>execute 'tabmove'
-                 \ min([tabpagenr() + v:count1 - 1, tabpagenr('$')])<Return>
-nnoremap <C-t>h  :<C-u>execute 'tabmove'
-                 \ max([tabpagenr() - v:count1 - 1, 0])<Return>
-nnoremap <C-t>L  :<C-u>tabmove<Return>
-nnoremap <C-t>H  :<C-u>tabmove 0<Return>
+nnoremap <silent> <C-t>l  :<C-u>execute 'tabmove'
+                         \ min([tabpagenr() + v:count1 - 1, tabpagenr('$')])
+                         \<Return>
+nnoremap <silent> <C-t>h  :<C-u>execute 'tabmove'
+                         \ max([tabpagenr() - v:count1 - 1, 0])
+                         \<Return>
+nnoremap <silent> <C-t>L  :<C-u>tabmove<Return>
+nnoremap <silent> <C-t>H  :<C-u>tabmove 0<Return>
 
 nmap <C-t><C-l>  <C-t>l
 nmap <C-t><C-h>  <C-t>h
