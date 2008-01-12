@@ -496,165 +496,7 @@ autocmd MyAutoCmd TabEnter *
 
 
 
-" Misc.  "{{{2
-
-function! s:ToggleBell()
-  if &visualbell
-    set novisualbell t_vb&
-    echo 'bell on'
-  else
-    set visualbell t_vb=
-    echo 'bell off'
-  endif
-endfunction
-
-function! s:ToggleOption(option_name)
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
-endfunction
-
-
-function! s:ExtendHighlight(target_group, original_group, new_settings)
-  redir => resp
-  silent execute 'highlight' a:original_group
-  redir END
-  if resp =~# 'xxx cleared'
-    let original_settings = ''
-  elseif resp =~# 'xxx links to'
-    return s:ExtendHighlight(
-         \   a:target_group,
-         \   substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
-         \   a:new_settings
-         \ )
-  else  " xxx {key}={arg} ...
-    let t = substitute(resp,'\_.*xxx\(\(\_s\+[^= \t]\+=[^= \t]\+\)*\)','\1','')
-    let original_settings = substitute(t, '\_s\+', ' ', 'g')
-  endif
-
-  silent execute 'highlight' a:target_group 'NONE'
-       \     '|' 'highlight' a:target_group original_settings
-       \     '|' 'highlight' a:target_group a:new_settings
-endfunction
-
-
-function! s:RenameBuffer(name)
-  let name = a:name
-  let i = 0
-  while 1
-    if !bufexists(name)
-      break
-    endif
-    let i = i + 1
-    let name = a:name . ' (' . i . ')'
-  endwhile
-  file `=name`
-endfunction
-
-
-function! s:CreateTemporaryBuffer(name, how_to_open)
-  execute a:how_to_open
-  setlocal bufhidden=wipe buflisted buftype=nofile noswapfile
-  call s:RenameBuffer(a:name)
-endfunction
-
-function! s:CreateCommandOutputBuffer(command, ...)  " spliting_modifier?
-  let spliting_modifier = (1 <= a:0 ? a:1 : '')
-  let previous_window_nr = winnr()
-  let previous_windows_placement = winrestcmd()
-
-  call s:CreateTemporaryBuffer('CMD: '.a:command, spliting_modifier.' new')
-  silent execute 'read !' a:command
-
-  if line('$') == 1 && getline(1) == ''
-    close
-    execute previous_windows_placement
-    execute previous_window_nr 'wincmd w'
-
-    redraw  " to ensure show the following message.
-    echomsg 'No output from the command:' a:command
-    return 0
-  else
-    1
-    delete
-    filetype detect
-    return 1
-  endif
-endfunction
-
-
-function! s:Count(...)
-  if v:count == v:count1  " count is specified.
-    return v:count
-  else  " count is not specified.  (the default '' is useful for special value)
-    return a:0 == 0 ? '' : a:1
-  endif
-endfunction
-
-command! -nargs=* -complete=expression -range -count=0 Execute
-      \ call s:Execute(<f-args>)
-function! s:Execute(...)
-  let args = []
-  for a in a:000
-    if a ==# '[count]'
-      let a = s:Count()
-    endif
-    call add(args, a)
-  endfor
-  execute join(args)
-endfunction
-
-
-" like join (J), but move the next line into the cursor position.
-function! s:JoinHere(...)
-  let adjust_spacesp = a:0 ? a:1 : 1
-  let pos = getpos('.')
-  let r = @"
-
-  if line('.') == line('$')
-    Echo ErrorMsg 'Unable to join at the bottom line.'
-    return
-  endif
-
-  if adjust_spacesp  " adjust spaces between texts being joined as same as J.
-    normal! D
-    let l = @"
-
-    normal! J
-
-    call append(line('.'), '')
-    call setreg('"', l, 'c')
-    normal! jpkJ
-  else  " don't adjust spaces like gJ.
-    call setreg('"', getline(line('.') + 1), 'c')
-    normal! ""Pjdd
-  endif
-
-  let @" = r
-  call setpos('.', pos)
-endfunction
-
-
-function! s:BoringTabP(...)  " are all windows in the tab boring?
-  " boring window is a window which shows a boring buffer.
-  let tid = a:0 ? a:1 : tabpagenr()
-  for wid in range(1, tabpagewinnr(tid, '$'))
-    let bid = winbufnr(wid)
-    if !s:BoringBufferP(bid)
-      return 0
-    endif
-  endfor
-  return 1
-endfunction
-
-function! s:BoringBufferP(bid)  " is the buffer unnamed and not editted?
-  return bufname(a:bid) == '' && getbufvar(a:bid, '&modified') == 0
-endfunction
-
-
-function! s:SetShortIndent()
-  setlocal expandtab softtabstop=2 shiftwidth=2
-endfunction
-
+" Window-related stuffs  "{{{2
 
 " Are the windows :split'ed and :vsplit'ed?
 function! s:WindowsJumbledP()
@@ -733,6 +575,106 @@ function! s:ScrollOtherWindow(scroll_command)
     execute 'normal!' (s:Count() . a:scroll_command)
     execute 'normal!' "\<C-w>p"
   endif
+endfunction
+
+
+
+
+" Misc.  "{{{2
+
+function! s:ToggleBell()
+  if &visualbell
+    set novisualbell t_vb&
+    echo 'bell on'
+  else
+    set visualbell t_vb=
+    echo 'bell off'
+  endif
+endfunction
+
+function! s:ToggleOption(option_name)
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
+endfunction
+
+
+function! s:ExtendHighlight(target_group, original_group, new_settings)
+  redir => resp
+  silent execute 'highlight' a:original_group
+  redir END
+  if resp =~# 'xxx cleared'
+    let original_settings = ''
+  elseif resp =~# 'xxx links to'
+    return s:ExtendHighlight(
+         \   a:target_group,
+         \   substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
+         \   a:new_settings
+         \ )
+  else  " xxx {key}={arg} ...
+    let t = substitute(resp,'\_.*xxx\(\(\_s\+[^= \t]\+=[^= \t]\+\)*\)','\1','')
+    let original_settings = substitute(t, '\_s\+', ' ', 'g')
+  endif
+
+  silent execute 'highlight' a:target_group 'NONE'
+       \     '|' 'highlight' a:target_group original_settings
+       \     '|' 'highlight' a:target_group a:new_settings
+endfunction
+
+
+function! s:Count(...)
+  if v:count == v:count1  " count is specified.
+    return v:count
+  else  " count is not specified.  (the default '' is useful for special value)
+    return a:0 == 0 ? '' : a:1
+  endif
+endfunction
+
+command! -nargs=* -complete=expression -range -count=0 Execute
+      \ call s:Execute(<f-args>)
+function! s:Execute(...)
+  let args = []
+  for a in a:000
+    if a ==# '[count]'
+      let a = s:Count()
+    endif
+    call add(args, a)
+  endfor
+  execute join(args)
+endfunction
+
+
+" like join (J), but move the next line into the cursor position.
+function! s:JoinHere(...)
+  let adjust_spacesp = a:0 ? a:1 : 1
+  let pos = getpos('.')
+  let r = @"
+
+  if line('.') == line('$')
+    Echo ErrorMsg 'Unable to join at the bottom line.'
+    return
+  endif
+
+  if adjust_spacesp  " adjust spaces between texts being joined as same as J.
+    normal! D
+    let l = @"
+
+    normal! J
+
+    call append(line('.'), '')
+    call setreg('"', l, 'c')
+    normal! jpkJ
+  else  " don't adjust spaces like gJ.
+    call setreg('"', getline(line('.') + 1), 'c')
+    normal! ""Pjdd
+  endif
+
+  let @" = r
+  call setpos('.', pos)
+endfunction
+
+
+function! s:SetShortIndent()
+  setlocal expandtab softtabstop=2 shiftwidth=2
 endfunction
 
 
