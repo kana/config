@@ -49,6 +49,9 @@ export ENCODING_linux='euc-jp'
 if [ -d "$HOME/bin" ]; then export PATH="$HOME/bin:$PATH"; fi
 if [ -d "$HOME/man" ]; then export MANPATH="$HOME/man:$MANPATH"; fi
 if [ -d "$HOME/info" ]; then export INFOPATH="$HOME/info:$INFOPATH"; fi
+if which gem >/dev/null; then
+  export PATH="$PATH:$(gem environment gempath)/bin"
+fi
 
 # export DISPLAY=localhost:0.0  # Don't set to use some applications without X.
 export EDITOR=vim
