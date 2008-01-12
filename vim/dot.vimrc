@@ -1392,7 +1392,7 @@ autocmd MyAutoCmd FileType tex
 " vcsicommit  "{{{2
 " 'filetype' for commit log buffers created by vcsi.
 
-autocmd MyAutoCmd FileType vcsicommit
+autocmd MyAutoCmd FileType {vcsicommit,*.vcsicommit}
       \ setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
 
 
