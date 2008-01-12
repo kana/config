@@ -1001,51 +1001,52 @@ onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 " Various hotkeys prefixed by <Space>.
 
 " to show <Space> in the bottom line.
-map <Space>  [Space]
+map               <Space>    [Space]
 
 " fallback
-noremap [Space]  <Nop>
+noremap           [Space]    <Nop>
 
 
-nnoremap [Space]/  :<C-u>nohlsearch<Return>
+nnoremap <silent> [Space]/   :<C-u>nohlsearch<Return>
 
-nnoremap [Space]?  :<C-u>call <SID>HelpWindowClose()<Return>
+nnoremap <silent> [Space]?   :<C-u>call <SID>HelpWindowClose()<Return>
 
-  " append one character
-nnoremap [Space]A  A<C-r>=<SID>KeysToInsertOneCharacter()<Return>
-nnoremap [Space]a  a<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+" append one character
+nnoremap          [Space]A   A<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap          [Space]a   a<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
-nnoremap [Space]e  :<C-u>setlocal encoding? termencoding? fenc? fencs?<Return>
-nnoremap [Space]f  :<C-u>setlocal filetype? fileencoding? fileformat?<Return>
+nnoremap <silent> [Space]e   :<C-u>setlocal enc? tenc? fenc? fencs?<Return>
+nnoremap <silent> [Space]f   :<C-u>setlocal ft? fenc? ff?<Return>
 
-  " insert one character
-nnoremap [Space]I  I<C-r>=<SID>KeysToInsertOneCharacter()<Return>
-nnoremap [Space]i  i<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+" insert one character
+nnoremap          [Space]I   I<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap          [Space]i   i<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
-nnoremap [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
-nnoremap [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
-  " unjoin  " BUGS: side effect - destroy the last inserted text (".).
-nnoremap [Space]j  i<Return><Esc>
+nnoremap <silent> [Space]J   :<C-u>call <SID>JoinHere(1)<Return>
+nnoremap <silent> [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
 
-nnoremap [Space]o  <Nop>
-nnoremap [Space]ob  :<C-u>call <SID>ToggleBell()<Return>
-nnoremap [Space]ow  :<C-u>call <SID>ToggleOption('wrap')<Return>
+" unjoin  " BUGS: side effect - destroy the last inserted text (".).
+nnoremap          [Space]j   i<Return><Esc>
 
-nnoremap [Space]q  :<C-u>help quickref<Return>
+nnoremap          [Space]o   <Nop>
+nnoremap <silent> [Space]ob  :<C-u>call <SID>ToggleBell()<Return>
+nnoremap <silent> [Space]ow  :<C-u>call <SID>ToggleOption('wrap')<Return>
 
-nnoremap [Space]r  :<C-u>registers<Return>
+nnoremap <silent> [Space]q   :<C-u>help quickref<Return>
 
-nnoremap [Space]s  <Nop>
-nnoremap [Space]s.  :<C-u>source $MYVIMRC<Return>
-nnoremap [Space]ss  :<C-u>source %<Return>
+nnoremap <silent> [Space]r   :<C-u>registers<Return>
 
-vnoremap [Space]s  :sort<Return>
+nnoremap          [Space]s   <Nop>
+nnoremap <silent> [Space]s.  :<C-u>source $MYVIMRC<Return>
+nnoremap <silent> [Space]ss  :<C-u>source %<Return>
 
-  " for backward compatibility
-nmap [Space]w  [Space]ow
+vnoremap <silent> [Space]s   :sort<Return>
 
-  " for other use.
-noremap [Space]x  <Nop>
+" for backward compatibility
+nmap              [Space]w   [Space]ow
+
+" for other use.
+noremap           [Space]x   <Nop>
 
 
 
