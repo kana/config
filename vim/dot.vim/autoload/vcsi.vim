@@ -212,7 +212,7 @@ function! s:create_vcs_command_result_buffer(args)  "{{{2
   let b:vcsi_target_items = a:args.items
 
     " FIXME: error cases.
-  execute '1 read !' s:make_vcs_command_script(a:args)
+  silent execute '1 read !' s:make_vcs_command_script(a:args)
   if 1 < line('$')
     1 delete _
     if (v:shell_error == 0) && has_key(a:args, 'filetype')
@@ -222,6 +222,7 @@ function! s:create_vcs_command_result_buffer(args)  "{{{2
     setlocal bufhidden=wipe  " to bwipeout on s:switch_back_buffer().
     let bufnr = s:INVALID_BUFNR
   endif
+  setlocal nomodified
 
   silent call s:switch_back_buffer(state)
   if bufnr == s:INVALID_BUFNR
