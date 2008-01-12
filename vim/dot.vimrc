@@ -745,72 +745,72 @@ endfunction
 " Fallback  "{{{3
 
 " ``T'' is also disabled for consistency.
-noremap  t  <Nop>
-noremap  T  <Nop>
+noremap           t          <Nop>
+noremap           T          <Nop>
 
 " Alternatives for the original actions.
-noremap  [Space]t  t
-noremap  [Space]T  T
+noremap           [Space]t   t
+noremap           [Space]T   T
 
 
 " Basic  "{{{3
 
-nmap     t<Space>  tt
-vmap     t<Space>  tt
-nnoremap tt  <C-]>
-vnoremap tt  <C-]>
-nnoremap tj  :tag<Return>
-nnoremap tk  :pop<Return>
-nnoremap tl  :tags<Return>
-nnoremap tn  :tnext<Return>
-nnoremap tp  :tprevious<Return>
-nnoremap tP  :tfirst<Return>
-nnoremap tN  :tlast<Return>
+nmap              t<Space>   tt
+vmap              t<Space>   tt
+nnoremap          tt         <C-]>
+vnoremap          tt         <C-]>
+nnoremap <silent> tj         :<C-u>tag<Return>
+nnoremap <silent> tk         :<C-u>pop<Return>
+nnoremap <silent> tl         :<C-u>tags<Return>
+nnoremap <silent> tn         :<C-u>tnext<Return>
+nnoremap <silent> tp         :<C-u>tprevious<Return>
+nnoremap <silent> tP         :<C-u>tfirst<Return>
+nnoremap <silent> tN         :<C-u>tlast<Return>
 
 " additionals, like Web browsers
-nmap     <C-m>  tt
-vmap     <C-m>  tt
+nmap              <C-m>      tt
+vmap              <C-m>      tt
 
 
 " With the preview window  "{{{3
 
-nmap     t'<Space>  t't
-vmap     t'<Space>  t't
-nnoremap t't  <C-w>}
-vnoremap t't  <C-w>}
-nnoremap t'n  :ptnext<Return>
-nnoremap t'p  :ptpevious<Return>
-nnoremap t'P  :ptfirst<Return>
-nnoremap t'N  :ptlast<Return>
+nmap              t'<Space>  t't
+vmap              t'<Space>  t't
+nnoremap          t't        <C-w>}
+vnoremap          t't        <C-w>}
+nnoremap <silent> t'n        :<C-u>ptnext<Return>
+nnoremap <silent> t'p        :<C-u>ptpevious<Return>
+nnoremap <silent> t'P        :<C-u>ptfirst<Return>
+nnoremap <silent> t'N        :<C-u>ptlast<Return>
 
 " although :pclose is not related to tag.
-nnoremap t'c  :pclose<Return>
+nnoremap <silent> t'c        :<C-u>pclose<Return>
 
 
 " With :split  "{{{3
 
-nnoremap tst  <C-w>]
-vnoremap tst  <C-w>]
-nmap     ts<Space>  tst
-vmap     ts<Space>  tst
-nnoremap tsn  :split \| tnext<Return>
-nnoremap tsp  :split \| tpevious<Return>
-nnoremap tsP  :split \| tfirst<Return>
-nnoremap tsN  :split \| tlast<Return>
+nnoremap          tst        <C-w>]
+vnoremap          tst        <C-w>]
+nmap              ts<Space>  tst
+vmap              ts<Space>  tst
+nnoremap <silent> tsn        :<C-u>split \| tnext<Return>
+nnoremap <silent> tsp        :<C-u>split \| tpevious<Return>
+nnoremap <silent> tsP        :<C-u>split \| tfirst<Return>
+nnoremap <silent> tsN        :<C-u>split \| tlast<Return>
 
 
 " With :vertical split  "{{{3
 
   " |:vsplit|-then-|<C-]>| is simple
   " but its modification to tag stacks is not same as |<C-w>]|.
-nnoremap tvt  <C-]>:vsplit<Return><C-w>p<C-t><C-w>p
-vnoremap tvt  <C-]>:vsplit<Return><C-w>p<C-t><C-w>p
-nmap     tv<Space>  tvt
-vmap     tv<Space>  tvt
-nnoremap tvn  :vsplit \| tnext<Return>
-nnoremap tvp  :vsplit \| tpevious<Return>
-nnoremap tvP  :vsplit \| tfirst<Return>
-nnoremap tvN  :vsplit \| tlast<Return>
+nnoremap <silent> tvt        <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
+vnoremap <silent> tvt        <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
+nmap              tv<Space>  tvt
+vmap              tv<Space>  tvt
+nnoremap <silent> tvn        :<C-u>vsplit \| tnext<Return>
+nnoremap <silent> tvp        :<C-u>vsplit \| tpevious<Return>
+nnoremap <silent> tvP        :<C-u>vsplit \| tfirst<Return>
+nnoremap <silent> tvN        :<C-u>vsplit \| tlast<Return>
 
 
 
