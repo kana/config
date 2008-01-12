@@ -722,8 +722,6 @@ noremap           [Space]T   T
 
 " Basic  "{{{3
 
-nmap              t<Space>   tt
-vmap              t<Space>   tt
 nnoremap          tt         <C-]>
 vnoremap          tt         <C-]>
 nnoremap <silent> tj         :<C-u>tag<Return>
@@ -734,15 +732,16 @@ nnoremap <silent> tp         :<C-u>tprevious<Return>
 nnoremap <silent> tP         :<C-u>tfirst<Return>
 nnoremap <silent> tN         :<C-u>tlast<Return>
 
-" additionals, like Web browsers
+" additions, like Web browsers
 nmap              <C-m>      tt
 vmap              <C-m>      tt
+
+" addition, interactive use.
+nnoremap          t<Space>   :<C-u>tag<Space>
 
 
 " With the preview window  "{{{3
 
-nmap              t'<Space>  t't
-vmap              t'<Space>  t't
 nnoremap          t't        <C-w>}
 vnoremap          t't        <C-w>}
 nnoremap <silent> t'n        :<C-u>ptnext<Return>
@@ -758,8 +757,6 @@ nnoremap <silent> t'c        :<C-u>pclose<Return>
 
 nnoremap          tst        <C-w>]
 vnoremap          tst        <C-w>]
-nmap              ts<Space>  tst
-vmap              ts<Space>  tst
 nnoremap <silent> tsn        :<C-u>split \| tnext<Return>
 nnoremap <silent> tsp        :<C-u>split \| tpevious<Return>
 nnoremap <silent> tsP        :<C-u>split \| tfirst<Return>
@@ -772,8 +769,6 @@ nnoremap <silent> tsN        :<C-u>split \| tlast<Return>
   " but its modification to tag stacks is not same as |<C-w>]|.
 nnoremap <silent> tvt        <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
 vnoremap <silent> tvt        <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-nmap              tv<Space>  tvt
-vmap              tv<Space>  tvt
 nnoremap <silent> tvn        :<C-u>vsplit \| tnext<Return>
 nnoremap <silent> tvp        :<C-u>vsplit \| tpevious<Return>
 nnoremap <silent> tvP        :<C-u>vsplit \| tfirst<Return>
