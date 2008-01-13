@@ -1521,6 +1521,13 @@ nmap ss  <Plug>Yssurround
 
 
 
+" vcsi  "{{{2
+
+let g:vcsi_diff_in_commit_logp = 1
+
+
+
+
 " xml_autons  "{{{2
 
 let g:AutoXMLns_Dict = {}
