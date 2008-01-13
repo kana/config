@@ -278,20 +278,6 @@ augroup END
 "
 "   {lhs}, {rhs}
 "     Same as :map.
-"
-" MEMO: syntax highlighting for this command:
-"   syntax keyword my_vim_MAP MAP
-"        \ skipwhite
-"        \ nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
-"   syntax match my_vim_MAP_option '<\(echo\|re\)>'
-"        \ skipwhite
-"        \ nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
-"   syntax match my_vim_MAP_modes '\<[cilnosvx]\+\>'
-"        \ skipwhite
-"        \ nextgroup=vimMapMod,vimMapLhs
-"   highlight link my_vim_MAP vimMap
-"   highlight link my_vim_MAP_option vimMapMod
-"   highlight link my_vim_MAP_modes vimOption
 
 command! -bar -complete=mapping -nargs=+ MAP  call s:MAP(<f-args>)
 
@@ -323,6 +309,21 @@ function! s:MAP(...)
     let j += 1
   endwhile
 endfunction
+
+
+autocmd MyAutoCmd FileType vim
+      \   syntax keyword my_vim_MAP MAP
+      \     skipwhite
+      \     nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
+      \ | syntax match my_vim_MAP_option '<\(echo\|re\)>'
+      \     skipwhite
+      \     nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
+      \ | syntax match my_vim_MAP_modes '\<[cilnosvx]\+\>'
+      \     skipwhite
+      \     nextgroup=vimMapMod,vimMapLhs
+      \ | highlight default link my_vim_MAP vimMap
+      \ | highlight default link my_vim_MAP_option vimUserAttrbCmplt
+      \ | highlight default link my_vim_MAP_modes vimUserAttrbKey
 
 
 
