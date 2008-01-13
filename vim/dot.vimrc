@@ -994,6 +994,8 @@ nnoremap <silent> [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
 " unjoin  " BUGS: side effect - destroy the last inserted text (".).
 nnoremap          [Space]j   i<Return><Esc>
 
+nnoremap <silent> [Space]m   :<C-u>marks<Return>
+
 nnoremap          [Space]o   <Nop>
 nnoremap <silent> [Space]ob  :<C-u>call <SID>ToggleBell()<Return>
 nnoremap <silent> [Space]ow  :<C-u>call <SID>ToggleOption('wrap')<Return>
