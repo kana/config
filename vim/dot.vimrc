@@ -401,10 +401,10 @@ endfunction
 " High-level key sequences  "{{{2
 
 function! s:KeysToComplete()
-  if strlen(&omnifunc)
-    return "\<C-x>\<C-o>"
-  elseif &filetype ==# 'vim'
+  if &l:filetype ==# 'vim'
     return "\<C-x>\<C-v>"
+  elseif strlen(&l:omnifunc)
+    return "\<C-x>\<C-o>"
   else
     return "\<C-n>"
   endif
