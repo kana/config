@@ -191,7 +191,7 @@ set viminfo=<50,'10,h,r/a,n~/.viminfo
 
 " default 'statusline' with 'fileencoding'.
 let &statusline = ''
-let &statusline .= '%<%f %h%m%r'
+let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
 let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
