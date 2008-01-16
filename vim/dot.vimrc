@@ -1,4 +1,4 @@
-﻿" My .vimrc
+" My .vimrc
 " $Id$
 " Notes  "{{{1
 "
