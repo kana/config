@@ -83,6 +83,7 @@ bind -c detach D pow_detach
 bind . eval 'source $HOME/.screenrc' 'echo "~/.screenrc has been reloaded."'
 
 bind ^O eval 'echo -p "Shell? -- Cygwin / Linux / Root"' 'command -c shell'
+bind -c shell ^A eval 'screen -t "another" 1'
 bind -c shell ^C eval 'screen -t "cygwin" 8 ssh cygwin' 'encoding "sjis"'
 bind -c shell ^L eval 'screen -t "linux" 7 ssh www' 'encoding "euc-jp"'
 bind -c shell ^R eval 'screen -t "root" 9 sudo -i'
