@@ -1210,6 +1210,30 @@ function! s:SearchForTheSelectedText()
 endfunction
 
 
+" Pseudo :suspend with automtic cd.
+" Assumption: Use GNU screen.
+" Assumption: There is a window with the title "another".
+noremap <silent> <C-z>  :<C-u>call <SID>PseudoSuspendWithAutomaticCD()<Return>
+
+if !exists('s:gnu_screen_availablep')
+  let s:gnu_screen_availablep = 1
+endif
+function! s:PseudoSuspendWithAutomaticCD()
+  if s:gnu_screen_availablep
+    " \015 = <C-m>
+    silent execute '!screen -X eval'
+         \         '''select another'''
+         \         '''stuff "cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
+    redraw!
+    let s:gnu_screen_availablep = (v:shell_error == 0)
+  endif
+
+  if !s:gnu_screen_availablep
+    suspend
+  endif
+endfunction
+
+
 
 
 
