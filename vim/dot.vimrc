@@ -891,6 +891,13 @@ nmap <C-t><C-j>  <C-t>j
 nmap <C-t><C-k>  <C-t>k
 nmap <C-t><C-t>  <C-t>t
 
+" GNU screen like mappings.
+" Note that the numbers in {lhs}s are 0-origin.
+for i in range(10)
+  execute 'nnoremap <silent>' ('<C-t>'.(i))  ((i+1).'gt')
+endfor
+unlet i
+
 
 " Moving tabs themselves.  "{{{3
 
