@@ -1223,7 +1223,9 @@ endfunction
 noremap <silent> <C-z>  :<C-u>call <SID>PseudoSuspendWithAutomaticCD()<Return>
 
 if !exists('s:gnu_screen_availablep')
-  let s:gnu_screen_availablep = 1
+  " Check the existence of $WINDOW to avoid using GNU screen in Vim on
+  " a remote machine (for example, "screen -t remote ssh example.com").
+  let s:gnu_screen_availablep = len($WINDOW) != 0
 endif
 function! s:PseudoSuspendWithAutomaticCD()
   if s:gnu_screen_availablep
