@@ -93,6 +93,8 @@ bind -c enc ^C eval 'encoding "sjis"'    'echo "cp932"'
 bind -c enc ^E eval 'encoding "euc-jp"'  'echo "euc-jp"'
 bind -c enc ^U eval 'encoding "utf-8"'   'echo "utf-8"'
 
+bind I eval 'title "main"' 'screen -t "another"' 'select "main"'
+
 
 # WINDOW {{{2
 # -----------
