@@ -119,6 +119,8 @@ alias v='vim'
 
 alias ..='cd ..'
 
+alias afk='echo "Away From Keyboard ..."; while true; do date; sleep 5m; done'
+
 if [ "$ENV_WORKING" = 'colinux' ]; then
   alias umount-c='sudo umount /c'
   alias mount-c='mount-c-smbfs'
