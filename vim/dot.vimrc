@@ -1230,9 +1230,11 @@ endif
 function! s:PseudoSuspendWithAutomaticCD()
   if s:gnu_screen_availablep
     " \015 = <C-m>
+    " To avoid adding the cd script into the command-line history,
+    " there are extra leading whitespaces in the cd script.
     silent execute '!screen -X eval'
          \         '''select another'''
-         \         '''stuff "cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
+         \         '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
     redraw!
     let s:gnu_screen_availablep = (v:shell_error == 0)
   endif
