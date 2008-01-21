@@ -175,6 +175,8 @@ set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
 set history=100
 set hlsearch
+nohlsearch  " To avoid (re)highlighting the last search pattern
+            " whenever $MYVIMRC is (re)loaded.
 set grepprg=internal
 set incsearch
 set laststatus=2  " always show status lines.
