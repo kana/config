@@ -709,6 +709,10 @@ function! s:GetTabVar(tabnr, varname)
 endfunction
 
 
+command! -bar -nargs=0 TabTitle
+      \ let t:title = input("Set tabpage's title to: ",'')
+
+
 
 
 
@@ -871,6 +875,8 @@ nmap <C-t><C-c>  <C-t>c
 nmap <C-t><C-o>  <C-t>o
 nmap <C-t><C-i>  <C-t>i
 
+nnoremap <silent> <C-t>T  :<C-u>TabTitle<Return>
+
 
 " Moving around tabs.  "{{{3
 
@@ -880,12 +886,10 @@ nnoremap <silent> <C-t>j  :<C-u>execute 'tabnext'
 nnoremap <silent> <C-t>k  :Execute tabprevious [count]<Return>
 nnoremap <silent> <C-t>K  :<C-u>tabfirst<Return>
 nnoremap <silent> <C-t>J  :<C-u>tablast<Return>
-nmap <C-t>t  <C-t>j
-nmap <C-t>T  <C-t>k
 
 nmap <C-t><C-j>  <C-t>j
 nmap <C-t><C-k>  <C-t>k
-nmap <C-t><C-t>  <C-t>t
+nmap <C-t><C-t>  <C-t>j
 
 " GNU screen like mappings.
 " Note that the numbers in {lhs}s are 0-origin.
