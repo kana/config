@@ -202,30 +202,18 @@ function! s:MyTabLine()  "{{{
   let s = ''
 
   for i in range(1, tabpagenr('$'))
-    let curbufnr = tabpagebuflist(i)[tabpagewinnr(i) - 1]
-
-    let prefix = ''
-    if 1 < tabpagewinnr(i, '$')
-      let prefix .= tabpagewinnr(i, '$')
-    endif
-    if getbufvar(curbufnr, '&modified')
-      let prefix .= '+'
-    endif
-
-    let curbufname = bufname(curbufnr)
-    if  curbufname == ''
-      let curbufname = '[No Name]'
-    endif
-    if getbufvar(curbufnr, '&buftype') !=# 'help'
-      let curbufname = fnamemodify(curbufname, ':t')
-    else
-      let curbufname = '[help] ' . fnamemodify(curbufname, ':t:r')
-    endif
+    let no = (i <= 10 ? i-1 : '#')
+    let mod = len(filter(tabpagebuflist(i), 'getbufvar(v:val, "&modified")'))
+      \       ? '+' : ' '
+    let title = s:GetTabVar(i, 'title')
+    let title = len(title) ? title : fnamemodify(s:GetTabVar(i, 'cwd'), ':t')
+    let title = len(title) ? title : fnamemodify(getcwd(), ':t')
 
     let s .= '%'.i.'T'
-    let s .= (prefix != '' ? '%#Title#'.prefix.' ' : '')
     let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let s .= curbufname
+    let s .= no
+    let s .= mod
+    let s .= title
     let s .= '%#TabLineFill#'
     let s .= '  '
   endfor
@@ -712,6 +700,12 @@ function! s:Echo(hl_name, ...)
   execute 'echohl' a:hl_name
   execute 'echo' join(a:000)
   echohl None
+endfunction
+
+
+function! s:GetTabVar(tabnr, varname)
+  " Wrapper for non standard (my own) built-in function gettabvar().
+  return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
 endfunction
 
 
