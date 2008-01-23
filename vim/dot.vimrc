@@ -202,12 +202,15 @@ function! s:MyTabLine()  "{{{
   let s = ''
 
   for i in range(1, tabpagenr('$'))
+    let bufnrs = tabpagebuflist(i)
+    let curbufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
+
     let no = (i <= 10 ? i-1 : '#')
-    let mod = len(filter(tabpagebuflist(i), 'getbufvar(v:val, "&modified")'))
-      \       ? '+' : ' '
+    let mod = len(filter(bufnrs, 'getbufvar(v:val, "&modified")')) ? '+' : ' '
     let title = s:GetTabVar(i, 'title')
     let title = len(title) ? title : fnamemodify(s:GetTabVar(i, 'cwd'), ':t')
-    let title = len(title) ? title : fnamemodify(getcwd(), ':t')
+    let title = len(title) ? title : fnamemodify(bufname(curbufnr),':t')
+    let title = len(title) ? title : '[No Name]'
 
     let s .= '%'.i.'T'
     let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
