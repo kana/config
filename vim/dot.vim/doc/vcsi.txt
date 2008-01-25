@@ -1,7 +1,7 @@
 *vcsi.txt*	Version Control System Interface
 
-Version 0.0.1
-Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+Version 0.0.2
+Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
 
@@ -164,10 +164,10 @@ g:vcsi_open_command_revert			*g:vcsi_open_command_revert*
 g:vcsi_open_command_status			*g:vcsi_open_command_status*
 			    string (default: 'belowright split | hide buffer')
 
-	Specify the command to show a temporary buffer.  These values are used
-	like the following: >
+	Specify the command to open a window for a temporary buffer.  These
+	values are used like the following: >
 
-		execute g:vcsi_open_command buffer_number
+		execute g:vcsi_open_command
 <
 	If g:vcsi_open_command_{command} exists, use it rather than
 	g:vcsi_open_command.
@@ -210,6 +210,11 @@ BUGS							*vcsi-bugs*
 
 ==============================================================================
 CHANGELOG						*vcsi-changelog*
+
+0.0.2	2008-01-26T02:38:14+09:00
+	- Improve the speed to switch between buffers.
+	- Modify the meaning of g:vcsi_open_command and other variables (open
+	  new window rather than open the specified buffer).
 
 0.0.1	2008-01-13T00:02:47+09:00
 	- Fix the bug that most of temporary buffers are marked as modified.

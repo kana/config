@@ -1,6 +1,6 @@
 " vcsi.vim - Version Control System Interface
-" Version: 0.0.1
-" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+" Version: 0.0.2
+" Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$  "{{{1
 
@@ -92,7 +92,7 @@ if !exists('g:vcsi_diff_in_commit_logp')
 endif
 
 if !exists('g:vcsi_open_command')
-  let g:vcsi_open_command = 'belowright split | hide buffer'
+  let g:vcsi_open_command = 'belowright new'
 endif
 
 if !exists('g:vcsi_status_in_commit_logp')

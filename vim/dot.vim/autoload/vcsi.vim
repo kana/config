@@ -1,39 +1,26 @@
 " vcsi.vim - Version Control System Interface
-" Version: 0.0.1
-" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+" Version: 0.0.2
+" Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$
-" Constants  "{{{1
-
-let s:TRUE = (0 == 0)
-let s:FALSE = !s:TRUE
-
-let s:INVALID_BUFNR = -1
-
-
-
-
-
-
-
-
 " Interfaces  "{{{1
 " Notes:
 " - vcsi#*() returns true on success or false on failure.
 function! vcsi#commit(...)  "{{{2
   " args = item*
-  let bufnr = s:create_commit_log_buffer({
-    \           'command': 'commit',
-    \           'items': s:normalize_items(a:000),
-    \         })
-  return s:open_buffer(bufnr, 'commit')
+  return s:open_window('commit') &&
+       \ s:initialize_commit_log_buffer({
+       \   'command': 'commit',
+       \   'items': s:normalize_items(a:000),
+       \ })
 endfunction
 
 
 
 
 function! vcsi#commit_finish()  "{{{2
-  " Assumption: the current buffer is created by s:create_commit_log_buffer().
+  " Assumption: the current buffer is created by
+  " s:initialize_commit_log_buffer().
   let commit_log_file = tempname()
 
   call cursor(line('$'), 0)
@@ -43,10 +30,10 @@ function! vcsi#commit_finish()  "{{{2
   endif
 
   let succeededp = s:execute_vcs_command({
-     \               'command': 'commit',
-     \               'items': b:vcsi_target_items,
-     \               'commit_log_file': commit_log_file
-     \             })
+    \                'command': 'commit',
+    \                'items': b:vcsi_target_items,
+    \                'commit_log_file': commit_log_file
+    \              })
   if succeededp
     bwipeout!
   endif
@@ -63,13 +50,13 @@ endfunction
 
 function! vcsi#diff(...)  "{{{2
   " args = (item revision?)?
-  let bufnr = s:create_vcs_command_result_buffer({
-    \           'command': 'diff',
-    \           'items': s:normalize_items([1 <= a:0 ? a:1 : '-']),
-    \           'revision': (2 <= a:0 ? a:2 : ''),
-    \           'filetype': 'diff'
-    \         })
-  return s:open_buffer(bufnr, 'diff')
+  return s:open_window('diff') &&
+       \ s:initialize_vcs_command_result_buffer({
+       \   'command': 'diff',
+       \   'items': s:normalize_items([1 <= a:0 ? a:1 : '-']),
+       \   'revision': (2 <= a:0 ? a:2 : ''),
+       \   'filetype': 'diff'
+       \ })
 endfunction
 
 
@@ -77,11 +64,11 @@ endfunction
 
 function! vcsi#info(...)  "{{{2
   " args = item*
-  let bufnr = s:create_vcs_command_result_buffer({
-    \           'command': 'info',
-    \           'items': s:normalize_items(a:000)
-    \         })
-  return s:open_buffer(bufnr, 'info')
+  return s:open_window('info') &&
+       \ s:initialize_vcs_command_result_buffer({
+       \   'command': 'info',
+       \   'items': s:normalize_items(a:000)
+       \ })
 endfunction
 
 
@@ -89,12 +76,12 @@ endfunction
 
 function! vcsi#log(...)  "{{{2
   " args = (item revision?)?
-  let bufnr = s:create_vcs_command_result_buffer({
-    \           'command': 'log',
-    \           'items': s:normalize_items([1 <= a:0 ? a:1 : '-']),
-    \           'revision': 'HEAD:' . (2 <= a:0 ? a:2 : '1')
-    \         })
-  return s:open_buffer(bufnr, 'log')
+  return s:open_window('log') &&
+       \ s:initialize_vcs_command_result_buffer({
+       \   'command': 'log',
+       \   'items': s:normalize_items([1 <= a:0 ? a:1 : '-']),
+       \   'revision': 'HEAD:' . (2 <= a:0 ? a:2 : '1')
+       \ })
 endfunction
 
 
@@ -121,11 +108,11 @@ endfunction
 
 function! vcsi#status(...)  "{{{2
   " args = item*
-  let bufnr = s:create_vcs_command_result_buffer({
-    \           'command': 'status',
-    \           'items': s:normalize_items(a:000)
-    \         })
-  return s:open_buffer(bufnr, 'status')
+  return s:open_window('status') &&
+       \ s:initialize_vcs_command_result_buffer({
+       \   'command': 'status',
+       \   'items': s:normalize_items(a:000)
+       \ })
 endfunction
 
 
@@ -136,13 +123,9 @@ endfunction
 
 
 " Misc.  "{{{1
-" Notes:
-" - s:create_*_buffer() just creates a new buffer then returns its number,
-"   or returns s:INVALID_BUFNR on failure.
-function! s:create_commit_log_buffer(args)  "{{{2
+function! s:initialize_commit_log_buffer(args)  "{{{2
   " args = command:'commit' items:normalized-items
-  let bufnr = s:create_temporary_buffer()
-  let state = s:switch_to_buffer(bufnr)
+  call s:initialize_temporary_buffer()
 
   silent file `=s:make_buffer_name(a:args)`
 
@@ -167,45 +150,23 @@ function! s:create_commit_log_buffer(args)  "{{{2
   setlocal buftype=acwrite nomodified filetype=diff.vcsicommit
   autocmd BufWriteCmd <buffer>  call vcsi#commit_finish()
 
-  silent call s:switch_back_buffer(state)
-  return bufnr
+  return 1
 endfunction
 
 
 
 
-function! s:create_temporary_buffer()  "{{{2
-  " Note: 'bufhidden' of temporary buffer is set to "hide" to hide it.
-  "       Don't forget to set appropriate value later.
-  let original_bufnr = bufnr('')
-  let original_bufhidden = &l:bufhidden
-  let &l:bufhidden = 'hide'
-
-  hide enew
-  setlocal bufhidden=hide buflisted buftype=nofile noswapfile
-  let new_bufnr = bufnr('')
-
-  " Switch back to the original buffer.
-  if original_bufnr != new_bufnr
-    execute original_bufnr 'buffer'
-    let &l:bufhidden = original_bufhidden
-  else
-    " Or create new empty (= unnamed and not modified) buffer.
-    " Because ":hide enew" doesn't create new empty buffer
-    " when the current buffer is an empty buffer.
-    enew
-  endif
-
-  return new_bufnr
+function! s:initialize_temporary_buffer()  "{{{2
+  setlocal bufhidden=wipe buflisted buftype=nofile noswapfile
+  return 1
 endfunction
 
 
 
 
-function! s:create_vcs_command_result_buffer(args)  "{{{2
+function! s:initialize_vcs_command_result_buffer(args)  "{{{2
   " args = {same as s:make_vcs_command_script()} + filetype:filetype?
-  let bufnr = s:create_temporary_buffer()
-  let state = s:switch_to_buffer(bufnr)
+  call s:initialize_temporary_buffer()
 
   silent file `=s:make_buffer_name(a:args)`
   let b:vcsi_target_items = a:args.items
@@ -217,21 +178,17 @@ function! s:create_vcs_command_result_buffer(args)  "{{{2
     if (v:shell_error == 0) && has_key(a:args, 'filetype')
       let &l:filetype = a:args.filetype
     endif
+    setlocal nomodified
+    return 1
   else
-    setlocal bufhidden=wipe  " to bwipeout on s:switch_back_buffer().
-    let bufnr = s:INVALID_BUFNR
-  endif
-  setlocal nomodified
-
-  silent call s:switch_back_buffer(state)
-  if bufnr == s:INVALID_BUFNR
-    " redraw and echomsg must be done here to avoid the message being
-    " overriden by other messages and/or commands.
+    bwipeout!
+    " redraw then echomsg to avoid the message being overriden by other
+    " messages and/or commands.
     redraw
       " FIXME: more better message
     echomsg 'No output from' a:args.command join(a:args.items)
+    return 0
   endif
-  return bufnr
 endfunction
 
 
@@ -309,42 +266,12 @@ endfunction
 
 
 
-function! s:open_buffer(bufnr, vcs_command_name)  "{{{2
-  if bufexists(a:bufnr)
-    if bufnr('') == a:bufnr && tabpagewinnr(tabpagenr(), '$') == 1
-      " nop, because the buffer a:bufnr is already showed.
-    else
-      execute (exists('g:vcsi_open_command_{a:vcs_command_name}')
-            \         ? g:vcsi_open_command_{a:vcs_command_name}
-            \         : g:vcsi_open_command)
-            \        a:bufnr
-    endif
-    call setbufvar(a:bufnr, '&bufhidden', 'wipe')
-  endif
-  return bufnr('') == a:bufnr
-endfunction
-
-
-
-
-function! s:switch_back_buffer(state)  "{{{2
-  execute a:state.bufnr 'buffer'
-  call setbufvar(a:state.bufnr, '&bufhidden', a:state.bufhidden)
-  return  bufnr('') == a:state.bufnr
-endfunction
-
-
-
-
-function! s:switch_to_buffer(bufnr)  "{{{2
-  let state = {}
-  let state.bufnr = bufnr('')
-  let state.bufhidden = &l:bufhidden
-
-  let &l:bufhidden = 'hide'
-  execute 'hide' a:bufnr 'buffer'
-
-  return state  " to switch back the original buffer.
+function! s:open_window(vcs_command_name)  "{{{2
+  let v:errmsg = ''
+  execute (exists('g:vcsi_open_command_{a:vcs_command_name}')
+        \  ? g:vcsi_open_command_{a:vcs_command_name}
+        \  : g:vcsi_open_command)
+  return v:errmsg == ''
 endfunction
 
 
