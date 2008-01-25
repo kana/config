@@ -1,7 +1,7 @@
 *zapit.txt*	Support to select files, directories, buffers, and so forth.
 
-Version 0.0
-Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+Version 0.0.1
+Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
 
@@ -118,6 +118,9 @@ BUGS							*zapit-bugs*
 
 ==============================================================================
 CHANGELOG						*zapit-changelog*
+
+0.0.1	2008-01-25T13:27:16+09:00
+	- Fix the bug that some type of items cannot be zapped correctly.
 
 0.0	2007-11-28T09:19:56+09:00
 	- Still under development.

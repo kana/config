@@ -825,9 +825,9 @@ nnoremap <silent> qc         :<C-u>cclose<Return>
 nnoremap <silent> qp         :Execute colder [count]<Return>
 nnoremap <silent> qn         :Execute cnewer [count]<Return>
 nnoremap <silent> qm         :<C-u>make<Return>
-nnoremap <silent> qM         :<C-u>make<Space>
-nnoremap <silent> q<Space>   :<C-u>make<Space>
-nnoremap <silent> qg         :<C-u>grep<Space>
+nnoremap          qM         :<C-u>make<Space>
+nnoremap          q<Space>   :<C-u>make<Space>
+nnoremap          qg         :<C-u>grep<Space>
 
 
 " For location list (mnemonic: Quickfix list for the current Window)  "{{{3
@@ -846,9 +846,9 @@ nnoremap <silent> qwc        :<C-u>lclose<Return>
 nnoremap <silent> qwp        :Execute lolder [count]<Return>
 nnoremap <silent> qwn        :Execute lnewer [count]<Return>
 nnoremap <silent> qwm        :<C-u>lmake<Return>
-nnoremap <silent> qwM        :<C-u>lmake<Space>
-nnoremap <silent> qw<Space>  :<C-u>lmake<Space>
-nnoremap <silent> qwg        :<C-u>lgrep<Space>
+nnoremap          qwM        :<C-u>lmake<Space>
+nnoremap          qw<Space>  :<C-u>lmake<Space>
+nnoremap          qwg        :<C-u>lgrep<Space>
 
 
 

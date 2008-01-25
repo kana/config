@@ -1,6 +1,6 @@
 " zapit -- Support to select files, directories, buffers, and so forth.
-" Version: 0.0
-" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+" Version: 0.0.1
+" Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$  "{{{1
 
@@ -194,11 +194,18 @@ endfunction
 
 
 function! s:Zap(pre_zap_command)  "{{{2
+  let input = getline('.')[(s:PROMPT):]
   let candidates = s:Complete(0, getline('.'))
+  let asis_candidates = filter(candidates, 'input == v:val.word')
+  if 0 < len(asis_candidates)
+    let target = asis_candidates[0]
+  else
+    let target = candidates[0]
+  endif
 
   call s:End()
 
-  return g:ZapitModes[s:CurrentMode].zap(a:pre_zap_command, candidates[0])
+  return g:ZapitModes[s:CurrentMode].zap(a:pre_zap_command, target)
 endfunction
 
 
