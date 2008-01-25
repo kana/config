@@ -254,7 +254,7 @@ function! s:normalize_items(unnormalized_items)  "{{{2
       if exists('b:vcsi_target_items')
         call extend(items, b:vcsi_target_items)
       else
-        call add(items, bufname(''))
+        call add(items, bufname('#'))
       endif
     else
       call add(items, item)
