@@ -92,6 +92,7 @@ GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 GROUP_VIM_FILES=\
   $(GROUP_VIM_DOC_FILES) \
   vim/dot.vim/after/ftplugin/xml_autons.vim \
+  vim/dot.vim/autoload/ku.vim \
   vim/dot.vim/autoload/narrow.vim \
   vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/autoload/textobj/user.vim \
@@ -105,6 +106,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/ftplugin/xml_move.vim \
   vim/dot.vim/plugin/cygclip.vim \
+  vim/dot.vim/plugin/ku.vim \
   vim/dot.vim/plugin/narrow.vim \
   vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
@@ -119,6 +121,7 @@ GROUP_VIM_FILES=\
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/cygclip.txt \
+  vim/dot.vim/doc/ku.txt \
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/doc/surround.txt \
@@ -144,6 +147,7 @@ ALL_PACKAGES=\
   opera-all \
   vim-all \
   vim-cygclip \
+  vim-ku \
   vim-narrow \
   vim-scratch \
   vim-textobj-datetime \
@@ -179,6 +183,13 @@ PACKAGE_vim_cygclip_BASE=vim/dot.vim
 PACKAGE_vim_cygclip_FILES=\
   vim/dot.vim/doc/cygclip.txt \
   vim/dot.vim/plugin/cygclip.vim
+
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.0.0
+PACKAGE_vim_ku_BASE=vim/dot.vim
+PACKAGE_vim_ku_FILES=\
+  vim/dot.vim/autoload/ku.vim \
+  vim/dot.vim/doc/ku.txt \
+  vim/dot.vim/plugin/ku.vim
 
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2
 PACKAGE_vim_narrow_BASE=vim/dot.vim

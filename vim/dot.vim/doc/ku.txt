@@ -1,0 +1,149 @@
+*ku.txt*	Support to do something
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+$Id$
+
+
+Introduction			|ku-introduction|
+Commands			|ku-commands|
+Functions			|ku-functions|
+Customizing			|ku-customizing|
+Bugs				|ku-bugs|
+Changelog			|ku-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION						*ku-introduction*
+
+Ku is a Vim plugin to support to do something on buffer, files, directories or
+other kind of items with automatic completion and fuzzy pattern.  You can also
+define your own kind of items.
+
+To start selection, use |ku-commands|.  The commands will open a new window
+(|ku-window|) to take user input.  As user inputs some characters, pop-up menu
+(|ins-completion-menu|) will be automatically appeared and updated to show the
+proper candidates for the input pattern.
+
+							*ku-window*
+ku window		The window which is opened by |ku-commands|.
+			This window will be automatically closed when:
+			- An action is taken for an item.
+			- Selecting is canceled.
+			- Another window or another tab page is acticated.
+
+
+
+
+==============================================================================
+COMMANDS						*ku-commands*
+
+:Ku[!] [{preferred-type}]				*:Ku*
+			Start selecting by ku.
+			[bang] modifier will be used by an action.
+			{preferred-type} means what type of items to be
+			appeared at fisrt in the completion list.
+
+
+
+
+==============================================================================
+FUNCTIONS						*ku-functions*
+
+ku#start({bang}, [{preferred-type}])			*ku#start()*
+			Function version of |:Ku|.
+
+ku#default_key_mappings()			   *ku#default_key_mappings()*
+			Define the following key mappings for the ku window
+			to the current buffer.
+
+			Modes	{lhs}		{rhs} ~
+			ni	<C-c>		<Plug>(ku-cancel)
+			ni	<Return>	<Plug>(ku-do-default)
+			ni	<Tab>		<Plug>(ku-choose-action)
+			ni	<C-j>		<Plug>(ku-next-type)
+			ni	<C-k>		<Plug>(ku-previous-type)
+
+ku#bang()						*ku#bang()*
+			Return whether [bang] modifier is given for the last
+			executed |:Ku| or |ku#start()|.  String "!" will be
+			returned if [bang] modifier is give, otherwise an
+			empty string will be returned.
+
+ku#register_type({args})				*ku#register_type()*
+			Register new type which is defined by {args}.
+			{args} is a dictionary.  See the comment in the source
+			for the detail of {args}.
+
+			Note that any built-in type can be overridden.
+
+ku#unregister_type({name})
+			Unregister the type {name}.
+
+			Note that any built-in type can be unregistered.
+
+
+
+
+==============================================================================
+KEY MAPPINGS						*ku-key-mappings*
+
+In the ku window, the following key mappings are defined:
+
+<Plug>(ku-cancel)		Cancel selecting (and close the ku window).
+<Plug>(ku-do-default)		Do the default action for the current item.
+<Plug>(ku-choose-action)	Choose an action, then do it for the item.
+<Plug>(ku-next-type)		Change the preferred type (ascending).
+<Plug>(ku-previous-type)	Change the preferred type (descending).
+
+The default key mappings are defined by |ku#default_key_mappings()|.
+
+
+
+
+==============================================================================
+ITEM TYPES						*ku-types*
+
+Ku supports the following types of items to be selected.
+
+Name		Actions ~
+"buffer"	|:buffer|, |:sbuffer|, ...
+"directory"	|:edit|, |:new|, ..., |:cd|
+"file"		|:edit|, |:new|, ...
+
+
+
+
+==============================================================================
+CUSTOMIZING						*ku-customizing*
+
+- FIXME: not written yet.
+  - key mappings.
+  - add your own type of items.
+
+
+
+
+==============================================================================
+BUGS							*ku-bugs*
+
+- Many bugs must be around the world.
+
+
+
+
+==============================================================================
+CHANGELOG						*ku-changelog*
+
+0.0.0	2008-01-25T19:34:13+09:00
+	- Derived from buffuzzy and zapit.
+	- Still under development.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
