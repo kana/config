@@ -61,6 +61,13 @@
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
 
+let s:TYPE_NUMBER = type(0)
+let s:TYPE_STRING = type('')
+let s:TYPE_FUNCTION = type(function('function'))
+let s:TYPE_LIST = type([])
+let s:TYPE_DICTONARY = type({})
+
+
 " Flag which indicates whether the ku window is opened with bang (:Ku!).
 " Possible values are '' or '!'.
 let s:bang = ''
@@ -288,7 +295,7 @@ function! s:do(choose_p)  "{{{2
   call s:end()
 
   " Do the specified aciton.
-  if type(item) != type('')
+  if type(item) == s:TYPE_DICTONARY
     let ActionFunction = (a:choose_p
       \                   ? s:choose_action(item._ku_type.actions)
       \                   : item._ku_type.actions[0].function)
@@ -580,18 +587,12 @@ endfunction
 
 
 function! s:valid_type_definition_p(args)  "{{{2
-  let T_NUM = type(0)
-  let T_STR = type('')
-  let T_FUNC = type(function('function'))
-  let T_LIST = type([])
-  let T_DICT = type({})
-
-  if type(a:args) != T_DICT
+  if type(a:args) != s:TYPE_DICTONARY
     return s:FALSE
   endif
 
   " -- The name of this type.
-  if !s:has_valid_entry(a:args, 'name', T_STR) | return s:FALSE | endif
+  if !s:has_valid_entry(a:args, 'name', s:TYPE_STRING) | return s:FALSE | endif
   if !(a:args.name =~# '^[a-z]\+$') | return s:FALSE | endif
 
   " -- Available actions for this type of items.
@@ -604,18 +605,18 @@ function! s:valid_type_definition_p(args)  "{{{2
   " 'name'      The name of the action.
   " 'function'  The function of the action.  It is called with one parameter,
   "             the selected item (as described in :help complete-items).
-  if !s:has_valid_entry(a:args, 'actions', T_LIST) | return s:FALSE | endif
+  if !s:has_valid_entry(a:args,'actions',s:TYPE_LIST) | return s:FALSE | endif
   if !(1 <= len(a:args.actions)) | return s:FALSE | endif
   for v in a:args.actions
-    if !s:has_valid_entry(v, 'key', T_STR) | return s:FALSE | endif
-    if !s:has_valid_entry(v, 'name', T_STR) | return s:FALSE | endif
-    if !s:has_valid_entry(v, 'function', T_FUNC) | return s:FALSE | endif
+    if !s:has_valid_entry(v, 'key', s:TYPE_STRING) | return s:FALSE | endif
+    if !s:has_valid_entry(v, 'name', s:TYPE_STRING) | return s:FALSE | endif
+    if !s:has_valid_entry(v,'function',s:TYPE_FUNCTION) | return s:FALSE |endif
   endfor
 
   " -- Function to gather items which match to the given pattern.
   " It takes 1 argument (user input pattern).
   " It returns a list of items.  Each item is a string.
-  if !s:has_valid_entry(a:args, 'gather', T_FUNC) | return s:FALSE | endif
+  if !s:has_valid_entry(a:args,'gather',s:TYPE_FUNCTION) |return s:FALSE |endif
 
   " FIXME: other entries.
   return s:TRUE
