@@ -99,7 +99,7 @@ function! vcsi#revert(...)  "{{{2
   " args = item*
   return s:execute_vcs_command({
     \      'command': 'revert',
-    \      'items': s:normalize_items(a:000)
+    \      'items': s:normalize_items(a:000, 'no-new-window')
     \    })
 endfunction
 
@@ -245,7 +245,8 @@ endfunction
 
 
 
-function! s:normalize_items(unnormalized_items)  "{{{2
+function! s:normalize_items(unnormalized_items, ...)  "{{{2
+  let no_new_window_p = a:0 && a:1 ==# 'no-new-window'
   let items = []
   for item in (len(a:unnormalized_items) ? a:unnormalized_items : ['-'])
     if item ==# 'all'
@@ -254,7 +255,7 @@ function! s:normalize_items(unnormalized_items)  "{{{2
       if exists('b:vcsi_target_items')
         call extend(items, b:vcsi_target_items)
       else
-        call add(items, bufname('#'))
+        call add(items, bufname(no_new_window_p ? '' : '#'))
       endif
     else
       call add(items, item)
