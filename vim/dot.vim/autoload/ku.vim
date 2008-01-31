@@ -149,6 +149,11 @@ function! ku#start(bang, type) abort  "{{{2
   endif
   2 wincmd _
 
+  " Do some initialization for each type.
+  for type_name in keys(s:types)
+    call s:types[type_name].initialize()
+  endfor
+
   " Start Insert mode.
   % delete _
   call append(1, '')
@@ -649,6 +654,17 @@ function! s:valid_type_definition_p(args)  "{{{2
   " It returns a list of items.  Each item is a string.
   if !s:has_valid_entry(a:args,'gather',s:TYPE_FUNCTION) |return s:FALSE |endif
 
+  " -- Function to initialize some information of 'gather'.
+  " It will be called with no argument.
+  " Its returning value will be discarded.
+  " This entry may be missing, if so, nothing will be happened on
+  " initialization.
+  if has_key(a:args, 'initialize')
+    if !(type(a:args.initialize) == s:TYPE_FUNCTION) | return s:FALSE | endif
+  else
+    let a:args.initialize = function('s:nop')
+  endif
+
   " FIXME: other entries.
   return s:TRUE
 endfunction
@@ -739,6 +755,7 @@ endfunction
 
 call ku#register_type({
    \   'name': 'buffer',
+   \   'gather': function('s:_type_buffer_gather'),
    \   'actions': [
    \     {'key': 'o',
    \      'name': 'open',
@@ -802,21 +819,28 @@ call ku#register_type({
    \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
    \                       'vertical botright')},
    \   ],
-   \   'gather': function('s:_type_buffer_gather'),
    \ })
 
 
 
 
 " file  "{{{2
-" FIXME: caching - too slow.
+" FIXME: better caching
 " FIXME: root directory
+function! s:_type_file_initialize()
+  let s:_type_file_cache = {}
+  let s:_type_file_frags_count = -1
+endfunction
+
 function! s:_type_file_gather(pattern)
-  let items = []
-  for name in split(glob(s:make_glob_pattern(a:pattern)), '\n')
-    call add(items, {'word': name, 'menu': 'file', 'dup': s:TRUE})
-  endfor
-  return items
+  let c = len(split(a:pattern, '/', s:TRUE)) - 1
+  if s:_type_file_frags_count != c
+    let s:_type_file_frags_count = c
+    let s:_type_file_cache[c]
+      \ = map(split(glob(s:make_glob_pattern(a:pattern)), '\n'),
+      \       "{'word': v:val, 'menu': 'file', 'dup': s:TRUE}")
+  endif
+  return s:_type_file_cache[c]
 endfunction
 
 function! s:make_glob_pattern(s)
@@ -839,6 +863,8 @@ endfunction
 
 call ku#register_type({
    \   'name': 'file',
+   \   'initialize': function('s:_type_file_initialize'),
+   \   'gather': function('s:_type_file_gather'),
    \   'actions': [
    \     {'key': 'o',
    \      'name': 'open',
@@ -902,7 +928,6 @@ call ku#register_type({
    \      'function': s:pa(function('s:_type_file_action_xsplit'),
    \                       'vertical botright')},
    \   ],
-   \   'gather': function('s:_type_file_gather'),
    \ })
 
 
