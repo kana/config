@@ -1248,6 +1248,11 @@ function! s:PseudoSuspendWithAutomaticCD()
 endfunction
 
 
+" Show the lines which match to the last search pattern.
+nnoremap g/  :g/<Return>
+vnoremap g/  :g/<Return>
+
+
 
 
 
