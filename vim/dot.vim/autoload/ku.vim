@@ -297,7 +297,7 @@ function! s:do(choose_p)  "{{{2
   " Do the specified aciton.
   if type(item) == s:TYPE_DICTONARY
     let ActionFunction = (a:choose_p
-      \                   ? s:choose_action(item._ku_type.actions)
+      \                   ? s:choose_action_for_item(item)
       \                   : item._ku_type.actions[0].function)
     call ActionFunction(item)
   endif
@@ -549,18 +549,14 @@ endfunction
 
 
 
-function! s:choose_action(actions)  "{{{2
-  " FIXME: style of the menu message.
-  echo 'Available actions are:'
-  for action in a:actions
-    echo printf('%s :: %s', strtrans(action.key), action.name)
-  endfor
-  echo ''
+function! s:choose_action_for_item(item)  "{{{2
+  let actions = a:item._ku_type.actions
+  call s:show_available_actions_message(a:item)
 
   let c = nr2char(getchar())
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
-  for action in a:actions
+  for action in actions
     if c ==# action.key
       return action.function
     endif
@@ -569,6 +565,39 @@ function! s:choose_action(actions)  "{{{2
   echo 'The key' strtrans(c) 'is not associated with any action'
      \ '-- nothing happened.'
   return function('s:nop')
+endfunction
+
+
+
+
+function! s:show_available_actions_message(item)  "{{{2
+  " FIXME: like ls(1).
+  let actions = a:item._ku_type.actions
+  let max_key_length = max(map(copy(actions), 'len(strtrans(v:val.key))'))
+  let max_name_length = max(map(copy(actions), 'len(v:val.name)'))
+  let padding = 3
+  let max_cell_length = max_key_length + 3 + max_name_length + padding
+  let format = '%*s%*s - %-*s'
+
+  let max_column = max([1, (&columns + padding - 1) / max_cell_length])
+  let max_column = min([max_column, 4])
+  let n = len(actions)
+  let max_row = n / max_column + (n % max_column != 0)
+
+  echo printf('Available actions for %s (type %s) are:',
+     \        a:item.word, a:item._ku_type.name)
+  for r in range(max_row)
+    let i = r
+    echo ''
+    while i < n
+      echon printf(format,
+          \        (i == r ? 0 : padding), '',
+          \        max_key_length, strtrans(actions[i].key),
+          \        max_name_length, actions[i].name)
+      let i += max_row
+    endwhile
+  endfor
+  echo ''
 endfunction
 
 
