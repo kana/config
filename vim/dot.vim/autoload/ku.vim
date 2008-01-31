@@ -299,7 +299,7 @@ function! s:do(choose_p)  "{{{2
     let ActionFunction = (a:choose_p
       \                   ? s:choose_action_for_item(item)
       \                   : item._ku_type.actions[0].function)
-    call ActionFunction(item)
+    call s:apply(ActionFunction, [item])
   endif
 endfunction
 
@@ -483,7 +483,7 @@ endfunction
 
 function! s:make_asis_regexp(s)  "{{{2
   " FIXME: case sensitivity
-  return '\c\V' . substitute(a:s, '\', '\\', 'g')
+  return '\c\V' . substitute(substitute(a:s, '\s\+', ' ', 'g'), '\', '\\', 'g')
 endfunction
 
 
@@ -639,7 +639,9 @@ function! s:valid_type_definition_p(args)  "{{{2
   for v in a:args.actions
     if !s:has_valid_entry(v, 'key', s:TYPE_STRING) | return s:FALSE | endif
     if !s:has_valid_entry(v, 'name', s:TYPE_STRING) | return s:FALSE | endif
-    if !s:has_valid_entry(v,'function',s:TYPE_FUNCTION) | return s:FALSE |endif
+    if !(has_key(v, 'function') && s:callable_p(v.function))
+      return s:FALSE
+    endif
   endfor
 
   " -- Function to gather items which match to the given pattern.
@@ -656,6 +658,43 @@ endfunction
 
 function! s:has_valid_entry(dict, key, type)  "{{{2
   return has_key(a:dict, a:key) && type(a:dict[a:key]) == a:type
+endfunction
+
+
+
+
+function! s:callable_p(obj)  "{{{2
+  return (type(a:obj) == s:TYPE_FUNCTION)
+       \ || ((type(a:obj) == s:TYPE_DICTONARY) && has_key(a:obj, '__call__'))
+endfunction
+
+
+
+
+function! s:apply(obj, args)  "{{{2
+  if type(a:obj) == s:TYPE_FUNCTION
+    return call(a:obj, a:args)
+  elseif type(a:obj) == s:TYPE_DICTONARY && has_key(a:obj, '__call__')
+    return call(a:obj.__call__, a:args, a:obj)
+  else
+    throw 'This object is not callable:' string(a:obj)
+  endif
+endfunction
+
+
+
+
+function! s:pa(f, ...)  "{{{2
+  " pa = Partial Apply
+  " Returns a callable object g,
+  " where g(b, ...) is equivalent to f(a, ..., b, ...).
+  let g = {}
+  let g.f = a:f
+  let g.args = copy(a:000)  " a:000 will be lost after this execution.
+  function! g.__call__(...)
+    return call(self.f, self.args + a:000)
+  endfunction
+  return g
 endfunction
 
 
@@ -693,27 +732,75 @@ endfunction
 function! s:_type_buffer_action_open(item)
   execute a:item._buffer_number 'buffer'.ku#bang()
 endfunction
-function! s:_type_buffer_action_split_open(item)
-  execute a:item._buffer_number 'sbuffer'
-endfunction
-function! s:_type_buffer_action_vsplit_open(item)
-  execute 'vertical' a:item._buffer_number 'sbuffer'
+function! s:_type_buffer_action_xsplit(modifier, item)
+  execute a:modifier a:item._buffer_number 'sbuffer'
 endfunction
 
 
-" FIXME: other variants: hjkl HJKL.
 call ku#register_type({
    \   'name': 'buffer',
    \   'actions': [
    \     {'key': 'o',
    \      'name': 'open',
    \      'function': function('s:_type_buffer_action_open')},
+   \     {'key': 'n',
+   \      'name': 'split',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'), '')},
    \     {'key': 's',
-   \      'name': 'split open',
-   \      'function': function('s:_type_buffer_action_split_open')},
+   \      'name': 'split',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'), '')},
    \     {'key': 'v',
-   \      'name': 'vsplit open',
-   \      'function': function('s:_type_buffer_action_vsplit_open')},
+   \      'name': 'vsplit',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'vertical')},
+   \     {'key': 'h',
+   \      'name': 'split left',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'vertical leftabove')},
+   \     {'key': 'j',
+   \      'name': 'split down',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'rightbelow')},
+   \     {'key': 'k',
+   \      'name': 'split up',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'leftabove')},
+   \     {'key': 'l',
+   \      'name': 'split right',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'vertical rightbelow')},
+   \     {'key': "\<C-h>",
+   \      'name': 'split left',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'vertical leftabove')},
+   \     {'key': "\<C-j>",
+   \      'name': 'split down',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'rightbelow')},
+   \     {'key': "\<C-k>",
+   \      'name': 'split up',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'leftabove')},
+   \     {'key': "\<C-l>",
+   \      'name': 'split right',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'vertical rightbelow')},
+   \     {'key': 'H',
+   \      'name': 'split far left',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'vertical topleft')},
+   \     {'key': 'J',
+   \      'name': 'split bottom',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'botright')},
+   \     {'key': 'K',
+   \      'name': 'split top',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'topleft')},
+   \     {'key': 'L',
+   \      'name': 'split far right',
+   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
+   \                       'vertical botright')},
    \   ],
    \   'gather': function('s:_type_buffer_gather'),
    \ })
@@ -744,14 +831,12 @@ function! s:_type_file_gather(pattern)
 endfunction
 
 
+" FIXME: filename with special characters -- should escape?
 function! s:_type_file_action_open(item)
   execute 'edit'.ku#bang() a:item.word
 endfunction
-function! s:_type_file_action_split_open(item)
-  execute 'split' a:item.word
-endfunction
-function! s:_type_file_action_vsplit_open(item)
-  execute 'vsplit' a:item.word
+function! s:_type_file_action_xsplit(modifier, item)
+  execute a:modifier 'split' a:item.word
 endfunction
 
 
@@ -761,12 +846,64 @@ call ku#register_type({
    \     {'key': 'o',
    \      'name': 'open',
    \      'function': function('s:_type_file_action_open')},
+   \     {'key': 'n',
+   \      'name': 'split',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'), '')},
    \     {'key': 's',
-   \      'name': 'split open',
-   \      'function': function('s:_type_file_action_split_open')},
+   \      'name': 'split',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'), '')},
    \     {'key': 'v',
-   \      'name': 'vsplit open',
-   \      'function': function('s:_type_file_action_vsplit_open')},
+   \      'name': 'vsplit',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'vertical')},
+   \     {'key': 'h',
+   \      'name': 'split left',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'vertical leftabove')},
+   \     {'key': 'j',
+   \      'name': 'split down',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'rightbelow')},
+   \     {'key': 'k',
+   \      'name': 'split up',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'leftabove')},
+   \     {'key': 'l',
+   \      'name': 'split right',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'vertical rightbelow')},
+   \     {'key': "\<C-h>",
+   \      'name': 'split left',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'vertical leftabove')},
+   \     {'key': "\<C-j>",
+   \      'name': 'split down',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'rightbelow')},
+   \     {'key': "\<C-k>",
+   \      'name': 'split up',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'leftabove')},
+   \     {'key': "\<C-l>",
+   \      'name': 'split right',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'vertical rightbelow')},
+   \     {'key': 'H',
+   \      'name': 'split far left',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'vertical topleft')},
+   \     {'key': 'J',
+   \      'name': 'split bottom',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'botright')},
+   \     {'key': 'K',
+   \      'name': 'split top',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'topleft')},
+   \     {'key': 'L',
+   \      'name': 'split far right',
+   \      'function': s:pa(function('s:_type_file_action_xsplit'),
+   \                       'vertical botright')},
    \   ],
    \   'gather': function('s:_type_file_gather'),
    \ })
