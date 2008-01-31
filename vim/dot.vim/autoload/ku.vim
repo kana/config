@@ -809,25 +809,22 @@ call ku#register_type({
 
 
 " file  "{{{2
-" FIXME: stub.
-let s:_type_file_cached_items = []
-let s:_type_file_last_bufnr = s:INVALID_BUFNR
+" FIXME: caching - too slow.
+" FIXME: root directory
 function! s:_type_file_gather(pattern)
-  if s:_type_file_last_bufnr != bufnr('$')
-    let s:_type_file_cached_items = []
-    for i in range(1, bufnr('$'))
-      if bufexists(i) && buflisted(i) && getbufvar(i, '&buftype') == ''
-        call add(s:_type_file_cached_items,
-           \     {
-           \       'word': bufname(i),
-           \       'menu': 'file',
-           \       'dup': s:TRUE,
-           \     })
-      endif
-    endfor
-    let s:_type_file_last_bufnr = bufnr('$')
-  endif
-  return s:_type_file_cached_items
+  let items = []
+  for name in split(glob(s:make_glob_pattern(a:pattern)), '\n')
+    call add(items, {'word': name, 'menu': 'file', 'dup': s:TRUE})
+  endfor
+  return items
+endfunction
+
+function! s:make_glob_pattern(s)
+  " FIXME: path separetor assumption.
+  let frags = split(substitute(a:s, '\s\+', '*', 'g'), '/', 1)
+  call map(frags, '"{,.??,.[^.]}*" . v:val . "*"')
+  call map(frags, 'substitute(v:val, "\\*\\+", "*", "g")')
+  return join(frags, '/')
 endfunction
 
 
