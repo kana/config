@@ -496,7 +496,9 @@ endfunction
 
 function! s:make_skip_regexp(s)  "{{{2
   " FIXME: case sensitivity
-  return substitute(s:make_asis_regexp(a:s), '\s', '\\.\\*', 'g')
+  " FIXME: path separator assumption
+  let p_asis = s:make_asis_regexp(substitute(a:s, '/', ' / ', 'g'))
+  return substitute(p_asis, '\s', '\\.\\*', 'g')
 endfunction
 
 
