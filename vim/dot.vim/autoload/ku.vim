@@ -7,8 +7,6 @@
 " FIXME: more smart sorting:
 "        - considering last component.
 "        - type buffer: full path vs. relative path.
-" FIXME: alternative string()/strtrans(), to convert <Left> and other special
-"        keys into more human-readable notations.
 " FIXME: review on case sensitivity.
 " FIXME: alternative implementation (getchar()), if necessary.
 "
@@ -135,7 +133,7 @@ function! ku#register_type(args)  "{{{2
   " See s:valid_type_definition_p() for the detail of a:args.
   if !s:valid_type_definition_p(a:args)
     echohl ErrorMsg
-    echomsg 'Invalid type definition:' strtrans(a:args)
+    echomsg 'Invalid type definition:' string(a:args)
     echohl None
     return s:FALSE
   endif
@@ -337,6 +335,15 @@ endfunction
 
 
 
+function! s:string(s)  "{{{2
+  " like strtrans(), but convert into more human-readable notation on special
+  " keys such as <Left>.
+  return strtrans(a:s)  " FIXME: NIY.
+endfunction
+
+
+
+
 function! s:initialize_ku_buffer()  "{{{2
   " The current buffer is the ku buffer which is not initialized yet.
 
@@ -525,7 +532,7 @@ function! s:choose_action_for_item(item)  "{{{2
     endif
   endfor
 
-  echo 'The key' strtrans(c) 'is not associated with any action'
+  echo 'The key' s:string(c) 'is not associated with any action'
      \ '-- nothing happened.'
   return function('s:nop')
 endfunction
@@ -536,7 +543,7 @@ endfunction
 function! s:show_available_actions_message(item)  "{{{2
   " FIXME: like ls(1).
   let actions = a:item._ku_type.actions
-  let max_key_length = max(map(copy(actions), 'len(strtrans(v:val.key))'))
+  let max_key_length = max(map(copy(actions), 'len(s:string(v:val.key))'))
   let max_name_length = max(map(copy(actions), 'len(v:val.name)'))
   let padding = 3
   let max_cell_length = max_key_length + 3 + max_name_length + padding
@@ -555,7 +562,7 @@ function! s:show_available_actions_message(item)  "{{{2
     while i < n
       echon printf(format,
           \        (i == r ? 0 : padding), '',
-          \        max_key_length, strtrans(actions[i].key),
+          \        max_key_length, s:string(actions[i].key),
           \        max_name_length, actions[i].name)
       let i += max_row
     endwhile
