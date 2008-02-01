@@ -3,58 +3,14 @@
 " Copyright: Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$  "{{{1
-" FIXME: Translate the following FIXMEs in English.
-"
-" FIXME: ドキュメント更新。
-"
-" FIXME: s:do(): どのitemにもマッチしない入力であってもactionに渡す。
-"   例えば今の状況ではtype fileで新規ファイルを開けないので、
-"   このような処理は必要である。
-"
-"   ただし、これをするならばどのtypeのactionを使うかが問題。
-"   s:preferred_typeが定義されている場合に限定か。
-"
-" FIXME: より「賢い」ソーティング (優先順位: 低)
-"   - パスっぽいものは最後のコンポーネントを重視するのはどうか?
-"   - type buffer: フルパスと相対パスのどちらを使うべきか?
-"   - パスっぽいものは相対パス優先の方がいい?
-"     '/'の値は若い以上、今のままでは自動的に相対パスが軽視されることになる。
-"
-" FIXME: strtrans()の代替作成。<Left>等を正しく変換するように。
-"
-" FIXME: type file - stub.
-" FIXME: type directory - NIY.
-"
-" FIXME: 各種比較でのcase sensitivityの統一・見直し。
-"
-" FIXME: 実装方法の選択
-"   (A) ins-completion-menuを利用(Omni completion)
-"       + Insert modeの基本的な操作体系を利用可能。
-"       - 一部キーをmappingできないため、細かい情報を取れない。
-"         * 特に問題な点は
-"           「どの項目が選択されているか」と
-"           「選択状況が変化したか」を
-"           知ることができないこと。
-"           * このために
-"             「actionを<Tab>で選んで実行」というI/Fや、
-"             「利用可能なactionを適宜表示」ということができない。
-"       - CursorMovedIのフックを利用しての検出のため、カオス過ぎる。
-"         特にs:PROMPTはひどい発明。
-"
-"   (B) getchar()で自力管理
-"       + キー入力を全て把握できるため、ins-completion-menuの問題はない。
-"       - キー入力を自力で管理する以上、
-"         基本的な操作体系も含めて実装しなければならない。
-"       * itemsの一覧表示はins-completion-menu以外の方法が取れる。
-"         例えばtype毎に並べたitemsのうち、
-"         preferred以外はfoldする等。
-"
-"   buffuzzy/zapitの経験から(A)を利用していたが、
-"   itemsの表示はバッファを使ってどうとでもできるので、
-"   (B)も一考の価値はある。
-"
-"   ただ、(A)でもある程度の問題は解決してしまったため、一先ずは(A)で行く。
-"   (B)には(B)で魅力的なメリットがあるので、落ち着いたらそちらも考える。
+" FIXME: s:do(): Force action on unmatched pattern.
+" FIXME: more smart sorting:
+"        - considering last component.
+"        - type buffer: full path vs. relative path.
+" FIXME: alternative string()/strtrans(), to convert <Left> and other special
+"        keys into more human-readable notations.
+" FIXME: review on case sensitivity.
+" FIXME: alternative implementation (getchar()), if necessary.
 "
 " Variables and Constants  "{{{1
 
@@ -667,7 +623,8 @@ function! s:valid_type_definition_p(args)  "{{{2
     let a:args.initialize = function('s:nop')
   endif
 
-  " FIXME: other entries.
+  " -- other entries --
+
   return s:TRUE
 endfunction
 
@@ -827,8 +784,10 @@ call ku#register_type({
 
 
 " file  "{{{2
-" FIXME: better caching
-" FIXME: root directory
+" FIXME: unexpected propmt on some environments when glob() is called.
+"        it happens when the pattern contains '{foo,bar}'.
+" FIXME: smart caching.
+" FIXME: can't list the root directory.
 function! s:_type_file_initialize()
   let s:_type_file_cache = {}
   let s:_type_file_frags_count = -1
@@ -940,7 +899,7 @@ call ku#register_type({
 
 
 " directory  "{{{2
-" FIXME: not written yet.
+" FIXME: not written yet -- integrate into type file?
 
 
 
