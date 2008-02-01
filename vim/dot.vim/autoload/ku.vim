@@ -688,10 +688,13 @@ endfunction
 
 " Built-in Types  "{{{1
 " buffer  "{{{2
+" FIXME: how about unlisted buffers?
 let s:_type_buffer_cached_items = []
 let s:_type_buffer_last_bufnr = s:INVALID_BUFNR
 function! s:_type_buffer_gather(pattern)
-  if s:_type_buffer_last_bufnr != bufnr('$')
+  if s:_type_buffer_last_bufnr == bufnr('$')
+    call filter(s:_type_buffer_cached_items, 'bufexists(v:val._buffer_number)')
+  else
     let s:_type_buffer_cached_items = []
     let format = 'buffer %' . len(bufnr('$')) . 'd'
     for i in range(1, bufnr('$'))
@@ -716,6 +719,9 @@ function! s:_type_buffer_action_open(item)
 endfunction
 function! s:_type_buffer_action_xsplit(modifier, item)
   execute a:modifier a:item._buffer_number 'sbuffer'
+endfunction
+function! s:_type_buffer_action_xdelete(command, item)
+  execute a:item._buffer_number a:command.ku#bang()
 endfunction
 
 
@@ -784,6 +790,18 @@ call ku#register_type({
    \      'name': 'split far right',
    \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
    \                       'vertical botright')},
+   \     {'key': 'U',
+   \      'name': 'unload',
+   \      'function': s:pa(function('s:_type_buffer_action_xdelete'),
+   \                       'bunload')},
+   \     {'key': 'D',
+   \      'name': 'delete',
+   \      'function': s:pa(function('s:_type_buffer_action_xdelete'),
+   \                       'bdelete')},
+   \     {'key': 'W',
+   \      'name': 'wipeout',
+   \      'function': s:pa(function('s:_type_buffer_action_xdelete'),
+   \                       'bwipeout')},
    \   ],
    \ })
 
