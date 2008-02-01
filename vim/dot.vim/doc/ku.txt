@@ -28,7 +28,7 @@ To start selection, use |ku-commands|.  The commands will open a new window
 (|ins-completion-menu|) will be automatically appeared and updated to show the
 proper candidates for the input pattern.
 
-							*ku-window*
+							*ku-window* *ku-buffer*
 ku window		The window which is opened by |ku-commands|.
 			This window will be automatically closed when:
 			- An action is taken for an item.
@@ -70,13 +70,13 @@ ku#default_key_mappings()			   *ku#default_key_mappings()*
 ku#bang()						*ku#bang()*
 			Return whether [bang] modifier is given for the last
 			executed |:Ku| or |ku#start()|.  String "!" will be
-			returned if [bang] modifier is give, otherwise an
+			returned if [bang] modifier is given, otherwise an
 			empty string will be returned.
 
-ku#register_type({args})				*ku#register_type()*
-			Register new type which is defined by {args}.
-			{args} is a dictionary.  See the comment in the source
-			for the detail of {args}.
+ku#register_type({typedef})				*ku#register_type()*
+			Register new type which is defined by {typedef}.
+			{typedef} is a dictionary.  See |ku-write-new-type|
+			for the detail of {typedef}.
 
 			Note that any built-in type can be overridden.
 
@@ -93,11 +93,19 @@ KEY MAPPINGS						*ku-key-mappings*
 
 In the ku window, the following key mappings are defined:
 
-<Plug>(ku-cancel)		Cancel selecting (and close the ku window).
-<Plug>(ku-do-default)		Do the default action for the current item.
-<Plug>(ku-choose-action)	Choose an action, then do it for the item.
-<Plug>(ku-next-type)		Change the preferred type (ascending).
-<Plug>(ku-previous-type)	Change the preferred type (descending).
+<Plug>(ku-cancel)					*<Plug>(ku-cancel)*
+			Cancel selecting (and close the ku window).
+
+<Plug>(ku-do-default)				       *<Plug>(ku-do-default)*
+			Do the default action for the current item.
+
+<Plug>(ku-choose-action)			    *<Plug>(ku-choose-action)*
+			Show the mesasge on available actions, take a single
+			key input, then do the appropriate action.
+
+<Plug>(ku-next-type)					*<Plug>(ku-next-type)*
+<Plug>(ku-previous-type)			    *<Plug>(ku-previous-type)*
+			Change the preferred type (ascending / descending).
 
 The default key mappings are defined by |ku#default_key_mappings()|.
 
@@ -105,14 +113,13 @@ The default key mappings are defined by |ku#default_key_mappings()|.
 
 
 ==============================================================================
-ITEM TYPES						*ku-types*
+TYPES							*ku-types*
 
-Ku supports the following types of items to be selected.
+Types are kinds of items.  The following types are built-in.
 
 Name		Actions ~
-"buffer"	|:buffer|, |:sbuffer|, ...
-"directory"	|:edit|, |:new|, ..., |:cd|
-"file"		|:edit|, |:new|, ...
+buffer		Open the specified buffer with |:buffer| or |:sbuffer|.
+file		Open the specified file with |:edit| or |:new|.
 
 
 
@@ -120,9 +127,54 @@ Name		Actions ~
 ==============================================================================
 CUSTOMIZING						*ku-customizing*
 
-- FIXME: not written yet.
-  - key mappings.
-  - add your own type of items.
+Initialization						*ku-initialization*
+							*KuBufferInitialize*
+	Ku has its own buffer to do its work.  Whenever the buffer is created,
+	"User KuBufferInitialize" event will be published.  Use this event to
+	do user's initialization for the buffer, for example: >
+
+		autocmd User KuBufferInitialize  call MyOwnInitialization()
+<
+	If there is no autocommand for |KuBufferInitialize|, Ku will call
+	|ku#default_key_mappings()|.
+
+Write New Type						*ku-write-new-type*
+	To use new type, call |ku#register_type()| with its {typedef}.
+	{typedef} is a dictionary and it contains the following entries:
+
+	'name'		string
+		The name of this type.  It consits of only lowercase
+		alphabets.
+
+	'actions'	list
+		The available actions for items of this type.
+		Each value is a dictionary with the following entries:
+
+		'key'		string
+			The key to choose this action.
+			It will be used by |<Plug>(ku-choose-action)|.
+
+		'name'		string
+			The name of this action.  Use short and brief one.
+
+		'function'	funcref
+			The function of this action.  It will be called with
+			one parameter, the selected item (as described in
+			|complete-items|).
+
+		Note that the first entry is treated as the default action for
+		items of this type.  So it will be used by
+		|<Plug>(ku-do-default)|.
+
+	'gather'	funcref
+		The function to gather items matching to the given pattern.
+		It is called with one parameter, the user input pattern.
+		It must return the list of |complete-items|.
+
+	'initialize'	funcref		(optional)
+		The function which will be called with no argument whenever
+		the ku window is opened.  The main purpose of this function is
+		to do some initialization for 'gather'.
 
 
 

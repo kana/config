@@ -640,7 +640,7 @@ function! s:valid_type_definition_p(args)  "{{{2
   " 'key'       The key to choose this action in <Plug>(ku-choose-action).
   " 'name'      The name of the action.
   " 'function'  The function of the action.  It is called with one parameter,
-  "             the selected item (as described in :help complete-items).
+  "             the selected item (as described in |complete-items|).
   if !s:has_valid_entry(a:args,'actions',s:TYPE_LIST) | return s:FALSE | endif
   if !(1 <= len(a:args.actions)) | return s:FALSE | endif
   for v in a:args.actions
@@ -653,7 +653,7 @@ function! s:valid_type_definition_p(args)  "{{{2
 
   " -- Function to gather items which match to the given pattern.
   " It takes 1 argument (user input pattern).
-  " It returns a list of items.  Each item is a string.
+  " It returns a list of items.  Each item is a |complete-items|.
   if !s:has_valid_entry(a:args,'gather',s:TYPE_FUNCTION) |return s:FALSE |endif
 
   " -- Function to initialize some information of 'gather'.
