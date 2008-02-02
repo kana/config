@@ -231,7 +231,7 @@ function! s:complete(findstart, base)  "{{{2
           \     (match(new_item.word, g:ku_junk_item_pattern) < 0 ? 0 : 1),
           \     (g:ku_sort_by_type_first_p ? type_name : 0),
           \     s:match(new_item.word, s:make_asis_regexp(pattern)),
-          \     match(new_item.word, s:make_skip_regexp(pattern)),
+          \     s:match(new_item.word, s:make_skip_regexp(pattern)),
           \     new_item.word,
           \     (!g:ku_sort_by_type_first_p ? type_name : 0),
           \   ]
