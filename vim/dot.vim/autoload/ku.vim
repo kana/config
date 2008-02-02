@@ -3,7 +3,6 @@
 " Copyright: Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$  "{{{1
-" FIXME: type buffer, file: action idea: ':' -> ':<Cursor> <Item>'
 " FIXME: s:choose_action_for_item(): Customizability on keys to choose.
 "        - do mapping like Vim's one?
 "        - separate 'actions' into a list of 'key'->'name' and a dictionary of
@@ -695,6 +694,18 @@ endfunction
 
 
 " Built-in Types  "{{{1
+" common definitions  "{{{2
+function! s:_type_any_action_ex(item)
+  call feedkeys(':', 'n')
+  call feedkeys(ku#bang(), 'n')
+  call feedkeys(' ', 'n')
+  call feedkeys(a:item.word, 'n')
+  call feedkeys("\<C-b>", 'n')
+endfunction
+
+
+
+
 " buffer  "{{{2
 " FIXME: how about unlisted buffers?
 let s:_type_buffer_cached_items = []
@@ -810,6 +821,12 @@ call ku#register_type({
    \      'name': 'wipeout',
    \      'function': s:pa(function('s:_type_buffer_action_xdelete'),
    \                       'bwipeout')},
+   \     {'key': ';',
+   \      'name': 'ex',
+   \      'function': function('s:_type_any_action_ex')},
+   \     {'key': ':',
+   \      'name': 'ex',
+   \      'function': function('s:_type_any_action_ex')},
    \   ],
    \ })
 
@@ -923,6 +940,12 @@ call ku#register_type({
    \      'name': 'split far right',
    \      'function': s:pa(function('s:_type_file_action_xsplit'),
    \                       'vertical botright')},
+   \     {'key': ';',
+   \      'name': 'ex',
+   \      'function': function('s:_type_any_action_ex')},
+   \     {'key': ':',
+   \      'name': 'ex',
+   \      'function': function('s:_type_any_action_ex')},
    \   ],
    \ })
 
