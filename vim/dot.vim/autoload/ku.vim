@@ -3,11 +3,18 @@
 " Copyright: Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$  "{{{1
+" FIXME: type buffer, file: action idea: ':' -> ':<Cursor> <Item>'
+" FIXME: s:choose_action_for_item(): Customizability on keys to choose.
+"        - do mapping like Vim's one?
+"        - separate 'actions' into a list of 'key'->'name' and a dictionary of
+"          'name'->'action', then modify the former list by the user?
+"        - BTW, should the former list be a list?  how about to use dict?
 " FIXME: auto-complete 1 component for each typing '/' (like bluewind).
 " FIXME: s:do(): Force action on unmatched pattern.
 " FIXME: more smart sorting:
 "        - considering last component.
 "        - type buffer: full path vs. relative path.
+"        - put garbage files (for example, "foo~") at the last.
 " FIXME: review on case sensitivity.
 " FIXME: alternative implementation (getchar()), if necessary.
 "
