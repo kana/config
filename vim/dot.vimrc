@@ -718,6 +718,18 @@ command! -bar -nargs=0 TabTitle
       \ let t:title = input("Set tabpage's title to: ",'')
 
 
+" Set up the layout of my usual days.
+command! -bar -nargs=0 UsualDays  call s:UsualDays()
+function! s:UsualDays()
+  normal! 'T
+  execute 'CD' fnamemodify(expand('%'), ':p:h')
+
+  tabnew
+  normal! 'V
+  execute 'CD' fnamemodify(expand('%'), ':p:h:h')
+endfunction
+
+
 
 
 
