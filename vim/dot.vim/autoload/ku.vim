@@ -834,8 +834,8 @@ call ku#register_type({
 
 
 " file  "{{{2
+" FIXME: can't list '.' or '..'.  how about to include these but sort later?
 " FIXME: action idea: source
-" FIXME: action idea: ':' - set up ":<cursor> <item>" for any Ex command.
 " FIXME: unexpected propmt on some environments when glob() is called.
 "        it happens when the pattern contains '{foo,bar}'.
 " FIXME: smart caching.
