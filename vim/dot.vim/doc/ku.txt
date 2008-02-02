@@ -44,8 +44,9 @@ COMMANDS						*ku-commands*
 :Ku[!] [{preferred-type}]				*:Ku*
 			Start selecting by ku.
 			[bang] modifier will be used by an action.
-			{preferred-type} means what type of items to be
-			appeared at fisrt in the completion list.
+			{preferred-type} specifies what type of items to be
+			appeared in the completion list.  If it is omitted,
+			all type of items will be appeared.
 
 
 
