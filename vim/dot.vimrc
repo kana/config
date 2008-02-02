@@ -322,6 +322,8 @@ autocmd MyAutoCmd FileType vim
 
 
 " CMapABC: support input for Alternate Built-in Commands  "{{{2
+" Memo: It's possible to implement this feature by using :cabbrev with <expr>.
+" But it seems to be hard to reset the current definitions.
 
 let s:CMapABC_Entries = []
 function! s:CMapABC_Add(original_pattern, alternate_name)
