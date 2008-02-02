@@ -18,6 +18,7 @@
 " FIXME: alternative implementation (getchar()), if necessary.
 "
 " Variables and Constants  "{{{1
+" Script-local  "{{{2
 
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
@@ -71,9 +72,19 @@ let s:completeopt = ''
 let s:ignorecase = ''
 let s:winrestcmd = ''
 
+
+
+
+" Global  "{{{2
 " Flag for debugging.
 if !exists('g:ku_debug_p')
   let g:ku_debug_p = s:FALSE
+endif
+
+" Patterns for junk items.  These items are listed at the last.
+" FIXME: How about g:ku_important_item_pattern?
+if !exists('g:ku_junk_item_pattern')
+  let g:ku_junk_item_pattern = '\(\~\|\.o\|\.swp\)$'
 endif
 
 " Flag to use the type of items for sorting without s:preferred_type.
@@ -217,6 +228,7 @@ function! s:complete(findstart, base)  "{{{2
         let new_item['_ku_type'] = s:types[type_name]
         let new_item['_ku_sort_priority']
           \ = [
+          \     (match(new_item.word, g:ku_junk_item_pattern) < 0 ? 0 : 1),
           \     (g:ku_sort_by_type_first_p ? type_name : 0),
           \     s:match(new_item.word, s:make_asis_regexp(pattern)),
           \     match(new_item.word, s:make_skip_regexp(pattern)),
