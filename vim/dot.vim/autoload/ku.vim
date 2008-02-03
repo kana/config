@@ -846,12 +846,10 @@ call ku#register_type({
 
 
 " file  "{{{2
-" FIXME: can't list '.' or '..'.  how about to include these but sort later?
-" FIXME: action idea: source
+" FIXME: can't list '..'.
 " FIXME: unexpected propmt on some environments when glob() is called.
 "        it happens when the pattern contains '{foo,bar}'.
 " FIXME: smart caching.
-" FIXME: can't list the root directory.
 function! s:_type_file_initialize()
   let s:_type_file_cache = {}
   let s:_type_file_frags_count = -1
@@ -870,10 +868,22 @@ endfunction
 
 function! s:make_glob_pattern(s)
   " FIXME: path separetor assumption.
-  let frags = split(substitute(a:s, '\s\+', '*', 'g'), '/', 1)
-  call map(frags, '"{,.??,.[^.]}*" . v:val . "*"')
-  call map(frags, 'substitute(v:val, "\\*\\+", "*", "g")')
-  return join(frags, '/')
+  " FIXME: don't check special characters.  should they be escaped?
+
+  " Split into components.
+  let comps = split(substitute(a:s, '\s\+', '*', 'g'), '/', s:TRUE)
+
+  " Make a pattern for each component.
+  call map(comps, '"{,.[^.]}*" . v:val . "*"')
+    " force searching from the root directory.
+  if a:s[0] == '/'
+    let comps[0] = ''
+  endif
+
+  " Remove unnecessary "*" to avoid recursively searching directories.
+  call map(comps, 'substitute(v:val, "\\*\\+", "*", "g")')
+
+  return join(comps, '/')
 endfunction
 
 
