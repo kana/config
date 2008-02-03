@@ -147,26 +147,6 @@ Write New Type						*ku-write-new-type*
 		The name of this type.  It consits of only lowercase
 		alphabets.
 
-	'actions'	list
-		The available actions for items of this type.
-		Each value is a dictionary with the following entries:
-
-		'key'		string
-			The key to choose this action.
-			It will be used by |<Plug>(ku-choose-action)|.
-
-		'name'		string
-			The name of this action.  Use short and brief one.
-
-		'function'	funcref
-			The function of this action.  It will be called with
-			one parameter, the selected item (as described in
-			|complete-items|).
-
-		Note that the first entry is treated as the default action for
-		items of this type.  So it will be used by
-		|<Plug>(ku-do-default)|.
-
 	'gather'	funcref
 		The function to gather items matching to the given pattern.
 		It is called with one parameter, the user input pattern.
@@ -176,6 +156,26 @@ Write New Type						*ku-write-new-type*
 		The function which will be called with no argument whenever
 		the ku window is opened.  The main purpose of this function is
 		to do some initialization for 'gather'.
+
+	'keys'		dictionary
+		The table which contains what action is associated with a key.
+		This information is used by |<Plug>(ku-choose-action)|.
+
+		Each key of an entry is a string representation of a key to
+		press.  The string "*default*" is used by
+		|<Plug>(ku-do-default)|.
+
+		Each value of an entry is a string of the name of an action.
+
+	'actions'	dictionary
+		The table which contains the available actions for items of
+		this type and their names.
+
+		Each key is a string of the name of an action.
+
+		Each value is a funcref to the function which is called with
+		one parameter, the selected item (as described in
+		|complete-items|).
 
 
 

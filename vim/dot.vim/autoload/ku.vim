@@ -274,9 +274,10 @@ function! s:do(choose_p)  "{{{2
 
   " Do the specified aciton.
   if type(item) == s:TYPE_DICTONARY
-    let ActionFunction = (a:choose_p
-      \                   ? s:choose_action_for_item(item)
-      \                   : item._ku_type.actions[0].function)
+    let ActionFunction
+      \ = (a:choose_p
+      \    ? s:choose_action_for_item(item)
+      \    : item._ku_type.actions[item._ku_type.keys['*default*']])
     call s:apply(ActionFunction, [item])
   endif
 endfunction
@@ -539,17 +540,17 @@ endfunction
 
 
 function! s:choose_action_for_item(item)  "{{{2
-  let actions = a:item._ku_type.actions
   call s:show_available_actions_message(a:item)
 
   let c = nr2char(getchar())
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
-  for action in actions
-    if c ==# action.key
-      return action.function
+  if has_key(a:item._ku_type.keys, c)
+    let name = a:item._ku_type.keys[c]
+    if has_key(a:item._ku_type.actions, name)
+      return a:item._ku_type.actions[name]
     endif
-  endfor
+  endif
 
   echo 'The key' s:string(c) 'is not associated with any action'
      \ '-- nothing happened.'
@@ -560,17 +561,21 @@ endfunction
 
 
 function! s:show_available_actions_message(item)  "{{{2
-  " FIXME: like ls(1).
-  let actions = a:item._ku_type.actions
-  let max_key_length = max(map(copy(actions), 'len(s:string(v:val.key))'))
-  let max_name_length = max(map(copy(actions), 'len(v:val.name)'))
+  let items = items(a:item._ku_type.keys)
+  call map(items, '[v:val[1], v:val[0]]')
+  call sort(items)
+  call filter(items, 'v:val[1] !=# "*default*"')
+  let keys = map(copy(items), 'v:val[1]')
+  let names = map(copy(items), 'v:val[0]')
+  let max_key_length = max(map(copy(keys), 'len(s:string(v:val))'))
+  let max_name_length = max(map(copy(names), 'len(v:val)'))
   let padding = 3
   let max_cell_length = max_key_length + 3 + max_name_length + padding
   let format = '%*s%*s - %-*s'
 
   let max_column = max([1, (&columns + padding - 1) / max_cell_length])
   let max_column = min([max_column, 4])
-  let n = len(actions)
+  let n = len(items)
   let max_row = n / max_column + (n % max_column != 0)
 
   echo printf('Available actions for %s (type %s) are:',
@@ -581,8 +586,8 @@ function! s:show_available_actions_message(item)  "{{{2
     while i < n
       echon printf(format,
           \        (i == r ? 0 : padding), '',
-          \        max_key_length, s:string(actions[i].key),
-          \        max_name_length, actions[i].name)
+          \        max_key_length, s:string(items[i][1]),
+          \        max_name_length, items[i][0])
       let i += max_row
     endwhile
   endfor
@@ -609,45 +614,50 @@ function! s:valid_type_definition_p(args)  "{{{2
     return s:FALSE
   endif
 
-  " -- The name of this type.
-  if !s:has_valid_entry(a:args, 'name', s:TYPE_STRING) | return s:FALSE | endif
+  " -- 'name'
+  if !s:has_valid_entry(a:args, 'name', s:TYPE_STRING)
+    return s:FALSE
+  endif
   if !(a:args.name =~# '^[a-z]\+$') | return s:FALSE | endif
 
-  " -- Available actions for this type of items.
-  " This is a list of definitions of actions.
-  " It must contain at least 1 definition.
-  " The 1st definition is the default action.
-  " 
-  " Each definition is a dictionary with 3 entries:
-  " 'key'       The key to choose this action in <Plug>(ku-choose-action).
-  " 'name'      The name of the action.
-  " 'function'  The function of the action.  It is called with one parameter,
-  "             the selected item (as described in |complete-items|).
-  if !s:has_valid_entry(a:args,'actions',s:TYPE_LIST) | return s:FALSE | endif
-  if !(1 <= len(a:args.actions)) | return s:FALSE | endif
-  for v in a:args.actions
-    if !s:has_valid_entry(v, 'key', s:TYPE_STRING) | return s:FALSE | endif
-    if !s:has_valid_entry(v, 'name', s:TYPE_STRING) | return s:FALSE | endif
-    if !(has_key(v, 'function') && s:callable_p(v.function))
-      return s:FALSE
-    endif
-  endfor
+  " -- 'gather'
+  if !s:has_valid_entry(a:args, 'gather', s:TYPE_FUNCTION)
+    return s:FALSE
+  endif
 
-  " -- Function to gather items which match to the given pattern.
-  " It takes 1 argument (user input pattern).
-  " It returns a list of items.  Each item is a |complete-items|.
-  if !s:has_valid_entry(a:args,'gather',s:TYPE_FUNCTION) |return s:FALSE |endif
-
-  " -- Function to initialize some information of 'gather'.
-  " It will be called with no argument.
-  " Its returning value will be discarded.
-  " This entry may be missing, if so, nothing will be happened on
-  " initialization.
+  " -- 'initialize'
   if has_key(a:args, 'initialize')
     if !(type(a:args.initialize) == s:TYPE_FUNCTION) | return s:FALSE | endif
   else
     let a:args.initialize = function('s:nop')
   endif
+
+  " -- 'keys'
+  if !s:has_valid_entry(a:args, 'keys', s:TYPE_DICTONARY)
+    return s:FALSE
+  endif
+  for k in keys(a:args.keys)
+    if !(type(k) == s:TYPE_STRING && type(a:args.keys[k]) == s:TYPE_STRING)
+      return s:FALSE
+    endif
+  endfor
+  if !has_key(a:args.keys, '*default*')
+    return s:FALSE
+  endif
+
+  " -- 'actions'
+  if !s:has_valid_entry(a:args, 'actions', s:TYPE_DICTONARY)
+    return s:FALSE
+  endif
+  for k in keys(a:args.actions)
+    if !(type(k) == s:TYPE_STRING && s:callable_p(a:args.actions[k]))
+      return s:FALSE
+    endif
+  endfor
+  if !has_key(a:args.actions, a:args.keys['*default*'])
+    return s:FALSE
+  endif
+
 
   " -- other entries --
 
@@ -759,87 +769,66 @@ endfunction
 call ku#register_type({
    \   'name': 'buffer',
    \   'gather': function('s:_type_buffer_gather'),
-   \   'actions': [
-   \     {'key': 'o',
-   \      'name': 'open',
-   \      'function': function('s:_type_buffer_action_open')},
-   \     {'key': 'n',
-   \      'name': 'split',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'), '')},
-   \     {'key': 's',
-   \      'name': 'split',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'), '')},
-   \     {'key': 'v',
-   \      'name': 'vsplit',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'vertical')},
-   \     {'key': 'h',
-   \      'name': 'split left',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'vertical leftabove')},
-   \     {'key': 'j',
-   \      'name': 'split down',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'rightbelow')},
-   \     {'key': 'k',
-   \      'name': 'split up',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'leftabove')},
-   \     {'key': 'l',
-   \      'name': 'split right',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'vertical rightbelow')},
-   \     {'key': "\<C-h>",
-   \      'name': 'split left',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'vertical leftabove')},
-   \     {'key': "\<C-j>",
-   \      'name': 'split down',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'rightbelow')},
-   \     {'key': "\<C-k>",
-   \      'name': 'split up',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'leftabove')},
-   \     {'key': "\<C-l>",
-   \      'name': 'split right',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'vertical rightbelow')},
-   \     {'key': 'H',
-   \      'name': 'split far left',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'vertical topleft')},
-   \     {'key': 'J',
-   \      'name': 'split bottom',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'botright')},
-   \     {'key': 'K',
-   \      'name': 'split top',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'topleft')},
-   \     {'key': 'L',
-   \      'name': 'split far right',
-   \      'function': s:pa(function('s:_type_buffer_action_xsplit'),
-   \                       'vertical botright')},
-   \     {'key': 'U',
-   \      'name': 'unload',
-   \      'function': s:pa(function('s:_type_buffer_action_xdelete'),
-   \                       'bunload')},
-   \     {'key': 'D',
-   \      'name': 'delete',
-   \      'function': s:pa(function('s:_type_buffer_action_xdelete'),
-   \                       'bdelete')},
-   \     {'key': 'W',
-   \      'name': 'wipeout',
-   \      'function': s:pa(function('s:_type_buffer_action_xdelete'),
-   \                       'bwipeout')},
-   \     {'key': ';',
-   \      'name': 'ex',
-   \      'function': function('s:_type_any_action_ex')},
-   \     {'key': ':',
-   \      'name': 'ex',
-   \      'function': function('s:_type_any_action_ex')},
-   \   ],
+   \   'keys': {
+   \     "*default*": 'open',
+   \     "o": 'open',
+   \     "\<C-o>": 'open',
+   \     "n": 'new',
+   \     "\<C-n>": 'new',
+   \     "s": 'split',
+   \     "\<C-s>": 'split',
+   \     "v": 'vsplit',
+   \     "\<C-v>": 'vsplit',
+   \     "h": 'split-left',
+   \     "\<C-h>": 'split-left',
+   \     "H": 'split-far-left',
+   \     "j": 'split-down',
+   \     "\<C-j>": 'split-down',
+   \     "J": 'split-bottom',
+   \     "k": 'split-up',
+   \     "\<C-k>": 'split-up',
+   \     "K": 'split-top',
+   \     "l": 'split-right',
+   \     "\<C-l>": 'split-right',
+   \     "L": 'split-far-right',
+   \     ";": 'ex',
+   \     ":": 'ex',
+   \     "U": 'unload',
+   \     "D": 'delete',
+   \     "W": 'wipeout',
+   \   },
+   \   'actions': {
+   \     'open':
+   \       function('s:_type_buffer_action_open'),
+   \     'split':
+   \       s:pa('s:_type_buffer_action_xsplit', ''),
+   \     'vsplit':
+   \       s:pa('s:_type_buffer_action_xsplit', 'vertical'),
+   \     'split-left':
+   \       s:pa('s:_type_buffer_action_xsplit', 'vertical leftabove'),
+   \     'split-far-left':
+   \       s:pa('s:_type_buffer_action_xsplit', 'vertical topleft'),
+   \     'split-down':
+   \       s:pa('s:_type_buffer_action_xsplit', 'rightbelow'),
+   \     'split-bottom':
+   \       s:pa('s:_type_buffer_action_xsplit', 'botright'),
+   \     'split-up':
+   \       s:pa('s:_type_buffer_action_xsplit', 'leftabove'),
+   \     'split-top':
+   \       s:pa('s:_type_buffer_action_xsplit', 'topleft'),
+   \     'split-right':
+   \       s:pa('s:_type_buffer_action_xsplit', 'vertical rightbelow'),
+   \     'split-far-right':
+   \       s:pa('s:_type_buffer_action_xsplit', 'vertical botright'),
+   \     'ex':
+   \       function('s:_type_any_action_ex'),
+   \     'unload':
+   \       s:pa('s:_type_buffer_action_xdelete', 'bunload'),
+   \     'delete':
+   \       s:pa('s:_type_buffer_action_xdelete', 'bdelete'),
+   \     'wipeout':
+   \       s:pa('s:_type_buffer_action_xdelete', 'bwipeout'),
+   \   },
    \ })
 
 
@@ -900,75 +889,57 @@ call ku#register_type({
    \   'name': 'file',
    \   'initialize': function('s:_type_file_initialize'),
    \   'gather': function('s:_type_file_gather'),
-   \   'actions': [
-   \     {'key': 'o',
-   \      'name': 'open',
-   \      'function': function('s:_type_file_action_open')},
-   \     {'key': 'n',
-   \      'name': 'split',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'), '')},
-   \     {'key': 's',
-   \      'name': 'split',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'), '')},
-   \     {'key': 'v',
-   \      'name': 'vsplit',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'vertical')},
-   \     {'key': 'h',
-   \      'name': 'split left',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'vertical leftabove')},
-   \     {'key': 'j',
-   \      'name': 'split down',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'rightbelow')},
-   \     {'key': 'k',
-   \      'name': 'split up',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'leftabove')},
-   \     {'key': 'l',
-   \      'name': 'split right',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'vertical rightbelow')},
-   \     {'key': "\<C-h>",
-   \      'name': 'split left',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'vertical leftabove')},
-   \     {'key': "\<C-j>",
-   \      'name': 'split down',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'rightbelow')},
-   \     {'key': "\<C-k>",
-   \      'name': 'split up',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'leftabove')},
-   \     {'key': "\<C-l>",
-   \      'name': 'split right',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'vertical rightbelow')},
-   \     {'key': 'H',
-   \      'name': 'split far left',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'vertical topleft')},
-   \     {'key': 'J',
-   \      'name': 'split bottom',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'botright')},
-   \     {'key': 'K',
-   \      'name': 'split top',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'topleft')},
-   \     {'key': 'L',
-   \      'name': 'split far right',
-   \      'function': s:pa(function('s:_type_file_action_xsplit'),
-   \                       'vertical botright')},
-   \     {'key': ';',
-   \      'name': 'ex',
-   \      'function': function('s:_type_any_action_ex')},
-   \     {'key': ':',
-   \      'name': 'ex',
-   \      'function': function('s:_type_any_action_ex')},
-   \   ],
+   \   'keys': {
+   \     "*default*": 'open',
+   \     "o": 'open',
+   \     "\<C-o>": 'open',
+   \     "n": 'new',
+   \     "\<C-n>": 'new',
+   \     "s": 'split',
+   \     "\<C-s>": 'split',
+   \     "v": 'vsplit',
+   \     "\<C-v>": 'vsplit',
+   \     "h": 'split-left',
+   \     "\<C-h>": 'split-left',
+   \     "H": 'split-far-left',
+   \     "j": 'split-down',
+   \     "\<C-j>": 'split-down',
+   \     "J": 'split-bottom',
+   \     "k": 'split-up',
+   \     "\<C-k>": 'split-up',
+   \     "K": 'split-top',
+   \     "l": 'split-right',
+   \     "\<C-l>": 'split-right',
+   \     "L": 'split-far-right',
+   \     ";": 'ex',
+   \     ":": 'ex',
+   \   },
+   \   'actions': {
+   \     'open':
+   \       function('s:_type_file_action_open'),
+   \     'split':
+   \       s:pa('s:_type_file_action_xsplit', ''),
+   \     'vsplit':
+   \       s:pa('s:_type_file_action_xsplit', 'vertical'),
+   \     'split-left':
+   \       s:pa('s:_type_file_action_xsplit', 'vertical leftabove'),
+   \     'split-far-left':
+   \       s:pa('s:_type_file_action_xsplit', 'vertical topleft'),
+   \     'split-down':
+   \       s:pa('s:_type_file_action_xsplit', 'rightbelow'),
+   \     'split-bottom':
+   \       s:pa('s:_type_file_action_xsplit', 'botright'),
+   \     'split-up':
+   \       s:pa('s:_type_file_action_xsplit', 'leftabove'),
+   \     'split-top':
+   \       s:pa('s:_type_file_action_xsplit', 'topleft'),
+   \     'split-right':
+   \       s:pa('s:_type_file_action_xsplit', 'vertical rightbelow'),
+   \     'split-far-right':
+   \       s:pa('s:_type_file_action_xsplit', 'vertical botright'),
+   \     'ex':
+   \       function('s:_type_any_action_ex'),
+   \   },
    \ })
 
 
