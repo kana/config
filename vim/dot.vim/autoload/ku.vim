@@ -231,7 +231,7 @@ function! s:complete(findstart, base)  "{{{2
           \     (match(new_item.word, g:ku_junk_item_pattern) < 0 ? 0 : 1),
           \     (g:ku_sort_by_type_first_p ? type_name : 0),
           \     s:match(new_item.word, s:make_asis_regexp(pattern)),
-          \     s:match(new_item.word, s:make_skip_regexp(pattern)),
+          \     match(new_item.word, s:make_skip_regexp(pattern)),
           \     new_item.word,
           \     (!g:ku_sort_by_type_first_p ? type_name : 0),
           \   ]
@@ -239,7 +239,7 @@ function! s:complete(findstart, base)  "{{{2
       call extend(s:last_items, new_items)
     endfor
 
-    call filter(s:last_items, '0 <= v:val._ku_sort_priority[2]')
+    call filter(s:last_items, '0 <= v:val._ku_sort_priority[3]')
     call sort(s:last_items, function('s:compare_items'))
     return s:last_items
   endif
