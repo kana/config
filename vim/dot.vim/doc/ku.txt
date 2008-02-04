@@ -118,9 +118,9 @@ TYPES							*ku-types*
 
 Types are kinds of items.  The following types are built-in.
 
-Name		Actions ~
-buffer		Open the specified buffer with |:buffer| or |:sbuffer|.
-file		Open the specified file with |:edit| or |:new|.
+Type Name	Remarks ~
+buffer		Only 'buflisted' buffers can be selected.
+file		...
 
 
 
