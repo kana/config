@@ -654,9 +654,11 @@ function! s:valid_type_definition_p(args)  "{{{2
       return s:FALSE
     endif
   endfor
-  if !has_key(a:args.actions, a:args.keys['*default*'])
-    return s:FALSE
-  endif
+  for n in values(a:args.keys)
+    if !has_key(a:args.actions, n)
+      return s:FALSE
+    endif
+  endfor
 
 
   " -- other entries --
