@@ -743,6 +743,19 @@ function! s:_type_any_action_ex(item)
 endfunction
 
 
+function! s:_type_any_action_xcd(cd_command, item)
+  " FIXME: escape special characters.
+  if isdirectory(a:item.word)
+    execute a:cd_command a:item.word
+  elseif filereadable(a:item.word)
+    execute a:cd_command fnamemodify(a:item.word, ':h')
+  else
+    echo printf('Item %s (type: %s) is not a file or directory.',
+       \        a:item.word, a:item._ku_type.name)
+  endif
+endfunction
+
+
 
 
 " buffer  "{{{2
@@ -810,6 +823,8 @@ call ku#register_type({
    \     "L": 'split-far-right',
    \     ";": 'ex',
    \     ":": 'ex',
+   \     "/": 'cd',
+   \     "?": 'cd-local',
    \     "U": 'unload',
    \     "D": 'delete',
    \     "W": 'wipeout',
@@ -839,6 +854,10 @@ call ku#register_type({
    \       s:pa('s:_type_buffer_action_xsplit', 'vertical botright'),
    \     'ex':
    \       function('s:_type_any_action_ex'),
+   \     'cd':
+   \       s:pa('s:_type_any_action_xcd', 'cd'),
+   \     'cd-local':
+   \       s:pa('s:_type_any_action_xcd', 'lcd'),
    \     'unload':
    \       s:pa('s:_type_buffer_action_xdelete', 'bunload'),
    \     'delete':
@@ -930,6 +949,8 @@ call ku#register_type({
    \     "L": 'split-far-right',
    \     ";": 'ex',
    \     ":": 'ex',
+   \     "/": 'cd',
+   \     "?": 'cd-local',
    \   },
    \   'actions': {
    \     'open':
@@ -956,18 +977,12 @@ call ku#register_type({
    \       s:pa('s:_type_file_action_xsplit', 'vertical botright'),
    \     'ex':
    \       function('s:_type_any_action_ex'),
+   \     'cd':
+   \       s:pa('s:_type_any_action_xcd', 'cd'),
+   \     'cd-local':
+   \       s:pa('s:_type_any_action_xcd', 'lcd'),
    \   },
    \ })
-
-
-
-
-
-
-
-
-" directory  "{{{2
-" FIXME: not written yet -- integrate into type file?
 
 
 

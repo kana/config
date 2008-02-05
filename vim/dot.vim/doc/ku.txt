@@ -129,7 +129,23 @@ Types are kinds of items.  The following types are built-in.
 
 Type Name	Remarks ~
 buffer		Only 'buflisted' buffers can be selected.
-file		...
+file		Directories are also included.
+
+
+Action Name	Remarks ~
+
+cd		Change the current working directory as same as the given
+		item.  If the item is a directory, set to the directory.  If
+		the item is a file, set to the directory which contains the
+		item.  Otherwise, nothing happens.
+
+cd-local	Same as "cd", but use |:lcd|.
+
+ex		Enter to Command-line mode.  The item is automatically
+		inserted and the cursor is placed at the beginning of the
+		command-line.
+
+other actions	...
 
 
 
