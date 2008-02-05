@@ -86,6 +86,10 @@ ku#unregister_type({name})				*ku#unregister_type()*
 
 			Note that any built-in type can be unregistered.
 
+ku#custom_action({type-name}, {action-name}, {funcref})	*ku#custom_action()*
+			Define {funref} as a new action named {action-name}
+			for items of the type {type-name}.
+
 ku#custom_key({type-name}, {key}, {new-action-name})	*ku#custom_key()*
 			Define {key} to do the action {new-action-name} for
 			items of the type {type-name} in

@@ -182,6 +182,18 @@ endfunction
 
 
 
+function! ku#custom_action(type_name, action_name, new_action_function)  "{{{2
+  if !s:valid_type_name_p(a:type_name) || !s:callable_p(a:new_action_function)
+    return s:FALSE
+  endif
+
+  let s:types[a:type_name].actions[a:action_name] = a:new_action_function
+  return s:TRUE
+endfunction
+
+
+
+
 function! ku#bang()  "{{{2
   return s:bang
 endfunction
