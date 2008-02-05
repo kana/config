@@ -871,9 +871,6 @@ call ku#register_type({
 
 
 " file  "{{{2
-" FIXME: can't list '..'.
-" FIXME: unexpected propmt on some environments when glob() is called.
-"        it happens when the pattern contains '{foo,bar}'.
 " FIXME: smart caching.
 function! s:_type_file_initialize()
   let s:_type_file_cache = {}
@@ -881,34 +878,29 @@ function! s:_type_file_initialize()
 endfunction
 
 function! s:_type_file_gather(pattern)
-  let c = len(split(a:pattern, '/', s:TRUE)) - 1
-  if s:_type_file_frags_count != c
-    let s:_type_file_frags_count = c
-    let s:_type_file_cache[c]
-      \ = map(split(glob(s:make_glob_pattern(a:pattern)), '\n'),
-      \       "{'word': v:val, 'menu': 'file', 'dup': s:TRUE}")
-  endif
-  return s:_type_file_cache[c]
-endfunction
-
-function! s:make_glob_pattern(s)
   " FIXME: path separetor assumption.
-  " FIXME: don't check special characters.  should they be escaped?
-
-  " Split into components.
-  let comps = split(substitute(a:s, '\s\+', '*', 'g'), '/', s:TRUE)
-
-  " Make a pattern for each component.
-  call map(comps, '"{,.[^.]}*" . v:val . "*"')
-    " force searching from the root directory.
-  if a:s[0] == '/'
-    let comps[0] = ''
+  " All components but the last one in a:pattern are treated as-is.
+  let last_slash = strridx(a:pattern, '/')
+  if 0 <= last_slash
+    let base_directory = a:pattern[:last_slash]
+    let last_component = a:pattern[last_slash+1:]
+    let cache_key = base_directory
+  else
+    let base_directory = ''
+    let last_component = a:pattern
+    let cache_key = ' '  " can't use empty string as a key of dictionaries.
   endif
 
-  " Remove unnecessary "*" to avoid recursively searching directories.
-  call map(comps, 'substitute(v:val, "\\*\\+", "*", "g")')
-
-  return join(comps, '/')
+  if !has_key(s:_type_file_cache, cache_key)
+    let items = []
+    for f in ['*', '.[^.]*']
+      for item in split(glob(base_directory . f), '\n')
+        call add(items, {'word': item, 'menu': 'file', 'dup': s:TRUE})
+      endfor
+    endfor
+    let s:_type_file_cache[cache_key] = items
+  endif
+  return s:_type_file_cache[cache_key]
 endfunction
 
 
