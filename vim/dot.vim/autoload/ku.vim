@@ -598,12 +598,7 @@ endfunction
 
 
 function! s:valid_type_name_p(name)  "{{{2
-  for type_name in keys(s:types)
-    if a:name ==# type_name
-      return s:TRUE
-    endif
-  endfor
-  return s:FALSE
+  return has_key(s:types, a:name)
 endfunction
 
 
