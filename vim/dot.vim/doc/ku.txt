@@ -81,10 +81,15 @@ ku#register_type({typedef})				*ku#register_type()*
 
 			Note that any built-in type can be overridden.
 
-ku#unregister_type({name})
+ku#unregister_type({name})				*ku#unregister_type()*
 			Unregister the type {name}.
 
 			Note that any built-in type can be unregistered.
+
+ku#custom_key({type-name}, {key}, {new-action-name})	*ku#custom_key()*
+			Define {key} to do the action {new-action-name} for
+			items of the type {type-name} in
+			|<Plug>(ku-choose-action)|.
 
 
 

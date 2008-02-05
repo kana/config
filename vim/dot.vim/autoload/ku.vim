@@ -174,6 +174,20 @@ endfunction
 
 
 
+function! ku#custom_key(type_name, key, new_action_name)  "{{{2
+  if !s:valid_type_name_p(a:type_name)
+   \ || !has_key(s:types[a:type_name].actions, a:new_action_name)
+    return ''
+  endif
+
+  let old_action_name = get(s:types[a:type_name].keys, a:key, '')
+  let s:types[(a:type_name)].keys[(a:key)] = a:new_action_name
+  return old_action_name
+endfunction
+
+
+
+
 function! ku#bang()  "{{{2
   return s:bang
 endfunction
