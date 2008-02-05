@@ -66,6 +66,9 @@ let s:completeopt = ''
 let s:ignorecase = ''
 let s:winrestcmd = ''
 
+" Flag to avoid infinite loop by auto-directory-insertion.
+let s:auto_directory_insertion_done_p = s:FALSE
+
 
 
 
@@ -320,6 +323,7 @@ endfunction
 
 function! s:on_InsertEnter()  "{{{2
   let s:last_col = s:INVALID_COL
+  let s:auto_directory_insertion_done_p = s:FALSE
   return s:on_CursorMovedI()
 endfunction
 
@@ -336,15 +340,32 @@ function! s:on_CursorMovedI()  "{{{2
   call setline(1, printf('type=%s', s:preferred_type))
 
   " The order of these conditions are important.
-  if !s:contains_the_prompt_p(getline('.'))
+  let line = getline('.')
+  if !s:contains_the_prompt_p(line)
     let keys = repeat("\<Right>", len(s:PROMPT))
     call s:complete_the_prompt()
   elseif col('.') <= len(s:PROMPT)
     " The cursor is inside the prompt.
     let keys = repeat("\<Right>", len(s:PROMPT) - col('.') + 1)
-  elseif len(getline('.')) < col('.') && col('.') != s:last_col
+  elseif len(line) < col('.') && col('.') != s:last_col
     " New character is inserted.
-    let keys = s:KEYS_TO_START_COMPLETION
+      " FIXME: path separator assumption
+    if (!s:auto_directory_insertion_done_p)
+     \ && line[-1:] == '/'
+     \ && len(s:PROMPT) + 2 <= len(line)
+      let text = s:text_for_auto_completion(line,s:complete(s:FALSE,line[:-2]))
+      if text != ''
+        call setline('.', text)
+        let keys = "\<End>/"
+        let s:auto_directory_insertion_done_p = s:TRUE
+      else
+        let keys = s:KEYS_TO_START_COMPLETION
+        let s:auto_directory_insertion_done_p = s:FALSE
+      endif
+    else
+      let keys = s:KEYS_TO_START_COMPLETION
+        let s:auto_directory_insertion_done_p = s:FALSE
+    endif
   else
     let keys = ''
   endif
@@ -516,6 +537,25 @@ endfunction
 
 function! s:contains_the_prompt_p(s)  "{{{2
   return len(s:PROMPT) <= len(a:s) && a:s[:len(s:PROMPT) - 1] ==# s:PROMPT
+endfunction
+
+
+
+
+function! s:text_for_auto_completion(line, items)  "{{{2
+  " Note that a:line always ends with '/', because this function is always
+  " called by typing '/'.
+  " FIXME: Assumption: User input matches to the head of items.  Otherwise,
+  "        the behavior is unexpected.
+  " FIXME: path separator assumption.
+  let line_components = split(a:line[len(s:PROMPT):], '/', s:TRUE)
+  for item in a:items
+    let item_components = split(item.word, '/', s:TRUE)
+    if len(line_components) < len(item_components) || isdirectory(item.word)
+      return join(item_components[:len(line_components) - 2], '/')
+    endif
+  endfor
+  return ''
 endfunction
 
 

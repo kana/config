@@ -28,6 +28,11 @@ To start selection, use |ku-commands|.  The commands will open a new window
 (|ins-completion-menu|) will be automatically appeared and updated to show the
 proper candidates for the input pattern.
 
+						 *ku-auto-directory-insertion*
+Whenever "/" is typed, the name of an appropriate directory will be
+automatically inserted.  This feature is derived from bluewind
+<http://cspace.s2.xrea.com/software/bluewind/>.
+
 							*ku-window* *ku-buffer*
 ku window		The window which is opened by |ku-commands|.
 			This window will be automatically closed when:
