@@ -1167,8 +1167,8 @@ nnoremap gc  `[v`]
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
-vnoremap I  :<C-u>call <SID>ForceBlockwiseVisual('I')<Return>
-vnoremap A  :<C-u>call <SID>ForceBlockwiseVisual('A')<Return>
+vnoremap <silent> I  :<C-u>call <SID>ForceBlockwiseVisual('I')<Return>
+vnoremap <silent> A  :<C-u>call <SID>ForceBlockwiseVisual('A')<Return>
 
 function! s:ForceBlockwiseVisual(next_key)
   if visualmode() ==# 'V'
@@ -1184,8 +1184,8 @@ endfunction
 " The default [count] is 0, so no blank line is inserted.
 " (I prefer this behavior to the default behavior of [count]o/O
 "  -- repeat the next insertion [count] times.)
-nnoremap o  :<C-u>call <SID>StartInsertModeWithBlankLines('o')<Return>
-nnoremap O  :<C-u>call <SID>StartInsertModeWithBlankLines('O')<Return>
+nnoremap <silent> o  :<C-u>call <SID>StartInsertModeWithBlankLines('o')<Return>
+nnoremap <silent> O  :<C-u>call <SID>StartInsertModeWithBlankLines('O')<Return>
 
 function! s:StartInsertModeWithBlankLines(command)
   " Do "[count]o<Esc>o" and so forth.
