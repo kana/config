@@ -545,15 +545,32 @@ endfunction
 function! s:text_for_auto_completion(line, items)  "{{{2
   " Note that a:line always ends with '/', because this function is always
   " called by typing '/'.
-  " FIXME: Assumption: User input matches to the head of items.  Otherwise,
-  "        the behavior is unexpected.
   " FIXME: path separator assumption.
   let line_components = split(a:line[len(s:PROMPT):], '/', s:TRUE)
   for item in a:items
     let item_components = split(item.word, '/', s:TRUE)
-    if len(line_components) < len(item_components) || isdirectory(item.word)
-      return join(item_components[:len(line_components) - 2], '/')
+
+    if len(line_components) <= len(item_components)
+      " Discard items which don't match the line from the head of them.
+      " Note that line_components[-1] is always '' and line_components[-2] is
+      " almost imperfect, so that they aren't used.
+      let i = 0
+      for i in range(len(line_components) - 2)
+        if line_components[i] != item_components[i]
+          break
+        endif
+      endfor
+      if line_components[i] != item_components[i]
+        continue
+      endif
+      " OK
+    elseif isdirectory(item.word)  " for type file.
+      " OK
+    else
+      continue
     endif
+
+    return join(item_components[:len(line_components) - 2], '/')
   endfor
   return ''
 endfunction
