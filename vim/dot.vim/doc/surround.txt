@@ -41,7 +41,7 @@ easiest to understand with some examples:
   (123+4*56)/2              ds)         123+456/2
   <div>Yo!*</div>           dst         Yo!
 
-Change surroundings is *cs*.  It takes two arguments, a target like with
+Change surroundings is *cs* .  It takes two arguments, a target like with
 |ds|, and a replacement.  Details about the second argument can be found
 below in |surround-replacements|.  Once again, examples are in order.
 
@@ -176,9 +176,9 @@ replacements.
 <
 Advanced, experimental, and subject to change:  One can also prompt for
 replacement text.  The syntax for this is to surround the replacement in pairs
-of low numbered controller characters.  If this sounds confusing, that's
-because it is (but it makes the parsing easy).  Consider the following example
-for a LaTeX environment on the "l" replacement.
+of low numbered control characters.  If this sounds confusing, that's because
+it is (but it makes the parsing easy).  Consider the following example for a
+LaTeX environment on the "l" replacement.
 >
   let g:surround_108 = "\\begin{\1environment: \1}\r\\end{\1\1}"
 <
@@ -250,21 +250,19 @@ end of the line.  Please report any repeatable instances of this.
 
 Do we need to use |inputsave()|/|inputrestore()| with the tag replacement?
 
-Customization isn't very flexible.  Need a system that allows for prompting,
-like with HTML tags and LaTeX environments.  (There is an experimental
-interface for this now).
-
 Indenting is handled haphazardly.  Need to decide the most appropriate
 behavior and implement it.  Right now one can do :let b:surround_indent = 1
 (or the global equivalent) to enable automatic re-indenting by Vim via |=|;
 should this be the default?
 
-It would be nice if |.| would work to repeat an operation.
-
 
 
 
 CHANGELOG					*surround-changelog*
+
+2008-02-09T23:23:55+09:00	kana	<http://nicht.s8.xrea.com/>
+
+	- Merge the changes between version 1.26 and version 1.33.
 
 2007-10-01T22:46:14+09:00	kana	<http://nicht.s8.xrea.com/>
 
