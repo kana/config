@@ -66,9 +66,9 @@ endfunction
 function! s:NewIssue()
   let [max_id, sum] = s:GetIDInfo()
   let new_id = (max_id + 1)
-  normal! ggzjk
-  let current_lineno = line('.')
-  call append(current_lineno, '#'.new_id.' ')
+  normal! ggzv
+  call search('\V; ++ NEW ISSUES ++', 'cW')
+  call append(line('.'), '#'.new_id.' ')
   normal! j
   startinsert!
 endfunction
