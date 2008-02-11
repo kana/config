@@ -183,9 +183,15 @@ Write New Type						*ku-write-new-type*
 		It must return the list of |complete-items|.
 
 	'initialize'	funcref		(optional)
-		The function which will be called with no argument whenever
-		the ku window is opened.  The main purpose of this function is
-		to do some initialization for 'gather'.
+		The function which will be called whenever the ku window is
+		opened.  It's called with 1 argument which indicates the
+		timing of calling.  The possible values are:
+
+		'before-open'	before opening the |ku-buffer|
+		'after-open'	after opening the |ku-buffer|
+
+		The main purpose of this function is to do some initialization
+		for 'gather'.
 
 	'keys'		dictionary
 		The table which contains what action is associated with a key.

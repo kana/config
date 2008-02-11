@@ -108,6 +108,11 @@ function! ku#start(bang, type) abort  "{{{2
   set ignorecase
   let s:winrestcmd = winrestcmd()
 
+  " Do some initialization for each type -- before opening the ku buffer.
+  for type_name in keys(s:types)
+    call s:types[type_name].initialize('before-open')
+  endfor
+
   " Open a new window and switch to the ku buffer.
   if !s:ku_buffer_exists_p()
     topleft new
@@ -118,9 +123,9 @@ function! ku#start(bang, type) abort  "{{{2
   endif
   2 wincmd _
 
-  " Do some initialization for each type.
+  " Do some initialization for each type -- after opening the ku buffer.
   for type_name in keys(s:types)
-    call s:types[type_name].initialize()
+    call s:types[type_name].initialize('after-open')
   endfor
 
   " Start Insert mode.
@@ -929,9 +934,11 @@ call ku#register_type({
 
 " file  "{{{2
 " FIXME: smart caching.
-function! s:_type_file_initialize()
-  let s:_type_file_cache = {}
-  let s:_type_file_frags_count = -1
+function! s:_type_file_initialize(timing)
+  if a:timing ==# 'after-open'  " 'before-open' may be used.  no difference.
+    let s:_type_file_cache = {}
+    let s:_type_file_frags_count = -1
+  endif
 endfunction
 
 function! s:_type_file_gather(pattern)
