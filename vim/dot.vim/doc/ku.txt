@@ -63,8 +63,10 @@ ku#start({bang}, [{preferred-type}])			*ku#start()*
 			Function version of |:Ku|.
 
 ku#default_key_mappings()			   *ku#default_key_mappings()*
-			Define the following key mappings for the ku window
-			to the current buffer.
+			Define the following key mappings which are local to
+			the current buffer.  If one of the following {lhs}s is
+			already mapped to something, it will be overridden.
+			Be careful about when to call this function.
 
 			Modes	{lhs}		{rhs} ~
 			ni	<C-c>		<Plug>(ku-cancel)
@@ -167,7 +169,9 @@ Initialization						*ku-initialization*
 		autocmd User KuBufferInitialize  call MyOwnInitialization()
 <
 	If there is no autocommand for |KuBufferInitialize|, Ku will call
-	|ku#default_key_mappings()|.
+	|ku#default_key_mappings()| to define some useful key mappings.
+	Otherwise, no key mapping will be defined.  So you have to call it
+	explicitly if you use |KuBufferInitialize|.
 
 Write New Type						*ku-write-new-type*
 	To use new type, call |ku#register_type()| with its {typedef}.
