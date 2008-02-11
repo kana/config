@@ -1,5 +1,5 @@
 " vcsi.vim - Version Control System Interface
-" Version: 0.0.2
+" Version: 0.0.3
 " Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$
@@ -195,8 +195,13 @@ endfunction
 
 
 function! s:execute_vcs_command(args)  "{{{2
+  let autowrite = &autowrite
+  set noautowrite  " to avoid E676 for vcsi#commit_finish().
+
     " FIXME: error cases.
   execute '!' s:make_vcs_command_script(a:args)
+
+  let &autowrite = autowrite
   return v:shell_error == 0
 endfunction
 

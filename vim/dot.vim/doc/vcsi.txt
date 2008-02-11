@@ -1,6 +1,6 @@
 *vcsi.txt*	Version Control System Interface
 
-Version 0.0.2
+Version 0.0.3
 Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
@@ -210,6 +210,9 @@ BUGS							*vcsi-bugs*
 
 ==============================================================================
 CHANGELOG						*vcsi-changelog*
+
+0.0.3	2008-02-11T23:38:25+09:00
+	- Fix the bug that |E676| happens when a commit log buffer is written.
 
 0.0.2	2008-01-26T02:38:14+09:00
 	- Improve the speed to switch between buffers.
