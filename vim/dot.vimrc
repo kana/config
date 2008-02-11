@@ -733,6 +733,10 @@ function! s:UsualDays()
 endfunction
 
 
+" :source with echo.
+command! -bar -nargs=1 Source  echo 'Sourcing ...' <args> | source <args>
+
+
 
 
 
@@ -1036,8 +1040,8 @@ nnoremap <silent> [Space]q   :<C-u>help quickref<Return>
 nnoremap <silent> [Space]r   :<C-u>registers<Return>
 
 nnoremap          [Space]s   <Nop>
-nnoremap <silent> [Space]s.  :<C-u>source $MYVIMRC<Return>
-nnoremap <silent> [Space]ss  :<C-u>source %<Return>
+nnoremap <silent> [Space]s.  :<C-u>Source $MYVIMRC<Return>
+nnoremap <silent> [Space]ss  :<C-u>Source %<Return>
 
 vnoremap <silent> [Space]s   :sort<Return>
 
