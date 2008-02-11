@@ -959,13 +959,12 @@ call ku#register_type({
 
 
 " file  "{{{2
-" FIXME: smart caching.
-function! s:_type_file_initialize(timing)
-  if a:timing ==# 'after-open'  " 'before-open' may be used.  no difference.
-    let s:_type_file_cache = {}
-    let s:_type_file_frags_count = -1
-  endif
-endfunction
+" Note: Timestamps of directories will be updated when files/directories are
+" created or removed.
+  " key = full path of the directory
+  " value = [time stamp of the directory, list of items in the directory]
+  " FIXME: how about when the cache becames too large?
+let s:_type_file_cache = {}
 
 function! s:_type_file_gather(pattern)
   " FIXME: path separetor assumption.
@@ -974,23 +973,24 @@ function! s:_type_file_gather(pattern)
   if 0 <= last_slash
     let base_directory = a:pattern[:last_slash]
     let last_component = a:pattern[last_slash+1:]
-    let cache_key = base_directory
+    let cache_key = fnamemodify(base_directory, ':p')
   else
     let base_directory = ''
     let last_component = a:pattern
-    let cache_key = ' '  " can't use empty string as a key of dictionaries.
+    let cache_key = fnamemodify('.', ':p')
   endif
 
   if !has_key(s:_type_file_cache, cache_key)
+   \ || getftime(cache_key) != s:_type_file_cache[cache_key][0]
     let items = []
     for f in ['*', '.[^.]*']
       for item in split(glob(base_directory . f), '\n')
         call add(items, {'word': item, 'menu': 'file', 'dup': s:TRUE})
       endfor
     endfor
-    let s:_type_file_cache[cache_key] = items
+    let s:_type_file_cache[cache_key] = [getftime(cache_key), items]
   endif
-  return s:_type_file_cache[cache_key]
+  return s:_type_file_cache[cache_key][1]
 endfunction
 
 
@@ -1005,7 +1005,6 @@ endfunction
 
 call ku#register_type({
    \   'name': 'file',
-   \   'initialize': function('s:_type_file_initialize'),
    \   'gather': function('s:_type_file_gather'),
    \   'keys': {
    \     "*default*": 'open',
