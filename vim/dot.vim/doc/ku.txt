@@ -161,6 +161,11 @@ other actions	...
 CUSTOMIZING						*ku-customizing*
 
 Initialization						*ku-initialization*
+							*KuLoaded*
+	Most part of Ku isn't loaded until one of its functions or commands is
+	actually used.  After all part of Ku is loaded, "User KuLoaded" event
+	will be published.  Use this event to delay applying user's settings
+	until all part of Ku is loaded.
 							*KuBufferInitialize*
 	Ku has its own buffer to do its work.  Whenever the buffer is created,
 	"User KuBufferInitialize" event will be published.  Use this event to

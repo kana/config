@@ -3,7 +3,6 @@
 " Copyright: Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$  "{{{1
-" FIXME: auto-complete 1 component for each typing '/' (like bluewind).
 " FIXME: s:do(): Force action on unmatched pattern.
 " FIXME: more smart sorting:
 "        - considering last component.
@@ -1047,5 +1046,16 @@ call ku#register_type({
 
 
 
-" __END__  "{{{1
+" Fin.  "{{{1
+
+silent doautocmd User KuLoaded
+
+
+
+
+
+
+
+
+" __END__
 " vim: foldmethod=marker
