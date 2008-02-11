@@ -97,6 +97,12 @@ ku#custom_action({type-name}, {action-name}, {funcref})	*ku#custom_action()*
 			Define {funref} as a new action named {action-name}
 			for items of the type {type-name}.
 
+			{type-name} may be '*fallback*', if so, the given
+			action is defined as a fallback action for all types.
+			This means that the fallback action {action-name} will
+			be used if the action {action-name} is not defined for
+			a type,
+
 ku#custom_key({type-name}, {key}, {new-action-name})	*ku#custom_key()*
 			Define {key} to do the action {new-action-name} for
 			items of the type {type-name} in

@@ -55,6 +55,11 @@ if !exists('s:types')
   let s:types = {}
 endif
 
+" Fallback actions for all types.
+if !exists('s:fallback_actions')
+  let s:fallback_actions = {}
+endif
+
 " The prompt for user input.
 " This is necessary to publish CursorMovedI event for each typing.
 " Note that the length should be 1 to avoid some problems.
@@ -177,7 +182,7 @@ endfunction
 
 function! ku#custom_key(type_name, key, new_action_name)  "{{{2
   if !s:valid_type_name_p(a:type_name)
-   \ || !has_key(s:types[a:type_name].actions, a:new_action_name)
+   \ || !s:type_has_action_p(s:types[a:type_name], a:new_action_name)
     return ''
   endif
 
@@ -190,11 +195,17 @@ endfunction
 
 
 function! ku#custom_action(type_name, action_name, new_action_function)  "{{{2
-  if !s:valid_type_name_p(a:type_name) || !s:callable_p(a:new_action_function)
+  if !s:callable_p(a:new_action_function)
     return s:FALSE
   endif
 
-  let s:types[a:type_name].actions[a:action_name] = a:new_action_function
+  if a:type_name ==# '*fallback*'
+    let s:fallback_actions[a:action_name] = a:new_action_function
+  elseif s:valid_type_name_p(a:type_name)
+    let s:types[a:type_name].actions[a:action_name] = a:new_action_function
+  else
+    return s:TRUE
+  endif
   return s:TRUE
 endfunction
 
@@ -304,7 +315,7 @@ function! s:do(choose_p)  "{{{2
     let ActionFunction
       \ = (a:choose_p
       \    ? s:choose_action_for_item(item)
-      \    : item._ku_type.actions[item._ku_type.keys['*default*']])
+      \    : s:type_action(item._ku_type, item._ku_type.keys['*default*']))
     call s:apply(ActionFunction, [item])
   endif
 endfunction
@@ -627,9 +638,9 @@ function! s:choose_action_for_item(item)  "{{{2
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
   if has_key(a:item._ku_type.keys, c)
-    let name = a:item._ku_type.keys[c]
-    if has_key(a:item._ku_type.actions, name)
-      return a:item._ku_type.actions[name]
+    let Action = s:type_action(a:item._ku_type, a:item._ku_type.keys[c])
+    if s:callable_p(Action)
+      return Action
     endif
   endif
 
@@ -731,7 +742,7 @@ function! s:valid_type_definition_p(args)  "{{{2
     endif
   endfor
   for n in values(a:args.keys)
-    if !has_key(a:args.actions, n)
+    if !s:type_has_action_p(a:args, n)
       return s:FALSE
     endif
   endfor
@@ -740,6 +751,24 @@ function! s:valid_type_definition_p(args)  "{{{2
   " -- other entries --
 
   return s:TRUE
+endfunction
+
+
+
+
+function! s:type_has_action_p(type, action_name)  "{{{2
+  return s:callable_p(s:type_action(a:type, a:action_name))
+endfunction
+
+
+
+
+function! s:type_action(type, action_name)  "{{{2
+  let Action = get(a:type.actions, a:action_name, 0)
+  if s:callable_p(Action)
+    return Action
+  endif
+  return get(s:fallback_actions, a:action_name, 0)
 endfunction
 
 
@@ -802,6 +831,7 @@ function! s:_type_any_action_ex(item)
   call feedkeys(a:item.word, 'n')
   call feedkeys("\<C-b>", 'n')
 endfunction
+call ku#custom_action('*fallback*', 'ex', function('s:_type_any_action_ex'))
 
 
 function! s:_type_any_action_xcd(cd_command, item)
@@ -815,6 +845,9 @@ function! s:_type_any_action_xcd(cd_command, item)
        \        a:item.word, a:item._ku_type.name)
   endif
 endfunction
+call ku#custom_action('*fallback*', 'cd', s:pa('s:_type_any_action_xcd', 'cd'))
+call ku#custom_action('*fallback*', 'cd-local',
+   \                  s:pa('s:_type_any_action_xcd', 'lcd'))
 
 
 
@@ -913,12 +946,6 @@ call ku#register_type({
    \       s:pa('s:_type_buffer_action_xsplit', 'vertical rightbelow'),
    \     'split-far-right':
    \       s:pa('s:_type_buffer_action_xsplit', 'vertical botright'),
-   \     'ex':
-   \       function('s:_type_any_action_ex'),
-   \     'cd':
-   \       s:pa('s:_type_any_action_xcd', 'cd'),
-   \     'cd-local':
-   \       s:pa('s:_type_any_action_xcd', 'lcd'),
    \     'unload':
    \       s:pa('s:_type_buffer_action_xdelete', 'bunload'),
    \     'delete':
@@ -1030,12 +1057,6 @@ call ku#register_type({
    \       s:pa('s:_type_file_action_xsplit', 'vertical rightbelow'),
    \     'split-far-right':
    \       s:pa('s:_type_file_action_xsplit', 'vertical botright'),
-   \     'ex':
-   \       function('s:_type_any_action_ex'),
-   \     'cd':
-   \       s:pa('s:_type_any_action_xcd', 'cd'),
-   \     'cd-local':
-   \       s:pa('s:_type_any_action_xcd', 'lcd'),
    \   },
    \ })
 
