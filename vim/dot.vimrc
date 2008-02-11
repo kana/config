@@ -205,7 +205,7 @@ function! s:MyTabLine()  "{{{
     let bufnrs = tabpagebuflist(i)
     let curbufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
 
-    let no = (i <= 10 ? i-1 : '#')
+    let no = (i <= 10 ? i-1 : '#')  " display 0-origin tabpagenr.
     let mod = len(filter(bufnrs, 'getbufvar(v:val, "&modified")')) ? '+' : ' '
     let title = s:GetTabVar(i, 'title')
     let title = len(title) ? title : fnamemodify(s:GetTabVar(i, 'cwd'), ':t')
@@ -560,6 +560,9 @@ endfunction
 function! s:MoveWindowIntoTabPage(target_tabpagenr)
   " Move the current window into a:target_tabpagenr.
   " If a:target_tabpagenr is 0, move into new tab page.
+  if a:target_tabpagenr < 0  " ignore invalid number.
+    return
+  endif
   let original_tabnr = tabpagenr()
   let target_bufnr = bufnr('')
   let window_view = winsaveview()
@@ -909,7 +912,7 @@ nmap <C-t><C-k>  <C-t>k
 nmap <C-t><C-t>  <C-t>j
 
 " GNU screen like mappings.
-" Note that the numbers in {lhs}s are 0-origin.
+" Note that the numbers in {lhs}s are 0-origin.  See also 'tabline'.
 for i in range(10)
   execute 'nnoremap <silent>' ('<C-t>'.(i))  ((i+1).'gt')
 endfor
@@ -1068,7 +1071,21 @@ unlet i
 " This {lhs} overrides the default action (Move cursor to top-left window).
 " But I rarely use its {lhs}s, so this mapping is not problematic.
 nnoremap <silent> <C-w><C-t>
-       \ :<C-u>call <SID>MoveWindowIntoTabPage(v:count)<Return>
+       \ :<C-u>call <SID>MoveWindowIntoTabPage(<SID>AskTabPageNumber())<Return>
+function! s:AskTabPageNumber()
+  echon 'Which tabpage to move this window into?  '
+
+  let c = nr2char(getchar())
+  if c =~# '[0-9]'
+    " Convert 0-origin number (typed by user) into 1-origin number (used by
+    " Vim's internal functions).  See also 'tabline'.
+    return 1 + char2nr(c) - char2nr('0')
+  elseif c =~# "[\<C-c>\<Esc>]"
+    return -1
+  else
+    return 0
+  endif
+endfunction
 
 
 " like GNU Emacs' (scroll-other-window),
