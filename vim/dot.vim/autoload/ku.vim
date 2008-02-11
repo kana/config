@@ -30,7 +30,7 @@ let s:bang = ''
 " The buffer number of the ku buffer.
 let s:INVALID_BUFNR = -3339
   " to be reloadable (for debugging)
-if exists('s:bufnr') && s:bufnr != s:INVALID_BUFNR
+if exists('s:bufnr') && s:bufnr != s:INVALID_BUFNR && bufexists(s:bufnr)
   execute s:bufnr 'bwipeout'
 endif
 let s:bufnr = s:INVALID_BUFNR
