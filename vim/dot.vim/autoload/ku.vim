@@ -22,6 +22,18 @@ let s:TYPE_FUNCTION = type(function('function'))
 let s:TYPE_LIST = type([])
 let s:TYPE_DICTONARY = type({})
 
+" Key sequence to start (omni) completion
+" without auto-selecting the first match.
+let s:KEYS_TO_START_COMPLETION = "\<C-x>\<C-o>\<C-p>"
+
+" The prompt for user input.
+" This is necessary to publish CursorMovedI event for each typing.
+" Note that the length should be 1 to avoid some problems.
+let s:PROMPT = '>'
+
+
+" Flag to avoid infinite loop by auto-directory-insertion.
+let s:auto_directory_insertion_done_p = s:FALSE
 
 " Flag which indicates whether the ku window is opened with bang (:Ku!).
 " Possible values are '' or '!'.
@@ -35,13 +47,10 @@ if exists('s:bufnr') && s:bufnr != s:INVALID_BUFNR && bufexists(s:bufnr)
 endif
 let s:bufnr = s:INVALID_BUFNR
 
-" Preferred type of items.
-let s:INVALID_TYPE = '*all*'
-let s:preferred_type = s:INVALID_TYPE
-
-" Key sequence to start (omni) completion
-" without auto-selecting the first match.
-let s:KEYS_TO_START_COMPLETION = "\<C-x>\<C-o>\<C-p>"
+" Fallback actions for all types.
+if !exists('s:fallback_actions')
+  let s:fallback_actions = {}
+endif
 
 " The last column of the cursor.
 let s:INVALID_COL = -3338
@@ -50,28 +59,19 @@ let s:last_col = s:INVALID_COL
 " Items gathered by the last completion.
 let s:last_items = []
 
+" Preferred type of items.
+let s:INVALID_TYPE = '*all*'
+let s:preferred_type = s:INVALID_TYPE
+
 " All available types.
 if !exists('s:types')
   let s:types = {}
 endif
 
-" Fallback actions for all types.
-if !exists('s:fallback_actions')
-  let s:fallback_actions = {}
-endif
-
-" The prompt for user input.
-" This is necessary to publish CursorMovedI event for each typing.
-" Note that the length should be 1 to avoid some problems.
-let s:PROMPT = '>'
-
 " Misc. values to restore the original state.
 let s:completeopt = ''
 let s:ignorecase = ''
 let s:winrestcmd = ''
-
-" Flag to avoid infinite loop by auto-directory-insertion.
-let s:auto_directory_insertion_done_p = s:FALSE
 
 
 
