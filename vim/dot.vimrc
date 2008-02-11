@@ -1551,8 +1551,8 @@ let s:FileType_xml_comment_data = {
 " Plugins  "{{{1
 " ku  "{{{2
 
-autocmd MyAutoCmd User KuBufferInitialize  call <SID>on_KuBufferInitialize()
-function! s:on_KuBufferInitialize()
+autocmd MyAutoCmd User KuLoaded  call <SID>on_KuLoaded()
+function! s:on_KuLoaded()
   function! s:ku_type_any_action_my_cd(item)
     " FIXME: escape special characters.
     if isdirectory(a:item.word)
@@ -1565,12 +1565,16 @@ function! s:on_KuBufferInitialize()
     endif
   endfunction
 
-  call ku#default_key_mappings()
-  call ku#custom_action('buffer', 'cd',
-     \                  function(s:SID_PREFIX() . 'ku_type_any_action_my_cd'))
-  call ku#custom_action('file', 'cd',
+  call ku#custom_action('*fallback*', 'cd',
      \                  function(s:SID_PREFIX() . 'ku_type_any_action_my_cd'))
 endfunction
+
+
+autocmd MyAutoCmd User KuBufferInitialize  call <SID>on_KuBufferInitialize()
+function! s:on_KuBufferInitialize()
+  call ku#default_key_mappings()
+endfunction
+
 
 nnoremap [Space]ka  :<C-u>Ku<Return>
 nnoremap [Space]kb  :<C-u>Ku buffer<Return>
