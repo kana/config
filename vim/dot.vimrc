@@ -568,8 +568,8 @@ function! s:MoveWindowIntoTabPage(target_tabpagenr)
   let window_view = winsaveview()
 
   if a:target_tabpagenr == 0
-    tablast
     tabnew
+    tabmove  " Move new tabpage at the last.
     execute target_bufnr 'buffer'
     let target_tabpagenr = tabpagenr()
   else
@@ -887,9 +887,8 @@ nnoremap <C-t>  <Nop>
 
 " Basic  "{{{3
 
-  " :tabnew creates new tab page at the next of the current one,
-  " but I prefer to create at the next of the last one.
-nnoremap <silent> <C-t>n  :<C-u>tablast \| tabnew<Return>
+  " Move new tabpage at the last.
+nnoremap <silent> <C-t>n  :<C-u>tabnew \| tabmove<Return>
 nnoremap <silent> <C-t>c  :<C-u>tabclose<Return>
 nnoremap <silent> <C-t>o  :<C-u>tabonly<Return>
 nnoremap <silent> <C-t>i  :<C-u>tabs<Return>
