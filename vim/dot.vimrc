@@ -1,4 +1,4 @@
-﻿" My .vimrc
+" My .vimrc
 " $Id$
 " Notes  "{{{1
 "
@@ -256,21 +256,37 @@ augroup END
 " Utilities  "{{{1
 " For per-'filetype' settings "{{{2
 "
-" "autocmd FileType c" doesn't match compound 'filetype' such as "c.doxygen".
-" :OnFileType is shortcut for such case.
+" To write a bit of customization per 'filetype', an easy way is to write some
+" :autocmds like "autocmd FileType c".  But it doesn't match to compound
+" 'filetype' such as "c.doxygen".  So the pattern should be
+" "{c,*.c,c.*,*.c.*}", but it's hard to read and to write.  :OnFileType which
+" is just a wrapper for :autocmd FileType supports to write such
+" customization.
 "
-" FIXME: How about when a:filetype is compound pattern?
-"        For example, "xml,xhtml,html", "{,s,x}htm{,l}" and so forth.
-"        Assumes that a:filetype is simple enough?
+" Note: If a:filetype contains one of the following characters:
+"               * ? { } [ ]
+"       a:filetype will be treated as-is to write customization for compound
+"       'filetype' with :OnFileType.
+" Note: If a:filetype contains one or more ",", :OnFileType will be called for
+"       each ","-separated filetype in a:filetype.
+"
 " FIXME: syntax highlighting and completion.
 
 command! -nargs=+ OnFileType  call <SID>OnFileType(<f-args>)
 function! s:OnFileType(group, filetype, ...)
   let group = (a:group == '-' ? '' : a:group)
-  let filetype = (a:filetype =~ '\.\|\*'
+  let commands = join(a:000)
+
+  let SPECIAL_CHARS = '[*?{}[\]]'
+  if a:filetype !~ SPECIAL_CHARS && a:filetype =~ ','
+    for ft in split(a:filetype, ',')
+      call s:OnFileType(group, ft, commands)
+    endfor
+    return
+  endif
+  let filetype = (a:filetype =~ SPECIAL_CHARS
     \             ? a:filetype
     \             : substitute('{x,x.*,*.x,*.x.*}', 'x', a:filetype, 'g'))
-  let commands = join(a:000)
 
   execute 'autocmd' group 'FileType' filetype commands
 endfunction
