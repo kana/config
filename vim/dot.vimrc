@@ -254,6 +254,30 @@ augroup END
 
 
 " Utilities  "{{{1
+" For per-'filetype' settings "{{{2
+"
+" "autocmd FileType c" doesn't match compound 'filetype' such as "c.doxygen".
+" :OnFileType is shortcut for such case.
+"
+" FIXME: How about when a:filetype is compound pattern?
+"        For example, "xml,xhtml,html", "{,s,x}htm{,l}" and so forth.
+"        Assumes that a:filetype is simple enough?
+" FIXME: syntax highlighting and completion.
+
+command! -nargs=+ OnFileType  call <SID>OnFileType(<f-args>)
+function! s:OnFileType(group, filetype, ...)
+  let group = (a:group == '-' ? '' : a:group)
+  let filetype = (a:filetype =~ '\.\|\*'
+    \             ? a:filetype
+    \             : substitute('{x,x.*,*.x,*.x.*}', 'x', a:filetype, 'g'))
+  let commands = join(a:000)
+
+  execute 'autocmd' group 'FileType' filetype commands
+endfunction
+
+
+
+
 " MAP: wrapper for :map variants.  "{{{2
 "
 " :MAP {option}* {modes} {lhs} {rhs}
