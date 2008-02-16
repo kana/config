@@ -1729,6 +1729,5 @@ set secure  " must be written at the last.  see :help 'secure'.
 
 
 " __END__  "{{{1
-" vim: bomb
 " vim: expandtab softtabstop=2 shiftwidth=2
 " vim: foldmethod=marker
