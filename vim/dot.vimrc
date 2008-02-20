@@ -1691,17 +1691,6 @@ let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
 
 
-" zapit  "{{{2
-
-nnoremap <Leader>b  :<C-u>ZapitBuf<Return>
-
-" retained for the backward compatibility,
-" but this should be prefixed by <Leader>.
-nmap [Space]b  <Leader>b
-
-
-
-
 
 
 
