@@ -129,7 +129,7 @@ GROUP_VIM_DOC_FILES=\
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/doc/xml_autons.txt \
-  vim/dot.vim/doc/xml_move.txt \
+  vim/dot.vim/doc/xml_move.txt
 GROUP_VIM_POST_TARGETS=vim-update-local-helptags
 vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
 $(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
