@@ -1,6 +1,6 @@
 *vcsi.txt*	Version Control System Interface
 
-Version 0.0.3
+Version 0.0.4
 Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
@@ -30,6 +30,7 @@ Requirements:
 - Vim 7.0 or later.
 
 Supported version control systems:
+- git
 - svk
 - Subversion
 - CVS (future)
@@ -210,6 +211,9 @@ BUGS							*vcsi-bugs*
 
 ==============================================================================
 CHANGELOG						*vcsi-changelog*
+
+0.0.4	2008-02-21T23:21:36+09:00
+	- Support git.
 
 0.0.3	2008-02-11T23:38:25+09:00
 	- Fix the bug that |E676| happens when a commit log buffer is written.

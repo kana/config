@@ -1,5 +1,5 @@
 " vcsi.vim - Version Control System Interface
-" Version: 0.0.3
+" Version: 0.0.4
 " Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$
@@ -230,8 +230,35 @@ function! s:make_vcs_command_script(args)  "{{{2
   "        items:normalized-items
   "        commit_log_file:commit_log_file?
   "        revision:revision?
-  " FIXME: support other vcs (currently svk and Subversion only, ad hoc)
   " FIXME: custom command name (e.g. use my-svk instead svk)
+  let script = s:make_{s:vcs_type(a:args.items)}_command_script(a:args)
+  let script = substitute(script, ' \{2,}', ' ', 'g')
+  if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
+    echomsg 'vcsi:' script
+  endif
+  return script
+endfunction
+
+
+function! s:make_git_command_script(args)  "{{{3
+  let ss = ['git']
+  if a:args.command ==# 'commit'
+    call add(ss, 'commit')
+    call add(ss, '-F')
+    call add(ss, a:args.commit_log_file)
+  elseif a:args.command ==# 'revert'
+    call add(ss, 'checkout')
+  elseif a:args.command ==# 'info'
+    return 'echo "git does not support this command: ' . a:args.command . '"'
+  else
+    call add(ss, a:args.command)
+  endif
+  call extend(ss, map(copy(a:args.items), '"''" . v:val . "''"'))
+  return join(ss)
+endfunction
+
+
+function! s:make_svk_command_script(args)  "{{{3
   let script = join([s:vcs_type(a:args.items), a:args.command,
     \               (a:args.command ==# 'revert'
     \                ? '--recursive' : ''),
@@ -240,11 +267,13 @@ function! s:make_vcs_command_script(args)  "{{{2
     \               (has_key(a:args, 'commit_log_file')
     \                ? '--file '.a:args.commit_log_file : ''),
     \               "'" . join(a:args.items, "' '") . "'"])
-  let script = substitute(script, ' \{2,}', ' ', 'g')
-  if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
-    echomsg 'vcsi:' script
-  endif
   return script
+endfunction
+
+
+function! s:make_svn_command_script(args)  "{{{3
+  " FIXME: ad hoc.
+  return s:make_svk_command_script(a:args)
 endfunction
 
 
@@ -257,8 +286,10 @@ function! s:normalize_items(unnormalized_items, ...)  "{{{2
     if item ==# 'all'
       call add(items, '.')
     elseif item ==# '' || item ==# '-'
-      if exists('b:vcsi_target_items')
-        call extend(items, b:vcsi_target_items)
+      let b_vcsi_target_items = getbufvar(no_new_window_p ? '' : '#',
+        \                                 'vcsi_target_items')
+      if 0 < len(b_vcsi_target_items)
+        call extend(items, b_vcsi_target_items)
       else
         call add(items, bufname(no_new_window_p ? '' : '#'))
       endif
@@ -285,15 +316,22 @@ endfunction
 
 function! s:vcs_type(items)  "{{{2
   " FIXME: directory separator on non-*nix platforms.
-  let prefix = fnamemodify(a:items[0], ':p:h') . '/'
+  let prefix = fnamemodify(a:items[0], ':p:h')
 
-  if isdirectory(prefix . '.svn')
+  if isdirectory(prefix . '/.svn')
     return 'svn'
-  " elseif isdirectory(prefix . 'CVS')
+  " elseif isdirectory(prefix . '/CVS')
   "   return 'cvs'
-  else
-    return 'svk'
   endif
+
+  while prefix != '/'
+    if isdirectory(prefix . '/.git')
+      return 'git'
+    endif
+    let prefix = fnamemodify(prefix, ':h')
+  endwhile
+
+  return 'svk'  " fallback, although it maybe incorrect.
 endfunction
 
 
