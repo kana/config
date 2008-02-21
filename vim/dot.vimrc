@@ -191,10 +191,16 @@ set titlestring=Vim:\ %f\ %h%r%m
 set wildmenu
 set viminfo=<50,'10,h,r/a,n~/.viminfo
 
+function! s:SID_PREFIX()
+ return matchstr(expand('<sfile>'), '<SNR>\d\+_')
+endfunction
+
 " default 'statusline' with 'fileencoding'.
 let &statusline = ''
 let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
+  "" temporary disabled.
+  "let &statusline .= '(%{' . s:SID_PREFIX() . 'ReposBranch(getcwd())}) '
 let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
@@ -225,9 +231,6 @@ function! s:MyTabLine()  "{{{
   let s .= '%=%#TabLine#%999Xx%X'
   return s
 endfunction "}}}
-function! s:SID_PREFIX()
- return matchstr(expand('<sfile>'), '<SNR>\d\+_')
-endfunction
 let &tabline = '%!' . s:SID_PREFIX() . 'MyTabLine()'
 
 " To automatically detect the width and the height of the terminal,
@@ -775,6 +778,38 @@ endfunction
 
 " :source with echo.
 command! -bar -nargs=1 Source  echo 'Sourcing ...' <args> | source <args>
+
+
+" Returns the name of the current branch of the given directory.
+" BUGS: git is only supported.
+function! s:ReposBranch(dir)
+  let head_file = a:dir . '/.git/HEAD'
+  let branch_name = '?'
+
+  if filereadable(head_file)
+    let ref_info = s:first_line(head_file)
+    if ref_info =~ '^\x\{40}$'
+      let remote_branches = split(glob(a:dir . '/.git/refs/remotes/*'), "\n")
+      call filter(remote_branches, 's:first_line(v:val) ==# ref_info')
+      if 1 <= len(remote_branches)
+        let branch_name = matchlist(remote_branches[0], '/\([^/]*\)$')[1]
+      endif
+    else
+      let branch_name = matchlist(ref_info, '^ref: refs/heads/\(\S\+\)$')[1]
+      if branch_name == ''
+        let branch_name = ref_info
+      endif
+    endif
+  endif
+
+  return branch_name
+endfunction
+
+
+function! s:first_line(file)
+  let lines = readfile(a:file, '', 1)
+  return 1 <= len(lines) ? lines[0] : ''
+endfunction
 
 
 

@@ -116,6 +116,8 @@ alias lla='ls -la'
 alias altr='ls -altr'
 
 alias v='vim'
+alias g='git'
+complete -F _git g
 
 alias ..='cd ..'
 
