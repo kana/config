@@ -222,7 +222,7 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
 
-PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.0.3
+PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.0.4
 PACKAGE_vim_vcsi_BASE=vim/dot.vim
 PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/autoload/vcsi.vim \
