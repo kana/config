@@ -668,7 +668,6 @@ function! s:vcs_branch_name(dir)
     unlet cache_entry
     let cache_entry = s:_vcs_branch_name(a:dir)
     let s:_vcs_branch_name_cache[a:dir] = cache_entry
-    echomsg a:dir string(cache_entry)
   endif
 
   return cache_entry[0]
