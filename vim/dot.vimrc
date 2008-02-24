@@ -866,7 +866,7 @@ nnoremap <silent> t'N        :<C-u>ptlast<Return>
 " although :pclose is not related to tag.
 " BUGS: t'' is not related to the default meaning of ''.
 nnoremap <silent> t'c        :<C-u>pclose<Return>
-nmap              t'z        t'z
+nmap              t'z        t'c
 nmap              t''        t'c
 
 
