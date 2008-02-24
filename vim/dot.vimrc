@@ -229,7 +229,13 @@ function! s:MyTabLine()  "{{{
   endfor
 
   let s .= '%#TabLineFill#%T'
-  let s .= '%=%#TabLine#%999Xx%X'
+  let s .= '%=%#TabLine#'
+  "" temporary disabled.
+  "let branch_name = s:ReposBranch(getcwd())
+  "if branch_name != ''
+  "  let s .= '(' . branch_name . ') '
+  "endif
+  let s .= '%999Xx%X'
   return s
 endfunction "}}}
 let &tabline = '%!' . s:SID_PREFIX() . 'MyTabLine()'
