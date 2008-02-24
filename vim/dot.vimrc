@@ -84,6 +84,11 @@
 set nocompatible  " to use many extensions of Vim.
 
 
+function! s:SID_PREFIX()
+ return matchstr(expand('<sfile>'), '<SNR>\d\+_')
+endfunction
+
+
 
 
 " Encoding  "{{{2
@@ -190,10 +195,6 @@ set title
 set titlestring=Vim:\ %f\ %h%r%m
 set wildmenu
 set viminfo=<50,'10,h,r/a,n~/.viminfo
-
-function! s:SID_PREFIX()
- return matchstr(expand('<sfile>'), '<SNR>\d\+_')
-endfunction
 
 " default 'statusline' with 'fileencoding'.
 let &statusline = ''
