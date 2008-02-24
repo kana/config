@@ -230,11 +230,10 @@ function! s:MyTabLine()  "{{{
 
   let s .= '%#TabLineFill#%T'
   let s .= '%=%#TabLine#'
-  "" temporary disabled.
-  "let branch_name = s:vcs_branch_name(getcwd())
-  "if branch_name != ''
-  "  let s .= '(' . branch_name . ') '
-  "endif
+  let branch_name = s:vcs_branch_name(getcwd())
+  if branch_name != ''
+    let s .= '(' . branch_name . ') '
+  endif
   let s .= '%999Xx%X'
   return s
 endfunction "}}}
