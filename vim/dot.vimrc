@@ -201,7 +201,7 @@ let &statusline = ''
 let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
   "" temporary disabled.
-  "let &statusline .= '(%{' . s:SID_PREFIX() . 'ReposBranch(getcwd())}) '
+  "let &statusline .= '(%{' . s:SID_PREFIX() . 'vcs_branch_name(getcwd())}) '
 let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
@@ -231,7 +231,7 @@ function! s:MyTabLine()  "{{{
   let s .= '%#TabLineFill#%T'
   let s .= '%=%#TabLine#'
   "" temporary disabled.
-  "let branch_name = s:ReposBranch(getcwd())
+  "let branch_name = s:vcs_branch_name(getcwd())
   "if branch_name != ''
   "  let s .= '(' . branch_name . ') '
   "endif
@@ -658,9 +658,31 @@ endfunction
 " VCS branch name  "{{{2
 " Returns the name of the current branch of the given directory.
 " BUGS: git is only supported.
-function! s:ReposBranch(dir)
-  let head_file = a:dir . '/.git/HEAD'
-  let branch_name = '?'
+let s:_vcs_branch_name_cache = {}  " dir_path = [branch_name, key_file_mtime]
+
+
+function! s:vcs_branch_name(dir)
+  let cache_entry = get(s:_vcs_branch_name_cache, a:dir, 0)
+  if cache_entry is 0
+   \ || cache_entry[1] < getftime(s:_vcs_branch_name_key_file(a:dir))
+    unlet cache_entry
+    let cache_entry = s:_vcs_branch_name(a:dir)
+    let s:_vcs_branch_name_cache[a:dir] = cache_entry
+    echomsg a:dir string(cache_entry)
+  endif
+
+  return cache_entry[0]
+endfunction
+
+
+function! s:_vcs_branch_name_key_file(dir)
+  return a:dir . '/.git/HEAD'
+endfunction
+
+
+function! s:_vcs_branch_name(dir)
+  let head_file = s:_vcs_branch_name_key_file(a:dir)
+  let branch_name = ''
 
   if filereadable(head_file)
     let ref_info = s:first_line(head_file)
@@ -678,7 +700,7 @@ function! s:ReposBranch(dir)
     endif
   endif
 
-  return branch_name
+  return [branch_name, getftime(head_file)]
 endfunction
 
 
