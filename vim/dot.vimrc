@@ -655,6 +655,35 @@ endfunction
 
 
 
+" VCS branch name  "{{{2
+" Returns the name of the current branch of the given directory.
+" BUGS: git is only supported.
+function! s:ReposBranch(dir)
+  let head_file = a:dir . '/.git/HEAD'
+  let branch_name = '?'
+
+  if filereadable(head_file)
+    let ref_info = s:first_line(head_file)
+    if ref_info =~ '^\x\{40}$'
+      let remote_branches = split(glob(a:dir . '/.git/refs/remotes/*'), "\n")
+      call filter(remote_branches, 's:first_line(v:val) ==# ref_info')
+      if 1 <= len(remote_branches)
+        let branch_name = matchlist(remote_branches[0], '/\([^/]*\)$')[1]
+      endif
+    else
+      let branch_name = matchlist(ref_info, '^ref: refs/heads/\(\S\+\)$')[1]
+      if branch_name == ''
+        let branch_name = ref_info
+      endif
+    endif
+  endif
+
+  return branch_name
+endfunction
+
+
+
+
 " Misc.  "{{{2
 
 function! s:ToggleBell()
@@ -785,32 +814,6 @@ endfunction
 
 " :source with echo.
 command! -bar -nargs=1 Source  echo 'Sourcing ...' <args> | source <args>
-
-
-" Returns the name of the current branch of the given directory.
-" BUGS: git is only supported.
-function! s:ReposBranch(dir)
-  let head_file = a:dir . '/.git/HEAD'
-  let branch_name = '?'
-
-  if filereadable(head_file)
-    let ref_info = s:first_line(head_file)
-    if ref_info =~ '^\x\{40}$'
-      let remote_branches = split(glob(a:dir . '/.git/refs/remotes/*'), "\n")
-      call filter(remote_branches, 's:first_line(v:val) ==# ref_info')
-      if 1 <= len(remote_branches)
-        let branch_name = matchlist(remote_branches[0], '/\([^/]*\)$')[1]
-      endif
-    else
-      let branch_name = matchlist(ref_info, '^ref: refs/heads/\(\S\+\)$')[1]
-      if branch_name == ''
-        let branch_name = ref_info
-      endif
-    endif
-  endif
-
-  return branch_name
-endfunction
 
 
 function! s:first_line(file)
