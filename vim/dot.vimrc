@@ -230,11 +230,11 @@ function! s:MyTabLine()  "{{{
 
   let s .= '%#TabLineFill#%T'
   let s .= '%=%#TabLine#'
+  let s .= '| '
+  let s .= '%999X'
   let branch_name = s:vcs_branch_name(getcwd())
-  if branch_name != ''
-    let s .= '(' . branch_name . ') '
-  endif
-  let s .= '%999Xx%X'
+  let s .= (branch_name != '' ? branch_name : '?')
+  let s .= '%X'
   return s
 endfunction "}}}
 let &tabline = '%!' . s:SID_PREFIX() . 'MyTabLine()'
