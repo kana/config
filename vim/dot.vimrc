@@ -685,7 +685,7 @@ function! s:_vcs_branch_name(dir)
   if filereadable(head_file)
     let ref_info = s:first_line(head_file)
     if ref_info =~ '^\x\{40}$'
-      let remote_branches = split(glob(a:dir . '/.git/refs/remotes/*'), "\n")
+      let remote_branches = split(glob(a:dir . '/.git/refs/remotes/**'), "\n")
       call filter(remote_branches, 's:first_line(v:val) ==# ref_info')
       if 1 <= len(remote_branches)
         let branch_name = matchlist(remote_branches[0], '/\([^/]*\)$')[1]
