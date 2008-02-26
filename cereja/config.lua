@@ -84,4 +84,20 @@ end)
 
 
 
+-- To avoid doubly adding subscribers.
+shell.tray.reset_subscribers()
+
+
+-- Sort icons in the tray automatically.
+shell.tray.subscribe(function (event, icon_index, flags)
+  if event == shell.tray.NIM_ADD then
+    shell.tray.sort_icons()
+  end
+  return
+end)
+shell.tray.sort_icons()
+
+
+
+
 -- __END__

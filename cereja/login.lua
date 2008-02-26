@@ -32,16 +32,6 @@ metrics.arrange = bor(metrics.arrange, ui.window.ARW_HIDE)
 ui.window.set_minimized_metrics(metrics)
 
 
--- Sort icons in the tray automatically.
-shell.tray.subscribe(function (event, icon_index, flags)
-  if event == shell.tray.NIM_ADD then
-    shell.tray.sort_icons()
-  end
-  return
-end)
-shell.tray.sort_icons()
-
-
 if not (cereja.on_other_shellp or ui.key.pressedp('Shift')) then
   shell.run_startup_programs()
 end
