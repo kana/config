@@ -6,6 +6,7 @@ require 'ui.key'
 require 'ui.hotkey'
 require 'ui.tray'
 require 'ui.window'
+require 'app.snarl'
 
 
 

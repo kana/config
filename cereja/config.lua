@@ -98,6 +98,25 @@ end)
 shell.tray.sort_icons()
 
 
+-- Pseudo balloon tooltips by Snarl.
+shell.tray.subscribe(function (event, icon_index, flags)
+  -- Is this an event to show a balloon tooltip?
+  if event == shell.tray.NIM_MODIFY
+     and band(flags, shell.tray.NIF_INFO) ~= 0
+  then
+    title = shell.tray.get_icon_data(icon_index, 'szInfoTitle')
+    text = shell.tray.get_icon_data(icon_index, 'szInfo')
+    if 0 < #text then
+      app.snarl.show_message(title, text, 10)
+    else
+      -- Nothing to do.
+      -- Because #text == 0 means a request to hide a balloon tooltip.
+    end
+  end
+  return
+end)
+
+
 
 
 -- __END__
