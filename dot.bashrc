@@ -124,10 +124,13 @@ alias ..='cd ..'
 alias afk='echo "Away From Keyboard ..."; while true; do date; sleep 5m; done'
 
 if [ "$ENV_WORKING" = 'colinux' ]; then
-  alias umount-c='sudo umount /c'
-  alias mount-c='mount-c-smbfs'
+  alias mount-c='mount-x c'
+  alias umount-c='umount-x c'
+
+  #alias mount-c='mount-c-smbfs'
+  #alias umount-c='sudo umount /c'
   alias mount-c-cofs='sudo mount -t cofs cofs0 /c -o defaults,noatime,noexec,user,uid=$USER,gid=users'
-  alias mount-c-smbfs='sudo mount -t smbfs "//windows/C\$" /c -o defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER'
+  #alias mount-c-smbfs='sudo mount -t smbfs "//windows/C\$" /c -o defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER'
 
   alias mount-x='mount-x-samba'
   alias umount-x='umount-x-samba'
