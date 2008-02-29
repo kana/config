@@ -129,22 +129,39 @@ if [ "$ENV_WORKING" = 'colinux' ]; then
   alias mount-c-cofs='sudo mount -t cofs cofs0 /c -o defaults,noatime,noexec,user,uid=$USER,gid=users'
   alias mount-c-smbfs='sudo mount -t smbfs "//windows/C\$" /c -o defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER'
 
-  function mount-x() {
+  alias mount-x='mount-x-sshfs'
+  alias umount-x='umount-x-sshfs'
+
+  function mount-x-samba() {
     if [ $# != 1 ]; then
-      echo "Usage: mount-x {drive-letter}"
+      echo "Usage: $0 {drive-letter}"
       return 1
     fi
     sudo mount -t smbfs \
          "//windows/$(echo "$1" | tr '[:lower:]' '[:upper:]')\$" "/$1" \
          -o "defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER"
   }
-
-  function umount-x() {
+  function umount-x-samba() {
     if [ $# != 1 ]; then
-      echo "Usage: umount-x {drive-letter}"
+      echo "Usage: $0 {drive-letter}"
       return 1
     fi
     sudo umount "/$1"
+  }
+
+  function mount-x-sshfs() {
+    if [ $# != 1 ]; then
+      echo "Usage: $0 {drive-letter}"
+      return 1
+    fi
+    sshfs "cygwin:/cygdrive/$1" "/$1"
+  }
+  function umount-x-sshfs() {
+    if [ $# != 1 ]; then
+      echo "Usage: $0 {drive-letter}"
+      return 1
+    fi
+    fusermount -u "/$1"
   }
 
   alias shutdown-colinux='sudo halt; exit'
