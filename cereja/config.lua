@@ -16,6 +16,26 @@ ui.tray.hotkey_add('Ctrl-K', ui.tray.CMD_ICON_MOVE_FIRST)
 ui.tray.hotkey_add('Ctrl-Shift-J', ui.tray.CMD_ICON_SHIFT_NEXT)
 ui.tray.hotkey_add('Ctrl-Shift-K', ui.tray.CMD_ICON_SHIFT_PREV)
 
+if balloon == nil then
+  balloon = {}
+  balloon.ids = {}
+end
+function balloon.show(...)
+  table.insert(balloon.ids, app.snarl.show_message(...))
+end
+function balloon.hide(allp)
+  while 1 <= #balloon.ids do
+    local id = table.remove(balloon.ids, 1)
+    if app.snarl.hide_message(id) then
+      if not allp then
+        break
+      end
+    end
+  end
+end
+ui.hotkey.register('Win-Shift-B', balloon.hide)
+ui.hotkey.register('Win-Shift-Alt-B', function () balloon.hide(true) end)
+
 
 -- window
 ui.hotkey.register('Win-Shift-M',  -- alt method
@@ -107,7 +127,7 @@ shell.tray.subscribe('user', function (event, icon_index, flags)
     title = shell.tray.get_icon_data(icon_index, 'szInfoTitle')
     text = shell.tray.get_icon_data(icon_index, 'szInfo')
     if 0 < #text then
-      app.snarl.show_message(title, text, 10)
+      balloon.show(title, text, 30)
     else
       -- Nothing to do.
       -- Because #text == 0 means a request to hide a balloon tooltip.
