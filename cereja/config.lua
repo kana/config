@@ -85,11 +85,11 @@ end)
 
 
 -- To avoid doubly adding subscribers.
-shell.tray.reset_subscribers()
+shell.tray.unsubscribe('user')
 
 
 -- Sort icons in the tray automatically.
-shell.tray.subscribe(function (event, icon_index, flags)
+shell.tray.subscribe('user', function (event, icon_index, flags)
   if event == shell.tray.NIM_ADD then
     shell.tray.sort_icons()
   end
@@ -99,7 +99,7 @@ shell.tray.sort_icons()
 
 
 -- Pseudo balloon tooltips by Snarl.
-shell.tray.subscribe(function (event, icon_index, flags)
+shell.tray.subscribe('user', function (event, icon_index, flags)
   -- Is this an event to show a balloon tooltip?
   if event == shell.tray.NIM_MODIFY
      and band(flags, shell.tray.NIF_INFO) ~= 0
