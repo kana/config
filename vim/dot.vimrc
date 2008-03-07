@@ -266,20 +266,23 @@ augroup END
 " For per-'filetype' settings "{{{2
 "
 " To write a bit of customization per 'filetype', an easy way is to write some
-" :autocmds like "autocmd FileType c".  But it doesn't match to compound
+" ":autocmd"s like "autocmd FileType c".  But it doesn't match to compound
 " 'filetype' such as "c.doxygen".  So the pattern should be
-" "{c,*.c,c.*,*.c.*}", but it's hard to read and to write.  :OnFileType which
-" is just a wrapper for :autocmd FileType supports to write such
-" customization.
+" "{c,*.c,c.*,*.c.*}", but it's hard to read and to write.  :OnFileType is
+" a wrapper for ":autocmd FileType" to support to write such customization.
 "
 " Note: If a:filetype contains one of the following characters:
 "               * ? { } [ ]
 "       a:filetype will be treated as-is to write customization for compound
 "       'filetype' with :OnFileType.
+"
 " Note: If a:filetype contains one or more ",", :OnFileType will be called for
 "       each ","-separated filetype in a:filetype.
 "
 " FIXME: syntax highlighting and completion.
+"
+" BUGS: This doesn't work for most cases because of the limit of the maximum
+"       number of arguments to a function.
 
 command! -nargs=+ OnFileType  call <SID>OnFileType(<f-args>)
 function! s:OnFileType(group, filetype, ...)
