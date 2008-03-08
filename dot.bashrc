@@ -185,10 +185,11 @@ function backup-repos() {
 
   ssh cygwin <<END
   pushd ~/var &>/dev/null
-    for i in cereja nicht repos vim
-    do
-      tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
-    done
+    # # experimental: disabled to fully migrate to git.
+    # for i in cereja nicht repos vim
+    # do
+    #   tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
+    # done
     cp -a $datetime-*.tar.bz2 /e/backup/repos/
   popd &>/dev/null
 END
