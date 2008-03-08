@@ -177,7 +177,9 @@ function backup-repos() {
   do
     pushd ~/freq/latest/working/$i &>/dev/null
       tar jcf /c/cygwin/home/$USER/var/$datetime-git-$i.tar.bz2 .git/
-      git-svn dcommit
+      # # disabled, it's somewhat dangerous.
+      # # if dcommit is necessary, do it manually.
+      # git-svn dcommit
     popd &>/dev/null
   done
 
