@@ -176,6 +176,8 @@ function backup-repos() {
   for i in cereja config meta nicht
   do
     pushd ~/freq/latest/working/$i &>/dev/null
+      echo "Processing $i ..."
+      git gc
       tar jcf /c/cygwin/home/$USER/var/$datetime-git-$i.tar.bz2 .git/
       # # disabled, it's somewhat dangerous.
       # # if dcommit is necessary, do it manually.
@@ -190,7 +192,7 @@ function backup-repos() {
     # do
     #   tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
     # done
-    cp -a $datetime-*.tar.bz2 /e/backup/repos/
+    cp -av $datetime-*.tar.bz2 /e/backup/repos/
   popd &>/dev/null
 END
 }
