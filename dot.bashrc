@@ -170,6 +170,28 @@ if [ "$ENV_WORKING" = 'colinux' ]; then
   alias shutdown-colinux='sudo halt; exit'
 fi
 
+function backup-repos() {
+  local datetime=$(date '+%Y-%m-%dT%H-%M-%S')
+
+  for i in cereja config meta nicht
+  do
+    pushd ~/freq/latest/working/$i &>/dev/null
+      tar jcf /c/cygwin/home/$USER/var/$datetime-git-$i.tar.bz2 .git/
+      git-svn dcommit
+    popd &>/dev/null
+  done
+
+  ssh cygwin <<END
+  pushd ~/var &>/dev/null
+    for i in cereja nicht repos vim
+    do
+      tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
+    done
+    cp -a $datetime-*.tar.bz2 /e/backup/repos/
+  popd &>/dev/null
+END
+}
+
 
 
 
