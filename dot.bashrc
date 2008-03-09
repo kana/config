@@ -173,7 +173,7 @@ fi
 function backup-repos() {
   local datetime=$(date '+%Y-%m-%dT%H-%M-%S')
 
-  for i in cereja config meta nicht
+  for i in cereja config meta nicht vim
   do
     pushd ~/freq/latest/working/$i &>/dev/null
       echo "Processing $i ..."
