@@ -1460,6 +1460,35 @@ autocmd MyAutoCmd ColorScheme *
 doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
+" Automatically shift to the Insert mode
+" when a multibyte character is typed in Normal mode.
+" Note: To use nonstandard event NCmdUndefined, use the following version:
+"       http://repo.or.cz/w/vim-kana.git?a=shortlog;h=hack/ncmdundefined
+silent! autocmd MyAutoCmd NCmdUndefined *
+  \ call <SID>ShiftToInsertMode(expand('<amatch>'))
+function! s:ShiftToInsertMode(not_a_command_character)
+  if char2nr(a:not_a_command_character) <= 0xFF  " not a multibyte character?
+    return  " should beep as same as the default behavior, but how?
+  endif
+
+  " Take all keys in the typeahead buffer.
+  let keys = a:not_a_command_character
+  while !0
+    let c = getchar(0)
+    if c == 0
+      break
+    endif
+    let keys .= nr2char(c)
+  endwhile
+
+  " Shfit to Insert mode, then emulate typing the keys.
+  " Note: If :startinsert is used to shifting to Insert mode,
+  "       instead of keys[0], unexpected string '<t_<fd>_>' will be inserted.
+  call feedkeys('i', 'n')
+  call feedkeys(keys, 't')
+endfunction
+
+
 
 
 " css  "{{{2
