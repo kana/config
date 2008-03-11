@@ -1489,6 +1489,11 @@ function! s:ShiftToInsertMode(not_a_command_character)
 endfunction
 
 
+" Unset 'paste' automatically.  It's often hard to do so because of most
+" mappings are disabled in Paste mode.
+autocmd MyAutoCmd InsertLeave *  set nopaste
+
+
 
 
 " css  "{{{2
