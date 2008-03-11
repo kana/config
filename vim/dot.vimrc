@@ -708,6 +708,68 @@ endfunction
 
 
 
+" Tab pages in MRU order  "{{{2
+
+if !exists('s:tpmru_list')
+    " FIXME: may be conflict on multiple :tabnew in short term.
+  let t:tpmru_id = strftime('%c')
+  let s:tpmru_list = [t:tpmru_id]
+  let s:TPMRU_BAD_ID = 0
+  let s:tpmru_last_id = s:TPMRU_BAD_ID
+  let s:tpmru_last_num = 1
+  let s:tpmru_lock = 0
+endif
+
+autocmd MyAutoCmd TabLeave *  call <SID>TPMRU_TabLeave()
+autocmd MyAutoCmd TabEnter *  call <SID>TPMRU_TabEnter()
+
+
+function! s:TPMRU_TabLeave()
+  if s:tpmru_lock
+    return
+  endif
+
+  let s:tpmru_last_id = t:tpmru_id
+  let s:tpmru_last_num = tabpagenr('$')
+endfunction
+
+function! s:TPMRU_TabEnter()
+  if s:tpmru_lock
+    return
+  endif
+
+  if !exists('t:tpmru_id')
+    let t:tpmru_id = strftime('%c')
+    let s:tpmru_list = [t:tpmru_id] + s:tpmru_list
+  elseif s:tpmru_last_num == tabpagenr('$')
+    " moved from another tab page.
+    let s:tpmru_list = [t:tpmru_id] + filter(s:tpmru_list, 'v:val!=t:tpmru_id')
+  else
+    " the previous tab page has been deleted.
+    " index(s:tpmru_list, s:last_leaved_id) must be 0.
+    let s:tpmru_list[0] = s:tpmru_list[1]
+    let s:tpmru_list[1] = s:tpmru_last_id
+
+    let s:tpmru_lock = 1
+    doautocmd TabLeave
+    while s:tpmru_list[0] != t:tpmru_id 
+      tabnext
+    endwhile
+    doautocmd TabEnter
+    let s:tpmru_lock = 0
+  endif
+
+  if tabpagenr('$') < len(s:tpmru_list)
+    let s:tpmru_list = s:tpmru_list[:tabpagenr('$')-1]
+  endif
+
+  let s:tpmru_last_id = s:TPMRU_BAD_ID
+  let s:tpmru_last_num = tabpagenr('$')
+endfunction
+
+
+
+
 " Misc.  "{{{2
 
 function! s:ToggleBell()
