@@ -1408,7 +1408,8 @@ vnoremap <silent> _
 
 
 " Filetypes  "{{{1
-" Any filetype   "{{{2
+" All filetypes   "{{{2
+" Here also contains misc. autocommands.
 
 autocmd MyAutoCmd FileType *
       \ call <SID>FileType_any()
@@ -1441,7 +1442,7 @@ autocmd MyAutoCmd BufReadPost *
       \ | endif
 
 
-" although this is not a filetype settings.
+" Adjust highlight settings according to the current colorscheme.
 autocmd MyAutoCmd ColorScheme *
       \   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
       \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
