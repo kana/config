@@ -1048,6 +1048,31 @@ nmap <C-t><C-h>  <C-t>h
 
 
 
+" Argument list  "{{{2
+
+" the prefix key.
+" -- the default action of <C-g> is almost never used.
+nnoremap <C-g>  <Nop>
+
+
+nnoremap <C-g><Space>  :<C-u>args<Space>
+nnoremap <silent> <C-g>l  :<C-u>args<Return>
+nnoremap <silent> <C-g>j  :<C-u>next<Return>
+nnoremap <silent> <C-g>k  :<C-u>previous<Return>
+nnoremap <silent> <C-g>J  :<C-u>last<Return>
+nnoremap <silent> <C-g>K  :<C-u>first<Return>
+nnoremap <silent> <C-g>wj  :<C-u>wnext<Return>
+nnoremap <silent> <C-g>wk  :<C-u>wprevious<Return>
+
+nmap <C-g><C-l>  <C-g>l
+nmap <C-g><C-j>  <C-g>j
+nmap <C-g><C-k>  <C-g>k
+nmap <C-g><C-w><C-j>  <C-g>wj
+nmap <C-g><C-w><C-k>  <C-g>wk
+
+
+
+
 " Command-line editting  "{{{2
 
 " pseudo vi-like keys
