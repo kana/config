@@ -1,6 +1,6 @@
 *vcsi.txt*	Version Control System Interface
 
-Version 0.0.4
+Version 0.0.5
 Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
@@ -211,6 +211,10 @@ BUGS							*vcsi-bugs*
 
 ==============================================================================
 CHANGELOG						*vcsi-changelog*
+
+0.0.5	2008-03-13T21:48:06+09:00
+	- |:VcsiRevert| (git): Fix to process a file or directory which name
+	  is same as a branch.
 
 0.0.4	2008-02-21T23:21:36+09:00
 	- Support git.
