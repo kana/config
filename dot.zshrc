@@ -25,7 +25,7 @@ setopt append_history
 unsetopt auto_cd
 # auto_continue
 setopt auto_list
-setopt auto_menu
+# setopt auto_menu
 # auto_name_dirs
 setopt auto_param_keys
 setopt auto_param_slash
@@ -35,7 +35,7 @@ setopt auto_remove_slash
 setopt bad_pattern
 setopt bang_hist
 # bare_glob_qual
-setopt bash_auto_list
+# setopt bash_auto_list
 unsetopt beep
 # bg_nice
 # brace_ccl
