@@ -62,7 +62,10 @@ GROUP_DOTS_FILES=\
   dot.inputrc \
   dot.guile \
   dot.screenrc \
-  dot.Xdefaults
+  dot.Xdefaults \
+  dot.zprofile \
+  dot.zshenv \
+  dot.zshrc
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
 
 GROUP_DOTS_cygwin_FILES=\
