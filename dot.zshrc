@@ -315,7 +315,7 @@ END
 # to delete characters beyond the starting point of the current insertion.
 bindkey -M viins '\C-h' backward-delete-char
 bindkey -M viins '\C-w' backward-kill-word
-bindkey -M viins '\C-u' kill-line
+bindkey -M viins '\C-u' backward-kill-line
 
 # undo/redo more than once.
 bindkey -M vicmd 'u' undo
