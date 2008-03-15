@@ -310,6 +310,37 @@ END
 
 
 
+# Line Editor  #{{{1
+# Vim-like behavior  #{{{2
+# to delete characters beyond the starting point of the current insertion.
+bindkey -M viins '\C-h' backward-delete-char
+bindkey -M viins '\C-w' backward-kill-word
+bindkey -M viins '\C-u' kill-line
+
+# undo/redo more than once.
+bindkey -M vicmd 'u' undo
+bindkey -M vicmd '\C-r' redo
+
+# history
+bindkey -M vicmd '/' history-incremental-search-backward
+bindkey -M vicmd '?' history-incremental-search-forward
+bindkey -M vicmd '\[k' history-beginning-search-backward
+bindkey -M vicmd '\[j' history-beginning-search-forward
+bindkey -M vicmd 'gg' beginning-of-history
+
+# modification
+bindkey -M vicmd 'gu' down-case-word
+bindkey -M vicmd 'gU' up-case-word
+bindkey -M vicmd 'g~' vi-oper-swap-case
+
+
+# Others  #{{{2
+bindkey -M vicmd '\C-t' transpose-characters
+bindkey -M vicmd '\[t' transpose-words
+
+
+
+
 # The following lines were added by compinstall  #{{{1
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _list _expand _complete _ignored _correct _approximate
