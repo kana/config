@@ -38,14 +38,16 @@ GROUP_COLINUX_internal_FILES=\
   colinux/etc/network/interfaces \
   colinux/etc/resolv.conf
 GROUP_COLINUX_internal_RULE=$(patsubst colinux/%,/%,$(1))
-GROUP_COLINUX_internal_POST_TARGETS=colinux-etc-fstab-inplace
-colinux-etc-fstab-inplace: /etc/fstab~
+GROUP_COLINUX_internal_POST_TARGETS=post-colinux-etc-fstab-inplace
+define post-colinux-etc-fstab-inplace
+post-colinux-etc-fstab-inplace: /etc/fstab~
 /etc/fstab~: /etc/fstab
 	if [ -z '$(NORMAL_USER)' ]; then \
 	  echo 'NORMAL_USER is required.'; \
 	  false; \
 	fi
 	sed -e 's/@@USER@@/$(NORMAL_USER)/g' -i~ $<
+endef
 
 GROUP_COLINUX_external_FILES=\
   colinux/my-colinux.bat \
@@ -90,50 +92,35 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
 GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
-  $(GROUP_VIM_DOC_FILES) \
-  vim/dot.vim/after/ftplugin/xml_autons.vim \
-  vim/dot.vim/autoload/ku.vim \
-  vim/dot.vim/autoload/narrow.vim \
-  vim/dot.vim/autoload/scratch.vim \
-  vim/dot.vim/autoload/textobj/user.vim \
-  vim/dot.vim/autoload/vcsi.vim \
+  $(PACKAGE_vim_cygclip_FILES) \
+  $(PACKAGE_vim_ku_FILES) \
+  $(PACKAGE_vim_narrow_FILES) \
+  $(PACKAGE_vim_scratch_FILES) \
+  $(PACKAGE_vim_textobj_datetime_FILES) \
+  $(PACKAGE_vim_textobj_user_FILES) \
+  $(PACKAGE_vim_tofunc_FILES) \
+  $(PACKAGE_vim_vcsi_FILES) \
+  $(PACKAGE_vim_xml_autons_FILES) \
+  $(PACKAGE_vim_xml_move_FILES) \
   vim/dot.vim/autoload/xml/svg11.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
-  vim/dot.vim/ftplugin/c_tofunc.vim \
+  vim/dot.vim/doc/surround.txt \
   vim/dot.vim/ftplugin/issue.vim \
-  vim/dot.vim/ftplugin/vim_tofunc.vim \
-  vim/dot.vim/ftplugin/xml_move.vim \
-  vim/dot.vim/plugin/cygclip.vim \
-  vim/dot.vim/plugin/ku.vim \
-  vim/dot.vim/plugin/narrow.vim \
-  vim/dot.vim/plugin/scratch.vim \
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/surround_config.vim \
-  vim/dot.vim/plugin/textobj/datetime.vim \
-  vim/dot.vim/plugin/tofunc.vim \
-  vim/dot.vim/plugin/vcsi.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
-GROUP_VIM_DOC_FILES=\
-  vim/dot.vim/doc/cygclip.txt \
-  vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/doc/narrow.txt \
-  vim/dot.vim/doc/scratch.txt \
-  vim/dot.vim/doc/surround.txt \
-  vim/dot.vim/doc/textobj-datetime.txt \
-  vim/dot.vim/doc/textobj-user.txt \
-  vim/dot.vim/doc/tofunc.txt \
-  vim/dot.vim/doc/vcsi.txt \
-  vim/dot.vim/doc/xml_autons.txt \
-  vim/dot.vim/doc/xml_move.txt
-GROUP_VIM_POST_TARGETS=vim-update-local-helptags
-vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
-$(DESTDIR)$(HOME)/.vim/doc/tags: $(GROUP_VIM_DOC_FILES)
+GROUP_VIM_POST_TARGETS=post-vim-update-local-helptags
+define post-vim-update-local-helptags
+post-vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
+$(DESTDIR)$(HOME)/.vim/doc/tags: \
+		$(filter vim/dot.vim/doc/%.txt,$(GROUP_VIM_FILES))
 	vim -n -N -u NONE -U NONE -e -c 'helptags $(dir $@) | q'
+endef
 
 
 
@@ -319,6 +306,11 @@ update .PHONY: $(foreach group,$(1),$(GROUP_$(group)_POST_TARGETS))
 endef
 
 $(eval $(call GenerateRulesFromGroups,$(ALL_GROUPS)))
+$(foreach group, \
+  $(ALL_GROUPS), \
+  $(foreach post-target, \
+    $(GROUP_$(group)_POST_TARGETS), \
+    $(eval $($(post-target)))))
 
 
 
