@@ -46,7 +46,7 @@ post-colinux-etc-fstab-inplace: /etc/fstab~
 	  echo 'NORMAL_USER is required.'; \
 	  false; \
 	fi
-	sed -e 's/@@USER@@/$(NORMAL_USER)/g' -i~ $<
+	sed -e 's/@@USER@@/$(NORMAL_USER)/g' -i~ $$<
 endef
 
 GROUP_COLINUX_external_FILES=\
@@ -119,7 +119,7 @@ define post-vim-update-local-helptags
 post-vim-update-local-helptags: $(DESTDIR)$(HOME)/.vim/doc/tags
 $(DESTDIR)$(HOME)/.vim/doc/tags: \
 		$(filter vim/dot.vim/doc/%.txt,$(GROUP_VIM_FILES))
-	vim -n -N -u NONE -U NONE -e -c 'helptags $(dir $@) | q'
+	vim -n -N -u NONE -U NONE -e -c 'helptags $$(dir $$@) | quit'
 endef
 
 
