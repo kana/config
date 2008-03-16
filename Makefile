@@ -100,6 +100,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
+  $(PACKAGE_vim_textobj_fold_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_tofunc_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
@@ -139,6 +140,7 @@ ALL_PACKAGES=\
   vim-narrow \
   vim-scratch \
   vim-textobj-datetime \
+  vim-textobj-fold \
   vim-textobj-user \
   vim-tofunc \
   vim-vcsi \
@@ -197,6 +199,12 @@ PACKAGE_vim_textobj_datetime_BASE=vim/dot.vim
 PACKAGE_vim_textobj_datetime_FILES=\
   vim/dot.vim/doc/textobj-datetime.txt \
   vim/dot.vim/plugin/textobj/datetime.vim
+
+PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.0.0
+PACKAGE_vim_textobj_fold_BASE=vim/dot.vim
+PACKAGE_vim_textobj_fold_FILES=\
+  vim/dot.vim/doc/textobj-fold.txt \
+  vim/dot.vim/plugin/textobj/fold.vim
 
 PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.2
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
