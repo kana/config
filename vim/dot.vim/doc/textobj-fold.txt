@@ -1,0 +1,97 @@
+*textobj-fold.txt*	Text objects for foldings.
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+
+
+CONTENTS					*textobj-fold-contents*
+
+Introduction			|textobj-fold-introduction|
+Key Mapings			|textobj-fold-key-mappings|
+Customizing			|textobj-fold-customizing|
+Bugs				|textobj-fold-bugs|
+ChangeLog			|textobj-fold-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*textobj-fold-introduction*
+
+textobj-fold is a Vim plugin to provide text objects for foldings.
+
+Requirements:
+* Vim 7.0 or later.
+
+
+
+
+==============================================================================
+KEY MAPPINGS					*textobj-fold-key-mappings*
+
+<Plug>(textobj-fold-a)			*<Plug>(textobj-fold-a)*
+	"a folding", select [count] foldings.
+	Leading or trailing lines which are not in any foldings are also
+	included, but not counted.
+	When used in Visual mode, this mapping switches to linewise Visual
+	mode.
+
+<Plug>(textobj-fold-i)			*<Plug>(textobj-fold-i)*
+	"inner folding", select [count] foldings.
+	Leading or trailing lines which are not in any foldings are also
+	counted too.
+	When used in Visual mode, this mapping switches to linewise Visual
+	mode.
+
+
+
+
+==============================================================================
+CUSTOMIZING					*textobj-fold-customizing*
+
+				      *g:textobj_fold_no_default_key_mappings*
+					  *:TextobjFoldDefaultKeyMappings*
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode automatically.  If you don't want these key mappings,
+define |g:textobj_fold_no_default_key_mappings| before this plugin is
+loaded (e.g. in your |vimrc|).  You can also use
+|:TextobjFoldDefaultKeyMappings| to redefine these key mappings.
+
+	{lhs}	{rhs}				~
+	-----	---------------------------	~
+	az	<Plug>(textobj-fold-a)
+	iz	<Plug>(textobj-fold-i)
+
+
+
+
+==============================================================================
+BUGS						*textobj-fold-bugs*
+
+- |<Plug>(textobj-fold-a)| is not perfectly implemented.  It behaves as same
+  as |<Plug>(textobj-fold-i)|.
+
+- In Visual-mode, the current selection is overriden by new selection.
+
+- In Visual-mode, repleating |<Plug>(textobj-fold-a)| and other mappings don't
+  expand selection.
+
+- To be autoloaded.
+
+- There are many bugs which are not listed in the above.
+
+
+
+
+==============================================================================
+CHANGELOG					*textobj-fold-changelog*
+
+0.0.0	2008-03-16T21:42:31+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
