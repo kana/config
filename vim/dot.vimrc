@@ -1236,7 +1236,7 @@ unlet i
 
 " Set the height of the current window height to same as the selected range.
 vnoremap <silent> _
-  \ <Esc>`<zt:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>
+  \ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
 
 
 
