@@ -1234,9 +1234,15 @@ endfor
 unlet i
 
 
-" Set the height of the current window height to same as the selected range.
+" Adjust the height of the current window as same as the selected range.
 vnoremap <silent> _
   \ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
+nnoremap <silent> _
+  \ :set operatorfunc=<SID>AdjustWindowHeightToTheSelection<Return>g@
+function! s:AdjustWindowHeightToTheSelection(visual_mode)
+  normal! `[v`]
+  normal _
+endfunction
 
 
 
