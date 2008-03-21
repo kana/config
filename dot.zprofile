@@ -3,9 +3,9 @@
 
 # What machine am I working on?
 # BUGS: ad hoc conditions to determine.
-if [ "$OSTYPE" == 'cygwin' ]; then
+if [ "$OSTYPE" = 'cygwin' ]; then
   export ENV_WORKING='cygwin'
-elif [ "$HOST" == 'colinux' ]; then
+elif [ "$HOST" = 'colinux' ]; then
   export ENV_WORKING='colinux'
 else
   export ENV_WORKING='linux'
@@ -13,7 +13,7 @@ fi
 
 
 # What machine am I using to access $ENV_WORKING?
-if [ "$TERM" == 'xterm-256color' ]; then
+if [ "$TERM" = 'xterm-256color' ]; then
   # FIXME: How to determine colinux or linux?
   export ENV_ACCESS="$ENV_WORKING"
 else
@@ -67,13 +67,13 @@ esac
 
 
 # make
-if [ "$ENV_WORKING" == 'cygwin' ]; then
+if [ "$ENV_WORKING" = 'cygwin' ]; then
   export MAKE_MODE=unix
 fi
 
 
 # X
-if [ "$ENV_WORKING" == 'linux' ] && [ -n "$DISPLAY" ]; then
+if [ "$ENV_WORKING" = 'linux' ] && [ -n "$DISPLAY" ]; then
   setxkbmap us
   xmodmap ~/.xmodmaprc
   if ! xset q | grep $HOME >/dev/null; then
