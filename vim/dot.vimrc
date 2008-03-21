@@ -1234,6 +1234,11 @@ endfor
 unlet i
 
 
+" Set the height of the current window height to same as the selected range.
+vnoremap <silent> _
+  \ <Esc>`<zt:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>
+
+
 
 
 " Misc.  "{{{2
@@ -1419,11 +1424,6 @@ endfunction
 " Show the lines which match to the last search pattern.
 nnoremap g/  :g/<Return>
 vnoremap g/  :g/<Return>
-
-
-" Set the height of the current window height to same as the selected range.
-vnoremap <silent> _
-  \ <Esc>`<zt:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>
 
 
 
