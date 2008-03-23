@@ -1,6 +1,6 @@
 *ku.txt*	Support to do something
 
-Version 0.0.0
+Version 0.0.1
 Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
@@ -9,6 +9,7 @@ $Id$
 Introduction			|ku-introduction|
 Commands			|ku-commands|
 Functions			|ku-functions|
+Variables			|ku-variables|
 Customizing			|ku-customizing|
 Bugs				|ku-bugs|
 Changelog			|ku-changelog|
@@ -107,6 +108,17 @@ ku#custom_key({type-name}, {key}, {new-action-name})	*ku#custom_key()*
 			Define {key} to do the action {new-action-name} for
 			items of the type {type-name} in
 			|<Plug>(ku-choose-action)|.
+
+
+
+
+==============================================================================
+VARIABLES						*ku-variables*
+
+					       *g:ku_completing_delay*
+g:ku_completing_delay	number	(default 100)
+			The delay in milliseconds to start completion after
+			a new character is inserted in the ku window.
 
 
 
@@ -241,6 +253,11 @@ BUGS							*ku-bugs*
 
 ==============================================================================
 CHANGELOG						*ku-changelog*
+
+0.0.1	2008-03-24T00:37:06+09:00
+	- Use |CursorHoldI| instead of |CursorMovedI| to check a new character
+	  is typed in the ku window.  Showing candidates will be delayed
+	  |g:ku_completing_delay| milliseconds.
 
 0.0.0	2008-01-25T19:34:13+09:00
 	- Derived from buffuzzy and zapit.
