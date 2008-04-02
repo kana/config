@@ -65,6 +65,7 @@ GROUP_DOTS_FILES=\
   dot.guile \
   dot.screen/conf \
   dot.screen/keys \
+  dot.screen/keys.clear \
   dot.screenrc \
   dot.Xdefaults \
   dot.zprofile \
