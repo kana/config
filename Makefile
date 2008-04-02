@@ -63,6 +63,8 @@ GROUP_DOTS_FILES=\
   dot.bash.d/svk-completion.pl \
   dot.inputrc \
   dot.guile \
+  dot.screen/conf \
+  dot.screen/keys \
   dot.screenrc \
   dot.Xdefaults \
   dot.zprofile \

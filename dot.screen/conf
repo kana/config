@@ -1,0 +1,26 @@
+# vim: filetype=screen
+
+escape ^Aa
+term xterm-256color
+defbce on
+defscrollback 1000
+defencoding utf-8
+encoding utf-8 utf-8
+altscreen on
+
+autodetach on  # detach on hangup
+pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+
+hardcopydir "$HOME/.screen/"
+nethack on
+startup_message off
+vbell off
+vbell_msg "Bell in %t"
+
+caption splitonly '%?%F@%: %?%3n %t%? [%f]%?'
+hardstatus on
+hardstatus alwayslastline
+hardstatus string '%{= Kw}%-w%{+bu}%n %t%{-}%+w%-18= | %D %m-%d %02c'
+shelltitle 'shell'
+
+# __END__
