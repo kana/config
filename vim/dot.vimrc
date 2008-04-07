@@ -94,7 +94,7 @@ endfunction
 " Encoding  "{{{2
 
 " To deal with Japanese language.
-if $ENV_WORKING ==# 'colinux'
+if $ENV_WORKING ==# 'colinux' || $ENV_WORKING ==# 'mac'
   set encoding=utf-8
 else
   set encoding=japan

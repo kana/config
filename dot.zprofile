@@ -3,7 +3,9 @@
 
 # What machine am I working on?
 # BUGS: ad hoc conditions to determine.
-if [ "$OSTYPE" = 'cygwin' ]; then
+if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
+  export ENV_WORKING='mac'
+elif [ "$OSTYPE" = 'cygwin' ]; then
   export ENV_WORKING='cygwin'
 elif [ "$HOST" = 'colinux' ]; then
   export ENV_WORKING='colinux'
@@ -13,7 +15,7 @@ fi
 
 
 # What machine am I using to access $ENV_WORKING?
-if [ "$TERM" = 'xterm-256color' ]; then
+if [ "$TERM" = 'xterm-256color' ] || [ "$ENV_WORKING" = 'mac' ]; then
   # FIXME: How to determine colinux or linux?
   export ENV_ACCESS="$ENV_WORKING"
 else
