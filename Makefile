@@ -22,6 +22,7 @@ ALL_GROUPS_colinux=COLINUX_external
 ALL_GROUPS_colinux_root=COLINUX_internal
 ALL_GROUPS_cygwin=CEREJA COLINUX_external DOTS_cygwin OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
+ALL_GROUPS_mac=OPERA
 
 GROUP_CEREJA_FILES=\
   cereja/config.lua \
@@ -82,13 +83,21 @@ GROUP_DOTS_linux_FILES=\
   dot.xmodmaprc-dvorak
 GROUP_DOTS_linux_RULE=$(GROUP_DOTS_RULE)
 
-GROUP_OPERA_FILES=\
+GROUP_OPERA_FILES=$(GROUP_OPERA_$(ENV_WORKING)_FILES)
+GROUP_OPERA_cygwin_FILES=\
   opera/keyboard/my-keyboard.ini \
   opera/menu/my-menu.ini \
   opera/search.ini \
   opera/skin/windows_skin3.zip \
   opera/styles/user.css \
   opera/toolbar/my-toolbar.ini
+GROUP_OPERA_mac_FILES=\
+  opera/Keyboard/my-keyboard.ini \
+  opera/Menu/my-menu.ini \
+  opera/search.ini \
+  opera/Skin/windows_skin3.zip \
+  opera/Styles/user.css \
+  opera/Toolbars/my-toolbar.ini
 GROUP_OPERA_RULE=$(patsubst opera/%,$(GROUP_OPERA_DIR)/%,$(1))
 GROUP_OPERA_DIR=$(abspath opera/profile-link)
 
