@@ -94,6 +94,7 @@ GROUP_OPERA_cygwin_FILES=\
 GROUP_OPERA_mac_FILES=\
   opera/Keyboard/my-keyboard.ini \
   opera/Menu/my-menu.ini \
+  opera/Mouse/my-mouse.ini \
   opera/search.ini \
   opera/Skin/windows_skin3.zip \
   opera/Styles/user.css \
