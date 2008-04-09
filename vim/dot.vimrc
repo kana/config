@@ -1264,9 +1264,21 @@ nnoremap <Esc>2  :e #<Return>
 nmap <F2>  <Esc>2
 
 
-" Too lazy to press Shift key.
-noremap ;  :
-noremap :  ;
+" Lazy man's hacks on the Semicolon key.
+" FIXME: <S-Return> is not available on most of terminals.
+if $ENV_WORKING ==# 'mac'
+  " On my MacBook, Semicolon and Return are swapped by KeyRemap4MacBook.
+  noremap ;  <Return>
+  noremap <Return>  :
+  noremap <S-Return>  ;
+else
+  " Too lazy to press Shift key.
+  noremap ;  :
+  noremap :  ;
+  noremap! ;  <Return>
+  noremap! <Return>  ;
+  noremap! <S-Return>  :
+endif
 
 
 " Disable some dangerous key.
