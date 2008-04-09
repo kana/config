@@ -232,6 +232,7 @@ alias altr='ls -altr'
 alias v='vim'
 alias g='git'
 alias gs='git-svn'
+alias screen='LANG= screen'
 
 alias ..='cd ..'
 
