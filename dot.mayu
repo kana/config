@@ -41,6 +41,12 @@ if (USE109)  # JIS layout (assumes "ordinary" one)
   # same as USE104.
   mod shift += !!RightShift
   key *RightShift = *Yen
+
+  # Semicolon-Return swapping.
+  key ~S-*Semicolon = ~S-*Return
+  key ~S-*Colon = S-*Return
+  key ~S-*Return = $SEMICOLON
+  key S-*Return = $COLON
 endif
 
 
