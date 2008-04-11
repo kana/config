@@ -9,6 +9,7 @@
 
 
 # PATH
+export PATH MANPATH INFOPATH
 if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
   # for Ruby
   if which gem &>/dev/null; then
@@ -22,7 +23,7 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
 	PATH="$i:$PATH"
       fi
     done
-    if [ -d "/opt/local/share/man" ]; then export MANPATH="/opt/local/share/man:$MANPATH"; fi
+    if [ -d "/opt/local/share/man" ]; then MANPATH="/opt/local/share/man:$MANPATH"; fi
   fi
 
   # for manually built applications
@@ -35,9 +36,9 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
   fi
 
   # for my own tools
-  if [ -d "$HOME/bin" ]; then export PATH="$HOME/bin:$PATH"; fi
-  if [ -d "$HOME/man" ]; then export MANPATH="$HOME/man:$MANPATH"; fi
-  if [ -d "$HOME/info" ]; then export INFOPATH="$HOME/info:$INFOPATH"; fi
+  if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
+  if [ -d "$HOME/man" ]; then MANPATH="$HOME/man:$MANPATH"; fi
+  if [ -d "$HOME/info" ]; then INFOPATH="$HOME/info:$INFOPATH"; fi
 fi
 
 
