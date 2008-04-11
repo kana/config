@@ -881,8 +881,8 @@ nnoremap <silent> tP         :<C-u>tfirst<Return>
 nnoremap <silent> tN         :<C-u>tlast<Return>
 
 " additions, like Web browsers
-nmap              <C-m>      tt
-vmap              <C-m>      tt
+nmap <Plug>(physical-key-<Return>)  tt
+vmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
 nnoremap          t<Space>   :<C-u>tag<Space>
@@ -1847,10 +1847,10 @@ noremap [Space]xw  :<C-u>Widen<Return>
 nmap <Leader>s  <Plug>(scratch-open)
 
 
-" I already use <C-m> for tag jumping.
+" I already use <C-m>/<Return> for tag jumping.
 " But I don't use it in the scratch buffer, so it should be overridden.
 autocmd MyAutoCmd User PluginScratchInitializeAfter
-      \ map <buffer> <C-m>  <Plug>(scratch-evaluate)
+      \ map <buffer> <Plug>(physical-key-<Return>)  <Plug>(scratch-evaluate)
 
 
 
