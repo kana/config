@@ -1247,6 +1247,49 @@ endfunction
 
 
 
+" Physical/Logical keyboard layout declaration  "{{{2
+"
+" :KeyLayout {physical-key}  {logical-key}
+"   Declare that whenever Vim gets a character {logical-key}, the
+"   corresponding physical key is {physical-key}.  This declaration will be
+"   used to map based on physical keyboard layout.  To map {rhs} to a physical
+"   key {X}, use 'noremap <Plug>(physical-key-{X})  {rhs}'.
+"
+" FIXME: Most of my key mappings don't use these indirect keys.
+
+command! -nargs=+ KeyLayout  call s:KeyLayout(<f-args>)
+function! s:KeyLayout(physical_key, logical_key)
+  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
+  execute 'Allmap' a:logical_key indirect_key
+  execute 'Allnoremap' indirect_key a:logical_key
+endfunction
+command! -nargs=+ Allmap
+      \   execute 'map' <q-args>
+      \ | execute 'map!' <q-args>
+command! -nargs=+ Allnoremap
+      \   execute 'noremap' <q-args>
+      \ | execute 'noremap!' <q-args>
+command! -nargs=+ Allunmap
+      \   execute 'silent! unmap' <q-args>
+      \ | execute 'silent! unmap!' <q-args>
+
+
+if $ENV_WORKING ==# 'mac'
+  " On my MacBook, Semicolon and Return are swapped by KeyRemap4MacBook.
+  KeyLayout ;  <Return>
+  KeyLayout :  <S-Return>
+  KeyLayout <Return>  ;
+  KeyLayout <S-Return>  :
+else
+  KeyLayout ;  ;
+  KeyLayout :  :
+  KeyLayout <Return>  <Return>
+  KeyLayout <S-Return>  <S-Return>
+endif
+
+
+
+
 " Misc.  "{{{2
 
 nnoremap <C-h>  :h<Space>
@@ -1265,20 +1308,16 @@ nmap <F2>  <Esc>2
 
 
 " Lazy man's hacks on the Semicolon key.
-" FIXME: <S-Return> is not available on most of terminals.
-if $ENV_WORKING ==# 'mac'
-  " On my MacBook, Semicolon and Return are swapped by KeyRemap4MacBook.
-  noremap ;  <Return>
-  noremap <Return>  :
-  noremap <S-Return>  ;
-else
-  " Too lazy to press Shift key.
-  noremap ;  :
-  noremap :  ;
-  noremap! ;  <Return>
-  noremap! <Return>  ;
-  noremap! <S-Return>  :
-endif
+" - Don't want to press Shift to enter the Command-line mode.
+" - Don't want to press far Return key to input <Return>.
+noremap <Plug>(physical-key-;)  :
+noremap <Plug>(physical-key-:)  ;
+noremap <Plug>(physical-key-<Return>)  <Return>
+noremap <Plug>(physical-key-<S-Return>)  <S-Return>
+noremap! <Plug>(physical-key-;)  <Return>
+noremap! <Plug>(physical-key-:)  <S-Return>
+noremap! <Plug>(physical-key-<Return>)  ;
+noremap! <Plug>(physical-key-<S-Return>)  :
 
 
 " Disable some dangerous key.
