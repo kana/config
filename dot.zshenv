@@ -28,16 +28,18 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
 
   # for manually built applications
   if [ -d /usr/local/apps ]; then
-    for i in /usr/local/apps/*/bin; do
-      if [ -d "$i" ]; then
-	PATH="$i:$PATH"
-      fi
+    for i in /usr/local/apps/*; do
+      if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
+      if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
+      if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
+      if [ -d "$i/info" ]; then INFOPATH="$i/info:$INFOPATH"; fi
     done
   fi
 
   # for my own tools
   if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
   if [ -d "$HOME/man" ]; then MANPATH="$HOME/man:$MANPATH"; fi
+  if [ -d "$HOME/share/man" ]; then MANPATH="$HOME/share/man:$MANPATH"; fi
   if [ -d "$HOME/info" ]; then INFOPATH="$HOME/info:$INFOPATH"; fi
 fi
 
