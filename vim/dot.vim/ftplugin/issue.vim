@@ -23,12 +23,15 @@ let s:RE_ISSUE_ID = '#\<\d\+\>'
 
 " Key mappings  "{{{1
 
-nnoremap <buffer> <LocalLeader>s  :<C-u>call <SID>ShowStatus()<Return>
+nnoremap <buffer> <Plug>(issue-show-status)  :<C-u>call <SID>ShowStatus()<Return>
+nnoremap <buffer> <Plug>(issue-new-issue)  :<C-u>call <SID>NewIssue()<Return>
+nnoremap <buffer> <Plug>(issue-new-note)  :<C-u>call <SID>NewNote()<Return>
+nnoremap <buffer> <Plug>(issue-jump-to-issue)  :<C-u>call <SID>JumpToIssue()<Return>
 
-nnoremap <buffer> <LocalLeader>i  :<C-u>call <SID>NewIssue()<Return>
-nnoremap <buffer> <LocalLeader>n  :<C-u>call <SID>NewNote()<Return>
-
-nnoremap <buffer> <Return>  :<C-u>call <SID>JumpToIssue()<Return>
+silent! nmap <unique> <buffer> <LocalLeader>s  <Plug>(issue-show-status)
+silent! nmap <unique> <buffer> <LocalLeader>i  <Plug>(issue-new-issue)
+silent! nmap <unique> <buffer> <LocalLeader>n  <Plug>(issue-new-note)
+silent! nmap <unique> <buffer> <Return>  <Plug>(issue-jump-to-issue)
 
 call textobj#user#define(s:RE_ISSUE_ID, '', '', {
    \                       'move-to-next': '<LocalLeader>j',
