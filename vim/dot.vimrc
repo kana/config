@@ -820,8 +820,12 @@ function! s:GetTabVar(tabnr, varname)
 endfunction
 
 
-command! -bar -nargs=0 TabTitle
-      \ let t:title = input("Set tabpage's title to: ",'')
+command! -bar -nargs=? TabTitle
+      \   if <q-args> == ''
+      \ |   let t:title = input("Set tabpage's title to: ",'')
+      \ | else
+      \ |   let t:title = <q-args>
+      \ | endif
 
 
 " Set up the layout of my usual days.
@@ -829,10 +833,12 @@ command! -bar -nargs=0 UsualDays  call s:UsualDays()
 function! s:UsualDays()
   normal! 'T
   execute 'CD' fnamemodify(expand('%'), ':p:h')
+  TabTitle meta
 
   tabnew
   normal! 'V
   execute 'CD' fnamemodify(expand('%'), ':p:h:h')
+  TabTitle config
 endfunction
 
 
