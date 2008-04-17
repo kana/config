@@ -1,0 +1,148 @@
+*textobj-jabraces.txt*	Text objects for Japanese braces
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+
+
+CONTENTS					*textobj-jabraces-contents*
+
+Introduction			|textobj-jabraces-introduction|
+Key Mapings			|textobj-jabraces-key-mappings|
+Customizing			|textobj-jabraces-customizing|
+Bugs				|textobj-jabraces-bugs|
+ChangeLog			|textobj-jabraces-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*textobj-jabraces-introduction*
+
+textobj-jabraces is a Vim plugin to provide text objects for Japanese braces
+such as 「foo」 or 【bar】.
+
+Requirements:
+* Vim 7.0 or later.
+* |textobj-user| <http://www.vim.org/scripts/script.php?script_id=2100>
+
+
+
+
+==============================================================================
+KEY MAPPINGS					*textobj-jabraces-key-mappings*
+
+Thie plugin provides following key mappings in Visual mode and
+Operator-pending mode.  "i" versions select "inner block" and "a" versions
+select "a block".  The key mappings and their corresponding characters are as
+followings:
+
+Characters	Key Mappings ~
+----------	------------ ~
+（）		*<Plug>(textobj-jabraces-i-parens)*
+［］		*<Plug>(textobj-jabraces-i-braces)*
+｛｝		*<Plug>(textobj-jabraces-i-brackets)*
+＜＞		*<Plug>(textobj-jabraces-i-angles)*
+≪≫		*<Plug>(textobj-jabraces-i-double-angles)*
+「」		*<Plug>(textobj-jabraces-i-kakko)*
+『』		*<Plug>(textobj-jabraces-i-double-kakko)*
+〈〉		*<Plug>(textobj-jabraces-i-yama-kakko)*
+《》		*<Plug>(textobj-jabraces-i-double-yama-kakko)*
+〔〕		*<Plug>(textobj-jabraces-i-kikkou-kakko)*
+【】		*<Plug>(textobj-jabraces-i-sumi-kakko)*
+（）		*<Plug>(textobj-jabraces-a-parens)*
+［］		*<Plug>(textobj-jabraces-a-braces)*
+｛｝		*<Plug>(textobj-jabraces-a-brackets)*
+＜＞		*<Plug>(textobj-jabraces-a-angles)*
+≪≫		*<Plug>(textobj-jabraces-a-double-angles)*
+「」		*<Plug>(textobj-jabraces-a-kakko)*
+『』		*<Plug>(textobj-jabraces-a-double-kakko)*
+〈〉		*<Plug>(textobj-jabraces-a-yama-kakko)*
+《》		*<Plug>(textobj-jabraces-a-double-yama-kakko)*
+〔〕		*<Plug>(textobj-jabraces-a-kikkou-kakko)*
+【】		*<Plug>(textobj-jabraces-a-sumi-kakko)*
+
+
+
+
+==============================================================================
+CUSTOMIZING					*textobj-jabraces-customizing*
+
+				  *g:textobj_jabraces_no_default_key_mappings*
+					  *:TextobjJabracesDefaultKeyMappings*
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode, and each key mappings will not be defined if its {lsh}
+is already mapped to other {rhs}.
+
+If you don't want these key mappings, define
+|g:textobj_jabraces_no_default_key_mappings| before this plugin is loaded
+(e.g. in $MYVIMRC).
+
+You can also use |:TextobjJabracesDefaultKeyMappings| to redefine these key
+mappings.  If you want to override existent key mappings, use
+:TextobjJabracesDefaultKeyMappings! instead.
+
+	{lhs}	{rhs}				~
+	-----	---------------------------	~
+	*ajb*	|<Plug>(textobj-jabraces-a-parens)|
+	*aj(*	|<Plug>(textobj-jabraces-a-parens)|
+	*aj)*	|<Plug>(textobj-jabraces-a-parens)|
+	*ajB*	|<Plug>(textobj-jabraces-a-braces)|
+	*aj{*	|<Plug>(textobj-jabraces-a-braces)|
+	*aj}*	|<Plug>(textobj-jabraces-a-braces)|
+	*ajr*	|<Plug>(textobj-jabraces-a-brackets)|
+	*aj[*	|<Plug>(textobj-jabraces-a-brackets)|
+	*aj]*	|<Plug>(textobj-jabraces-a-brackets)|
+	*aja*	|<Plug>(textobj-jabraces-a-angles)|
+	*aj<*	|<Plug>(textobj-jabraces-a-angles)|
+	*aj>*	|<Plug>(textobj-jabraces-a-angles)|
+	*ajA*	|<Plug>(textobj-jabraces-a-double-angles)|
+	*ajk*	|<Plug>(textobj-jabraces-a-kakko)|
+	*ajK*	|<Plug>(textobj-jabraces-a-double-kakko)|
+	*ajy*	|<Plug>(textobj-jabraces-a-yama-kakko)|
+	*ajY*	|<Plug>(textobj-jabraces-a-double-yama-kakko)|
+	*ajt*	|<Plug>(textobj-jabraces-a-kikkou-kakko)|
+	*ajs*	|<Plug>(textobj-jabraces-a-sumi-kakko)|
+
+	*ijb*	|<Plug>(textobj-jabraces-i-parens)|
+	*ij(*	|<Plug>(textobj-jabraces-i-parens)|
+	*ij)*	|<Plug>(textobj-jabraces-i-parens)|
+	*ijB*	|<Plug>(textobj-jabraces-i-braces)|
+	*ij{*	|<Plug>(textobj-jabraces-i-braces)|
+	*ij}*	|<Plug>(textobj-jabraces-i-braces)|
+	*ijr*	|<Plug>(textobj-jabraces-i-brackets)|
+	*ij[*	|<Plug>(textobj-jabraces-i-brackets)|
+	*ij]*	|<Plug>(textobj-jabraces-i-brackets)|
+	*ija*	|<Plug>(textobj-jabraces-i-angles)|
+	*ij<*	|<Plug>(textobj-jabraces-i-angles)|
+	*ij>*	|<Plug>(textobj-jabraces-i-angles)|
+	*ijA*	|<Plug>(textobj-jabraces-i-double-angles)|
+	*ijk*	|<Plug>(textobj-jabraces-i-kakko)|
+	*ijK*	|<Plug>(textobj-jabraces-i-double-kakko)|
+	*ijy*	|<Plug>(textobj-jabraces-i-yama-kakko)|
+	*ijY*	|<Plug>(textobj-jabraces-i-double-yama-kakko)|
+	*ijt*	|<Plug>(textobj-jabraces-i-kikkou-kakko)|
+	*ijs*	|<Plug>(textobj-jabraces-i-sumi-kakko)|
+
+
+
+
+==============================================================================
+BUGS						*textobj-jabraces-bugs*
+
+- Not known yet.
+
+
+
+
+==============================================================================
+CHANGELOG					*textobj-jabraces-changelog*
+
+0.0.0	2008-04-17T19:09:06+09:00
+	- First release.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
