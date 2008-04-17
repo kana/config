@@ -48,7 +48,9 @@ bind -c detach d detach
 bind -c detach ^D detach
 bind -c detach D pow_detach
 
-bind . eval 'source $HOME/.screenrc' 'echo "~/.screenrc has been reloaded."'
+# BUGS: directly use of "source ..." or "eval 'source ...'" causes GNU screen
+# crashing, so here we have to indirectly use them via external command.
+bind . exec sh -c 'screen -X source ~/.screenrc; screen -X echo "~/.screenrc has been reloaded."'
 
 bind ^O eval 'echo -p "Shell? -- Cygwin / Linux / Root"' 'command -c shell'
 bind -c shell ^A eval 'screen -t "another" 1'
