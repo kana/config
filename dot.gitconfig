@@ -1,0 +1,25 @@
+# my gitconfig
+
+[user]
+	name = kana
+	email = nicht@s8.xrea.com
+
+[color]
+	ui = auto
+[core]
+	pager = less -r
+[alias]
+	b = branch
+	ba = branch -a
+	br = branch -r
+	ci = commit
+	co = checkout
+	dl = diff HEAD^
+	ds = staged
+	du = unstaged
+	l = log
+	st = status
+	staged = diff --cached
+	unstaged = diff
+
+# __END__
