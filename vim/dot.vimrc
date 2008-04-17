@@ -861,6 +861,48 @@ endfunction
 " Key Mappings  "{{{1
 " FIXME: many {rhs}s use : without <C-u> (clearing count effect).
 " FIXME: some mappings are not countable.
+" Physical/Logical keyboard layout declaration  "{{{2
+"
+" :KeyLayout {physical-key}  {logical-key}
+"   Declare that whenever Vim gets a character {logical-key}, the
+"   corresponding physical key is {physical-key}.  This declaration will be
+"   used to map based on physical keyboard layout.  To map {rhs} to a physical
+"   key {X}, use 'noremap <Plug>(physical-key-{X})  {rhs}'.
+
+command! -nargs=+ KeyLayout  call s:KeyLayout(<f-args>)
+function! s:KeyLayout(physical_key, logical_key)
+  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
+  execute 'Allmap' a:logical_key indirect_key
+  execute 'Allnoremap' indirect_key a:logical_key
+endfunction
+command! -nargs=+ Allmap
+      \   execute 'map' <q-args>
+      \ | execute 'map!' <q-args>
+command! -nargs=+ Allnoremap
+      \   execute 'noremap' <q-args>
+      \ | execute 'noremap!' <q-args>
+command! -nargs=+ Allunmap
+      \   execute 'silent! unmap' <q-args>
+      \ | execute 'silent! unmap!' <q-args>
+
+
+if $ENV_WORKING ==# 'mac' || $USER ==# 'kecak'
+  " On my MacBook, Semicolon and Return are swapped by KeyRemap4MacBook.
+  " On u machines, these keys are swapped by Mayu.
+  KeyLayout ;  <Return>
+  KeyLayout :  <S-Return>
+  KeyLayout <Return>  ;
+  KeyLayout <S-Return>  :
+else
+  KeyLayout ;  ;
+  KeyLayout :  :
+  KeyLayout <Return>  <Return>
+  KeyLayout <S-Return>  <S-Return>
+endif
+
+
+
+
 " Tag jumping  "{{{2
 " FIXME: the target window of :split/:vsplit version.
 " Fallback  "{{{3
@@ -1249,49 +1291,6 @@ function! s:AdjustWindowHeightToTheSelection(visual_mode)
   normal! `[v`]
   normal _
 endfunction
-
-
-
-
-" Physical/Logical keyboard layout declaration  "{{{2
-"
-" :KeyLayout {physical-key}  {logical-key}
-"   Declare that whenever Vim gets a character {logical-key}, the
-"   corresponding physical key is {physical-key}.  This declaration will be
-"   used to map based on physical keyboard layout.  To map {rhs} to a physical
-"   key {X}, use 'noremap <Plug>(physical-key-{X})  {rhs}'.
-"
-" FIXME: Most of my key mappings don't use these indirect keys.
-
-command! -nargs=+ KeyLayout  call s:KeyLayout(<f-args>)
-function! s:KeyLayout(physical_key, logical_key)
-  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
-  execute 'Allmap' a:logical_key indirect_key
-  execute 'Allnoremap' indirect_key a:logical_key
-endfunction
-command! -nargs=+ Allmap
-      \   execute 'map' <q-args>
-      \ | execute 'map!' <q-args>
-command! -nargs=+ Allnoremap
-      \   execute 'noremap' <q-args>
-      \ | execute 'noremap!' <q-args>
-command! -nargs=+ Allunmap
-      \   execute 'silent! unmap' <q-args>
-      \ | execute 'silent! unmap!' <q-args>
-
-
-if $ENV_WORKING ==# 'mac'
-  " On my MacBook, Semicolon and Return are swapped by KeyRemap4MacBook.
-  KeyLayout ;  <Return>
-  KeyLayout :  <S-Return>
-  KeyLayout <Return>  ;
-  KeyLayout <S-Return>  :
-else
-  KeyLayout ;  ;
-  KeyLayout :  :
-  KeyLayout <Return>  <Return>
-  KeyLayout <S-Return>  <S-Return>
-endif
 
 
 
