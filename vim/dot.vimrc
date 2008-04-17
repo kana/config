@@ -1538,13 +1538,13 @@ autocmd MyAutoCmd ColorScheme *
       \
       \ | highlight TabLineSel
       \             term=bold,reverse
-      \             cterm=bold,underline ctermfg=lightgray ctermbg=237
+      \             cterm=bold,underline ctermfg=lightgray ctermbg=darkgray
       \ | highlight TabLine
       \             term=reverse
-      \             cterm=NONE           ctermfg=lightgray ctermbg=237
+      \             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
       \ | highlight TabLineFill
       \             term=reverse
-      \             cterm=NONE           ctermfg=lightgray ctermbg=237
+      \             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
 doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
