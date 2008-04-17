@@ -23,4 +23,6 @@ hardstatus alwayslastline
 hardstatus string '%{= Kw}%-w%{+bu}%n %t%{-}%+w%-18= | %D %m-%d %02c'
 shelltitle 'shell'
 
+INCLUDE dot.screen/keys
+
 # __END__

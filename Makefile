@@ -64,15 +64,14 @@ GROUP_DOTS_FILES=\
   dot.bash.d/svk-completion.pl \
   dot.inputrc \
   dot.guile \
-  dot.screen/conf \
-  dot.screen/keys \
-  dot.screen/keys.clear \
   dot.screenrc \
   dot.Xdefaults \
   dot.zprofile \
   dot.zshenv \
   dot.zshrc
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
+dot.screenrc: dot.screen/conf dot.screen/keys dot.screen/keys.clear include.py
+	python include.py <$< >$@
 
 GROUP_DOTS_cygwin_FILES=\
   dot.mayu

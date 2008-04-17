@@ -1,7 +1,0 @@
-# vim: filetype=screen
-
-source $HOME/.screen/conf
-source $HOME/.screen/keys
-
-# __END__
-# vim: filetype=screen foldmethod=marker
