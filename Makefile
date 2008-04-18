@@ -63,6 +63,7 @@ GROUP_DOTS_FILES=\
   dot.bash.d/cdhist.sh \
   dot.bash.d/svk-completion.pl \
   dot.inputrc \
+  dot.gitconfig \
   dot.guile \
   dot.screenrc \
   dot.Xdefaults \
