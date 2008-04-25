@@ -1293,6 +1293,10 @@ function! s:AdjustWindowHeightToTheSelection(visual_mode)
 endfunction
 
 
+" Like "<C-w>q", but does ":quit!".
+nnoremap <C-w>Q  :<C-u>quit!<Return>
+
+
 
 
 " Misc.  "{{{2
