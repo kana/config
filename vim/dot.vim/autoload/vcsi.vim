@@ -1,5 +1,5 @@
 " vcsi.vim - Version Control System Interface
-" Version: 0.0.5
+" Version: 0.0.6
 " Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " $Id$
@@ -250,6 +250,15 @@ function! s:make_git_command_script(args)  "{{{3
   elseif a:args.command ==# 'revert'
     call add(ss, 'checkout')
     call add(ss, '--')  " to express the next arg is not the name of a branch.
+  elseif a:args.command ==# 'diff'
+    call add(ss, 'diff')
+    call add(ss, '--')
+    call extend(ss, items)
+    call add(ss, ';')
+    call add(ss, ss[0])
+    call add(ss, 'diff')
+    call add(ss, '--cached')
+    call add(ss, '--')
   elseif a:args.command ==# 'info'
     return 'echo "git does not support this command: ' . a:args.command . '"'
   else
