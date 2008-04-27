@@ -33,10 +33,10 @@ silent! map <buffer> <unique> <LocalLeader>s  <Plug>XmlMove_TextNextHeadSR
 silent! map <buffer> <unique> <LocalLeader>S  <Plug>XmlMove_TextNextTailSR
 silent! map <buffer> <unique> <LocalLeader>w  <Plug>XmlMove_TextPrevHeadSR
 silent! map <buffer> <unique> <LocalLeader>W  <Plug>XmlMove_TextPrevTailSR
-silent! map <buffer> <unique> <LocalLeader>a  <Plug>XmlMove_AttrNextHeadSR
-silent! map <buffer> <unique> <LocalLeader>A  <Plug>XmlMove_AttrNextTailSR
-silent! map <buffer> <unique> <LocalLeader>q  <Plug>XmlMove_AttrPrevHeadSR
-silent! map <buffer> <unique> <LocalLeader>Q  <Plug>XmlMove_AttrPrevTailSR
+silent! map <buffer> <unique> <LocalLeader>a  <Plug>XmlMove_AttrAllNextHeadSR
+silent! map <buffer> <unique> <LocalLeader>A  <Plug>XmlMove_AttrAllNextTailSR
+silent! map <buffer> <unique> <LocalLeader>q  <Plug>XmlMove_AttrAllPrevHeadSR
+silent! map <buffer> <unique> <LocalLeader>Q  <Plug>XmlMove_AttrAllPrevTailSR
 
 
 
@@ -70,10 +70,10 @@ call s:M('TextNextHeadSR')
 call s:M('TextNextTailSR')
 call s:M('TextPrevHeadSR')
 call s:M('TextPrevTailSR')
-call s:M('AttrNextHeadSR')
-call s:M('AttrNextTailSR')
-call s:M('AttrPrevHeadSR')
-call s:M('AttrPrevTailSR')
+call s:M('AttrAllNextHeadSR')
+call s:M('AttrAllNextTailSR')
+call s:M('AttrAllPrevHeadSR')
+call s:M('AttrAllPrevTailSR')
 
 delfunction s:M
 
@@ -96,6 +96,7 @@ let s:AttrValue = '\%('
                \ . '\|' . "'\\_[^']*'"
                \ . '\)'
 let s:Attr = s:Name.s:Ss.'='.s:Ss.s:AttrValue
+let s:AttrAll = s:Attr
 
 
 " Start/End/eMpty-elemnt Tag
@@ -194,16 +195,16 @@ function! s:MoveToTextPrevTailSR()
   return s:SearchText(s:AObj, '?^', s:AObj, '?$', '[^ \t]', '?^')
 endfunction
 
-function! s:MoveToAttrNextHeadSR()
+function! s:MoveToAttrAllNextHeadSR()
   return s:MoveToAttrSR('/^')
 endfunction
-function! s:MoveToAttrNextTailSR()
+function! s:MoveToAttrAllNextTailSR()
   return s:MoveToAttrSR('/$')
 endfunction
-function! s:MoveToAttrPrevHeadSR()
+function! s:MoveToAttrAllPrevHeadSR()
   return s:MoveToAttrSR('?^')
 endfunction
-function! s:MoveToAttrPrevTailSR()
+function! s:MoveToAttrAllPrevTailSR()
   return s:MoveToAttrSR('?$')
 endfunction
 
@@ -277,7 +278,7 @@ endfunction
 function! s:MoveToAttrSR(flags)
   let regions = s:CalculateATagRegions()
   while 1
-    if !s:Search(s:Attr, a:flags) | return 0 | endif
+    if !s:Search(s:AttrAll, a:flags) | return 0 | endif
     let pos_attr = getpos('.')
     for [region_head, region_tail] in regions
       if s:PosLE(region_head, pos_attr) && s:PosLE(pos_attr, region_tail)

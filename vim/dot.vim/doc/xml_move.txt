@@ -1,7 +1,7 @@
 *xml_move.txt*	moving around various objects in XML documents.
 
 Version 0.0.1
-Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 License MIT license (see <http://www.opensource.org/licenses/mit-license>)
 $Id$
 
@@ -61,10 +61,10 @@ Note that all moving commands are |exclusive|.
 			* contains at least one non-space character.
 			* its head and its tail are not space characters.
 
-<Plug>XmlMove_AttrNextHeadSR			*<Plug>XmlMove_AttrNextHeadSR*
-<Plug>XmlMove_AttrNextTailSR			*<Plug>XmlMove_AttrNextTailSR*
-<Plug>XmlMove_AttrPrevHeadSR			*<Plug>XmlMove_AttrPrevHeadSR*
-<Plug>XmlMove_AttrPrevTailSR			*<Plug>XmlMove_AttrPrevTailSR*
+<Plug>XmlMove_AttrAllNextHeadSR			*<Plug>XmlMove_AttrAllNextHeadSR*
+<Plug>XmlMove_AttrAllNextTailSR			*<Plug>XmlMove_AttrAllNextTailSR*
+<Plug>XmlMove_AttrAllPrevHeadSR			*<Plug>XmlMove_AttrAllPrevHeadSR*
+<Plug>XmlMove_AttrAllPrevTailSR			*<Plug>XmlMove_AttrAllPrevTailSR*
 			Like <Plug>XmlMove_SObjNextHeadSR and others, but move
 			to an attribute in start-tags or empty-element tags.
 
@@ -95,10 +95,10 @@ Key sequence		Mapped to	~
 <LocalLeader>W		<Plug>XmlMove_TextPrevTailSR
 					      *<LocalLeader>a* *<LocalLeader>A*
 					      *<LocalLeader>q* *<LocalLeader>Q*
-<LocalLeader>a		<Plug>XmlMove_AttrNextHeadSR
-<LocalLeader>A		<Plug>XmlMove_AttrNextTailSR
-<LocalLeader>q		<Plug>XmlMove_AttrPrevHeadSR
-<LocalLeader>Q		<Plug>XmlMove_AttrPrevTailSR
+<LocalLeader>a		<Plug>XmlMove_AttrAllNextHeadSR
+<LocalLeader>A		<Plug>XmlMove_AttrAllNextTailSR
+<LocalLeader>q		<Plug>XmlMove_AttrAllPrevHeadSR
+<LocalLeader>Q		<Plug>XmlMove_AttrAllPrevTailSR
 
 
 
