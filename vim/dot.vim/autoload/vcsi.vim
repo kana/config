@@ -242,6 +242,7 @@ endfunction
 
 function! s:make_git_command_script(args)  "{{{3
   let ss = ['git']
+  let items = map(copy(a:args.items), '"''" . v:val . "''"')
   if a:args.command ==# 'commit'
     call add(ss, 'commit')
     call add(ss, '-F')
@@ -254,7 +255,7 @@ function! s:make_git_command_script(args)  "{{{3
   else
     call add(ss, a:args.command)
   endif
-  call extend(ss, map(copy(a:args.items), '"''" . v:val . "''"'))
+  call extend(ss, items)
   return join(ss)
 endfunction
 
