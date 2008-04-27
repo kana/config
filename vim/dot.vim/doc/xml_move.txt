@@ -114,7 +114,7 @@ Key sequence		Mapped to	~
 <LocalLeader>A		<Plug>XmlMove_AttrAllNextTailSR
 <LocalLeader>q		<Plug>XmlMove_AttrAllPrevHeadSR
 <LocalLeader>Q		<Plug>XmlMove_AttrAllPrevTailSR
-					      *<LocalLeader>g* *<LocalLeader>g*
+					      *<LocalLeader>g* *<LocalLeader>G*
 					      *<LocalLeader>t* *<LocalLeader>T*
 <LocalLeader>g		<Plug>XmlMove_AttrNameNextHeadSR
 <LocalLeader>G		<Plug>XmlMove_AttrNameNextTailSR
