@@ -256,6 +256,9 @@ augroup MyAutoCmd
 augroup END
 
 
+call idwintab#load()
+
+
 
 
 

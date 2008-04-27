@@ -1,0 +1,57 @@
+*idwintab.txt*	Give unique ID for each window and tab page
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
+License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
+
+
+Introduction			|idwintab-introduction|
+Functions			|idwintab-functions|
+Bugs				|idwintab-bugs|
+Changelog			|idwintab-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION						*idwintab-introduction*
+
+Idwintab is a Vim plugin to give unique ID for each window and tab page to
+identify one of them.  Because the returning values of Vim's built-in
+functions such as |winnr()| and |tabpagenr()| are calculated by their
+positions, so that the values aren't invariant.
+
+
+
+
+==============================================================================
+FUNCTIONS						*idwintab-functions*
+
+idwintab#load()						*idwintab#load()*
+			Load the code of this plugin.  You have to call this
+			function in your |vimrc| and the calling position must
+			be before any autocommands which use |WinEnter| or
+			|TabEnter|.  Otherwise this plugin won't work.
+
+
+
+
+==============================================================================
+BUGS							*idwintab-bugs*
+
+- Many bugs must be around the world.
+
+
+
+
+==============================================================================
+CHANGELOG						*idwintab-changelog*
+
+0.0.0	2008-04-27T11:02:21+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
