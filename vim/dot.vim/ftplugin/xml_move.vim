@@ -1,9 +1,9 @@
 " Additional Vim filetype plugin for XML to support moving around various objs
 " Language: xml
 " Version: 0.0.1
-" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+" Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  "{{{1
+"{{{1
 
 if exists('b:did_ftplugin')
   finish
