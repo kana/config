@@ -61,10 +61,10 @@ Note that all moving commands are |exclusive|.
 			* contains at least one non-space character.
 			* its head and its tail are not space characters.
 
-<Plug>XmlMove_AttrAllNextHeadSR			*<Plug>XmlMove_AttrAllNextHeadSR*
-<Plug>XmlMove_AttrAllNextTailSR			*<Plug>XmlMove_AttrAllNextTailSR*
-<Plug>XmlMove_AttrAllPrevHeadSR			*<Plug>XmlMove_AttrAllPrevHeadSR*
-<Plug>XmlMove_AttrAllPrevTailSR			*<Plug>XmlMove_AttrAllPrevTailSR*
+<Plug>XmlMove_AttrAllNextHeadSR		     *<Plug>XmlMove_AttrAllNextHeadSR*
+<Plug>XmlMove_AttrAllNextTailSR		     *<Plug>XmlMove_AttrAllNextTailSR*
+<Plug>XmlMove_AttrAllPrevHeadSR		     *<Plug>XmlMove_AttrAllPrevHeadSR*
+<Plug>XmlMove_AttrAllPrevTailSR		     *<Plug>XmlMove_AttrAllPrevTailSR*
 			Like <Plug>XmlMove_SObjNextHeadSR and others, but move
 			to an attribute in start-tags or empty-element tags.
 
