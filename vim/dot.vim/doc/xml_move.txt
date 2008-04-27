@@ -68,6 +68,22 @@ Note that all moving commands are |exclusive|.
 			Like <Plug>XmlMove_SObjNextHeadSR and others, but move
 			to an attribute in start-tags or empty-element tags.
 
+<Plug>XmlMove_AttrNameNextHeadSR	    *<Plug>XmlMove_AttrNameNextHeadSR*
+<Plug>XmlMove_AttrNameNextTailSR	    *<Plug>XmlMove_AttrNameNextTailSR*
+<Plug>XmlMove_AttrNamePrevHeadSR	    *<Plug>XmlMove_AttrNamePrevHeadSR*
+<Plug>XmlMove_AttrNamePrevTailSR	    *<Plug>XmlMove_AttrNamePrevTailSR*
+			Like <Plug>XmlMove_AttrAllNextHeadSR and other, but
+			move to the name of an attribute in start-tags or
+			empty-element tags.
+
+<Plug>XmlMove_AttrValueNextHeadSR	   *<Plug>XmlMove_AttrValueNextHeadSR*
+<Plug>XmlMove_AttrValueNextTailSR	   *<Plug>XmlMove_AttrValueNextTailSR*
+<Plug>XmlMove_AttrValuePrevHeadSR	   *<Plug>XmlMove_AttrValuePrevHeadSR*
+<Plug>XmlMove_AttrValuePrevTailSR	   *<Plug>XmlMove_AttrValuePrevTailSR*
+			Like <Plug>XmlMove_AttrAllNextHeadSR and other, but
+			move to the value of an attribute in start-tags or
+			empty-element tags.
+
 
 The following key mappings are local to each buffer.
 These mappings are not defined if the mappings already exist.
