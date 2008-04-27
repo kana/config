@@ -48,8 +48,10 @@ endfunction
 
 " FIXME: restore the original states on the current windows for each tab page
 " and the current tab page.
-tabdo call s:on_TabEnter()
-tabdo windo call s:on_WinEnter()
+
+  " autocommands are already defined, so it's enough to visit all window in
+  " each tab page to ensure that they have their own IDs.
+tabdo windo echo
 
 " __END__
 " vim: foldmethod=marker
