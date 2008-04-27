@@ -1,9 +1,8 @@
 *xml_move.txt*	moving around various objects in XML documents.
 
-Version 0.0.1
+Version 0.0.2
 Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 License MIT license (see <http://www.opensource.org/licenses/mit-license>)
-$Id$
 
 
 
@@ -115,6 +114,18 @@ Key sequence		Mapped to	~
 <LocalLeader>A		<Plug>XmlMove_AttrAllNextTailSR
 <LocalLeader>q		<Plug>XmlMove_AttrAllPrevHeadSR
 <LocalLeader>Q		<Plug>XmlMove_AttrAllPrevTailSR
+					      *<LocalLeader>g* *<LocalLeader>g*
+					      *<LocalLeader>t* *<LocalLeader>T*
+<LocalLeader>g		<Plug>XmlMove_AttrNameNextHeadSR
+<LocalLeader>G		<Plug>XmlMove_AttrNameNextTailSR
+<LocalLeader>t		<Plug>XmlMove_AttrNamePrevHeadSR
+<LocalLeader>T		<Plug>XmlMove_AttrNamePrevTailSR
+					      *<LocalLeader>h* *<LocalLeader>H*
+					      *<LocalLeader>y* *<LocalLeader>Y*
+<LocalLeader>h		<Plug>XmlMove_AttrValueNextHeadSR
+<LocalLeader>H		<Plug>XmlMove_AttrValueNextTailSR
+<LocalLeader>y		<Plug>XmlMove_AttrValuePrevHeadSR
+<LocalLeader>Y		<Plug>XmlMove_AttrValuePrevTailSR
 
 
 
@@ -134,11 +145,14 @@ Issues						*xml_move-issues*
 ==============================================================================
 ChangeLog					*xml_move-changelog*
 
+0.0.2	2008-04-27T12:02:50+09:00
+	- Add key mappings to move around attribute names and values.
+
 0.0.1	2007-05-10
 	- Fix the bug that all moving commands doesn't work in Visual mode,
 	  i.e. visual selection will be canceled after moving.
 
-0.0	2007-04-24
+0.0.0	2007-04-24
 	- First release.
 
 

@@ -1,6 +1,6 @@
 " Additional Vim filetype plugin for XML to support moving around various objs
 " Language: xml
-" Version: 0.0.1
+" Version: 0.0.2
 " Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 "{{{1
