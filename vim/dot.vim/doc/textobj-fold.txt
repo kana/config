@@ -74,8 +74,9 @@ BUGS						*textobj-fold-bugs*
 
 - In Visual-mode, the current selection is overriden by new selection.
 
-- In Visual-mode, repleating |<Plug>(textobj-fold-a)| and other mappings don't
-  expand selection.
+- In Visual-mode, repeating |<Plug>(textobj-fold-a)| and other mappings don't
+  expand selection.  This behavior is unlike Vim's built-in text objects such
+  as |iw|.
 
 - To be autoloaded.
 
