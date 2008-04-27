@@ -46,8 +46,9 @@ silent! map <buffer> <unique> <LocalLeader>Q  <Plug>XmlMove_AttrPrevTailSR
 
 
 " COMMON PART  "{{{1
-
-if !exists('s:loaded_xml_move')
+if exists('s:loaded_xml_move')
+  finish
+endif
 " KEY MAPPINGS  "{{{2
 
 function! s:M(name)
@@ -327,12 +328,6 @@ endfunction
 function! s:PosLE(a, b)  " compare two positions (returned by getpos())
   return (a:a[1] < a:b[1]) || ((a:a[1] == a:b[1]) && (a:a[2] <= a:b[2]))
 endfunction
-
-
-
-
-"}}}2
-endif
 
 
 
