@@ -3,7 +3,7 @@
 "
 " * This file consists of "sections".
 "
-"   - The name of each section should be one word.
+"   - The name of each section should be single word.
 "
 " * Each section consists of zero or more "subsections".
 "
@@ -12,13 +12,13 @@
 " * The last subsection in a section should be named as "Misc.".
 "
 " * Whenever new subsection is inserted,
-"   it should be inserted just before Misc. subsection.
+"   it should be inserted just before "Misc." subsection.
 "
 " * If a setting can be categorized into two or more sections,
 "   it should be put into the most bottom section in this file.
 "
 "   For example, key mappings for a specific plugin should be put into the
-"   Plugins section.
+"   "Plugins" section.
 "
 "
 " Coding Rule
@@ -27,8 +27,17 @@
 "
 " * Separate subsections with 4 blank lines.
 "
-" * Character Encoding and Indentation:
-"   see the modelines in the bottom of this file.
+" * Indentation: See the modelines at the bottom of this file.
+"
+" * Character Encoding: Use UTF-8 for this file and other files such as
+"   plugins, but this file must contain only unibyte (i.e. 7-bit ASCII)
+"   characters.
+"
+"   Because changing 'encoding' does not affect the character encoding of
+"   existing buffers, so that each multibyte character will be treated as
+"   multiple single byte characters at the first time of loading this file.
+"   For example, if this file contains a character U+3042 (Japanese Hiragana
+"   "A"), it will be converted into 3 independent bytes -- E3, 81 and 82.
 "
 " * Limit all lines to a maximum of 79 characters.
 "
@@ -860,7 +869,7 @@ endfunction
 
 
 
-" Key Mappings  "{{{1
+" Mappings  "{{{1
 " FIXME: many {rhs}s use : without <C-u> (clearing count effect).
 " FIXME: some mappings are not countable.
 " Physical/Logical keyboard layout declaration  "{{{2
