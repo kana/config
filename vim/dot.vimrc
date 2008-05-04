@@ -906,9 +906,9 @@ command! -nargs=+ Allunmap
 \ | execute 'silent! unmap!' <q-args>
 
 
-if $ENV_WORKING ==# 'mac' || $USER ==# 'kecak'
-  " On my MacBook, Semicolon and Return are swapped by KeyRemap4MacBook.
-  " On u machines, these keys are swapped by Mayu.
+if $ENV_WORKING ==# 'mac' || $HOST !=# 'summer'
+  " Semicolon and Return are swapped by KeyRemap4MacBook or Mayu on some
+  " environments.
   KeyLayout ;  <Return>
   KeyLayout :  <S-Return>
   KeyLayout <Return>  ;
@@ -919,6 +919,21 @@ else
   KeyLayout <Return>  <Return>
   KeyLayout <S-Return>  <S-Return>
 endif
+
+
+" Lazy man's hacks on the Semicolon key.
+" - Don't want to press Shift to enter the Command-line mode.
+" - Don't want to press far Return key to input <Return>.
+" Note: To override these definitions by other mappings, these must be written
+" before them.
+noremap <Plug>(physical-key-;)  :
+noremap <Plug>(physical-key-:)  ;
+noremap <Plug>(physical-key-<Return>)  <Return>
+noremap <Plug>(physical-key-<S-Return>)  <S-Return>
+noremap! <Plug>(physical-key-;)  <Return>
+noremap! <Plug>(physical-key-:)  <S-Return>
+noremap! <Plug>(physical-key-<Return>)  ;
+noremap! <Plug>(physical-key-<S-Return>)  :
 
 
 
@@ -1334,19 +1349,6 @@ nnoremap <C-k>  <C-o>
 " Switch to the previously edited file (like Vz)
 nnoremap <Esc>2  :e #<Return>
 nmap <F2>  <Esc>2
-
-
-" Lazy man's hacks on the Semicolon key.
-" - Don't want to press Shift to enter the Command-line mode.
-" - Don't want to press far Return key to input <Return>.
-noremap <Plug>(physical-key-;)  :
-noremap <Plug>(physical-key-:)  ;
-noremap <Plug>(physical-key-<Return>)  <Return>
-noremap <Plug>(physical-key-<S-Return>)  <S-Return>
-noremap! <Plug>(physical-key-;)  <Return>
-noremap! <Plug>(physical-key-:)  <S-Return>
-noremap! <Plug>(physical-key-<Return>)  ;
-noremap! <Plug>(physical-key-<S-Return>)  :
 
 
 " Disable some dangerous key.
