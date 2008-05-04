@@ -1,5 +1,4 @@
 " My .vimrc
-" $Id$
 " Notes  "{{{1
 "
 " * This file consists of "sections".
@@ -29,7 +28,7 @@
 " * Separate subsections with 4 blank lines.
 "
 " * Character Encoding and Indentation:
-"   see the modelines in the bottom of this files.
+"   see the modelines in the bottom of this file.
 "
 " * Limit all lines to a maximum of 79 characters.
 "
