@@ -58,22 +58,20 @@
 "
 " * Line continuation:
 "
-"   - Key mappings and abbreviations: Write \ at the previous column of the
-"     start of the {rhs}.
+"   - At the middle of key mappings, abbreviations and other proler places:
+"     Write "\" at the previous column of the start of the {rhs}.
 "
-"   - Others: Write \ at the same column of the end of the previous command.
-"     Note that don't include "!".
+"   - Others: Write "\" at the same column of the beggining of the command.
 "
 "   - Examples:
 "
-"     silent! execute foo()
-"          \        . bar()
-"          \        . baz()
+"     execute "echo"
+"     \       "foo"
+"     \       "baz"
 "
-"     map <silent> xyzzy  :<C-u>execute foo()
-"                        \ bar()
-"                        \ baz()
-"                        \<Return>
+"     map <silent> xyzzy  :<C-u>if has('cryptv')
+"                        \|  X
+"                        \|endif<Return>
 
 
 
@@ -304,8 +302,8 @@ function! s:OnFileType(group, filetype, ...)
     return
   endif
   let filetype = (a:filetype =~ SPECIAL_CHARS
-    \             ? a:filetype
-    \             : substitute('{x,x.*,*.x,*.x.*}', 'x', a:filetype, 'g'))
+  \               ? a:filetype
+  \               : substitute('{x,x.*,*.x,*.x.*}', 'x', a:filetype, 'g'))
 
   execute 'autocmd' group 'FileType' filetype commands
 endfunction
@@ -364,18 +362,18 @@ endfunction
 
 
 autocmd MyAutoCmd FileType vim
-      \   syntax keyword my_vim_MAP MAP
-      \     skipwhite
-      \     nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
-      \ | syntax match my_vim_MAP_option '<\(echo\|re\)>'
-      \     skipwhite
-      \     nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
-      \ | syntax match my_vim_MAP_modes '\<[cilnosvx]\+\>'
-      \     skipwhite
-      \     nextgroup=vimMapMod,vimMapLhs
-      \ | highlight default link my_vim_MAP vimMap
-      \ | highlight default link my_vim_MAP_option vimUserAttrbCmplt
-      \ | highlight default link my_vim_MAP_modes vimUserAttrbKey
+\   syntax keyword my_vim_MAP MAP
+\     skipwhite
+\     nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
+\ | syntax match my_vim_MAP_option '<\(echo\|re\)>'
+\     skipwhite
+\     nextgroup=my_vim_MAP_option,my_vim_MAP_modes,vimMapMod,vimMapLhs
+\ | syntax match my_vim_MAP_modes '\<[cilnosvx]\+\>'
+\     skipwhite
+\     nextgroup=vimMapMod,vimMapLhs
+\ | highlight default link my_vim_MAP vimMap
+\ | highlight default link my_vim_MAP_option vimUserAttrbCmplt
+\ | highlight default link my_vim_MAP_modes vimUserAttrbKey
 
 
 
@@ -407,7 +405,7 @@ endfunction
 " Alternate :cd which uses 'cdpath' for completion  "{{{2
 
 command! -complete=customlist,<SID>CommandComplete_cdpath -nargs=1 CD
-      \ TabCD <args>
+\ TabCD <args>
 
 function! s:CommandComplete_cdpath(arglead, cmdline, cursorpos)
   return split(globpath(&cdpath, a:arglead . '*/'), "\n")
@@ -494,13 +492,13 @@ endfunction
 " :edit with specified 'fileencoding'.  "{{{2
 
 command! -nargs=? -complete=file -bang -bar Cp932
-      \ edit<bang> ++enc=cp932 <args>
+\ edit<bang> ++enc=cp932 <args>
 command! -nargs=? -complete=file -bang -bar Eucjp
-      \ edit<bang> ++enc=euc-jp <args>
+\ edit<bang> ++enc=euc-jp <args>
 command! -nargs=? -complete=file -bang -bar Iso2022jp
-      \ edit<bang> ++enc=iso-2022-jp <args>
+\ edit<bang> ++enc=iso-2022-jp <args>
 command! -nargs=? -complete=file -bang -bar Utf8
-      \ edit<bang> ++enc=utf-8 <args>
+\ edit<bang> ++enc=utf-8 <args>
 
 command! -nargs=? -complete=file -bang -bar Jis  Iso2022jp<bang> <args>
 command! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
@@ -558,14 +556,14 @@ endfunction
 " Per-tab current directory  "{{{2
 
 command! -nargs=1 TabCD
-      \   execute 'cd' <q-args>
-      \ | let t:cwd = getcwd()
+\   execute 'cd' <q-args>
+\ | let t:cwd = getcwd()
 
 autocmd MyAutoCmd TabEnter *
-      \   if !exists('t:cwd')
-      \ |   let t:cwd = getcwd()
-      \ | endif
-      \ | execute 'cd' t:cwd
+\   if !exists('t:cwd')
+\ |   let t:cwd = getcwd()
+\ | endif
+\ | execute 'cd' t:cwd
 
 
 
@@ -678,7 +676,7 @@ let s:_vcs_branch_name_cache = {}  " dir_path = [branch_name, key_file_mtime]
 function! s:vcs_branch_name(dir)
   let cache_entry = get(s:_vcs_branch_name_cache, a:dir, 0)
   if cache_entry is 0
-   \ || cache_entry[1] < getftime(s:_vcs_branch_name_key_file(a:dir))
+  \  || cache_entry[1] < getftime(s:_vcs_branch_name_key_file(a:dir))
     unlet cache_entry
     let cache_entry = s:_vcs_branch_name(a:dir)
     let s:_vcs_branch_name_cache[a:dir] = cache_entry
@@ -746,18 +744,18 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
     let original_settings = ''
   elseif resp =~# 'xxx links to'
     return s:ExtendHighlight(
-         \   a:target_group,
-         \   substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
-         \   a:new_settings
-         \ )
+    \        a:target_group,
+    \        substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
+    \        a:new_settings
+    \      )
   else  " xxx {key}={arg} ...
     let t = substitute(resp,'\_.*xxx\(\(\_s\+[^= \t]\+=[^= \t]\+\)*\)','\1','')
     let original_settings = substitute(t, '\_s\+', ' ', 'g')
   endif
 
   silent execute 'highlight' a:target_group 'NONE'
-       \     '|' 'highlight' a:target_group original_settings
-       \     '|' 'highlight' a:target_group a:new_settings
+  \          '|' 'highlight' a:target_group original_settings
+  \          '|' 'highlight' a:target_group a:new_settings
 endfunction
 
 
@@ -770,7 +768,7 @@ function! s:Count(...)
 endfunction
 
 command! -nargs=* -complete=expression -range -count=0 Execute
-      \ call s:Execute(<f-args>)
+\ call s:Execute(<f-args>)
 function! s:Execute(...)
   let args = []
   for a in a:000
@@ -833,11 +831,11 @@ endfunction
 
 
 command! -bar -nargs=? TabTitle
-      \   if <q-args> == ''
-      \ |   let t:title = input("Set tabpage's title to: ",'')
-      \ | else
-      \ |   let t:title = <q-args>
-      \ | endif
+\   if <q-args> == ''
+\ |   let t:title = input("Set tabpage's title to: ",'')
+\ | else
+\ |   let t:title = <q-args>
+\ | endif
 
 
 " Set up the layout of my usual days.
@@ -888,14 +886,14 @@ function! s:KeyLayout(physical_key, logical_key)
   execute 'Allnoremap' indirect_key a:logical_key
 endfunction
 command! -nargs=+ Allmap
-      \   execute 'map' <q-args>
-      \ | execute 'map!' <q-args>
+\   execute 'map' <q-args>
+\ | execute 'map!' <q-args>
 command! -nargs=+ Allnoremap
-      \   execute 'noremap' <q-args>
-      \ | execute 'noremap!' <q-args>
+\   execute 'noremap' <q-args>
+\ | execute 'noremap!' <q-args>
 command! -nargs=+ Allunmap
-      \   execute 'silent! unmap' <q-args>
-      \ | execute 'silent! unmap!' <q-args>
+\   execute 'silent! unmap' <q-args>
+\ | execute 'silent! unmap!' <q-args>
 
 
 if $ENV_WORKING ==# 'mac' || $USER ==# 'kecak'
@@ -1260,7 +1258,7 @@ nmap     <Esc>    <C-w>
 
 for i in ['H', 'J', 'K', 'L']
   execute 'nnoremap <silent> <Esc>'.i
-        \ ':<C-u>call <SID>MoveWindowThenEqualizeIfNecessary("'.i.'")<Return>'
+  \       ':<C-u>call <SID>MoveWindowThenEqualizeIfNecessary("'.i.'")<Return>'
 endfor
 unlet i
 
@@ -1289,16 +1287,16 @@ endfunction
 " but the target to scroll is the previous window.
 for i in ['f', 'b', 'd', 'u', 'e', 'y']
   execute 'nnoremap <silent> <Esc><C-'.i.'>'
-        \ ':<C-u>call <SID>ScrollOtherWindow("<Bslash><LT>C-'.i.'>")<Return>'
+  \       ':<C-u>call <SID>ScrollOtherWindow("<Bslash><LT>C-'.i.'>")<Return>'
 endfor
 unlet i
 
 
 " Adjust the height of the current window as same as the selected range.
 vnoremap <silent> _
-  \ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
+\ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
 nnoremap <silent> _
-  \ :set operatorfunc=<SID>AdjustWindowHeightToTheSelection<Return>g@
+\ :set operatorfunc=<SID>AdjustWindowHeightToTheSelection<Return>g@
 function! s:AdjustWindowHeightToTheSelection(visual_mode)
   normal! `[v`]
   normal _
@@ -1487,8 +1485,8 @@ function! s:PseudoSuspendWithAutomaticCD()
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
     silent execute '!screen -X eval'
-         \         '''select another'''
-         \         '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
+    \              '''select another'''
+    \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
     redraw!
     let s:gnu_screen_availablep = (v:shell_error == 0)
   endif
@@ -1515,7 +1513,7 @@ vnoremap g/  :g/<Return>
 " Here also contains misc. autocommands.
 
 autocmd MyAutoCmd FileType *
-      \ call <SID>FileType_any()
+\ call <SID>FileType_any()
 function! s:FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings defined by ftplugin.
@@ -1540,27 +1538,27 @@ endfunction
 " Note that if the buffer is not 'modifiable',
 " its 'fileencoding' cannot be changed, so that such buffers are skipped.
 autocmd MyAutoCmd BufReadPost *
-      \   if &modifiable && !search('[^\x00-\x7F]', 'cnw')
-      \ |   setlocal fileencoding=
-      \ | endif
+\   if &modifiable && !search('[^\x00-\x7F]', 'cnw')
+\ |   setlocal fileencoding=
+\ | endif
 
 
 " Adjust highlight settings according to the current colorscheme.
 autocmd MyAutoCmd ColorScheme *
-      \   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
-      \ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
-      \ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
-      \ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
-      \
-      \ | highlight TabLineSel
-      \             term=bold,reverse
-      \             cterm=bold,underline ctermfg=lightgray ctermbg=darkgray
-      \ | highlight TabLine
-      \             term=reverse
-      \             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
-      \ | highlight TabLineFill
-      \             term=reverse
-      \             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
+\   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
+\ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
+\ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
+\ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
+\
+\ | highlight TabLineSel
+\             term=bold,reverse
+\             cterm=bold,underline ctermfg=lightgray ctermbg=darkgray
+\ | highlight TabLine
+\             term=reverse
+\             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
+\ | highlight TabLineFill
+\             term=reverse
+\             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
 doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
@@ -1569,7 +1567,7 @@ doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 " Note: To use nonstandard event NCmdUndefined, use the following version:
 "       http://repo.or.cz/w/vim-kana.git?a=shortlog;h=hack/ncmdundefined
 silent! autocmd MyAutoCmd NCmdUndefined *
-  \ call <SID>ShiftToInsertMode(expand('<amatch>'))
+\ call <SID>ShiftToInsertMode(expand('<amatch>'))
 function! s:ShiftToInsertMode(not_a_command_character)
   if char2nr(a:not_a_command_character) <= 0xFF  " not a multibyte character?
     return  " should beep as same as the default behavior, but how?
@@ -1603,7 +1601,7 @@ autocmd MyAutoCmd InsertLeave *  set nopaste
 " css  "{{{2
 
 autocmd MyAutoCmd FileType css
-      \ call <SID>SetShortIndent()
+\ call <SID>SetShortIndent()
 
 
 
@@ -1611,17 +1609,17 @@ autocmd MyAutoCmd FileType css
 " dosini (.ini)  "{{{2
 
 autocmd MyAutoCmd FileType dosini
-      \ call <SID>FileType_dosini()
+\ call <SID>FileType_dosini()
 
 function! s:FileType_dosini()
   nnoremap <buffer> <silent> ]]
-         \ :<C-u>call <SID>JumpSectionN('/^\[')<Return>
+  \ :<C-u>call <SID>JumpSectionN('/^\[')<Return>
   nnoremap <buffer> <silent> ][
-         \ :<C-u>call <SID>JumpSectionN('/\n\[\@=')<Return>
+  \ :<C-u>call <SID>JumpSectionN('/\n\[\@=')<Return>
   nnoremap <buffer> <silent> [[
-         \ :<C-u>call <SID>JumpSectionN('?^\[')<Return>
+  \ :<C-u>call <SID>JumpSectionN('?^\[')<Return>
   nnoremap <buffer> <silent> []
-         \ :<C-u>call <SID>JumpSectionN('?\n\[\@=')<Return>
+  \ :<C-u>call <SID>JumpSectionN('?\n\[\@=')<Return>
 endfunction
 
 
@@ -1630,10 +1628,10 @@ endfunction
 " help  "{{{2
 
 autocmd MyAutoCmd FileType help
-      \ call textobj#user#define('|[^| \t]*|', '', '', {
-      \                            'move-to-next': '<buffer> gj',
-      \                            'move-to-prev': '<buffer> gk',
-      \                          })
+\ call textobj#user#define('|[^| \t]*|', '', '', {
+\                            'move-to-next': '<buffer> gj',
+\                            'move-to-prev': '<buffer> gk',
+\                          })
 
 
 
@@ -1641,7 +1639,7 @@ autocmd MyAutoCmd FileType help
 " lua  "{{{2
 
 autocmd MyAutoCmd FileType lua
-      \ call <SID>SetShortIndent()
+\ call <SID>SetShortIndent()
 
 
 
@@ -1651,7 +1649,7 @@ autocmd MyAutoCmd FileType lua
 " Consider these buffers have "another" filetype=netrw.
 
 autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
-      \ setlocal bufhidden=hide
+\ setlocal bufhidden=hide
 
 
 
@@ -1659,10 +1657,10 @@ autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
 " python  "{{{2
 
 autocmd MyAutoCmd FileType python
-      \   call <SID>SetShortIndent()
-      \ | let python_highlight_numbers=1
-      \ | let python_highlight_builtins=1
-      \ | let python_highlight_space_errors=1
+\   call <SID>SetShortIndent()
+\ | let python_highlight_numbers=1
+\ | let python_highlight_builtins=1
+\ | let python_highlight_space_errors=1
 
 
 
@@ -1670,7 +1668,7 @@ autocmd MyAutoCmd FileType python
 " ruby  "{{{2
 
 autocmd MyAutoCmd FileType ruby
-      \   call <SID>SetShortIndent()
+\   call <SID>SetShortIndent()
 
 
 
@@ -1678,7 +1676,7 @@ autocmd MyAutoCmd FileType ruby
 " sh  "{{{2
 
 autocmd MyAutoCmd FileType sh
-      \ call <SID>SetShortIndent()
+\ call <SID>SetShortIndent()
 
 " FIXME: use $SHELL.
 let g:is_bash = 1
@@ -1689,7 +1687,7 @@ let g:is_bash = 1
 " tex  "{{{2
 
 autocmd MyAutoCmd FileType tex
-      \ call <SID>SetShortIndent()
+\ call <SID>SetShortIndent()
 
 
 
@@ -1698,7 +1696,7 @@ autocmd MyAutoCmd FileType tex
 " 'filetype' for commit log buffers created by vcsi.
 
 autocmd MyAutoCmd FileType {vcsicommit,*.vcsicommit}
-      \ setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
+\ setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
 
 
 
@@ -1706,7 +1704,7 @@ autocmd MyAutoCmd FileType {vcsicommit,*.vcsicommit}
 " vim  "{{{2
 
 autocmd MyAutoCmd FileType vim
-      \ call <SID>FileType_vim()
+\ call <SID>FileType_vim()
 
 function! s:FileType_vim()
   call <SID>SetShortIndent()
@@ -1730,12 +1728,12 @@ function! s:FileType_vim()
   " autoload#function() and dictionary.function().
   syntax clear vimFunc
   syntax match vimFunc
-    \ "\%([sS]:\|<[sS][iI][dD]>\|\<\%(\I\i*[#.]\)\+\)\=\I\i*\ze\s*("
-    \ contains=vimFuncName,vimUserFunc,vimCommand,vimNotFunc,vimExecute
+  \ "\%([sS]:\|<[sS][iI][dD]>\|\<\%(\I\i*[#.]\)\+\)\=\I\i*\ze\s*("
+  \ contains=vimFuncName,vimUserFunc,vimCommand,vimNotFunc,vimExecute
   syntax clear vimUserFunc
   syntax match vimUserFunc contained
-    \ "\%([sS]:\|<[sS][iI][dD]>\|\<\%(\I\i*[#.]\)\+\)\i\+\|\<\u\i*\>\|\<if\>"
-    \ contains=vimNotation,vimCommand
+  \ "\%([sS]:\|<[sS][iI][dD]>\|\<\%(\I\i*[#.]\)\+\)\i\+\|\<\u\i*\>\|\<if\>"
+  \ contains=vimNotation,vimCommand
 endfunction
 
 
@@ -1744,7 +1742,7 @@ endfunction
 " XML/SGML and other applications  "{{{2
 
 autocmd MyAutoCmd FileType html,xhtml,xml,xslt
-      \ call <SID>FileType_xml()
+\ call <SID>FileType_xml()
 
 function! s:FileType_xml()
   call <SID>SetShortIndent()
@@ -1791,31 +1789,31 @@ function! s:FileType_xml_comment_dispatch()
   return get(s:FileType_xml_comment_data, c, c)
 endfunction
 let s:FileType_xml_comment_data = {
-  \   "\<Space>": "\<Space>\<Space>\<Left>",
-  \   "\<Return>": "\<Return>X\<Return>\<Up>\<End>\<BS>",
-  \   '_': '',
-  \   '-': '',
-  \   '{': '{{'. "{\<Esc>",
-  \   '}': '}}'. "}\<Esc>",
-  \   '1': '{{'."{1\<Esc>",
-  \   '2': '{{'."{2\<Esc>",
-  \   '3': '{{'."{3\<Esc>",
-  \   '4': '{{'."{4\<Esc>",
-  \   '5': '{{'."{5\<Esc>",
-  \   '6': '{{'."{6\<Esc>",
-  \   '7': '{{'."{7\<Esc>",
-  \   '8': '{{'."{8\<Esc>",
-  \   '9': '{{'."{9\<Esc>",
-  \   '!': '{{'."{1\<Esc>",
-  \   '@': '{{'."{2\<Esc>",
-  \   '#': '{{'."{3\<Esc>",
-  \   '$': '{{'."{4\<Esc>",
-  \   '%': '{{'."{5\<Esc>",
-  \   '^': '{{'."{6\<Esc>",
-  \   '&': '{{'."{7\<Esc>",
-  \   '*': '{{'."{8\<Esc>",
-  \   '(': '{{'."{9\<Esc>",
-  \ }
+\     "\<Space>": "\<Space>\<Space>\<Left>",
+\     "\<Return>": "\<Return>X\<Return>\<Up>\<End>\<BS>",
+\     '_': '',
+\     '-': '',
+\     '{': '{{'. "{\<Esc>",
+\     '}': '}}'. "}\<Esc>",
+\     '1': '{{'."{1\<Esc>",
+\     '2': '{{'."{2\<Esc>",
+\     '3': '{{'."{3\<Esc>",
+\     '4': '{{'."{4\<Esc>",
+\     '5': '{{'."{5\<Esc>",
+\     '6': '{{'."{6\<Esc>",
+\     '7': '{{'."{7\<Esc>",
+\     '8': '{{'."{8\<Esc>",
+\     '9': '{{'."{9\<Esc>",
+\     '!': '{{'."{1\<Esc>",
+\     '@': '{{'."{2\<Esc>",
+\     '#': '{{'."{3\<Esc>",
+\     '$': '{{'."{4\<Esc>",
+\     '%': '{{'."{5\<Esc>",
+\     '^': '{{'."{6\<Esc>",
+\     '&': '{{'."{7\<Esc>",
+\     '*': '{{'."{8\<Esc>",
+\     '(': '{{'."{9\<Esc>",
+\   }
 
 
 
@@ -1837,12 +1835,12 @@ function! s:on_KuLoaded()
       execute 'CD' fnamemodify(a:item.word, ':h')
     else
       echo printf('Item %s (type: %s) is not a file or directory.',
-         \        a:item.word, a:item._ku_type.name)
+      \           a:item.word, a:item._ku_type.name)
     endif
   endfunction
 
   call ku#custom_action('*fallback*', 'cd',
-     \                  function(s:SID_PREFIX() . 'ku_type_any_action_my_cd'))
+  \                     function(s:SID_PREFIX() . 'ku_type_any_action_my_cd'))
 endfunction
 
 
@@ -1875,7 +1873,7 @@ nmap <Leader>s  <Plug>(scratch-open)
 " I already use <C-m>/<Return> for tag jumping.
 " But I don't use it in the scratch buffer, so it should be overridden.
 autocmd MyAutoCmd User PluginScratchInitializeAfter
-      \ map <buffer> <Plug>(physical-key-<Return>)  <Plug>(scratch-evaluate)
+\ map <buffer> <Plug>(physical-key-<Return>)  <Plug>(scratch-evaluate)
 
 
 
@@ -1916,7 +1914,7 @@ let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
   " autocmd MyAutoCmd VimEnter *
-  "   \ doautocmd MyAutoCmd User DelayedSettings
+  " \ doautocmd MyAutoCmd User DelayedSettings
 else
   " doautocmd MyAutoCmd User DelayedSettings
 endif
