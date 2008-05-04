@@ -82,6 +82,18 @@
 "
 "     map <expr> foo  bar
 "     noremap <silent> bar  baz
+"
+" * Naming:
+"
+"   - Functions: Don't use upper case characters if possible.
+"
+"   - Functions: Use "cmd_{command}" for a {command} such as:
+"     command! -nargs=* {command}  call s:cmd_{command}(<f-args>)
+"
+"   - Functions: Use "complete_{type}" for :command-completion-custom or
+"     :command-completion-customlist functions.
+"
+"   - Functions: Use "on_{event}_{mod}" for a handler of :autocmd {event}.
 
 
 
@@ -217,7 +229,7 @@ let &statusline .= '%='
 let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
-function! s:MyTabLine()  "{{{
+function! s:my_tab_line()  "{{{
   let s = ''
 
   for i in range(1, tabpagenr('$'))
@@ -226,8 +238,8 @@ function! s:MyTabLine()  "{{{
 
     let no = (i <= 10 ? i-1 : '#')  " display 0-origin tabpagenr.
     let mod = len(filter(bufnrs, 'getbufvar(v:val, "&modified")')) ? '+' : ' '
-    let title = s:GetTabVar(i, 'title')
-    let title = len(title) ? title : fnamemodify(s:GetTabVar(i, 'cwd'), ':t')
+    let title = s:gettabvar(i, 'title')
+    let title = len(title) ? title : fnamemodify(s:gettabvar(i, 'cwd'), ':t')
     let title = len(title) ? title : fnamemodify(bufname(curbufnr),':t')
     let title = len(title) ? title : '[No Name]'
 
@@ -249,7 +261,7 @@ function! s:MyTabLine()  "{{{
   let s .= '%X'
   return s
 endfunction "}}}
-let &tabline = '%!' . s:SID_PREFIX() . 'MyTabLine()'
+let &tabline = '%!' . s:SID_PREFIX() . 'my_tab_line()'
 
 " To automatically detect the width and the height of the terminal,
 " the followings must not be set.
@@ -299,15 +311,15 @@ call idwintab#load()
 " BUGS: This doesn't work for most cases because of the limit of the maximum
 "       number of arguments to a function.
 
-command! -nargs=+ OnFileType  call <SID>OnFileType(<f-args>)
-function! s:OnFileType(group, filetype, ...)
+command! -nargs=+ OnFileType  call <SID>cmd_OnFileType(<f-args>)
+function! s:cmd_OnFileType(group, filetype, ...)
   let group = (a:group == '-' ? '' : a:group)
   let commands = join(a:000)
 
   let SPECIAL_CHARS = '[*?{}[\]]'
   if a:filetype !~ SPECIAL_CHARS && a:filetype =~ ','
     for ft in split(a:filetype, ',')
-      call s:OnFileType(group, ft, commands)
+      call s:cmd_OnFileType(group, ft, commands)
     endfor
     return
   endif
@@ -339,9 +351,9 @@ endfunction
 "   {lhs}, {rhs}
 "     Same as :map.
 
-command! -bar -complete=mapping -nargs=+ MAP  call s:MAP(<f-args>)
+command! -bar -complete=mapping -nargs=+ MAP  call s:cmd_MAP(<f-args>)
 
-function! s:MAP(...)
+function! s:cmd_MAP(...)
   if !(3 <= a:0)
     throw 'Insufficient arguments: '.string(a:000)
   endif
@@ -388,20 +400,14 @@ autocmd MyAutoCmd FileType vim
 
 
 
-" CMapABC: support input for Alternate Built-in Commands  "{{{2
+" cmapabc: support input for Alternate Built-in Commands  "{{{2
 " Memo: It's possible to implement this feature by using :cabbrev with <expr>.
 " But it seems to be hard to reset the current definitions.
 
-let s:CMapABC_Entries = []
-function! s:CMapABC_Add(original_pattern, alternate_name)
-  call add(s:CMapABC_Entries, [a:original_pattern, a:alternate_name])
-endfunction
-
-
-cnoremap <expr> <Space>  <SID>CMapABC()
-function! s:CMapABC()
+cnoremap <expr> <Space>  <SID>cmapabc()
+function! s:cmapabc()
   let cmdline = getcmdline()
-  for [original_pattern, alternate_name] in s:CMapABC_Entries
+  for [original_pattern, alternate_name] in s:cmapabc_entries
     if cmdline =~# original_pattern
       return "\<C-u>" . alternate_name . ' '
     endif
@@ -410,25 +416,31 @@ function! s:CMapABC()
 endfunction
 
 
+let s:cmapabc_entries = []
+function! s:cmapabc_add(original_pattern, alternate_name)
+  call add(s:cmapabc_entries, [a:original_pattern, a:alternate_name])
+endfunction
+
+
 
 
 " Alternate :cd which uses 'cdpath' for completion  "{{{2
 
-command! -complete=customlist,<SID>CommandComplete_cdpath -nargs=1 CD
+command! -complete=customlist,<SID>complete_cdpath -nargs=1 CD
 \ TabCD <args>
 
-function! s:CommandComplete_cdpath(arglead, cmdline, cursorpos)
+function! s:complete_cdpath(arglead, cmdline, cursorpos)
   return split(globpath(&cdpath, a:arglead . '*/'), "\n")
 endfunction
 
-call s:CMapABC_Add('^cd', 'CD')
+call s:cmapabc_add('^cd', 'CD')
 
 
 
 
 " Help-related stuffs  "{{{2
 
-function! s:HelpBufWinNR()
+function! s:helpbufwinnr()
   let wn = 1
   while wn <= winnr('$')
     let bn = winbufnr(wn)
@@ -440,8 +452,8 @@ function! s:HelpBufWinNR()
   return [-1, 0]
 endfunction
 
-function! s:HelpWindowClose()
-  let [help_bufnr, help_winnr] = s:HelpBufWinNR()
+function! s:close_help_window()
+  let [help_bufnr, help_winnr] = s:helpbufwinnr()
   if help_bufnr == -1
     return
   endif
@@ -463,7 +475,7 @@ endfunction
 
 " High-level key sequences  "{{{2
 
-function! s:KeysToComplete()
+function! s:keys_to_complete()
   if &l:filetype ==# 'vim'
     return "\<C-x>\<C-v>"
   elseif strlen(&l:omnifunc)
@@ -473,7 +485,7 @@ function! s:KeysToComplete()
   endif
 endfunction
 
-function! s:KeysToStopInsertModeCompletion()
+function! s:keys_to_stop_insert_mode_completion()
   if pumvisible()
     return "\<C-y>"
   else
@@ -482,7 +494,7 @@ function! s:KeysToStopInsertModeCompletion()
 endfunction
 
 
-function! s:KeysToEscapeCommandlineModeIfEmpty(key)
+function! s:keys_to_escape_command_line_mode_if_empty(key)
   if getcmdline() == ''
     return "\<Esc>"
   else
@@ -491,7 +503,7 @@ function! s:KeysToEscapeCommandlineModeIfEmpty(key)
 endfunction
 
 
-function! s:KeysToInsertOneCharacter()
+function! s:keys_to_insert_one_character()
   Echo ModeMsg '-- INSERT (one char) --'
   return nr2char(getchar()) . "\<Esc>"
 endfunction
@@ -519,7 +531,7 @@ command! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
 " Jump sections  "{{{2
 
 " for normal mode.  a:pattern is '/regexp' or '?regexp'.
-function! s:JumpSectionN(pattern)
+function! s:jump_section_n(pattern)
   let pattern = strpart(a:pattern, '1')
   if strpart(a:pattern, 0, 1) == '/'
     let flags = 'W'
@@ -544,7 +556,7 @@ endfunction
 
 
 " for visual mode.  a:motion is '[[', '[]', ']]' or ']['.
-function! s:JumpSectionV(motion)
+function! s:jump_section_v(motion)
   execute 'normal!' "gv\<Esc>"
   execute 'normal' v:count1 . a:motion
   let line = line('.')
@@ -556,7 +568,7 @@ endfunction
 
 
 " for operator-pending mode.  a:motion is '[[', '[]', ']]' or ']['.
-function! s:JumpSectionO(motion)
+function! s:jump_section_o(motion)
   execute 'normal' v:count1 . a:motion
 endfunction
 
@@ -581,7 +593,7 @@ autocmd MyAutoCmd TabEnter *
 " Window-related stuffs  "{{{2
 
 " Are the windows :split'ed and :vsplit'ed?
-function! s:WindowsJumbledP()
+function! s:windows_jumbled_p()
   " Calculate the terminal height by some values other than 'lines'.
   " Don't consider about :vsplit.
   let calculated_height = &cmdheight
@@ -618,10 +630,10 @@ function! s:WindowsJumbledP()
 endfunction
 
 
-function! s:MoveWindowThenEqualizeIfNecessary(direction)
-  let jumbled_beforep = s:WindowsJumbledP()
+function! s:move_window_then_equalize_if_necessary(direction)
+  let jumbled_beforep = s:windows_jumbled_p()
   execute 'wincmd' a:direction
-  let jumbled_afterp = s:WindowsJumbledP()
+  let jumbled_afterp = s:windows_jumbled_p()
 
   if jumbled_beforep || jumbled_afterp
     wincmd =
@@ -629,7 +641,7 @@ function! s:MoveWindowThenEqualizeIfNecessary(direction)
 endfunction
 
 
-function! s:MoveWindowIntoTabPage(target_tabpagenr)
+function! s:move_window_into_tab_page(target_tabpagenr)
   " Move the current window into a:target_tabpagenr.
   " If a:target_tabpagenr is 0, move into new tab page.
   if a:target_tabpagenr < 0  " ignore invalid number.
@@ -663,13 +675,13 @@ function! s:MoveWindowIntoTabPage(target_tabpagenr)
 endfunction
 
 
-function! s:ScrollOtherWindow(scroll_command)
+function! s:scroll_other_window(scroll_command)
   if winnr('$') == 1 || winnr('#') == 0
     " Do nothing when there is only one window or no previous window.
     Echo ErrorMsg 'There is no window to scroll.'
   else
     execute 'normal!' "\<C-w>p"
-    execute 'normal!' (s:Count() . a:scroll_command)
+    execute 'normal!' (s:count() . a:scroll_command)
     execute 'normal!' "\<C-w>p"
   endif
 endfunction
@@ -730,7 +742,7 @@ endfunction
 
 " Misc.  "{{{2
 
-function! s:ToggleBell()
+function! s:toggle_bell()
   if &visualbell
     set novisualbell t_vb&
     echo 'bell on'
@@ -740,20 +752,20 @@ function! s:ToggleBell()
   endif
 endfunction
 
-function! s:ToggleOption(option_name)
+function! s:toggle_option(option_name)
   execute 'setlocal' a:option_name.'!'
   execute 'setlocal' a:option_name.'?'
 endfunction
 
 
-function! s:ExtendHighlight(target_group, original_group, new_settings)
+function! s:extend_highlight(target_group, original_group, new_settings)
   redir => resp
   silent execute 'highlight' a:original_group
   redir END
   if resp =~# 'xxx cleared'
     let original_settings = ''
   elseif resp =~# 'xxx links to'
-    return s:ExtendHighlight(
+    return s:extend_highlight(
     \        a:target_group,
     \        substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
     \        a:new_settings
@@ -769,7 +781,7 @@ function! s:ExtendHighlight(target_group, original_group, new_settings)
 endfunction
 
 
-function! s:Count(...)
+function! s:count(...)
   if v:count == v:count1  " count is specified.
     return v:count
   else  " count is not specified.  (the default '' is useful for special value)
@@ -778,12 +790,12 @@ function! s:Count(...)
 endfunction
 
 command! -nargs=* -complete=expression -range -count=0 Execute
-\ call s:Execute(<f-args>)
-function! s:Execute(...)
+\ call s:cmd_Execute(<f-args>)
+function! s:cmd_Execute(...)
   let args = []
   for a in a:000
     if a ==# '[count]'
-      let a = s:Count()
+      let a = s:count()
     endif
     call add(args, a)
   endfor
@@ -792,7 +804,7 @@ endfunction
 
 
 " like join (J), but move the next line into the cursor position.
-function! s:JoinHere(...)
+function! s:join_here(...)
   let adjust_spacesp = a:0 ? a:1 : 1
   let pos = getpos('.')
   let r = @"
@@ -821,20 +833,20 @@ function! s:JoinHere(...)
 endfunction
 
 
-function! s:SetShortIndent()
+function! s:set_short_indent()
   setlocal expandtab softtabstop=2 shiftwidth=2
 endfunction
 
 
-command! -bar -nargs=+ -range Echo  call <SID>Echo(<f-args>)
-function! s:Echo(hl_name, ...)
+command! -bar -nargs=+ -range Echo  call <SID>cmd_Echo(<f-args>)
+function! s:cmd_Echo(hl_name, ...)
   execute 'echohl' a:hl_name
   execute 'echo' join(a:000)
   echohl None
 endfunction
 
 
-function! s:GetTabVar(tabnr, varname)
+function! s:gettabvar(tabnr, varname)
   " Wrapper for non standard (my own) built-in function gettabvar().
   return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
 endfunction
@@ -849,8 +861,8 @@ command! -bar -nargs=? TabTitle
 
 
 " Set up the layout of my usual days.
-command! -bar -nargs=0 UsualDays  call s:UsualDays()
-function! s:UsualDays()
+command! -bar -nargs=0 UsualDays  call s:cmd_UsualDays()
+function! s:cmd_UsualDays()
   normal! 'T
   execute 'CD' fnamemodify(expand('%'), ':p:h')
   TabTitle meta
@@ -889,8 +901,8 @@ endfunction
 "   used to map based on physical keyboard layout.  To map {rhs} to a physical
 "   key {X}, use 'noremap <Plug>(physical-key-{X})  {rhs}'.
 
-command! -nargs=+ KeyLayout  call s:KeyLayout(<f-args>)
-function! s:KeyLayout(physical_key, logical_key)
+command! -nargs=+ KeyLayout  call s:cmd_KeyLayout(<f-args>)
+function! s:cmd_KeyLayout(physical_key, logical_key)
   let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
   execute 'Allmap' a:logical_key indirect_key
   execute 'Allnoremap' indirect_key a:logical_key
@@ -1170,8 +1182,8 @@ cnoremap <Esc>b  <S-Left>
 cnoremap <Esc>x  <Del>
 
 " escape Command-line mode if the command line is empty (like <C-h>)
-cnoremap <expr> <C-u>  <SID>KeysToEscapeCommandlineModeIfEmpty("\<C-u>")
-cnoremap <expr> <C-w>  <SID>KeysToEscapeCommandlineModeIfEmpty("\<C-w>")
+cnoremap <expr> <C-u>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-u>")
+cnoremap <expr> <C-w>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-w>")
 
 " Search slashes easily (too lazy to prefix backslashes to slashes)
 cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
@@ -1201,14 +1213,14 @@ inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 " mode.  Because some ftplugins provide these motions only for Normal mode and
 " other ftplugins provide these motions with some faults, e.g., not countable.
 
-vnoremap <silent> ]]  :<C-u>call <SID>JumpSectionV(']]')<Return>
-vnoremap <silent> ][  :<C-u>call <SID>JumpSectionV('][')<Return>
-vnoremap <silent> [[  :<C-u>call <SID>JumpSectionV('[[')<Return>
-vnoremap <silent> []  :<C-u>call <SID>JumpSectionV('[]')<Return>
-onoremap <silent> ]]  :<C-u>call <SID>JumpSectionO(']]')<Return>
-onoremap <silent> ][  :<C-u>call <SID>JumpSectionO('][')<Return>
-onoremap <silent> [[  :<C-u>call <SID>JumpSectionO('[[')<Return>
-onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
+vnoremap <silent> ]]  :<C-u>call <SID>jump_section_v(']]')<Return>
+vnoremap <silent> ][  :<C-u>call <SID>jump_section_v('][')<Return>
+vnoremap <silent> [[  :<C-u>call <SID>jump_section_v('[[')<Return>
+vnoremap <silent> []  :<C-u>call <SID>jump_section_v('[]')<Return>
+onoremap <silent> ]]  :<C-u>call <SID>jump_section_o(']]')<Return>
+onoremap <silent> ][  :<C-u>call <SID>jump_section_o('][')<Return>
+onoremap <silent> [[  :<C-u>call <SID>jump_section_o('[[')<Return>
+onoremap <silent> []  :<C-u>call <SID>jump_section_o('[]')<Return>
 
 
 
@@ -1226,21 +1238,21 @@ noremap [Space]  <Nop>
 
 nnoremap <silent> [Space]/  :<C-u>nohlsearch<Return>
 
-nnoremap <silent> [Space]?  :<C-u>call <SID>HelpWindowClose()<Return>
+nnoremap <silent> [Space]?  :<C-u>call <SID>close_help_window()<Return>
 
 " append one character
-nnoremap [Space]A  A<C-r>=<SID>KeysToInsertOneCharacter()<Return>
-nnoremap [Space]a  a<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
+nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
 nnoremap <silent> [Space]e  :<C-u>setlocal enc? tenc? fenc? fencs?<Return>
 nnoremap <silent> [Space]f  :<C-u>setlocal ft? fenc? ff?<Return>
 
 " insert one character
-nnoremap [Space]I  I<C-r>=<SID>KeysToInsertOneCharacter()<Return>
-nnoremap [Space]i  i<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]I  I<C-r>=<SID>keys_to_insert_one_character()<Return>
+nnoremap [Space]i  i<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-nnoremap <silent> [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
-nnoremap <silent> [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
+nnoremap <silent> [Space]J  :<C-u>call <SID>join_here(1)<Return>
+nnoremap <silent> [Space]gJ  :<C-u>call <SID>join_here(0)<Return>
 
 " unjoin  " BUGS: side effect - destroy the last inserted text (".).
 nnoremap [Space]j  i<Return><Esc>
@@ -1248,8 +1260,8 @@ nnoremap [Space]j  i<Return><Esc>
 nnoremap <silent> [Space]m  :<C-u>marks<Return>
 
 nnoremap [Space]o  <Nop>
-nnoremap <silent> [Space]ob  :<C-u>call <SID>ToggleBell()<Return>
-nnoremap <silent> [Space]ow  :<C-u>call <SID>ToggleOption('wrap')<Return>
+nnoremap <silent> [Space]ob  :<C-u>call <SID>toggle_bell()<Return>
+nnoremap <silent> [Space]ow  :<C-u>call <SID>toggle_option('wrap')<Return>
 
 nnoremap <silent> [Space]q  :<C-u>help quickref<Return>
 
@@ -1283,7 +1295,7 @@ nmap <Esc>  <C-w>
 
 for i in ['H', 'J', 'K', 'L']
   execute 'nnoremap <silent> <Esc>'.i
-  \       ':<C-u>call <SID>MoveWindowThenEqualizeIfNecessary("'.i.'")<Return>'
+  \ ':<C-u>call <SID>move_window_then_equalize_if_necessary("'.i.'")<Return>'
 endfor
 unlet i
 
@@ -1291,8 +1303,8 @@ unlet i
 " This {lhs} overrides the default action (Move cursor to top-left window).
 " But I rarely use its {lhs}s, so this mapping is not problematic.
 nnoremap <silent> <C-w><C-t>
-       \ :<C-u>call <SID>MoveWindowIntoTabPage(<SID>AskTabPageNumber())<Return>
-function! s:AskTabPageNumber()
+\ :<C-u>call <SID>move_window_into_tab_page(<SID>ask_tab_page_number())<Return>
+function! s:ask_tab_page_number()
   echon 'Which tabpage to move this window into?  '
 
   let c = nr2char(getchar())
@@ -1312,7 +1324,7 @@ endfunction
 " but the target to scroll is the previous window.
 for i in ['f', 'b', 'd', 'u', 'e', 'y']
   execute 'nnoremap <silent> <Esc><C-'.i.'>'
-  \       ':<C-u>call <SID>ScrollOtherWindow("<Bslash><LT>C-'.i.'>")<Return>'
+  \       ':<C-u>call <SID>scroll_other_window("<Bslash><LT>C-'.i.'>")<Return>'
 endfor
 unlet i
 
@@ -1321,8 +1333,8 @@ unlet i
 vnoremap <silent> _
 \ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
 nnoremap <silent> _
-\ :set operatorfunc=<SID>AdjustWindowHeightToTheSelection<Return>g@
-function! s:AdjustWindowHeightToTheSelection(visual_mode)
+\ :set operatorfunc=<SID>adjust_window_height_to_the_selection<Return>g@
+function! s:adjust_window_height_to_the_selection(visual_mode)
   normal! `[v`]
   normal _
 endfunction
@@ -1362,11 +1374,11 @@ nnoremap \  .
 
 
 " Complete or indent.
-inoremap <expr> <C-i>  (<SID>ShouldIndentRatherThanCompleteP()
+inoremap <expr> <C-i>  (<SID>should_indent_rather_than_complete_p()
                       \ ? '<C-i>'
-                      \ : <SID>KeysToComplete())
+                      \ : <SID>keys_to_complete())
 
-function! s:ShouldIndentRatherThanCompleteP()
+function! s:should_indent_rather_than_complete_p()
   let m = match(getline('.'), '\S')
   return m == -1 || col('.')-1 <= m
 endfunction
@@ -1414,10 +1426,10 @@ nnoremap gc  `[v`]
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
-vnoremap <silent> I  :<C-u>call <SID>ForceBlockwiseVisual('I')<Return>
-vnoremap <silent> A  :<C-u>call <SID>ForceBlockwiseVisual('A')<Return>
+vnoremap <silent> I  :<C-u>call <SID>force_blockwise_visual('I')<Return>
+vnoremap <silent> A  :<C-u>call <SID>force_blockwise_visual('A')<Return>
 
-function! s:ForceBlockwiseVisual(next_key)
+function! s:force_blockwise_visual(next_key)
   if visualmode() ==# 'V'
     execute "normal! `<0\<C-v>`>$"
   else
@@ -1431,10 +1443,12 @@ endfunction
 " The default [count] is 0, so no blank line is inserted.
 " (I prefer this behavior to the default behavior of [count]o/O
 "  -- repeat the next insertion [count] times.)
-nnoremap <silent> o  :<C-u>call <SID>StartInsertModeWithBlankLines('o')<Return>
-nnoremap <silent> O  :<C-u>call <SID>StartInsertModeWithBlankLines('O')<Return>
+nnoremap <silent> o
+\ :<C-u>call <SID>start_insert_mode_with_blank_lines('o')<Return>
+nnoremap <silent> O
+\ :<C-u>call <SID>start_insert_mode_with_blank_lines('O')<Return>
 
-function! s:StartInsertModeWithBlankLines(command)
+function! s:start_insert_mode_with_blank_lines(command)
   " Do "[count]o<Esc>o" and so forth.
   " BUGS: In map-<expr>, v:count and v:count1 don't hold correct values.
   " FIXME: improper indenting in comments.
@@ -1464,10 +1478,10 @@ endfunction
 
 
 " Search for the selected text.
-vnoremap *  :<C-u>call <SID>SearchForTheSelectedText()<Return>
+vnoremap *  :<C-u>call <SID>search_the_selected_text_literaly()<Return>
 
   " FIXME: escape to search the selected text literaly.
-function! s:SearchForTheSelectedText()
+function! s:search_the_selected_text_literaly()
   let reg_u = @"
   let reg_0 = @0
 
@@ -1484,14 +1498,15 @@ endfunction
 " Pseudo :suspend with automtic cd.
 " Assumption: Use GNU screen.
 " Assumption: There is a window with the title "another".
-noremap <silent> <C-z>  :<C-u>call <SID>PseudoSuspendWithAutomaticCD()<Return>
+noremap <silent> <C-z>
+\ :<C-u>call <SID>pseudo_suspend_with_automatic_cd()<Return>
 
 if !exists('s:gnu_screen_availablep')
   " Check the existence of $WINDOW to avoid using GNU screen in Vim on
   " a remote machine (for example, "screen -t remote ssh example.com").
   let s:gnu_screen_availablep = len($WINDOW) != 0
 endif
-function! s:PseudoSuspendWithAutomaticCD()
+function! s:pseudo_suspend_with_automatic_cd()
   if s:gnu_screen_availablep
     " \015 = <C-m>
     " To avoid adding the cd script into the command-line history,
@@ -1525,8 +1540,8 @@ vnoremap g/  :g/<Return>
 " Here also contains misc. autocommands.
 
 autocmd MyAutoCmd FileType *
-\ call <SID>FileType_any()
-function! s:FileType_any()
+\ call <SID>on_FileType_any()
+function! s:on_FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings defined by ftplugin.
   silent! vunmap <buffer>  ]]
@@ -1557,10 +1572,10 @@ autocmd MyAutoCmd BufReadPost *
 
 " Adjust highlight settings according to the current colorscheme.
 autocmd MyAutoCmd ColorScheme *
-\   call <SID>ExtendHighlight('Pmenu', 'Normal', 'cterm=underline')
-\ | call <SID>ExtendHighlight('PmenuSel', 'Search', 'cterm=underline')
-\ | call <SID>ExtendHighlight('PmenuSbar', 'Normal', 'cterm=reverse')
-\ | call <SID>ExtendHighlight('PmenuThumb', 'Search', '')
+\   call <SID>extend_highlight('Pmenu', 'Normal', 'cterm=underline')
+\ | call <SID>extend_highlight('PmenuSel', 'Search', 'cterm=underline')
+\ | call <SID>extend_highlight('PmenuSbar', 'Normal', 'cterm=reverse')
+\ | call <SID>extend_highlight('PmenuThumb', 'Search', '')
 \
 \ | highlight TabLineSel
 \             term=bold,reverse
@@ -1579,8 +1594,8 @@ doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 " Note: To use nonstandard event NCmdUndefined, use the following version:
 "       http://repo.or.cz/w/vim-kana.git?a=shortlog;h=hack/ncmdundefined
 silent! autocmd MyAutoCmd NCmdUndefined *
-\ call <SID>ShiftToInsertMode(expand('<amatch>'))
-function! s:ShiftToInsertMode(not_a_command_character)
+\ call <SID>shift_to_insert_mode(expand('<amatch>'))
+function! s:shift_to_insert_mode(not_a_command_character)
   if char2nr(a:not_a_command_character) <= 0xFF  " not a multibyte character?
     return  " should beep as same as the default behavior, but how?
   endif
@@ -1613,7 +1628,7 @@ autocmd MyAutoCmd InsertLeave *  set nopaste
 " css  "{{{2
 
 autocmd MyAutoCmd FileType css
-\ call <SID>SetShortIndent()
+\ call <SID>set_short_indent()
 
 
 
@@ -1621,17 +1636,17 @@ autocmd MyAutoCmd FileType css
 " dosini (.ini)  "{{{2
 
 autocmd MyAutoCmd FileType dosini
-\ call <SID>FileType_dosini()
+\ call <SID>on_FileType_dosini()
 
-function! s:FileType_dosini()
+function! s:on_FileType_dosini()
   nnoremap <buffer> <silent> ]]
-  \ :<C-u>call <SID>JumpSectionN('/^\[')<Return>
+  \ :<C-u>call <SID>jump_section_n('/^\[')<Return>
   nnoremap <buffer> <silent> ][
-  \ :<C-u>call <SID>JumpSectionN('/\n\[\@=')<Return>
+  \ :<C-u>call <SID>jump_section_n('/\n\[\@=')<Return>
   nnoremap <buffer> <silent> [[
-  \ :<C-u>call <SID>JumpSectionN('?^\[')<Return>
+  \ :<C-u>call <SID>jump_section_n('?^\[')<Return>
   nnoremap <buffer> <silent> []
-  \ :<C-u>call <SID>JumpSectionN('?\n\[\@=')<Return>
+  \ :<C-u>call <SID>jump_section_n('?\n\[\@=')<Return>
 endfunction
 
 
@@ -1651,7 +1666,7 @@ autocmd MyAutoCmd FileType help
 " lua  "{{{2
 
 autocmd MyAutoCmd FileType lua
-\ call <SID>SetShortIndent()
+\ call <SID>set_short_indent()
 
 
 
@@ -1669,7 +1684,7 @@ autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
 " python  "{{{2
 
 autocmd MyAutoCmd FileType python
-\   call <SID>SetShortIndent()
+\   call <SID>set_short_indent()
 \ | let python_highlight_numbers=1
 \ | let python_highlight_builtins=1
 \ | let python_highlight_space_errors=1
@@ -1680,7 +1695,7 @@ autocmd MyAutoCmd FileType python
 " ruby  "{{{2
 
 autocmd MyAutoCmd FileType ruby
-\   call <SID>SetShortIndent()
+\   call <SID>set_short_indent()
 
 
 
@@ -1688,7 +1703,7 @@ autocmd MyAutoCmd FileType ruby
 " sh  "{{{2
 
 autocmd MyAutoCmd FileType sh
-\ call <SID>SetShortIndent()
+\ call <SID>set_short_indent()
 
 " FIXME: use $SHELL.
 let g:is_bash = 1
@@ -1699,7 +1714,7 @@ let g:is_bash = 1
 " tex  "{{{2
 
 autocmd MyAutoCmd FileType tex
-\ call <SID>SetShortIndent()
+\ call <SID>set_short_indent()
 
 
 
@@ -1716,10 +1731,10 @@ autocmd MyAutoCmd FileType {vcsicommit,*.vcsicommit}
 " vim  "{{{2
 
 autocmd MyAutoCmd FileType vim
-\ call <SID>FileType_vim()
+\ call <SID>on_FileType_vim()
 
-function! s:FileType_vim()
-  call <SID>SetShortIndent()
+function! s:on_FileType_vim()
+  call <SID>set_short_indent()
   let vim_indent_cont = &shiftwidth
 
   iabbr <buffer> jf  function!()<Return>
@@ -1754,10 +1769,10 @@ endfunction
 " XML/SGML and other applications  "{{{2
 
 autocmd MyAutoCmd FileType html,xhtml,xml,xslt
-\ call <SID>FileType_xml()
+\ call <SID>on_FileType_xml()
 
-function! s:FileType_xml()
-  call <SID>SetShortIndent()
+function! s:on_FileType_xml()
+  call <SID>set_short_indent()
 
   " To deal with namespace prefixes and tag-name-including-hyphens.
   setlocal iskeyword+=45  " hyphen (-)
@@ -1772,7 +1787,7 @@ function! s:FileType_xml()
   " Support to input some blocks.
   inoremap <buffer> <LT>!C  <LT>![CDATA[]]><Left><Left><Left>
   inoremap <buffer> <LT>#  <LT>!----><Left><Left><Left><C-r>=
-                          \<SID>FileType_xml_comment_dispatch()
+                          \<SID>on_FileType_xml_comment_dispatch()
                           \<Return>
 
   " Complete proper end-tags.
@@ -1782,7 +1797,7 @@ function! s:FileType_xml()
     " Before: <code{|}
     " After:  <code>{|}</code>
   inoremap <buffer> <LT><LT>  ><LT>/<C-x><C-o><C-r>=
-                             \<SID>KeysToStopInsertModeCompletion()
+                             \<SID>keys_to_stop_insert_mode_completion()
                              \<Return><C-o>F<LT>
 
     " Wrap the cursor with the tag.
@@ -1791,16 +1806,16 @@ function! s:FileType_xml()
     "           {|}
     "         </code>
   inoremap <buffer> >>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
-                       \<SID>KeysToStopInsertModeCompletion()
+                       \<SID>keys_to_stop_insert_mode_completion()
                        \<Return><C-o><Up><BS>
 endfunction
 
 
-function! s:FileType_xml_comment_dispatch()
+function! s:on_FileType_xml_comment_dispatch()
   let c = nr2char(getchar())
-  return get(s:FileType_xml_comment_data, c, c)
+  return get(s:on_FileType_xml_comment_dispatch_data, c, c)
 endfunction
-let s:FileType_xml_comment_data = {
+let s:on_FileType_xml_comment_dispatch_data = {
 \     "\<Space>": "\<Space>\<Space>\<Left>",
 \     "\<Return>": "\<Return>X\<Return>\<Up>\<End>\<BS>",
 \     '_': '',
@@ -1837,8 +1852,8 @@ let s:FileType_xml_comment_data = {
 " Plugins  "{{{1
 " ku  "{{{2
 
-autocmd MyAutoCmd User KuLoaded  call <SID>on_KuLoaded()
-function! s:on_KuLoaded()
+autocmd MyAutoCmd User KuLoaded  call <SID>on_User_KuLoaded()
+function! s:on_User_KuLoaded()
   function! s:ku_type_any_action_my_cd(item)
     " FIXME: escape special characters.
     if isdirectory(a:item.word)
@@ -1856,8 +1871,9 @@ function! s:on_KuLoaded()
 endfunction
 
 
-autocmd MyAutoCmd User KuBufferInitialize  call <SID>on_KuBufferInitialize()
-function! s:on_KuBufferInitialize()
+autocmd MyAutoCmd User KuBufferInitialize
+\ call <SID>on_User_KuBufferInitialize()
+function! s:on_User_KuBufferInitialize()
   call ku#default_key_mappings()
 endfunction
 
