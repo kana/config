@@ -45,18 +45,14 @@
 "
 " * Separate {cmd} and {rep} of :command definitions with 2 spaces.
 "
-" * Write the full name for each command,
-"   e.g., write nnoremap not nn.
-"
-"     - But abbreviated names may be used to follow the maximum line length.
+" * Write the full name for each command -- don't abbreviate it.
+"   For example, write "nnoremap", not "nn".
 "
 " * Key Notation:
 "
 "   - Control-keys: Write as <C-x>, neither <C-X> nor <c-x>.
 "
 "   - Carriage return: Write as <Return>, neither <Enter> nor <CR>.
-"
-"     - But <CR> may be used to follow the maximum line length.
 "
 "   - Other characters: Write as same as :help key-notation
 "
@@ -497,12 +493,17 @@ endfunction
 
 " :edit with specified 'fileencoding'.  "{{{2
 
-com! -nargs=? -complete=file -bang -bar Cp932  edit<bang> ++enc=cp932 <args>
-com! -nargs=? -complete=file -bang -bar Eucjp  edit<bang> ++enc=euc-jp <args>
-com! -nargs=? -complete=file -bang -bar Iso2022jp  Jis<bang> <args>
-com! -nargs=? -complete=file -bang -bar Jis edit<bang> ++enc=iso-2022-jp <args>
-com! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
-com! -nargs=? -complete=file -bang -bar Utf8  edit<bang> ++enc=utf-8 <args>
+command! -nargs=? -complete=file -bang -bar Cp932
+      \ edit<bang> ++enc=cp932 <args>
+command! -nargs=? -complete=file -bang -bar Eucjp
+      \ edit<bang> ++enc=euc-jp <args>
+command! -nargs=? -complete=file -bang -bar Iso2022jp
+      \ edit<bang> ++enc=iso-2022-jp <args>
+command! -nargs=? -complete=file -bang -bar Utf8
+      \ edit<bang> ++enc=utf-8 <args>
+
+command! -nargs=? -complete=file -bang -bar Jis  Iso2022jp<bang> <args>
+command! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
 
 
 
@@ -1613,10 +1614,14 @@ autocmd MyAutoCmd FileType dosini
       \ call <SID>FileType_dosini()
 
 function! s:FileType_dosini()
-  nnoremap <buffer> <silent> ]]  :<C-u>call <SID>JumpSectionN('/^\[')<Return>
-  nnoremap <buffer> <silent> ][  :<C-u>call <SID>JumpSectionN('/\n\[\@=')<CR>
-  nnoremap <buffer> <silent> [[  :<C-u>call <SID>JumpSectionN('?^\[')<Return>
-  nnoremap <buffer> <silent> []  :<C-u>call <SID>JumpSectionN('?\n\[\@=')<CR>
+  nnoremap <buffer> <silent> ]]
+         \ :<C-u>call <SID>JumpSectionN('/^\[')<Return>
+  nnoremap <buffer> <silent> ][
+         \ :<C-u>call <SID>JumpSectionN('/\n\[\@=')<Return>
+  nnoremap <buffer> <silent> [[
+         \ :<C-u>call <SID>JumpSectionN('?^\[')<Return>
+  nnoremap <buffer> <silent> []
+         \ :<C-u>call <SID>JumpSectionN('?\n\[\@=')<Return>
 endfunction
 
 
