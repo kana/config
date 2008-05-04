@@ -72,6 +72,16 @@
 "     map <silent> xyzzy  :<C-u>if has('cryptv')
 "                        \|  X
 "                        \|endif<Return>
+"
+" * Don't align columns.  So don't write like the following code:
+"
+"     map     <expr>   foo  bar
+"     noremap <silent> bar  baz
+"
+"   instead, write like the following code:
+"
+"     map <expr> foo  bar
+"     noremap <silent> bar  baz
 
 
 
@@ -918,70 +928,70 @@ endif
 " Fallback  "{{{3
 
 " ``T'' is also disabled for consistency.
-noremap           t          <Nop>
-noremap           T          <Nop>
+noremap t  <Nop>
+noremap T  <Nop>
 
 " Alternatives for the original actions.
-noremap           [Space]t   t
-noremap           [Space]T   T
+noremap [Space]t  t
+noremap [Space]T  T
 
 
 " Basic  "{{{3
 
-nnoremap          tt         <C-]>
-vnoremap          tt         <C-]>
-nnoremap <silent> tj         :<C-u>tag<Return>
-nnoremap <silent> tk         :<C-u>pop<Return>
-nnoremap <silent> tl         :<C-u>tags<Return>
-nnoremap <silent> tn         :<C-u>tnext<Return>
-nnoremap <silent> tp         :<C-u>tprevious<Return>
-nnoremap <silent> tP         :<C-u>tfirst<Return>
-nnoremap <silent> tN         :<C-u>tlast<Return>
+nnoremap tt  <C-]>
+vnoremap tt  <C-]>
+nnoremap <silent> tj  :<C-u>tag<Return>
+nnoremap <silent> tk  :<C-u>pop<Return>
+nnoremap <silent> tl  :<C-u>tags<Return>
+nnoremap <silent> tn  :<C-u>tnext<Return>
+nnoremap <silent> tp  :<C-u>tprevious<Return>
+nnoremap <silent> tP  :<C-u>tfirst<Return>
+nnoremap <silent> tN  :<C-u>tlast<Return>
 
 " additions, like Web browsers
 nmap <Plug>(physical-key-<Return>)  tt
 vmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
-nnoremap          t<Space>   :<C-u>tag<Space>
+nnoremap t<Space>  :<C-u>tag<Space>
 
 
 " With the preview window  "{{{3
 
-nnoremap          t't        <C-w>}
-vnoremap          t't        <C-w>}
-nnoremap <silent> t'n        :<C-u>ptnext<Return>
-nnoremap <silent> t'p        :<C-u>ptpevious<Return>
-nnoremap <silent> t'P        :<C-u>ptfirst<Return>
-nnoremap <silent> t'N        :<C-u>ptlast<Return>
+nnoremap t't  <C-w>}
+vnoremap t't  <C-w>}
+nnoremap <silent> t'n  :<C-u>ptnext<Return>
+nnoremap <silent> t'p  :<C-u>ptpevious<Return>
+nnoremap <silent> t'P  :<C-u>ptfirst<Return>
+nnoremap <silent> t'N  :<C-u>ptlast<Return>
 
 " although :pclose is not related to tag.
 " BUGS: t'' is not related to the default meaning of ''.
-nnoremap <silent> t'c        :<C-u>pclose<Return>
-nmap              t'z        t'c
-nmap              t''        t'c
+nnoremap <silent> t'c  :<C-u>pclose<Return>
+nmap t'z  t'c
+nmap t''  t'c
 
 
 " With :split  "{{{3
 
-nnoremap          tst        <C-w>]
-vnoremap          tst        <C-w>]
-nnoremap <silent> tsn        :<C-u>split \| tnext<Return>
-nnoremap <silent> tsp        :<C-u>split \| tpevious<Return>
-nnoremap <silent> tsP        :<C-u>split \| tfirst<Return>
-nnoremap <silent> tsN        :<C-u>split \| tlast<Return>
+nnoremap tst  <C-w>]
+vnoremap tst  <C-w>]
+nnoremap <silent> tsn  :<C-u>split \| tnext<Return>
+nnoremap <silent> tsp  :<C-u>split \| tpevious<Return>
+nnoremap <silent> tsP  :<C-u>split \| tfirst<Return>
+nnoremap <silent> tsN  :<C-u>split \| tlast<Return>
 
 
 " With :vertical split  "{{{3
 
   " |:vsplit|-then-|<C-]>| is simple
   " but its modification to tag stacks is not same as |<C-w>]|.
-nnoremap <silent> tvt        <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-vnoremap <silent> tvt        <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-nnoremap <silent> tvn        :<C-u>vsplit \| tnext<Return>
-nnoremap <silent> tvp        :<C-u>vsplit \| tpevious<Return>
-nnoremap <silent> tvP        :<C-u>vsplit \| tfirst<Return>
-nnoremap <silent> tvN        :<C-u>vsplit \| tlast<Return>
+nnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
+vnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
+nnoremap <silent> tvn  :<C-u>vsplit \| tnext<Return>
+nnoremap <silent> tvp  :<C-u>vsplit \| tpevious<Return>
+nnoremap <silent> tvP  :<C-u>vsplit \| tfirst<Return>
+nnoremap <silent> tvN  :<C-u>vsplit \| tlast<Return>
 
 
 
@@ -990,53 +1000,53 @@ nnoremap <silent> tvN        :<C-u>vsplit \| tlast<Return>
 " Fallback  "{{{3
 
 " the prefix key.
-nnoremap          q          <Nop>
+nnoremap q  <Nop>
 
 " alternative key for the original action.
 " -- Ex-mode will be never used and recordings are rarely used.
-nnoremap          Q          q
+nnoremap Q  q
 
 
 " For quickfix list  "{{{3
 
-nnoremap <silent> qj         :Execute cnext [count]<Return>
-nnoremap <silent> qk         :Execute cprevious [count]<Return>
-nnoremap <silent> qr         :Execute crewind [count]<Return>
-nnoremap <silent> qK         :Execute cfirst [count]<Return>
-nnoremap <silent> qJ         :Execute clast [count]<Return>
-nnoremap <silent> qfj        :Execute cnfile [count]<Return>
-nnoremap <silent> qfk        :Execute cpfile [count]<Return>
-nnoremap <silent> ql         :<C-u>clist<Return>
-nnoremap <silent> qq         :Execute cc [count]<Return>
-nnoremap <silent> qo         :Execute copen [count]<Return>
-nnoremap <silent> qc         :<C-u>cclose<Return>
-nnoremap <silent> qp         :Execute colder [count]<Return>
-nnoremap <silent> qn         :Execute cnewer [count]<Return>
-nnoremap <silent> qm         :<C-u>make<Return>
-nnoremap          qM         :<C-u>make<Space>
-nnoremap          q<Space>   :<C-u>make<Space>
-nnoremap          qg         :<C-u>grep<Space>
+nnoremap <silent> qj  :Execute cnext [count]<Return>
+nnoremap <silent> qk  :Execute cprevious [count]<Return>
+nnoremap <silent> qr  :Execute crewind [count]<Return>
+nnoremap <silent> qK  :Execute cfirst [count]<Return>
+nnoremap <silent> qJ  :Execute clast [count]<Return>
+nnoremap <silent> qfj  :Execute cnfile [count]<Return>
+nnoremap <silent> qfk  :Execute cpfile [count]<Return>
+nnoremap <silent> ql  :<C-u>clist<Return>
+nnoremap <silent> qq  :Execute cc [count]<Return>
+nnoremap <silent> qo  :Execute copen [count]<Return>
+nnoremap <silent> qc  :<C-u>cclose<Return>
+nnoremap <silent> qp  :Execute colder [count]<Return>
+nnoremap <silent> qn  :Execute cnewer [count]<Return>
+nnoremap <silent> qm  :<C-u>make<Return>
+nnoremap qM  :<C-u>make<Space>
+nnoremap q<Space>  :<C-u>make<Space>
+nnoremap qg  :<C-u>grep<Space>
 
 
 " For location list (mnemonic: Quickfix list for the current Window)  "{{{3
 
-nnoremap <silent> qwj        :Execute lnext [count]<Return>
-nnoremap <silent> qwk        :Execute lprevious [count]<Return>
-nnoremap <silent> qwr        :Execute lrewind [count]<Return>
-nnoremap <silent> qwK        :Execute lfirst [count]<Return>
-nnoremap <silent> qwJ        :Execute llast [count]<Return>
-nnoremap <silent> qwfj       :Execute lnfile [count]<Return>
-nnoremap <silent> qwfk       :Execute lpfile [count]<Return>
-nnoremap <silent> qwl        :<C-u>llist<Return>
-nnoremap <silent> qwq        :Execute ll [count]<Return>
-nnoremap <silent> qwo        :Execute lopen [count]<Return>
-nnoremap <silent> qwc        :<C-u>lclose<Return>
-nnoremap <silent> qwp        :Execute lolder [count]<Return>
-nnoremap <silent> qwn        :Execute lnewer [count]<Return>
-nnoremap <silent> qwm        :<C-u>lmake<Return>
-nnoremap          qwM        :<C-u>lmake<Space>
-nnoremap          qw<Space>  :<C-u>lmake<Space>
-nnoremap          qwg        :<C-u>lgrep<Space>
+nnoremap <silent> qwj  :Execute lnext [count]<Return>
+nnoremap <silent> qwk  :Execute lprevious [count]<Return>
+nnoremap <silent> qwr  :Execute lrewind [count]<Return>
+nnoremap <silent> qwK  :Execute lfirst [count]<Return>
+nnoremap <silent> qwJ  :Execute llast [count]<Return>
+nnoremap <silent> qwfj  :Execute lnfile [count]<Return>
+nnoremap <silent> qwfk  :Execute lpfile [count]<Return>
+nnoremap <silent> qwl  :<C-u>llist<Return>
+nnoremap <silent> qwq  :Execute ll [count]<Return>
+nnoremap <silent> qwo  :Execute lopen [count]<Return>
+nnoremap <silent> qwc  :<C-u>lclose<Return>
+nnoremap <silent> qwp  :Execute lolder [count]<Return>
+nnoremap <silent> qwn  :Execute lnewer [count]<Return>
+nnoremap <silent> qwm  :<C-u>lmake<Return>
+nnoremap qwM  :<C-u>lmake<Space>
+nnoremap qw<Space>  :<C-u>lmake<Space>
+nnoremap qwg  :<C-u>lgrep<Space>
 
 
 
@@ -1193,54 +1203,54 @@ onoremap <silent> []  :<C-u>call <SID>JumpSectionO('[]')<Return>
 " Various hotkeys prefixed by <Space>.
 
 " to show <Space> in the bottom line.
-map               <Space>    [Space]
+map <Space>  [Space]
 
 " fallback
-noremap           [Space]    <Nop>
+noremap [Space]  <Nop>
 
 
-nnoremap <silent> [Space]/   :<C-u>nohlsearch<Return>
+nnoremap <silent> [Space]/  :<C-u>nohlsearch<Return>
 
-nnoremap <silent> [Space]?   :<C-u>call <SID>HelpWindowClose()<Return>
+nnoremap <silent> [Space]?  :<C-u>call <SID>HelpWindowClose()<Return>
 
 " append one character
-nnoremap          [Space]A   A<C-r>=<SID>KeysToInsertOneCharacter()<Return>
-nnoremap          [Space]a   a<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]A  A<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]a  a<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
-nnoremap <silent> [Space]e   :<C-u>setlocal enc? tenc? fenc? fencs?<Return>
-nnoremap <silent> [Space]f   :<C-u>setlocal ft? fenc? ff?<Return>
+nnoremap <silent> [Space]e  :<C-u>setlocal enc? tenc? fenc? fencs?<Return>
+nnoremap <silent> [Space]f  :<C-u>setlocal ft? fenc? ff?<Return>
 
 " insert one character
-nnoremap          [Space]I   I<C-r>=<SID>KeysToInsertOneCharacter()<Return>
-nnoremap          [Space]i   i<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]I  I<C-r>=<SID>KeysToInsertOneCharacter()<Return>
+nnoremap [Space]i  i<C-r>=<SID>KeysToInsertOneCharacter()<Return>
 
-nnoremap <silent> [Space]J   :<C-u>call <SID>JoinHere(1)<Return>
+nnoremap <silent> [Space]J  :<C-u>call <SID>JoinHere(1)<Return>
 nnoremap <silent> [Space]gJ  :<C-u>call <SID>JoinHere(0)<Return>
 
 " unjoin  " BUGS: side effect - destroy the last inserted text (".).
-nnoremap          [Space]j   i<Return><Esc>
+nnoremap [Space]j  i<Return><Esc>
 
-nnoremap <silent> [Space]m   :<C-u>marks<Return>
+nnoremap <silent> [Space]m  :<C-u>marks<Return>
 
-nnoremap          [Space]o   <Nop>
+nnoremap [Space]o  <Nop>
 nnoremap <silent> [Space]ob  :<C-u>call <SID>ToggleBell()<Return>
 nnoremap <silent> [Space]ow  :<C-u>call <SID>ToggleOption('wrap')<Return>
 
-nnoremap <silent> [Space]q   :<C-u>help quickref<Return>
+nnoremap <silent> [Space]q  :<C-u>help quickref<Return>
 
-nnoremap <silent> [Space]r   :<C-u>registers<Return>
+nnoremap <silent> [Space]r  :<C-u>registers<Return>
 
-nnoremap          [Space]s   <Nop>
+nnoremap [Space]s  <Nop>
 nnoremap <silent> [Space]s.  :<C-u>Source $MYVIMRC<Return>
 nnoremap <silent> [Space]ss  :<C-u>Source %<Return>
 
-vnoremap <silent> [Space]s   :sort<Return>
+vnoremap <silent> [Space]s  :sort<Return>
 
 " for backward compatibility
-nmap              [Space]w   [Space]ow
+nmap [Space]w  [Space]ow
 
 " for other use.
-noremap           [Space]x   <Nop>
+noremap [Space]x  <Nop>
 
 
 
@@ -1248,12 +1258,12 @@ noremap           [Space]x   <Nop>
 " Windows  "{{{2
 
 " Synonyms for the default mappings, with single key strokes.
-nmap     <Tab>    <C-i>
-nmap     <S-Tab>  <Esc>i
-nnoremap <C-i>    <C-w>w
-nnoremap <Esc>i   <C-w>W
+nmap <Tab>  <C-i>
+nmap <S-Tab>  <Esc>i
+nnoremap <C-i>  <C-w>w
+nnoremap <Esc>i  <C-w>W
   " For other mappings (<Esc>{x} to <C-w>{x}).
-nmap     <Esc>    <C-w>
+nmap <Esc>  <C-w>
 
 
 for i in ['H', 'J', 'K', 'L']
@@ -1555,10 +1565,10 @@ autocmd MyAutoCmd ColorScheme *
 \             cterm=bold,underline ctermfg=lightgray ctermbg=darkgray
 \ | highlight TabLine
 \             term=reverse
-\             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
+\             cterm=NONE ctermfg=lightgray ctermbg=darkgray
 \ | highlight TabLineFill
 \             term=reverse
-\             cterm=NONE           ctermfg=lightgray ctermbg=darkgray
+\             cterm=NONE ctermfg=lightgray ctermbg=darkgray
 doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 
 
@@ -1753,9 +1763,9 @@ function! s:FileType_xml()
 
   " Support to input some parts of tags.
   inoremap <buffer> <LT>?  </
-  imap     <buffer> ?<LT>  <LT>?
+  imap <buffer> ?<LT>  <LT>?
   inoremap <buffer> ?>  />
-  imap     <buffer> >?  ?>
+  imap <buffer> >?  ?>
 
   " Support to input some blocks.
   inoremap <buffer> <LT>!C  <LT>![CDATA[]]><Left><Left><Left>
