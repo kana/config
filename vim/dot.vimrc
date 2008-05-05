@@ -1009,7 +1009,6 @@ endfunction
 
 
 " Mappings  "{{{1
-" FIXME: many {rhs}s use : without <C-u> (clearing count effect).
 " FIXME: some mappings are not countable.
 " Physical/Logical keyboard layout declaration  "{{{2
 "
@@ -1457,9 +1456,9 @@ nnoremap <C-w>Q  :<C-u>quit!<Return>
 
 " Misc.  "{{{2
 
-nnoremap <C-h>  :h<Space>
-nnoremap <C-o>  :e<Space>
-nnoremap <C-w>.  :e .<Return>
+nnoremap <C-h>  :<C-u>h<Space>
+nnoremap <C-o>  :<C-u>e<Space>
+nnoremap <C-w>.  :<C-u>e .<Return>
 
 
 " Jump list
@@ -1468,7 +1467,7 @@ nnoremap <C-k>  <C-o>
 
 
 " Switch to the previously edited file (like Vz)
-nnoremap <Esc>2  :e #<Return>
+nnoremap <Esc>2  :<C-u>e #<Return>
 nmap <F2>  <Esc>2
 
 
