@@ -1530,9 +1530,9 @@ Cnmap <C-w>Q  quit!
 
 " Misc.  "{{{2
 
-Cnmap <noexec> <C-h>  h<Space>
-Cnmap <noexec> <C-o>  e<Space>
-Cnmap <C-w>.  e .
+Cnmap <noexec> <C-h>  help<Space>
+Cnmap <noexec> <C-o>  edit<Space>
+Cnmap <C-w>.  edit .
 
 
 " Jump list
@@ -1541,7 +1541,7 @@ nnoremap <C-k>  <C-o>
 
 
 " Switch to the previously edited file (like Vz)
-Cnmap <Esc>2  e #
+Cnmap <Esc>2  edit #
 nmap <F2>  <Esc>2
 
 
