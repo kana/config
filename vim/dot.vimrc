@@ -293,6 +293,19 @@ call idwintab#load()
 " User-defined commands to extend Vim script syntax.
 " FIXME: syntax highlighting
 " FIXME: completion
+" Stuffs  "{{{2
+
+function! s:separate_list(list, regexp)
+  let i = 0
+  while i < len(a:list) && a:list[i] =~# a:regexp
+    let i += 1
+  endwhile
+  return [(0 < i ? a:list[:i-1] : []), a:list[(i):]]
+endfunction
+
+
+
+
 " Fcommand - wrapper of :command to easily call a function  "{{{2
 "
 " :Fcommand[!] {option}... {command-name} {function-name} {arg}...
@@ -318,18 +331,13 @@ call idwintab#load()
 command! -bang -nargs=* Fcommand  call s:cmd_Fcommand('<bang>', [<f-args>])
 
 function! s:cmd_Fcommand(bang, args)
-  let i = 0
-  let options = []
-  while i < len(a:args) && a:args[i] =~ '^-'
-    call add(options, a:args[i])
-    let i += 1
-  endwhile
-  if len(a:args) <= i + 1
-    throw 'Insufficient number of arguments: ' . string(a:args)
+  let [options, rest] = s:separate_list(a:args, '^-')
+  if len(rest) < 2
+    throw 'Insufficient number of arguments: ' . string(rest)
   endif
-  let command_name = a:args[i]
-  let function_name = a:args[i+1]
-  let function_args = a:args[i+2:]
+  let command_name = rest[0]
+  let function_name = rest[1]
+  let function_args = rest[2:]
 
   execute 'command'.a:bang '-nargs=*' join(options) command_name
   \       'call' function_name '(' join(function_args, ', ') ')'
@@ -362,17 +370,12 @@ Fcommand! -nargs=* Fvmap  s:cmd_Fmap 'v' '' [<f-args>]
 Fcommand! -nargs=* Fxmap  s:cmd_Fmap 'x' '' [<f-args>]
 
 function! s:cmd_Fmap(prefix, suffix, args)
-  let i = 0
-  let options = []
-  while i < len(a:args) && a:args[i] =~ '^<\S\+>$'
-    call add(options, a:args[i])
-    let i += 1
-  endwhile
-  if len(a:args) <= i
-    throw 'Insufficient number of arguments: ' . string(a:args)
+  let [options, rest] = s:separate_list(a:args, '^<\S\+>$')
+  if len(rest) < 2
+    throw 'Insufficient number of arguments: ' . string(rest)
   endif
-  let lhs = a:args[i]
-  let rhs = a:args[i+1:]
+  let lhs = rest[0]
+  let rhs = rest[1:]
 
   execute a:prefix.'noremap'.a:suffix join(options) lhs
   \       ':<C-u>call' join(rhs) '<Return>'
