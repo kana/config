@@ -289,6 +289,102 @@ call idwintab#load()
 
 
 
+" Syntax  "{{{1
+" User-defined commands to extend Vim script syntax.
+" FIXME: syntax highlighting
+" FIXME: completion
+" Fcommand - wrapper of :command to easily call a function  "{{{2
+"
+" :Fcommand[!] {option}... {command-name} {function-name} {arg}...
+"
+" [!]
+"   Same as :command.
+"
+" {option}
+"   Same as :command.
+"
+" {command-name}
+"   The name of the wewly defined command.
+"
+" {function-name}
+"   The name of the function which is called whenever {command-name} is
+"   executed.
+"
+" {arg}
+"   Arguments to {function-name}.  All escape sequences of :command are also
+"   available.  Note that {arg}s are splited by spaces and each spaces are
+"   replaced by ", ".  See :help <f-args> to how to escape spaces.
+
+command! -bang -nargs=* Fcommand  call s:cmd_Fcommand('<bang>', [<f-args>])
+
+function! s:cmd_Fcommand(bang, args)
+  let i = 0
+  let options = []
+  while i < len(a:args) && a:args[i] =~ '^-'
+    call add(options, a:args[i])
+    let i += 1
+  endwhile
+  if len(a:args) <= i + 1
+    throw 'Insufficient number of arguments: ' . string(a:args)
+  endif
+  let command_name = a:args[i]
+  let function_name = a:args[i+1]
+  let function_args = a:args[i+2:]
+
+  execute 'command'.a:bang '-nargs=*' join(options) command_name
+  \       'call' function_name '(' join(function_args, ', ') ')'
+endfunction
+
+
+
+
+" Fmap - wrapper of :map to easily call a function  "{{{2
+"
+" :Fmap {lhs} {expression}
+"   Other variants:
+"   Fmap!, Fcmap, Fimap, Flmap, Fnmap, Fomap, Fsmap, Fvmap, Fxmap.
+"
+" {lhs}
+"   Same as :map.
+"
+" {expression}
+"   An expression to call a function (without :call).  This expression is
+"   executed whenever key sequence {lhs} are typed.
+
+Fcommand! -bang -nargs=* Fmap  s:cmd_Fmap '' '<bang>' [<f-args>]
+Fcommand! -nargs=* Fcmap  s:cmd_Fmap 'c' '' [<f-args>]
+Fcommand! -nargs=* Fimap  s:cmd_Fmap 'i' '' [<f-args>]
+Fcommand! -nargs=* Flmap  s:cmd_Fmap 'l' '' [<f-args>]
+Fcommand! -nargs=* Fnmap  s:cmd_Fmap 'n' '' [<f-args>]
+Fcommand! -nargs=* Fomap  s:cmd_Fmap 'o' '' [<f-args>]
+Fcommand! -nargs=* Fsmap  s:cmd_Fmap 's' '' [<f-args>]
+Fcommand! -nargs=* Fvmap  s:cmd_Fmap 'v' '' [<f-args>]
+Fcommand! -nargs=* Fxmap  s:cmd_Fmap 'x' '' [<f-args>]
+
+function! s:cmd_Fmap(prefix, suffix, args)
+  let i = 0
+  let options = []
+  while i < len(a:args) && a:args[i] =~ '^<\S\+>$'
+    call add(options, a:args[i])
+    let i += 1
+  endwhile
+  if len(a:args) <= i
+    throw 'Insufficient number of arguments: ' . string(a:args)
+  endif
+  let lhs = a:args[i]
+  let rhs = a:args[i+1:]
+
+  execute a:prefix.'noremap'.a:suffix join(options) lhs
+  \       ':<C-u>call' join(rhs) '<Return>'
+endfunction
+
+
+
+
+
+
+
+
 " Utilities  "{{{1
 " For per-'filetype' settings "{{{2
 "
