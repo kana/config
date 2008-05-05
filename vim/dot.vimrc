@@ -295,12 +295,26 @@ call idwintab#load()
 " FIXME: completion
 " Stuffs  "{{{2
 
+let s:FALSE = 0
+let s:TRUE = !s:FALSE
+
+
 function! s:separate_list(list, regexp)
   let i = 0
   while i < len(a:list) && a:list[i] =~# a:regexp
     let i += 1
   endwhile
   return [(0 < i ? a:list[:i-1] : []), a:list[(i):]]
+endfunction
+
+
+function! s:contains_p(list, regexp)
+  for item in a:list
+    if item =~# a:regexp
+      return s:TRUE
+    endif
+  endfor
+  return s:FALSE
 endfunction
 
 
@@ -419,6 +433,51 @@ function! s:cmd_KeyboardLayout(physical_key, logical_key)
   let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
   execute 'Allmap' a:logical_key indirect_key
   execute 'Allnoremap' indirect_key a:logical_key
+endfunction
+
+
+
+
+" Cmap - wrapper of :map to easily execute commands  "{{{2
+"
+" :Cmap {lhs} {script}
+"   Other variants:
+"   Cmap!, Ccmap, Cimap, Clmap, Cnmap, Comap, Csmap, Cvmap, Cxmap.
+"
+" {lhs}
+"   Same as :map.
+"
+"   As an extension, <count> is available as one of :map-arguments.  Whenever
+"   {script} are executed, count effect (e.g. typing "3:" will be treated as
+"   ":.,+2") is ignored unless <count> is specified.
+"
+" {script}
+"   A script which is executed whenever key sequence {lhs} are typed.
+
+Fcommand! -bang -nargs=* Cmap  s:cmd_Cmap '' '<bang>' [<f-args>]
+Fcommand! -nargs=* Ccmap  s:cmd_Cmap 'c' '' [<f-args>]
+Fcommand! -nargs=* Cimap  s:cmd_Cmap 'i' '' [<f-args>]
+Fcommand! -nargs=* Clmap  s:cmd_Cmap 'l' '' [<f-args>]
+Fcommand! -nargs=* Cnmap  s:cmd_Cmap 'n' '' [<f-args>]
+Fcommand! -nargs=* Comap  s:cmd_Cmap 'o' '' [<f-args>]
+Fcommand! -nargs=* Csmap  s:cmd_Cmap 's' '' [<f-args>]
+Fcommand! -nargs=* Cvmap  s:cmd_Cmap 'v' '' [<f-args>]
+Fcommand! -nargs=* Cxmap  s:cmd_Cmap 'x' '' [<f-args>]
+
+function! s:cmd_Cmap(prefix, suffix, args)
+  " FIXME: This parsing may not be compatible with the original one.
+  let [options, rest] = s:separate_list(a:args,
+  \ '^<\c\(buffer\|expr\|script\|silent\|special\|unique\)\|\(count\)>$')
+  if len(rest) < 2
+    throw 'Insufficient number of arguments: ' . string(rest)
+  endif
+  let lhs = rest[0]
+  let script = rest[1:]
+  let count_p = s:contains_p(options, '^<count>$')
+  call filter(options, 'v:val !~# "<count>"')
+
+  execute a:prefix.'noremap'.a:suffix join(options) lhs
+  \       ':' (count_p ? '' : '<C-u>') join(script) '<Return>'
 endfunction
 
 
