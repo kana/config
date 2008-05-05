@@ -386,6 +386,23 @@ endfunction
 
 
 
+" Allmap - :map in all modes  "{{{2
+
+command! -nargs=+ Allmap
+\   execute 'map' <q-args>
+\ | execute 'map!' <q-args>
+
+command! -nargs=+ Allnoremap
+\   execute 'noremap' <q-args>
+\ | execute 'noremap!' <q-args>
+
+command! -nargs=+ Allunmap
+\   execute 'silent! unmap' <q-args>
+\ | execute 'silent! unmap!' <q-args>
+
+
+
+
 
 
 
@@ -1008,15 +1025,6 @@ function! s:cmd_KeyLayout(physical_key, logical_key)
   execute 'Allmap' a:logical_key indirect_key
   execute 'Allnoremap' indirect_key a:logical_key
 endfunction
-command! -nargs=+ Allmap
-\   execute 'map' <q-args>
-\ | execute 'map!' <q-args>
-command! -nargs=+ Allnoremap
-\   execute 'noremap' <q-args>
-\ | execute 'noremap!' <q-args>
-command! -nargs=+ Allunmap
-\   execute 'silent! unmap' <q-args>
-\ | execute 'silent! unmap!' <q-args>
 
 
 if $ENV_WORKING ==# 'mac' || $HOST !=# 'summer'
