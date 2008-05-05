@@ -403,6 +403,32 @@ command! -nargs=+ Allunmap
 
 
 
+" KeyboardLayout - declare differences of logical and physical keyboard layouts  "{{{2
+"
+" :KeyboardLayout {physical-key}  {logical-key}
+"
+"   Declare that whenever Vim gets a character {logical-key}, the
+"   corresponding physical key is {physical-key}.  This declaration is useful
+"   to define a mapping based on physical keyboard layout.
+"
+"   Example: Map the physical key {X} to {rhs}:
+"   noremap <Plug>(physical-key-{X}) {rhs}
+
+Fcommand! -nargs=+ KeyboardLayout  s:cmd_KeyboardLayout <f-args>
+function! s:cmd_KeyboardLayout(physical_key, logical_key)
+  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
+  execute 'Allmap' a:logical_key indirect_key
+  execute 'Allnoremap' indirect_key a:logical_key
+endfunction
+
+
+
+
+"{{{2
+
+
+
+
 
 
 
@@ -1011,33 +1037,19 @@ endfunction
 " Mappings  "{{{1
 " FIXME: some mappings are not countable.
 " Physical/Logical keyboard layout declaration  "{{{2
-"
-" :KeyLayout {physical-key}  {logical-key}
-"   Declare that whenever Vim gets a character {logical-key}, the
-"   corresponding physical key is {physical-key}.  This declaration will be
-"   used to map based on physical keyboard layout.  To map {rhs} to a physical
-"   key {X}, use 'noremap <Plug>(physical-key-{X})  {rhs}'.
-
-command! -nargs=+ KeyLayout  call s:cmd_KeyLayout(<f-args>)
-function! s:cmd_KeyLayout(physical_key, logical_key)
-  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
-  execute 'Allmap' a:logical_key indirect_key
-  execute 'Allnoremap' indirect_key a:logical_key
-endfunction
-
 
 if $ENV_WORKING ==# 'mac' || $HOST !=# 'summer'
   " Semicolon and Return are swapped by KeyRemap4MacBook or Mayu on some
   " environments.
-  KeyLayout ;  <Return>
-  KeyLayout :  <S-Return>
-  KeyLayout <Return>  ;
-  KeyLayout <S-Return>  :
+  KeyboardLayout ;  <Return>
+  KeyboardLayout :  <S-Return>
+  KeyboardLayout <Return>  ;
+  KeyboardLayout <S-Return>  :
 else
-  KeyLayout ;  ;
-  KeyLayout :  :
-  KeyLayout <Return>  <Return>
-  KeyLayout <S-Return>  <S-Return>
+  KeyboardLayout ;  ;
+  KeyboardLayout :  :
+  KeyboardLayout <Return>  <Return>
+  KeyboardLayout <S-Return>  <S-Return>
 endif
 
 
