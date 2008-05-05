@@ -1719,14 +1719,14 @@ autocmd MyAutoCmd FileType *
 function! s:on_FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings defined by ftplugin.
-  silent! vunmap <buffer>  ]]
-  silent! vunmap <buffer>  ][
-  silent! vunmap <buffer>  []
-  silent! vunmap <buffer>  [[
-  silent! ounmap <buffer>  ]]
-  silent! ounmap <buffer>  ][
-  silent! ounmap <buffer>  []
-  silent! ounmap <buffer>  [[
+  silent! vunmap <buffer> ]]
+  silent! vunmap <buffer> ][
+  silent! vunmap <buffer> []
+  silent! vunmap <buffer> [[
+  silent! ounmap <buffer> ]]
+  silent! ounmap <buffer> ][
+  silent! ounmap <buffer> []
+  silent! ounmap <buffer> [[
 
   " Make omni completion available for all filetypes.
   if &l:omnifunc == ''
