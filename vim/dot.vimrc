@@ -353,8 +353,8 @@ function! s:cmd_Fcommand(bang, args)
   let function_name = rest[1]
   let function_args = rest[2:]
 
-  execute 'command'.a:bang '-nargs=*' join(options) command_name
-  \       'call' function_name '(' join(function_args, ', ') ')'
+  execute 'command'.a:bang join(options) command_name
+  \ 'call' function_name '(' join(function_args, ', ') ')'
 endfunction
 
 
@@ -386,7 +386,7 @@ Fcommand! -nargs=* Fxmap  s:cmd_Fmap 'x' '' [<f-args>]
 function! s:cmd_Fmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
-  \ '^<\c\(buffer\|expr\|script\|silent\|special\|unique\)>$')
+  \ '^\c<\(buffer\|expr\|script\|silent\|special\|unique\)>$')
   if len(rest) < 2
     throw 'Insufficient number of arguments: ' . string(rest)
   endif
@@ -394,7 +394,7 @@ function! s:cmd_Fmap(prefix, suffix, args)
   let rhs = rest[1:]
 
   execute a:prefix.'noremap'.a:suffix join(options) lhs
-  \       ':<C-u>call' join(rhs) '<Return>'
+  \ ':<C-u>call' join(rhs) '<Return>'
 endfunction
 
 
