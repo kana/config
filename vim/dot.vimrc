@@ -370,7 +370,9 @@ Fcommand! -nargs=* Fvmap  s:cmd_Fmap 'v' '' [<f-args>]
 Fcommand! -nargs=* Fxmap  s:cmd_Fmap 'x' '' [<f-args>]
 
 function! s:cmd_Fmap(prefix, suffix, args)
-  let [options, rest] = s:separate_list(a:args, '^<\S\+>$')
+  " FIXME: This parsing may not be compatible with the original one.
+  let [options, rest] = s:separate_list(a:args,
+  \ '^<\c\(buffer\|expr\|script\|silent\|special\|unique\)>$')
   if len(rest) < 2
     throw 'Insufficient number of arguments: ' . string(rest)
   endif
@@ -1312,14 +1314,14 @@ inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 " mode.  Because some ftplugins provide these motions only for Normal mode and
 " other ftplugins provide these motions with some faults, e.g., not countable.
 
-vnoremap <silent> ]]  :<C-u>call <SID>jump_section_v(']]')<Return>
-vnoremap <silent> ][  :<C-u>call <SID>jump_section_v('][')<Return>
-vnoremap <silent> [[  :<C-u>call <SID>jump_section_v('[[')<Return>
-vnoremap <silent> []  :<C-u>call <SID>jump_section_v('[]')<Return>
-onoremap <silent> ]]  :<C-u>call <SID>jump_section_o(']]')<Return>
-onoremap <silent> ][  :<C-u>call <SID>jump_section_o('][')<Return>
-onoremap <silent> [[  :<C-u>call <SID>jump_section_o('[[')<Return>
-onoremap <silent> []  :<C-u>call <SID>jump_section_o('[]')<Return>
+Fvmap <silent> ]]  <SID>jump_section_v(']]')
+Fvmap <silent> ][  <SID>jump_section_v('][')
+Fvmap <silent> [[  <SID>jump_section_v('[[')
+Fvmap <silent> []  <SID>jump_section_v('[]')
+Fomap <silent> ]]  <SID>jump_section_o(']]')
+Fomap <silent> ][  <SID>jump_section_o('][')
+Fomap <silent> [[  <SID>jump_section_o('[[')
+Fomap <silent> []  <SID>jump_section_o('[]')
 
 
 
@@ -1337,7 +1339,7 @@ noremap [Space]  <Nop>
 
 nnoremap <silent> [Space]/  :<C-u>nohlsearch<Return>
 
-nnoremap <silent> [Space]?  :<C-u>call <SID>close_help_window()<Return>
+Fnmap <silent> [Space]?  <SID>close_help_window()
 
 " append one character
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
@@ -1350,8 +1352,8 @@ nnoremap <silent> [Space]f  :<C-u>setlocal ft? fenc? ff?<Return>
 nnoremap [Space]I  I<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]i  i<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-nnoremap <silent> [Space]J  :<C-u>call <SID>join_here(1)<Return>
-nnoremap <silent> [Space]gJ  :<C-u>call <SID>join_here(0)<Return>
+Fnmap <silent> [Space]J  <SID>join_here(1)
+Fnmap <silent> [Space]gJ  <SID>join_here(0)
 
 " unjoin  " BUGS: side effect - destroy the last inserted text (".).
 nnoremap [Space]j  i<Return><Esc>
@@ -1359,8 +1361,8 @@ nnoremap [Space]j  i<Return><Esc>
 nnoremap <silent> [Space]m  :<C-u>marks<Return>
 
 nnoremap [Space]o  <Nop>
-nnoremap <silent> [Space]ob  :<C-u>call <SID>toggle_bell()<Return>
-nnoremap <silent> [Space]ow  :<C-u>call <SID>toggle_option('wrap')<Return>
+Fnmap <silent> [Space]ob  <SID>toggle_bell()
+Fnmap <silent> [Space]ow  <SID>toggle_option('wrap')
 
 nnoremap <silent> [Space]q  :<C-u>help quickref<Return>
 
@@ -1393,16 +1395,16 @@ nmap <Esc>  <C-w>
 
 
 for i in ['H', 'J', 'K', 'L']
-  execute 'nnoremap <silent> <Esc>'.i
-  \ ':<C-u>call <SID>move_window_then_equalize_if_necessary("'.i.'")<Return>'
+  execute 'Fnmap <silent> <Esc>'.i
+  \ '<SID>move_window_then_equalize_if_necessary("'.i.'")'
 endfor
 unlet i
 
 
 " This {lhs} overrides the default action (Move cursor to top-left window).
 " But I rarely use its {lhs}s, so this mapping is not problematic.
-nnoremap <silent> <C-w><C-t>
-\ :<C-u>call <SID>move_window_into_tab_page(<SID>ask_tab_page_number())<Return>
+Fnmap <silent> <C-w><C-t>
+\ <SID>move_window_into_tab_page(<SID>ask_tab_page_number())
 function! s:ask_tab_page_number()
   echon 'Which tabpage to move this window into?  '
 
@@ -1422,8 +1424,8 @@ endfunction
 " like GNU Emacs' (scroll-other-window),
 " but the target to scroll is the previous window.
 for i in ['f', 'b', 'd', 'u', 'e', 'y']
-  execute 'nnoremap <silent> <Esc><C-'.i.'>'
-  \       ':<C-u>call <SID>scroll_other_window("<Bslash><LT>C-'.i.'>")<Return>'
+  execute 'Fnmap <silent> <Esc><C-'.i.'>'
+  \       '<SID>scroll_other_window("<Bslash><LT>C-'.i.'>")'
 endfor
 unlet i
 
@@ -1525,8 +1527,8 @@ nnoremap gc  `[v`]
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
-vnoremap <silent> I  :<C-u>call <SID>force_blockwise_visual('I')<Return>
-vnoremap <silent> A  :<C-u>call <SID>force_blockwise_visual('A')<Return>
+Fvmap <silent> I  <SID>force_blockwise_visual('I')
+Fvmap <silent> A  <SID>force_blockwise_visual('A')
 
 function! s:force_blockwise_visual(next_key)
   if visualmode() ==# 'V'
@@ -1542,10 +1544,8 @@ endfunction
 " The default [count] is 0, so no blank line is inserted.
 " (I prefer this behavior to the default behavior of [count]o/O
 "  -- repeat the next insertion [count] times.)
-nnoremap <silent> o
-\ :<C-u>call <SID>start_insert_mode_with_blank_lines('o')<Return>
-nnoremap <silent> O
-\ :<C-u>call <SID>start_insert_mode_with_blank_lines('O')<Return>
+Fnmap <silent> o  <SID>start_insert_mode_with_blank_lines('o')
+Fnmap <silent> O  <SID>start_insert_mode_with_blank_lines('O')
 
 function! s:start_insert_mode_with_blank_lines(command)
   " Do "[count]o<Esc>o" and so forth.
@@ -1577,7 +1577,7 @@ endfunction
 
 
 " Search for the selected text.
-vnoremap *  :<C-u>call <SID>search_the_selected_text_literaly()<Return>
+Fvmap *  <SID>search_the_selected_text_literaly()
 
   " FIXME: escape to search the selected text literaly.
 function! s:search_the_selected_text_literaly()
@@ -1597,8 +1597,7 @@ endfunction
 " Pseudo :suspend with automtic cd.
 " Assumption: Use GNU screen.
 " Assumption: There is a window with the title "another".
-noremap <silent> <C-z>
-\ :<C-u>call <SID>pseudo_suspend_with_automatic_cd()<Return>
+Fmap <silent> <C-z>  <SID>pseudo_suspend_with_automatic_cd()
 
 if !exists('s:gnu_screen_availablep')
   " Check the existence of $WINDOW to avoid using GNU screen in Vim on
@@ -1738,14 +1737,10 @@ autocmd MyAutoCmd FileType dosini
 \ call <SID>on_FileType_dosini()
 
 function! s:on_FileType_dosini()
-  nnoremap <buffer> <silent> ]]
-  \ :<C-u>call <SID>jump_section_n('/^\[')<Return>
-  nnoremap <buffer> <silent> ][
-  \ :<C-u>call <SID>jump_section_n('/\n\[\@=')<Return>
-  nnoremap <buffer> <silent> [[
-  \ :<C-u>call <SID>jump_section_n('?^\[')<Return>
-  nnoremap <buffer> <silent> []
-  \ :<C-u>call <SID>jump_section_n('?\n\[\@=')<Return>
+  Fnmap <buffer> <silent> ]]  <SID>jump_section_n('/^\[')
+  Fnmap <buffer> <silent> ][  <SID>jump_section_n('/\n\[\@=')
+  Fnmap <buffer> <silent> [[  <SID>jump_section_n('?^\[')
+  Fnmap <buffer> <silent> []  <SID>jump_section_n('?\n\[\@=')
 endfunction
 
 
