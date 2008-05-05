@@ -445,11 +445,16 @@ endfunction
 "   Cmap!, Ccmap, Cimap, Clmap, Cnmap, Comap, Csmap, Cvmap, Cxmap.
 "
 " {lhs}
-"   Same as :map.
+"   Same as :map.  As additional :map-arguments, <count> and <noexec> are
+"   available.
 "
-"   As an extension, <count> is available as one of :map-arguments.  Whenever
-"   {script} are executed, count effect (e.g. typing "3:" will be treated as
-"   ":.,+2") is ignored unless <count> is specified.
+"   <count>
+"     Whenever {script} are executed, count effect (e.g. typing "3:" will be
+"     treated as ":.,+2") is ignored unless <count> is specified.
+"
+"   <noexec>
+"     If <noexec> is specified, {script} is just inserted in the
+"     Command-line, but it's not executed.
 "
 " {script}
 "   A script which is executed whenever key sequence {lhs} are typed.
@@ -467,17 +472,18 @@ Fcommand! -nargs=* Cxmap  s:cmd_Cmap 'x' '' [<f-args>]
 function! s:cmd_Cmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
-  \ '^<\c\(buffer\|expr\|script\|silent\|special\|unique\)\|\(count\)>$')
+  \ '^\c<\(buffer\|expr\|script\|silent\|special\|unique\|count\|noexec\)>$')
   if len(rest) < 2
     throw 'Insufficient number of arguments: ' . string(rest)
   endif
   let lhs = rest[0]
   let script = rest[1:]
-  let count_p = s:contains_p(options, '^<count>$')
-  call filter(options, 'v:val !~# "<count>"')
+  let count_p = s:contains_p(options, '^\c<count>$')
+  let noexec_p = s:contains_p(options, '^\c<noexec>$')
+  call filter(options, 'v:val !~# ''^\c<\(count\|noexec\)>$''')
 
   execute a:prefix.'noremap'.a:suffix join(options) lhs
-  \       ':' (count_p ? '' : '<C-u>') join(script) '<Return>'
+  \ ':' . (count_p ? '' : '<C-u>') . join(script) . (noexec_p ? '' : '<Return>')
 endfunction
 
 
@@ -1146,34 +1152,34 @@ noremap [Space]T  T
 
 nnoremap tt  <C-]>
 vnoremap tt  <C-]>
-nnoremap <silent> tj  :<C-u>tag<Return>
-nnoremap <silent> tk  :<C-u>pop<Return>
-nnoremap <silent> tl  :<C-u>tags<Return>
-nnoremap <silent> tn  :<C-u>tnext<Return>
-nnoremap <silent> tp  :<C-u>tprevious<Return>
-nnoremap <silent> tP  :<C-u>tfirst<Return>
-nnoremap <silent> tN  :<C-u>tlast<Return>
+Cnmap <silent> tj  tag
+Cnmap <silent> tk  pop
+Cnmap <silent> tl  tags
+Cnmap <silent> tn  tnext
+Cnmap <silent> tp  tprevious
+Cnmap <silent> tP  tfirst
+Cnmap <silent> tN  tlast
 
 " additions, like Web browsers
 nmap <Plug>(physical-key-<Return>)  tt
 vmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
-nnoremap t<Space>  :<C-u>tag<Space>
+Cnmap <noexec> t<Space>  tag<Space>
 
 
 " With the preview window  "{{{3
 
 nnoremap t't  <C-w>}
 vnoremap t't  <C-w>}
-nnoremap <silent> t'n  :<C-u>ptnext<Return>
-nnoremap <silent> t'p  :<C-u>ptpevious<Return>
-nnoremap <silent> t'P  :<C-u>ptfirst<Return>
-nnoremap <silent> t'N  :<C-u>ptlast<Return>
+Cnmap <silent> t'n  ptnext
+Cnmap <silent> t'p  ptpevious
+Cnmap <silent> t'P  ptfirst
+Cnmap <silent> t'N  ptlast
 
 " although :pclose is not related to tag.
 " BUGS: t'' is not related to the default meaning of ''.
-nnoremap <silent> t'c  :<C-u>pclose<Return>
+Cnmap <silent> t'c  pclose
 nmap t'z  t'c
 nmap t''  t'c
 
@@ -1182,10 +1188,10 @@ nmap t''  t'c
 
 nnoremap tst  <C-w>]
 vnoremap tst  <C-w>]
-nnoremap <silent> tsn  :<C-u>split \| tnext<Return>
-nnoremap <silent> tsp  :<C-u>split \| tpevious<Return>
-nnoremap <silent> tsP  :<C-u>split \| tfirst<Return>
-nnoremap <silent> tsN  :<C-u>split \| tlast<Return>
+Cnmap <silent> tsn  split \| tnext
+Cnmap <silent> tsp  split \| tpevious
+Cnmap <silent> tsP  split \| tfirst
+Cnmap <silent> tsN  split \| tlast
 
 
 " With :vertical split  "{{{3
@@ -1194,10 +1200,10 @@ nnoremap <silent> tsN  :<C-u>split \| tlast<Return>
   " but its modification to tag stacks is not same as |<C-w>]|.
 nnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
 vnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-nnoremap <silent> tvn  :<C-u>vsplit \| tnext<Return>
-nnoremap <silent> tvp  :<C-u>vsplit \| tpevious<Return>
-nnoremap <silent> tvP  :<C-u>vsplit \| tfirst<Return>
-nnoremap <silent> tvN  :<C-u>vsplit \| tlast<Return>
+Cnmap <silent> tvn  vsplit \| tnext
+Cnmap <silent> tvp  vsplit \| tpevious
+Cnmap <silent> tvP  vsplit \| tfirst
+Cnmap <silent> tvN  vsplit \| tlast
 
 
 
@@ -1215,44 +1221,44 @@ nnoremap Q  q
 
 " For quickfix list  "{{{3
 
-nnoremap <silent> qj  :Execute cnext [count]<Return>
-nnoremap <silent> qk  :Execute cprevious [count]<Return>
-nnoremap <silent> qr  :Execute crewind [count]<Return>
-nnoremap <silent> qK  :Execute cfirst [count]<Return>
-nnoremap <silent> qJ  :Execute clast [count]<Return>
-nnoremap <silent> qfj  :Execute cnfile [count]<Return>
-nnoremap <silent> qfk  :Execute cpfile [count]<Return>
-nnoremap <silent> ql  :<C-u>clist<Return>
-nnoremap <silent> qq  :Execute cc [count]<Return>
-nnoremap <silent> qo  :Execute copen [count]<Return>
-nnoremap <silent> qc  :<C-u>cclose<Return>
-nnoremap <silent> qp  :Execute colder [count]<Return>
-nnoremap <silent> qn  :Execute cnewer [count]<Return>
-nnoremap <silent> qm  :<C-u>make<Return>
-nnoremap qM  :<C-u>make<Space>
-nnoremap q<Space>  :<C-u>make<Space>
-nnoremap qg  :<C-u>grep<Space>
+Cnmap <silent> qj  Execute cnext [count]
+Cnmap <silent> qk  Execute cprevious [count]
+Cnmap <silent> qr  Execute crewind [count]
+Cnmap <silent> qK  Execute cfirst [count]
+Cnmap <silent> qJ  Execute clast [count]
+Cnmap <silent> qfj  Execute cnfile [count]
+Cnmap <silent> qfk  Execute cpfile [count]
+Cnmap <silent> ql  clist
+Cnmap <silent> qq  Execute cc [count]
+Cnmap <silent> qo  Execute copen [count]
+Cnmap <silent> qc  cclose
+Cnmap <silent> qp  Execute colder [count]
+Cnmap <silent> qn  Execute cnewer [count]
+Cnmap <silent> qm  make
+Cnmap <noexec> qM  make<Space>
+Cnmap <noexec> q<Space>  make<Space>
+Cnmap <noexec> qg  grep<Space>
 
 
 " For location list (mnemonic: Quickfix list for the current Window)  "{{{3
 
-nnoremap <silent> qwj  :Execute lnext [count]<Return>
-nnoremap <silent> qwk  :Execute lprevious [count]<Return>
-nnoremap <silent> qwr  :Execute lrewind [count]<Return>
-nnoremap <silent> qwK  :Execute lfirst [count]<Return>
-nnoremap <silent> qwJ  :Execute llast [count]<Return>
-nnoremap <silent> qwfj  :Execute lnfile [count]<Return>
-nnoremap <silent> qwfk  :Execute lpfile [count]<Return>
-nnoremap <silent> qwl  :<C-u>llist<Return>
-nnoremap <silent> qwq  :Execute ll [count]<Return>
-nnoremap <silent> qwo  :Execute lopen [count]<Return>
-nnoremap <silent> qwc  :<C-u>lclose<Return>
-nnoremap <silent> qwp  :Execute lolder [count]<Return>
-nnoremap <silent> qwn  :Execute lnewer [count]<Return>
-nnoremap <silent> qwm  :<C-u>lmake<Return>
-nnoremap qwM  :<C-u>lmake<Space>
-nnoremap qw<Space>  :<C-u>lmake<Space>
-nnoremap qwg  :<C-u>lgrep<Space>
+Cnmap <silent> qwj  Execute lnext [count]
+Cnmap <silent> qwk  Execute lprevious [count]
+Cnmap <silent> qwr  Execute lrewind [count]
+Cnmap <silent> qwK  Execute lfirst [count]
+Cnmap <silent> qwJ  Execute llast [count]
+Cnmap <silent> qwfj  Execute lnfile [count]
+Cnmap <silent> qwfk  Execute lpfile [count]
+Cnmap <silent> qwl  llist
+Cnmap <silent> qwq  Execute ll [count]
+Cnmap <silent> qwo  Execute lopen [count]
+Cnmap <silent> qwc  lclose
+Cnmap <silent> qwp  Execute lolder [count]
+Cnmap <silent> qwn  Execute lnewer [count]
+Cnmap <silent> qwm  lmake
+Cnmap <noexec> qwM  lmake<Space>
+Cnmap <noexec> qw<Space>  lmake<Space>
+Cnmap <noexec> qwg  lgrep<Space>
 
 
 
@@ -1271,27 +1277,26 @@ nnoremap <C-t>  <Nop>
 " Basic  "{{{3
 
   " Move new tabpage at the last.
-nnoremap <silent> <C-t>n  :<C-u>tabnew \| tabmove<Return>
-nnoremap <silent> <C-t>c  :<C-u>tabclose<Return>
-nnoremap <silent> <C-t>o  :<C-u>tabonly<Return>
-nnoremap <silent> <C-t>i  :<C-u>tabs<Return>
+Cnmap <silent> <C-t>n  tabnew \| tabmove
+Cnmap <silent> <C-t>c  tabclose
+Cnmap <silent> <C-t>o  tabonly
+Cnmap <silent> <C-t>i  tabs
 
 nmap <C-t><C-n>  <C-t>n
 nmap <C-t><C-c>  <C-t>c
 nmap <C-t><C-o>  <C-t>o
 nmap <C-t><C-i>  <C-t>i
 
-nnoremap <silent> <C-t>T  :<C-u>TabTitle<Return>
+Cnmap <silent> <C-t>T  TabTitle
 
 
 " Moving around tabs.  "{{{3
 
-nnoremap <silent> <C-t>j  :<C-u>execute 'tabnext'
-                         \ 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')
-                         \<Return>
-nnoremap <silent> <C-t>k  :Execute tabprevious [count]<Return>
-nnoremap <silent> <C-t>K  :<C-u>tabfirst<Return>
-nnoremap <silent> <C-t>J  :<C-u>tablast<Return>
+Cnmap <silent> <C-t>j
+\ execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')
+Cnmap <silent> <C-t>k  Execute tabprevious [count]
+Cnmap <silent> <C-t>K  tabfirst
+Cnmap <silent> <C-t>J  tablast
 
 nmap <C-t><C-j>  <C-t>j
 nmap <C-t><C-k>  <C-t>k
@@ -1307,14 +1312,12 @@ unlet i
 
 " Moving tabs themselves.  "{{{3
 
-nnoremap <silent> <C-t>l  :<C-u>execute 'tabmove'
-                         \ min([tabpagenr() + v:count1 - 1, tabpagenr('$')])
-                         \<Return>
-nnoremap <silent> <C-t>h  :<C-u>execute 'tabmove'
-                         \ max([tabpagenr() - v:count1 - 1, 0])
-                         \<Return>
-nnoremap <silent> <C-t>L  :<C-u>tabmove<Return>
-nnoremap <silent> <C-t>H  :<C-u>tabmove 0<Return>
+Cnmap <silent> <C-t>l
+\ execute 'tabmove' min([tabpagenr() + v:count1 - 1, tabpagenr('$')])
+Cnmap <silent> <C-t>h
+\ execute 'tabmove' max([tabpagenr() - v:count1 - 1, 0])
+Cnmap <silent> <C-t>L  tabmove
+Cnmap <silent> <C-t>H  tabmove 0
 
 nmap <C-t><C-l>  <C-t>l
 nmap <C-t><C-h>  <C-t>h
@@ -1329,14 +1332,14 @@ nmap <C-t><C-h>  <C-t>h
 nnoremap <C-g>  <Nop>
 
 
-nnoremap <C-g><Space>  :<C-u>args<Space>
-nnoremap <silent> <C-g>l  :<C-u>args<Return>
-nnoremap <silent> <C-g>j  :<C-u>next<Return>
-nnoremap <silent> <C-g>k  :<C-u>previous<Return>
-nnoremap <silent> <C-g>J  :<C-u>last<Return>
-nnoremap <silent> <C-g>K  :<C-u>first<Return>
-nnoremap <silent> <C-g>wj  :<C-u>wnext<Return>
-nnoremap <silent> <C-g>wk  :<C-u>wprevious<Return>
+Cnmap <noexec> <C-g><Space>  args<Space>
+Cnmap <silent> <C-g>l  args
+Cnmap <silent> <C-g>j  next
+Cnmap <silent> <C-g>k  previous
+Cnmap <silent> <C-g>J  last
+Cnmap <silent> <C-g>K  first
+Cnmap <silent> <C-g>wj  wnext
+Cnmap <silent> <C-g>wk  wprevious
 
 nmap <C-g><C-l>  <C-g>l
 nmap <C-g><C-j>  <C-g>j
@@ -1415,7 +1418,7 @@ map <Space>  [Space]
 noremap [Space]  <Nop>
 
 
-nnoremap <silent> [Space]/  :<C-u>nohlsearch<Return>
+Cnmap <silent> [Space]/  nohlsearch
 
 Fnmap <silent> [Space]?  <SID>close_help_window()
 
@@ -1423,8 +1426,8 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-nnoremap <silent> [Space]e  :<C-u>setlocal enc? tenc? fenc? fencs?<Return>
-nnoremap <silent> [Space]f  :<C-u>setlocal ft? fenc? ff?<Return>
+Cnmap <silent> [Space]e  setlocal enc? tenc? fenc? fencs?
+Cnmap <silent> [Space]f  setlocal ft? fenc? ff?
 
 " insert one character
 nnoremap [Space]I  I<C-r>=<SID>keys_to_insert_one_character()<Return>
@@ -1436,21 +1439,21 @@ Fnmap <silent> [Space]gJ  <SID>join_here(0)
 " unjoin  " BUGS: side effect - destroy the last inserted text (".).
 nnoremap [Space]j  i<Return><Esc>
 
-nnoremap <silent> [Space]m  :<C-u>marks<Return>
+Cnmap <silent> [Space]m  marks
 
 nnoremap [Space]o  <Nop>
 Fnmap <silent> [Space]ob  <SID>toggle_bell()
 Fnmap <silent> [Space]ow  <SID>toggle_option('wrap')
 
-nnoremap <silent> [Space]q  :<C-u>help quickref<Return>
+Cnmap <silent> [Space]q  help quickref
 
-nnoremap <silent> [Space]r  :<C-u>registers<Return>
+Cnmap <silent> [Space]r  registers
 
 nnoremap [Space]s  <Nop>
-nnoremap <silent> [Space]s.  :<C-u>Source $MYVIMRC<Return>
-nnoremap <silent> [Space]ss  :<C-u>Source %<Return>
+Cnmap <silent> [Space]s.  Source $MYVIMRC
+Cnmap <silent> [Space]ss  Source %
 
-vnoremap <silent> [Space]s  :sort<Return>
+Cvmap <count> <silent> [Space]s  sort
 
 " for backward compatibility
 nmap [Space]w  [Space]ow
@@ -1520,16 +1523,16 @@ endfunction
 
 
 " Like "<C-w>q", but does ":quit!".
-nnoremap <C-w>Q  :<C-u>quit!<Return>
+Cnmap <C-w>Q  quit!
 
 
 
 
 " Misc.  "{{{2
 
-nnoremap <C-h>  :<C-u>h<Space>
-nnoremap <C-o>  :<C-u>e<Space>
-nnoremap <C-w>.  :<C-u>e .<Return>
+Cnmap <noexec> <C-h>  h<Space>
+Cnmap <noexec> <C-o>  e<Space>
+Cnmap <C-w>.  e .
 
 
 " Jump list
@@ -1538,7 +1541,7 @@ nnoremap <C-k>  <C-o>
 
 
 " Switch to the previously edited file (like Vz)
-nnoremap <Esc>2  :<C-u>e #<Return>
+Cnmap <Esc>2  e #
 nmap <F2>  <Esc>2
 
 
@@ -1701,8 +1704,8 @@ endfunction
 
 
 " Show the lines which match to the last search pattern.
-nnoremap g/  :g/<Return>
-vnoremap g/  :g/<Return>
+Cnmap <count> g/  global//print
+Cvmap <count> g/  global//print
 
 
 
@@ -2050,17 +2053,17 @@ function! s:on_User_KuBufferInitialize()
 endfunction
 
 
-nnoremap [Space]ka  :<C-u>Ku<Return>
-nnoremap [Space]kb  :<C-u>Ku buffer<Return>
-nnoremap [Space]kf  :<C-u>Ku file<Return>
+Cnmap [Space]ka  Ku
+Cnmap [Space]kb  Ku buffer
+Cnmap [Space]kf  Ku file
 
 
 
 
 " narrow  "{{{2
 
-noremap [Space]xn  :Narrow<Return>
-noremap [Space]xw  :<C-u>Widen<Return>
+Cmap <count> [Space]xn  Narrow
+Cmap [Space]xw  Widen
 
 
 
