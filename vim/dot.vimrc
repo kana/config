@@ -501,6 +501,22 @@ command! -bar -nargs=* TabTitle
 
 
 
+" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
+" FIXME: escape spaces in <q-args> and t:cwd on :cd.
+
+command! -nargs=? TabCD
+\   execute 'cd' <q-args>
+\ | let t:cwd = getcwd()
+
+autocmd MyAutoCmd TabEnter *
+\   if !exists('t:cwd')
+\ |   let t:cwd = getcwd()
+\ | endif
+\ | execute 'cd' t:cwd
+
+
+
+
 "{{{2
 
 
@@ -792,21 +808,6 @@ endfunction
 function! s:jump_section_o(motion)
   execute 'normal' v:count1 . a:motion
 endfunction
-
-
-
-
-" Per-tab current directory  "{{{2
-
-command! -nargs=1 TabCD
-\   execute 'cd' <q-args>
-\ | let t:cwd = getcwd()
-
-autocmd MyAutoCmd TabEnter *
-\   if !exists('t:cwd')
-\ |   let t:cwd = getcwd()
-\ | endif
-\ | execute 'cd' t:cwd
 
 
 
