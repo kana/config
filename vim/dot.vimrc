@@ -489,45 +489,7 @@ endfunction
 
 
 
-" TabTitle - name the current tab page  "{{{2
-
-command! -bar -nargs=* TabTitle
-\   if <q-args> == ''
-\ |   let t:title = input("Set tabpage's title to: ",'')
-\ | else
-\ |   let t:title = <q-args>
-\ | endif
-
-
-
-
-" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
-" FIXME: escape spaces in <q-args> and t:cwd on :cd.
-
-command! -nargs=? TabCD
-\   execute 'cd' <q-args>
-\ | let t:cwd = getcwd()
-
-autocmd MyAutoCmd TabEnter *
-\   if !exists('t:cwd')
-\ |   let t:cwd = getcwd()
-\ | endif
-\ | execute 'cd' t:cwd
-
-
-
-
-"{{{2
-
-
-
-
-
-
-
-
-" Utilities  "{{{1
-" For per-'filetype' settings "{{{2
+" OnFileType - wrapper of :autocmd FileType for compound 'filetype'  "{{{2
 "
 " To write a bit of customization per 'filetype', an easy way is to write some
 " ":autocmd"s like "autocmd FileType c".  But it doesn't match to compound
@@ -549,6 +511,7 @@ autocmd MyAutoCmd TabEnter *
 "       number of arguments to a function.
 
 command! -nargs=+ OnFileType  call <SID>cmd_OnFileType(<f-args>)
+
 function! s:cmd_OnFileType(group, filetype, ...)
   let group = (a:group == '-' ? '' : a:group)
   let commands = join(a:000)
@@ -570,7 +533,7 @@ endfunction
 
 
 
-" MAP: wrapper for :map variants.  "{{{2
+" MAP - wrapper of :map variants  "{{{2
 "
 " :MAP {option}* {modes} {lhs} {rhs}
 "
@@ -587,6 +550,8 @@ endfunction
 "
 "   {lhs}, {rhs}
 "     Same as :map.
+"
+" FIXME: should be removed?
 
 command! -bar -complete=mapping -nargs=+ MAP  call s:cmd_MAP(<f-args>)
 
@@ -637,6 +602,44 @@ autocmd MyAutoCmd FileType vim
 
 
 
+" TabTitle - name the current tab page  "{{{2
+
+command! -bar -nargs=* TabTitle
+\   if <q-args> == ''
+\ |   let t:title = input("Set tabpage's title to: ",'')
+\ | else
+\ |   let t:title = <q-args>
+\ | endif
+
+
+
+
+" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
+" FIXME: escape spaces in <q-args> and t:cwd on :cd.
+
+command! -nargs=? TabCD
+\   execute 'cd' <q-args>
+\ | let t:cwd = getcwd()
+
+autocmd MyAutoCmd TabEnter *
+\   if !exists('t:cwd')
+\ |   let t:cwd = getcwd()
+\ | endif
+\ | execute 'cd' t:cwd
+
+
+
+
+"{{{2
+
+
+
+
+
+
+
+
+" Utilities  "{{{1
 " cmapabc: support input for Alternate Built-in Commands  "{{{2
 " Memo: It's possible to implement this feature by using :cabbrev with <expr>.
 " But it seems to be hard to reset the current definitions.
