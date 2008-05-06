@@ -489,6 +489,59 @@ endfunction
 
 
 
+" AlternateCommand - support to input alternative command  "{{{2
+"
+" :AlternateCommand {original-name} {alternate-name}
+"
+"   This is wrapper of :cnoreabbrev to support to input the name of a command
+"   which is alternative one to another command.  For example, with
+"   ":AlternateCommand cd CD", whenever you type "cd" as a command name in the
+"   Command-line, it will be replaced with "CD".
+"
+"   {original-name}
+"     The name of a command to type.  To denote the tail part of the name
+"     which may be omitted, enclose it with square brackets.  For example:
+"     "cd", "h[elp]", "quita[ll]".
+"
+"     Note that <buffer> is available, but <expr> is not available.
+"
+"   {alternate-name}
+"     The name of an alternative command to {original-name} command.
+"
+" FIXME: Abbreviations defined by :AlternateCommand aren't expanded if range
+"        is specified.  It should be expanded if {original-name} is appeared
+"        as the name of a command.
+"
+" FIXME: Write :AlternateCommandClear to easily delete unnecessary
+"        abbreviations defined by :AlternateCommand.
+
+Fcommand! -nargs=* AlternateCommand  s:cmd_AlternateCommand [<f-args>]
+function! s:cmd_AlternateCommand(args)
+  let buffer_p = (a:args[0] ==? '<buffer>')
+  let original_name = a:args[buffer_p ? 1 : 0]
+  let alternate_name = a:args[buffer_p ? 2 : 1]
+
+  if original_name =~ '\['
+    let [original_name_head, original_name_tail] = split(original_name, '[')
+    let original_name_tail = substitute(original_name_tail, '\]', '', '')
+  else
+    let original_name_head = original_name
+    let original_name_tail = ''
+  endif
+  let original_name_tail = ' ' . original_name_tail
+
+  for i in range(len(original_name_tail))
+    let lhs = original_name_head . original_name_tail[1:i]
+    execute 'cnoreabbrev <expr>' lhs
+    \ '(getcmdtype() == ":" && getcmdline() ==# "' . lhs  . '")'
+    \ '?' ('"' . alternate_name . '"')
+    \ ':' ('"' . lhs . '"')
+  endfor
+endfunction
+
+
+
+
 " OnFileType - wrapper of :autocmd FileType for compound 'filetype'  "{{{2
 "
 " To write a bit of customization per 'filetype', an easy way is to write some
@@ -640,30 +693,6 @@ autocmd MyAutoCmd TabEnter *
 
 
 " Utilities  "{{{1
-" cmapabc: support input for Alternate Built-in Commands  "{{{2
-" Memo: It's possible to implement this feature by using :cabbrev with <expr>.
-" But it seems to be hard to reset the current definitions.
-
-cnoremap <expr> <Space>  <SID>cmapabc()
-function! s:cmapabc()
-  let cmdline = getcmdline()
-  for [original_pattern, alternate_name] in s:cmapabc_entries
-    if cmdline =~# original_pattern
-      return "\<C-u>" . alternate_name . ' '
-    endif
-  endfor
-  return ' '
-endfunction
-
-
-let s:cmapabc_entries = []
-function! s:cmapabc_add(original_pattern, alternate_name)
-  call add(s:cmapabc_entries, [a:original_pattern, a:alternate_name])
-endfunction
-
-
-
-
 " Alternate :cd which uses 'cdpath' for completion  "{{{2
 
 command! -complete=customlist,<SID>complete_cdpath -nargs=1 CD
@@ -673,7 +702,7 @@ function! s:complete_cdpath(arglead, cmdline, cursorpos)
   return split(globpath(&cdpath, a:arglead . '*/'), "\n")
 endfunction
 
-call s:cmapabc_add('^cd', 'CD')
+AlternateCommand cd  CD
 
 
 
