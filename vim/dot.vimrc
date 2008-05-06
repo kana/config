@@ -489,6 +489,18 @@ endfunction
 
 
 
+" TabTitle - name the current tab page  "{{{2
+
+command! -bar -nargs=* TabTitle
+\   if <q-args> == ''
+\ |   let t:title = input("Set tabpage's title to: ",'')
+\ | else
+\ |   let t:title = <q-args>
+\ | endif
+
+
+
+
 "{{{2
 
 
@@ -1059,14 +1071,6 @@ function! s:gettabvar(tabnr, varname)
   " Wrapper for non standard (my own) built-in function gettabvar().
   return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
 endfunction
-
-
-command! -bar -nargs=? TabTitle
-\   if <q-args> == ''
-\ |   let t:title = input("Set tabpage's title to: ",'')
-\ | else
-\ |   let t:title = <q-args>
-\ | endif
 
 
 " Set up the layout of my usual days.
