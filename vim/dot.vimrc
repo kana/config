@@ -542,6 +542,24 @@ endfunction
 
 
 
+" Hecho, Hechon, Hechomsg - various :echo with highlight specification  "{{{2
+
+Fcommand! -bar -nargs=+ Hecho  s:cmd_Hecho 'echo' [<f-args>]
+Fcommand! -bar -nargs=+ Hechon  s:cmd_Hecho 'echon' [<f-args>]
+Fcommand! -bar -nargs=+ Hechomsg  s:cmd_Hecho 'echomsg' [<f-args>]
+
+function! s:cmd_Hecho(echo_command, args)
+  let highlight_name = a:args[0]
+  let messages = a:args[1:]
+
+  execute 'echohl' highlight_name
+  execute a:echo_command join(messages)
+  echohl None
+endfunction
+
+
+
+
 " OnFileType - wrapper of :autocmd FileType for compound 'filetype'  "{{{2
 "
 " To write a bit of customization per 'filetype', an easy way is to write some
@@ -773,7 +791,7 @@ endfunction
 
 
 function! s:keys_to_insert_one_character()
-  Echo ModeMsg '-- INSERT (one char) --'
+  Hecho ModeMsg '-- INSERT (one char) --'
   return nr2char(getchar()) . "\<Esc>"
 endfunction
 
@@ -932,7 +950,7 @@ endfunction
 function! s:scroll_other_window(scroll_command)
   if winnr('$') == 1 || winnr('#') == 0
     " Do nothing when there is only one window or no previous window.
-    Echo ErrorMsg 'There is no window to scroll.'
+    Hecho ErrorMsg 'There is no window to scroll.'
   else
     execute 'normal!' "\<C-w>p"
     execute 'normal!' (s:count() . a:scroll_command)
@@ -1064,7 +1082,7 @@ function! s:join_here(...)
   let r = @"
 
   if line('.') == line('$')
-    Echo ErrorMsg 'Unable to join at the bottom line.'
+    Hecho ErrorMsg 'Unable to join at the bottom line.'
     return
   endif
 
@@ -1089,14 +1107,6 @@ endfunction
 
 function! s:set_short_indent()
   setlocal expandtab softtabstop=2 shiftwidth=2
-endfunction
-
-
-command! -bar -nargs=+ -range Echo  call <SID>cmd_Echo(<f-args>)
-function! s:cmd_Echo(hl_name, ...)
-  execute 'echohl' a:hl_name
-  execute 'echo' join(a:000)
-  echohl None
 endfunction
 
 
@@ -1679,7 +1689,7 @@ function! s:start_insert_mode_with_blank_lines(command)
 
   execute 'normal!' script
   redraw
-  Echo ModeMsg '-- INSERT (open) --'
+  Hecho ModeMsg '-- INSERT (open) --'
   echohl None
   let c = nr2char(getchar())
   call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
