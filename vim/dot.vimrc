@@ -415,7 +415,7 @@ command! -nargs=+ Allunmap
 
 
 
-" KeyboardLayout - declare differences of logical and physical keyboard layouts  "{{{2
+" KeyboardLayout - declare differences of logical and physical layouts  "{{{2
 "
 " :KeyboardLayout {physical-key}  {logical-key}
 "
@@ -480,7 +480,7 @@ function! s:cmd_Cmap(prefix, suffix, args)
   call filter(options, 'v:val !~# ''^\c<\(count\|noexec\)>$''')
 
   execute a:prefix.'noremap'.a:suffix join(options) lhs
-  \ ':' . (count_p ? '' : '<C-u>') . join(script) . (noexec_p ? '' : '<Return>')
+  \ ':'.(count_p ? '' : '<C-u>') . join(script) . (noexec_p ? '' : '<Return>')
 endfunction
 
 
