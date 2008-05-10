@@ -730,6 +730,23 @@ command! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
 
 
 
+" UsualDays - set up the layout of my usual days  "{{{2
+
+command! -bar -nargs=0 UsualDays  call s:cmd_UsualDays()
+function! s:cmd_UsualDays()
+  normal! 'T
+  execute 'CD' fnamemodify(expand('%'), ':p:h')
+  TabTitle meta
+
+  tabnew
+  normal! 'V
+  execute 'CD' fnamemodify(expand('%'), ':p:h:h')
+  TabTitle config
+endfunction
+
+
+
+
 "{{{2
 
 
@@ -1111,20 +1128,6 @@ endfunction
 function! s:gettabvar(tabnr, varname)
   " Wrapper for non standard (my own) built-in function gettabvar().
   return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
-endfunction
-
-
-" Set up the layout of my usual days.
-command! -bar -nargs=0 UsualDays  call s:cmd_UsualDays()
-function! s:cmd_UsualDays()
-  normal! 'T
-  execute 'CD' fnamemodify(expand('%'), ':p:h')
-  TabTitle meta
-
-  tabnew
-  normal! 'V
-  execute 'CD' fnamemodify(expand('%'), ':p:h:h')
-  TabTitle config
 endfunction
 
 
