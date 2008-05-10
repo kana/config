@@ -701,6 +701,35 @@ autocmd MyAutoCmd TabEnter *
 
 
 
+" CD - alternative :cd with more user-friendly completion  "{{{2
+
+command! -complete=customlist,<SID>complete_cdpath -nargs=1 CD  TabCD <args>
+function! s:complete_cdpath(arglead, cmdline, cursorpos)
+  return split(globpath(&cdpath, a:arglead . '*/'), "\n")
+endfunction
+
+AlternateCommand cd  CD
+
+
+
+
+" Utf8 and others - :edit with specified 'fileencoding'  "{{{2
+
+command! -nargs=? -complete=file -bang -bar Cp932
+\ edit<bang> ++enc=cp932 <args>
+command! -nargs=? -complete=file -bang -bar Eucjp
+\ edit<bang> ++enc=euc-jp <args>
+command! -nargs=? -complete=file -bang -bar Iso2022jp
+\ edit<bang> ++enc=iso-2022-jp <args>
+command! -nargs=? -complete=file -bang -bar Utf8
+\ edit<bang> ++enc=utf-8 <args>
+
+command! -nargs=? -complete=file -bang -bar Jis  Iso2022jp<bang> <args>
+command! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
+
+
+
+
 "{{{2
 
 
@@ -711,20 +740,6 @@ autocmd MyAutoCmd TabEnter *
 
 
 " Utilities  "{{{1
-" Alternate :cd which uses 'cdpath' for completion  "{{{2
-
-command! -complete=customlist,<SID>complete_cdpath -nargs=1 CD
-\ TabCD <args>
-
-function! s:complete_cdpath(arglead, cmdline, cursorpos)
-  return split(globpath(&cdpath, a:arglead . '*/'), "\n")
-endfunction
-
-AlternateCommand cd  CD
-
-
-
-
 " Help-related stuffs  "{{{2
 
 function! s:helpbufwinnr()
@@ -794,23 +809,6 @@ function! s:keys_to_insert_one_character()
   Hecho ModeMsg '-- INSERT (one char) --'
   return nr2char(getchar()) . "\<Esc>"
 endfunction
-
-
-
-
-" :edit with specified 'fileencoding'.  "{{{2
-
-command! -nargs=? -complete=file -bang -bar Cp932
-\ edit<bang> ++enc=cp932 <args>
-command! -nargs=? -complete=file -bang -bar Eucjp
-\ edit<bang> ++enc=euc-jp <args>
-command! -nargs=? -complete=file -bang -bar Iso2022jp
-\ edit<bang> ++enc=iso-2022-jp <args>
-command! -nargs=? -complete=file -bang -bar Utf8
-\ edit<bang> ++enc=utf-8 <args>
-
-command! -nargs=? -complete=file -bang -bar Jis  Iso2022jp<bang> <args>
-command! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
 
 
 
