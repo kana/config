@@ -694,6 +694,16 @@ endfunction
 
 
 
+" Source - wrapper of :source with echo.  "{{{2
+" FIXME: better name.
+
+command! -bar -nargs=1 Source
+\   echo 'Sourcing ...' expand(<q-args>)
+\ | source <args>
+
+
+
+
 "{{{2
 
 
@@ -1054,10 +1064,6 @@ function! s:gettabvar(tabnr, varname)
   " Wrapper for non standard (my own) built-in function gettabvar().
   return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
 endfunction
-
-
-" :source with echo.
-command! -bar -nargs=1 Source  echo 'Sourcing ...' <args> | source <args>
 
 
 function! s:first_line(file)
