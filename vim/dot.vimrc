@@ -291,6 +291,7 @@ call idwintab#load()
 
 " Syntax  "{{{1
 " User-defined commands to extend Vim script syntax.
+" - Place commands which are for interactive use at the bottom.
 " FIXME: syntax highlighting
 " FIXME: completion
 " Stuffs  "{{{2
@@ -627,6 +628,37 @@ autocmd MyAutoCmd TabEnter *
 
 
 
+" Qexecute - variant of :execute with some extensions  "{{{2
+"
+" Like :execute but all arguments are treated as single string like <q-args>.
+" As an extension, "[count]" will be expanded to the currently given count.
+
+command! -nargs=* -complete=command Qexecute  call s:cmd_Qexecute(<q-args>)
+function! s:cmd_Qexecute(script)
+  execute substitute(a:script, '\[count\]', s:count(), 'g')
+endfunction
+
+function! s:count(...)
+  if v:count == v:count1  " is count given?
+    return v:count
+  else  " count isn't given.  (the default '' is useful for special value)
+    return a:0 == 0 ? '' : a:1
+  endif
+endfunction
+
+
+
+
+" Source - wrapper of :source with echo.  "{{{2
+" FIXME: better name.
+
+command! -bar -nargs=1 Source
+\   echo 'Sourcing ...' expand(<q-args>)
+\ | source <args>
+
+
+
+
 " CD - alternative :cd with more user-friendly completion  "{{{2
 
 command! -complete=customlist,<SID>complete_cdpath -nargs=1 CD  TabCD <args>
@@ -669,37 +701,6 @@ function! s:cmd_UsualDays()
   execute 'CD' fnamemodify(expand('%'), ':p:h:h')
   TabTitle config
 endfunction
-
-
-
-
-" Qexecute - variant of :execute with some extensions  "{{{2
-"
-" Like :execute but all arguments are treated as single string like <q-args>.
-" As an extension, "[count]" will be expanded to the currently given count.
-
-command! -nargs=* -complete=command Qexecute  call s:cmd_Qexecute(<q-args>)
-function! s:cmd_Qexecute(script)
-  execute substitute(a:script, '\[count\]', s:count(), 'g')
-endfunction
-
-function! s:count(...)
-  if v:count == v:count1  " is count given?
-    return v:count
-  else  " count isn't given.  (the default '' is useful for special value)
-    return a:0 == 0 ? '' : a:1
-  endif
-endfunction
-
-
-
-
-" Source - wrapper of :source with echo.  "{{{2
-" FIXME: better name.
-
-command! -bar -nargs=1 Source
-\   echo 'Sourcing ...' expand(<q-args>)
-\ | source <args>
 
 
 
