@@ -1435,6 +1435,8 @@ nmap [Space]w  [Space]ow
 " for other use.
 noremap [Space]x  <Nop>
 
+Cmap [Space]xI  UsualDays
+
 
 
 
