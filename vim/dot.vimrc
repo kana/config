@@ -343,7 +343,6 @@ endfunction
 "   replaced by ", ".  See :help <f-args> to how to escape spaces.
 
 command! -bang -nargs=* Fcommand  call s:cmd_Fcommand('<bang>', [<f-args>])
-
 function! s:cmd_Fcommand(bang, args)
   let [options, rest] = s:separate_list(a:args, '^-')
   if len(rest) < 2
@@ -382,7 +381,6 @@ Fcommand! -nargs=* Fomap  s:cmd_Fmap 'o' '' [<f-args>]
 Fcommand! -nargs=* Fsmap  s:cmd_Fmap 's' '' [<f-args>]
 Fcommand! -nargs=* Fvmap  s:cmd_Fmap 'v' '' [<f-args>]
 Fcommand! -nargs=* Fxmap  s:cmd_Fmap 'x' '' [<f-args>]
-
 function! s:cmd_Fmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
@@ -468,7 +466,6 @@ Fcommand! -nargs=* Comap  s:cmd_Cmap 'o' '' [<f-args>]
 Fcommand! -nargs=* Csmap  s:cmd_Cmap 's' '' [<f-args>]
 Fcommand! -nargs=* Cvmap  s:cmd_Cmap 'v' '' [<f-args>]
 Fcommand! -nargs=* Cxmap  s:cmd_Cmap 'x' '' [<f-args>]
-
 function! s:cmd_Cmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
@@ -547,7 +544,6 @@ endfunction
 Fcommand! -bar -nargs=+ Hecho  s:cmd_Hecho 'echo' [<f-args>]
 Fcommand! -bar -nargs=+ Hechon  s:cmd_Hecho 'echon' [<f-args>]
 Fcommand! -bar -nargs=+ Hechomsg  s:cmd_Hecho 'echomsg' [<f-args>]
-
 function! s:cmd_Hecho(echo_command, args)
   let highlight_name = a:args[0]
   let messages = a:args[1:]
@@ -582,7 +578,6 @@ endfunction
 "       number of arguments to a function.
 
 command! -nargs=+ OnFileType  call <SID>cmd_OnFileType(<f-args>)
-
 function! s:cmd_OnFileType(group, filetype, ...)
   let group = (a:group == '-' ? '' : a:group)
   let commands = join(a:000)
@@ -625,7 +620,6 @@ endfunction
 " FIXME: should be removed?
 
 command! -bar -complete=mapping -nargs=+ MAP  call s:cmd_MAP(<f-args>)
-
 function! s:cmd_MAP(...)
   if !(3 <= a:0)
     throw 'Insufficient arguments: '.string(a:000)
@@ -1671,7 +1665,6 @@ endfunction
 "  -- repeat the next insertion [count] times.)
 Fnmap <silent> o  <SID>start_insert_mode_with_blank_lines('o')
 Fnmap <silent> O  <SID>start_insert_mode_with_blank_lines('O')
-
 function! s:start_insert_mode_with_blank_lines(command)
   " Do "[count]o<Esc>o" and so forth.
   " BUGS: In map-<expr>, v:count and v:count1 don't hold correct values.
