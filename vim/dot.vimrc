@@ -673,6 +673,27 @@ endfunction
 
 
 
+" Qexecute - variant of :execute with some extensions  "{{{2
+"
+" Like :execute but all arguments are treated as single string like <q-args>.
+" As an extension, "[count]" will be expanded to the currently given count.
+
+command! -nargs=* -complete=command Qexecute  call s:cmd_Qexecute(<q-args>)
+function! s:cmd_Qexecute(script)
+  execute substitute(a:script, '\[count\]', s:count(), 'g')
+endfunction
+
+function! s:count(...)
+  if v:count == v:count1  " is count given?
+    return v:count
+  else  " count isn't given.  (the default '' is useful for special value)
+    return a:0 == 0 ? '' : a:1
+  endif
+endfunction
+
+
+
+
 "{{{2
 
 
@@ -994,28 +1015,6 @@ function! s:extend_highlight(target_group, original_group, new_settings)
 endfunction
 
 
-function! s:count(...)
-  if v:count == v:count1  " count is specified.
-    return v:count
-  else  " count is not specified.  (the default '' is useful for special value)
-    return a:0 == 0 ? '' : a:1
-  endif
-endfunction
-
-command! -nargs=* -complete=expression -range -count=0 Execute
-\ call s:cmd_Execute(<f-args>)
-function! s:cmd_Execute(...)
-  let args = []
-  for a in a:000
-    if a ==# '[count]'
-      let a = s:count()
-    endif
-    call add(args, a)
-  endfor
-  execute join(args)
-endfunction
-
-
 " like join (J), but move the next line into the cursor position.
 function! s:join_here(...)
   let adjust_spacesp = a:0 ? a:1 : 1
@@ -1195,19 +1194,19 @@ nnoremap Q  q
 
 " For quickfix list  "{{{3
 
-Cnmap <silent> qj  Execute cnext [count]
-Cnmap <silent> qk  Execute cprevious [count]
-Cnmap <silent> qr  Execute crewind [count]
-Cnmap <silent> qK  Execute cfirst [count]
-Cnmap <silent> qJ  Execute clast [count]
-Cnmap <silent> qfj  Execute cnfile [count]
-Cnmap <silent> qfk  Execute cpfile [count]
+Cnmap <silent> qj  Qexecute cnext [count]
+Cnmap <silent> qk  Qexecute cprevious [count]
+Cnmap <silent> qr  Qexecute crewind [count]
+Cnmap <silent> qK  Qexecute cfirst [count]
+Cnmap <silent> qJ  Qexecute clast [count]
+Cnmap <silent> qfj  Qexecute cnfile [count]
+Cnmap <silent> qfk  Qexecute cpfile [count]
 Cnmap <silent> ql  clist
-Cnmap <silent> qq  Execute cc [count]
-Cnmap <silent> qo  Execute copen [count]
+Cnmap <silent> qq  Qexecute cc [count]
+Cnmap <silent> qo  Qexecute copen [count]
 Cnmap <silent> qc  cclose
-Cnmap <silent> qp  Execute colder [count]
-Cnmap <silent> qn  Execute cnewer [count]
+Cnmap <silent> qp  Qexecute colder [count]
+Cnmap <silent> qn  Qexecute cnewer [count]
 Cnmap <silent> qm  make
 Cnmap <noexec> qM  make<Space>
 Cnmap <noexec> q<Space>  make<Space>
@@ -1216,19 +1215,19 @@ Cnmap <noexec> qg  grep<Space>
 
 " For location list (mnemonic: Quickfix list for the current Window)  "{{{3
 
-Cnmap <silent> qwj  Execute lnext [count]
-Cnmap <silent> qwk  Execute lprevious [count]
-Cnmap <silent> qwr  Execute lrewind [count]
-Cnmap <silent> qwK  Execute lfirst [count]
-Cnmap <silent> qwJ  Execute llast [count]
-Cnmap <silent> qwfj  Execute lnfile [count]
-Cnmap <silent> qwfk  Execute lpfile [count]
+Cnmap <silent> qwj  Qexecute lnext [count]
+Cnmap <silent> qwk  Qexecute lprevious [count]
+Cnmap <silent> qwr  Qexecute lrewind [count]
+Cnmap <silent> qwK  Qexecute lfirst [count]
+Cnmap <silent> qwJ  Qexecute llast [count]
+Cnmap <silent> qwfj  Qexecute lnfile [count]
+Cnmap <silent> qwfk  Qexecute lpfile [count]
 Cnmap <silent> qwl  llist
-Cnmap <silent> qwq  Execute ll [count]
-Cnmap <silent> qwo  Execute lopen [count]
+Cnmap <silent> qwq  Qexecute ll [count]
+Cnmap <silent> qwo  Qexecute lopen [count]
 Cnmap <silent> qwc  lclose
-Cnmap <silent> qwp  Execute lolder [count]
-Cnmap <silent> qwn  Execute lnewer [count]
+Cnmap <silent> qwp  Qexecute lolder [count]
+Cnmap <silent> qwn  Qexecute lnewer [count]
 Cnmap <silent> qwm  lmake
 Cnmap <noexec> qwM  lmake<Space>
 Cnmap <noexec> qw<Space>  lmake<Space>
@@ -1268,7 +1267,7 @@ Cnmap <silent> <C-t>T  TabTitle
 
 Cnmap <silent> <C-t>j
 \ execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')
-Cnmap <silent> <C-t>k  Execute tabprevious [count]
+Cnmap <silent> <C-t>k  Qexecute tabprevious [count]
 Cnmap <silent> <C-t>K  tabfirst
 Cnmap <silent> <C-t>J  tablast
 
