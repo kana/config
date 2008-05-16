@@ -1584,6 +1584,9 @@ nnoremap dl  0d$
 " Like gv, but select the last changed text.
 nnoremap gc  `[v`]
 
+" Specify the last changed text as {motion}.
+onoremap gc  :<C-u>normal gc<CR>
+
 
 " Make I/A available in characterwise-visual and linewise-visual.
 Fvmap <silent> I  <SID>force_blockwise_visual('I')
