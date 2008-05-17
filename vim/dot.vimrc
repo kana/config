@@ -1798,10 +1798,16 @@ autocmd MyAutoCmd FileType dosini
 \ call <SID>on_FileType_dosini()
 
 function! s:on_FileType_dosini()
+  " Jumping around sections.
   Fnmap <buffer> <silent> ]]  <SID>jump_section_n('/^\[')
   Fnmap <buffer> <silent> ][  <SID>jump_section_n('/\n\[\@=')
   Fnmap <buffer> <silent> [[  <SID>jump_section_n('?^\[')
   Fnmap <buffer> <silent> []  <SID>jump_section_n('?\n\[\@=')
+
+  " Folding sections.
+  setlocal foldmethod=expr
+  let &l:foldexpr = '(getline(v:lnum)[0] == "[") ? ">1" :'
+  \               . '(getline(v:lnum) =~# "__END__" ? 0 : "=")'
 endfunction
 
 
