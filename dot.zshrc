@@ -329,8 +329,8 @@ bindkey -M vicmd '\C-r' redo
 # history
 bindkey -M vicmd '/' history-incremental-search-backward
 bindkey -M vicmd '?' history-incremental-search-forward
-bindkey -M vicmd '\[k' history-beginning-search-backward
-bindkey -M vicmd '\[j' history-beginning-search-forward
+bindkey -M vicmd '^[k' history-beginning-search-backward
+bindkey -M vicmd '^[j' history-beginning-search-forward
 bindkey -M vicmd 'gg' beginning-of-history
 
 # modification
@@ -341,7 +341,7 @@ bindkey -M vicmd 'g~' vi-oper-swap-case
 
 # Others  #{{{2
 bindkey -M vicmd '\C-t' transpose-characters
-bindkey -M vicmd '\[t' transpose-words
+bindkey -M vicmd '^[t' transpose-words
 
 
 
