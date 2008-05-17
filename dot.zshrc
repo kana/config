@@ -341,7 +341,9 @@ bindkey -M vicmd 'g~' vi-oper-swap-case
 
 # Others  #{{{2
 bindkey -M vicmd '\C-t' transpose-characters
+bindkey -M viins '\C-t' transpose-characters
 bindkey -M vicmd '^[t' transpose-words
+bindkey -M viins '^[t' transpose-words
 
 
 
