@@ -345,6 +345,14 @@ bindkey -M viins '\C-t' transpose-characters
 bindkey -M vicmd '^[t' transpose-words
 bindkey -M viins '^[t' transpose-words
 
+# Disable - the default binding _history-complete-older is very annoying
+# whenever I begin to search with the same key sequence.
+bindkey -M viins -r '^[/'
+
+# Experimental: Alternate keys to the original bindings.
+bindkey -M viins '^[,' _history-complete-newer
+bindkey -M viins '^[.' _history-complete-older
+
 
 
 
