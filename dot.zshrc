@@ -9,7 +9,7 @@ bindkey -v  # vi!  vi!
 
 # Parameters  #{{{1
 if [ "$ENV_WORKING" = 'mac' ]; then
-  export CDPATH="$(echo . ~/{,/working,/Downloads} | tr ' ' ':')"
+  export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
 else
   export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
 fi
