@@ -1497,8 +1497,9 @@ unlet i
 vnoremap <silent> _
 \ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
 nnoremap <silent> _
-\ :set operatorfunc=<SID>adjust_window_height_to_the_selection<Return>g@
-function! s:adjust_window_height_to_the_selection(visual_mode)
+\  :<C-u>set operatorfunc=<SID>adjust_window_height
+\ \|call feedkeys(v:count1 . 'g@', 't')<Return>
+function! s:adjust_window_height(motion_wiseness)
   normal! `[v`]
   normal _
 endfunction
