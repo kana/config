@@ -420,6 +420,13 @@ endfunction
 
 
 
+function! s:escape_path(s)  "{{{2
+  return escape(a:s, ' \%#')
+endfunction
+
+
+
+
 function! s:initialize_ku_buffer()  "{{{2
   " The current buffer is the ku buffer which is not initialized yet.
 
@@ -835,11 +842,10 @@ call ku#custom_action('*fallback*', 'ex', function('s:_type_any_action_ex'))
 
 
 function! s:_type_any_action_xcd(cd_command, item)
-  " FIXME: escape special characters.
   if isdirectory(a:item.word)
-    execute a:cd_command a:item.word
+    execute a:cd_command s:escape_path(a:item.word)
   elseif filereadable(a:item.word)
-    execute a:cd_command fnamemodify(a:item.word, ':h')
+    execute a:cd_command s:escape_path(fnamemodify(a:item.word, ':h'))
   else
     echo printf('Item %s (type: %s) is not a file or directory.',
        \        a:item.word, a:item._ku_type.name)
@@ -994,12 +1000,11 @@ function! s:_type_file_gather(pattern)
 endfunction
 
 
-" FIXME: filename with special characters -- should escape?
 function! s:_type_file_action_open(item)
-  execute 'edit'.ku#bang() a:item.word
+  execute 'edit'.ku#bang() s:escape_path(a:item.word)
 endfunction
 function! s:_type_file_action_xsplit(modifier, item)
-  execute a:modifier 'split' a:item.word
+  execute a:modifier 'split' s:escape_path(a:item.word)
 endfunction
 
 
