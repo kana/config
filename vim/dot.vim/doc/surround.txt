@@ -260,6 +260,11 @@ should this be the default?
 
 CHANGELOG					*surround-changelog*
 
+2008-05-18T20:40:06+09:00	kana	<http://whileimautomaton.net>
+
+	- Fix the bug that user-defined Command-line mode mappings "%" and ">"
+	  are overriden by this plugin.
+
 2008-05-18T20:32:11+09:00	kana	<http://whileimautomaton.net/>
 
 	- Merge the changes between version 1.33 and version 1.34.

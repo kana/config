@@ -214,23 +214,15 @@ function! s:wrap(string,char,type,...)
         let before = "\n"
         let after  = "\n\n"
     elseif newchar =~# "[tT\<C-T><,]"
-        let dounmapp = 0
-        let dounmapb = 0
-        if !maparg(">","c")
-            let dounmapb= 1
-            " Hide from AsNeeded
-            exe "cn"."oremap > <CR>"
-            exe "cn"."oremap % %<C-V>"
-            "cm ap > <C-R>=getcmdline() =~ '^[^%?].*[%?]$' ? "\026\076" : "\026\076\015"<CR>
+        let unmap_necessary_p = maparg('>', 'c') == ''
+        if unmap_necessary_p
+            " FIXME: With the returning value of maparg(), it's not possible
+            "        to determine whether the given lhs is not mapped to
+            "        anything or it is mapped to <Nop>.
+            " To end input() with '>'.
+            cnoremap <buffer> >  <CR>
         endif
         let default = ""
-        if !maparg("%","c")
-            " This is to help when typing things like
-            " <a href="/images/<%= @image.filename %>">
-            " The downside is it breaks backspace, so lets disable it for now
-            "let dounmapp= 1
-            "exe "cn"."oremap % %<C-V>"
-        endif
         if newchar ==# "T"
             if !exists("s:lastdel")
                 let s:lastdel = ""
@@ -239,14 +231,8 @@ function! s:wrap(string,char,type,...)
         endif
         let tag = input("<",default)
         echo "<".substitute(tag,'>*$','>','')
-        "if dounmapr
-            "silent! cunmap <CR>
-        "endif
-        if dounmapb
-            silent! cunmap >
-        endif
-        if dounmapp
-            silent! cunmap %
+        if unmap_necessary_p
+            silent! cunmap <buffer>  >
         endif
         if tag != ""
             let tag = substitute(tag,'>*$','','')
