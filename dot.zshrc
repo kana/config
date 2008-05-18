@@ -237,7 +237,10 @@ alias screen='LANG= screen'
 alias ..='cd ..'
 
 
-if [ "$ENV_WORKING" = 'colinux' ]; then
+if [ "$ENV_WORKING" = 'colinux' ]; then  #{{{
+  alias shutdown-colinux='sudo halt; exit'
+
+  # mount wrappers  #{{{
   alias mount-c='mount-x c'
   alias umount-c='umount-x c'
 
@@ -280,37 +283,35 @@ if [ "$ENV_WORKING" = 'colinux' ]; then
     fi
     fusermount -u "/$1"
   }
+  #}}}
 
-  alias shutdown-colinux='sudo halt; exit'
-fi
+  function backup-repos() {  #{{{
+    local datetime=$(date '+%Y-%m-%dT%H-%M-%S')
 
+    for i in cereja config meta nicht vim
+    do
+      pushd ~/freq/latest/working/$i &>/dev/null
+        echo "Processing $i ..."
+        git gc
+        tar jcf /c/cygwin/home/$USER/var/$datetime-git-$i.tar.bz2 .git/
+        # # disabled, it's somewhat dangerous.
+        # # if dcommit is necessary, do it manually.
+        # git-svn dcommit
+      popd &>/dev/null
+    done
 
-function backup-repos() {
-  local datetime=$(date '+%Y-%m-%dT%H-%M-%S')
-
-  for i in cereja config meta nicht vim
-  do
-    pushd ~/freq/latest/working/$i &>/dev/null
-      echo "Processing $i ..."
-      git gc
-      tar jcf /c/cygwin/home/$USER/var/$datetime-git-$i.tar.bz2 .git/
-      # # disabled, it's somewhat dangerous.
-      # # if dcommit is necessary, do it manually.
-      # git-svn dcommit
+    ssh cygwin <<END
+    pushd ~/var &>/dev/null
+      # # experimental: disabled to fully migrate to git.
+      # for i in cereja nicht repos vim
+      # do
+      #   tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
+      # done
+      cp -av $datetime-*.tar.bz2 /e/backup/repos/
     popd &>/dev/null
-  done
-
-  ssh cygwin <<END
-  pushd ~/var &>/dev/null
-    # # experimental: disabled to fully migrate to git.
-    # for i in cereja nicht repos vim
-    # do
-    #   tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
-    # done
-    cp -av $datetime-*.tar.bz2 /e/backup/repos/
-  popd &>/dev/null
 END
-}
+  }  #}}}
+fi  #}}}
 
 
 
