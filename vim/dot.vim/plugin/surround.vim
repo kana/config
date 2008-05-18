@@ -1,15 +1,15 @@
 " surround.vim - Surrounding text objects
 " Author: Tim Pope <vimNOSPAM@tpope.info>
-" ModifiedBy: kana <http://nicht.s8.xrea.com>
-" BasedOn: Id: surround.vim,v 1.26 2007-07-31 14:20:47 tpope Exp
+" ModifiedBy: kana <http://whileimautomaton.net/>
+" BasedOn: $Id: surround.vim,v 1.34 2008-02-15 21:43:42 tpope Exp $
 " License: same as the original one, i.e., same as Vim itself.
-" $Id$  "{{{1
+" "{{{1
 " Original Header  "{{{2
 " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 " surround.vim - Surroundings
 " Author:       Tim Pope <vimNOSPAM@tpope.info>
 " GetLatestVimScripts: 1697 1 :AutoInstall: surround.vim
-" $Id: surround.vim,v 1.26 2007-07-31 14:20:47 tpope Exp
+" $Id: surround.vim,v 1.34 2008-02-15 21:43:42 tpope Exp $
 "
 " See surround.txt for help.  This can be accessed by doing
 "
@@ -468,10 +468,6 @@ function! s:dosurround(...)  "{{{2
         exe 'norm! '.strcount.'[/d'.strcount.']/'
     else
         exe 'norm! d'.strcount.'i'.char
-        " One character backwards
-        if getreg('"') != ""
-            call search('.','bW')
-        endif
     endif
     let keeper = getreg('"')
     let okeeper = keeper " for reindent below
@@ -492,13 +488,15 @@ function! s:dosurround(...)  "{{{2
         " Do nothing
         call setreg('"','')
     elseif char =~ "[\"'`]"
-        exe "norm! a \<Esc>d2i".char
+        exe "norm! i \<Esc>d2i".char
         call setreg('"',substitute(getreg('"'),' ','',''))
     elseif char == '/'
         norm! "_x
         call setreg('"','/**/',"c")
         let keeper = substitute(substitute(keeper,'^/\*\s\=','',''),'\s\=\*$','','')
     else
+        " One character backwards
+        call search('.','bW')
         exe "norm! da".char
     endif
     let removed = getreg('"')

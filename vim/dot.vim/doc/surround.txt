@@ -260,18 +260,22 @@ should this be the default?
 
 CHANGELOG					*surround-changelog*
 
-2008-02-09T23:23:55+09:00	kana	<http://nicht.s8.xrea.com/>
+2008-05-18T20:32:11+09:00	kana	<http://whileimautomaton.net/>
+
+	- Merge the changes between version 1.33 and version 1.34.
+
+2008-02-09T23:23:55+09:00	kana	<http://whileimautomaton.net/>
 
 	- Merge the changes between version 1.26 and version 1.33.
 
-2007-10-01T22:46:14+09:00	kana	<http://nicht.s8.xrea.com/>
+2007-10-01T22:46:14+09:00	kana	<http://whileimautomaton.net/>
 
 	- INCOMPATIBLE CHANGE: the way of |surround-customizing| is changed.
 	  See |surrounding-customizing-difference| for the detail.
 
 	- Support n-stroke key for user-defined surrounding objects.
 
-2007-10-01T03:43:51+09:00	kana	<http://nicht.s8.xrea.com/>
+2007-10-01T03:43:51+09:00	kana	<http://whileimautomaton.net/>
 
 	- Support dynamic template for |surround-customizing|.
 	  Now templates of user-defined surrounding objects may be functions
@@ -291,7 +295,7 @@ CHANGELOG					*surround-changelog*
 	    endif
 	  endfunction
 <
-2007-10-01T00:25:20+09:00	kana	<http://nicht.s8.xrea.com/>
+2007-10-01T00:25:20+09:00	kana	<http://whileimautomaton.net/>
 
 	- Support user-defined surrounding objects (|surround-customizing|) as
 	  |surround-targets|.  The original version (1.26) does not support
