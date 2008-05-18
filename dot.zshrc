@@ -1,5 +1,6 @@
 # My zshrc.
-# Misc. Settings  #{{{1
+# Misc.  #{{{1
+
 umask 077  # Default permission
 ulimit -c 0  # Don't create core dumps
 bindkey -v  # vi!  vi!
@@ -7,7 +8,12 @@ bindkey -v  # vi!  vi!
 
 
 
+
+
+
+
 # Parameters  #{{{1
+
 if [ "$ENV_WORKING" = 'mac' ]; then
   export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
 else
@@ -20,7 +26,12 @@ SAVEHIST=100000
 
 
 
+
+
+
+
 # Options  #{{{1
+
 # aliases
 unsetopt all_export
 # always_last_prompt
@@ -166,7 +177,12 @@ setopt transient_rprompt
 
 
 
+
+
+
+
 # Prompt  #{{{1
+#
 # user@host cwd (shlvl)
 # $
 
@@ -220,7 +236,12 @@ unset -f prompt_setup
 
 
 
-# Aliases  {{{1
+
+
+
+
+# Aliases  #{{{1
+# common  #{{{2
 
 alias ls='ls --show-control-chars --color=auto'
 alias la='ls -a'
@@ -237,7 +258,11 @@ alias screen='LANG= screen'
 alias ..='cd ..'
 
 
-if [ "$ENV_WORKING" = 'colinux' ]; then  #{{{
+
+
+# colinux only  #{{{2
+
+if [ "$ENV_WORKING" = 'colinux' ]; then
   alias shutdown-colinux='sudo halt; exit'
 
   # mount wrappers  #{{{
@@ -311,13 +336,18 @@ if [ "$ENV_WORKING" = 'colinux' ]; then  #{{{
     popd &>/dev/null
 END
   }  #}}}
-fi  #}}}
+fi
+
+
+
+
 
 
 
 
 # Line Editor  #{{{1
 # Vim-like behavior  #{{{2
+
 # to delete characters beyond the starting point of the current insertion.
 bindkey -M viins '\C-h' backward-delete-char
 bindkey -M viins '\C-w' backward-kill-word
@@ -340,7 +370,10 @@ bindkey -M vicmd 'gU' up-case-word
 bindkey -M vicmd 'g~' vi-oper-swap-case
 
 
-# Others  #{{{2
+
+
+# Misc.  #{{{2
+
 bindkey -M vicmd '\C-t' transpose-chars
 bindkey -M viins '\C-t' transpose-chars
 bindkey -M vicmd '^[t' transpose-words
@@ -357,7 +390,13 @@ bindkey -M viins '^[.' _history-complete-older
 
 
 
-# The following lines were added by compinstall  #{{{1
+
+
+
+
+# Completion  #{{{1
+# by compinstall  #{{{2
+
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _list _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
@@ -375,7 +414,10 @@ zstyle :compinstall filename '/home/kana/.zshrc'
 
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
+
+
+
+
 
 
 
