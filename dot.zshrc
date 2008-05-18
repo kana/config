@@ -418,6 +418,30 @@ compinit
 
 
 
+# Misc.  #{{{2
+
+# Generate functions like the followings to enable the default completion of
+# zsh for user-defined aliases of git commands.  Because such aliases aren't
+# automatically recognized by zsh.
+#
+#   _git-$alias_name() {
+#     _git-$original_command "$@"
+#   }
+
+_git  # FIXME: force loading as necessary
+source <(
+  git-config --global --list |
+    sed -e '/!/!s/^alias\.\([^=]*\)=\(.*\)$/\1 \2/;t;d' |
+    awk '{
+      print "_git-" $1 "() {"
+      print "  _git-" $2 " \"\$@\""
+      print "}"
+    }'
+)
+
+
+
+
 
 
 
