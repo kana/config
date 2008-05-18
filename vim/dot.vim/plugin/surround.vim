@@ -465,9 +465,9 @@ function! s:dosurround(...)  "{{{2
         call s:search_literally(after, 'ceW')
         normal! d
     elseif char == '/'
-        exe 'norm '.strcount.'[/d'.strcount.']/'
+        exe 'norm! '.strcount.'[/d'.strcount.']/'
     else
-        exe 'norm d'.strcount.'i'.char
+        exe 'norm! d'.strcount.'i'.char
         " One character backwards
         if getreg('"') != ""
             call search('.','bW')
@@ -499,7 +499,7 @@ function! s:dosurround(...)  "{{{2
         call setreg('"','/**/',"c")
         let keeper = substitute(substitute(keeper,'^/\*\s\=','',''),'\s\=\*$','','')
     else
-        exe "norm da".char
+        exe "norm! da".char
     endif
     let removed = getreg('"')
     let rem2 = substitute(removed,'\n.*','','')
