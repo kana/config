@@ -1862,9 +1862,9 @@ autocmd MyAutoCmd FileType ruby
 
 
 
-" sh  "{{{2
+" sh, zsh  "{{{2
 
-autocmd MyAutoCmd FileType sh
+autocmd MyAutoCmd FileType sh,zsh
 \ call <SID>set_short_indent()
 
 " FIXME: use $SHELL.
