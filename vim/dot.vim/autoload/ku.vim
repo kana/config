@@ -979,12 +979,11 @@ function! s:_type_file_gather(pattern)
   if 0 <= last_slash
     let base_directory = a:pattern[:last_slash]
     let last_component = a:pattern[last_slash+1:]
-    let cache_key = fnamemodify(base_directory, ':p')
   else
     let base_directory = ''
     let last_component = a:pattern
-    let cache_key = fnamemodify('.', ':p')
   endif
+  let cache_key = getcwd() . ':' . base_directory
 
   if !has_key(s:_type_file_cache, cache_key)
    \ || getftime(cache_key) != s:_type_file_cache[cache_key][0]
