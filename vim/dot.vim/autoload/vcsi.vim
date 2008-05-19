@@ -4,7 +4,9 @@
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 " Interfaces  "{{{1
 " Notes:
-" - vcsi#*() returns true on success or false on failure.
+" For each vcsi#*() which is called by user:
+" - it must returns true on success or false on failure;
+" - it must check whether the current s:vcs_type() supports the command itself.
 function! vcsi#commit(...)  "{{{2
   " args = item*
   return s:open_window('commit') &&
@@ -88,6 +90,9 @@ endfunction
 
 function! vcsi#propedit(...)  "{{{2
   " args = ???
+  if !(s:vcs_type() ==# 'svk' || s:vcs_type() ==# 'svn')
+    throw 'Not supported VCS: ' . s:vcs_type()
+  endif
   throw 'FIXME: Not implemented yet.'
 endfunction
 
@@ -122,6 +127,20 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:execute_vcs_command(args)  "{{{2
+  let autowrite = &autowrite
+  set noautowrite  " to avoid E676 for vcsi#commit_finish().
+
+    " FIXME: error cases.
+  execute '!' s:make_vcs_command_script(a:args)
+
+  let &autowrite = autowrite
+  return v:shell_error == 0
+endfunction
+
+
+
+
 function! s:initialize_commit_log_buffer(args)  "{{{2
   " args = command:'commit' items:normalized-items
   call s:initialize_temporary_buffer()
@@ -193,20 +212,6 @@ endfunction
 
 
 
-function! s:execute_vcs_command(args)  "{{{2
-  let autowrite = &autowrite
-  set noautowrite  " to avoid E676 for vcsi#commit_finish().
-
-    " FIXME: error cases.
-  execute '!' s:make_vcs_command_script(a:args)
-
-  let &autowrite = autowrite
-  return v:shell_error == 0
-endfunction
-
-
-
-
 function! s:make_buffer_name(args)  "{{{2
   " args = {same as s:make_vcs_command_script()}
   let base_name = 'vcsi:' . s:vcs_type(a:args.items)
@@ -229,7 +234,6 @@ function! s:make_vcs_command_script(args)  "{{{2
   "        items:normalized-items
   "        commit_log_file:commit_log_file?
   "        revision:revision?
-  " FIXME: custom command name (e.g. use my-svk instead svk)
   let script = s:make_{s:vcs_type(a:args.items)}_command_script(a:args)
   let script = substitute(script, ' \{2,}', ' ', 'g')
   if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
@@ -246,9 +250,6 @@ function! s:make_git_command_script(args)  "{{{3
     call add(ss, 'commit')
     call add(ss, '-F')
     call add(ss, a:args.commit_log_file)
-  elseif a:args.command ==# 'revert'
-    call add(ss, 'checkout')
-    call add(ss, '--')  " to express the next arg is not the name of a branch.
   elseif a:args.command ==# 'diff'
     call add(ss, 'diff')
     call add(ss, '--')
@@ -260,6 +261,9 @@ function! s:make_git_command_script(args)  "{{{3
     call add(ss, '--')
   elseif a:args.command ==# 'info'
     return 'echo "git does not support this command: ' . a:args.command . '"'
+  elseif a:args.command ==# 'revert'
+    call add(ss, 'checkout')
+    call add(ss, '--')  " to express the next arg is not the name of a branch.
   else
     call add(ss, a:args.command)
   endif
