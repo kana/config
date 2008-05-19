@@ -17,6 +17,11 @@ endif
 
 " Interfaces  "{{{1
 
+command! -bang -bar -count=0 -nargs=0 VcsiBranchList
+      \ call vcsi#branch_list('<bang>' == '!')
+command! -bang -bar -complete=customlist,vcsi#complete_branch_names -count=0
+      \ -nargs=? VcsiBranchSwitch
+      \ call vcsi#branch_switch('<bang>' == '!', <q-args>)
 command! -bar -complete=file -count=0 -nargs=* VcsiCommit
       \ call vcsi#commit(<f-args>)
 command! -bar -complete=file -count=0 -nargs=* VcsiDiff
@@ -36,6 +41,10 @@ command! -bang -bar -nargs=0 VcsiDefaultKeyMappings
       \ call s:default_key_mappings('<bang>' == '!')
 function! s:default_key_mappings(bangedp)
   let modifier = (a:bangedp ? '' : '<unique>')
+  silent! execute 'nmap' modifier '<Leader>vbL  <Plug>(vcsi-branch-list!)'
+  silent! execute 'nmap' modifier '<Leader>vbl  <Plug>(vcsi-branch-list)'
+  silent! execute 'nmap' modifier '<Leader>vbS  <Plug>(vcsi-branch-switch!)'
+  silent! execute 'nmap' modifier '<Leader>vbs  <Plug>(vcsi-branch-switch)'
   silent! execute 'nmap' modifier '<Leader>vC  <Plug>(vcsi-commit-all)'
   silent! execute 'nmap' modifier '<Leader>vc  <Plug>(vcsi-commit-it)'
   silent! execute 'nmap' modifier '<Leader>vD  <Plug>(vcsi-diff-all)'
@@ -53,6 +62,11 @@ endfunction
 
 
 
+
+nnoremap <silent> <Plug>(vcsi-branch-list!)  :<C-u>VcsiBranchList!<Return>
+nnoremap <silent> <Plug>(vcsi-branch-list)  :<C-u>VcsiBranchList<Return>
+nnoremap <silent> <Plug>(vcsi-branch-switch!)  :<C-u>VcsiBranchSwitch!<Return>
+nnoremap <silent> <Plug>(vcsi-branch-switch)  :<C-u>VcsiBranchSwitch<Return>
 
 nnoremap <silent> <Plug>(vcsi-commit-all)  :<C-u>VcsiCommit all<Return>
 nnoremap <silent> <Plug>(vcsi-diff-all)  :<C-u>VcsiDiff all<Return>

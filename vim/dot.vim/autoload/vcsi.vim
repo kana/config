@@ -7,6 +7,51 @@
 " For each vcsi#*() which is called by user:
 " - it must returns true on success or false on failure;
 " - it must check whether the current s:vcs_type() supports the command itself.
+function! vcsi#branch_list(bang_p)  "{{{2
+  let items = s:normalize_items([], 'no-new-buffer')
+  let vcs_type = s:vcs_type(items)
+  if !(vcs_type ==# 'git')
+    throw 'Not supported VCS: ' . vcs_type
+  endif
+
+  return s:execute_vcs_command({
+    \      'command': 'branch-list',
+    \      'items': items,
+    \      'bang_p': a:bang_p
+    \    })
+endfunction
+
+
+
+
+function! vcsi#branch_switch(bang_p, branch_name)  "{{{2
+  let items = s:normalize_items([], 'no-new-buffer')
+  let vcs_type = s:vcs_type(items)
+  if !(vcs_type ==# 'git')
+    throw 'Not supported VCS: ' . vcs_type
+  endif
+
+  if a:branch_name == ''
+    let branch_name = input('branch name' . (a:bang_p ? '!' : '') . '? ',
+      \                     '',
+      \                     'customlist,vcsi#complete_branch_names')
+    if branch_name == ''  " canceled?
+      return 0
+    endif
+  else
+    let branch_name = a:branch_name
+  endif
+
+  return s:execute_vcs_command({
+    \      'command': 'branch-switch',
+    \      'items': [branch_name],
+    \      'bang_p': a:bang_p
+    \    })
+endfunction
+
+
+
+
 function! vcsi#commit(...)  "{{{2
   " args = item*
   return s:create_new_buffer('commit') &&
@@ -246,6 +291,7 @@ function! s:make_vcs_command_script(args)  "{{{2
   "        items:normalized-items
   "        commit_log_file:commit_log_file?
   "        revision:revision?
+  "        bang_p:bang_p?
   let script = s:make_{s:vcs_type(a:args.items)}_command_script(a:args)
   let script = substitute(script, ' \{2,}', ' ', 'g')
   if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
@@ -258,7 +304,18 @@ endfunction
 function! s:make_git_command_script(args)  "{{{3
   let ss = ['git']
   let items = map(copy(a:args.items), '"''" . v:val . "''"')
-  if a:args.command ==# 'commit'
+  if a:args.command ==# 'branch-list'
+    call add(ss, 'branch')
+    if a:args.bang_p
+      call add(ss, '-a')
+    endif
+    let items = []  " FIXME: bad design
+  elseif a:args.command ==# 'branch-switch'
+    call add(ss, 'checkout')
+    if a:args.bang_p
+      call add(ss, '-b')
+    endif
+  elseif a:args.command ==# 'commit'
     call add(ss, 'commit')
     call add(ss, '-F')
     call add(ss, a:args.commit_log_file)

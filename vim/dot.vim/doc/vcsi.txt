@@ -55,6 +55,18 @@ Most of the following commands take zero or more {item}s.
 - Note that every {item} must be in the same repository.
 
 
+:VcsiBranchList[!]					*:VcsiBranchList*
+	(git only) List local branches.  With "!", list also remote branches.
+
+:VcsiBranchSwitch[!] [{branch-name}]			*:VcsiBranchSwitch*
+	(git only) Switche to the branch named {branch-name}.  The branch must
+	be existent.  With "!", create new branch named {branch-name}, then
+	switch to the branch.  In this case, the branch {branch-name} must not
+	be existent.
+
+	If {branch-name} is omitted, start interactive switching.  In this
+	mode, branch name completion is available.
+
 :VcsiCommit [item] ...					*:VcsiCommit*
 	Open new buffer to edit commit log.
 	When the buffer is written, the change of [item]s will be committed.
@@ -96,6 +108,8 @@ Most of the following commands take zero or more {item}s.
 ------------------------------------------------------------------------------
 FUNCTIONS						*vcsi-functions*
 
+vcsi#branch_list({bang})				*vcsi#branch_list()*
+vcsi#branch_switch({bang}, [{branch-name}])		*vcsi#branch_switch()*
 vcsi#commit([{item}, ...])				*vcsi#commit()*
 vcsi#diff([{item}, [{revision}]])			*vcsi#diff()*
 vcsi#info([{item}, ...])				*vcsi#info()*
@@ -110,6 +124,10 @@ vcsi#status([{item}, ...])				*vcsi#status()*
 ------------------------------------------------------------------------------
 KEY MAPPINGS						*vcsi-key-mappings*
 
+<Plug>(vcsi-branch-list!)			*<Plug>(vcsi-branch-list!)*
+<Plug>(vcsi-branch-list)			*<Plug>(vcsi-branch-list)*
+<Plug>(vcsi-branch-switch!)			*<Plug>(vcsi-branch-switch!)*
+<Plug>(vcsi-branch-switch)			*<Plug>(vcsi-branch-switch)*
 <Plug>(vcsi-commit-all)				*<Plug>(vcsi-commit-all)*
 <Plug>(vcsi-commit-it)				*<Plug>(vcsi-commit-it)*
 <Plug>(vcsi-diff-all)				*<Plug>(vcsi-diff-all)*
@@ -136,6 +154,10 @@ by |:VcsiDefaultKeyMappings|.
 
 	{lhs}			{rhs}
 	----------		----------------------- ~
+	<Leader>vbL		<Plug>(vcsi-branch-list!)
+	<Leader>vbl		<Plug>(vcsi-branch-list)
+	<Leader>vbS		<Plug>(vcsi-branch-switch!)
+	<Leader>vbs		<Plug>(vcsi-branch-switch)
 	<Leader>vC		<Plug>(vcsi-commit-all)
 	<Leader>vc		<Plug>(vcsi-commit-it)
 	<Leader>vD		<Plug>(vcsi-diff-all)
