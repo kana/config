@@ -50,8 +50,8 @@ Most of the following commands take zero or more {item}s.
 - If no {item} is given for a command, it will be treated as "-" is given.
 - If {item} is "-", it will be treated as the file or directory related to the
   current buffer.  If the current buffer is created by one of the
-  |vcsi-commands|, it will be treated as the same {item}s for the current
-  buffer.
+  |vcsi-commands|, |vcsi-functions| or |vcsi-key-mappings|, it will be treated
+  as the same {item}s for the such buffer.
 - Note that every {item} must be in the same repository.
 
 
@@ -86,6 +86,7 @@ Most of the following commands take zero or more {item}s.
 
 :VcsiStatus [item] ...					*:VcsiStatus*
 	Open new buffer to show the status of {item}s, recursively.
+
 
 :VcsiDefaultKeyMappings[!]			      *VcsiDefaultKeyMappings*
 	Define |vcsi-default-key-mappings|.
@@ -125,8 +126,8 @@ KEY MAPPINGS						*vcsi-key-mappings*
 <Plug>(vcsi-status-it)				*<Plug>(vcsi-status-it)*
 	These mappings are defined for Normal mode.
 	Each mapping executes the corresponding command.
-	"-all" version executes the corresponding command on "all".
-	"-it" version executes the corresponding command on "-".
+	"-all" version executes the corresponding command with "all".
+	"-it" version executes the corresponding command with "-".
 
 						*vcsi-default-key-mappings*
 The following key mappings will be defined as this plugin is loaded unless
@@ -154,6 +155,18 @@ by |:VcsiDefaultKeyMappings|.
 ==============================================================================
 CUSTOMIZING						*vcsi-customizing*
 
+g:vcsi_diff_in_commit_logp			*g:vcsi_diff_in_commit_logp*
+				number (default: 0)
+	Whenever a buffer to edit commit log is created, the result of
+	|:VcsiDiff| will be automatically inserted as a comment.
+
+g:vcsi_echo_scriptp				*g:vcsi_echo_scriptp*
+				number (default: 1)
+	If this value is true, |:echomsg| for every vcs command to be run.
+
+g:vcsi_no_default_key_mappings		      *g:vcsi_no_default_key_mappings*
+	See |vcsi-default-key-mappings|.
+
 g:vcsi_open_command				*g:vcsi_open_command*
 g:vcsi_open_command_commit			*g:vcsi_open_command_commit*
 g:vcsi_open_command_diff			*g:vcsi_open_command_diff*
@@ -162,32 +175,20 @@ g:vcsi_open_command_log				*g:vcsi_open_command_log*
 g:vcsi_open_command_propedit			*g:vcsi_open_command_propedit*
 g:vcsi_open_command_revert			*g:vcsi_open_command_revert*
 g:vcsi_open_command_status			*g:vcsi_open_command_status*
-			    string (default: 'belowright split | hide buffer')
+				string (default: 'belowright new')
 
-	Specify the command to open a window for a temporary buffer.  These
-	values are used like the following: >
+	Specify the command to open a temporary buffer (and a window for the
+	buffer).  These values are used like the following: >
 
 		execute g:vcsi_open_command
 <
 	If g:vcsi_open_command_{command} exists, use it rather than
 	g:vcsi_open_command.
 
-g:vcsi_no_default_key_mappings		      *g:vcsi_no_default_key_mappings*
-	See |vcsi-default-key-mappings|.
-
-g:vcsi_echo_scriptp				*g:vcsi_echo_scriptp*
-				number (default: 1)
-	If this value is true, |:echomsg| for every vcs command to be run.
-
 g:vcsi_status_in_commit_logp			*g:vcsi_status_in_commit_logp*
 				number (default: 0)
 	Whenever a buffer to edit commit log is created, the result of
 	|:VcsiStatus| will be automatically inserted as a comment.
-
-g:vcsi_diff_in_commit_logp			*g:vcsi_diff_in_commit_logp*
-				number (default: 0)
-	Whenever a buffer to edit commit log is created, the result of
-	|:VcsiDiff| will be automatically inserted as a comment.
 
 
 
@@ -202,6 +203,8 @@ BUGS							*vcsi-bugs*
 
 - |:VcsiCommit|: writing commit log buffer with |:wq| causes closing extra
   window.
+
+- |:VcsiCommit| (git): No message when some conflicts are occured.
 
 - ...
 
