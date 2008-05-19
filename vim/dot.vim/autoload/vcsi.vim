@@ -9,7 +9,7 @@
 " - it must check whether the current s:vcs_type() supports the command itself.
 function! vcsi#commit(...)  "{{{2
   " args = item*
-  return s:open_window('commit') &&
+  return s:create_new_buffer('commit') &&
        \ s:initialize_commit_log_buffer({
        \   'command': 'commit',
        \   'items': s:normalize_items(a:000),
@@ -51,7 +51,7 @@ endfunction
 
 function! vcsi#diff(...)  "{{{2
   " args = (item revision?)?
-  return s:open_window('diff') &&
+  return s:create_new_buffer('diff') &&
        \ s:initialize_vcs_command_result_buffer({
        \   'command': 'diff',
        \   'items': s:normalize_items(a:000),
@@ -65,7 +65,7 @@ endfunction
 
 function! vcsi#info(...)  "{{{2
   " args = item*
-  return s:open_window('info') &&
+  return s:create_new_buffer('info') &&
        \ s:initialize_vcs_command_result_buffer({
        \   'command': 'info',
        \   'items': s:normalize_items(a:000)
@@ -77,7 +77,7 @@ endfunction
 
 function! vcsi#log(...)  "{{{2
   " args = (item revision?)?
-  return s:open_window('log') &&
+  return s:create_new_buffer('log') &&
        \ s:initialize_vcs_command_result_buffer({
        \   'command': 'log',
        \   'items': s:normalize_items(a:000),
@@ -113,7 +113,7 @@ endfunction
 
 function! vcsi#status(...)  "{{{2
   " args = item*
-  return s:open_window('status') &&
+  return s:create_new_buffer('status') &&
        \ s:initialize_vcs_command_result_buffer({
        \   'command': 'status',
        \   'items': s:normalize_items(a:000)
@@ -128,6 +128,17 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:create_new_buffer(vcs_command_name)  "{{{2
+  let v:errmsg = ''
+  execute (exists('g:vcsi_open_command_{a:vcs_command_name}')
+        \  ? g:vcsi_open_command_{a:vcs_command_name}
+        \  : g:vcsi_open_command)
+  return v:errmsg == ''
+endfunction
+
+
+
+
 function! s:execute_vcs_command(args)  "{{{2
   let autowrite = &autowrite
   set noautowrite  " to avoid E676 for vcsi#commit_finish().
@@ -313,17 +324,6 @@ function! s:normalize_items(unnormalized_items, ...)  "{{{2
     endif
   endfor
   return items
-endfunction
-
-
-
-
-function! s:open_window(vcs_command_name)  "{{{2
-  let v:errmsg = ''
-  execute (exists('g:vcsi_open_command_{a:vcs_command_name}')
-        \  ? g:vcsi_open_command_{a:vcs_command_name}
-        \  : g:vcsi_open_command)
-  return v:errmsg == ''
 endfunction
 
 
