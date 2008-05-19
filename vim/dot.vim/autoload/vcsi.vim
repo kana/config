@@ -54,7 +54,7 @@ function! vcsi#diff(...)  "{{{2
   return s:open_window('diff') &&
        \ s:initialize_vcs_command_result_buffer({
        \   'command': 'diff',
-       \   'items': s:normalize_items([1 <= a:0 ? a:1 : '-']),
+       \   'items': s:normalize_items(a:000),
        \   'revision': (2 <= a:0 ? a:2 : ''),
        \   'filetype': 'diff'
        \ })
@@ -80,7 +80,7 @@ function! vcsi#log(...)  "{{{2
   return s:open_window('log') &&
        \ s:initialize_vcs_command_result_buffer({
        \   'command': 'log',
-       \   'items': s:normalize_items([1 <= a:0 ? a:1 : '-']),
+       \   'items': s:normalize_items(a:000),
        \   'revision': 'HEAD:' . (2 <= a:0 ? a:2 : '1')
        \ })
 endfunction
