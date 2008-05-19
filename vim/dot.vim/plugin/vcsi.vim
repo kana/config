@@ -1,8 +1,8 @@
 " vcsi.vim - Version Control System Interface
 " Version: 0.0.7
-" Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
+" Copyright: Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  "{{{1
+" Intro  "{{{1
 
 if exists('g:loaded_vcsi')
   finish

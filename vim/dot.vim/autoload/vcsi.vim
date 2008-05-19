@@ -1,8 +1,7 @@
 " vcsi.vim - Version Control System Interface
 " Version: 0.0.7
-" Copyright: Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
+" Copyright: Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$
 " Interfaces  "{{{1
 " Notes:
 " - vcsi#*() returns true on success or false on failure.
