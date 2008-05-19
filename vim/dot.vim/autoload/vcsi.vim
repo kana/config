@@ -34,7 +34,7 @@ function! vcsi#branch_switch(bang_p, branch_name)  "{{{2
   if a:branch_name == ''
     let branch_name = input('branch name' . (a:bang_p ? '!' : '') . '? ',
       \                     '',
-      \                     'customlist,vcsi#complete_branch_names')
+      \                     'custom,vcsi#complete_branch_names')
     if branch_name == ''  " canceled?
       return 0
     endif
@@ -89,6 +89,15 @@ function! vcsi#commit_finish()  "{{{2
     echomsg 'Failed to delete temporary file' string(commit_log_file)
     echohl None
   endif
+endfunction
+
+
+
+
+function! vcsi#complete_branch_names(...)  "{{{2
+  " FIXME: assumption on the current working directory.
+  " FIXME: cache?
+  return substitute(system('git-branch'), '[ *]\+', '', 'g')
 endfunction
 
 

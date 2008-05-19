@@ -19,7 +19,7 @@ endif
 
 command! -bang -bar -count=0 -nargs=0 VcsiBranchList
       \ call vcsi#branch_list('<bang>' == '!')
-command! -bang -bar -complete=customlist,vcsi#complete_branch_names -count=0
+command! -bang -bar -complete=custom,vcsi#complete_branch_names -count=0
       \ -nargs=? VcsiBranchSwitch
       \ call vcsi#branch_switch('<bang>' == '!', <q-args>)
 command! -bar -complete=file -count=0 -nargs=* VcsiCommit
