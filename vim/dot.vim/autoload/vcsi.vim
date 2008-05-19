@@ -90,8 +90,9 @@ endfunction
 
 function! vcsi#propedit(...)  "{{{2
   " args = ???
-  if !(s:vcs_type() ==# 'svk' || s:vcs_type() ==# 'svn')
-    throw 'Not supported VCS: ' . s:vcs_type()
+  let vcs_type = s:vcs_type(s:normalize_items(a:000))
+  if !(vcs_type ==# 'svk' || vcs_type ==# 'svn')
+    throw 'Not supported VCS: ' . vcs_type
   endif
   throw 'FIXME: Not implemented yet.'
 endfunction
