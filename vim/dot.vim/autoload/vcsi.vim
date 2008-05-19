@@ -223,6 +223,10 @@ function! s:initialize_commit_log_buffer(args)  "{{{2
   call cursor(1, 0)
   let b:vcsi_target_items = a:args.items
   setlocal buftype=acwrite nomodified filetype=diff.vcsicommit
+  syntax region vcsicommitLog keepend start=/^\%^/ end=/^=== .* ===$/me=s-1
+  highlight default link vcsicommitLog Normal
+  syntax match vcsicommitSeparator /^=== .* ===$/
+  highlight default link vcsicommitSeparator Delimiter
   autocmd BufWriteCmd <buffer>  call vcsi#commit_finish()
 
   return 1

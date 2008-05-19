@@ -239,6 +239,7 @@ CHANGELOG						*vcsi-changelog*
 0.0.7	2008-05-19T20:16:54+09:00
 	- |:VcsiBranchList|: New.
 	- |:VcsiBranchSwitch|: New.
+	- Fix syntax highlighting for buffers to edit commit log.
 	- Fix minor bugs.
 
 0.0.6	2008-04-27T12:35:59+09:00
