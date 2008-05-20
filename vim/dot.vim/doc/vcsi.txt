@@ -239,6 +239,8 @@ CHANGELOG						*vcsi-changelog*
 0.0.7	2008-05-19T20:16:54+09:00
 	- |:VcsiBranchList|: New.
 	- |:VcsiBranchSwitch|: New.
+	- |:VcsiDiff| (git): Add separators for staged changes and unstaged
+	  changes
 	- Fix syntax highlighting for buffers to edit commit log.
 	- Fix minor bugs.
 

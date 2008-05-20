@@ -69,8 +69,8 @@ function! vcsi#commit_finish()  "{{{2
   " s:initialize_commit_log_buffer().
   let commit_log_file = tempname()
 
-  call cursor(line('$'), 0)
-  let log_tail_line = searchpos('^=== [^=]* ===$', 'bcW')[0] - 1
+  goto 1  " goto the 1st byte of the current buffer.
+  let log_tail_line = searchpos('^=== [^=]* ===$', 'cW')[0] - 1
   if writefile(getbufline('', 1, log_tail_line), commit_log_file)
     return  " error message is already published by writefile().
   endif
@@ -333,11 +333,13 @@ function! s:make_git_command_script(args)  "{{{3
     call add(ss, '-F')
     call add(ss, a:args.commit_log_file)
   elseif a:args.command ==# 'diff'
+    call insert(ss, 'echo "=== UNSTAGED ===";', 0)
     call add(ss, 'diff')
     call add(ss, '--')
     call extend(ss, items)
     call add(ss, ';')
-    call add(ss, ss[0])
+    call add(ss, 'echo "=== STAGED ===";')
+    call add(ss, ss[1])
     call add(ss, 'diff')
     call add(ss, '--cached')
     call add(ss, '--')
