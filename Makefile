@@ -156,6 +156,7 @@ ALL_PACKAGES=\
   vim-scratch \
   vim-textobj-datetime \
   vim-textobj-fold \
+  vim-textobj-jabraces \
   vim-textobj-user \
   vim-tofunc \
   vim-vcsi \
