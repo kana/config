@@ -110,7 +110,7 @@ function! vcsi#diff(...)  "{{{2
        \   'command': 'diff',
        \   'items': s:normalize_items(a:000),
        \   'revision': (2 <= a:0 ? a:2 : ''),
-       \   'filetype': 'diff'
+       \   'filetype': 'diff.vcsi'
        \ })
 endfunction
 
@@ -231,11 +231,7 @@ function! s:initialize_commit_log_buffer(args)  "{{{2
   endif
   call cursor(1, 0)
   let b:vcsi_target_items = a:args.items
-  setlocal buftype=acwrite nomodified filetype=diff.vcsicommit
-  syntax region vcsicommitLog keepend start=/^\%^/ end=/^=== .* ===$/me=s-1
-  highlight default link vcsicommitLog Normal
-  syntax match vcsicommitSeparator /^=== .* ===$/
-  highlight default link vcsicommitSeparator Delimiter
+  setlocal buftype=acwrite nomodified filetype=diff.vcsi
   autocmd BufWriteCmd <buffer>  call vcsi#commit_finish()
 
   return 1

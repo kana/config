@@ -241,6 +241,8 @@ CHANGELOG						*vcsi-changelog*
 	- |:VcsiBranchSwitch|: New.
 	- |:VcsiDiff| (git): Add separators for staged changes and unstaged
 	  changes
+	- |:VcsiCommit|, |:VcsiDiff|: Add sysntax highlighting for several
+	  items.
 	- Fix syntax highlighting for buffers to edit commit log.
 	- Fix minor bugs.
 
