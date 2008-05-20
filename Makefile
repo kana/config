@@ -114,6 +114,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
+  $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
@@ -126,10 +127,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
-  vim/dot.vim/doc/surround.txt \
   vim/dot.vim/ftplugin/issue.vim \
-  vim/dot.vim/plugin/surround.vim \
-  vim/dot.vim/plugin/surround_config.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
   vim/dot.vimrc
@@ -216,6 +214,13 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
+
+PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.6
+PACKAGE_vim_surround_BASE=vim/dot.vim
+PACKAGE_vim_surround_FILES=\
+  vim/dot.vim/doc/surround.txt \
+  vim/dot.vim/plugin/surround.vim \
+  vim/dot.vim/plugin/surround_config.vim
 
 PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.2
 PACKAGE_vim_textobj_datetime_BASE=vim/dot.vim
