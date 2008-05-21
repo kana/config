@@ -1,6 +1,6 @@
 " textobj-fold - Text objects for date and time.
 " Version: 0.0.0
-" Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
+" Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 if exists('g:loaded_textobj_fold')  "{{{1
   finish

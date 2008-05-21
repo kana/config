@@ -1,6 +1,6 @@
 " cygclip - pseude clipboard register for non-GUI version of Vim on Cygwin
 " Version: 0.1
-" Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
+" Copyright: Copyright (C) 2007 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 "{{{1
 

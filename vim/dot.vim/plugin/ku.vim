@@ -1,6 +1,6 @@
 " ku - Support to do something
 " Version: 0.0.0
-" Copyright: Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
+" Copyright: Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 "{{{1
 

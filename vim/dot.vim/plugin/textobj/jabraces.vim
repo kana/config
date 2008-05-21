@@ -1,6 +1,6 @@
 " textobj-jabraces - Text objects for Japanese braces
 " Version: 0.0.0
-" Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
+" Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 scriptencoding utf-8  "{{{1
 

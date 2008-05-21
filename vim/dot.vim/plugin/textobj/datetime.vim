@@ -1,6 +1,6 @@
 " textobj-datetime - Text objects for date and time.
 " Version: 0.2
-" Copyright (C) 2007-2008 kana <http://nicht.s8.xrea.com/>
+" Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 "{{{1
 

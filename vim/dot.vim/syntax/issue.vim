@@ -1,6 +1,6 @@
 " Vim syntax file
 " Language:	issue (my personal issue tracking memo)
-" Maintainer:	kana <http://nicht.s8.xrea.com/>
+" Maintainer:	kana <http://whileimautomaton.net/>
 "
 " Structure:
 "
