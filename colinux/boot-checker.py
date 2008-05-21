@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-__ID__ = '$Id$'
 
 import BaseHTTPServer
 import os

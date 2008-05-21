@@ -1,4 +1,3 @@
-# $Id$
 # MISC.  {{{1
 
 umask 077  # Default permission

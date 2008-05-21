@@ -1,5 +1,4 @@
 # /etc/fstab: static file system information.
-# $Id$
 #
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
 proc            /proc           proc    defaults        0       0

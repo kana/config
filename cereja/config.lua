@@ -1,4 +1,4 @@
--- $Id$
+-- My config.lua
 
 -- Hotkey for reload_config should be registered at first
 -- to be able to reload this file even if this file is failed to load.

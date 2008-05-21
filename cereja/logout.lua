@@ -1,4 +1,4 @@
--- $Id$
+-- My logout.lua
 
 -- ... nothing to do here.
 

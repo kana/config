@@ -2,7 +2,6 @@
 " Version: 0.1+
 " Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$
 " Variables  "{{{1
 
 let s:bufnr = 0  " The buffer number of the scratch buffer

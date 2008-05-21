@@ -2,7 +2,7 @@
 " Version: 0.0.0
 " Copyright: Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  "{{{1
+"{{{1
 
 if exists('g:loaded_ku')
   finish

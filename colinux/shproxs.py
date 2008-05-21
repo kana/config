@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 """shproxs - a web server to run Windows commands from coLinux."""
-__ID__ = '$Id$'
 __VERSION__ = '0.0'
 
 import BaseHTTPServer

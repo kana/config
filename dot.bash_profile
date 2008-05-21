@@ -1,4 +1,3 @@
-# $Id$
 # MISC. INITIALIZATION {{{1
 
 _check_then_source() {  # script-path

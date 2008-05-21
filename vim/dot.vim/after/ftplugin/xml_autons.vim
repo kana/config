@@ -4,13 +4,14 @@
 " Version: 0.0.1
 " Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  "{{{1
+"{{{1
 
 " This script is placed in the after-directory, so that b:did_ftplugin cannot
 " be used to avoid doubly sourcing.
 if exists('b:xml_namespace')  " BUGS: But b:xml_namespace is not documented.
   finish
 endif
+
 
 
 
@@ -130,5 +131,12 @@ endif
 
 AutoXMLns
 
-" __END__
+
+
+
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker

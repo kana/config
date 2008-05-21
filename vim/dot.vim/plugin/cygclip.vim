@@ -2,7 +2,7 @@
 " Version: 0.1
 " Copyright: Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  "{{{1
+"{{{1
 
 if exists('g:loaded_cygclip') && has('clipboard') || !has('win32unix')
   finish
@@ -167,5 +167,12 @@ endfunction
 
 let g:loaded_cygclip = 1
 
-" __END__
+
+
+
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker foldlevel=0

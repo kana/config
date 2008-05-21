@@ -2,14 +2,14 @@
 " Version: 0.0.0
 " Copyright: Copyright (C) 2008 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  "{{{1
+"
 " FIXME: s:do(): Force action on unmatched pattern.
 " FIXME: more smart sorting:
 "        - considering last component.
 "        - type buffer: full path vs. relative path.
 " FIXME: review on case sensitivity.
 " FIXME: alternative implementation (getchar()), if necessary.
-"
+
 " Variables and Constants  "{{{1
 " Script-local  "{{{2
 
@@ -1081,5 +1081,5 @@ silent doautocmd User KuLoaded
 
 
 
-" __END__
+" __END__  "{{{1
 " vim: foldmethod=marker

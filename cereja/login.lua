@@ -1,4 +1,4 @@
--- $Id$
+-- My login.lua
 
 require 'shell'
 require 'shell.tray'

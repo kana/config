@@ -10,8 +10,6 @@
 # addresses (NOT host or domain names) for the portmapper, as well as for
 # rpc.mountd (the NFS mount daemon). See portmap(8), rpc.mountd(8) and 
 # /usr/share/doc/portmap/portmapper.txt.gz for further information.
-#
-# $Id$
 
 ALL: localhost 10.0.2.0/255.255.255.0
 

@@ -2,7 +2,6 @@
 " Version: 0.2
 " Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$
 
 if exists('g:loaded_narrow')
   finish

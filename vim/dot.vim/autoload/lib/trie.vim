@@ -2,7 +2,7 @@
 " Version: 0.0
 " Copyright (C) 2007 kana <http://nicht.s8.xrea.com/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" $Id$  "{{{1
+"{{{1
 "
 " trie ::= {'root': node,
 "           'default_value': <any value>}

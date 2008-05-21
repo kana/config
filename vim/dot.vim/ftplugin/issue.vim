@@ -1,7 +1,6 @@
 " Vim ftpluing file
 " Language:	issue (my personal issue tracking memo)
 " Maintainer:	kana <http://nicht.s8.xrea.com>
-" Last Change:	$Id$
 " Misc. initialization  "{{{1
 
 if exists('b:did_ftplugin')
@@ -145,5 +144,12 @@ endfunction
 
 let b:did_ftplugin = 1
 
-" __END__
+
+
+
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker

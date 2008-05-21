@@ -1,5 +1,4 @@
 #!/bin/bash
-# $Id$
 
 INSTALL_DIR='C:\cygwin\usr\win\bin\coLinux'
 
