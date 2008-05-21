@@ -1689,6 +1689,11 @@ Cnmap <count> g/  global//print
 Cvmap <count> g/  global//print
 
 
+" Experimental: alternative <Esc>
+noremap <C-@>  <Esc>
+noremap! <C-@>  <Esc>
+
+
 
 
 
