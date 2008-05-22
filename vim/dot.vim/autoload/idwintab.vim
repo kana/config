@@ -10,7 +10,7 @@ endfunction
 let s:next_id_for_window = 0
 let s:next_id_for_tabpage = 0
 
-augroup PluginIdwintab
+augroup plugin-idwintab
   autocmd!
   autocmd WinEnter *  call s:on_WinEnter()
   autocmd TabEnter *  call s:on_TabEnter()
