@@ -39,7 +39,7 @@ function! s:on_TabEnter()
   let t:id = s:next_id_for_tabpage
   let s:next_id_for_tabpage += 1
   if !(t:id < s:next_id_for_tabpage)
-    throw 'idwintab: Window ID overflow'
+    throw 'idwintab: Tab page ID overflow'
   endif
 endfunction
 
