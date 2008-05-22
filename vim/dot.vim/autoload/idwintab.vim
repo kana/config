@@ -1,5 +1,5 @@
 " idwintab - Give unique ID for each window and tab page
-" Version: 0.0.0
+" Version: 0.0.1
 " Copyright: Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -46,12 +46,16 @@ endfunction
 
 
 
+" Ensure that all windows and all tab pages have their own ID.
+"
 " FIXME: restore the original states on the current windows for each tab page
 " and the current tab page.
-
-  " autocommands are already defined, so it's enough to visit all window in
-  " each tab page to ensure that they have their own IDs.
-tabdo windo echo
+"
+" Note that :tabdo never publish TabEnter event if there is only one tab page,
+" so we have to manually publish the event.  :windo and WinEnter have similar
+" problem.
+tabdo doautocmd plugin-idwintab TabEnter
+tabdo windo doautocmd plugin-idwintab WinEnter
 
 " __END__
 " vim: foldmethod=marker

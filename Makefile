@@ -189,7 +189,7 @@ PACKAGE_vim_cygclip_FILES=\
   vim/dot.vim/doc/cygclip.txt \
   vim/dot.vim/plugin/cygclip.vim
 
-PACKAGE_vim_idwintab_ARCHIVE=vim-idwintab-0.0.0
+PACKAGE_vim_idwintab_ARCHIVE=vim-idwintab-0.0.1
 PACKAGE_vim_idwintab_BASE=vim/dot.vim
 PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
