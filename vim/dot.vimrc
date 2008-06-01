@@ -1098,11 +1098,16 @@ else
 endif
 
 
-" Lazy man's hacks on the Semicolon key.
+
+
+" Lazy man's hacks on the Semicolon key  "{{{2
+"
 " - Don't want to press Shift to enter the Command-line mode.
 " - Don't want to press far Return key to input <Return>.
+"
 " Note: To override these definitions by other mappings, these must be written
 " before them.
+
 noremap <Plug>(physical-key-;)  :
 noremap <Plug>(physical-key-:)  ;
 noremap <Plug>(physical-key-<Return>)  <Return>
@@ -1111,6 +1116,12 @@ noremap! <Plug>(physical-key-;)  <Return>
 noremap! <Plug>(physical-key-:)  <S-Return>
 noremap! <Plug>(physical-key-<Return>)  ;
 noremap! <Plug>(physical-key-<S-Return>)  :
+
+" Experimental: to input semicolon/colon without the far Semicolon key.
+noremap! <Esc>,  ;
+noremap! <Esc>.  :
+noremap! <Esc>/  ;
+noremap! <Esc>?  :
 
 
 
