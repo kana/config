@@ -10,6 +10,11 @@ if !(exists('g:loaded_surround') && exists('*SurroundRegister'))
 endif
 
 
+" for XML.
+call SurroundRegister('g', '&', "&lt;\r&gt;")
+call SurroundRegister('g', 'C', "<![CDATA[\r]]>")
+
+
 " for various braces in Japanese language.
 call SurroundRegister('g', 'jb', "（\r）")
 call SurroundRegister('g', 'jB', "｛\r｝")
