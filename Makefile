@@ -235,7 +235,7 @@ PACKAGE_vim_textobj_fold_FILES=\
   vim/dot.vim/doc/textobj-fold.txt \
   vim/dot.vim/plugin/textobj/fold.vim
 
-PACKAGE_vim_textobj_jabraces_ARCHIVE=vim-textobj-jabraces-0.0.0
+PACKAGE_vim_textobj_jabraces_ARCHIVE=vim-textobj-jabraces-0.1.0
 PACKAGE_vim_textobj_jabraces_BASE=vim/dot.vim
 PACKAGE_vim_textobj_jabraces_FILES=\
   vim/dot.vim/doc/textobj-jabraces.txt \

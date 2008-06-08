@@ -1,6 +1,6 @@
 *textobj-jabraces.txt*	Text objects for Japanese braces
 
-Version 0.0.0
+Version 0.1.0
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -24,7 +24,8 @@ such as 「foo」 or 【bar】.
 
 Requirements:
 * Vim 7.0 or later.
-* |textobj-user| <http://www.vim.org/scripts/script.php?script_id=2100>
+* |textobj-user| 0.3.1 or later
+  <http://www.vim.org/scripts/script.php?script_id=2100>
 
 
 
@@ -39,28 +40,28 @@ followings:
 
 Characters	Key Mappings ~
 ----------	------------ ~
-（）		*<Plug>(textobj-jabraces-i-parens)*
-［］		*<Plug>(textobj-jabraces-i-braces)*
-｛｝		*<Plug>(textobj-jabraces-i-brackets)*
-＜＞		*<Plug>(textobj-jabraces-i-angles)*
-≪≫		*<Plug>(textobj-jabraces-i-double-angles)*
-「」		*<Plug>(textobj-jabraces-i-kakko)*
-『』		*<Plug>(textobj-jabraces-i-double-kakko)*
-〈〉		*<Plug>(textobj-jabraces-i-yama-kakko)*
-《》		*<Plug>(textobj-jabraces-i-double-yama-kakko)*
-〔〕		*<Plug>(textobj-jabraces-i-kikkou-kakko)*
-【】		*<Plug>(textobj-jabraces-i-sumi-kakko)*
-（）		*<Plug>(textobj-jabraces-a-parens)*
-［］		*<Plug>(textobj-jabraces-a-braces)*
-｛｝		*<Plug>(textobj-jabraces-a-brackets)*
-＜＞		*<Plug>(textobj-jabraces-a-angles)*
-≪≫		*<Plug>(textobj-jabraces-a-double-angles)*
-「」		*<Plug>(textobj-jabraces-a-kakko)*
-『』		*<Plug>(textobj-jabraces-a-double-kakko)*
-〈〉		*<Plug>(textobj-jabraces-a-yama-kakko)*
-《》		*<Plug>(textobj-jabraces-a-double-yama-kakko)*
-〔〕		*<Plug>(textobj-jabraces-a-kikkou-kakko)*
-【】		*<Plug>(textobj-jabraces-a-sumi-kakko)*
+（）		*<Plug>(textobj-jabraces-parens-i)*
+［］		*<Plug>(textobj-jabraces-braces-i)*
+｛｝		*<Plug>(textobj-jabraces-brackets-i)*
+＜＞		*<Plug>(textobj-jabraces-angles-i)*
+≪≫		*<Plug>(textobj-jabraces-double-angles-i)*
+「」		*<Plug>(textobj-jabraces-kakko-i)*
+『』		*<Plug>(textobj-jabraces-double-kakko-i)*
+〈〉		*<Plug>(textobj-jabraces-yama-kakko-i)*
+《》		*<Plug>(textobj-jabraces-double-yama-kakko-i)*
+〔〕		*<Plug>(textobj-jabraces-kikkou-kakko-i)*
+【】		*<Plug>(textobj-jabraces-sumi-kakko-i)*
+（）		*<Plug>(textobj-jabraces-parens-a)*
+［］		*<Plug>(textobj-jabraces-braces-a)*
+｛｝		*<Plug>(textobj-jabraces-brackets-a)*
+＜＞		*<Plug>(textobj-jabraces-angles-a)*
+≪≫		*<Plug>(textobj-jabraces-double-angles-a)*
+「」		*<Plug>(textobj-jabraces-kakko-a)*
+『』		*<Plug>(textobj-jabraces-double-kakko-a)*
+〈〉		*<Plug>(textobj-jabraces-yama-kakko-a)*
+《》		*<Plug>(textobj-jabraces-double-yama-kakko-a)*
+〔〕		*<Plug>(textobj-jabraces-kikkou-kakko-a)*
+【】		*<Plug>(textobj-jabraces-sumi-kakko-a)*
 
 
 
@@ -84,45 +85,45 @@ mappings.  If you want to override existent key mappings, use
 
 	{lhs}	{rhs}				~
 	-----	---------------------------	~
-	*ajb*	|<Plug>(textobj-jabraces-a-parens)|
-	*aj(*	|<Plug>(textobj-jabraces-a-parens)|
-	*aj)*	|<Plug>(textobj-jabraces-a-parens)|
-	*ajB*	|<Plug>(textobj-jabraces-a-braces)|
-	*aj{*	|<Plug>(textobj-jabraces-a-braces)|
-	*aj}*	|<Plug>(textobj-jabraces-a-braces)|
-	*ajr*	|<Plug>(textobj-jabraces-a-brackets)|
-	*aj[*	|<Plug>(textobj-jabraces-a-brackets)|
-	*aj]*	|<Plug>(textobj-jabraces-a-brackets)|
-	*aja*	|<Plug>(textobj-jabraces-a-angles)|
-	*aj<*	|<Plug>(textobj-jabraces-a-angles)|
-	*aj>*	|<Plug>(textobj-jabraces-a-angles)|
-	*ajA*	|<Plug>(textobj-jabraces-a-double-angles)|
-	*ajk*	|<Plug>(textobj-jabraces-a-kakko)|
-	*ajK*	|<Plug>(textobj-jabraces-a-double-kakko)|
-	*ajy*	|<Plug>(textobj-jabraces-a-yama-kakko)|
-	*ajY*	|<Plug>(textobj-jabraces-a-double-yama-kakko)|
-	*ajt*	|<Plug>(textobj-jabraces-a-kikkou-kakko)|
-	*ajs*	|<Plug>(textobj-jabraces-a-sumi-kakko)|
+	*ajb*	|<Plug>(textobj-jabraces-parens-a)|
+	*aj(*	|<Plug>(textobj-jabraces-parens-a)|
+	*aj)*	|<Plug>(textobj-jabraces-parens-a)|
+	*ajB*	|<Plug>(textobj-jabraces-braces-a)|
+	*aj{*	|<Plug>(textobj-jabraces-braces-a)|
+	*aj}*	|<Plug>(textobj-jabraces-braces-a)|
+	*ajr*	|<Plug>(textobj-jabraces-brackets-a)|
+	*aj[*	|<Plug>(textobj-jabraces-brackets-a)|
+	*aj]*	|<Plug>(textobj-jabraces-brackets-a)|
+	*aja*	|<Plug>(textobj-jabraces-angles-a)|
+	*aj<*	|<Plug>(textobj-jabraces-angles-a)|
+	*aj>*	|<Plug>(textobj-jabraces-angles-a)|
+	*ajA*	|<Plug>(textobj-jabraces-double-angles-a)|
+	*ajk*	|<Plug>(textobj-jabraces-kakko-a)|
+	*ajK*	|<Plug>(textobj-jabraces-double-kakko-a)|
+	*ajy*	|<Plug>(textobj-jabraces-yama-kakko-a)|
+	*ajY*	|<Plug>(textobj-jabraces-double-yama-kakko-a)|
+	*ajt*	|<Plug>(textobj-jabraces-kikkou-kakko-a)|
+	*ajs*	|<Plug>(textobj-jabraces-sumi-kakko-a)|
 
-	*ijb*	|<Plug>(textobj-jabraces-i-parens)|
-	*ij(*	|<Plug>(textobj-jabraces-i-parens)|
-	*ij)*	|<Plug>(textobj-jabraces-i-parens)|
-	*ijB*	|<Plug>(textobj-jabraces-i-braces)|
-	*ij{*	|<Plug>(textobj-jabraces-i-braces)|
-	*ij}*	|<Plug>(textobj-jabraces-i-braces)|
-	*ijr*	|<Plug>(textobj-jabraces-i-brackets)|
-	*ij[*	|<Plug>(textobj-jabraces-i-brackets)|
-	*ij]*	|<Plug>(textobj-jabraces-i-brackets)|
-	*ija*	|<Plug>(textobj-jabraces-i-angles)|
-	*ij<*	|<Plug>(textobj-jabraces-i-angles)|
-	*ij>*	|<Plug>(textobj-jabraces-i-angles)|
-	*ijA*	|<Plug>(textobj-jabraces-i-double-angles)|
-	*ijk*	|<Plug>(textobj-jabraces-i-kakko)|
-	*ijK*	|<Plug>(textobj-jabraces-i-double-kakko)|
-	*ijy*	|<Plug>(textobj-jabraces-i-yama-kakko)|
-	*ijY*	|<Plug>(textobj-jabraces-i-double-yama-kakko)|
-	*ijt*	|<Plug>(textobj-jabraces-i-kikkou-kakko)|
-	*ijs*	|<Plug>(textobj-jabraces-i-sumi-kakko)|
+	*ijb*	|<Plug>(textobj-jabraces-parens-i)|
+	*ij(*	|<Plug>(textobj-jabraces-parens-i)|
+	*ij)*	|<Plug>(textobj-jabraces-parens-i)|
+	*ijB*	|<Plug>(textobj-jabraces-braces-i)|
+	*ij{*	|<Plug>(textobj-jabraces-braces-i)|
+	*ij}*	|<Plug>(textobj-jabraces-braces-i)|
+	*ijr*	|<Plug>(textobj-jabraces-brackets-i)|
+	*ij[*	|<Plug>(textobj-jabraces-brackets-i)|
+	*ij]*	|<Plug>(textobj-jabraces-brackets-i)|
+	*ija*	|<Plug>(textobj-jabraces-angles-i)|
+	*ij<*	|<Plug>(textobj-jabraces-angles-i)|
+	*ij>*	|<Plug>(textobj-jabraces-angles-i)|
+	*ijA*	|<Plug>(textobj-jabraces-double-angles-i)|
+	*ijk*	|<Plug>(textobj-jabraces-kakko-i)|
+	*ijK*	|<Plug>(textobj-jabraces-double-kakko-i)|
+	*ijy*	|<Plug>(textobj-jabraces-yama-kakko-i)|
+	*ijY*	|<Plug>(textobj-jabraces-double-yama-kakko-i)|
+	*ijt*	|<Plug>(textobj-jabraces-kikkou-kakko-i)|
+	*ijs*	|<Plug>(textobj-jabraces-sumi-kakko-i)|
 
 
 
@@ -137,6 +138,12 @@ BUGS						*textobj-jabraces-bugs*
 
 ==============================================================================
 CHANGELOG					*textobj-jabraces-changelog*
+
+0.1.0	2008-06-08T23:19:02+09:00
+	- Rewrite to use textobj-user 0.3.x.
+	  - Rename interface mappings.  For example:
+	    Old name: <Plug>(textobj-jabraces-i-kakko)
+	    New name: <Plug>(textobj-jabraces-kakko-i)
 
 0.0.0	2008-04-17T19:09:06+09:00
 	- First release.
