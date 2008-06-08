@@ -223,7 +223,7 @@ PACKAGE_vim_surround_FILES=\
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/surround_config.vim
 
-PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.2
+PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.3
 PACKAGE_vim_textobj_datetime_BASE=vim/dot.vim
 PACKAGE_vim_textobj_datetime_FILES=\
   vim/dot.vim/doc/textobj-datetime.txt \
