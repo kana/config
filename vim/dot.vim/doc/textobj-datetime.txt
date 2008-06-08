@@ -23,7 +23,7 @@ textobj-datetime is a Vim plugin to provide text objects for date and time.
 
 Requirements:
 * Vim 7.0 or later.
-* |textobj-user| 0.3 or later
+* |textobj-user| 0.3.1 or later
   <http://www.vim.org/scripts/script.php?script_id=2100>
 
 

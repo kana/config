@@ -39,10 +39,6 @@ call textobj#user#plugin('datetime', {
 \      'tz': {'select': ['adz', 'idz'], 'pattern': s:REGEXP_TZ},
 \    })
 
-if !exists('g:textobj_datetime_no_default_key_mappings')
-  TextobjDatetimeDefaultKeyMappings
-endif
-
 
 
 
