@@ -241,7 +241,7 @@ PACKAGE_vim_textobj_jabraces_FILES=\
   vim/dot.vim/doc/textobj-jabraces.txt \
   vim/dot.vim/plugin/textobj/jabraces.vim
 
-PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.2
+PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.3
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
