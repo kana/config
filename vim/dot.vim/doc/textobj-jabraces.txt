@@ -1,6 +1,6 @@
 *textobj-jabraces.txt*	Text objects for Japanese braces
 
-Version 0.1.0
+Version 0.1.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -24,7 +24,7 @@ such as 「foo」 or 【bar】.
 
 Requirements:
 * Vim 7.0 or later.
-* |textobj-user| 0.3.1 or later
+* |textobj-user| 0.3.3 or later
   <http://www.vim.org/scripts/script.php?script_id=2100>
 
 
@@ -138,6 +138,9 @@ BUGS						*textobj-jabraces-bugs*
 
 ==============================================================================
 CHANGELOG					*textobj-jabraces-changelog*
+
+0.1.1	2008-06-11T22:12:16+09:00
+	- Modify to use textobj-user version 0.3.3 or later.
 
 0.1.0	2008-06-08T23:19:02+09:00
 	- Rewrite to use textobj-user 0.3.x.

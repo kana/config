@@ -1,6 +1,6 @@
 *textobj-datetime.txt*	Text objects for date and time.
 
-Version 0.3
+Version 0.3.1
 Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -23,7 +23,7 @@ textobj-datetime is a Vim plugin to provide text objects for date and time.
 
 Requirements:
 * Vim 7.0 or later.
-* |textobj-user| 0.3.1 or later
+* |textobj-user| 0.3.3 or later
   <http://www.vim.org/scripts/script.php?script_id=2100>
 
 
@@ -93,6 +93,9 @@ Currently, W3C-DTF is only supported.
 
 ==============================================================================
 CHANGELOG					*textobj-datetime-changelog*
+
+0.3.1	2008-06-11T22:07:26+09:00
+	- Modify to use textobj-user version 0.3.3 or later.
 
 0.3	2008-06-08T21:41:15+09:00
 	- Modify to use textobj-user version 0.3 or later.

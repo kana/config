@@ -1,5 +1,5 @@
 " textobj-datetime - Text objects for date and time.
-" Version: 0.3
+" Version: 0.3.1
 " Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -32,11 +32,11 @@ let s:REGEXP_AUTO = '\%('
 
 
 call textobj#user#plugin('datetime', {
-\      'auto': {'select': ['ada', 'ida'], 'pattern': s:REGEXP_AUTO},
-\      'full': {'select': ['adf', 'idf'], 'pattern': s:REGEXP_FULL},
-\      'date': {'select': ['add', 'idd'], 'pattern': s:REGEXP_DATE},
-\      'time': {'select': ['adt', 'idt'], 'pattern': s:REGEXP_TIME},
-\      'tz': {'select': ['adz', 'idz'], 'pattern': s:REGEXP_TZ},
+\      'auto': {'select': ['ada', 'ida'], '*pattern*': s:REGEXP_AUTO},
+\      'full': {'select': ['adf', 'idf'], '*pattern*': s:REGEXP_FULL},
+\      'date': {'select': ['add', 'idd'], '*pattern*': s:REGEXP_DATE},
+\      'time': {'select': ['adt', 'idt'], '*pattern*': s:REGEXP_TIME},
+\      'tz': {'select': ['adz', 'idz'], '*pattern*': s:REGEXP_TZ},
 \    })
 
 
