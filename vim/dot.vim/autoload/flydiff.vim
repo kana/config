@@ -73,7 +73,8 @@ function! s:create_diff_buffer_for(bufnr)  "{{{2
   let b_flydiff_info = s:flydiff_info(diff_bufnr, s:TYPE_DIFF_BUFFER)
   let b_flydiff_info.base_bufnr = a:bufnr
 
-  " CONT: restore to the original buffer original_bufnr
+  " CONT: restore to the original buffer original_bufnr.
+  " Note that original_bufnr may not be equal to a:bufnr.
   return diff_bufnr
 endfunction
 
@@ -108,8 +109,23 @@ endfunction
 
 
 
+function! s:flydiff_direction()  "{{{2
+  return g:flydiff_direction
+endfunction
+
+
+
+
 function! s:open_diff_buffer(flydiff_info)  "{{{2
-  " CONT: NIY
+  let v:errmsg = ''
+  execute s:flydiff_direction() 'new'
+  if v:errmsg != ''
+    return s:INVALID_WINNR
+  endif
+
+  execute a:flydiff_info.diff_bufnr 'buffer'
+  let diff_winnr = winnr()
+  wincmd p
   return diff_winnr
 endfunction
 
