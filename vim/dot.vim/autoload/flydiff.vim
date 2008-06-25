@@ -194,9 +194,15 @@ function! s:vcs_diff_script(bufnr)  "{{{2
   " Return a string of the shell script to get difference between the
   " currently edited a:bufnr and the latest version of a:bufnr with
   " appropriate version control system.
+  "
+  " FIXME: Support version control systems other than git.
+  " FIXME: Support shells other than ordinary ones for *nix.
 
-  " CONT: NIY
-  return shell_script
+  let full_path = fnamemodify(bufname(a:bufnr), ':p')
+  let working_directory = fnamemodify(full_path, ':h')
+  return printf('cd %s; git-diff %s',
+  \             fnameescape(working_directory),
+  \             fnameescape(full_path))
 endfunction
 
 
