@@ -17,7 +17,7 @@ if !exists('g:flydiff_timing')
   let g:flydiff_timing = 'realtime'
 endif
 if !exists('g:flydiff_direction')
-  let g:flydiff_timing = 'vertical rightbelow'
+  let g:flydiff_direction = 'vertical rightbelow'
 endif
 
 

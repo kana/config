@@ -127,14 +127,19 @@ endfunction
 
 
 
-function! s:open_diff_buffer(flydiff_info)  "{{{2
+function! s:open_diff_buffer(bufnr)  "{{{2
+  let diff_winnr = bufwinnr(a:bufnr)
+  if diff_winnr != s:INVALID_WINNR
+    return diff_winnr
+  endif
+
   let v:errmsg = ''
   execute s:flydiff_direction() 'new'
   if v:errmsg != ''
     return s:INVALID_WINNR
   endif
 
-  execute a:flydiff_info.diff_bufnr 'buffer'
+  execute a:bufnr 'buffer'
   let diff_winnr = winnr()
   wincmd p
   return diff_winnr
@@ -146,12 +151,8 @@ endfunction
 function! s:perform_flydiff()  "{{{2
   let bufnr = str2nr(expand('<abuf>'))  " because expand() returns a string
   let b_flydiff_info = s:flydiff_info(bufnr)
-  if b_flydiff_info.base_bufnr != bufnr
-    throw printf('Internal error: <abuf> is %d, but base_bufnr is %d',
-    \            bufnr, b_flydiff_info.base_bufnr)
-  endif
 
-  let diff_winnr = s:open_diff_buffer(b_flydiff_info)
+  let diff_winnr = s:open_diff_buffer(b_flydiff_info.diff_bufnr)
   if diff_winnr == s:INVALID_WINNR
     echoerr 'Unable to open a window for diff buffer'
     return s:FALSE
