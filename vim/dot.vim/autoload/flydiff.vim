@@ -149,8 +149,8 @@ endfunction
 
 
 function! s:perform_flydiff()  "{{{2
-  let bufnr = str2nr(expand('<abuf>'))  " because expand() returns a string
-  let b_flydiff_info = s:flydiff_info(bufnr)
+  let base_bufnr = str2nr(expand('<abuf>'))  " bufnr must be a number.
+  let b_flydiff_info = s:flydiff_info(base_bufnr)
 
   let diff_winnr = s:open_diff_buffer(b_flydiff_info.diff_bufnr)
   if diff_winnr == s:INVALID_WINNR
@@ -158,13 +158,14 @@ function! s:perform_flydiff()  "{{{2
     return s:FALSE
   endif
 
-  update
-  execute diff_winnr 'wincmd w'
-    % delete _
-    execute 'read !' s:vcs_diff_script(b_flydiff_info.base_bufnr)
-    1 delete _
-  wincmd p
-
+  if getbufvar(base_bufnr, '&modified')
+    update
+    execute diff_winnr 'wincmd w'
+      silent % delete _  " suppress '--No lines in buffer--' message.
+      execute 'read !' s:vcs_diff_script(base_bufnr)
+      1 delete _
+    wincmd p
+  endif
   return s:TRUE
 endfunction
 
@@ -212,7 +213,7 @@ function! s:vcs_diff_script(bufnr)  "{{{2
 
   let full_path = fnamemodify(bufname(a:bufnr), ':p')
   let working_directory = fnamemodify(full_path, ':h')
-  return printf('cd %s; git-diff %s',
+  return printf('cd %s; git-diff -- %s',
   \             fnameescape(working_directory),
   \             fnameescape(full_path))
 endfunction
