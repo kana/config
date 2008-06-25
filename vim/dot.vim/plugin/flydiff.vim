@@ -13,8 +13,11 @@ endif
 command -bar -nargs=? Flydiff  call flydiff#toggle(bufnr(''), <q-args>)
 
 
-if !exists('g:flydiff_mode')
-  let g:flydiff_mode = 'on-the-fly'
+if !exists('g:flydiff_timing')
+  let g:flydiff_timing = 'realtime'
+endif
+if !exists('g:flydiff_direction')
+  let g:flydiff_timing = 'vertical rightbelow'
 endif
 
 

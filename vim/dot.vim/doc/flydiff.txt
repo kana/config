@@ -47,20 +47,28 @@ b:flydiff_info
 	The variable to save some information to performe on-the-fly diff.
 	Don't touch this variable.
 
-						*g:flydiff_mode*
-g:flydiff_mode
-	Specify a timing to perform on-the-fly diff.
+						*g:flydiff_timing*
+g:flydiff_timing
+	Specify timings to perform on-the-fly diff.  The value is
+	a comma-separated list of strings.  The following values are
+	available:
 
-	If the value is "realtime", on-the-fly diff is performed whenever you
-	don't nothing for a while (see |CursorHold| and |CursorHoldI| for the
-	detail of a timing).
-	If the value is "written", on-the-fly diff is performed whenever the
-	whole buffer is written to a file (see |BufWritePost| for the detail
-	of a timing).
+	value		timing ~
+	"realtime"	Whenever you don't nothing for a while (see
+			|CursorHold| and |CursorHoldI| for the detail of
+			a timing).
+	"written"	Whenever the whole buffer is written to a file (see
+			|BufWritePost| for the detail of a timing).
 
 	The default value is "realtime".
 
-	Note that "written" is not implemented yet.
+						*g:flydiff_direction*
+g:flydiff_direction
+	Specify the direction to open a window to show on-the-fly diff.
+	The value is a string of modifier commands such as |:aboveleft|,
+	|:botright| and |:vertical|.
+
+	The default value is "vertical rightbelow".
 
 
 
