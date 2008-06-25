@@ -48,6 +48,7 @@ function! flydiff#toggle(bufnr, state)  "{{{2
   else  " state == s:OFF
     call s:remove_flydiff_handlers()
   endif
+  let b_flydiff_info.state = state
 
   return s:TRUE
 endfunction
@@ -66,15 +67,25 @@ endfunction
 
 " Misc.  "{{{1
 function! s:create_diff_buffer_for(bufnr)  "{{{2
+  " Create diff buffer for a:bufnr and set up misc. options.
   let original_bufnr = bufnr('')
-  " CONT: create diff buffer for a:bufnr
+  let original_bufhidden = &l:bufhidden
+  let &l:bufhidden = 'hide'
+  hide enew
+  setlocal bufhidden=hide buflisted buftype=nofile noswapfile
+  file `=printf('[flydiff - (%d) %s]',
+  \             original_bufnr, bufname(original_bufnr))`
 
+  " Set base_bufnr.
   let diff_bufnr = bufnr('')
   let b_flydiff_info = s:flydiff_info(diff_bufnr, s:TYPE_DIFF_BUFFER)
   let b_flydiff_info.base_bufnr = a:bufnr
 
-  " CONT: restore to the original buffer original_bufnr.
+  " Restore to the original buffer original_bufnr.
   " Note that original_bufnr may not be equal to a:bufnr.
+  execute original_bufnr 'buffer'
+  let &l:bufhidden = original_bufhidden
+
   return diff_bufnr
 endfunction
 
