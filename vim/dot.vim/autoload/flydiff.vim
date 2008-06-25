@@ -14,6 +14,7 @@ let s:TOGGLE = -773
 
 let s:INVALID_BUFNR = -775
 let s:INVALID_WINNR = -1
+let s:INVALID_CHANGEDTICK = -3846
 
 let s:TYPE_DIFF_BUFFER = [168]
 let s:TYPE_NORMAL_BUFFER = [48]
@@ -73,8 +74,8 @@ function! s:create_diff_buffer_for(bufnr)  "{{{2
   let &l:bufhidden = 'hide'
   hide enew
   setlocal bufhidden=hide buflisted buftype=nofile noswapfile
-  file `=printf('[flydiff - (%d) %s]',
-  \             original_bufnr, bufname(original_bufnr))`
+  silent file `=printf('[flydiff - (%d) %s]',
+  \                    original_bufnr, bufname(original_bufnr))`
 
   " Set base_bufnr.
   let diff_bufnr = bufnr('')
@@ -83,7 +84,7 @@ function! s:create_diff_buffer_for(bufnr)  "{{{2
 
   " Restore to the original buffer original_bufnr.
   " Note that original_bufnr may not be equal to a:bufnr.
-  execute original_bufnr 'buffer'
+  silent execute original_bufnr 'buffer'
   let &l:bufhidden = original_bufhidden
 
   return diff_bufnr
@@ -101,6 +102,7 @@ function! s:flydiff_info(bufnr, ...)  "{{{2
     let bufvars.flydiff_info = {
     \     'type': a:1,
     \     'state': s:OFF,
+    \     'changedtick': s:INVALID_CHANGEDTICK,
     \     'diff_bufnr': s:INVALID_BUFNR,
     \     'base_bufnr': s:INVALID_BUFNR,
     \   }
@@ -139,7 +141,7 @@ function! s:open_diff_buffer(bufnr)  "{{{2
     return s:INVALID_WINNR
   endif
 
-  execute a:bufnr 'buffer'
+  silent execute a:bufnr 'buffer'
   let diff_winnr = winnr()
   wincmd p
   return diff_winnr
@@ -158,13 +160,18 @@ function! s:perform_flydiff()  "{{{2
     return s:FALSE
   endif
 
-  if getbufvar(base_bufnr, '&modified')
+  " There is another method which checks &l:modified, but it causes unexpected
+  " skip to perfome diff - whenever &l:modified is unset before
+  " s:perform_flydiff() is called.
+  let current_changedtick = getbufvar(base_bufnr, 'changedtick')
+  if current_changedtick != b_flydiff_info.changedtick
     update
     execute diff_winnr 'wincmd w'
       silent % delete _  " suppress '--No lines in buffer--' message.
       execute 'read !' s:vcs_diff_script(base_bufnr)
       1 delete _
     wincmd p
+    let b_flydiff_info.changedtick = current_changedtick
   endif
   return s:TRUE
 endfunction
