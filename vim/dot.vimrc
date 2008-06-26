@@ -1,4 +1,5 @@
 " My .vimrc
+"
 " Notes  "{{{1
 "
 " * This file consists of "sections".

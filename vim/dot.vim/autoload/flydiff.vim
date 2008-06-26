@@ -102,7 +102,6 @@ function! s:flydiff_info(bufnr, ...)  "{{{2
     let bufvars.flydiff_info = {
     \     'type': a:1,
     \     'state': s:OFF,
-    \     'changedtick': s:INVALID_CHANGEDTICK,
     \     'diff_bufnr': s:INVALID_BUFNR,
     \     'base_bufnr': s:INVALID_BUFNR,
     \   }
@@ -160,18 +159,20 @@ function! s:perform_flydiff()  "{{{2
     return s:FALSE
   endif
 
-  " There is another method which checks &l:modified, but it causes unexpected
-  " skip to perfome diff - whenever &l:modified is unset before
-  " s:perform_flydiff() is called.
-  let current_changedtick = getbufvar(base_bufnr, 'changedtick')
-  if current_changedtick != b_flydiff_info.changedtick
+  " There is another method which checks b:changedtick to determine whether
+  " the buffer is modified or not.  This method is more accurate than the
+  " method which checks &l:modified, because &l:modified may be unset when
+  " user does work quickly in 'updatetime'.
+  "
+  " But b:changedtick is a special variable and it cannot be accessed via
+  " getbufvar(), so another method cannot be used for the case of this plugin.
+  if getbufvar(base_bufnr, '&modified')
     update
     execute diff_winnr 'wincmd w'
       silent % delete _  " suppress '--No lines in buffer--' message.
       execute 'read !' s:vcs_diff_script(base_bufnr)
       1 delete _
     wincmd p
-    let b_flydiff_info.changedtick = current_changedtick
   endif
   return s:TRUE
 endfunction
