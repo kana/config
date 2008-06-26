@@ -1,6 +1,6 @@
 *textobj-fold.txt*	Text objects for foldings.
 
-Version 0.0.0
+Version 0.1.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -23,6 +23,8 @@ textobj-fold is a Vim plugin to provide text objects for foldings.
 
 Requirements:
 * Vim 7.0 or later.
+* |textobj-user| 0.3.4 or later
+  <http://www.vim.org/scripts/script.php?script_id=2100>
 
 
 
@@ -34,15 +36,19 @@ KEY MAPPINGS					*textobj-fold-key-mappings*
 	"a folding", select [count] foldings.
 	Leading or trailing lines which are not in any foldings are also
 	included, but not counted.
-	When used in Visual mode, this mapping switches to linewise Visual
-	mode.
+
+	Note that this object is linewise.  In Visual mode, the current
+	selection will be switched to linewise.  In Operator-pending mode,
+	affected text will be linewise.
 
 <Plug>(textobj-fold-i)			*<Plug>(textobj-fold-i)*
 	"inner folding", select [count] foldings.
 	Leading or trailing lines which are not in any foldings are also
 	counted too.
-	When used in Visual mode, this mapping switches to linewise Visual
-	mode.
+
+	Note that this object is linewise.  In Visual mode, the current
+	selection will be switched to linewise.  In Operator-pending mode,
+	affected text will be linewise.
 
 
 
@@ -56,7 +62,8 @@ This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
 define |g:textobj_fold_no_default_key_mappings| before this plugin is
 loaded (e.g. in your |vimrc|).  You can also use
-|:TextobjFoldDefaultKeyMappings| to redefine these key mappings.
+|:TextobjFoldDefaultKeyMappings| to redefine these key mappings.  This command
+doesn't override existing {lhs}s unless [!] is given.
 
 	{lhs}	{rhs}				~
 	-----	---------------------------	~
@@ -69,8 +76,11 @@ loaded (e.g. in your |vimrc|).  You can also use
 ==============================================================================
 BUGS						*textobj-fold-bugs*
 
-- |<Plug>(textobj-fold-a)| is not perfectly implemented.  It behaves as same
-  as |<Plug>(textobj-fold-i)|.
+- Even if user explicitly specify a wise for an operator by |o_v| or others,
+  |<Plug>(textobj-fold-a)| and |<Plug>(textobj-fold-i)| are always linewise.
+
+- |<Plug>(textobj-fold-a)| is not perfectly implemented.  Currently, it
+  behaves as same as |<Plug>(textobj-fold-i)|.
 
 - In Visual-mode, the current selection is overriden by new selection.
 
@@ -78,15 +88,20 @@ BUGS						*textobj-fold-bugs*
   expand selection.  This behavior is unlike Vim's built-in text objects such
   as |iw|.
 
-- To be autoloaded.
-
-- There are many bugs which are not listed in the above.
+- See |textobj-user-bugs| for further information.
 
 
 
 
 ==============================================================================
 CHANGELOG					*textobj-fold-changelog*
+
+0.1.1	2008-06-26T21:17:20+09:00
+	- Use textobj-user 0.3.4 or later.
+
+0.1.0	2008-06-12T17:15:10+09:00
+	- Use textobj-user 0.3.3 or later.
+	- Update/Fix the document.
 
 0.0.0	2008-03-16T21:42:31+09:00
 	- Initial version.

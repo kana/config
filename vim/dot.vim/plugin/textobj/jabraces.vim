@@ -1,8 +1,8 @@
 " textobj-jabraces - Text objects for Japanese braces
-" Version: 0.0.0
+" Version: 0.1.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-scriptencoding utf-8  "{{{1
+scriptencoding utf-8
 
 if exists('g:loaded_textobj_jabraces')
   finish
@@ -11,146 +11,67 @@ endif
 
 
 
+call textobj#user#plugin('jabraces', {
+\      'parens': {
+\         '*pattern*': ["\uFF08", "\uFF09"],
+\         'select-a': ['ajb', 'aj(', 'aj)'],
+\         'select-i': ['ijb', 'ij(', 'ij)']
+\      },
+\      'brackets': {
+\         '*pattern*': ["\uFF3B", "\uFF3D"],
+\         'select-a': ['ajr', 'aj[', 'aj]'],
+\         'select-i': ['ijr', 'ij[', 'ij]']
+\      },
+\      'braces': {
+\         '*pattern*': ["\uFF5B", "\uFF5D"],
+\         'select-a': ['ajB', 'aj{', 'aj}'],
+\         'select-i': ['ijB', 'ij{', 'ij}']
+\      },
+\      'angles': {
+\         '*pattern*': ["\uFF1C", "\uFF1E"],
+\         'select-a': ['aja', 'aj<', 'aj>'],
+\         'select-i': ['ija', 'ij<', 'ij>']
+\      },
+\      'double-angles': {
+\         '*pattern*': ["\u226A", "\u226B"],
+\         'select-a': 'ajA',
+\         'select-i': 'ijA'
+\      },
+\      'kakko': {
+\         '*pattern*': ["\u300C", "\u300D"],
+\         'select-a': 'ajk',
+\         'select-i': 'ijk'
+\      },
+\      'double-kakko': {
+\         '*pattern*': ["\u300E", "\u300F"],
+\         'select-a': 'ajK',
+\         'select-i': 'ijK'
+\      },
+\      'yama-kakko': {
+\         '*pattern*': ["\u3008", "\u3009"],
+\         'select-a': 'ajy',
+\         'select-i': 'ijy'
+\      },
+\      'double-yama-kakko': {
+\         '*pattern*': ["\u300A", "\u300B"],
+\         'select-a': 'ajY',
+\         'select-i': 'ijY'
+\      },
+\      'kikkou-kakko': {
+\         '*pattern*': ["\u3014", "\u3015"],
+\         'select-a': 'ajt',
+\         'select-i': 'ijt'
+\      },
+\      'sumi-kakko': {
+\         '*pattern*': ["\u3010", "\u3011"],
+\         'select-a': 'ajs',
+\         'select-i': 'ijs'
+\      },
+\    })
 
 
 
-
-" Interface  "{{{1
-
-for i in ['parens', 'brackets', 'braces', 'angles', 'double-angles',
-  \       'kakko', 'double-kakko', 'yama-kakko', 'double-yama-kakko',
-  \       'kikkou-kakko', 'sumi-kakko']
-  for j in ['i', 'a']
-    for k in ['v', 'o']
-      execute k.'noremap <silent>'
-            \ '<Plug>(textobj-jabraces-'.j.'-'.i.')'
-            \ ':<C-u>call <SID>select("'.i.'", "'.j.'", "'.k.'")<Return>'
-    endfor
-  endfor
-endfor
-unlet i j
-
-
-
-
-command! -bang -bar -nargs=0 TextobjJabracesDefaultKeyMappings
-      \ call s:default_key_mappings('<bang>' == '!')
-
-function! s:default_key_mappings(bangedp)
-  let forcedp = (a:bangedp ? '' : '<unique>')
-
-  function! s:Map(forcedp, lhs, rhs)
-    execute 'silent! vmap' (a:forcedp ? '' : '<unique>') a:lhs a:rhs
-    execute 'silent! omap' (a:forcedp ? '' : '<unique>') a:lhs a:rhs
-  endfunction
-
-  call s:Map(forcedp, 'ajb', '<Plug>(textobj-jabraces-a-parens)')
-  call s:Map(forcedp, 'aj(', '<Plug>(textobj-jabraces-a-parens)')
-  call s:Map(forcedp, 'aj)', '<Plug>(textobj-jabraces-a-parens)')
-  call s:Map(forcedp, 'ajB', '<Plug>(textobj-jabraces-a-braces)')
-  call s:Map(forcedp, 'aj{', '<Plug>(textobj-jabraces-a-braces)')
-  call s:Map(forcedp, 'aj}', '<Plug>(textobj-jabraces-a-braces)')
-  call s:Map(forcedp, 'ajr', '<Plug>(textobj-jabraces-a-brackets)')
-  call s:Map(forcedp, 'aj[', '<Plug>(textobj-jabraces-a-brackets)')
-  call s:Map(forcedp, 'aj]', '<Plug>(textobj-jabraces-a-brackets)')
-  call s:Map(forcedp, 'aja', '<Plug>(textobj-jabraces-a-angles)')
-  call s:Map(forcedp, 'aj<', '<Plug>(textobj-jabraces-a-angles)')
-  call s:Map(forcedp, 'aj>', '<Plug>(textobj-jabraces-a-angles)')
-  call s:Map(forcedp, 'ajA', '<Plug>(textobj-jabraces-a-double-angles)')
-  call s:Map(forcedp, 'ajk', '<Plug>(textobj-jabraces-a-kakko)')
-  call s:Map(forcedp, 'ajK', '<Plug>(textobj-jabraces-a-double-kakko)')
-  call s:Map(forcedp, 'ajy', '<Plug>(textobj-jabraces-a-yama-kakko)')
-  call s:Map(forcedp, 'ajY', '<Plug>(textobj-jabraces-a-double-yama-kakko)')
-  call s:Map(forcedp, 'ajt', '<Plug>(textobj-jabraces-a-kikkou-kakko)')
-  call s:Map(forcedp, 'ajs', '<Plug>(textobj-jabraces-a-sumi-kakko)')
-
-  call s:Map(forcedp, 'ijb', '<Plug>(textobj-jabraces-i-parens)')
-  call s:Map(forcedp, 'ij(', '<Plug>(textobj-jabraces-i-parens)')
-  call s:Map(forcedp, 'ij)', '<Plug>(textobj-jabraces-i-parens)')
-  call s:Map(forcedp, 'ijB', '<Plug>(textobj-jabraces-i-braces)')
-  call s:Map(forcedp, 'ij{', '<Plug>(textobj-jabraces-i-braces)')
-  call s:Map(forcedp, 'ij}', '<Plug>(textobj-jabraces-i-braces)')
-  call s:Map(forcedp, 'ijr', '<Plug>(textobj-jabraces-i-brackets)')
-  call s:Map(forcedp, 'ij[', '<Plug>(textobj-jabraces-i-brackets)')
-  call s:Map(forcedp, 'ij]', '<Plug>(textobj-jabraces-i-brackets)')
-  call s:Map(forcedp, 'ija', '<Plug>(textobj-jabraces-i-angles)')
-  call s:Map(forcedp, 'ij<', '<Plug>(textobj-jabraces-i-angles)')
-  call s:Map(forcedp, 'ij>', '<Plug>(textobj-jabraces-i-angles)')
-  call s:Map(forcedp, 'ijA', '<Plug>(textobj-jabraces-i-double-angles)')
-  call s:Map(forcedp, 'ijk', '<Plug>(textobj-jabraces-i-kakko)')
-  call s:Map(forcedp, 'ijK', '<Plug>(textobj-jabraces-i-double-kakko)')
-  call s:Map(forcedp, 'ijy', '<Plug>(textobj-jabraces-i-yama-kakko)')
-  call s:Map(forcedp, 'ijY', '<Plug>(textobj-jabraces-i-double-yama-kakko)')
-  call s:Map(forcedp, 'ijt', '<Plug>(textobj-jabraces-i-kikkou-kakko)')
-  call s:Map(forcedp, 'ijs', '<Plug>(textobj-jabraces-i-sumi-kakko)')
-
-  return
-endfunction
-
-if !exists('g:textobj_jabraces_no_default_key_mappings')
-  TextobjJabracesDefaultKeyMappings
-endif
-
-
-
-
-
-
-
-
-" Misc.  "{{{1
-
-function! s:select(type, i_or_a, previous_mode)
-  return textobj#user#select_pair(s:PATTERNS1[a:type], s:PATTERNS2[a:type],
-       \                          a:i_or_a, a:previous_mode)
-endfunction
-
-
-
-
-let s:PATTERNS1 = {}
-let s:PATTERNS2 = {}
-
-let s:PATTERNS1['parens'] = '（'
-let s:PATTERNS2['parens'] = '）'
-let s:PATTERNS1['brackets'] = '［'
-let s:PATTERNS2['brackets'] = '］'
-let s:PATTERNS1['braces'] = '｛'
-let s:PATTERNS2['braces'] = '｝'
-let s:PATTERNS1['angles'] = '＜'
-let s:PATTERNS2['angles'] = '＞'
-let s:PATTERNS1['double-angles'] = '≪'
-let s:PATTERNS2['double-angles'] = '≫'
-let s:PATTERNS1['kakko'] = '「'
-let s:PATTERNS2['kakko'] = '」'
-let s:PATTERNS1['double-kakko'] = '『'
-let s:PATTERNS2['double-kakko'] = '』'
-let s:PATTERNS1['yama-kakko'] = '〈'
-let s:PATTERNS2['yama-kakko'] = '〉'
-let s:PATTERNS1['double-yama-kakko'] = '《'
-let s:PATTERNS2['double-yama-kakko'] = '》'
-let s:PATTERNS1['kikkou-kakko'] = '〔'
-let s:PATTERNS2['kikkou-kakko'] = '〕'
-let s:PATTERNS1['sumi-kakko'] = '【'
-let s:PATTERNS2['sumi-kakko'] = '】'
-
-
-
-
-
-
-
-
-" Fin.  "{{{1
 
 let g:loaded_textobj_jabraces = 1
 
-
-
-
-
-
-
-
 " __END__
-" vim: foldmethod=marker

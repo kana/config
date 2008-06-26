@@ -1,6 +1,6 @@
 *textobj-user.txt*	Support for user-defined text objects
 
-Version 0.2.2
+Version 0.3.4
 Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -114,6 +114,124 @@ textobj#user#define({pattern}, {pattern1}, {pattern2}, {guideline})
 		                 \  'move-to-prev': 'gk',
 		                 \  'select': ['ig', 'ag']})
 <
+						*textobj#user#plugin()*
+textobj#user#plugin({plugin}, {obj-specs})
+	Define key mappings and a command to support writing a plugin which
+	provides various user-defined text objects.
+	
+	Example: If textobj#user#plugin() is called like the following: >
+
+		call textobj#user#plugin('foo', {
+		\   'cdata': {
+		\     '*pattern*': ['<!\[CDATA\[', '\]\]>'],
+		\     'select-a': 'aC',
+		\     'select-i': 'iC',
+		\   },
+		\   'date': {
+		\     '*pattern*': '\<\d\{4}-\d\{2}-\d\{2}\>',
+		\     'select': ['ad', 'id'],
+		\   },
+		\   'helptag': {
+		\     '*pattern*': '\*[^*]\+\*',
+		\     'move-n': ',j',
+		\     'move-p': ',k',
+		\     'move-N': ',J',
+		\     'move-P': ',K',
+		\   },
+		\   '-': {
+		\     '*select-function*': 'SelectFoo',
+		\     'select': ['ax', 'ix'],
+		\   },
+		\ })
+<
+		(1) New command :TextobjFooDefaultKeyMappings will be defined.
+		This command defines the following key mappings as the default
+		ones for the new text objects (this command doesn't override
+		existing {lhs}s unless "!" is given): >
+
+			omap aC  <Plug>(textobj-foo-cdata-a)
+			vmap aC  <Plug>(textobj-foo-cdata-a)
+			omap iC  <Plug>(textobj-foo-cdata-i)
+			vmap iC  <Plug>(textobj-foo-cdata-i)
+			omap ad  <Plug>(textobj-foo-date)
+			vmap ad  <Plug>(textobj-foo-date)
+			omap id  <Plug>(textobj-foo-date)
+			vmap id  <Plug>(textobj-foo-date)
+			omap ax  <Plug>(textobj-foo)
+			vmap ax  <Plug>(textobj-foo)
+			omap ix  <Plug>(textobj-foo)
+			vmap ix  <Plug>(textobj-foo)
+			map ,j  <Plug>(textobj-foo-helptag-n)
+			map ,k  <Plug>(textobj-foo-helptag-p)
+			map ,J  <Plug>(textobj-foo-helptag-N)
+			map ,K  <Plug>(textobj-foo-helptag-P)
+<
+		(2) New variable g:__textobj_foo will be defined.  This is
+		a dictionary which contains various functions and values.
+
+		(3) Key mappings <Plug>(textobj-foo-...) which execute
+		appropriate actions will be defined if "*pattern*" or
+		"*{spec}-function*" is given for a {spec}.  Otherwise,
+		<Plug>(textobj-foo-...) will not be defined.
+
+		(4) :TextobjFooDefaultKeyMappings will be executed unless
+		{specs} contains the key "*no-default-key-mappings" or the
+		variable g:textobj_foo_no_default_key_mappings is defined.
+
+	{plugin} is the name of a plugin.  It must be a string which consits
+	of only lowercase alphabets.
+
+	{obj-specs} is a dictionary (and given value is cached by this
+	plugin, so you have to pass copied one if necessary).  In this
+	dictionary, each key/value pair expresses one text object:
+	- each key is a string of the name of the text object, and
+	- each value (called as "specs") is a dictionary which denotes some
+	  details of the text object.
+
+	The following specs are available:
+
+	"move-n"	{lhs} or [{lhs}, ...]
+		A string which is a key sequence to move the cursor to the
+		next text object.  If the value is a list of strings, each
+		string is mapped to move the cursor.
+
+	"move-p"	{lhs} or [{lhs}, ...]
+	"move-N"	{lhs} or [{lhs}, ...]
+	"move-P"	{lhs} or [{lhs}, ...]
+		Like "move-n", but each string is treated as a key sequence to
+		move the cursor to the previous text object, the end of the
+		next text object, or the end of the previous text object.
+
+	"select"	{lhs} or [{lhs}, ...]
+		Like "move-n", but each string is treated as a key sequence to
+		select the text object.
+
+	"select-a"	{lhs} or [{lhs}, ...]
+	"select-i"	{lhs} or [{lhs}, ...]
+		Like "select", but each string is treated as a key sequence
+		to select "a" text object or "inner" text object.
+
+	"*pattern*"	{regexp} or [{regexp}, {regexp}]
+		A regular expression which matches to a text object.  If the
+		value is a list of two regular expressions, it denotes that
+		the text object starts with the first regular expression and
+		ends with the second regular expression.
+
+	"*no-default-key-mappings*"	anything
+		If this key exists, :Textobj{Plugin}DefaultKeyMappings will
+		not be executed when textobj#user#plugin() is called.  The
+		corresponding value doesn't matter.
+
+	"*{spec}-function*"	{fname}
+		If this key exists, use the function named {fname} instead of
+		the default algorithm based on regular expression to move the
+		cursor or to select a text for {spec}.
+
+	"*sfile*"	{string}
+		Value must be expand('<sfile>').  This value is used to
+		calculate <SNR> prefix for script-local functions which are
+		specified "*{spec}-function*".
+
 
 
 
@@ -131,6 +249,31 @@ BUGS						*textobj-user-bugs*
 
 ==============================================================================
 CHANGELOG					*textobj-user-changelog*
+
+0.3.4	2008-06-26T14:13:33+09:00
+	- |textobj#user#plugin()|:
+	  - Add "*{spec}-function*" to customize the way to move the cursor or
+	    to select a text by the given function instead of regular
+	    expression based selection.
+
+0.3.3	2008-06-11T21:16:53+09:00
+	- |textobj#user#plugin()|:
+	  - Rename the spec "*pattern*" instead of "pattern".
+	  - Fix incorrect processing on "*no-default-key-mappings*".
+
+0.3.2	2008-06-11T02:53:41+09:00
+	- |textobj#user#plugin()|: Change the names of interface mappings for
+	  the text object of which name is '-'.
+	  Old: <Plug>(textobj-{plugin}---a)
+	  New: <Plug>(textobj-{plugin}-a)
+
+0.3.1	2008-06-08T22:05:02+09:00
+	- |textobj#user#plugin()|: Execute :Textobj{Plugin}DefaultKeyMappings
+	  if necessary.
+
+0.3	2008-06-04T21:16:02+09:00
+	- |textobj#user#plugin()|: New.
+	- |textobj#user#define()|: Now obsolete.  Use textobj#user#define().
 
 0.2.2	2008-06-02T06:26:12+09:00
 	- Fix wrong sentences in the document.

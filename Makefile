@@ -232,25 +232,25 @@ PACKAGE_vim_surround_FILES=\
   vim/dot.vim/plugin/surround.vim \
   vim/dot.vim/plugin/surround_config.vim
 
-PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.2
+PACKAGE_vim_textobj_datetime_ARCHIVE=vim-textobj-datetime-0.3.1
 PACKAGE_vim_textobj_datetime_BASE=vim/dot.vim
 PACKAGE_vim_textobj_datetime_FILES=\
   vim/dot.vim/doc/textobj-datetime.txt \
   vim/dot.vim/plugin/textobj/datetime.vim
 
-PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.0.0
+PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.1.0
 PACKAGE_vim_textobj_fold_BASE=vim/dot.vim
 PACKAGE_vim_textobj_fold_FILES=\
   vim/dot.vim/doc/textobj-fold.txt \
   vim/dot.vim/plugin/textobj/fold.vim
 
-PACKAGE_vim_textobj_jabraces_ARCHIVE=vim-textobj-jabraces-0.0.0
+PACKAGE_vim_textobj_jabraces_ARCHIVE=vim-textobj-jabraces-0.1.1
 PACKAGE_vim_textobj_jabraces_BASE=vim/dot.vim
 PACKAGE_vim_textobj_jabraces_FILES=\
   vim/dot.vim/doc/textobj-jabraces.txt \
   vim/dot.vim/plugin/textobj/jabraces.vim
 
-PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.2.2
+PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.3
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
