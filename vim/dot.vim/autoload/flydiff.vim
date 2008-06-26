@@ -150,7 +150,7 @@ endfunction
 
 
 
-function! s:perform_flydiff()  "{{{2
+function! s:perform_flydiff(timing)  "{{{2
   let base_bufnr = str2nr(expand('<abuf>'))  " bufnr must be a number.
   let b_flydiff_info = s:flydiff_info(base_bufnr)
 
@@ -167,7 +167,7 @@ function! s:perform_flydiff()  "{{{2
   "
   " But b:changedtick is a special variable and it cannot be accessed via
   " getbufvar(), so another method cannot be used for the case of this plugin.
-  if getbufvar(base_bufnr, '&modified')
+  if a:timing ==# 'written' || getbufvar(base_bufnr, '&modified')
     update
     execute diff_winnr 'wincmd w'
       setlocal modifiable
@@ -197,15 +197,15 @@ function! s:set_flydiff_handlers()  "{{{2
   augroup plugin-flydiff
     autocmd BufWritePost <buffer>
     \   if s:flydiff_timing() =~# '\<written\>'
-    \ |   call s:perform_flydiff()
+    \ |   call s:perform_flydiff('written')
     \ | endif
     autocmd CursorHold <buffer>
     \   if s:flydiff_timing() =~# '\<realtime\>'
-    \ |   call s:perform_flydiff()
+    \ |   call s:perform_flydiff('realtime')
     \ | endif
     autocmd CursorHoldI <buffer>
     \   if s:flydiff_timing() =~# '\<realtime\>'
-    \ |   call s:perform_flydiff()
+    \ |   call s:perform_flydiff('realtime')
     \ | endif
   augroup END
   return
