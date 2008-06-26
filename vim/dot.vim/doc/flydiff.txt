@@ -4,6 +4,14 @@ Version 0.0
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
+Introduction		|flydiff-introduction|
+Interface		|flydiff-interface|
+  Commands		  |flydiff-commands|
+  Functions		  |flydiff-functions|
+  Variables		  |flydiff-variables|
+Bugs			|flydiff-bugs|
+Changelog		|flydiff-changelog|
+
 
 
 
@@ -24,7 +32,10 @@ Supported version control systems:
 
 
 ==============================================================================
-INTERFACES					*flydiff-interfaces*
+INTERFACE					*flydiff-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*flydiff-commands*
 
 						*:Flydiff*
 :Flydiff [flag]
@@ -33,6 +44,10 @@ INTERFACES					*flydiff-interfaces*
 
 	If [flag] is "on", start on-the-fly diff.
 	If [flag] is "off", stop on-the-fly diff.
+
+
+------------------------------------------------------------------------------
+FUNCTIONS					*flydiff-functions*
 
 						*flydiff#toggle()*
 flydiff#toggle({bufnr}, {state})
@@ -43,10 +58,28 @@ flydiff#toggle({bufnr}, {state})
 	- If {state} is "off", stop on-the-fly diff.
 	- Otherwise, toggle on-the-fly diff.
 
+
+------------------------------------------------------------------------------
+VARIABLES					*flydiff-variables*
+
 						*b:flydiff_info*
 b:flydiff_info
 	The variable to save some information to performe on-the-fly diff.
 	Don't touch this variable.
+
+						*g:flydiff_direction*
+g:flydiff_direction
+	Specify the direction to open a window to show on-the-fly diff.
+	The value is a string of modifier commands such as |:aboveleft|,
+	|:botright| and |:vertical|.
+
+	The default value is "vertical rightbelow".
+
+						*g:flydiff_filetype*
+g:flydiff_filetype
+	Specify the 'filetype' for buffers to show on-the-fly diff.
+
+	The default value is "diff".
 
 						*g:flydiff_timing*
 g:flydiff_timing
@@ -63,27 +96,11 @@ g:flydiff_timing
 
 	The default value is "realtime".
 
-						*g:flydiff_direction*
-g:flydiff_direction
-	Specify the direction to open a window to show on-the-fly diff.
-	The value is a string of modifier commands such as |:aboveleft|,
-	|:botright| and |:vertical|.
-
-	The default value is "vertical rightbelow".
-
-						*g:flydiff_filetype*
-g:flydiff_filetype
-	Specify the 'filetype' for buffers to show on-the-fly diff.
-
-	The default value is "diff".
-
 
 
 
 ==============================================================================
 BUGS						*flydiff-bugs*
-
-- g:flydiff_mode "written" is not implemented yet.
 
 - There are many bugs around the world.
 
