@@ -73,7 +73,7 @@ function! s:create_diff_buffer_for(bufnr)  "{{{2
   let original_bufhidden = &l:bufhidden
   let &l:bufhidden = 'hide'
   hide enew
-  setlocal bufhidden=hide buflisted buftype=nofile noswapfile
+  setlocal bufhidden=hide buflisted buftype=nofile nomodifiable noswapfile
   silent file `=printf('[flydiff - (%d) %s]',
   \                    original_bufnr, bufname(original_bufnr))`
 
@@ -169,9 +169,11 @@ function! s:perform_flydiff()  "{{{2
   if getbufvar(base_bufnr, '&modified')
     update
     execute diff_winnr 'wincmd w'
-      silent % delete _  " suppress '--No lines in buffer--' message.
-      execute 'read !' s:vcs_diff_script(base_bufnr)
-      1 delete _
+      setlocal modifiable
+        silent % delete _  " suppress '--No lines in buffer--' message.
+        execute 'read !' s:vcs_diff_script(base_bufnr)
+        1 delete _
+      setlocal nomodifiable
     wincmd p
   endif
   return s:TRUE
