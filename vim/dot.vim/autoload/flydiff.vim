@@ -74,6 +74,7 @@ function! s:create_diff_buffer_for(bufnr)  "{{{2
   let &l:bufhidden = 'hide'
   hide enew
   setlocal bufhidden=hide buflisted buftype=nofile nomodifiable noswapfile
+  execute 'setfiletype' g:flydiff_filetype
   silent file `=printf('[flydiff - (%d) %s]',
   \                    original_bufnr, bufname(original_bufnr))`
 

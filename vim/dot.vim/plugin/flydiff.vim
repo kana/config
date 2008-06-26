@@ -19,6 +19,9 @@ endif
 if !exists('g:flydiff_direction')
   let g:flydiff_direction = 'vertical rightbelow'
 endif
+if !exists('g:flydiff_filetype')
+  let g:flydiff_filetype = 'diff'
+endif
 
 
 

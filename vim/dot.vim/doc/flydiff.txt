@@ -71,6 +71,12 @@ g:flydiff_direction
 
 	The default value is "vertical rightbelow".
 
+						*g:flydiff_filetype*
+g:flydiff_filetype
+	Specify the 'filetype' for buffers to show on-the-fly diff.
+
+	The default value is "diff".
+
 
 
 
