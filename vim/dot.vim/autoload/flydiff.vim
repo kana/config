@@ -172,7 +172,7 @@ function! s:perform_flydiff(timing)  "{{{2
     execute diff_winnr 'wincmd w'
       setlocal modifiable
         silent % delete _  " suppress '--No lines in buffer--' message.
-        execute 'read !' s:vcs_diff_script(base_bufnr)
+        silent execute 'read !' s:vcs_diff_script(base_bufnr)
         1 delete _
       setlocal nomodifiable
     wincmd p
