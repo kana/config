@@ -2,8 +2,7 @@
 " Version: 0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
-" Interface  "{{{1
-" Constants  "{{{2
+" Constants  "{{{1
 
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
@@ -22,6 +21,11 @@ let s:TYPE_NORMAL_BUFFER = [48]
 
 
 
+
+
+
+
+" Interface  "{{{1
 function! flydiff#toggle(bufnr, state)  "{{{2
   if !bufexists(a:bufnr)
     echoerr 'No such buffer:' a:bufnr
@@ -53,11 +57,6 @@ function! flydiff#toggle(bufnr, state)  "{{{2
 
   return s:TRUE
 endfunction
-
-
-
-
-"{{{2
 
 
 
@@ -228,11 +227,6 @@ function! s:vcs_diff_script(bufnr)  "{{{2
   \             fnameescape(working_directory),
   \             fnameescape(full_path))
 endfunction
-
-
-
-
-"{{{2
 
 
 
