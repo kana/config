@@ -1,6 +1,6 @@
 *textobj-fold.txt*	Text objects for foldings.
 
-Version 0.1.0
+Version 0.1.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -23,7 +23,7 @@ textobj-fold is a Vim plugin to provide text objects for foldings.
 
 Requirements:
 * Vim 7.0 or later.
-* |textobj-user| 0.3.3 or later
+* |textobj-user| 0.3.4 or later
   <http://www.vim.org/scripts/script.php?script_id=2100>
 
 
@@ -95,6 +95,9 @@ BUGS						*textobj-fold-bugs*
 
 ==============================================================================
 CHANGELOG					*textobj-fold-changelog*
+
+0.1.1	2008-06-26T21:17:20+09:00
+	- Use textobj-user 0.3.4 or later.
 
 0.1.0	2008-06-12T17:15:10+09:00
 	- Use textobj-user 0.3.3 or later.

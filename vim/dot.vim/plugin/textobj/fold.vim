@@ -1,5 +1,5 @@
 " textobj-fold - Text objects for date and time.
-" Version: 0.1.0
+" Version: 0.1.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 if exists('g:loaded_textobj_fold')  "{{{1
@@ -17,15 +17,11 @@ endif
 
 call textobj#user#plugin('fold', {
 \      '-': {
-\        'select-a': 'az',
-\        'select-i': 'iz'
+\        '*sfile*': expand('<sfile>:p'),
+\        'select-a': 'az',  '*select-a-function*': 's:select_a',
+\        'select-i': 'iz',  '*select-i-function*': 's:select_i'
 \      }
 \    })
-
-vnoremap <silent> <Plug>(textobj-fold-a)  :<C-u>call <SID>select_a('v')<Return>
-vnoremap <silent> <Plug>(textobj-fold-i)  :<C-u>call <SID>select_i('v')<Return>
-onoremap <silent> <Plug>(textobj-fold-a)  :<C-u>call <SID>select_a('o')<Return>
-onoremap <silent> <Plug>(textobj-fold-i)  :<C-u>call <SID>select_i('o')<Return>
 
 
 
