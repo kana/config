@@ -196,12 +196,16 @@ function! s:perform_flydiff(timing)  "{{{2
   \ || a:timing ==# 'written'
   \ || getbufvar(base_bufnr, '&modified')
     let diff_b_flydiff_info.not_performed_p = s:FALSE
+
     silent update
+    let base_buffer_linenr = line('.')
     execute diff_winnr 'wincmd w'
       setlocal modifiable
         silent % delete _  " suppress '--No lines in buffer--' message.
         silent execute 'read !' s:vcs_diff_script(base_bufnr)
         1 delete _
+
+        call s:_adjust_cursor(base_buffer_linenr)
         if s:empty_buffer_p(b_flydiff_info.diff_bufnr)  " == bufnr('')
           call setline(1, '=== No difference ===')
         endif
@@ -209,6 +213,46 @@ function! s:perform_flydiff(timing)  "{{{2
     wincmd p
   endif
   return s:TRUE
+endfunction
+
+
+function! s:_adjust_cursor(base_line)  "{{{3
+  " Adjust the cursor in a diff buffer to point the line which is equivalent
+  " to a:base_line in the corresponding base buffer.  This adjustment is
+  " useful when there are many differences and they cannot be showed in the
+  " diff buffer window at once.
+  "
+  " Assumptions:
+  " - The current buffer is a diff buffer.
+  " - The content of the diff buffer is diff --unified.
+
+  let diff_header_lines = []
+  silent global/^@@ .* @@/call add(diff_header_lines, line('.'))
+
+  for diff_header_line in diff_header_lines
+    let _ = substitute(getline(diff_header_line),
+    \                  '^@@ -\d\+,\d\+ +\(\d\+\),\(\d\+\) @@.*$',
+    \                  '\1,\2',
+    \                  '')
+    let [d_line1, d_lineN] = split(_, ',')
+    let d_line2 = d_line1 + d_lineN - 1
+
+    if d_line1 <= a:base_line && a:base_line <= d_line2
+      let delta = 0
+      for i in range(1 + a:base_line - d_line1)
+        let delta += 1
+        " skip lines with "deleted" marker "-"
+        while getline(diff_header_line + delta)[0] == '-'
+          let delta += 1
+        endwhile
+      endfor
+
+      call cursor(diff_header_line + delta, 0)
+      normal! zz
+      return
+    endif
+  endfor
+  return
 endfunction
 
 
