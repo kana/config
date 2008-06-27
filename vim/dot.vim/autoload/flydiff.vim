@@ -229,6 +229,7 @@ function! s:_adjust_cursor(base_line)  "{{{3
   let diff_header_lines = []
   silent global/^@@ .* @@/call add(diff_header_lines, line('.'))
 
+  let following_diff_block_head = 0
   for diff_header_line in diff_header_lines
     let _ = substitute(getline(diff_header_line),
     \                  '^@@ -\d\+,\d\+ +\(\d\+\),\(\d\+\) @@.*$',
@@ -237,11 +238,16 @@ function! s:_adjust_cursor(base_line)  "{{{3
     let [d_line1, d_lineN] = split(_, ',')
     let d_line2 = d_line1 + d_lineN - 1
 
-    if d_line1 <= a:base_line && a:base_line <= d_line2
+    if a:base_line < d_line1  " this is a following diff block.
+      let following_diff_block_head = diff_header_line
+      break  " rest of diff blocks never includes a:base_line.
+    elseif d_line2 < a:base_line  " this is a preceding diff block.
+      " ignore
+    else  " if d_line1 <= a:base_line && a:base_line <= d_line2
       let delta = 0
       for i in range(1 + a:base_line - d_line1)
         let delta += 1
-        " skip lines with "deleted" marker "-"
+        " skip lines with "deleted" marker "-".
         while getline(diff_header_line + delta)[0] == '-'
           let delta += 1
         endwhile
@@ -252,6 +258,12 @@ function! s:_adjust_cursor(base_line)  "{{{3
       return
     endif
   endfor
+
+  " If there is no diff block which contains a:base_line.
+  call cursor((following_diff_block_head
+  \            ? following_diff_block_head
+  \            : line('$')),
+  \           0)
   return
 endfunction
 
