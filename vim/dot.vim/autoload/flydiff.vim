@@ -11,12 +11,12 @@ let s:ON = 1
 let s:OFF = 0
 let s:TOGGLE = -773
 
-let s:INVALID_BUFNR = -775
-let s:INVALID_WINNR = -1
+let s:INVALID_BUFNR = -1  " same as bufnr('no such buffer')
+let s:INVALID_WINNR = -1  " same as bufwinnr('no such buffer')
 let s:INVALID_CHANGEDTICK = -3846
 
-let s:TYPE_DIFF_BUFFER = [168]
-let s:TYPE_NORMAL_BUFFER = [48]
+let s:TYPE_DIFF_BUFFER = ['diff buffer']
+let s:TYPE_NORMAL_BUFFER = ['normal buffer']
 
 
 
