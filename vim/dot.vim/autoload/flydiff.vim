@@ -101,6 +101,7 @@ function! s:flydiff_info(bufnr, ...)  "{{{2
     \     'state': s:OFF,
     \     'diff_bufnr': s:INVALID_BUFNR,
     \     'base_bufnr': s:INVALID_BUFNR,
+    \     'not_performed_p': s:TRUE,
     \   }
   endif
   return bufvars.flydiff_info
@@ -171,7 +172,11 @@ function! s:perform_flydiff(timing)  "{{{2
   "
   " But b:changedtick is a special variable and it cannot be accessed via
   " getbufvar(), so another method cannot be used for the case of this plugin.
-  if a:timing ==# 'written' || getbufvar(base_bufnr, '&modified')
+  let diff_b_flydiff_info = s:flydiff_info(b_flydiff_info.diff_bufnr)
+  if diff_b_flydiff_info.not_performed_p
+  \ || a:timing ==# 'written'
+  \ || getbufvar(base_bufnr, '&modified')
+    let diff_b_flydiff_info.not_performed_p = s:FALSE
     update
     execute diff_winnr 'wincmd w'
       setlocal modifiable
