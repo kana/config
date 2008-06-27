@@ -46,9 +46,6 @@ function! flydiff#toggle(bufnr, state)  "{{{2
     return s:TRUE  " nothing to do -- on-the-fly diff is already on or off.
   endif
   if state == s:ON
-    if b_flydiff_info.diff_bufnr == s:INVALID_BUFNR
-      let b_flydiff_info.diff_bufnr = s:create_diff_buffer_for(a:bufnr)
-    endif
     call s:set_flydiff_handlers()
   else  " state == s:OFF
     call s:remove_flydiff_handlers()
@@ -152,6 +149,14 @@ endfunction
 function! s:perform_flydiff(timing)  "{{{2
   let base_bufnr = str2nr(expand('<abuf>'))  " bufnr must be a number.
   let b_flydiff_info = s:flydiff_info(base_bufnr)
+
+  if !bufexists(b_flydiff_info.diff_bufnr)
+    let b_flydiff_info.diff_bufnr = s:create_diff_buffer_for(base_bufnr)
+    if !bufexists(b_flydiff_info.diff_bufnr)
+      echoerr 'Unable to create a diff buffer for' base_bufnr
+      return s:FALSE
+    endif
+  endif
 
   let diff_winnr = s:open_diff_buffer(b_flydiff_info.diff_bufnr)
   if diff_winnr == s:INVALID_WINNR
