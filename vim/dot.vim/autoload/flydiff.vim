@@ -132,7 +132,7 @@ function! s:open_diff_buffer(bufnr)  "{{{2
   endif
 
   let v:errmsg = ''
-  execute s:flydiff_direction() 'new'
+  execute s:flydiff_direction() 'split'
   if v:errmsg != ''
     return s:INVALID_WINNR
   endif
