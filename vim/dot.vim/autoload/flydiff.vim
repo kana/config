@@ -104,23 +104,17 @@ function! s:flydiff_info(bufnr, ...)  "{{{2
       throw 'Internal error: buffer ' . a:bufnr . ' is not related to flydiff'
     endif
 
-    " FIXME: Split the content of b:flydiff_info into 2 kinds
-    "        - one for normal buffers, another one for diff buffers.
-    "
-    "        key		normal	diff
-    "        ---------------	------	----
-    "        type		o	o
-    "        state		o	x
-    "        diff_bufnr		o	x
-    "        base_bufnr		x	o
-    "        not_performed_p	x	o
-    let bufvars.flydiff_info = {
-    \     'type': a:1,
-    \     'state': s:OFF,
-    \     'diff_bufnr': s:INVALID_BUFNR,
-    \     'base_bufnr': s:INVALID_BUFNR,
-    \     'not_performed_p': s:TRUE,
-    \   }
+    let bufvars.flydiff_info = {'type': a:1}
+    if a:1 is s:TYPE_NORMAL_BUFFER
+      let bufvars.flydiff_info.state = s:OFF
+      let bufvars.flydiff_info.diff_bufnr = s:INVALID_BUFNR
+    elseif a:1 is s:TYPE_DIFF_BUFFER
+      let bufvars.flydiff_info.base_bufnr = s:INVALID_BUFNR
+      let bufvars.flydiff_info.not_performed_p = s:TRUE
+    else
+      throw printf('Internal error: Invalid type %s for %d',
+      \            string(a:1), a:bufnr)
+    endif
   endif
   return bufvars.flydiff_info
 endfunction
