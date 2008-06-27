@@ -191,7 +191,7 @@ PACKAGE_vim_cygclip_FILES=\
   vim/dot.vim/doc/cygclip.txt \
   vim/dot.vim/plugin/cygclip.vim
 
-PACKAGE_vim_flydiff_ARCHIVE=vim-flydiff-0.0
+PACKAGE_vim_flydiff_ARCHIVE=vim-flydiff-0.0.1
 PACKAGE_vim_flydiff_BASE=vim/dot.vim
 PACKAGE_vim_flydiff_FILES=\
   vim/dot.vim/autoload/flydiff.vim \

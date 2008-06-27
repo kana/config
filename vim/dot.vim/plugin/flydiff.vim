@@ -1,5 +1,5 @@
 " flydiff - on-the-fly diff
-" Version: 0.0
+" Version: 0.0.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
