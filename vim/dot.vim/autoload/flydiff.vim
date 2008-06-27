@@ -90,6 +90,13 @@ endfunction
 
 
 
+function! s:empty_buffer_p(bufnr)  "{{{2
+  return line('$') == 1 && getline(1) == ''
+endfunction
+
+
+
+
 function! s:flydiff_info(bufnr, ...)  "{{{2
   let bufvars = getbufvar(a:bufnr, '')
   if !has_key(bufvars, 'flydiff_info')
@@ -195,6 +202,9 @@ function! s:perform_flydiff(timing)  "{{{2
         silent % delete _  " suppress '--No lines in buffer--' message.
         silent execute 'read !' s:vcs_diff_script(base_bufnr)
         1 delete _
+        if s:empty_buffer_p(b_flydiff_info.diff_bufnr)  " == bufnr('')
+          call setline(1, '=== No difference ===')
+        endif
       setlocal nomodifiable
     wincmd p
   endif
