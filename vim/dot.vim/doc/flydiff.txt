@@ -10,6 +10,7 @@ Interface		|flydiff-interface|
   Functions		  |flydiff-functions|
   Variables		  |flydiff-variables|
 Bugs			|flydiff-bugs|
+Terms			|flydiff-terms|
 Changelog		|flydiff-changelog|
 
 
@@ -103,6 +104,26 @@ g:flydiff_timing
 BUGS						*flydiff-bugs*
 
 - There are many bugs around the world.
+
+
+
+
+==============================================================================
+TERMS						*flydiff-terms*
+
+In this document and the sorce code of flydiff, the following terms are used:
+
+Diff buffer ~
+	A buffer to show a result of on-the-fly diff.
+
+Diff buffer window ~
+	A window which shows a diff buffer.
+
+Normal buffer ~
+	A buffer which is not a diff buffer.
+
+Normal buffer window ~
+	A window which shows a normal buffer.
 
 
 

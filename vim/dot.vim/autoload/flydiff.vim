@@ -34,7 +34,7 @@ function! flydiff#toggle(bufnr, state)  "{{{2
 
   let b_flydiff_info = s:flydiff_info(a:bufnr, s:TYPE_NORMAL_BUFFER)
   if b_flydiff_info.type isnot s:TYPE_NORMAL_BUFFER
-    echoerr 'Buffer is not a normal one:' a:bufnr string(b_flydiff_info.type)
+    echoerr 'Flydiff is only performed for normal buffers:' a:bufnr
     return s:TRUE
   endif
   let state = a:state ==? 'on' ? s:ON : (a:state ==? 'off' ? s:OFF : s:TOGGLE)
@@ -96,6 +96,17 @@ function! s:flydiff_info(bufnr, ...)  "{{{2
     if a:0 == 0
       throw 'Internal error: buffer ' . a:bufnr . ' is not related to flydiff'
     endif
+
+    " FIXME: Split the content of b:flydiff_info into 2 kinds
+    "        - one for normal buffers, another one for diff buffers.
+    "
+    "        key		normal	diff
+    "        ---------------	------	----
+    "        type		o	o
+    "        state		o	x
+    "        diff_bufnr		o	x
+    "        base_bufnr		x	o
+    "        not_performed_p	x	o
     let bufvars.flydiff_info = {
     \     'type': a:1,
     \     'state': s:OFF,
@@ -126,7 +137,7 @@ endfunction
 
 
 
-function! s:open_diff_buffer(bufnr)  "{{{2
+function! s:open_diff_buffer_window(bufnr)  "{{{2
   let diff_winnr = bufwinnr(a:bufnr)
   if diff_winnr != s:INVALID_WINNR
     return diff_winnr
@@ -148,6 +159,7 @@ endfunction
 
 
 function! s:perform_flydiff(timing)  "{{{2
+  " Use <abuf>, because the current buffer may not be same as <abuf>.
   let base_bufnr = str2nr(expand('<abuf>'))  " bufnr must be a number.
   let b_flydiff_info = s:flydiff_info(base_bufnr)
 
@@ -159,7 +171,7 @@ function! s:perform_flydiff(timing)  "{{{2
     endif
   endif
 
-  let diff_winnr = s:open_diff_buffer(b_flydiff_info.diff_bufnr)
+  let diff_winnr = s:open_diff_buffer_window(b_flydiff_info.diff_bufnr)
   if diff_winnr == s:INVALID_WINNR
     echoerr 'Unable to open a window for diff buffer for' base_bufnr
     return s:FALSE
