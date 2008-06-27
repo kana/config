@@ -189,7 +189,7 @@ function! s:perform_flydiff(timing)  "{{{2
   \ || a:timing ==# 'written'
   \ || getbufvar(base_bufnr, '&modified')
     let diff_b_flydiff_info.not_performed_p = s:FALSE
-    update
+    silent update
     execute diff_winnr 'wincmd w'
       setlocal modifiable
         silent % delete _  " suppress '--No lines in buffer--' message.
