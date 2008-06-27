@@ -1,0 +1,22 @@
+This repository contains my configuration files for various softwares.
+
+
+To make a package for specific stuffs (or, more precise, to extract
+specific stuffs from this repository), use the following command:
+
+  $ make PACKAGE_NAME={package_name} [PACKAGE_TYPE={archive_type}] package
+
+Where {package_name} is one of the strings listed in ALL_PACKAGES,
+and {archive_type} is one of the strings listed in ALL_PACKAGE_TYPES.
+See Makefile for the detail of ALL_PACKAGES and ALL_PACKAGE_TYPES.
+For example:
+
+  $ make PACKAGE_NAME=vim-textobj-user package
+
+The above command makes vim-textobj-user-{version}.tar.bz2 which
+contains files and directories related to textobj-user, a Vim plugin.
+
+
+-- 
+"To Vim, or not to Vim." -- The True Vim Master
+kana <http://whileimautomaton.net/>
