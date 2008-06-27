@@ -160,7 +160,7 @@ function! s:perform_flydiff(timing)  "{{{2
 
   let diff_winnr = s:open_diff_buffer(b_flydiff_info.diff_bufnr)
   if diff_winnr == s:INVALID_WINNR
-    echoerr 'Unable to open a window for diff buffer'
+    echoerr 'Unable to open a window for diff buffer for' base_bufnr
     return s:FALSE
   endif
 
