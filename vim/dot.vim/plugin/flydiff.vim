@@ -13,14 +13,17 @@ endif
 command -bar -nargs=? Flydiff  call flydiff#toggle(bufnr(''), <q-args>)
 
 
-if !exists('g:flydiff_timing')
-  let g:flydiff_timing = 'realtime'
+if !exists('g:flydiff_auto_close_p')
+  let g:flydiff_auto_close_p = 0
 endif
 if !exists('g:flydiff_direction')
   let g:flydiff_direction = 'vertical rightbelow'
 endif
 if !exists('g:flydiff_filetype')
   let g:flydiff_filetype = 'diff'
+endif
+if !exists('g:flydiff_timing')
+  let g:flydiff_timing = 'realtime'
 endif
 
 

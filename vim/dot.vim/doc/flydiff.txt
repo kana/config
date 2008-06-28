@@ -68,6 +68,14 @@ b:flydiff_info
 	The variable to save some information to perform on-the-fly diff.
 	Don't touch this variable.
 
+						*g:flydiff_auto_close_p*
+g:flydiff_auto_close_p
+	If this variable is true, diff buffer windows will be automatically
+	closed when the corresponding base buffer is |abandon|ed.  Otherwise,
+	nothing will be happened.
+
+	The default value is false.
+
 						*g:flydiff_direction*
 g:flydiff_direction
 	Specify the direction to open a window to show on-the-fly diff.

@@ -63,6 +63,29 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:close_diff_buffer_windows(base_bufnr)  "{{{2
+  let b_flydiff_info = s:flydiff_info(a:base_bufnr)
+  if b_flydiff_info.type isnot s:TYPE_NORMAL_BUFFER
+    throw 'Internal error: Given buffer is not normal one: ' . a:base_bufnr
+  endif
+
+  let original_winnr = winnr()
+    while s:TRUE
+      let diff_winnr = bufwinnr(b_flydiff_info.diff_bufnr)
+      if diff_winnr == s:INVALID_WINNR
+        break
+      endif
+
+      execute diff_winnr 'wincmd w'
+      close
+    endwhile
+  execute original_winnr 'wincmd w'
+  return
+endfunction
+
+
+
+
 function! s:create_diff_buffer_for(bufnr)  "{{{2
   " Create diff buffer for a:bufnr and set up misc. options.
   let original_bufnr = bufnr('')
@@ -276,6 +299,7 @@ endfunction
 
 function! s:set_flydiff_handlers()  "{{{2
   augroup plugin-flydiff
+    " events to perform flydiff.
     autocmd BufWritePost <buffer>
     \   if s:flydiff_timing() =~# '\<written\>'
     \ |   call s:perform_flydiff('written')
@@ -287,6 +311,12 @@ function! s:set_flydiff_handlers()  "{{{2
     autocmd CursorHoldI <buffer>
     \   if s:flydiff_timing() =~# '\<realtime\>'
     \ |   call s:perform_flydiff('realtime')
+    \ | endif
+
+    " other events.
+    autocmd BufWinLeave <buffer>
+    \   if g:flydiff_auto_close_p
+    \ |   call s:close_diff_buffer_windows(str2nr(expand('<abuf>')))
     \ | endif
   augroup END
   return
