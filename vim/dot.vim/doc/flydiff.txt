@@ -1,6 +1,6 @@
 *flydiff.txt*	on-the-fly diff
 
-Version 0.0
+Version 0.0.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license (see <http://www.opensource.org/licenses/mit-license>)
 
@@ -10,6 +10,7 @@ Interface		|flydiff-interface|
   Functions		  |flydiff-functions|
   Variables		  |flydiff-variables|
 Bugs			|flydiff-bugs|
+Terms			|flydiff-terms|
 Changelog		|flydiff-changelog|
 
 
@@ -64,7 +65,7 @@ VARIABLES					*flydiff-variables*
 
 						*b:flydiff_info*
 b:flydiff_info
-	The variable to save some information to performe on-the-fly diff.
+	The variable to save some information to perform on-the-fly diff.
 	Don't touch this variable.
 
 						*g:flydiff_direction*
@@ -108,7 +109,45 @@ BUGS						*flydiff-bugs*
 
 
 ==============================================================================
+TERMS						*flydiff-terms*
+
+In this document and the source code of flydiff, the following terms are used:
+
+Diff buffer ~
+	A buffer to show a result of on-the-fly diff.
+
+Diff buffer window ~
+	A window which shows a diff buffer.
+
+Normal buffer ~
+	A buffer which is not a diff buffer.
+
+Normal buffer window ~
+	A window which shows a normal buffer.
+
+
+
+
+==============================================================================
 CHANGELOG					*flydiff-changelog*
+
+0.0.1	2008-06-28T03:46:26+09:00
+	Fix many minor bugs:
+	- Set 'nobuflist' for diff buffers.
+	- Change naming style for diff buffers.
+	- Don't create diff buffers until they are really necessary.
+	- Don't create extra unnamed buffers.
+	- Perform on-the-fly diff forcedly for the first time even if a base
+	  buffer is not modified.
+	- Don't show a message by :update while performing on-the-fly diff.
+	- Show a message in a diff buffer if there is no difference in the
+	  corresponding base buffer.
+	- Adjust the cursor in a diff buffer to point the line which is
+	  equivalent to the cursor position in the corresponding base buffer.
+	  This behavior is useful if there are many differences and they are
+	  not showed in a diff buffer window at once.
+	- Revise some error messages.
+	- Revise internal stuffs.
 
 0.0	2008-06-25T21:07:55+09:00
 	- Initial version.
