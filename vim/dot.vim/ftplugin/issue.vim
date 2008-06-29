@@ -32,10 +32,15 @@ silent! nmap <unique> <buffer> <LocalLeader>i  <Plug>(issue-new-issue)
 silent! nmap <unique> <buffer> <LocalLeader>n  <Plug>(issue-new-note)
 silent! nmap <unique> <buffer> <Return>  <Plug>(issue-jump-to-issue)
 
-call textobj#user#define(s:RE_ISSUE_ID, '', '', {
-   \                       'move-to-next': '<LocalLeader>j',
-   \                       'move-to-prev': '<LocalLeader>k',
-   \                     })
+call textobj#user#plugin('issue', {
+\      'id': {
+\        '*pattern*': s:RE_ISSUE_ID,
+\        'move-n': '<buffer> <LocalLeader>j',
+\        'move-p': '<buffer> <LocalLeader>k',
+\        'move-N': '<buffer> <LocalLeader>J',
+\        'move-P': '<buffer> <LocalLeader>K',
+\      },
+\    })
 
 "" Moving around elements (just a memo; not implemented yet).
 ""
