@@ -1833,10 +1833,15 @@ endfunction
 " help  "{{{2
 
 autocmd MyAutoCmd FileType help
-\ call textobj#user#define('|[^| \t]*|', '', '', {
-\                            'move-to-next': '<buffer> gj',
-\                            'move-to-prev': '<buffer> gk',
-\                          })
+\ call textobj#user#plugin('help', {
+\        'link': {
+\          '*pattern*': '|[^| \t]*|',
+\          'move-n': '<buffer> .j',
+\          'move-p': '<buffer> .k',
+\          'move-N': '<buffer> .J',
+\          'move-P': '<buffer> .K',
+\        },
+\      })
 
 
 
