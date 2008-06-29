@@ -1,20 +1,36 @@
-This repository contains my configuration files for various softwares.
+About This Repository
+=====================
+
+This repository contains configuration files, documents and scripts
+for various softwares which are written by kana <http://whileimautomaton.net/>.
 
 
-To make a package for specific stuffs (or, more precise, to extract
-specific stuffs from this repository), use the following command:
+Most of these files contain the notice on their license, but some files don't
+so.  The following is the license for such files:
 
-  $ make PACKAGE_NAME={package_name} [PACKAGE_TYPE={archive_type}] package
+    Copyright (C) 2008 kana <http://whileimautomaton.net/>
+    
+    - This file is provided as-is and the author doesn't guarantee for any
+      damage caused by using this file.
+    
+    - This file may be used for any purpose without any charge and any
+      restriction.
+
+
+You can easily extract (or, more precise, make a package for) specific stuffs
+from this repository with the following command:
+
+    $ make PACKAGE_NAME={package_name} [PACKAGE_TYPE={archive_type}] package
 
 Where {package_name} is one of the strings listed in ALL_PACKAGES,
 and {archive_type} is one of the strings listed in ALL_PACKAGE_TYPES.
 See Makefile for the detail of ALL_PACKAGES and ALL_PACKAGE_TYPES.
 For example:
 
-  $ make PACKAGE_NAME=vim-textobj-user package
+    $ make PACKAGE_NAME=vim-textobj-user package
 
-The above command makes vim-textobj-user-{version}.tar.bz2 which
-contains files and directories related to textobj-user, a Vim plugin.
+The above command makes vim-textobj-user-{version}.tar.bz2
+which contains files and directories related to textobj-user, a Vim plugin.
 
 
 -- 
