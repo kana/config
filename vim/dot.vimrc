@@ -270,8 +270,8 @@ let &tabline = '%!' . s:SID_PREFIX() . 'my_tab_line()'
 " set lines=25
 
 
-let mapleader=','
-let maplocalleader='.'
+let mapleader = ','
+let maplocalleader = '.'
 
 
 " Use this group for any autocmd defined in this file.
@@ -1868,9 +1868,9 @@ autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
 
 autocmd MyAutoCmd FileType python
 \   call <SID>set_short_indent()
-\ | let python_highlight_numbers=1
-\ | let python_highlight_builtins=1
-\ | let python_highlight_space_errors=1
+\ | let python_highlight_numbers = 1
+\ | let python_highlight_builtins = 1
+\ | let python_highlight_space_errors = 1
 
 
 
