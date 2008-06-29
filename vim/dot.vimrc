@@ -578,7 +578,7 @@ endfunction
 " BUGS: This doesn't work for most cases because of the limit of the maximum
 "       number of arguments to a function.
 
-command! -nargs=+ OnFileType  call <SID>cmd_OnFileType(<f-args>)
+command! -nargs=+ OnFileType  call s:cmd_OnFileType(<f-args>)
 function! s:cmd_OnFileType(group, filetype, ...)
   let group = (a:group == '-' ? '' : a:group)
   let commands = join(a:000)
@@ -661,7 +661,7 @@ command! -bar -nargs=1 Source
 
 " CD - alternative :cd with more user-friendly completion  "{{{2
 
-command! -complete=customlist,<SID>complete_cdpath -nargs=1 CD  TabCD <args>
+command! -complete=customlist,s:complete_cdpath -nargs=1 CD  TabCD <args>
 function! s:complete_cdpath(arglead, cmdline, cursorpos)
   return split(globpath(&cdpath, a:arglead . '*/'), "\n")
 endfunction
@@ -1716,7 +1716,7 @@ noremap! <C-@>  <Esc>
 " Here also contains misc. autocommands.
 
 autocmd MyAutoCmd FileType *
-\ call <SID>on_FileType_any()
+\ call s:on_FileType_any()
 function! s:on_FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings defined by ftplugin.
@@ -1748,10 +1748,10 @@ autocmd MyAutoCmd BufReadPost *
 
 " Adjust highlight settings according to the current colorscheme.
 autocmd MyAutoCmd ColorScheme *
-\   call <SID>extend_highlight('Pmenu', 'Normal', 'cterm=underline')
-\ | call <SID>extend_highlight('PmenuSel', 'Search', 'cterm=underline')
-\ | call <SID>extend_highlight('PmenuSbar', 'Normal', 'cterm=reverse')
-\ | call <SID>extend_highlight('PmenuThumb', 'Search', '')
+\   call s:extend_highlight('Pmenu', 'Normal', 'cterm=underline')
+\ | call s:extend_highlight('PmenuSel', 'Search', 'cterm=underline')
+\ | call s:extend_highlight('PmenuSbar', 'Normal', 'cterm=reverse')
+\ | call s:extend_highlight('PmenuThumb', 'Search', '')
 \
 \ | highlight TabLineSel
 \             term=bold,reverse
@@ -1770,7 +1770,7 @@ doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
 " Note: To use nonstandard event NCmdUndefined, use the following version:
 "       http://repo.or.cz/w/vim-kana.git?a=shortlog;h=hack/ncmdundefined
 silent! autocmd MyAutoCmd NCmdUndefined *
-\ call <SID>shift_to_insert_mode(expand('<amatch>'))
+\ call s:shift_to_insert_mode(expand('<amatch>'))
 function! s:shift_to_insert_mode(not_a_command_character)
   if char2nr(a:not_a_command_character) <= 0xFF  " not a multibyte character?
     return  " should beep as same as the default behavior, but how?
@@ -1804,7 +1804,7 @@ autocmd MyAutoCmd InsertLeave *  set nopaste
 " css  "{{{2
 
 autocmd MyAutoCmd FileType css
-\ call <SID>set_short_indent()
+\ call s:set_short_indent()
 
 
 
@@ -1812,7 +1812,7 @@ autocmd MyAutoCmd FileType css
 " dosini (.ini)  "{{{2
 
 autocmd MyAutoCmd FileType dosini
-\ call <SID>on_FileType_dosini()
+\ call s:on_FileType_dosini()
 
 function! s:on_FileType_dosini()
   " Jumping around sections.
@@ -1849,7 +1849,7 @@ autocmd MyAutoCmd FileType help
 " lua  "{{{2
 
 autocmd MyAutoCmd FileType lua
-\ call <SID>set_short_indent()
+\ call s:set_short_indent()
 
 
 
@@ -1867,7 +1867,7 @@ autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
 " python  "{{{2
 
 autocmd MyAutoCmd FileType python
-\   call <SID>set_short_indent()
+\   call s:set_short_indent()
 \ | let python_highlight_numbers = 1
 \ | let python_highlight_builtins = 1
 \ | let python_highlight_space_errors = 1
@@ -1878,7 +1878,7 @@ autocmd MyAutoCmd FileType python
 " ruby  "{{{2
 
 autocmd MyAutoCmd FileType ruby
-\   call <SID>set_short_indent()
+\   call s:set_short_indent()
 
 
 
@@ -1886,7 +1886,7 @@ autocmd MyAutoCmd FileType ruby
 " sh, zsh  "{{{2
 
 autocmd MyAutoCmd FileType sh,zsh
-\ call <SID>set_short_indent()
+\ call s:set_short_indent()
 
 " FIXME: use $SHELL.
 let g:is_bash = 1
@@ -1897,7 +1897,7 @@ let g:is_bash = 1
 " tex  "{{{2
 
 autocmd MyAutoCmd FileType tex
-\ call <SID>set_short_indent()
+\ call s:set_short_indent()
 
 
 
@@ -1914,10 +1914,10 @@ autocmd MyAutoCmd FileType {vcsicommit,*.vcsicommit}
 " vim  "{{{2
 
 autocmd MyAutoCmd FileType vim
-\ call <SID>on_FileType_vim()
+\ call s:on_FileType_vim()
 
 function! s:on_FileType_vim()
-  call <SID>set_short_indent()
+  call s:set_short_indent()
   let vim_indent_cont = &shiftwidth
 
   iabbr <buffer> jf  function!()<Return>
@@ -1952,10 +1952,10 @@ endfunction
 " XML/SGML and other applications  "{{{2
 
 autocmd MyAutoCmd FileType html,xhtml,xml,xslt
-\ call <SID>on_FileType_xml()
+\ call s:on_FileType_xml()
 
 function! s:on_FileType_xml()
-  call <SID>set_short_indent()
+  call s:set_short_indent()
 
   " To deal with namespace prefixes and tag-name-including-hyphens.
   setlocal iskeyword+=45  " hyphen (-)
@@ -2035,7 +2035,7 @@ let s:on_FileType_xml_comment_dispatch_data = {
 " Plugins  "{{{1
 " ku  "{{{2
 
-autocmd MyAutoCmd User KuLoaded  call <SID>on_User_KuLoaded()
+autocmd MyAutoCmd User KuLoaded  call s:on_User_KuLoaded()
 function! s:on_User_KuLoaded()
   function! s:ku_type_any_action_my_cd(item)
     " FIXME: escape special characters.
@@ -2055,7 +2055,7 @@ endfunction
 
 
 autocmd MyAutoCmd User KuBufferInitialize
-\ call <SID>on_User_KuBufferInitialize()
+\ call s:on_User_KuBufferInitialize()
 function! s:on_User_KuBufferInitialize()
   call ku#default_key_mappings()
 endfunction

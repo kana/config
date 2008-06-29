@@ -439,11 +439,11 @@ function! s:initialize_ku_buffer()  "{{{2
   silent file `='*ku*'`
 
   " Autocommands.
-  autocmd InsertEnter <buffer>  call feedkeys(<SID>on_InsertEnter(), 'n')
-  autocmd CursorMovedI <buffer>  call feedkeys(<SID>on_CursorMovedI(), 'n')
-  autocmd BufLeave <buffer>  call <SID>end()
-  autocmd WinLeave <buffer>  call <SID>end()
-  autocmd TabLeave <buffer>  call <SID>end()
+  autocmd InsertEnter <buffer>  call feedkeys(s:on_InsertEnter(), 'n')
+  autocmd CursorMovedI <buffer>  call feedkeys(s:on_CursorMovedI(), 'n')
+  autocmd BufLeave <buffer>  call s:end()
+  autocmd WinLeave <buffer>  call s:end()
+  autocmd TabLeave <buffer>  call s:end()
 
   " Mappings.
   nnoremap <buffer> <silent> <Plug>(ku-cancel)
