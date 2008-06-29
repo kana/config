@@ -1836,10 +1836,10 @@ autocmd MyAutoCmd FileType help
 \ call textobj#user#plugin('help', {
 \        'link': {
 \          '*pattern*': '|[^| \t]*|',
-\          'move-n': '<buffer> .j',
-\          'move-p': '<buffer> .k',
-\          'move-N': '<buffer> .J',
-\          'move-P': '<buffer> .K',
+\          'move-n': '<buffer> <LocalLeader>j',
+\          'move-p': '<buffer> <LocalLeader>k',
+\          'move-N': '<buffer> <LocalLeader>J',
+\          'move-P': '<buffer> <LocalLeader>K',
 \        },
 \      })
 
