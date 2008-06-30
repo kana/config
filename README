@@ -1,9 +1,14 @@
 About This Repository
 =====================
 
-This repository contains configuration files, documents and scripts
+This git repository contains configuration files, documents and scripts
 for various softwares which are written by kana <http://whileimautomaton.net/>.
 
+
+
+
+License
+=======
 
 Most of these files contain the notice on their license, but some files don't
 so.  The following is the license for such files (which is known as MIT
@@ -31,6 +36,27 @@ license):
     THE USE OR OTHER DEALINGS IN THE CONFIGURATION.
 
 
+
+
+Notes
+=====
+
+Naming rules for branches
+-------------------------
+
+master
+    The latest and stable version of files.
+
+sket/*
+    Test branches for some specific feature or big changes.
+
+zzz/*
+    Branches which are not used anymore and will be removed.
+
+
+To extract specific files
+-------------------------
+
 You can easily extract (or, more precise, make a package for) specific stuffs
 from this repository with the following command:
 
@@ -45,6 +71,8 @@ For example:
 
 The above command makes vim-textobj-user-{version}.tar.bz2
 which contains files and directories related to textobj-user, a Vim plugin.
+
+
 
 
 -- 
