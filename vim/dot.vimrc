@@ -1832,14 +1832,38 @@ endfunction
 
 " help  "{{{2
 
+" Removed - not so useful.
+" let s:filetype_help_pattern_special = '<[^ <>]\+>'
+
+let s:filetype_help_pattern_link = '|[^ |]\+|'
+let s:filetype_help_pattern_option = '''\a\{2,}'''
+let s:filetype_help_pattern_any = join([s:filetype_help_pattern_link,
+\                                       s:filetype_help_pattern_option],
+\                                      '\|')
+
+" J/K are experimental keys.
 autocmd MyAutoCmd FileType help
 \ call textobj#user#plugin('help', {
-\        'link': {
-\          '*pattern*': '|[^| \t]*|',
-\          'move-n': '<buffer> <LocalLeader>j',
-\          'move-p': '<buffer> <LocalLeader>k',
+\        'any': {
+\          '*pattern*': s:filetype_help_pattern_any,
+\          'move-n': ['<buffer> <LocalLeader>j', '<buffer> J'],
+\          'move-p': ['<buffer> <LocalLeader>k', '<buffer> K'],
 \          'move-N': '<buffer> <LocalLeader>J',
 \          'move-P': '<buffer> <LocalLeader>K',
+\        },
+\        'link': {
+\          '*pattern*': s:filetype_help_pattern_link,
+\          'move-n': '<buffer> <LocalLeader>f',
+\          'move-p': '<buffer> <LocalLeader>r',
+\          'move-N': '<buffer> <LocalLeader>F',
+\          'move-P': '<buffer> <LocalLeader>R',
+\        },
+\        'option': {
+\          '*pattern*': s:filetype_help_pattern_option,
+\          'move-n': '<buffer> <LocalLeader>d',
+\          'move-p': '<buffer> <LocalLeader>e',
+\          'move-N': '<buffer> <LocalLeader>D',
+\          'move-P': '<buffer> <LocalLeader>E',
 \        },
 \      })
 
