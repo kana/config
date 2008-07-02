@@ -1,0 +1,105 @@
+*ft.txt*	Support to write ftplugin/synatx/indent scripts
+
+Version 0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license (see <http://en.wikipedia.org/wiki/MIT_License>)
+
+Introduction		|ft-introduction|
+Terms			|ft-terms|
+Interface		|ft-interface|
+  Functions		  |ft-functions|
+  Variables		  |ft-variables|
+Bugs			|ft-bugs|
+Changelog		|ft-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*ft-introduction*
+
+ft is a library Vim script to support to write ftplugin/syntax/indent scripts
+by simplifying some routines.  Because there are several pitfalls for some
+cases - such as compound 'filetype' or scripts in |after-directory|.
+
+Requirements:
+- Vim 7.1 or later.
+
+
+
+
+==============================================================================
+TERMS						*ft-terms*
+
+Simple filetype ~
+	'filetype' which doesn't contain any dot.
+
+Compound filetype ~
+	'filetype' which contains two or more 'filetype' separated by a dot.
+	For example: "c.doxygen"
+
+Normal ftplugin/syntax/indent scripts ~
+	ftplugin/syntax/indent scripts which are not located in
+	|after-directory|.
+
+Additional ftplugin/syntax/indent scripts ~
+	ftplugin/syntax/indent scripts which are located in |after-directory|.
+	Such scripts usually does "additional" configuration for a specific
+	'filetype'.
+
+
+
+
+==============================================================================
+INTERFACE					*ft-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*ft-functions*
+
+						*ft#loaded_p()*
+ft#loaded_p()
+	Return true if the caller script is already loaded.
+	Otherwise, return false.
+
+						*ft#mark_as_loaded()*
+ft#mark_as_loaded()
+	Set some variables to mark the caller script has been loaded.
+
+
+------------------------------------------------------------------------------
+VARIABLES					*ft-variables*
+
+b:did_ftplugin
+b:current_syntax
+b:did_indent
+	Variables to mark normal ftplugin/syntax/indent scripts for the
+	current buffer are already loaded or not.
+
+b:ft_ftplugin
+b:ft_syntax
+b:ft_indent
+	Variables to mark additional ftplugin/syntax/indent scripts for the
+	current buffer are already loaded or not.
+
+
+
+
+==============================================================================
+BUGS						*ft-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*ft-changelog*
+
+0.0	2008-07-02T10:09:07+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
