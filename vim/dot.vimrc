@@ -1641,7 +1641,7 @@ function! s:start_insert_mode_with_blank_lines(command)
   Hecho ModeMsg '-- INSERT (open) --'
   let c = nr2char(getchar())
   call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
-  call feedkeys(c, 'n')
+  call feedkeys(c, 'm')  " FIXME: special case - given c is <C-@>
 
   " to undo the next inserted text and the preceding blank lines in 1 step.
   undojoin
