@@ -1639,7 +1639,6 @@ function! s:start_insert_mode_with_blank_lines(command)
   execute 'normal!' script
   redraw
   Hecho ModeMsg '-- INSERT (open) --'
-  echohl None
   let c = nr2char(getchar())
   call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
   call feedkeys(c, 'n')
