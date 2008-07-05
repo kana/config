@@ -348,6 +348,10 @@ fi
 # Line Editor  #{{{1
 # Vim-like behavior  #{{{2
 
+# Another Esc key.
+bindkey -M viins '\C-@' vi-cmd-mode
+bindkey -M vicmd '\C-@' vi-cmd-mode
+
 # to delete characters beyond the starting point of the current insertion.
 bindkey -M viins '\C-h' backward-delete-char
 bindkey -M viins '\C-w' backward-kill-word
