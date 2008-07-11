@@ -115,6 +115,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
+  $(PACKAGE_vim_smartchr_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
@@ -156,6 +157,7 @@ ALL_PACKAGES=\
   vim-ku \
   vim-narrow \
   vim-scratch \
+  vim-smartchr \
   vim-textobj-datetime \
   vim-textobj-fold \
   vim-textobj-jabraces \
@@ -224,6 +226,12 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
+
+PACKAGE_vim_smartchr_ARCHIVE=vim-smartchr-0.0.0
+PACKAGE_vim_smartchr_BASE=vim/dot.vim
+PACKAGE_vim_smartchr_FILES=\
+  vim/dot.vim/autoload/smartchr.vim \
+  vim/dot.vim/doc/smartchr.txt
 
 PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.6
 PACKAGE_vim_surround_BASE=vim/dot.vim
