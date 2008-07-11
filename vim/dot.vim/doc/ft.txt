@@ -1,8 +1,27 @@
 *ft.txt*	Support to write ftplugin/synatx/indent scripts
 
-Version 0.0
+Version 0.0.0
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
-License: MIT license (see <http://en.wikipedia.org/wiki/MIT_License>)
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
 
 Introduction		|ft-introduction|
 Terms			|ft-terms|
@@ -18,7 +37,7 @@ Changelog		|ft-changelog|
 ==============================================================================
 INTRODUCTION					*ft-introduction*
 
-ft is a library Vim script to support to write ftplugin/syntax/indent scripts
+Ft is a library Vim script to support to write ftplugin/syntax/indent scripts
 by simplifying some routines.  Because there are several pitfalls for some
 cases - such as compound 'filetype' or scripts in |after-directory|.
 
@@ -39,11 +58,10 @@ Compound filetype ~
 	For example: "c.doxygen"
 
 Normal ftplugin/syntax/indent scripts ~
-	ftplugin/syntax/indent scripts which are not located in
-	|after-directory|.
+	ftplugin/syntax/indent scripts which are not put in |after-directory|.
 
 Additional ftplugin/syntax/indent scripts ~
-	ftplugin/syntax/indent scripts which are located in |after-directory|.
+	ftplugin/syntax/indent scripts which are put in |after-directory|.
 	Such scripts usually does "additional" configuration for a specific
 	'filetype'.
 
@@ -57,13 +75,15 @@ INTERFACE					*ft-interface*
 FUNCTIONS					*ft-functions*
 
 						*ft#loaded_p()*
-ft#loaded_p()
+ft#loaded_p({sfile})
 	Return true if the caller script is already loaded.
 	Otherwise, return false.
+	{sfile} must be expand('<sfile>').
 
 						*ft#mark_as_loaded()*
-ft#mark_as_loaded()
+ft#mark_as_loaded({sfile})
 	Set some variables to mark the caller script has been loaded.
+	{sfile} must be expand('<sfile>').
 
 
 ------------------------------------------------------------------------------
@@ -79,7 +99,8 @@ b:ft_ftplugin
 b:ft_syntax
 b:ft_indent
 	Variables to mark additional ftplugin/syntax/indent scripts for the
-	current buffer are already loaded or not.
+	current buffer are already loaded or not.  Don't touch these
+	variables.
 
 
 
@@ -95,11 +116,11 @@ BUGS						*ft-bugs*
 ==============================================================================
 CHANGELOG					*ft-changelog*
 
-0.0	2008-07-02T10:09:07+09:00
+0.0.0	2008-07-02T10:09:07+09:00
 	- Initial version.
 
 
 
 
 ==============================================================================
-vim:tw=78:ts=8:ft=help:norl:
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
