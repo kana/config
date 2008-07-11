@@ -115,6 +115,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
+  $(PACKAGE_vim_skeleton_FILES) \
   $(PACKAGE_vim_smartchr_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
@@ -132,6 +133,9 @@ GROUP_VIM_FILES=\
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
+  vim/dot.vim/xtr/skeleton/help \
+  vim/dot.vim/xtr/skeleton/vim-autoload \
+  vim/dot.vim/xtr/skeleton/vim-plugin \
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_POST_TARGETS=post-vim-update-local-helptags
@@ -157,6 +161,7 @@ ALL_PACKAGES=\
   vim-ku \
   vim-narrow \
   vim-scratch \
+  vim-skeleton \
   vim-smartchr \
   vim-textobj-datetime \
   vim-textobj-fold \
@@ -226,6 +231,12 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
+
+PACKAGE_vim_skeleton_ARCHIVE=vim-skeleton-0.0.0
+PACKAGE_vim_skeleton_BASE=vim/dot.vim
+PACKAGE_vim_skeleton_FILES=\
+  vim/dot.vim/doc/skeleton.txt \
+  vim/dot.vim/plugin/skeleton.vim
 
 PACKAGE_vim_smartchr_ARCHIVE=vim-smartchr-0.0.0
 PACKAGE_vim_smartchr_BASE=vim/dot.vim
