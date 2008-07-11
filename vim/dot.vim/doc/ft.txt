@@ -59,11 +59,14 @@ Compound filetype ~
 
 Normal ftplugin/syntax/indent scripts ~
 	ftplugin/syntax/indent scripts which are not put in |after-directory|.
+	These types of scripts usually do fundamental configuration for
+	a specific 'filetype', so that each script is exclusive to others.
 
 Additional ftplugin/syntax/indent scripts ~
 	ftplugin/syntax/indent scripts which are put in |after-directory|.
-	Such scripts usually does "additional" configuration for a specific
-	'filetype'.
+	These types of scripts usually do "additional" configuration for
+	a specific 'filetype', so that each script is not exclusive as normal
+	ones.
 
 
 

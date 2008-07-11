@@ -32,9 +32,7 @@ function! ft#loaded_p(sfile)  "{{{2
 
   return sinfo.load_type ==# 'normal'
   \      && exists(sinfo.normal_marker_varname)
-  \      && (sinfo.script_type !=# 'syntax'
-  \          || '.'.{sinfo.normal_marker_varname}.'.'
-  \             =~# '\.' . sinfo.filetype . '\.')
+  \      && '.'.{sinfo.normal_marker_varname}.'.' =~# '\.' . sinfo.filetype . '\.'
 endfunction
 
 
@@ -49,16 +47,12 @@ function! ft#mark_as_loaded(sfile)  "{{{2
   call add({sinfo.additional_marker_varname}, sinfo.marker_value)
 
   if sinfo.load_type ==# 'normal'
-    if sinfo.script_type ==# 'syntax'
-      if !exists(sinfo.normal_marker_varname)
-        let {sinfo.normal_marker_varname} = sinfo.filetype
-      else
-        let {sinfo.normal_marker_varname} .= '.'
-        let {sinfo.normal_marker_varname} .= sinfo.filetype
-      endif
-    else
-      let {sinfo.normal_marker_varname} = 1
+    let i = match('.' . &l:filetype . '.', '\.' . sinfo.filetype . '\.')
+    if i < 0
+      throw printf('Internal error: i < 0 for &l:filetype %s and sinfo %s',
+      \            string(&l:filetype), string(sinfo))
     endif
+    let {sinfo.normal_marker_varname} = &l:filetype[:i-2]
   endif
 
   return
