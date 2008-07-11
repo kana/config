@@ -2152,6 +2152,34 @@ autocmd MyAutoCmd User PluginScratchInitializeAfter
 
 
 
+" skeleton  "{{{2
+
+autocmd MyAutoCmd User plugin-skeleton-detect
+\ call s:on_User_plugin_skeleton_detect()
+function! s:on_User_plugin_skeleton_detect()
+  " TODO: skeletons for simple plugins using textobj-user.
+
+  let _ = matchlist(expand('%'),
+  \                 '\v^%(.*<vim>.*\/)?'
+  \                   . '(autoload|ftplugin|indent|plugin|syntax)'
+  \                   . '\/.*\.vim$')
+  if len(_) != 0
+    execute 'SkeletonLoad' 'vim-'._[1]
+    return
+  endif
+
+  let _ = matchlist(expand('%'), '\v^%(.*<vim>.*\/)?(doc)\/.*\.txt$')
+  if len(_) != 0
+    SkeletonLoad help
+    return
+  endif
+
+  return
+endfunction
+
+
+
+
 " surround  "{{{2
 
 " The default mapping ys for <Plug>Ysurround is not consistent with

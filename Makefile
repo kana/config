@@ -132,6 +132,9 @@ GROUP_VIM_FILES=\
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
+  vim/dot.vim/xtr/skeleton/help \
+  vim/dot.vim/xtr/skeleton/vim-autoload \
+  vim/dot.vim/xtr/skeleton/vim-plugin \
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_POST_TARGETS=post-vim-update-local-helptags
