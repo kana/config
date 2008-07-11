@@ -62,8 +62,7 @@ OVERVIEW					*skeleton-overview*
   'filetype'.  The latter "{filetype}-{suffix}" is used to override the
   default one for some cases which are speicifed by user.
 
-- Whenever user starts to edit a file that doesn't exists or |:setfiletype| is
-  executed for such buffer:
+- Whenever user starts to edit a file that doesn't exists:
 
   1) Skeleton publish a |User:plugin-skeleton-detect| event.  This event can
      be used to |:SkeletonLoad| a special skeleton file other than the default
