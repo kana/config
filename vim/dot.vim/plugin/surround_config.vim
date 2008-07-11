@@ -10,6 +10,25 @@ if !(exists('g:loaded_surround') && exists('*SurroundRegister'))
 endif
 
 
+" for \-ed braces.
+" FIXME: literally searching
+" call SurroundRegister('g', '\b', "\\(\r\\)")
+" call SurroundRegister('g', '\(', "\\(\r\\)")
+" call SurroundRegister('g', '\)', "\\(\r\\)")
+" call SurroundRegister('g', '\r', "\\[\r\\]")
+" call SurroundRegister('g', '\[', "\\[\r\\]")
+" call SurroundRegister('g', '\]', "\\[\r\\]")
+" call SurroundRegister('g', '\B', "\\{\r\\}")
+" call SurroundRegister('g', '\{', "\\{\r\\}")
+" call SurroundRegister('g', '\}', "\\{\r\\}")
+" call SurroundRegister('g', '\a', "\\<\r\\>")
+" call SurroundRegister('g', '\<', "\\<\r\\>")
+" call SurroundRegister('g', '\>', "\\<\r\\>")
+" call SurroundRegister('g', '\''', "\\'\r\\'")
+" call SurroundRegister('g', '\"', "\\\"\r\\\"")
+" call SurroundRegister('g', '\q', "\\`\r\\`")
+
+
 " for XML.
 call SurroundRegister('g', '&', "&lt;\r&gt;")
 call SurroundRegister('g', 'C', "<![CDATA[\r]]>")

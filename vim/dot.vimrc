@@ -2164,6 +2164,50 @@ nmap ss  <Plug>Yssurround
 
 
 
+" textobj-user  "{{{2
+" Misc. text objects.
+
+call textobj#user#plugin('misc', {
+\      'bs(': {
+\        '*pattern*': ['\\(', '\\)'],
+\        'select-a': ['a\(', 'a\)', 'a\b'],
+\        'select-i': ['i\(', 'i\)', 'i\b'],
+\      },
+\      'bs[': {
+\        '*pattern*': ['\\[', '\\]'],
+\        'select-a': ['a\[', 'a\]', 'a\r'],
+\        'select-i': ['i\[', 'i\]', 'i\r'],
+\      },
+\      'bs{': {
+\        '*pattern*': ['\\{', '\\}'],
+\        'select-a': ['a\{', 'a\}', 'a\B'],
+\        'select-i': ['i\{', 'i\}', 'i\B'],
+\      },
+\      'bs<': {
+\        '*pattern*': ['\\<', '\\>'],
+\        'select-a': ['a\<', 'a\>', 'a\a'],
+\        'select-i': ['i\<', 'i\>', 'i\a'],
+\      },
+\      'bsq': {
+\        '*pattern*': ['\\''', '\\'''],
+\        'select-a': ['a\'''],
+\        'select-i': ['i\'''],
+\      },
+\      'bsqq': {
+\        '*pattern*': ['\\"', '\\"'],
+\        'select-a': ['a\"'],
+\        'select-i': ['i\"'],
+\      },
+\      'bsqb': {
+\        '*pattern*': ['\\`', '\\`'],
+\        'select-a': ['a\`'],
+\        'select-i': ['i\`'],
+\      },
+\    })
+
+
+
+
 " vcsi  "{{{2
 
 let g:vcsi_diff_in_commit_logp = 1
