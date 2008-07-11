@@ -66,7 +66,7 @@ augroup plugin-skeleton
   autocmd BufNewFile *  call s:on_BufNewFile()
 augroup END
 function! s:on_BufNewFile()
-  doautocmd User plugin-skeleton-detect
+  silent doautocmd User plugin-skeleton-detect
   execute 'SkeletonLoad' &l:filetype
 endfunction
 
