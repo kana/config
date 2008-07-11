@@ -1,0 +1,129 @@
+*skeleton.txt*	Skeleton for newly created files
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+Introduction		|skeleton-introduction|
+Interface		|skeleton-interface|
+  Overview		  |skeleton-overview|
+  Commands		  |skeleton-commands|
+  Events		  |skeleton-events|
+Bugs			|skeleton-bugs|
+Changelog		|skeleton-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*skeleton-introduction*
+
+Skeleton is a Vim plugin to set up a skeleton for a newly created buffer.
+
+Requirements:
+- Vim 7.1 or later.
+
+
+
+
+==============================================================================
+INTERFACE					*skeleton-interface*
+
+------------------------------------------------------------------------------
+OVERVIEW					*skeleton-overview*
+
+- Skeleton files must be put in a directory named "xtr/skeleton/" which is
+  under any directory listed in 'runtimepath'.
+
+- The name of a skeleton file should be "{filetype}" or "{filetype}-{suffix}",
+  where {filetype} is the 'filetype' for a newly created buffer and {suffix}
+  is an arbitrary string.
+
+  The former "{filetype}" is used as the default skeleton file for that
+  'filetype'.  The latter "{filetype}-{suffix}" is used to override the
+  default one for some cases which are speicifed by user.
+
+- Whenever user starts to edit a file that doesn't exists or |:setfiletype| is
+  executed for such buffer:
+
+  1) Skeleton publish a |User:plugin-skeleton-detect| event.  This event can
+     be used to |:SkeletonLoad| a special skeleton file other than the default
+     one.
+  
+  2) If |:SkeletonLoad| is not done for the previous step, Skeleton executes
+     the following command:
+>
+	execute 'SkeletonLoad' &l:filetype
+<
+     This means a skeleton file named "{filetype}" in a directory
+     "xtr/skeleton/" which is under any directory listed in 'runtimepath' is
+     loaded as a skeleton file.
+
+     If there is no such skeleton file, nothing will be happened.
+
+
+------------------------------------------------------------------------------
+COMMANDS					*skeleton-commands*
+
+						*:SkeletonLoad*
+:SkeletonLoad {name}
+	Load the skeleton file with {name} for the current buffer.
+	If the current buffer is not a normal buffer or its content is not
+	empty, nothing will be happened.
+
+
+------------------------------------------------------------------------------
+EVENTS						*skeleton-events*
+
+User plugin-skeleton-detect			*User:plugin-skeleton-detect*
+	Event to override the default skeleton file.  User can set up
+	|:autocmd| for this event to |:SkeletonLoad| a special skeleton file
+	other than the default one.
+
+	Example: >
+		autocmd User plugin-skeleton-detect
+		\   if expand('%') =~# '\<plugin/.*\.vim$'
+		\ |   SkeletonLoad vim-plugin
+		\ | endif
+<
+
+
+
+==============================================================================
+BUGS						*skeleton-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*skeleton-changelog*
+
+0.0.0	2008-07-11T12:23:55+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:

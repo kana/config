@@ -115,6 +115,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
+  $(PACKAGE_vim_skeleton_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
@@ -156,6 +157,7 @@ ALL_PACKAGES=\
   vim-ku \
   vim-narrow \
   vim-scratch \
+  vim-skeleton \
   vim-textobj-datetime \
   vim-textobj-fold \
   vim-textobj-jabraces \
@@ -224,6 +226,12 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/autoload/scratch.vim \
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
+
+PACKAGE_vim_skeleton_ARCHIVE=vim-skeleton-0.0.0
+PACKAGE_vim_skeleton_BASE=vim/dot.vim
+PACKAGE_vim_skeleton_FILES=\
+  vim/dot.vim/doc/skeleton.txt \
+  vim/dot.vim/plugin/skeleton.vim
 
 PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.6
 PACKAGE_vim_surround_BASE=vim/dot.vim
