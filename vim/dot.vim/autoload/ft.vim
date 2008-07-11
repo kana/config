@@ -52,7 +52,7 @@ function! ft#mark_as_loaded(sfile)  "{{{2
       throw printf('Internal error: i < 0 for &l:filetype %s and sinfo %s',
       \            string(&l:filetype), string(sinfo))
     endif
-    let {sinfo.normal_marker_varname} = &l:filetype[:i-2]
+    let {sinfo.normal_marker_varname} = &l:filetype[:i-1]
   endif
 
   return
