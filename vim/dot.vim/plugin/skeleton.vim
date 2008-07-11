@@ -54,7 +54,7 @@ function! s:cmd_SkeletonLoad(name, interactive_use_p)
   endif
 
   " Load skeleton file.
-  1 read `=candidates[0]`
+  silent keepalt 1 read `=candidates[0]`
   0 delete _
 
   return
