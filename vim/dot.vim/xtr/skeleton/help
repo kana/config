@@ -23,6 +23,8 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*{name}-contents*
+
 Introduction		|{name}-introduction|
 Interface		|{name}-interface|
   Commands		  |{name}-commands|
