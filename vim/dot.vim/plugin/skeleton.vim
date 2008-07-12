@@ -31,6 +31,7 @@ endif
 
 command! -bar -nargs=1 SkeletonLoad
 \ call s:cmd_SkeletonLoad(<q-args>, expand('<abuf>') == '')
+
 function! s:cmd_SkeletonLoad(name, interactive_use_p)
   if &l:buftype != ''
     if a:interactive_use_p
@@ -61,13 +62,19 @@ function! s:cmd_SkeletonLoad(name, interactive_use_p)
 endfunction
 
 
+
+
 augroup plugin-skeleton
   autocmd!
   autocmd BufNewFile *  call s:on_BufNewFile()
 augroup END
+
 function! s:on_BufNewFile()
   silent doautocmd User plugin-skeleton-detect
-  execute 'SkeletonLoad' &l:filetype
+
+  if &l:filetype != ''
+    execute 'SkeletonLoad' &l:filetype
+  endif
 endfunction
 
 
