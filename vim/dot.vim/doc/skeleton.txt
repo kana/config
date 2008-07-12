@@ -1,6 +1,6 @@
 *skeleton.txt*	Skeleton for newly created files
 
-Version 0.0.0
+Version 0.0.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -117,6 +117,12 @@ BUGS						*skeleton-bugs*
 
 ==============================================================================
 CHANGELOG					*skeleton-changelog*
+
+0.0.1	2008-07-13T00:20:09+09:00
+	- Fix to suppress extra message if there is no autocmd for
+	  |User:plugin-skeleton-detect|.
+	- Fix not to do the default |:SkeletonLoad| if 'filetype' of the
+	  current buffer is unknown.
 
 0.0.0	2008-07-11T12:23:55+09:00
 	- Initial version.
