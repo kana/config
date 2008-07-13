@@ -2136,7 +2136,7 @@ function! s:on_User_plugin_skeleton_detect()
   endif
 
   if _[2] ==# 'doc' && _[3] ==# 'txt'
-    SkeletonLoad help
+    SkeletonLoad help-doc
   endif
 
   if _[2] !=# 'doc' && _[3] ==# 'vim'

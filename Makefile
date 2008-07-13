@@ -133,7 +133,7 @@ GROUP_VIM_FILES=\
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
-  vim/dot.vim/xtr/skeleton/help \
+  vim/dot.vim/xtr/skeleton/help-doc \
   vim/dot.vim/xtr/skeleton/vim-additional-ftplugin \
   vim/dot.vim/xtr/skeleton/vim-additional-indent \
   vim/dot.vim/xtr/skeleton/vim-additional-syntax \
