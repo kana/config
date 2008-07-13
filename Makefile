@@ -300,8 +300,8 @@ PACKAGE_vim_xml_autons_FILES=\
 PACKAGE_vim_xml_move_ARCHIVE=vim-xml_move-0.0.2
 PACKAGE_vim_xml_move_BASE=vim/dot.vim
 PACKAGE_vim_xml_move_FILES=\
-  vim/dot.vim/doc/xml_move.txt \
-  vim/dot.vim/ftplugin/xml_move.vim
+  vim/dot.vim/after/ftplugin/xml_move.vim \
+  vim/dot.vim/doc/xml_move.txt
 
 
 
