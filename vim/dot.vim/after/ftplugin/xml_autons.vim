@@ -21,26 +21,12 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-"{{{1
-
-" This script is placed in the after-directory, so that b:did_ftplugin cannot
-" be used to avoid doubly sourcing.
-if exists('b:xml_namespace')  " BUGS: But b:xml_namespace is not documented.
-  finish
-endif
 
 
 
-
-
-
-
-
-
-" COMMON PART  "{{{1
 
 if !exists(':AutoXMLns')
-  " INTERFACE  "{{{2
+  " INTERFACE  "{{{1
 
   command! -bar AutoXMLns  silent call s:AutoXMLns()
 
@@ -58,7 +44,7 @@ if !exists(':AutoXMLns')
 
 
 
-  " MISC. UTILITIES  "{{{2
+  " MISC. UTILITIES  "{{{1
 
   function! s:AutoXMLns()
     let original_position = getpos('.')
@@ -113,7 +99,7 @@ if !exists(':AutoXMLns')
 
 
 
-  " CONSTANTS  "{{{2
+  " CONSTANTS  "{{{1
   " FIXME: Most of them are copied from xml_move -- violate DRY.
 
   " Spaces and other characters
@@ -134,26 +120,13 @@ if !exists(':AutoXMLns')
   " Start or eMpty-elemnt Tag
   let s:SMTag = '<'.s:Name.'\%('.s:Sp.s:Attr.'\)*'.s:Ss.'\/\?>'
 
-  "}}}2
+  "}}}1
 endif
 
 
 
 
-
-
-
-
-" ETC  "{{{1
-
 AutoXMLns
 
-
-
-
-
-
-
-
-" __END__  "{{{1
+" __END__
 " vim: foldmethod=marker
