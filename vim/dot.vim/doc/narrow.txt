@@ -23,6 +23,16 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*narrow-contents*
+
+Introduction		|narrow-introduction|
+Interface		|narrow-interface|
+  Commands		  |narrow-commands|
+  Functions		  |narrow-functions|
+Customizing		|narrow-customizing|
+Bugs			|narrow-bugs|
+Changelog		|narrow-changelog|
+
 
 
 
@@ -50,7 +60,10 @@ See |narrow-bugs| for the detail.
 
 
 ==============================================================================
-INTERFACES					*narrow-interfaces*
+INTERFACE					*narrow-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*narrow-commands*
 
 						*:Narrow*
 :[range]Narrow
@@ -63,6 +76,9 @@ INTERFACES					*narrow-interfaces*
 	Widen to make the entire buffer visible again.
 	If the buffer is not narrowed, nothing will happen.
 
+------------------------------------------------------------------------------
+FUNCTIONS					*narrow-functions*
+
 						*narrow#Narrow()*
 narrow#Narrow({line1}, {line2})
 	Function version of |:Narrow|.
@@ -73,6 +89,9 @@ narrow#Narrow({line1}, {line2})
 narrow#Widen()
 	Function version of |:Widen|.
 	Return true on success or false on failure.
+
+==============================================================================
+CUSTOMIZING					*narrow-customizing*
 
 						*b:narrow_original_state*
 b:narrow_original_state

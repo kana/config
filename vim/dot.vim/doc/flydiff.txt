@@ -23,6 +23,8 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*flydiff-contents*
+
 Introduction		|flydiff-introduction|
 Interface		|flydiff-interface|
   Commands		  |flydiff-commands|

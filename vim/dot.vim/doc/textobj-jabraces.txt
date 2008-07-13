@@ -23,14 +23,14 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-
 CONTENTS					*textobj-jabraces-contents*
 
-Introduction			|textobj-jabraces-introduction|
-Key Mapings			|textobj-jabraces-key-mappings|
-Customizing			|textobj-jabraces-customizing|
-Bugs				|textobj-jabraces-bugs|
-ChangeLog			|textobj-jabraces-changelog|
+Introduction		|textobj-jabraces-introduction|
+Interface		|textobj-jabraces-interface|
+  Mapings		  |textobj-jabraces-mappings|
+Customizing		|textobj-jabraces-customizing|
+Bugs			|textobj-jabraces-bugs|
+ChangeLog		|textobj-jabraces-changelog|
 
 
 
@@ -50,7 +50,10 @@ Requirements:
 
 
 ==============================================================================
-KEY MAPPINGS					*textobj-jabraces-key-mappings*
+INTERFACE					*textobj-jabraces-interface*
+
+------------------------------------------------------------------------------
+MAPPINGS					*textobj-jabraces-mappings*
 
 Thie plugin provides following key mappings in Visual mode and
 Operator-pending mode.  "i" versions select "inner block" and "a" versions

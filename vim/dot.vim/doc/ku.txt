@@ -23,19 +23,21 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*ku-contents*
 
-Introduction			|ku-introduction|
-Commands			|ku-commands|
-Functions			|ku-functions|
-Customizing			|ku-customizing|
-Bugs				|ku-bugs|
-Changelog			|ku-changelog|
+Introduction		|ku-introduction|
+Interface		|ku-interface|
+  Commands		  |ku-commands|
+  Functions		  |ku-functions|
+Customizing		|ku-customizing|
+Bugs			|ku-bugs|
+Changelog		|ku-changelog|
 
 
 
 
 ==============================================================================
-INTRODUCTION						*ku-introduction*
+INTRODUCTION					*ku-introduction*
 
 Ku is a Vim plugin to support to do something on buffer, files, directories or
 other kind of items with automatic completion and fuzzy pattern.  You can also
@@ -46,12 +48,12 @@ To start selection, use |ku-commands|.  The commands will open a new window
 (|ins-completion-menu|) will be automatically appeared and updated to show the
 proper candidates for the input pattern.
 
-						 *ku-auto-directory-insertion*
+						*ku-auto-directory-insertion*
 Whenever "/" is typed, the name of an appropriate directory will be
 automatically inserted.  This feature is derived from bluewind
 <http://cspace.s2.xrea.com/software/bluewind/>.
 
-							*ku-window* *ku-buffer*
+						*ku-window* *ku-buffer*
 ku window		The window which is opened by |ku-commands|.
 			This window will be automatically closed when:
 			- An action is taken for an item.
@@ -62,7 +64,10 @@ ku window		The window which is opened by |ku-commands|.
 
 
 ==============================================================================
-COMMANDS						*ku-commands*
+INTERFACE					*ku-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*ku-commands*
 
 :Ku[!] [{preferred-type}]				*:Ku*
 			Start selecting by ku.
@@ -75,12 +80,12 @@ COMMANDS						*ku-commands*
 
 
 ==============================================================================
-FUNCTIONS						*ku-functions*
+FUNCTIONS					*ku-functions*
 
-ku#start({bang}, [{preferred-type}])			*ku#start()*
+ku#start({bang}, [{preferred-type}])		*ku#start()*
 			Function version of |:Ku|.
 
-ku#default_key_mappings()			   *ku#default_key_mappings()*
+ku#default_key_mappings()			*ku#default_key_mappings()*
 			Define the following key mappings which are local to
 			the current buffer.  If one of the following {lhs}s is
 			already mapped to something, it will be overridden.
@@ -93,20 +98,20 @@ ku#default_key_mappings()			   *ku#default_key_mappings()*
 			ni	<C-j>		<Plug>(ku-next-type)
 			ni	<C-k>		<Plug>(ku-previous-type)
 
-ku#bang()						*ku#bang()*
+ku#bang()					*ku#bang()*
 			Return whether [bang] modifier is given for the last
 			executed |:Ku| or |ku#start()|.  String "!" will be
 			returned if [bang] modifier is given, otherwise an
 			empty string will be returned.
 
-ku#register_type({typedef})				*ku#register_type()*
+ku#register_type({typedef})			*ku#register_type()*
 			Register new type which is defined by {typedef}.
 			{typedef} is a dictionary.  See |ku-write-new-type|
 			for the detail of {typedef}.
 
 			Note that any built-in type can be overridden.
 
-ku#unregister_type({name})				*ku#unregister_type()*
+ku#unregister_type({name})			*ku#unregister_type()*
 			Unregister the type {name}.
 
 			Note that any built-in type can be unregistered.
@@ -130,22 +135,22 @@ ku#custom_key({type-name}, {key}, {new-action-name})	*ku#custom_key()*
 
 
 ==============================================================================
-KEY MAPPINGS						*ku-key-mappings*
+MAPPINGS					*ku-mappings*
 
 In the ku window, the following key mappings are defined:
 
-<Plug>(ku-cancel)					*<Plug>(ku-cancel)*
+<Plug>(ku-cancel)				*<Plug>(ku-cancel)*
 			Cancel selecting (and close the ku window).
 
-<Plug>(ku-do-default)				       *<Plug>(ku-do-default)*
+<Plug>(ku-do-default)			       *<Plug>(ku-do-default)*
 			Do the default action for the current item.
 
-<Plug>(ku-choose-action)			    *<Plug>(ku-choose-action)*
+<Plug>(ku-choose-action)			*<Plug>(ku-choose-action)*
 			Show the mesasge on available actions, take a single
 			key input, then do the appropriate action.
 
-<Plug>(ku-next-type)					*<Plug>(ku-next-type)*
-<Plug>(ku-previous-type)			    *<Plug>(ku-previous-type)*
+<Plug>(ku-next-type)				*<Plug>(ku-next-type)*
+<Plug>(ku-previous-type)			*<Plug>(ku-previous-type)*
 			Change the preferred type (ascending / descending).
 
 The default key mappings are defined by |ku#default_key_mappings()|.
@@ -154,7 +159,7 @@ The default key mappings are defined by |ku#default_key_mappings()|.
 
 
 ==============================================================================
-TYPES							*ku-types*
+TYPES						*ku-types*
 
 Types are kinds of items.  The following types are built-in.
 
@@ -182,15 +187,15 @@ other actions	...
 
 
 ==============================================================================
-CUSTOMIZING						*ku-customizing*
+CUSTOMIZING					*ku-customizing*
 
-Initialization						*ku-initialization*
-							*KuLoaded*
+Initialization					*ku-initialization*
+						*KuLoaded*
 	Most part of Ku isn't loaded until one of its functions or commands is
 	actually used.  After all part of Ku is loaded, "User KuLoaded" event
 	will be published.  Use this event to delay applying user's settings
 	until all part of Ku is loaded.
-							*KuBufferInitialize*
+						*KuBufferInitialize*
 	Ku has its own buffer to do its work.  Whenever the buffer is created,
 	"User KuBufferInitialize" event will be published.  Use this event to
 	do user's initialization for the buffer, for example: >
@@ -202,7 +207,7 @@ Initialization						*ku-initialization*
 	Otherwise, no key mapping will be defined.  So you have to call it
 	explicitly if you use |KuBufferInitialize|.
 
-Write New Type						*ku-write-new-type*
+Write New Type					*ku-write-new-type*
 	To use new type, call |ku#register_type()| with its {typedef}.
 	{typedef} is a dictionary and it contains the following entries:
 
@@ -250,7 +255,7 @@ Write New Type						*ku-write-new-type*
 
 
 ==============================================================================
-BUGS							*ku-bugs*
+BUGS						*ku-bugs*
 
 - Many bugs must be around the world.
 
@@ -258,7 +263,7 @@ BUGS							*ku-bugs*
 
 
 ==============================================================================
-CHANGELOG						*ku-changelog*
+CHANGELOG					*ku-changelog*
 
 0.0.0	2008-01-25T19:34:13+09:00
 	- Derived from buffuzzy and zapit.

@@ -23,21 +23,32 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*xml_move-contents*
 
-
-
-==============================================================================
-Introduction					*xml_move-intro*
-
-The filetype plugin provides some key mappings to support moving around
-various objects in XML documents, e.g. start-tags, end-tags, attributes
-and text nodes.
+Introduction		|xml_move-introduction|
+Interface		|xml_move-interface|
+  Mappings		  |xml_move-mappings|
+Bugs			|xml_move-bugs|
+Changelog		|xml_move-changelog|
 
 
 
 
 ==============================================================================
-Key mappings					*xml_move-map*
+INTRODUCTION					*xml_move-introduction*
+
+xml_move is an additional filetype plugin for Vim to provide mappings to move
+various objects in XML documents, e.g.  start-tags, end-tags, attributes and
+text nodes.
+
+
+
+
+==============================================================================
+INTERFACE					*xml_move-interface*
+
+------------------------------------------------------------------------------
+MAPPINGS					*xml_move-mappings*
 
 The following key mappings are global.
 Note that all moving commands are |exclusive|.
@@ -150,7 +161,7 @@ Key sequence		Mapped to	~
 
 
 ==============================================================================
-Issues						*xml_move-issues*
+BUGS						*xml_move-bugs*
 
 * Moving around sibling tags.
 
@@ -162,7 +173,7 @@ Issues						*xml_move-issues*
 
 
 ==============================================================================
-ChangeLog					*xml_move-changelog*
+CHANGELOG					*xml_move-changelog*
 
 0.0.2	2008-04-27T12:02:50+09:00
 	- Add key mappings to move around attribute names and values.

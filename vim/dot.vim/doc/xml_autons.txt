@@ -23,6 +23,15 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*xml_autons-contents*
+
+Introduction		|xml_autons-introduction|
+Interface		|xml_autons-interface|
+  Commands		  |xml_autons-commands|
+Customizing		|xml_autons-customizing|
+Bugs			|xml_autons-bugs|
+Changelog		|xml_autons-changelog|
+
 
 
 
@@ -37,6 +46,9 @@ completion for XML (|ft-xml-omni|), because it requires to execute |:XMLns|.
 
 
 ==============================================================================
+INTERFACE					*xml_autons-interface*
+
+------------------------------------------------------------------------------
 COMMANDS					*xml_autons-commands*
 
 :AutoXMLns						*:AutoXMLns*

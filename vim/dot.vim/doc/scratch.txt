@@ -23,25 +23,24 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*scratch-contents*
 
-CONTENTS						*scratch-contents*
-
-Introduction			|scratch-introduction|
-Interfaces			|scratch-interfaces|
-  Commands			  |scratch-commands|
-  Functions			  |scratch-functions|
-  Key Mapings			  |scratch-mappings|
-Customizing			|scratch-customizing|
-  Variables			  |scratch-variables|
-  Autocommands			  |scratch-autocommands|
-Bugs				|scratch-bugs|
-ChangeLog			|scratch-changelog|
+Introduction		|scratch-introduction|
+Interface		|scratch-interface|
+  Commands		  |scratch-commands|
+  Functions		  |scratch-functions|
+  Mapings		  |scratch-mappings|
+Customizing		|scratch-customizing|
+  Variables		  |scratch-variables|
+  Autocommands		  |scratch-autocommands|
+Bugs			|scratch-bugs|
+ChangeLog		|scratch-changelog|
 
 
 
 
 ==============================================================================
-INTRODUCTION						*scratch-introduction*
+INTRODUCTION					*scratch-introduction*
 
 Scratch is a Vim plugin to provide Emacs-like scratch buffer.  You can write
 anything in it, and you can also evaluate a part of the buffer as Vim script.
@@ -56,22 +55,22 @@ Requirements:
 
 
 ==============================================================================
-INTERFACES						*scratch-interfaces*
+INTERFACE					*scratch-interface*
 
 ------------------------------------------------------------------------------
-COMMANDS						*scratch-commands*
+COMMANDS					*scratch-commands*
 
-:ScratchOpen						*:ScratchOpen*
+:ScratchOpen					*:ScratchOpen*
 	``Open'' the scratch buffer, i.e., create the buffer if it does not
 	exist, show if it is not visible, or move the cursor to the window
 	that shows it.
 
 	See |g:scratch_show_command| if you want to change the way to open.
 
-:ScratchClose						*:ScratchClose*
+:ScratchClose					*:ScratchClose*
 	Close a window that shows the scratch buffer if able.
 
-:[range]ScratchEvaluate[!]				*:ScratchEvaluate*
+:[range]ScratchEvaluate[!]			*:ScratchEvaluate*
 	Evaluate the [range] as a Vim script.
 	The default [range] is the current line.
 	Without [!], the cursor will be moved to the next line of the script
@@ -81,17 +80,17 @@ COMMANDS						*scratch-commands*
 
 
 ------------------------------------------------------------------------------
-FUNCTIONS						*scratch-functions*
+FUNCTIONS					*scratch-functions*
 
-scratch#open()						*scratch#open()*
+scratch#open()					*scratch#open()*
 	Function version of |:ScratchOpen|.
 	The return value is not defined.
 
-scratch#close()						*scratch#close()*
+scratch#close()					*scratch#close()*
 	Function version of |:ScratchClose|.
 	The return value is not defined.
 
-						  *scratch#evaluate_linewise()*
+						*scratch#evaluate_linewise()*
 scratch#evaluate_linewise({line1}, {line2}, {adjust-cursorp})
 	Function version of |:ScratchEvaluate|.
 	If {adjust-cursorp} is true, the cursor position will be adjusted as
@@ -107,27 +106,27 @@ scratch#evaluate({pos1}, {pos2}, {adjust-cursorp})	*scratch#evaluate()*
 
 
 ------------------------------------------------------------------------------
-KEY MAPPINGS						*scratch-mappings*
+MAPPINGS					*scratch-mappings*
 
 GLOBAL MAPPINGS ~
 
-<Plug>(scratch-open)					*<Plug>(scratch-open)*
+<Plug>(scratch-open)				*<Plug>(scratch-open)*
 	Do |:ScratchOpen|.
 
-<Plug>(scratch-close)					*<Plug>(scratch-close)*
+<Plug>(scratch-close)				*<Plug>(scratch-close)*
 	Do |:ScratchClose|.
 
-<Plug>(scratch-evaluate)			     *<Plug>(scratch-evaluate)*
+<Plug>(scratch-evaluate)			*<Plug>(scratch-evaluate)*
 	Do |:ScratchEvaluate| without [!].
 
-<Plug>(scratch-evaluate!)			    *<Plug>(scratch-evaluate!)*
+<Plug>(scratch-evaluate!)			*<Plug>(scratch-evaluate!)*
 	Do |:ScratchEvaluate| with [!].
 
 SCRATCH BUFFER-LOCAL MAPPINGS ~
 
-<C-j>	or						*<C-j>*
-<C-m>	or						*<C-m>*
-<CR>							*<CR>*
+<C-j>	or					*<C-j>*
+<C-m>	or					*<C-m>*
+<CR>						*<CR>*
 	Mapped to |<Plug>scratch-evaluate|.
 	Note that these mappings will not be defined when {lhs} is already
 	mapped to something.
@@ -136,18 +135,18 @@ SCRATCH BUFFER-LOCAL MAPPINGS ~
 
 
 ==============================================================================
-CUSTOMIZING						*scratch-customizing*
+CUSTOMIZING					*scratch-customizing*
 
 ------------------------------------------------------------------------------
-VARIABLES						*scratch-variables*
+VARIABLES					*scratch-variables*
 
-							*g:scratch_buffer_name*
+						*g:scratch_buffer_name*
 g:scratch_buffer_name		string (default: "*Scratch*")
 	The name of the scratch buffer.
 	Note that this value must be set before this plugin is loaded (for
 	example, in $MYVIMRC).
 
-						      *g:scratch_show_command*
+						*g:scratch_show_command*
 g:scratch_show_command		string (default: 'topleft split | hide buffer')
 	The command to show the scratch buffer.  When this plugin shows the
 	scratch buffer, it will execute the following script: >

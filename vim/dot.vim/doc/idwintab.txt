@@ -23,17 +23,19 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*idwintab-contents*
 
-Introduction			|idwintab-introduction|
-Functions			|idwintab-functions|
-Bugs				|idwintab-bugs|
-Changelog			|idwintab-changelog|
+Introduction		|idwintab-introduction|
+Interface		|idwintab-interface|
+  Functions		  |idwintab-functions|
+Bugs			|idwintab-bugs|
+Changelog		|idwintab-changelog|
 
 
 
 
 ==============================================================================
-INTRODUCTION						*idwintab-introduction*
+INTRODUCTION					*idwintab-introduction*
 
 Idwintab is a Vim plugin to give unique ID for each window and tab page to
 identify one of them.  Because the returning values of Vim's built-in
@@ -44,9 +46,12 @@ positions, so that the values aren't invariant.
 
 
 ==============================================================================
-FUNCTIONS						*idwintab-functions*
+INTERFACE					*idwintab-interface*
 
-idwintab#load()						*idwintab#load()*
+------------------------------------------------------------------------------
+FUNCTIONS					*idwintab-functions*
+
+idwintab#load()					*idwintab#load()*
 			Load the code of this plugin.  You have to call this
 			function in your |vimrc| and the calling position must
 			be before any autocommands which use |WinEnter| or
@@ -56,7 +61,7 @@ idwintab#load()						*idwintab#load()*
 
 
 ==============================================================================
-BUGS							*idwintab-bugs*
+BUGS						*idwintab-bugs*
 
 - Many bugs must be around the world.
 
@@ -64,7 +69,7 @@ BUGS							*idwintab-bugs*
 
 
 ==============================================================================
-CHANGELOG						*idwintab-changelog*
+CHANGELOG					*idwintab-changelog*
 
 0.0.1	2008-05-22T11:02:37+09:00
 	- Fix the bug that IDs are't assigned when |idwintab#load()| is first

@@ -23,14 +23,14 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-
 CONTENTS					*textobj-fold-contents*
 
-Introduction			|textobj-fold-introduction|
-Key Mapings			|textobj-fold-key-mappings|
-Customizing			|textobj-fold-customizing|
-Bugs				|textobj-fold-bugs|
-ChangeLog			|textobj-fold-changelog|
+Introduction		|textobj-fold-introduction|
+Interface		|textobj-fold-interface|
+  Mapings		  |textobj-fold-mappings|
+Customizing		|textobj-fold-customizing|
+Bugs			|textobj-fold-bugs|
+ChangeLog		|textobj-fold-changelog|
 
 
 
@@ -49,9 +49,12 @@ Requirements:
 
 
 ==============================================================================
-KEY MAPPINGS					*textobj-fold-key-mappings*
+INTERFACE					*textobj-fold-interface*
 
-<Plug>(textobj-fold-a)			*<Plug>(textobj-fold-a)*
+------------------------------------------------------------------------------
+MAPPINGS					*textobj-fold-mappings*
+
+<Plug>(textobj-fold-a)				*<Plug>(textobj-fold-a)*
 	"a folding", select [count] foldings.
 	Leading or trailing lines which are not in any foldings are also
 	included, but not counted.
@@ -60,7 +63,7 @@ KEY MAPPINGS					*textobj-fold-key-mappings*
 	selection will be switched to linewise.  In Operator-pending mode,
 	affected text will be linewise.
 
-<Plug>(textobj-fold-i)			*<Plug>(textobj-fold-i)*
+<Plug>(textobj-fold-i)				*<Plug>(textobj-fold-i)*
 	"inner folding", select [count] foldings.
 	Leading or trailing lines which are not in any foldings are also
 	counted too.

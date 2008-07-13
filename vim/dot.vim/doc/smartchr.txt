@@ -23,6 +23,8 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*smartchr-contents*
+
 Introduction		|smartchr-introduction|
 Interface		|smartchr-interface|
   Functions		  |smartchr-functions|

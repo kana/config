@@ -23,11 +23,19 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
+CONTENTS					*cygclip-contents*
+
+Introduction		|cygclip-introduction|
+Interface		|cygclip-interface|
+  Mappings		  |cygclip-mappings|
+Bugs			|cygclip-bugs|
+Changelog		|cygclip-changelog|
+
 
 
 
 ==============================================================================
-INTRODUCTION						*cygclip-introduction*
+INTRODUCTION					*cygclip-introduction*
 
 cygclip is a Vim plugin to provide pseudo clipboard register (|quotestar| or
 |quoteplus|) for non-GUI version of Vim on Cygwin.
@@ -36,19 +44,22 @@ cygclip is a Vim plugin to provide pseudo clipboard register (|quotestar| or
 
 
 ==============================================================================
-KEY MAPPINGS						*cygclip-keymappings*
+INTERFACE					*cygclip-interface*
 
-[count]<Plug>Cygclip_y{motion}				*<Plug>Cygclip_y*
-[count]<Plug>Cygclip_Y					*<Plug>Cygclip_Y*
-{Visual}<Plug>Cygclip_y					*v_<Plug>Cygclip_y*
-{Visual}<Plug>Cygclip_Y					*v_<Plug>Cygclip_Y*
+------------------------------------------------------------------------------
+MAPPINGS					*cygclip-mappings*
+
+[count]<Plug>Cygclip_y{motion}			*<Plug>Cygclip_y*
+[count]<Plug>Cygclip_Y				*<Plug>Cygclip_Y*
+{Visual}<Plug>Cygclip_y				*v_<Plug>Cygclip_y*
+{Visual}<Plug>Cygclip_Y				*v_<Plug>Cygclip_Y*
 			Same as |y| or |Y|.
 			NOTE: <Plug>Cygclip_y accepts y as a motion.
 
-[count]<Plug>Cygclip_p					*<Plug>Cygclip_p*
-[count]<Plug>Cygclip_P					*<Plug>Cygclip_P*
-[count]<Plug>Cygclip_gp					*<Plug>Cygclip_gp*
-[count]<Plug>Cygclip_gP					*<Plug>Cygclip_gP*
+[count]<Plug>Cygclip_p				*<Plug>Cygclip_p*
+[count]<Plug>Cygclip_P				*<Plug>Cygclip_P*
+[count]<Plug>Cygclip_gp				*<Plug>Cygclip_gp*
+[count]<Plug>Cygclip_gP				*<Plug>Cygclip_gP*
 			Same as |p|, |P|, |gp| or |gP|.
 
 						*i_<Plug>Cygclip_insert*
@@ -82,7 +93,7 @@ plugin is loaded.
 
 
 ==============================================================================
-BUGS							*cygclip-bugs*
+BUGS						*cygclip-bugs*
 
 (a) The characteristic (i.e., characterwise, linewise or blockwise) of the
 clipboard content is not remembered.  It will be linewise if each line of the
@@ -99,7 +110,7 @@ register are not supported.
 
 
 ==============================================================================
-CHANGELOG						*cygclip-changelog*
+CHANGELOG					*cygclip-changelog*
 
 0.1	2007-12-27T22:47:34+09:00
 	- Modify to automatically define the default key mappings as this
