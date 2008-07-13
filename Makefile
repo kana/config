@@ -286,10 +286,10 @@ PACKAGE_vim_tofunc_FILES=\
 PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.0.7
 PACKAGE_vim_vcsi_BASE=vim/dot.vim
 PACKAGE_vim_vcsi_FILES=\
+  vim/dot.vim/after/syntax/vcsi.vim \
   vim/dot.vim/autoload/vcsi.vim \
   vim/dot.vim/doc/vcsi.txt \
-  vim/dot.vim/plugin/vcsi.vim \
-  vim/dot.vim/syntax/vcsi.vim
+  vim/dot.vim/plugin/vcsi.vim
 
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
