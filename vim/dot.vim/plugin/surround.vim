@@ -1,4 +1,4 @@
-" surround.vim - Surrounding text objects
+" surround - Surrounding text objects
 " Author: Tim Pope <vimNOSPAM@tpope.info>
 " ModifiedBy: kana <http://whileimautomaton.net/>
 " BasedOn: $Id: surround.vim,v 1.34 2008-02-15 21:43:42 tpope Exp $

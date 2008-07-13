@@ -1,4 +1,4 @@
-*scratch.txt*	Emacs like scratch buffer.
+*scratch.txt*	Emacs like scratch buffer
 
 Version 0.1+
 Copyright (C) 2007 kana <http://whileimautomaton.net/>

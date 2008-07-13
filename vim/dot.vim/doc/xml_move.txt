@@ -1,4 +1,4 @@
-*xml_move.txt*	moving around various objects in XML documents.
+*xml_move.txt*	support moving around various objects in XML documents
 
 Version 0.0.2
 Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>

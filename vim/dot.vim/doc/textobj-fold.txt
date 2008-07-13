@@ -1,4 +1,4 @@
-*textobj-fold.txt*	Text objects for foldings.
+*textobj-fold.txt*	Text objects for foldings
 
 Version 0.1.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>

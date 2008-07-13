@@ -1,4 +1,4 @@
-" lib#trie - Trie library
+" lib-trie - Trie library
 " Version: 0.0
 " Copyright (C) 2007 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{

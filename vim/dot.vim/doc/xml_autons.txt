@@ -1,4 +1,4 @@
-*xml_autons.txt*	do :XMLns according to the current buffer.
+*xml_autons.txt*	auto :XMLns by the current content
 
 Version 0.0.1
 Copyright (C) 2007 kana <http://whileimautomaton.net/>

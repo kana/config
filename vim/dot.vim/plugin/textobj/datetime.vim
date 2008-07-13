@@ -1,4 +1,4 @@
-" textobj-datetime - Text objects for date and time.
+" textobj-datetime - Text objects for date and time
 " Version: 0.3.1
 " Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{

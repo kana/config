@@ -1,6 +1,4 @@
-" xml_autons - Additional Vim filetype plugin to set automatically :XMLns
-"              according to the content of the current buffer.
-" Language: xml
+" Vim additional ftplugin: xml_autons - auto :XMLns by the current content
 " Version: 0.0.1
 " Copyright: Copyright (C) 2007 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{

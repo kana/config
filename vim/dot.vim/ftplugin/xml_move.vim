@@ -1,5 +1,4 @@
-" Additional Vim filetype plugin for XML to support moving around various objs
-" Language: xml
+" Vim additional ftplugin: xml_move - support moving around various objs
 " Version: 0.0.2
 " Copyright: Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
