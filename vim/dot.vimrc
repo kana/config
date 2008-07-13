@@ -2128,18 +2128,22 @@ function! s:on_User_plugin_skeleton_detect()
   " TODO: skeletons for simple plugins using textobj-user.
 
   let _ = matchlist(expand('%'),
-  \                 '\v^%(.*<vim>.*\/)?'
-  \                   . '(autoload|ftplugin|indent|plugin|syntax)'
-  \                   . '\/.*\.vim$')
-  if len(_) != 0
-    execute 'SkeletonLoad' 'vim-'._[1]
+  \                 '\v^%(.*<vim>.{-}\/(after\/)?)?'
+  \                   . '(autoload|doc|ftplugin|indent|plugin|syntax)'
+  \                   . '\/.*\.(txt|vim)$')
+  if len(_) == 0
     return
   endif
 
-  let _ = matchlist(expand('%'), '\v^%(.*<vim>.*\/)?(doc)\/.*\.txt$')
-  if len(_) != 0
+  if _[2] ==# 'doc' && _[3] ==# 'txt'
     SkeletonLoad help
-    return
+  endif
+
+  if _[2] !=# 'doc' && _[3] ==# 'vim'
+    if _[1] != ''
+      execute 'SkeletonLoad' 'vim-additional-'._[2]
+    endif
+    execute 'SkeletonLoad' 'vim-'._[2]
   endif
 
   return
