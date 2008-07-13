@@ -21,19 +21,6 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-"{{{1
-
-if exists('b:did_ftplugin')
-  finish
-endif
-
-
-
-
-
-
-
-
 " BUFFER-LOCAL PART  "{{{1
 
 silent! map <buffer> <unique> <LocalLeader>j  <Plug>XmlMove_SObjNextHeadSR
