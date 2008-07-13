@@ -278,9 +278,9 @@ PACKAGE_vim_textobj_user_FILES=\
 PACKAGE_vim_tofunc_ARCHIVE=vim-tofunc-0.0
 PACKAGE_vim_tofunc_BASE=vim/dot.vim
 PACKAGE_vim_tofunc_FILES=\
+  vim/dot.vim/after/ftplugin/c_tofunc.vim \
+  vim/dot.vim/after/ftplugin/vim_tofunc.vim \
   vim/dot.vim/doc/tofunc.txt \
-  vim/dot.vim/ftplugin/c_tofunc.vim \
-  vim/dot.vim/ftplugin/vim_tofunc.vim \
   vim/dot.vim/plugin/tofunc.vim
 
 PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.0.7
