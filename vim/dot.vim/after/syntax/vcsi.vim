@@ -1,4 +1,4 @@
-" Vim syntax: vcsi - Version Control System Interface
+" Vim additional syntax: vcsi - Version Control System Interface
 " Version: 0.0.7
 " Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -22,12 +22,6 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if version < 600
-  syntax clear
-elseif exists('b:current_syntax') && b:current_syntax =~# '\<vcsi\>'
-  finish
-endif
-
 
 
 
@@ -40,10 +34,5 @@ highlight default link vcsiSeparator Delimiter
 
 
 
-if !exists('b:current_syntax')
-  let b:current_syntax = 'vcsi'
-else
-  let b:current_syntax .= '.vcsi'
-endif
-
 " __END__
+" vim: foldmethod=marker
