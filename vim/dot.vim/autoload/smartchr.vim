@@ -21,8 +21,11 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Interface  "{{{1
-function! smartchr#one_of(...)  "{{{2
+
+
+
+
+function! smartchr#one_of(...)
   " Support function to insert one of the given arguments like
   " ess-smart-underscore of Emacs Speaks Statistics.
   "
@@ -56,9 +59,5 @@ endfunction
 
 
 
-
-
-
-
-" __END__  "{{{1
+" __END__
 " vim: foldmethod=marker
