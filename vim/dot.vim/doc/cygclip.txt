@@ -27,7 +27,7 @@ CONTENTS					*cygclip-contents*
 
 Introduction		|cygclip-introduction|
 Interface		|cygclip-interface|
-  Mappings		  |cygclip-mappings|
+  Key Mappings		  |cygclip-key-mappings|
 Bugs			|cygclip-bugs|
 Changelog		|cygclip-changelog|
 
@@ -47,7 +47,7 @@ cygclip is a Vim plugin to provide pseudo clipboard register (|quotestar| or
 INTERFACE					*cygclip-interface*
 
 ------------------------------------------------------------------------------
-MAPPINGS					*cygclip-mappings*
+KEY MAPPINGS					*cygclip-key-mappings*
 
 [count]<Plug>Cygclip_y{motion}			*<Plug>Cygclip_y*
 [count]<Plug>Cygclip_Y				*<Plug>Cygclip_Y*

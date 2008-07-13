@@ -27,7 +27,7 @@ CONTENTS					*textobj-fold-contents*
 
 Introduction		|textobj-fold-introduction|
 Interface		|textobj-fold-interface|
-  Mapings		  |textobj-fold-mappings|
+  Key Mapings		  |textobj-fold-key-mappings|
 Customizing		|textobj-fold-customizing|
 Bugs			|textobj-fold-bugs|
 ChangeLog		|textobj-fold-changelog|
@@ -52,7 +52,7 @@ Requirements:
 INTERFACE					*textobj-fold-interface*
 
 ------------------------------------------------------------------------------
-MAPPINGS					*textobj-fold-mappings*
+KEY MAPPINGS					*textobj-fold-key-mappings*
 
 <Plug>(textobj-fold-a)				*<Plug>(textobj-fold-a)*
 	"a folding", select [count] foldings.

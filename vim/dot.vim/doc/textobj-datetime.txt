@@ -27,7 +27,7 @@ CONTENTS					*textobj-datetime-contents*
 
 Introduction		|textobj-datetime-introduction|
 Interface		|textobj-datetime-interface|
-  Mapings		  |textobj-datetime-mappings|
+  Key Mapings		  |textobj-datetime-key-mappings|
 Customizing		|textobj-datetime-customizing|
 Bugs			|textobj-datetime-bugs|
 ChangeLog		|textobj-datetime-changelog|
@@ -52,7 +52,7 @@ Requirements:
 INTERFACE					*textobj-datetime-interface*
 
 ------------------------------------------------------------------------------
-MAPPINGS					*textobj-datetime-mappings*
+KEY MAPPINGS					*textobj-datetime-key-mappings*
 
 <Plug>(textobj-datetime-auto)			*<Plug>(textobj-datetime-auto)*
 	Select one of the following objects (as long as possible).

@@ -29,7 +29,7 @@ Introduction		|scratch-introduction|
 Interface		|scratch-interface|
   Commands		  |scratch-commands|
   Functions		  |scratch-functions|
-  Mapings		  |scratch-mappings|
+  Key Mapings		  |scratch-key-mappings|
 Customizing		|scratch-customizing|
   Variables		  |scratch-variables|
   Autocommands		  |scratch-autocommands|
@@ -106,7 +106,7 @@ scratch#evaluate({pos1}, {pos2}, {adjust-cursorp})	*scratch#evaluate()*
 
 
 ------------------------------------------------------------------------------
-MAPPINGS					*scratch-mappings*
+KEY MAPPINGS					*scratch-key-mappings*
 
 GLOBAL MAPPINGS ~
 

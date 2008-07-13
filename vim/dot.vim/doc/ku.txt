@@ -29,6 +29,8 @@ Introduction		|ku-introduction|
 Interface		|ku-interface|
   Commands		  |ku-commands|
   Functions		  |ku-functions|
+  Key Mapings		  |ku-key-mappings|
+Types			|ku-types|
 Customizing		|ku-customizing|
 Bugs			|ku-bugs|
 Changelog		|ku-changelog|
@@ -135,7 +137,7 @@ ku#custom_key({type-name}, {key}, {new-action-name})	*ku#custom_key()*
 
 
 ==============================================================================
-MAPPINGS					*ku-mappings*
+KEY MAPPINGS					*ku-key-mappings*
 
 In the ku window, the following key mappings are defined:
 

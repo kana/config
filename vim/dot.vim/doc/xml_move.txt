@@ -27,7 +27,7 @@ CONTENTS					*xml_move-contents*
 
 Introduction		|xml_move-introduction|
 Interface		|xml_move-interface|
-  Mappings		  |xml_move-mappings|
+  Key Mappings		  |xml_move-key-mappings|
 Bugs			|xml_move-bugs|
 Changelog		|xml_move-changelog|
 
@@ -48,7 +48,7 @@ text nodes.
 INTERFACE					*xml_move-interface*
 
 ------------------------------------------------------------------------------
-MAPPINGS					*xml_move-mappings*
+KEY MAPPINGS					*xml_move-key-mappings*
 
 The following key mappings are global.
 Note that all moving commands are |exclusive|.
