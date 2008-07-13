@@ -163,6 +163,7 @@ ALL_PACKAGES=\
   vim-scratch \
   vim-skeleton \
   vim-smartchr \
+  vim-surround \
   vim-textobj-datetime \
   vim-textobj-fold \
   vim-textobj-jabraces \
