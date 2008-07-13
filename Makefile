@@ -135,7 +135,10 @@ GROUP_VIM_FILES=\
   vim/dot.vim/syntax/rest.vim \
   vim/dot.vim/xtr/skeleton/help \
   vim/dot.vim/xtr/skeleton/vim-autoload \
+  vim/dot.vim/xtr/skeleton/vim-ftplugin \
+  vim/dot.vim/xtr/skeleton/vim-indent \
   vim/dot.vim/xtr/skeleton/vim-plugin \
+  vim/dot.vim/xtr/skeleton/vim-syntax \
   vim/dot.vimrc
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_POST_TARGETS=post-vim-update-local-helptags
