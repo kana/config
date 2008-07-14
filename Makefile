@@ -202,6 +202,7 @@ PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.0
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
 PACKAGE_vim_fakeclip_FILES=\
+  vim/dot.vim/autoload/fakeclip.vim \
   vim/dot.vim/doc/fakeclip.txt \
   vim/dot.vim/plugin/fakeclip.vim
 
