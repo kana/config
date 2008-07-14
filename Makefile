@@ -109,7 +109,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
 GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
-  $(PACKAGE_vim_cygclip_FILES) \
+  $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
@@ -161,7 +161,7 @@ ALL_PACKAGES=\
   cereja-all \
   opera-all \
   vim-all \
-  vim-cygclip \
+  vim-fakeclip \
   vim-flydiff \
   vim-idwintab \
   vim-ku \
@@ -199,11 +199,11 @@ PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 
-PACKAGE_vim_cygclip_ARCHIVE=vim-cygclip-0.1
-PACKAGE_vim_cygclip_BASE=vim/dot.vim
-PACKAGE_vim_cygclip_FILES=\
-  vim/dot.vim/doc/cygclip.txt \
-  vim/dot.vim/plugin/cygclip.vim
+PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.0
+PACKAGE_vim_fakeclip_BASE=vim/dot.vim
+PACKAGE_vim_fakeclip_FILES=\
+  vim/dot.vim/doc/fakeclip.txt \
+  vim/dot.vim/plugin/fakeclip.vim
 
 PACKAGE_vim_flydiff_ARCHIVE=vim-flydiff-0.0.1
 PACKAGE_vim_flydiff_BASE=vim/dot.vim
