@@ -293,7 +293,7 @@ endfunction
 function! s:make_git_command_script(args)  "{{{3
   let _ = ['git']
 
-  if a:args.command ==# 'all'
+  if a:args.command ==# 'add'
     call add(_, 'add')
     call add(_, '--')
   elseif a:args.command ==# 'commit'
