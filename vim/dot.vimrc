@@ -1933,15 +1933,6 @@ autocmd MyAutoCmd FileType tex
 
 
 
-" vcsicommit  "{{{2
-" 'filetype' for commit log buffers created by vcsi.
-
-autocmd MyAutoCmd FileType {vcsicommit,*.vcsicommit}
-\ setlocal comments=sr:*,mb:\ ,ex:NOT_DEFINED
-
-
-
-
 " vim  "{{{2
 
 autocmd MyAutoCmd FileType vim
@@ -2166,7 +2157,8 @@ nmap ss  <Plug>Yssurround
 
 " vcsi  "{{{2
 
-let g:vcsi_diff_in_commit_logp = 1
+let g:vcsi_diff_in_commit_buffer_p = 1
+let g:vcsi_use_native_message_p = 1
 
 
 

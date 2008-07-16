@@ -1,5 +1,5 @@
 " vcsi - Version Control System Interface
-" Version: 0.0.7
+" Version: 0.1.0
 " Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -21,176 +21,106 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Conventions for arguments  "{{{1
+"
+" args
+"     Dictionary which contains various information.
+"     At least, "command" and "targets" keys exist.
+"
+" command
+"     String which represents the name of a vcsi command.
+"
+" count
+"     Number which represents the last given count.
+"
+" targets
+"     List of a string which represents the targets of a vcsi command.
+"     If the length of targets is 0, it is called as unnormalized targets.
+"     If targets is returned by s:normalize_targets(), it is called as
+"     normalized targets.
+
+
+
+
+
+
+
+
 " Interfaces  "{{{1
-" Notes:
-" For each vcsi#*() which is called by user:
-" - it must returns true on success or false on failure;
-" - it must check whether the current s:vcs_type() supports the command itself.
-function! vcsi#branch_list(bang_p)  "{{{2
-  let items = s:normalize_items([], 'no-new-buffer')
-  let vcs_type = s:vcs_type(items)
-  if !(vcs_type ==# 'git')
-    throw 'Not supported VCS: ' . vcs_type
-  endif
-
+function! vcsi#add(...)  "{{{2
+  " args = unnormalized-target*
   return s:execute_vcs_command({
-    \      'command': 'branch-list',
-    \      'items': items,
-    \      'bang_p': a:bang_p
-    \    })
-endfunction
-
-
-
-
-function! vcsi#branch_switch(bang_p, branch_name)  "{{{2
-  let items = s:normalize_items([], 'no-new-buffer')
-  let vcs_type = s:vcs_type(items)
-  if !(vcs_type ==# 'git')
-    throw 'Not supported VCS: ' . vcs_type
-  endif
-
-  if a:branch_name == ''
-    let branch_name = input('branch name' . (a:bang_p ? '!' : '') . '? ',
-      \                     '',
-      \                     'custom,vcsi#complete_branch_names')
-    if branch_name == ''  " canceled?
-      return 0
-    endif
-  else
-    let branch_name = a:branch_name
-  endif
-
-  return s:execute_vcs_command({
-    \      'command': 'branch-switch',
-    \      'items': [branch_name],
-    \      'bang_p': a:bang_p
-    \    })
+  \        'command': 'add',
+  \        'targets': s:normalize_targets(a:000),
+  \      })
 endfunction
 
 
 
 
 function! vcsi#commit(...)  "{{{2
-  " args = item*
-  return s:create_new_buffer('commit') &&
-       \ s:initialize_commit_log_buffer({
-       \   'command': 'commit',
-       \   'items': s:normalize_items(a:000),
-       \ })
+  " args = unnormalized-target*
+  return s:open_command_buffer({
+  \        'command': 'commit',
+  \        'targets': s:normalize_targets(a:000),
+  \      })
 endfunction
 
 
 
 
-function! vcsi#commit_finish()  "{{{2
-  " Assumption: the current buffer is created by
-  " s:initialize_commit_log_buffer().
-  let commit_log_file = tempname()
-
-  goto 1  " goto the 1st byte of the current buffer.
-  let log_tail_line = searchpos('^=== [^=]* ===$', 'cW')[0] - 1
-  if writefile(getbufline('', 1, log_tail_line), commit_log_file)
-    return  " error message is already published by writefile().
-  endif
-
-  let succeededp = s:execute_vcs_command({
-    \                'command': 'commit',
-    \                'items': b:vcsi_target_items,
-    \                'commit_log_file': commit_log_file
-    \              })
-  if succeededp
-    bwipeout!
-  endif
-
-  if delete(commit_log_file)
-    echohl ErrorMsg
-    echomsg 'Failed to delete temporary file' string(commit_log_file)
-    echohl None
-  endif
-endfunction
-
-
-
-
-function! vcsi#complete_branch_names(...)  "{{{2
-  " FIXME: assumption on the current working directory.
-  " FIXME: cache?
-  return substitute(system('git-branch'), '[ *]\+', '', 'g')
-endfunction
-
-
-
-
-function! vcsi#diff(...)  "{{{2
-  " args = (item revision?)?
-  return s:create_new_buffer('diff') &&
-       \ s:initialize_vcs_command_result_buffer({
-       \   'command': 'diff',
-       \   'items': s:normalize_items(a:000),
-       \   'revision': (2 <= a:0 ? a:2 : ''),
-       \   'filetype': 'diff.vcsi'
-       \ })
-endfunction
-
-
-
-
-function! vcsi#info(...)  "{{{2
-  " args = item*
-  return s:create_new_buffer('info') &&
-       \ s:initialize_vcs_command_result_buffer({
-       \   'command': 'info',
-       \   'items': s:normalize_items(a:000)
-       \ })
+function! vcsi#diff(count, ...)  "{{{2
+  " args = unnormalized-target*
+  return s:open_command_buffer({
+  \        'command': 'diff',
+  \        'count': a:count,
+  \        'targets': s:normalize_targets(a:000),
+  \      })
 endfunction
 
 
 
 
 function! vcsi#log(...)  "{{{2
-  " args = (item revision?)?
-  return s:create_new_buffer('log') &&
-       \ s:initialize_vcs_command_result_buffer({
-       \   'command': 'log',
-       \   'items': s:normalize_items(a:000),
-       \   'revision': 'HEAD:' . (2 <= a:0 ? a:2 : '1')
-       \ })
+  " args = unnormalized-target*
+  return s:open_command_buffer({
+  \        'command': 'log',
+  \        'targets': s:normalize_targets(a:000),
+  \      })
 endfunction
 
 
 
 
-function! vcsi#propedit(...)  "{{{2
-  " args = ???
-  let vcs_type = s:vcs_type(s:normalize_items(a:000))
-  if !(vcs_type ==# 'svk' || vcs_type ==# 'svn')
-    throw 'Not supported VCS: ' . vcs_type
-  endif
-  throw 'FIXME: Not implemented yet.'
+function! vcsi#remove(banged_p, ...)  "{{{2
+  " args = unnormalized-target*
+  return s:execute_vcs_command({
+  \        'banged_p': a:banged_p,
+  \        'command': 'remove',
+  \        'targets': s:normalize_targets(a:000),
+  \      })
 endfunction
 
 
 
 
 function! vcsi#revert(...)  "{{{2
-  " args = item*
+  " args = unnormalized-target*
   return s:execute_vcs_command({
-    \      'command': 'revert',
-    \      'items': s:normalize_items(a:000, 'no-new-buffer')
-    \    })
+  \        'command': 'revert',
+  \        'targets': s:normalize_targets(a:000),
+  \      })
 endfunction
 
 
 
 
 function! vcsi#status(...)  "{{{2
-  " args = item*
-  return s:create_new_buffer('status') &&
-       \ s:initialize_vcs_command_result_buffer({
-       \   'command': 'status',
-       \   'items': s:normalize_items(a:000)
-       \ })
+  " args = unnormalized-target*
+  return s:open_command_buffer({
+  \        'command': 'status',
+  \        'targets': s:normalize_targets(a:000),
+  \      })
 endfunction
 
 
@@ -201,128 +131,159 @@ endfunction
 
 
 " Misc.  "{{{1
-function! s:create_new_buffer(vcs_command_name)  "{{{2
-  let v:errmsg = ''
-  execute (exists('g:vcsi_open_command_{a:vcs_command_name}')
-        \  ? g:vcsi_open_command_{a:vcs_command_name}
-        \  : g:vcsi_open_command)
-  return v:errmsg == ''
-endfunction
+" Constants  "{{{2
+
+let s:FALSE = 0
+let s:TRUE = !s:FALSE
 
 
 
 
 function! s:execute_vcs_command(args)  "{{{2
   let autowrite = &autowrite
-  set noautowrite  " to avoid E676 for vcsi#commit_finish().
+  set noautowrite  " to avoid E676 for s:finish_commit().
 
-    " FIXME: error cases.
-  execute '!' s:make_vcs_command_script(a:args)
+  let script = s:make_vcs_command_script(a:args, s:TRUE)
+  if script == ''
+    return s:FALSE
+  endif
+  execute '!' script
+  let succeeded_p = v:shell_error == 0
 
   let &autowrite = autowrite
-  return v:shell_error == 0
+  return succeeded_p
 endfunction
 
 
 
 
-function! s:initialize_commit_log_buffer(args)  "{{{2
-  " args = command:'commit' items:normalized-items
-  call s:initialize_temporary_buffer()
+function! s:finish_commit()  "{{{2
+  " Assumption: the current buffer is created by s:initialize_commit_buffer().
+  let commit_log_file = tempname()
 
-  silent file `=s:make_buffer_name(a:args)`
-
-    " BUGS: Don't forget to update message filtering in vcsi#commit_finish().
-  put ='=== Targets to be commited (this message will be removed). ==='
-  if g:vcsi_status_in_commit_logp
-    silent execute '$read !' s:make_vcs_command_script({
-         \                     'command': 'status',
-         \                     'items': a:args.items
-         \                   })
-  else
-    call append(line('$'), a:args.items)
+  goto 1  " goto the 1st byte of the current buffer.
+  let log_tail_line = searchpos('^=== [^=]* ===$', 'cW')[0] - 1
+  if writefile(getbufline('', 1, log_tail_line), commit_log_file)
+    return  " error message is already published by writefile().
   endif
-  if g:vcsi_diff_in_commit_logp
-    silent execute '$read !' s:make_vcs_command_script({
-         \                     'command': 'diff',
-         \                     'items': a:args.items
-         \                   })
-  endif
-  call cursor(1, 0)
-  let b:vcsi_target_items = a:args.items
-  setlocal buftype=acwrite nomodified filetype=diff.vcsi
-  autocmd BufWriteCmd <buffer>  call vcsi#commit_finish()
 
-  return 1
-endfunction
-
-
-
-
-function! s:initialize_temporary_buffer()  "{{{2
-  setlocal bufhidden=wipe buflisted buftype=nofile noswapfile
-  return 1
-endfunction
-
-
-
-
-function! s:initialize_vcs_command_result_buffer(args)  "{{{2
-  " args = {same as s:make_vcs_command_script()} + filetype:filetype?
-  call s:initialize_temporary_buffer()
-
-  silent file `=s:make_buffer_name(a:args)`
-  let b:vcsi_target_items = a:args.items
-
-    " FIXME: error cases.
-  silent execute '1 read !' s:make_vcs_command_script(a:args)
-  if 1 < line('$')
-    1 delete _
-    if (v:shell_error == 0) && has_key(a:args, 'filetype')
-      let &l:filetype = a:args.filetype
-    endif
-    setlocal nomodified
-    return 1
-  else
+  let succeeded_p = s:execute_vcs_command({
+  \                   'command': 'commit',
+  \                   'commit_log_file': commit_log_file,
+  \                   'targets': b:vcsi_targets,
+  \                 })
+  if succeeded_p
+    " FIXME: Here should we restore the previous state like the
+    "        s:open_command_buffer()?  But window layout and other states can
+    "        be changed since s:open_command_buffer() is done.
+    " FIXME: If this function is called by :wquit, one more window is closed.
     bwipeout!
-    " redraw then echomsg to avoid the message being overriden by other
-    " messages and/or commands.
-    redraw
-      " FIXME: more better message
-    echomsg 'No output from' a:args.command join(a:args.items)
-    return 0
+  endif
+
+  if delete(commit_log_file)
+    echoerr 'vcsi: Failed to delete temporary file' string(commit_log_file)
   endif
 endfunction
 
 
 
 
-function! s:make_buffer_name(args)  "{{{2
-  " args = {same as s:make_vcs_command_script()}
-  let base_name = 'vcsi:' . s:vcs_type(a:args.items)
-    \             . ' - ' . a:args.command
-    \             . ' - ' . join(a:args.items)
-  let name = base_name
-  let i = 0
-  while bufexists(name)
-    let i += 1
-    let name = base_name . ' (' . i . ')'
-  endwhile
-  return name
+" s:initialize_{command}_buffer()  "{{{2
+function! s:initialize_commit_buffer(args)  "{{{3
+    " BUGS: Don't forget to update message filtering in s:finish_commit().
+  1 put ='=== This and the following lines will be removed. ==='
+  if g:vcsi_use_native_message_p
+    silent execute 'read !'
+    \ 'EDITOR=cat' s:make_vcs_command_script(a:args, s:FALSE) '2>/dev/null'
+  endif
+  if g:vcsi_status_in_commit_buffer_p
+    call s:read_vcs_command_result('$', {
+    \      'command': 'status',
+    \      'targets': a:args.targets,
+    \    })
+  endif
+  if g:vcsi_diff_in_commit_buffer_p
+    call s:read_vcs_command_result('$', {
+    \      'count': 0,
+    \      'command': 'diff',
+    \      'targets': a:args.targets,
+    \    })
+  endif
+
+  goto 1  " goto the 1st byte of the current buffer.
+  setlocal buftype=acwrite filetype=diff.vcsi nomodified
+  autocmd BufWriteCmd <buffer>  call s:finish_commit()
+
+  return s:TRUE
+endfunction
+
+
+function! s:initialize_diff_buffer(args)  "{{{3
+  call s:read_vcs_command_result('$', a:args, s:TRUE)
+  if line('$') == 1
+    echomsg 'vcsi: No difference'
+    return s:FALSE
+  endif
+  1 delete _
+
+  filetype detect
+  return s:TRUE
+endfunction
+
+
+function! s:initialize_log_buffer(args)  "{{{3
+  call s:read_vcs_command_result('$', a:args, s:TRUE)
+  1 delete _
+
+  " FIXME: "more" feature.
+  return s:TRUE
+endfunction
+
+
+function! s:initialize_status_buffer(args)  "{{{3
+  call s:read_vcs_command_result('$', a:args, s:TRUE)
+  1 delete _
+
+  return s:TRUE
 endfunction
 
 
 
 
-function! s:make_vcs_command_script(args)  "{{{2
-  " args = command:vcs-command-name
-  "        items:normalized-items
-  "        commit_log_file:commit_log_file?
-  "        revision:revision?
-  "        bang_p:bang_p?
-  let script = s:make_{s:vcs_type(a:args.items)}_command_script(a:args)
+function! s:make_command_buffer_name(args)  "{{{2
+  let i = 0
+  while s:TRUE
+    let bufname = printf('*vcsi* [%s] %s - %s%s',
+    \                    s:vcs_type(a:args.targets),
+    \                    a:args.command,
+    \                    join(a:args.targets, ', '),
+    \                    (i == 0 ? '' : ' (' . i . ')'))
+    if !bufexists(bufname)
+      return bufname
+    endif
+    let i += 1
+  endwhile
+endfunction
+
+
+
+
+" s:make_vcs_command_script() and others  "{{{2
+" Return a shell script to execute the given command.
+" Return empty string if the given command is not supported or other reasons.
+function! s:make_vcs_command_script(args, show_error_p)  "{{{3
+  let script = s:make_{s:vcs_type(a:args.targets)}_command_script(a:args)
   let script = substitute(script, ' \{2,}', ' ', 'g')
-  if exists('g:vcsi_echo_scriptp') && g:vcsi_echo_scriptp
+  if script == ''
+    if a:show_error_p
+      echoerr printf('vcsi: %s: Not supported command: %s',
+      \              s:vcs_type(a:args.targets),
+      \              a:args.command)
+    endif
+    return ''
+  endif
+
+  if exists('g:vcsi_echo_script_p') && g:vcsi_echo_script_p
     echomsg 'vcsi:' script
   endif
   return script
@@ -330,57 +291,60 @@ endfunction
 
 
 function! s:make_git_command_script(args)  "{{{3
-  let ss = ['git']
-  let items = map(copy(a:args.items), '"''" . v:val . "''"')
-  if a:args.command ==# 'branch-list'
-    call add(ss, 'branch')
-    if a:args.bang_p
-      call add(ss, '-a')
-    endif
-    let items = []  " FIXME: bad design
-  elseif a:args.command ==# 'branch-switch'
-    call add(ss, 'checkout')
-    if a:args.bang_p
-      call add(ss, '-b')
-    endif
+  let _ = ['git']
+
+  if a:args.command ==# 'all'
+    call add(_, 'add')
+    call add(_, '--')
   elseif a:args.command ==# 'commit'
-    call add(ss, 'commit')
-    call add(ss, '-F')
-    call add(ss, a:args.commit_log_file)
+    call add(_, 'commit')
+    if has_key(a:args, 'commit_log_file')
+      call add(_, '--file')
+      call add(_, a:args.commit_log_file)
+    endif
   elseif a:args.command ==# 'diff'
-    call insert(ss, 'echo "=== UNSTAGED ===";', 0)
-    call add(ss, 'diff')
-    call add(ss, '--')
-    call extend(ss, items)
-    call add(ss, ';')
-    call add(ss, 'echo "=== STAGED ===";')
-    call add(ss, ss[1])
-    call add(ss, 'diff')
-    call add(ss, '--cached')
-    call add(ss, '--')
-  elseif a:args.command ==# 'info'
-    return 'echo "git does not support this command: ' . a:args.command . '"'
+    call add(_, 'diff')
+    call add(_, 'HEAD' . (0 < a:args.count ? '~' . a:args.count : ''))
+    call add(_, '--')
+  elseif a:args.command ==# 'log'
+    call add(_, a:args.command)
+  elseif a:args.command ==# 'remove'
+    call add(_, 'rm')
+    if a:args.banged_p
+      call add(_, '-f')
+    endif
+    call add(_, '--')
   elseif a:args.command ==# 'revert'
-    call add(ss, 'checkout')
-    call add(ss, '--')  " to express the next arg is not the name of a branch.
+    call add(_, 'checkout')
+    call add(_, '--')
+  elseif a:args.command ==# 'status'
+    call add(_, a:args.command)
   else
-    call add(ss, a:args.command)
+    return ''  " Not supported command.
   endif
-  call extend(ss, items)
-  return join(ss)
+
+  call extend(_, map(copy(a:args.targets), '"''" . v:val . "''"'))
+  return join(_)
 endfunction
 
 
 function! s:make_svk_command_script(args)  "{{{3
-  let script = join([s:vcs_type(a:args.items), a:args.command,
-    \               (a:args.command ==# 'revert'
-    \                ? '--recursive' : ''),
-    \               (len(get(a:args, 'revision', ''))
-    \                ? '-r '.a:args.revision : ''),
-    \               (has_key(a:args, 'commit_log_file')
-    \                ? '--file '.a:args.commit_log_file : ''),
-    \               "'" . join(a:args.items, "' '") . "'"])
-  return script
+  " FIXME: ad hoc.
+  if has(a:args, 'count')
+    echomsg 'vcsi: ' . s:vcs_type(a:args.targets) . ': Count is not supported.'
+  endif
+  return join([s:vcs_type(a:args.targets),
+  \            a:args.command,
+  \            (a:args.command ==# 'revert'
+  \             ? '--recursive'
+  \             : ''),
+  \            (has_key(a:args, 'commit_log_file')
+  \             ? '--file ' . a:args.commit_log_file
+  \             : ''),
+  \            (has_key(a:args, 'banged_p') && a:args.banged_p
+  \             ? '--force'
+  \             : ''),
+  \            "'" . join(a:args.targets, "' '") . "'"])
 endfunction
 
 
@@ -392,33 +356,99 @@ endfunction
 
 
 
-function! s:normalize_items(unnormalized_items, ...)  "{{{2
-  let no_new_buffer_p = a:0 && a:1 ==# 'no-new-buffer'
-  let items = []
-  for item in (len(a:unnormalized_items) ? a:unnormalized_items : ['-'])
-    if item ==# 'all'
-      call add(items, '.')
-    elseif item ==# '' || item ==# '-'
-      let b_vcsi_target_items = getbufvar(no_new_buffer_p ? '' : '#',
-        \                                 'vcsi_target_items')
-      if 0 < len(b_vcsi_target_items)
-        call extend(items, b_vcsi_target_items)
-      else
-        call add(items, bufname(no_new_buffer_p ? '' : '#'))
-      endif
-    else
-      call add(items, item)
-    endif
-  endfor
-  return items
+function! s:normalize_targets(unnormalized_targets)  "{{{2
+  if 0 < len(a:unnormalized_targets)
+    " Here we must copy a:unnormalized_targets, because it may be a:000 given
+    " to a function, and a:000 cannot be used after the function is returned.
+    " If a:000 is used so, Vim will crash.
+    return copy(a:unnormalized_targets)
+  endif
+
+  if exists('b:vcsi_targets')
+    return b:vcsi_targets
+  endif
+
+  if &l:buftype != ''
+    throw 'vcsi: Special buffer cannot be a target of a vcsi command.'
+  endif
+
+  return [bufname('')]
 endfunction
 
 
 
 
-function! s:vcs_type(items)  "{{{2
+function! s:open_command_buffer(args)  "{{{2
+  " Assumption: args.targets must be normalized one.
+
+  " Memoize the information to restore the current state for some errors in
+  " the following steps.
+  let curbufnr = bufnr('%')
+  let curtabpagenr = tabpagenr()
+  let tabpagenr = tabpagenr('$')
+  let winnr = winnr('$')
+  let winrestcmd = winrestcmd()
+
+  " Create a new buffer for the given command.
+  let v:errmsg = ''
+  silent! execute (exists('g:vcsi_open_command_{a:args.command}')
+  \                ? g:vcsi_open_command_{a:args.command}
+  \                : g:vcsi_open_command)
+  if v:errmsg != ''
+    " Error message is already showed.
+    return s:FALSE
+  endif
+
+  " Initialize the command buffer (common part).
+  setlocal bufhidden=wipe buftype=nofile noswapfile
+  let b:vcsi_targets = a:args.targets
+  silent file `=s:make_command_buffer_name(a:args)`
+
+  " Initialize the command buffer (command-specific part).
+  try
+    let succeeded_p = s:initialize_{a:args.command}_buffer(a:args)
+  catch
+    echoerr v:exception 'in' v:throwpoint
+    let succeeded_p = s:FALSE
+  endtry
+  if !succeeded_p
+    " Restore the previous state.
+    if tabpagenr != tabpagenr('$')  " new tabpage is opened.
+      tabclose
+      execute 'tabnext' curtabpagenr
+    elseif winnr != winnr('$')  " new window is opened
+      close
+    elseif bufexists(curbufnr)  " new buffer is created in the same window.
+      execute 'keepalt' curbufnr 'buffer'
+    else
+      echoerr 'vcsi: unknown case.'
+    endif
+    execute winrestcmd
+    return s:FALSE
+  endif
+
+  return s:TRUE
+endfunction
+
+
+
+
+function! s:read_vcs_command_result(line, args, ...)  "{{{2
+  let script = s:make_vcs_command_script(a:args, (0 < a:0 ? a:1 : s:FALSE))
+  if script == ''
+    return s:FALSE
+  endif
+
+  silent execute a:line 'read !' script
+  return s:TRUE
+endfunction
+
+
+
+
+function! s:vcs_type(targets)  "{{{2
   " FIXME: directory separator on non-*nix platforms.
-  let prefix = fnamemodify(a:items[0], ':p:h')
+  let prefix = fnamemodify(a:targets[0], ':p:h')
 
   if isdirectory(prefix . '/.svn')
     return 'svn'
@@ -426,14 +456,16 @@ function! s:vcs_type(items)  "{{{2
   "   return 'cvs'
   endif
 
-  while prefix != '/'
+  let _ = ''
+  while prefix != _
     if isdirectory(prefix . '/.git')
       return 'git'
     endif
+    let _ = prefix
     let prefix = fnamemodify(prefix, ':h')
   endwhile
 
-  return 'svk'  " fallback, although it maybe incorrect.
+  return 'svk'  " FIXME: does check.
 endfunction
 
 

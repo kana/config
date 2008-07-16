@@ -1,6 +1,6 @@
 *vcsi.txt*	Version Control System Interface
 
-Version 0.0.7
+Version 0.1.0
 Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,148 +23,166 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-CONTENTS						*vcsi-contents*
+CONTENTS					*vcsi-contents*
 
-Introduction			|vcsi-introduction|
-Interface			|vcsi-interface|
-  Commands			  |vcsi-commands|
-  Functions			  |vcsi-functions|
-  Key Mapings			  |vcsi-key-mappings|
-Customizing			|vcsi-customizing|
-Bugs				|vcsi-bugs|
-ChangeLog			|vcsi-changelog|
+Introduction		|vcsi-introduction|
+Terms			|vcsi-terms|
+Interface		|vcsi-interface|
+  Commands		  |vcsi-commands|
+  Functions		  |vcsi-functions|
+  Key Mapings		  |vcsi-key-mappings|
+Customizing		|vcsi-customizing|
+Bugs			|vcsi-bugs|
+ChangeLog		|vcsi-changelog|
 
 
 
 
 ==============================================================================
-INTRODUCTION						*vcsi-introduction*
+INTRODUCTION					*vcsi-introduction*
 
-This Vim plugin provides interface for several version control systems.  You
-will be able to commit, diff and other daily works quickly.  Note that this
-plugin doesn't provide interface for commands which are rarely used.
+Vcsi is a Vim plugin which provides interface for several version control
+systems.  You will be able to commit, diff and other daily works quickly.
+Note that this plugin doesn't provide interface for commands which are rarely
+used.
 
 Requirements:
 - Vim 7.0 or later.
+
+Supported operating systems:
+- *nix
 
 Supported version control systems:
 - git
 - svk
 - Subversion
-- CVS (future)
+- CVS (planned)
 
 
 
 
 ==============================================================================
-INTERFACES						*vcsi-interface*
+TERMS						*vcsi-terms*
+
+Vcsi command
+	One of |vcsi-commands|, |vcsi-functions| or |vcsi-key-mappings|.
+
+Target						*vcsi-target*
+	Most of vcsi commands take zero or more {target}s:
+
+	- A {target} is a file or directory.
+
+	- If no {target} is given for a vcsi command, the file or directory
+	  related to the current buffer is used as the {target}.
+
+	  And if the current buffer is created by a vcsi command, the same
+	  {target}s for the such buffer are used instead.  For example, if the
+	  current buffer is created by ":VcsiDiff .", ":VcsiCommit" works as
+	  same as ":VcsiCommit .".
+
+	Note that all {target}s given to a command MUST be in the same
+	repository.
+
+{command} buffer
+	A temporary buffer created by a vcsi command to edit or to show some
+	information.  For example, a buffer created by |:VcsiDiff| is called
+	as a "diff buffer", and "{command} buffer" is the generic notation of
+	such buffers.
+
+	If there is no content to show in {command} buffers, such buffers will
+	be automatically closed.
+
+
+
+
+==============================================================================
+INTERFACE					*vcsi-interface*
 
 ------------------------------------------------------------------------------
-COMMANDS						*vcsi-commands*
+COMMANDS					*vcsi-commands*
 
-							*vcsi-item*
-Most of the following commands take zero or more {item}s.
-- {item} is a file or directory.
-- If {item} is "all", it will be treated as the current directory.
-- If no {item} is given for a command, it will be treated as "-" is given.
-- If {item} is "-", it will be treated as the file or directory related to the
-  current buffer.  If the current buffer is created by one of the
-  |vcsi-commands|, |vcsi-functions| or |vcsi-key-mappings|, it will be treated
-  as the same {item}s for the such buffer.
-- Note that every {item} must be in the same repository.
+:VcsiAdd [target] ...				*:VcsiAdd*
+	Add targets under the control of a version control system.
 
+:VcsiCommit [target] ...			*:VcsiCommit*
+	Open new buffer to edit a commit log.
+	When the buffer is written, the change of [target]s will be committed.
 
-:VcsiBranchList[!]					*:VcsiBranchList*
-	(git only) List local branches.  With "!", list also remote branches.
+	See also:
+	- |g:vcsi_diff_in_commit_buffer_p|
+	- |g:vcsi_status_in_commit_buffer_p|
+	- |g:vcsi_use_native_message_p|
 
-:VcsiBranchSwitch[!] [{branch-name}]			*:VcsiBranchSwitch*
-	(git only) Switche to the branch named {branch-name}.  The branch must
-	be existent.  With "!", create new branch named {branch-name}, then
-	switch to the branch.  In this case, the branch {branch-name} must not
-	be existent.
+:[count]VcsiDiff [target] ...			*:VcsiDiff*
+	Open new buffer to show the difference between the current content of
+	{target}s and the latest commited version of {target}s.
 
-	If {branch-name} is omitted, start interactive switching.  In this
-	mode, branch name completion is available.
+	If {count} is given, use the {count}th older version instead of the
+	latest version to show the difference.  (here the latest version is
+	treated as the 0th older version)
 
-:VcsiCommit [item] ...					*:VcsiCommit*
-	Open new buffer to edit commit log.
-	When the buffer is written, the change of [item]s will be committed.
+:VcsiLog {target} ...				*:VcsiLog*
+	Open new buffer to show the commit logs related to {target}s, from the
+	latest version to the oldest version.
 
-:[count]VcsiDiff [item [revision]]			*:VcsiDiff*
-	Open new buffer to show the difference between the {revision} of
-	{item} and the current {item}.
+	(planned) By default, :VcsiLog shows 100 commit logs.  When user types
+	|<Plug>(vcsi-log-more)| on the log buffer, more 100 commit logs will
+	be appended.
 
-	If {revision} is not given, use the latest revision.
-	If {count} is given, use the {count}th previous revision.
-	If both of them are given, nothing will happen.
+:VcsiRemove[!] [target] ...			*:VcsiRemove*
+	Remove targets under the control of a version control system.
+	If [!] is given, remove targets forcedly, even if they have local
+	modifications.
 
-:VcsiInfo [item] ...					*:VcsiInfo*
-	Open new buffer to show the information of {item}s.
+:VcsiRevert [target] ...			*:VcsiRevert*
+	Revert {target}s to the lateset version, recursively.
 
-:[count]VcsiLog	 [item [revision]]			*:VcsiLog*
-	Open new buffer to show the commit log of {item} from the {revision}
-	to the latest revision.
-
-	If {revision} is not given, use the oldest revision.
-	If {count} is given, use the {count}th previous revision.
-	If both of them are given, nothing will happen.
-
-:VcsiPropEdit						*:VcsiPropEdit*
-	Reserved for the future.
-
-:VcsiRevert [item] ...					*:VcsiRevert*
-	Revert the current change of {item}s, recursively.
-
-:VcsiStatus [item] ...					*:VcsiStatus*
-	Open new buffer to show the status of {item}s, recursively.
+:VcsiStatus [target] ...			*:VcsiStatus*
+	Open new buffer to show the status of {target}s, recursively.
 
 
-:VcsiDefaultKeyMappings[!]			      *VcsiDefaultKeyMappings*
+:VcsiDefaultKeyMappings[!]			*VcsiDefaultKeyMappings*
 	Define |vcsi-default-key-mappings|.
 	If [!] is specified, this may override existing mappings.
 
 
 ------------------------------------------------------------------------------
-FUNCTIONS						*vcsi-functions*
+FUNCTIONS					*vcsi-functions*
 
-vcsi#branch_list({bang})				*vcsi#branch_list()*
-vcsi#branch_switch({bang}, [{branch-name}])		*vcsi#branch_switch()*
-vcsi#commit([{item}, ...])				*vcsi#commit()*
-vcsi#diff([{item}, [{revision}]])			*vcsi#diff()*
-vcsi#info([{item}, ...])				*vcsi#info()*
-vcsi#log([{item}, [{revision}]])			*vcsi#log()*
-vcsi#propedit()						*vcsi#propedit()*
-vcsi#revert([{item}, ...])				*vcsi#revert()*
-vcsi#status([{item}, ...])				*vcsi#status()*
+vcsi#add([{target}, ...])			*vcsi#add()*
+vcsi#commit([{target}, ...])			*vcsi#commit()*
+vcsi#diff({count}, [{target}, ...])		*vcsi#diff()*
+vcsi#log([{target}, ...])			*vcsi#log()*
+vcsi#remove({banged_p}, [{target}, ...])	*vcsi#remove()*
+vcsi#revert([{target}, ...])			*vcsi#revert()*
+vcsi#status([{target}, ...])			*vcsi#status()*
 	Function version of the corresponding command.
-	Return value is not defined.
+	Return true if it succeeded, otherwise return false.
 
 
 ------------------------------------------------------------------------------
-KEY MAPPINGS						*vcsi-key-mappings*
+KEY MAPPINGS					*vcsi-key-mappings*
 
-<Plug>(vcsi-branch-list!)			*<Plug>(vcsi-branch-list!)*
-<Plug>(vcsi-branch-list)			*<Plug>(vcsi-branch-list)*
-<Plug>(vcsi-branch-switch!)			*<Plug>(vcsi-branch-switch!)*
-<Plug>(vcsi-branch-switch)			*<Plug>(vcsi-branch-switch)*
+<Plug>(vcsi-add-all)				*<Plug>(vcsi-add-all)*
+<Plug>(vcsi-add-it)				*<Plug>(vcsi-add-it)*
 <Plug>(vcsi-commit-all)				*<Plug>(vcsi-commit-all)*
 <Plug>(vcsi-commit-it)				*<Plug>(vcsi-commit-it)*
 <Plug>(vcsi-diff-all)				*<Plug>(vcsi-diff-all)*
 <Plug>(vcsi-diff-it)				*<Plug>(vcsi-diff-it)*
-<Plug>(vcsi-info-all)				*<Plug>(vcsi-info-all)*
-<Plug>(vcsi-info-it)				*<Plug>(vcsi-info-it)*
 <Plug>(vcsi-log-all)				*<Plug>(vcsi-log-all)*
 <Plug>(vcsi-log-it)				*<Plug>(vcsi-log-it)*
-<Plug>(vcsi-propedit-all)			*<Plug>(vcsi-propedit-all)*
-<Plug>(vcsi-propedit-it)			*<Plug>(vcsi-propedit-it)*
+<Plug>(vcsi-remove-it)				*<Plug>(vcsi-remove-it)*
 <Plug>(vcsi-revert-all)				*<Plug>(vcsi-revert-all)*
 <Plug>(vcsi-revert-it)				*<Plug>(vcsi-revert-it)*
 <Plug>(vcsi-status-all)				*<Plug>(vcsi-status-all)*
 <Plug>(vcsi-status-it)				*<Plug>(vcsi-status-it)*
 	These mappings are defined for Normal mode.
 	Each mapping executes the corresponding command.
-	"-all" version executes the corresponding command with "all".
-	"-it" version executes the corresponding command with "-".
+	"-all" version executes the corresponding command for the current
+	directory.
+	"-it" version executes the corresponding command for the current
+	buffer.
+	<Plug>(vcsi-remove-all) doesn't exist, because it'll never be used.
 
 						*vcsi-default-key-mappings*
 The following key mappings will be defined as this plugin is loaded unless
@@ -173,37 +191,37 @@ by |:VcsiDefaultKeyMappings|.
 
 	{lhs}			{rhs}
 	----------		----------------------- ~
-	<Leader>vbL		<Plug>(vcsi-branch-list!)
-	<Leader>vbl		<Plug>(vcsi-branch-list)
-	<Leader>vbS		<Plug>(vcsi-branch-switch!)
-	<Leader>vbs		<Plug>(vcsi-branch-switch)
+	<Leader>vA		<Plug>(vcsi-add-all)
+	<Leader>va		<Plug>(vcsi-add-it)
 	<Leader>vC		<Plug>(vcsi-commit-all)
 	<Leader>vc		<Plug>(vcsi-commit-it)
 	<Leader>vD		<Plug>(vcsi-diff-all)
 	<Leader>vd		<Plug>(vcsi-diff-it)
-	<Leader>vI		<Plug>(vcsi-info-all)
-	<Leader>vi		<Plug>(vcsi-info-it)
 	<Leader>vL		<Plug>(vcsi-log-all)
 	<Leader>vl		<Plug>(vcsi-log-it)
-	<Leader>vR		<Plug>(vcsi-revert-all)
-	<Leader>vr		<Plug>(vcsi-revert-it)
+	<Leader>vr		<Plug>(vcsi-remove-it)
+	<Leader>vV		<Plug>(vcsi-revert-all)
+	<Leader>vv		<Plug>(vcsi-revert-it)
 	<Leader>vS		<Plug>(vcsi-status-all)
 	<Leader>vs		<Plug>(vcsi-status-it)
+
+	Mnemonic: upper case for "-all", lower case for "-it".
 
 
 
 
 ==============================================================================
-CUSTOMIZING						*vcsi-customizing*
+CUSTOMIZING					*vcsi-customizing*
 
-g:vcsi_diff_in_commit_logp			*g:vcsi_diff_in_commit_logp*
+g:vcsi_diff_in_commit_buffer_p		      *g:vcsi_diff_in_commit_buffer_p*
 				number (default: 0)
-	Whenever a buffer to edit commit log is created, the result of
-	|:VcsiDiff| will be automatically inserted as a comment.
+	Whenever a commit buffer is created, if this value is true, the result
+	of |:VcsiDiff| will be automatically inserted as a comment.
 
-g:vcsi_echo_scriptp				*g:vcsi_echo_scriptp*
+g:vcsi_echo_script_p				*g:vcsi_echo_script_p*
 				number (default: 1)
-	If this value is true, |:echomsg| for every vcs command to be run.
+	Whenever a command of version control systems is executed, |:echomsg|
+	it if this value is true.
 
 g:vcsi_no_default_key_mappings		      *g:vcsi_no_default_key_mappings*
 	See |vcsi-default-key-mappings|.
@@ -211,49 +229,59 @@ g:vcsi_no_default_key_mappings		      *g:vcsi_no_default_key_mappings*
 g:vcsi_open_command				*g:vcsi_open_command*
 g:vcsi_open_command_commit			*g:vcsi_open_command_commit*
 g:vcsi_open_command_diff			*g:vcsi_open_command_diff*
-g:vcsi_open_command_info			*g:vcsi_open_command_info*
 g:vcsi_open_command_log				*g:vcsi_open_command_log*
-g:vcsi_open_command_propedit			*g:vcsi_open_command_propedit*
 g:vcsi_open_command_revert			*g:vcsi_open_command_revert*
 g:vcsi_open_command_status			*g:vcsi_open_command_status*
 				string (default: 'belowright new')
 
-	Specify the command to open a temporary buffer (and a window for the
-	buffer).  These values are used like the following: >
+	Specify the command to create a {command} buffer.
+	These values are used like the following: >
 
 		execute g:vcsi_open_command
 <
 	If g:vcsi_open_command_{command} exists, use it rather than
-	g:vcsi_open_command.
+	g:vcsi_open_command for {command}.
 
-g:vcsi_status_in_commit_logp			*g:vcsi_status_in_commit_logp*
+g:vcsi_status_in_commit_buffer_p	    *g:vcsi_status_in_commit_buffer_p*
 				number (default: 0)
-	Whenever a buffer to edit commit log is created, the result of
-	|:VcsiStatus| will be automatically inserted as a comment.
+	Whenever a commit buffer is created, if this value is true, the result
+	of |:VcsiStatus| will be automatically inserted as a comment.
+
+g:vcsi_use_native_message_p			*g:vcsi_use_native_message_p*
+				number (default: 0)
+	Whenever a commit buffer is created, if this value is true, the
+	message which is generated by the commit command of a version control
+	system will be automatically inserted as a comment.
 
 
 
 
 ==============================================================================
-BUGS							*vcsi-bugs*
-
-- |vcsi-commands|: handling [count] is not implemented.
-
-- The following command and corresponding function are not implemented yet:
-  - |:VcsiPropEdit|
+BUGS						*vcsi-bugs*
 
 - |:VcsiCommit|: writing commit log buffer with |:wq| causes closing extra
   window.
 
-- |:VcsiCommit| (git): No message when some conflicts are occured.
+- |:VcsiDiff|: [count] is supported by git only.
 
-- ...
+- There are many bugs around the world.
 
 
 
 
 ==============================================================================
-CHANGELOG						*vcsi-changelog*
+CHANGELOG					*vcsi-changelog*
+
+0.1.0	2008-07-13T20:26:10+09:00
+	- Rewritten:
+	  - Revise the internal.
+	  - Remove some commands - :VcsiBranchList, :VcsiBranchSwitch,
+	    :VcsiInfo, :VcsiPropedit.
+	  - Rename some variables (|vcsi-customizing|).
+	  - Add |g:vcsi_use_native_message_p|.
+	  - Add |:VcsiAdd| and |:VcsiRemove|.
+	  - Change the default key mappings for |:VcsiRevert|.  Use "v"
+	    instead of "r", because now "r" is used for |:VcsiRemove|.
 
 0.0.7	2008-05-19T20:16:54+09:00
 	- |:VcsiBranchList|: New.

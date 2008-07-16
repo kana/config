@@ -290,7 +290,7 @@ PACKAGE_vim_tofunc_FILES=\
   vim/dot.vim/doc/tofunc.txt \
   vim/dot.vim/plugin/tofunc.vim
 
-PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.0.7
+PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.1.0
 PACKAGE_vim_vcsi_BASE=vim/dot.vim
 PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/after/syntax/vcsi.vim \
