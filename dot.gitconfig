@@ -14,9 +14,10 @@
 	br = branch -r
 	ci = commit
 	co = checkout
+	d = diff HEAD
 	dl = diff HEAD^
-	ds = staged
-	du = unstaged
+	ds = diff --cached
+	du = diff
 	l = log
 	st = status
 	staged = diff --cached
