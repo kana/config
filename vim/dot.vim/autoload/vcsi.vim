@@ -193,6 +193,8 @@ function! s:initialize_commit_buffer(args)  "{{{3
     " BUGS: Don't forget to update message filtering in s:finish_commit().
   1 put ='=== This and the following lines will be removed. ==='
   if g:vcsi_use_native_message_p
+    " FIXME: Separate with pseudo vcs command "_commit-message".
+    "        For git, the current method is faled to commit with merge.
     silent execute 'read !'
     \ 'EDITOR=cat' s:make_vcs_command_script(a:args, s:FALSE) '2>/dev/null'
   endif
@@ -297,6 +299,7 @@ endfunction
 
 
 function! s:make_git_command_script(args)  "{{{3
+  " FIXME: set GIT_DIR to operate buffers not under the current directory.
   let _ = ['git']
 
   if a:args.command ==# 'add'
