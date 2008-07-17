@@ -8,6 +8,7 @@
 	ui = auto
 [core]
 	pager = less -r
+	excludesfile = ~/.gitignore
 [alias]
 	b = branch
 	ba = branch -a

@@ -64,6 +64,7 @@ GROUP_DOTS_FILES=\
   dot.bash.d/svk-completion.pl \
   dot.inputrc \
   dot.gitconfig \
+  dot.gitignore \
   dot.guile \
   dot.screenrc \
   dot.screen/conf \
@@ -74,6 +75,8 @@ GROUP_DOTS_FILES=\
   dot.zshenv \
   dot.zshrc
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
+dot.gitconfig: dot.gitconfig.in
+	sed -e 's!= ~/!= $(HOME)/!' <$< >$@
 
 GROUP_DOTS_cygwin_FILES=\
   dot.mayu
