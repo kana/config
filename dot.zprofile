@@ -87,5 +87,12 @@ if [ "$ENV_WORKING" = 'linux' ] && [ -n "$DISPLAY" ]; then
 fi
 
 
+# Mac OS X
+if [ "$ENV_WORKING" = 'mac' ]; then
+  # To use pbcopy/pbpaste with UTF-8 encoding.
+  export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
+fi
+
+
 # __END__
 # vim: filetype=zsh
