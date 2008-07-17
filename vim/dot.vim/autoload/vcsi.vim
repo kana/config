@@ -219,7 +219,9 @@ endfunction
 
 
 function! s:initialize_diff_buffer(args)  "{{{3
-  call s:read_vcs_command_result('$', a:args, s:TRUE)
+  if !s:read_vcs_command_result('$', a:args, s:TRUE)
+    return s:FALSE
+  endif
   if line('$') == 1
     echomsg 'vcsi: No difference'
     return s:FALSE
@@ -232,7 +234,9 @@ endfunction
 
 
 function! s:initialize_log_buffer(args)  "{{{3
-  call s:read_vcs_command_result('$', a:args, s:TRUE)
+  if !s:read_vcs_command_result('$', a:args, s:TRUE)
+    return s:FALSE
+  endif
   1 delete _
 
   " FIXME: "more" feature.
@@ -241,7 +245,9 @@ endfunction
 
 
 function! s:initialize_status_buffer(args)  "{{{3
-  call s:read_vcs_command_result('$', a:args, s:TRUE)
+  if !s:read_vcs_command_result('$', a:args, s:TRUE)
+    return s:FALSE
+  endif
   1 delete _
 
   return s:TRUE
@@ -276,7 +282,7 @@ function! s:make_vcs_command_script(args, show_error_p)  "{{{3
   let script = substitute(script, ' \{2,}', ' ', 'g')
   if script == ''
     if a:show_error_p
-      echoerr printf('vcsi: %s: Not supported command: %s',
+      echomsg printf('vcsi: %s: Not supported command: %s',
       \              s:vcs_type(a:args.targets),
       \              a:args.command)
     endif
@@ -351,6 +357,11 @@ endfunction
 function! s:make_svn_command_script(args)  "{{{3
   " FIXME: ad hoc.
   return s:make_svk_command_script(a:args)
+endfunction
+
+
+function! s:make_unknown_command_script(args)  "{{{3
+  return ''  " This is dummy so always fail.
 endfunction
 
 
@@ -461,7 +472,11 @@ function! s:vcs_type(targets)  "{{{2
     return 'svn'
   endif
 
-  return 'svk'  " FIXME: does check.
+  if isdirectory(expand('~/.svk/local', ':p'))
+    return 'svk'
+  endif
+
+  return 'unknown'  " dummy vcs name
 endfunction
 
 
