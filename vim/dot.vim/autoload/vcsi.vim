@@ -449,21 +449,17 @@ endfunction
 function! s:vcs_type(targets)  "{{{2
   " FIXME: directory separator on non-*nix platforms.
   let prefix = fnamemodify(a:targets[0], ':p:h')
+  let path = prefix . ';/'
 
-  if isdirectory(prefix . '/.svn')
-    return 'svn'
-  " elseif isdirectory(prefix . '/CVS')
-  "   return 'cvs'
+  let _ = finddir('.git', path)
+  if _ != ''
+    return 'git'
   endif
 
-  let _ = ''
-  while prefix != _
-    if isdirectory(prefix . '/.git')
-      return 'git'
-    endif
-    let _ = prefix
-    let prefix = fnamemodify(prefix, ':h')
-  endwhile
+  let _ = finddir('.svn', path)
+  if _ != ''
+    return 'svn'
+  endif
 
   return 'svk'  " FIXME: does check.
 endfunction
