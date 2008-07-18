@@ -82,11 +82,10 @@ FUNCTIONS					*ku-functions*
 ku#start({source})				*ku#start()*
 			Function version of |:Ku|.
 
-ku#default_key_mappings()			*ku#default_key_mappings()*
+ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			Define the following key mappings which are local to
-			the current buffer.  If one of the following {lhs}s is
-			already mapped to something, it will be overridden.
-			Be careful about when to call this function.
+			the current buffer.  Existent key mappings will be
+			override if {override_p} is true.
 
 			{lhs}		{rhs}				~
 			------------------------------------------------~
