@@ -41,12 +41,11 @@ Changelog		|ku-changelog|
 ==============================================================================
 INTRODUCTION					*ku-introduction*
 
-Ku is a Vim plugin to support to do something on buffer, files, directories or
-other kind of items with automatic completion and fuzzy pattern.  You can also
-define your own kind of items.
+Ku is a Vim plugin to provide the interface to choose many items from several
+sources with automatic completion and fuzzy pattern matching.
 
 To start selection, use |ku-commands|.  The commands will open a new window
-(|ku-window|) to take user input.  As user inputs some characters, pop-up menu
+(|ku-window|) to take your input.  As you input some characters, pop-up menu
 (|ins-completion-menu|) will be automatically appeared and updated to show the
 proper candidates for the input pattern.
 
@@ -60,7 +59,7 @@ ku window		The window which is opened by |ku-commands|.
 			This window will be automatically closed when:
 			- An action is taken for an item.
 			- Selecting is canceled.
-			- Another window or another tab page is acticated.
+			- Another window or another tab page becomes active.
 
 
 
@@ -71,12 +70,8 @@ INTERFACE					*ku-interface*
 ------------------------------------------------------------------------------
 COMMANDS					*ku-commands*
 
-:Ku[!] [{preferred-type}]				*:Ku*
-			Start selecting by ku.
-			[bang] modifier will be used by an action.
-			{preferred-type} specifies what type of items to be
-			appeared in the completion list.  If it is omitted,
-			all type of items will be appeared.
+:Ku {source}					*:Ku*
+			Start selecting items from {source}.
 
 
 
@@ -84,7 +79,7 @@ COMMANDS					*ku-commands*
 ==============================================================================
 FUNCTIONS					*ku-functions*
 
-ku#start({bang}, [{preferred-type}])		*ku#start()*
+ku#start({source})				*ku#start()*
 			Function version of |:Ku|.
 
 ku#default_key_mappings()			*ku#default_key_mappings()*
@@ -93,45 +88,26 @@ ku#default_key_mappings()			*ku#default_key_mappings()*
 			already mapped to something, it will be overridden.
 			Be careful about when to call this function.
 
-			Modes	{lhs}		{rhs} ~
-			ni	<C-c>		<Plug>(ku-cancel)
-			ni	<Return>	<Plug>(ku-do-default)
-			ni	<Tab>		<Plug>(ku-choose-action)
-			ni	<C-j>		<Plug>(ku-next-type)
-			ni	<C-k>		<Plug>(ku-previous-type)
+			{lhs}		{rhs}				~
+			------------------------------------------------~
+			<C-c>		<Plug>(ku-cancel)
+			<Return>	<Plug>(ku-do-the-default-action)
+			<Tab>		<Plug>(ku-choose-an-action)
+			<C-j>		<Plug>(ku-next-source)
+			<C-k>		<Plug>(ku-previous-source)
 
-ku#bang()					*ku#bang()*
-			Return whether [bang] modifier is given for the last
-			executed |:Ku| or |ku#start()|.  String "!" will be
-			returned if [bang] modifier is given, otherwise an
-			empty string will be returned.
+ku#custom_action({source}, {action}, {funcref})	*ku#custom_action()*
+			Define a new {action} for items from {source}.
+			{funcref} is a |Funcref| or the name of a function
+			which will be called as {action}.
 
-ku#register_type({typedef})			*ku#register_type()*
-			Register new type which is defined by {typedef}.
-			{typedef} is a dictionary.  See |ku-write-new-type|
-			for the detail of {typedef}.
+			{source} is the name of a source or "*global*".
 
-			Note that any built-in type can be overridden.
+ku#custom_key({source}, {key}, {action})		*ku#custom_key()*
+			Define a {key} to do the {action} for items from
+			{source} in |<Plug>(ku-choose-action)|.
 
-ku#unregister_type({name})			*ku#unregister_type()*
-			Unregister the type {name}.
-
-			Note that any built-in type can be unregistered.
-
-ku#custom_action({type-name}, {action-name}, {funcref})	*ku#custom_action()*
-			Define {funref} as a new action named {action-name}
-			for items of the type {type-name}.
-
-			{type-name} may be '*fallback*', if so, the given
-			action is defined as a fallback action for all types.
-			This means that the fallback action {action-name} will
-			be used if the action {action-name} is not defined for
-			a type,
-
-ku#custom_key({type-name}, {key}, {new-action-name})	*ku#custom_key()*
-			Define {key} to do the action {new-action-name} for
-			items of the type {type-name} in
-			|<Plug>(ku-choose-action)|.
+			{source} is the name of a source or "*global*".
 
 
 
@@ -144,15 +120,15 @@ In the ku window, the following key mappings are defined:
 <Plug>(ku-cancel)				*<Plug>(ku-cancel)*
 			Cancel selecting (and close the ku window).
 
-<Plug>(ku-do-default)			       *<Plug>(ku-do-default)*
+<Plug>(ku-do-the-default-action)      	    *<Plug>(ku-do-the-default-action)*
 			Do the default action for the current item.
 
-<Plug>(ku-choose-action)			*<Plug>(ku-choose-action)*
+<Plug>(ku-choose-an-action)			*<Plug>(ku-choose-an-action)*
 			Show the mesasge on available actions, take a single
 			key input, then do the appropriate action.
 
-<Plug>(ku-next-type)				*<Plug>(ku-next-type)*
-<Plug>(ku-previous-type)			*<Plug>(ku-previous-type)*
+<Plug>(ku-next-source)				*<Plug>(ku-next-source)*
+<Plug>(ku-previous-source)			*<Plug>(ku-previous-source)*
 			Change the preferred type (ascending / descending).
 
 The default key mappings are defined by |ku#default_key_mappings()|.
@@ -161,29 +137,42 @@ The default key mappings are defined by |ku#default_key_mappings()|.
 
 
 ==============================================================================
-TYPES						*ku-types*
+SOURCES						*ku-sources*
 
-Types are kinds of items.  The following types are built-in.
+Sources are like kinds of items.  For exmaple, there are "buffer" and "file"
+sources are available as the default and sample sources.  With "buffer"
+sources, you can choose a buffer by ku.
 
-Type Name	Remarks ~
-buffer		Only 'buflisted' buffers can be selected.
-file		Directories are also included.
+						*ku-action-table*
+Sources have their own action table.  Action table is a dictionary, where
+each key is the name of an action, and each value is the funcref or the name
+of a function that implements the action.
 
+						*ku-action-table*
+Sources have their own key table.  Key table is a dictionary, where each key
+is a single character that represents the key to
+|<Plug>(ku-choose-an-action)|, and each value is the name of an action to be
+executed by the key.
 
-Action Name	Remarks ~
+						*ku-source-api*
+Sources are written as autoload scripts which are placed in "autoload/ku/"
+directory in 'runtimepath'.  The names of sources are same as their file names
+without the ".vim" extension.  Sources must provide the following functions:
 
-cd		Change the current working directory as same as the given
-		item.  If the item is a directory, set to the directory.  If
-		the item is a file, set to the directory which contains the
-		item.  Otherwise, nothing happens.
+ku#{source}#on_start_session()		      *ku#{source}#on_start_session()*
+ku#{source}#on_end_session()			*ku#{source}#on_end_session()*
+			Functions which are called whenever the ku window is
+			opened or closed.
 
-cd-local	Same as "cd", but use |:lcd|.
+ku#{source}#action_table()			*ku#{source}#action_table()*
+			Return the action table of {souce}.
 
-ex		Enter to Command-line mode.  The item is automatically
-		inserted and the cursor is placed at the beginning of the
-		command-line.
+ku#{source}#key_table()				*ku#{source}#key_table()*
+			Return the key table of {souce}.
 
-other actions	...
+ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
+			Return a list of items which are matched to the given
+			{pattern}.
 
 
 
@@ -191,67 +180,11 @@ other actions	...
 ==============================================================================
 CUSTOMIZING					*ku-customizing*
 
-Initialization					*ku-initialization*
-						*KuLoaded*
-	Most part of Ku isn't loaded until one of its functions or commands is
-	actually used.  After all part of Ku is loaded, "User KuLoaded" event
-	will be published.  Use this event to delay applying user's settings
-	until all part of Ku is loaded.
-						*KuBufferInitialize*
-	Ku has its own buffer to do its work.  Whenever the buffer is created,
-	"User KuBufferInitialize" event will be published.  Use this event to
-	do user's initialization for the buffer, for example: >
-
-		autocmd User KuBufferInitialize  call MyOwnInitialization()
-<
-	If there is no autocommand for |KuBufferInitialize|, Ku will call
-	|ku#default_key_mappings()| to define some useful key mappings.
-	Otherwise, no key mapping will be defined.  So you have to call it
-	explicitly if you use |KuBufferInitialize|.
-
-Write New Type					*ku-write-new-type*
-	To use new type, call |ku#register_type()| with its {typedef}.
-	{typedef} is a dictionary and it contains the following entries:
-
-	'name'		string
-		The name of this type.  It consits of only lowercase
-		alphabets.
-
-	'gather'	funcref
-		The function to gather items matching to the given pattern.
-		It is called with one parameter, the user input pattern.
-		It must return the list of |complete-items|.
-
-	'initialize'	funcref		(optional)
-		The function which will be called whenever the ku window is
-		opened.  It's called with 1 argument which indicates the
-		timing of calling.  The possible values are:
-
-		'before-open'	before opening the |ku-buffer|
-		'after-open'	after opening the |ku-buffer|
-
-		The main purpose of this function is to do some initialization
-		for 'gather'.
-
-	'keys'		dictionary
-		The table which contains what action is associated with a key.
-		This information is used by |<Plug>(ku-choose-action)|.
-
-		Each key of an entry is a string representation of a key to
-		press.  The string "*default*" is used by
-		|<Plug>(ku-do-default)|.
-
-		Each value of an entry is a string of the name of an action.
-
-	'actions'	dictionary
-		The table which contains the available actions for items of
-		this type and their names.
-
-		Each key is a string of the name of an action.
-
-		Each value is a funcref to the function which is called with
-		one parameter, the selected item (as described in
-		|complete-items|).
+User plugin-ku-session-start			*plugin-ku-session-start*
+User plugin-ku-session-end			*plugin-ku-session-end*
+	These events are published whenever the ku window is open or closed.
+	Use these events to do your initialization or finalization, for
+	example, customize key mappings for the ku buffer.
 
 
 
