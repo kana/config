@@ -150,7 +150,7 @@ Sources have their own action table.  Action table is a dictionary, where
 each key is the name of an action, and each value is the funcref or the name
 of a function that implements the action.
 
-						*ku-action-table*
+						*ku-key-table*
 Sources have their own key table.  Key table is a dictionary, where each key
 is a single character that represents the key to
 |<Plug>(ku-choose-an-action)|, and each value is the name of an action to be
