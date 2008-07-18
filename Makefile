@@ -226,6 +226,7 @@ PACKAGE_vim_ku_ARCHIVE=vim-ku-0.1.0
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
+  vim/dot.vim/autoload/ku/buffer.vim \
   vim/dot.vim/doc/ku.txt \
   vim/dot.vim/plugin/ku.vim
 
