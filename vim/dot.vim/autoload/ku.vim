@@ -81,15 +81,23 @@ endif
 
 
 " Interface  "{{{1
-function! ku#custom_action(source, action, funcrec)  "{{{2
-  throw 'FIXME: Not impelemented yet'
+function! ku#custom_action(source, action, function)  "{{{2
+  if !has_key(s:custom_action_tables, a:source)
+    let s:custom_action_tables[a:source] = {}
+  endif
+
+  let s:custom_action_tables[a:source][a:action] = a:function
 endfunction
 
 
 
 
 function! ku#custom_key(source, key, action)  "{{{2
-  throw 'FIXME: Not impelemented yet'
+  if !has_key(s:custom_key_tables, a:source)
+    let s:custom_key_tables[a:source] = {}
+  endif
+
+  let s:custom_key_tables[a:source][a:key] = a:action
 endfunction
 
 
@@ -360,20 +368,6 @@ endfunction
 
 
 
-function! s:custom_action_table(source)  "{{{2
-  return get(s:custom_action_tables, a:source, {})
-endfunction
-
-
-
-
-function! s:custom_key_table(source)  "{{{2
-  return get(s:custom_key_tables, a:source, {})
-endfunction
-
-
-
-
 function! s:choose_action()  "{{{2
   let key_table = {}
   for _ in [s:default_key_table(),
@@ -387,7 +381,7 @@ function! s:choose_action()  "{{{2
   let FORMAT = '%-16s  %s'
   echo printf(FORMAT, 'Key', 'Action')
   for key in sort(keys(key_table))
-    echo printf(FORMAT, s:repr_key(key), key_table[key])
+    echo printf(FORMAT, strtrans(key), key_table[key])
   endfor
   echo 'What action?'
 
@@ -402,6 +396,20 @@ function! s:choose_action()  "{{{2
     \    '-- nothing happened.'
     return '*nop*'
   endif
+endfunction
+
+
+
+
+function! s:custom_action_table(source)  "{{{2
+  return get(s:custom_action_tables, a:source, {})
+endfunction
+
+
+
+
+function! s:custom_key_table(source)  "{{{2
+  return get(s:custom_key_tables, a:source, {})
 endfunction
 
 
