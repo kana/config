@@ -53,11 +53,25 @@ if !exists('s:available_sources')
 endif
 
 
+" Memoize the last state of the ku buffer for further work.
+let s:last_user_input = ''
+let s:last_items = []
+
+
 " Misc. variables to restore the original state.
 let s:completeopt = ''
 let s:curwinnr = 0
 let s:ignorecase = ''
 let s:winrestcmd = ''
+
+
+" User defined action tables and key tables for sources.
+if !exists('s:custom_action_tables')
+  let s:custom_action_tables = {}  " source -> action-table
+endif
+if !exists('s:custom_key_tables')
+  let s:custom_key_tables = {}  " source -> key-table
+endif
 
 
 
@@ -116,7 +130,7 @@ function! ku#start(source)  "{{{2
     if v:errmsg != ''
       return s:FALSE
     endif
-    execute s:bufnr 'buffer'
+    silent execute s:bufnr 'buffer'
   else
     topleft new
     if v:errmsg != ''
@@ -152,7 +166,24 @@ endfunction
 
 " Core  "{{{1
 function! s:do(choose_p)  "{{{2
-  echomsg 'FIXME: NIY' a:choose_p
+  let current_user_input = getline(2)
+  if current_user_input !=# s:last_user_input && 0 < len(s:last_items)
+    let item = s:last_items[0]
+  else
+    let item = current_user_input
+  endif
+
+  if a:choose_p
+    let action = s:choose_action()
+  else
+    let action = '*default*'
+  endif
+
+  " To avoid doing some actions on this buffer and/or this window, close the
+  " ku window.
+  call s:end()
+
+  call s:do_action(action, item)
   return
 endfunction
 
@@ -292,6 +323,15 @@ endfunction
 
 
 " Misc.  "{{{1
+" Default actions  "{{{2
+function! s:_default_action_nop(item)  "{{{3
+  " NOP
+  return
+endfunction
+
+
+
+
 function! s:available_source_p(source)  "{{{2
   if len(s:available_sources) == 0
     let s:available_sources = sort(map(
@@ -301,6 +341,93 @@ function! s:available_source_p(source)  "{{{2
   endif
 
   return 0 <= index(s:available_sources, a:source)
+endfunction
+
+
+
+
+function! s:default_action_table()  "{{{2
+  return {'*nop*': 's:_default_action_nop'}
+endfunction
+
+
+
+
+function! s:default_key_table()  "{{{2
+  return {}  " FIXME: NIY
+endfunction
+
+
+
+
+function! s:custom_action_table(source)  "{{{2
+  return get(s:custom_action_tables, a:source, {})
+endfunction
+
+
+
+
+function! s:custom_key_table(source)  "{{{2
+  return get(s:custom_key_tables, a:source, {})
+endfunction
+
+
+
+
+function! s:choose_action()  "{{{2
+  let key_table = {}
+  for _ in [s:default_key_table(),
+  \         s:custom_key_table('*common*'),
+  \         ku#{s:current_source}#key_table(),
+  \         s:custom_key_table(s:current_source)]
+    call extend(key_table, _)
+  endfor
+
+  " FIXME: listing like ls
+  let FORMAT = '%-16s  %s'
+  echo printf(FORMAT, 'Key', 'Action')
+  for key in sort(keys(key_table))
+    echo printf(FORMAT, s:repr_key(key), key_table[key])
+  endfor
+  echo 'What action?'
+
+  let c = nr2char(getchar())  " FIXME: support <Esc>{x} typed by <M-{x}>
+  redraw  " clear the menu message lines to avoid hit-enter prompt.
+
+  if has_key(key_table, c)
+    return key_table[c]
+  else
+    " FIXME: loop to rechoose?
+    echo 'The key' string(c) 'is not associated with any action'
+    \    '-- nothing happened.'
+    return '*nop*'
+  endif
+endfunction
+
+
+
+
+function! s:do_action(action, item)  "{{{2
+  call function(s:get_action_function(a:action))(a:item)
+  return s:TRUE
+endfunction
+
+
+
+
+function! s:get_action_function(action)  "{{{2
+  for _ in [s:custom_action_table(s:current_source),
+  \         ku#{s:current_source}#action_table(),
+  \         s:custom_action_table('*common*'),
+  \         s:default_action_table()]
+    if has_key(_, a:action)
+      return _[a:action]
+    endif
+  endfor
+
+  throw printf('No such action for source %s: %s',
+  \            string(s:current_source),
+  \            string(a:action))
 endfunction
 
 
