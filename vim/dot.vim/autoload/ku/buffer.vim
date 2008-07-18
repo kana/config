@@ -51,7 +51,7 @@ endfunction
 
 
 
-function! ku#buffer#gather_items()  "{{{2
+function! ku#buffer#gather_items(pattern)  "{{{2
   return []
 endfunction
 
