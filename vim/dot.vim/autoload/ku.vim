@@ -27,13 +27,6 @@ let s:FALSE = 0
 let s:TRUE = !s:FALSE
 
 
-" The flag to check whether the ku is active or not.
-if exists('s:active_p') && s:active_p
-  finish
-endif
-let s:active_p = s:FALSE
-
-
 " The buffer number of ku.
 let s:INVALID_BUFNR = -1
 if exists('s:bufnr') && bufexists(s:bufnr)
@@ -53,9 +46,17 @@ if !exists('s:available_sources')
 endif
 
 
+" Variables for automatic completion
+let s:KEYS_TO_START_COMPLETION = "\<C-x>\<C-o>\<C-p>"
+let s:PROMPT = '>'  " must be a single character.
+
+let s:INVALID_COL = -3339
+let s:last_col = s:INVALID_COL
+
+
 " Memoize the last state of the ku buffer for further work.
-let s:last_user_input = ''
 let s:last_items = []
+let s:last_user_input = ''
 
 
 " Misc. variables to restore the original state.
@@ -173,6 +174,62 @@ endfunction
 
 
 " Core  "{{{1
+function! ku#_omnifunc(findstart, base)  "{{{2
+  " items = a list of items
+  " item = a dictionary as described in :help complete-items.
+  "        '^_ku_.*$' - additional keys used by ku.
+  "        '^_{source}_.*$' - additional keys used by {source}.
+  if a:findstart
+    let s:last_items = []
+    return 0
+  else
+    let pattern = (s:contains_the_prompt_p(a:base)
+      \            ? a:base[len(s:PROMPT):]
+      \            : a:base)
+    let asis_regexp = s:make_asis_regexp(pattern)
+    let skip_regexp = s:make_skip_regexp(pattern)
+
+    let s:last_items = ku#{s:current_source}#gather_items(pattern)
+    for _ in s:last_items
+      let _['_ku_source'] = s:current_source
+      let _['_ku_sort_priority']
+        \ = [
+        \     match(_.word, '\C' . asis_regexp),
+        \     match(_.word, '\c' . asis_regexp),
+        \     match(_.word, '\C' . skip_regexp),
+        \     match(_.word, '\c' . skip_regexp),
+        \     _.word,
+        \   ]
+    endfor
+
+      " Remove items not matched to skip_regexp.  If items aren't matched to
+      " skip_regexp, they aren't also matched to asis_regexp.
+    call filter(s:last_items, '0 <= v:val._ku_sort_priority[3]')
+    call sort(s:last_items, function('s:_compare_items'))
+    return s:last_items
+  endif
+endfunction
+
+
+function! s:_compare_items(a, b)
+  return s:_compare_lists(a:a._ku_sort_priority, a:b._ku_sort_priority)
+endfunction
+
+function! s:_compare_lists(a, b)
+  " Assumption: len(a:a) == len(a:b)
+  for i in range(len(a:a))
+    if a:a[i] < a:b[i]
+      return -1
+    elseif a:a[i] > a:b[i]
+      return 1
+    endif
+  endfor
+  return 0
+endfunction
+
+
+
+
 function! s:do(choose_p)  "{{{2
   let current_user_input = getline(2)
   if current_user_input !=# s:last_user_input && 0 < len(s:last_items)
@@ -292,14 +349,40 @@ endfunction
 
 
 function! s:on_CursorMovedI()  "{{{2
-  return ''  " FIXME: Not implemented yet
+  " Calling setline() has a side effect to the cursor.  If the cursor beyond
+  " the end of line (i.e. getline('.') < col('.')), the cursor will be move at
+  " the last character of the current line after calling setline().
+  let c0 = col('.')
+  call setline(1, '')
+  let c1 = col('.')
+  call setline(1, 'Source: ' . s:current_source)
+
+  " The order of these conditions are important.
+  let line = getline('.')
+  if !s:contains_the_prompt_p(line)
+    let keys = repeat("\<Right>", len(s:PROMPT))
+    call s:complete_the_prompt()
+  elseif col('.') <= len(s:PROMPT)
+    " The cursor is inside the prompt.
+    let keys = repeat("\<Right>", len(s:PROMPT) - col('.') + 1)
+  elseif len(line) < col('.') && col('.') != s:last_col
+    let keys = s:KEYS_TO_START_COMPLETION
+  else
+    let keys = ''
+  endif
+
+  let s:last_col = col('.')
+  let s:last_user_input = line
+  return (c0 != c1 ? "\<Right>" : '') . keys
 endfunction
 
 
 
 
 function! s:on_InsertEnter()  "{{{2
-  return ''  " FIXME: Not implemented yet
+  let s:last_col = s:INVALID_COL
+  let s:last_user_input = ''
+  return s:on_CursorMovedI()
 endfunction
 
 
@@ -331,6 +414,32 @@ endfunction
 
 
 " Misc.  "{{{1
+" Automatic completion  "{{{2
+function! s:complete_the_prompt()  "{{{3
+  call setline('.', s:PROMPT . getline('.'))
+  return
+endfunction
+
+
+function! s:contains_the_prompt_p(s)  "{{{3
+  return len(s:PROMPT) <= len(a:s) && a:s[:len(s:PROMPT) - 1] ==# s:PROMPT
+endfunction
+
+
+function! s:make_asis_regexp(s)  "{{{3
+  return '\V' . escape(a:s, '\')
+endfunction
+
+
+function! s:make_skip_regexp(s)  "{{{3
+  " FIXME: path separator assumption
+  let p_asis = s:make_asis_regexp(substitute(a:s, '/', ' / ', 'g'))
+  return substitute(p_asis, '\s\+', '\\.\\*', 'g')
+endfunction
+
+
+
+
 " Default actions  "{{{2
 function! s:_default_action_nop(item)  "{{{3
   " NOP
