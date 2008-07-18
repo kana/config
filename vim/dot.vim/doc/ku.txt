@@ -84,14 +84,17 @@ ku#start({source})				*ku#start()*
 
 ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			Define the following key mappings which are local to
-			the current buffer.  Existent key mappings will be
-			override if {override_p} is true.
+			the current buffer in Normal mode and Insert mode.
+			Existent key mappings will be override if {override_p}
+			is true.
 
 			{lhs}		{rhs}				~
 			------------------------------------------------~
 			<C-c>		<Plug>(ku-cancel)
 			<Return>	<Plug>(ku-do-the-default-action)
+			<C-m>		<Plug>(ku-do-the-default-action)
 			<Tab>		<Plug>(ku-choose-an-action)
+			<C-i>		<Plug>(ku-choose-an-action)
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
 
