@@ -98,18 +98,18 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
 
-ku#custom_action({source}, {action}, {funcref})	*ku#custom_action()*
+ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 			Define a new {action} for items from {source}.
-			{funcref} is a |Funcref| or the name of a function
-			which will be called as {action}.
+			{function} is the name of a function which will be
+			called as {action}.
 
-			{source} is the name of a source or "*global*".
+			{source} is the name of a source or "*common*".
 
-ku#custom_key({source}, {key}, {action})		*ku#custom_key()*
+ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 			Define a {key} to do the {action} for items from
 			{source} in |<Plug>(ku-choose-action)|.
 
-			{source} is the name of a source or "*global*".
+			{source} is the name of a source or "*common*".
 
 
 
@@ -147,8 +147,8 @@ sources, you can choose a buffer by ku.
 
 						*ku-action-table*
 Sources have their own action table.  Action table is a dictionary, where
-each key is the name of an action, and each value is the funcref or the name
-of a function that implements the action.
+each key is the name of an action, and each value is the name of a function
+that implements the action.
 
 						*ku-key-table*
 Sources have their own key table.  Key table is a dictionary, where each key

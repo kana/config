@@ -64,7 +64,8 @@ endfunction
 
 " Misc.  "{{{1
 function! ku#buffer#_action_switch(item)  "{{{2
-  echomsg 'buffer' string(a:item)  " FIXME: NIY
+  " FIXME: NIY
+  echomsg 'buffer' string(a:item)
 endfunction
 
 
