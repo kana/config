@@ -21,7 +21,6 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-"{{{1
 
 if exists('g:loaded_ku')
   finish
@@ -30,31 +29,12 @@ endif
 
 
 
+command! -bang -bar -nargs=1 Ku  call ku#start('<args>')
 
 
 
-
-" Interfaces  "{{{1
-
-command! -bang -bar -nargs=* Ku  call ku#start('<bang>', '<args>')
-
-
-
-
-
-
-
-
-" Fin.  "{{{1
 
 let g:loaded_ku = 1
 
-
-
-
-
-
-
-
-" __END__  "{{{1
+" __END__
 " vim: foldmethod=marker
