@@ -126,6 +126,7 @@ function! ku#start(source)  "{{{2
     call s:initialize_ku_buffer()
   endif
   2 wincmd _
+  call ku#{s:current_source}#on_start_session()
 
   " Set some options
   set completeopt=menu,menuone
@@ -164,6 +165,7 @@ function! s:end()  "{{{2
   endif
   let s:_end_locked_p = s:TRUE
 
+  call ku#{s:current_source}#on_end_session()
   close
 
   let &completeopt = s:completeopt
@@ -265,8 +267,21 @@ endfunction
 
 
 function! s:switch_current_source(shift_delta)  "{{{2
-  echomsg 'FIXME: NIY' a:shift_delta s:current_source
-  return
+  let o = index(s:available_sources, s:current_source)
+  let n = (o + a:shift_delta) % len(s:available_sources)
+  if n < 0
+    let n += s:available_source_p
+  endif
+
+  if o == n
+    return s:FALSE
+  endif
+
+  call ku#{s:available_sources[o]}#on_end_session()
+  call ku#{s:available_sources[n]}#on_start_session()
+
+  let s:current_source = s:available_sources[n]
+  return s:TRUE
 endfunction
 
 
