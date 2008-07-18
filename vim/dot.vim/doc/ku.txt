@@ -1,6 +1,6 @@
 *ku.txt*	Support to do something
 
-Version 0.0.0
+Version 0.1.0
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -266,6 +266,9 @@ BUGS						*ku-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.1.0	2008-07-18T15:23:02+09:00
+	- Redesign.
 
 0.0.0	2008-01-25T19:34:13+09:00
 	- Derived from buffuzzy and zapit.
