@@ -47,6 +47,12 @@ let s:INVALID_SOURCE = '*invalid*'
 let s:current_source = s:INVALID_SOURCE
 
 
+" All available sources
+if !exists('s:available_sources')
+  let s:available_sources = {}  " source-name -> s:TRUE
+endif
+
+
 " Misc. variables to restore the original state.
 let s:completeopt = ''
 let s:curwinnr = 0
@@ -91,6 +97,10 @@ endfunction
 
 
 function! ku#start(source)  "{{{2
+  if !s:available_source_p(a:source)
+    echoerr 'ku: Not a valid source name:' string(a:source)
+    return s:FALSE
+  endif
   let s:current_source = a:source  " FIXME: availability check
 
   " Save some values to restore the original state.
@@ -267,6 +277,20 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:available_source_p(source)  "{{{2
+  if len(s:available_sources) == 0
+    for _ in split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n")
+      let s:available_sources[substitute(_, '^.*\([^/.]*\)\.vim$', '\1', '')]
+      \   = s:TRUE
+    endfor
+  endif
+
+  return has_key(s:available_sources, a:source)
+endfunction
+
+
+
+
 function! s:ni_map(...)  "{{{2
   for _ in ['n', 'i']
     silent! execute _.'map' join(a:000)
