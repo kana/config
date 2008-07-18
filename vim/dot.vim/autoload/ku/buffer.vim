@@ -37,7 +37,8 @@ endfunction
 
 
 function! ku#buffer#action_table()  "{{{2
-  return {}
+  return {'*default*': 'ku#buffer#_action_switch',
+  \       'switch': 'ku#buffer#_action_switch'}
 endfunction
 
 
@@ -52,6 +53,18 @@ endfunction
 
 function! ku#buffer#gather_items()  "{{{2
   return []
+endfunction
+
+
+
+
+
+
+
+
+" Misc.  "{{{1
+function! ku#buffer#_action_switch(item)  "{{{2
+  echomsg 'buffer' string(a:item)  " FIXME: NIY
 endfunction
 
 
