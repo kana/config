@@ -37,7 +37,15 @@ endfunction
 
 
 function! ku#default_key_mappings(override_p)  "{{{2
-  throw 'FIXME: Not impelemented yet'
+  let _ = a:override_p ? '' : '<unique>'
+  call s:ni_noremap('<buffer> <C-c>', _, '<Plug>(ku-cancel)')
+  call s:ni_noremap('<buffer> <Return>', _, '<Plug>(ku-do-the-default-action)')
+  call s:ni_noremap('<buffer> <C-m>', _, '<Plug>(ku-do-the-default-action)')
+  call s:ni_noremap('<buffer> <Tab>', _, '<Plug>(ku-choose-an-action)')
+  call s:ni_noremap('<buffer> <C-i>', _, '<Plug>(ku-choose-an-action)')
+  call s:ni_noremap('<buffer> <C-j>', _, '<Plug>(ku-next-source)')
+  call s:ni_noremap('<buffer> <C-k>', _, '<Plug>(ku-previous-source)')
+  return
 endfunction
 
 
@@ -55,6 +63,12 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:ni_noremap(...)  "{{{2
+  for _ in ['n', 'i']
+    execute _.'noremap' join(a:000)
+  endfor
+  return
+endfunction
 
 
 
