@@ -182,11 +182,14 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 ==============================================================================
 CUSTOMIZING					*ku-customizing*
 
-User plugin-ku-session-start			*plugin-ku-session-start*
-User plugin-ku-session-end			*plugin-ku-session-end*
-	These events are published whenever the ku window is open or closed.
-	Use these events to do your initialization or finalization, for
-	example, customize key mappings for the ku buffer.
+User plugin-ku-buffer-initialized		*plugin-ku-buffer-initialize*
+	This event is published whenever the ku buffer is created then being
+	initialized.  Use this event to do your initialization, for example,
+	customize key mappings for the ku buffer.
+
+	Note that if there is no |:autocmd| for this event,
+	|ku#default_key_mappings()| will be called.  Otherwise, it will not be
+	called.
 
 
 
