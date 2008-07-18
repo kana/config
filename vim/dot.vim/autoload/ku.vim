@@ -123,7 +123,7 @@ function! ku#start(source)  "{{{2
     echoerr 'ku: Not a valid source name:' string(a:source)
     return s:FALSE
   endif
-  let s:current_source = a:source  " FIXME: availability check
+  let s:current_source = a:source
 
   " Save some values to restore the original state.
   let s:completeopt = &completeopt
@@ -355,7 +355,7 @@ endfunction
 
 
 function! s:default_action_table()  "{{{2
-  return {'*nop*': 's:_default_action_nop'}
+  return {'*nop*': 's:_default_action_nop'}  " FIXME: More actions
 endfunction
 
 
