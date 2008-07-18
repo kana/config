@@ -49,7 +49,7 @@ let s:current_source = s:INVALID_SOURCE
 
 " All available sources
 if !exists('s:available_sources')
-  let s:available_sources = {}  " source-name -> s:TRUE
+  let s:available_sources = []  " [source-name, ...]
 endif
 
 
@@ -279,13 +279,13 @@ endfunction
 " Misc.  "{{{1
 function! s:available_source_p(source)  "{{{2
   if len(s:available_sources) == 0
-    for _ in split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n")
-      let s:available_sources[substitute(_, '^.*\([^/.]*\)\.vim$', '\1', '')]
-      \   = s:TRUE
-    endfor
+    let s:available_sources = sort(map(
+    \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
+    \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
+    \   ))
   endif
 
-  return has_key(s:available_sources, a:source)
+  return 0 <= index(s:available_sources, a:source)
 endfunction
 
 
