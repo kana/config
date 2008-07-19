@@ -21,9 +21,32 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Variables  "{{{1
+
+let s:cached_items = []
+
+
+
+
+
+
+
+
 " Interface  "{{{1
 function! ku#buffer#on_start_session()  "{{{2
-  " Nothing to do.
+  " FIXME: better caching
+  let _ = []
+  for i in range(1, bufnr('$'))
+    if bufexists(i) && buflisted(i)
+      call add(_, {
+      \      'word': bufname(i),
+      \      'menu': printf('buffer %*d', len(bufnr('$')), i),
+      \      'dup': 1,
+      \      '_buffer_nr': i,
+      \    })
+    endif
+  endfor
+  let s:cached_items = _
   return
 endfunction
 
@@ -78,19 +101,7 @@ endfunction
 
 
 function! ku#buffer#gather_items(pattern)  "{{{2
-  " FIXME: Cache.
-  let _ = []
-  for i in range(1, bufnr('$'))
-    if bufexists(i) && buflisted(i)
-      call add(_, {
-      \      'word': bufname(i),
-      \      'menu': printf('buffer %*d', len(bufnr('$')), i),
-      \      'dup': 1,
-      \      '_buffer_nr': i,
-      \    })
-    endif
-  endfor
-  return _
+  return s:cached_items
 endfunction
 
 
