@@ -74,9 +74,7 @@ COMMANDS					*ku-commands*
 			Start selecting items from {source}.
 
 
-
-
-==============================================================================
+------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
 
 ku#start({source})				*ku#start()*
@@ -112,9 +110,7 @@ ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 			{source} is the name of a source or "*common*".
 
 
-
-
-==============================================================================
+------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
 
 In the ku window, the following key mappings are defined:
