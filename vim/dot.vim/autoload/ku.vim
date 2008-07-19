@@ -305,10 +305,12 @@ function! s:initialize_ku_buffer()  "{{{2
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
   \        :<C-u>call <SID>switch_current_source(-1)<Return>
 
-  nnoremap <buffer> <silent> <Plug>(ku-%-enter-insert-mode)  a
-  inoremap <buffer> <silent> <Plug>(ku-%-leave-insert-mode)  <Esc>
-  inoremap <buffer> <silent> <Plug>(ku-%-accept-completion)  <C-y>
-  inoremap <buffer> <silent> <Plug>(ku-%-cancel-completion)  <C-e>
+  nnoremap <buffer> <Plug>(ku-%-enter-insert-mode)  a
+  inoremap <buffer> <Plug>(ku-%-leave-insert-mode)  <Esc>
+  inoremap <buffer> <expr> <Plug>(ku-%-accept-completion)
+  \        pumvisible() ? '<C-y>' : ''
+  inoremap <buffer> <expr> <Plug>(ku-%-cancel-completion)
+  \        pumvisible() ? '<C-e>' : ''
 
   imap <buffer> <silent> <Plug>(ku-cancel)
   \    <Plug>(ku-%-leave-insert-mode)
