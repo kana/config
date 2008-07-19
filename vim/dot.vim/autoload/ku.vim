@@ -191,6 +191,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
 
     let s:last_items = ku#{s:current_source}#gather_items(pattern)
     for _ in s:last_items
+      let _['_ku_completed_p'] = s:TRUE
       let _['_ku_source'] = s:current_source
       let _['_ku_sort_priority']
         \ = [
@@ -232,13 +233,32 @@ endfunction
 
 function! s:do(choose_p)  "{{{2
   let current_user_input = getline(2)
-  if current_user_input !=# s:last_user_input && 0 < len(s:last_items)
+  if current_user_input !=# s:last_user_input
     " current_user_input seems to be inserted by completion.
-    let item = s:last_items[0]
+    for _ in s:last_items
+      if current_user_input ==# _.word
+        let item = _
+        break
+      endif
+    endfor
+    if !exists('item')
+      echomsg 'Internal error: No match found in s:last_items'
+      echomsg 'current_user_input' string(current_user_input)
+      echomsg 's:last_user_input' string(s:last_user_input)
+      throw 'ku:e1'
+    endif
   else
-    let item = current_user_input
-    if s:contains_the_prompt_p(current_user_input)
-      let item = item[len(s:PROMPT):]  " remove the prompt.
+    " current_user_input seems NOT to be inserted by completion, but ...
+    if 0 < len(s:last_items)
+      " there are 1 or more items -- user seems to take action on the 1st one.
+      let item = s:last_items[0]
+    else
+      " there is no item -- user seems to take action on current_user_input.
+      if s:contains_the_prompt_p(current_user_input)
+        " remove the prompt.
+        let current_user_input = current_user_input[len(s:PROMPT):]
+      endif
+      let item = {'word': current_user_input, '_ku_completed_p': s:FALSE}
     endif
   endif
 
