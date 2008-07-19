@@ -224,20 +224,27 @@ custom key table for each source.
 						*ku-source-api*
 Sources are written as autoload scripts which are placed in "autoload/ku/"
 directory in 'runtimepath'.  The names of sources are same as their file names
-without the ".vim" extension.  Sources must provide the following functions:
+without the ".vim" extension.  The names of sources should consist of lower
+cases only.  Sources must provide the following functions:
 
 ku#{source}#on_start_session()		      *ku#{source}#on_start_session()*
-			Function which is called after the ku window is open.
+			Function which is called whenever the current source
+			is switched from another source to {source} or the
+			|ku-window| is open if the current source is {source}.
 
 ku#{source}#on_end_session()			*ku#{source}#on_end_session()*
-			Function which is called before the ku window is
-			closed.
+			Function which is called whenever the current source
+			is switched from {source} to another source or the
+			|ku-window| is closed if the current source is
+			{source}.
 
 ku#{source}#action_table()			*ku#{source}#action_table()*
-			Return the action table for {souce}.
+			Return the default action table for {souce}.  See also
+			|ku-action-table|.
 
 ku#{source}#key_table()				*ku#{source}#key_table()*
-			Return the key table for {souce}.
+			Return the default key table for {souce}.  See also
+			|ku-key-table|.
 
 ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			Return a list of items which are matched to the given
@@ -252,10 +259,9 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			of such entries are prefixed with "_ku_".  The
 			following keys are officially provided:
 
-			Key		Value ~
-			---------------	---------------------- ~
-			_ku_completed_p	True if the item is completed one,
-					false otherwise.
+			_ku_completed_p		(boolean)
+				Normally true.  If the item is not completed
+				one, it is set to false.
 
 
 
