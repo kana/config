@@ -199,7 +199,8 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     let asis_regexp = s:make_asis_regexp(pattern)
     let skip_regexp = s:make_skip_regexp(pattern)
 
-    let s:last_completed_items = ku#{s:current_source}#gather_items(pattern)
+    let s:last_completed_items
+    \   = copy(ku#{s:current_source}#gather_items(pattern))
     for _ in s:last_completed_items
       let _['_ku_completed_p'] = s:TRUE
       let _['_ku_source'] = s:current_source
