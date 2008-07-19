@@ -23,35 +23,62 @@
 " }}}
 " Interface  "{{{1
 function! ku#buffer#on_start_session()  "{{{2
-  echomsg 'on_start_session'
+  " Nothing to do.
+  return
 endfunction
 
 
 
 
 function! ku#buffer#on_end_session()  "{{{2
-  echomsg 'on_end_session'
+  " Nothing to do.
+  return
 endfunction
 
 
 
 
 function! ku#buffer#action_table()  "{{{2
-  return {'*default*': 'ku#buffer#_action_switch',
-  \       'switch': 'ku#buffer#_action_switch'}
+  return {
+  \   'Bottom': 'ku#buffer#action_Bottom',
+  \   'Left': 'ku#buffer#action_Left',
+  \   'Right': 'ku#buffer#action_Right',
+  \   'Top': 'ku#buffer#action_Top',
+  \   'above': 'ku#buffer#action_above',
+  \   'below': 'ku#buffer#action_below',
+  \   'default': 'ku#buffer#action_default',
+  \   'left': 'ku#buffer#action_left',
+  \   'right': 'ku#buffer#action_right',
+  \ }
 endfunction
 
 
 
 
 function! ku#buffer#key_table()  "{{{2
-  return {}
+  return {
+  \   "\<C-h>": 'left',
+  \   "\<C-j>": 'below',
+  \   "\<C-k>": 'above',
+  \   "\<C-l>": 'right',
+  \   "\<C-o>": 'default',
+  \   'H': 'Left',
+  \   'J': 'Bottom',
+  \   'K': 'Top',
+  \   'L': 'Right',
+  \   'h': 'left',
+  \   'j': 'below',
+  \   'k': 'above',
+  \   'l': 'right',
+  \   'o': 'default',
+  \ }
 endfunction
 
 
 
 
 function! ku#buffer#gather_items(pattern)  "{{{2
+  " FIXME: Cache.
   let _ = []
   for i in range(1, bufnr('$'))
     if bufexists(i) && buflisted(i)
@@ -59,6 +86,7 @@ function! ku#buffer#gather_items(pattern)  "{{{2
       \      'word': bufname(i),
       \      'menu': printf('buffer %*d', len(bufnr('$')), i),
       \      'dup': 1,
+      \      '_buffer_nr': i,
       \    })
     endif
   endfor
@@ -73,9 +101,73 @@ endfunction
 
 
 " Misc.  "{{{1
-function! ku#buffer#_action_switch(item)  "{{{2
-  " FIXME: NIY
-  echomsg 'buffer' string(a:item)
+function! s:open(direction_modifier, item)  "{{{2
+  if a:direction_modifier !=# 'here'
+    execute a:direction_modifier 'split'
+  endif
+
+  if a:item._ku_completed_p
+    execute a:item._buffer_nr 'buffer'
+  else
+    edit `=fnameescape(a:item.word)`
+  endif
+endfunction
+
+
+
+
+" Actions  "{{{2
+function! ku#buffer#action_above(item)  "{{{3
+  call s:open('aboveleft', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_below(item)  "{{{3
+  call s:open('belowright', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_default(item)  "{{{3
+  call s:open('here', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_left(item)  "{{{3
+  call s:open('vertical aboveleft', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_right(item)  "{{{3
+  call s:open('vertical belowright', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_Bottom(item)  "{{{3
+  call s:open('botright', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_Left(item)  "{{{3
+  call s:open('vertical topleft', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_Right(item)  "{{{3
+  call s:open('vertical botright', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_Top(item)  "{{{3
+  call s:open('topleft', a:item)
+  return
 endfunction
 
 
