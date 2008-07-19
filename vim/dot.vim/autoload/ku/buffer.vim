@@ -52,7 +52,17 @@ endfunction
 
 
 function! ku#buffer#gather_items(pattern)  "{{{2
-  return []
+  let _ = []
+  for i in range(1, bufnr('$'))
+    if bufexists(i) && buflisted(i)
+      call add(_, {
+      \      'word': bufname(i),
+      \      'menu': printf('buffer %*d', len(bufnr('$')), i),
+      \      'dup': 1,
+      \    })
+    endif
+  endfor
+  return _
 endfunction
 
 
