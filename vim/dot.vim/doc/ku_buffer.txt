@@ -1,0 +1,101 @@
+*ku_buffer.txt*	ku source: buffer
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-buffer-contents*
+
+Introduction		|ku-buffer-introduction|
+Action Table		|ku-buffer-action-table|
+Key Table		|ku-buffer-key-table|
+Bugs			|ku-buffer-bugs|
+Changelog		|ku-buffer-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*ku-buffer-introduction*
+
+"buffer" is a source for ku, a Vim plugin (|ku.txt|).  This source gathers all
+buffers but unlisted ones as itmes to be completed.
+
+
+
+
+==============================================================================
+ACTION TABLE					*ku-buffer-action-table*
+
+default						*ku-buffer-aciton-default*
+			Open the buffer specified by the selected item in the
+			current window.  If the selected item is not completed
+			one, it is treated as the name of a file or
+			a directory, and it will be open by |:edit|.
+
+Bottom						*ku-buffer-action-Bottom*
+Left						*ku-buffer-action-Left*
+Right						*ku-buffer-action-Right*
+Top						*ku-buffer-action-Top*
+above						*ku-buffer-action-above*
+below						*ku-buffer-action-below*
+left						*ku-buffer-action-left*
+right						*ku-buffer-action-right*
+			Like "default", but open the buffer in the direction
+			specified by the name of each action.  For example,
+			"left" opens a window at left side, then open the
+			buffer in the new window.
+
+			Actions of which names start with upper case are like
+			others, but open a window at the most outside of Vim
+			screen.  See also |:topleft|.
+
+
+
+
+==============================================================================
+KEY TABLE					*ku-buffer-key-table*
+
+Use |<Plug>(ku-choose-an-action)| to know what keys are available.
+
+
+
+
+==============================================================================
+BUGS						*ku-buffer-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-buffer-changelog*
+
+0.0.0	2008-07-20T01:10:37+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
