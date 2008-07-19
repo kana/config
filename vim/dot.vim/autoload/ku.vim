@@ -23,6 +23,7 @@
 " }}}
 " Variables  "{{{1
 
+" Misc.
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
 
@@ -35,18 +36,18 @@ endif
 let s:bufnr = s:INVALID_BUFNR
 
 
-" The name of the current source given by ku#start() or :Ku.
+" The name of the current source given to ku#start() or :Ku.
 let s:INVALID_SOURCE = '*invalid*'
 let s:current_source = s:INVALID_SOURCE
 
 
-" All available sources
+" All available sources.
 if !exists('s:available_sources')
   let s:available_sources = []  " [source-name, ...]
 endif
 
 
-" Variables for automatic completion
+" For automatic completion.
 let s:KEYS_TO_START_COMPLETION = "\<C-x>\<C-o>\<C-p>"
 let s:PROMPT = '>'  " must be a single character.
 
@@ -54,12 +55,12 @@ let s:INVALID_COL = -3339
 let s:last_col = s:INVALID_COL
 
 
-" Memoize the last state of the ku buffer for further work.
-let s:last_items = []
+" To take action on the appropriate item.
+let s:last_completed_items = []
 let s:last_user_input = ''
 
 
-" Misc. variables to restore the original state.
+" Values to be restored after the ku window is closed.
 let s:completeopt = ''
 let s:curwinnr = 0
 let s:ignorecase = ''
@@ -180,7 +181,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
   "        '^_ku_.*$' - additional keys used by ku.
   "        '^_{source}_.*$' - additional keys used by {source}.
   if a:findstart
-    let s:last_items = []
+    let s:last_completed_items = []
     return 0
   else
     let pattern = (s:contains_the_prompt_p(a:base)
@@ -189,8 +190,8 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     let asis_regexp = s:make_asis_regexp(pattern)
     let skip_regexp = s:make_skip_regexp(pattern)
 
-    let s:last_items = ku#{s:current_source}#gather_items(pattern)
-    for _ in s:last_items
+    let s:last_completed_items = ku#{s:current_source}#gather_items(pattern)
+    for _ in s:last_completed_items
       let _['_ku_completed_p'] = s:TRUE
       let _['_ku_source'] = s:current_source
       let _['_ku_sort_priority']
@@ -205,9 +206,9 @@ function! ku#_omnifunc(findstart, base)  "{{{2
 
       " Remove items not matched to skip_regexp.  If items aren't matched to
       " skip_regexp, they aren't also matched to asis_regexp.
-    call filter(s:last_items, '0 <= v:val._ku_sort_priority[3]')
-    call sort(s:last_items, function('s:_compare_items'))
-    return s:last_items
+    call filter(s:last_completed_items, '0 <= v:val._ku_sort_priority[3]')
+    call sort(s:last_completed_items, function('s:_compare_items'))
+    return s:last_completed_items
   endif
 endfunction
 
@@ -235,23 +236,23 @@ function! s:do(choose_p)  "{{{2
   let current_user_input = getline(2)
   if current_user_input !=# s:last_user_input
     " current_user_input seems to be inserted by completion.
-    for _ in s:last_items
+    for _ in s:last_completed_items
       if current_user_input ==# _.word
         let item = _
         break
       endif
     endfor
     if !exists('item')
-      echomsg 'Internal error: No match found in s:last_items'
+      echomsg 'Internal error: No match found in s:last_completed_items'
       echomsg 'current_user_input' string(current_user_input)
       echomsg 's:last_user_input' string(s:last_user_input)
       throw 'ku:e1'
     endif
   else
     " current_user_input seems NOT to be inserted by completion, but ...
-    if 0 < len(s:last_items)
+    if 0 < len(s:last_completed_items)
       " there are 1 or more items -- user seems to take action on the 1st one.
-      let item = s:last_items[0]
+      let item = s:last_completed_items[0]
     else
       " there is no item -- user seems to take action on current_user_input.
       if s:contains_the_prompt_p(current_user_input)
