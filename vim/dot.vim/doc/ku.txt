@@ -31,6 +31,8 @@ Interface		|ku-interface|
   Functions		  |ku-functions|
   Key Mapings		  |ku-key-mappings|
   Pattern		  |ku-pattern|
+  Default Action Table	  |ku-default-action-table|
+  Default Key Table	  |ku-default-key-table|
 Sources			|ku-sources|
 Customizing		|ku-customizing|
 Terms			|ku-terms|
@@ -104,14 +106,18 @@ ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 			the given {source}.  In the latter case, the given
 			{action} is available for all sources.
 
+			See also |ku-action-table|.
+
 ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 			Define a {key} to do the {action} for items from
 			{source} in |<Plug>(ku-choose-action)|.
 
-			{source} is the name of a source or "*common*".  In
-			the former case, the given {key} is available for the
+			{source} is the name of a source or "common".  In the
+			former case, the given {key} is available for the
 			given {source}.  In the latter case, the given {key}
 			is available for all sources.
+
+			See also |ku-key-table|.
 
 
 ------------------------------------------------------------------------------
@@ -201,20 +207,19 @@ Key		Action ~
 ==============================================================================
 SOURCES						*ku-sources*
 
-Sources are like kinds of items.  For exmaple, there are "buffer" and "file"
-sources are available as the default and sample sources.  With "buffer"
-sources, you can choose a buffer by ku.
+Sources are like kinds of items.  For example, ku includes "buffer" source.
+It gathers all buffers as items to be completed.  You can choose and take an
+action on a buffer with this source.  The same can be said for other sources.
 
-						*ku-action-table*
-Sources have their own action table.  Action table is a dictionary, where
-each key is the name of an action, and each value is the name of a function
-that implements the action.
+						*ku-source-action-table*
+Sources have their own action table (|ku-action-table|).  These action tables
+have higher priority than common action tables, but these have lower priority
+than custom action table for each source.
 
-						*ku-key-table*
-Sources have their own key table.  Key table is a dictionary, where each key
-is a single character that represents the key to
-|<Plug>(ku-choose-an-action)|, and each value is the name of an action to be
-executed by the key.
+						*ku-source-key-table*
+Sources have their own key table (|ku-key-table|).  These key tables have
+higher priority than common key tables, but these have lower priority than
+custom key table for each source.
 
 						*ku-source-api*
 Sources are written as autoload scripts which are placed in "autoload/ku/"
@@ -229,10 +234,10 @@ ku#{source}#on_end_session()			*ku#{source}#on_end_session()*
 			closed.
 
 ku#{source}#action_table()			*ku#{source}#action_table()*
-			Return the action table of {souce}.
+			Return the action table for {souce}.
 
 ku#{source}#key_table()				*ku#{source}#key_table()*
-			Return the key table of {souce}.
+			Return the key table for {souce}.
 
 ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			Return a list of items which are matched to the given
@@ -286,6 +291,41 @@ ku window					*ku-window* *ku-buffer*
 			- An action is taken for an item.
 			- Selecting is canceled.
 			- Another window or another tab page becomes active.
+
+action table					*ku-action-table*
+			Action table is a dictionary, where each key is the
+			name of an action, and each value is the name of
+			a function that implements the action.
+
+			There are 4 action tables for each source, and above
+			listed ones have higher priority than below listed
+			ones:
+
+			1. custom action table for a source
+			2. default action table for a source
+			3. custom action table for all sources
+			4. default action table for all sources
+
+			Custom action tables can be configured with
+			|ku#custom_action()|.
+
+key table					*ku-key-table*
+			Key table is a dictionary, where each key is a single
+			character that represents a key to choose an action by
+			|<Plug>(ku-choose-an-action)|, and each value is the
+			name of an action to be executed by the key.
+
+			There are 4 key tables for each source, and above
+			listed ones have higher priority than below listed
+			ones:
+
+			1. custom key table for a source
+			2. default key table for a source
+			3. custom key table for all sources
+			4. default key table for all sources
+
+			Custom key tables can be configured with
+			|ku#custom_key()|.
 
 
 
