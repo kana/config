@@ -30,7 +30,7 @@ Interface		|ku-interface|
   Commands		  |ku-commands|
   Functions		  |ku-functions|
   Key Mapings		  |ku-key-mappings|
-Types			|ku-types|
+Sources			|ku-sources|
 Customizing		|ku-customizing|
 Terms			|ku-terms|
 Bugs			|ku-bugs|
@@ -50,6 +50,8 @@ to take your input.  As you input some characters, |ins-completion-menu| will
 be automatically appeared and updated to show the proper candidates for the
 input pattern (see |ku-pattern| for the detail).  Then you can take an action
 by |ku-key-mappings|.
+
+You can also write your own sources.  See |ku-sources| for the detail.
 
 						*ku-auto-directory-insertion*
 (planned) Whenever "/" is typed, the name of an appropriate directory will be
