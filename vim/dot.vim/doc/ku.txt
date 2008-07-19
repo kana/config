@@ -101,13 +101,19 @@ ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 			{function} is the name of a function which will be
 			called as {action}.
 
-			{source} is the name of a source or "*common*".
+			{source} is the name of a source or "common".  In the
+			former case, the given {action} is only available for
+			the given {source}.  In the latter case, the given
+			{action} is available for all sources.
 
 ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 			Define a {key} to do the {action} for items from
 			{source} in |<Plug>(ku-choose-action)|.
 
-			{source} is the name of a source or "*common*".
+			{source} is the name of a source or "*common*".  In
+			the former case, the given {key} is available for the
+			given {source}.  In the latter case, the given {key}
+			is available for all sources.
 
 
 ------------------------------------------------------------------------------
@@ -144,6 +150,10 @@ cd						*ku-aciton-cd*
 			the name of a file, change to the directory which
 			contains the file.
 
+default						*ku-aciton-default*
+			Do the default action for the selected item.  This
+			action is overriden by each source.
+
 ex						*ku-action-ex*
 			Shift to Command-line mode, insert the selected item
 			as a file or a directory, then move the cursor to the
@@ -152,6 +162,10 @@ ex						*ku-action-ex*
 
 lcd						*ku-action-lcd*
 			Like "cd", but does |:lcd| to the selected item.
+
+nop						*ku-aciton-nop*
+			Do nothing.  Use this action to remove an entry from
+			a key table.
 
 
 ------------------------------------------------------------------------------
@@ -162,6 +176,7 @@ Key		Action ~
 /		cd	|ku-action-cd|
 :		ex	|ku-action-ex|
 ;		ex	|ku-action-ex|
+<Return>	default	|ku-action-default|
 ?		lcd	|ku-action-lcd|
 
 
