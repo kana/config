@@ -184,6 +184,7 @@ endfunction
 
 " Core  "{{{1
 function! ku#_omnifunc(findstart, base)  "{{{2
+  " FIXME: caching
   " items = a list of items
   " item = a dictionary as described in :help complete-items.
   "        '^_ku_.*$' - additional keys used by ku.
