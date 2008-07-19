@@ -32,6 +32,7 @@ Interface		|ku-interface|
   Key Mapings		  |ku-key-mappings|
 Types			|ku-types|
 Customizing		|ku-customizing|
+Terms			|ku-terms|
 Bugs			|ku-bugs|
 Changelog		|ku-changelog|
 
@@ -41,25 +42,19 @@ Changelog		|ku-changelog|
 ==============================================================================
 INTRODUCTION					*ku-introduction*
 
-Ku is a Vim plugin to provide the interface to choose many items from several
-sources with automatic completion and fuzzy pattern matching.
+Ku is a Vim plugin to provide the interface to choose many items from a source
+with automatic completion and fuzzy pattern matching.
 
-To start selection, use |ku-commands|.  The commands will open a new window
-(|ku-window|) to take your input.  As you input some characters, pop-up menu
-(|ins-completion-menu|) will be automatically appeared and updated to show the
-proper candidates for the input pattern.
+To start selection, use |ku-commands|.  The commands will open the |ku-window|
+to take your input.  As you input some characters, |ins-completion-menu| will
+be automatically appeared and updated to show the proper candidates for the
+input pattern (see |ku-pattern| for the detail).  Then you can take an action
+by |ku-key-mappings|.
 
 						*ku-auto-directory-insertion*
-Whenever "/" is typed, the name of an appropriate directory will be
+(planned) Whenever "/" is typed, the name of an appropriate directory will be
 automatically inserted.  This feature is derived from bluewind
 <http://cspace.s2.xrea.com/software/bluewind/>.
-
-						*ku-window* *ku-buffer*
-ku window		The window which is opened by |ku-commands|.
-			This window will be automatically closed when:
-			- An action is taken for an item.
-			- Selecting is canceled.
-			- Another window or another tab page becomes active.
 
 
 
@@ -257,6 +252,19 @@ g:ku_{source}_junk_pattern			*g:ku_{source}_junk_pattern*
 	items are listed at the bottom of the completion menu.
 	g:ku_common_junk_pattern is used for items from any sources, while
 	g:ku_{source}_junk_pattern is used for items from a specific {source}.
+
+
+
+
+==============================================================================
+TERMS						*ku-terms*
+
+ku window					*ku-window* *ku-buffer*
+			The window which is opened by |ku-commands|.
+			This window will be automatically closed when:
+			- An action is taken for an item.
+			- Selecting is canceled.
+			- Another window or another tab page becomes active.
 
 
 
