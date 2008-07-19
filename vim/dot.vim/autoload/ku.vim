@@ -523,6 +523,25 @@ endfunction
 
 
 " Default actions  "{{{2
+function! s:_default_action_cd(item)  "{{{3
+  cd `=fnamemodify(a:item.word, ':p:h')`
+  return
+endfunction
+
+
+function! s:_default_action_ex(item)  "{{{3
+  " Support to execute an Ex command on a:item.word (as path).
+  call feedkeys(printf(": %s\<C-b>", fnameescape(a:item.word)), 'n')
+  return
+endfunction
+
+
+function! s:_default_action_lcd(item)  "{{{3
+  lcd `=fnamemodify(a:item.word, ':p:h')`
+  return
+endfunction
+
+
 function! s:_default_action_nop(item)  "{{{3
   " NOP
   return
@@ -538,7 +557,12 @@ endfunction
 
 
 function! s:default_action_table()  "{{{3
-  return {'*nop*': 's:_default_action_nop'}  " FIXME: More actions
+  return {
+  \   '*nop*': 's:_default_action_nop',
+  \   'cd': 's:_default_action_cd',
+  \   'ex': 's:_default_action_ex',
+  \   'lcd': 's:_default_action_lcd',
+  \ }
 endfunction
 
 
@@ -551,7 +575,12 @@ endfunction
 
 
 function! s:default_key_table()  "{{{3
-  return {}  " FIXME: NIY
+  return {
+  \   '/': 'cd',
+  \   ':': 'ex',
+  \   ';': 'ex',
+  \   '?': 'lcd',
+  \ }
 endfunction
 
 
