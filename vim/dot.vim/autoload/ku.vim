@@ -277,7 +277,7 @@ function! s:do(choose_p)  "{{{2
   if a:choose_p
     let action = s:choose_action()
   else
-    let action = '*default*'
+    let action = 'default'
   endif
 
   " To avoid doing some actions on this buffer and/or this window, close the
@@ -470,7 +470,7 @@ endfunction
 function! s:choose_action()  "{{{3
   let key_table = {}
   for _ in [s:default_key_table(),
-  \         s:custom_key_table('*common*'),
+  \         s:custom_key_table('common'),
   \         ku#{s:current_source}#key_table(),
   \         s:custom_key_table(s:current_source)]
     call extend(key_table, _)
@@ -480,20 +480,22 @@ function! s:choose_action()  "{{{3
   let FORMAT = '%-16s  %s'
   echo printf(FORMAT, 'Key', 'Action')
   for key in sort(keys(key_table))
-    echo printf(FORMAT, strtrans(key), key_table[key])
+    if key_table[key] !=# 'nop'  " don't list a diabled key.
+      echo printf(FORMAT, strtrans(key), key_table[key])
+    endif
   endfor
   echo 'What action?'
 
   let c = nr2char(getchar())  " FIXME: support <Esc>{x} typed by <M-{x}>
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
-  if has_key(key_table, c)
+  if has_key(key_table, c) && key_table[c] !=# 'nop'
     return key_table[c]
   else
     " FIXME: loop to rechoose?
     echo 'The key' string(c) 'is not associated with any action'
     \    '-- nothing happened.'
-    return '*nop*'
+    return 'nop'
   endif
 endfunction
 
@@ -507,16 +509,17 @@ endfunction
 function! s:get_action_function(action)  "{{{3
   for _ in [s:custom_action_table(s:current_source),
   \         ku#{s:current_source}#action_table(),
-  \         s:custom_action_table('*common*'),
+  \         s:custom_action_table('common'),
   \         s:default_action_table()]
     if has_key(_, a:action)
       return _[a:action]
     endif
   endfor
 
-  throw printf('No such action for source %s: %s',
-  \            string(s:current_source),
-  \            string(a:action))
+  echoerr printf('No such action for source %s: %s',
+  \              string(s:current_source),
+  \              string(a:action))
+  return s:get_action_function('nop')
 endfunction
 
 
@@ -558,10 +561,10 @@ endfunction
 
 function! s:default_action_table()  "{{{3
   return {
-  \   '*nop*': 's:_default_action_nop',
   \   'cd': 's:_default_action_cd',
   \   'ex': 's:_default_action_ex',
   \   'lcd': 's:_default_action_lcd',
+  \   'nop': 's:_default_action_nop',
   \ }
 endfunction
 
@@ -576,6 +579,7 @@ endfunction
 
 function! s:default_key_table()  "{{{3
   return {
+  \   "\<Return>": 'default',
   \   '/': 'cd',
   \   ':': 'ex',
   \   ';': 'ex',
