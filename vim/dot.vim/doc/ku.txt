@@ -30,6 +30,7 @@ Interface		|ku-interface|
   Commands		  |ku-commands|
   Functions		  |ku-functions|
   Key Mapings		  |ku-key-mappings|
+  Pattern		  |ku-pattern|
 Sources			|ku-sources|
 Customizing		|ku-customizing|
 Terms			|ku-terms|
@@ -134,6 +135,24 @@ In the ku window, the following key mappings are defined:
 			Change the preferred type (ascending / descending).
 
 The default key mappings are defined by |ku#default_key_mappings()|.
+
+
+------------------------------------------------------------------------------
+PATTERN						*ku-pattern*
+
+Inserted characters in the |ku-window| are treated as 2 "patterns".
+
+- The one is "asis" pattern.  Ku tries to literally match user input to each
+  item.
+
+- The other one is "skip" pattern.  User input is split by spaces, and each
+  space is treated as a wild card, so it is matched to any 0 or more
+  characters.  Ku tries to match this pattern for each item.
+
+Ku uses the matched positions of the above 2 patterns for each item.  In the
+completion list, items are sorted by matched positions.  Mathced position of
+"asis" pattern have higher priority than "skip" pattern.  See also
+|g:ku_common_junk_pattern|.
 
 
 ------------------------------------------------------------------------------
