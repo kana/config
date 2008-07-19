@@ -434,44 +434,8 @@ endfunction
 
 
 
-" Default actions  "{{{2
-function! s:_default_action_nop(item)  "{{{3
-  " NOP
-  return
-endfunction
-
-
-
-
-function! s:available_source_p(source)  "{{{2
-  if len(s:available_sources) == 0
-    let s:available_sources = sort(map(
-    \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
-    \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
-    \   ))
-  endif
-
-  return 0 <= index(s:available_sources, a:source)
-endfunction
-
-
-
-
-function! s:default_action_table()  "{{{2
-  return {'*nop*': 's:_default_action_nop'}  " FIXME: More actions
-endfunction
-
-
-
-
-function! s:default_key_table()  "{{{2
-  return {}  " FIXME: NIY
-endfunction
-
-
-
-
-function! s:choose_action()  "{{{2
+" Action-related stuffs  "{{{2
+function! s:choose_action()  "{{{3
   let key_table = {}
   for _ in [s:default_key_table(),
   \         s:custom_key_table('*common*'),
@@ -502,31 +466,13 @@ function! s:choose_action()  "{{{2
 endfunction
 
 
-
-
-function! s:custom_action_table(source)  "{{{2
-  return get(s:custom_action_tables, a:source, {})
-endfunction
-
-
-
-
-function! s:custom_key_table(source)  "{{{2
-  return get(s:custom_key_tables, a:source, {})
-endfunction
-
-
-
-
-function! s:do_action(action, item)  "{{{2
+function! s:do_action(action, item)  "{{{3
   call function(s:get_action_function(a:action))(a:item)
   return s:TRUE
 endfunction
 
 
-
-
-function! s:get_action_function(action)  "{{{2
+function! s:get_action_function(action)  "{{{3
   for _ in [s:custom_action_table(s:current_source),
   \         ku#{s:current_source}#action_table(),
   \         s:custom_action_table('*common*'),
@@ -539,6 +485,55 @@ function! s:get_action_function(action)  "{{{2
   throw printf('No such action for source %s: %s',
   \            string(s:current_source),
   \            string(a:action))
+endfunction
+
+
+
+
+" Default actions  "{{{2
+function! s:_default_action_nop(item)  "{{{3
+  " NOP
+  return
+endfunction
+
+
+
+
+" Action table  "{{{2
+function! s:custom_action_table(source)  "{{{3
+  return get(s:custom_action_tables, a:source, {})
+endfunction
+
+
+function! s:default_action_table()  "{{{3
+  return {'*nop*': 's:_default_action_nop'}  " FIXME: More actions
+endfunction
+
+
+
+
+" Key table  "{{{2
+function! s:custom_key_table(source)  "{{{3
+  return get(s:custom_key_tables, a:source, {})
+endfunction
+
+
+function! s:default_key_table()  "{{{3
+  return {}  " FIXME: NIY
+endfunction
+
+
+
+
+function! s:available_source_p(source)  "{{{2
+  if len(s:available_sources) == 0
+    let s:available_sources = sort(map(
+    \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
+    \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
+    \   ))
+  endif
+
+  return 0 <= index(s:available_sources, a:source)
 endfunction
 
 
