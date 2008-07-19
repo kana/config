@@ -432,18 +432,6 @@ function! s:contains_the_prompt_p(s)  "{{{3
 endfunction
 
 
-function! s:make_asis_regexp(s)  "{{{3
-  return '\V' . escape(a:s, '\')
-endfunction
-
-
-function! s:make_skip_regexp(s)  "{{{3
-  " FIXME: path separator assumption
-  let p_asis = s:make_asis_regexp(substitute(a:s, '/', ' / ', 'g'))
-  return substitute(p_asis, '\s\+', '\\.\\*', 'g')
-endfunction
-
-
 
 
 " Default actions  "{{{2
@@ -551,6 +539,22 @@ function! s:get_action_function(action)  "{{{2
   throw printf('No such action for source %s: %s',
   \            string(s:current_source),
   \            string(a:action))
+endfunction
+
+
+
+
+function! s:make_asis_regexp(s)  "{{{2
+  return '\V' . escape(a:s, '\')
+endfunction
+
+
+
+
+function! s:make_skip_regexp(s)  "{{{2
+  " FIXME: path separator assumption
+  let p_asis = s:make_asis_regexp(substitute(a:s, '/', ' / ', 'g'))
+  return substitute(p_asis, '\s\+', '\\.\\*', 'g')
 endfunction
 
 
