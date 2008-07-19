@@ -123,13 +123,46 @@ In the ku window, the following key mappings are defined:
 
 <Plug>(ku-choose-an-action)			*<Plug>(ku-choose-an-action)*
 			Show the mesasge on available actions, take a single
-			key input, then do the appropriate action.
+			key input, then do the appropriate action.  See also
+			|ku-default-action-table| and |ku-default-key-table|.
 
 <Plug>(ku-next-source)				*<Plug>(ku-next-source)*
 <Plug>(ku-previous-source)			*<Plug>(ku-previous-source)*
 			Change the preferred type (ascending / descending).
 
 The default key mappings are defined by |ku#default_key_mappings()|.
+
+
+------------------------------------------------------------------------------
+DEFAULT ACTION TABLE				*ku-default-action-table*
+
+The following actions are available as the default ones:
+
+cd						*ku-aciton-cd*
+			|:cd| to the selected item.  If the item is the name
+			of a directory, change to that one.  If the item is
+			the name of a file, change to the directory which
+			contains the file.
+
+ex						*ku-action-ex*
+			Shift to Command-line mode, insert the selected item
+			as a file or a directory, then move the cursor to the
+			beginning of the command-line.  This action is useful
+			to execute an Ex command on the selected item.
+
+lcd						*ku-action-lcd*
+			Like "cd", but does |:lcd| to the selected item.
+
+
+------------------------------------------------------------------------------
+DEFAULT KEY TABLE				*ku-default-key-table*
+
+Key		Action ~
+--------	--------
+/		cd	|ku-action-cd|
+:		ex	|ku-action-ex|
+;		ex	|ku-action-ex|
+?		lcd	|ku-action-lcd|
 
 
 
