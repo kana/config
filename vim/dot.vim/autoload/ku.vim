@@ -399,12 +399,14 @@ function! s:on_CursorMovedI()  "{{{2
   " The order of these conditions are important.
   let line = getline('.')
   if !s:contains_the_prompt_p(line)
+    " Complete the prompt if it doesn't exist for some reasons.
     let keys = repeat("\<Right>", len(s:PROMPT))
     call s:complete_the_prompt()
   elseif col('.') <= len(s:PROMPT)
-    " The cursor is inside the prompt.
+    " Move the cursor out of the prompt if it is in the prompt.
     let keys = repeat("\<Right>", len(s:PROMPT) - col('.') + 1)
   elseif len(line) < col('.') && col('.') != s:last_col
+    " New character is inserted.  Let's complete automatically.
     let keys = s:KEYS_TO_START_COMPLETION
   else
     let keys = ''
