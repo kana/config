@@ -207,6 +207,13 @@ User plugin-ku-buffer-initialized		*plugin-ku-buffer-initialize*
 	|ku#default_key_mappings()| will be called.  Otherwise, it will not be
 	called.
 
+g:ku_common_junk_pattern			*g:ku_common_junk_pattern*
+g:ku_{source}_junk_pattern			*g:ku_{source}_junk_pattern*
+	Variables to hold regular expressions to determine "junk" items.  Junk
+	items are listed at the bottom of the completion menu.
+	g:ku_common_junk_pattern is used for items from any sources, while
+	g:ku_{source}_junk_pattern is used for items from a specific {source}.
+
 
 
 

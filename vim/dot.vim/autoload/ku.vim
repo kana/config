@@ -76,6 +76,14 @@ if !exists('s:custom_key_tables')
 endif
 
 
+" Junk patterns.
+if !exists('g:ku_common_junk_pattern')
+  let g:ku_common_junk_pattern = ''
+endif
+
+" There may be g:ku_{source}_junk_pattern.
+
+
 
 
 
@@ -196,6 +204,9 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       let _['_ku_source'] = s:current_source
       let _['_ku_sort_priority']
         \ = [
+        \     _.word =~# g:ku_common_junk_pattern,
+        \     (exists('g:ku_{s:current_source}_junk_pattern')
+        \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
         \     match(_.word, '\C' . asis_regexp),
         \     match(_.word, '\c' . asis_regexp),
         \     match(_.word, '\C' . skip_regexp),
