@@ -176,7 +176,21 @@ ku#{source}#key_table()				*ku#{source}#key_table()*
 
 ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			Return a list of items which are matched to the given
-			{pattern}.
+			{pattern}.  See |complete-items| for the detail of
+			items.
+
+			Sources may add additional entries for each item.
+			Keys of such entries must be prefixed with
+			"_{source}_", where {source} is the name of a source.
+
+			Also, ku adds additional entries for each item.  Keys
+			of such entries are prefixed with "_ku_".  The
+			following keys are officially provided:
+
+			Key		Value ~
+			---------------	---------------------- ~
+			_ku_completed_p	True if the item is completed one,
+					false otherwise.
 
 
 
