@@ -233,9 +233,13 @@ endfunction
 function! s:do(choose_p)  "{{{2
   let current_user_input = getline(2)
   if current_user_input !=# s:last_user_input && 0 < len(s:last_items)
+    " current_user_input seems to be inserted by completion.
     let item = s:last_items[0]
   else
     let item = current_user_input
+    if s:contains_the_prompt_p(current_user_input)
+      let item = item[len(s:PROMPT):]  " remove the prompt.
+    endif
   endif
 
   if a:choose_p
