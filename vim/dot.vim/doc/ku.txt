@@ -141,18 +141,23 @@ The default key mappings are defined by |ku#default_key_mappings()|.
 ------------------------------------------------------------------------------
 PATTERN						*ku-pattern*
 
-Inserted characters in the |ku-window| are treated as 2 "patterns".
+Inserted characters in the |ku-window| are treated as 3 "patterns".
 
-- The one is "asis" pattern.  Ku tries to literally match user input to each
-  item.
+- The 1st one is "asis" pattern.  Ku tries to literally match user input to
+  each item.
 
-- The other one is "skip" pattern.  User input is split by spaces, and each
-  space is treated as a wild card, so it is matched to any 0 or more
-  characters.  Ku tries to match this pattern for each item.
+- The 2nd one is "word" pattern.  User input is split by spaces or a slash,
+  and each space or slash is treated as a wild card, so it is matched to any
+  0 or more characters.  Ku tries to match this pattern for each item.
 
-Ku uses the matched positions of the above 2 patterns for each item.  In the
+- The last one is "skip" pattern.  Ku treats user input have a wild card
+  between each character and another character.  Ku tries to match this
+  pattern for each item.
+
+Ku uses the matched positions of the above patterns for each item.  In the
 completion list, items are sorted by matched positions.  Mathced position of
-"asis" pattern have higher priority than "skip" pattern.
+"asis" pattern have higher priority than "word" pattern, and "word" pattern
+have higher priority than "skip" pattern.
 
 Ku also tries to match in case-sensitive way and case-insensitive way.  The
 matched positions of case-sensitive way have higher priority than the ones of
