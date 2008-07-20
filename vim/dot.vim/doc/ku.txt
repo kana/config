@@ -152,8 +152,13 @@ Inserted characters in the |ku-window| are treated as 2 "patterns".
 
 Ku uses the matched positions of the above 2 patterns for each item.  In the
 completion list, items are sorted by matched positions.  Mathced position of
-"asis" pattern have higher priority than "skip" pattern.  See also
-|g:ku_common_junk_pattern|.
+"asis" pattern have higher priority than "skip" pattern.
+
+Ku also tries to match in case-sensitive way and case-insensitive way.  The
+matched positions of case-sensitive way have higher priority than the ones of
+case-insensitive way.
+
+See also |g:ku_common_junk_pattern|.
 
 						*ku-auto-directory-completion*
 Whenever "/" is typed, the name of an appropriate directory will be
