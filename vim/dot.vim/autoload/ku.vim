@@ -212,9 +212,13 @@ function! ku#_omnifunc(findstart, base)  "{{{2
         \     (exists('g:ku_{s:current_source}_junk_pattern')
         \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
         \     s:match(_.word, '\C' . asis_regexp),
+        \     s:matchend(_.word, '\C' . asis_regexp),
         \     s:match(_.word, '\c' . asis_regexp),
-        \     s:match(_.word, '\C' . skip_regexp),
-        \     s:match(_.word, '\c' . skip_regexp),
+        \     s:matchend(_.word, '\c' . asis_regexp),
+        \     match(_.word, '\C' . skip_regexp),
+        \     matchend(_.word, '\C' . skip_regexp),
+        \     match(_.word, '\c' . skip_regexp),
+        \     matchend(_.word, '\c' . skip_regexp),
         \     _.word,
         \   ]
     endfor
@@ -223,7 +227,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       " doesn't want such items to be completed.
       " BUGS: Don't forget to update the index for the matched position of
       "       case-insensitive skip_regexp.
-    call filter(s:last_completed_items, '0 <= v:val._ku_sort_priority[-2]')
+    call filter(s:last_completed_items, '0 <= v:val._ku_sort_priority[-3]')
     call sort(s:last_completed_items, function('s:_compare_items'))
     return s:last_completed_items
   endif
@@ -696,7 +700,7 @@ endfunction
 function! s:make_skip_regexp(s)  "{{{2
   " FIXME: path separator assumption
   let p_asis = s:make_asis_regexp(substitute(a:s, '/', ' / ', 'g'))
-  return substitute(p_asis, '\s\+', '\\.\\*', 'g')
+  return substitute(p_asis, '\s\+', '\\.\\{-}', 'g')
 endfunction
 
 
@@ -708,6 +712,16 @@ function! s:match(s, pattern)  "{{{2
   " to sort with matched positions.
   let POINT_AT_INFINITY = 2147483647  " FIXME: valid value.
   let i = match(a:s, a:pattern)
+  return 0 <= i ? i : POINT_AT_INFINITY
+endfunction
+
+
+
+
+function! s:matchend(s, pattern)  "{{{2
+  " Like s:match(), but the meaning of returning value is same as matchend().
+  let POINT_AT_INFINITY = 2147483647  " FIXME: valid value.
+  let i = matchend(a:s, a:pattern)
   return 0 <= i ? i : POINT_AT_INFINITY
 endfunction
 
