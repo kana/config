@@ -199,6 +199,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       \            ? a:base[len(s:PROMPT):]
       \            : a:base)
     let asis_regexp = s:make_asis_regexp(pattern)
+    let word_regexp = s:make_word_regexp(pattern)
     let skip_regexp = s:make_skip_regexp(pattern)
 
     let s:last_completed_items
@@ -215,6 +216,10 @@ function! ku#_omnifunc(findstart, base)  "{{{2
         \     s:matchend(_.word, '\C' . asis_regexp),
         \     s:match(_.word, '\c' . asis_regexp),
         \     s:matchend(_.word, '\c' . asis_regexp),
+        \     s:match(_.word, '\C' . word_regexp),
+        \     s:matchend(_.word, '\C' . word_regexp),
+        \     s:match(_.word, '\c' . word_regexp),
+        \     s:matchend(_.word, '\c' . word_regexp),
         \     match(_.word, '\C' . skip_regexp),
         \     matchend(_.word, '\C' . skip_regexp),
         \     match(_.word, '\c' . skip_regexp),
@@ -229,6 +234,15 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       "       case-insensitive skip_regexp.
     call filter(s:last_completed_items, '0 <= v:val._ku_sort_priority[-3]')
     call sort(s:last_completed_items, function('s:_compare_items'))
+    if exists('g:ku_debug_p') && g:ku_debug_p
+      echomsg 'base' string(a:base)
+      echomsg 'asis' string(asis_regexp)
+      echomsg 'word' string(word_regexp)
+      echomsg 'skip' string(skip_regexp)
+      for _ in s:last_completed_items
+        echomsg string(_._ku_sort_priority)
+      endfor
+    endif
     return s:last_completed_items
   endif
 endfunction
@@ -698,6 +712,17 @@ endfunction
 
 
 function! s:make_skip_regexp(s)  "{{{2
+  let _ = a:s
+  let _ = substitute(_, '\s\+', '', 'g')
+  let _ = escape(_, '\')
+  let _ = substitute(_[:-2], '[^\\]\zs', '\\.\\{-}', 'g') . _[-1:]
+  return '\V' . _
+endfunction
+
+
+
+
+function! s:make_word_regexp(s)  "{{{2
   " FIXME: path separator assumption
   let p_asis = s:make_asis_regexp(substitute(a:s, '/', ' / ', 'g'))
   return substitute(p_asis, '\s\+', '\\.\\{-}', 'g')
