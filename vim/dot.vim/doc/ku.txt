@@ -56,11 +56,6 @@ by |ku-key-mappings|.
 
 You can also write your own sources.  See |ku-sources| for the detail.
 
-						*ku-auto-directory-insertion*
-(planned) Whenever "/" is typed, the name of an appropriate directory will be
-automatically inserted.  This feature is derived from bluewind
-<http://cspace.s2.xrea.com/software/bluewind/>.
-
 
 
 
@@ -159,6 +154,20 @@ Ku uses the matched positions of the above 2 patterns for each item.  In the
 completion list, items are sorted by matched positions.  Mathced position of
 "asis" pattern have higher priority than "skip" pattern.  See also
 |g:ku_common_junk_pattern|.
+
+						*ku-auto-directory-completion*
+Whenever "/" is typed, the name of an appropriate directory will be
+automatically inserted.  For example, if the 1st item in the completion menu
+is 'usr/share/man/man1':
+
+Input pattern		Replacement ~
+-------------		--------------
+u/			usr/
+usr//			usr/share/
+usr/share//		usr/share/man/
+
+This feature is derived from bluewind
+<http://cspace.s2.xrea.com/software/bluewind/>.
 
 
 ------------------------------------------------------------------------------

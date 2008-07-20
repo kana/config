@@ -54,6 +54,8 @@ let s:PROMPT = '>'  " must be a single character.
 let s:INVALID_COL = -3339
 let s:last_col = s:INVALID_COL
 
+let s:auto_directory_completion_done_p = s:FALSE
+
 
 " To take action on the appropriate item.
 let s:last_completed_items = []
@@ -408,7 +410,28 @@ function! s:on_CursorMovedI()  "{{{2
     let keys = repeat("\<Right>", len(s:PROMPT) - col('.') + 1)
   elseif len(line) < col('.') && col('.') != s:last_col
     " New character is inserted.  Let's complete automatically.
-    let keys = s:KEYS_TO_START_COMPLETION
+    " FIXME: path separator assumption
+    if (!s:auto_directory_completion_done_p)
+    \  && line[-1:] == '/'
+    \  && len(s:PROMPT) + 2 <= len(line)
+      " The last inserted character is not inserted by automatic directory
+      " completion, it is a '/', and it seems not to be the 1st '/' of the
+      " root directory.
+      let text = s:text_by_auto_directory_completion(line)
+      if text != ''
+        call setline('.', text)
+          " The last slash must be inserted in this way to forcedly show the
+          " completion menu.
+        let keys = "\<End>/"
+        let s:auto_directory_completion_done_p = s:TRUE
+      else
+        let keys = s:KEYS_TO_START_COMPLETION
+        let s:auto_directory_completion_done_p = s:FALSE
+      endif
+    else
+      let keys = s:KEYS_TO_START_COMPLETION
+      let s:auto_directory_completion_done_p = s:FALSE
+    endif
   else
     let keys = ''
   endif
@@ -424,6 +447,7 @@ endfunction
 function! s:on_InsertEnter()  "{{{2
   let s:last_col = s:INVALID_COL
   let s:last_user_input = ''
+  let s:auto_directory_completion_done_p = s:FALSE
   return s:on_CursorMovedI()
 endfunction
 
@@ -465,6 +489,58 @@ endfunction
 
 function! s:contains_the_prompt_p(s)  "{{{3
   return len(s:PROMPT) <= len(a:s) && a:s[:len(s:PROMPT) - 1] ==# s:PROMPT
+endfunction
+
+
+function! s:text_by_auto_directory_completion(line)  "{{{3
+  " Note that a:line always ends with '/', because this function is always
+  " called by typing '/'.  So there are at least 2 components in a:line.
+  " FIXME: path separator assumption.
+  let line_components = split(a:line[len(s:PROMPT):], '/', s:TRUE)
+
+  " Find an item which has the same components but the last 2 ones of
+  " line_components.  Because line_components[-1] is always empty and
+  " line_components[-2] is almost imperfect directory name, so the
+  " 2 components are useless and must not be used for this search.
+  " But line_components[-2] is already used to filter the completed items.
+  "
+  " Example:
+  " (a) If a:line ==# 'usr/share/m/',
+  "     line_components == ['usr', 'share', 'm', ''].
+  "     So the 1st item which is prefixed with 'usr/share/' is selected and it
+  "     is used for this automatic directory completion.  If
+  "     'usr/share/man/man1/' is found in this way, the completed text will be
+  "     'usr/share/man'.
+  " (b) If a:line ==# 'u/',
+  "     line_components == ['u', ''].
+  "     So the 1st item is alaways selected for this automatic directory
+  "     completion.  If 'usr/share/man/man1/' is found in this way, the
+  "     completion text will be 'usr'.
+  for item in ku#_omnifunc(s:FALSE, a:line[:-2])  " without the last '/'
+    let item_components = split(item.word, '/', s:TRUE)
+
+    if len(line_components) < 2
+      echoerr 'Assumption is failed in auto directory completion'
+      throw 'ku:e2'
+    elseif len(line_components) == 2
+      " OK - the case (b)
+    elseif len(line_components) - 2 <= len(item_components)
+      for i in range(len(line_components) - 2)
+        if line_components[i] != item_components[i]
+          break
+        endif
+      endfor
+      if line_components[i] != item_components[i]
+        continue
+      endif
+      " OK - the case (a)
+    else
+      continue
+    endif
+
+    return join(item_components[:len(line_components) - 2], '/')
+  endfor
+  return ''
 endfunction
 
 
