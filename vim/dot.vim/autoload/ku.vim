@@ -568,6 +568,7 @@ endfunction
 
 " Action-related stuffs  "{{{2
 function! s:choose_action()  "{{{3
+  " Composite the 4 key tables on s:current_source for further work.
   let key_table = {}
   for _ in [s:default_key_table(),
   \         s:custom_key_table('common'),
@@ -576,7 +577,8 @@ function! s:choose_action()  "{{{3
     call extend(key_table, _)
   endfor
 
-  " FIXME: listing like ls
+  " List keys and their actions.
+  " FIXME: list like ls
   let FORMAT = '%-16s  %s'
   echo printf(FORMAT, 'Key', 'Action')
   for key in sort(keys(key_table))
@@ -586,9 +588,11 @@ function! s:choose_action()  "{{{3
   endfor
   echo 'What action?'
 
+  " Take user input.
   let c = nr2char(getchar())  " FIXME: support <Esc>{x} typed by <M-{x}>
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
+  " Return the action bound to the key c.
   if has_key(key_table, c) && key_table[c] !=# 'nop'
     return key_table[c]
   else
