@@ -185,6 +185,9 @@ DEFAULT ACTION TABLE				*ku-default-action-table*
 
 The following actions are available as the default ones:
 
+cancel						*ku-aciton-cancel*
+			Cancel to take an action.
+
 cd						*ku-aciton-cd*
 			|:cd| to the selected item.  If the item is the name
 			of a directory, change to that one.  If the item is
@@ -217,6 +220,8 @@ Key		Action ~
 /		cd	|ku-action-cd|
 :		ex	|ku-action-ex|
 ;		ex	|ku-action-ex|
+<C-c>		cancel	|ku-action-cancel|
+<Esc>		cancel	|ku-action-cancel|
 <Return>	default	|ku-action-default|
 ?		lcd	|ku-action-lcd|
 

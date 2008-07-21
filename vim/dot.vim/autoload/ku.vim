@@ -661,6 +661,7 @@ endfunction
 
 function! s:default_action_table()  "{{{3
   return {
+  \   'cancel': 's:_default_action_nop',
   \   'cd': 's:_default_action_cd',
   \   'ex': 's:_default_action_ex',
   \   'lcd': 's:_default_action_lcd',
@@ -679,6 +680,8 @@ endfunction
 
 function! s:default_key_table()  "{{{3
   return {
+  \   "\<C-c>": 'cancel',
+  \   "\<Esc>": 'cancel',
   \   "\<Return>": 'default',
   \   '/': 'cd',
   \   ':': 'ex',
