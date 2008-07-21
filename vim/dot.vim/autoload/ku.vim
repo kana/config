@@ -576,15 +576,14 @@ function! s:choose_action()  "{{{3
   \         s:custom_key_table(s:current_source)]
     call extend(key_table, _)
   endfor
+  call filter(key_table, 'v:val !=# "nop"')
 
   " List keys and their actions.
   " FIXME: list like ls
   let FORMAT = '%-16s  %s'
   echo printf(FORMAT, 'Key', 'Action')
   for key in sort(keys(key_table))
-    if key_table[key] !=# 'nop'  " don't list a diabled key.
-      echo printf(FORMAT, strtrans(key), key_table[key])
-    endif
+    echo printf(FORMAT, strtrans(key), key_table[key])
   endfor
   echo 'What action?'
 
@@ -593,7 +592,7 @@ function! s:choose_action()  "{{{3
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
   " Return the action bound to the key c.
-  if has_key(key_table, c) && key_table[c] !=# 'nop'
+  if has_key(key_table, c)
     return key_table[c]
   else
     " FIXME: loop to rechoose?
