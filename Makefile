@@ -227,8 +227,10 @@ PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
   vim/dot.vim/autoload/ku/buffer.vim \
+  vim/dot.vim/autoload/ku/source.vim \
   vim/dot.vim/doc/ku.txt \
   vim/dot.vim/doc/ku_buffer.txt \
+  vim/dot.vim/doc/ku_source.txt \
   vim/dot.vim/plugin/ku.vim
 
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2
