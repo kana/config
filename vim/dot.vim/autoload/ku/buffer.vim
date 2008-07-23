@@ -132,42 +132,6 @@ endfunction
 
 
 " Actions  "{{{2
-function! ku#buffer#action_above(item)  "{{{3
-  call s:open('aboveleft', a:item)
-  return
-endfunction
-
-
-function! ku#buffer#action_below(item)  "{{{3
-  call s:open('belowright', a:item)
-  return
-endfunction
-
-
-function! ku#buffer#action_open(item)  "{{{3
-  call s:open('here', a:item)
-  return
-endfunction
-
-
-function! ku#buffer#action_open_x(item)  "{{{3
-  call s:open('here!', a:item)
-  return
-endfunction
-
-
-function! ku#buffer#action_left(item)  "{{{3
-  call s:open('vertical aboveleft', a:item)
-  return
-endfunction
-
-
-function! ku#buffer#action_right(item)  "{{{3
-  call s:open('vertical belowright', a:item)
-  return
-endfunction
-
-
 function! ku#buffer#action_Bottom(item)  "{{{3
   call s:open('botright', a:item)
   return
@@ -188,6 +152,42 @@ endfunction
 
 function! ku#buffer#action_Top(item)  "{{{3
   call s:open('topleft', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_above(item)  "{{{3
+  call s:open('aboveleft', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_below(item)  "{{{3
+  call s:open('belowright', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_left(item)  "{{{3
+  call s:open('vertical aboveleft', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_open(item)  "{{{3
+  call s:open('here', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_open_x(item)  "{{{3
+  call s:open('here!', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_right(item)  "{{{3
+  call s:open('vertical belowright', a:item)
   return
 endfunction
 
