@@ -590,7 +590,6 @@ function! s:choose_action()  "{{{3
   " let C = min([8, C])  " experimental
   let N = len(KEY_TABLE)
   let R = N / C + (N % C != 0)
-  echomsg 'C' C R N
   for row in range(R)
     for col in range(C)
       let i = col * R + row
