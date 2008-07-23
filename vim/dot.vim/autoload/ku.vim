@@ -622,7 +622,8 @@ function! s:choose_action()  "{{{3
   echo 'What action?'
 
   " Take user input.
-  let c = nr2char(getchar())  " FIXME: support <Esc>{x} typed by <M-{x}>
+  let c = getchar()  " FIXME: support <Esc>{x} typed by <M-{x}>
+  let c = (type(c) is type(0) ? nr2char(c) : c)
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
   " Return the action bound to the key c.
