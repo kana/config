@@ -153,6 +153,10 @@ endfunction
 
 
 function! ku#start(source)  "{{{2
+  if bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
+    echoerr 'ku: Already started'
+    return s:FALSE
+  endif
   if !s:available_source_p(a:source)
     echoerr 'ku: Not a valid source name:' string(a:source)
     return s:FALSE
