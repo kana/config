@@ -76,6 +76,14 @@ right						*ku-buffer-action-right*
 			others, but open a window at the most outside of Vim
 			screen.  See also |:topleft|.
 
+tab-left					*ku-buffer-action-tab-left*
+tab-right					*ku-buffer-action-tab-right*
+tab-Left					*ku-buffer-action-tab-Left*
+tab-Right					*ku-buffer-action-tab-Right*
+			Like "left", "right", "Left" or "Right", but open the
+			selected item in a new tab page which is opened at the
+			direction specified by the name of an action.
+
 
 
 
