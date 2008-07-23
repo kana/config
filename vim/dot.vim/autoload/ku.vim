@@ -106,7 +106,7 @@ endif
 
 
 function! ku#command_complete(arglead, cmdline, cursorpos)  "{{{2
-  return join(ku#available_sources(), '\n')
+  return join(ku#available_sources(), "\n")
 endfunction
 
 
