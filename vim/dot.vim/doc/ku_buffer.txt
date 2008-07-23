@@ -47,10 +47,17 @@ buffers but unlisted ones as itmes to be completed.
 ACTION TABLE					*ku-buffer-action-table*
 
 default						*ku-buffer-aciton-default*
+			Same as "open".
+
+open						*ku-buffer-aciton-open*
 			Open the buffer specified by the selected item in the
 			current window.  If the selected item is not completed
 			one, it is treated as the name of a file or
 			a directory, and it will be open by |:edit|.
+
+open!						*ku-buffer-aciton-open!*
+			Like "open", but use :buffer! or :edit! to open the
+			selected item.
 
 Bottom						*ku-buffer-action-Bottom*
 Left						*ku-buffer-action-Left*
@@ -60,7 +67,7 @@ above						*ku-buffer-action-above*
 below						*ku-buffer-action-below*
 left						*ku-buffer-action-left*
 right						*ku-buffer-action-right*
-			Like "default", but open the buffer in the direction
+			Like "open", but open the buffer in the direction
 			specified by the name of each action.  For example,
 			"left" opens a window at left side, then open the
 			buffer in the new window.

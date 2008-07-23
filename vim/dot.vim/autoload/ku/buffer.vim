@@ -69,8 +69,10 @@ function! ku#buffer#action_table()  "{{{2
   \   'Top': 'ku#buffer#action_Top',
   \   'above': 'ku#buffer#action_above',
   \   'below': 'ku#buffer#action_below',
-  \   'default': 'ku#buffer#action_default',
+  \   'default': 'ku#buffer#action_open',
   \   'left': 'ku#buffer#action_left',
+  \   'open!': 'ku#buffer#action_open_x',
+  \   'open': 'ku#buffer#action_open',
   \   'right': 'ku#buffer#action_right',
   \ }
 endfunction
@@ -84,16 +86,17 @@ function! ku#buffer#key_table()  "{{{2
   \   "\<C-j>": 'below',
   \   "\<C-k>": 'above',
   \   "\<C-l>": 'right',
-  \   "\<C-o>": 'default',
+  \   "\<C-o>": 'open',
   \   'H': 'Left',
   \   'J': 'Bottom',
   \   'K': 'Top',
   \   'L': 'Right',
+  \   'O': 'open!',
   \   'h': 'left',
   \   'j': 'below',
   \   'k': 'above',
   \   'l': 'right',
-  \   'o': 'default',
+  \   'o': 'open',
   \ }
 endfunction
 
@@ -113,14 +116,15 @@ endfunction
 
 " Misc.  "{{{1
 function! s:open(direction_modifier, item)  "{{{2
-  if a:direction_modifier !=# 'here'
+  if a:direction_modifier !~# '^here\>'
     execute a:direction_modifier 'split'
   endif
+  let bang = (a:direction_modifier =~# '!$' ? '!' : '')
 
   if a:item._ku_completed_p
-    execute a:item._buffer_nr 'buffer'
+    execute a:item._buffer_nr 'buffer'.bang
   else
-    edit `=fnameescape(a:item.word)`
+    execute 'edit'.bang '`=fnameescape(a:item.word)`'
   endif
 endfunction
 
@@ -140,8 +144,14 @@ function! ku#buffer#action_below(item)  "{{{3
 endfunction
 
 
-function! ku#buffer#action_default(item)  "{{{3
+function! ku#buffer#action_open(item)  "{{{3
   call s:open('here', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_open_x(item)  "{{{3
+  call s:open('here!', a:item)
   return
 endfunction
 
