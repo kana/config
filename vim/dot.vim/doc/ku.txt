@@ -175,9 +175,15 @@ Input pattern		Replacement ~
 u/			usr/
 usr//			usr/share/
 usr/share//		usr/share/man/
+sh/			usr/share/		(*)
+m/			usr/share/man/		(*)
 
 This feature is derived from bluewind
 <http://cspace.s2.xrea.com/software/bluewind/>.
+
+(*) In these cases, ku completes more than 1 directories.  Because user seems
+to want to complete several directories rather than just 1 directory.  This
+behavior is not in bluewind, but it's useful.
 
 
 ------------------------------------------------------------------------------
