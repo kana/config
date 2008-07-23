@@ -74,6 +74,10 @@ function! ku#buffer#action_table()  "{{{2
   \   'open!': 'ku#buffer#action_open_x',
   \   'open': 'ku#buffer#action_open',
   \   'right': 'ku#buffer#action_right',
+  \   'tab-Left': 'ku#buffer#action_tab_Left',
+  \   'tab-Right': 'ku#buffer#action_tab_Right',
+  \   'tab-left': 'ku#buffer#action_tab_left',
+  \   'tab-right': 'ku#buffer#action_tab_right',
   \ }
 endfunction
 
@@ -87,6 +91,7 @@ function! ku#buffer#key_table()  "{{{2
   \   "\<C-k>": 'above',
   \   "\<C-l>": 'right',
   \   "\<C-o>": 'open',
+  \   "\<C-t>": 'tab-Right',
   \   'H': 'Left',
   \   'J': 'Bottom',
   \   'K': 'Top',
@@ -97,6 +102,7 @@ function! ku#buffer#key_table()  "{{{2
   \   'k': 'above',
   \   'l': 'right',
   \   'o': 'open',
+  \   't': 'tab-Right',
   \ }
 endfunction
 
@@ -188,6 +194,30 @@ endfunction
 
 function! ku#buffer#action_right(item)  "{{{3
   call s:open('vertical belowright', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_tab_Left(item)  "{{{3
+  call s:open('0 tab', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_tab_Right(item)  "{{{3
+  call s:open(tabpagenr('$') . ' tab', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_tab_left(item)  "{{{3
+  call s:open((tabpagenr() - 1) . ' tab', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_tab_right(item)  "{{{3
+  call s:open('tab', a:item)
   return
 endfunction
 
