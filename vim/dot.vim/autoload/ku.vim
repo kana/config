@@ -88,7 +88,9 @@ endif
 
 " Interface  "{{{1
 function! ku#available_sources()  "{{{2
-  if len(s:available_sources) == 0  " FIXME: another check on expired
+  let _ = getftime(split(globpath(&runtimepath, 'autoload/'))[0])
+  if len(s:available_sources) == 0 || s:sources_directory_timestamp != _
+    let s:sources_directory_timestamp = _
     let s:available_sources = sort(map(
     \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
     \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
@@ -101,6 +103,7 @@ endfunction
 if !exists('s:available_sources')
   let s:available_sources = []  " [source-name, ...]
 endif
+let s:sources_directory_timestamp = 0
 
 
 
