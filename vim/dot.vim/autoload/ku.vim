@@ -577,12 +577,12 @@ function! s:choose_action()  "{{{3
     call extend(KEY_TABLE, _)
   endfor
   call filter(KEY_TABLE, 'v:val !=# "nop"')
-  let KEYS = sort(keys(KEY_TABLE))
 
   " List keys and their actions.
   " FIXME: listing like ls - the width of each column is varied.
   let FORMAT = '%-2s %s'
   let SPACER = '   '
+  let KEYS = sort(keys(KEY_TABLE))
   let LL = map(copy(KEYS), 'printf(FORMAT, strtrans(v:val), KEY_TABLE[v:val])')
   let MAX_LABEL_WIDTH = max(map(copy(LL), 'len(v:val)'))
   let C = (&columns + len(SPACER) - 1) / (MAX_LABEL_WIDTH + len(SPACER))
