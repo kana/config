@@ -569,21 +569,41 @@ endfunction
 " Action-related stuffs  "{{{2
 function! s:choose_action()  "{{{3
   " Composite the 4 key tables on s:current_source for further work.
-  let key_table = {}
+  let KEY_TABLE = {}
   for _ in [s:default_key_table(),
   \         s:custom_key_table('common'),
   \         ku#{s:current_source}#key_table(),
   \         s:custom_key_table(s:current_source)]
-    call extend(key_table, _)
+    call extend(KEY_TABLE, _)
   endfor
-  call filter(key_table, 'v:val !=# "nop"')
+  call filter(KEY_TABLE, 'v:val !=# "nop"')
+  let KEYS = sort(keys(KEY_TABLE))
 
   " List keys and their actions.
-  " FIXME: list like ls
-  let FORMAT = '%-16s  %s'
-  echo printf(FORMAT, 'Key', 'Action')
-  for key in sort(keys(key_table))
-    echo printf(FORMAT, strtrans(key), key_table[key])
+  " FIXME: listing like ls - the width of each column is varied.
+  let FORMAT = '%-2s %s'
+  let SPACER = '   '
+  let LL = map(copy(KEYS), 'printf(FORMAT, strtrans(v:val), KEY_TABLE[v:val])')
+  let MAX_LABEL_WIDTH = max(map(copy(LL), 'len(v:val)'))
+  let C = (&columns + len(SPACER) - 1) / (MAX_LABEL_WIDTH + len(SPACER))
+  let C = max([C, 1])
+  " let C = min([8, C])  " experimental
+  let N = len(KEY_TABLE)
+  let R = N / C + (N % C != 0)
+  echomsg 'C' C R N
+  for row in range(R)
+    for col in range(C)
+      let i = col * R + row
+      if !(i < N)
+        continue
+      endif
+      if col == 0
+        echo LL[i]
+      else
+        echon SPACER LL[i]
+      endif
+      echon repeat(' ', MAX_LABEL_WIDTH - len(LL[i]))
+    endfor
   endfor
   echo 'What action?'
 
@@ -592,8 +612,8 @@ function! s:choose_action()  "{{{3
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
   " Return the action bound to the key c.
-  if has_key(key_table, c)
-    return key_table[c]
+  if has_key(KEY_TABLE, c)
+    return KEY_TABLE[c]
   else
     " FIXME: loop to rechoose?
     echo 'The key' string(c) 'is not associated with any action'
