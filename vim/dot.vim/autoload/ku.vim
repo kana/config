@@ -520,9 +520,10 @@ function! s:text_by_auto_directory_completion(line)  "{{{3
 
   " Find an item which has the same components but the last 2 ones of
   " line_components.  Because line_components[-1] is always empty and
-  " line_components[-2] is almost imperfect directory name, so the
-  " 2 components are useless and must not be used for this search.
-  " But line_components[-2] is already used to filter the completed items.
+  " line_components[-2] is almost imperfect directory name.
+  "
+  " Note that line_components[-2] is already used to filter the completed
+  " items and it is used to select what components should be completed.
   "
   " Example:
   " (a) If a:line ==# 'usr/share/m/',
@@ -536,6 +537,12 @@ function! s:text_by_auto_directory_completion(line)  "{{{3
   "     So the 1st item is alaways selected for this automatic directory
   "     completion.  If 'usr/share/man/man1/' is found in this way, the
   "     completion text will be 'usr'.
+  " (c) If a:line ==# 'm/',
+  "     line_components == ['m', ''].
+  "     So the 1st item is alaways selected for this automatic directory
+  "     completion.  If 'usr/share/man/man1/' is found in this way, the
+  "     completion text will be 'usr/share/man/', because user seems to want
+  "     to complete till the component which matches to 'm'.
   for item in ku#_omnifunc(s:FALSE, a:line[:-2])  " without the last '/'
     let item_components = split(item.word, '/', s:TRUE)
 
@@ -558,7 +565,15 @@ function! s:text_by_auto_directory_completion(line)  "{{{3
       continue
     endif
 
-    return join(item_components[:len(line_components) - 2], '/')
+      " for the case (c), find the index of a component to be completed.
+    let _ = len(line_components) - 2
+    for i in range(len(line_components) - 2, len(item_components) - 1)
+      if item_components[i] =~? line_components[-2]  " FIXME: use skip pattern
+        let _ = i
+        break
+      endif
+    endfor
+    return join(item_components[:_], '/')
   endfor
   return ''
 endfunction
