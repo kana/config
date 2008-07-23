@@ -41,12 +41,6 @@ let s:INVALID_SOURCE = '*invalid*'
 let s:current_source = s:INVALID_SOURCE
 
 
-" All available sources.
-if !exists('s:available_sources')
-  let s:available_sources = []  " [source-name, ...]
-endif
-
-
 " For automatic completion.
 let s:KEYS_TO_START_COMPLETION = "\<C-x>\<C-o>\<C-p>"
 let s:PROMPT = '>'  " must be a single character.
@@ -93,9 +87,26 @@ endif
 
 
 " Interface  "{{{1
+function! ku#available_sources()  "{{{2
+  if len(s:available_sources) == 0  " FIXME: another check on expired
+    let s:available_sources = sort(map(
+    \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
+    \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
+    \   ))
+  endif
+  return s:available_sources
+endfunction
+
+
+if !exists('s:available_sources')
+  let s:available_sources = []  " [source-name, ...]
+endif
+
+
+
+
 function! ku#command_complete(arglead, cmdline, cursorpos)  "{{{2
-  call s:update_available_sources()
-  return join(s:available_sources, '\n')
+  return join(ku#available_sources(), '\n')
 endfunction
 
 
@@ -483,20 +494,21 @@ endfunction
 
 
 function! s:switch_current_source(shift_delta)  "{{{2
-  let o = index(s:available_sources, s:current_source)
-  let n = (o + a:shift_delta) % len(s:available_sources)
+  let _ = ku#available_sources()
+  let o = index(_, s:current_source)
+  let n = (o + a:shift_delta) % len(_)
   if n < 0
-    let n += s:available_source_p
+    let n += len(_)
   endif
 
   if o == n
     return s:FALSE
   endif
 
-  call ku#{s:available_sources[o]}#on_end_session()
-  call ku#{s:available_sources[n]}#on_start_session()
+  call ku#{_[o]}#on_end_session()
+  call ku#{_[n]}#on_start_session()
 
-  let s:current_source = s:available_sources[n]
+  let s:current_source = _[n]
   return s:TRUE
 endfunction
 
@@ -740,11 +752,7 @@ endfunction
 
 
 function! s:available_source_p(source)  "{{{2
-  if len(s:available_sources) == 0  " FIXME: another check on expired
-    call s:update_available_sources()
-  endif
-
-  return 0 <= index(s:available_sources, a:source)
+  return 0 <= index(ku#available_sources(), a:source)
 endfunction
 
 
@@ -803,19 +811,6 @@ function! s:ni_map(...)  "{{{2
   for _ in ['n', 'i']
     silent! execute _.'map' join(a:000)
   endfor
-  return
-endfunction
-
-
-
-
-function! s:update_available_sources()  "{{{2
-  " FIXME: functional interface for s:available_sources to avoid problems on
-  "        caching the result of available sources.
-  let s:available_sources = sort(map(
-  \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
-  \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
-  \   ))
   return
 endfunction
 
