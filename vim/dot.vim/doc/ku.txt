@@ -33,6 +33,7 @@ Interface		|ku-interface|
   Pattern		  |ku-pattern|
   Default Action Table	  |ku-default-action-table|
   Default Key Table	  |ku-default-key-table|
+  Default Sources	  |ku-default-sources|
 Sources			|ku-sources|
 Customizing		|ku-customizing|
 Terms			|ku-terms|
@@ -232,6 +233,14 @@ Key		Action ~
 ?		lcd	|ku-action-lcd|
 
 
+------------------------------------------------------------------------------
+DEFAULT SOURCES					*ku-default-sources*
+
+The following sources are included with the packages of ku:
+
+- buffer	(|ku_buffer.txt|)
+
+
 
 
 ==============================================================================
@@ -240,10 +249,6 @@ SOURCES						*ku-sources*
 Sources are like kinds of items.  For example, ku includes "buffer" source.
 It gathers all buffers as items to be completed.  You can choose and take an
 action on a buffer with this source.  The same can be said for other sources.
-
-						*ku-default-sources*
-The following sources are included with the packages of ku:
-- buffer	(|ku_buffer.txt|)
 
 						*ku-source-action-table*
 Sources have their own action table (|ku-action-table|).  These action tables
