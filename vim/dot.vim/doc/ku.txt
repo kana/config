@@ -115,6 +115,10 @@ ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 
 			See also |ku-key-table|.
 
+ku#available_sources()				*ku#available_sources()*
+			Return a list of strings which represents the names of
+			available sources.
+
 
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
