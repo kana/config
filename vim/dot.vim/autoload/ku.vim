@@ -93,6 +93,14 @@ endif
 
 
 " Interface  "{{{1
+function! ku#command_complete(arglead, cmdline, cursorpos)  "{{{2
+  call s:update_available_sources()
+  return join(s:available_sources, '\n')
+endfunction
+
+
+
+
 function! ku#custom_action(source, action, function)  "{{{2
   if !has_key(s:custom_action_tables, a:source)
     let s:custom_action_tables[a:source] = {}
@@ -732,11 +740,8 @@ endfunction
 
 
 function! s:available_source_p(source)  "{{{2
-  if len(s:available_sources) == 0
-    let s:available_sources = sort(map(
-    \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
-    \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
-    \   ))
+  if len(s:available_sources) == 0  " FIXME: another check on expired
+    call s:update_available_sources()
   endif
 
   return 0 <= index(s:available_sources, a:source)
@@ -798,6 +803,19 @@ function! s:ni_map(...)  "{{{2
   for _ in ['n', 'i']
     silent! execute _.'map' join(a:000)
   endfor
+  return
+endfunction
+
+
+
+
+function! s:update_available_sources()  "{{{2
+  " FIXME: functional interface for s:available_sources to avoid problems on
+  "        caching the result of available sources.
+  let s:available_sources = sort(map(
+  \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
+  \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
+  \   ))
   return
 endfunction
 
