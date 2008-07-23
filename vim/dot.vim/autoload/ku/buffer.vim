@@ -70,6 +70,7 @@ function! ku#buffer#action_table()  "{{{2
   \   'above': 'ku#buffer#action_above',
   \   'below': 'ku#buffer#action_below',
   \   'default': 'ku#buffer#action_open',
+  \   'delete': 'ku#buffer#action_delete',
   \   'left': 'ku#buffer#action_left',
   \   'open!': 'ku#buffer#action_open_x',
   \   'open': 'ku#buffer#action_open',
@@ -78,6 +79,8 @@ function! ku#buffer#action_table()  "{{{2
   \   'tab-Right': 'ku#buffer#action_tab_Right',
   \   'tab-left': 'ku#buffer#action_tab_left',
   \   'tab-right': 'ku#buffer#action_tab_right',
+  \   'unload': 'ku#buffer#action_unload',
+  \   'wipeout': 'ku#buffer#action_wipeout',
   \ }
 endfunction
 
@@ -92,11 +95,14 @@ function! ku#buffer#key_table()  "{{{2
   \   "\<C-l>": 'right',
   \   "\<C-o>": 'open',
   \   "\<C-t>": 'tab-Right',
+  \   'D': 'delete',
   \   'H': 'Left',
   \   'J': 'Bottom',
   \   'K': 'Top',
   \   'L': 'Right',
   \   'O': 'open!',
+  \   'U': 'unload',
+  \   'W': 'wipeout',
   \   'h': 'left',
   \   'j': 'below',
   \   'k': 'above',
@@ -137,6 +143,17 @@ endfunction
 
 
 
+function! s:delete(delete_command, item)  "{{{2
+  if a:item._ku_completed_p
+    execute a:item._buffer_nr a:delete_command
+  else
+    echoerr 'No such buffer:' string(a:item.word)
+  endif
+endfunction
+
+
+
+
 " Actions  "{{{2
 function! ku#buffer#action_Bottom(item)  "{{{3
   call s:open('botright', a:item)
@@ -170,6 +187,12 @@ endfunction
 
 function! ku#buffer#action_below(item)  "{{{3
   call s:open('belowright', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_delete(item)  "{{{3
+  call s:delete('bdelete', a:item)
   return
 endfunction
 
@@ -218,6 +241,18 @@ endfunction
 
 function! ku#buffer#action_tab_right(item)  "{{{3
   call s:open('tab', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_unload(item)  "{{{3
+  call s:delete('bunload', a:item)
+  return
+endfunction
+
+
+function! ku#buffer#action_wipeout(item)  "{{{3
+  call s:delete('bwipeout', a:item)
   return
 endfunction
 

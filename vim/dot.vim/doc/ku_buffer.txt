@@ -84,6 +84,13 @@ tab-Right					*ku-buffer-action-tab-Right*
 			selected item in a new tab page which is opened at the
 			direction specified by the name of an action.
 
+unload						*ku-buffer-action-unload*
+delete						*ku-buffer-action-delete*
+wipeout						*ku-buffer-action-wipeout*
+			Do |:bunload|, |:bdelete| or |:bwipeout| on the
+			selected item.  If the selected item is not completed
+			one, nothing will be happened.
+
 
 
 
