@@ -29,7 +29,8 @@ endif
 
 
 
-command! -bang -bar -nargs=1 Ku  call ku#start('<args>')
+command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
+\ call ku#start('<args>')
 
 
 
