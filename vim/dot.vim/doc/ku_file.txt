@@ -1,0 +1,114 @@
+*ku_file.txt*	ku source: file
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-file-contents*
+
+Introduction		|ku-file-introduction|
+Action Table		|ku-file-action-table|
+Key Table		|ku-file-key-table|
+Bugs			|ku-file-bugs|
+Changelog		|ku-file-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*ku-file-introduction*
+
+"file" is a source for ku, a Vim plugin (|ku.txt|).  This source gathers all
+files and directories.
+
+
+
+
+==============================================================================
+ACTION TABLE					*ku-file-action-table*
+
+default						*ku-file-aciton-default*
+			Same as "open".
+
+open						*ku-file-aciton-open*
+			Open the file or directory specified by the selected
+			item in the current window, regardless of whether the
+			selected item is completed one or not.
+
+open!						*ku-file-aciton-open!*
+			Like "open", but use :edit! to open the selected item.
+
+Bottom						*ku-file-action-Bottom*
+Left						*ku-file-action-Left*
+Right						*ku-file-action-Right*
+Top						*ku-file-action-Top*
+above						*ku-file-action-above*
+below						*ku-file-action-below*
+left						*ku-file-action-left*
+right						*ku-file-action-right*
+			Like "open", but open the file in the direction
+			specified by the name of each action.  For example,
+			"left" opens a window at left side, then open the file
+			in the new window.
+
+			Actions of which names start with upper case are like
+			others, but open a window at the most outside of Vim
+			screen.  See also |:topleft|.
+
+tab-left					*ku-file-action-tab-left*
+tab-right					*ku-file-action-tab-right*
+tab-Left					*ku-file-action-tab-Left*
+tab-Right					*ku-file-action-tab-Right*
+			Like "left", "right", "Left" or "Right", but open the
+			selected item in a new tab page which is opened at the
+			direction specified by the name of an action.
+
+
+
+
+==============================================================================
+KEY TABLE					*ku-file-key-table*
+
+Use |<Plug>(ku-choose-an-action)| to know what keys are available.
+
+
+
+
+==============================================================================
+BUGS						*ku-file-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-file-changelog*
+
+0.0.0	2008-07-20T01:10:37+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:

@@ -277,6 +277,7 @@ DEFAULT SOURCES					*ku-default-sources*
 The following sources are included with the packages of ku:
 
 - buffer	(|ku_buffer.txt|)
+- file		(|ku_file.txt|)
 
 
 
