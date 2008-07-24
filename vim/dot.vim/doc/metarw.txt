@@ -69,9 +69,11 @@ COMMANDS					*metarw-commands*
 ------------------------------------------------------------------------------
 FUNCTIONS					*metarw-functions*
 
-metarw#complete(...)				*metarw#complete()*
+						*metarw#complete()*
+metarw#complete({arglead}, {cmdline}, {cursorpos})
 			Function for |:command-complete| to complete also fake
-			files.  Use "-complete=custom,metarw#complete".
+			files.  Use as follows:
+			"-complete=customlist,metarw#complete".
 
 
 
@@ -90,7 +92,7 @@ read/write events are automatically treated by metarw, so you don't have to
 think about troublesome stuffs.
 
 						*metarw#{scheme}#complete()*
-metarw#{scheme}#complete({ardlead}, {cmdline}, {cursorpos})
+metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 			Complete the names of fake files.  See
 			|:command-completion-customlist| for the detail of
 			arguments and returning values of this function.
