@@ -30,19 +30,19 @@ endif
 
 
 command! -bang -bar -complete=custom,metarw#complete -nargs=? Edit
-\ call metarw#edit(<q-args>)
+\ edit<bang> <args>
 
-command! -bang -bar -complete=custom,metarw#complete -nargs=? New
-\ call metarw#new(<q-args>)
+command! -bar -complete=custom,metarw#complete -nargs=? New
+\ new <args>
 
-command! -bang -bar -complete=custom,metarw#complete -nargs=? Read
-\ call metarw#read(<q-args>)
+command! -bar -complete=custom,metarw#complete -nargs=? Read
+\ read <args>
 
 command! -bang -bar -complete=custom,metarw#complete -nargs=? Source
-\ call metarw#write(<q-args>)
+\ source<bang> <args>
 
 command! -bang -bar -complete=custom,metarw#complete -nargs=? -range=% Write
-\ <line1>,<line2>call metarw#write(<q-args>)
+\ <line1>,<line2>write<bang> <args>
 
 
 

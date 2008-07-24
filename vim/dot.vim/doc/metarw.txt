@@ -92,9 +92,6 @@ on failure.
 metarw#{scheme}#read({fake-file})		*metarw#{scheme}#read()*
 			Read the content of {fake-file}.
 
-metarw#{scheme}#source({fake-file})		*metarw#{scheme}#source()*
-			Source the content of {fake-file}.
-
 						*metarw#{scheme}#write()*
 metarw#{scheme}#write({fake-file}, {line1}, {line2}, {append-p})
 			Write or append the content of the current buffer from
