@@ -235,7 +235,9 @@ PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.0
 PACKAGE_vim_metarw_BASE=vim/dot.vim
 PACKAGE_vim_metarw_FILES=\
   vim/dot.vim/autoload/metarw.vim \
+  vim/dot.vim/autoload/metarw/git.vim \
   vim/dot.vim/doc/metarw.txt \
+  vim/dot.vim/doc/metarw-git.txt \
   vim/dot.vim/plugin/metarw.vim
 
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2

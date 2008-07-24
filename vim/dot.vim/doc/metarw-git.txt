@@ -1,0 +1,98 @@
+*metarw-git.txt*	metarw scheme: git
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*metarw-git-contents*
+
+Introduction		|metarw-git-introduction|
+Notations		|metarw-git-notations|
+Bugs			|metarw-git-bugs|
+Changelog		|metarw-git-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*metarw-git-introduction*
+
+metarw-git is a scheme for |metarw| to read various objects in a git
+repository as fake files.
+
+Note that this scheme just supports reading objects.  Writing objects are not
+supported.
+
+Requirements:
+- Vim 7.1 or later.
+- metarw 0.0.0 or later.
+
+
+
+
+==============================================================================
+NOTATIONS					*metarw-git-notations*
+
+In metarw-git, the following notations are available.
+
+git:{commit}
+	Show the result of "git show {commit}".
+
+git:{commit}:{blob}
+	Show the result of "git show {commit}:{blob}".
+
+git:{commit}:		OR
+git:{commit}:{tree}/
+	(planned) List the content of the top directory or the content in the
+	{tree} object of {commit}.
+
+	If a fake file in these notations is given to |:edit| or similar
+	commands, user can browse and operate the content of the new buffer
+	like |netrw|.
+
+	If a fake file in these notations is given to |:read| or similar
+	commands, the list of the content will be inserted.
+
+
+
+
+==============================================================================
+BUGS						*metarw-git-bugs*
+
+- In metarw-git, should format options be configurable?
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*metarw-git-changelog*
+
+0.0.0	2008-07-25T06:18:40+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
