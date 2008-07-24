@@ -1,0 +1,145 @@
+*metarw.txt*	a framework to read/write a fake:file
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*metarw-contents*
+
+Introduction		|metarw-introduction|
+Interface		|metarw-interface|
+  Commands		  |metarw-commands|
+  Functions		  |metarw-functions|
+Schemes			|metarw-schemes|
+Terms			|metarw-terms|
+Bugs			|metarw-bugs|
+Changelog		|metarw-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*metarw-introduction*
+
+metarw is a Vim plugin to provide a framework to read/write a file or
+directory of which name is written in URI-like notation such as
+"git:master:src/ui.c".
+
+Requirements:
+- Vim 7.1 or later.
+
+
+
+
+==============================================================================
+INTERFACE					*metarw-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*metarw-commands*
+
+:Edit[!] [++opt] [+cmd] [{file}]		*:Edit*
+:New [++opt] [+cmd] [{file}]			*:New*
+:Read [++opt] [{file}]				*:Read*
+:Source [{file}]				*:Source*
+:[range]Write[!] [{file}]			*:Write*
+			Same as |:edit| and other commands, but the completion
+			of their arguments is extended to also complete fake
+			files.
+
+
+------------------------------------------------------------------------------
+FUNCTIONS					*metarw-functions*
+
+metarw#complete(...)				*metarw#complete()*
+			Function for |:command-complete| to complete also fake
+			files.  Use "-complete=custom,metarw#complete".
+
+
+
+
+==============================================================================
+SCHEMES						*metarw-schemes*
+
+To add your own scheme, write a Vim script and put it under a directory named
+"autoload/metarw/" in 'runtimepath'.  Such script is called as a scheme
+script.  The name of a scheme script must be "{scheme}.vim", where {scheme} is
+the name of the scheme.
+
+All scheme scripts have to do is just implements the following functions.
+Other works such as hooking read/write events are automatically treated by
+metarw.  Note tha all following functions must return true on success or false
+on failure.
+
+metarw#{scheme}#read({fake-file})		*metarw#{scheme}#read()*
+			Read the content of {fake-file}.
+
+metarw#{scheme}#source({fake-file})		*metarw#{scheme}#source()*
+			Write the content of the current buffer into
+			{fake-file}.
+
+			metarw does the following work after calling this
+			function:
+			CONT
+
+metarw#{scheme}#write({fake-file})		*metarw#{scheme}#write()*
+			...
+
+
+
+
+==============================================================================
+TERMS						*metarw-terms*
+
+Fake files					*metarw-fake-file*
+	Fake files are file-like arguments written in URI-like notation.
+	For example, "git:master:src/ui.c" is a fake file.
+
+Scheme						*metarw-scheme*
+	Scheme is the substring before the first ":" in the name of a fake
+	file.  For example, the scheme of "git:master:src/ui.c" is "git".
+
+Scheme script					*metarw-scheme-script*
+	Support script to enable to read/write fake files.  One scheme script
+	supports just one scheme.
+
+
+
+
+==============================================================================
+BUGS						*metarw-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*metarw-changelog*
+
+0.0.0	2008-07-11T16:51:59+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
