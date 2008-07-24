@@ -93,15 +93,16 @@ metarw#{scheme}#read({fake-file})		*metarw#{scheme}#read()*
 			Read the content of {fake-file}.
 
 metarw#{scheme}#source({fake-file})		*metarw#{scheme}#source()*
-			Write the content of the current buffer into
-			{fake-file}.
+			Source the content of {fake-file}.
 
-			metarw does the following work after calling this
-			function:
-			CONT
+						*metarw#{scheme}#write()*
+metarw#{scheme}#write({fake-file}, {line1}, {line2}, {append-p})
+			Write or append the content of the current buffer from
+			{line1} to {lin2} into {fake-file}.  If {append-p} is
+			true, does appending instead of writing.
 
-metarw#{scheme}#write({fake-file})		*metarw#{scheme}#write()*
-			...
+			Don't reset 'modified' in this function.  It will be
+			automatically treated by metarw.
 
 
 
