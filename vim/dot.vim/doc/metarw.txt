@@ -84,10 +84,16 @@ To add your own scheme, write a Vim script and put it under a directory named
 script.  The name of a scheme script must be "{scheme}.vim", where {scheme} is
 the name of the scheme.
 
-All scheme scripts have to do is just implements the following functions.
-Other works such as hooking read/write events are automatically treated by
-metarw.  Note tha all following functions must return true on success or false
-on failure.
+Scheme scripts must implements the following functions.  Each function must
+must return true on success or false on failure.  Other works such as hooking
+read/write events are automatically treated by metarw, so you don't have to
+think about troublesome stuffs.
+
+						*metarw#{scheme}#complete()*
+metarw#{scheme}#complete({ardlead}, {cmdline}, {cursorpos})
+			Complete the names of fake files.  See
+			|:command-completion-customlist| for the detail of
+			arguments and returning values of this function.
 
 metarw#{scheme}#read({fake-file})		*metarw#{scheme}#read()*
 			Read the content of {fake-file}.
