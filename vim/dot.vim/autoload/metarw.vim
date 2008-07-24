@@ -21,33 +21,56 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-
-if exists('g:loaded_metarw')
-  finish
-endif
-
-
-
-
-command! -bang -bar -complete=customlist,metarw#complete -nargs=*
-\ Edit  edit<bang> <args>
-
-command! -bar -complete=customlist,metarw#complete -nargs=*
-\ New  new <args>
-
-command! -bar -complete=customlist,metarw#complete -nargs=+
-\ Read  read <args>
-
-command! -bang -bar -complete=customlist,metarw#complete -nargs=?
-\ Source  source<bang> <args>
-
-command! -bang -bar -complete=customlist,metarw#complete -nargs=* -range=%
-\ Write  <line1>,<line2>write<bang> <args>
-
+" Interface  "{{{1
+function! metarw#complete(arglead, cmdline, cursorpos)  "{{{2
+  let scheme = matchstr(a:arglead, '^[a-z]\+\ze:')
+  if scheme != ''
+    if s:available_scheme_p(scheme)
+      let _ = metarw#{scheme}#complete(a:arglead, a:cmdline, a:cursorpos)
+    else
+      echoerr 'No such scheme:' string(scheme)
+      let _ = []
+    endif
+  elseif a:arglead == ':'  " experimental
+    let _ = map(s:available_schemes(), 'v:val . ":"')
+  else
+    let _ = split(glob(a:arglead . (a:arglead[-1:] == '*' ? '' : '*')), "\n")
+    call map(_, 'v:val . (isdirectory(v:val) ? "/" : "")')
+    if a:arglead == ''
+      call extend(_, map(s:available_schemes(), 'v:val . ":"'))
+    endif
+  endif
+  return _
+endfunction
 
 
 
-let g:loaded_metarw = 1
 
-" __END__
+
+
+
+
+" Misc.  "{{{1
+function! s:available_scheme_p(scheme)  "{{{2
+  return 0 <= index(s:available_schemes(), a:scheme)
+endfunction
+
+
+
+
+function! s:available_schemes()  "{{{2
+  return sort(map(
+  \        split(globpath(&runtimepath, 'autoload/metarw/*.vim'), "\n"),
+  \        'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
+  \      ))
+endfunction
+
+
+
+
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker
