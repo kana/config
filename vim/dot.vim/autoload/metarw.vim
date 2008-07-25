@@ -81,7 +81,9 @@ endfunction
 
 " Misc.  "{{{1
 " Event Handlers  "{{{2
-" FIXME: Support of ++{opt} [bang] / +{cmd} is treated by Vim.
+" FIXME: Support ++{opt} -- in metarw/{scheme}.vim?
+"        [bang] is almost handled by caller commands.
+"        +{cmd} is handled by Vim.
 function! s:on_BufReadCmd(scheme, file)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   " FIXME: API to implement file-manager like buffer.
