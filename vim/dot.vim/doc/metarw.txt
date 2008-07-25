@@ -87,9 +87,9 @@ script.  The name of a scheme script must be "{scheme}.vim", where {scheme} is
 the name of the scheme.
 
 Scheme scripts must implements the following functions.  Each function must
-must return true on success or false on failure.  Other works such as hooking
-read/write events are automatically treated by metarw, so you don't have to
-think about troublesome stuffs.
+return 0 on success or error message string on failure.  Other works such as
+hooking read/write events are automatically treated by metarw, so you don't
+have to think about troublesome stuffs.
 
 						*metarw#{scheme}#complete()*
 metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
@@ -99,6 +99,12 @@ metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 
 metarw#{scheme}#read({fake-file})		*metarw#{scheme}#read()*
 			Read the content of {fake-file}.
+
+			(planned) Return value of this function may be
+			a dictionary.  If so and this function is called by
+			:edit or other commands, file-manager like buffer will
+			be created to browse and to operate the content of
+			{fake-file}.
 
 						*metarw#{scheme}#write()*
 metarw#{scheme}#write({fake-file}, {line1}, {line2}, {append-p})

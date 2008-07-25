@@ -45,6 +45,14 @@ command! -bang -bar -complete=customlist,metarw#complete -nargs=* -range=%
 \ Write  <line1>,<line2>write<bang> <args>
 
 
+autocmd BufReadCmd *:{*,*/*}  call metarw#_event_handler('BufReadCmd')
+autocmd BufWriteCmd *:{*,*/*}  call metarw#_event_handler('BufWriteCmd')
+autocmd FileAppendCmd *:{*,*/*}  call metarw#_event_handler('FileAppendCmd')
+autocmd FileReadCmd *:{*,*/*}  call metarw#_event_handler('FileReadCmd')
+autocmd FileWriteCmd *:{*,*/*}  call metarw#_event_handler('FileWriteCmd')
+autocmd SourceCmd *:{*,*/*}  call metarw#_event_handler('SourceCmd')
+
+
 
 
 let g:loaded_metarw = 1
