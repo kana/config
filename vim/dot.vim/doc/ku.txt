@@ -92,6 +92,18 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
 
+ku#custom_abbreviation({source}, {abbr}, {exp})	*ku#custom_abbreviation()*
+			Define an abbreviation {abbr} which is expanded to
+			{exp} for {source}.  If {exp} is a null string, {abbr}
+			will be deleted.
+
+			{source} is the name of a source or "common".  In the
+			former case, the given {abbr} is available for the
+			given {source}.  In the latter case, the given {abbr}
+			is available for all sources.
+
+			See also |ku-abbreviation-table|.
+
 ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 			Define a new {action} for items from {source}.
 			{function} is the name of a function which will be
@@ -170,7 +182,9 @@ case-insensitive way.
 
 See also |g:ku_common_junk_pattern|.
 
-						*ku-auto-directory-completion*
+
+AUTO DIRECTORY COMPLETION			*ku-auto-directory-completion*
+
 Whenever "/" is typed, the name of an appropriate directory will be
 automatically inserted.  For example, if the 1st item in the completion menu
 is 'usr/share/man/man1':
@@ -189,6 +203,26 @@ This feature is derived from bluewind
 (*) In these cases, ku completes more than 1 directories.  Because user seems
 to want to complete several directories rather than just 1 directory.  This
 behavior is not in bluewind, but it's useful.
+
+
+ABBREVIATION					*ku-abbreviation*
+
+(planned - this feature is not implemented yet)
+If the head of user input is matched to one of the abbreviations in
+|ku-abbreviation-table|, the head part will be expanded.  For example, if you
+configure ku with the following setting:
+>
+	call ku#custom_abbreviation('common', '~', '/home/kana')
+	call ku#custom_abbreviation('common', '.vim', '/home/kana/.vim')
+<
+User input will be treated as follows:
+
+User input		Treated as ~
+----------		----------
+~			/home/kana
+~/working/meta		/home/kana/working/meta
+.vim/autoload/ku.vim	/home/kana/.vim/autoload/ku.vim
+junk-file~		junk-file~	(not expanded)
 
 
 ------------------------------------------------------------------------------
@@ -340,6 +374,25 @@ ku window					*ku-window* *ku-buffer*
 			- An action is taken for an item.
 			- Selecting is canceled.
 			- Another window or another tab page becomes active.
+
+abbreviation table				*ku-abbreviation-table*
+			Abbreviation table is a dictionary, where each key is
+			a string that represents an abbreviated form, and each
+			value is a string that represents the expanded form of
+			the corresponding abbreviated form.
+
+			There are 2 abbreviation tables for each source, and
+			above listed ones have higher priority than below
+			listed ones:
+
+			1. custom abbreviation table for a source
+			2. custom abbreviation table for all sources
+
+			Custom abbreviation tables can be configured with
+			|ku#custom_abbreviation()|.  There is no default entry
+			in any abbreviation tables.
+
+			See also |ku-abbreviation|.
 
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the

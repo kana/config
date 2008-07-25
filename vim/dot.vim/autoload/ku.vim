@@ -63,12 +63,15 @@ let s:ignorecase = ''
 let s:winrestcmd = ''
 
 
-" User defined action tables and key tables for sources.
+" User defined action tables, key tables and abbreviation table for sources.
 if !exists('s:custom_action_tables')
   let s:custom_action_tables = {}  " source -> action-table
 endif
 if !exists('s:custom_key_tables')
   let s:custom_key_tables = {}  " source -> key-table
+endif
+if !exists('s:custom_abbreviation_tables')
+  let s:custom_abbreviation_tables = {}  " source -> abbreviation-table
 endif
 
 
@@ -110,6 +113,24 @@ let s:sources_directory_timestamp = 0
 
 function! ku#command_complete(arglead, cmdline, cursorpos)  "{{{2
   return join(ku#available_sources(), "\n")
+endfunction
+
+
+
+
+function! ku#custom_abbreviation(source, abbr_form, expanded_form)  "{{{2
+  if !has_key(s:custom_abbreviation_tables, a:source)
+    let s:custom_abbreviation_tables[a:source] = {}
+  endif
+  let _ = s:custom_abbreviation_tables[a:source]
+
+  if a:expanded_form != ''
+    let _[a:abbr_form] = a:expanded_form
+  else
+    if has_key(_, a:abbr_form)
+      call remove(_, a:abbr_form)
+    endif
+  endif
 endfunction
 
 
@@ -222,8 +243,8 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     return 0
   else
     let pattern = (s:contains_the_prompt_p(a:base)
-      \            ? a:base[len(s:PROMPT):]
-      \            : a:base)
+    \              ? a:base[len(s:PROMPT):]
+    \              : a:base)
     let asis_regexp = s:make_asis_regexp(pattern)
     let word_regexp = s:make_word_regexp(pattern)
     let skip_regexp = s:make_skip_regexp(pattern)
@@ -753,6 +774,34 @@ function! s:default_key_table()  "{{{3
   \   ';': 'ex',
   \   '?': 'lcd',
   \ }
+endfunction
+
+
+
+
+" Abbreviation table  "{{{2
+function! s:abbreviation_table_for(source)  "{{{3
+  let ABBREVIATION_TABLE = {}
+  for _ in [s:custom_abbreviation_table('common'),
+  \         s:custom_abbreviation_table(s:current_source)]
+    call extend(ABBREVIATION_TABLE, _)
+  endfor
+  return ABBREVIATION_TABLE
+endfunction
+
+
+function! s:custom_abbreviation_table(source)  "{{{3
+  return get(s:custom_abbreviation_tables, a:source, {})
+endfunction
+
+
+function! s:expand_abbreviation(s)  "{{{3
+  for [abbr, expnd] in items(s:abbreviation_table_for(s:current_source))
+    if a:s[:len(abbr) - 1] ==# abbr
+      return expnd . a:s[len(abbr):]
+    endif
+  endfor
+  return a:s
 endfunction
 
 
