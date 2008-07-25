@@ -23,8 +23,43 @@
 " }}}
 " Interface  "{{{1
 function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
-  " FIXME: NIY - just for test
-  return ['git:just', 'git:a', 'git:test']
+  " FIXME: *nix path separator assumption
+  " a:arglead always contains "git:".
+
+  let _ = split(a:arglead, ':', !0)
+  if len(_) == 2
+    let tree_ish = ''
+    let incomplete_path = _[1]
+  elseif 3 <= len(_)
+    let tree_ish = _[1]
+    let incomplete_path = join(_[2:], ':')
+  else  " len(_) <= 1
+    echoerr 'Unexpected a:arglead:' string(a:arglead)
+    throw 'metarw:git#e1'
+  endif
+
+  let leading_path = join(split(incomplete_path, '/', !0)[:-2], '/')
+  let candidates = []
+  for line in split(system(printf("git ls-tree '%s' '%s'",
+  \                        (tree_ish == '' ? 'HEAD' : tree_ish),
+  \                        (leading_path == '' ? '.' : leading_path . '/'))),
+  \                 "\n")
+    let __ = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
+    " let mode = __[1]
+    let type = __[2]
+    " let object_id = __[3]
+    let path = __[4]
+
+    call add(candidates,
+    \        printf('%s:%s:%s%s',
+    \               _[0],
+    \               tree_ish,
+    \               path,
+    \               (type ==# 'tree' ? '/' : '')))
+  endfor
+
+  " FIXME: filtering candidates by incomplete_path.
+  return candidates
 endfunction
 
 
