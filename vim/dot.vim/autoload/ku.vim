@@ -254,25 +254,24 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     for _ in s:last_completed_items
       let _['_ku_completed_p'] = s:TRUE
       let _['_ku_source'] = s:current_source
-      let _['_ku_sort_priority']
-        \ = [
-        \     _.word =~# g:ku_common_junk_pattern,
-        \     (exists('g:ku_{s:current_source}_junk_pattern')
-        \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
-        \     s:match(_.word, '\C' . asis_regexp),
-        \     s:matchend(_.word, '\C' . asis_regexp),
-        \     s:match(_.word, '\c' . asis_regexp),
-        \     s:matchend(_.word, '\c' . asis_regexp),
-        \     s:match(_.word, '\C' . word_regexp),
-        \     s:matchend(_.word, '\C' . word_regexp),
-        \     s:match(_.word, '\c' . word_regexp),
-        \     s:matchend(_.word, '\c' . word_regexp),
-        \     match(_.word, '\C' . skip_regexp),
-        \     matchend(_.word, '\C' . skip_regexp),
-        \     match(_.word, '\c' . skip_regexp),
-        \     matchend(_.word, '\c' . skip_regexp),
-        \     _.word,
-        \   ]
+      let _['_ku_sort_priority'] = [
+      \     _.word =~# g:ku_common_junk_pattern,
+      \     (exists('g:ku_{s:current_source}_junk_pattern')
+      \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
+      \     s:match(_.word, '\C' . asis_regexp),
+      \     s:matchend(_.word, '\C' . asis_regexp),
+      \     s:match(_.word, '\c' . asis_regexp),
+      \     s:matchend(_.word, '\c' . asis_regexp),
+      \     s:match(_.word, '\C' . word_regexp),
+      \     s:matchend(_.word, '\C' . word_regexp),
+      \     s:match(_.word, '\c' . word_regexp),
+      \     s:matchend(_.word, '\c' . word_regexp),
+      \     match(_.word, '\C' . skip_regexp),
+      \     matchend(_.word, '\C' . skip_regexp),
+      \     match(_.word, '\c' . skip_regexp),
+      \     matchend(_.word, '\c' . skip_regexp),
+      \     _.word,
+      \   ]
     endfor
 
       " Remove items not matched to case-insensitive skip_regexp, because user
