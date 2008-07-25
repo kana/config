@@ -67,7 +67,7 @@ function! metarw#_event_handler(event_name)  "{{{2
 
   let _ = s:on_{a:event_name}(scheme, file)
   if type(_) == type('')
-    echoerr _
+    echoerr _.':' file
   endif
   return type(_) is 0
 endfunction
@@ -85,7 +85,7 @@ endfunction
 function! s:on_BufReadCmd(scheme, file)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   " FIXME: API to implement file-manager like buffer.
-  let _ = metarw#{a:scheme}#read(file)
+  let _ = metarw#{a:scheme}#read(a:file)
   if _ is 0
     1 delete _
     setlocal buftype=acwrite
@@ -96,7 +96,7 @@ endfunction
 
 function! s:on_BufWriteCmd(scheme, file)  "{{{3
   " BufWriteCmd is published by :write or other commands with 1,$ range.
-  let _ = metarw#{a:scheme}#write(file, 1, line('$'), s:FALSE)
+  let _ = metarw#{a:scheme}#write(a:file, 1, line('$'), s:FALSE)
   if _ is 0 && a:file !=# bufname('')
     " The whole buffer has been saved to the current file,
     " so 'modified' should be reset.
@@ -108,21 +108,21 @@ endfunction
 
 function! s:on_FileAppendCmd(scheme, file)  "{{{3
   " FileAppendCmd is published by :write or other commands with >>.
-  return metarw#{a:scheme}#write(file, line("'["), line("']"), s:TRUE)
+  return metarw#{a:scheme}#write(a:file, line("'["), line("']"), s:TRUE)
 endfunction
 
 
 function! s:on_FileReadCmd(scheme, file)  "{{{3
   " FileReadCmd is published by :read.
   " FIXME: range must be treated at here.  e.g. 0 read fake:file
-  return metarw#{a:scheme}#read(file)
+  return metarw#{a:scheme}#read(a:file)
 endfunction
 
 
 function! s:on_FileWriteCmd(scheme, file)  "{{{3
   " FileWriteCmd is published by :write or other commands with partial range
   " such as 1,2 where 2 < line('$').
-  return metarw#{a:scheme}#write(file, line("'["), line("']"), s:FALSE)
+  return metarw#{a:scheme}#write(a:file, line("'["), line("']"), s:FALSE)
 endfunction
 
 
@@ -130,15 +130,17 @@ function! s:on_SourceCmd(scheme, file)  "{{{3
   " SourceCmd is published by :source.
   let tmp = tempname()
   let tabpagenr = tabpagenr()
-  tabnew `=tmp`
-    call s:on_BufReadCmd(a:scheme, a:file)
-    write
-    execute 'source'.(v:cmdbang ? '!' : '') '%'
+  silent tabnew `=tmp`
+    let _ = s:on_BufReadCmd(a:scheme, a:file)
+    if _ is 0
+      silent write
+      execute 'source'.(v:cmdbang ? '!' : '') '%'
+    endif
   tabclose
   call delete(tmp)
   execute 'tabnext' tabpagenr
 
-  return s:TRUE
+  return _
 endfunction
 
 
