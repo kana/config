@@ -25,30 +25,13 @@
 function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   " FIXME: *nix path separator assumption
   " a:arglead always contains "git:".
+  let _ = s:parse_incomplete_fakefile(a:arglead)
 
-  let _ = split(a:arglead, ':', !0)
-  if len(_) == 2  " git:{tree-ish}
-    let tree_ish = ''
-    let incomplete_path = _[1]
-  elseif 3 <= len(_)  " git:{tree-ish}:{object}
-    let tree_ish = _[1]
-    let incomplete_path = join(_[2:], ':')
-  else  " len(_) <= 1
-    echoerr 'Unexpected a:arglead:' string(a:arglead)
-    throw 'metarw:git#e1'
-  endif
-
-  let leading_path = join(split(incomplete_path, '/', !0)[:-2], '/')
   let candidates = []
-  if len(_) == 2  " git:{tree-ish} -- complete {tree-ish}.
-    for line in split(system('git branch -a'), "\n")
-      let word = matchstr(line, '^[ *]*\zs.*\ze$')
-      call add(candidates, printf('%s:%s:', _[0], word))
-    endfor
-  else  " 3 <= len(_)  " git:{tree-ish}:{object} -- complete {object}.
+  if _.path_given_p  " git:{tree-ish}:{object} -- complete {object}.
     for line in split(system(printf("git ls-tree '%s' '%s'",
-    \                        (tree_ish == '' ? 'HEAD' : tree_ish),
-    \                        (leading_path == '' ? '.' : leading_path . '/'))),
+    \                               _.tree_ish,
+    \                               _.leading_path . '/')),
     \                 "\n")
       let __ = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
       " let mode = __[1]
@@ -57,11 +40,17 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
       let path = __[4]
   
       let word = printf('%s:%s:%s%s',
-      \                 _[0],
-      \                 tree_ish,
+      \                 _.scheme,
+      \                 _.given_tree_ish,
       \                 path,
       \                 (type ==# 'tree' ? '/' : ''))
       call add(candidates, word)
+    endfor
+  else  " git:{tree-ish} -- complete {tree-ish}.
+    " sort by remote branches or not.
+    for line in split(system('git branch -a'), "\n")
+      let word = matchstr(line, '^[ *]*\zs.*\ze$')
+      call add(candidates, printf('%s:%s:', _.scheme, word))
     endfor
   endif
 
@@ -93,6 +82,37 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:parse_incomplete_fakefile(incomplete_fakefile)
+  let _ = {}
+  " _.scheme - {scheme} part in a:incomplete_fakefile (should be always 'git')
+  " _.given_tree_ish - {tree-ish} in a:incomplete_fakefile
+  " _.tree_ish - normalized _.given_tree_ish
+  " _.incomplete_path - {path} in a:incomplete_fakefile
+  " _.leading_path - _.incomplete_path without the last component
+  " _.path_given_p - a:incomplete_fakefile is in the form 'git:{tree-ish}:...'
+
+  let fragments = split(a:incomplete_fakefile, ':', !0)
+
+  let _.scheme = fragments[0]
+
+  if len(fragments) == 2  " git:{tree-ish} or git:{path}
+    let _.path_given_p = !!0
+    let _.given_tree_ish = ''
+    let _.incomplete_path = fragments[1]
+  elseif 3 <= len(fragments)  " git:{tree-ish}:{path}
+    let _.path_given_p = !0
+    let _.given_tree_ish = fragments[1]
+    let _.incomplete_path = join(fragments[2:], ':')
+  else  " len(fragments) <= 1
+    echoerr 'Unexpected a:incomplete_fakefile:' string(a:incomplete_fakefile)
+    throw 'metarw:git#e1'
+  endif
+
+  let _.tree_ish = (_.given_tree_ish == '' ? 'HEAD' : _.given_tree_ish)
+  let _.leading_path = join(split(_.incomplete_path, '/', !0)[:-2], '/')
+
+  return _
+endfunction
 
 
 
