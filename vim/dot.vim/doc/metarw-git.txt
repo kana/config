@@ -82,7 +82,10 @@ git:{commit}:{tree}/
 ==============================================================================
 BUGS						*metarw-git-bugs*
 
-- In metarw-git, should format options be configurable?
+- metarw-git assumes that the current directory must be under the control of
+  git, so that |metarw-git-notations| should have an optional {git-dir} part.
+
+- Should metarw-git have options on output format?  Leave them to git?
 
 - There are many bugs around the world.
 
