@@ -54,23 +54,27 @@ NOTATIONS					*metarw-git-notations*
 
 In metarw-git, the following notations are available.
 
-git:{commit}
-	Show the result of "git show {commit}".
+git:{object}
+	Show the result of "git show {object}".
+	{object} must not contain any ":" to avoid this notation is
+	misinterpreted as other notations.
 
 git:{commit}:{blob}
 	Show the result of "git show {commit}:{blob}".
+	{commit} is a commit object or a tag object pointing to a commit
+	object.
 
 git:{commit}:		OR
 git:{commit}:{tree}/
 	(planned) List the content of the top directory or the content in the
-	{tree} object of {commit}.
+	{tree} object in a {commit} object.
 
 	If a fake file in these notations is given to |:edit| or similar
 	commands, user can browse and operate the content of the new buffer
 	like |netrw|.
 
 	If a fake file in these notations is given to |:read| or similar
-	commands, the list of the content will be inserted.
+	commands, the content will be inserted as ordinary text.
 
 
 
