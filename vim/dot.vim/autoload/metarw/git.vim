@@ -28,9 +28,9 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   let _ = s:parse_incomplete_fakefile(a:arglead)
 
   let candidates = []
-  if _.path_given_p  " git:{tree-ish}:{object} -- complete {object}.
+  if _.path_given_p  " git:{commit-ish}:{path} -- complete {path}.
     for line in split(system(printf("git ls-tree '%s' '%s'",
-    \                               _.tree_ish,
+    \                               _.commit_ish,
     \                               _.leading_path . '/')),
     \                 "\n")
       let __ = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
@@ -41,12 +41,12 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   
       let word = printf('%s:%s:%s%s',
       \                 _.scheme,
-      \                 _.given_tree_ish,
+      \                 _.given_commit_ish,
       \                 path,
       \                 (type ==# 'tree' ? '/' : ''))
       call add(candidates, word)
     endfor
-  else  " git:{tree-ish} -- complete {tree-ish}.
+  else  " git:{commit-ish} -- complete {commit-ish}.
     " sort by remote branches or not.
     for line in split(system('git branch -a'), "\n")
       let word = matchstr(line, '^[ *]*\zs.*\ze$')
@@ -85,30 +85,30 @@ endfunction
 function! s:parse_incomplete_fakefile(incomplete_fakefile)
   let _ = {}
   " _.scheme - {scheme} part in a:incomplete_fakefile (should be always 'git')
-  " _.given_tree_ish - {tree-ish} in a:incomplete_fakefile
-  " _.tree_ish - normalized _.given_tree_ish
+  " _.given_commit_ish - {commit-ish} in a:incomplete_fakefile
+  " _.commit_ish - normalized _.given_commit_ish
   " _.incomplete_path - {path} in a:incomplete_fakefile
   " _.leading_path - _.incomplete_path without the last component
-  " _.path_given_p - a:incomplete_fakefile is in the form 'git:{tree-ish}:...'
+  " _.path_given_p - a:incomplete_fakefile in 'git:{commit-ish}:...' form
 
   let fragments = split(a:incomplete_fakefile, ':', !0)
 
   let _.scheme = fragments[0]
 
-  if len(fragments) == 2  " git:{tree-ish} or git:{path}
+  if len(fragments) == 2  " git:{commit-ish} or git:{path}
     let _.path_given_p = !!0
-    let _.given_tree_ish = ''
+    let _.given_commit_ish = ''
     let _.incomplete_path = fragments[1]
-  elseif 3 <= len(fragments)  " git:{tree-ish}:{path}
+  elseif 3 <= len(fragments)  " git:{commit-ish}:{path}
     let _.path_given_p = !0
-    let _.given_tree_ish = fragments[1]
+    let _.given_commit_ish = fragments[1]
     let _.incomplete_path = join(fragments[2:], ':')
   else  " len(fragments) <= 1
     echoerr 'Unexpected a:incomplete_fakefile:' string(a:incomplete_fakefile)
     throw 'metarw:git#e1'
   endif
 
-  let _.tree_ish = (_.given_tree_ish == '' ? 'HEAD' : _.given_tree_ish)
+  let _.commit_ish = (_.given_commit_ish == '' ? 'HEAD' : _.given_commit_ish)
   let _.leading_path = join(split(_.incomplete_path, '/', !0)[:-2], '/')
 
   return _

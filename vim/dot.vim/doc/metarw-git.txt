@@ -54,18 +54,18 @@ NOTATIONS					*metarw-git-notations*
 
 In metarw-git, the following notations are available.
 
-git:{commit}:{path}
-	Show the result of "git show {commit}:{path}", where:
-	- {commit} is a commit object or a tag object pointing to a commit
+git:{commit-ish}:{path}
+	Show the result of "git show {commit-ish}:{path}", where:
+	- {commit-ish} is a commit object or a tag object pointing to a commit
 	  object.  Example: master, HEAD, HEAD^3, v0.0.0
-	- {path} is the path to a blog or a tree object in the {commit}
-	  object.  {part} may be ommited, if so, it will be treated as the
-	  root directory of the content in the {commit} object.
+	- {path} is the path to a blog or a tree object in the {commit-ish}.
+	  {part} may be ommited, if so, it will be treated as the root
+	  directory of the content in the {commit}.
 
-git:{commit}:		OR
-git:{commit}:{tree}/
-	(planned) Like "git:{commit}:{path}", but if these notations are used
-	for |:edit| or similar commands, user can browse and operate the
+git:{commit-ish}:		OR
+git:{commit-ish}:{tree}/
+	(planned) Like "git:{commit-ish}:{path}", but if these notations are
+	used for |:edit| or similar commands, user can browse and operate the
 	content which is shown in the new buffer like |netrw|.
 
 
