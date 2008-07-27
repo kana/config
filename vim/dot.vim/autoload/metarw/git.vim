@@ -27,10 +27,10 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   " a:arglead always contains "git:".
 
   let _ = split(a:arglead, ':', !0)
-  if len(_) == 2
+  if len(_) == 2  " git:{tree-ish}
     let tree_ish = ''
     let incomplete_path = _[1]
-  elseif 3 <= len(_)
+  elseif 3 <= len(_)  " git:{tree-ish}:{object}
     let tree_ish = _[1]
     let incomplete_path = join(_[2:], ':')
   else  " len(_) <= 1
@@ -40,28 +40,34 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
 
   let leading_path = join(split(incomplete_path, '/', !0)[:-2], '/')
   let candidates = []
-  for line in split(system(printf("git ls-tree '%s' '%s'",
-  \                        (tree_ish == '' ? 'HEAD' : tree_ish),
-  \                        (leading_path == '' ? '.' : leading_path . '/'))),
-  \                 "\n")
-    let __ = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
-    " let mode = __[1]
-    let type = __[2]
-    " let object_id = __[3]
-    let path = __[4]
-
-    let word = printf('%s:%s:%s%s',
-    \                 _[0],
-    \                 tree_ish,
-    \                 path,
-    \                 (type ==# 'tree' ? '/' : ''))
-    if stridx(word, a:arglead) == 0  " word starts with a:arglead?
-      " FIXME: support wildcards to filter like -complete=file.
+  if len(_) == 2  " git:{tree-ish} -- complete {tree-ish}.
+    for line in split(system('git branch -a'), "\n")
+      let word = matchstr(line, '^[ *]*\zs.*\ze$')
+      call add(candidates, printf('%s:%s:', _[0], word))
+    endfor
+  else  " 3 <= len(_)  " git:{tree-ish}:{object} -- complete {object}.
+    for line in split(system(printf("git ls-tree '%s' '%s'",
+    \                        (tree_ish == '' ? 'HEAD' : tree_ish),
+    \                        (leading_path == '' ? '.' : leading_path . '/'))),
+    \                 "\n")
+      let __ = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
+      " let mode = __[1]
+      let type = __[2]
+      " let object_id = __[3]
+      let path = __[4]
+  
+      let word = printf('%s:%s:%s%s',
+      \                 _[0],
+      \                 tree_ish,
+      \                 path,
+      \                 (type ==# 'tree' ? '/' : ''))
       call add(candidates, word)
-    endif
-  endfor
+    endfor
+  endif
 
-  return candidates
+    " FIXME: support wildcards to filter like -complete=file.
+    " keep candidates which start with a:arglead.
+  return filter(candidates, 'stridx(v:val, a:arglead) == 0')
 endfunction
 
 
