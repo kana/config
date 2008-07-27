@@ -50,15 +50,17 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
     " let object_id = __[3]
     let path = __[4]
 
-    call add(candidates,
-    \        printf('%s:%s:%s%s',
-    \               _[0],
-    \               tree_ish,
-    \               path,
-    \               (type ==# 'tree' ? '/' : '')))
+    let word = printf('%s:%s:%s%s',
+    \                 _[0],
+    \                 tree_ish,
+    \                 path,
+    \                 (type ==# 'tree' ? '/' : ''))
+    if stridx(word, a:arglead) == 0  " word starts with a:arglead?
+      " FIXME: support wildcards to filter like -complete=file.
+      call add(candidates, word)
+    endif
   endfor
 
-  " FIXME: filtering candidates by incomplete_path.
   return candidates
 endfunction
 
