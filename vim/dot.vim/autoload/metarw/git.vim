@@ -74,9 +74,14 @@ endfunction
 " Misc.  "{{{1
 function! s:git_branches()  "{{{2
   " Assumption: Branches given by "git branch -a" are already sorted.
-  " FIXME: Error cases
-  return map(split(system('git branch -a'), "\n"),
-  \          'matchstr(v:val, ''^[ *]*\zs.*\ze$'')')
+  let output = system('git branch -a')
+  if v:shell_error != 0
+    echoerr 'git branch failed with the following reason:'
+    echoerr output
+    return []
+  endif
+
+  return map(split(output, "\n"), 'matchstr(v:val, ''^[ *]*\zs.*\ze$'')')
 endfunction
 
 
@@ -84,21 +89,28 @@ endfunction
 
 function! s:git_ls_tree(commit_ish, leading_path)  "{{{2
   " Assumption: Objects given by "git ls-tree" are already sorted.
-  " FIXME: Error cases
   let _ = []
 
-  for line in split(system(printf("git ls-tree '%s' '%s%s'",
-  \                               a:commit_ish,
-  \                               a:leading_path,
-  \                               (a:leading_path == '' ? '.' : '/'))),
-  \                 "\n")
+  let output = system(printf("git ls-tree '%s' '%s%s'",
+  \                          a:commit_ish,
+  \                          a:leading_path,
+  \                          (a:leading_path == '' ? '.' : '/')))
+  if v:shell_error != 0
+    echoerr 'git ls-tree failed with the following reason:'
+    echoerr output
+    return []
+  endif
+
+  for line in split(output, "\n")
     let columns = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
-    call add(_, {
-    \      'mode': columns[1],
-    \      'type': columns[2],
-    \      'id': columns[3],
-    \      'path': columns[4],
-    \    })
+    if columns != ''  " valid line?
+      call add(_, {
+      \      'mode': columns[1],
+      \      'type': columns[2],
+      \      'id': columns[3],
+      \      'path': columns[4],
+      \    })
+    endif
   endfor
 
   return _
