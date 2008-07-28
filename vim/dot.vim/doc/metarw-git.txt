@@ -37,7 +37,7 @@ Changelog		|metarw-git-changelog|
 INTRODUCTION					*metarw-git-introduction*
 
 metarw-git is a scheme for |metarw| to read various objects in a git
-repository as fake files.
+repository with fakepathes.
 
 Note that this scheme just supports reading objects.  Writing objects are not
 supported.

@@ -1,4 +1,4 @@
-" metarw - a framework to read/write a fake:file
+" metarw - a framework to read/write a fake:path
 " Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -59,15 +59,15 @@ endfunction
 
 
 function! metarw#_event_handler(event_name)  "{{{2
-  let file = expand('<afile>')
-  let scheme = s:scheme_of(file)
+  let fakepath = expand('<afile>')
+  let scheme = s:scheme_of(fakepath)
   if s:already_hooked_p(a:event_name, scheme) || !s:available_scheme_p(scheme)
     return s:FALSE
   endif
 
-  let _ = s:on_{a:event_name}(scheme, file)
+  let _ = s:on_{a:event_name}(scheme, fakepath)
   if type(_) == type('')
-    echoerr _.':' file
+    echoerr _.':' fakepath
   endif
   return type(_) is 0
 endfunction
@@ -84,10 +84,10 @@ endfunction
 " FIXME: Support ++{opt} -- in metarw/{scheme}.vim?
 "        [bang] is almost handled by caller commands.
 "        +{cmd} is handled by Vim.
-function! s:on_BufReadCmd(scheme, file)  "{{{3
+function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   " FIXME: API to implement file-manager like buffer.
-  silent let _ = metarw#{a:scheme}#read(a:file)
+  silent let _ = metarw#{a:scheme}#read(a:fakepath)
   if _ is 0
     1 delete _
     setlocal buftype=acwrite
@@ -96,11 +96,11 @@ function! s:on_BufReadCmd(scheme, file)  "{{{3
 endfunction
 
 
-function! s:on_BufWriteCmd(scheme, file)  "{{{3
+function! s:on_BufWriteCmd(scheme, fakepath)  "{{{3
   " BufWriteCmd is published by :write or other commands with 1,$ range.
-  let _ = metarw#{a:scheme}#write(a:file, 1, line('$'), s:FALSE)
-  if _ is 0 && a:file !=# bufname('')
-    " The whole buffer has been saved to the current file,
+  let _ = metarw#{a:scheme}#write(a:fakepath, 1, line('$'), s:FALSE)
+  if _ is 0 && a:fakepath !=# bufname('')
+    " The whole buffer has been saved to the current fakepath,
     " so 'modified' should be reset.
     setlocal nomodified
   endif
@@ -108,33 +108,33 @@ function! s:on_BufWriteCmd(scheme, file)  "{{{3
 endfunction
 
 
-function! s:on_FileAppendCmd(scheme, file)  "{{{3
+function! s:on_FileAppendCmd(scheme, fakepath)  "{{{3
   " FileAppendCmd is published by :write or other commands with >>.
-  return metarw#{a:scheme}#write(a:file, line("'["), line("']"), s:TRUE)
+  return metarw#{a:scheme}#write(a:fakepath, line("'["), line("']"), s:TRUE)
 endfunction
 
 
-function! s:on_FileReadCmd(scheme, file)  "{{{3
+function! s:on_FileReadCmd(scheme, fakepath)  "{{{3
   " FileReadCmd is published by :read.
-  " FIXME: range must be treated at here.  e.g. 0 read fake:file
-  silent let _ = metarw#{a:scheme}#read(a:file)
+  " FIXME: range must be treated at here.  e.g. 0 read fake:path
+  silent let _ = metarw#{a:scheme}#read(a:fakepath)
   return _
 endfunction
 
 
-function! s:on_FileWriteCmd(scheme, file)  "{{{3
+function! s:on_FileWriteCmd(scheme, fakepath)  "{{{3
   " FileWriteCmd is published by :write or other commands with partial range
   " such as 1,2 where 2 < line('$').
-  return metarw#{a:scheme}#write(a:file, line("'["), line("']"), s:FALSE)
+  return metarw#{a:scheme}#write(a:fakepath, line("'["), line("']"), s:FALSE)
 endfunction
 
 
-function! s:on_SourceCmd(scheme, file)  "{{{3
+function! s:on_SourceCmd(scheme, fakepath)  "{{{3
   " SourceCmd is published by :source.
   let tmp = tempname()
   let tabpagenr = tabpagenr()
   silent tabnew `=tmp`
-    let _ = s:on_BufReadCmd(a:scheme, a:file)
+    let _ = s:on_BufReadCmd(a:scheme, a:fakepath)
     if _ is 0
       silent write
       execute 'source'.(v:cmdbang ? '!' : '') '%'

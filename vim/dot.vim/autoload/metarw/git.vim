@@ -25,7 +25,7 @@
 function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   " FIXME: *nix path separator assumption
   " a:arglead always contains "git:".
-  let _ = s:parse_incomplete_fakefile(a:arglead)
+  let _ = s:parse_incomplete_fakepath(a:arglead)
 
   let candidates = []
   if _.path_given_p  " git:{commit-ish}:{path} -- complete {path}.
@@ -52,8 +52,8 @@ endfunction
 
 
 
-function! metarw#git#read(fakefile)  "{{{2
-  let _ = s:parse_incomplete_fakefile(a:fakefile)
+function! metarw#git#read(fakepath)  "{{{2
+  let _ = s:parse_incomplete_fakepath(a:fakepath)
   if _.path_given_p
     if _.incomplete_path == '' || _.incomplete_path[-1:] != '/'
       " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
@@ -76,7 +76,7 @@ endfunction
 
 
 
-function! metarw#git#write(fakefile, line1, line2, append_p)  "{{{2
+function! metarw#git#write(fakepath, line1, line2, append_p)  "{{{2
   return 'Writing to an object is not supported'
 endfunction
 
@@ -135,16 +135,16 @@ endfunction
 
 
 
-function! s:parse_incomplete_fakefile(incomplete_fakefile)  "{{{2
+function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   let _ = {}
-  " _.scheme - {scheme} part in a:incomplete_fakefile (should be always 'git')
-  " _.given_commit_ish - {commit-ish} in a:incomplete_fakefile
+  " _.scheme - {scheme} part in a:incomplete_fakepath (should be always 'git')
+  " _.given_commit_ish - {commit-ish} in a:incomplete_fakepath
   " _.commit_ish - normalized _.given_commit_ish
-  " _.incomplete_path - {path} in a:incomplete_fakefile
+  " _.incomplete_path - {path} in a:incomplete_fakepath
   " _.leading_path - _.incomplete_path without the last component
-  " _.path_given_p - a:incomplete_fakefile in 'git:{commit-ish}:...' form
+  " _.path_given_p - a:incomplete_fakepath in 'git:{commit-ish}:...' form
 
-  let fragments = split(a:incomplete_fakefile, ':', !0)
+  let fragments = split(a:incomplete_fakepath, ':', !0)
 
   let _.scheme = fragments[0]
 
@@ -157,7 +157,7 @@ function! s:parse_incomplete_fakefile(incomplete_fakefile)  "{{{2
     let _.given_commit_ish = fragments[1]
     let _.incomplete_path = join(fragments[2:], ':')
   else  " len(fragments) <= 1
-    echoerr 'Unexpected a:incomplete_fakefile:' string(a:incomplete_fakefile)
+    echoerr 'Unexpected a:incomplete_fakepath:' string(a:incomplete_fakepath)
     throw 'metarw:git#e1'
   endif
 
