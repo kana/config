@@ -29,24 +29,13 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
 
   let candidates = []
   if _.path_given_p  " git:{commit-ish}:{path} -- complete {path}.
-      " FIXME: Error cases
-    for line in split(system(printf("git ls-tree '%s' '%s%s'",
-    \                               _.commit_ish,
-    \                               _.leading_path,
-    \                               (_.leading_path == '' ? '.' : '/'))),
-    \                 "\n")
-      let __ = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
-      " let mode = __[1]
-      let type = __[2]
-      " let object_id = __[3]
-      let path = __[4]
-  
-      let word = printf('%s:%s:%s%s',
-      \                 _.scheme,
-      \                 _.given_commit_ish,
-      \                 path,
-      \                 (type ==# 'tree' ? '/' : ''))
-      call add(candidates, word)
+    for object in s:git_ls_tree(_.commit_ish, _.leading_path)
+      call add(candidates,
+      \        printf('%s:%s:%s%s',
+      \               _.scheme,
+      \               _.given_commit_ish,
+      \               object.path,
+      \               (object.type ==# 'tree' ? '/' : '')))
     endfor
   else  " git:{commit-ish} -- complete {commit-ish}.
     " sort by remote branches or not.
@@ -84,9 +73,35 @@ endfunction
 
 " Misc.  "{{{1
 function! s:git_branches()  "{{{2
+  " Assumption: Branches given by "git branch -a" are already sorted.
   " FIXME: Error cases
   return map(split(system('git branch -a'), "\n"),
   \          'matchstr(v:val, ''^[ *]*\zs.*\ze$'')')
+endfunction
+
+
+
+
+function! s:git_ls_tree(commit_ish, leading_path)  "{{{2
+  " Assumption: Objects given by "git ls-tree" are already sorted.
+  " FIXME: Error cases
+  let _ = []
+
+  for line in split(system(printf("git ls-tree '%s' '%s%s'",
+  \                               a:commit_ish,
+  \                               a:leading_path,
+  \                               (a:leading_path == '' ? '.' : '/'))),
+  \                 "\n")
+    let columns = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
+    call add(_, {
+    \      'mode': columns[1],
+    \      'type': columns[2],
+    \      'id': columns[3],
+    \      'path': columns[4],
+    \    })
+  endfor
+
+  return _
 endfunction
 
 
