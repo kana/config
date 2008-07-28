@@ -55,22 +55,31 @@ endfunction
 function! metarw#git#read(fakepath)  "{{{2
   let _ = s:parse_incomplete_fakepath(a:fakepath)
   if _.path_given_p
-    if _.incomplete_path == '' || _.incomplete_path[-1:] != '/'
+    if _.incomplete_path == '' || _.incomplete_path[-1:] == '/'
       " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
-      " FIXME: (planned) - file manager like buffer set up
-      execute printf('read !git show ''%s:%s''',
-      \              _.commit_ish,
-      \              _.incomplete_path)
+      let result = []
+      for object in s:git_ls_tree(_.commit_ish, _.incomplete_path)
+        call add(result, {
+        \      'label': object.path,
+        \      'fakepath': printf('%s:%s:%s%s',
+        \                         _.scheme,
+        \                         _.given_commit_ish,
+        \                         object.path,
+        \                         (object.type ==# 'tree' ? '/' : '')),
+        \    })
+      endfor
     else
       " "git:{commit-ish}:{path}"?
       execute printf('read !git show ''%s:%s''',
       \              _.commit_ish,
       \              _.incomplete_path)
+      let result = 0
     endif
   else
     execute 'read !git show' _.commit_ish
+    let result = 0
   endif
-  return v:shell_error == 0 ? 0 : 'git show failed'
+  return v:shell_error == 0 ? result : 'git command failed'
 endfunction
 
 
