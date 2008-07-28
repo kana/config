@@ -29,9 +29,11 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
 
   let candidates = []
   if _.path_given_p  " git:{commit-ish}:{path} -- complete {path}.
-    for line in split(system(printf("git ls-tree '%s' '%s'",
+      " FIXME: Error cases
+    for line in split(system(printf("git ls-tree '%s' '%s%s'",
     \                               _.commit_ish,
-    \                               _.leading_path . '/')),
+    \                               _.leading_path,
+    \                               (_.leading_path == '' ? '.' : '/'))),
     \                 "\n")
       let __ = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
       " let mode = __[1]
@@ -48,9 +50,8 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
     endfor
   else  " git:{commit-ish} -- complete {commit-ish}.
     " sort by remote branches or not.
-    for line in split(system('git branch -a'), "\n")
-      let word = matchstr(line, '^[ *]*\zs.*\ze$')
-      call add(candidates, printf('%s:%s:', _.scheme, word))
+    for branch_name in s:git_branches()
+      call add(candidates, printf('%s:%s:', _.scheme, branch_name))
     endfor
   endif
 
@@ -82,6 +83,15 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:git_branches()  "{{{2
+  " FIXME: Error cases
+  return map(split(system('git branch -a'), "\n"),
+  \          'matchstr(v:val, ''^[ *]*\zs.*\ze$'')')
+endfunction
+
+
+
+
 function! s:parse_incomplete_fakefile(incomplete_fakefile)  "{{{2
   let _ = {}
   " _.scheme - {scheme} part in a:incomplete_fakefile (should be always 'git')
