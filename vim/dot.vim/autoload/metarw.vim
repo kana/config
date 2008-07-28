@@ -69,7 +69,7 @@ function! metarw#_event_handler(event_name)  "{{{2
   if type(_) == type('')
     echoerr _.':' fakepath
   endif
-  return _ is 0 || type(_) == type([])
+  return _ is 0
 endfunction
 
 
@@ -91,15 +91,12 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
   if _ is 0
     1 delete _
     setlocal buftype=acwrite
+    return _
   elseif type(_) == type([])
-    call append(line('.'), map(_, 'v:val.fakepath'))
-    1 delete _
-    setlocal buftype=nofile
-    setlocal nomodifiable
+    return s:set_up_file_manager_buffer(_)
   else  " type(_) == type('')
-    " nothing to do.
+    return _
   endif
-  return _
 endfunction
 
 
@@ -127,6 +124,7 @@ function! s:on_FileReadCmd(scheme, fakepath)  "{{{3
   silent let _ = metarw#{a:scheme}#read(a:fakepath)
   if type(_) == type([])
     call append(line('.'), map(_, 'v:val.fakepath'))
+    return 0
   endif
   return _
 endfunction
@@ -191,6 +189,17 @@ endfunction
 
 function! s:scheme_of(s)  "{{{2
   return matchstr(a:s, '^[a-z]\+\ze:')
+endfunction
+
+
+
+
+function! s:set_up_file_manager_buffer(items)  "{{{2
+  call append(line('.'), map(a:items, 'v:val.fakepath'))
+  1 delete _
+  setlocal buftype=nofile
+  setlocal nomodifiable
+  return 0
 endfunction
 
 
