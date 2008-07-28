@@ -87,7 +87,7 @@ endfunction
 function! s:on_BufReadCmd(scheme, file)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   " FIXME: API to implement file-manager like buffer.
-  let _ = metarw#{a:scheme}#read(a:file)
+  silent let _ = metarw#{a:scheme}#read(a:file)
   if _ is 0
     1 delete _
     setlocal buftype=acwrite
@@ -117,7 +117,8 @@ endfunction
 function! s:on_FileReadCmd(scheme, file)  "{{{3
   " FileReadCmd is published by :read.
   " FIXME: range must be treated at here.  e.g. 0 read fake:file
-  return metarw#{a:scheme}#read(a:file)
+  silent let _ = metarw#{a:scheme}#read(a:file)
+  return _
 endfunction
 
 
