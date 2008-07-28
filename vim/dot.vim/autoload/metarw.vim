@@ -69,7 +69,7 @@ function! metarw#_event_handler(event_name)  "{{{2
   if type(_) == type('')
     echoerr _.':' fakepath
   endif
-  return type(_) is 0
+  return _ is 0 || type(_) == type([])
 endfunction
 
 
@@ -91,6 +91,13 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
   if _ is 0
     1 delete _
     setlocal buftype=acwrite
+  elseif type(_) == type([])
+    call append(line('.'), map(_, 'v:val.fakepath'))
+    1 delete _
+    setlocal buftype=nofile
+    setlocal nomodifiable
+  else  " type(_) == type('')
+    " nothing to do.
   endif
   return _
 endfunction
@@ -118,6 +125,9 @@ function! s:on_FileReadCmd(scheme, fakepath)  "{{{3
   " FileReadCmd is published by :read.
   " FIXME: range must be treated at here.  e.g. 0 read fake:path
   silent let _ = metarw#{a:scheme}#read(a:fakepath)
+  if type(_) == type([])
+    call append(line('.'), map(_, 'v:val.fakepath'))
+  endif
   return _
 endfunction
 
