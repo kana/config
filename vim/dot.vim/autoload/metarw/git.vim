@@ -119,7 +119,7 @@ function! s:git_ls_tree(commit_ish, leading_path)  "{{{2
 
   for line in split(output, "\n")
     let columns = matchlist(line, '^\([^ ]*\) \([^ ]*\) \([^\t]*\)\t\(.*\)$')
-    if columns != ''  " valid line?
+    if columns[0] != ''  " valid line?
       call add(_, {
       \      'mode': columns[1],
       \      'type': columns[2],
