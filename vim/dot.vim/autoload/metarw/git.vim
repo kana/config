@@ -53,8 +53,24 @@ endfunction
 
 
 function! metarw#git#read(fakefile)  "{{{2
-  " FIXME: NIY - just for test
-  return 'Reading from an object is not supported yet'
+  let _ = s:parse_incomplete_fakefile(a:fakefile)
+  if _.path_given_p
+    if _.incomplete_path == '' || _.incomplete_path[-1:] != '/'
+      " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
+      " FIXME: (planned) - file manager like buffer set up
+      execute printf('read !git show ''%s:%s''',
+      \              _.commit_ish,
+      \              _.incomplete_path)
+    else
+      " "git:{commit-ish}:{path}"?
+      execute printf('read !git show ''%s:%s''',
+      \              _.commit_ish,
+      \              _.incomplete_path)
+    endif
+  else
+    execute 'read !git show' _.commit_ish
+  endif
+  return v:shell_error == 0 ? 0 : 'git show failed'
 endfunction
 
 
