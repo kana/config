@@ -82,7 +82,7 @@ endfunction
 
 
 " Misc.  "{{{1
-function! s:parse_incomplete_fakefile(incomplete_fakefile)
+function! s:parse_incomplete_fakefile(incomplete_fakefile)  "{{{2
   let _ = {}
   " _.scheme - {scheme} part in a:incomplete_fakefile (should be always 'git')
   " _.given_commit_ish - {commit-ish} in a:incomplete_fakefile
