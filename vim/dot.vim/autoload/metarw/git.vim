@@ -59,13 +59,13 @@ function! metarw#git#read(fakepath)  "{{{2
       " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
       let result = []
       for object in s:git_ls_tree(_.commit_ish, _.incomplete_path)
+        let path = object.path . (object.type ==# 'tree' ? '/' : '')
         call add(result, {
-        \      'label': object.path,
-        \      'fakepath': printf('%s:%s:%s%s',
+        \      'label': path,
+        \      'fakepath': printf('%s:%s:%s',
         \                         _.scheme,
         \                         _.given_commit_ish,
-        \                         object.path,
-        \                         (object.type ==# 'tree' ? '/' : '')),
+        \                         path),
         \    })
       endfor
     else
