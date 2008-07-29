@@ -93,7 +93,7 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
     setlocal buftype=acwrite
     return _
   elseif type(_) == type([])
-    return s:set_up_file_manager_buffer(_)
+    return s:set_up_file_manager_buffer(a:fakepath, _)
   else  " type(_) == type('')
     return _
   endif
@@ -194,12 +194,60 @@ endfunction
 
 
 
-function! s:set_up_file_manager_buffer(items)  "{{{2
-  call append(line('.'), map(a:items, 'v:val.fakepath'))
+function! s:set_up_file_manager_buffer(fakepath, items)  "{{{2
+  setlocal modifiable  " to re:edit
+
+  1
+  put ='metarw content browser'
+  put =a:fakepath
+  put =''
+  let b:metarw_base_linenr = line('.')
+  call append(b:metarw_base_linenr, map(copy(a:items), 'v:val.label'))
   1 delete _
+  call cursor(b:metarw_base_linenr, 0)
+
   setlocal buftype=nofile
   setlocal nomodifiable
+  setlocal nonumber
+  setlocal nowrap
+  let b:metarw_item = copy(a:items)
+
+  setfiletype metarw
+
+  if !exists('g:metarw_no_default_key_mappings')
+    nmap <buffer> <Return>  <Plug>(metarw-open-here)
+    nmap <buffer> <C-m>  <Plug>(metarw-open-here)
+    nmap <buffer> o  <Plug>(metarw-open-split)
+    nmap <buffer> v  <Plug>(metarw-open-vsplit)
+    nmap <buffer> -  <Plug>(metarw-go-to-parent)
+  endif
+
   return 0
+endfunction
+
+
+nnoremap <Plug>(metarw-open-here)
+\ :<C-u>call <SID>open_item('')<Return>
+nnoremap <Plug>(metarw-open-split)
+\ :<C-u>call <SID>open_item('split')<Return>
+nnoremap <Plug>(metarw-open-vsplit)
+\ :<C-u>call <SID>open_item('vsplit')<Return>
+nnoremap <Plug>(metarw-go-to-parent)
+\ :<C-u><C-r>=b:metarw_base_linenr<Return> call <SID>open_item('')<Return>
+
+
+function! s:open_item(split_command)
+  let i = line('.') - b:metarw_base_linenr
+  if !(0 <= i && i < len(b:metarw_item))
+    return
+  endif
+
+  if a:split_command != ''
+    execute a:split_command
+  endif
+
+  edit `=b:metarw_item[i].fakepath`
+  return
 endfunction
 
 
