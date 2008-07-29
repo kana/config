@@ -57,7 +57,14 @@ function! metarw#git#read(fakepath)  "{{{2
   if _.path_given_p
     if _.incomplete_path == '' || _.incomplete_path[-1:] == '/'
       " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
-      let result = []
+      let parent_path = join(split(_.leading_path, '/', !0)[:-2], '/')
+      let result = [{
+      \   'label': '../',
+      \   'fakepath': printf('%s:%s:%s',
+      \                      _.scheme,
+      \                      _.given_commit_ish,
+      \                      parent_path . (parent_path == '' ? '' : '/')),
+      \ }]
       for object in s:git_ls_tree(_.commit_ish, _.incomplete_path)
         let path = object.path . (object.type ==# 'tree' ? '/' : '')
         call add(result, {
