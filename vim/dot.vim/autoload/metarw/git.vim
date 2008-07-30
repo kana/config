@@ -164,10 +164,10 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
 
   let _.scheme = fragments[0]
 
-  if len(fragments) == 2  " git:{commit-ish} or git:{path}
+  if len(fragments) == 2  " git:{commit-ish}
     let _.path_given_p = !!0
-    let _.given_commit_ish = ''
-    let _.incomplete_path = fragments[1]
+    let _.given_commit_ish = fragments[1]
+    let _.incomplete_path = ''
   elseif 3 <= len(fragments)  " git:{commit-ish}:{path}
     let _.path_given_p = !0
     let _.given_commit_ish = fragments[1]
