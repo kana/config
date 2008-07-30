@@ -36,11 +36,11 @@ Changelog		|metarw-git-changelog|
 ==============================================================================
 INTRODUCTION					*metarw-git-introduction*
 
-metarw-git is a scheme for |metarw| to read various objects in a git
-repository with fakepathes.
+metarw-git is a scheme for |metarw| to read or to browse various objects in
+a git repository with fakepathes like "git:HEAD~3:src/ui.c".
 
-Note that this scheme just supports reading objects.  Writing objects are not
-supported.
+Note that this scheme just supports reading from an object.  Writing to an
+object is not supported.
 
 Requirements:
 - Vim 7.1 or later.
@@ -51,6 +51,7 @@ Requirements:
 
 ==============================================================================
 NOTATIONS					*metarw-git-notations*
+
 In metarw-git, the following notations are available.
 
 						*git:{commit-ish}:{path}*
@@ -65,7 +66,9 @@ git:{commit-ish}:		OR		*git:{commit-ish}:*
 git:						*git:*
 	Show the content by |metarw-content-browser| if it is suitable.
 	Otherwise, same as "git:{commit-ish}:{path}".
-	The 2nd form shows the content of the top directory in {commit-ish}.
+
+	The 1st form shows the content of the {tree} in {commit-ish}.
+	The 2nd form shows the content of the top tree in {commit-ish}.
 	The 3rd form shows the all branches of the current repository.
 
 
