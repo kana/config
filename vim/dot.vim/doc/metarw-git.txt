@@ -51,22 +51,22 @@ Requirements:
 
 ==============================================================================
 NOTATIONS					*metarw-git-notations*
-
 In metarw-git, the following notations are available.
 
+						*git:{commit-ish}:{path}*
 git:{commit-ish}:{path}
 	Show the result of "git show {commit-ish}:{path}", where:
 	- {commit-ish} is a commit object or a tag object pointing to a commit
 	  object.  Example: master, HEAD, HEAD^3, v0.0.0
 	- {path} is the path to a blog or a tree object in the {commit-ish}.
-	  {part} may be ommited, if so, it will be treated as the root
-	  directory of the content in the {commit}.
 
-git:{commit-ish}:		OR
-git:{commit-ish}:{tree}/
-	(planned) Like "git:{commit-ish}:{path}", but if these notations are
-	used for |:edit| or similar commands, user can browse and operate the
-	content which is shown in the new buffer like |netrw|.
+git:{commit-ish}:{tree}/	OR		*git:{commit-ish}:{tree}/*
+git:{commit-ish}:		OR		*git:{commit-ish}:*
+git:						*git:*
+	Show the content by |metarw-content-browser| if it is suitable.
+	Otherwise, same as "git:{commit-ish}:{path}".
+	The 2nd form shows the content of the top directory in {commit-ish}.
+	The 3rd form shows the all branches of the current repository.
 
 
 
