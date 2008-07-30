@@ -70,8 +70,9 @@ function! metarw#git#read(fakepath)  "{{{2
       \ }]
       for object in s:git_ls_tree(_.commit_ish, _.incomplete_path)
         let path = object.path . (object.type ==# 'tree' ? '/' : '')
+        let prefix_length = (_.leading_path == '' ? 0 : len(_.leading_path)+1)
         call add(result, {
-        \      'label': path[len(parent_path):],
+        \      'label': path[(prefix_length):],
         \      'fakepath': printf('%s:%s:%s',
         \                         _.scheme,
         \                         _.given_commit_ish,
