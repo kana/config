@@ -149,9 +149,9 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 
 			Return value of this function may be a list.  If so
 			and this function is called by :edit or other
-			commands, file manager buffer like |netrw|'s one will
-			be created to browse and to operate the content of
-			{fakepath}.
+			commands, the newly created buffer will be set up as
+			a content browser like |netrw|'s one to browse and to
+			operate the content of {fakepath}.
 
 			The detail of return value is as follows: Each item is
 			a dictionary which represents an item in {fakepath}.
