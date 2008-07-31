@@ -207,6 +207,7 @@ function! s:set_up_file_manager_buffer(fakepath, items)  "{{{2
   call cursor(b:metarw_base_linenr, 0)
 
   setlocal buftype=nofile
+  setlocal bufhidden=delete
   setlocal nomodifiable
   setlocal nonumber
   setlocal nowrap
