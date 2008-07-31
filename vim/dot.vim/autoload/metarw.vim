@@ -91,6 +91,7 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
   if _ is 0
     1 delete _
     setlocal buftype=acwrite
+    setlocal noswapfile
     return _
   elseif type(_) == type({})
     return s:set_up_content_browser_buffer(a:fakepath, _)
@@ -198,6 +199,7 @@ function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
   setlocal buftype=nofile
   setlocal bufhidden=delete
   setlocal nonumber
+  setlocal noswapfile
   setlocal nowrap
   let b:metarw_items = copy(a:content.items)
 
