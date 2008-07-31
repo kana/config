@@ -199,7 +199,7 @@ function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
   setlocal bufhidden=delete
   setlocal nonumber
   setlocal nowrap
-  let b:metarw_item = copy(a:content.items)
+  let b:metarw_items = copy(a:content.items)
 
   setlocal modifiable  " to re:edit
     1
@@ -207,7 +207,7 @@ function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
     put =a:fakepath
     put =''
     let b:metarw_base_linenr = line('.')
-    call append(b:metarw_base_linenr, map(copy(b:metarw_item),'v:val.label'))
+    call append(b:metarw_base_linenr, map(copy(b:metarw_items), 'v:val.label'))
     1 delete _
     call cursor(b:metarw_base_linenr, 0)
   setlocal nomodifiable
@@ -238,7 +238,7 @@ nnoremap <Plug>(metarw-go-to-parent)
 
 function! s:open_item(split_command)
   let i = line('.') - b:metarw_base_linenr
-  if !(0 <= i && i < len(b:metarw_item))
+  if !(0 <= i && i < len(b:metarw_items))
     return
   endif
 
@@ -246,7 +246,7 @@ function! s:open_item(split_command)
     execute a:split_command
   endif
 
-  edit `=b:metarw_item[i].fakepath`
+  edit `=b:metarw_items[i].fakepath`
   return
 endfunction
 
