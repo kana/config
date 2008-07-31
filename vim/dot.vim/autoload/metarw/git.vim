@@ -106,6 +106,12 @@ function! metarw#git#read(fakepath)  "{{{2
       endfor
     endif
   endif
+
+  if type(result) == type({})
+    let result.buffer_name = printf('%s (%s)',
+    \                               a:fakepath,
+    \                               fnamemodify(getcwd(), ':~'))
+  endif
   return v:shell_error == 0 ? result : 'git command failed'
 endfunction
 

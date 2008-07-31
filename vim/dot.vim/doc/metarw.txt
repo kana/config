@@ -171,6 +171,11 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 				the "parent" one of {fakepath}.  This item is
 				used for |<Plug>(metarw-go-to-parent)|.
 
+			"buffer_name" (string) /optional/
+				This value is used as the name of a content
+				browser buffer.  If this value is not given,
+				{fakepath} will be used.
+
 			See also |metarw-content-browser|.
 
 						*metarw#{scheme}#write()*
