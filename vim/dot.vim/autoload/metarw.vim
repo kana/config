@@ -93,7 +93,7 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
     setlocal buftype=acwrite
     return _
   elseif type(_) == type([])
-    return s:set_up_file_manager_buffer(a:fakepath, _)
+    return s:set_up_content_browser_buffer(a:fakepath, _)
   else  " type(_) == type('')
     return _
   endif
@@ -194,7 +194,7 @@ endfunction
 
 
 
-function! s:set_up_file_manager_buffer(fakepath, items)  "{{{2
+function! s:set_up_content_browser_buffer(fakepath, items)  "{{{2
   setlocal buftype=nofile
   setlocal bufhidden=delete
   setlocal nonumber
