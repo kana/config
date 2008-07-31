@@ -59,19 +59,20 @@ function! metarw#git#read(fakepath)  "{{{2
     if _.incomplete_path == '' || _.incomplete_path[-1:] == '/'
       " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
       let parent_path = join(split(_.leading_path, '/', !0)[:-2], '/')
-      let result = [{
-      \   'label': '../',
-      \   'fakepath': (_.incomplete_path == ''
-      \                ? printf('%s:', _.scheme)
-      \                : printf('%s:%s:%s',
-      \                         _.scheme,
-      \                         _.given_commit_ish,
-      \                         parent_path . (parent_path == '' ? '' : '/'))),
-      \ }]
+      let result = {}
+      let result.items = [{
+      \     'label': '../',
+      \     'fakepath': (_.incomplete_path == ''
+      \                  ? printf('%s:', _.scheme)
+      \                  : printf('%s:%s:%s',
+      \                           _.scheme,
+      \                           _.given_commit_ish,
+      \                           parent_path . (parent_path=='' ? '' : '/'))),
+      \   }]
       for object in s:git_ls_tree(_.commit_ish, _.incomplete_path)
         let path = object.path . (object.type ==# 'tree' ? '/' : '')
         let prefix_length = (_.leading_path == '' ? 0 : len(_.leading_path)+1)
-        call add(result, {
+        call add(result.items, {
         \      'label': path[(prefix_length):],
         \      'fakepath': printf('%s:%s:%s',
         \                         _.scheme,
@@ -92,12 +93,13 @@ function! metarw#git#read(fakepath)  "{{{2
       execute 'read !git show' _.commit_ish
       let result = 0
     else
-      let result = [{
+      let result = {}
+      let result.items = [{
       \     'label': './',
       \     'fakepath': a:fakepath,
       \   }]
       for branch_name in s:git_branches()
-        call add(result, {
+        call add(result.items, {
         \      'label': branch_name,
         \      'fakepath': printf('%s:%s:', _.scheme, branch_name),
         \    })

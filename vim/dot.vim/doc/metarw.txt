@@ -147,25 +147,29 @@ metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
 
-			Return value of this function may be a list.  If so
-			and this function is called by :edit or other
+			Return value of this function may be a dictionary.  If
+			so and this function is called by :edit or other
 			commands, the newly created buffer will be set up as
 			a content browser like |netrw|'s one to browse and to
 			operate the content of {fakepath}.
 
-			The detail of return value is as follows: Each item is
-			a dictionary which represents an item in {fakepath}.
-			The meanings of key-value pairs are:
+			The detail of return value is as follows: this
+			dictionary has following items:
+			
+			"items" (required)
+				Each item is a dictionary which represents an
+				item in {fakepath}.  The meanings of key-value
+				pairs are:
 
-			"label"
-				String, displayed as the label of an item.
+				"label" (string)
+					Displayed as the label of the item.
 
-			"fakepath"
-				String, used to open an item.
+				"fakepath" (string)
+					Used to open an item.
 
-			And, the 0th item of return value should be the
-			"parent" one of {fakepath}.  This item is used for
-			|<Plug>(metarw-go-to-parent)|.
+				And, the 0th item of return value should be
+				the "parent" one of {fakepath}.  This item is
+				used for |<Plug>(metarw-go-to-parent)|.
 
 			See also |metarw-content-browser|.
 

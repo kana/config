@@ -92,7 +92,7 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
     1 delete _
     setlocal buftype=acwrite
     return _
-  elseif type(_) == type([])
+  elseif type(_) == type({})
     return s:set_up_content_browser_buffer(a:fakepath, _)
   else  " type(_) == type('')
     return _
@@ -194,12 +194,12 @@ endfunction
 
 
 
-function! s:set_up_content_browser_buffer(fakepath, items)  "{{{2
+function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
   setlocal buftype=nofile
   setlocal bufhidden=delete
   setlocal nonumber
   setlocal nowrap
-  let b:metarw_item = copy(a:items)
+  let b:metarw_item = copy(a:content.items)
 
   setlocal modifiable  " to re:edit
     1
@@ -207,7 +207,7 @@ function! s:set_up_content_browser_buffer(fakepath, items)  "{{{2
     put =a:fakepath
     put =''
     let b:metarw_base_linenr = line('.')
-    call append(b:metarw_base_linenr, map(copy(a:items), 'v:val.label'))
+    call append(b:metarw_base_linenr, map(copy(b:metarw_item),'v:val.label'))
     1 delete _
     call cursor(b:metarw_base_linenr, 0)
   setlocal nomodifiable
