@@ -156,15 +156,15 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			The detail of return value is as follows: this
 			dictionary has following items:
 			
-			"items" (required)
-				Each item is a dictionary which represents an
+			"items" (list) /required/
+				Each value is a dictionary which represents an
 				item in {fakepath}.  The meanings of key-value
 				pairs are:
 
-				"label" (string)
+				"label" (string) /required/
 					Displayed as the label of the item.
 
-				"fakepath" (string)
+				"fakepath" (string) /required/
 					Used to open an item.
 
 				And, the 0th item of return value should be
