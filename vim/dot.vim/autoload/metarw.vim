@@ -195,23 +195,22 @@ endfunction
 
 
 function! s:set_up_file_manager_buffer(fakepath, items)  "{{{2
-  setlocal modifiable  " to re:edit
-
-  1
-  put ='metarw content browser'
-  put =a:fakepath
-  put =''
-  let b:metarw_base_linenr = line('.')
-  call append(b:metarw_base_linenr, map(copy(a:items), 'v:val.label'))
-  1 delete _
-  call cursor(b:metarw_base_linenr, 0)
-
   setlocal buftype=nofile
   setlocal bufhidden=delete
-  setlocal nomodifiable
   setlocal nonumber
   setlocal nowrap
   let b:metarw_item = copy(a:items)
+
+  setlocal modifiable  " to re:edit
+    1
+    put ='metarw content browser'
+    put =a:fakepath
+    put =''
+    let b:metarw_base_linenr = line('.')
+    call append(b:metarw_base_linenr, map(copy(a:items), 'v:val.label'))
+    1 delete _
+    call cursor(b:metarw_base_linenr, 0)
+  setlocal nomodifiable
 
   setfiletype metarw
 
