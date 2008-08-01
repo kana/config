@@ -202,8 +202,8 @@ function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
   setlocal noswapfile
   setlocal nowrap
   let b:metarw_items = copy(a:content.items)
-  if has_key(a:content, 'buffer_name')
-    silent file `=a:content.buffer_name`
+  if has_key(a:content, 'buffer_name_suffix')
+    silent file `=printf('%s (%s)', bufname(''), a:content.buffer_name_suffix)`
   endif
 
   setlocal modifiable  " to re:edit
