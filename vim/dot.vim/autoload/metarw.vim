@@ -88,14 +88,14 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   " FIXME: API to implement file-manager like buffer.
   silent let _ = metarw#{a:scheme}#read(a:fakepath)
-  if _ is 0
+  if type(_) == type({})
+    return s:set_up_content_browser_buffer(a:fakepath, _)
+  else  " _ is 0 || type(_) == type('')
+    " The current, newly created, buffer should be treated as a special one,
+    " so some options must be set even if metarw#{a:scheme}#read() is failed.
     1 delete _
     setlocal buftype=acwrite
     setlocal noswapfile
-    return _
-  elseif type(_) == type({})
-    return s:set_up_content_browser_buffer(a:fakepath, _)
-  else  " type(_) == type('')
     return _
   endif
 endfunction
