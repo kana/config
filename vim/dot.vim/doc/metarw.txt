@@ -133,8 +133,7 @@ To add your own scheme, write a Vim script and put it under a directory named
 script.  The name of a scheme script must be "{scheme}.vim", where {scheme} is
 the name of the scheme.
 
-Scheme scripts must implements the following functions.  Each function must
-return 0 on success or error message string on failure.  Other works such as
+Scheme scripts must implements the following functions.  Most of works such as
 hooking read/write events are automatically treated by metarw, so you don't
 have to think about troublesome stuffs.
 
@@ -146,20 +145,21 @@ metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 
 metarw#{scheme}#read({fakepath}, {suffix})	*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
+			This function returns:
+			- 0 if it read the content with |:read| or other
+			  commands, or
+			- a dictionary described as follows if it want to set
+			  up |metarw-content-browser|,  or
+			- a string as an error message if it fails.
+
 			If the name of the current buffer contains a suffix
 			which is described in "buffer_name_suffix", {fakepath}
 			is the name without the suffix and {suffix} is the
 			suffix.  Otherwise, {fakepath} is the name itself and
 			{suffix} is an empty string.
 
-			Return value of this function may be a dictionary.  If
-			so and this function is called by :edit or other
-			commands, the newly created buffer will be set up as
-			a content browser like |netrw|'s one to browse and to
-			operate the content of {fakepath}.
-
-			The detail of return value is as follows: this
-			dictionary has following items:
+			If return value is a dictionary, it has following
+			items:
 			
 			"items" (list) /required/
 				Each value is a dictionary which represents an
@@ -172,9 +172,9 @@ metarw#{scheme}#read({fakepath}, {suffix})	*metarw#{scheme}#read()*
 				"fakepath" (string) /required/
 					Used to open an item.
 
-				And, the 0th item of return value should be
-				the "parent" one of {fakepath}.  This item is
-				used for |<Plug>(metarw-go-to-parent)|.
+				And, the 0th item should be the "parent" one
+				of {fakepath}.  This item is used for
+				|<Plug>(metarw-go-to-parent)|.
 
 			"buffer_name_suffix" (string) /optional/
 				This value is used as the suffix of the name
@@ -190,6 +190,9 @@ metarw#{scheme}#write({fakepath}, {suffix}, {line1}, {line2}, {append-p})
 			Write or append the content of the current buffer from
 			{line1} to {lin2} into {fakepath}.  If {append-p} is
 			true, does appending instead of writing.
+
+			Return 0 on success, or a string as an error message
+			on failure.
 
 			Don't reset 'modified' in this function.  It will be
 			automatically treated by metarw.
