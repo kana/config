@@ -22,6 +22,8 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
+" FIXME: Use a:suffix as GIT_DIR.
+" FIXME: Add suffix for buffers which are not content browsers.
 function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   " FIXME: *nix path separator assumption
   " a:arglead always contains "git:".
@@ -52,7 +54,7 @@ endfunction
 
 
 
-function! metarw#git#read(fakepath)  "{{{2
+function! metarw#git#read(fakepath, suffix)  "{{{2
   let _ = s:parse_incomplete_fakepath(a:fakepath)
   if _.path_given_p
     " "git:{commit-ish}:..."?
@@ -116,7 +118,7 @@ endfunction
 
 
 
-function! metarw#git#write(fakepath, line1, line2, append_p)  "{{{2
+function! metarw#git#write(fakepath, suffix, line1, line2, append_p)  "{{{2
   return 'Writing to an object is not supported'
 endfunction
 

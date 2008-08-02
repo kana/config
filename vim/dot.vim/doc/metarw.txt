@@ -144,8 +144,13 @@ metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 			|:command-completion-customlist| for the detail of
 			arguments and returning values of this function.
 
-metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
+metarw#{scheme}#read({fakepath}, {suffix})	*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
+			If the name of the current buffer contains a suffix
+			which is described in "buffer_name_suffix", {fakepath}
+			is the name without the suffix and {suffix} is the
+			suffix.  Otherwise, {fakepath} is the name itself and
+			{suffix} is an empty string.
 
 			Return value of this function may be a dictionary.  If
 			so and this function is called by :edit or other
@@ -181,13 +186,16 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			See also |metarw-content-browser|.
 
 						*metarw#{scheme}#write()*
-metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
+metarw#{scheme}#write({fakepath}, {suffix}, {line1}, {line2}, {append-p})
 			Write or append the content of the current buffer from
 			{line1} to {lin2} into {fakepath}.  If {append-p} is
 			true, does appending instead of writing.
 
 			Don't reset 'modified' in this function.  It will be
 			automatically treated by metarw.
+
+			See also |metarw#{scheme}#read()| for the defailt of
+			{fakepath} and {suffix}.
 
 
 

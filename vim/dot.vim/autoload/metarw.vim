@@ -59,15 +59,16 @@ endfunction
 
 
 function! metarw#_event_handler(event_name)  "{{{2
-  let fakepath = expand('<afile>')
-  let scheme = s:scheme_of(fakepath)
+  let raw_fakepath = expand('<afile>')
+  let scheme = s:scheme_of(raw_fakepath)
   if s:already_hooked_p(a:event_name, scheme) || !s:available_scheme_p(scheme)
     return s:FALSE
   endif
+  let [fakepath, suffix] = s:parse_fakepath(raw_fakepath)
 
-  let _ = s:on_{a:event_name}(scheme, fakepath)
+  let _ = s:on_{a:event_name}(scheme, fakepath, suffix)
   if type(_) == type('')
-    echoerr _.':' fakepath
+    echoerr _.':' raw_fakepath
   endif
   return _ is 0
 endfunction
@@ -84,10 +85,10 @@ endfunction
 " FIXME: Support ++{opt} -- in metarw/{scheme}.vim?
 "        [bang] is almost handled by caller commands.
 "        +{cmd} is handled by Vim.
-function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
+function! s:on_BufReadCmd(scheme, fakepath, suffix)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   " FIXME: API to implement file-manager like buffer.
-  silent let _ = metarw#{a:scheme}#read(a:fakepath)
+  silent let _ = metarw#{a:scheme}#read(a:fakepath, a:suffix)
   if type(_) == type({})
     return s:set_up_content_browser_buffer(a:fakepath, _)
   else  " _ is 0 || type(_) == type('')
@@ -101,9 +102,9 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
 endfunction
 
 
-function! s:on_BufWriteCmd(scheme, fakepath)  "{{{3
+function! s:on_BufWriteCmd(scheme, fakepath, suffix)  "{{{3
   " BufWriteCmd is published by :write or other commands with 1,$ range.
-  let _ = metarw#{a:scheme}#write(a:fakepath, 1, line('$'), s:FALSE)
+  let _ = metarw#{a:scheme}#write(a:fakepath, a:suffix, 1, line('$'), s:FALSE)
   if _ is 0 && a:fakepath !=# bufname('')
     " The whole buffer has been saved to the current fakepath,
     " so 'modified' should be reset.
@@ -113,16 +114,17 @@ function! s:on_BufWriteCmd(scheme, fakepath)  "{{{3
 endfunction
 
 
-function! s:on_FileAppendCmd(scheme, fakepath)  "{{{3
+function! s:on_FileAppendCmd(scheme, fakepath, suffix)  "{{{3
   " FileAppendCmd is published by :write or other commands with >>.
-  return metarw#{a:scheme}#write(a:fakepath, line("'["), line("']"), s:TRUE)
+  return metarw#{a:scheme}#write(a:fakepath, a:suffix, line("'["), line("']"),
+  \                              s:TRUE)
 endfunction
 
 
-function! s:on_FileReadCmd(scheme, fakepath)  "{{{3
+function! s:on_FileReadCmd(scheme, fakepath, suffix)  "{{{3
   " FileReadCmd is published by :read.
   " FIXME: range must be treated at here.  e.g. 0 read fake:path
-  silent let _ = metarw#{a:scheme}#read(a:fakepath)
+  silent let _ = metarw#{a:scheme}#read(a:fakepath, a:suffix)
   if type(_) == type([])
     call append(line('.'), map(_, 'v:val.fakepath'))
     return 0
@@ -131,19 +133,20 @@ function! s:on_FileReadCmd(scheme, fakepath)  "{{{3
 endfunction
 
 
-function! s:on_FileWriteCmd(scheme, fakepath)  "{{{3
+function! s:on_FileWriteCmd(scheme, fakepath, suffix)  "{{{3
   " FileWriteCmd is published by :write or other commands with partial range
   " such as 1,2 where 2 < line('$').
-  return metarw#{a:scheme}#write(a:fakepath, line("'["), line("']"), s:FALSE)
+  return metarw#{a:scheme}#write(a:fakepath, a:suffix, line("'["), line("']"),
+  \                              s:FALSE)
 endfunction
 
 
-function! s:on_SourceCmd(scheme, fakepath)  "{{{3
+function! s:on_SourceCmd(scheme, fakepath, suffix)  "{{{3
   " SourceCmd is published by :source.
   let tmp = tempname()
   let tabpagenr = tabpagenr()
   silent tabnew `=tmp`
-    let _ = s:on_BufReadCmd(a:scheme, a:fakepath)
+    let _ = s:on_BufReadCmd(a:scheme, a:fakepath, a:suffix)
     if _ is 0
       silent write
       execute 'source'.(v:cmdbang ? '!' : '') '%'
@@ -188,6 +191,15 @@ endfunction
 
 
 
+function! s:parse_fakepath(raw_fakepath)  "{{{2
+  " BUGS: Don't forget to update s:set_up_content_browser_buffer().
+  let _ = matchlist(a:raw_fakepath, '^\(.*\) (\(.\{-}\))$')
+  return len(_) == 0 ? [a:raw_fakepath, ''] : [_[1], _[2]]
+endfunction
+
+
+
+
 function! s:scheme_of(s)  "{{{2
   return matchstr(a:s, '^[a-z]\+\ze:')
 endfunction
@@ -203,7 +215,8 @@ function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
   setlocal nowrap
   let b:metarw_items = copy(a:content.items)
   if has_key(a:content, 'buffer_name_suffix')
-    silent file `=printf('%s (%s)', bufname(''), a:content.buffer_name_suffix)`
+    " BUGS: Don't forget to update s:parse_fakepath().
+    silent file `=printf('%s (%s)', a:fakepath, a:content.buffer_name_suffix)`
   endif
 
   setlocal modifiable  " to re:edit
