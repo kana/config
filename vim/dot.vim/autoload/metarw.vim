@@ -244,13 +244,13 @@ function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
 endfunction
 
 
-nnoremap <Plug>(metarw-open-here)
+nnoremap <silent> <Plug>(metarw-open-here)
 \ :<C-u>call <SID>open_item('')<Return>
-nnoremap <Plug>(metarw-open-split)
+nnoremap <silent> <Plug>(metarw-open-split)
 \ :<C-u>call <SID>open_item('split')<Return>
-nnoremap <Plug>(metarw-open-vsplit)
+nnoremap <silent> <Plug>(metarw-open-vsplit)
 \ :<C-u>call <SID>open_item('vsplit')<Return>
-nnoremap <Plug>(metarw-go-to-parent)
+nnoremap <silent> <Plug>(metarw-go-to-parent)
 \ :<C-u><C-r>=b:metarw_base_linenr<Return> call <SID>open_item('')<Return>
 
 
