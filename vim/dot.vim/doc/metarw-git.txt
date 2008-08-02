@@ -71,17 +71,22 @@ git:						*git:*
 	The 2nd form shows the content of the top tree in {commit-ish}.
 	The 3rd form shows the all branches of the current repository.
 
+				       *git:@{git-dir}* *git:@{git-dir}:[...]*
+(planned) Additionally, GIT_DIR can be specified with the following notation:
+
+	git:@{git-dir}:[...]
+
+The rest part ([...]) is same as the notations already described and it can be
+ommitted.  If {git-dir} part is ommitted, it is treated as "./.git".
+
 
 
 
 ==============================================================================
 BUGS						*metarw-git-bugs*
 
-- metarw-git assumes that the current directory must be under the control of
-  git, so that |metarw-git-notations| should have an optional {git-dir} part.
-
-- Whenever you do |:cd|, the content of buffers opened via metarw-git may be
-  changed if they are reloaded.
+- Whenever you do |:cd|, the content of buffers opened via metarw-git without
+  {git-dir} may be changed if they are reloaded.
 
 - Should metarw-git have options on output format?  Leave them to git?
 
