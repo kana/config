@@ -55,13 +55,13 @@ endfunction
 
 
 function! metarw#git#read(fakepath, suffix)  "{{{2
+  let result = {}
   let _ = s:parse_incomplete_fakepath(a:fakepath)
   if _.path_given_p
     " "git:{commit-ish}:..."?
     if _.incomplete_path == '' || _.incomplete_path[-1:] == '/'
       " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
       let parent_path = join(split(_.leading_path, '/', !0)[:-2], '/')
-      let result = {}
       let result.items = [{
       \     'label': '../',
       \     'fakepath': (_.incomplete_path == ''
@@ -87,15 +87,12 @@ function! metarw#git#read(fakepath, suffix)  "{{{2
       execute printf('read !git show ''%s:%s''',
       \              _.commit_ish,
       \              _.incomplete_path)
-      let result = 0
     endif
   else
     " "git:{commit-ish}"?
     if _.given_commit_ish != ''
       execute 'read !git show' _.commit_ish
-      let result = 0
     else
-      let result = {}
       let result.items = [{
       \     'label': './',
       \     'fakepath': a:fakepath,

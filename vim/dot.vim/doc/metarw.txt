@@ -146,10 +146,7 @@ metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 metarw#{scheme}#read({fakepath}, {suffix})	*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
 			This function returns:
-			- 0 if it read the content with |:read| or other
-			  commands, or
-			- a dictionary described as follows if it want to set
-			  up |metarw-content-browser|,  or
+			- a dictionary if it succeeds.
 			- a string as an error message if it fails.
 
 			If the name of the current buffer contains a suffix
@@ -161,7 +158,12 @@ metarw#{scheme}#read({fakepath}, {suffix})	*metarw#{scheme}#read()*
 			If return value is a dictionary, it has following
 			items:
 			
-			"items" (list) /required/
+			"items" (list) /optional/
+				If this key exists, the current buffer will be
+				set up as |metarw-content-browser|.
+				Otherwise, it has to read the content of
+				{fakepath} with |:read| or other commands.
+
 				Each value is a dictionary which represents an
 				item in {fakepath}.  The meanings of key-value
 				pairs are:

@@ -89,16 +89,24 @@ function! s:on_BufReadCmd(scheme, fakepath, suffix)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   " FIXME: API to implement file-manager like buffer.
   silent let _ = metarw#{a:scheme}#read(a:fakepath, a:suffix)
-  if type(_) == type({})
-    return s:set_up_content_browser_buffer(a:fakepath, _)
+
+  if type(_) == type({}) && has_key(_, 'items')
+    let result = s:set_up_content_browser_buffer(a:fakepath, _)
   else  " _ is 0 || type(_) == type('')
     " The current, newly created, buffer should be treated as a special one,
     " so some options must be set even if metarw#{a:scheme}#read() is failed.
     1 delete _
     setlocal buftype=acwrite
     setlocal noswapfile
-    return _
+    let result = type(_) == type('') ? _ : 0
   endif
+
+  if type(_) == type({}) && has_key(_, 'buffer_name_suffix')
+    " BUGS: Don't forget to update s:parse_fakepath().
+    silent keepalt file `=printf('%s (%s)', a:fakepath, _.buffer_name_suffix)`
+  endif
+
+  return result
 endfunction
 
 
@@ -125,11 +133,10 @@ function! s:on_FileReadCmd(scheme, fakepath, suffix)  "{{{3
   " FileReadCmd is published by :read.
   " FIXME: range must be treated at here.  e.g. 0 read fake:path
   silent let _ = metarw#{a:scheme}#read(a:fakepath, a:suffix)
-  if type(_) == type([])
-    call append(line('.'), map(_, 'v:val.fakepath'))
-    return 0
+  if type(_) == type({}) && has_key(_, 'items')
+    call append(line('.'), map(copy(_.items), 'v:val.fakepath'))
   endif
-  return _
+  return type(_) == type('') ? _ : 0
 endfunction
 
 
@@ -192,7 +199,7 @@ endfunction
 
 
 function! s:parse_fakepath(raw_fakepath)  "{{{2
-  " BUGS: Don't forget to update s:set_up_content_browser_buffer().
+  " BUGS: Don't forget to update s:on_BufReadCmd().
   let _ = matchlist(a:raw_fakepath, '^\(.*\) (\(.\{-}\))$')
   return len(_) == 0 ? [a:raw_fakepath, ''] : [_[1], _[2]]
 endfunction
@@ -214,10 +221,6 @@ function! s:set_up_content_browser_buffer(fakepath, content)  "{{{2
   setlocal noswapfile
   setlocal nowrap
   let b:metarw_items = copy(a:content.items)
-  if has_key(a:content, 'buffer_name_suffix')
-    " BUGS: Don't forget to update s:parse_fakepath().
-    silent file `=printf('%s (%s)', a:fakepath, a:content.buffer_name_suffix)`
-  endif
 
   setlocal modifiable  " to re:edit
     1
