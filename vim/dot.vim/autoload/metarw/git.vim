@@ -137,6 +137,8 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   let _ = {}
   " _.given_fakepath - same as a:incomplete_fakepath
   " _.scheme - {scheme} part in a:incomplete_fakepath (should be always 'git')
+  " _.git_dir_given_p - a:incomplete_fakepath in 'git:@{git-dir}:...' form
+  " _.git_dir - normalized {git-dir}
   " _.given_commit_ish - {commit-ish} in a:incomplete_fakepath
   " _.commit_ish - normalized _.given_commit_ish
   " _.incomplete_path - {path} in a:incomplete_fakepath
@@ -144,21 +146,41 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   " _.path_given_p - a:incomplete_fakepath in 'git:{commit-ish}:...' form
 
   let fragments = split(a:incomplete_fakepath, ':', !0)
+  if  len(fragments) <= 1
+    echoerr 'Unexpected a:incomplete_fakepath:' string(a:incomplete_fakepath)
+    throw 'metarw:git#e1'
+  endif
 
   let _.given_fakepath = a:incomplete_fakepath
   let _.scheme = fragments[0]
 
-  if len(fragments) == 2  " git:{commit-ish}
-    let _.path_given_p = !!0
-    let _.given_commit_ish = fragments[1]
-    let _.incomplete_path = ''
-  elseif 3 <= len(fragments)  " git:{commit-ish}:{path}
+  " {git-dir}
+  let i = 1
+  if fragments[i][:0] == '@'
+    let _.git_dir_given_p = !0
+    let _.git_dir = fragments[i][1:]
+    let i += 1
+  else
+    let _.git_dir_given_p = !!0
+    let _.git_dir = './.git'
+  endif
+
+  " {commit-ish}
+  if i <= len(fragments)
+    let _.given_commit_ish = fragments[i]
+    let i += 1
+  else
+    let _.given_commit_ish = ''
+  endif
+
+  " {path}
+  if i <= len(fragments)
     let _.path_given_p = !0
-    let _.given_commit_ish = fragments[1]
-    let _.incomplete_path = join(fragments[2:], ':')
-  else  " len(fragments) <= 1
-    echoerr 'Unexpected a:incomplete_fakepath:' string(a:incomplete_fakepath)
-    throw 'metarw:git#e1'
+    let _.incomplete_path = join(fragments[(i):], ':')
+    let i += 1
+  else
+    let _.path_given_p = !!0
+    let _.incomplete_path = ''
   endif
 
   let _.commit_ish = (_.given_commit_ish == '' ? 'HEAD' : _.given_commit_ish)
