@@ -54,58 +54,21 @@ endfunction
 
 function! metarw#git#read(fakepath)  "{{{2
   let _ = s:parse_incomplete_fakepath(a:fakepath)
-  if _.path_given_p
-    " "git:{commit-ish}:..."?
+  if _.path_given_p  " 'git:{commit-ish}:...'?
     if _.incomplete_path == '' || _.incomplete_path[-1:] == '/'
-      " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
-      let parent_path = join(split(_.leading_path, '/', !0)[:-2], '/')
-      let result = [{
-      \     'label': '../',
-      \     'fakepath': (_.incomplete_path == ''
-      \                  ? printf('%s:', _.scheme)
-      \                  : printf('%s:%s:%s',
-      \                           _.scheme,
-      \                           _.given_commit_ish,
-      \                           parent_path . (parent_path=='' ? '' : '/'))),
-      \   }]
-      for object in s:git_ls_tree(_.commit_ish, _.incomplete_path)
-        let path = object.path . (object.type ==# 'tree' ? '/' : '')
-        let prefix_length = (_.leading_path == '' ? 0 : len(_.leading_path)+1)
-        call add(result, {
-        \      'label': path[(prefix_length):],
-        \      'fakepath': printf('%s:%s:%s',
-        \                         _.scheme,
-        \                         _.given_commit_ish,
-        \                         path),
-        \    })
-      endfor
-    else
-      " "git:{commit-ish}:{path}"?
-      execute printf('read !git show ''%s:%s''',
-      \              _.commit_ish,
-      \              _.incomplete_path)
-      let result = 0
+      " 'git:{commit-ish}:' or 'git:{commit-ish}:{tree}/'?
+      let result = s:read_tree(_)
+    else  " 'git:{commit-ish}:path'?
+      let result = s:read_blob(_)
     endif
-  else
-    " "git:{commit-ish}"?
-    if _.given_commit_ish != ''
-      execute 'read !git show' _.commit_ish
-      let result = 0
-    else
-      let result = [{
-      \     'label': './',
-      \     'fakepath': a:fakepath,
-      \   }]
-      for branch_name in s:git_branches()
-        call add(result, {
-        \      'label': branch_name,
-        \      'fakepath': printf('%s:%s:', _.scheme, branch_name),
-        \    })
-      endfor
+  else  " 'git:...'?
+    if _.given_commit_ish != ''  " 'git:{commit-ish}'?
+      let result = s:read_commit(_)
+    else  " 'git:'?
+      let result = s:read_branches(_)
     endif
   endif
-
-  return v:shell_error == 0 ? result : 'git command failed'
+  return result
 endfunction
 
 
@@ -172,6 +135,7 @@ endfunction
 
 function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   let _ = {}
+  " _.given_fakepath - same as a:incomplete_fakepath
   " _.scheme - {scheme} part in a:incomplete_fakepath (should be always 'git')
   " _.given_commit_ish - {commit-ish} in a:incomplete_fakepath
   " _.commit_ish - normalized _.given_commit_ish
@@ -181,6 +145,7 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
 
   let fragments = split(a:incomplete_fakepath, ':', !0)
 
+  let _.given_fakepath = a:incomplete_fakepath
   let _.scheme = fragments[0]
 
   if len(fragments) == 2  " git:{commit-ish}
@@ -200,6 +165,69 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   let _.leading_path = join(split(_.incomplete_path, '/', !0)[:-2], '/')
 
   return _
+endfunction
+
+
+
+
+function! s:read_blob(_)  "{{{2
+  execute printf('read !git show ''%s:%s''',
+  \              a:_.commit_ish,
+  \              a:_.incomplete_path)
+  return 0
+endfunction
+
+
+
+
+function! s:read_branches(_)  "{{{2
+  let result = [{
+  \     'label': './',
+  \     'fakepath': a:_.given_fakepath,
+  \   }]
+  for branch_name in s:git_branches()
+    call add(result, {
+    \      'label': branch_name,
+    \      'fakepath': printf('%s:%s:', a:_.scheme, branch_name),
+    \    })
+  endfor
+  return result
+endfunction
+
+
+
+
+function! s:read_commit(_)  "{{{2
+  execute 'read !git show' a:_.commit_ish
+  return 0
+endfunction
+
+
+
+
+function! s:read_tree(_)  "{{{2
+  let parent_path = join(split(a:_.leading_path, '/', !0)[:-2], '/')
+  let result = [{
+  \     'label': '../',
+  \     'fakepath': (a:_.incomplete_path == ''
+  \                  ? printf('%s:', a:_.scheme)
+  \                  : printf('%s:%s:%s',
+  \                           a:_.scheme,
+  \                           a:_.given_commit_ish,
+  \                           parent_path . (parent_path=='' ? '' : '/'))),
+  \   }]
+  for object in s:git_ls_tree(a:_.commit_ish, a:_.incomplete_path)
+    let path = object.path . (object.type ==# 'tree' ? '/' : '')
+    let prefix_length = (a:_.leading_path == '' ? 0 : len(a:_.leading_path)+1)
+    call add(result, {
+    \      'label': path[(prefix_length):],
+    \      'fakepath': printf('%s:%s:%s',
+    \                         a:_.scheme,
+    \                         a:_.given_commit_ish,
+    \                         path),
+    \    })
+  endfor
+  return result
 endfunction
 
 
