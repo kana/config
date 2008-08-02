@@ -143,52 +143,32 @@ metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 			|:command-completion-customlist| for the detail of
 			arguments and returning values of this function.
 
-metarw#{scheme}#read({fakepath}, {suffix})	*metarw#{scheme}#read()*
+metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
 			This function returns:
-			- a dictionary if it succeeds.
+			- 0 if it reads the content by |:read| or other ways.
+			- a list if it want to set up |metarw-content-browser|.
 			- a string as an error message if it fails.
 
-			If the name of the current buffer contains a suffix
-			which is described in "buffer_name_suffix", {fakepath}
-			is the name without the suffix and {suffix} is the
-			suffix.  Otherwise, {fakepath} is the name itself and
-			{suffix} is an empty string.
+			If return value is a list, each item in the list
+			is a dictionary which represents an item in
+			{fakepath}.  The meaning of key-value pairs are:
 
-			If return value is a dictionary, it has following
-			items:
-			
-			"items" (list) /optional/
-				If this key exists, the current buffer will be
-				set up as |metarw-content-browser|.
-				Otherwise, it has to read the content of
-				{fakepath} with |:read| or other commands.
+			"label" (string) /required/
+				Displayed as the label of the item.
 
-				Each value is a dictionary which represents an
-				item in {fakepath}.  The meanings of key-value
-				pairs are:
+			"fakepath" (string) /required/
+				Used to open an item by
+				|<Plug>(metarw-open-here)| or other ways.
 
-				"label" (string) /required/
-					Displayed as the label of the item.
-
-				"fakepath" (string) /required/
-					Used to open an item.
-
-				And, the 0th item should be the "parent" one
-				of {fakepath}.  This item is used for
-				|<Plug>(metarw-go-to-parent)|.
-
-			"buffer_name_suffix" (string) /optional/
-				This value is used as the suffix of the name
-				of a content browser buffer, for example,
-				"buffer-name (suffix)".  If this value is not
-				given, no such suffix will be appended, so
-				the name will be same as {fakepath}.
+			And, the 0th item should be the "parent" of
+			{fakepath}.  This item is used for
+			|<Plug>(metarw-go-to-parent)|.
 
 			See also |metarw-content-browser|.
 
 						*metarw#{scheme}#write()*
-metarw#{scheme}#write({fakepath}, {suffix}, {line1}, {line2}, {append-p})
+metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			Write or append the content of the current buffer from
 			{line1} to {lin2} into {fakepath}.  If {append-p} is
 			true, does appending instead of writing.
@@ -198,9 +178,6 @@ metarw#{scheme}#write({fakepath}, {suffix}, {line1}, {line2}, {append-p})
 
 			Don't reset 'modified' in this function.  It will be
 			automatically treated by metarw.
-
-			See also |metarw#{scheme}#read()| for the defailt of
-			{fakepath} and {suffix}.
 
 
 

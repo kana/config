@@ -22,8 +22,6 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
-" FIXME: Use a:suffix as GIT_DIR.
-" FIXME: Add suffix for buffers which are not content browsers.
 function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   " FIXME: *nix path separator assumption
   " a:arglead always contains "git:".
@@ -54,15 +52,14 @@ endfunction
 
 
 
-function! metarw#git#read(fakepath, suffix)  "{{{2
-  let result = {}
+function! metarw#git#read(fakepath)  "{{{2
   let _ = s:parse_incomplete_fakepath(a:fakepath)
   if _.path_given_p
     " "git:{commit-ish}:..."?
     if _.incomplete_path == '' || _.incomplete_path[-1:] == '/'
       " "git:{commit-ish}:" OR "git:{commit-ish}:{tree}/"?
       let parent_path = join(split(_.leading_path, '/', !0)[:-2], '/')
-      let result.items = [{
+      let result = [{
       \     'label': '../',
       \     'fakepath': (_.incomplete_path == ''
       \                  ? printf('%s:', _.scheme)
@@ -74,7 +71,7 @@ function! metarw#git#read(fakepath, suffix)  "{{{2
       for object in s:git_ls_tree(_.commit_ish, _.incomplete_path)
         let path = object.path . (object.type ==# 'tree' ? '/' : '')
         let prefix_length = (_.leading_path == '' ? 0 : len(_.leading_path)+1)
-        call add(result.items, {
+        call add(result, {
         \      'label': path[(prefix_length):],
         \      'fakepath': printf('%s:%s:%s',
         \                         _.scheme,
@@ -87,18 +84,20 @@ function! metarw#git#read(fakepath, suffix)  "{{{2
       execute printf('read !git show ''%s:%s''',
       \              _.commit_ish,
       \              _.incomplete_path)
+      let result = 0
     endif
   else
     " "git:{commit-ish}"?
     if _.given_commit_ish != ''
       execute 'read !git show' _.commit_ish
+      let result = 0
     else
-      let result.items = [{
+      let result = [{
       \     'label': './',
       \     'fakepath': a:fakepath,
       \   }]
       for branch_name in s:git_branches()
-        call add(result.items, {
+        call add(result, {
         \      'label': branch_name,
         \      'fakepath': printf('%s:%s:', _.scheme, branch_name),
         \    })
@@ -106,16 +105,13 @@ function! metarw#git#read(fakepath, suffix)  "{{{2
     endif
   endif
 
-  if type(result) == type({})
-    let result.buffer_name_suffix = fnamemodify(getcwd(), ':~')
-  endif
   return v:shell_error == 0 ? result : 'git command failed'
 endfunction
 
 
 
 
-function! metarw#git#write(fakepath, suffix, line1, line2, append_p)  "{{{2
+function! metarw#git#write(fakepath, line1, line2, append_p)  "{{{2
   return 'Writing to an object is not supported'
 endfunction
 

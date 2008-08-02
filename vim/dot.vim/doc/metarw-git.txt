@@ -80,6 +80,9 @@ BUGS						*metarw-git-bugs*
 - metarw-git assumes that the current directory must be under the control of
   git, so that |metarw-git-notations| should have an optional {git-dir} part.
 
+- Whenever you do |:cd|, the content of buffers opened via metarw-git may be
+  changed if they are reloaded.
+
 - Should metarw-git have options on output format?  Leave them to git?
 
 - There are many bugs around the world.
