@@ -86,9 +86,10 @@ endfunction
 
 
 " Misc.  "{{{1
-function! s:git_branches()  "{{{2
+function! s:git_branches(git_dir)  "{{{2
   " Assumption: Branches given by "git branch -a" are already sorted.
-  let output = system('git branch -a')
+  let output = system(printf('git --git-dir=%s branch -a',
+  \                          fnameescape(a:git_dir)))
   if v:shell_error != 0
     echoerr 'git branch failed with the following reason:'
     echoerr output
@@ -101,14 +102,15 @@ endfunction
 
 
 
-function! s:git_ls_tree(commit_ish, leading_path)  "{{{2
+function! s:git_ls_tree(git_dir, commit_ish, leading_path)  "{{{2
   " Assumption: Objects given by "git ls-tree" are already sorted.
   let _ = []
 
-  let output = system(printf("git ls-tree '%s' '%s%s'",
-  \                          a:commit_ish,
-  \                          a:leading_path,
-  \                          (a:leading_path == '' ? '.' : '/')))
+  let output = system(printf("git --git-dir=%s ls-tree %s %s%s",
+  \                          fnameescape(a:git_dir),
+  \                          fnameescape(a:commit_ish),
+  \                          fnameescape(a:leading_path),
+  \                          fnameescape((a:leading_path == '' ? '.' : '/'))))
   if v:shell_error != 0
     echoerr 'git ls-tree failed with the following reason:'
     echoerr output
@@ -166,7 +168,7 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   endif
 
   " {commit-ish}
-  if i <= len(fragments)
+  if i < len(fragments)
     let _.given_commit_ish = fragments[i]
     let i += 1
   else
@@ -174,7 +176,7 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   endif
 
   " {path}
-  if i <= len(fragments)
+  if i < len(fragments)
     let _.path_given_p = !0
     let _.incomplete_path = join(fragments[(i):], ':')
     let i += 1
@@ -193,9 +195,10 @@ endfunction
 
 
 function! s:read_blob(_)  "{{{2
-  execute printf('read !git show ''%s:%s''',
-  \              a:_.commit_ish,
-  \              a:_.incomplete_path)
+  execute printf('read !git --git-dir=%s show %s:%s',
+  \              fnameescape(a:_.git_dir),
+  \              fnameescape(a:_.commit_ish),
+  \              fnameescape(a:_.incomplete_path))
   return 0
 endfunction
 
@@ -207,10 +210,15 @@ function! s:read_branches(_)  "{{{2
   \     'label': './',
   \     'fakepath': a:_.given_fakepath,
   \   }]
-  for branch_name in s:git_branches()
+  for branch_name in s:git_branches(a:_.git_dir)
     call add(result, {
     \      'label': branch_name,
-    \      'fakepath': printf('%s:%s:', a:_.scheme, branch_name),
+    \      'fakepath': printf('%s:%s%s:',
+    \                         a:_.scheme,
+    \                         (a:_.git_dir_given_p
+    \                          ? '@' . a:_.git_dir . ':'
+    \                          : ''),
+    \                         branch_name),
     \    })
   endfor
   return result
@@ -220,7 +228,9 @@ endfunction
 
 
 function! s:read_commit(_)  "{{{2
-  execute 'read !git show' a:_.commit_ish
+  execute printf('read !git --git-dir=%s show %s',
+  \              fnameescape(a:_.git_dir),
+  \              fnameescape(a:_.commit_ish))
   return 0
 endfunction
 
@@ -229,22 +239,25 @@ endfunction
 
 function! s:read_tree(_)  "{{{2
   let parent_path = join(split(a:_.leading_path, '/', !0)[:-2], '/')
+  let git_dir_part = a:_.git_dir_given_p ? '@' . a:_.git_dir . ':' : ''
   let result = [{
   \     'label': '../',
   \     'fakepath': (a:_.incomplete_path == ''
-  \                  ? printf('%s:', a:_.scheme)
-  \                  : printf('%s:%s:%s',
+  \                  ? printf('%s:%s', a:_.scheme, git_dir_part)
+  \                  : printf('%s:%s%s:%s',
   \                           a:_.scheme,
+  \                           git_dir_part,
   \                           a:_.given_commit_ish,
   \                           parent_path . (parent_path=='' ? '' : '/'))),
   \   }]
-  for object in s:git_ls_tree(a:_.commit_ish, a:_.incomplete_path)
+  for object in s:git_ls_tree(a:_.git_dir, a:_.commit_ish, a:_.incomplete_path)
     let path = object.path . (object.type ==# 'tree' ? '/' : '')
     let prefix_length = (a:_.leading_path == '' ? 0 : len(a:_.leading_path)+1)
     call add(result, {
     \      'label': path[(prefix_length):],
-    \      'fakepath': printf('%s:%s:%s',
+    \      'fakepath': printf('%s:%s%s:%s',
     \                         a:_.scheme,
+    \                         git_dir_part,
     \                         a:_.given_commit_ish,
     \                         path),
     \    })

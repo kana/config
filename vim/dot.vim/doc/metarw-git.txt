@@ -72,7 +72,7 @@ git:						*git:*
 	The 3rd form shows the all branches of the current repository.
 
 				       *git:@{git-dir}* *git:@{git-dir}:[...]*
-(planned) Additionally, GIT_DIR can be specified with the following notation:
+Additionally, GIT_DIR can be specified with the following notation:
 
 	git:@{git-dir}:[...]
 
