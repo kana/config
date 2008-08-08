@@ -466,8 +466,8 @@ function! s:initialize_ku_buffer()  "{{{2
   " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
 
   " User's initialization.
-  silent doautocmd User plugin-ku-buffer-initialize
-  if !exists('#User#plugin-ku-buffer-initialize')
+  silent doautocmd User plugin-ku-buffer-initialized
+  if !exists('#User#plugin-ku-buffer-initialized')
     call ku#default_key_mappings(s:FALSE)
   endif
 
