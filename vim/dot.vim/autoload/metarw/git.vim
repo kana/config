@@ -23,6 +23,7 @@
 " }}}
 " Interface  "{{{1
 function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
+  " FIXME: Support {git-dir} completion like -complete=file
   " FIXME: *nix path separator assumption
   " a:arglead always contains "git:".
   let _ = s:parse_incomplete_fakepath(a:arglead)
