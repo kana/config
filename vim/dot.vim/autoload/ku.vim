@@ -194,14 +194,18 @@ endfunction
 
 
 function! ku#start(source)  "{{{2
-  if bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
-    echoerr 'ku: Already started'
-    return s:FALSE
-  endif
   if !s:available_source_p(a:source)
     echoerr 'ku: Not a valid source name:' string(a:source)
     return s:FALSE
   endif
+
+  if bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
+    " ":Ku {source}" change the current source as a:source if ku is already
+    " active.
+    call s:switch_current_source(a:source)
+    return s:TRUE
+  endif
+
   let s:current_source = a:source
 
   " Save some values to restore the original state.
@@ -541,12 +545,18 @@ endfunction
 
 
 
-function! s:switch_current_source(shift_delta)  "{{{2
+function! s:switch_current_source(_)  "{{{2
+  " FIXME: Update the line to indicate the current source even if this
+  "        function is called in any mode other than Insert mode.
   let _ = ku#available_sources()
   let o = index(_, s:current_source)
-  let n = (o + a:shift_delta) % len(_)
-  if n < 0
-    let n += len(_)
+  if type(a:_) == type(0)
+    let n = (o + a:_) % len(_)
+    if n < 0
+      let n += len(_)
+    endif
+  else  " type(a:_) == type('')
+    let n = index(_, a:_)
   endif
 
   if o == n

@@ -76,6 +76,9 @@ COMMANDS					*ku-commands*
 :Ku {source}					*:Ku*
 			Start selecting items from {source}.
 
+			If ku is already active, change the current source as
+			{source} directly.
+
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
