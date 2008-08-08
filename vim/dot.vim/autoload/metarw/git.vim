@@ -26,21 +26,24 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   " FIXME: *nix path separator assumption
   " a:arglead always contains "git:".
   let _ = s:parse_incomplete_fakepath(a:arglead)
+  let git_dir_part = _.git_dir_given_p ? '@' . _.git_dir . ':' : ''
 
   let candidates = []
   if _.path_given_p  " git:{commit-ish}:{path} -- complete {path}.
-    for object in s:git_ls_tree(_.commit_ish, _.leading_path)
+    for object in s:git_ls_tree(_.git_dir, _.commit_ish, _.leading_path)
       call add(candidates,
-      \        printf('%s:%s:%s%s',
+      \        printf('%s:%s%s:%s%s',
       \               _.scheme,
+      \               git_dir_part,
       \               _.given_commit_ish,
       \               object.path,
       \               (object.type ==# 'tree' ? '/' : '')))
     endfor
   else  " git:{commit-ish} -- complete {commit-ish}.
     " sort by remote branches or not.
-    for branch_name in s:git_branches()
-      call add(candidates, printf('%s:%s:', _.scheme, branch_name))
+    for branch_name in s:git_branches(_.git_dir)
+      call add(candidates,
+      \        printf('%s:%s%s:', _.scheme, git_dir_part, branch_name))
     endfor
   endif
 
