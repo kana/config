@@ -199,7 +199,7 @@ function! ku#start(source)  "{{{2
     return s:FALSE
   endif
 
-  if bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
+  if s:ku_active_p()
     " ":Ku {source}" change the current source as a:source if ku is already
     " active.
     call s:switch_current_source(a:source)
@@ -973,6 +973,13 @@ function! s:getkey()  "{{{2
   endwhile
 
   return k
+endfunction
+
+
+
+
+function! s:ku_active_p()  "{{{2
+  return bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
 endfunction
 
 
