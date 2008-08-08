@@ -297,13 +297,27 @@ DEFAULT KEY TABLE				*ku-default-key-table*
 
 Key		Action ~
 --------	--------
-/		cd	|ku-action-cd|
-:		ex	|ku-action-ex|
-;		ex	|ku-action-ex|
-<C-c>		cancel	|ku-action-cancel|
-<Esc>		cancel	|ku-action-cancel|
-<Return>	default	|ku-action-default|
-?		lcd	|ku-action-lcd|
+/		cd		|ku-action-cd|
+:		ex		|ku-action-ex|
+;		ex		|ku-action-ex|
+<C-c>		cancel		|ku-action-cancel|
+<C-h>		left		|ku-action-left|
+<C-j>		below		|ku-action-below|
+<C-k>		above		|ku-action-above|
+<C-l>		right		|ku-action-right|
+<C-t>		tab-Right	|ku-action-tab-Right|
+<Esc>		cancel		|ku-action-cancel|
+<Return>	default		|ku-action-default|
+?		lcd		|ku-action-lcd|
+H		Left		|ku-action-Left|
+J		Bottom		|ku-action-Bottom|
+K		Top		|ku-action-Top|
+L		Right		|ku-action-Right|
+h		left		|ku-action-left|
+j		below		|ku-action-below|
+k		above		|ku-action-above|
+l		right		|ku-action-right|
+t		tab-Right	|ku-action-tab-Right|
 
 
 ------------------------------------------------------------------------------

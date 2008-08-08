@@ -61,23 +61,9 @@ endfunction
 
 function! ku#file#key_table()  "{{{2
   return {
-  \   "\<C-h>": 'left',
-  \   "\<C-j>": 'below',
-  \   "\<C-k>": 'above',
-  \   "\<C-l>": 'right',
   \   "\<C-o>": 'open',
-  \   "\<C-t>": 'tab-Right',
-  \   'H': 'Left',
-  \   'J': 'Bottom',
-  \   'K': 'Top',
-  \   'L': 'Right',
   \   'O': 'open!',
-  \   'h': 'left',
-  \   'j': 'below',
-  \   'k': 'above',
-  \   'l': 'right',
   \   'o': 'open',
-  \   't': 'tab-Right',
   \ }
 endfunction
 

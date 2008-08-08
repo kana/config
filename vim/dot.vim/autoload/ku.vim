@@ -847,12 +847,26 @@ endfunction
 function! s:default_key_table()  "{{{3
   return {
   \   "\<C-c>": 'cancel',
+  \   "\<C-h>": 'left',
+  \   "\<C-j>": 'below',
+  \   "\<C-k>": 'above',
+  \   "\<C-l>": 'right',
+  \   "\<C-t>": 'tab-Right',
   \   "\<Esc>": 'cancel',
   \   "\<Return>": 'default',
   \   '/': 'cd',
   \   ':': 'ex',
   \   ';': 'ex',
   \   '?': 'lcd',
+  \   'H': 'Left',
+  \   'J': 'Bottom',
+  \   'K': 'Top',
+  \   'L': 'Right',
+  \   'h': 'left',
+  \   'j': 'below',
+  \   'k': 'above',
+  \   'l': 'right',
+  \   't': 'tab-Right',
   \ }
 endfunction
 

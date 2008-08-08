@@ -73,26 +73,12 @@ endfunction
 
 function! ku#buffer#key_table()  "{{{2
   return {
-  \   "\<C-h>": 'left',
-  \   "\<C-j>": 'below',
-  \   "\<C-k>": 'above',
-  \   "\<C-l>": 'right',
   \   "\<C-o>": 'open',
-  \   "\<C-t>": 'tab-Right',
   \   'D': 'delete',
-  \   'H': 'Left',
-  \   'J': 'Bottom',
-  \   'K': 'Top',
-  \   'L': 'Right',
   \   'O': 'open!',
   \   'U': 'unload',
   \   'W': 'wipeout',
-  \   'h': 'left',
-  \   'j': 'below',
-  \   'k': 'above',
-  \   'l': 'right',
   \   'o': 'open',
-  \   't': 'tab-Right',
   \ }
 endfunction
 
