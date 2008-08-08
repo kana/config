@@ -2057,29 +2057,21 @@ let s:on_FileType_xml_comment_dispatch_data = {
 " Plugins  "{{{1
 " ku  "{{{2
 
-autocmd MyAutoCmd User KuLoaded  call s:on_User_KuLoaded()
-function! s:on_User_KuLoaded()
-  function! s:ku_type_any_action_my_cd(item)
+autocmd MyAutoCmd User plugin-ku-buffer-initialized
+\ call s:on_User_plugin_ku_buffer_initialized()
+function! s:on_User_plugin_ku_buffer_initialized()
+  function! s:ku_common_action_my_cd(item)
     " FIXME: escape special characters.
     if isdirectory(a:item.word)
       execute 'CD' a:item.word
-    elseif filereadable(a:item.word)
+    else  " treat a:item as a file name
       execute 'CD' fnamemodify(a:item.word, ':h')
-    else
-      echo printf('Item %s (type: %s) is not a file or directory.',
-      \           a:item.word, a:item._ku_type.name)
     endif
   endfunction
 
-  call ku#custom_action('*fallback*', 'cd',
-  \                     function(s:SID_PREFIX() . 'ku_type_any_action_my_cd'))
-endfunction
-
-
-autocmd MyAutoCmd User KuBufferInitialize
-\ call s:on_User_KuBufferInitialize()
-function! s:on_User_KuBufferInitialize()
-  call ku#default_key_mappings()
+  call ku#custom_action('common', 'cd',
+  \                     function(s:SID_PREFIX() . 'ku_common_action_my_cd'))
+  call ku#default_key_mappings(s:TRUE)
 endfunction
 
 
