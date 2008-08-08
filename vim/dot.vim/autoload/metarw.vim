@@ -94,7 +94,7 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
     " The current, newly created, buffer should be treated as a special one,
     " so some options must be set even if metarw#{a:scheme}#read() is failed.
     if _[0] ==# 'read'
-      execute 'read' _[1]
+      call s:read(_[1])
     endif
     1 delete _
     filetype detect
@@ -133,7 +133,7 @@ function! s:on_FileReadCmd(scheme, fakepath)  "{{{3
   if _[0] ==# 'browse'
     call append(line('.'), map(_[1], 'v:val.fakepath'))
   elseif _[0] ==# 'read'
-    execute 'read' _[1]
+    call s:read(_[1])
   else
     " ignore
   endif
@@ -195,6 +195,14 @@ function! s:available_schemes()  "{{{2
   \        split(globpath(&runtimepath, 'autoload/metarw/*.vim'), "\n"),
   \        'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', '''')'
   \      ))
+endfunction
+
+
+
+
+function! s:read(arg)  "{{{2
+  execute 'read' a:arg
+  return
 endfunction
 
 
