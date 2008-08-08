@@ -159,10 +159,14 @@ endfunction
 
 
 function! ku#default_event_handler(event, ...)  "{{{2
-  " a:event ==# 'SourceEnter'
-  " a:event ==# 'SourceLeave'
-  "   Nothing to do.
-  return
+  if a:event ==# 'BeforeAction'
+    return a:1
+  else
+    " a:event ==# 'SourceEnter'
+    " a:event ==# 'SourceLeave'
+    "   Nothing to do.
+    return
+  endif
 endfunction
 
 
@@ -695,7 +699,8 @@ endfunction
 
 
 function! s:do_action(action, item)  "{{{3
-  call function(s:get_action_function(a:action))(a:item)
+  let item = ku#{s:current_source}#event_handler('BeforeAction', a:item)
+  call function(s:get_action_function(a:action))(item)
   return s:TRUE
 endfunction
 

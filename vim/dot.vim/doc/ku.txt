@@ -324,6 +324,23 @@ ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 
 				Return value is ignored.
 
+			"BeforeAction"
+				Just before an action is executed.
+
+				For this event, an extra argument is given to
+				an event handler.  It is a dictionary which
+				represents the item to be primarily passed to
+				the action.
+
+				An event handler must return a dictionary
+				which represents an item.  This item will be
+				passed to the action instead of the item given
+				to the event handler.  Note that if you want
+				to pass a modified item based on the given
+				item, you must not modify the given item
+				in-place.  Because items may be cached by
+				{source}.
+
 			If ku#{source}#event_handler() doesn't handle one or
 			more events, it must call ku#default_event_handler()
 			with the same arguments and it must return the return
