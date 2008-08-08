@@ -86,7 +86,6 @@ endfunction
 "        +{cmd} is handled by Vim.
 function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
   " BufReadCmd is published by :edit or other commands.
-  " FIXME: API to implement file-manager like buffer.
   silent let _ = metarw#{a:scheme}#read(a:fakepath)
 
   if type(_) == type([])
