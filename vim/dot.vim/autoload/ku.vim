@@ -848,7 +848,7 @@ endfunction
 function! s:metarw_gather_items(scheme, pattern)
   " a:pattern is not always prefixed with "{scheme}:".
   let _ = a:scheme . ':' . a:pattern
-  return map(metarw#{a:scheme}#complete(_, _, 0),
+  return map(metarw#{a:scheme}#complete(_, _, 0)[0],
   \          '{"word": matchstr(v:val, ''^'' . a:scheme . '':\zs.*$'')}')
 endfunction
 
