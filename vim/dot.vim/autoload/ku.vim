@@ -338,9 +338,9 @@ function! s:do(choose_p)  "{{{2
       endif
     endfor
     if !exists('item')
-      echomsg 'Internal error: No match found in s:last_completed_items'
-      echomsg 'current_user_input' string(current_user_input)
-      echomsg 's:last_user_input' string(s:last_user_input)
+      echoerr 'Internal error: No match found in s:last_completed_items'
+      echoerr 'current_user_input' string(current_user_input)
+      echoerr 's:last_user_input' string(s:last_user_input)
       throw 'ku:e1'
     endif
   else
