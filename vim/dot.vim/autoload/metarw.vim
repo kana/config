@@ -110,7 +110,7 @@ endfunction
 function! s:on_BufWriteCmd(scheme, fakepath)  "{{{3
   " BufWriteCmd is published by :write or other commands with 1,$ range.
   let _ = metarw#{a:scheme}#write(a:fakepath, 1, line('$'), s:FALSE)
-  if _[0] is s:TRUE && a:fakepath !=# bufname('')
+  if _[0] is s:TRUE && a:fakepath ==# bufname('')
     " The whole buffer has been saved to the current fakepath,
     " so 'modified' should be reset.
     setlocal nomodified
