@@ -669,16 +669,15 @@ function! s:choose_action()  "{{{3
   echo 'What action?'
 
   " Take user input.
-  let c = getchar()  " FIXME: support <Esc>{x} typed by <M-{x}>
-  let c = (type(c) is type(0) ? nr2char(c) : c)
+  let k = s:getkey()
   redraw  " clear the menu message lines to avoid hit-enter prompt.
 
-  " Return the action bound to the key c.
-  if has_key(KEY_TABLE, c)
-    return KEY_TABLE[c]
+  " Return the action bound to the key k.
+  if has_key(KEY_TABLE, k)
+    return KEY_TABLE[k]
   else
     " FIXME: loop to rechoose?
-    echo 'The key' string(c) 'is not associated with any action'
+    echo 'The key' string(k) 'is not associated with any action'
     \    '-- nothing happened.'
     return 'nop'
   endif
@@ -808,6 +807,25 @@ endfunction
 
 function! s:available_source_p(source)  "{{{2
   return 0 <= index(ku#available_sources(), a:source)
+endfunction
+
+
+
+
+function! s:getkey()  "{{{2
+  " Alternative getchar() to get a logical key such as <F1> and <M-{x}>.
+  let k = ''
+
+  let c = getchar()
+  while s:TRUE
+    let k .= type(c) == type(0) ? nr2char(c) : c
+    let c = getchar(0)
+    if c is 0
+      break
+    endif
+  endwhile
+
+  return k
 endfunction
 
 
