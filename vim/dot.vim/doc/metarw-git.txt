@@ -88,7 +88,8 @@ BUGS						*metarw-git-bugs*
 - Whenever you do |:cd|, the content of buffers opened via metarw-git without
   {git-dir} may be changed if they are reloaded.
 
-- Should metarw-git have options on output format?  Leave them to git?
+- metarw-git should complete {git-dir} in |metarw-git-notations| but it
+  doesn't support yet.
 
 - There are many bugs around the world.
 
