@@ -158,6 +158,16 @@ endfunction
 
 
 
+function! ku#default_event_handler(event, ...)  "{{{2
+  " a:event ==# 'SourceEnter'
+  " a:event ==# 'SourceLeave'
+  "   Nothing to do.
+  return
+endfunction
+
+
+
+
 function! ku#default_key_mappings(override_p)  "{{{2
   let _ = a:override_p ? '' : '<unique>'
   call s:ni_map(_, '<buffer> <C-c>', '<Plug>(ku-cancel)')
@@ -207,7 +217,7 @@ function! ku#start(source)  "{{{2
     call s:initialize_ku_buffer()
   endif
   2 wincmd _
-  call ku#{s:current_source}#on_start_session()
+  call ku#{s:current_source}#event_handler('SourceEnter')
 
   " Set some options
   set completeopt=menu,menuone
@@ -367,7 +377,7 @@ function! s:end()  "{{{2
   endif
   let s:_end_locked_p = s:TRUE
 
-  call ku#{s:current_source}#on_end_session()
+  call ku#{s:current_source}#event_handler('SourceLeave')
   close
 
   let &completeopt = s:completeopt
@@ -532,8 +542,8 @@ function! s:switch_current_source(shift_delta)  "{{{2
     return s:FALSE
   endif
 
-  call ku#{_[o]}#on_end_session()
-  call ku#{_[n]}#on_start_session()
+  call ku#{_[o]}#event_handler('SourceLeave')
+  call ku#{_[n]}#event_handler('SourceEnter')
 
   let s:current_source = _[n]
   return s:TRUE

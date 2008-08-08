@@ -305,17 +305,33 @@ directory in 'runtimepath'.  The names of sources are same as their file names
 without the ".vim" extension.  The names of sources should consist of lower
 cases only.  Sources must provide the following functions:
 
-ku#{source}#on_start_session()		      *ku#{source}#on_start_session()*
-			Function which is called whenever the current source
-			is switched from another source to {source} or the
-			|ku-window| is open if the current source is {source}.
+ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
+			Function which is called whenever an interesting event
+			is happened.  {event} is a string which represents
+			what event is occurred.
 
-ku#{source}#on_end_session()			*ku#{source}#on_end_session()*
-			Function which is called whenever the current source
-			is switched from {source} to another source or the
-			|ku-window| is closed if the current source is
-			{source}.
+			"SourceEnter"
+				The current source is switched from another
+				source to {source}, or the |ku-window| is open
+				and the the current source is {source}.
 
+				Return value is ignored.
+
+			"SourceLeave"
+				The current source is switched from {source}
+				to another source, or the |ku-window| is
+				closed and the the current source is {source}.
+
+				Return value is ignored.
+
+			If ku#{source}#event_handler() doesn't handle one or
+			more events, it must call ku#default_event_handler()
+			with the same arguments and it must return the return
+			value of that calling.  For example:
+>
+				return call('ku#default_event_handler',
+				\           [a:event] + a:000)
+<
 ku#{source}#action_table()			*ku#{source}#action_table()*
 			Return the default action table for {souce}.  See also
 			|ku-action-table|.

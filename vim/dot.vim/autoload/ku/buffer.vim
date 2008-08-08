@@ -33,29 +33,25 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#buffer#on_start_session()  "{{{2
-  " FIXME: better caching
-  let _ = []
-  for i in range(1, bufnr('$'))
-    if bufexists(i) && buflisted(i)
-      call add(_, {
-      \      'word': bufname(i),
-      \      'menu': printf('buffer %*d', len(bufnr('$')), i),
-      \      'dup': 1,
-      \      '_buffer_nr': i,
-      \    })
-    endif
-  endfor
-  let s:cached_items = _
-  return
-endfunction
-
-
-
-
-function! ku#buffer#on_end_session()  "{{{2
-  " Nothing to do.
-  return
+function! ku#buffer#event_handler(event, ...)  "{{{2
+  if a:event ==# 'SourceEnter'
+    " FIXME: better caching
+    let _ = []
+    for i in range(1, bufnr('$'))
+      if bufexists(i) && buflisted(i)
+        call add(_, {
+        \      'word': bufname(i),
+        \      'menu': printf('buffer %*d', len(bufnr('$')), i),
+        \      'dup': 1,
+        \      '_buffer_nr': i,
+        \    })
+      endif
+    endfor
+    let s:cached_items = _
+    return
+  else
+    return call('ku#default_event_handler', [a:event] + a:000)
+  endif
 endfunction
 
 
