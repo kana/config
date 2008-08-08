@@ -91,7 +91,7 @@ endif
 
 " Interface  "{{{1
 function! ku#available_sources()  "{{{2
-  let _ = getftime(split(globpath(&runtimepath, 'autoload/'))[0])
+  let _ = getftime(split(globpath(&runtimepath, 'autoload/ku/'))[0])
   if len(s:available_sources) == 0 || s:sources_directory_timestamp != _
     let s:sources_directory_timestamp = _
     let s:available_sources = sort(map(
