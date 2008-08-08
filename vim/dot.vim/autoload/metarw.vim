@@ -38,7 +38,11 @@ function! metarw#complete(arglead, cmdline, cursorpos)  "{{{2
   let scheme = s:scheme_of(a:arglead)
   if scheme != ''
     if s:available_scheme_p(scheme)
-      let _ = metarw#{scheme}#complete(a:arglead, a:cmdline, a:cursorpos)
+      let [_, head_part, tail_part] =
+      \     metarw#{scheme}#complete(a:arglead, a:cmdline, a:cursorpos)
+        " FIXME: support wildcard like -complete=file to filter candidates
+      let _ = filter(copy(_),
+      \              'stridx(v:val,tail_part,len(head_part))==len(head_part)')
     else
       echoerr 'No such scheme:' string(scheme)
       let _ = []

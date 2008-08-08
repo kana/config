@@ -39,17 +39,26 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
       \               object.path,
       \               (object.type ==# 'tree' ? '/' : '')))
     endfor
+    let head_part = printf('%s:%s%s:%s%s',
+    \                      _.scheme,
+    \                      _.git_dir_part,
+    \                      _.given_commit_ish,
+    \                      _.leading_path,
+    \                      _.leading_path == '' ? '' : '/')
+    let tail_part = _.last_component
   else  " git:{commit-ish} -- complete {commit-ish}.
     " sort by remote branches or not.
     for branch_name in s:git_branches(_.git_dir)
       call add(candidates,
       \        printf('%s:%s%s:', _.scheme, _.git_dir_part, branch_name))
     endfor
+    let head_part = printf('%s:%s',
+    \                      _.scheme,
+    \                      _.git_dir_part)
+    let tail_part = _.given_commit_ish
   endif
 
-    " FIXME: support wildcards to filter like -complete=file.
-    " keep candidates which start with a:arglead.
-  return filter(candidates, 'stridx(v:val, a:arglead) == 0')
+  return [candidates, head_part, tail_part]
 endfunction
 
 
@@ -157,6 +166,7 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   "
   " incomplete_path     {path} in a:incomplete_fakepath
   " leading_path        _.incomplete_path without the last component
+  " last_component      the last component in _.incomplete_path
   " path_given_p        a:incomplete_fakepath in 'git:{commit-ish}:...' form
   let _ = {}
 
@@ -202,6 +212,7 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
 
   let _.commit_ish = (_.given_commit_ish == '' ? 'HEAD' : _.given_commit_ish)
   let _.leading_path = join(split(_.incomplete_path, '/', !0)[:-2], '/')
+  let _.last_component = join(split(_.incomplete_path, '/', !0)[-1:], '')
 
   return _
 endfunction

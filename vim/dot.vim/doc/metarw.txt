@@ -139,9 +139,29 @@ have to think about troublesome stuffs.
 
 						*metarw#{scheme}#complete()*
 metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
-			Complete the names of fakepaths.  See
-			|:command-completion-customlist| for the detail of
-			arguments and returning values of this function.
+			Complete the names of fakepaths.  This function is
+			like the one which is described at
+			|:command-completion-customlist|, but there are the
+			following differences:
+
+			- {arglead} is split into "head" part and "tail" part.
+			  They must fulfill the following equation:
+				{arglead} ==# head_part . tail_part
+			- This function must complete candidates which are
+			  conteind in a stuff represented by the "head" part.
+			- Return value is a list with 3 items.
+			  The first item is a list of candidates.
+			  The second item is the "head" part.
+			  The third item is the "tail" part.
+			- Returned candidates will be filtered by callers.  So
+			  don't filter in this function.
+
+			For example, when completing file names and {arglead}
+			is "foo/b":
+			- The "head" part is "foo/".
+			- The "tail" part is "b".
+			- This function must complete files in the directory
+			  "foo/".
 
 metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
