@@ -117,6 +117,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
+  $(PACKAGE_vim_metarw_git_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
@@ -170,6 +171,7 @@ ALL_PACKAGES=\
   vim-idwintab \
   vim-ku \
   vim-metarw \
+  vim-metarw-git \
   vim-narrow \
   vim-scratch \
   vim-skeleton \
@@ -235,10 +237,14 @@ PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.0
 PACKAGE_vim_metarw_BASE=vim/dot.vim
 PACKAGE_vim_metarw_FILES=\
   vim/dot.vim/autoload/metarw.vim \
-  vim/dot.vim/autoload/metarw/git.vim \
   vim/dot.vim/doc/metarw.txt \
-  vim/dot.vim/doc/metarw-git.txt \
   vim/dot.vim/plugin/metarw.vim
+
+PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.0
+PACKAGE_vim_metarw_git_BASE=vim/dot.vim
+PACKAGE_vim_metarw_git_FILES=\
+  vim/dot.vim/autoload/metarw/git.vim \
+  vim/dot.vim/doc/metarw-git.txt
 
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2
 PACKAGE_vim_narrow_BASE=vim/dot.vim
