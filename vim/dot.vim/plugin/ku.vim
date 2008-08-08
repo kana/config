@@ -32,6 +32,8 @@ endif
 command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
 \ call ku#start(<q-args>)
 
+command! -bar -nargs=1 KuDoAction  call ku#do_action(<q-args>)
+
 
 
 

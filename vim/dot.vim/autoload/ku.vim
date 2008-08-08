@@ -193,6 +193,13 @@ endfunction
 
 
 
+function! ku#do_action(name)  "{{{2
+  return s:do(a:name)
+endfunction
+
+
+
+
 function! ku#start(source)  "{{{2
   if !s:available_source_p(a:source)
     echoerr 'ku: Not a valid source name:' string(a:source)

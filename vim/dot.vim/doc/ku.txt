@@ -79,6 +79,10 @@ COMMANDS					*ku-commands*
 			If ku is already active, change the current source as
 			{source} directly.
 
+:KuDoAction {name}
+			Do the action named as {name} for the current item.
+			This function does work only while ku is active.
+
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
@@ -140,6 +144,9 @@ ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 ku#available_sources()				*ku#available_sources()*
 			Return a list of strings which represents the names of
 			available sources.
+
+ku#do_action({name})				*ku#do_action()*
+			Function version of |:KuDoAction|.
 
 
 ------------------------------------------------------------------------------
