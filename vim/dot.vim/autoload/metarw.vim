@@ -66,10 +66,10 @@ function! metarw#_event_handler(event_name)  "{{{2
   endif
 
   let _ = s:on_{a:event_name}(scheme, fakepath)
-  if type(_) == type('')
-    echoerr _.':' fakepath
+  if _[0] is s:FALSE
+    echoerr _[1].':' fakepath
   endif
-  return _ is 0
+  return _[0] is s:TRUE
 endfunction
 
 
@@ -88,11 +88,14 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
   " BufReadCmd is published by :edit or other commands.
   silent let _ = metarw#{a:scheme}#read(a:fakepath)
 
-  if type(_) == type([])
-    let result = s:set_up_content_browser_buffer(a:fakepath, _)
-  else  " _ is 0 || type(_) == type('')
+  if _[0] is s:TRUE && type(_[1]) == type([])
+    let result = s:set_up_content_browser_buffer(a:fakepath, _[1])
+  else
     " The current, newly created, buffer should be treated as a special one,
     " so some options must be set even if metarw#{a:scheme}#read() is failed.
+    if _[0] is s:TRUE
+      execute 'read' _[1]
+    endif
     1 delete _
     filetype detect
     setlocal buftype=acwrite
@@ -107,7 +110,7 @@ endfunction
 function! s:on_BufWriteCmd(scheme, fakepath)  "{{{3
   " BufWriteCmd is published by :write or other commands with 1,$ range.
   let _ = metarw#{a:scheme}#write(a:fakepath, 1, line('$'), s:FALSE)
-  if _ is 0 && a:fakepath !=# bufname('')
+  if _[0] is s:TRUE && a:fakepath !=# bufname('')
     " The whole buffer has been saved to the current fakepath,
     " so 'modified' should be reset.
     setlocal nomodified
@@ -127,10 +130,14 @@ function! s:on_FileReadCmd(scheme, fakepath)  "{{{3
   " FileReadCmd is published by :read.
   " FIXME: range must be treated at here.  e.g. 0 read fake:path
   silent let _ = metarw#{a:scheme}#read(a:fakepath)
-  if type(_) == type([])
-    call append(line('.'), map(_, 'v:val.fakepath'))
+  if _[0] is s:TRUE
+    if type(_[1]) == type([])
+      call append(line('.'), map(_[1], 'v:val.fakepath'))
+    else  " type(_[1]) == type('')
+      execute 'read' _[1]
+    endif
   endif
-  return type(_) == type('') ? _ : 0
+  return _
 endfunction
 
 
@@ -148,7 +155,8 @@ function! s:on_SourceCmd(scheme, fakepath)  "{{{3
   let tabpagenr = tabpagenr()
   silent tabnew `=tmp`
     let _ = s:on_BufReadCmd(a:scheme, a:fakepath)
-    if _ is 0
+    if _[0] is s:TRUE
+      " FIXME: Update "_" if an error is happened in this clause.
       silent write
       execute 'source'.(v:cmdbang ? '!' : '') '%'
     endif
@@ -228,7 +236,7 @@ function! s:set_up_content_browser_buffer(fakepath, items)  "{{{2
     nmap <buffer> -  <Plug>(metarw-go-to-parent)
   endif
 
-  return 0
+  return [s:TRUE, 0]
 endfunction
 
 

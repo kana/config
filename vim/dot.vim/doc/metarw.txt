@@ -145,14 +145,26 @@ metarw#{scheme}#complete({arglead}, {cmdline}, {cursorpos})
 
 metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
-			This function returns:
-			- 0 if it reads the content by |:read| or other ways.
-			- a list if it want to set up |metarw-content-browser|.
-			- a string as an error message if it fails.
 
-			If return value is a list, each item in the list
-			is a dictionary which represents an item in
-			{fakepath}.  The meaning of key-value pairs are:
+			This function must return a list with two items.  The
+			first item indicates whether the function succeeds or
+			fails.
+
+				If the first item is true, the second item
+				must be:
+				- a string to be given as arguments of |:read|
+				  to read the content of {fakepath}, or
+				- a list if it want to set up
+				  |metarw-content-browser|.
+
+				If the first item is false, the second item
+				must be:
+				- a string which represents an error message.
+
+			If the second item of return value is a list, each
+			item in the list is a dictionary which represents an
+			item in {fakepath}.  The meaning of key-value pairs
+			are:
 
 			"label" (string) /required/
 				Displayed as the label of the item.
@@ -161,7 +173,7 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 				Used to open an item by
 				|<Plug>(metarw-open-here)| or other ways.
 
-			And, the 0th item should be the "parent" of
+			And, the first item should be the "parent" of
 			{fakepath}.  This item is used for
 			|<Plug>(metarw-go-to-parent)|.
 
@@ -173,8 +185,10 @@ metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			{line1} to {lin2} into {fakepath}.  If {append-p} is
 			true, does appending instead of writing.
 
-			Return 0 on success, or a string as an error message
-			on failure.
+			This function must return a list with two items like
+			|metarw#{scheme}#read()|, but the second item must be
+			0 on success or a string as an error message on
+			failure.
 
 			Don't reset 'modified' in this function.  It will be
 			automatically treated by metarw.

@@ -70,14 +70,16 @@ function! metarw#git#read(fakepath)  "{{{2
       let result = s:read_branches(_)
     endif
   endif
-  return result
+
+  " FIXME: return error message on failure instead of :echoerr'ing.
+  return [!0, result]
 endfunction
 
 
 
 
 function! metarw#git#write(fakepath, line1, line2, append_p)  "{{{2
-  return 'Writing to an object is not supported'
+  return [!!0, 'Writing to an object is not supported']
 endfunction
 
 
@@ -208,11 +210,10 @@ endfunction
 
 
 function! s:read_blob(_)  "{{{2
-  execute printf('read !git --git-dir=%s show %s:%s',
-  \              fnameescape(a:_.git_dir),
-  \              fnameescape(a:_.commit_ish),
-  \              fnameescape(a:_.incomplete_path))
-  return 0
+  return printf('!git --git-dir=%s show %s:%s',
+  \             fnameescape(a:_.git_dir),
+  \             fnameescape(a:_.commit_ish),
+  \             fnameescape(a:_.incomplete_path))
 endfunction
 
 
@@ -239,10 +240,9 @@ endfunction
 
 
 function! s:read_commit(_)  "{{{2
-  execute printf('read !git --git-dir=%s show %s',
-  \              fnameescape(a:_.git_dir),
-  \              fnameescape(a:_.commit_ish))
-  return 0
+  return printf('!git --git-dir=%s show %s',
+  \             fnameescape(a:_.git_dir),
+  \             fnameescape(a:_.commit_ish))
 endfunction
 
 
