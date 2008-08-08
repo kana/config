@@ -217,7 +217,6 @@ function! ku#start(source)  "{{{2
     call s:initialize_ku_buffer()
   endif
   2 wincmd _
-  call ku#{s:current_source}#event_handler('SourceEnter')
 
   " Set some options
   set completeopt=menu,menuone
@@ -231,6 +230,7 @@ function! ku#start(source)  "{{{2
   " Start Insert mode.
   call feedkeys('i', 'n')
 
+  call ku#{s:current_source}#event_handler('SourceEnter')
   return s:TRUE
 endfunction
 
