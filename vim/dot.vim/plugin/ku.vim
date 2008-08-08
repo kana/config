@@ -30,7 +30,7 @@ endif
 
 
 command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
-\ call ku#start('<args>')
+\ call ku#start(<q-args>)
 
 
 
