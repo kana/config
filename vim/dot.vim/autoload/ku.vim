@@ -374,6 +374,7 @@ function! s:do(choose_p)  "{{{2
   " ku window.
   call s:end()
 
+  let item = s:api(s:current_source, 'event_handler', 'BeforeAction', item)
   call s:do_action(action, item)
   return
 endfunction
@@ -705,8 +706,8 @@ endfunction
 
 
 function! s:do_action(action, item)  "{{{3
-  let item = s:api(s:current_source, 'event_handler', 'BeforeAction', a:item)
-  call function(s:get_action_function(a:action))(item)
+  " Assumption: BeforeAction is already applied for a:item.
+  call function(s:get_action_function(a:action))(a:item)
   return s:TRUE
 endfunction
 
@@ -731,6 +732,54 @@ endfunction
 
 
 " Default actions  "{{{2
+" "default" variants with :split "{{{3
+function! s:with_split(direction_modifier, item)
+  let v:errmsg = ''
+  execute a:direction_modifier 'split'
+  if v:errmsg == ''
+    call s:do_action('default', a:item)
+  endif
+  return
+endfunction
+
+function! s:_default_action_Bottom(item)
+  return s:with_split('botright', a:item)
+endfunction
+function! s:_default_action_Left(item)
+  return s:with_split('vertical topleft', a:item)
+endfunction
+function! s:_default_action_Right(item)
+  return s:with_split('vertical botright', a:item)
+endfunction
+function! s:_default_action_Top(item)
+  return s:with_split('topleft', a:item)
+endfunction
+function! s:_default_action_above(item)
+  return s:with_split('aboveleft', a:item)
+endfunction
+function! s:_default_action_below(item)
+  return s:with_split('belowright', a:item)
+endfunction
+function! s:_default_action_left(item)
+  return s:with_split('vertical leftabove', a:item)
+endfunction
+function! s:_default_action_right(item)
+  return s:with_split('vertical rightbelow', a:item)
+endfunction
+function! s:_default_action_tab_Left(item)
+  return s:with_split('0 tab', a:item)
+endfunction
+function! s:_default_action_tab_Right(item)
+  return s:with_split(tabpagenr('$') . ' tab', a:item)
+endfunction
+function! s:_default_action_tab_left(item)
+  return s:with_split((tabpagenr() - 1) . ' tab', a:item)
+endfunction
+function! s:_default_action_tab_right(item)
+  return s:with_split('tab', a:item)
+endfunction
+
+
 function! s:_default_action_cd(item)  "{{{3
   cd `=fnamemodify(a:item.word, ':p:h')`
   return
@@ -766,11 +815,23 @@ endfunction
 
 function! s:default_action_table()  "{{{3
   return {
+  \   'Bottom': 's:_default_action_Bottom',
+  \   'Left': 's:_default_action_Left',
+  \   'Right': 's:_default_action_Right',
+  \   'Top': 's:_default_action_Top',
+  \   'above': 's:_default_action_above',
+  \   'below': 's:_default_action_below',
   \   'cancel': 's:_default_action_nop',
   \   'cd': 's:_default_action_cd',
   \   'ex': 's:_default_action_ex',
   \   'lcd': 's:_default_action_lcd',
+  \   'left': 's:_default_action_left',
   \   'nop': 's:_default_action_nop',
+  \   'right': 's:_default_action_right',
+  \   'tab-Left': 's:_default_action_tab_Left',
+  \   'tab-Right': 's:_default_action_tab_Right',
+  \   'tab-left': 's:_default_action_tab_left',
+  \   'tab-right': 's:_default_action_tab_right',
   \ }
 endfunction
 

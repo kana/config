@@ -50,21 +50,9 @@ endfunction
 
 function! ku#file#action_table()  "{{{2
   return {
-  \   'Bottom': 'ku#file#action_Bottom',
-  \   'Left': 'ku#file#action_Left',
-  \   'Right': 'ku#file#action_Right',
-  \   'Top': 'ku#file#action_Top',
-  \   'above': 'ku#file#action_above',
-  \   'below': 'ku#file#action_below',
   \   'default': 'ku#file#action_open',
-  \   'left': 'ku#file#action_left',
   \   'open!': 'ku#file#action_open_x',
   \   'open': 'ku#file#action_open',
-  \   'right': 'ku#file#action_right',
-  \   'tab-Left': 'ku#file#action_tab_Left',
-  \   'tab-Right': 'ku#file#action_tab_Right',
-  \   'tab-left': 'ku#file#action_tab_left',
-  \   'tab-right': 'ku#file#action_tab_right',
   \ }
 endfunction
 
@@ -132,100 +120,22 @@ endfunction
 
 
 " Misc.  "{{{1
-function! s:open(direction_modifier, item)  "{{{2
-  " FIXME: mostly same as ku#buffer's one.
-  if a:direction_modifier !~# '^here\>'
-    execute a:direction_modifier 'split'
-  endif
-  let bang = (a:direction_modifier =~# '!$' ? '!' : '')
-
-  execute 'edit'.bang '`=fnameescape(a:item.word)`'
+function! s:open(bang, item)  "{{{2
+  execute 'edit'.a:bang '`=fnameescape(a:item.word)`'
 endfunction
 
 
 
 
 " Actions  "{{{2
-function! ku#file#action_Bottom(item)  "{{{3
-  call s:open('botright', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_Left(item)  "{{{3
-  call s:open('vertical topleft', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_Right(item)  "{{{3
-  call s:open('vertical botright', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_Top(item)  "{{{3
-  call s:open('topleft', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_above(item)  "{{{3
-  call s:open('aboveleft', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_below(item)  "{{{3
-  call s:open('belowright', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_left(item)  "{{{3
-  call s:open('vertical aboveleft', a:item)
-  return
-endfunction
-
-
 function! ku#file#action_open(item)  "{{{3
-  call s:open('here', a:item)
+  call s:open('', a:item)
   return
 endfunction
 
 
 function! ku#file#action_open_x(item)  "{{{3
-  call s:open('here!', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_right(item)  "{{{3
-  call s:open('vertical belowright', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_tab_Left(item)  "{{{3
-  call s:open('0 tab', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_tab_Right(item)  "{{{3
-  call s:open(tabpagenr('$') . ' tab', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_tab_left(item)  "{{{3
-  call s:open((tabpagenr() - 1) . ' tab', a:item)
-  return
-endfunction
-
-
-function! ku#file#action_tab_right(item)  "{{{3
-  call s:open('tab', a:item)
+  call s:open('!', a:item)
   return
 endfunction
 

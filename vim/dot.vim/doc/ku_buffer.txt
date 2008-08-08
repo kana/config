@@ -59,31 +59,6 @@ open!						*ku-buffer-aciton-open!*
 			Like "open", but use :buffer! or :edit! to open the
 			selected item.
 
-Bottom						*ku-buffer-action-Bottom*
-Left						*ku-buffer-action-Left*
-Right						*ku-buffer-action-Right*
-Top						*ku-buffer-action-Top*
-above						*ku-buffer-action-above*
-below						*ku-buffer-action-below*
-left						*ku-buffer-action-left*
-right						*ku-buffer-action-right*
-			Like "open", but open the buffer in the direction
-			specified by the name of each action.  For example,
-			"left" opens a window at left side, then open the
-			buffer in the new window.
-
-			Actions of which names start with upper case are like
-			others, but open a window at the most outside of Vim
-			screen.  See also |:topleft|.
-
-tab-left					*ku-buffer-action-tab-left*
-tab-right					*ku-buffer-action-tab-right*
-tab-Left					*ku-buffer-action-tab-Left*
-tab-Right					*ku-buffer-action-tab-Right*
-			Like "left", "right", "Left" or "Right", but open the
-			selected item in a new tab page which is opened at the
-			direction specified by the name of an action.
-
 unload						*ku-buffer-action-unload*
 delete						*ku-buffer-action-delete*
 wipeout						*ku-buffer-action-wipeout*

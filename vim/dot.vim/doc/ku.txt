@@ -263,6 +263,34 @@ nop						*ku-aciton-nop*
 			Do nothing.  Use this action to remove an entry from
 			a key table.
 
+Bottom						*ku-action-Bottom*
+Left						*ku-action-Left*
+Right						*ku-action-Right*
+Top						*ku-action-Top*
+above						*ku-action-above*
+below						*ku-action-below*
+left						*ku-action-left*
+right						*ku-action-right*
+			Open a new window in the direction specified by the
+			name of each action, then do |ku-action-default|.
+
+			For example, "left" opens a window at the left side of
+			the current window, then do |ku-action-default| in the
+			new window.
+
+			Actions of which names start with upper case are
+			similar to the ones of which names start with lower
+			case.  But they open a window at the most outside of
+			Vim screen.  See also |:topleft|.
+
+tab-left					*ku-action-tab-left*
+tab-right					*ku-action-tab-right*
+tab-Left					*ku-action-tab-Left*
+tab-Right					*ku-action-tab-Right*
+			Like "left", "right", "Left" or "Right", but open
+			a new tab page instead of a window, then do
+			|ku-action-default|.
+
 
 ------------------------------------------------------------------------------
 DEFAULT KEY TABLE				*ku-default-key-table*

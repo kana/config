@@ -57,31 +57,6 @@ open						*ku-file-aciton-open*
 open!						*ku-file-aciton-open!*
 			Like "open", but use :edit! to open the selected item.
 
-Bottom						*ku-file-action-Bottom*
-Left						*ku-file-action-Left*
-Right						*ku-file-action-Right*
-Top						*ku-file-action-Top*
-above						*ku-file-action-above*
-below						*ku-file-action-below*
-left						*ku-file-action-left*
-right						*ku-file-action-right*
-			Like "open", but open the file in the direction
-			specified by the name of each action.  For example,
-			"left" opens a window at left side, then open the file
-			in the new window.
-
-			Actions of which names start with upper case are like
-			others, but open a window at the most outside of Vim
-			screen.  See also |:topleft|.
-
-tab-left					*ku-file-action-tab-left*
-tab-right					*ku-file-action-tab-right*
-tab-Left					*ku-file-action-tab-Left*
-tab-Right					*ku-file-action-tab-Right*
-			Like "left", "right", "Left" or "Right", but open the
-			selected item in a new tab page which is opened at the
-			direction specified by the name of an action.
-
 
 
 
