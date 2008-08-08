@@ -94,6 +94,7 @@ function! s:on_BufReadCmd(scheme, fakepath)  "{{{3
     " The current, newly created, buffer should be treated as a special one,
     " so some options must be set even if metarw#{a:scheme}#read() is failed.
     1 delete _
+    filetype detect
     setlocal buftype=acwrite
     setlocal noswapfile
     let result = _
