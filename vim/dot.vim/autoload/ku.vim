@@ -234,7 +234,7 @@ function! ku#start(source)  "{{{2
   " Start Insert mode.
   call feedkeys('i', 'n')
 
-  call ku#{s:current_source}#event_handler('SourceEnter')
+  call s:api(s:current_source, 'event_handler', 'SourceEnter')
   return s:TRUE
 endfunction
 
@@ -264,7 +264,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     let skip_regexp = s:make_skip_regexp(pattern)
 
     let s:last_completed_items
-    \   = copy(ku#{s:current_source}#gather_items(pattern))
+    \   = copy(s:api(s:current_source, 'gather_items', pattern))
     for _ in s:last_completed_items
       let _['_ku_completed_p'] = s:TRUE
       let _['_ku_source'] = s:current_source
@@ -381,7 +381,7 @@ function! s:end()  "{{{2
   endif
   let s:_end_locked_p = s:TRUE
 
-  call ku#{s:current_source}#event_handler('SourceLeave')
+  call s:api(s:current_source, 'event_handler', 'SourceLeave')
   close
 
   let &completeopt = s:completeopt
@@ -546,8 +546,8 @@ function! s:switch_current_source(shift_delta)  "{{{2
     return s:FALSE
   endif
 
-  call ku#{_[o]}#event_handler('SourceLeave')
-  call ku#{_[n]}#event_handler('SourceEnter')
+  call s:api(_[o], 'event_handler', 'SourceLeave')
+  call s:api(_[n], 'event_handler', 'SourceEnter')
 
   let s:current_source = _[n]
   return s:TRUE
@@ -648,7 +648,7 @@ function! s:choose_action()  "{{{3
   let KEY_TABLE = {}
   for _ in [s:default_key_table(),
   \         s:custom_key_table('common'),
-  \         ku#{s:current_source}#key_table(),
+  \         s:api(s:current_source, 'key_table'),
   \         s:custom_key_table(s:current_source)]
     call extend(KEY_TABLE, _)
   endfor
@@ -699,7 +699,7 @@ endfunction
 
 
 function! s:do_action(action, item)  "{{{3
-  let item = ku#{s:current_source}#event_handler('BeforeAction', a:item)
+  let item = s:api(s:current_source, 'event_handler', 'BeforeAction', a:item)
   call function(s:get_action_function(a:action))(item)
   return s:TRUE
 endfunction
@@ -707,7 +707,7 @@ endfunction
 
 function! s:get_action_function(action)  "{{{3
   for _ in [s:custom_action_table(s:current_source),
-  \         ku#{s:current_source}#action_table(),
+  \         s:api(s:current_source, 'action_table'),
   \         s:custom_action_table('common'),
   \         s:default_action_table()]
     if has_key(_, a:action)
@@ -815,6 +815,13 @@ function! s:expand_abbreviation(s)  "{{{3
     endif
   endfor
   return a:s
+endfunction
+
+
+
+
+function! s:api(source_name, api_name, ...)  "{{{2
+  return call(printf('ku#%s#%s', a:source_name, a:api_name), a:000)
 endfunction
 
 
