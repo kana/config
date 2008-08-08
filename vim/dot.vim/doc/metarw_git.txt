@@ -1,4 +1,4 @@
-*metarw-git.txt*	metarw scheme: git
+*metarw_git.txt*	metarw scheme: git
 
 Version 0.0.0
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
