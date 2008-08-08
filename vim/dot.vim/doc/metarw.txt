@@ -147,19 +147,17 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
 
 			This function must return a list with two items.  The
-			first item indicates whether the function succeeds or
-			fails.
+			first item indicates the type of the second value:
 
-				If the first item is true, the second item
-				must be:
-				- a string to be given as arguments of |:read|
-				  to read the content of {fakepath}, or
-				- a list if it want to set up
-				  |metarw-content-browser|.
-
-				If the first item is false, the second item
-				must be:
-				- a string which represents an error message.
+			1st value	2nd value ~
+			---------	--------- ~
+			"error"		a string which represents an error
+					message.
+			"read"		a string which will be given to
+					|:read| to read the content of
+					{fakepath}.
+			"browse"	a list to set up
+					|metarw-content-browser|.
 
 			If the second item of return value is a list, each
 			item in the list is a dictionary which represents an
@@ -186,9 +184,16 @@ metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			true, does appending instead of writing.
 
 			This function must return a list with two items like
-			|metarw#{scheme}#read()|, but the second item must be
-			0 on success or a string as an error message on
-			failure.
+			|metarw#{scheme}#read()|, but the meaning of values is
+			as follows:
+
+			1st value	2nd value ~
+			---------	--------- ~
+			"error"		a string which represents an error
+					message.
+			"write"		a string which will be given to
+					|:write| to read the content of
+					{fakepath}.
 
 			Don't reset 'modified' in this function.  It will be
 			automatically treated by metarw.

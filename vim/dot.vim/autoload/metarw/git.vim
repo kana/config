@@ -71,15 +71,14 @@ function! metarw#git#read(fakepath)  "{{{2
     endif
   endif
 
-  " FIXME: return error message on failure instead of :echoerr'ing.
-  return [!0, result]
+  return result
 endfunction
 
 
 
 
 function! metarw#git#write(fakepath, line1, line2, append_p)  "{{{2
-  return [!!0, 'Writing to an object is not supported']
+  return ['error', 'Writing to an object is not supported']
 endfunction
 
 
@@ -210,10 +209,11 @@ endfunction
 
 
 function! s:read_blob(_)  "{{{2
-  return printf('!git --git-dir=%s show %s:%s',
-  \             fnameescape(a:_.git_dir),
-  \             fnameescape(a:_.commit_ish),
-  \             fnameescape(a:_.incomplete_path))
+  return ['read',
+  \       printf('!git --git-dir=%s show %s:%s',
+  \              fnameescape(a:_.git_dir),
+  \              fnameescape(a:_.commit_ish),
+  \              fnameescape(a:_.incomplete_path))]
 endfunction
 
 
@@ -233,16 +233,17 @@ function! s:read_branches(_)  "{{{2
     \                         branch_name),
     \    })
   endfor
-  return result
+  return ['browse', result]
 endfunction
 
 
 
 
 function! s:read_commit(_)  "{{{2
-  return printf('!git --git-dir=%s show %s',
-  \             fnameescape(a:_.git_dir),
-  \             fnameescape(a:_.commit_ish))
+  return ['read',
+  \       printf('!git --git-dir=%s show %s',
+  \              fnameescape(a:_.git_dir),
+  \              fnameescape(a:_.commit_ish))]
 endfunction
 
 
@@ -272,7 +273,7 @@ function! s:read_tree(_)  "{{{2
     \                         path),
     \    })
   endfor
-  return result
+  return ['browse', result]
 endfunction
 
 
