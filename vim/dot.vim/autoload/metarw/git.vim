@@ -26,7 +26,6 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
   " FIXME: *nix path separator assumption
   " a:arglead always contains "git:".
   let _ = s:parse_incomplete_fakepath(a:arglead)
-  let git_dir_part = _.git_dir_given_p ? '@' . _.git_dir . ':' : ''
 
   let candidates = []
   if _.path_given_p  " git:{commit-ish}:{path} -- complete {path}.
@@ -34,7 +33,7 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
       call add(candidates,
       \        printf('%s:%s%s:%s%s',
       \               _.scheme,
-      \               git_dir_part,
+      \               _.git_dir_part,
       \               _.given_commit_ish,
       \               object.path,
       \               (object.type ==# 'tree' ? '/' : '')))
@@ -43,7 +42,7 @@ function! metarw#git#complete(arglead, cmdline, cursorpos)  "{{{2
     " sort by remote branches or not.
     for branch_name in s:git_branches(_.git_dir)
       call add(candidates,
-      \        printf('%s:%s%s:', _.scheme, git_dir_part, branch_name))
+      \        printf('%s:%s%s:', _.scheme, _.git_dir_part, branch_name))
     endfor
   endif
 
@@ -149,6 +148,7 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   "
   " git_dir_given_p     a:incomplete_fakepath in 'git:@{git-dir}:...' form
   " git_dir             normalized {git-dir}
+  " git_dir_part        '@{git-dir}:' if _.git_dir_given_p.  otherwise ''.
   "
   " given_commit_ish    {commit-ish} in a:incomplete_fakepath
   " commit_ish          normalized _.given_commit_ish
@@ -172,10 +172,12 @@ function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
   if fragments[i][:0] == '@'
     let _.git_dir_given_p = !0
     let _.git_dir = fragments[i][1:]
+    let _.git_dir_part = '@' . a:_.git_dir . ':'
     let i += 1
   else
     let _.git_dir_given_p = !!0
     let _.git_dir = './.git'
+    let _.git_dir_part = ''
   endif
 
   " {commit-ish}
@@ -226,9 +228,7 @@ function! s:read_branches(_)  "{{{2
     \      'label': branch_name,
     \      'fakepath': printf('%s:%s%s:',
     \                         a:_.scheme,
-    \                         (a:_.git_dir_given_p
-    \                          ? '@' . a:_.git_dir . ':'
-    \                          : ''),
+    \                         a:_.git_dir_part,
     \                         branch_name),
     \    })
   endfor
@@ -250,14 +250,13 @@ endfunction
 
 function! s:read_tree(_)  "{{{2
   let parent_path = join(split(a:_.leading_path, '/', !0)[:-2], '/')
-  let git_dir_part = a:_.git_dir_given_p ? '@' . a:_.git_dir . ':' : ''
   let result = [{
   \     'label': '../',
   \     'fakepath': (a:_.incomplete_path == ''
-  \                  ? printf('%s:%s', a:_.scheme, git_dir_part)
+  \                  ? printf('%s:%s', a:_.scheme, a:_.git_dir_part)
   \                  : printf('%s:%s%s:%s',
   \                           a:_.scheme,
-  \                           git_dir_part,
+  \                           a:_.git_dir_part,
   \                           a:_.given_commit_ish,
   \                           parent_path . (parent_path=='' ? '' : '/'))),
   \   }]
@@ -268,7 +267,7 @@ function! s:read_tree(_)  "{{{2
     \      'label': path[(prefix_length):],
     \      'fakepath': printf('%s:%s%s:%s',
     \                         a:_.scheme,
-    \                         git_dir_part,
+    \                         a:_.git_dir_part,
     \                         a:_.given_commit_ish,
     \                         path),
     \    })
