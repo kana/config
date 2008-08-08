@@ -58,6 +58,13 @@ by |ku-key-mappings|.
 You can also write your own sources.  See |ku-sources| for the detail.
 
 
+Requirements:
+- Vim 7.1 or later.
+
+Optinals:
+- metarw and scheme scripts for it (see |ku-metarw-scheme-as-a-source|)
+
+
 
 
 ==============================================================================
@@ -278,6 +285,11 @@ The following sources are included with the packages of ku:
 
 - buffer	(|ku_buffer.txt|)
 - file		(|ku_file.txt|)
+
+						*ku-metarw-scheme-as-a-source*
+ku also provides schemes of |metarw| as sources.  The deafult action table and
+the default key table for such sources are the same as the ones of file
+source.
 
 
 
