@@ -337,7 +337,7 @@ endfunction
 
 
 
-function! s:do(choose_p)  "{{{2
+function! s:do(action_name)  "{{{2
   let current_user_input = getline(2)
   if current_user_input !=# s:last_user_input
     " current_user_input seems to be inserted by completion.
@@ -368,10 +368,10 @@ function! s:do(choose_p)  "{{{2
     endif
   endif
 
-  if a:choose_p
+  if a:action_name == ''
     let action = s:choose_action()
   else
-    let action = 'default'
+    let action = a:action_name
   endif
 
   " To avoid doing some actions on this buffer and/or this window, close the
@@ -428,9 +428,9 @@ function! s:initialize_ku_buffer()  "{{{2
   nnoremap <buffer> <silent> <Plug>(ku-cancel)
   \        :<C-u>call <SID>end()<Return>
   nnoremap <buffer> <silent> <Plug>(ku-do-the-default-action)
-  \        :<C-u>call <SID>do(0)<Return>
+  \        :<C-u>call <SID>do('default')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-choose-an-action)
-  \        :<C-u>call <SID>do(1)<Return>
+  \        :<C-u>call <SID>do('')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-next-source)
   \        :<C-u>call <SID>switch_current_source(1)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
