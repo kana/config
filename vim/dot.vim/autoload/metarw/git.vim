@@ -139,16 +139,24 @@ endfunction
 
 
 function! s:parse_incomplete_fakepath(incomplete_fakepath)  "{{{2
+  " Return value '_' has the following items:
+  "
+  " Key			Value
+  " ------------------  -----------------------------------------
+  " given_fakepath      same as a:incomplete_fakepath
+  "
+  " scheme              {scheme} part in a:incomplete_fakepath (always 'git')
+  "
+  " git_dir_given_p     a:incomplete_fakepath in 'git:@{git-dir}:...' form
+  " git_dir             normalized {git-dir}
+  "
+  " given_commit_ish    {commit-ish} in a:incomplete_fakepath
+  " commit_ish          normalized _.given_commit_ish
+  "
+  " incomplete_path     {path} in a:incomplete_fakepath
+  " leading_path        _.incomplete_path without the last component
+  " path_given_p        a:incomplete_fakepath in 'git:{commit-ish}:...' form
   let _ = {}
-  " _.given_fakepath - same as a:incomplete_fakepath
-  " _.scheme - {scheme} part in a:incomplete_fakepath (should be always 'git')
-  " _.git_dir_given_p - a:incomplete_fakepath in 'git:@{git-dir}:...' form
-  " _.git_dir - normalized {git-dir}
-  " _.given_commit_ish - {commit-ish} in a:incomplete_fakepath
-  " _.commit_ish - normalized _.given_commit_ish
-  " _.incomplete_path - {path} in a:incomplete_fakepath
-  " _.leading_path - _.incomplete_path without the last component
-  " _.path_given_p - a:incomplete_fakepath in 'git:{commit-ish}:...' form
 
   let fragments = split(a:incomplete_fakepath, ':', !0)
   if  len(fragments) <= 1
