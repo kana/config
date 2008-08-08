@@ -223,6 +223,9 @@ Scheme script					*metarw-scheme-script*
 ==============================================================================
 BUGS						*metarw-bugs*
 
+- {range} for ":read {fakepath}" is ignored and it will always be treated as
+  the current line.  Because there is no way to get {range} in |FileReadCmd|.
+
 - There are many bugs around the world.
 
 
