@@ -52,9 +52,9 @@ Requirements:
 
 Optionals:
 - |metarw-scheme-script| such as metarw-git.
-  <http://www.vim.org/scripts/script.php?script_id=XXX>
+  <http://www.vim.org/scripts/script.php?script_id=2336>
 - ku 0.1.0 or later.  |metarw-schemes| are available as |ku-sources|.
-  <http://www.vim.org/scripts/script.php?script_id=XXX>
+  <http://www.vim.org/scripts/script.php?script_id=2337>
 
 
 
