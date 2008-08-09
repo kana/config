@@ -359,6 +359,19 @@ _package:
 	rm $(PACKAGE_$(package)_ARCHIVE)
 
 
+# for vim-bundle
+
+available-packages:
+	@echo $(ALL_PACKAGES)
+
+package-files:
+	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	  false; \
+	fi
+	@echo $(PACKAGE_$(subst -,_,$(PACKAGE_NAME))_FILES)
+
+
 
 
 # update  #{{{1
@@ -418,5 +431,5 @@ clean:
 
 
 
-# __END__
+# __END__  #{{{1
 # vim: foldmethod=marker
