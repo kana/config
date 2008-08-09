@@ -63,9 +63,9 @@ Requirements:
 
 Optinals:
 - metarw 0.0.0 or later.  (see |ku-metarw-scheme-as-a-source|)
-  <http://www.vim.org/scripts/script.php?script_id=XXX>
+  <http://www.vim.org/scripts/script.php?script_id=2335>
 - |metarw-scheme-script| such as metarw-git
-  <http://www.vim.org/scripts/script.php?script_id=XXX>
+  <http://www.vim.org/scripts/script.php?script_id=2336>
 
 
 
