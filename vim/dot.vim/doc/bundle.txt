@@ -136,6 +136,11 @@ bundle#load({bang-p}, {name})			*bundle#load()*
 			If {bang-p} is true, it does ":LoadBundle!", otherwise
 			it does ":LoadBundle".
 
+bundle#name()					*bundle#name()*
+			Return the name of bundle to be loaded.  This function
+			is available only for handlers for |BundleUndefined|
+			or |BundleUndefined!|.
+
 bundle#return(...)				*bundle#return()*
 			Function to return values from handlers for
 			|bundle-events|.

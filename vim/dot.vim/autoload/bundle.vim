@@ -75,6 +75,13 @@ endfunction
 
 
 
+function! bundle#name()  "{{{2
+  return matchstr(expand('<amatch>'), '\<BundleUndefined\+!\?:\zs.*$')
+endfunction
+
+
+
+
 function! bundle#return(...)  "{{{2
   if s:current_event is s:EVENT['BundleAvailability']
     call extend(s:return_values, a:000)
