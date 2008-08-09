@@ -60,7 +60,6 @@ INTERFACE					*metarw-interface*
 COMMANDS					*metarw-commands*
 
 :Edit[!] [++opt] [+cmd] [{file}]		*:Edit*
-:New [++opt] [+cmd] [{file}]			*:New*
 :Read [++opt] [{file}]				*:Read*
 :Source [{file}]				*:Source*
 :[range]Write[!] [{file}]			*:Write*

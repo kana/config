@@ -33,12 +33,9 @@ command! -bang -bar -complete=customlist,metarw#complete -nargs=*
 \ Edit  edit<bang> <args>
 
 command! -bar -complete=customlist,metarw#complete -nargs=*
-\ New  new <args>
-
-command! -bar -complete=customlist,metarw#complete -nargs=+
 \ Read  read <args>
 
-command! -bang -bar -complete=customlist,metarw#complete -nargs=?
+command! -bang -bar -complete=customlist,metarw#complete -nargs=1
 \ Source  source<bang> <args>
 
 command! -bang -bar -complete=customlist,metarw#complete -nargs=* -range=%
