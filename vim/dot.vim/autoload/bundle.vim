@@ -42,8 +42,10 @@ let s:return_values = []
 
 " Interface  "{{{1
 function! bundle#complete(arglead, cmdline, cursorpos)  "{{{2
-  " FIXME: Not implemented yet.
-  return []
+  return sort(filter(
+  \        s:value_of('BundleAvailability') + keys(g:bundle_dictionary),
+  \        'stridx(v:val, a:arglead) == 0'
+  \      ))
 endfunction
 
 

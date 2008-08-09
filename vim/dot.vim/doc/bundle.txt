@@ -68,7 +68,7 @@ COMMANDS					*bundle-commands*
 			actually loaded by |:edit|, but the current and other
 			states will never be changed.
 
-			(planned) {name} can be completed.
+			{name} can be completed.
 
 			Example: >
 				LoadBundle qux
@@ -81,6 +81,8 @@ Bundle uses the following |autocmd-events|:
 
 User BundleAvailability				*BundleAvailability*
 			When the names of available bundles are gathered.
+			Gatherd information is used to complete arguments to
+			|:LoadBundle|.
 
 			Handlers for this event must call |bundle#return()|
 			with a list of the names of bundles which are
