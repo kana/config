@@ -2055,6 +2055,45 @@ let s:on_FileType_xml_comment_dispatch_data = {
 
 
 " Plugins  "{{{1
+" bundle  "{{{2
+
+autocmd MyAutoCmd User BundleAvailability
+\ call bundle#return(s:available_packages())
+
+autocmd MyAutoCmd User BundleUndefined!:*  call s:on_User_BundleUndefined()
+function! s:on_User_BundleUndefined()
+  let name = bundle#name()
+  if s:available_package_p(name)
+    call bundle#return(s:package_files(name))
+  endif
+  return
+endfunction
+
+
+function! s:available_package_p(name)
+  return index(s:available_packages(), a:name) != -1
+endfunction
+
+function! s:available_packages()
+  if s:in_confid_dir_p()
+    return split(system('make available-packages'))
+  else
+    return []
+  endif
+endfunction
+
+function! s:in_confid_dir_p()
+  " BUGS: Ad hoc condition, but it's hard to check correctly.
+  return getcwd() =~ '/config$' && filereadable('Makefile')
+endfunction
+
+function! s:package_files(name)
+  return split(system('make PACKAGE_NAME='.a:name.' package-files'))
+endfunction
+
+
+
+
 " ku  "{{{2
 
 autocmd MyAutoCmd User plugin-ku-buffer-initialized

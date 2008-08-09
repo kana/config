@@ -112,6 +112,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
 GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
+  $(PACKAGE_vim_bundle_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
@@ -166,6 +167,7 @@ ALL_PACKAGES=\
   cereja-all \
   opera-all \
   vim-all \
+  vim-bundle \
   vim-fakeclip \
   vim-flydiff \
   vim-idwintab \
@@ -205,6 +207,13 @@ PACKAGE_opera_all_FILES=$(GROUP_OPERA_FILES)
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
+
+PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.0
+PACKAGE_vim_bundle_BASE=vim/dot.vim
+PACKAGE_vim_bundle_FILES=\
+  vim/dot.vim/autoload/bundle.vim \
+  vim/dot.vim/doc/bundle.txt \
+  vim/dot.vim/plugin/bundle.vim
 
 PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.0
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
@@ -372,6 +381,19 @@ _package:
 	rm $(PACKAGE_$(package)_ARCHIVE)
 
 
+# for vim-bundle
+
+available-packages:
+	@echo $(ALL_PACKAGES)
+
+package-files:
+	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	  false; \
+	fi
+	@echo $(PACKAGE_$(subst -,_,$(PACKAGE_NAME))_FILES)
+
+
 
 
 # update  #{{{1
@@ -431,5 +453,5 @@ clean:
 
 
 
-# __END__
+# __END__  #{{{1
 # vim: foldmethod=marker
