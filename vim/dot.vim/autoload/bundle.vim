@@ -84,7 +84,7 @@ endfunction
 
 function! bundle#return(...)  "{{{2
   if s:current_event is s:EVENT['BundleAvailability']
-    call extend(s:return_values, a:000)
+    call extend(s:return_values, a:1)
   elseif s:current_event is s:EVENT['BundleUndefined']
   \      || s:current_event is s:EVENT['BundleUndefined!']
     call add(s:return_values, a:1)
