@@ -29,19 +29,6 @@ endif
 
 
 
-command! -bang -bar -complete=customlist,metarw#complete -nargs=*
-\ Edit  edit<bang> <args>
-
-command! -bar -complete=customlist,metarw#complete -nargs=*
-\ Read  read <args>
-
-command! -bang -bar -complete=customlist,metarw#complete -nargs=1
-\ Source  source<bang> <args>
-
-command! -bang -bar -complete=customlist,metarw#complete -nargs=* -range=%
-\ Write  <line1>,<line2>write<bang> <args>
-
-
 autocmd BufReadCmd *:{*,*/*}  call metarw#_event_handler('BufReadCmd')
 autocmd BufWriteCmd *:{*,*/*}  call metarw#_event_handler('BufWriteCmd')
 autocmd FileAppendCmd *:{*,*/*}  call metarw#_event_handler('FileAppendCmd')

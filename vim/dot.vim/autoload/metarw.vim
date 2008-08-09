@@ -62,6 +62,31 @@ endfunction
 
 
 
+function! metarw#define_wrapper_commands(override_p)  "{{{2
+  let _ = a:override_p ? '!' : ''
+
+  silent! execute 'command'._
+  \       '-bang -bar -complete=customlist,metarw#complete -nargs=*'
+  \       'Edit  edit<bang> <args>'
+
+  silent! execute 'command'._
+  \       '-bar -complete=customlist,metarw#complete -nargs=*'
+  \       'Read  read <args>'
+
+  silent! execute 'command'._
+  \       '-bang -bar -complete=customlist,metarw#complete -nargs=1'
+  \       'Source  source<bang> <args>'
+
+  silent! execute 'command'._
+  \       '-bang -bar -complete=customlist,metarw#complete -nargs=* -range=%'
+  \       'Write  <line1>,<line2>write<bang> <args>'
+
+  return
+endfunction
+
+
+
+
 function! metarw#_event_handler(event_name)  "{{{2
   let fakepath = expand('<afile>')
   let scheme = s:scheme_of(fakepath)

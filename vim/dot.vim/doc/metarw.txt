@@ -67,6 +67,10 @@ COMMANDS					*metarw-commands*
 			of their arguments is extended to also complete
 			fakepathes.
 
+			These wrapper commands are not defined automatically.
+			If you want them, you have to call
+			|metarw#define_wrapper_commands()|.
+
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*metarw-functions*
@@ -76,6 +80,11 @@ metarw#complete({arglead}, {cmdline}, {cursorpos})
 			Function for |:command-complete| to complete also
 			fakepathes.  Use as follows:
 			"-complete=customlist,metarw#complete".
+
+					    *metarw#define_wrapper_commands()*
+metarw#define_wrapper_commands({override-p})
+			Define wrapper commands (see |metarw-commands|.)
+			Override existent commands if {override-p} is true.
 
 
 ------------------------------------------------------------------------------
