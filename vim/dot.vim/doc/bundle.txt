@@ -1,0 +1,196 @@
+*bundle.txt*	Load a series of files easily
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*bundle-contents*
+
+Introduction		|bundle-introduction|
+Interface		|bundle-interface|
+  Commands		  |bundle-commands|
+  Events		  |bundle-events|
+  Functions		  |bundle-functions|
+  Variables		  |bundle-variables|
+Loading Steps		|bundle-loading-steps|
+Bugs			|bundle-bugs|
+Changelog		|bundle-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*bundle-introduction*
+
+Bundle is a Vim plugin to easily load a series of files which is called as
+"bundle".  For example, if you often edit files foo.c, bar.txt and baz.vim in
+project named "qux", you can use "|:LoadBundle| qux" to load the files.
+
+The correspondence of bundle names and lists of files can be configured by
+static way (|g:bundle_dictionary|) and dynamic way (|bundle-events|).
+
+Requirements:
+- Vim 7.1 or later.
+
+
+
+
+==============================================================================
+INTERFACE					*bundle-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*bundle-commands*
+
+:LoadBundle[!] {name}				*:LoadBundle*
+			Load files in the bundle specified by {name}.
+
+			This means that files will be added to the buffer list
+			by |:badd|.  If [!] is given, each file will be
+			actually loaded by |:edit|, but the current and other
+			states will never be changed.
+
+			(planned) {name} can be completed.
+
+			Example: >
+				LoadBundle qux
+<
+
+------------------------------------------------------------------------------
+EVENTS						*bundle-events*
+
+Bundle uses the following |autocmd-events|:
+
+User BundleAvailability				*BundleAvailability*
+			When the names of available bundles are gathered.
+
+			Handlers for this event must call |bundle#return()|
+			with a list of the names of bundles which are
+			supported by those handlers.
+
+			Example: >
+				autocmd User BundleAvailability
+				\ call bundle#return(['qux'])
+<
+User BundleUndefined:{name}			*BundleUndefined*
+User BundleUndefined!:{name}			*BundleUndefined!*
+			"BundleUndefined" is published when the bundle
+			specified by {name} is loaded but it is not found in
+			|g:bundle_dictionary|.
+
+
+			"BundleUndefined!" is published before investigating
+			entries in |g:bundle_dictionary| to load the bundle
+			specified by {name}.  Use this event to provide
+			bundles to override entries in |g:bundle_dictionary|.
+
+			Handlers for these events must call |bundle#return()|
+			with a list of files which is corresponding to the
+			bundle {name} if they want to give information on the
+			bundle {name}, otherwise they must not call
+			|bundle#return()|.
+
+			Returned lists from handlers for "BundleUndefined" are
+			automatically cahed into |g:bundle_dictionary|.  For
+			handlers for "BundleUndefined!", such caching is not
+			done.
+
+			Example: >
+				autocmd User BundleUndefined:qux
+				\ call bundle#return([
+				\   'foo.c',
+				\   'bar.txt',
+				\   'baz.vim'
+				\ ])
+
+				autocmd User BundleUndefined!:quux
+				\ call bundle#return(split(glob('*.c'), '\n'))
+<
+
+------------------------------------------------------------------------------
+FUNCTIONS					*bundle-functions*
+
+bundle#load({bang-p}, {name})			*bundle#load()*
+			Function version of |:LoadBundle|.
+
+			If {bang-p} is true, it does ":LoadBundle!", otherwise
+			it does ":LoadBundle".
+
+bundle#return(...)				*bundle#return()*
+			Function to return values from handlers for
+			|bundle-events|.
+
+
+------------------------------------------------------------------------------
+VARIABLES					*bundle-variables*
+
+g:bundle_dictionary				*g:bundle_dictionary*
+			A dictionary which contains the correspondence of
+			names of bundles and lists of files.  Each key is the
+			name of a bundle and each value is a list of files
+			corresponding to the bundle.
+
+			The default value is {}, that means there is no
+			bundle.
+
+			Example: >
+			let g:bundle_dictionary = {
+			\     'qux': ['foo.c', 'bar.txt', 'baz.vim'],
+			\   }
+<
+
+
+
+==============================================================================
+LOADING STEPS					*bundle-loading-steps*
+
+The steps to load a bundle are as follows:
+
+1. Use |BundleUndefined!| to gather available bundles.
+2. Check |g:bundle_dictionary| for available bundles.
+3. Use |BundleUndefined| to gather available bundles.
+
+If a proper bundle is found in one of the above steps, the bundle will be
+loaded and rest steps will be skipped.  If no bundle is found, nothing will be
+loaded.
+
+
+
+
+==============================================================================
+BUGS						*bundle-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*bundle-changelog*
+
+0.0.0	2008-08-09T13:56:16+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
