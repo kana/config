@@ -50,6 +50,12 @@ one for some sorts of argumetns if they are given to :edit or other command.
 Requirements:
 - Vim 7.1 or later.
 
+Optionals:
+- |metarw-scheme-script| such as metarw-git.
+  <http://www.vim.org/scripts/script.php?script_id=XXX>
+- ku 0.1.0 or later.  |metarw-schemes| are available as |ku-sources|.
+  <http://www.vim.org/scripts/script.php?script_id=XXX>
+
 
 
 
