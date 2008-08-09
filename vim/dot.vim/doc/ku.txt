@@ -62,7 +62,10 @@ Requirements:
 - Vim 7.1 or later.
 
 Optinals:
-- metarw and scheme scripts for it (see |ku-metarw-scheme-as-a-source|)
+- metarw 0.0.0 or later.  (see |ku-metarw-scheme-as-a-source|)
+  <http://www.vim.org/scripts/script.php?script_id=XXX>
+- |metarw-scheme-script| such as metarw-git
+  <http://www.vim.org/scripts/script.php?script_id=XXX>
 
 
 
