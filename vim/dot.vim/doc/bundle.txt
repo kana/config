@@ -1,6 +1,6 @@
 *bundle.txt*	Load a series of files easily
 
-Version 0.0.0
+Version 0.0.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -49,7 +49,7 @@ The correspondence of bundle names and lists of files can be configured by
 static way (|g:bundle_dictionary|) and dynamic way (|bundle-events|).
 
 Requirements:
-- Vim 7.1 or later.
+- Vim 7.1.299 or later.
 
 
 
@@ -59,6 +59,13 @@ INTERFACE					*bundle-interface*
 
 ------------------------------------------------------------------------------
 COMMANDS					*bundle-commands*
+
+:ArgsBundle[!] {name}				*:ArgsBundle*
+			Like |:LoadBundle|, but do |:args| with files in the
+			bundle {name}.  If [!] is given, do |:args!| instead
+			of |:args|.
+
+			{name} can be completed.
 
 :LoadBundle[!] {name}				*:LoadBundle*
 			Load files in the bundle specified by {name}.
@@ -130,6 +137,15 @@ User BundleUndefined!:{name}			*BundleUndefined!*
 ------------------------------------------------------------------------------
 FUNCTIONS					*bundle-functions*
 
+bundle#args({bang-p}, {name})			*bundle#args()*
+			Function version of |:ArgsBundle|, like
+			|bundle#load()|.
+
+bundle#files({name})				*bundle#files()*
+			Return a list of the files in the bundle {name}.
+			If the bundle {name} is not found, empty list will be
+			returned.
+
 bundle#load({bang-p}, {name})			*bundle#load()*
 			Function version of |:LoadBundle|.
 
@@ -192,6 +208,10 @@ BUGS						*bundle-bugs*
 
 ==============================================================================
 CHANGELOG					*bundle-changelog*
+
+0.0.1	2008-08-10T19:05:47+09:00
+	- Change the required version of Vim - 7.1.299 or later.
+	- Add |:ArgsBundle|, |bundle#args()| and |bundle#files()|.
 
 0.0.0	2008-08-09T13:56:16+09:00
 	- Initial version.

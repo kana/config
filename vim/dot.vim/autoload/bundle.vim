@@ -1,5 +1,5 @@
 " bundle - Load a series of files easily
-" Version: 0.0.0
+" Version: 0.0.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -41,11 +41,34 @@ let s:return_values = []
 
 
 " Interface  "{{{1
+function! bundle#args(banged_p, name)  "{{{2
+  let bundle = s:find_proper_bundle(a:name)
+  if bundle is 0
+    return !!0
+  endif
+
+  execute 'args'.(a:banged_p ? '!' : '')
+  \       join(map(copy(bundle), 'fnameescape(v:val)'))
+
+  return !0
+endfunction
+
+
+
+
 function! bundle#complete(arglead, cmdline, cursorpos)  "{{{2
   return sort(filter(
   \        s:value_of('BundleAvailability') + keys(g:bundle_dictionary),
   \        'stridx(v:val, a:arglead) == 0'
   \      ))
+endfunction
+
+
+
+
+function! bundle#files(name)  "{{{2
+  silent let bundle = s:find_proper_bundle(a:name)
+  return bundle is 0 ? [] : bundle
 endfunction
 
 

@@ -1,5 +1,5 @@
 " bundle - Load a series of files easily
-" Version: 0.0.0
+" Version: 0.0.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -29,8 +29,12 @@ endif
 
 
 
+command! -bang -bar -complete=customlist,bundle#complete -nargs=1 ArgsBundle
+\ call bundle#args('<bang>' == '!', <q-args>)
+
 command! -bang -bar -complete=customlist,bundle#complete -nargs=1 LoadBundle
 \ call bundle#load('<bang>' == '!', <q-args>)
+
 
 if !exists('g:bundle_dictionary')
   let g:bundle_dictionary = {}
