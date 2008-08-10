@@ -51,6 +51,10 @@ static way (|g:bundle_dictionary|) and dynamic way (|bundle-events|).
 Requirements:
 - Vim 7.1.299 or later.
 
+Optionals:
+- ku 0.1.1 or later.  (|ku-source-bundle|)
+  <http://www.vim.org/scripts/script.php?script_id=2337>
+
 
 
 
@@ -141,6 +145,9 @@ bundle#args({bang-p}, {name})			*bundle#args()*
 			Function version of |:ArgsBundle|, like
 			|bundle#load()|.
 
+bundle#available_bundles({bang-p}, {name})	*bundle#available_bundles()*
+			Return a list of the names of available bundles.
+
 bundle#files({name})				*bundle#files()*
 			Return a list of the files in the bundle {name}.
 			If the bundle {name} is not found, empty list will be
@@ -182,6 +189,7 @@ g:bundle_dictionary				*g:bundle_dictionary*
 
 
 
+
 ==============================================================================
 LOADING STEPS					*bundle-loading-steps*
 
@@ -208,6 +216,10 @@ BUGS						*bundle-bugs*
 
 ==============================================================================
 CHANGELOG					*bundle-changelog*
+
+0.0.x	2008-08-10T20:24:17+09:00
+	- Add a ku source to choose bundles.  (|ku-source-bundle|)
+	- Add |bundle#available_bundles()|.
 
 0.0.1	2008-08-10T19:05:47+09:00
 	- Change the required version of Vim - 7.1.299 or later.

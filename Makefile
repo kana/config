@@ -211,8 +211,10 @@ PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.1
 PACKAGE_vim_bundle_BASE=vim/dot.vim
 PACKAGE_vim_bundle_FILES=\
+  vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/autoload/bundle.vim \
   vim/dot.vim/doc/bundle.txt \
+  vim/dot.vim/doc/ku_bundle.txt \
   vim/dot.vim/plugin/bundle.vim
 
 PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.0

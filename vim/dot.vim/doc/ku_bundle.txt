@@ -1,0 +1,112 @@
+*ku_bundle.txt*	ku source: bundle
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-bundle-contents*
+
+Introduction		|ku-bundle-introduction|
+Action Table		|ku-bundle-action-table|
+Key Table		|ku-bundle-key-table|
+Bugs			|ku-bundle-bugs|
+Changelog		|ku-bundle-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION			   *ku-bundle-introduction* *ku-source-bundle*
+
+This is a ku source to deal with bundles which are provided by a Vim plugin
+"bundle".
+
+Requirements:
+- Vim 7.1 or later
+- bundle 0.0.x or later
+  <http://www.vim.org/scripts/script.php?script_id=2338>
+- ku 0.1.1 or later
+  <http://www.vim.org/scripts/script.php?script_id=2337>
+
+
+
+
+==============================================================================
+ACTION TABLE					*ku-bundle-action-table*
+
+args						*ku-bundle-action-args*
+			Do |:ArgsBundle| for the selected item.
+
+args!						*ku-bundle-action-args!*
+			Do |:ArgsBundle!| for the selected.
+
+default						*ku-bundle-action-default*
+			Same as "load-or-args".
+
+load						*ku-bundle-action-load*
+			Do |:LoadBundle| for the selected item.
+
+load!						*ku-bundle-action-load!*
+			Do |:LoadBundle!| for the selected item.
+
+load-or-args				       *ku-bundle-action-load-or-args*
+			Normally, do "load".  If this action is invoked via
+			|ku-action-left| or similar actions, do "args"
+			instead.  
+
+
+
+
+==============================================================================
+KEY TABLE					*ku-bundle-key-table*
+
+Key		Action ~
+--------	--------
+<C-a>		args		|ku-bundle-action-args|
+<C-o>		load		|ku-bundle-action-load|
+A		args!		|ku-bundle-action-args!|
+O		load!		|ku-bundle-action-load!|
+a		args		|ku-bundle-action-args|
+o		load		|ku-bundle-action-load|
+
+
+
+
+==============================================================================
+BUGS						*ku-bundle-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-bundle-changelog*
+
+0.0.0	2008-08-10T22:30:40+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:

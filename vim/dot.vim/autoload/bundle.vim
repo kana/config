@@ -56,11 +56,15 @@ endfunction
 
 
 
+function! bundle#available_bundles()  "{{{2
+  return s:value_of('BundleAvailability') + keys(g:bundle_dictionary)
+endfunction
+
+
+
+
 function! bundle#complete(arglead, cmdline, cursorpos)  "{{{2
-  return sort(filter(
-  \        s:value_of('BundleAvailability') + keys(g:bundle_dictionary),
-  \        'stridx(v:val, a:arglead) == 0'
-  \      ))
+  return sort(filter(bundle#available_bundles(), 'stridx(v:val, a:arglead) == 0'))
 endfunction
 
 
