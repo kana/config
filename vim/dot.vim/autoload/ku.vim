@@ -99,11 +99,7 @@ function! ku#available_sources()  "{{{2
     \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
     \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', "")'
     \   )
-    let metarw_sources = map(
-    \     split(globpath(&runtimepath, 'autoload/metarw/*.vim'), "\n"),
-    \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'',''metarw_\1'',"")'
-    \   )
-    let s:available_sources = sort(ordinary_sources + metarw_sources)
+    let s:available_sources = sort(ordinary_sources)
   endif
   return s:available_sources
 endfunction
@@ -918,42 +914,8 @@ endfunction
 
 
 
-" Fake source APIs to treat a metarw scheme as a source  "{{{2
-function! s:metarw_event_handler(scheme, event, ...)
-  if a:event ==# 'BeforeAction'
-    let _ = copy(a:1)
-    let _.word = a:scheme . ':' . _.word
-    return _
-  else
-    return call('ku#default_event_handler', [a:event] + a:000)
-  endif
-endfunction
-
-function! s:metarw_action_table(scheme)
-  return ku#file#action_table()
-endfunction
-
-function! s:metarw_key_table(scheme)
-  return ku#file#key_table()
-endfunction
-
-function! s:metarw_gather_items(scheme, pattern)
-  " a:pattern is not always prefixed with "{scheme}:".
-  let _ = a:scheme . ':' . a:pattern
-  return map(metarw#{a:scheme}#complete(_, _, 0)[0],
-  \          '{"word": matchstr(v:val, ''^'' . a:scheme . '':\zs.*$'')}')
-endfunction
-
-
-
-
 function! s:api(source_name, api_name, ...)  "{{{2
-  let _ = s:metarw_scheme_name(a:source_name)
-  if _ == ''  " an ordinary source
-    return call(printf('ku#%s#%s', a:source_name, a:api_name), a:000)
-  else  " a metarw scheme as a source
-    return call(printf('s:metarw_%s', a:api_name), [_] + a:000)
-  endif
+  return call(printf('ku#%s#%s', a:source_name, a:api_name), a:000)
 endfunction
 
 
@@ -1036,13 +998,6 @@ function! s:matchend(s, pattern)  "{{{2
   let POINT_AT_INFINITY = 2147483647  " FIXME: valid value.
   let i = matchend(a:s, a:pattern)
   return 0 <= i ? i : POINT_AT_INFINITY
-endfunction
-
-
-
-
-function! s:metarw_scheme_name(_)  "{{{2
-  return matchstr(a:_, '^metarw_\zs.\+$')
 endfunction
 
 

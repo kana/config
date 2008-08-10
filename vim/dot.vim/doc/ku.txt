@@ -61,12 +61,6 @@ You can also write your own sources.  See |ku-sources| for the detail.
 Requirements:
 - Vim 7.1.299 or later.
 
-Optinals:
-- metarw 0.0.0 or later.  (see |ku-metarw-scheme-as-a-source|)
-  <http://www.vim.org/scripts/script.php?script_id=2335>
-- |metarw-scheme-script| such as metarw-git
-  <http://www.vim.org/scripts/script.php?script_id=2336>
-
 
 
 
@@ -341,11 +335,6 @@ The following sources are included with the packages of ku:
 - buffer	(|ku_buffer.txt|)
 - file		(|ku_file.txt|)
 
-						*ku-metarw-scheme-as-a-source*
-ku also provides schemes of |metarw| as sources.  The deafult action table and
-the default key table for such sources are the same as the ones of file
-source.
-
 
 
 
@@ -585,6 +574,9 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-10T12:17:09+09:00
+	- Remove the feature to provide |metarw-schemes| as |ku-sources|.
+	  This feature will be implemented as a special source and it will be
+	  included in |metarw| packages.
 	- Add notes on |ku-special-sources| (still planned yet).
 	- Fix requirements - ku uses |fnameescape()| which is added since Vim
 	  7.1.299.  (thanks to id:thinca)
