@@ -186,6 +186,8 @@ function! ku#custom_priority(source, priority)  "{{{2
   endif
 
   let s:priority_table[a:source] = a:priority
+
+  call s:sort_sources(s:available_sources)
 endfunction
 
 
