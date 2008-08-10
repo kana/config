@@ -95,12 +95,20 @@ function! ku#available_sources()  "{{{2
   let _ = getftime(s:runtime_files('autoload/ku/')[0])
   if len(s:available_sources) == 0 || s:sources_directory_timestamp != _
     let s:sources_directory_timestamp = _
+
     let ordinary_sources = map(
     \     s:runtime_files('autoload/ku/*.vim'),
     \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', "")'
     \   )
-    let s:available_sources = sort(ordinary_sources)
+
+    let special_sources = []
+    for f in s:runtime_files('autoload/ku/special/*_.vim')
+      let special_sources += ku#special#{fnamemodify(f, ':t:r')}#sources()
+    endfor
+
+    let s:available_sources = sort(ordinary_sources + special_sources)
   endif
+
   return s:available_sources
 endfunction
 
