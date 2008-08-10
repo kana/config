@@ -269,6 +269,7 @@ BUGS						*metarw-bugs*
 CHANGELOG					*metarw-changelog*
 
 0.0.x	2008-08-10T12:19:52+09:00
+	- Fix plugin/metarw.vim to be properly reloadable.
 	- Fix requirements - metarw uses |fnameescape()| which is added since
 	  Vim 7.1.299.  (thanks to id:thinca)
 
