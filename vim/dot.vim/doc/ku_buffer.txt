@@ -80,12 +80,12 @@ KEY TABLE					*ku-buffer-key-table*
 
 Key		Action ~
 --------	--------
-<C-o>		open		|ku-action-open|
-D		delete		|ku-action-delete|
-O		open!		|ku-action-open!|
-U		unload		|ku-action-unload|
-W		wipeout		|ku-action-wipeout|
-o		open		|ku-action-open|
+<C-o>		open		|ku-buffer-action-open|
+D		delete		|ku-buffer-action-delete|
+O		open!		|ku-buffer-action-open!|
+U		unload		|ku-buffer-action-unload|
+W		wipeout		|ku-buffer-action-wipeout|
+o		open		|ku-buffer-action-open|
 
 
 
