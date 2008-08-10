@@ -64,14 +64,14 @@ INTERFACE					*bundle-interface*
 ------------------------------------------------------------------------------
 COMMANDS					*bundle-commands*
 
-:ArgsBundle[!] {name}				*:ArgsBundle*
+:ArgsBundle[!] {name}				*:ArgsBundle* *:ArgsBundle!*
 			Like |:LoadBundle|, but do |:args| with files in the
 			bundle {name}.  If [!] is given, do |:args!| instead
 			of |:args|.
 
 			{name} can be completed.
 
-:LoadBundle[!] {name}				*:LoadBundle*
+:LoadBundle[!] {name}				*:LoadBundle* *:LoadBundle!*
 			Load files in the bundle specified by {name}.
 
 			This means that files will be added to the buffer list
