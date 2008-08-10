@@ -366,32 +366,45 @@ Sources have their own key table (|ku-key-table|).  These key tables have
 higher priority than common key tables, but these have lower priority than
 custom key table for each source.
 
-						*ku-source-api*
-Sources are written as autoload scripts which are placed in "autoload/ku/"
-directory in 'runtimepath'.  The names of sources are same as their file names
-without the ".vim" extension.  The names of sources should consist of lower
-cases only.  Sources must provide the following functions:
+					   *ku-source-api* *ku-source-scripts*
+Sources are written as autoload scripts called as "source scripts" which are
+placed in "autoload/ku/" directory in 'runtimepath'.  The names of sources are
+same as their file names without the ".vim" extension.  The names of sources
+should consist of lower cases only.  Sources must provide the following
+functions:
 
 ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 			Function which is called whenever an interesting event
 			is happened.  {event} is a string which represents
 			what event is occurred.
 
-			"SourceEnter"
+			"SourceEnter"		*ku-SourceEnter*
 				The current source is switched from another
 				source to {source}, or the |ku-window| is open
 				and the the current source is {source}.
 
+				For this event, an extra argument is given to
+				an event handler.  It is a string which
+				represents the name of the current source.
+				Normally its value is the same as {source}.
+				It may be used for |ku-special-sources|.
+
 				Return value is ignored.
 
-			"SourceLeave"
+			"SourceLeave"		*ku-SourceLeave*
 				The current source is switched from {source}
 				to another source, or the |ku-window| is
 				closed and the the current source is {source}.
 
+				For this event, an extra argument is given to
+				an event handler.  It is a string which
+				represents the name of the current source.
+				Normally its value is the same as {source}.
+				It may be used for |ku-special-sources|.
+
 				Return value is ignored.
 
-			"BeforeAction"
+			"BeforeAction"		*ku-BeforeAction*
 				Just before an action is executed.
 
 				For this event, an extra argument is given to
@@ -407,6 +420,15 @@ ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 				item, you must not modify the given item
 				in-place.  Because items may be cached by
 				{source}.
+
+			"AvailableSources"	*ku-AvailableSources*
+				Whenever ku gathers the names of all available
+				sources.
+
+				Event handlers of |ku-special-sources| must
+				return a list of the names of sources which
+				are provided by them.  For normal sources,
+				nothing to do.
 
 			If ku#{source}#event_handler() doesn't handle one or
 			more events, it must call ku#default_event_handler()
@@ -440,6 +462,23 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			_ku_completed_p		(boolean)
 				Normally true.  If the item is not completed
 				one, it is set to false.
+
+
+						*ku-special-sources*
+(planned) Normally, 1 source script provides 1 source, and the basename of
+a source script is the same as the name of source which is provided by the
+source script.  For example, source script "autoload/ku/buffer.vim" provides
+only "buffer" source.
+
+But 1 source script may provide 2 or more sources.  Such source scripts and
+sources provides by them are called as "special sources" or "special source
+scripts".
+
+- The name of a special source must be in the following form: "{base}-{ext}".
+- {base} is the same as the basename of a special source script which provides
+  the special source.
+- {ext} is additional part.  It should consist of lower cases only.
+- See also |ku-AvailableSources|.
 
 
 
@@ -545,6 +584,7 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-10T12:17:09+09:00
+	- Add notes on |ku-special-sources| (still planned yet).
 	- Fix requirements - ku uses |fnameescape()| which is added since Vim
 	  7.1.299.  (thanks to id:thinca)
 
