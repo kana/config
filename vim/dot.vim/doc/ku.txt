@@ -577,7 +577,7 @@ CHANGELOG					*ku-changelog*
 	- Add |ku-special-sources|.
 	- Remove the feature to provide |metarw-schemes| as |ku-sources|.
 	  This feature is implemented as a special source and it is included
-	  in |metarw| 0.0.x or later.
+	  in |metarw| 0.0.1 or later.
 	- Fix requirements - ku uses |fnameescape()| which is added since Vim
 	  7.1.299.  (thanks to id:thinca)
 
