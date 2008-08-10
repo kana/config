@@ -69,7 +69,11 @@ open!						*ku-file-aciton-open!*
 ==============================================================================
 KEY TABLE					*ku-file-key-table*
 
-Use |<Plug>(ku-choose-an-action)| to know what keys are available.
+Key		Action ~
+--------	--------
+<C-o>		open		|ku-file-action-open|
+O		open!		|ku-file-action-open!|
+o		open		|ku-file-action-open|
 
 
 
