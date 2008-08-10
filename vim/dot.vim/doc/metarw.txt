@@ -1,6 +1,6 @@
 *metarw.txt*	a framework to read/write a fake:path
 
-Version 0.0.0
+Version 0.0.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -53,7 +53,7 @@ Requirements:
 Optionals:
 - |metarw-scheme-script| such as metarw-git
   <http://www.vim.org/scripts/script.php?script_id=2336>
-- ku 0.0.x or later (see also |metarw-schemes-as-ku-sources|)
+- ku 0.1.1 or later (see also |metarw-schemes-as-ku-sources|)
   <http://www.vim.org/scripts/script.php?script_id=2337>
 
 
@@ -277,7 +277,7 @@ BUGS						*metarw-bugs*
 ==============================================================================
 CHANGELOG					*metarw-changelog*
 
-0.0.x	2008-08-10T12:19:52+09:00
+0.0.1	2008-08-10T12:19:52+09:00
 	- Add a special source of ku (see |metarw-schemes-as-ku-sources|).
 	- Fix autocommands not to hook fakepaths with any schene name which
 	  consists of less than 2 characters.  Old definitions incorrectly
