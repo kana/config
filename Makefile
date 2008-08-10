@@ -249,6 +249,8 @@ PACKAGE_vim_ku_FILES=\
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.0
 PACKAGE_vim_metarw_BASE=vim/dot.vim
 PACKAGE_vim_metarw_FILES=\
+  vim/dot.vim/autoload/ku/special/metarw.vim \
+  vim/dot.vim/autoload/ku/special/metarw_.vim \
   vim/dot.vim/autoload/metarw.vim \
   vim/dot.vim/doc/metarw.txt \
   vim/dot.vim/plugin/metarw.vim \
