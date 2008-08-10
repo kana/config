@@ -1058,7 +1058,7 @@ endfunction
 
 
 function! s:sort_sources(_)  "{{{2
-  let _ = copy(a:_)
+  let _ = a:_
   let _ = map(_, 'get(s:priority_table, v:val, s:DEFAULT_PRIORITY) . v:val')
   let _ = sort(_)
   let _ = map(_, 'v:val[3:]')  " Assumption: priority is 3-digit integer.
