@@ -83,6 +83,15 @@ endif
 " There may be g:ku_{source}_junk_pattern.
 
 
+" Priorities table: source -> priority
+if !exists('s:priority_table')
+  let s:priority_table = {}
+endif
+let s:DEFAULT_PRIORITY = 500
+let s:MIN_PRIORITY = 100
+let s:MAX_PRIORITY = 999
+
+
 
 
 
@@ -104,7 +113,7 @@ function! ku#available_sources()  "{{{2
       let special_sources += ku#special#{fnamemodify(f, ':t:r')}#sources()
     endfor
 
-    let s:available_sources = sort(ordinary_sources + special_sources)
+    let s:available_sources = s:sort_sources(ordinary_sources+special_sources)
   endif
 
   return s:available_sources
@@ -161,6 +170,22 @@ function! ku#custom_key(source, key, action)  "{{{2
   endif
 
   let s:custom_key_tables[a:source][a:key] = a:action
+endfunction
+
+
+
+
+function! ku#custom_priority(source, priority)  "{{{2
+  if type(a:priority) != type(0)
+    echoerr 'priority must be integer, but got:' string(a:priority)
+    return
+  endif
+  if a:priority < s:MIN_PRIORITY || s:MAX_PRIORITY < a:priority
+    echoerr 'priority is out of the range:' string(a:priority)
+    return
+  endif
+
+  let s:priority_table[a:source] = a:priority
 endfunction
 
 
@@ -1027,6 +1052,17 @@ endfunction
 
 function! s:runtime_files(glob_pattern)  "{{{2
   return split(globpath(&runtimepath, a:glob_pattern), '\n')
+endfunction
+
+
+
+
+function! s:sort_sources(_)  "{{{2
+  let _ = copy(a:_)
+  let _ = map(_, 'get(s:priority_table, v:val, s:DEFAULT_PRIORITY) . v:val')
+  let _ = sort(_)
+  let _ = map(_, 'v:val[3:]')  " Assumption: priority is 3-digit integer.
+  return _
 endfunction
 
 

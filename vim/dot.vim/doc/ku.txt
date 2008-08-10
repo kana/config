@@ -138,6 +138,15 @@ ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 
 			See also |ku-key-table|.
 
+ku#custom_priority({source}, {priority})	*ku#custom_priority()*
+			Set the priority of {source} to {priority}.
+
+			{priority} is an integer and it must be in the range
+			[100, 999], i.e, 100 <= {priority} and {priority} <=
+			999.  The default priority of each source is 500.
+
+			See also |ku-sources-list|.
+
 ku#available_sources()				*ku#available_sources()*
 			Return a list of strings which represents the names of
 			available sources.
@@ -164,12 +173,13 @@ In the ku window, the following key mappings are defined:
 
 <Plug>(ku-next-source)				*<Plug>(ku-next-source)*
 <Plug>(ku-previous-source)			*<Plug>(ku-previous-source)*
-			Change the current source.  ku has a list of available
-			sources and the list is sorted by names.  These key
-			mappings change the current source to the next one or
-			the previous one in the list.  If the current source
-			is the first one or the last one in the list, select
-			the last one or the first one.
+			Change the current source to the next one or the
+			previous one.
+						*ku-sources-list*
+			ku has a list of available sources.  The list is
+			sorted by their priorities, then sorted by their
+			names.  Priorities can be configured by
+			|ku#custom_priority()|.
 
 			For example, if
 			- the list == ["buffer", "file", "metarw-git"], and
@@ -583,6 +593,9 @@ BUGS						*ku-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.1.x	2008-08-11T01:56:15+09:00
+	- Add priorities for |ku-sources-list|.
 
 0.1.1	2008-08-10T12:17:09+09:00
 	- Add |ku-special-sources|.
