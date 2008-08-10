@@ -92,11 +92,11 @@ endif
 " Interface  "{{{1
 function! ku#available_sources()  "{{{2
   " FIXME: more proper condition to check whether the caches are expired.
-  let _ = getftime(split(globpath(&runtimepath, 'autoload/ku/'))[0])
+  let _ = getftime(s:runtime_files('autoload/ku/')[0])
   if len(s:available_sources) == 0 || s:sources_directory_timestamp != _
     let s:sources_directory_timestamp = _
     let ordinary_sources = map(
-    \     split(globpath(&runtimepath, 'autoload/ku/*.vim'), "\n"),
+    \     s:runtime_files('autoload/ku/*.vim'),
     \     'substitute(v:val, ''^.*/\([^/]*\)\.vim$'', ''\1'', "")'
     \   )
     let s:available_sources = sort(ordinary_sources)
@@ -1008,6 +1008,13 @@ function! s:ni_map(...)  "{{{2
     silent! execute _.'map' join(a:000)
   endfor
   return
+endfunction
+
+
+
+
+function! s:runtime_files(glob_pattern)  "{{{2
+  return split(globpath(&runtimepath, a:glob_pattern), '\n')
 endfunction
 
 
