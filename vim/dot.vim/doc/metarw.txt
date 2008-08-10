@@ -42,16 +42,17 @@ Changelog		|metarw-changelog|
 ==============================================================================
 INTRODUCTION					*metarw-introduction*
 
-metarw is a Vim plugin to provide a framework to read/write a file-like
+*metarw* is a Vim plugin to provide a framework to read/write a file-like
 argument of which name is written in URI-like notation such as
 "git:master:src/ui.c".  metarw also provides content browser like |netrw|'s
 one for some sorts of argumetns if they are given to :edit or other command.
 
+
 Requirements:
-- Vim 7.1.299 or later.
+- Vim 7.1.299 or later
 
 Optionals:
-- |metarw-scheme-script| such as metarw-git
+- |metarw-scheme-script| such as |metarw-git|
   <http://www.vim.org/scripts/script.php?script_id=2336>
 - ku 0.1.1 or later (see also |metarw-schemes-as-ku-sources|)
   <http://www.vim.org/scripts/script.php?script_id=2337>

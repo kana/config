@@ -35,16 +35,17 @@ Changelog		|ku-bundle-changelog|
 
 
 ==============================================================================
-INTRODUCTION			   *ku-bundle-introduction* *ku-source-bundle*
+INTRODUCTION					*ku-bundle-introduction*
 
-This is a ku source to deal with bundles which are provided by a Vim plugin
-"bundle".
+*ku-source-bundle* is a source for |ku| to deal with bundles for a Vim plugin
+|bundle|.  You can choose one from many bundles and do some action to it.
+
 
 Requirements:
 - Vim 7.1 or later
-- bundle 0.0.x or later
+- |bundle| 0.0.x or later
   <http://www.vim.org/scripts/script.php?script_id=2338>
-- ku 0.1.1 or later
+- |ku| 0.1.1 or later
   <http://www.vim.org/scripts/script.php?script_id=2337>
 
 

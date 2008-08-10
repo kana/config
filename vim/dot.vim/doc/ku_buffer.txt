@@ -37,8 +37,14 @@ Changelog		|ku-buffer-changelog|
 ==============================================================================
 INTRODUCTION					*ku-buffer-introduction*
 
-"buffer" is a source for ku, a Vim plugin (|ku.txt|).  This source gathers all
-buffers but unlisted ones as itmes to be completed.
+*ku-source-buffer* is a source for |ku| to deal with buffers.  You can choose
+one from many buffers and do some action to it.
+
+
+Requirements:
+- Vim 7.1.299 or later
+- |ku| 0.1.0 or later
+  <http://www.vim.org/scripts/script.php?script_id=2337>
 
 
 

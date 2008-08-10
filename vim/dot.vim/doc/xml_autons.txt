@@ -38,7 +38,7 @@ Changelog		|xml_autons-changelog|
 ==============================================================================
 INTRODUCTION					*xml_autons-introduction*
 
-xml_autons is an additional Vim filetype plugin for XML to execute |:XMLns|
+*xml_autons* is an additional Vim filetype plugin for XML to execute |:XMLns|
 according to the content of the current buffer.  This supports to use omni
 completion for XML (|ft-xml-omni|), because it requires to execute |:XMLns|.
 

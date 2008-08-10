@@ -41,18 +41,19 @@ Changelog		|bundle-changelog|
 ==============================================================================
 INTRODUCTION					*bundle-introduction*
 
-Bundle is a Vim plugin to easily load a series of files which is called as
+*bundle* is a Vim plugin to easily load a series of files which is called as
 "bundle".  For example, if you often edit files foo.c, bar.txt and baz.vim in
 project named "qux", you can use "|:LoadBundle| qux" to load the files.
 
 The correspondence of bundle names and lists of files can be configured by
 static way (|g:bundle_dictionary|) and dynamic way (|bundle-events|).
 
+
 Requirements:
-- Vim 7.1.299 or later.
+- Vim 7.1.299 or later
 
 Optionals:
-- ku 0.1.1 or later.  (|ku-source-bundle|)
+- ku 0.1.1 or later  (|ku-source-bundle|)
   <http://www.vim.org/scripts/script.php?script_id=2337>
 
 

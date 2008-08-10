@@ -37,14 +37,15 @@ Changelog		|smartchr-changelog|
 ==============================================================================
 INTRODUCTION					*smartchr-introduction*
 
-Smartchr is a Vim plugin to support input several candidates with a single
+*smartchr* is a Vim plugin to support input several candidates with a single
 key, like ess-smart-underscore in Emacs Speaks Statistics -- when user types
 "_" key, it inserts " <- " for the first time or it replaces " <- " by "_" for
 the second time.  This plugin provides a function to support to define such
 key bindings.
 
+
 Requirements:
-- Vim 7.1 or later.
+- Vim 7.1 or later
 
 
 

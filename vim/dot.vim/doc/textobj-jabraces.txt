@@ -38,11 +38,11 @@ ChangeLog		|textobj-jabraces-changelog|
 ==============================================================================
 INTRODUCTION					*textobj-jabraces-introduction*
 
-textobj-jabraces is a Vim plugin to provide text objects for Japanese braces
+*textobj-jabraces* is a Vim plugin to provide text objects for Japanese braces
 such as 「foo」 or 【bar】.
 
 Requirements:
-* Vim 7.0 or later.
+* Vim 7.0 or later
 * |textobj-user| 0.3.3 or later
   <http://www.vim.org/scripts/script.php?script_id=2100>
 

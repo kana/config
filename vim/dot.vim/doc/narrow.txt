@@ -39,7 +39,7 @@ Changelog		|narrow-changelog|
 ==============================================================================
 INTRODUCTION					*narrow-introduction*
 
-Narrow is a Vim plugin to emulate Emacs' narrowing feature.
+*narrow* is a Vim plugin to emulate Emacs' narrowing feature.
 From GNU Emacs Manual:
 
 	Narrowing means focusing in on some portion of the buffer, making the

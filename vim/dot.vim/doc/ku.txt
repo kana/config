@@ -46,8 +46,8 @@ Changelog		|ku-changelog|
 ==============================================================================
 INTRODUCTION					*ku-introduction*
 
-Ku is a Vim plugin to provide the interface to choose many items from a source
-with automatic completion and fuzzy pattern matching.
+*ku* is a Vim plugin to provide the interface to choose many items from
+a source with automatic completion and fuzzy pattern matching.
 
 To start selection, use |ku-commands|.  The commands will open the |ku-window|
 to take your input.  As you input some characters, |ins-completion-menu| will
@@ -59,7 +59,7 @@ You can also write your own sources.  See |ku-sources| for the detail.
 
 
 Requirements:
-- Vim 7.1.299 or later.
+- Vim 7.1.299 or later
 
 
 

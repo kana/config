@@ -40,12 +40,13 @@ Changelog		|flydiff-changelog|
 ==============================================================================
 INTRODUCTION					*flydiff-introduction*
 
-Flydiff is a Vim plugin to perform on-the-fly diff on the current buffer with
-some version control system and show the differences in another buffer.
+*flydiff* is a Vim plugin to perform on-the-fly diff on the current buffer
+with some version control system and show the differences in another buffer.
+
 
 Requirements:
-- Vim 7.1.299 or later.
-- Ordinary *nix shells such as bash and zsh.
+- Vim 7.1.299 or later
+- Ordinary *nix shells such as bash and zsh
 
 Supported version control systems:
 - git

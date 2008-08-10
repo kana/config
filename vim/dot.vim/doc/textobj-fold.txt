@@ -38,10 +38,11 @@ ChangeLog		|textobj-fold-changelog|
 ==============================================================================
 INTRODUCTION					*textobj-fold-introduction*
 
-textobj-fold is a Vim plugin to provide text objects for foldings.
+*textobj-fold* is a Vim plugin to provide text objects for foldings.
+
 
 Requirements:
-* Vim 7.0 or later.
+* Vim 7.0 or later
 * |textobj-user| 0.3.4 or later
   <http://www.vim.org/scripts/script.php?script_id=2100>
 

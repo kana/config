@@ -36,15 +36,16 @@ Changelog		|metarw-git-changelog|
 ==============================================================================
 INTRODUCTION					*metarw-git-introduction*
 
-metarw-git is a scheme for |metarw| to read or to browse various objects in
+*metarw-git* is a scheme for |metarw| to read or to browse various objects in
 a git repository with fakepaths like "git:HEAD~3:src/ui.c".
 
 Note that this scheme just supports reading from an object.  Writing to an
 object is not supported.
 
+
 Requirements:
-- Vim 7.1.299 or later.
-- metarw 0.0.0 or later.
+- Vim 7.1.299 or later
+- metarw 0.0.0 or later
   <http://www.vim.org/scripts/script.php?script_id=2335>
 
 

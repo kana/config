@@ -42,14 +42,15 @@ ChangeLog		|scratch-changelog|
 ==============================================================================
 INTRODUCTION					*scratch-introduction*
 
-Scratch is a Vim plugin to provide Emacs-like scratch buffer.  You can write
+*scratch* is a Vim plugin to provide Emacs-like scratch buffer.  You can write
 anything in it, and you can also evaluate a part of the buffer as Vim script.
 It is a temporary buffer and it is not related to a real file, so the content
-of the buffer will be discarded when you quit Vim.
-This buffer is useful when you test a bit of script or other use.
+of the buffer will be discarded when you quit Vim.  This buffer is useful when
+you test a bit of script or other use.
+
 
 Requirements:
-- Vim 7.0 or later.
+- Vim 7.0 or later
 
 
 

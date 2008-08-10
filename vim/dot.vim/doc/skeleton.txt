@@ -39,10 +39,11 @@ Changelog		|skeleton-changelog|
 ==============================================================================
 INTRODUCTION					*skeleton-introduction*
 
-Skeleton is a Vim plugin to set up a skeleton for a newly created buffer.
+*skeleton* is a Vim plugin to set up a skeleton for a newly created buffer.
+
 
 Requirements:
-- Vim 7.1 or later.
+- Vim 7.1 or later
 
 
 

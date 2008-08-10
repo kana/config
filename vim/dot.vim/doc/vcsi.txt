@@ -41,13 +41,14 @@ ChangeLog		|vcsi-changelog|
 ==============================================================================
 INTRODUCTION					*vcsi-introduction*
 
-Vcsi is a Vim plugin which provides interface for several version control
+*vcsi* is a Vim plugin which provides interface for several version control
 systems.  You will be able to commit, diff and other daily works quickly.
 Note that this plugin doesn't provide interface for commands which are rarely
 used.
 
+
 Requirements:
-- Vim 7.0 or later.
+- Vim 7.0 or later
 
 Supported operating systems:
 - *nix

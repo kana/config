@@ -37,7 +37,7 @@ Changelog		|idwintab-changelog|
 ==============================================================================
 INTRODUCTION					*idwintab-introduction*
 
-Idwintab is a Vim plugin to give unique ID for each window and tab page to
+*idwintab* is a Vim plugin to give unique ID for each window and tab page to
 identify one of them.  Because the returning values of Vim's built-in
 functions such as |winnr()| and |tabpagenr()| are calculated by their
 positions, so that the values aren't invariant.
