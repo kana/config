@@ -421,15 +421,6 @@ ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 				in-place.  Because items may be cached by
 				{source}.
 
-			"AvailableSources"	*ku-AvailableSources*
-				Whenever ku gathers the names of all available
-				sources.
-
-				Event handlers of |ku-special-sources| must
-				return a list of the names of sources which
-				are provided by them.  For normal sources,
-				nothing to do.
-
 			If ku#{source}#event_handler() doesn't handle one or
 			more events, it must call ku#default_event_handler()
 			with the same arguments and it must return the return
@@ -468,17 +459,27 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 (planned) Normally, 1 source script provides 1 source, and the basename of
 a source script is the same as the name of source which is provided by the
 source script.  For example, source script "autoload/ku/buffer.vim" provides
-only "buffer" source.
+only source "buffer".
 
-But 1 source script may provide 2 or more sources.  Such source scripts and
-sources provides by them are called as "special sources" or "special source
-scripts".
+But 1 source script may provide 2 or more sources dynamically.  Such source
+scripts are called as "special source scripts", and sources provides by them
+are called as "special sources".  Special source scripts are placed in
+"autoload/ku/special/" directory in 'runtimepath'.
 
-- The name of a special source must be in the following form: "{base}-{ext}".
-- {base} is the same as the basename of a special source script which provides
-  the special source.
+- The name of a special source must be in the following form:
+  "{source}-{ext}".
+- {source} is the same as the basename of a special source script which
+  provides the special source.
 - {ext} is additional part.  It should consist of lower cases only.
-- See also |ku-AvailableSources|.
+- To provide information on available sources, special source scripts should
+  have additional scripts:
+  - The names of additional scripts are in the following form:
+    "autoload/ku/special/{source}_.vim".
+  - Additional scripts provides the following function:
+
+ku#special#{source}_#sources()		      *ku#special#{source}_#sources()*
+			Return a list of strings.  Each string represents the
+			name of a special source.
 
 
 
