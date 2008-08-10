@@ -374,7 +374,7 @@ ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 
 				For this event, an extra argument is given to
 				an event handler.  It is a string which
-				represents the name of the current source.
+				represents the name of the activated source.
 				Normally its value is the same as {source}.
 				It may be used for |ku-special-sources|.
 
@@ -387,7 +387,7 @@ ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 
 				For this event, an extra argument is given to
 				an event handler.  It is a string which
-				represents the name of the current source.
+				represents the name of the inactivated source.
 				Normally its value is the same as {source}.
 				It may be used for |ku-special-sources|.
 

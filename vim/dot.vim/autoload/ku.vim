@@ -572,8 +572,8 @@ function! s:switch_current_source(_)  "{{{2
     return s:FALSE
   endif
 
-  call s:api(_[o], 'event_handler', 'SourceLeave', s:current_source)
-  call s:api(_[n], 'event_handler', 'SourceEnter', s:current_source)
+  call s:api(_[o], 'event_handler', 'SourceLeave', _[o])
+  call s:api(_[n], 'event_handler', 'SourceEnter', _[n])
 
   let s:current_source = _[n]
   return s:TRUE
