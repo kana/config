@@ -164,7 +164,18 @@ In the ku window, the following key mappings are defined:
 
 <Plug>(ku-next-source)				*<Plug>(ku-next-source)*
 <Plug>(ku-previous-source)			*<Plug>(ku-previous-source)*
-			Change the preferred type (ascending / descending).
+			Change the current source.  ku has a list of available
+			sources and the list is sorted by names.  These key
+			mappings change the current source to the next one or
+			the previous one in the list.  If the current source
+			is the first one or the last one in the list, select
+			the last one or the first one.
+
+			For example, if
+			- the list == ["buffer", "file", "metarw-git"], and
+			- the current source is "buffer",
+			the next one is "file" and
+			the previous one is "metarw-git".
 
 The default key mappings are defined by |ku#default_key_mappings()|.
 
