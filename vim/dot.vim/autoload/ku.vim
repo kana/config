@@ -921,7 +921,13 @@ endfunction
 
 
 function! s:api(source_name, api_name, ...)  "{{{2
-  return call(printf('ku#%s#%s', a:source_name, a:api_name), a:000)
+  let _ = matchstr(a:source_name, '^[a-z]\+\ze-')
+
+  if _ == ''  " normal source
+    return call(printf('ku#%s#%s', a:source_name, a:api_name), a:000)
+  else  " special source
+    return call(printf('ku#special#%s#%s', _, a:api_name), a:000)
+  endif
 endfunction
 
 
