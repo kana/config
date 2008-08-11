@@ -1,6 +1,6 @@
 *metarw.txt*	a framework to read/write a fake:path
 
-Version 0.0.1
+Version 0.0.2
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -271,7 +271,7 @@ BUGS						*metarw-bugs*
 ==============================================================================
 CHANGELOG					*metarw-changelog*
 
-0.0.x	2008-08-10T23:43:48+09:00
+0.0.2	2008-08-10T23:43:48+09:00
 	- Separate |ku-source-metarw| as a independent package.
 
 0.0.1	2008-08-10T12:19:52+09:00
