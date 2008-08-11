@@ -218,24 +218,34 @@ case-insensitive way.
 See also |g:ku_common_junk_pattern|.
 
 
-AUTO DIRECTORY COMPLETION			*ku-auto-directory-completion*
+AUTO COMPONENT COMPLETION			*ku-auto-component-completion*
+						*ku-auto-directory-completion*
 
-Whenever "/" is typed, the name of an appropriate directory will be
-automatically inserted.  For example, if the 1st item in the completion menu
-is 'usr/share/man/man1':
+Whenever a special character (*1) is typed, the names of appropriate
+components (*2) will be automatically inserted.  For example, if the 1st item
+in the completion menu is 'usr/share/man/man1', user input will be replaced
+(i.e., completed) as follows when the last '/' is typed:
 
-Input pattern		Replacement ~
+User Input		Replacement ~
 -------------		--------------
 u/			usr/
 usr//			usr/share/
 usr/share//		usr/share/man/
-sh/			usr/share/		(*)
-m/			usr/share/man/		(*)
+sh/			usr/share/		(*3)
+m/			usr/share/man/		(*3)
 
-This feature is derived from bluewind
-<http://cspace.s2.xrea.com/software/bluewind/>.
+This feature is derived from bluewind, command-based application launcher for
+Microsoft Windows <http://cspace.s2.xrea.com/software/bluewind/>.
 
-(*) In these cases, ku completes more than 1 directories.  Because user seems
+(*1) In the above example, '/' is a special character to activate this
+completion.  This character is configurable ith |g:ku_component_separators|.
+If ':' is a special character, 
+
+(*2) In the above example, components are directories.  More precisely,
+components are just strings separated by a special character.  So in the abov
+example, components are directory-like stuffs and they may not be directories.
+
+(*3) In these cases, ku completes more than 1 directories.  Because user seems
 to want to complete several directories rather than just 1 directory.  This
 behavior is not in bluewind, but it's useful.
 
@@ -518,6 +528,12 @@ g:ku_{source}_junk_pattern			*g:ku_{source}_junk_pattern*
 	g:ku_common_junk_pattern is used for items from any sources, while
 	g:ku_{source}_junk_pattern is used for items from a specific {source}.
 
+g:ku_component_separators			*g:ku_component_separators*
+	A string which reporesents special characters to activate
+	|ku-auto-component-completion|.  The default value is '/\:', so if you
+	type '/', '\' or ':', |ku-auto-component-completion| will be
+	activated.
+
 
 
 
@@ -600,6 +616,8 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-11T01:56:15+09:00
+	- Improve |ku-auto-directory-completion|.  Now the feature is called
+	  as |ku-auto-component-completion|.
 	- Fix a bug in |ku-auto-directory-completion|.  It may raise an error
 	  if user input contains a special character.
 	- Add |ku-prefix-expansion|.
