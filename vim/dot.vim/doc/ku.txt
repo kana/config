@@ -600,6 +600,8 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-11T01:56:15+09:00
+	- Fix a bug in |ku-auto-directory-completion|.  It may raise an error
+	  if user input contains a special character.
 	- Add |ku-prefix-expansion|.
 	- Fix |:KuDoAction| to check whether ku is active or not.
 	- Improve the performance of |ku#available_sources()|.
