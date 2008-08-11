@@ -212,7 +212,7 @@ PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 
-PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.1
+PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.2
 PACKAGE_vim_bundle_BASE=vim/dot.vim
 PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/autoload/bundle.vim \

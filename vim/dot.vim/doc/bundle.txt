@@ -1,6 +1,6 @@
 *bundle.txt*	Load a series of files easily
 
-Version 0.0.1
+Version 0.0.2
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -214,7 +214,7 @@ BUGS						*bundle-bugs*
 ==============================================================================
 CHANGELOG					*bundle-changelog*
 
-0.0.x	2008-08-10T20:24:17+09:00
+0.0.2	2008-08-10T20:24:17+09:00
 	- Add |bundle#available_bundles()|.
 
 0.0.1	2008-08-10T19:05:47+09:00
