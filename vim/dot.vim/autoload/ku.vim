@@ -100,17 +100,21 @@ let s:MAX_PRIORITY = 999
 
 " Interface  "{{{1
 function! ku#available_sources()  "{{{2
-  " FIXME: more proper condition to check whether the caches are expired.
+  let _ = s:FALSE
+
   if s:normal_source_cache_expired_p()
     call s:update_normal_source_cache()
+    let _ = s:TRUE
+  endif
 
-    let special_sources = []
-    for f in s:runtime_files('autoload/ku/special/*_.vim')
-      let special_sources += ku#special#{fnamemodify(f, ':t:r')}#sources()
-    endfor
+  if s:special_source_cache_expired_p()
+    call s:update_special_source_cache()
+    let _ = s:TRUE
+  endif
 
+  if _
     let s:available_sources = s:sort_sources(s:available_normal_sources
-    \                                        + special_sources)
+    \                                        + s:available_special_sources)
   endif
 
   return s:available_sources
@@ -129,6 +133,7 @@ let s:current_normal_source_directory_timestamps = []  " [timestamp, ...]
 function! s:normal_source_cache_expired_p()
   let s:current_normal_source_directory_timestamps
   \   = map(s:runtime_files('autoload/ku/'), 'getftime(v:val)')
+
   return s:current_normal_source_directory_timestamps
   \      != s:last_normal_source_directory_timestamps
 endfunction
@@ -136,8 +141,27 @@ endfunction
 function! s:update_normal_source_cache()
   let s:available_normal_sources = map(s:runtime_files('autoload/ku/*.vim'),
   \                                    'fnamemodify(v:val, ":t:r")')
+
   let s:last_normal_source_directory_timestamps
   \   = s:current_normal_source_directory_timestamps
+endfunction
+
+
+" cache for special sources  "{{{3
+" FIXME: Implement proper caching.  The following interface is just to hide
+"        the detail of caching.
+let s:available_special_sources = []  " [source-name, ...]
+
+function! s:special_source_cache_expired_p()
+  return s:TRUE
+endfunction
+
+function! s:update_special_source_cache()
+  let s:available_special_sources = []
+  for f in s:runtime_files('autoload/ku/special/*_.vim')
+    let s:available_special_sources
+    \   += ku#special#{fnamemodify(f, ':t:r')}#sources()
+  endfor
 endfunction
 
 
