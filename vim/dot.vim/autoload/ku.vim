@@ -57,7 +57,7 @@ let s:last_completed_items = []
   " There are 2 versions for user input:
   "
   "   raw              Text which user inserts at the ku window.
-  "   prefix-expanded  User input, its prefix is expanded.  (planned; NIY)
+  "   prefix-expanded  User input, its prefix is expanded.
   "                    (see ku#custom_prefix())
   "
   " Variables which hold user input are named with the following suffixes:
@@ -73,15 +73,15 @@ let s:ignorecase = ''
 let s:winrestcmd = ''
 
 
-" User defined action tables, key tables and abbreviation table for sources.
+" User defined action tables, key tables and prefix table for sources.
 if !exists('s:custom_action_tables')
   let s:custom_action_tables = {}  " source -> action-table
 endif
 if !exists('s:custom_key_tables')
   let s:custom_key_tables = {}  " source -> key-table
 endif
-if !exists('s:custom_abbreviation_tables')
-  let s:custom_abbreviation_tables = {}  " source -> abbreviation-table
+if !exists('s:custom_prefix_tables')
+  let s:custom_prefix_tables = {}  " source -> prefix-table
 endif
 
 
@@ -195,24 +195,6 @@ endfunction
 
 
 
-function! ku#custom_abbreviation(source, abbr_form, expanded_form)  "{{{2
-  if !has_key(s:custom_abbreviation_tables, a:source)
-    let s:custom_abbreviation_tables[a:source] = {}
-  endif
-  let _ = s:custom_abbreviation_tables[a:source]
-
-  if a:expanded_form != ''
-    let _[a:abbr_form] = a:expanded_form
-  else
-    if has_key(_, a:abbr_form)
-      call remove(_, a:abbr_form)
-    endif
-  endif
-endfunction
-
-
-
-
 function! ku#custom_action(source, action, function)  "{{{2
   if !has_key(s:custom_action_tables, a:source)
     let s:custom_action_tables[a:source] = {}
@@ -230,6 +212,24 @@ function! ku#custom_key(source, key, action)  "{{{2
   endif
 
   let s:custom_key_tables[a:source][a:key] = a:action
+endfunction
+
+
+
+
+function! ku#custom_prefix(source, prefix, text)  "{{{2
+  if !has_key(s:custom_prefix_tables, a:source)
+    let s:custom_prefix_tables[a:source] = {}
+  endif
+  let _ = s:custom_prefix_tables[a:source]
+
+  if a:text != ''
+    let _[a:prefix] = a:text
+  else
+    if has_key(_, a:prefix)
+      call remove(_, a:prefix)
+    endif
+  endif
 endfunction
 
 
@@ -985,26 +985,27 @@ endfunction
 
 
 
-" Abbreviation table  "{{{2
-function! s:abbreviation_table_for(source)  "{{{3
-  let ABBREVIATION_TABLE = {}
-  for _ in [s:custom_abbreviation_table('common'),
-  \         s:custom_abbreviation_table(s:current_source)]
-    call extend(ABBREVIATION_TABLE, _)
+" Prefix table  "{{{2
+function! s:prefix_table_for(source)  "{{{3
+  " FIXME: should cache - this will be heavily used.
+  let PREFIX_TABLE = {}
+  for _ in [s:custom_prefix_table('common'),
+  \         s:custom_prefix_table(s:current_source)]
+    call extend(PREFIX_TABLE, _)
   endfor
-  return ABBREVIATION_TABLE
+  return PREFIX_TABLE
 endfunction
 
 
-function! s:custom_abbreviation_table(source)  "{{{3
-  return get(s:custom_abbreviation_tables, a:source, {})
+function! s:custom_prefix_table(source)  "{{{3
+  return get(s:custom_prefix_tables, a:source, {})
 endfunction
 
 
-function! s:expand_abbreviation(s)  "{{{3
-  for [abbr, expnd] in items(s:abbreviation_table_for(s:current_source))
-    if a:s[:len(abbr) - 1] ==# abbr
-      return expnd . a:s[len(abbr):]
+function! s:expand_prefix(s)  "{{{3
+  for [prefix, text] in items(s:prefix_table_for(s:current_source))
+    if a:s[:len(prefix) - 1] ==# prefix
+      return text . a:s[len(prefix):]
     endif
   endfor
   return a:s
