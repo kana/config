@@ -92,6 +92,10 @@ let s:MIN_PRIORITY = 100
 let s:MAX_PRIORITY = 999
 
 
+" Session ID.  A session is a period of time during the ku window is opened.
+let s:session_id = 0
+
+
 
 
 
@@ -100,6 +104,11 @@ let s:MAX_PRIORITY = 999
 
 " Interface  "{{{1
 function! ku#available_sources()  "{{{2
+  " Assumes that s:available_sources will be never changed during a session.
+  if s:ku_active_p() && s:session_id == s:_session_id_source_cache
+    return s:available_sources
+  endif
+
   let _ = s:FALSE
 
   if s:normal_source_cache_expired_p()
@@ -117,12 +126,14 @@ function! ku#available_sources()  "{{{2
     \                                        + s:available_special_sources)
   endif
 
+  let s:_session_id_source_cache = s:session_id
   return s:available_sources
 endfunction
 
 if !exists('s:available_sources')
   let s:available_sources = []  " [source-name, ...]
 endif
+let s:_session_id_source_cache = 0
 
 
 " cache for normal sources  "{{{3
@@ -282,6 +293,7 @@ function! ku#start(source)  "{{{2
   endif
 
   let s:current_source = a:source
+  let s:session_id = localtime()
 
   " Save some values to restore the original state.
   let s:completeopt = &completeopt
