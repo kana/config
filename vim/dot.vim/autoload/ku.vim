@@ -758,7 +758,7 @@ function! s:text_by_auto_directory_completion(line)  "{{{3
       " for the case (c), find the index of a component to be completed.
     let _ = len(line_components) - 2
     for i in range(len(line_components) - 2, len(item_components) - 1)
-      if item_components[i] =~? line_components[-2]  " FIXME: use skip pattern
+      if item_components[i] =~? s:make_skip_regexp(line_components[-2])
         let _ = i
         break
       endif
