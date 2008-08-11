@@ -103,18 +103,6 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
 
-ku#custom_abbreviation({source}, {abbr}, {exp})	*ku#custom_abbreviation()*
-			Define an abbreviation {abbr} which is expanded to
-			{exp} for {source}.  If {exp} is a null string, {abbr}
-			will be deleted.
-
-			{source} is the name of a source or "common".  In the
-			former case, the given {abbr} is available for the
-			given {source}.  In the latter case, the given {abbr}
-			is available for all sources.
-
-			See also |ku-abbreviation-table|.
-
 ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 			Define a new {action} for items from {source}.
 			{function} is the name of a function which will be
@@ -137,6 +125,18 @@ ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
 			is available for all sources.
 
 			See also |ku-key-table|.
+
+ku#custom_prefix({source}, {prefix}, {text})	*ku#custom_prefix()*
+			Define a {prefix} to be expanded to {text} for
+			{source}.  If {text} is empty string, delete
+			a {prefix} from the prefix table for {source}.
+
+			{source} is the name of a source or "common".  In the
+			former case, the given {prefix} is available for the
+			given {source}.  In the latter case, the given
+			{prefix} is available for all sources.
+
+			See also |ku-prefix-expansion|.
 
 ku#custom_priority({source}, {priority})	*ku#custom_priority()*
 			Set the priority of {source} to {priority}.
@@ -240,24 +240,29 @@ to want to complete several directories rather than just 1 directory.  This
 behavior is not in bluewind, but it's useful.
 
 
-ABBREVIATION					*ku-abbreviation*
+PREFIX EXPANSION				*ku-prefix-expansion*
 
-(planned - this feature is not implemented yet)
-If the head of user input is matched to one of the abbreviations in
-|ku-abbreviation-table|, the head part will be expanded.  For example, if you
+If the head of user input is matched to one of the prefixes in
+|ku-prefix-table|, the matched part will be expanded.  For example, if you
 configure ku with the following setting:
 >
-	call ku#custom_abbreviation('common', '~', '/home/kana')
-	call ku#custom_abbreviation('common', '.vim', '/home/kana/.vim')
+	call ku#custom_prefix('common', '~', $HOME)
+	call ku#custom_prefix('common', '.vim', $HOME.'/.vim')
 <
-User input will be treated as follows:
+User input will be treated as follows
+(in the following examples, $HOME == '/home/kana'):
 
 User input		Treated as ~
 ----------		----------
 ~			/home/kana
 ~/working/meta		/home/kana/working/meta
 .vim/autoload/ku.vim	/home/kana/.vim/autoload/ku.vim
-junk-file~		junk-file~	(not expanded)
+junk-file~		junk-file~	(not expanded, because "~" is not
+					 appeared at the head of user input)
+
+This expansion is not recursive.
+
+See also |ku-prefix-table| and |ku#custom_prefix()|.
 
 
 ------------------------------------------------------------------------------
@@ -526,25 +531,6 @@ ku window					*ku-window* *ku-buffer*
 			- Selecting is canceled.
 			- Another window or another tab page becomes active.
 
-abbreviation table				*ku-abbreviation-table*
-			Abbreviation table is a dictionary, where each key is
-			a string that represents an abbreviated form, and each
-			value is a string that represents the expanded form of
-			the corresponding abbreviated form.
-
-			There are 2 abbreviation tables for each source, and
-			above listed ones have higher priority than below
-			listed ones:
-
-			1. custom abbreviation table for a source
-			2. custom abbreviation table for all sources
-
-			Custom abbreviation tables can be configured with
-			|ku#custom_abbreviation()|.  There is no default entry
-			in any abbreviation tables.
-
-			See also |ku-abbreviation|.
-
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
 			name of an action, and each value is the name of
@@ -580,6 +566,25 @@ key table					*ku-key-table*
 			Custom key tables can be configured with
 			|ku#custom_key()|.
 
+prefix table					*ku-prefix-table*
+			Prefix table is a dictionary, where each key is
+			a string that represents a prefix, and each value is
+			a string that represents the expanded text for the
+			corresponding prefix.
+
+			There are 2 prefix tables for each source, and above
+			listed ones have higher priority than below listed
+			ones:
+
+			1. custom prefix table for a source
+			2. custom prefix table for all sources
+
+			Custom prefix tables can be configured with
+			|ku#custom_prefix()|.  There is no default entry in
+			any prefix tables.
+
+			See also |ku-prefix-expansion|.
+
 
 
 
@@ -595,6 +600,7 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-11T01:56:15+09:00
+	- Add |ku-prefix-expansion|.
 	- Fix |:KuDoAction| to check whether ku is active or not.
 	- Improve the performance of |ku#available_sources()|.
 	- Add priorities for |ku-sources-list|.
