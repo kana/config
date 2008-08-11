@@ -273,6 +273,11 @@ endfunction
 
 
 function! ku#do_action(name)  "{{{2
+  if !s:ku_active_p()
+    echoerr 'ku is not active'
+    return s:FALSE
+  endif
+
   return s:do(a:name)
 endfunction
 
