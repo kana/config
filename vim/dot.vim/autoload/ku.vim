@@ -53,7 +53,17 @@ let s:auto_directory_completion_done_p = s:FALSE
 
 " To take action on the appropriate item.
 let s:last_completed_items = []
-let s:last_user_input = ''
+
+  " There are 2 versions for user input:
+  "
+  "   raw              Text which user inserts at the ku window.
+  "   prefix-expanded  User input, its prefix is expanded.  (planned; NIY)
+  "                    (see ku#custom_prefix())
+  "
+  " Variables which hold user input are named with the following suffixes:
+  " "_raw" if variables hold raw version,
+  " "_ped" if variables hold prefix-expanded version.
+let s:last_user_input_raw = ''
 
 
 " Values to be restored after the ku window is closed.
@@ -430,33 +440,33 @@ endfunction
 
 
 function! s:do(action_name)  "{{{2
-  let current_user_input = getline(2)
-  if current_user_input !=# s:last_user_input
-    " current_user_input seems to be inserted by completion.
+  let current_user_input_raw = getline(2)
+  if current_user_input_raw !=# s:last_user_input_raw
+    " current_user_input_raw seems to be inserted by completion.
     for _ in s:last_completed_items
-      if current_user_input ==# _.word
+      if current_user_input_raw ==# _.word
         let item = _
         break
       endif
     endfor
     if !exists('item')
       echoerr 'Internal error: No match found in s:last_completed_items'
-      echoerr 'current_user_input' string(current_user_input)
-      echoerr 's:last_user_input' string(s:last_user_input)
+      echoerr 'current_user_input_raw' string(current_user_input_raw)
+      echoerr 's:last_user_input_raw' string(s:last_user_input_raw)
       throw 'ku:e1'
     endif
   else
-    " current_user_input seems NOT to be inserted by completion, but ...
+    " current_user_input_raw seems NOT to be inserted by completion, but ...
     if 0 < len(s:last_completed_items)
       " there are 1 or more items -- user seems to take action on the 1st one.
       let item = s:last_completed_items[0]
     else
-      " there is no item -- user seems to take action on current_user_input.
-      if s:contains_the_prompt_p(current_user_input)
+      " there's no item -- user seems to take action on current_user_input_raw.
+      if s:contains_the_prompt_p(current_user_input_raw)
         " remove the prompt.
-        let current_user_input = current_user_input[len(s:PROMPT):]
+        let current_user_input_raw = current_user_input_raw[len(s:PROMPT):]
       endif
-      let item = {'word': current_user_input, '_ku_completed_p': s:FALSE}
+      let item = {'word': current_user_input_raw, '_ku_completed_p': s:FALSE}
     endif
   endif
 
@@ -620,7 +630,7 @@ function! s:on_CursorMovedI()  "{{{2
   endif
 
   let s:last_col = col('.')
-  let s:last_user_input = line
+  let s:last_user_input_raw = line
   return (c0 != c1 ? "\<Right>" : '') . keys
 endfunction
 
@@ -629,7 +639,7 @@ endfunction
 
 function! s:on_InsertEnter()  "{{{2
   let s:last_col = s:INVALID_COL
-  let s:last_user_input = ''
+  let s:last_user_input_raw = ''
   let s:auto_directory_completion_done_p = s:FALSE
   return s:on_CursorMovedI()
 endfunction
