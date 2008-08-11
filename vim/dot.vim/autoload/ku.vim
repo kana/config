@@ -700,44 +700,59 @@ endfunction
 
 
 function! s:text_by_auto_directory_completion(line)  "{{{3
+  " FIXME: This function should be named s:text_by_auto_component_completion()
+  " for the future.
+  "
   " Note that a:line always ends with '/', because this function is always
   " called by typing '/'.  So there are at least 2 components in a:line.
-  " FIXME: path separator assumption.
+
+    " Currently, a:line is always ended with '/'.  But it may be other
+    " character to support to complete components which are separated by
+    " a character other than '/'.  So in this function, use variable SEP to
+    " express the current separator.
+  let SEP = a:line[-1:]  " string[-1] is always empty - see :help expr-[]
+
   let user_input_raw = a:line[len(s:PROMPT):]
   let [user_input_ped, prefix, text] = s:expand_prefix3(user_input_raw)
   let prefix_expanded_p = user_input_raw !=# user_input_ped
-  let line_components = split(user_input_ped, '/', s:TRUE)
+  let line_components = split(user_input_ped, SEP, s:TRUE)
 
   " Find an item which has the same components but the last 2 ones of
   " line_components.  Because line_components[-1] is always empty and
-  " line_components[-2] is almost imperfect directory name.
+  " line_components[-2] is almost imperfect name of a component.
   "
   " Note that line_components[-2] is already used to filter the completed
   " items and it is used to select what components should be completed.
   "
   " Example:
-  " (a) If a:line ==# 'usr/share/m/',
-  "     line_components == ['usr', 'share', 'm', ''].
-  "     So the 1st item which is prefixed with 'usr/share/' is selected and it
-  "     is used for this automatic directory completion.  If
+  "
+  " (a) a:line ==# 'usr/share/m/',
+  "     line_components == ['usr', 'share', 'm', '']
+  "
+  "     The 1st item which is prefixed with 'usr/share/' is selected and it is
+  "     used for this automatic component completion.  If
   "     'usr/share/man/man1/' is found in this way, the completed text will be
   "     'usr/share/man'.
-  " (b) If a:line ==# 'u/',
-  "     line_components == ['u', ''].
-  "     So the 1st item is alaways selected for this automatic directory
+  "
+  " (b) a:line ==# 'u/'
+  "     line_components == ['u', '']
+  "
+  "     The 1st item is alaways selected for this automatic component
   "     completion.  If 'usr/share/man/man1/' is found in this way, the
   "     completion text will be 'usr'.
-  " (c) If a:line ==# 'm/',
-  "     line_components == ['m', ''].
-  "     So the 1st item is alaways selected for this automatic directory
+  "
+  " (c) a:line ==# 'm/'
+  "     line_components == ['m', '']
+  "
+  "     The 1st item is alaways selected for this automatic component
   "     completion.  If 'usr/share/man/man1/' is found in this way, the
-  "     completion text will be 'usr/share/man/', because user seems to want
-  "     to complete till the component which matches to 'm'.
-  for item in ku#_omnifunc(s:FALSE, a:line[:-2])  " without the last '/'
-    let item_components = split(item.word, '/', s:TRUE)
+  "     completion text will be 'usr/share/man', because user seems to want to
+  "     complete till the component which matches to 'm'.
+  for item in ku#_omnifunc(s:FALSE, a:line[:-2])  " without the last SEP
+    let item_components = split(item.word, SEP, s:TRUE)
 
     if len(line_components) < 2
-      echoerr 'Assumption is failed in auto directory completion'
+      echoerr 'Assumption is failed in auto component completion'
       throw 'ku:e2'
     elseif len(line_components) == 2
       " OK - the case (b)
@@ -764,7 +779,7 @@ function! s:text_by_auto_directory_completion(line)  "{{{3
       endif
     endfor
 
-    let result = join(item_components[:_], '/')
+    let result = join(item_components[:_], SEP)
     if prefix_expanded_p && stridx(result, text) == 0
       let result = prefix . result[len(text):]
     endif
