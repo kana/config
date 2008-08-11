@@ -351,7 +351,7 @@ function! ku#start(source)  "{{{2
   " Start Insert mode.
   call feedkeys('i', 'n')
 
-  call s:api(s:current_source, 'event_handler', 'SourceEnter', s:current_source)
+  call s:api(s:current_source, 'event_handler', 'SourceEnter',s:current_source)
   return s:TRUE
 endfunction
 
@@ -501,7 +501,7 @@ function! s:end()  "{{{2
   endif
   let s:_end_locked_p = s:TRUE
 
-  call s:api(s:current_source, 'event_handler', 'SourceLeave', s:current_source)
+  call s:api(s:current_source, 'event_handler', 'SourceLeave',s:current_source)
   close
 
   let &completeopt = s:completeopt
