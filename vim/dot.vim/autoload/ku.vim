@@ -48,7 +48,11 @@ let s:PROMPT = '>'  " must be a single character.
 let s:INVALID_COL = -3339
 let s:last_col = s:INVALID_COL
 
-let s:auto_directory_completion_done_p = s:FALSE
+let s:automatic_component_completion_done_p = s:FALSE
+  " Special characters to activate automatic component completion.
+if !exists('g:ku_component_separators')
+  let g:ku_component_separators = '/\:'
+endif
 
 
 " To take action on the appropriate item.
@@ -610,27 +614,33 @@ function! s:on_CursorMovedI()  "{{{2
     let keys = repeat("\<Right>", len(s:PROMPT) - col('.') + 1)
   elseif len(line) < col('.') && col('.') != s:last_col
     " New character is inserted.  Let's complete automatically.
-    " FIXME: path separator assumption
-    if (!s:auto_directory_completion_done_p)
-    \  && line[-1:] == '/'
+    if (!s:automatic_component_completion_done_p)
+    \  && 0 <= stridx(g:ku_component_separators, line[-1:])
     \  && len(s:PROMPT) + 2 <= len(line)
-      " The last inserted character is not inserted by automatic directory
-      " completion, it is a '/', and it seems not to be the 1st '/' of the
-      " root directory.
-      let text = s:text_by_auto_directory_completion(line)
+      " (1) The last inserted character is not inserted by automatic component
+      "     completion.
+      " (2) It is a special character which is one of
+      "     g:ku_component_separators.
+      " (3) It seems not to be the 1st one in line.
+      "
+      " The (3) is necessary to input a special character as the 1st character
+      " in line.  For example, without this condition, user cannot input the
+      " 1st '/' of an absolute path like '/usr/local/bin' if '/' is a special
+      " character.
+      let text = s:text_by_automatic_component_completion(line)
       if text != ''
         call setline('.', text)
-          " The last slash must be inserted in this way to forcedly show the
-          " completion menu.
-        let keys = "\<End>/"
-        let s:auto_directory_completion_done_p = s:TRUE
+          " The last special character must be inserted in this way to
+          " forcedly show the completion menu.
+        let keys = "\<End>" . line[-1:]
+        let s:automatic_component_completion_done_p = s:TRUE
       else
         let keys = s:KEYS_TO_START_COMPLETION
-        let s:auto_directory_completion_done_p = s:FALSE
+        let s:automatic_component_completion_done_p = s:FALSE
       endif
     else
       let keys = s:KEYS_TO_START_COMPLETION
-      let s:auto_directory_completion_done_p = s:FALSE
+      let s:automatic_component_completion_done_p = s:FALSE
     endif
   else
     let keys = ''
@@ -647,7 +657,7 @@ endfunction
 function! s:on_InsertEnter()  "{{{2
   let s:last_col = s:INVALID_COL
   let s:last_user_input_raw = ''
-  let s:auto_directory_completion_done_p = s:FALSE
+  let s:automatic_component_completion_done_p = s:FALSE
   return s:on_CursorMovedI()
 endfunction
 
@@ -699,17 +709,10 @@ function! s:contains_the_prompt_p(s)  "{{{3
 endfunction
 
 
-function! s:text_by_auto_directory_completion(line)  "{{{3
-  " FIXME: This function should be named s:text_by_auto_component_completion()
-  " for the future.
-  "
-  " Note that a:line always ends with '/', because this function is always
-  " called by typing '/'.  So there are at least 2 components in a:line.
-
-    " Currently, a:line is always ended with '/'.  But it may be other
-    " character to support to complete components which are separated by
-    " a character other than '/'.  So in this function, use variable SEP to
-    " express the current separator.
+function! s:text_by_automatic_component_completion(line)  "{{{3
+  " Note that a:line always ends with a special character which is one of
+  " g:ku_component_separators,  because this function is always called by
+  " typing a special character.  So there are at least 2 components in a:line.
   let SEP = a:line[-1:]  " string[-1] is always empty - see :help expr-[]
 
   let user_input_raw = a:line[len(s:PROMPT):]
