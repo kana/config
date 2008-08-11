@@ -101,8 +101,8 @@ let s:MAX_PRIORITY = 999
 " Interface  "{{{1
 function! ku#available_sources()  "{{{2
   " FIXME: more proper condition to check whether the caches are expired.
-  if s:source_directories_changed_p()
-    call s:update_source_directory_timestamps()
+  if s:normal_source_directories_changed_p()
+    call s:update_normal_source_directory_timestamps()
 
     let ordinary_sources = map(s:runtime_files('autoload/ku/*.vim'),
     \                          'fnamemodify(v:val, ":t:r")')
@@ -123,20 +123,20 @@ if !exists('s:available_sources')
 endif
 
 
-" source directory timestamps  "{{{3
-let s:last_source_directory_timestamps = []
-let s:current_source_directory_timestamps = []
+" cache for normal sources  "{{{3
+let s:last_normal_source_directory_timestamps = []
+let s:current_normal_source_directory_timestamps = []
 
-function! s:source_directories_changed_p()
-  let s:current_source_directory_timestamps
+function! s:normal_source_directories_changed_p()
+  let s:current_normal_source_directory_timestamps
   \   = map(s:runtime_files('autoload/ku/'), 'getftime(v:val)')
-  return s:current_source_directory_timestamps
-  \      != s:last_source_directory_timestamps
+  return s:current_normal_source_directory_timestamps
+  \      != s:last_normal_source_directory_timestamps
 endfunction
 
-function! s:update_source_directory_timestamps()
-  let s:last_source_directory_timestamps
-  \   = s:current_source_directory_timestamps
+function! s:update_normal_source_directory_timestamps()
+  let s:last_normal_source_directory_timestamps
+  \   = s:current_normal_source_directory_timestamps
 endfunction
 
 
