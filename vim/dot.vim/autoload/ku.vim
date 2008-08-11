@@ -63,6 +63,11 @@ let s:last_completed_items = []
   " Variables which hold user input are named with the following suffixes:
   " "_raw" if variables hold raw version,
   " "_ped" if variables hold prefix-expanded version.
+  "
+  " Note that user input in the ku window is always raw version.  User will
+  " never see prefix-expanded version of user input in the ku window.  This
+  " policy is to avoid recursive prefix expansion whenever user types in the
+  " ku window.
 let s:last_user_input_raw = ''
 
 
@@ -368,9 +373,10 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     let s:last_completed_items = []
     return 0
   else
-    let pattern = (s:contains_the_prompt_p(a:base)
-    \              ? a:base[len(s:PROMPT):]
-    \              : a:base)
+    let pattern = s:expand_prefix(s:contains_the_prompt_p(a:base)
+    \                             ? a:base[len(s:PROMPT):]
+    \                             : a:base)
+
     let asis_regexp = s:make_asis_regexp(pattern)
     let word_regexp = s:make_word_regexp(pattern)
     let skip_regexp = s:make_skip_regexp(pattern)
@@ -466,7 +472,8 @@ function! s:do(action_name)  "{{{2
         " remove the prompt.
         let current_user_input_raw = current_user_input_raw[len(s:PROMPT):]
       endif
-      let item = {'word': current_user_input_raw, '_ku_completed_p': s:FALSE}
+      let item = {'word': s:expand_prefix(current_user_input_raw),
+      \           '_ku_completed_p': s:FALSE}
     endif
   endif
 
@@ -696,7 +703,10 @@ function! s:text_by_auto_directory_completion(line)  "{{{3
   " Note that a:line always ends with '/', because this function is always
   " called by typing '/'.  So there are at least 2 components in a:line.
   " FIXME: path separator assumption.
-  let line_components = split(a:line[len(s:PROMPT):], '/', s:TRUE)
+  let user_input_raw = a:line[len(s:PROMPT):]
+  let [user_input_ped, prefix, text] = s:expand_prefix3(user_input_raw)
+  let prefix_expanded_p = user_input_raw !=# user_input_ped
+  let line_components = split(user_input_ped, '/', s:TRUE)
 
   " Find an item which has the same components but the last 2 ones of
   " line_components.  Because line_components[-1] is always empty and
@@ -753,7 +763,12 @@ function! s:text_by_auto_directory_completion(line)  "{{{3
         break
       endif
     endfor
-    return join(item_components[:_], '/')
+
+    let result = join(item_components[:_], '/')
+    if prefix_expanded_p && stridx(result, text) == 0
+      let result = prefix . result[len(text):]
+    endif
+    return result
   endfor
   return ''
 endfunction
@@ -1002,13 +1017,19 @@ function! s:custom_prefix_table(source)  "{{{3
 endfunction
 
 
-function! s:expand_prefix(s)  "{{{3
+function! s:expand_prefix(user_input_raw)  "{{{3
+  return s:expand_prefix3(a:user_input_raw)[0]
+endfunction
+
+
+function! s:expand_prefix3(user_input_raw)  "{{{3
   for [prefix, text] in items(s:prefix_table_for(s:current_source))
-    if a:s[:len(prefix) - 1] ==# prefix
-      return text . a:s[len(prefix):]
+    if a:user_input_raw[:len(prefix) - 1] ==# prefix
+      return [text . a:user_input_raw[len(prefix):], prefix, text]
     endif
   endfor
-  return a:s
+
+  return [a:user_input_raw, '', '']
 endfunction
 
 
