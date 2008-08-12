@@ -2093,7 +2093,11 @@ endfunction
 
 function! s:system(command)
   let _ = system(a:command)
-  return v:shell_error == 0 ? _ : ''
+  if v:shell_error != 0
+    echoerr 'Command filed:' string(a:command)
+    let _ = ''
+  endif
+  return _
 endfunction
 
 
