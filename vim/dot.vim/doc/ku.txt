@@ -521,6 +521,15 @@ User plugin-ku-buffer-initialized		*plugin-ku-buffer-initialize*
 	|ku#default_key_mappings()| will be called.  Otherwise, it will not be
 	called.
 
+g:ku_buffer_name				*g:ku_buffer_name*
+	A string which reporesents the name of the ku buffer.  This value
+	should be unique one which cannot be a name of a usual file to avoid
+	unexpected behavior.
+
+	Default value is '*ku*' or '[ku]'.  The latter is used for Microsoft
+	Windows.  Because '*' cannot be used for buffer name on Microsoft
+	Windows.
+
 g:ku_common_junk_pattern			*g:ku_common_junk_pattern*
 g:ku_{source}_junk_pattern			*g:ku_{source}_junk_pattern*
 	Variables to hold regular expressions to determine "junk" items.  Junk
@@ -616,6 +625,9 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-11T01:56:15+09:00
+	- Change the name of the ku buffer for Microsoft Windows to avoid
+	  unexpected behavior (see |g:ku_buffer_name| for the detail).
+	- Add |g:ku_buffer_name|.
 	- Improve |ku-auto-directory-completion|.  Now the feature is called
 	  as |ku-auto-component-completion|.
 	- Fix a bug in |ku-auto-directory-completion|.  It may raise an error

@@ -36,6 +36,16 @@ endif
 let s:bufnr = s:INVALID_BUFNR
 
 
+" The name of the ku buffer.
+if !exists('g:ku_buffer_name')
+  if has('win16') || has('win32') || has('win64')  " on Microsoft Windows
+    let g:ku_buffer_name = '[ku]'
+  else
+    let g:ku_buffer_name = '*ku*'
+  endif
+endif
+
+
 " The name of the current source given to ku#start() or :Ku.
 let s:INVALID_SOURCE = '*invalid*'
 let s:current_source = s:INVALID_SOURCE
@@ -528,7 +538,7 @@ function! s:initialize_ku_buffer()  "{{{2
   setlocal nobuflisted
   setlocal noswapfile
   setlocal omnifunc=ku#_omnifunc
-  silent file `='*ku*'`
+  silent file `=g:ku_buffer_name`
 
   " Autocommands.
   autocmd InsertEnter <buffer>  call feedkeys(s:on_InsertEnter(), 'n')
