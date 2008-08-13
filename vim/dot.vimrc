@@ -2076,7 +2076,7 @@ endfunction
 
 function! s:available_packages()
   if s:in_confid_dir_p()
-    return split(system('make available-packages'))
+    return split(s:system('make available-packages'))
   else
     return []
   endif
@@ -2088,7 +2088,16 @@ function! s:in_confid_dir_p()
 endfunction
 
 function! s:package_files(name)
-  return split(system('make PACKAGE_NAME='.a:name.' package-files'))
+  return split(s:system('make PACKAGE_NAME='.a:name.' package-files'))
+endfunction
+
+function! s:system(command)
+  let _ = system(a:command)
+  if v:shell_error != 0
+    echoerr 'Command filed:' string(a:command)
+    let _ = ''
+  endif
+  return _
 endfunction
 
 
