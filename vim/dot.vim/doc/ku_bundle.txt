@@ -28,6 +28,7 @@ CONTENTS					*ku-bundle-contents*
 Introduction		|ku-bundle-introduction|
 Action Table		|ku-bundle-action-table|
 Key Table		|ku-bundle-key-table|
+Variables		|ku-bundle-variables|
 Bugs			|ku-bundle-bugs|
 Changelog		|ku-bundle-changelog|
 
@@ -93,6 +94,22 @@ o		load		|ku-bundle-action-load|
 
 
 ==============================================================================
+VARIABLES					*ku-bundle-variables*
+
+g:ku_bundle_path_separators			*g:ku_bundle_path_separators*
+	String to specify separators for "{bundle}/{path}" notation.  Each
+	character in this variable can be used to separate {bundle} and
+	{path}.  For example, if g:ku_bundle_path_separators = '>_<', you can
+	use "{bundle}>{path}", "{bundle}_{path}" or "{bundle}<{path}" instead
+	of "{bundle}/{path}".
+
+	This variable is not defined by default.  If it's not defined, the
+	value of |g:ku_component_separators| will be used instead.
+
+
+
+
+==============================================================================
 BUGS						*ku-bundle-bugs*
 
 - There are many bugs around the world.
@@ -102,6 +119,12 @@ BUGS						*ku-bundle-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-bundle-changelog*
+
+0.0.x	2008-08-13T06:17:35+09:00
+	- Support to complete files in a bundle with "{bundle}/{path}"
+	  notation.  Such item is opened with |ku-file-action-open| or
+	  |ku-file-action-open!|.  The separator between {bundle} and {path}
+	  can be configured by |g:ku_bundle_path_separators|.
 
 0.0.0	2008-08-10T22:30:40+09:00
 	- Initial version.
