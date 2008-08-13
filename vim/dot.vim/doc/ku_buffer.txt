@@ -52,16 +52,16 @@ Requirements:
 ==============================================================================
 ACTION TABLE					*ku-buffer-action-table*
 
-default						*ku-buffer-aciton-default*
+default						*ku-buffer-action-default*
 			Same as "open".
 
-open						*ku-buffer-aciton-open*
+open						*ku-buffer-action-open*
 			Open the buffer specified by the selected item in the
 			current window.  If the selected item is not completed
 			one, it is treated as the name of a file or
 			a directory, and it will be open by |:edit|.
 
-open!						*ku-buffer-aciton-open!*
+open!						*ku-buffer-action-open!*
 			Like "open", but use :buffer! or :edit! to open the
 			selected item.
 
