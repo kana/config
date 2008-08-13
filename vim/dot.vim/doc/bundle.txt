@@ -142,7 +142,7 @@ bundle#args({bang-p}, {name})			*bundle#args()*
 			Function version of |:ArgsBundle|, like
 			|bundle#load()|.
 
-bundle#available_bundles({bang-p}, {name})	*bundle#available_bundles()*
+bundle#available_bundles()			*bundle#available_bundles()*
 			Return a list of the names of available bundles.
 
 bundle#files({name})				*bundle#files()*
