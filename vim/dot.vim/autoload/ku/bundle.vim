@@ -87,17 +87,17 @@ endfunction
 
 
 function! ku#bundle#gather_items(pattern)  "{{{2
-  let _ = stridx(a:pattern, '/')
-  if 0 <= _  " {bundle}/{path}
-    let bundle_name = a:pattern[:_-1]
+  let i = match(a:pattern, s:separator_regexp())
+  if 0 <= i  " {bundle}/{path}
+    let bundle_name = a:pattern[:i-1]
     if bundle_name ==# s:current_bundle_name
       return s:cached_paths
     else
-      let i = index(s:available_bundles, bundle_name)
+      let j = index(s:available_bundles, bundle_name)
       let s:current_bundle_name = bundle_name
       let s:cached_paths = map(
-      \     (0 <= i ? copy(bundle#files(bundle_name)) : []),
-      \     '{"word": bundle_name."/".v:val, "_bundle_path": v:val}'
+      \     (0 <= j ? copy(bundle#files(bundle_name)) : []),
+      \     '{"word": bundle_name.a:pattern[i].v:val, "_bundle_path": v:val}'
       \   )
       return s:cached_paths
     endif
@@ -114,6 +114,16 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:separator_regexp()  "{{{2
+  let _ = (exists('g:ku_bundle_path_separators')
+  \        ? g:ku_bundle_path_separators
+  \        : g:ku_component_separators)
+  return '[' . substitute(_, '\ze[^A-Za-z0-9]', '\\', 'g') . ']'
+endfunction
+
+
+
+
 function! s:open_by_source_file(bang, item)  "{{{2
   let _ = copy(a:item)
   let _.word = _._bundle_path
