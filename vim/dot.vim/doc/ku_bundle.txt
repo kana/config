@@ -103,6 +103,11 @@ BUGS						*ku-bundle-bugs*
 ==============================================================================
 CHANGELOG					*ku-bundle-changelog*
 
+0.0.x	2008-08-13T06:17:35+09:00
+	- Support to complete files in a bundle with "{bundle}/{path}"
+	  notation.  Such item is opened with |ku-file-action-open| or
+	  |ku-file-action-open!|.
+
 0.0.0	2008-08-10T22:30:40+09:00
 	- Initial version.
 
