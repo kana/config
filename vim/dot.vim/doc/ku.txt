@@ -556,6 +556,10 @@ ku window					*ku-window* *ku-buffer*
 			- Selecting is canceled.
 			- Another window or another tab page becomes active.
 
+ku session					*ku-session*
+			Ku session is a period of time while the |ku-window|
+			is opened and it is visible.
+
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
 			name of an action, and each value is the name of
@@ -616,6 +620,11 @@ prefix table					*ku-prefix-table*
 ==============================================================================
 BUGS						*ku-bugs*
 
+						*ku-assumptions*
+- Ku assumes that any configuration is not changed during a |ku-session|.  For
+  example, |ku#custom_action()| or other customization must not be done during
+  a ku session.  If you do, ku will not properly work.
+
 - Many bugs must be around the world.
 
 
@@ -625,6 +634,7 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-11T01:56:15+09:00
+	- Add |ku-assumptions|.
 	- Change the name of the ku buffer for Microsoft Windows to avoid
 	  unexpected behavior (see |g:ku_buffer_name| for the detail).
 	- Add |g:ku_buffer_name|.
