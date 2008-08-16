@@ -150,6 +150,11 @@ function! ku#available_sources()  "{{{2
     let _ = s:TRUE
   endif
 
+  if s:source_priorities_changed_p
+    let s:source_priorities_changed_p = s:FALSE
+    let _ = s:TRUE
+  endif
+
   if _
     let s:available_sources = s:sort_sources(s:available_normal_sources
     \                                        + s:available_special_sources)
@@ -163,6 +168,7 @@ if !exists('s:available_sources')
   let s:available_sources = []  " [source-name, ...]
 endif
 let s:_session_id_source_cache = 0
+let s:source_priorities_changed_p = s:TRUE
 
 
 " cache for normal sources  "{{{3
@@ -266,7 +272,7 @@ function! ku#custom_priority(source, priority)  "{{{2
 
   let s:priority_table[a:source] = a:priority
 
-  call s:sort_sources(s:available_sources)
+  let s:source_priorities_changed_p = s:TRUE
 endfunction
 
 
