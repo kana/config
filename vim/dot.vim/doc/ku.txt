@@ -634,6 +634,12 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.x	2008-08-11T01:56:15+09:00
+	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix
+	  if there are 2 or more prefixes which have the same head part.  For
+	  example, if there are prefixes "ab", "abc", "abcd" and so forth, it
+	  is not possible to predict which prefix will be expanded for user
+	  input "abcd/efgh".  It should expand "abcd", but it may use "abc" or
+	  "ab" instead.
 	- Add |ku-assumptions|.
 	- Change the name of the ku buffer for Microsoft Windows to avoid
 	  unexpected behavior (see |g:ku_buffer_name| for the detail).

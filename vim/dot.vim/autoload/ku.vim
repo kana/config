@@ -1030,7 +1030,6 @@ endfunction
 
 " Prefix table  "{{{2
 function! s:prefix_table_for(source)  "{{{3
-  " FIXME: should cache - this will be heavily used.
   let PREFIX_TABLE = {}
   for _ in [s:custom_prefix_table('common'),
   \         s:custom_prefix_table(s:current_source)]
@@ -1051,7 +1050,13 @@ endfunction
 
 
 function! s:expand_prefix3(user_input_raw)  "{{{3
-  for [prefix, text] in items(s:prefix_table_for(s:current_source))
+  if s:session_id != s:_session_id_expand_prefix3
+  \  || s:current_source != s:_current_source_expand_prefix3
+    let _ = s:prefix_table_for(s:current_source)
+    let s:cached_prefix_items = map(reverse(sort(keys(_))), '[v:val,_[v:val]]')
+  endif
+
+  for [prefix, text] in s:cached_prefix_items
     if a:user_input_raw[:len(prefix) - 1] ==# prefix
       return [text . a:user_input_raw[len(prefix):], prefix, text]
     endif
@@ -1059,6 +1064,10 @@ function! s:expand_prefix3(user_input_raw)  "{{{3
 
   return [a:user_input_raw, '', '']
 endfunction
+
+let s:cached_prefix_items = []
+let s:_session_id_expand_prefix3 = 0
+let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
 
 
 
