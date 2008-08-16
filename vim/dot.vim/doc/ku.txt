@@ -625,6 +625,8 @@ BUGS						*ku-bugs*
   example, |ku#custom_action()| or other customization must not be done during
   a ku session.  If you do, ku will not properly work.
 
+- Ku assumes that available sources are not changed during a |ku-session|.
+
 - Many bugs must be around the world.
 
 
