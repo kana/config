@@ -1,6 +1,6 @@
 *ku_bundle.txt*	ku source: bundle
 
-Version 0.0.0
+Version 0.0.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -120,7 +120,7 @@ BUGS						*ku-bundle-bugs*
 ==============================================================================
 CHANGELOG					*ku-bundle-changelog*
 
-0.0.x	2008-08-13T06:17:35+09:00
+0.0.1	2008-08-13T06:17:35+09:00
 	- Support to complete files in a bundle with "{bundle}/{path}"
 	  notation.  Such item is opened with |ku-file-action-open| or
 	  |ku-file-action-open!|.  The separator between {bundle} and {path}
