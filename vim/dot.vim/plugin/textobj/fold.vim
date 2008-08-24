@@ -51,9 +51,7 @@ call textobj#user#plugin('fold', {
 
 " Misc.  "{{{1
 " Core  "{{{2
-function! s:select_a(previous_mode)
-  call s:prepare_selection(a:previous_mode)
-
+function! s:select_a()
   call s:move_to_the_start_point()
   let selection_starts_with_fold_p = !s:in_non_fold_p()
   let start_pos = getpos('.')
@@ -64,16 +62,10 @@ function! s:select_a(previous_mode)
   call s:move_to_the_end_point('a', selection_starts_with_fold_p)
   let end_pos = getpos('.')
 
-  call setpos('.', start_pos)
-  call s:start_visual_mode()
-  call setpos('.', end_pos)
-
-  return
+  return ['V', start_pos, end_pos]
 endfunction
 
-function! s:select_i(previous_mode)
-  call s:prepare_selection(a:previous_mode)
-
+function! s:select_i()
   call s:move_to_the_start_point()
   let start_pos = getpos('.')
   for i in range(v:count1 - 1)
@@ -83,11 +75,7 @@ function! s:select_i(previous_mode)
   call s:move_to_the_end_point('i', 0)
   let end_pos = getpos('.')
 
-  call setpos('.', start_pos)
-  call s:start_visual_mode()
-  call setpos('.', end_pos)
-
-  return
+  return ['V', start_pos, end_pos]
 endfunction
 
 
@@ -202,25 +190,6 @@ endfunction
 function! s:in_non_fold_p()
   return foldlevel(line('.')) == 0
 endfunction
-
-
-
-
-" Etc  "{{{2
-function! s:start_visual_mode()
-  normal! V
-endfunction
-
-
-function! s:prepare_selection(previous_mode)
-  if a:previous_mode ==# 'v'
-    execute 'normal!' "gv\<Esc>"
-  endif
-endfunction
-
-
-
-
 
 
 
