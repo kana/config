@@ -86,7 +86,7 @@ function! s:move_to_the_start_point()
   if s:in_open_fold_p()
     call s:move_to_the_start_of_open_fold()
   elseif s:in_closed_fold_p()
-    " call s:move_to_the_start_of_closed_fold()  " already at the point.
+    call s:move_to_the_start_of_closed_fold()
   else
     call s:move_to_the_start_of_non_fold()
   endif
@@ -98,6 +98,10 @@ function! s:move_to_the_start_of_open_fold()
   if foldlevel(line('.')) < level
     normal! ``
   endif
+endfunction
+
+function! s:move_to_the_start_of_closed_fold()
+  call cursor(foldclosed(line('.')), 1)
 endfunction
 
 function! s:move_to_the_start_of_non_fold()
@@ -115,7 +119,7 @@ function! s:move_to_the_end_point(mode, selection_starts_with_fold_p)
   if s:in_open_fold_p()
     call s:move_to_the_end_of_open_fold()
   elseif s:in_closed_fold_p()
-    " call s:move_to_the_end_of_closed_fold()  " already at the point.
+    call s:move_to_the_end_of_closed_fold()
   else
     call s:move_to_the_end_of_non_fold()
   endif
@@ -161,6 +165,11 @@ function! s:move_to_the_end_of_open_fold()
   if foldlevel(line('.')) < level
     normal! ``
   endif
+endfunction
+
+function! s:move_to_the_end_of_closed_fold()
+  call cursor(foldclosedend(line('.')), 0)
+  normal! $
 endfunction
 
 function! s:move_to_the_end_of_non_fold()
