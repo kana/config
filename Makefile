@@ -316,7 +316,7 @@ PACKAGE_vim_textobj_datetime_FILES=\
   vim/dot.vim/doc/textobj-datetime.txt \
   vim/dot.vim/plugin/textobj/datetime.vim
 
-PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.1.1
+PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.1.2
 PACKAGE_vim_textobj_fold_BASE=vim/dot.vim
 PACKAGE_vim_textobj_fold_FILES=\
   vim/dot.vim/doc/textobj-fold.txt \
