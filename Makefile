@@ -129,6 +129,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_datetime_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
+  $(PACKAGE_vim_textobj_lastpat_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_tofunc_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
@@ -186,6 +187,7 @@ ALL_PACKAGES=\
   vim-textobj-datetime \
   vim-textobj-fold \
   vim-textobj-jabraces \
+  vim-textobj-lastpat \
   vim-textobj-user \
   vim-tofunc \
   vim-vcsi \
@@ -327,6 +329,12 @@ PACKAGE_vim_textobj_jabraces_BASE=vim/dot.vim
 PACKAGE_vim_textobj_jabraces_FILES=\
   vim/dot.vim/doc/textobj-jabraces.txt \
   vim/dot.vim/plugin/textobj/jabraces.vim
+
+PACKAGE_vim_textobj_lastpat_ARCHIVE=vim-textobj-lastpat-0.0.0
+PACKAGE_vim_textobj_lastpat_BASE=vim/dot.vim
+PACKAGE_vim_textobj_lastpat_FILES=\
+  vim/dot.vim/doc/textobj-lastpat.txt \
+  vim/dot.vim/plugin/textobj/lastpat.vim
 
 PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.5
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
