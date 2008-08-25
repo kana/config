@@ -924,8 +924,21 @@ endfunction
 
 
 function! s:scroll_other_window(scroll_command)
-  if winnr('$') == 1 || winnr('#') == 0
-    " Do nothing when there is only one window or no previous window.
+  if winnr('#') == 0 || winnr('#') == winnr()
+    " Do nothing if there is not proper previous window.
+    " Note that winnr('#') sometime returns the number for the current window
+    " instead of 0.  So the latter condition is necessary.
+    "
+    " Example session to reproduce the winnr('#') problem:
+    "   tabnew
+    "   wincmd v
+    "   wincmd h
+    "   wincmd l
+    "   wincmd h
+    "   echo winnr('#')  " ==> 2
+    "   wincmd l
+    "   wincmd c
+    "   echo winnr('#')  " ==> 1 -- although it should be 0.
     Hecho ErrorMsg 'There is no window to scroll.'
   else
     execute 'normal!' "\<C-w>p"
