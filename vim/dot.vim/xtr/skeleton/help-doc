@@ -42,7 +42,7 @@ INTRODUCTION					*{name}-introduction*
 {name} is a Vim plugin to ...
 
 Requirements:
-- Vim 7.1 or later.
+- Vim 7.2 or later
 
 
 
