@@ -41,7 +41,7 @@ INTRODUCTION					*textobj-lastpat-introduction*
 
 *textobj-lastpat* is a Vim plugin to provide text objects to select an area
  which is matched to |last-pattern|.
- searched pattern.
+
 
 Requirements:
 - Vim 7.2 or later
