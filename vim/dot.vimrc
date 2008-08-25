@@ -1367,6 +1367,23 @@ cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 
 
 
+" Experimental: Little movement in Insert mode  "{{{2
+
+inoremap <Esc>h  <C-o>h
+inoremap <Esc>j  <C-o>j
+inoremap <Esc>k  <C-o>k
+inoremap <Esc>l  <C-o>l
+
+inoremap <Esc>w  <C-o>w
+inoremap <Esc>b  <C-o>b
+inoremap <Esc>e  <C-o>e
+inoremap <Esc>W  <C-o>W
+inoremap <Esc>B  <C-o>B
+inoremap <Esc>E  <C-o>E
+
+
+
+
 " Input: datetime  "{{{2
 "
 " Input the current date/time (Full, Date, Time).
