@@ -45,6 +45,9 @@
 "
 " * Separate {cmd} and {rep} of :command definitions with 2 spaces.
 "
+" * Sort arguments for :command such as -nargs=* and others by alphabetically
+"   order.
+"
 " * Write the full name for each command -- don't abbreviate it.
 "   For example, write "nnoremap", not "nn".
 "
@@ -633,7 +636,7 @@ autocmd MyAutoCmd TabEnter *
 " Like :execute but all arguments are treated as single string like <q-args>.
 " As an extension, "[count]" will be expanded to the currently given count.
 
-command! -nargs=* -complete=command Qexecute  call s:cmd_Qexecute(<q-args>)
+command! -complete=command -nargs=* Qexecute  call s:cmd_Qexecute(<q-args>)
 function! s:cmd_Qexecute(script)
   execute substitute(a:script, '\[count\]', s:count(), 'g')
 endfunction
@@ -673,17 +676,17 @@ AlternateCommand cd  CD
 
 " Utf8 and others - :edit with specified 'fileencoding'  "{{{2
 
-command! -nargs=? -complete=file -bang -bar Cp932
+command! -bang -bar -complete=file -nargs=? Cp932
 \ edit<bang> ++enc=cp932 <args>
-command! -nargs=? -complete=file -bang -bar Eucjp
+command! -bang -bar -complete=file -nargs=? Eucjp
 \ edit<bang> ++enc=euc-jp <args>
-command! -nargs=? -complete=file -bang -bar Iso2022jp
+command! -bang -bar -complete=file -nargs=? Iso2022jp
 \ edit<bang> ++enc=iso-2022-jp <args>
-command! -nargs=? -complete=file -bang -bar Utf8
+command! -bang -bar -complete=file -nargs=? Utf8
 \ edit<bang> ++enc=utf-8 <args>
 
-command! -nargs=? -complete=file -bang -bar Jis  Iso2022jp<bang> <args>
-command! -nargs=? -complete=file -bang -bar Sjis  Cp932<bang> <args>
+command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
+command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 
