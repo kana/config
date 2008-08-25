@@ -941,9 +941,9 @@ function! s:scroll_other_window(scroll_command)
     "   echo winnr('#')  " ==> 1 -- although it should be 0.
     Hecho WarningMsg 'No window to scroll'
   else
-    execute 'normal!' "\<C-w>p"
+    wincmd p
     execute 'normal!' (s:count() . a:scroll_command)
-    execute 'normal!' "\<C-w>p"
+    wincmd p
   endif
 endfunction
 
