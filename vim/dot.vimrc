@@ -1469,7 +1469,7 @@ nmap <Esc>  <C-w>
 
 
 for i in ['H', 'J', 'K', 'L']
-  execute 'Fnmap <silent> <Esc>'.i
+  execute 'Fnmap <silent> <C-w>'.i
   \ '<SID>move_window_then_equalize_if_necessary("'.i.'")'
 endfor
 unlet i
@@ -1498,7 +1498,7 @@ endfunction
 " like GNU Emacs' (scroll-other-window),
 " but the target to scroll is the previous window.
 for i in ['f', 'b', 'd', 'u', 'e', 'y']
-  execute 'Fnmap <silent> <Esc><C-'.i.'>'
+  execute 'Fnmap <silent> <C-w><C-'.i.'>'
   \       '<SID>scroll_other_window("<Bslash><LT>C-'.i.'>")'
 endfor
 unlet i
