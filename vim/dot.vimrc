@@ -1703,8 +1703,7 @@ Cvmap <count> g/  global//print
 
 
 " Experimental: alternative <Esc>
-noremap <C-@>  <Esc>
-noremap! <C-@>  <Esc>
+Allnoremap <C-@>  <Esc>
 
 
 
