@@ -1736,6 +1736,11 @@ Cvmap <count> g/  global//print
 Allnoremap <C-@>  <Esc>
 
 
+" Experimental: Additional keys to increment/decrement
+nnoremap +  <C-a>
+nnoremap -  <C-x>
+
+
 
 
 
