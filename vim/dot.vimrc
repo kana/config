@@ -184,8 +184,10 @@ if 1 < &t_Co && has('syntax')
     set t_Co=256
   endif
   syntax enable
-  colorscheme default
-  set background=dark
+  if !exists('g:colors_name')  " Don't override colorscheme on reloading.
+    colorscheme default
+    set background=dark
+  endif
 endif
 
 filetype plugin indent on
