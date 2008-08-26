@@ -1568,7 +1568,7 @@ nnoremap <C-k>  <C-o>
 
 
 " Switch to the previously edited file (like Vz)
-Cnmap <Esc>2  edit #
+nnoremap <Esc>2  <C-^>
 nmap <F2>  <Esc>2
 
 
