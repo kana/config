@@ -57,6 +57,10 @@ Note that there are some differences from the original behavior.
 See |narrow-bugs| for the detail.
 
 
+Requirements:
+- Vim 7.0 or later
+
+
 
 
 ==============================================================================

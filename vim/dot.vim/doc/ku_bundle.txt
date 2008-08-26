@@ -44,10 +44,8 @@ INTRODUCTION					*ku-bundle-introduction*
 
 Requirements:
 - Vim 7.1 or later
-- |bundle| 0.0.2 or later
-  <http://www.vim.org/scripts/script.php?script_id=2338>
-- |ku| 0.1.1 or later
-  <http://www.vim.org/scripts/script.php?script_id=2337>
+- |bundle| 0.0.2 or later (vimscript#2338)
+- |ku| 0.1.1 or later (vimscript#2337)
 
 
 

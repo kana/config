@@ -42,9 +42,8 @@ INTRODUCTION					*textobj-datetime-introduction*
 
 
 Requirements:
-* Vim 7.0 or later
-* |textobj-user| 0.3.3 or later
-  <http://www.vim.org/scripts/script.php?script_id=2100>
+- Vim 7.0 or later
+- |textobj-user| 0.3.3 or later (vimscript#2100)
 
 
 

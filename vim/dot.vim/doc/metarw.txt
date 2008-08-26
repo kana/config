@@ -52,8 +52,7 @@ Requirements:
 - Vim 7.1.299 or later
 
 Optionals:
-- |metarw-scheme-script| such as |metarw-git|
-  <http://www.vim.org/scripts/script.php?script_id=2336>
+- |metarw-scheme-script| such as |metarw-git| (vimscript#2336)
 - |ku-source-metarw|
 
 

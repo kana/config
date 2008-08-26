@@ -43,6 +43,10 @@ functions such as |winnr()| and |tabpagenr()| are calculated by their
 positions, so that the values aren't invariant.
 
 
+Requirements:
+- Vim 7.0 or later
+
+
 
 
 ==============================================================================

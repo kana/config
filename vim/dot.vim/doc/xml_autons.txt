@@ -43,6 +43,10 @@ according to the content of the current buffer.  This supports to use omni
 completion for XML (|ft-xml-omni|), because it requires to execute |:XMLns|.
 
 
+Requirements:
+- Vim 7.0 or later
+
+
 
 
 ==============================================================================

@@ -42,6 +42,10 @@ move various objects in XML documents, e.g.  start-tags, end-tags, attributes
 and text nodes.
 
 
+Requirements:
+- Vim 7.0 or later
+
+
 
 
 ==============================================================================

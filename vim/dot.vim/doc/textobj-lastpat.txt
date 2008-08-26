@@ -45,8 +45,7 @@ INTRODUCTION					*textobj-lastpat-introduction*
 
 Requirements:
 - Vim 7.2 or later
-- |textobj-user| 0.3.5 or later
-  <http://www.vim.org/scripts/script.php?script_id=2100>
+- |textobj-user| 0.3.5 or later (vimscript#2100)
 
 
 

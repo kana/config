@@ -43,8 +43,7 @@ can choose one from many files and directories and do some action to it.
 
 Requirements:
 - Vim 7.1.299 or later
-- |ku| 0.1.0 or later
-  <http://www.vim.org/scripts/script.php?script_id=2337>
+- |ku| 0.1.0 or later (vimscript#2337)
 
 
 

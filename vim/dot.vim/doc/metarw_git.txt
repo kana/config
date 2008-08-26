@@ -45,8 +45,7 @@ object is not supported.
 
 Requirements:
 - Vim 7.1.299 or later
-- metarw 0.0.0 or later
-  <http://www.vim.org/scripts/script.php?script_id=2335>
+- metarw 0.0.0 or later (vimscript#2335)
 
 
 

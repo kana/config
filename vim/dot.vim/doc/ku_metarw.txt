@@ -43,12 +43,9 @@ can choose one from many fakepaths and do some action to it.
 
 Requirements:
 - Vim 7.1 or later
-- |ku| 0.1.1 or later
-  <http://www.vim.org/scripts/script.php?script_id=2337>
-- |metarw| 0.0.1 or later
-  <http://www.vim.org/scripts/script.php?script_id=2335>
-- |metarw-scheme-script| such as |metarw-git|
-  <http://www.vim.org/scripts/script.php?script_id=2336>
+- |ku| 0.1.1 or later (vimscript#2337)
+- |metarw| 0.0.1 or later (vimscript#2335)
+- |metarw-scheme-script| such as |metarw-git| (vimscript#2336)
 
 
 
