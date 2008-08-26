@@ -185,7 +185,7 @@ if 1 < &t_Co && has('syntax')
   endif
   syntax enable
   if !exists('g:colors_name')  " Don't override colorscheme on reloading.
-    colorscheme default
+    colorscheme desert
     set background=dark
   endif
 endif
