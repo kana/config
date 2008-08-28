@@ -79,9 +79,10 @@ smartchr#one_of(...)
 >
 		inoremap <expr> _  smartchr#one_of(' <- ', '_')
 <
-	With the above setting, when user types "_" key, " <- " is inserted
-	for the first time.  When user types "_" key again, the previously
-	inserted " <- " is removed, then "_" is inserted.
+	With the above setting, whenever user types "_" key:
+	- " <- " is inserted for the 1st time, or
+	- the previously inserted " <- " is removed then "_" is inserted for
+	  the 2nd time.
 
 	More generally, this function returns the key sequence to:
 	- insert the 1st argument for the 1st time, or
