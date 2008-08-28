@@ -25,6 +25,10 @@
 
 
 
+function! smartchr#loop(...)
+  return call('smartchr#one_of', a:000 + [(a:1)])
+endfunction
+
 function! smartchr#one_of(...)
   " Support function to insert one of the given arguments like
   " ess-smart-underscore of Emacs Speaks Statistics.

@@ -56,6 +56,21 @@ INTERFACE					*smartchr-interface*
 ------------------------------------------------------------------------------
 FUNCTIONS					*smartchr-functions*
 
+						*smartchr#loop()*
+smartchr#loop(...)
+	Same as |smartchr#one_of()|, but it returns the key sequence to
+	replace the {N}th argument by the 1st argument for the {N+1}th time.
+	For example,
+>
+		inoremap <expr> _  smartchr#loop(' <- ', '_')
+<
+	With the above setting, whenever user types "_" key:
+	- " <- " is inserted for the 1st time, or
+	- the previously inserted " <- " is removed then "_" is inserted for
+	  the 2nd time, or
+	- the previously inserted "_" is removed then " <- " is inserted for
+	  the 3rd time, and so forth.
+
 						*smartchr#one_of()*
 smartchr#one_of(...)
 	Returns a string which represents the key sequence to insert one of
@@ -88,6 +103,9 @@ BUGS						*smartchr-bugs*
 
 ==============================================================================
 CHANGELOG					*smartchr-changelog*
+
+0.0.1	2008-08-28T12:39:07+09:00
+	- Add |smartchr#loop()|.
 
 0.0.0	2008-07-11T11:55:47+09:00
 	- Initial version.
