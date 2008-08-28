@@ -299,7 +299,7 @@ PACKAGE_vim_skeleton_FILES=\
   vim/dot.vim/doc/skeleton.txt \
   vim/dot.vim/plugin/skeleton.vim
 
-PACKAGE_vim_smartchr_ARCHIVE=vim-smartchr-0.0.0
+PACKAGE_vim_smartchr_ARCHIVE=vim-smartchr-0.0.1
 PACKAGE_vim_smartchr_BASE=vim/dot.vim
 PACKAGE_vim_smartchr_FILES=\
   vim/dot.vim/autoload/smartchr.vim \
