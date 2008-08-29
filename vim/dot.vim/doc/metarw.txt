@@ -225,7 +225,7 @@ metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			"error"		a string which represents an error
 					message.
 			"write"		a string which will be given to
-					|:write| to read the content of
+					|:write| to write the content of
 					{fakepath}.
 
 			Don't reset 'modified' in this function.  It will be
