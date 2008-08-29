@@ -211,10 +211,10 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			See also |metarw-content-browser|.
 
 						*metarw#{scheme}#write()*
-metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
-			Write or append the content of the current buffer from
-			{line1} to {line2} into {fakepath}.  If {append-p} is
-			true, does appending instead of writing.
+metarw#{scheme}#write({fakepath}, {append-p})
+			Write or append the content of the current buffer into
+			{fakepath}.  If {append-p} is true, does appending
+			instead of writing.
 
 			This function must return a list with two items like
 			|metarw#{scheme}#read()|, but the meaning of values is
@@ -269,6 +269,14 @@ BUGS						*metarw-bugs*
 
 ==============================================================================
 CHANGELOG					*metarw-changelog*
+
+0.0.3	2008-08-30T03:11:55+09:00
+	Incompatible changes:
+	- |metarw#{scheme}#write()|: Change the interface.  Remove unnecessary
+	  argument {line1} and {line2}.
+
+	Other changes:
+	- |metarw#{scheme}#write()|: Fix wrong implementation.
 
 0.0.2	2008-08-10T23:43:48+09:00
 	- Separate |ku-source-metarw| as a independent package.
