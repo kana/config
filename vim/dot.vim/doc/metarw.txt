@@ -213,7 +213,7 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 						*metarw#{scheme}#write()*
 metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			Write or append the content of the current buffer from
-			{line1} to {lin2} into {fakepath}.  If {append-p} is
+			{line1} to {line2} into {fakepath}.  If {append-p} is
 			true, does appending instead of writing.
 
 			This function must return a list with two items like
