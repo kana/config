@@ -135,9 +135,10 @@ endfunction
 
 function! s:on_BufWriteCmd(scheme, fakepath)  "{{{3
   " BufWriteCmd is published by :write or other commands with 1,$ range.
-  let _ = metarw#{a:scheme}#write(a:fakepath, s:FALSE)
+  let [line1, line2] = [1, line('$')]
+  let _ = metarw#{a:scheme}#write(a:fakepath, line1, line2, s:FALSE)
   if _[0] ==# 'write'
-    let _ = s:write(_, 1, line('$'), _[1])
+    let _ = s:write(_, line1, line2, _[1])
   end
   if _[0] !=# 'error' && a:fakepath ==# bufname('')
     " The whole buffer has been saved to the current fakepath,
@@ -150,9 +151,10 @@ endfunction
 
 function! s:on_FileAppendCmd(scheme, fakepath)  "{{{3
   " FileAppendCmd is published by :write or other commands with >>.
-  let _ = metarw#{a:scheme}#write(a:fakepath, s:TRUE)
+  let [line1, line2] = [line("'["), line("']")]
+  let _ = metarw#{a:scheme}#write(a:fakepath, line1, line2, s:TRUE)
   if _[0] ==# 'write'
-    let _ = s:write(_, line("'["), line("']"), _[1])
+    let _ = s:write(_, line1, line2, _[1])
   endif
   return _
 endfunction
@@ -176,9 +178,10 @@ endfunction
 function! s:on_FileWriteCmd(scheme, fakepath)  "{{{3
   " FileWriteCmd is published by :write or other commands with partial range
   " such as 1,2 where 2 < line('$').
-  let _ = metarw#{a:scheme}#write(a:fakepath, s:FALSE)
+  let [line1, line2] = [line("'["), line("']")]
+  let _ = metarw#{a:scheme}#write(a:fakepath, line1, line2, s:TRUE)
   if _[0] ==# 'write'
-    let _ = s:write(_, line("'["), line("']"), _[1])
+    let _ = s:write(_, line1, line2, _[1])
   endif
   return _
 endfunction
