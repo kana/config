@@ -137,7 +137,7 @@ function! s:on_BufWriteCmd(scheme, fakepath)  "{{{3
   " BufWriteCmd is published by :write or other commands with 1,$ range.
   let _ = metarw#{a:scheme}#write(a:fakepath, s:FALSE)
   if _[0] ==# 'write'
-    let _ = s:write(1, line('$'), _[1])
+    let _ = s:write(_, 1, line('$'), _[1])
   end
   if _[0] !=# 'error' && a:fakepath ==# bufname('')
     " The whole buffer has been saved to the current fakepath,
@@ -152,7 +152,7 @@ function! s:on_FileAppendCmd(scheme, fakepath)  "{{{3
   " FileAppendCmd is published by :write or other commands with >>.
   let _ = metarw#{a:scheme}#write(a:fakepath, s:TRUE)
   if _[0] ==# 'write'
-    let _ = s:write(line("'["), line("']"), _[1])
+    let _ = s:write(_, line("'["), line("']"), _[1])
   endif
   return _
 endfunction
@@ -178,7 +178,7 @@ function! s:on_FileWriteCmd(scheme, fakepath)  "{{{3
   " such as 1,2 where 2 < line('$').
   let _ = metarw#{a:scheme}#write(a:fakepath, s:FALSE)
   if _[0] ==# 'write'
-    let _ = s:write(line("'["), line("']"), _[1])
+    let _ = s:write(_, line("'["), line("']"), _[1])
   endif
   return _
 endfunction
@@ -310,12 +310,14 @@ endfunction
 
 
 
-function! s:write(line1, line2, arg)  "{{{2
+function! s:write(_, line1, line2, arg)  "{{{2
   execute a:line1 ',' a:line2 'write' v:cmdarg a:arg
   if v:shell_error != 0
     let _ = ['error', 'Failed to write: ' . string(a:fakepath)]
+  else
+    let _ = a:_
   endif
-  return
+  return _
 endfunction
 
 
