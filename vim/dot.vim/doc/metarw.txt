@@ -227,6 +227,9 @@ metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			"write"		a string which will be given to
 					|:write| to write the content of
 					{fakepath}.
+			"done"		ignored.  This 1st value means that
+					writing is already done by
+					|metarw#{scheme}#write()|.
 
 			Don't reset 'modified' in this function.  It will be
 			automatically treated by metarw.
@@ -271,7 +274,9 @@ BUGS						*metarw-bugs*
 CHANGELOG					*metarw-changelog*
 
 0.0.3	2008-08-30T03:11:55+09:00
-	- |metarw#{scheme}#write()|: Fix wrong implementation.
+	- |metarw#{scheme}#write()|:
+	  - Fix wrong implementation.
+	  - Add new type of return value "done".
 
 0.0.2	2008-08-10T23:43:48+09:00
 	- Separate |ku-source-metarw| as a independent package.
