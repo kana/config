@@ -336,7 +336,7 @@ PACKAGE_vim_textobj_lastpat_FILES=\
   vim/dot.vim/doc/textobj-lastpat.txt \
   vim/dot.vim/plugin/textobj/lastpat.vim
 
-PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.5
+PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.6
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
