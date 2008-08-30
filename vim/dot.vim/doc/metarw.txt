@@ -53,7 +53,7 @@ Requirements:
 
 Optionals:
 - |metarw-scheme-script| such as |metarw-git| (vimscript#2336)
-- |ku-source-metarw|
+- |ku| (vimscript#2337) and |ku-source-metarw| (vimscript#2344)
 
 
 
