@@ -1631,6 +1631,7 @@ nnoremap dl  0d$
 " Select the last chaged text - "c" stands for "C"hanged.
   " like gv
 nnoremap gc  `[v`]
+vnoremap gc  :<C-u>normal gc<CR>
   " as {motion}.
 onoremap gc  :<C-u>normal gc<CR>
 
