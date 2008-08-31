@@ -1628,10 +1628,10 @@ vnoremap ir  i]
 nnoremap dl  0d$
 
 
-" Like gv, but select the last changed text.
+" Select the last chaged text - "c" stands for "C"hanged.
+  " like gv
 nnoremap gc  `[v`]
-
-" Specify the last changed text as {motion}.
+  " as {motion}.
 onoremap gc  :<C-u>normal gc<CR>
 
 
