@@ -1634,6 +1634,9 @@ nnoremap gc  `[v`]
 vnoremap gc  :<C-u>normal gc<CR>
   " as {motion}.
 onoremap gc  :<C-u>normal gc<CR>
+  " synonyms for gc - "m" stands for "M"odified.
+  " built-in motion "gm" is overridden, but I'll never use it.
+map gm  gc
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
