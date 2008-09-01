@@ -56,6 +56,12 @@ Optionals:
 - |metarw-scheme-script| such as |metarw-git| (vimscript#2336)
 - |ku| (vimscript#2337) and |ku-source-metarw| (vimscript#2344)
 
+Demo:
+- http://www.screencast.com/t/fCc8cFaiQj
+
+Latest version:
+- http://github.com/kana/config/tree/master
+
 
 
 
