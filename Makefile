@@ -3,7 +3,7 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean package _package update
+.PHONY: all clean package _package update vimup
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
@@ -468,6 +468,19 @@ $(foreach group, \
   $(foreach post-target, \
     $(GROUP_$(group)_POST_TARGETS), \
     $(eval $($(post-target)))))
+
+
+
+
+# vimup  #{{{1
+# -- to automate to upload Vim scripts.
+
+vimup: package
+	./vimup-info-generator \
+	  <$(filter vim/dot.vim/doc/%.txt,$(PACKAGE_$(_PACKAGE_NAME)_FILES)) \
+	  >$(PACKAGE_NAME).vimup
+	vimup update-script $(PACKAGE_NAME)
+	rm $(PACKAGE_NAME).vimup
 
 
 
