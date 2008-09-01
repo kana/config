@@ -3,7 +3,7 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean package _package update vimup
+.PHONY: all clean package _package update vimup vimup-details vimup-script
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
@@ -475,13 +475,20 @@ $(foreach group, \
 # vimup  #{{{1
 # -- to automate to upload Vim scripts.
 
+VIMUP_TASKS=update-script update-details
 vimup: package
 	./vimup-info-generator \
 	  <$(filter vim/dot.vim/doc/%.txt,$(PACKAGE_$(_PACKAGE_NAME)_FILES)) \
 	  >$(PACKAGE_NAME).vimup
-	vimup update-script $(PACKAGE_NAME)
-	vimup update-details $(PACKAGE_NAME)
+	for i in $(VIMUP_TASKS); do \
+	  vimup $$i $(PACKAGE_NAME); \
+	done
 	rm $(PACKAGE_NAME).vimup
+
+vimup-details:
+	make VIMUP_TASKS=update-details vimup
+vimup-script:
+	make VIMUP_TASKS=update-script vimup
 
 
 
