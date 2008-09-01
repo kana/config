@@ -480,6 +480,7 @@ vimup: package
 	  <$(filter vim/dot.vim/doc/%.txt,$(PACKAGE_$(_PACKAGE_NAME)_FILES)) \
 	  >$(PACKAGE_NAME).vimup
 	vimup update-script $(PACKAGE_NAME)
+	vimup update-details $(PACKAGE_NAME)
 	rm $(PACKAGE_NAME).vimup
 
 
