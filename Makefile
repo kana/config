@@ -376,6 +376,7 @@ PACKAGE_vim_xml_move_FILES=\
 # package  #{{{1
 
 PACKAGE_NAME=# Set from command line
+_PACKAGE_NAME=$(subst -,_,$(PACKAGE_NAME))
 PACKAGE_TYPE=tar
 
 ALL_PACKAGE_TYPES=tar zip
@@ -393,17 +394,18 @@ package:
 	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
 	  false; \
 	fi
-	$(MAKE) 'package=$(subst -,_,$(PACKAGE_NAME))' _package
+	$(MAKE) _package
 _package:
-	ln -s $(PACKAGE_$(package)_BASE) $(PACKAGE_$(package)_ARCHIVE)
+	ln -s $(PACKAGE_$(_PACKAGE_NAME)_BASE) \
+	      $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 	$(PACKAGE_COMMAND_$(PACKAGE_TYPE)) \
-	  $(PACKAGE_$(package)_ARCHIVE)$(PACKAGE_SUFFIX_$(PACKAGE_TYPE)) \
+	  $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)$(PACKAGE_SUFFIX_$(PACKAGE_TYPE))\
 	  $(foreach file, \
-	            $(PACKAGE_$(package)_FILES), \
-	            $(patsubst $(PACKAGE_$(package)_BASE)/%, \
-	                       $(PACKAGE_$(package)_ARCHIVE)/%, \
+	            $(PACKAGE_$(_PACKAGE_NAME)_FILES), \
+	            $(patsubst $(PACKAGE_$(_PACKAGE_NAME)_BASE)/%, \
+	                       $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)/%, \
 	                       $(file)))
-	rm $(PACKAGE_$(package)_ARCHIVE)
+	rm $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 
 
 # for vim-bundle
@@ -416,7 +418,7 @@ package-files:
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
-	@echo $(PACKAGE_$(subst -,_,$(PACKAGE_NAME))_FILES)
+	@echo $(PACKAGE_$(_PACKAGE_NAME)_FILES)
 
 
 
