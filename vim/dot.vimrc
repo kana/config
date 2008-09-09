@@ -415,8 +415,8 @@ command! -nargs=+ Allnoremap
 \ | execute 'noremap!' <q-args>
 
 command! -nargs=+ Allunmap
-\   execute 'silent! unmap' <q-args>
-\ | execute 'silent! unmap!' <q-args>
+\   execute 'unmap' <q-args>
+\ | execute 'unmap!' <q-args>
 
 
 
@@ -435,8 +435,8 @@ command! -nargs=+ Objnoremap
 \ | execute 'vnoremap' <q-args>
 
 command! -nargs=+ Objunmap
-\   execute 'silent! ounmap' <q-args>
-\ | execute 'silent! vunmap' <q-args>
+\   execute 'ounmap' <q-args>
+\ | execute 'vunmap' <q-args>
 
 
 
