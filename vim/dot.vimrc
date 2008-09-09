@@ -1598,15 +1598,11 @@ nnoremap <C-w>#  <C-g>s#
 
 
 " Synonyms for <> and [], same as plugin surround.
-onoremap aa  a>
-onoremap ia  i>
-vnoremap aa  a>
-vnoremap ia  i>
+Objnoremap aa  a>
+Objnoremap ia  i>
 
-onoremap ar  a]
-onoremap ir  i]
-vnoremap ar  a]
-vnoremap ir  i]
+Objnoremap ar  a]
+Objnoremap ir  i]
 
 
 " Delete the content of the current line (not the line itself).
@@ -1618,9 +1614,8 @@ nnoremap dl  0d$
 " Select the last chaged text - "c" stands for "C"hanged.
   " like gv
 nnoremap gc  `[v`]
-vnoremap gc  :<C-u>normal gc<CR>
-  " as {motion}.
-onoremap gc  :<C-u>normal gc<CR>
+  " as a text object
+Objnoremap gc  :<C-u>normal gc<CR>
   " synonyms for gc - "m" stands for "M"odified.
   " built-in motion "gm" is overridden, but I'll never use it.
 map gm  gc
@@ -1749,14 +1744,10 @@ autocmd MyAutoCmd FileType *
 function! s:on_FileType_any()
   " To use my global mappings for section jumping,
   " remove buffer local mappings defined by ftplugin.
-  silent! vunmap <buffer> ]]
-  silent! vunmap <buffer> ][
-  silent! vunmap <buffer> []
-  silent! vunmap <buffer> [[
-  silent! ounmap <buffer> ]]
-  silent! ounmap <buffer> ][
-  silent! ounmap <buffer> []
-  silent! ounmap <buffer> [[
+  silent! Objunmap <buffer> ]]
+  silent! Objunmap <buffer> ][
+  silent! Objunmap <buffer> []
+  silent! Objunmap <buffer> [[
 
   " Make omni completion available for all filetypes.
   if &l:omnifunc == ''
