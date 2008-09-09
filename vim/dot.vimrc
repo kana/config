@@ -1544,6 +1544,17 @@ Cnmap <C-w>Q  quit!
 
 
 
+" Text objects  "{{{2
+
+" Synonyms for <> and [], same as plugin surround.
+Objnoremap aa  a>
+Objnoremap ia  i>
+Objnoremap ar  a]
+Objnoremap ir  i]
+
+
+
+
 " Misc.  "{{{2
 
 Cnmap <noexec> <C-h>  help<Space>
@@ -1595,14 +1606,6 @@ inoremap <C-u>  <C-g>u<C-u>
 " Search the word nearest to the cursor in new window.
 nnoremap <C-w>*  <C-w>s*
 nnoremap <C-w>#  <C-g>s#
-
-
-" Synonyms for <> and [], same as plugin surround.
-Objnoremap aa  a>
-Objnoremap ia  i>
-
-Objnoremap ar  a]
-Objnoremap ir  i]
 
 
 " Delete the content of the current line (not the line itself).
