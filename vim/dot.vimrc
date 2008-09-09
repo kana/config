@@ -367,7 +367,8 @@ command! -nargs=+ Objunmap
 "
 " :Cmap {lhs} {script}
 "   Other variants:
-"   Cmap!, Ccmap, Cimap, Clmap, Cnmap, Comap, Csmap, Cvmap, Cxmap.
+"   Cmap!, Ccmap, Cimap, Clmap, Cnmap, Comap, Csmap, Cvmap, Cxmap,
+"   Callmap, Cobjmap.
 "
 " {lhs}
 "   Same as :map.  As additional :map-arguments, <count> and <noexec> are
@@ -393,6 +394,8 @@ command! -nargs=* Comap  call s:cmd_Cmap('o', '', [<f-args>])
 command! -nargs=* Csmap  call s:cmd_Cmap('s', '', [<f-args>])
 command! -nargs=* Cvmap  call s:cmd_Cmap('v', '', [<f-args>])
 command! -nargs=* Cxmap  call s:cmd_Cmap('x', '', [<f-args>])
+command! -nargs=* Callmap  call s:cmd_Cmap('All', '', [<f-args>])
+command! -nargs=* Cobjmap  call s:cmd_Cmap('Obj', '', [<f-args>])
 function! s:cmd_Cmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
@@ -417,7 +420,8 @@ endfunction
 "
 " :Fmap {lhs} {expression}
 "   Other variants:
-"   Fmap!, Fcmap, Fimap, Flmap, Fnmap, Fomap, Fsmap, Fvmap, Fxmap.
+"   Fmap!, Fcmap, Fimap, Flmap, Fnmap, Fomap, Fsmap, Fvmap, Fxmap,
+"   Fallmap, Fobjmap.
 "
 " {lhs}
 "   Same as :map.
@@ -435,6 +439,8 @@ command! -nargs=* Fomap  call s:cmd_Fmap('o', '', [<f-args>])
 command! -nargs=* Fsmap  call s:cmd_Fmap('s', '', [<f-args>])
 command! -nargs=* Fvmap  call s:cmd_Fmap('v', '', [<f-args>])
 command! -nargs=* Fxmap  call s:cmd_Fmap('x', '', [<f-args>])
+command! -nargs=* Fallmap  call s:cmd_Fmap('All', '', [<f-args>])
+command! -nargs=* Fobjmap  call s:cmd_Fmap('Obj', '', [<f-args>])
 function! s:cmd_Fmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
