@@ -421,6 +421,26 @@ command! -nargs=+ Allunmap
 
 
 
+" Objmap - :map for text objects  "{{{2
+"
+" Keys for text objects should be mapped in Visual mode and Operator-pending
+" mode.  The following commands are just wrappers to avoid DRY violation.
+
+command! -nargs=+ Objmap
+\   execute 'omap' <q-args>
+\ | execute 'vmap' <q-args>
+
+command! -nargs=+ Objnoremap
+\   execute 'onoremap' <q-args>
+\ | execute 'vnoremap' <q-args>
+
+command! -nargs=+ Objunmap
+\   execute 'silent! ounmap' <q-args>
+\ | execute 'silent! vunmap' <q-args>
+
+
+
+
 " KeyboardLayout - declare differences of logical and physical layouts  "{{{2
 "
 " :KeyboardLayout {physical-key}  {logical-key}
