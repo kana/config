@@ -326,45 +326,6 @@ endfunction
 
 
 
-" Fcommand - wrapper of :command to easily call a function  "{{{2
-"
-" :Fcommand[!] {option}... {command-name} {function-name} {arg}...
-"
-" [!]
-"   Same as :command.
-"
-" {option}
-"   Same as :command.
-"
-" {command-name}
-"   The name of the wewly defined command.
-"
-" {function-name}
-"   The name of the function which is called whenever {command-name} is
-"   executed.
-"
-" {arg}
-"   Arguments to {function-name}.  All escape sequences of :command are also
-"   available.  Note that {arg}s are splited by spaces and each spaces are
-"   replaced by ", ".  See :help <f-args> to how to escape spaces.
-
-command! -bang -nargs=* Fcommand  call s:cmd_Fcommand('<bang>', [<f-args>])
-function! s:cmd_Fcommand(bang, args)
-  let [options, rest] = s:separate_list(a:args, '^-')
-  if len(rest) < 2
-    throw 'Insufficient number of arguments: ' . string(rest)
-  endif
-  let command_name = rest[0]
-  let function_name = rest[1]
-  let function_args = rest[2:]
-
-  execute 'command'.a:bang join(options) command_name
-  \ 'call' function_name '(' join(function_args, ', ') ')'
-endfunction
-
-
-
-
 " Fmap - wrapper of :map to easily call a function  "{{{2
 "
 " :Fmap {lhs} {expression}
@@ -378,15 +339,15 @@ endfunction
 "   An expression to call a function (without :call).  This expression is
 "   executed whenever key sequence {lhs} are typed.
 
-Fcommand! -bang -nargs=* Fmap  s:cmd_Fmap '' '<bang>' [<f-args>]
-Fcommand! -nargs=* Fcmap  s:cmd_Fmap 'c' '' [<f-args>]
-Fcommand! -nargs=* Fimap  s:cmd_Fmap 'i' '' [<f-args>]
-Fcommand! -nargs=* Flmap  s:cmd_Fmap 'l' '' [<f-args>]
-Fcommand! -nargs=* Fnmap  s:cmd_Fmap 'n' '' [<f-args>]
-Fcommand! -nargs=* Fomap  s:cmd_Fmap 'o' '' [<f-args>]
-Fcommand! -nargs=* Fsmap  s:cmd_Fmap 's' '' [<f-args>]
-Fcommand! -nargs=* Fvmap  s:cmd_Fmap 'v' '' [<f-args>]
-Fcommand! -nargs=* Fxmap  s:cmd_Fmap 'x' '' [<f-args>]
+command! -bang -nargs=* Fmap  call s:cmd_Fmap('', '<bang>', [<f-args>])
+command! -nargs=* Fcmap  call s:cmd_Fmap('c', '', [<f-args>])
+command! -nargs=* Fimap  call s:cmd_Fmap('i', '', [<f-args>])
+command! -nargs=* Flmap  call s:cmd_Fmap('l', '', [<f-args>])
+command! -nargs=* Fnmap  call s:cmd_Fmap('n', '', [<f-args>])
+command! -nargs=* Fomap  call s:cmd_Fmap('o', '', [<f-args>])
+command! -nargs=* Fsmap  call s:cmd_Fmap('s', '', [<f-args>])
+command! -nargs=* Fvmap  call s:cmd_Fmap('v', '', [<f-args>])
+command! -nargs=* Fxmap  call s:cmd_Fmap('x', '', [<f-args>])
 function! s:cmd_Fmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
@@ -452,7 +413,7 @@ command! -nargs=+ Objunmap
 "   Example: Map the physical key {X} to {rhs}:
 "   noremap <Plug>(physical-key-{X}) {rhs}
 
-Fcommand! -nargs=+ KeyboardLayout  s:cmd_KeyboardLayout <f-args>
+command! -nargs=+ KeyboardLayout  call s:cmd_KeyboardLayout(<f-args>)
 function! s:cmd_KeyboardLayout(physical_key, logical_key)
   let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
   execute 'Allmap' a:logical_key indirect_key
@@ -483,15 +444,15 @@ endfunction
 " {script}
 "   A script which is executed whenever key sequence {lhs} are typed.
 
-Fcommand! -bang -nargs=* Cmap  s:cmd_Cmap '' '<bang>' [<f-args>]
-Fcommand! -nargs=* Ccmap  s:cmd_Cmap 'c' '' [<f-args>]
-Fcommand! -nargs=* Cimap  s:cmd_Cmap 'i' '' [<f-args>]
-Fcommand! -nargs=* Clmap  s:cmd_Cmap 'l' '' [<f-args>]
-Fcommand! -nargs=* Cnmap  s:cmd_Cmap 'n' '' [<f-args>]
-Fcommand! -nargs=* Comap  s:cmd_Cmap 'o' '' [<f-args>]
-Fcommand! -nargs=* Csmap  s:cmd_Cmap 's' '' [<f-args>]
-Fcommand! -nargs=* Cvmap  s:cmd_Cmap 'v' '' [<f-args>]
-Fcommand! -nargs=* Cxmap  s:cmd_Cmap 'x' '' [<f-args>]
+command! -bang -nargs=* Cmap  call s:cmd_Cmap('', '<bang>', [<f-args>])
+command! -nargs=* Ccmap  call s:cmd_Cmap('c', '', [<f-args>])
+command! -nargs=* Cimap  call s:cmd_Cmap('i', '', [<f-args>])
+command! -nargs=* Clmap  call s:cmd_Cmap('l', '', [<f-args>])
+command! -nargs=* Cnmap  call s:cmd_Cmap('n', '', [<f-args>])
+command! -nargs=* Comap  call s:cmd_Cmap('o', '', [<f-args>])
+command! -nargs=* Csmap  call s:cmd_Cmap('s', '', [<f-args>])
+command! -nargs=* Cvmap  call s:cmd_Cmap('v', '', [<f-args>])
+command! -nargs=* Cxmap  call s:cmd_Cmap('x', '', [<f-args>])
 function! s:cmd_Cmap(prefix, suffix, args)
   " FIXME: This parsing may not be compatible with the original one.
   let [options, rest] = s:separate_list(a:args,
@@ -538,7 +499,7 @@ endfunction
 " FIXME: Write :AlternateCommandClear to easily delete unnecessary
 "        abbreviations defined by :AlternateCommand.
 
-Fcommand! -nargs=* AlternateCommand  s:cmd_AlternateCommand [<f-args>]
+command! -nargs=* AlternateCommand  call s:cmd_AlternateCommand([<f-args>])
 function! s:cmd_AlternateCommand(args)
   let buffer_p = (a:args[0] ==? '<buffer>')
   let original_name = a:args[buffer_p ? 1 : 0]
@@ -567,9 +528,9 @@ endfunction
 
 " Hecho, Hechon, Hechomsg - various :echo with highlight specification  "{{{2
 
-Fcommand! -bar -nargs=+ Hecho  s:cmd_Hecho 'echo' [<f-args>]
-Fcommand! -bar -nargs=+ Hechon  s:cmd_Hecho 'echon' [<f-args>]
-Fcommand! -bar -nargs=+ Hechomsg  s:cmd_Hecho 'echomsg' [<f-args>]
+command! -bar -nargs=+ Hecho  call s:cmd_Hecho('echo', [<f-args>])
+command! -bar -nargs=+ Hechon  call s:cmd_Hecho('echon', [<f-args>])
+command! -bar -nargs=+ Hechomsg  call s:cmd_Hecho('echomsg', [<f-args>])
 function! s:cmd_Hecho(echo_command, args)
   let highlight_name = a:args[0]
   let messages = a:args[1:]
