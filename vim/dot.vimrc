@@ -326,45 +326,6 @@ endfunction
 
 
 
-" Fmap - wrapper of :map to easily call a function  "{{{2
-"
-" :Fmap {lhs} {expression}
-"   Other variants:
-"   Fmap!, Fcmap, Fimap, Flmap, Fnmap, Fomap, Fsmap, Fvmap, Fxmap.
-"
-" {lhs}
-"   Same as :map.
-"
-" {expression}
-"   An expression to call a function (without :call).  This expression is
-"   executed whenever key sequence {lhs} are typed.
-
-command! -bang -nargs=* Fmap  call s:cmd_Fmap('', '<bang>', [<f-args>])
-command! -nargs=* Fcmap  call s:cmd_Fmap('c', '', [<f-args>])
-command! -nargs=* Fimap  call s:cmd_Fmap('i', '', [<f-args>])
-command! -nargs=* Flmap  call s:cmd_Fmap('l', '', [<f-args>])
-command! -nargs=* Fnmap  call s:cmd_Fmap('n', '', [<f-args>])
-command! -nargs=* Fomap  call s:cmd_Fmap('o', '', [<f-args>])
-command! -nargs=* Fsmap  call s:cmd_Fmap('s', '', [<f-args>])
-command! -nargs=* Fvmap  call s:cmd_Fmap('v', '', [<f-args>])
-command! -nargs=* Fxmap  call s:cmd_Fmap('x', '', [<f-args>])
-function! s:cmd_Fmap(prefix, suffix, args)
-  " FIXME: This parsing may not be compatible with the original one.
-  let [options, rest] = s:separate_list(a:args,
-  \ '^\c<\(buffer\|expr\|script\|silent\|special\|unique\)>$')
-  if len(rest) < 2
-    throw 'Insufficient number of arguments: ' . string(rest)
-  endif
-  let lhs = rest[0]
-  let rhs = rest[1:]
-
-  execute a:prefix.'noremap'.a:suffix join(options) lhs
-  \ ':<C-u>call' join(rhs) '<Return>'
-endfunction
-
-
-
-
 " Allmap - :map in all modes  "{{{2
 
 command! -nargs=+ Allmap
@@ -398,27 +359,6 @@ command! -nargs=+ Objnoremap
 command! -nargs=+ Objunmap
 \   execute 'ounmap' <q-args>
 \ | execute 'vunmap' <q-args>
-
-
-
-
-" KeyboardLayout - declare differences of logical and physical layouts  "{{{2
-"
-" :KeyboardLayout {physical-key}  {logical-key}
-"
-"   Declare that whenever Vim gets a character {logical-key}, the
-"   corresponding physical key is {physical-key}.  This declaration is useful
-"   to define a mapping based on physical keyboard layout.
-"
-"   Example: Map the physical key {X} to {rhs}:
-"   noremap <Plug>(physical-key-{X}) {rhs}
-
-command! -nargs=+ KeyboardLayout  call s:cmd_KeyboardLayout(<f-args>)
-function! s:cmd_KeyboardLayout(physical_key, logical_key)
-  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
-  execute 'Allmap' a:logical_key indirect_key
-  execute 'Allnoremap' indirect_key a:logical_key
-endfunction
 
 
 
@@ -468,6 +408,66 @@ function! s:cmd_Cmap(prefix, suffix, args)
 
   execute a:prefix.'noremap'.a:suffix join(options) lhs
   \ ':'.(count_p ? '' : '<C-u>') . join(script) . (noexec_p ? '' : '<Return>')
+endfunction
+
+
+
+
+" Fmap - wrapper of :map to easily call a function  "{{{2
+"
+" :Fmap {lhs} {expression}
+"   Other variants:
+"   Fmap!, Fcmap, Fimap, Flmap, Fnmap, Fomap, Fsmap, Fvmap, Fxmap.
+"
+" {lhs}
+"   Same as :map.
+"
+" {expression}
+"   An expression to call a function (without :call).  This expression is
+"   executed whenever key sequence {lhs} are typed.
+
+command! -bang -nargs=* Fmap  call s:cmd_Fmap('', '<bang>', [<f-args>])
+command! -nargs=* Fcmap  call s:cmd_Fmap('c', '', [<f-args>])
+command! -nargs=* Fimap  call s:cmd_Fmap('i', '', [<f-args>])
+command! -nargs=* Flmap  call s:cmd_Fmap('l', '', [<f-args>])
+command! -nargs=* Fnmap  call s:cmd_Fmap('n', '', [<f-args>])
+command! -nargs=* Fomap  call s:cmd_Fmap('o', '', [<f-args>])
+command! -nargs=* Fsmap  call s:cmd_Fmap('s', '', [<f-args>])
+command! -nargs=* Fvmap  call s:cmd_Fmap('v', '', [<f-args>])
+command! -nargs=* Fxmap  call s:cmd_Fmap('x', '', [<f-args>])
+function! s:cmd_Fmap(prefix, suffix, args)
+  " FIXME: This parsing may not be compatible with the original one.
+  let [options, rest] = s:separate_list(a:args,
+  \ '^\c<\(buffer\|expr\|script\|silent\|special\|unique\)>$')
+  if len(rest) < 2
+    throw 'Insufficient number of arguments: ' . string(rest)
+  endif
+  let lhs = rest[0]
+  let rhs = rest[1:]
+
+  execute a:prefix.'noremap'.a:suffix join(options) lhs
+  \ ':<C-u>call' join(rhs) '<Return>'
+endfunction
+
+
+
+
+" KeyboardLayout - declare differences of logical and physical layouts  "{{{2
+"
+" :KeyboardLayout {physical-key}  {logical-key}
+"
+"   Declare that whenever Vim gets a character {logical-key}, the
+"   corresponding physical key is {physical-key}.  This declaration is useful
+"   to define a mapping based on physical keyboard layout.
+"
+"   Example: Map the physical key {X} to {rhs}:
+"   noremap <Plug>(physical-key-{X}) {rhs}
+
+command! -nargs=+ KeyboardLayout  call s:cmd_KeyboardLayout(<f-args>)
+function! s:cmd_KeyboardLayout(physical_key, logical_key)
+  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
+  execute 'Allmap' a:logical_key indirect_key
+  execute 'Allnoremap' indirect_key a:logical_key
 endfunction
 
 
