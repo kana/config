@@ -252,7 +252,7 @@ alias altr='ls -altr'
 
 alias v='vim'
 alias g='git'
-alias gs='git-svn'
+alias gs='git svn'
 alias screen='LANG= screen'
 
 alias ..='cd ..'
@@ -434,7 +434,7 @@ compinit
 
 _git  # FIXME: force loading as necessary
 source <(
-  git-config --global --list |
+  git config --global --list |
     sed -e '/!/!s/^alias\.\([^=]*\)=\(.*\)$/\1 \2/;t;d' |
     awk '{
       print "_git-" $1 "() {"
