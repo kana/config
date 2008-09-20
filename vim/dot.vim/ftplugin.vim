@@ -26,6 +26,9 @@ if exists('g:did_load_ftplugin')
   finish
 endif
 
+let s:cpoptions = &cpoptions
+set cpoptions&vim
+
 
 
 
@@ -48,8 +51,8 @@ function! s:load_filetype_plugins()
 
   for _ in split(&l:filetype, '\.')
     execute 'runtime! ftplugin/'._.'.vim'
-    execute 'runtime! ftplugin/'._.'_*.vim'
-    execute 'runtime! ftplugin/'._.'/*.vim'
+    \      .'         ftplugin/'._.'_*.vim'
+    \      .'         ftplugin/'._.'/*.vim'
   endfor
 endfunction
 
@@ -59,6 +62,9 @@ endfunction
 " The name of the checker variable MUST be g:did_load_ftplugin to avoid not to
 " source all content of the original filetype plugin loader.
 let g:did_load_ftplugin = 1
+
+let &cpoptions = s:cpoptions
+unlet s:cpoptions
 
 " __END__
 " vim: foldmethod=marker
