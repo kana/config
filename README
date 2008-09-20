@@ -41,17 +41,23 @@ license):
 Notes
 =====
 
-Naming rules for branches
--------------------------
+Naming rules for branches and tags
+----------------------------------
 
 master
     The latest and stable version of files.
 
-sket/*
-    Test branches for some specific feature or big changes.
+maint
+    Branch for maintenance of the repository.
 
-zzz/*
-    Branches which are not used anymore and will be removed.
+{software}-{topic}
+    Branches for some {topic} on {software}.
+
+{software}-{topic}-{version}
+    Tags for a specific {version} of a branch {software}-{topic}.
+
+z-*
+    Tags for dead branches which are not maintained anymore.
 
 
 To extract specific files
