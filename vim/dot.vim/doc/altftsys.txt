@@ -1,0 +1,180 @@
+*altftsys.txt*	alternative filetype scripts loader
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*altftsys-contents*
+
+Introduction		|altftsys-introduction|
+Terms			|altftsys-terms|
+Interface		|altftsys-interface|
+  Filetype plugins	  |altftsys-ftplugin|
+  Indent files		  |altftsys-indent|
+  Syntax files		  |altftsys-syntax|
+Bugs			|altftsys-bugs|
+Changelog		|altftsys-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*altftsys-introduction*
+
+*altftsys* is a filetype scripts loader which is alternative to the default
+one.  The goal of altftsys is to easily write filetype scripts and to easily
+configure filetype-specific settings.
+
+Requirements:
+- Vim 7.2 or later
+
+
+
+
+==============================================================================
+TERMS						*altftsys-terms*
+
+Simple filetype					*simple-filetype*
+			A value of 'filetype' which doesn't contain any dot.
+
+Compound filetype				*compound-filetype*
+			A value of 'filetype' which contains multiple
+			filetypes separated by dot.
+
+Base filetype plugins				*base-filetype-plugin*
+			Filetype plugins which do basic settings for specific
+			filetype.  Their names are:
+			
+				ftplugin/{filetype}.vim
+
+			and they are not located in |after-directory|.
+
+Additional filetype plugins			*additional-filetype-plugin*
+			Filetype plugins which do additional settings for
+			specific filetype.  Their names are one of the
+			followings:
+
+				after/ftplugin/{filetype}.vim
+				after/ftplugin/{filetype}_{name}.vim
+				after/ftplugin/{filetype}/{name}.vim
+
+
+
+
+==============================================================================
+INTERFACE					*altftsys-interface*
+
+------------------------------------------------------------------------------
+FILETYPE PLUGINS				*altftsys-ftplugin*
+
+LOADING ~
+
+Base filetype plugins
+			Loading process is like the default one, but the
+			following points are differed:
+
+			- Only the first found file is sourced.
+
+			- Only "ftplugin/{filetype}.vim" will be searched,
+			  i.e., "ftplugin/{filetype}_{name}.vim" and
+			  "ftplugin/{filetype}/{name}.vim" will not be
+			  searched.
+
+			- Files in |after-directory| will not be searched.
+
+			- Before load a filetype plugin, the values of
+			  b:did_ftplugin and b:undo_ftplugin are saved, then
+			  :unlet them.
+
+			- After loading a filetype plugin, the values of
+			  b:did_ftplugin and b:undo_ftplugin are merged with
+			  the previously saved values.
+
+Additional filetype plugins
+			Loading process is like the default one, but the
+			following points are differed:
+
+			- Only files in |after-directory| will be searched.
+
+			- Before loading a filetype plugin, the value of
+			  b:undo_ftplugin is saved, then :unlet it.
+
+			- After loading a filetype plugin, the value of
+			  b:undo_ftplugin is merged with the previously saved
+			  value.
+
+WRITING A FILETYPE PLUGIN ~
+
+Base filetype plugins
+			As same as the standard one.
+			See |write-filetype-plugin| for the detail.
+
+Additional filetype plugins
+			Like base filetype plugins, but you don't have to
+			check and set b:did_ftplugin.  It's unnecessary.
+
+The merits to use altftsys are:
+- Support for compound filetype.
+- Easy to write/use additional filetype plugins.
+
+With the default loader, it's troublesome to deal with b:did_ftplugin and
+b:undo_ftplugin in the both cases.  Now you don't have to care about them.
+
+
+
+
+------------------------------------------------------------------------------
+INDENT FILES					*altftsys-indent*
+
+Not supported yet.
+
+
+------------------------------------------------------------------------------
+SYNTAX FILES					*altftsys-syntax*
+
+Not supported yet.
+
+
+
+
+==============================================================================
+BUGS						*altftsys-bugs*
+
+- Currently, |filetype-plugin| is only supported.  Filetype indent files
+  (|30.3|) and |syntax| files are not supported yet.
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*altftsys-changelog*
+
+0.0.0	2008-09-22T16:01:42+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:

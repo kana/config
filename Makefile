@@ -219,6 +219,7 @@ PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 PACKAGE_vim_altftsys_ARCHIVE=vim-altftsys-0.0.0
 PACKAGE_vim_altftsys_BASE=vim/dot.vim
 PACKAGE_vim_altftsys_FILES=\
+  vim/dot.vim/doc/altftsys.txt \
   vim/dot.vim/ftplugin.vim \
   vim/dot.vim/ftplugof.vim
 
