@@ -343,7 +343,7 @@ endfunction
 
 
 
-function! ku#start(source)  "{{{2
+function! ku#start(source, ...)  "{{{2
   if !s:available_source_p(a:source)
     echoerr 'ku: Not a valid source name:' string(a:source)
     return s:FALSE
@@ -389,11 +389,11 @@ function! ku#start(source)  "{{{2
 
   " Reset the content of the ku buffer
   silent % delete _
-  call append(1, '')
+  call append(1, (a:0 == 0 ? '' : a:1))
   normal! 2G
 
   " Start Insert mode.
-  call feedkeys('i', 'n')
+  call feedkeys('A', 'n')
 
   call s:api(s:current_source, 'event_handler', 'SourceEnter')
   return s:TRUE

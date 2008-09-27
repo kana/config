@@ -84,8 +84,10 @@ COMMANDS					*ku-commands*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
 
-ku#start({source})				*ku#start()*
+ku#start({source}, [{initial-pattern}])		*ku#start()*
 			Function version of |:Ku|.
+			If {initial-pattern} is given, it will be inserted as
+			the initial pattern.
 
 ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			Define the following key mappings which are local to
@@ -646,6 +648,7 @@ CHANGELOG					*ku-changelog*
 	    current source as the 1st argument.
 	  - |ku-SourceEnter| and |ku-SourceLeave| don't take extra argument.
 	- |ku#custom_action()|: Add new way to specify {function}.
+	- |ku#start()|: Add {initial-pattern}.
 
 0.1.2	2008-08-11T01:56:15+09:00
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix
