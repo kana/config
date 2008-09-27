@@ -115,12 +115,8 @@ Additional filetype plugins
 
 			- Only files in |after-directory| will be searched.
 
-			- Before loading a filetype plugin, the value of
-			  b:undo_ftplugin is saved, then :unlet it.
-
-			- After loading a filetype plugin, the value of
-			  b:undo_ftplugin is merged with the previously saved
-			  value.
+			- b:undo_ftplugin is always defined before loading
+			  a filetype plugin.
 
 WRITING A FILETYPE PLUGIN ~
 
@@ -131,10 +127,13 @@ Base filetype plugins
 Additional filetype plugins
 			Like base filetype plugins, but you don't have to
 			check and set b:did_ftplugin.  It's unnecessary.
+			Also you don't have to check the existence of
+			b:undo_ftplugin.
 
 The merits to use altftsys are:
+- Additional rules which clear how to install/write filetype plugins.
 - Support for compound filetype.
-- Easy to write/use additional filetype plugins.
+- Easy to write/apply additional filetype plugins.
 
 With the default loader, it's troublesome to deal with b:did_ftplugin and
 b:undo_ftplugin in the both cases.  Now you don't have to care about them.
