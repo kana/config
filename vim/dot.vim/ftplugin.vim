@@ -49,10 +49,31 @@ function! s:load_filetype_plugins()
     unlet! b:did_ftplugin
   endif
 
-  for _ in split(&l:filetype, '\.')
-    execute 'runtime! ftplugin/'._.'.vim'
-    \      .'         ftplugin/'._.'_*.vim'
-    \      .'         ftplugin/'._.'/*.vim'
+  let undo_ftplugin = ''
+
+    " BUGS: Assumes paths never contain any comma.
+  let _ = split(&runtimepath, ',')
+  let runtimepath_after = join(filter(copy(_), 'v:val=~#''[/\\]after'''), ',')
+  let runtimepath_nonafter = join(filter(copy(_),'v:val!~#''[/\\]after'''),',')
+  let filetypes = split(&l:filetype, '\.')
+
+  let original_runtimepath = &runtimepath
+  let &runtimepath = runtimepath_nonafter
+    for ft in filetypes
+      unlet! b:did_ftplugin b:undo_ftplugin
+      execute 'runtime ftplugin/'.ft.'.vim'
+      if exists('b:undo_ftplugin')
+        let undo_ftplugin .= '|' . b:undo_ftplugin
+      endif
+    endfor
+    let b:undo_ftplugin = undo_ftplugin
+  let &runtimepath = original_runtimepath
+
+  for ft in filetypes
+    let ftplugins = globpath(runtimepath_after, 'ftplugin/'.ft.'{,_*,/*}.vim')
+    for ftplugin in split(ftplugins, '\n')
+      execute 'source' ftplugin
+    endfor
   endfor
 endfunction
 

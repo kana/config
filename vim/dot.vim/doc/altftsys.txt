@@ -118,6 +118,10 @@ Additional filetype plugins
 			- b:undo_ftplugin is always defined before loading
 			  a filetype plugin.
 
+Compound filetype
+			(1) Load all base filetype plugins,
+			(2) then load all additional filetype plugins.
+
 WRITING A FILETYPE PLUGIN ~
 
 Base filetype plugins
