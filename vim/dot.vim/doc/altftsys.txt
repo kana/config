@@ -143,27 +143,25 @@ With the default loader, it's troublesome to deal with b:did_ftplugin and
 b:undo_ftplugin in the both cases.  Now you don't have to care about them.
 
 
-
-
 ------------------------------------------------------------------------------
 INDENT FILES					*altftsys-indent*
 
-Not supported yet.
+Same as the default loader, but the following point is differed:
+
+- For compound filetype, indent scripts for the last filetype are loaded, and
+  the rest of files are ignored.
 
 
 ------------------------------------------------------------------------------
 SYNTAX FILES					*altftsys-syntax*
 
-Not supported yet.
+Same as the default loader, but the following point is differed:
 
-
+- :unlet b:current_syntax before loading each syntax files.
 
 
 ==============================================================================
 BUGS						*altftsys-bugs*
-
-- Currently, |filetype-plugin| is only supported.  Filetype indent files
-  (|30.3|) and |syntax| files are not supported yet.
 
 - There are many bugs around the world.
 
