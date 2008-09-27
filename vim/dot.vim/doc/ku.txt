@@ -1,6 +1,6 @@
 *ku.txt*	Support to do something
 
-Version 0.1.2
+Version 0.1.3
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -408,24 +408,12 @@ ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 				source to {source}, or the |ku-window| is open
 				and the the current source is {source}.
 
-				For this event, an extra argument is given to
-				an event handler.  It is a string which
-				represents the name of the activated source.
-				Normally its value is the same as {source}.
-				It may be used for |ku-special-sources|.
-
 				Return value is ignored.
 
 			"SourceLeave"		*ku-SourceLeave*
 				The current source is switched from {source}
 				to another source, or the |ku-window| is
 				closed and the the current source is {source}.
-
-				For this event, an extra argument is given to
-				an event handler.  It is a string which
-				represents the name of the inactivated source.
-				Normally its value is the same as {source}.
-				It may be used for |ku-special-sources|.
 
 				Return value is ignored.
 
@@ -493,13 +481,23 @@ are called as "special sources".  Special source scripts are placed in
 
 - The name of a special source must be in the following form:
   "{source}-{ext}".
+
 - {source} is the same as the basename of a special source script which
   provides the special source.
+
 - {ext} is additional part.  It should consist of lower cases only.
+
+- For special sources, each |ku-source-api| takes 1 extra argument as the 1st
+  argument.  The value of the extra argument is a string which represents the
+  name of the current source.  For example, |ku#{source}#gather_items()| takes
+  {current-source} as the 1st argument and {pattern} as the 2nd argument.
+
 - To provide information on available sources, special source scripts should
   have additional scripts:
+
   - The names of additional scripts are in the following form:
     "autoload/ku/special/{source}_.vim".
+
   - Additional scripts provides the following function:
 
 ku#special#{source}_#sources()		      *ku#special#{source}_#sources()*
@@ -634,6 +632,12 @@ BUGS						*ku-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.1.3	2008-09-28T03:30:42+09:00
+	- Inconpatible change:
+	  - For |ku-special-sources|, |ku-source-api| takes the name of the
+	    current source as the 1st argument.
+	  - |ku-SourceEnter| and |ku-SourceLeave| don't take extra argument.
 
 0.1.2	2008-08-11T01:56:15+09:00
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix

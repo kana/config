@@ -1,5 +1,5 @@
 " ku - Support to do something
-" Version: 0.1.2
+" Version: 0.1.3
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -371,7 +371,7 @@ function! ku#start(source)  "{{{2
   " Start Insert mode.
   call feedkeys('i', 'n')
 
-  call s:api(s:current_source, 'event_handler', 'SourceEnter',s:current_source)
+  call s:api(s:current_source, 'event_handler', 'SourceEnter')
   return s:TRUE
 endfunction
 
@@ -521,7 +521,7 @@ function! s:end()  "{{{2
   endif
   let s:_end_locked_p = s:TRUE
 
-  call s:api(s:current_source, 'event_handler', 'SourceLeave',s:current_source)
+  call s:api(s:current_source, 'event_handler', 'SourceLeave')
   close
 
   let &completeopt = s:completeopt
@@ -698,8 +698,8 @@ function! s:switch_current_source(_)  "{{{2
     return s:FALSE
   endif
 
-  call s:api(_[o], 'event_handler', 'SourceLeave', _[o])
-  call s:api(_[n], 'event_handler', 'SourceEnter', _[n])
+  call s:api(_[o], 'event_handler', 'SourceLeave')
+  call s:api(_[n], 'event_handler', 'SourceEnter')
 
   let s:current_source = _[n]
   return s:TRUE
@@ -1084,7 +1084,8 @@ function! s:api(source_name, api_name, ...)  "{{{2
   if _ == ''  " normal source
     return call(printf('ku#%s#%s', a:source_name, a:api_name), a:000)
   else  " special source
-    return call(printf('ku#special#%s#%s', _, a:api_name), a:000)
+    return call(printf('ku#special#%s#%s', _, a:api_name),
+    \           [a:source_name] + a:000)
   endif
 endfunction
 
