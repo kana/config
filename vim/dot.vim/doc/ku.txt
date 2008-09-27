@@ -104,9 +104,16 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-k>		<Plug>(ku-previous-source)
 
 ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
+ku#custom_action({source}, {action}, {source2}, {action2})
 			Define a new {action} for items from {source}.
-			{function} is the name of a function which will be
-			called as {action}.
+
+			In the former case, {function} is the name of
+			a function which will be called as {action}.
+
+			In the latter case, the function corresponding to the
+			{action2} for items from {source2} will be called as
+			{action}.  {action2} will be searched from the default
+			action table for {source2}.
 
 			{source} is the name of a source or "common".  In the
 			former case, the given {action} is only available for
@@ -638,6 +645,7 @@ CHANGELOG					*ku-changelog*
 	  - For |ku-special-sources|, |ku-source-api| takes the name of the
 	    current source as the 1st argument.
 	  - |ku-SourceEnter| and |ku-SourceLeave| don't take extra argument.
+	- |ku#custom_action()|: Add new way to specify {function}.
 
 0.1.2	2008-08-11T01:56:15+09:00
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix

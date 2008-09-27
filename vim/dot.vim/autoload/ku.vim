@@ -220,12 +220,36 @@ endfunction
 
 
 
-function! ku#custom_action(source, action, function)  "{{{2
+function! ku#custom_action(source, action, ...)  "{{{2
   if !has_key(s:custom_action_tables, a:source)
     let s:custom_action_tables[a:source] = {}
   endif
 
+  if a:0 == 1
+    call call('s:ku_custom_action_3', [a:source, a:action] + a:000)
+  elseif a:0 == 2
+    call call('s:ku_custom_action_4', [a:source, a:action] + a:000)
+  else
+    echoerr printf('Invalid arguments: %s', string([a:source,a:action]+a:000))
+  endif
+endfunction
+
+
+function! s:ku_custom_action_3(source, action, function)  "{{{3
   let s:custom_action_tables[a:source][a:action] = a:function
+endfunction
+
+
+function! s:ku_custom_action_4(source, action, source2, action2)  "{{{3
+  let action_table = s:api(a:source2, 'action_table')
+  let function2 = get(action_table, a:action2, 0)
+  if function2 is 0
+    echoerr printf('No such action for %s/%s: %s',
+    \              a:type, a:source2, string(a:action2))
+    return
+  endif
+
+  let s:custom_action_tables[a:source][a:action] = function2
 endfunction
 
 
