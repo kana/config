@@ -522,7 +522,7 @@ function! s:do(action_name)  "{{{2
   endif
 
   if a:action_name == ''
-    let action = s:choose_action()
+    let action = s:choose_action(item)
   else
     let action = a:action_name
   endif
@@ -835,7 +835,7 @@ endfunction
 
 
 " Action-related stuffs  "{{{2
-function! s:choose_action()  "{{{3
+function! s:choose_action(item)  "{{{3
   " Composite the 4 key tables on s:current_source for further work.
   let KEY_TABLE = {}
   for _ in [s:default_key_table(),
@@ -845,6 +845,8 @@ function! s:choose_action()  "{{{3
     call extend(KEY_TABLE, _)
   endfor
   call filter(KEY_TABLE, 'v:val !=# "nop"')
+
+  echo printf('Item: %s (%s)', a:item.word, s:current_source)
 
   " List keys and their actions.
   " FIXME: listing like ls - the width of each column is varied.

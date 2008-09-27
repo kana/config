@@ -649,6 +649,7 @@ CHANGELOG					*ku-changelog*
 	  - |ku-SourceEnter| and |ku-SourceLeave| don't take extra argument.
 	- |ku#custom_action()|: Add new way to specify {function}.
 	- |ku#start()|: Add {initial-pattern}.
+	- Show some information on the selected item while choosing action.
 
 0.1.2	2008-08-11T01:56:15+09:00
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix
