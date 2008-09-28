@@ -31,6 +31,7 @@ Interface		|ku-interface|
   Functions		  |ku-functions|
   Key Mapings		  |ku-key-mappings|
   Pattern		  |ku-pattern|
+  Input History		  |ku-input-history|
   Default Action Table	  |ku-default-action-table|
   Default Key Table	  |ku-default-key-table|
   Default Sources	  |ku-default-sources|
@@ -104,6 +105,8 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-i>		<Plug>(ku-choose-an-action)
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
+			<Esc>j		<Plug>(ku-newer-history)
+			<Esc>k		<Plug>(ku-older-history)
 
 ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 ku#custom_action({source}, {action}, {source2}, {action2})
@@ -163,6 +166,11 @@ ku#available_sources()				*ku#available_sources()*
 ku#do_action({name})				*ku#do_action()*
 			Function version of |:KuDoAction|.
 
+ku#input_history()				*ku#input_history()*
+			Return a list of inputted patterns.  The first item is
+			the newest inputted pattern.  Returned value must not
+			be modified.
+
 
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
@@ -195,6 +203,11 @@ In the ku window, the following key mappings are defined:
 			- the current source is "buffer",
 			the next one is "file" and
 			the previous one is "metarw-git".
+
+<Plug>(ku-older-history)			*<Plug>(ku-older-history)*
+<Plug>(ku-newer-history)			*<Plug>(ku-newer-history)*
+			Replace the current input pattern with older/newer
+			one.
 
 The default key mappings are defined by |ku#default_key_mappings()|.
 
@@ -282,6 +295,26 @@ junk-file~		junk-file~	(not expanded, because "~" is not
 This expansion is not recursive.
 
 See also |ku-prefix-table| and |ku#custom_prefix()|.
+
+
+------------------------------------------------------------------------------
+INPUT HISTORY					*ku-input-history*
+
+Inputted patterns are automatically saved and they will be automatically
+loaded the next Vim session.  You can recall an old input pattern in the ku
+window.
+
+- Input history is saved as "info/ku/history" under the first directory in
+  'runtimepath'.
+
+- Maximum size of input history is 100.  The oldest pattern will be removed on
+  overflow.
+
+- In the ku window, <Plug>(ku-older-history) and <Plug>(ku-newer-history) can
+  be used to recall an old input pattern.
+
+- Inputted pattern will be added to input history if some action is executed
+  on it.
 
 
 ------------------------------------------------------------------------------
@@ -650,6 +683,7 @@ CHANGELOG					*ku-changelog*
 	- |ku#custom_action()|: Add new way to specify {function}.
 	- |ku#start()|: Add {initial-pattern}.
 	- Show some information on the selected item while choosing action.
+	- Add |ku-input-history|.
 
 0.1.2	2008-08-11T01:56:15+09:00
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix

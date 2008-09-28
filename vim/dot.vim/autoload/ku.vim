@@ -125,6 +125,10 @@ let s:MAX_PRIORITY = 999
 let s:session_id = 0
 
 
+" For s:recall_input_history()
+let s:current_hisotry_index = -1
+
+
 
 
 
@@ -325,6 +329,8 @@ function! ku#default_key_mappings(override_p)  "{{{2
   call s:ni_map(_, '<buffer> <C-i>', '<Plug>(ku-choose-an-action)')
   call s:ni_map(_, '<buffer> <C-j>', '<Plug>(ku-next-source)')
   call s:ni_map(_, '<buffer> <C-k>', '<Plug>(ku-previous-source)')
+  call s:ni_map(_, '<buffer> <Esc>j', '<Plug>(ku-newer-history)')
+  call s:ni_map(_, '<buffer> <Esc>k', '<Plug>(ku-older-history)')
   return
 endfunction
 
@@ -338,6 +344,13 @@ function! ku#do_action(name)  "{{{2
   endif
 
   return s:do(a:name)
+endfunction
+
+
+
+
+function! ku#input_history()  "{{{2
+  return s:history_list()
 endfunction
 
 
@@ -358,6 +371,7 @@ function! ku#start(source, ...)  "{{{2
 
   let s:current_source = a:source
   let s:session_id = localtime()
+  let s:current_hisotry_index = -1
 
   " Save some values to restore the original state.
   let s:completeopt = &completeopt
@@ -516,6 +530,8 @@ function! s:do(action_name)  "{{{2
     endif
   endif
 
+  call s:history_add(s:remove_prompt(s:last_user_input_raw))
+
   if a:action_name == ''
     let action = s:choose_action(item)
   else
@@ -583,6 +599,10 @@ function! s:initialize_ku_buffer()  "{{{2
   \        :<C-u>call <SID>switch_current_source(1)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
   \        :<C-u>call <SID>switch_current_source(-1)<Return>
+  nnoremap <buffer> <silent> <Plug>(ku-newer-history)
+  \        :<C-u>call <SID>recall_input_history(-1)<Return>
+  nnoremap <buffer> <silent> <Plug>(ku-older-history)
+  \        :<C-u>call <SID>recall_input_history(1)<Return>
 
   nnoremap <buffer> <Plug>(ku-%-enter-insert-mode)  a
   inoremap <buffer> <Plug>(ku-%-leave-insert-mode)  <Esc>
@@ -611,6 +631,16 @@ function! s:initialize_ku_buffer()  "{{{2
   \    <Plug>(ku-%-cancel-completion)
   \<Plug>(ku-%-leave-insert-mode)
   \<Plug>(ku-previous-source)
+  \<Plug>(ku-%-enter-insert-mode)
+  imap <buffer> <silent> <Plug>(ku-newer-history)
+  \    <Plug>(ku-%-cancel-completion)
+  \<Plug>(ku-%-leave-insert-mode)
+  \<Plug>(ku-newer-history)
+  \<Plug>(ku-%-enter-insert-mode)
+  imap <buffer> <silent> <Plug>(ku-older-history)
+  \    <Plug>(ku-%-cancel-completion)
+  \<Plug>(ku-%-leave-insert-mode)
+  \<Plug>(ku-older-history)
   \<Plug>(ku-%-enter-insert-mode)
 
   inoremap <buffer> <expr> <BS>  pumvisible() ? '<C-e><BS>' : '<BS>'
@@ -699,6 +729,36 @@ endfunction
 
 
 
+function! s:recall_input_history(delta)  "{{{2
+  let o = s:current_hisotry_index
+  let n = o + a:delta
+  if n < -1
+    let n = -1
+  endif
+  if len(ku#input_history()) <= n
+    let n = len(ku#input_history()) - 1
+  endif
+
+  if o == -1
+    let s:unsaved_input_pattern = getline('.')
+  endif
+  if n == -1
+    let _ = s:unsaved_input_pattern
+  else
+    let _ = ku#input_history()[n]
+  endif
+
+  let s:current_hisotry_index = n
+  call setline('.', _)
+  call feedkeys("\<End>", 'n')
+  return
+endfunction
+
+" s:unsaved_input_pattern = ''
+
+
+
+
 function! s:switch_current_source(_)  "{{{2
   " FIXME: Update the line to indicate the current source even if this
   "        function is called in any mode other than Insert mode.
@@ -732,6 +792,15 @@ endfunction
 
 
 " Misc.  "{{{1
+" Autocommands  "{{{2
+
+augroup plugin-ku
+  autocmd!
+  autocmd VimLeave *  call s:history_save()
+augroup END
+
+
+
 " Automatic completion  "{{{2
 function! s:complete_the_prompt()  "{{{3
   call setline('.', s:PROMPT . getline('.'))
@@ -1100,6 +1169,60 @@ endfunction
 let s:cached_prefix_items = []
 let s:_session_id_expand_prefix3 = 0
 let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
+
+
+
+
+" History of inputted patterns  "{{{2
+" Variables / Constants  "{{{3
+
+" s:inputted_patterns = []  " the first item is the newest inputted pattern.
+let s:HISTORY_SIZE = 100
+let s:HISTORY_FILE = 'info/ku/history'
+
+
+function! s:history_add(new_input_pattern)  "{{{3
+  call insert(s:inputted_patterns, a:new_input_pattern, 0)
+
+  if s:HISTORY_SIZE < len(s:inputted_patterns)
+    call remove(s:inputted_patterns, s:HISTORY_SIZE+1, -1)
+  endif
+endfunction
+
+
+function! s:history_file()  "{{{3
+  " FIXME: path separator assumption
+  return printf('%s/%s', split(&runtimepath, ',')[0], s:HISTORY_FILE)
+endfunction
+
+
+function! s:history_list()  "{{{3
+  return s:inputted_patterns
+endfunction
+
+
+function! s:history_load()  "{{{3
+  if filereadable(s:history_file())
+    let s:inputted_patterns = readfile(s:history_file(), '', s:HISTORY_SIZE)
+  else
+    let s:inputted_patterns = []
+  endif
+endfunction
+
+if !exists('s:inputted_patterns')
+  call s:history_load()
+endif
+
+
+function! s:history_save()  "{{{3
+  let file = s:history_file()
+  let directory = fnamemodify(file, ':h')
+  if !isdirectory(directory)
+    call mkdir(directory, 'p')
+  endif
+
+  call writefile(s:history_list(), file)
+endfunction
 
 
 
