@@ -26,10 +26,17 @@
 
 
 syntax region vcsiLog keepend start=/^\%^/ end=/^=== .* ===$/me=s-1
+syntax match vcsiLongTitle /^.\{50}\zs.*$/ containedin=vcsiSummary
 syntax match vcsiSeparator /^=== .* ===$/
+syntax match vcsiSummary /^\%1l.*$/ containedin=vcsiLog
+
+
+
 
 highlight default link vcsiLog Normal
+highlight default link vcsiLongTitle Error
 highlight default link vcsiSeparator Delimiter
+highlight default link vcsiSummary Statement
 
 
 
