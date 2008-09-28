@@ -937,6 +937,16 @@ function! s:scroll_other_window(scroll_command)
 endfunction
 
 
+command! SplitNicely  call s:split_nicely()
+function! s:split_nicely()
+  if 80*2 * 15/16 <= winwidth(0)  " FIXME: threshold customization
+    vsplit
+  else
+    split
+  endif
+endfunction
+
+
 
 
 " VCS branch name  "{{{2
