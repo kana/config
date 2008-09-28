@@ -90,6 +90,10 @@ ku#start({source}, [{initial-pattern}])		*ku#start()*
 			If {initial-pattern} is given, it will be inserted as
 			the initial pattern.
 
+ku#restart()					*ku#restart()*
+			Call |ku#start()| with the last used source and the
+			last inputted pattern.
+
 ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			Define the following key mappings which are local to
 			the current buffer in Normal mode and Insert mode.
@@ -684,6 +688,7 @@ CHANGELOG					*ku-changelog*
 	- |ku#start()|: Add {initial-pattern}.
 	- Show some information on the selected item while choosing action.
 	- Add |ku-input-history|.
+	- Add |ku#restart()|.
 
 0.1.2	2008-08-11T01:56:15+09:00
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix

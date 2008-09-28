@@ -129,6 +129,11 @@ let s:session_id = 0
 let s:current_hisotry_index = -1
 
 
+" For ku#restart()
+let s:last_used_source = s:INVALID_SOURCE
+let s:last_used_input_pattern = ''
+
+
 
 
 
@@ -356,6 +361,13 @@ endfunction
 
 
 
+function! ku#restart()  "{{{2
+  return ku#start(s:last_used_source, s:last_used_input_pattern)
+endfunction
+
+
+
+
 function! ku#start(source, ...)  "{{{2
   if !s:available_source_p(a:source)
     echoerr 'ku: Not a valid source name:' string(a:source)
@@ -531,6 +543,8 @@ function! s:do(action_name)  "{{{2
   endif
 
   call s:history_add(s:remove_prompt(s:last_user_input_raw))
+  let s:last_used_source = s:current_source
+  let s:last_used_input_pattern = s:last_user_input_raw
 
   if a:action_name == ''
     let action = s:choose_action(item)
