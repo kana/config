@@ -91,6 +91,8 @@ CHANGELOG					*ku-file-changelog*
 0.0.1	2008-09-29T02:42:28+09:00
 	- Filter items for |ku-auto-component-completion|.  Only directories
 	  are completed.
+	- List dot files if the last part of an input pattern starts with
+	  a dot, for example, ".a", "b/c/.d" and so forth.
 
 0.0.0	2008-07-20T01:10:37+09:00
 	- Initial version.
