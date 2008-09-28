@@ -1,6 +1,7 @@
 *flydiff.txt*	on-the-fly diff
 
 Version 0.0.1
+Script ID: 2274
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
