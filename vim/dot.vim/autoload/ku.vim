@@ -876,7 +876,7 @@ function! s:text_by_automatic_component_completion(line)  "{{{3
   "     completion text will be 'usr/share/man', because user seems to want to
   "     complete till the component which matches to 'm'.
   let items = copy(ku#_omnifunc(s:FALSE, a:line[:-2]))  " without the last SEP
-  for item in filter(items, 's:api(s:current_source, "acc_valid_p", v:val)')
+  for item in filter(items, 's:api(s:current_source,"acc_valid_p",v:val,SEP)')
     let item_components = split(item.word, SEP, s:TRUE)
 
     if len(line_components) < 2

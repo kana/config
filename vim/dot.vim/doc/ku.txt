@@ -523,10 +523,12 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 				Normally true.  If the item is not completed
 				one, it is set to false.
 
-ku#{source}#acc_valid_p({item})			*ku#{source}#acc_valid_p()*
+ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 			Return true if {item} can be used for ACC,
 			|ku-auto-component-completion|, or return false
 			otherwise.
+
+			{sep} is the separator inputted by user.
 
 			This function is optional; if it is not defined, all
 			{item}s can be used for ACC.
