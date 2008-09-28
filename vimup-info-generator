@@ -13,9 +13,9 @@ def parse_doc(s)
   raise RuntimeError, 'Not found: script_id' unless Regexp.last_match
   _['script_id'] = Regexp.last_match(1)
 
-  /\bis a Vim (filetype )?plugin\b/ =~ s
+  /\bis a (Vim (filetype )?plugin)?\b/ =~ s
   raise RuntimeError, 'Not found: script_type' unless Regexp.last_match
-  _['script_type'] = if Regexp.last_match(1)  # FIXME: support more types
+  _['script_type'] = if Regexp.last_match(2)  # FIXME: support more types
                        'ftplugin'
                      else
                        'utility'
