@@ -1,6 +1,6 @@
 *ku-buffer.txt*	ku source: buffer
 
-Version 0.0.0
+Version 0.0.1
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -99,6 +99,10 @@ BUGS						*ku-buffer-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-buffer-changelog*
+
+0.0.1	2008-09-29T03:28:09+09:00
+	- Add sort priority to sort buffers which names are showed as
+	  a relative path first.
 
 0.0.0	2008-07-20T01:10:37+09:00
 	- Initial version.

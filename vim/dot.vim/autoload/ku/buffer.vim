@@ -1,5 +1,5 @@
 " ku source: buffer
-" Version: 0.0.0
+" Version: 0.0.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -39,11 +39,13 @@ function! ku#buffer#event_handler(event, ...)  "{{{2
     let _ = []
     for i in range(1, bufnr('$'))
       if bufexists(i) && buflisted(i)
+        let bufname = bufname(i)
         call add(_, {
-        \      'word': bufname(i),
+        \      'word': bufname,
         \      'menu': printf('buffer %*d', len(bufnr('$')), i),
         \      'dup': 1,
         \      '_buffer_nr': i,
+        \      '_ku_sort_priority': bufname[0] ==# '/',
         \    })
       endif
     endfor
