@@ -1552,6 +1552,9 @@ endfunction
 Cnmap <C-w>Q  quit!
 
 
+Cnmap <C-w>y  SplitNicely
+
+
 
 
 " Text objects  "{{{2
