@@ -454,7 +454,8 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     for _ in s:last_completed_items
       let _['_ku_completed_p'] = s:TRUE
       let _['_ku_source'] = s:current_source
-      let _['_ku_sort_priority'] = [
+      let _['_ku_sort_priorities'] = [
+      \     has_key(_, '_ku_sort_priority') ? _['_ku_sort_priority'] : 0,
       \     _.word =~# g:ku_common_junk_pattern,
       \     (exists('g:ku_{s:current_source}_junk_pattern')
       \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
@@ -478,7 +479,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       " doesn't want such items to be completed.
       " BUGS: Don't forget to update the index for the matched position of
       "       case-insensitive skip_regexp.
-    call filter(s:last_completed_items, '0 <= v:val._ku_sort_priority[-3]')
+    call filter(s:last_completed_items, '0 <= v:val._ku_sort_priorities[-3]')
     call sort(s:last_completed_items, function('s:_compare_items'))
     if exists('g:ku_debug_p') && g:ku_debug_p
       echomsg 'base' string(a:base)
@@ -486,7 +487,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       echomsg 'word' string(word_regexp)
       echomsg 'skip' string(skip_regexp)
       for _ in s:last_completed_items
-        echomsg string(_._ku_sort_priority)
+        echomsg string(_._ku_sort_priorities)
       endfor
     endif
     return s:last_completed_items
@@ -495,7 +496,7 @@ endfunction
 
 
 function! s:_compare_items(a, b)
-  return s:_compare_lists(a:a._ku_sort_priority, a:b._ku_sort_priority)
+  return s:_compare_lists(a:a._ku_sort_priorities, a:b._ku_sort_priorities)
 endfunction
 
 function! s:_compare_lists(a, b)

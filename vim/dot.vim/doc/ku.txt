@@ -504,6 +504,15 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			Sources may add additional entries for each item.
 			Keys of such entries must be prefixed with
 			"_{source}_", where {source} is the name of a source.
+			Also sources may add the following items:
+
+						*_ku_sort_priority*
+			_ku_sort_priority	(integer)
+				This value is used to sort items and it is
+				prior to user input.
+
+				The default value is 0 if this item is
+				ommitted.
 
 			Also, ku adds additional entries for each item.  Keys
 			of such entries are prefixed with "_ku_".  The
@@ -689,6 +698,8 @@ CHANGELOG					*ku-changelog*
 	- Show some information on the selected item while choosing action.
 	- Add |ku-input-history|.
 	- Add |ku#restart()|.
+	- Add source-specific priority on sorting items.  See
+	  |_ku_sort_priority| for the detail.
 
 0.1.2	2008-08-11T01:56:15+09:00
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix
