@@ -248,22 +248,22 @@ PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku/buffer.vim \
   vim/dot.vim/autoload/ku/file.vim \
   vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/doc/ku_buffer.txt \
-  vim/dot.vim/doc/ku_file.txt \
+  vim/dot.vim/doc/ku-buffer.txt \
+  vim/dot.vim/doc/ku-file.txt \
   vim/dot.vim/plugin/ku.vim
 
 PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.1
 PACKAGE_vim_ku_bundle_BASE=vim/dot.vim
 PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
-  vim/dot.vim/doc/ku_bundle.txt
+  vim/dot.vim/doc/ku-bundle.txt
 
 PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.0.1
 PACKAGE_vim_ku_metarw_BASE=vim/dot.vim
 PACKAGE_vim_ku_metarw_FILES=\
   vim/dot.vim/autoload/ku/special/metarw.vim \
   vim/dot.vim/autoload/ku/special/metarw_.vim \
-  vim/dot.vim/doc/ku_metarw.txt
+  vim/dot.vim/doc/ku-metarw.txt
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.3
 PACKAGE_vim_metarw_BASE=vim/dot.vim
@@ -277,7 +277,7 @@ PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.1
 PACKAGE_vim_metarw_git_BASE=vim/dot.vim
 PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
-  vim/dot.vim/doc/metarw_git.txt
+  vim/dot.vim/doc/metarw-git.txt
 
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2
 PACKAGE_vim_narrow_BASE=vim/dot.vim

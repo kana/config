@@ -1,4 +1,4 @@
-*ku_file.txt*	ku source: file
+*ku-file.txt*	ku source: file
 
 Version 0.0.0
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
@@ -37,8 +37,8 @@ Changelog		|ku-file-changelog|
 ==============================================================================
 INTRODUCTION					*ku-file-introduction*
 
-*ku-source-file* is a source for |ku| to deal with files and directories.  You
-can choose one from many files and directories and do some action to it.
+*ku-file* is a source for |ku| to deal with files and directories.  You can
+choose one from many files and directories and do some action to it.
 
 
 Requirements:

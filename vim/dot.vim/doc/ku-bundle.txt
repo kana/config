@@ -1,4 +1,4 @@
-*ku_bundle.txt*	ku source: bundle
+*ku-bundle.txt*	ku source: bundle
 
 Version 0.0.1
 Script ID: 2343
@@ -39,7 +39,7 @@ Changelog		|ku-bundle-changelog|
 ==============================================================================
 INTRODUCTION					*ku-bundle-introduction*
 
-*ku-source-bundle* is a source for |ku| to deal with bundles for a Vim plugin
+*ku-bundle* is a source for |ku| to deal with bundles for a Vim plugin
 |bundle|.  You can choose one from many bundles and do some action to it.
 
 

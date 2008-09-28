@@ -1,4 +1,4 @@
-*metarw_git.txt*	metarw scheme: git
+*metarw-git.txt*	metarw scheme: git
 
 Version 0.0.1
 Script ID: 2336

@@ -1,4 +1,4 @@
-*ku_metarw.txt*	ku source: metarw
+*ku-metarw.txt*	ku source: metarw
 
 Version 0.0.1
 Script ID: 2344
@@ -38,8 +38,8 @@ Changelog		|ku-metarw-changelog|
 ==============================================================================
 INTRODUCTION					*ku-metarw-introduction*
 
-*ku-source-metarw* is a source for |ku| to deal with |metarw-fakepath|.  You
-can choose one from many fakepaths and do some action to it.
+*ku-metarw* is a source for |ku| to deal with |metarw-fakepath|.  You can
+choose one from many fakepaths and do some action to it.
 
 
 Requirements:
