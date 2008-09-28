@@ -353,6 +353,7 @@ PACKAGE_vim_tofunc_FILES=\
 PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.1.0
 PACKAGE_vim_vcsi_BASE=vim/dot.vim
 PACKAGE_vim_vcsi_FILES=\
+  vim/dot.vim/after/ftplugin/vcsi.vim \
   vim/dot.vim/after/syntax/vcsi.vim \
   vim/dot.vim/autoload/vcsi.vim \
   vim/dot.vim/doc/vcsi.txt \
