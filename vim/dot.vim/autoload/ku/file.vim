@@ -79,11 +79,14 @@ function! ku#file#gather_items(pattern)  "{{{2
 
   let i = strridx(a:pattern, '/')
   let components = split(a:pattern, '/', !0)
-    " to list dot files if user seems want.
-  let wildcard = (components[-1][:0] == '.' ? '{*,.*}' : '*')
+  let root_directory_pattern_p = i == 0
+  let user_seems_want_dotfiles_p = components[-1][:0] == '.'
+  let wildcard = (user_seems_want_dotfiles_p
+  \               ? ('{*,.*' . (root_directory_pattern_p ? '' : ',..') . '}')
+  \               : '*')
   if i < 0  " no path separator
     let glob_pattern = wildcard
-  elseif i == 0  " only one path separator which means the root directory
+  elseif root_directory_pattern_p
     let glob_pattern = '/' . wildcard
   else  " more than one path separators
     let glob_pattern = join(components[:-2], '/') . '/' . wildcard

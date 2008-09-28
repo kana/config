@@ -93,6 +93,7 @@ CHANGELOG					*ku-file-changelog*
 	  are completed.
 	- List dot files if the last part of an input pattern starts with
 	  a dot, for example, ".a", "b/c/.d" and so forth.
+	- Fix the bug that parent directories are not listed.
 
 0.0.0	2008-07-20T01:10:37+09:00
 	- Initial version.
