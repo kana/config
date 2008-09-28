@@ -2235,6 +2235,7 @@ nmap ss  <Plug>Yssurround
 " vcsi  "{{{2
 
 let g:vcsi_diff_in_commit_buffer_p = 1
+let g:vcsi_open_command = 'SplitNicely | enew'
 let g:vcsi_use_native_message_p = 1
 
 
