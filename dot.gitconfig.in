@@ -22,6 +22,7 @@
 	l = log
 	st = status
 	staged = diff --cached
+	t = tag
 	unstaged = diff
 
 # __END__
