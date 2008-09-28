@@ -1,5 +1,5 @@
 " ku source: file
-" Version: 0.0.0
+" Version: 0.0.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -96,6 +96,13 @@ function! ku#file#gather_items(pattern)  "{{{2
 
   let s:cached_items[cache_key] = _
   return _
+endfunction
+
+
+
+
+function! ku#file#acc_valid_p(item, sep)  "{{{2
+  return a:sep ==# '/' && isdirectory(a:item.word)
 endfunction
 
 
