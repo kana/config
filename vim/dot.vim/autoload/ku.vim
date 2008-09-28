@@ -1256,8 +1256,18 @@ function! s:api(source_name, api_name, ...)  "{{{2
 
   if a:api_name ==# 'acc_valid_p' && !exists('*' . func)
     return s:TRUE
+  elseif _ != '' && (a:api_name ==# 'action_table'
+  \                  || a:api_name ==# 'key_table')
+    let common = call(func, args)
+    let ext = a:source_name[len(_)+1:]
+    if len(s:runtime_files(printf('autoload/ku/special/%s/%s.vim',_,ext))) == 0
+      return common
+    endif
+    let specific = ku#special#{_}#{ext}#{a:api_name}()
+    return extend(copy(common), specific)
+  else
+    return call(func, args)
   endif
-  return call(func, args)
 endfunction
 
 

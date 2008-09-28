@@ -570,6 +570,14 @@ ku#special#{source}_#sources()		      *ku#special#{source}_#sources()*
 			Return a list of strings.  Each string represents the
 			name of a special source.
 
+- To provide the default action table and the default key table specific to
+  a special source "{source}-{ext}", the following 2 functions may be defined
+  in "autoload/ku/special/{source}/{ext}.vim":
+				    *ku#special#{source}#{ext}#action_table()*
+  - ku#special#{source}#{ext}#action_table()
+				       *ku#special#{source}#{ext}#key_table()*
+  - ku#special#{source}#{ext}#key_table()
+
 
 
 
@@ -702,6 +710,8 @@ CHANGELOG					*ku-changelog*
 0.1.4	2008-09-29T02:31:12+09:00
 	- Add |ku#{source}#acc_valid_p()| to filter items for
 	  |ku-auto-component-completion|.
+	- Add |ku#special#{source}#{ext}#action_table()| and
+	  |ku#special#{source}#{ext}#key_table()|.
 
 0.1.3	2008-09-28T03:30:42+09:00
 	- Inconpatible change:
