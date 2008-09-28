@@ -51,7 +51,7 @@ INTRODUCTION					*ku-introduction*
 *ku* is a Vim plugin to provide the interface to choose many items from
 a source with automatic completion and fuzzy pattern matching.
 
-To start selection, use |ku-commands|.  The commands will open the |ku-window|
+To start selection, use |ku-commands|.  The commands will open |the-ku-window|
 to take your input.  As you input some characters, |ins-completion-menu| will
 be automatically appeared and updated to show the proper candidates for the
 input pattern (see |ku-pattern| for the detail).  Then you can take an action
@@ -220,7 +220,7 @@ The default key mappings are defined by |ku#default_key_mappings()|.
 ------------------------------------------------------------------------------
 PATTERN						*ku-pattern*
 
-Inserted characters in the |ku-window| are treated as 3 "patterns".
+Inserted characters in |the-ku-window| are treated as 3 "patterns".
 
 - The 1st one is "asis" pattern.  Ku tries to literally match user input to
   each item.
@@ -452,14 +452,14 @@ ku#{source}#event_handler({event}, ...)		*ku#{source}#event_handler()*
 
 			"SourceEnter"		*ku-SourceEnter*
 				The current source is switched from another
-				source to {source}, or the |ku-window| is open
+				source to {source}, or |the-ku-window| is open
 				and the the current source is {source}.
 
 				Return value is ignored.
 
 			"SourceLeave"		*ku-SourceLeave*
 				The current source is switched from {source}
-				to another source, or the |ku-window| is
+				to another source, or |the-ku-window| is
 				closed and the the current source is {source}.
 
 				Return value is ignored.
@@ -603,7 +603,7 @@ g:ku_component_separators			*g:ku_component_separators*
 ==============================================================================
 TERMS						*ku-terms*
 
-ku window					*ku-window* *ku-buffer*
+ku window				       *the-ku-window* *the-ku-buffer*
 			The window which is opened by |ku-commands|.
 			This window will be automatically closed when:
 			- An action is taken for an item.
@@ -611,7 +611,7 @@ ku window					*ku-window* *ku-buffer*
 			- Another window or another tab page becomes active.
 
 ku session					*ku-session*
-			Ku session is a period of time while the |ku-window|
+			Ku session is a period of time while |the-ku-window|
 			is opened and it is visible.
 
 action table					*ku-action-table*
