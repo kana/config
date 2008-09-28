@@ -937,7 +937,7 @@ function! s:scroll_other_window(scroll_command)
 endfunction
 
 
-command! SplitNicely  call s:split_nicely()
+command! -bar -nargs=0 SplitNicely  call s:split_nicely()
 function! s:split_nicely()
   if 80*2 * 15/16 <= winwidth(0)  " FIXME: threshold customization
     vsplit
