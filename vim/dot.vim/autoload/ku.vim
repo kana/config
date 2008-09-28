@@ -417,9 +417,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     let s:last_completed_items = []
     return 0
   else
-    let pattern = s:expand_prefix(s:contains_the_prompt_p(a:base)
-    \                             ? a:base[len(s:PROMPT):]
-    \                             : a:base)
+    let pattern = s:expand_prefix(s:remove_prompt(a:base))
 
     let asis_regexp = s:make_asis_regexp(pattern)
     let word_regexp = s:make_word_regexp(pattern)
@@ -512,11 +510,8 @@ function! s:do(action_name)  "{{{2
       let item = s:last_completed_items[0]
     else
       " there's no item -- user seems to take action on current_user_input_raw.
-      if s:contains_the_prompt_p(current_user_input_raw)
-        " remove the prompt.
-        let current_user_input_raw = current_user_input_raw[len(s:PROMPT):]
-      endif
-      let item = {'word': s:expand_prefix(current_user_input_raw),
+      let item = {'word':
+      \             s:expand_prefix(s:remove_prompt(current_user_input_raw)),
       \           '_ku_completed_p': s:FALSE}
     endif
   endif
@@ -749,13 +744,18 @@ function! s:contains_the_prompt_p(s)  "{{{3
 endfunction
 
 
+function! s:remove_prompt(s)  "{{{3
+  return s:contains_the_prompt_p(a:s) ? a:s[len(s:PROMPT):] : a:s
+endfunction
+
+
 function! s:text_by_automatic_component_completion(line)  "{{{3
   " Note that a:line always ends with a special character which is one of
   " g:ku_component_separators,  because this function is always called by
   " typing a special character.  So there are at least 2 components in a:line.
   let SEP = a:line[-1:]  " string[-1] is always empty - see :help expr-[]
 
-  let user_input_raw = a:line[len(s:PROMPT):]
+  let user_input_raw = s:remove_prompt(a:line)
   let [user_input_ped, prefix, text] = s:expand_prefix3(user_input_raw)
   let prefix_expanded_p = user_input_raw !=# user_input_ped
   let line_components = split(user_input_ped, SEP, s:TRUE)
