@@ -523,6 +523,14 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 				Normally true.  If the item is not completed
 				one, it is set to false.
 
+ku#{source}#acc_valid_p({item})			*ku#{source}#acc_valid_p()*
+			Return true if {item} can be used for ACC,
+			|ku-auto-component-completion|, or return false
+			otherwise.
+
+			This function is optional; if it is not defined, all
+			{item}s can be used for ACC.
+
 
 						*ku-special-sources*
 Normally, 1 source script provides 1 source, and the basename of a source
@@ -688,6 +696,10 @@ BUGS						*ku-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.1.4	2008-09-29T02:31:12+09:00
+	- Add |ku#{source}#acc_valid_p()| to filter items for
+	  |ku-auto-component-completion|.
 
 0.1.3	2008-09-28T03:30:42+09:00
 	- Inconpatible change:

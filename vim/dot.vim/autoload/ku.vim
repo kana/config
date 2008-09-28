@@ -875,7 +875,8 @@ function! s:text_by_automatic_component_completion(line)  "{{{3
   "     completion.  If 'usr/share/man/man1/' is found in this way, the
   "     completion text will be 'usr/share/man', because user seems to want to
   "     complete till the component which matches to 'm'.
-  for item in ku#_omnifunc(s:FALSE, a:line[:-2])  " without the last SEP
+  let items = copy(ku#_omnifunc(s:FALSE, a:line[:-2]))  " without the last SEP
+  for item in filter(items, 's:api(s:current_source, "acc_valid_p", v:val)')
     let item_components = split(item.word, SEP, s:TRUE)
 
     if len(line_components) < 2
@@ -1246,11 +1247,17 @@ function! s:api(source_name, api_name, ...)  "{{{2
   let _ = matchstr(a:source_name, '^[a-z]\+\ze-')
 
   if _ == ''  " normal source
-    return call(printf('ku#%s#%s', a:source_name, a:api_name), a:000)
+    let func = printf('ku#%s#%s', a:source_name, a:api_name)
+    let args = a:000
   else  " special source
-    return call(printf('ku#special#%s#%s', _, a:api_name),
-    \           [a:source_name] + a:000)
+    let func = printf('ku#special#%s#%s', _, a:api_name)
+    let args = [a:source_name] + a:000
   endif
+
+  if a:api_name ==# 'acc_valid_p' && !exists('*' . func)
+    return s:TRUE
+  endif
+  return call(func, args)
 endfunction
 
 
