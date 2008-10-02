@@ -115,6 +115,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_bundle_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
+  $(PACKAGE_vim_ft_gauche_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_ku_bundle_FILES) \
@@ -161,6 +162,28 @@ $(DESTDIR)$(HOME)/.vim/doc/tags: \
 	vim -n -N -u NONE -U NONE -e -c 'helptags $$(dir $$@) | quit'
 endef
 
+,gauche-modules:
+	for d in `gosh -b -e ' \
+	          (for-each \
+		    (lambda (path) \
+		      (display path) \
+		      (newline)) \
+		    *load-path*) \
+		  ' </dev/null`; do \
+	  cd $$d \
+	  && find -name '*.scm' \
+	     | perl -pe 's!^\./!!; s!\.scm$$!!; s!/!.!g;'; \
+	done | sort --unique >$@
+,gauche-symbols: gauche-generate-symbols.scm ,gauche-modules
+	gosh gauche-generate-symbols.scm <,gauche-modules | sort --unique >$@
+vim/dot.vim/syntax/gauche.vim: gauche-generate-syntax-vim.scm \
+		,gauche-modules ,gauche-symbols \
+		vim/dot.vim/syntax/gauche.vim.tmpl
+	gosh gauche-generate-syntax-vim.scm \
+	  ,gauche-modules ,gauche-symbols \
+	  vim/dot.vim/syntax/gauche.vim.tmpl \
+	  >$@
+
 
 
 
@@ -173,6 +196,7 @@ ALL_PACKAGES=\
   vim-bundle \
   vim-fakeclip \
   vim-flydiff \
+  vim-ft-gauche \
   vim-idwintab \
   vim-ku \
   vim-ku-bundle \
@@ -234,6 +258,13 @@ PACKAGE_vim_flydiff_FILES=\
   vim/dot.vim/autoload/flydiff.vim \
   vim/dot.vim/doc/flydiff.txt \
   vim/dot.vim/plugin/flydiff.vim
+
+PACKAGE_vim_ft_gauche_ARCHIVE=vim-ft-gauche-0.0.0
+PACKAGE_vim_ft_gauche_BASE=vim/dot.vim
+PACKAGE_vim_ft_gauche_FILES=\
+  vim/dot.vim/ftplugin/gauche.vim \
+  vim/dot.vim/indent/gauche.vim \
+  vim/dot.vim/syntax/gauche.vim
 
 PACKAGE_vim_idwintab_ARCHIVE=vim-idwintab-0.0.1
 PACKAGE_vim_idwintab_BASE=vim/dot.vim
