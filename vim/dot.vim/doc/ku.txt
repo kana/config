@@ -607,6 +607,12 @@ g:ku_component_separators			*g:ku_component_separators*
 	type '/', '\' or ':', |ku-auto-component-completion| will be
 	activated.
 
+g:ku_history_added_p				*g:ku_history_added_p*
+	A string which reporesents the name of a function which takes an input
+	pattern as a string and returns true if the pattern can be added into
+	the input history or false otherwise.  The default value means
+	non-empty pattern can be added into the input history.
+
 
 
 
@@ -702,6 +708,7 @@ CHANGELOG					*ku-changelog*
 0.1.4	2008-09-29T02:31:12+09:00
 	- Add |ku#{source}#acc_valid_p()| to filter items for
 	  |ku-auto-component-completion|.
+	- Add |g:ku_history_added_p|.
 
 0.1.3	2008-09-28T03:30:42+09:00
 	- Inconpatible change:

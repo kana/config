@@ -134,6 +134,11 @@ let s:last_used_source = s:INVALID_SOURCE
 let s:last_used_input_pattern = ''
 
 
+if !exists('g:ku_history_added_p')
+  let g:ku_history_added_p = 'ku#_history_added_p'
+endif
+
+
 
 
 
@@ -1198,11 +1203,18 @@ let s:HISTORY_FILE = 'info/ku/history'
 
 
 function! s:history_add(new_input_pattern)  "{{{3
+  if !{g:ku_history_added_p}(a:new_input_pattern)
+    return
+  endif
   call insert(s:inputted_patterns, a:new_input_pattern, 0)
 
   if s:HISTORY_SIZE < len(s:inputted_patterns)
     call remove(s:inputted_patterns, s:HISTORY_SIZE+1, -1)
   endif
+endfunction
+
+function! ku#_history_added_p(new_input_pattern)
+  return a:new_input_pattern !~ '^\s*$'
 endfunction
 
 
