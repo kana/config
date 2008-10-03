@@ -31,7 +31,7 @@
 "   '{cmd_name}': {
 "     'cmd_key': '{cmd_key}',
 "     'need_remap_p': '{need_remap_p}',
-"     'argspec': '{argspec}',
+"     'cmd_specs': 'cmd_specs',
 "     '{mode}': {
 "       'before': [[{ad_name}, {func_name}, {enabled_p}], ...],
 "       'after': [[{ad_name}, {func_name}, {enabled_p}], ...],
@@ -55,7 +55,7 @@ let s:I_ENABLED_P = 2
 
 
 " Interface  "{{{1
-function! advice#define(cmd_name, modes, cmd_key, need_remap_p, argspec)  "{{{2
+function! advice#define(cmd_name, modes, cmd_key, need_remap_p, cmd_specs)  "{{{2
   for mode in s:each_char(a:modes)
     call s:define_interface_mapping_in(mode, a:cmd_name)
   endfor
@@ -64,7 +64,7 @@ function! advice#define(cmd_name, modes, cmd_key, need_remap_p, argspec)  "{{{2
   let cmd_entry = s:cmd_entry_of(a:cmd_name)
   let cmd_entry['cmd_key'] = a:cmd_key
   let cmd_entry['need_remap_p'] = a:need_remap_p
-  let cmd_entry['argspec'] = a:argspec
+  let cmd_entry['cmd_specs'] = a:cmd_specs
 endfunction
 
 
@@ -188,9 +188,9 @@ function! s:do_adviced_command(cmd_name, mode)  "{{{2
   let _ = s:cmd_entry_of(a:cmd_name)
   let cmd_key = _['cmd_key']
   let need_remap_p = _['need_remap_p']
-  let argspec = _['argspec']
+  let cmd_specs = _['cmd_specs']
 
-  if argspec ==# 'none'
+  if cmd_specs ==# 'none'
     if a:mode =~# '[nvoi]'
       execute 'normal'.(need_remap_p ? '' : '!') cmd_key
     elseif a:mode ==# 'c'
@@ -199,8 +199,8 @@ function! s:do_adviced_command(cmd_name, mode)  "{{{2
       echoerr 'Not supported mode:' string(a:mode)
     endif
   else
-    " XXX: argspec support - motion, char, line.
-    echoerr 'Not supported argspec:' string(argspec)
+    " XXX: cmd_specs support - motion, char, line.
+    echoerr 'Not supported {cmd-specs}:' string(cmd_specs)
   endif
 
   " (3) do after advices.

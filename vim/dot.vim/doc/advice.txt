@@ -85,7 +85,7 @@ INTERFACE					*advice-interface*
 FUNCTIONS					*advice-functions*
 
 						*advice#define()*
-advice#define({cmd-name}, {modes}, {cmd-key}, {need-remap-p}, {argspec})
+advice#define({cmd-name}, {modes}, {cmd-key}, {need-remap-p}, {cmd-spec})
 			Define key mapping <Plug>(adviced-{cmd-name}) in the
 			specified {meds}.  The key mapping can be used to
 			execute adviced version of the specified Normal
@@ -115,15 +115,28 @@ advice#define({cmd-name}, {modes}, {cmd-key}, {need-remap-p}, {argspec})
 				Specify whether the {cmd-key} should be
 				remapped or not.
 
-			{argspec}	String
-				The kind of argument for the Normal command:
+			{cmd-specs}	String
+				Specify some details of the Normal command.
+				The value must be comma separated list of the
+				following words:
 
-				Value		command takes	Example ~
-				------		-------------	------- ~
-				none		no argument	|p|
-				motion		a {motion}	|d|
-				char		a character	|f|
-				line		a line		|/|
+				operator
+					The Normal command is an operator so
+					it takes a {motion}.  Example: |d|
+
+				char
+					The Normal command takes a character.
+					Example: |f|
+				line
+					The Normal command takes a line.
+					Example: |/|
+
+				insert
+					The Normal command shifts the current
+					mode to Insert mode.  Example: |i|
+
+				For example, the value must be '' for |p| and
+				'operator,insert' for |c|.
 
 						*advice#add()*
 advice#add({cmd-name}, {modes}, {class}, {ad-name}, {func-name}))
