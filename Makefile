@@ -112,6 +112,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
 GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
+  $(PACKAGE_vim_advice_FILES) \
   $(PACKAGE_vim_bundle_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
@@ -194,6 +195,7 @@ ALL_PACKAGES=\
   cereja-all \
   opera-all \
   vim-all \
+  vim-advice \
   vim-bundle \
   vim-fakeclip \
   vim-flydiff \
@@ -238,6 +240,12 @@ PACKAGE_opera_all_FILES=$(GROUP_OPERA_FILES)
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
+
+PACKAGE_vim_advice_ARCHIVE=vim-advice-0.0.0
+PACKAGE_vim_advice_BASE=vim/dot.vim
+PACKAGE_vim_advice_FILES=\
+  vim/dot.vim/autoload/advice.vim \
+  vim/dot.vim/doc/advice.txt
 
 PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.2
 PACKAGE_vim_bundle_BASE=vim/dot.vim

@@ -1,0 +1,259 @@
+*advice.txt*	alter the behavior of a command in modular way
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*advice-contents*
+
+Introduction		|advice-introduction|
+Terms			|advice-terms|
+Interface		|advice-interface|
+  Functions		  |advice-functions|
+Examples		|advice-examples|
+Bugs			|advice-bugs|
+Changelog		|advice-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*advice-introduction*
+
+ADVICE is a eijaofjeao for Vim scripts to provide a modular way to alter the
+behavior of a command.
+
+For example, if you want to change the default register for the command |C| to
+"_ (|quote_|), you have to write a new operator then map |C| to execute the
+operator, i.e., redefine the whole command.  But how about if you also want to
+change |C| in Visual mode to always behave as same as the default |C| in
+|blockwise-visual| mode?  How about if you want to disable one of the altered
+behaviors afterwards?  Therefore, redefining the whole command is not elegant
+way.
+
+ADVICE provides useful API to do such customization.
+
+The concept of ADVICE is derived from the one of Emacs.  See also:
+<http://www.gnu.org/software/emacs/elisp/html_node/Advising-Functions.html>.
+Note that there are some differences from the one of Emacs, especially, there
+is no activation and ADVICE currently supports "usual" commands and dosn't
+support Ex commands and functions.  (Although Ex commands and functions cannot
+be supported only by Vim script.)
+
+Requirements:
+- Vim 7.2 or later
+
+
+
+
+==============================================================================
+TERMS						*advice-terms*
+
+Normal command					*advice-Normal-command*
+	A command which is executed by typing a key sequence.  For example,
+	|d|, |v_A|, |i_CTRL-W| and so forth.
+
+	Don't confuse with ":" commands such as |:edit| or |:write|, such
+	commands are called as Ex commands.
+
+
+
+
+==============================================================================
+INTERFACE					*advice-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*advice-functions*
+
+						*advice#define()*
+advice#define({cmd-name}, {modes}, {cmd-key}, {need-remap-p}, {argspec})
+			Define key mapping <Plug>(adviced-{cmd-name}) in the
+			specified {meds}.  The key mapping can be used to
+			execute adviced version of the specified Normal
+			command.
+
+			{cmd-name}	String
+				The name of the Normal command, usually the
+				same as {cmd_key}.
+
+			{modes}		String
+				Modes in which the Normal command is defined.
+				Each character is corresponding to a mode as
+				follows:
+
+				Character	Meaning ~
+				---------	--------------------- ~
+				n		Normal mode
+				v		Visual mode
+				o		Operator-pending mode
+				i		Insert mode
+				c		Command-line mode
+
+			{cmd-key}	String
+				Key sequence to execute the Normal command.
+
+			{need-remap-p}	Boolean
+				Specify whether the {cmd-key} should be
+				remapped or not.
+
+			{argspec}	String
+				The kind of argument for the Normal command:
+
+				Value		command takes	Example ~
+				------		-------------	------- ~
+				none		no argument	|p|
+				motion		a {motion}	|d|
+				char		a character	|f|
+				line		a line		|/|
+
+						*advice#add()*
+advice#add({cmd-name}, {modes}, {class}, {ad-name}, {func-name}))
+			Add new advice for the Normal command {cmd-name}
+			defined in {modes}.
+
+			ADVICE maintins the list of advices for each Normal
+			command and for each {class}.  New advice is always
+			added as the first advice in a list.  (plan: a feature
+			to control the order of advices in a list.)
+
+			If the advice {ad-name} is already defined for the
+			specified Normal command, its definition will be
+			replaced with new one but the position of the advice
+			in the list of advices will not be changed.
+
+			{class}		String
+				The type of the new advice.
+
+				Value	Meaning ~
+				------	---------------------------------- ~
+				before	The advice is executed before each
+					execution of the Normal command.
+				after	The advice is executed after each
+					execution of the Normal command.
+
+			{ad-name}	String
+				The name of the new advice.
+
+			{func-name}	String
+				The name of a function which is executed
+				whenever the Normal command is executed.  The
+				function must return a string and the string
+				will be treated as if user types it.
+
+						*advice#remove()*
+advice#remove({cmd-name}, {modes}, {class}, {ad-name})
+			Remove the advice from a Normal command.
+
+						*advice#remove_all()*
+advice#remove_all({cmd-name}, {modes}, {class})
+			Remove all advices from a Normal command.
+
+						*advice#remove_pattern()*
+advice#remove_pattern({pattern})
+			Remove all advices which names are matched to
+			{pattern} from all Normal commands.
+
+					  *advice#enable()* *advice#disable()*
+advice#enable({cmd-name}, {modes}, {class}, {advice-name})
+advice#disable({cmd-name}, {modes}, {class}, {advice-name})
+			Enable or disable {class} advice {advice-name} for the
+			command {cmd-name} defined in {modes}.
+
+			Disabled advices are not executed.
+			All advices are enabled by default.
+
+				  *advice#enable_all()* *advice#disable_all()*
+advice#enable_all({cmd-name}, {modes}, {class})
+advice#disable_all({cmd-name}, {modes}, {class})
+			Enable or disable all {class} advices for the command
+			{cmd-name} in {modes}.
+
+			  *advice#enable_pattern()* *advice#disable_pattern()*
+advice#enable_pattern({pattern})
+advice#disable_pattern({pattern})
+			Enable or disable all advices for any commands which
+			names are matched to {pattern}.
+
+
+
+
+==============================================================================
+EXAMPLES					*advice-examples*
+
+The following is to customize |C| to behave as described in
+|advice-introduction|:
+>
+	call advice#define('nv', 'C', 'C', 0)
+
+	call advice#add('nv', 'C', 'before', 'blackholed', 'Blackholed')
+	function! Blackholed()
+	  if v:register == '"'
+	    return '"_'
+	  endif
+	endfunction
+
+	call advice#add('v', 'C', 'before', 'blockwised', 'Blockwised')
+	function! Blackholed()
+	  if visualmode() != "\<C-v>"
+	    return "\<C-v>"
+	  endif
+	endfunction
+
+	nmap C  <Plug>(adviced-C)
+	vmap C  <Plug>(adviced-C)
+<
+With the above settings, |C| will be mapped as follows:
+>
+	"_C       (in Normal mode)
+	<C-v>"_C  (in non-blockwise Visual mode)
+	"_C       (in blockwise Visual mode)
+<
+
+
+
+
+==============================================================================
+BUGS						*advice-bugs*
+
+- Some adviced commands don't behave as same as the default one:
+
+  |/|, |?| ... |getcmdtype()| is always "@".
+  |f|, |t| ... |language-mapping| is not available.
+  operators ... 'showcmd' shows "g@".
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*advice-changelog*
+
+0.0.0	2008-09-30T08:06:58+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
+
