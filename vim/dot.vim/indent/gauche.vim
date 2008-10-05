@@ -1,4 +1,4 @@
-" Vim indent: gauche
+" Vim indent: scheme/gauche
 " Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -22,28 +22,16 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('b:did_indent')
-  finish
+if !exists('b:did_indent')
+  runtime! indent/scheme.vim
 endif
 
-runtime! indent/scheme.vim
 
 
 
-
-
-
-
-" ...
-
-
-
-
-
-
-
-
-let b:did_indent = 1
+if exists('g:is_gauche') || exists('b:is_gauche')
+  " Nothing, currently.
+endif
 
 " __END__
 " vim: foldmethod=marker

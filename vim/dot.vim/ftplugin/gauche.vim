@@ -1,4 +1,4 @@
-" Vim ftplugin: gauche
+" Vim ftplugin: scheme/gauche
 " Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -22,28 +22,16 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('b:did_ftplugin')
-  finish
+if !exists('b:did_ftplugin')
+  runtime! ftplugin/scheme.vim ftplugin/scheme_*.vim ftplugin/scheme/*.vim
 endif
 
-runtime! ftplugin/scheme.vim
 
 
 
-
-
-
-
-" ...
-
-
-
-
-
-
-
-
-let b:did_ftplugin = 1
+if exists('g:is_gauche') || exists('b:is_gauche')
+  " Nothing, currently.
+endif
 
 " __END__
 " vim: foldmethod=marker
