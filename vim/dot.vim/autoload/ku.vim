@@ -1209,7 +1209,7 @@ function! s:history_add(new_input_pattern)  "{{{3
   call insert(s:inputted_patterns, a:new_input_pattern, 0)
 
   if s:HISTORY_SIZE < len(s:inputted_patterns)
-    call remove(s:inputted_patterns, s:HISTORY_SIZE+1, -1)
+    unlet s:inputted_patterns[(s:HISTORY_SIZE):]
   endif
 endfunction
 

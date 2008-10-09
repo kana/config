@@ -709,6 +709,8 @@ CHANGELOG					*ku-changelog*
 	- Add |ku#{source}#acc_valid_p()| to filter items for
 	  |ku-auto-component-completion|.
 	- Add |g:ku_history_added_p|.
+	- Fix an error when input history becomes larger than its maximum
+	  size.
 
 0.1.3	2008-09-28T03:30:42+09:00
 	- Inconpatible change:
