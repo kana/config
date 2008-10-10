@@ -226,7 +226,7 @@ function prompt_setup() {
   fi
 
   PS1="
-$t_host $t_cwd$t_shlvl
+$t_host $t_cwd$t_shlvl\$(prompt-git-head-name)
 $t_main"
 }
 
@@ -336,6 +336,45 @@ if [ "$ENV_WORKING" = 'colinux' ]; then
     popd &>/dev/null
 END
   }  #}}}
+fi
+
+
+
+
+
+
+
+
+# Functions  #{{{1
+
+if where git &>/dev/null; then
+  function prompt-git-head-name() {
+    local head_name
+
+    ## Another way
+    #
+    # head_name="$(
+    #   {
+    #     cat .git/logs/HEAD |
+    #     fgrep 'checkout: moving from ' |
+    #     sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
+    #   } 2>/dev/null
+    # )"
+      # This method may show inproper name
+      # if two or more heads point the same object.
+    head_name="$(git name-rev --name-only HEAD 2>/dev/null)"
+
+    if [ $? = 0 ]; then
+      echo " [$head_name]"
+      return 0
+    else
+      return 1
+    fi
+  }
+else
+  function prompt-git-head-name() {
+    echo ''
+  }
 fi
 
 
