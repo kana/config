@@ -26,6 +26,9 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
     if [ -d "/opt/local/share/man" ]; then MANPATH="/opt/local/share/man:$MANPATH"; fi
   fi
 
+  # for cabal
+  if [ -d "$HOME/.cabal/bin" ]; then PATH="$HOME/.cabal/bin:$PATH"; fi
+
   # for manually built applications
   if [ -d /usr/local/apps ]; then
     for i in /usr/local/apps/*; do
