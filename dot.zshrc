@@ -349,20 +349,22 @@ fi
 
 if where git &>/dev/null; then
   function prompt-git-head-name() {
-    local head_name
+    if ! [ -d .git ]; then
+      return 1
+    fi
 
-    ## Another way
-    #
-    # head_name="$(
-    #   {
-    #     cat .git/logs/HEAD |
-    #     fgrep 'checkout: moving from ' |
-    #     sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
-    #   } 2>/dev/null
-    # )"
-      # This method may show inproper name
-      # if two or more heads point the same object.
-    head_name="$(git name-rev --name-only HEAD 2>/dev/null)"
+    local head_name
+    # Method 1 - git name-rev.  This method may show inproper name
+    # if two or more heads point the same object.
+    # head_name="$(git name-rev --name-only HEAD 2>/dev/null)"
+
+    # Method 2 - reading .git/logs/HEAD.
+    head_name="$(
+      {
+        fgrep 'checkout: moving from ' .git/logs/HEAD |
+        sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
+      } 2>/dev/null
+    )"
 
     if [ $? = 0 ]; then
       echo " [$head_name]"
