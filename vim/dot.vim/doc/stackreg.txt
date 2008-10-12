@@ -58,9 +58,10 @@ INTERFACE					*stackreg-interface*
 ------------------------------------------------------------------------------
 MAPPINGS					*stackreg-mappings*
 
-dd						*stackreg-dd*
-			Same as |dd|, but push the deleted text into the stack
-			if any register is not specified.
+dd		    or				*stackreg-dd*
+D						*stackreg-D*
+			Same as |dd| or |D|, but push the deleted text into
+			the stack if any register is not specified.
 
 Y		    or				*stackreg-Y*
 yy						*stackreg-yy*
