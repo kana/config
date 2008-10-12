@@ -1809,7 +1809,8 @@ silent! autocmd MyAutoCmd NCmdUndefined *
 \ call s:shift_to_insert_mode(expand('<amatch>'))
 function! s:shift_to_insert_mode(not_a_command_character)
   if char2nr(a:not_a_command_character) <= 0xFF  " not a multibyte character?
-    return  " should beep as same as the default behavior, but how?
+    " should beep as same as the default behavior, but how?
+    return
   endif
 
   " Take all keys in the typeahead buffer.
