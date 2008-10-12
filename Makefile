@@ -89,6 +89,7 @@ GROUP_DOTS_linux_RULE=$(GROUP_DOTS_RULE)
 
 GROUP_OPERA_FILES=$(GROUP_OPERA_$(ENV_WORKING)_FILES)
 GROUP_OPERA_cygwin_FILES=\
+  opera/keyboard/my-keyboard-9.60.ini \
   opera/keyboard/my-keyboard.ini \
   opera/menu/my-menu.ini \
   opera/search.ini \
@@ -96,6 +97,7 @@ GROUP_OPERA_cygwin_FILES=\
   opera/styles/user.css \
   opera/toolbar/my-toolbar.ini
 GROUP_OPERA_mac_FILES=\
+  opera/Keyboard/my-keyboard-9.60.ini \
   opera/Keyboard/my-keyboard.ini \
   opera/Menu/my-menu.ini \
   opera/Mouse/my-mouse.ini \
