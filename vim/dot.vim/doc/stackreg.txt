@@ -75,19 +75,18 @@ yy		    or				*stackreg-yy*
 			Same as the original commands, but push the yanked
 			text into the stack if any register is not specified.
 
-p						*stackreg-p*
-			Same as |p|, but pop a text from the stack then put it
-			if any register is not specified.
-
+p		    or				*stackreg-p*
 P		    or				*stackreg-P*
 gp		    or				*stackreg-gp*
 gP		    or				*stackreg-gP*
 ]p		    or				*stackreg-]p*
 ]P		    or				*stackreg-]P*
 [p		    or				*stackreg-[p*
-[P						*stackreg-[P*
-			Same as |stackreg-p|, but use |P|, |gp|, |gP|, |]p|,
-			|]P|, |[p| and |[P| to put.
+[P		    or				*stackreg-[P*
+{Visual}p	    or				*stackreg-v_p*
+{Visual}P					*stackreg-v_P*
+			Same as the original commands, but pop a text from the
+			stack then put it if any register is not specified.
 
 					  *g:stackreg_no_default_key_mappings*
 						*:StackregDefaultKeyMappings*
@@ -107,6 +106,13 @@ To disable advices defined by stackreg, use the following command:
 
 ==============================================================================
 BUGS						*stackreg-bugs*
+
+- Missing commands are:
+
+  c family
+  d{motion}
+  s family
+  y{motion}
 
 - There are many bugs around the world.
 
