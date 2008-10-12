@@ -251,13 +251,17 @@ With the above settings, |C| will be mapped as follows:
 ==============================================================================
 BUGS						*advice-bugs*
 
+- Adviced commands cannot be used while another adviced command is being
+  executed.  For example, any adviced command in Operator-pending mode cannot
+  be used if the currently pending operator is an adviced command.
+
 - Some adviced commands don't behave as same as the default one:
 
   |/|, |?| ... |getcmdtype()| is always "@".
   |f|, |t| ... |language-mapping| is not available.
-  operators ... 'showcmd' shows "g@".
+  operators ... 'showcmd' shows "g@" or nothing (if 'timeout').
 
-- After advices with non-empty {cmd-specs} are not currently supported.
+- After advices with most values of {cmd-specs} are not currently supported.
 
 - {need-remap-p} is not supported.  All keys are not remapped currently.
 

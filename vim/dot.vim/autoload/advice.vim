@@ -59,7 +59,7 @@ let s:I_ENABLED_P = 2
 function! advice#add(cmd_name, modes, class, ad_name, func_name)  "{{{2
   for mode in s:each_char(a:modes)
     let cmd_specs = s:cmd_entry_of(a:cmd_name, mode)['cmd_specs']
-    if cmd_specs =~# '\v<(char|insert|line|operator)>' && a:class ==# 'after'
+    if cmd_specs =~# '\v<(char|insert|line)>' && a:class ==# 'after'
       throw 'after advices are not supported with non-empty {cmd-specs}: '
       \     . string(cmd_specs)
     endif
@@ -242,6 +242,11 @@ function! s:do_adviced_command_after(cmd_name)  "{{{2
   " - memoize the mode of the previous <Plug>(adviced-{cmd}-original),
   " - and use the memoized mode here.
   " The mode is saved in s:previous_mode.
+  if s:original_operator != ''
+    " In the middle of operator execution - skip.
+    return ''
+  endif
+
   let keyseq = ''
 
   let after_advices = s:advices_of(a:cmd_name, s:previous_mode, 'after')
@@ -281,9 +286,37 @@ function! s:do_adviced_command_original(cmd_name, mode)  "{{{2
 
   " CONT: cmd_specs
   " CONT: need_remap_p
+  let s:previous_cmd_specs = cmd_specs
+  if cmd_specs =~# '\<operator\>'
+    set operatorfunc=advice#_operator
+    let s:original_operator = cmd_keyseq
+    let s:original_cmd_name = a:cmd_name
+    let cmd_keyseq = 'g@'
+  else
+    let s:original_operator = ''
+  endif
 
   let s:previous_mode = a:mode
   return cmd_keyseq
+endfunction
+
+function! advice#_operator(wise)
+  normal! `[
+  if a:wise ==# 'line'
+    normal! V
+  elseif a:wise ==# 'char'
+    normal! v
+  elseif a:wise ==# 'block'
+    execute 'normal!' "\<C-v>"
+  else
+    throw 'Unexpected value of a:wise: ' . string(a:wise)
+  endif
+  normal! `]
+
+  execute 'normal!' s:original_operator
+  let s:original_operator = ''
+  call s:do_adviced_command_after(s:original_cmd_name)
+  return
 endfunction
 
 
