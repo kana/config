@@ -91,19 +91,16 @@ gP		    or				*stackreg-gP*
 
 					  *g:stackreg_no_default_key_mappings*
 						*:StackregDefaultKeyMappings*
-stackreg will define the following key mappings.  If you don't want to define
-these default key mappings, define |g:stackreg_no_default_key_mappings| before
-this plugin is loaded (e.g. in your |vimrc|).  You can also use
-|:StackregDefaultKeyMappings| to redefine these key mappings.  This command
-doesn't override existing {lhs}s unless [!] is given.
+The above key mappings are defined by the default.  If you don't want to
+define them, define |g:stackreg_no_default_key_mappings| before this plugin is
+loaded (e.g. in your |vimrc|).  You can also use |:StackregDefaultKeyMappings|
+to redefine these key mappings.  This command doesn't override existing {lhs}s
+unless [!] is given.
 
-	modes	{lhs}	{rhs}			~
-	-----	------	-----------------------	~
-	n	dd	<Plug>(adviced-dd)
-	n	yy	<Plug>(adviced-yy)
-	n	Y	<Plug>(adviced-Y)
-	n	p	<Plug>(adviced-p)
-	n	P	<Plug>(adviced-P)
+To disable advices defined by stackreg, use the following command:
+>
+	call advice#disable_pattern('^stackreg$')
+<
 
 
 
