@@ -29,15 +29,15 @@ endif
 
 
 
-call advice#define('Del', 'v', "\<Del>", 0, '')
 call advice#define('D', 'nv', 'D', 0, '')
+call advice#define('Del', 'v', "\<Del>", 0, '')
 call advice#define('X', 'v', 'X', 0, '')
 call advice#define('d', 'n', 'd', 0, 'operator')
 call advice#define('d', 'v', 'd', 0, '')
 call advice#define('dd', 'n', 'dd', 0, '')
 call advice#define('x', 'v', 'x', 0, '')
-call advice#add('Del', 'v', 'after', 'stackreg', 'stackreg#push')
 call advice#add('D', 'nv', 'after', 'stackreg', 'stackreg#push')
+call advice#add('Del', 'v', 'after', 'stackreg', 'stackreg#push')
 call advice#add('X', 'v', 'after', 'stackreg', 'stackreg#push')
 call advice#add('d', 'nv', 'after', 'stackreg', 'stackreg#push')
 call advice#add('dd', 'n', 'after', 'stackreg', 'stackreg#push')
@@ -53,22 +53,22 @@ call advice#add('y', 'nv', 'after', 'stackreg', 'stackreg#push')
 call advice#add('yy', 'n', 'after', 'stackreg', 'stackreg#push')
 
 
-call advice#define('p', 'nv', 'p', 0, '')
 call advice#define('P', 'nv', 'P', 0, '')
-call advice#define('gp', 'n', 'p', 0, '')
-call advice#define('gP', 'n', 'P', 0, '')
-call advice#define(']p', 'n', 'p', 0, '')
-call advice#define(']P', 'n', 'P', 0, '')
-call advice#define('[p', 'n', 'p', 0, '')
 call advice#define('[P', 'n', 'P', 0, '')
-call advice#add('p', 'nv', 'before', 'stackreg', 'stackreg#pop')
+call advice#define('[p', 'n', 'p', 0, '')
+call advice#define(']P', 'n', 'P', 0, '')
+call advice#define(']p', 'n', 'p', 0, '')
+call advice#define('gP', 'n', 'P', 0, '')
+call advice#define('gp', 'n', 'p', 0, '')
+call advice#define('p', 'nv', 'p', 0, '')
 call advice#add('P', 'nv', 'before', 'stackreg', 'stackreg#pop')
-call advice#add('gp', 'n', 'before', 'stackreg', 'stackreg#pop')
-call advice#add('gP', 'n', 'before', 'stackreg', 'stackreg#pop')
-call advice#add(']p', 'n', 'before', 'stackreg', 'stackreg#pop')
-call advice#add(']P', 'n', 'before', 'stackreg', 'stackreg#pop')
-call advice#add('[p', 'n', 'before', 'stackreg', 'stackreg#pop')
 call advice#add('[P', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('[p', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add(']P', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add(']p', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('gP', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('gp', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('p', 'nv', 'before', 'stackreg', 'stackreg#pop')
 
 
 
@@ -94,16 +94,16 @@ function! s:default_key_mappings(banged_p)
   silent! execute 'vmap' _ 'Y  <Plug>(adviced-Y)'
   silent! execute 'vmap' _ 'y  <Plug>(adviced-y)'
 
-  silent! execute 'nmap' _ 'p  <Plug>(adviced-p)'
-  silent! execute 'vmap' _ 'p  <Plug>(adviced-p)'
   silent! execute 'nmap' _ 'P  <Plug>(adviced-P)'
-  silent! execute 'vmap' _ 'P  <Plug>(adviced-P)'
-  silent! execute 'nmap' _ 'gp  <Plug>(adviced-gp)'
-  silent! execute 'nmap' _ 'gP  <Plug>(adviced-gP)'
-  silent! execute 'nmap' _ ']p  <Plug>(adviced-]p)'
-  silent! execute 'nmap' _ ']P  <Plug>(adviced-]P)'
-  silent! execute 'nmap' _ '[p  <Plug>(adviced-[p)'
   silent! execute 'nmap' _ '[P  <Plug>(adviced-[P)'
+  silent! execute 'nmap' _ '[p  <Plug>(adviced-[p)'
+  silent! execute 'nmap' _ ']P  <Plug>(adviced-]P)'
+  silent! execute 'nmap' _ ']p  <Plug>(adviced-]p)'
+  silent! execute 'nmap' _ 'gP  <Plug>(adviced-gP)'
+  silent! execute 'nmap' _ 'gp  <Plug>(adviced-gp)'
+  silent! execute 'nmap' _ 'p  <Plug>(adviced-p)'
+  silent! execute 'vmap' _ 'P  <Plug>(adviced-P)'
+  silent! execute 'vmap' _ 'p  <Plug>(adviced-p)'
 endfunction
 
 if !exists('g:stackreg_no_default_key_mappings')

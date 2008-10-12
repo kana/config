@@ -58,35 +58,35 @@ INTERFACE					*stackreg-interface*
 ------------------------------------------------------------------------------
 MAPPINGS					*stackreg-mappings*
 
-d{motion}	    or				*stackreg-d*
-dd		    or				*stackreg-dd*
 D		    or				*stackreg-D*
-{Visual}D	    or				*stackreg-v_D*
-{Visual}d	    or				*stackreg-v_d*
-{Visual}x	    or				*stackreg-v_x*
+dd		    or				*stackreg-dd*
+d{motion}	    or				*stackreg-d*
 {Visual}<Del>	    or				*stackreg-v_<Del>*
-{Visual}X					*stackreg-v_X*
+{Visual}D	    or				*stackreg-v_D*
+{Visual}X	    or				*stackreg-v_X*
+{Visual}d	    or				*stackreg-v_d*
+{Visual}x					*stackreg-v_x*
 			Same as the original commands, but push the deleted
 			text into the stack if any register is not specified.
 
-y{motion}	    or				*stackreg-y*
-yy		    or				*stackreg-yy*
 Y		    or				*stackreg-Y*
-{Visual}y	    or				*stackreg-v_y*
-{Visual}Y					*stackreg-v_Y*
+yy		    or				*stackreg-yy*
+y{motion}	    or				*stackreg-y*
+{Visual}Y	    or				*stackreg-v_Y*
+{Visual}y					*stackreg-v_y*
 			Same as the original commands, but push the yanked
 			text into the stack if any register is not specified.
 
-p		    or				*stackreg-p*
 P		    or				*stackreg-P*
-gp		    or				*stackreg-gp*
-gP		    or				*stackreg-gP*
-]p		    or				*stackreg-]p*
-]P		    or				*stackreg-]P*
-[p		    or				*stackreg-[p*
 [P		    or				*stackreg-[P*
-{Visual}p	    or				*stackreg-v_p*
-{Visual}P					*stackreg-v_P*
+[p		    or				*stackreg-[p*
+]P		    or				*stackreg-]P*
+]p		    or				*stackreg-]p*
+gP		    or				*stackreg-gP*
+gp		    or				*stackreg-gp*
+p		    or				*stackreg-p*
+{Visual}P	    or				*stackreg-v_P*
+{Visual}p					*stackreg-v_p*
 			Same as the original commands, but pop a text from the
 			stack then put it if any register is not specified.
 
