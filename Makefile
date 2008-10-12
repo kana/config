@@ -350,6 +350,7 @@ PACKAGE_vim_smartchr_FILES=\
 PACKAGE_vim_stackreg_ARCHIVE=vim-stackreg-0.0.0
 PACKAGE_vim_stackreg_BASE=vim/dot.vim
 PACKAGE_vim_stackreg_FILES=\
+  vim/dot.vim/autoload/stackreg.vim \
   vim/dot.vim/doc/stackreg.txt \
   vim/dot.vim/plugin/stackreg.vim
 

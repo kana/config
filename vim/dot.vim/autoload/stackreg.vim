@@ -21,54 +21,71 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Variables  "{{{1
 
-if exists('g:loaded_stackreg')
-  finish
-endif
-
-
-
-
-call advice#define('dd', 'n', 'dd', 0, '')
-call advice#define('yy', 'n', 'yy', 0, '')
-call advice#define('Y', 'n', 'Y', 0, '')
-call advice#define('p', 'n', 'p', 0, '')
-call advice#define('P', 'n', 'P', 0, '')
-
-
-call advice#add('dd', 'n', 'after', 'stackreg', 'stackreg#push')
-call advice#add('yy', 'n', 'after', 'stackreg', 'stackreg#push')
-call advice#add('Y', 'n', 'after', 'stackreg', 'stackreg#push')
-call advice#add('p', 'n', 'before', 'stackreg', 'stackreg#pop')
-call advice#add('P', 'n', 'before', 'stackreg', 'stackreg#pop')
+let s:stack = []  " [[text, type], ...]
 
 
 
 
-command! -bang -bar -nargs=0 StackregDefaultKeyMappings
-\ call s:default_key_mappings('<bang>' == '!')
 
-function! s:default_key_mappings(banged_p)
-  let _ = a:banged_p ? '' : '<unique>'
 
-  silent! execute 'nmap' _ 'dd  <Plug>(adviced-dd)'
-  silent! execute 'nmap' _ 'yy  <Plug>(adviced-yy)'
-  silent! execute 'nmap' _ 'Y  <Plug>(adviced-Y)'
-  silent! execute 'nmap' _ 'p  <Plug>(adviced-p)'
-  silent! execute 'nmap' _ 'P  <Plug>(adviced-P)'
+
+
+" Functions  "{{{1
+function! stackreg#dump()  "{{{2
+  echo string(s:stack)
 endfunction
 
-if !exists('g:stackreg_no_default_key_mappings')
-  StackregDefaultKeyMappings
-endif
-
-
-command! -bar -nargs=0 StackregDump  call stackreg#dump()
 
 
 
+function! stackreg#pop()  "{{{2
+  let g:stackreg_pop = v:register
+  if v:register == '"'
+    if !empty(s:stack)
+      let _ = remove(s:stack, -1)
+    else
+      let _ = ['', 'c']
+    endif
+    call setreg('"', _[0], _[1])
+  endif
+  return ''
+endfunction
 
-let g:loaded_stackreg = 1
 
-" __END__
+
+
+function! stackreg#push()  "{{{2
+  let g:stackreg_push = v:register
+  if v:register == '"'
+    call add(s:stack, [getreg(), getregtype()])
+  endif
+  return ''
+endfunction
+
+
+
+
+function! stackreg#top()  "{{{2
+  let g:stackreg_top = v:register
+  if v:register == '"'
+    if !empty(s:stack)
+      let _ = s:stack[-1]
+    else
+      let _ = ['', 'c']
+    endif
+    call setreg('"', _[0], _[1])
+  endif
+  return ''
+endfunction
+
+
+
+
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker
