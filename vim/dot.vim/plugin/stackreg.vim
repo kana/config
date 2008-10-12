@@ -31,8 +31,16 @@ endif
 
 call advice#define('dd', 'n', 'dd', 0, '')
 call advice#define('D', 'nv', 'D', 0, '')
+call advice#define('d', 'v', 'd', 0, '')
+call advice#define('x', 'v', 'x', 0, '')
+call advice#define("\<Del>", 'v', "\<Del>", 0, '')
+call advice#define('X', 'v', 'X', 0, '')
 call advice#add('dd', 'n', 'after', 'stackreg', 'stackreg#push')
 call advice#add('D', 'nv', 'after', 'stackreg', 'stackreg#push')
+call advice#add('d', 'v', 'after', 'stackreg', 'stackreg#push')
+call advice#add('x', 'v', 'after', 'stackreg', 'stackreg#push')
+call advice#add("\<Del>", 'v', 'after', 'stackreg', 'stackreg#push')
+call advice#add('X', 'v', 'after', 'stackreg', 'stackreg#push')
 
 
 call advice#define('yy', 'n', 'yy', 0, '')
@@ -70,6 +78,10 @@ function! s:default_key_mappings(banged_p)
   silent! execute 'nmap' _ 'dd  <Plug>(adviced-dd)'
   silent! execute 'nmap' _ 'D  <Plug>(adviced-D)'
   silent! execute 'vmap' _ 'D  <Plug>(adviced-D)'
+  silent! execute 'vmap' _ 'd  <Plug>(adviced-d)'
+  silent! execute 'vmap' _ 'x  <Plug>(adviced-x)'
+  silent! execute 'vmap' _ '<Del>  <Plug>(adviced-<Del>)'
+  silent! execute 'vmap' _ 'X  <Plug>(adviced-X)'
 
   silent! execute 'nmap' _ 'yy  <Plug>(adviced-yy)'
   silent! execute 'nmap' _ 'Y  <Plug>(adviced-Y)'
