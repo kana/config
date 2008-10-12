@@ -186,20 +186,76 @@ endfunction
 
 
 
-function! s:do_adviced_command(cmd_name, mode)  "{{{2
-  throw 'NIY'
-  " XXX: error on undefined modes.
-  " XXX: handling errors raised in advices.
+function! s:define_interface_mapping_in(mode, cmd_name)  "{{{2
+  execute printf(
+  \   '%snoremap <expr> <Plug>(adviced-%s-before)  <SID>do_adviced_command_before(%s, "%s")',
+  \   a:mode,
+  \   a:cmd_name,
+  \   string(a:cmd_name),
+  \   a:mode
+  \ )
+  execute printf(
+  \   '%snoremap <expr> <Plug>(adviced-%s-after)  <SID>do_adviced_command_after(%s, "%s")',
+  \   a:mode,
+  \   a:cmd_name,
+  \   string(a:cmd_name),
+  \   a:mode
+  \ )
+  execute printf(
+  \   '%snoremap <expr> <Plug>(adviced-%s-original)  <SID>do_adviced_command_original(%s, "%s")',
+  \   a:mode,
+  \   a:cmd_name,
+  \   string(a:cmd_name),
+  \   a:mode
+  \ )
+  execute printf(
+  \   '%smap <Plug>(adviced-%s)  <Plug>(adviced-%s-before)<Plug>(adviced-%s-original)<Plug>(adviced-%s-after)',
+  \   a:mode,
+  \   a:cmd_name,
+  \   a:cmd_name,
+  \   a:cmd_name,
+  \   a:cmd_name
+  \ )
+endfunction
 
-  " (1) do before advices.
-  let before_advices = s:advices_of(a:cmd_name, a:mode, 'before')
-  for advice in before_advices
+
+
+
+function! s:do_adviced_command_after(cmd_name, mode)  "{{{2
+  let keyseq = ''
+
+  let after_advices = s:advices_of(a:cmd_name, a:mode, 'after')
+  for advice in after_advices
     if advice[s:I_ENABLED_P]
-      call {advice[s:I_FUNC_NAME]}()
+      let keyseq .= {advice[s:I_FUNC_NAME]}()
     endif
   endfor
 
-  " (2) do the original command.
+  return keyseq
+endfunction
+
+
+
+
+function! s:do_adviced_command_before(cmd_name, mode)  "{{{2
+  let keyseq = ''
+
+  let before_advices = s:advices_of(a:cmd_name, a:mode, 'before')
+  for advice in before_advices
+    if advice[s:I_ENABLED_P]
+      let keyseq .= {advice[s:I_FUNC_NAME]}()
+    endif
+  endfor
+
+  return keyseq
+endfunction
+
+
+
+
+function! s:do_adviced_command_original(cmd_name, mode)  "{{{2
+  let keyseq = ''
+
   let _ = s:cmd_entry_of(a:cmd_name)
   let cmd_key = _['cmd_key']
   let need_remap_p = _['need_remap_p']
@@ -218,28 +274,7 @@ function! s:do_adviced_command(cmd_name, mode)  "{{{2
     echoerr 'Not supported {cmd-specs}:' string(cmd_specs)
   endif
 
-  " (3) do after advices.
-  let after_advices = s:advices_of(a:cmd_name, a:mode, 'after')
-  for advice in after_advices
-    if advice[s:I_ENABLED_P]
-      call {advice[s:I_FUNC_NAME]}()
-    endif
-  endfor
-
-  return
-endfunction
-
-
-
-
-function! s:define_interface_mapping_in(mode, cmd_name)  "{{{2
-  execute printf(
-  \   '%snoremap <expr> <Plug>(adviced-%s)  <SID>do_adviced_command(%s, "%s")',
-  \   a:mode,
-  \   a:cmd_name,
-  \   string(a:cmd_name),
-  \   a:mode
-  \ )
+  return keyseq
 endfunction
 
 
