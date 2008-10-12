@@ -39,7 +39,7 @@ Changelog		|advice-changelog|
 ==============================================================================
 INTRODUCTION					*advice-introduction*
 
-ADVICE is a eijaofjeao for Vim scripts to provide a modular way to alter the
+ADVICE is a library for Vim scripts to provide a modular way to alter the
 behavior of a command.
 
 For example, if you want to change the default register for the command |C| to
@@ -54,10 +54,10 @@ ADVICE provides useful API to do such customization.
 
 The concept of ADVICE is derived from the one of Emacs.  See also:
 <http://www.gnu.org/software/emacs/elisp/html_node/Advising-Functions.html>.
-Note that there are some differences from the one of Emacs, especially, there
-is no activation and ADVICE currently supports "usual" commands and dosn't
-support Ex commands and functions.  (Although Ex commands and functions cannot
-be supported only by Vim script.)
+Note that there are some differences from the one of Emacs, especially: there
+is no activation and ADVICE supports "usual" commands only (see
+|advice-Normal-command|).  Because Ex commands and functions cannot be
+supported only by Vim script.
 
 Requirements:
 - Vim 7.2 or later
@@ -67,6 +67,10 @@ Requirements:
 
 ==============================================================================
 TERMS						*advice-terms*
+
+ADVICE
+	Since "advice" is a usual English word, here we use the term "ADVICE"
+	to express this library.
 
 Normal command					*advice-Normal-command*
 	A command which is executed by typing a key sequence.  For example,
