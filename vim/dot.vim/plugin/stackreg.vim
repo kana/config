@@ -29,14 +29,14 @@ endif
 
 
 
-call advice#define("\<Del>", 'v', "\<Del>", 0, '')
+call advice#define('Del', 'v', "\<Del>", 0, '')
 call advice#define('D', 'nv', 'D', 0, '')
 call advice#define('X', 'v', 'X', 0, '')
 call advice#define('d', 'n', 'd', 0, 'operator')
 call advice#define('d', 'v', 'd', 0, '')
 call advice#define('dd', 'n', 'dd', 0, '')
 call advice#define('x', 'v', 'x', 0, '')
-call advice#add("\<Del>", 'v', 'after', 'stackreg', 'stackreg#push')
+call advice#add('Del', 'v', 'after', 'stackreg', 'stackreg#push')
 call advice#add('D', 'nv', 'after', 'stackreg', 'stackreg#push')
 call advice#add('X', 'v', 'after', 'stackreg', 'stackreg#push')
 call advice#add('d', 'nv', 'after', 'stackreg', 'stackreg#push')
@@ -82,7 +82,7 @@ function! s:default_key_mappings(banged_p)
   silent! execute 'nmap' _ 'D  <Plug>(adviced-D)'
   silent! execute 'nmap' _ 'd  <Plug>(adviced-d)'
   silent! execute 'nmap' _ 'dd  <Plug>(adviced-dd)'
-  silent! execute 'vmap' _ '<Del>  <Plug>(adviced-<Del>)'
+  silent! execute 'vmap' _ '<Del>  <Plug>(adviced-Del)'
   silent! execute 'vmap' _ 'D  <Plug>(adviced-D)'
   silent! execute 'vmap' _ 'X  <Plug>(adviced-X)'
   silent! execute 'vmap' _ 'd  <Plug>(adviced-d)'
