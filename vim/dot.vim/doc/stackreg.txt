@@ -60,11 +60,11 @@ MAPPINGS					*stackreg-mappings*
 
 dd		    or				*stackreg-dd*
 D		    or				*stackreg-D*
-{visual}D	    or				*stackreg-v_D*
-{visual}d	    or				*stackreg-v_d*
-{visual}x	    or				*stackreg-v_x*
-{visual}<Del>	    or				*stackreg-v_<Del>*
-{visual}X					*stackreg-v_X*
+{Visual}D	    or				*stackreg-v_D*
+{Visual}d	    or				*stackreg-v_d*
+{Visual}x	    or				*stackreg-v_x*
+{Visual}<Del>	    or				*stackreg-v_<Del>*
+{Visual}X					*stackreg-v_X*
 			Same as the original commands, but push the deleted
 			text into the stack if any register is not specified.
 
