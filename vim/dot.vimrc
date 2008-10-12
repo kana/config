@@ -1860,7 +1860,7 @@ function! s:on_FileType_dosini()
   " Folding sections.
   setlocal foldmethod=expr
   let &l:foldexpr = '(getline(v:lnum)[0] == "[") ? ">1" :'
-  \               . '(getline(v:lnum) =~# "__END__" ? 0 : "=")'
+  \               . '(getline(v:lnum) =~# ''^;.*\(__END__\|\*\*\*\)'' ? 0 : "=")'
 endfunction
 
 
