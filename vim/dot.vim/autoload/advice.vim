@@ -78,9 +78,7 @@ endfunction
 
 
 function! advice#define(cmd_name, modes, cmd_key, need_remap_p, cmd_specs)  "{{{2
-  for mode in s:each_char(a:modes)
-    call s:define_interface_mapping_in(mode, a:cmd_name)
-  endfor
+  call s:define_interface_mapping_in(a:modes, a:cmd_name)
 
   call s:ensure_cmd_entry(a:cmd_name, a:modes)
   let cmd_entry = s:cmd_entry_of(a:cmd_name)
@@ -193,45 +191,59 @@ endfunction
 
 
 
-function! s:define_interface_mapping_in(mode, cmd_name)  "{{{2
-  execute printf(
-  \   '%snoremap <expr> <Plug>(adviced-%s-before)  <SID>do_adviced_command_before(%s, "%s")',
-  \   a:mode,
-  \   a:cmd_name,
-  \   string(a:cmd_name),
-  \   a:mode
-  \ )
-  execute printf(
-  \   '%snoremap <expr> <Plug>(adviced-%s-after)  <SID>do_adviced_command_after(%s, "%s")',
-  \   a:mode,
-  \   a:cmd_name,
-  \   string(a:cmd_name),
-  \   a:mode
-  \ )
-  execute printf(
-  \   '%snoremap <expr> <Plug>(adviced-%s-original)  <SID>do_adviced_command_original(%s, "%s")',
-  \   a:mode,
-  \   a:cmd_name,
-  \   string(a:cmd_name),
-  \   a:mode
-  \ )
-  execute printf(
-  \   '%smap <Plug>(adviced-%s)  <Plug>(adviced-%s-before)<Plug>(adviced-%s-original)<Plug>(adviced-%s-after)',
-  \   a:mode,
-  \   a:cmd_name,
-  \   a:cmd_name,
-  \   a:cmd_name,
-  \   a:cmd_name
-  \ )
+function! s:define_interface_mapping_in(modes, cmd_name)  "{{{2
+  for mode in s:each_char(a:modes)
+    execute printf(
+    \   '%snoremap <expr> <Plug>(adviced-%s-before)  <SID>do_adviced_command_before(%s, "%s")',
+    \   mode,
+    \   a:cmd_name,
+    \   string(a:cmd_name),
+    \   mode
+    \ )
+    execute printf(
+    \   '%snoremap <expr> <Plug>(adviced-%s-original)  <SID>do_adviced_command_original(%s, "%s")',
+    \   mode,
+    \   a:cmd_name,
+    \   string(a:cmd_name),
+    \   mode
+    \ )
+    execute printf(
+    \   '%smap <Plug>(adviced-%s)  <Plug>(adviced-%s-before)<Plug>(adviced-%s-original)<Plug>(adviced-%s-after)',
+    \   mode,
+    \   a:cmd_name,
+    \   a:cmd_name,
+    \   a:cmd_name,
+    \   a:cmd_name
+    \ )
+  endfor
+  for mode in s:each_char('nvoci')
+    execute printf(
+    \   '%snoremap <expr> <Plug>(adviced-%s-after)  <SID>do_adviced_command_after(%s)',
+    \   mode,
+    \   a:cmd_name,
+    \   string(a:cmd_name)
+    \ )
+  endfor
 endfunction
 
 
 
 
-function! s:do_adviced_command_after(cmd_name, mode)  "{{{2
+function! s:do_adviced_command_after(cmd_name)  "{{{2
+  " After <Plug>(adviced-{cmd}-original), the mode may be chaned.  For
+  " example, if <Plug>(adviced-{cmd}-original) is executed in Visual mode, the
+  " following <Plug>(adviced-{cmd}-after) will be interpreted as a key mapping
+  " defined in Normal mode.  So <Plug>(adviced-{cmd}-after) defined in Visual
+  " mode will not be used.  This is a problem.
+  "
+  " To avoid the problem, we have to:
+  " - define <Plug>(adviced-{cmd}-after) in all modes,
+  " - memoize the mode of the previous <Plug>(adviced-{cmd}-original),
+  " - and use the memoized mode here.
+  " The mode is saved in s:previous_mode.
   let keyseq = ''
 
-  let after_advices = s:advices_of(a:cmd_name, a:mode, 'after')
+  let after_advices = s:advices_of(a:cmd_name, s:previous_mode, 'after')
   for advice in after_advices
     if advice[s:I_ENABLED_P]
       let keyseq .= {advice[s:I_FUNC_NAME]}()
@@ -269,6 +281,7 @@ function! s:do_adviced_command_original(cmd_name, mode)  "{{{2
   " CONT: cmd_specs
   " CONT: need_remap_p
 
+  let s:previous_mode = a:mode
   return cmd_key
 endfunction
 
