@@ -30,9 +30,9 @@ endif
 
 
 call advice#define('dd', 'n', 'dd', 0, '')
-call advice#define('D', 'n', 'D', 0, '')
+call advice#define('D', 'nv', 'D', 0, '')
 call advice#add('dd', 'n', 'after', 'stackreg', 'stackreg#push')
-call advice#add('D', 'n', 'after', 'stackreg', 'stackreg#push')
+call advice#add('D', 'nv', 'after', 'stackreg', 'stackreg#push')
 
 
 call advice#define('yy', 'n', 'yy', 0, '')
@@ -69,6 +69,7 @@ function! s:default_key_mappings(banged_p)
 
   silent! execute 'nmap' _ 'dd  <Plug>(adviced-dd)'
   silent! execute 'nmap' _ 'D  <Plug>(adviced-D)'
+  silent! execute 'vmap' _ 'D  <Plug>(adviced-D)'
 
   silent! execute 'nmap' _ 'yy  <Plug>(adviced-yy)'
   silent! execute 'nmap' _ 'Y  <Plug>(adviced-Y)'

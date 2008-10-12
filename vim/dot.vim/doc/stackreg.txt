@@ -59,7 +59,8 @@ INTERFACE					*stackreg-interface*
 MAPPINGS					*stackreg-mappings*
 
 dd		    or				*stackreg-dd*
-D						*stackreg-D*
+D		    or				*stackreg-D*
+{visual}D					*stackreg-v_D*
 			Same as |dd| or |D|, but push the deleted text into
 			the stack if any register is not specified.
 
