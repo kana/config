@@ -56,6 +56,13 @@ let s:I_ENABLED_P = 2
 
 " Interface  "{{{1
 function! advice#add(cmd_name, modes, class, ad_name, func_name)  "{{{2
+  let cmd_entry = s:cmd_entry_of(a:cmd_name)
+  if (cmd_entry['cmd_specs'] =~# '\v<(char|insert|line|operator)>'
+  \   && a:class ==# 'after')
+    throw 'after advices are not supported with non-empty {cmd-specs}: '
+    \     . string(cmd_entry['cmd_specs'])
+  endif
+
   for mode in s:each_char(a:modes)
     let advices = s:advices_of(a:cmd_name, mode, a:class)
     let i = s:index_of_advice(a:ad_name, advices)

@@ -257,6 +257,8 @@ BUGS						*advice-bugs*
   |f|, |t| ... |language-mapping| is not available.
   operators ... 'showcmd' shows "g@".
 
+- After advices with non-empty {cmd-specs} are not currently supported.
+
 - There are many bugs around the world.
 
 
