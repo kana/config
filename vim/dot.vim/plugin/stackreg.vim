@@ -44,9 +44,11 @@ call advice#add('X', 'v', 'after', 'stackreg', 'stackreg#push')
 
 
 call advice#define('yy', 'n', 'yy', 0, '')
-call advice#define('Y', 'n', 'Y', 0, '')
+call advice#define('Y', 'nv', 'Y', 0, '')
+call advice#define('y', 'v', 'y', 0, '')
 call advice#add('yy', 'n', 'after', 'stackreg', 'stackreg#push')
-call advice#add('Y', 'n', 'after', 'stackreg', 'stackreg#push')
+call advice#add('Y', 'nv', 'after', 'stackreg', 'stackreg#push')
+call advice#add('y', 'v', 'after', 'stackreg', 'stackreg#push')
 
 
 call advice#define('p', 'n', 'p', 0, '')
@@ -85,6 +87,8 @@ function! s:default_key_mappings(banged_p)
 
   silent! execute 'nmap' _ 'yy  <Plug>(adviced-yy)'
   silent! execute 'nmap' _ 'Y  <Plug>(adviced-Y)'
+  silent! execute 'vmap' _ 'Y  <Plug>(adviced-Y)'
+  silent! execute 'vmap' _ 'y  <Plug>(adviced-y)'
 
   silent! execute 'nmap' _ 'p  <Plug>(adviced-p)'
   silent! execute 'nmap' _ 'P  <Plug>(adviced-P)'
