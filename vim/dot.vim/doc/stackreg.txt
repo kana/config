@@ -68,10 +68,11 @@ D		    or				*stackreg-D*
 			Same as the original commands, but push the deleted
 			text into the stack if any register is not specified.
 
-Y		    or				*stackreg-Y*
+y{motion}	    or				*stackreg-y*
 yy		    or				*stackreg-yy*
-{Visual}Y	    or				*stackreg-v_Y*
-{Visual}y					*stackreg-v_y*
+Y		    or				*stackreg-Y*
+{Visual}y	    or				*stackreg-v_y*
+{Visual}Y					*stackreg-v_Y*
 			Same as the original commands, but push the yanked
 			text into the stack if any register is not specified.
 
@@ -112,7 +113,6 @@ BUGS						*stackreg-bugs*
   c family
   d{motion}
   s family
-  y{motion}
 
 - There are many bugs around the world.
 
