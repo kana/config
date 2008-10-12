@@ -30,7 +30,7 @@
 " {
 "   '{cmd_name}': {
 "     '{mode}': {
-"       'cmd_key': '{cmd_key}',
+"       'cmd_keyseq': '{cmd_keyseq}',
 "       'need_remap_p': '{need_remap_p}',
 "       'cmd_specs': 'cmd_specs',
 "       'before': [[{ad_name}, {func_name}, {enabled_p}], ...],
@@ -77,12 +77,12 @@ endfunction
 
 
 
-function! advice#define(cmd_name, modes, cmd_key, need_remap_p, cmd_specs)  "{{{2
+function! advice#define(cmd_name, modes, cmd_keyseq, need_remap_p, cmd_specs)  "{{{2
   call s:define_interface_mapping_in(a:modes, a:cmd_name)
 
   for mode in s:each_char(a:modes)
     let cmd_entry = s:cmd_entry_of(a:cmd_name, mode)
-    let cmd_entry['cmd_key'] = a:cmd_key
+    let cmd_entry['cmd_keyseq'] = a:cmd_keyseq
     let cmd_entry['need_remap_p'] = a:need_remap_p
     let cmd_entry['cmd_specs'] = a:cmd_specs
   endfor
@@ -275,7 +275,7 @@ endfunction
 
 function! s:do_adviced_command_original(cmd_name, mode)  "{{{2
   let _ = s:cmd_entry_of(a:cmd_name, a:mode)
-  let cmd_key = _['cmd_key']
+  let cmd_keyseq = _['cmd_keyseq']
   let need_remap_p = _['need_remap_p']
   let cmd_specs = _['cmd_specs']
 
@@ -283,7 +283,7 @@ function! s:do_adviced_command_original(cmd_name, mode)  "{{{2
   " CONT: need_remap_p
 
   let s:previous_mode = a:mode
-  return cmd_key
+  return cmd_keyseq
 endfunction
 
 
@@ -308,7 +308,7 @@ function! s:ensure_cmd_entry(cmd_name, mode)  "{{{2
     let s:_[a:cmd_name][a:mode] = {
     \     'after': [],
     \     'before': [],
-    \     'cmd_key': '',
+    \     'cmd_keyseq': '',
     \     'cmd_specs': '',
     \     'need_remap_p': '',
     \   }

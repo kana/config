@@ -89,7 +89,7 @@ INTERFACE					*advice-interface*
 FUNCTIONS					*advice-functions*
 
 						*advice#define()*
-advice#define({cmd-name}, {modes}, {cmd-key}, {need-remap-p}, {cmd-spec})
+advice#define({cmd-name}, {modes}, {cmd-keyseq}, {need-remap-p}, {cmd-spec})
 			Define key mapping <Plug>(adviced-{cmd-name}) in the
 			specified {meds}.  The key mapping can be used to
 			execute adviced version of the specified Normal
@@ -97,7 +97,7 @@ advice#define({cmd-name}, {modes}, {cmd-key}, {need-remap-p}, {cmd-spec})
 
 			{cmd-name}	String
 				The name of the Normal command, usually the
-				same as {cmd_key}.
+				same as {cmd-keyseq}.
 
 			{modes}		String
 				Modes in which the Normal command is defined.
@@ -112,11 +112,11 @@ advice#define({cmd-name}, {modes}, {cmd-key}, {need-remap-p}, {cmd-spec})
 				i		Insert mode
 				c		Command-line mode
 
-			{cmd-key}	String
+			{cmd-keyseq}	String
 				Key sequence to execute the Normal command.
 
 			{need-remap-p}	Boolean
-				Specify whether the {cmd-key} should be
+				Specify whether the {cmd-keyseq} should be
 				remapped or not.
 
 			{cmd-specs}	String
