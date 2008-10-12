@@ -55,6 +55,21 @@ let s:I_ENABLED_P = 2
 
 
 " Interface  "{{{1
+function! advice#add(cmd_name, modes, class, ad_name, func_name)  "{{{2
+  for mode in s:each_char(a:modes)
+    let advices = s:advices_of(a:cmd_name, mode, a:class)
+    let i = s:index_of_advice(a:ad_name, advices)
+    if i == -1
+      call insert(advices, [a:ad_name, a:func_name, !0])
+    else
+      let advices[i][s:I_FUNC_NAME] = a:func_name
+    endif
+  endfor
+endfunction
+
+
+
+
 function! advice#define(cmd_name, modes, cmd_key, need_remap_p, cmd_specs)  "{{{2
   for mode in s:each_char(a:modes)
     call s:define_interface_mapping_in(mode, a:cmd_name)
@@ -70,16 +85,43 @@ endfunction
 
 
 
-function! advice#add(cmd_name, modes, class, ad_name, func_name)  "{{{2
-  for mode in s:each_char(a:modes)
-    let advices = s:advices_of(a:cmd_name, mode, a:class)
-    let i = s:index_of_advice(a:ad_name, advices)
-    if i == -1
-      call insert(advices, [a:ad_name, a:func_name, !0])
-    else
-      let advices[i][s:I_FUNC_NAME] = a:func_name
-    endif
-  endfor
+function! advice#disable(cmd_name, modes, class, ad_name)  "{{{2
+  call s:set_enabled_flag(a:cmd_name, a:modes, a:class, a:ad_name, !!0)
+endfunction
+
+
+
+
+function! advice#disable_all(cmd_name, modes, class)  "{{{2
+  call s:set_enabled_flag_all(a:cmd_name, a:modes, a:class, !!0)
+endfunction
+
+
+
+
+function! advice#disable_pattern(pattern)  "{{{2
+  throw 'NIY'
+endfunction
+
+
+
+
+function! advice#enable(cmd_name, modes, class, ad_name)  "{{{2
+  call s:set_enabled_flag(a:cmd_name, a:modes, a:class, a:ad_name, !0)
+endfunction
+
+
+
+
+function! advice#enable_all(cmd_name, modes, class)  "{{{2
+  call s:set_enabled_flag_all(a:cmd_name, a:modes, a:class, !0)
+endfunction
+
+
+
+
+function! advice#enable_pattern(pattern)  "{{{2
+  throw 'NIY'
 endfunction
 
 
@@ -117,53 +159,26 @@ endfunction
 
 
 
-function! advice#enable(cmd_name, modes, class, ad_name)  "{{{2
-  call s:set_enabled_flag(a:cmd_name, a:modes, a:class, a:ad_name, !0)
-endfunction
-
-
-
-
-function! advice#disable(cmd_name, modes, class, ad_name)  "{{{2
-  call s:set_enabled_flag(a:cmd_name, a:modes, a:class, a:ad_name, !!0)
-endfunction
-
-
-
-
-function! advice#enable_all(cmd_name, modes, class)  "{{{2
-  call s:set_enabled_flag_all(a:cmd_name, a:modes, a:class, !0)
-endfunction
-
-
-
-
-function! advice#disable_all(cmd_name, modes, class)  "{{{2
-  call s:set_enabled_flag_all(a:cmd_name, a:modes, a:class, !!0)
-endfunction
-
-
-
-
-function! advice#enable_pattern(pattern)  "{{{2
-  throw 'NIY'
-endfunction
-
-
-
-
-function! advice#disable_pattern(pattern)  "{{{2
-  throw 'NIY'
-endfunction
-
-
-
-
 
 
 
 
 " Misc.  "{{{1
+function! advice#_dump()  "{{{2
+  echo string(s:_)
+endfunction
+
+
+
+
+function! s:advices_of(cmd_name, mode, class)  "{{{2
+  call s:ensure_cmd_entry(a:cmd_name, a:mode)
+  return s:_[a:cmd_name][a:mode][a:class]
+endfunction
+
+
+
+
 function! s:cmd_entry_of(cmd_name)  "{{{2
   return s:_[a:cmd_name]
 endfunction
@@ -217,6 +232,19 @@ endfunction
 
 
 
+function! s:define_interface_mapping_in(mode, cmd_name)  "{{{2
+  execute printf(
+  \   '%snoremap <expr> <Plug>(adviced-%s)  <SID>do_adviced_command(%s, "%s")',
+  \   a:mode,
+  \   a:cmd_name,
+  \   string(a:cmd_name),
+  \   a:mode
+  \ )
+endfunction
+
+
+
+
 function! s:each_char(s)  "{{{2
   " for c in s:each_char('abc') ==> for c in ['a', 'b', 'c']
   let _ = split(a:s, '.\zs', !0)
@@ -227,26 +255,14 @@ endfunction
 
 
 
-function! s:set_enabled_flag_all(cmd_name, modes, class, value)  "{{{2
+function! s:ensure_cmd_entry(cmd_name, modes)  "{{{2
+  if !has_key(s:_, a:cmd_name)
+    let s:_[a:cmd_name] = {}
+  endif
+
   for mode in s:each_char(a:modes)
-    let advices = s:advices_of(a:cmd_name, mode, a:class)
-    for _ in advices
-      let _[s:I_ENABLED_P] = !0
-    endfor
-  endfor
-endfunction
-
-
-
-
-function! s:set_enabled_flag(cmd_name, modes, class, ad_name, value)  "{{{2
-  for mode in s:each_char(a:modes)
-    let advices = s:advices_of(a:cmd_name, mode, a:class)
-    let i = s:index_of_advice(a:ad_name, advices)
-    if i == -1
-      echoerr 'No such advice'
-    else
-      let advices[i][s:I_ENABLED_P] = a:value
+    if !has_key(s:_[a:cmd_name], mode)
+      let s:_[a:cmd_name][mode] = {'before': [], 'after': []}
     endif
   endfor
 endfunction
@@ -269,22 +285,14 @@ endfunction
 
 
 
-function! s:advices_of(cmd_name, mode, class)  "{{{2
-  call s:ensure_cmd_entry(a:cmd_name, a:mode)
-  return s:_[a:cmd_name][a:mode][a:class]
-endfunction
-
-
-
-
-function! s:ensure_cmd_entry(cmd_name, modes)  "{{{2
-  if !has_key(s:_, a:cmd_name)
-    let s:_[a:cmd_name] = {}
-  endif
-
+function! s:set_enabled_flag(cmd_name, modes, class, ad_name, value)  "{{{2
   for mode in s:each_char(a:modes)
-    if !has_key(s:_[a:cmd_name], mode)
-      let s:_[a:cmd_name][mode] = {'before': [], 'after': []}
+    let advices = s:advices_of(a:cmd_name, mode, a:class)
+    let i = s:index_of_advice(a:ad_name, advices)
+    if i == -1
+      echoerr 'No such advice'
+    else
+      let advices[i][s:I_ENABLED_P] = a:value
     endif
   endfor
 endfunction
@@ -292,21 +300,13 @@ endfunction
 
 
 
-function! advice#_dump()  "{{{2
-  echo string(s:_)
-endfunction
-
-
-
-
-function! s:define_interface_mapping_in(mode, cmd_name)  "{{{2
-  execute printf(
-  \   '%snoremap <expr> <Plug>(adviced-%s)  <SID>do_adviced_command(%s, "%s")',
-  \   a:mode,
-  \   a:cmd_name,
-  \   string(a:cmd_name),
-  \   a:mode
-  \ )
+function! s:set_enabled_flag_all(cmd_name, modes, class, value)  "{{{2
+  for mode in s:each_char(a:modes)
+    let advices = s:advices_of(a:cmd_name, mode, a:class)
+    for _ in advices
+      let _[s:I_ENABLED_P] = !0
+    endfor
+  endfor
 endfunction
 
 
