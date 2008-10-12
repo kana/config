@@ -30,15 +30,17 @@ endif
 
 
 call advice#define('dd', 'n', 'dd', 0, '')
+call advice#add('dd', 'n', 'after', 'stackreg', 'stackreg#push')
+
+
 call advice#define('yy', 'n', 'yy', 0, '')
 call advice#define('Y', 'n', 'Y', 0, '')
-call advice#define('p', 'n', 'p', 0, '')
-call advice#define('P', 'n', 'P', 0, '')
-
-
-call advice#add('dd', 'n', 'after', 'stackreg', 'stackreg#push')
 call advice#add('yy', 'n', 'after', 'stackreg', 'stackreg#push')
 call advice#add('Y', 'n', 'after', 'stackreg', 'stackreg#push')
+
+
+call advice#define('p', 'n', 'p', 0, '')
+call advice#define('P', 'n', 'P', 0, '')
 call advice#add('p', 'n', 'before', 'stackreg', 'stackreg#pop')
 call advice#add('P', 'n', 'before', 'stackreg', 'stackreg#pop')
 
