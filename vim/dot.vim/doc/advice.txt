@@ -259,6 +259,8 @@ BUGS						*advice-bugs*
 
 - After advices with non-empty {cmd-specs} are not currently supported.
 
+- {need-remap-p} is not supported.  All keys are not remapped currently.
+
 - There are many bugs around the world.
 
 

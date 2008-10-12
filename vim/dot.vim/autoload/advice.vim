@@ -261,27 +261,15 @@ endfunction
 
 
 function! s:do_adviced_command_original(cmd_name, mode)  "{{{2
-  let keyseq = ''
-
   let _ = s:cmd_entry_of(a:cmd_name)
   let cmd_key = _['cmd_key']
   let need_remap_p = _['need_remap_p']
   let cmd_specs = _['cmd_specs']
 
-  if cmd_specs ==# 'none'
-    if a:mode =~# '[nvoi]'
-      execute 'normal'.(need_remap_p ? '' : '!') cmd_key
-    elseif a:mode ==# 'c'
-      return cmd_key
-    else
-      echoerr 'Not supported mode:' string(a:mode)
-    endif
-  else
-    " XXX: cmd_specs support - motion, char, line.
-    echoerr 'Not supported {cmd-specs}:' string(cmd_specs)
-  endif
+  " CONT: cmd_specs
+  " CONT: need_remap_p
 
-  return keyseq
+  return cmd_key
 endfunction
 
 
