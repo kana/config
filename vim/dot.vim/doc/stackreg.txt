@@ -62,7 +62,7 @@ dd						*stackreg-dd*
 			Same as |dd|, but push the deleted text into the stack
 			if any register is not specified.
 
-Y						*stackreg-Y*
+Y		    or				*stackreg-Y*
 yy						*stackreg-yy*
 			Same as |yy|, but push the yanked text into the stack
 			if any register is not specified.
@@ -71,8 +71,15 @@ p						*stackreg-p*
 			Same as |p|, but pop a text from the stack then put it
 			if any register is not specified.
 
-P						*stackreg-P*
-			Same as |stackreg-p|, but use |P| to put.
+P		    or				*stackreg-P*
+gp		    or				*stackreg-gp*
+gP		    or				*stackreg-gP*
+]p		    or				*stackreg-]p*
+]P		    or				*stackreg-]P*
+[p		    or				*stackreg-[p*
+[P						*stackreg-[P*
+			Same as |stackreg-p|, but use |P|, |gp|, |gP|, |]p|,
+			|]P|, |[p| and |[P| to put.
 
 					  *g:stackreg_no_default_key_mappings*
 						*:StackregDefaultKeyMappings*

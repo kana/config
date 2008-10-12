@@ -41,8 +41,20 @@ call advice#add('Y', 'n', 'after', 'stackreg', 'stackreg#push')
 
 call advice#define('p', 'n', 'p', 0, '')
 call advice#define('P', 'n', 'P', 0, '')
+call advice#define('gp', 'n', 'p', 0, '')
+call advice#define('gP', 'n', 'P', 0, '')
+call advice#define(']p', 'n', 'p', 0, '')
+call advice#define(']P', 'n', 'P', 0, '')
+call advice#define('[p', 'n', 'p', 0, '')
+call advice#define('[P', 'n', 'P', 0, '')
 call advice#add('p', 'n', 'before', 'stackreg', 'stackreg#pop')
 call advice#add('P', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('gp', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('gP', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add(']p', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add(']P', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('[p', 'n', 'before', 'stackreg', 'stackreg#pop')
+call advice#add('[P', 'n', 'before', 'stackreg', 'stackreg#pop')
 
 
 
@@ -56,8 +68,15 @@ function! s:default_key_mappings(banged_p)
   silent! execute 'nmap' _ 'dd  <Plug>(adviced-dd)'
   silent! execute 'nmap' _ 'yy  <Plug>(adviced-yy)'
   silent! execute 'nmap' _ 'Y  <Plug>(adviced-Y)'
+
   silent! execute 'nmap' _ 'p  <Plug>(adviced-p)'
   silent! execute 'nmap' _ 'P  <Plug>(adviced-P)'
+  silent! execute 'nmap' _ 'gp  <Plug>(adviced-gp)'
+  silent! execute 'nmap' _ 'gP  <Plug>(adviced-gP)'
+  silent! execute 'nmap' _ ']p  <Plug>(adviced-]p)'
+  silent! execute 'nmap' _ ']P  <Plug>(adviced-]P)'
+  silent! execute 'nmap' _ '[p  <Plug>(adviced-[p)'
+  silent! execute 'nmap' _ '[P  <Plug>(adviced-[P)'
 endfunction
 
 if !exists('g:stackreg_no_default_key_mappings')
