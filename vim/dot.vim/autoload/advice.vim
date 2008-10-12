@@ -80,7 +80,6 @@ endfunction
 function! advice#define(cmd_name, modes, cmd_key, need_remap_p, cmd_specs)  "{{{2
   call s:define_interface_mapping_in(a:modes, a:cmd_name)
 
-  call s:ensure_cmd_entry(a:cmd_name, a:modes)
   for mode in s:each_char(a:modes)
     let cmd_entry = s:cmd_entry_of(a:cmd_name, mode)
     let cmd_entry['cmd_key'] = a:cmd_key
@@ -179,14 +178,14 @@ endfunction
 
 
 function! s:advices_of(cmd_name, mode, class)  "{{{2
-  call s:ensure_cmd_entry(a:cmd_name, a:mode)
-  return s:_[a:cmd_name][a:mode][a:class]
+  return s:cmd_entry_of(a:cmd_name, a:mode)[a:class]
 endfunction
 
 
 
 
 function! s:cmd_entry_of(cmd_name, mode)  "{{{2
+  call s:ensure_cmd_entry(a:cmd_name, a:mode)
   return s:_[a:cmd_name][a:mode]
 endfunction
 
@@ -300,16 +299,20 @@ endfunction
 
 
 
-function! s:ensure_cmd_entry(cmd_name, modes)  "{{{2
+function! s:ensure_cmd_entry(cmd_name, mode)  "{{{2
   if !has_key(s:_, a:cmd_name)
     let s:_[a:cmd_name] = {}
   endif
 
-  for mode in s:each_char(a:modes)
-    if !has_key(s:_[a:cmd_name], mode)
-      let s:_[a:cmd_name][mode] = {'before': [], 'after': []}
-    endif
-  endfor
+  if !has_key(s:_[a:cmd_name], a:mode)
+    let s:_[a:cmd_name][a:mode] = {
+    \     'after': [],
+    \     'before': [],
+    \     'cmd_key': '',
+    \     'cmd_specs': '',
+    \     'need_remap_p': '',
+    \   }
+  endif
 endfunction
 
 
