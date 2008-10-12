@@ -127,6 +127,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
   $(PACKAGE_vim_smartchr_FILES) \
+  $(PACKAGE_vim_stackreg_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
@@ -210,6 +211,7 @@ ALL_PACKAGES=\
   vim-scratch \
   vim-skeleton \
   vim-smartchr \
+  vim-stackreg \
   vim-surround \
   vim-textobj-datetime \
   vim-textobj-fold \
@@ -344,6 +346,12 @@ PACKAGE_vim_smartchr_BASE=vim/dot.vim
 PACKAGE_vim_smartchr_FILES=\
   vim/dot.vim/autoload/smartchr.vim \
   vim/dot.vim/doc/smartchr.txt
+
+PACKAGE_vim_stackreg_ARCHIVE=vim-stackreg-0.0.0
+PACKAGE_vim_stackreg_BASE=vim/dot.vim
+PACKAGE_vim_stackreg_FILES=\
+  vim/dot.vim/doc/stackreg.txt \
+  vim/dot.vim/plugin/stackreg.vim
 
 PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.6
 PACKAGE_vim_surround_BASE=vim/dot.vim

@@ -1,0 +1,114 @@
+*stackreg.txt*	Vz-like stackable registers
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*stackreg-contents*
+
+Introduction		|stackreg-introduction|
+Interface		|stackreg-interface|
+  Mappings		  |stackreg-mappings|
+Bugs			|stackreg-bugs|
+Changelog		|stackreg-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*stackreg-introduction*
+
+*stackreg* is a Vim plugin to provide stackable registers.  If you delete or
+yank a text without specifying a register, the text will be pushed into
+a stack.  If you put without specifying a register, a text will be popped from
+the stack then it will be put.
+
+The concept of stackable registers is derived from Vz which is an editor for
+MS-DOS and it was widely used in Japan since 1989.
+
+Requirements:
+- Vim 7.2 or later
+- |advice| 0.0.0 or later (vimscript#...)
+
+
+
+
+==============================================================================
+INTERFACE					*stackreg-interface*
+
+------------------------------------------------------------------------------
+MAPPINGS					*stackreg-mappings*
+
+dd						*stackreg-dd*
+			Same as |dd|, but push the deleted text into the stack
+			if any register is not specified.
+
+Y						*stackreg-Y*
+yy						*stackreg-yy*
+			Same as |yy|, but push the yanked text into the stack
+			if any register is not specified.
+
+p						*stackreg-p*
+			Same as |p|, but pop a text from the stack then put it
+			if any register is not specified.
+
+P						*stackreg-P*
+			Same as |stackreg-p|, but use |P| to put.
+
+					  *g:stackreg_no_default_key_mappings*
+						*:StackregDefaultKeyMappings*
+stackreg will define the following key mappings.  If you don't want to define
+these default key mappings, define |g:stackreg_no_default_key_mappings| before
+this plugin is loaded (e.g. in your |vimrc|).  You can also use
+|:StackregDefaultKeyMappings| to redefine these key mappings.  This command
+doesn't override existing {lhs}s unless [!] is given.
+
+	modes	{lhs}	{rhs}			~
+	-----	------	-----------------------	~
+	n	dd	<Plug>(adviced-dd)
+	n	yy	<Plug>(adviced-yy)
+	n	Y	<Plug>(adviced-Y)
+	n	p	<Plug>(adviced-p)
+	n	P	<Plug>(adviced-P)
+
+
+
+
+==============================================================================
+BUGS						*stackreg-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*stackreg-changelog*
+
+0.0.0	2008-10-12T21:08:23+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
