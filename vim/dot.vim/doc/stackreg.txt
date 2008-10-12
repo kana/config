@@ -58,6 +58,7 @@ INTERFACE					*stackreg-interface*
 ------------------------------------------------------------------------------
 MAPPINGS					*stackreg-mappings*
 
+d{motion}	    or				*stackreg-d*
 dd		    or				*stackreg-dd*
 D		    or				*stackreg-D*
 {Visual}D	    or				*stackreg-v_D*
@@ -111,7 +112,6 @@ BUGS						*stackreg-bugs*
 - Missing commands are:
 
   c family
-  d{motion}
   s family
 
 - There are many bugs around the world.
