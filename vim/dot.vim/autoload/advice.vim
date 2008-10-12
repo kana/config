@@ -29,13 +29,14 @@
 
 " {
 "   '{cmd_name}': {
-"     'cmd_key': '{cmd_key}',
-"     'need_remap_p': '{need_remap_p}',
-"     'cmd_specs': 'cmd_specs',
 "     '{mode}': {
+"       'cmd_key': '{cmd_key}',
+"       'need_remap_p': '{need_remap_p}',
+"       'cmd_specs': 'cmd_specs',
 "       'before': [[{ad_name}, {func_name}, {enabled_p}], ...],
 "       'after': [[{ad_name}, {func_name}, {enabled_p}], ...],
-"     }
+"     },
+"     ...
 "   },
 "   ...
 " }
@@ -56,14 +57,13 @@ let s:I_ENABLED_P = 2
 
 " Interface  "{{{1
 function! advice#add(cmd_name, modes, class, ad_name, func_name)  "{{{2
-  let cmd_entry = s:cmd_entry_of(a:cmd_name)
-  if (cmd_entry['cmd_specs'] =~# '\v<(char|insert|line|operator)>'
-  \   && a:class ==# 'after')
-    throw 'after advices are not supported with non-empty {cmd-specs}: '
-    \     . string(cmd_entry['cmd_specs'])
-  endif
-
   for mode in s:each_char(a:modes)
+    let cmd_specs = s:cmd_entry_of(a:cmd_name, mode)['cmd_specs']
+    if cmd_specs =~# '\v<(char|insert|line|operator)>' && a:class ==# 'after'
+      throw 'after advices are not supported with non-empty {cmd-specs}: '
+      \     . string(cmd_specs)
+    endif
+
     let advices = s:advices_of(a:cmd_name, mode, a:class)
     let i = s:index_of_advice(a:ad_name, advices)
     if i == -1
@@ -81,10 +81,12 @@ function! advice#define(cmd_name, modes, cmd_key, need_remap_p, cmd_specs)  "{{{
   call s:define_interface_mapping_in(a:modes, a:cmd_name)
 
   call s:ensure_cmd_entry(a:cmd_name, a:modes)
-  let cmd_entry = s:cmd_entry_of(a:cmd_name)
-  let cmd_entry['cmd_key'] = a:cmd_key
-  let cmd_entry['need_remap_p'] = a:need_remap_p
-  let cmd_entry['cmd_specs'] = a:cmd_specs
+  for mode in s:each_char(a:modes)
+    let cmd_entry = s:cmd_entry_of(a:cmd_name, mode)
+    let cmd_entry['cmd_key'] = a:cmd_key
+    let cmd_entry['need_remap_p'] = a:need_remap_p
+    let cmd_entry['cmd_specs'] = a:cmd_specs
+  endfor
 endfunction
 
 
@@ -184,8 +186,8 @@ endfunction
 
 
 
-function! s:cmd_entry_of(cmd_name)  "{{{2
-  return s:_[a:cmd_name]
+function! s:cmd_entry_of(cmd_name, mode)  "{{{2
+  return s:_[a:cmd_name][a:mode]
 endfunction
 
 
@@ -273,7 +275,7 @@ endfunction
 
 
 function! s:do_adviced_command_original(cmd_name, mode)  "{{{2
-  let _ = s:cmd_entry_of(a:cmd_name)
+  let _ = s:cmd_entry_of(a:cmd_name, a:mode)
   let cmd_key = _['cmd_key']
   let need_remap_p = _['need_remap_p']
   let cmd_specs = _['cmd_specs']
