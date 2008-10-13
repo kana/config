@@ -2156,7 +2156,7 @@ function! s:on_User_plugin_ku_buffer_initialized()
   endfunction
 
   call ku#custom_action('common', 'cd',
-  \                     function(s:SID_PREFIX() . 'ku_common_action_my_cd'))
+  \                     s:SID_PREFIX() . 'ku_common_action_my_cd')
   call ku#default_key_mappings(s:TRUE)
 endfunction
 
