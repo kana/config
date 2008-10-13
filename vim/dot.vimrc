@@ -605,17 +605,16 @@ command! -bar -nargs=* TabTitle
 
 
 " TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
-" FIXME: escape spaces in <q-args> and t:cwd on :cd.
 
 command! -nargs=? TabCD
-\   execute 'cd' <q-args>
+\   execute 'cd' fnameescape(<q-args>)
 \ | let t:cwd = getcwd()
 
 autocmd MyAutoCmd TabEnter *
 \   if !exists('t:cwd')
 \ |   let t:cwd = getcwd()
 \ | endif
-\ | execute 'cd' t:cwd
+\ | execute 'cd' fnameescape(t:cwd)
 
 
 
@@ -653,8 +652,9 @@ command! -bar -nargs=1 Source
 
 " CD - alternative :cd with more user-friendly completion  "{{{2
 
-command! -complete=customlist,s:complete_cdpath -nargs=1 CD  TabCD <args>
+command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabCD <args>
 function! s:complete_cdpath(arglead, cmdline, cursorpos)
+  " FIXME: Space-contained path.
   return split(globpath(&cdpath, a:arglead . '*/'), "\n")
 endfunction
 
@@ -2149,7 +2149,6 @@ autocmd MyAutoCmd User plugin-ku-buffer-initialized
 \ | call ku#default_key_mappings(s:TRUE)
 
 function! s:ku_common_action_my_cd(item)
-  " FIXME: escape special characters.
   if isdirectory(a:item.word)
     execute 'CD' a:item.word
   else  " treat a:item as a file name
