@@ -137,6 +137,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   vim/dot.vim/after/ftplugin/gauche.vim \
+  vim/dot.vim/autoload/ku/myproject.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
