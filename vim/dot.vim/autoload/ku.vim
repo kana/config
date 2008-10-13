@@ -997,7 +997,7 @@ function! s:get_action_function(action)  "{{{3
   echoerr printf('No such action for source %s: %s',
   \              string(s:current_source),
   \              string(a:action))
-  return s:get_action_function('nop')
+  return 's:_default_action_nop'
 endfunction
 
 
