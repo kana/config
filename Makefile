@@ -518,6 +518,8 @@ vimup: package
 	done
 	rm $(PACKAGE_NAME).vimup
 
+vimup-new:
+	make VIMUP_TASKS=new-script vimup
 vimup-details:
 	make VIMUP_TASKS=update-details vimup
 vimup-script:
