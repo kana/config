@@ -2158,8 +2158,8 @@ function! s:ku_common_action_my_cd(item)
 endfunction
 
 
-Cnmap [Space]kb  Ku buffer
-Cnmap [Space]kf  Ku file
+Cnmap <silent> [Space]kb  Ku buffer
+Cnmap <silent> [Space]kf  Ku file
 
 
 
