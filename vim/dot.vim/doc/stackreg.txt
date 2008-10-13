@@ -113,6 +113,7 @@ BUGS						*stackreg-bugs*
 
   c family
   s family
+  variant of put commands which put the top text in the stack but doesn't pop.
 
 - There are many bugs around the world.
 
