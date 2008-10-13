@@ -1,6 +1,7 @@
 *stackreg.txt*	Vz-like stackable registers
 
 Version 0.0.0
+Script ID: 2403
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -47,7 +48,7 @@ MS-DOS and it was widely used in Japan since 1989.
 
 Requirements:
 - Vim 7.2 or later
-- |advice| 0.0.0 or later (vimscript#...)
+- |advice| 0.0.0 or later (vimscript#2402)
 
 
 
