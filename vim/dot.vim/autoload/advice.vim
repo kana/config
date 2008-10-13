@@ -1,10 +1,6 @@
 " advice - alter the behavior of a command in modular way
 " Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
-" CONT:
-" - advice#*_pattern()
-" - the core - interface mapping & s:do_adviced_command()
-" - error handling
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -388,23 +384,6 @@ function! s:set_enabled_flag_all(cmd_name, modes, class, value)  "{{{2
       let _[s:I_ENABLED_P] = !0
     endfor
   endfor
-endfunction
-
-
-
-
-" To save the cursor position before <C-o> in Insert mode  "{{{2
-
-inoremap <expr> <SID>(save-position)  <SID>push_position()
-
-let s:saved_positions = []  " [cursor_position, ...]  new <-> old
-
-function! s:push_position()
-  call insert(s:saved_positions, getpos('.'))
-endfunction
-
-function! s:pop_position()
-  return remove(s:saved_positions, 0)
 endfunction
 
 

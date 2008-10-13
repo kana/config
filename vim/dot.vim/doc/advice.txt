@@ -39,7 +39,7 @@ Changelog		|advice-changelog|
 ==============================================================================
 INTRODUCTION					*advice-introduction*
 
-ADVICE is a library for Vim scripts to provide a modular way to alter the
+*advice* is a library for Vim scripts to provide a modular way to alter the
 behavior of a command.
 
 For example, if you want to change the default register for the command |C| to
@@ -261,9 +261,13 @@ BUGS						*advice-bugs*
   |f|, |t| ... |language-mapping| is not available.
   operators ... 'showcmd' shows "g@" or nothing (if 'timeout').
 
-- After advices with most values of {cmd-specs} are not currently supported.
+- After advices with {cmd-specs} other than "operator" are not currently
+  supported.
 
 - {need-remap-p} is not supported.  All keys are not remapped currently.
+
+- |advice#enable_pattern()|, |advice#disable_pattern()| and
+  |advice#remove_pattern()| are not supported currently.
 
 - There are many bugs around the world.
 
