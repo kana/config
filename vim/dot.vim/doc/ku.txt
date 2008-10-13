@@ -119,6 +119,9 @@ ku#custom_action({source}, {action}, {source2}, {action2})
 
 			In the former case, {function} is the name of
 			a function which will be called as {action}.
+							*ku-disable-action*
+			{function} can be "nop", if so, the corresponding
+			action will be disabled.
 
 			In the latter case, the function corresponding to the
 			{action2} for items from {source2} will be called as
@@ -711,6 +714,7 @@ CHANGELOG					*ku-changelog*
 	- Add |g:ku_history_added_p|.
 	- Fix an error when input history becomes larger than its maximum
 	  size.
+	- Add a way to disable a specific action.  See |ku-disable-action|.
 
 0.1.3	2008-09-28T03:30:42+09:00
 	- Inconpatible change:

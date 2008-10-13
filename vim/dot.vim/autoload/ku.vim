@@ -935,6 +935,8 @@ function! s:choose_action(item)  "{{{3
     call extend(KEY_TABLE, _)
   endfor
   call filter(KEY_TABLE, 'v:val !=# "nop"')
+  let ACTION_TABLE = s:composite_action_table()
+  call filter(KEY_TABLE, 'get(ACTION_TABLE, v:val, "") !=# "nop"')
 
   echo printf('Item: %s (%s)', a:item.word, s:current_source)
 
@@ -990,14 +992,14 @@ endfunction
 
 
 function! s:get_action_function(action)  "{{{3
-  for _ in [s:custom_action_table(s:current_source),
-  \         s:api(s:current_source, 'action_table'),
-  \         s:custom_action_table('common'),
-  \         s:default_action_table()]
-    if has_key(_, a:action)
-      return _[a:action]
+  let ACTION_TABLE = s:composite_action_table()
+  if has_key(ACTION_TABLE, a:action)  " exists action?
+    if ACTION_TABLE[a:action] !=# 'nop'  " enabled action?
+      return ACTION_TABLE[a:action]
+    else
+      break
     endif
-  endfor
+  endif
 
   echoerr printf('No such action for source %s: %s',
   \              string(s:current_source),
@@ -1085,6 +1087,18 @@ endfunction
 
 
 " Action table  "{{{2
+function! s:composite_action_table()  "{{{3
+  let action_table = {}
+  for _ in [s:default_action_table(),
+  \         s:custom_action_table('common'),
+  \         s:api(s:current_source, 'action_table'),
+  \         s:custom_action_table(s:current_source)]
+    call extend(action_table, _)
+  endfor
+  return action_table
+endfunction
+
+
 function! s:custom_action_table(source)  "{{{3
   return get(s:custom_action_tables, a:source, {})
 endfunction
