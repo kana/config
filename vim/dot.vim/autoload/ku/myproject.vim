@@ -52,8 +52,16 @@ endfunction
 
 function! ku#myproject#action_table()  "{{{2
   return {
+  \   'Bottom': 'nop',
+  \   'Left': 'nop',
+  \   'Right': 'nop',
+  \   'Top': 'nop',
+  \   'above': 'nop',
+  \   'below': 'nop',
   \   'default': 'ku#myproject#action_open',
+  \   'left': 'nop',
   \   'open': 'ku#myproject#action_open',
+  \   'right': 'nop',
   \ }
 endfunction
 
@@ -62,8 +70,13 @@ endfunction
 
 function! ku#myproject#key_table()  "{{{2
   return {
+  \   "\<C-h>": 'tab-right',
+  \   "\<C-l>": 'tab-left',
   \   "\<C-o>": 'open',
-  \   'O': 'open!',
+  \   'H': 'tab-Left',
+  \   'L': 'tab-Right',
+  \   'h': 'tab-left',
+  \   'l': 'tab-right',
   \   'o': 'open',
   \ }
 endfunction
@@ -91,17 +104,7 @@ endfunction
 
 " Misc.  "{{{1
 " Actions  "{{{2
-" Ideas:
-" - default: tab-Right
-" - open: close all windows in the current tab, enew, cd, then Ku file
-" - open!: like open but force close modified windows
-" - tab-left <-> h
-" - tab-right <-> l
-" - tab-Left <-> H
-" - tab-Right <-> L
 function! ku#myproject#action_open(item)  "{{{3
-  tabnew
-  tabmove
   execute 'CD' a:item._myproject_path
   Ku file
   return
