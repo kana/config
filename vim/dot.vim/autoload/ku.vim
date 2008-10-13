@@ -994,9 +994,13 @@ function! s:get_action_function(action)  "{{{3
     endif
   endif
 
-  echoerr printf('No such action for source %s: %s',
-  \              string(s:current_source),
-  \              string(a:action))
+    " To avoid echoing the location of error,
+    " use :echohl ErrorMsg instead of :echoerr.
+  echohl ErrorMsg
+  echo printf('No such action for source %s: %s',
+  \           string(s:current_source),
+  \           string(a:action))
+  echohl NONE
   return 's:_default_action_nop'
 endfunction
 
