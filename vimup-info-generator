@@ -10,8 +10,11 @@ def parse_doc(s)
   _ = {}
 
   /^Script ID: (\d+)$/ =~ s
-  raise RuntimeError, 'Not found: script_id' unless Regexp.last_match
-  _['script_id'] = Regexp.last_match(1)
+  if Regexp.last_match
+    _['script_id'] = Regexp.last_match(1)
+  else
+    #raise RuntimeError, 'Not found: script_id'
+  end
 
   /\bis a (Vim (filetype )?plugin)?\b/ =~ s
   raise RuntimeError, 'Not found: script_type' unless Regexp.last_match
@@ -53,7 +56,7 @@ if __FILE__ == $0
 
   print YAML.dump({
     'script_name' => _['script_name'],
-    'script_id' => _['script_id'],
+    'script_id' => _.fetch('script_id', ''),
     'script_type' => _['script_type'],
     'script_package' => 'vim-{script_name}-{version}.zip',
     'required_vim_version' => '7.0',
