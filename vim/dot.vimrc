@@ -654,8 +654,9 @@ command! -bar -nargs=1 Source
 
 command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabCD <args>
 function! s:complete_cdpath(arglead, cmdline, cursorpos)
-  " FIXME: Space-contained path.
-  return split(globpath(&cdpath, a:arglead . '*/'), "\n")
+  return split(globpath(&cdpath,
+  \                     join(split(a:cmdline, '\s', s:TRUE)[1:], ' ') . '*/'),
+  \            "\n")
 endfunction
 
 AlternateCommand cd  CD
