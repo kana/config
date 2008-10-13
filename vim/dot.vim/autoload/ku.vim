@@ -1173,7 +1173,7 @@ endfunction
 function! s:prefix_table_for(source)  "{{{3
   let PREFIX_TABLE = {}
   for _ in [s:custom_prefix_table('common'),
-  \         s:custom_prefix_table(s:current_source)]
+  \         s:custom_prefix_table(a:source)]
     call extend(PREFIX_TABLE, _)
   endfor
   return PREFIX_TABLE
