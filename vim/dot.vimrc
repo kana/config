@@ -2144,20 +2144,17 @@ endfunction
 " ku  "{{{2
 
 autocmd MyAutoCmd User plugin-ku-buffer-initialized
-\ call s:on_User_plugin_ku_buffer_initialized()
-function! s:on_User_plugin_ku_buffer_initialized()
-  function! s:ku_common_action_my_cd(item)
-    " FIXME: escape special characters.
-    if isdirectory(a:item.word)
-      execute 'CD' a:item.word
-    else  " treat a:item as a file name
-      execute 'CD' fnamemodify(a:item.word, ':h')
-    endif
-  endfunction
+\   call ku#custom_action('common', 'cd',
+\                         s:SID_PREFIX() . 'ku_common_action_my_cd')
+\ | call ku#default_key_mappings(s:TRUE)
 
-  call ku#custom_action('common', 'cd',
-  \                     s:SID_PREFIX() . 'ku_common_action_my_cd')
-  call ku#default_key_mappings(s:TRUE)
+function! s:ku_common_action_my_cd(item)
+  " FIXME: escape special characters.
+  if isdirectory(a:item.word)
+    execute 'CD' a:item.word
+  else  " treat a:item as a file name
+    execute 'CD' fnamemodify(a:item.word, ':h')
+  endif
 endfunction
 
 
