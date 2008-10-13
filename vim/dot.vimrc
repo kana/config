@@ -2160,6 +2160,11 @@ endfunction
 
 Cnmap <silent> [Space]kb  Ku buffer
 Cnmap <silent> [Space]kf  Ku file
+Cnmap <silent> [Space]kg  Ku metarw-git
+  " p is for packages.
+Cnmap <silent> [Space]kp  Ku bundle
+  " w is for ~/working.
+Cnmap <silent> [Space]kw  Ku myproject
 
 
 
