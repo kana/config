@@ -926,14 +926,7 @@ endfunction
 
 " Action-related stuffs  "{{{2
 function! s:choose_action(item)  "{{{3
-  " Composite the 4 key tables on s:current_source for further work.
-  let KEY_TABLE = {}
-  for _ in [s:default_key_table(),
-  \         s:custom_key_table('common'),
-  \         s:api(s:current_source, 'key_table'),
-  \         s:custom_key_table(s:current_source)]
-    call extend(KEY_TABLE, _)
-  endfor
+  let KEY_TABLE = s:composite_key_table()
   call filter(KEY_TABLE, 'v:val !=# "nop"')
   let ACTION_TABLE = s:composite_action_table()
   call filter(KEY_TABLE, 'get(ACTION_TABLE, v:val, "") !=# "nop"')
@@ -1130,6 +1123,18 @@ endfunction
 
 
 " Key table  "{{{2
+function! s:composite_key_table()  "{{{3
+  let key_table = {}
+  for _ in [s:default_key_table(),
+  \         s:custom_key_table('common'),
+  \         s:api(s:current_source, 'key_table'),
+  \         s:custom_key_table(s:current_source)]
+    call extend(key_table, _)
+  endfor
+  return key_table
+endfunction
+
+
 function! s:custom_key_table(source)  "{{{3
   return get(s:custom_key_tables, a:source, {})
 endfunction
