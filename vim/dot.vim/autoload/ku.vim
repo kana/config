@@ -926,9 +926,9 @@ endfunction
 
 " Action-related stuffs  "{{{2
 function! s:choose_action(item)  "{{{3
-  let KEY_TABLE = s:composite_key_table()
+  let KEY_TABLE = s:composite_key_table(s:current_source)
   call filter(KEY_TABLE, 'v:val !=# "nop"')
-  let ACTION_TABLE = s:composite_action_table()
+  let ACTION_TABLE = s:composite_action_table(s:current_source)
   call filter(KEY_TABLE, 'get(ACTION_TABLE, v:val, "") !=# "nop"')
 
   echo printf('Item: %s (%s)', a:item.word, s:current_source)
@@ -985,7 +985,7 @@ endfunction
 
 
 function! s:get_action_function(action)  "{{{3
-  let ACTION_TABLE = s:composite_action_table()
+  let ACTION_TABLE = s:composite_action_table(s:current_source)
   if has_key(ACTION_TABLE, a:action)  " exists action?
     if ACTION_TABLE[a:action] !=# 'nop'  " enabled action?
       return ACTION_TABLE[a:action]
@@ -1080,12 +1080,12 @@ endfunction
 
 
 " Action table  "{{{2
-function! s:composite_action_table()  "{{{3
+function! s:composite_action_table(source)  "{{{3
   let action_table = {}
   for _ in [s:default_action_table(),
   \         s:custom_action_table('common'),
-  \         s:api(s:current_source, 'action_table'),
-  \         s:custom_action_table(s:current_source)]
+  \         s:api(a:source, 'action_table'),
+  \         s:custom_action_table(a:source)]
     call extend(action_table, _)
   endfor
   return action_table
@@ -1123,12 +1123,12 @@ endfunction
 
 
 " Key table  "{{{2
-function! s:composite_key_table()  "{{{3
+function! s:composite_key_table(source)  "{{{3
   let key_table = {}
   for _ in [s:default_key_table(),
   \         s:custom_key_table('common'),
-  \         s:api(s:current_source, 'key_table'),
-  \         s:custom_key_table(s:current_source)]
+  \         s:api(a:source, 'key_table'),
+  \         s:custom_key_table(a:source)]
     call extend(key_table, _)
   endfor
   return key_table
