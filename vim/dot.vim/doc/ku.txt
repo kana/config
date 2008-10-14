@@ -1,6 +1,6 @@
 *ku.txt*	Support to do something
 
-Version 0.1.3
+Version 0.1.4
 Script ID: 2337
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
