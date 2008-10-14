@@ -2144,7 +2144,7 @@ endfunction
 
 " ku  "{{{2
 
-autocmd MyAutoCmd User plugin-ku-buffer-initialized
+autocmd MyAutoCmd FileType ku
 \   call ku#custom_action('common', 'cd',
 \                         s:SID_PREFIX() . 'ku_common_action_my_cd')
 \ | call ku#default_key_mappings(s:TRUE)
