@@ -926,20 +926,48 @@ endfunction
 
 " Action-related stuffs  "{{{2
 function! s:choose_action(item)  "{{{3
+  " Prompt  Item     Source
+  "    |     |         |
+  "   _^__  _^______  _^__
+  "   Item: Makefile (file)
+  "   ^C cancel      ^O open        ...
+  "   What action?   ~~ ~~~~
+  "   ~~~~~~~~~~~~    |   |
+  "         |         |   |
+  "      Message     Key  Action
+  "
+  " Here "Prompt" is highlighted with kuChoosePrompt,
+  " "Item" is highlighted with kuChooseItem, and so forth.
   let KEY_TABLE = s:composite_key_table(s:current_source)
   call filter(KEY_TABLE, 'v:val !=# "nop"')
   let ACTION_TABLE = s:composite_action_table(s:current_source)
   call filter(KEY_TABLE, 'get(ACTION_TABLE, v:val, "") !=# "nop"')
 
-  echo printf('Item: %s (%s)', a:item.word, s:current_source)
+  " "Item: {item} ({source})"
+  echohl NONE
+  echo ''
+  echohl kuChoosePrompt
+  echon 'Item'
+  echohl NONE
+  echon ': '
+  echohl kuChooseItem
+  echon a:item.word
+  echohl NONE
+  echon ' ('
+  echohl kuChooseSource
+  echon s:current_source
+  echohl NONE
+  echon ')'
 
   " List keys and their actions.
   " FIXME: listing like ls - the width of each column is varied.
-  let FORMAT = '%-2s %s'
+  let KEYS = map(sort(keys(KEY_TABLE)), 'v:val')
+  let KEY_NAMES = map(copy(KEYS), 'strtrans(v:val)')
+  let MAX_KEY_WIDTH = max(map(copy(KEY_NAMES), 'len(v:val)'))
+  let ACTION_NAMES = map(copy(KEYS), 'KEY_TABLE[v:val]')
+  let MAX_ACTION_WIDTH = max(map(copy(ACTION_NAMES), 'len(v:val)'))
+  let MAX_LABEL_WIDTH = MAX_KEY_WIDTH + 1 + MAX_ACTION_WIDTH
   let SPACER = '   '
-  let KEYS = sort(keys(KEY_TABLE))
-  let LL = map(copy(KEYS), 'printf(FORMAT, strtrans(v:val), KEY_TABLE[v:val])')
-  let MAX_LABEL_WIDTH = max(map(copy(LL), 'len(v:val)'))
   let C = (&columns + len(SPACER) - 1) / (MAX_LABEL_WIDTH + len(SPACER))
   let C = max([C, 1])
   " let C = min([8, C])  " experimental
@@ -951,15 +979,24 @@ function! s:choose_action(item)  "{{{3
       if !(i < N)
         continue
       endif
-      if col == 0
-        echo LL[i]
-      else
-        echon SPACER LL[i]
-      endif
-      echon repeat(' ', MAX_LABEL_WIDTH - len(LL[i]))
+
+      " "{key} {action}"
+      echon col == 0 ? "\n" : SPACER
+      echohl kuChooseKey
+      echon KEY_NAMES[i]
+      echohl NONE
+      echon repeat(' ', MAX_KEY_WIDTH - len(KEY_NAMES[i]))
+      echon ' '
+      echohl kuChooseAction
+      echon ACTION_NAMES[i]
+      echohl NONE
+      echon repeat(' ', MAX_ACTION_WIDTH - len(ACTION_NAMES[i]))
     endfor
   endfor
+
+  echohl kuChooseMessage
   echo 'What action?'
+  echohl NONE
 
   " Take user input.
   let k = s:getkey()
