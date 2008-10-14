@@ -283,7 +283,8 @@ PACKAGE_vim_ku_FILES=\
   vim/dot.vim/doc/ku.txt \
   vim/dot.vim/doc/ku-buffer.txt \
   vim/dot.vim/doc/ku-file.txt \
-  vim/dot.vim/plugin/ku.vim
+  vim/dot.vim/plugin/ku.vim \
+  vim/dot.vim/syntax/ku.vim
 
 PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.1
 PACKAGE_vim_ku_bundle_BASE=vim/dot.vim

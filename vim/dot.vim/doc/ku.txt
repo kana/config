@@ -716,6 +716,7 @@ CHANGELOG					*ku-changelog*
 	  size.
 	- Add a way to disable a specific action.  See |ku-disable-action|.
 	- Set 'filetype' of |the-ku-buffer| to "ku".
+	- Add syntax highlighting for |the-ku-buffer|.
 	- Refactor on minor stuffs.
 
 	Incompatible changes:
