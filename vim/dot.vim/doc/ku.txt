@@ -579,14 +579,14 @@ ku#special#{source}_#sources()		      *ku#special#{source}_#sources()*
 ==============================================================================
 CUSTOMIZING					*ku-customizing*
 
-User plugin-ku-buffer-initialized		*plugin-ku-buffer-initialize*
+FileType ku					*filetype-ku*
 	This event is published whenever the ku buffer is created then being
 	initialized.  Use this event to do your initialization, for example,
 	customize key mappings for the ku buffer.
 
-	Note that if there is no |:autocmd| for this event,
-	|ku#default_key_mappings()| will be called.  Otherwise, it will not be
-	called.
+	Note that if there is no |:autocmd| nor filetype plugin for this
+	event, |ku#default_key_mappings()| will be called.  Otherwise, it will
+	not be called.
 
 g:ku_buffer_name				*g:ku_buffer_name*
 	A string which reporesents the name of the ku buffer.  This value
@@ -715,7 +715,12 @@ CHANGELOG					*ku-changelog*
 	- Fix an error when input history becomes larger than its maximum
 	  size.
 	- Add a way to disable a specific action.  See |ku-disable-action|.
+	- Set 'filetype' of |the-ku-buffer| to "ku".
 	- Refactor on minor stuffs.
+
+	Incompatible changes:
+	- Don't publish "User plugin-ku-buffer-initialized".
+	  Use "FileType ku" and/or filetype plugin instead.
 
 0.1.3	2008-09-28T03:30:42+09:00
 	- Inconpatible change:
