@@ -118,6 +118,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ft_gauche_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
+  $(PACKAGE_vim_ku_args_FILES) \
   $(PACKAGE_vim_ku_bundle_FILES) \
   $(PACKAGE_vim_ku_metarw_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
@@ -201,6 +202,7 @@ ALL_PACKAGES=\
   vim-ft-gauche \
   vim-idwintab \
   vim-ku \
+  vim-ku-args \
   vim-ku-bundle \
   vim-ku-metarw \
   vim-metarw \
@@ -285,6 +287,12 @@ PACKAGE_vim_ku_FILES=\
   vim/dot.vim/doc/ku-file.txt \
   vim/dot.vim/plugin/ku.vim \
   vim/dot.vim/syntax/ku.vim
+
+PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.0.0
+PACKAGE_vim_ku_args_BASE=vim/dot.vim
+PACKAGE_vim_ku_args_FILES=\
+  vim/dot.vim/autoload/ku/args.vim \
+  vim/dot.vim/doc/ku-args.txt
 
 PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.1
 PACKAGE_vim_ku_bundle_BASE=vim/dot.vim
