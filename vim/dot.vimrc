@@ -2159,6 +2159,7 @@ function! s:ku_common_action_my_cd(item)
 endfunction
 
 
+Cnmap <silent> [Space]ka  Ku args
 Cnmap <silent> [Space]kb  Ku buffer
 Cnmap <silent> [Space]kf  Ku file
 Cnmap <silent> [Space]kg  Ku metarw-git
