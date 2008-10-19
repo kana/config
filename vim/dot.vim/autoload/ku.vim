@@ -258,8 +258,7 @@ function! s:ku_custom_action_4(source, action, source2, action2)  "{{{3
   let action_table = s:api(a:source2, 'action_table')
   let function2 = get(action_table, a:action2, 0)
   if function2 is 0
-    echoerr printf('No such action for %s/%s: %s',
-    \              a:type, a:source2, string(a:action2))
+    echoerr printf('No such action for %s: %s', a:source2, string(a:action2))
     return
   endif
 
