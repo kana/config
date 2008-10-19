@@ -49,22 +49,48 @@ endfunction
 
 
 function! ku#args#action_table()  "{{{2
-  " TODO: argument-list specific actions and keys for them.
-  return ku#buffer#action_table()
+  " TODO: more argument-list specific actions - e.g., :all.
+  return s:action_table
 endfunction
+
+let s:action_table = extend({
+\    'argdelete': 'ku#args#action_argdelete',
+\  },
+\  ku#buffer#action_table(),
+\  'keep')
 
 
 
 
 function! ku#args#key_table()  "{{{2
-  return ku#buffer#key_table()
+  return s:key_table
 endfunction
+
+let s:key_table = extend({
+\    'R': 'argdelete',
+\  },
+\  ku#buffer#key_table(),
+\  'keep')
 
 
 
 
 function! ku#args#gather_items(pattern)  "{{{2
   return s:cached_items
+endfunction
+
+
+
+
+
+
+
+
+" Misc.  "{{{1
+" Actions  "{{{2
+function! ku#args#action_argdelete(item)  "{{{3
+  execute 'argdelete' fnameescape(a:item.word)
+  return
 endfunction
 
 

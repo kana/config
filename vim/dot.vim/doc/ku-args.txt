@@ -50,7 +50,10 @@ Requirements:
 ==============================================================================
 ACTION TABLE					*ku-args-action-table*
 
-Same as |ku-buffer-action-table|.
+argdelete					*ku-args-action-default*
+			Do |:argdelete| on the selected item.
+
+See |ku-buffer-action-table| for other actions.
 
 
 
@@ -58,7 +61,11 @@ Same as |ku-buffer-action-table|.
 ==============================================================================
 KEY TABLE					*ku-args-key-table*
 
-Same as |ku-buffer-key-table|.
+Key		Action ~
+--------	--------
+R		argdelete	|ku-args-action-argdelete|
+
+See |ku-buffer-key-table| for other keys.
 
 
 
