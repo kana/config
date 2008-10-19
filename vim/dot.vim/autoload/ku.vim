@@ -685,7 +685,14 @@ function! s:on_CursorMovedI()  "{{{2
   let c0 = col('.')
   call setline(1, '')
   let c1 = col('.')
-  call setline(1, 'Source: ' . s:current_source)
+  if s:current_hisotry_index == -1
+    call setline(1, printf('Source: %s', s:current_source))
+  else
+    call setline(1, printf('Source: %s (%d/%d)',
+    \                      s:current_source,
+    \                      s:current_hisotry_index + 1,
+    \                      len(ku#input_history())))
+  endif
 
   " The order of these conditions are important.
   let line = getline('.')

@@ -708,6 +708,9 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
+0.1.4	2008-10-19T21:32:12+09:00
+	- Show the information about |ku-input-history| in |the-ku-buffer|.
+
 0.1.4	2008-09-29T02:31:12+09:00
 	- Add |ku#{source}#acc_valid_p()| to filter items for
 	  |ku-auto-component-completion|.
