@@ -137,25 +137,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
-  vim/dot.vim/after/ftplugin/gauche.vim \
-  vim/dot.vim/autoload/ku/myproject.vim \
-  vim/dot.vim/autoload/xml/svg11.vim \
-  vim/dot.vim/colors/black_angus.vim \
-  vim/dot.vim/colors/gothic.vim \
-  vim/dot.vim/colors/less.vim \
-  vim/dot.vim/ftplugin/issue.vim \
-  vim/dot.vim/syntax/issue.vim \
-  vim/dot.vim/syntax/rest.vim \
-  vim/dot.vim/xtr/skeleton/help-doc \
-  vim/dot.vim/xtr/skeleton/vim-additional-ftplugin \
-  vim/dot.vim/xtr/skeleton/vim-additional-indent \
-  vim/dot.vim/xtr/skeleton/vim-additional-syntax \
-  vim/dot.vim/xtr/skeleton/vim-autoload \
-  vim/dot.vim/xtr/skeleton/vim-ftplugin \
-  vim/dot.vim/xtr/skeleton/vim-indent \
-  vim/dot.vim/xtr/skeleton/vim-plugin \
-  vim/dot.vim/xtr/skeleton/vim-syntax \
-  vim/dot.vimrc
+  $(PACKAGE_vim_misc_FILES)
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_POST_TARGETS=post-vim-update-local-helptags
 define post-vim-update-local-helptags
@@ -207,6 +189,7 @@ ALL_PACKAGES=\
   vim-ku-metarw \
   vim-metarw \
   vim-metarw-git \
+  vim-misc \
   vim-narrow \
   vim-scratch \
   vim-skeleton \
@@ -320,6 +303,29 @@ PACKAGE_vim_metarw_git_BASE=vim/dot.vim
 PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
   vim/dot.vim/doc/metarw-git.txt
+
+PACKAGE_vim_misc_ARCHIVE=vim-misc
+PACKAGE_vim_misc_BASE=.
+PACKAGE_vim_misc_FILES=\
+  vim/dot.vim/after/ftplugin/gauche.vim \
+  vim/dot.vim/autoload/ku/myproject.vim \
+  vim/dot.vim/autoload/xml/svg11.vim \
+  vim/dot.vim/colors/black_angus.vim \
+  vim/dot.vim/colors/gothic.vim \
+  vim/dot.vim/colors/less.vim \
+  vim/dot.vim/ftplugin/issue.vim \
+  vim/dot.vim/syntax/issue.vim \
+  vim/dot.vim/syntax/rest.vim \
+  vim/dot.vim/xtr/skeleton/help-doc \
+  vim/dot.vim/xtr/skeleton/vim-additional-ftplugin \
+  vim/dot.vim/xtr/skeleton/vim-additional-indent \
+  vim/dot.vim/xtr/skeleton/vim-additional-syntax \
+  vim/dot.vim/xtr/skeleton/vim-autoload \
+  vim/dot.vim/xtr/skeleton/vim-ftplugin \
+  vim/dot.vim/xtr/skeleton/vim-indent \
+  vim/dot.vim/xtr/skeleton/vim-plugin \
+  vim/dot.vim/xtr/skeleton/vim-syntax \
+  vim/dot.vimrc
 
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2
 PACKAGE_vim_narrow_BASE=vim/dot.vim
