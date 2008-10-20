@@ -1022,15 +1022,18 @@ function! s:choose_action(item)  "{{{3
 endfunction
 
 
-function! s:do_action(action, item)  "{{{3
+function! s:do_action(action, item, ...)  "{{{3
   " Assumption: BeforeAction is already applied for a:item.
-  call function(s:get_action_function(a:action))(a:item)
+  let composite_p = 1 <= a:0 ? a:1 : s:TRUE
+  call function(s:get_action_function(a:action, composite_p))(a:item)
   return s:TRUE
 endfunction
 
 
-function! s:get_action_function(action)  "{{{3
-  let ACTION_TABLE = s:composite_action_table(s:current_source)
+function! s:get_action_function(action, composite_p)  "{{{3
+  let ACTION_TABLE = (a:composite_p
+  \                   ? s:composite_action_table(s:current_source)
+  \                   : s:api(s:current_source, 'action_table'))
   if has_key(ACTION_TABLE, a:action)  " exists action?
     if ACTION_TABLE[a:action] !=# 'nop'  " enabled action?
       return ACTION_TABLE[a:action]
@@ -1058,7 +1061,11 @@ function! s:with_split(direction_modifier, item)
   let v:errmsg = ''
   execute a:direction_modifier 'split'
   if v:errmsg == ''
-    call s:do_action('default', a:item)
+    " Here we have to do "default" action of the default action table for the
+    " current source instead of composite action table - because the latter
+    " may cause infinitely recursive loop if "default" action is overriden by
+    " other action which refers "default" action, such as "tab-Right".
+    call s:do_action('default', a:item, s:FALSE)
   endif
   return
 endfunction

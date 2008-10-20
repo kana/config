@@ -367,6 +367,8 @@ left						*ku-action-left*
 right						*ku-action-right*
 			Open a new window in the direction specified by the
 			name of each action, then do |ku-action-default|.
+			NB: "default" action will be searched from the default
+			action table of the current source.
 
 			For example, "left" opens a window at the left side of
 			the current window, then do |ku-action-default| in the
@@ -716,6 +718,10 @@ CHANGELOG					*ku-changelog*
 >
 	  call ku#custom_action('buffer', 'xyzzy', 'common', 'tab-Right')
 <
+	- Modify |ku-action-right| and other actions to refer "default" action
+	  from the default action table of the current source.  Because they
+	  may fall into infinite loop if user-defined "default" action refers
+	  "default" action.
 
 0.1.4	2008-09-29T02:31:12+09:00
 	- Add |ku#{source}#acc_valid_p()| to filter items for
