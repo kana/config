@@ -51,10 +51,19 @@ Requirements:
 ==============================================================================
 ACTION TABLE					*ku-args-action-table*
 
-argdelete					*ku-args-action-default*
+argdelete					*ku-args-action-argdelete*
 			Do |:argdelete| on the selected item.
 
-See |ku-buffer-action-table| for other actions.
+default						*ku-args-action-default*
+			Same as |ku-args-action-open|.
+
+open						*ku-args-action-open*
+			Switch to the buffer corresponding to the selected
+			item.
+
+open!						*ku-args-action-open!*
+			Like |ku-args-action-open|, but switch to the buffer
+			with |:buffer!|.
 
 
 
@@ -64,9 +73,10 @@ KEY TABLE					*ku-args-key-table*
 
 Key		Action ~
 --------	--------
-R		argdelete	|ku-args-action-argdelete|
-
-See |ku-buffer-key-table| for other keys.
+<C-o>		open		|ku-args-action-open|
+D		argdelete	|ku-args-action-argdelete|
+O		open!		|ku-args-action-open|!
+o		open		|ku-args-action-open|
 
 
 
@@ -81,6 +91,10 @@ BUGS						*ku-args-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-args-changelog*
+
+0.0.1	2008-10-21T10:28:32+09:00
+	- Rewrite |ku-args-action-table| and |ku-args-key-table|.  Old ones
+	  did not properly work.
 
 0.0.0	2008-10-20T01:04:50+09:00
 	- Initial version.

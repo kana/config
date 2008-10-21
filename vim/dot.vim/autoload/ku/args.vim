@@ -49,28 +49,25 @@ endfunction
 
 
 function! ku#args#action_table()  "{{{2
-  " TODO: more argument-list specific actions - e.g., :all.
-  return s:action_table
+  return {
+  \   'argdelete': 'ku#args#action_argdelete',
+  \   'default': 'ku#args#action_open',
+  \   'open!': 'ku#args#action_open_x',
+  \   'open': 'ku#args#action_open',
+  \ }
 endfunction
-
-let s:action_table = extend({
-\    'argdelete': 'ku#args#action_argdelete',
-\  },
-\  ku#buffer#action_table(),
-\  'keep')
 
 
 
 
 function! ku#args#key_table()  "{{{2
-  return s:key_table
+  return {
+  \   "\<C-o>": 'open',
+  \   'D': 'argdelete',
+  \   'O': 'open!',
+  \   'o': 'open',
+  \ }
 endfunction
-
-let s:key_table = extend({
-\    'R': 'argdelete',
-\  },
-\  ku#buffer#key_table(),
-\  'keep')
 
 
 
@@ -87,7 +84,32 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:open(bang, item)  "{{{2
+  let bufnr = bufnr(fnameescape(a:item.word))
+  if bufnr != -1
+    execute bufnr 'buffer'.a:bang
+  else
+    echoerr 'No such buffer:' string(a:item.word)
+  endif
+  return
+endfunction
+
+
+
+
 " Actions  "{{{2
+function! ku#args#action_open(item)  "{{{3
+  call s:open('', a:item)
+  return
+endfunction
+
+
+function! ku#args#action_open_x(item)  "{{{3
+  call s:open('!', a:item)
+  return
+endfunction
+
+
 function! ku#args#action_argdelete(item)  "{{{3
   execute 'argdelete' fnameescape(a:item.word)
   return
