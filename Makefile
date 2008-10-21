@@ -271,7 +271,7 @@ PACKAGE_vim_ku_FILES=\
   vim/dot.vim/plugin/ku.vim \
   vim/dot.vim/syntax/ku.vim
 
-PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.0.0
+PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.0.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
 PACKAGE_vim_ku_args_FILES=\
   vim/dot.vim/autoload/ku/args.vim \
