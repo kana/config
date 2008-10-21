@@ -2149,6 +2149,7 @@ autocmd MyAutoCmd FileType ku
 \ | call ku#custom_action('bundle', 'default', 'bundle', 'args')
 \ | call ku#custom_action('common', 'cd',
 \                         s:SID_PREFIX() . 'ku_common_action_my_cd')
+\ | call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
 
 function! s:ku_common_action_my_cd(item)
   if isdirectory(a:item.word)
