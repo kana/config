@@ -1696,7 +1696,7 @@ function! s:search_the_selected_text_literaly()
 
   normal! gvy
   let @/ = @0
-  call histadd('/', @0)
+  call histadd('/', '\V' . escape(@0, '\'))
   normal! n
 
   call setreg('0', reg_0[0], reg_0[1])
