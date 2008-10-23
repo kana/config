@@ -129,6 +129,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_smartchr_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
+  $(PACKAGE_vim_textobj_diff_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
   $(PACKAGE_vim_textobj_lastpat_FILES) \
@@ -196,6 +197,7 @@ ALL_PACKAGES=\
   vim-smartchr \
   vim-surround \
   vim-textobj-datetime \
+  vim-textobj-diff \
   vim-textobj-fold \
   vim-textobj-jabraces \
   vim-textobj-lastpat \
@@ -365,6 +367,12 @@ PACKAGE_vim_textobj_datetime_BASE=vim/dot.vim
 PACKAGE_vim_textobj_datetime_FILES=\
   vim/dot.vim/doc/textobj-datetime.txt \
   vim/dot.vim/plugin/textobj/datetime.vim
+
+PACKAGE_vim_textobj_diff_ARCHIVE=vim-textobj-diff-0.0.0
+PACKAGE_vim_textobj_diff_BASE=vim/dot.vim
+PACKAGE_vim_textobj_diff_FILES=\
+  vim/dot.vim/doc/textobj-diff.txt \
+  vim/dot.vim/plugin/textobj/diff.vim
 
 PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.1.2
 PACKAGE_vim_textobj_fold_BASE=vim/dot.vim
