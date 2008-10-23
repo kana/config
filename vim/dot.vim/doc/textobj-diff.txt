@@ -47,7 +47,7 @@ Currently it supports the following formats:
 
 Requirements:
 - Vim 7.2 or later
-- |textobj-user| 0.3.6 or later (vimscript#2100)
+- |textobj-user| 0.3.7 or later (vimscript#2100)
 
 
 
@@ -115,10 +115,6 @@ is loaded (e.g. in $MYVIMRC).  You can also use
 
 ==============================================================================
 BUGS						*textobj-diff-bugs*
-
-- Because of a bug of |textobj#user#select()|, |<Plug>(textobj-diff-file)| and
-  |<Plug>(textobj-diff-file)| may not select the object which contains the
-  cursor.
 
 - There are many bugs around the world.
 
