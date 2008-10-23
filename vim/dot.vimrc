@@ -1691,16 +1691,16 @@ Fvmap *  <SID>search_the_selected_text_literaly()
 
   " FIXME: escape to search the selected text literaly.
 function! s:search_the_selected_text_literaly()
-  let reg_u = @"
-  let reg_0 = @0
+  let reg_0 = [@0, getregtype('0')]
+  let reg_u = [@", getregtype('"')]
 
   normal! gvy
   let @/ = @0
   call histadd('/', @0)
   normal! n
 
-  let @0 = reg_0
-  let @" = reg_u
+  call setreg('0', reg_0[0], reg_0[1])
+  call setreg('"', reg_u[0], reg_u[1])
 endfunction
 
 
