@@ -1580,14 +1580,10 @@ unlet i
 
 
 " Adjust the height of the current window as same as the selected range.
-vnoremap <silent> _
-\ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
-nnoremap <silent> _
-\  :<C-u>set operatorfunc=<SID>adjust_window_height
-\ \|call feedkeys(v:count1 . 'g@', 't')<Return>
-function! s:adjust_window_height(motion_wiseness)
-  normal! `[v`]
-  normal _
+DefineOperator _  <SID>op_adjust_window_height
+function! s:op_adjust_window_height(motion_wiseness)
+  execute (line("']") - line("'[") + 1) 'wincmd' '_'
+  normal! `<zt
 endfunction
 
 
