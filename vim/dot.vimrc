@@ -1579,14 +1579,6 @@ endfor
 unlet i
 
 
-" Adjust the height of the current window as same as the selected range.
-DefineOperator _  <SID>op_adjust_window_height
-function! s:op_adjust_window_height(motion_wiseness)
-  execute (line("']") - line("'[") + 1) 'wincmd' '_'
-  normal! `<zt
-endfunction
-
-
 " Like "<C-w>q", but does ":quit!".
 Cnmap <C-w>Q  quit!
 
@@ -1603,6 +1595,18 @@ Objnoremap aa  a>
 Objnoremap ia  i>
 Objnoremap ar  a]
 Objnoremap ir  i]
+
+
+
+
+" Operators  "{{{2
+
+" Adjust the height of the current window as same as the selected range.
+DefineOperator _  <SID>op_adjust_window_height
+function! s:op_adjust_window_height(motion_wiseness)
+  execute (line("']") - line("'[") + 1) 'wincmd' '_'
+  normal! `<zt
+endfunction
 
 
 
