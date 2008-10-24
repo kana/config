@@ -234,7 +234,7 @@ PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/doc/bundle.txt \
   vim/dot.vim/plugin/bundle.vim
 
-PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.0
+PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.1
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
 PACKAGE_vim_fakeclip_FILES=\
   vim/dot.vim/autoload/fakeclip.vim \
