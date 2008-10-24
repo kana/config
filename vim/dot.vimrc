@@ -279,6 +279,10 @@ let mapleader = ','
 let maplocalleader = '.'
 
 
+
+
+" Misc.  "{{{2
+
 " Use this group for any autocmd defined in this file.
 augroup MyAutoCmd
   autocmd!
@@ -736,11 +740,6 @@ function! s:cmd_UsualDays()
   execute 'CD' fnamemodify(expand('%'), ':p:h:h')
   TabTitle config
 endfunction
-
-
-
-
-"{{{2
 
 
 
