@@ -819,21 +819,18 @@ endfunction
 
 " for normal mode.  a:pattern is '/regexp' or '?regexp'.
 function! s:jump_section_n(pattern)
-  let pattern = strpart(a:pattern, '1')
-  if strpart(a:pattern, 0, 1) == '/'
-    let flags = 'W'
-  else
-    let flags = 'Wb'
-  endif
+  let pattern = a:pattern[1:]
+  let forward_p = a:pattern[0] == '/'
+  let flags = forward_p ? 'W' : 'Wb'
 
   mark '
   let i = 0
   while i < v:count1
     if search(pattern, flags) == 0
-      if stridx(flags, 'b') != -1
-        normal! gg
-      else
+      if forward_p
         normal! G
+      else
+        normal! gg
       endif
       break
     endif
