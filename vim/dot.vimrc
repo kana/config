@@ -859,6 +859,26 @@ endfunction
 
 
 
+" Toggle options  "{{{2
+
+function! s:toggle_bell()
+  if &visualbell
+    set novisualbell t_vb&
+    echo 'bell on'
+  else
+    set visualbell t_vb=
+    echo 'bell off'
+  endif
+endfunction
+
+function! s:toggle_option(option_name)
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
+endfunction
+
+
+
+
 " Window-related stuffs  "{{{2
 
 " Are the windows :split'ed and :vsplit'ed?
@@ -1032,25 +1052,7 @@ endfunction
 
 
 
-" Misc.  "{{{2
-
-function! s:toggle_bell()
-  if &visualbell
-    set novisualbell t_vb&
-    echo 'bell on'
-  else
-    set visualbell t_vb=
-    echo 'bell off'
-  endif
-endfunction
-
-function! s:toggle_option(option_name)
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
-endfunction
-
-
-function! s:extend_highlight(target_group, original_group, new_settings)
+function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   redir => resp
   silent execute 'highlight' a:original_group
   redir END
@@ -1073,8 +1075,27 @@ function! s:extend_highlight(target_group, original_group, new_settings)
 endfunction
 
 
-" like join (J), but move the next line into the cursor position.
-function! s:join_here(...)
+
+
+function! s:first_line(file)  "{{{2
+  let lines = readfile(a:file, '', 1)
+  return 1 <= len(lines) ? lines[0] : ''
+endfunction
+
+
+
+
+function! s:gettabvar(tabnr, varname)  "{{{2
+  " Wrapper for non standard (my own) built-in function gettabvar().
+  return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
+endfunction
+
+
+
+
+function! s:join_here(...)  "{{{2
+  " like join (J), but move the next line into the cursor position.
+
   let adjust_spacesp = a:0 ? a:1 : 1
   let pos = getpos('.')
   let r = @"
@@ -1103,20 +1124,10 @@ function! s:join_here(...)
 endfunction
 
 
-function! s:set_short_indent()
+
+
+function! s:set_short_indent()  "{{{2
   setlocal expandtab softtabstop=2 shiftwidth=2
-endfunction
-
-
-function! s:gettabvar(tabnr, varname)
-  " Wrapper for non standard (my own) built-in function gettabvar().
-  return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
-endfunction
-
-
-function! s:first_line(file)
-  let lines = readfile(a:file, '', 1)
-  return 1 <= len(lines) ? lines[0] : ''
 endfunction
 
 
