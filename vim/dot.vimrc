@@ -1586,6 +1586,11 @@ Cnmap <C-w>Q  quit!
 Cnmap <C-w>y  SplitNicely
 
 
+" Search the word nearest to the cursor in new window.
+nnoremap <C-w>*  <C-w>s*
+nnoremap <C-w>#  <C-w>s#
+
+
 
 
 " Text objects  "{{{2
@@ -1657,11 +1662,6 @@ noremap `  '
 " To be able to undo these types of deletion in Insert mode.
 inoremap <C-w>  <C-g>u<C-w>
 inoremap <C-u>  <C-g>u<C-u>
-
-
-" Search the word nearest to the cursor in new window.
-nnoremap <C-w>*  <C-w>s*
-nnoremap <C-w>#  <C-g>s#
 
 
 " Delete the content of the current line (not the line itself).
