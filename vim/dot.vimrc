@@ -363,6 +363,26 @@ command! -nargs=+ Objunmap
 
 
 
+" Operatormap - :map for oeprators  "{{{2
+"
+" Keys for operators should be mapped in Normal mode and Visual mode.  The
+" following commands are just wrappers to avoid DRY violation.
+
+command! -nargs=+ Operatormap
+\   execute 'nmap' <q-args>
+\ | execute 'vmap' <q-args>
+
+command! -nargs=+ Operatornoremap
+\   execute 'nnoremap' <q-args>
+\ | execute 'vnoremap' <q-args>
+
+command! -nargs=+ Operatorunmap
+\   execute 'nunmap' <q-args>
+\ | execute 'vunmap' <q-args>
+
+
+
+
 " Cmap - wrapper of :map to easily execute commands  "{{{2
 "
 " :Cmap {lhs} {script}
@@ -454,6 +474,28 @@ function! s:cmd_Fmap(prefix, suffix, args)
   execute a:prefix.'noremap'.a:suffix join(options) lhs
   \ ':<C-u>call' join(rhs) '<Return>'
 endfunction
+
+
+
+
+" DefineOperator  "{{{2
+"
+" :DefineOperator {operator-keyseq}  {function-name}
+"   Define a new operator which uses the function named {function-name} and
+"   which can be called via key sequence {operator-keyseq}.
+
+command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
+function! s:cmd_DefineOperator(operator_keyseq, function_name)
+  execute printf(('nnoremap <script> <silent> %s'
+  \               . ' :<C-u>set operatorfunc=%s<Return><SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name)
+  execute printf(('vnoremap <script> <silent> %s'
+  \               . ' <Esc>:<C-u>set operatorfunc=%s<Return>gv<SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name)
+endfunction
+
+Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+Allnoremap <expr> <SID>(count1)  v:count1
 
 
 
