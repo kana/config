@@ -330,7 +330,8 @@ endfunction
 
 
 
-" Allmap - :map in all modes  "{{{2
+" :map wrappers "{{{2
+" Allmap - :map in all modes  "{{{3
 
 command! -nargs=+ Allmap
 \   execute 'map' <q-args>
@@ -345,49 +346,7 @@ command! -nargs=+ Allunmap
 \ | execute 'unmap!' <q-args>
 
 
-
-
-" Objmap - :map for text objects  "{{{2
-"
-" Keys for text objects should be mapped in Visual mode and Operator-pending
-" mode.  The following commands are just wrappers to avoid DRY violation.
-
-command! -nargs=+ Objmap
-\   execute 'omap' <q-args>
-\ | execute 'vmap' <q-args>
-
-command! -nargs=+ Objnoremap
-\   execute 'onoremap' <q-args>
-\ | execute 'vnoremap' <q-args>
-
-command! -nargs=+ Objunmap
-\   execute 'ounmap' <q-args>
-\ | execute 'vunmap' <q-args>
-
-
-
-
-" Operatormap - :map for oeprators  "{{{2
-"
-" Keys for operators should be mapped in Normal mode and Visual mode.  The
-" following commands are just wrappers to avoid DRY violation.
-
-command! -nargs=+ Operatormap
-\   execute 'nmap' <q-args>
-\ | execute 'vmap' <q-args>
-
-command! -nargs=+ Operatornoremap
-\   execute 'nnoremap' <q-args>
-\ | execute 'vnoremap' <q-args>
-
-command! -nargs=+ Operatorunmap
-\   execute 'nunmap' <q-args>
-\ | execute 'vunmap' <q-args>
-
-
-
-
-" Cmap - wrapper of :map to easily execute commands  "{{{2
+" Cmap - wrapper of :map to easily execute commands  "{{{3
 "
 " :Cmap {lhs} {script}
 "   Other variants:
@@ -438,9 +397,7 @@ function! s:cmd_Cmap(prefix, suffix, args)
 endfunction
 
 
-
-
-" Fmap - wrapper of :map to easily call a function  "{{{2
+" Fmap - wrapper of :map to easily call a function  "{{{3
 "
 " :Fmap {lhs} {expression}
 "   Other variants:
@@ -480,47 +437,40 @@ function! s:cmd_Fmap(prefix, suffix, args)
 endfunction
 
 
-
-
-" DefineOperator  "{{{2
+" Objmap - :map for text objects  "{{{3
 "
-" :DefineOperator {operator-keyseq}  {function-name}
-"   Define a new operator which uses the function named {function-name} and
-"   which can be called via key sequence {operator-keyseq}.
+" Keys for text objects should be mapped in Visual mode and Operator-pending
+" mode.  The following commands are just wrappers to avoid DRY violation.
 
-command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
-function! s:cmd_DefineOperator(operator_keyseq, function_name)
-  execute printf(('nnoremap <script> <silent> %s'
-  \               . ' :<C-u>set operatorfunc=%s<Return><SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name)
-  execute printf(('vnoremap <script> <silent> %s'
-  \               . ' <Esc>:<C-u>set operatorfunc=%s<Return>gv<SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name)
-endfunction
+command! -nargs=+ Objmap
+\   execute 'omap' <q-args>
+\ | execute 'vmap' <q-args>
 
-Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
-Allnoremap <expr> <SID>(count1)  v:count1
+command! -nargs=+ Objnoremap
+\   execute 'onoremap' <q-args>
+\ | execute 'vnoremap' <q-args>
+
+command! -nargs=+ Objunmap
+\   execute 'ounmap' <q-args>
+\ | execute 'vunmap' <q-args>
 
 
-
-
-" KeyboardLayout - declare differences of logical and physical layouts  "{{{2
+" Operatormap - :map for oeprators  "{{{3
 "
-" :KeyboardLayout {physical-key}  {logical-key}
-"
-"   Declare that whenever Vim gets a character {logical-key}, the
-"   corresponding physical key is {physical-key}.  This declaration is useful
-"   to define a mapping based on physical keyboard layout.
-"
-"   Example: Map the physical key {X} to {rhs}:
-"   noremap <Plug>(physical-key-{X}) {rhs}
+" Keys for operators should be mapped in Normal mode and Visual mode.  The
+" following commands are just wrappers to avoid DRY violation.
 
-command! -nargs=+ KeyboardLayout  call s:cmd_KeyboardLayout(<f-args>)
-function! s:cmd_KeyboardLayout(physical_key, logical_key)
-  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
-  execute 'Allmap' a:logical_key indirect_key
-  execute 'Allnoremap' indirect_key a:logical_key
-endfunction
+command! -nargs=+ Operatormap
+\   execute 'nmap' <q-args>
+\ | execute 'vmap' <q-args>
+
+command! -nargs=+ Operatornoremap
+\   execute 'nnoremap' <q-args>
+\ | execute 'vnoremap' <q-args>
+
+command! -nargs=+ Operatorunmap
+\   execute 'nunmap' <q-args>
+\ | execute 'vunmap' <q-args>
 
 
 
@@ -578,6 +528,42 @@ endfunction
 
 
 
+" CD - alternative :cd with more user-friendly completion  "{{{2
+
+command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabCD <args>
+function! s:complete_cdpath(arglead, cmdline, cursorpos)
+  return split(globpath(&cdpath,
+  \                     join(split(a:cmdline, '\s', s:TRUE)[1:], ' ') . '*/'),
+  \            "\n")
+endfunction
+
+AlternateCommand cd  CD
+
+
+
+
+" DefineOperator  "{{{2
+"
+" :DefineOperator {operator-keyseq}  {function-name}
+"   Define a new operator which uses the function named {function-name} and
+"   which can be called via key sequence {operator-keyseq}.
+
+command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
+function! s:cmd_DefineOperator(operator_keyseq, function_name)
+  execute printf(('nnoremap <script> <silent> %s'
+  \               . ' :<C-u>set operatorfunc=%s<Return><SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name)
+  execute printf(('vnoremap <script> <silent> %s'
+  \               . ' <Esc>:<C-u>set operatorfunc=%s<Return>gv<SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name)
+endfunction
+
+Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+Allnoremap <expr> <SID>(count1)  v:count1
+
+
+
+
 " Hecho, Hechon, Hechomsg - various :echo with highlight specification  "{{{2
 
 command! -bar -nargs=+ Hecho  call s:cmd_Hecho('echo', [<f-args>])
@@ -590,6 +576,27 @@ function! s:cmd_Hecho(echo_command, args)
   execute 'echohl' highlight_name
   execute a:echo_command join(messages)
   echohl None
+endfunction
+
+
+
+
+" KeyboardLayout - declare differences of logical and physical layouts  "{{{2
+"
+" :KeyboardLayout {physical-key}  {logical-key}
+"
+"   Declare that whenever Vim gets a character {logical-key}, the
+"   corresponding physical key is {physical-key}.  This declaration is useful
+"   to define a mapping based on physical keyboard layout.
+"
+"   Example: Map the physical key {X} to {rhs}:
+"   noremap <Plug>(physical-key-{X}) {rhs}
+
+command! -nargs=+ KeyboardLayout  call s:cmd_KeyboardLayout(<f-args>)
+function! s:cmd_KeyboardLayout(physical_key, logical_key)
+  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
+  execute 'Allmap' a:logical_key indirect_key
+  execute 'Allnoremap' indirect_key a:logical_key
 endfunction
 
 
@@ -638,33 +645,6 @@ endfunction
 
 
 
-" TabTitle - name the current tab page  "{{{2
-
-command! -bar -nargs=* TabTitle
-\   if <q-args> == ''
-\ |   let t:title = input("Set tabpage's title to: ",'')
-\ | else
-\ |   let t:title = <q-args>
-\ | endif
-
-
-
-
-" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
-
-command! -nargs=? TabCD
-\   execute 'cd' fnameescape(<q-args>)
-\ | let t:cwd = getcwd()
-
-autocmd MyAutoCmd TabEnter *
-\   if !exists('t:cwd')
-\ |   let t:cwd = getcwd()
-\ | endif
-\ | execute 'cd' fnameescape(t:cwd)
-
-
-
-
 " Qexecute - variant of :execute with some extensions  "{{{2
 "
 " Like :execute but all arguments are treated as single string like <q-args>.
@@ -696,33 +676,29 @@ command! -bar -nargs=1 Source
 
 
 
-" CD - alternative :cd with more user-friendly completion  "{{{2
+" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
 
-command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabCD <args>
-function! s:complete_cdpath(arglead, cmdline, cursorpos)
-  return split(globpath(&cdpath,
-  \                     join(split(a:cmdline, '\s', s:TRUE)[1:], ' ') . '*/'),
-  \            "\n")
-endfunction
+command! -nargs=? TabCD
+\   execute 'cd' fnameescape(<q-args>)
+\ | let t:cwd = getcwd()
 
-AlternateCommand cd  CD
+autocmd MyAutoCmd TabEnter *
+\   if !exists('t:cwd')
+\ |   let t:cwd = getcwd()
+\ | endif
+\ | execute 'cd' fnameescape(t:cwd)
 
 
 
 
-" Utf8 and others - :edit with specified 'fileencoding'  "{{{2
+" TabTitle - name the current tab page  "{{{2
 
-command! -bang -bar -complete=file -nargs=? Cp932
-\ edit<bang> ++enc=cp932 <args>
-command! -bang -bar -complete=file -nargs=? Eucjp
-\ edit<bang> ++enc=euc-jp <args>
-command! -bang -bar -complete=file -nargs=? Iso2022jp
-\ edit<bang> ++enc=iso-2022-jp <args>
-command! -bang -bar -complete=file -nargs=? Utf8
-\ edit<bang> ++enc=utf-8 <args>
-
-command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
-command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
+command! -bar -nargs=* TabTitle
+\   if <q-args> == ''
+\ |   let t:title = input("Set tabpage's title to: ",'')
+\ | else
+\ |   let t:title = <q-args>
+\ | endif
 
 
 
@@ -740,6 +716,23 @@ function! s:cmd_UsualDays()
   execute 'CD' fnamemodify(expand('%'), ':p:h:h')
   TabTitle config
 endfunction
+
+
+
+
+" Utf8 and others - :edit with specified 'fileencoding'  "{{{2
+
+command! -bang -bar -complete=file -nargs=? Cp932
+\ edit<bang> ++enc=cp932 <args>
+command! -bang -bar -complete=file -nargs=? Eucjp
+\ edit<bang> ++enc=euc-jp <args>
+command! -bang -bar -complete=file -nargs=? Iso2022jp
+\ edit<bang> ++enc=iso-2022-jp <args>
+command! -bang -bar -complete=file -nargs=? Utf8
+\ edit<bang> ++enc=utf-8 <args>
+
+command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
+command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 
