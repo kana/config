@@ -1602,6 +1602,16 @@ Objnoremap ar  a]
 Objnoremap ir  i]
 
 
+" Select the last chaged text - "c" stands for "C"hanged.
+  " like gv
+nnoremap gc  `[v`]
+  " as a text object
+Objnoremap gc  :<C-u>normal gc<CR>
+  " synonyms for gc - "m" stands for "M"odified.
+  " built-in motion "gm" is overridden, but I'll never use it.
+map gm  gc
+
+
 
 
 " Operators  "{{{2
@@ -1668,16 +1678,6 @@ inoremap <C-u>  <C-g>u<C-u>
 " BUGS: not repeatable.
 " BUGS: the default behavior is overridden, but it's still available via "x".
 nnoremap dl  0d$
-
-
-" Select the last chaged text - "c" stands for "C"hanged.
-  " like gv
-nnoremap gc  `[v`]
-  " as a text object
-Objnoremap gc  :<C-u>normal gc<CR>
-  " synonyms for gc - "m" stands for "M"odified.
-  " built-in motion "gm" is overridden, but I'll never use it.
-map gm  gc
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
