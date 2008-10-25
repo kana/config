@@ -678,30 +678,52 @@ command! -bar -nargs=1 Source
 
 " SuspendWithAutomticCD  "{{{2
 " Assumption: Use GNU screen.
-" Assumption: There is a window with the title "another".
+" - Use 1 GNU screen window for each tab page.
+" - Use the number 11-19 for these windows.
+" - If there is no unused window, do :suspend instead.
+" CONT: Reclaim GNU screen windows whenever tab pages are closed.
+" FIXME: How to deal with multiple Vim processes?
 
 if !exists('s:GNU_SCREEN_AVAILABLE_P')
   " Check the existence of $WINDOW to avoid using GNU screen in Vim on
   " a remote machine (for example, "screen -t remote ssh example.com").
   let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
+
+  let s:swac_unused_window_nrs = range(11, 19)
+  let s:swac_used_window_nrs = []
 endif
 
 command! -bar -nargs=0 SuspendWithAutomticCD
 \ call s:cmd_SuspendWithAutomticCD()
 function! s:cmd_SuspendWithAutomticCD()
+  if !s:GNU_SCREEN_AVAILABLE_P
+    suspend
+    return
+  endif
+
   if s:GNU_SCREEN_AVAILABLE_P
+    if exists('t:swac_window_nr')
+      silent execute '!screen -X select' t:swac_window_nr
+    else
+      if 1 <= len(s:swac_unused_window_nrs)
+        let t:swac_window_nr = remove(s:swac_unused_window_nrs, 0)
+        call insert(s:swac_used_window_nrs, t:swac_window_nr)
+        silent execute '!screen -X screen -t'
+        \ 'vim:' . (exists('t:title') ? t:title : fnamemodify(t:cwd, ':t'))
+        \ t:swac_window_nr
+      else
+        suspend
+        return
+      endif
+    endif
+
     " \015 = <C-m>
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
-    silent execute '!screen -X eval'
-    \              '''select another'''
+    silent execute '!screen -p' t:swac_window_nr '-X eval'
     \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
     redraw!
     let s:GNU_SCREEN_AVAILABLE_P = (v:shell_error == 0)
-  endif
-
-  if !s:GNU_SCREEN_AVAILABLE_P
-    suspend
   endif
 endfunction
 
