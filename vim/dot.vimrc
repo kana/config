@@ -680,16 +680,16 @@ command! -bar -nargs=1 Source
 " Assumption: Use GNU screen.
 " Assumption: There is a window with the title "another".
 
-if !exists('s:gnu_screen_availablep')
+if !exists('s:GNU_SCREEN_AVAILABLE_P')
   " Check the existence of $WINDOW to avoid using GNU screen in Vim on
   " a remote machine (for example, "screen -t remote ssh example.com").
-  let s:gnu_screen_availablep = len($WINDOW) != 0
+  let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
 endif
 
 command! -bar -nargs=0 SuspendWithAutomticCD
 \ call s:cmd_SuspendWithAutomticCD()
 function! s:cmd_SuspendWithAutomticCD()
-  if s:gnu_screen_availablep
+  if s:GNU_SCREEN_AVAILABLE_P
     " \015 = <C-m>
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
@@ -697,10 +697,10 @@ function! s:cmd_SuspendWithAutomticCD()
     \              '''select another'''
     \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
     redraw!
-    let s:gnu_screen_availablep = (v:shell_error == 0)
+    let s:GNU_SCREEN_AVAILABLE_P = (v:shell_error == 0)
   endif
 
-  if !s:gnu_screen_availablep
+  if !s:GNU_SCREEN_AVAILABLE_P
     suspend
   endif
 endfunction
