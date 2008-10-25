@@ -676,6 +676,38 @@ command! -bar -nargs=1 Source
 
 
 
+" SuspendWithAutomticCD  "{{{2
+" Assumption: Use GNU screen.
+" Assumption: There is a window with the title "another".
+
+if !exists('s:gnu_screen_availablep')
+  " Check the existence of $WINDOW to avoid using GNU screen in Vim on
+  " a remote machine (for example, "screen -t remote ssh example.com").
+  let s:gnu_screen_availablep = len($WINDOW) != 0
+endif
+
+command! -bar -nargs=0 SuspendWithAutomticCD
+\ call s:cmd_SuspendWithAutomticCD()
+function! s:cmd_SuspendWithAutomticCD()
+  if s:gnu_screen_availablep
+    " \015 = <C-m>
+    " To avoid adding the cd script into the command-line history,
+    " there are extra leading whitespaces in the cd script.
+    silent execute '!screen -X eval'
+    \              '''select another'''
+    \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
+    redraw!
+    let s:gnu_screen_availablep = (v:shell_error == 0)
+  endif
+
+  if !s:gnu_screen_availablep
+    suspend
+  endif
+endfunction
+
+
+
+
 " TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
 
 command! -nargs=? TabCD
@@ -1746,32 +1778,9 @@ function! s:search_the_selected_text_literaly()
 endfunction
 
 
-" Pseudo :suspend with automtic cd.
-" Assumption: Use GNU screen.
-" Assumption: There is a window with the title "another".
-Fmap <silent> <C-z>  <SID>pseudo_suspend_with_automatic_cd()
-
-if !exists('s:gnu_screen_availablep')
-  " Check the existence of $WINDOW to avoid using GNU screen in Vim on
-  " a remote machine (for example, "screen -t remote ssh example.com").
-  let s:gnu_screen_availablep = len($WINDOW) != 0
-endif
-function! s:pseudo_suspend_with_automatic_cd()
-  if s:gnu_screen_availablep
-    " \015 = <C-m>
-    " To avoid adding the cd script into the command-line history,
-    " there are extra leading whitespaces in the cd script.
-    silent execute '!screen -X eval'
-    \              '''select another'''
-    \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
-    redraw!
-    let s:gnu_screen_availablep = (v:shell_error == 0)
-  endif
-
-  if !s:gnu_screen_availablep
-    suspend
-  endif
-endfunction
+Cnmap <C-z>  SuspendWithAutomticCD
+vnoremap <C-z>  <Nop>
+onoremap <C-z>  <Nop>
 
 
 " Show the lines which match to the last search pattern.
