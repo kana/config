@@ -557,6 +557,11 @@ vimup-script:
 clean:
 	rm -rf `find -name '*~' -or -name ',*'`
 
+clean-vim:
+	rm -rf `find $(HOME)/.vim \
+	        -mindepth 1 -maxdepth 1 \
+	        -not -name 'info' -not -name 'xtr'`
+
 
 
 
