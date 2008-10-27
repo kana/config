@@ -1084,6 +1084,16 @@ endfunction
 
 
 
+function! s:count_sum_of_fields()  "{{{2
+  '<,'>!awk 'BEGIN{c=0} {c+=$1} END{print c}'
+  let _ = getline('.')
+  undo
+  '>put =_
+endfunction
+
+
+
+
 function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   redir => resp
   silent execute 'highlight' a:original_group
@@ -1523,6 +1533,8 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 " append one character
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
+
+Fvmap <silent> [Space]c  <SID>count_sum_of_fields()
 
 Cnmap <silent> [Space]e  setlocal enc? tenc? fenc? fencs?
 Cnmap <silent> [Space]f  setlocal ft? fenc? ff?
