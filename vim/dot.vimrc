@@ -2231,6 +2231,7 @@ Cnmap <silent> [Space]kg  Ku metarw-git
 Cnmap <silent> [Space]kk  call ku#restart()
   " p is for packages.
 Cnmap <silent> [Space]kp  Ku bundle
+Cnmap <silent> [Space]kq  Ku quickfix
   " w is for ~/working.
 Cnmap <silent> [Space]kw  Ku myproject
 
