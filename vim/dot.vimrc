@@ -1536,8 +1536,9 @@ nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
 Fvmap <silent> [Space]c  <SID>count_sum_of_fields()
 
-Cnmap <silent> [Space]e  setlocal enc? tenc? fenc? fencs?
-Cnmap <silent> [Space]f  setlocal ft? fenc? ff?
+Cnmap <silent> [Space]e
+\              setlocal encoding? termencoding? fileencoding? fileencodings?
+Cnmap <silent> [Space]f  setlocal filetype? fileencoding? fileformat?
 
 " insert one character
 nnoremap [Space]I  I<C-r>=<SID>keys_to_insert_one_character()<Return>
