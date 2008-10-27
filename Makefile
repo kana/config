@@ -121,6 +121,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_args_FILES) \
   $(PACKAGE_vim_ku_bundle_FILES) \
   $(PACKAGE_vim_ku_metarw_FILES) \
+  $(PACKAGE_vim_ku_quickfix_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
@@ -188,6 +189,7 @@ ALL_PACKAGES=\
   vim-ku-args \
   vim-ku-bundle \
   vim-ku-metarw \
+  vim-ku-quickfix \
   vim-metarw \
   vim-metarw-git \
   vim-misc \
@@ -291,6 +293,12 @@ PACKAGE_vim_ku_metarw_FILES=\
   vim/dot.vim/autoload/ku/special/metarw.vim \
   vim/dot.vim/autoload/ku/special/metarw_.vim \
   vim/dot.vim/doc/ku-metarw.txt
+
+PACKAGE_vim_ku_quickfix_ARCHIVE=vim-ku-quickfix-0.0.0
+PACKAGE_vim_ku_quickfix_BASE=vim/dot.vim
+PACKAGE_vim_ku_quickfix_FILES=\
+  vim/dot.vim/autoload/ku/quickfix.vim \
+  vim/dot.vim/doc/ku-quickfix.txt
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.3
 PACKAGE_vim_metarw_BASE=vim/dot.vim

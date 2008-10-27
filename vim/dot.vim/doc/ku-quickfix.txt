@@ -1,0 +1,98 @@
+*ku-quickfix.txt*	ku source: quickfix
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-quickfix-contents*
+
+Introduction		|ku-quickfix-introduction|
+Action Table		|ku-quickfix-action-table|
+Key Table		|ku-quickfix-key-table|
+Bugs			|ku-quickfix-bugs|
+Changelog		|ku-quickfix-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*ku-quickfix-introduction*
+
+*ku-quickfix* is a source for |ku| to deal with |quickfix|.  You can choose
+one from many files in the current quickfix list and do some action on it.
+
+Requirements:
+- Vim 7.2 or later
+- |ku| 0.1.4 or later (vimscript#2337)
+
+
+
+
+==============================================================================
+ACTION TABLE					*ku-quickfix-action-table*
+
+default						*ku-quickfix-action-default*
+			Same as |ku-quickfix-action-open|.
+
+open						*ku-quickfix-action-open*
+			Switch to the buffer corresponding to the selected
+			item, then move the cursor to the first error in the
+			buffer with |:cc|.
+
+open!						*ku-quickfix-action-open!*
+			Like |ku-quickfix-action-open|, but switch to the
+			buffer with |:buffer!|.
+
+
+
+
+==============================================================================
+KEY TABLE					*ku-quickfix-key-table*
+
+Key		Action ~
+--------	--------
+<C-o>		open		|ku-quickfix-action-open|
+O		open!		|ku-quickfix-action-open!|
+o		open		|ku-quickfix-action-open|
+
+
+
+
+==============================================================================
+BUGS						*ku-quickfix-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-quickfix-changelog*
+
+0.0.0	2008-10-28T01:50:35+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
