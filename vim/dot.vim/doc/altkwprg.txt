@@ -1,0 +1,100 @@
+*altkwprg.txt*	Alternative 'keywordprg' with :help-like window
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*altkwprg-contents*
+
+Introduction		|altkwprg-introduction|
+Interface		|altkwprg-interface|
+Bugs			|altkwprg-bugs|
+Changelog		|altkwprg-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*altkwprg-introduction*
+
+*altkwprg* is a Vim plugin to provide 'keywordprg'-like features with
+|:help|-like window.
+
+Requirements:
+- Vim 7.2 or later
+
+
+
+
+==============================================================================
+INTERFACE					*altkwprg-interface*
+
+<Plug>(altkwprg-look)				*<Plug>(altkwprg-look)*
+			Like |K|, but:
+
+			- Open a new window like |:help|.  If such window is
+			  already opened, use the window.
+
+			- Create a new buffer for the keyword and
+			  'keywordprg'.  If such buffer already exists, switch
+			  to the buffer.
+
+			- Show output same as |K| in the buffer.
+
+{Visual}<Plug>(altkwprg-look)			*v_<Plug>(altkwprg-look)*
+			Like |<Plug>(altkwprg-look)|, but look up the selected
+			text.
+
+					  *g:altkwprg_no_default_key_mappings*
+						*:AltkwprgDefaultKeyMappings*
+This plugin automatically defines the following key mapping unless key
+mappings with same {lhs}s are already defined.  If you don't want these key
+mappings, define |g:altkwprg_no_default_key_mappings| before this plugin is
+loaded (e.g. in $MYVIMRC).  You can also use |:AltkwprgDefaultKeyMappings| to
+redefine these key mappings.
+
+	modes	{lhs}	{rhs}			~
+	-----	-----	---------------------	~
+	nv	K	<Plug>(altkwprg-look)
+
+
+
+
+==============================================================================
+BUGS						*altkwprg-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*altkwprg-changelog*
+
+0.0.0	2008-10-29T00:38:49+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=marker:
