@@ -29,6 +29,14 @@ endif
 
 
 
+nnoremap <silent> <Plug>(altkwprg-look)
+\        :<C-u>call altkwprg#look(expand('<cword>'))<Return>
+vnoremap <silent> <Plug>(altkwprg-look)
+\        :<C-u>call altkwprg#look(0)<Return>
+
+
+
+
 command! -bang -bar -nargs=0 AltkwprgDefaultKeyMappings
 \ call s:cmd_AltkwprgDefaultKeyMappings('<bang>' == '!')
 function! s:cmd_AltkwprgDefaultKeyMappings(banged_p)
@@ -40,90 +48,6 @@ endfunction
 if !exists('g:altkwprg_no_default_key_mappings')
   AltkwprgDefaultKeyMappings
 endif
-
-
-
-
-nnoremap <silent> <Plug>(altkwprg-look)
-\        :<C-u>call <SID>look(expand('<cword>'))<Return>
-vnoremap <silent> <Plug>(altkwprg-look)
-\        :<C-u>call <SID>look(<SID>selection())<Return>
-
-function! s:look(keyword)
-  " FIXME: NIY: count support
-  let [keywordprg, local_keywordprg_p]
-  \   = s:normalize_keywordprg(&l:keywordprg, &g:keywordprg, v:count)
-  if keywordprg ==# ':help'
-    execute 'help' a:keyword
-    return
-  endif
-
-  let winnr = s:find_help_window()
-  if winnr == -1
-    " FIXME: more precise :help emulation - with vertically split windows
-    execute &helpheight 'split'
-  else
-    execute winnr 'wincmd w'
-  endif
-
-  let bufname = s:bufname(keywordprg)
-  let bufnr = bufnr(fnameescape(bufname))
-  if bufnr == -1
-    enew
-    setlocal noswapfile
-    silent file `=bufname`
-  else
-    execute bufnr 'buffer'
-  endif
-
-  setlocal modifiable
-    silent % delete _
-    silent execute 'read !' keywordprg fnameescape(a:keyword) '2>/dev/null'
-    1 delete _
-  setlocal nomodifiable
-  setlocal nobuflisted
-  setlocal buftype=help
-  setlocal nomodified
-  setlocal noswapfile
-  if local_keywordprg_p
-    let &l:keywordprg = keywordprg
-  endif
-endfunction
-
-function! s:selection()
-  let _ = [getreg('a'), getregtype('a')]
-    normal! gv"ay
-    let result = @a
-  call setreg('a', _[0], _[1])
-  return result
-endfunction
-
-function! s:bufname(keywordprg)
-  return printf('%s %s',
-  \             (has('unix') ? '*altkwprg*' : '[altkwprg]'),
-  \             a:keywordprg)
-endfunction
-
-function! s:find_help_window()
-  for i in range(1, winnr('$'))
-    if getbufvar(winbufnr(i), '&buftype') ==# 'help'
-      return i
-    endif
-  endfor
-  return -1
-endfunction
-
-function! s:normalize_keywordprg(l_prog, g_prog, count)
-  let local_p = a:l_prog != ''  " global-local
-  let prog = local_p ? a:l_prog : a:g_prog
-  if prog == ''
-    let prog = ':help'
-  endif
-  if prog ==# 'man -s' && a:count == 0
-    let prog = 'man'
-  endif
-  return [prog, local_p]
-endfunction
 
 
 

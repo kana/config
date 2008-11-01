@@ -234,6 +234,7 @@ PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 PACKAGE_vim_altkwprg_ARCHIVE=vim-altkwprg-0.0.0
 PACKAGE_vim_altkwprg_BASE=vim/dot.vim
 PACKAGE_vim_altkwprg_FILES=\
+  vim/dot.vim/autoload/altkwprg.vim \
   vim/dot.vim/doc/altkwprg.txt \
   vim/dot.vim/plugin/altkwprg.vim
 
