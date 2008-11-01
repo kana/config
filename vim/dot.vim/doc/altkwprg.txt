@@ -54,9 +54,8 @@ INTERFACE					*altkwprg-interface*
 			- Open a new window like |:help|.  If such window is
 			  already opened, use the window.
 
-			- Create a new buffer for the keyword and
-			  'keywordprg'.  If such buffer already exists, switch
-			  to the buffer.
+			- Create a new buffer for the keyword.  If such buffer
+			  already exists, switch to the buffer.
 
 			- Show output same as |K| in the buffer.
 
@@ -77,10 +76,37 @@ redefine these key mappings.
 	nv	K	<Plug>(altkwprg-look)
 
 
+g:keywordprg					*g:keywordprg*
+b:keywordprg					*b:keywordprg*
+	Alternative variables to 'keywordprg'.  These variables have higher
+	priorities than 'keywordprg', and |b:keywordprg| has higher priority
+	than |g:keywordprg|.
+
+	Values of these variables are used like 'keywordprg', but they may
+	contain the following escape sequence:
+
+	<keyword>	Expanded to the keyword to look up.
+
+	<count>		Expanded to the given count or empty if count is not
+			given.
+
+	|b:keywordprg| does not exist by default.
+	|g:keywordprg| also does not exist by default,
+	but if the global value of 'keywordprg' is "man" or "man -s", the
+	default value of |g:keywordprg| is "man <count> <keyword> | col -b".
+
+
 
 
 ==============================================================================
 BUGS						*altkwprg-bugs*
+
+- |g:keywordprg| and |b:keywordprg| are not implemented yet.
+
+- <count> for |<Plug>(altkwprg-look)| is not supported yet.
+
+- |<Plug>(altkwprg-look)| does not emulate all behaviors of |:help| yet, for
+  example, how to |:split| windows.
 
 - There are many bugs around the world.
 

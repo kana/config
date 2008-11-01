@@ -44,12 +44,19 @@ endif
 
 
 
-nnoremap <Plug>(altkwprg-look)  :<C-u>call <SID>look(expand('<cword>'))<Return>
-vnoremap <Plug>(altkwprg-look)  :<C-u>call <SID>look(<SID>selection())<Return>
+nnoremap <silent> <Plug>(altkwprg-look)
+\        :<C-u>call <SID>look(expand('<cword>'))<Return>
+vnoremap <silent> <Plug>(altkwprg-look)
+\        :<C-u>call <SID>look(<SID>selection())<Return>
 
 function! s:look(keyword)
   " FIXME: NIY: count support
-  let keywordprg = s:normalize_keywordprg(&l:keywordprg)
+  let [keywordprg, local_keywordprg_p]
+  \   = s:normalize_keywordprg(&l:keywordprg, &g:keywordprg, v:count)
+  if keywordprg ==# ':help'
+    execute 'help' a:keyword
+    return
+  endif
 
   let winnr = s:find_help_window()
   if winnr == -1
@@ -63,19 +70,24 @@ function! s:look(keyword)
   let bufnr = bufnr(fnameescape(bufname))
   if bufnr == -1
     enew
+    setlocal noswapfile
+    silent file `=bufname`
   else
     execute bufnr 'buffer'
   endif
 
   setlocal modifiable
-    % delete _
-    execute 'read !' keywordprg fnameescape(a:keyword) '2>/dev/null'
+    silent % delete _
+    silent execute 'read !' keywordprg fnameescape(a:keyword) '2>/dev/null'
     1 delete _
   setlocal nomodifiable
-  setlocal nomodified
-  setlocal buftype=help
   setlocal nobuflisted
-  let &l:keywordprg = keywordprg
+  setlocal buftype=help
+  setlocal nomodified
+  setlocal noswapfile
+  if local_keywordprg_p
+    let &l:keywordprg = keywordprg
+  endif
 endfunction
 
 function! s:selection()
@@ -87,7 +99,9 @@ function! s:selection()
 endfunction
 
 function! s:bufname(keywordprg)
-  return printf('%s %s', (has('unix') ? '*altkwprg*' : '[altkwprg]'), a:keywordprg)
+  return printf('%s %s',
+  \             (has('unix') ? '*altkwprg*' : '[altkwprg]'),
+  \             a:keywordprg)
 endfunction
 
 function! s:find_help_window()
@@ -99,10 +113,16 @@ function! s:find_help_window()
   return -1
 endfunction
 
-function! s:normalize_keywordprg(_)
-  " CONT: <count> and <keyword> expansion - extend 'keywordprg'?
-  " CONT: col -b for man
-  return a:_ == '' ? 'man' : a:_
+function! s:normalize_keywordprg(l_prog, g_prog, count)
+  let local_p = a:l_prog != ''  " global-local
+  let prog = local_p ? a:l_prog : a:g_prog
+  if prog == ''
+    let prog = ':help'
+  endif
+  if prog ==# 'man -s' && a:count == 0
+    let prog = 'man'
+  endif
+  return [prog, local_p]
 endfunction
 
 
