@@ -1665,7 +1665,7 @@ map gm  gc
 DefineOperator _  <SID>op_adjust_window_height
 function! s:op_adjust_window_height(motion_wiseness)
   execute (line("']") - line("'[") + 1) 'wincmd' '_'
-  normal! `<zt
+  normal! `[zt
 endfunction
 
 
