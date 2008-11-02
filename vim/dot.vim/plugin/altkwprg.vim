@@ -53,7 +53,7 @@ endif
 
 
 if &g:keywordprg ==# 'man' || &g:keywordprg ==# 'man -s'
-  let g:keywordprg = 'man <count> <keyword> | col -b'
+  let g:keywordprg = '{ man <count> <keyword> | col -b; }'
 endif
 
 

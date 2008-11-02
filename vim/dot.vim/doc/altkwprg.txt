@@ -92,8 +92,9 @@ b:keywordprg					*b:keywordprg*
 
 	|b:keywordprg| does not exist by default.
 	|g:keywordprg| also does not exist by default,
-	but if the global value of 'keywordprg' is "man" or "man -s", the
-	default value of |g:keywordprg| is "man <count> <keyword> | col -b".
+	but if the global value of 'keywordprg' is "man" or "man -s",
+	the default value of |g:keywordprg| is:
+	"{ man <count> <keyword> | col -b; }".
 
 
 
