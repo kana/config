@@ -25,9 +25,9 @@
 function! altkwprg#look(keyword)  "{{{2
   let keyword = a:keyword is 0 ? s:selection() : a:keyword
 
-  " FIXME: NIY: count support
-  let [keywordprg, local_keywordprg_p]
-  \   = s:normalize_keywordprg(&l:keywordprg, &g:keywordprg, v:count)
+  let [command_line, keywordprg, local_keywordprg_p]
+  \   = s:make_command_line_to_look_up(keyword, v:count,
+  \                                    &l:keywordprg, &g:keywordprg)
   if keywordprg ==# ':help'
     execute 'help' keyword
     return
@@ -53,7 +53,7 @@ function! altkwprg#look(keyword)  "{{{2
 
   setlocal modifiable
     silent % delete _
-    silent execute 'read !' keywordprg fnameescape(keyword) '2>/dev/null'
+    silent execute 'read !' command_line '2>/dev/null'
     1 delete _
   setlocal nomodifiable
   setlocal nobuflisted
@@ -94,16 +94,29 @@ endfunction
 
 
 
-function! s:normalize_keywordprg(l_prog, g_prog, count)  "{{{2
+function! s:make_command_line_to_look_up(keyword, count, l_prog, g_prog)  "{{{2
   let local_p = a:l_prog != ''  " global-local
   let prog = local_p ? a:l_prog : a:g_prog
-  if prog == ''
-    let prog = ':help'
-  endif
   if prog ==# 'man -s' && a:count == 0
     let prog = 'man'
   endif
-  return [prog, local_p]
+  if prog == ''
+    let prog = ':help'
+  endif
+
+  if prog ==# 'man' || prog ==# 'man -s'
+    let command_line = prog
+    if a:count != 0
+      let command_line .= ' ' . a:count
+    endif
+    let command_line .= ' ' . fnameescape(a:keyword)
+  elseif prog ==# ':help'
+    let command_line = 0  " dummy value, not used.
+  else
+    let command_line = prog . ' ' . fnameescape(a:keyword)
+  endif
+
+  return [command_line, prog, local_p]
 endfunction
 
 
