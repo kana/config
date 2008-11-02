@@ -25,9 +25,14 @@
 function! altkwprg#look(keyword)  "{{{2
   let keyword = a:keyword is 0 ? s:selection() : a:keyword
 
-  let [command_line, keywordprg, local_keywordprg_p]
-  \   = s:make_command_line_to_look_up(keyword, v:count,
-  \                                    &l:keywordprg, &g:keywordprg)
+  let [command_line, keywordprg, type] = s:make_command_line(
+  \     keyword,
+  \     v:count,
+  \     exists('b:keywordprg') ? b:keywordprg : 0,
+  \     exists('g:keywordprg') ? g:keywordprg : 0,
+  \     &l:keywordprg,
+  \     &g:keywordprg
+  \   )
   if keywordprg ==# ':help'
     execute 'help' keyword
     return
@@ -60,7 +65,9 @@ function! altkwprg#look(keyword)  "{{{2
   setlocal buftype=help
   setlocal nomodified
   setlocal noswapfile
-  if local_keywordprg_p
+  if type ==# 'bv'
+    let b:keywordprg = keywordprg
+  elseif type ==# 'lo'
     let &l:keywordprg = keywordprg
   endif
 endfunction
@@ -76,7 +83,8 @@ endfunction
 function! s:bufname(keywordprg)  "{{{2
   return printf('%s %s',
   \             (has('unix') ? '*altkwprg*' : '[altkwprg]'),
-  \             a:keywordprg)
+  \             substitute(a:keywordprg, '.\{-}\(\<[A-Za-z0-9_-]\+\>\).*',
+  \                        '\1', ''))
 endfunction
 
 
@@ -94,9 +102,21 @@ endfunction
 
 
 
-function! s:make_command_line_to_look_up(keyword, count, l_prog, g_prog)  "{{{2
-  let local_p = a:l_prog != ''  " global-local
-  let prog = local_p ? a:l_prog : a:g_prog
+function! s:make_command_line(keyword, count, b_var, g_var, l_opt, g_opt) "{{{2
+  if a:b_var isnot 0
+    let prog = a:b_var
+    let type = 'bv'
+  elseif a:g_var isnot 0
+    let prog = a:g_var
+    let type = 0
+  elseif a:l_opt != ''
+    let prog = a:l_opt
+    let type = 'lo'
+  else
+    let prog = a:g_opt
+    let type = 0
+  endif
+
   if prog ==# 'man -s' && a:count == 0
     let prog = 'man'
   endif
@@ -104,7 +124,12 @@ function! s:make_command_line_to_look_up(keyword, count, l_prog, g_prog)  "{{{2
     let prog = ':help'
   endif
 
-  if prog ==# 'man' || prog ==# 'man -s'
+  if prog =~# '<keyword>'
+    let _ = prog
+    let _ = substitute(_, '<keyword>', fnameescape(a:keyword), 'g')
+    let _ = substitute(_, '<count>', a:count ? a:count : '', 'g')
+    let command_line = _
+  elseif prog ==# 'man' || prog ==# 'man -s'
     let command_line = prog
     if a:count != 0
       let command_line .= ' ' . a:count
@@ -116,7 +141,7 @@ function! s:make_command_line_to_look_up(keyword, count, l_prog, g_prog)  "{{{2
     let command_line = prog . ' ' . fnameescape(a:keyword)
   endif
 
-  return [command_line, prog, local_p]
+  return [command_line, prog, type]
 endfunction
 
 

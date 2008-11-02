@@ -52,6 +52,13 @@ endif
 
 
 
+if &g:keywordprg ==# 'man' || &g:keywordprg ==# 'man -s'
+  let g:keywordprg = 'man <count> <keyword> | col -b'
+endif
+
+
+
+
 let g:loaded_altkwprg = 1
 
 " __END__
