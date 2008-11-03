@@ -2214,6 +2214,12 @@ autocmd MyAutoCmd FileType ku
 \ | call ku#custom_action('common', 'cd',
 \                         s:SID_PREFIX() . 'ku_common_action_my_cd')
 \ | call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
+\
+\ | call ku#custom_prefix('common', 'HOME', $HOME)
+\ | call ku#custom_prefix('common', '~', $HOME)
+\ | call ku#custom_prefix('common', '.vim', $HOME.'/.vim')
+\ | call ku#custom_prefix('common', '.v', $HOME.'/.vim')
+\ | call ku#custom_prefix('common', 'VIM', $VIMRUNTIME)
 
 function! s:ku_common_action_my_cd(item)
   if isdirectory(a:item.word)
