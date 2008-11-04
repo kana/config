@@ -113,6 +113,7 @@ GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
   $(PACKAGE_vim_altkwprg_FILES) \
+  $(PACKAGE_vim_arpeggio_FILES) \
   $(PACKAGE_vim_bundle_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
@@ -182,6 +183,7 @@ ALL_PACKAGES=\
   opera-all \
   vim-all \
   vim-altkwprg \
+  vim-arpeggio \
   vim-bundle \
   vim-fakeclip \
   vim-flydiff \
@@ -237,6 +239,12 @@ PACKAGE_vim_altkwprg_FILES=\
   vim/dot.vim/autoload/altkwprg.vim \
   vim/dot.vim/doc/altkwprg.txt \
   vim/dot.vim/plugin/altkwprg.vim
+
+PACKAGE_vim_arpeggio_ARCHIVE=vim-arpeggio-0.0.0
+PACKAGE_vim_arpeggio_BASE=vim/dot.vim
+PACKAGE_vim_arpeggio_FILES=\
+  vim/dot.vim/autoload/arpeggio.vim \
+  vim/dot.vim/doc/arpeggio.txt
 
 PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.2
 PACKAGE_vim_bundle_BASE=vim/dot.vim
