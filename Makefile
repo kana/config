@@ -240,7 +240,7 @@ PACKAGE_vim_altkwprg_FILES=\
   vim/dot.vim/doc/altkwprg.txt \
   vim/dot.vim/plugin/altkwprg.vim
 
-PACKAGE_vim_arpeggio_ARCHIVE=vim-arpeggio-0.0.1
+PACKAGE_vim_arpeggio_ARCHIVE=vim-arpeggio-0.0.2
 PACKAGE_vim_arpeggio_BASE=vim/dot.vim
 PACKAGE_vim_arpeggio_FILES=\
   vim/dot.vim/autoload/arpeggio.vim \
