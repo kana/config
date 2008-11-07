@@ -244,7 +244,8 @@ PACKAGE_vim_arpeggio_ARCHIVE=vim-arpeggio-0.0.1
 PACKAGE_vim_arpeggio_BASE=vim/dot.vim
 PACKAGE_vim_arpeggio_FILES=\
   vim/dot.vim/autoload/arpeggio.vim \
-  vim/dot.vim/doc/arpeggio.txt
+  vim/dot.vim/doc/arpeggio.txt \
+  vim/dot.vim/plugin/arpeggio.vim
 
 PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.2
 PACKAGE_vim_bundle_BASE=vim/dot.vim
