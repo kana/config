@@ -44,8 +44,9 @@ of non built-in commands cannot be repeated by |.|.  This plugin resolve this
 problem, although plugins which provide such commands have to do proper setup.
 
 This plugin is derived from Tim Pope's one (*).  But it does not work in
-proper manner.  That's why I rewrite it.  This plugin is fully compatible with
-Time Pope's one, so it can be replace by this plugin without any problem.
+proper manner (see |repeat-vs-original| for the detail).  That's why I rewrite
+it.  This plugin is fully compatible with Time Pope's one, so it can be
+replace by this plugin without any problem.
 (*) http://www.vim.org/scripts/script.php?script_id=2136
 
 Requirements:
@@ -106,6 +107,35 @@ BUGS						*repeat-bugs*
 
 - After execution of Ex commands which undo or redo changes such as |:undo|,
   |<Plug>(repeat-.)| may not repeat the command set by |repeat#set()|.
+
+- This plugin assumes that the 0, 1, ..., 9 keys are not mapped to anything.
+
+						*repeat-vs-original*
+- The original Tim Pope's one has the following problems:
+
+  (a) It use |feedkeys()| to repeat the last change.  This method doesn't work
+      if the repeat command is not typed by user, for example, remapped from
+      other mappings.
+
+      While this plugin uses |:normal| instead to avoid the problem.
+
+  (b) It overrides existing mappings and there is no way to prevent the
+      behavior.
+
+      While this plugin doesn't override and provides the way to prevent and
+      to redefine the default key mappings by
+      |g:repeat_no_default_key_mappings| and |:RepeatDefaultKeyMappings|.
+
+  (c) It doesn't provide any "interface" mappings to customize key mappings.
+      For example, I use "\" to repeat the last change and "." for
+      <LocalLeader>.  With the original one, there is no convenient way to do
+      such customization.
+
+      While this plugin provides |repeat-mappings| for such customization.
+
+  (d) It doesn't have its own |:help| documentation.
+
+      While this plugin has the document which you are currently reading.
 
 - There are many bugs around the world.
 
