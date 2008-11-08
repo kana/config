@@ -19,7 +19,14 @@
 	dl = diff HEAD^
 	ds = diff --cached
 	du = diff
+	edit-conflicted-files = !$EDITOR $(git ls-conflicted-files)
+	f = fetch
 	l = log
+	l1 = log --pretty=oneline
+	ls-conflicted-files = ls-files --unmerged
+	m = merge
+	m1 = merge HEAD@{1}
+	s = show
 	st = status
 	staged = diff --cached
 	t = tag
