@@ -40,7 +40,8 @@ let s:changedtick = s:CHANGEDTICK_INVALID
 
 " Interface  "{{{1
 function! repeat#set(keyseq, ...)  "{{{2
-  execute "normal! \"=''\<Return>p"
+  " This is the magic stuff of the original one, but it seems unnecessary.
+  " execute "normal! \"=''\<Return>p"
   let s:changedtick = b:changedtick
   let s:keyseq = a:keyseq
   let s:count = a:0 ? a:1 : 0
