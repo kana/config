@@ -44,27 +44,47 @@ function! s:getchar()
     return c
 endfunction
 
-function! s:inputtarget()
-    let key = ''
-    let c = s:getchar()
-    while c =~ '\d'
-        let key = key . c
+let s:OBJS_BUILTIN = '"()<>BW`bpstw{}''[]'
+let s:OBJS_DELETION = '/'
+let s:OBJS_ADDITION = "T\<C-t>,l\\fF\<C-[>\<C-]>"
+let s:RE_A_OBJS = '\V\^\[' . escape(s:OBJS_BUILTIN.s:OBJS_ADDITION, '\') . '\]'
+let s:RE_D_OBJS = '\V\^\[' . escape(s:OBJS_BUILTIN.s:OBJS_DELETION, '\') . '\]'
+
+function! s:inputtarget(...)
+    let space_prefixed_p = a:0 ? a:1 : s:FALSE
+    let cnt = ''
+
+    " get count part
+    if !space_prefixed_p
         let c = s:getchar()
-    endwhile
+        while c =~ '\d'
+            let cnt = cnt . c
+            let c = s:getchar()
+        endwhile
+    endif
 
-    let [success_p, t] = s:user_obj_input(c)
+    " check user-defined objects
+    let [success_p, keyseq] = s:user_obj_input(c)
     if success_p
-        return key . t
+        return cnt . keyseq
     endif
-    let key = key . t
 
-    if key == " "
-        let key = key . s:getchar()
+    " other works
+        " FIXME: User-defined objects with keys prefixed by a whitespace.
+    if (!space_prefixed_p) && keyseq == ' '
+        let keyseq = s:inputtarget(s:TRUE)
+        if keyseq == ''
+            return ''
+        else
+            " return cnt . ' ' . keyseq  " the original doesn't accept count
+            return ' ' . keyseq
+        endif
     endif
-    if key =~ "\<Esc>\|\<C-C>\|\0"
-        return ""
+    if (keyseq =~ "[\<Esc>\<C-c>\0]"
+    \   || (1 < len(keyseq) && keyseq !~# s:RE_D_OBJS))
+        return ''
     else
-        return key
+        return cnt . keyseq
     endif
 endfunction
 
