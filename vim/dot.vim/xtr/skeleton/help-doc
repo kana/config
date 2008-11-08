@@ -39,7 +39,7 @@ Changelog		|{name}-changelog|
 ==============================================================================
 INTRODUCTION					*{name}-introduction*
 
-{name} is a Vim plugin to ...
+*{name}* is a Vim plugin to ...
 
 Requirements:
 - Vim 7.2 or later
@@ -82,4 +82,4 @@ CHANGELOG					*{name}-changelog*
 
 
 ==============================================================================
-vim:tw=78:ts=8:ft=help:norl:fdm=marker:
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
