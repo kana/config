@@ -52,12 +52,11 @@ function! s:inputtarget()
         let c = s:getchar()
     endwhile
 
-    call feedkeys(c, 't')
-    let t = s:user_obj_input()
-    if t != ''
+    let [success_p, t] = s:user_obj_input(c)
+    if success_p
         return key . t
     endif
-    let key = key . s:getchar()
+    let key = key . t
 
     if key == " "
         let key = key . s:getchar()
@@ -78,12 +77,11 @@ function! s:inputreplacement()
         let c = s:getchar()
     endif
 
-    call feedkeys(c, 't')
-    let t = s:user_obj_input()
-    if t != ''
+    let [success_p, t] = s:user_obj_input(c)
+    if success_p
         return key . t
     endif
-    let key = key . s:getchar()
+    let key = key . t
 
     if key =~ "\<Esc>" || key =~ "\<C-C>"
         return ""
@@ -789,25 +787,29 @@ function! SurroundUnregister(type, key)
 endfunction
 
 
-function! s:user_obj_input()
-    let [result, key] = s:user_obj_input_sub('b')
+function! s:user_obj_input(lookahead_c)
+    let [result, key] = s:user_obj_input_sub('b', a:lookahead_c)
     if result is s:trie.FAILED
-        call feedkeys(key, 't')
-        let [result, key] = s:user_obj_input_sub('g')
+        let [result, key] = s:user_obj_input_sub('g', key)
         if result is s:trie.FAILED
-            call feedkeys(key, 't')
-            return ''
+            return [s:FALSE, key]
         endif
     endif
 
-    return key
+    return [s:TRUE, key]
 endfunction
 
-function! s:user_obj_input_sub(type)
+function! s:user_obj_input_sub(type, lookahead_s)
     let state = s:user_obj_trie(a:type).get_incremental(s:FALSE, 'not-used')
     let key = ''
+    let i = 0
     while 1
-        let c = s:getchar()
+        if i < len(a:lookahead_s)
+            let c = a:lookahead_s[i]
+            let i += 1
+        else
+            let c = s:getchar()
+        endif
         let [result, _] = state.feed(c)
         let key = key . c
         if result is s:trie.MATCHED
