@@ -1739,37 +1739,24 @@ function! s:force_blockwise_visual(next_key)
 endfunction
 
 
-" Start Insert mode with [count] blank lines.
-" The default [count] is 0, so no blank line is inserted.
-" (I prefer this behavior to the default behavior of [count]o/O
-"  -- repeat the next insertion [count] times.)
-Fnmap <silent> o  <SID>start_insert_mode_with_blank_lines('o')
-Fnmap <silent> O  <SID>start_insert_mode_with_blank_lines('O')
+" Like o/O, but insert additional [count] blank lines.
+" The default [count] is 0, so that they do the same as the default o/O.
+" I prefer this behavior to the default behavior of [count]o/O which repeats
+" the next insertion [count] times, because I've never felt that it is useful.
+nnoremap <expr> o  <SID>start_insert_mode_with_blank_lines('o')
+nnoremap <expr> O  <SID>start_insert_mode_with_blank_lines('O')
 function! s:start_insert_mode_with_blank_lines(command)
-  " Do "[count]o<Esc>o" and so forth.
-  " BUGS: In map-<expr>, v:count and v:count1 don't hold correct values.
-  " FIXME: improper indenting in comments.
-  " FIXME: imperfect repeating (blank lines will not be repeated).
-
-  if v:count != v:count1  " [count] is not specified?
-    call feedkeys(a:command, 'n')
-    return
+  if v:count != v:count1
+    return a:command  " Behave the same as the default commands.
   endif
 
-  let script = v:count . a:command . "\<Esc>"
-  if a:command ==# 'O'
-    let script .= "\<Down>" . v:count . "\<Up>"  " Adjust the cursor position.
+  if a:command ==# 'o'
+    return "\<Esc>o" . repeat("\<Return>", v:count)
+  else  " a:command ==# 'O'
+    " BUGS: Not repeatable - nothing hapens.  It's possible to fix but it's
+    "       too troublesome to implement and it's not so useful.
+    return "\<Esc>OX\<Esc>m'o" . repeat("\<Return>", v:count-1) . "\<Esc>''S"
   endif
-
-  execute 'normal!' script
-  redraw
-  Hecho ModeMsg '-- INSERT (open) --'
-  let c = nr2char(getchar())
-  call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
-  call feedkeys(c, 'm')  " FIXME: special case - given c is <C-@>
-
-  " to undo the next inserted text and the preceding blank lines in 1 step.
-  undojoin
 endfunction
 
 
