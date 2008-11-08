@@ -88,25 +88,30 @@ function! s:inputtarget(...)
     endif
 endfunction
 
-function! s:inputreplacement()
-    "echo '-- SURROUND --'
-    let key = ''
-    let c = s:getchar()
-    if c == " "
-        let key = key . c
-        let c = s:getchar()
-    endif
+function! s:inputreplacement(...)
+    let space_prefixed_p = a:0 ? a:1 : s:FALSE
+    let keyseq = ''
 
-    let [success_p, t] = s:user_obj_input(c)
+    " check user-defined objects
+    let [success_p, keyseq] = s:user_obj_input('')
     if success_p
-        return key . t
+        return keyseq
     endif
-    let key = key . t
 
-    if key =~ "\<Esc>" || key =~ "\<C-C>"
-        return ""
+    " other works
+    if (!space_prefixed_p) && keyseq == ' '
+        let keyseq = s:inputreplacement(s:TRUE)
+        if keyseq == ''
+            return ''
+        else
+            return ' ' . keyseq
+        endif
+    endif
+    if (keyseq =~ "[\<Esc>\<C-c>\0]"
+    \   || (1 < len(keyseq) && keyseq !~# s:RE_A_OBJS))
+        return ''
     else
-        return key
+        return keyseq
     endif
 endfunction
 
