@@ -1482,7 +1482,7 @@ cnoremap <expr> <C-u>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-u>")
 cnoremap <expr> <C-w>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-w>")
 
 " Search slashes easily (too lazy to prefix backslashes to slashes)
-cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> <Plug>(arpeggio-default:/)  getcmdtype() == '/' ? '\/' : '/'
 
 
 
@@ -1786,8 +1786,10 @@ endfunction
 " The default [count] is 0, so that they do the same as the default o/O.
 " I prefer this behavior to the default behavior of [count]o/O which repeats
 " the next insertion [count] times, because I've never felt that it is useful.
-nnoremap <expr> o  <SID>start_insert_mode_with_blank_lines('o')
-nnoremap <expr> O  <SID>start_insert_mode_with_blank_lines('O')
+nnoremap <expr> <Plug>(arpeggio-default:o)
+\        <SID>start_insert_mode_with_blank_lines('o')
+nnoremap <expr> <Plug>(arpeggio-default:O)
+\        <SID>start_insert_mode_with_blank_lines('O')
 function! s:start_insert_mode_with_blank_lines(command)
   if v:count != v:count1
     return a:command  " Behave the same as the default commands.
