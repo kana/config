@@ -899,6 +899,21 @@ endfunction
 
 
 
+" Operator function to execute a specified command  "{{{2
+
+let s:op_command_command = ''
+
+function! s:set_op_command(command)
+  let s:op_command_command = a:command
+endfunction
+
+function! s:op_command(motion_wiseness)
+  execute "'[,']" s:op_command_command
+endfunction
+
+
+
+
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
@@ -1675,6 +1690,26 @@ function! s:op_adjust_window_height(motion_wiseness)
   execute (line("']") - line("'[") + 1) 'wincmd' '_'
   normal! `[zt
 endfunction
+
+
+" Operator version of :center, :left and :right.
+DefineOperator <Plug>(op-center)
+\              <SID>op_command
+\              call <SID>set_op_command('center')
+DefineOperator <Plug>(op-left)
+\              <SID>op_command
+\              call <SID>set_op_command('left')
+DefineOperator <Plug>(op-right)
+\              <SID>op_command
+\              call <SID>set_op_command('right')
+
+  " FIXME: Use :Operatormap, but how?
+Arpeggio nmap oh  <Plug>(op-left)
+Arpeggio nmap ol  <Plug>(op-right)
+Arpeggio nmap om  <Plug>(op-center)
+Arpeggio vmap oh  <Plug>(op-left)
+Arpeggio vmap ol  <Plug>(op-right)
+Arpeggio vmap om  <Plug>(op-center)
 
 
 
