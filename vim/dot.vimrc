@@ -1466,13 +1466,13 @@ cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 
 " Experimental: Little movement in Insert mode  "{{{2
 
-inoremap <Esc>h  <C-o>h
-inoremap <Esc>j  <C-o>j
-inoremap <Esc>k  <C-o>k
-inoremap <Esc>l  <C-o>l
+inoremap <Esc>h  <Left>
+inoremap <Esc>j  <Down>
+inoremap <Esc>k  <Up>
+inoremap <Esc>l  <Right>
 
-inoremap <Esc>w  <C-o>w
-inoremap <Esc>b  <C-o>b
+inoremap <Esc>w  <C-Right>
+inoremap <Esc>b  <C-Left>
 inoremap <Esc>e  <C-o>e
 inoremap <Esc>W  <C-o>W
 inoremap <Esc>B  <C-o>B
