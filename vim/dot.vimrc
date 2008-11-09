@@ -222,6 +222,7 @@ set smartindent
 set updatetime=60000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
+set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
 set wildmenu
 set viminfo=<50,'10,h,r/a,n~/.viminfo
 
@@ -289,6 +290,7 @@ augroup MyAutoCmd
 augroup END
 
 
+call arpeggio#load()
 call idwintab#load()
 
 
@@ -1218,10 +1220,10 @@ noremap! <Plug>(physical-key-<Return>)  ;
 noremap! <Plug>(physical-key-<S-Return>)  :
 
 " Experimental: to input semicolon/colon without the far Semicolon key.
-noremap! <Esc>,  ;
-noremap! <Esc>.  :
-noremap! <Esc>/  ;
-noremap! <Esc>?  :
+Arpeggionoremap! <Esc>,  ;
+Arpeggionoremap! <Esc>.  :
+Arpeggionoremap! <Esc>/  ;
+Arpeggionoremap! <Esc>?  :
 
 
 
@@ -1444,15 +1446,15 @@ nmap <C-g><C-w><C-k>  <C-g>wk
 " Command-line editting  "{{{2
 
 " pseudo vi-like keys
-cnoremap <Esc>h  <Left>
-cnoremap <Esc>j  <Down>
-cnoremap <Esc>k  <Up>
-cnoremap <Esc>l  <Right>
-cnoremap <Esc>H  <Home>
-cnoremap <Esc>L  <End>
-cnoremap <Esc>w  <S-Right>
-cnoremap <Esc>b  <S-Left>
-cnoremap <Esc>x  <Del>
+Arpeggiocnoremap <Esc>h  <Left>
+Arpeggiocnoremap <Esc>j  <Down>
+Arpeggiocnoremap <Esc>k  <Up>
+Arpeggiocnoremap <Esc>l  <Right>
+Arpeggiocnoremap <Esc>H  <Home>
+Arpeggiocnoremap <Esc>L  <End>
+Arpeggiocnoremap <Esc>w  <S-Right>
+Arpeggiocnoremap <Esc>b  <S-Left>
+Arpeggiocnoremap <Esc>x  <Del>
 
 " escape Command-line mode if the command line is empty (like <C-h>)
 cnoremap <expr> <C-u>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-u>")
@@ -1466,17 +1468,17 @@ cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 
 " Experimental: Little movement in Insert mode  "{{{2
 
-inoremap <Esc>h  <Left>
-inoremap <Esc>j  <Down>
-inoremap <Esc>k  <Up>
-inoremap <Esc>l  <Right>
+Arpeggioinoremap <Esc>h  <Left>
+Arpeggioinoremap <Esc>j  <Down>
+Arpeggioinoremap <Esc>k  <Up>
+Arpeggioinoremap <Esc>l  <Right>
 
-inoremap <Esc>w  <C-Right>
-inoremap <Esc>b  <C-Left>
-inoremap <Esc>e  <C-o>e
-inoremap <Esc>W  <C-o>W
-inoremap <Esc>B  <C-o>B
-inoremap <Esc>E  <C-o>E
+Arpeggioinoremap <Esc>w  <C-Right>
+Arpeggioinoremap <Esc>b  <C-Left>
+Arpeggioinoremap <Esc>e  <C-o>e
+Arpeggioinoremap <Esc>W  <C-o>W
+Arpeggioinoremap <Esc>B  <C-o>B
+Arpeggioinoremap <Esc>E  <C-o>E
 
 
 
@@ -2145,6 +2147,18 @@ let s:on_FileType_xml_comment_dispatch_data = {
 
 
 " Plugins  "{{{1
+" arpeggio  "{{{2
+"
+" In this file, arpeggio is used to execute some type of key mappings to be
+" executed by <M-{X}> only and not by quickly typed <Esc>{X}.  But this causes
+" the unexpected behavior of c_<Esc> - starting enterd command.  So that
+" c_<Esc> must be remapped to avoid this problem.
+
+cnoremap <Plug>(arpeggio-default:<Esc>)  <C-c>
+
+
+
+
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
