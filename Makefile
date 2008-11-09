@@ -245,6 +245,7 @@ PACKAGE_vim_altkwprg_FILES=\
 PACKAGE_vim_arpeggio_ARCHIVE=vim-arpeggio-0.0.3
 PACKAGE_vim_arpeggio_BASE=vim/dot.vim
 PACKAGE_vim_arpeggio_FILES=\
+  vim/dot.vim/after/syntax/vim/arpeggio.vim \
   vim/dot.vim/autoload/arpeggio.vim \
   vim/dot.vim/doc/arpeggio.txt \
   vim/dot.vim/plugin/arpeggio.vim
