@@ -482,6 +482,13 @@ source <(
 )
 
 
+# Don't show matches as a list for _history-complete-older and
+# _history-complete-newer.  Because number of matches is usually very big so
+# the list for them is annoying.
+
+zstyle ':completion:history-words:*' list no
+
+
 
 
 
