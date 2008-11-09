@@ -551,13 +551,19 @@ AlternateCommand cd  CD
 "   which can be called via key sequence {operator-keyseq}.
 
 command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
-function! s:cmd_DefineOperator(operator_keyseq, function_name)
-  execute printf(('nnoremap <script> <silent> %s'
-  \               . ' :<C-u>set operatorfunc=%s<Return><SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name)
-  execute printf(('vnoremap <script> <silent> %s'
-  \               . ' <Esc>:<C-u>set operatorfunc=%s<Return>gv<SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name)
+function! s:cmd_DefineOperator(operator_keyseq, function_name, ...)
+  if 0 < a:0
+    let additional_settings = '\|' . join(a:000)
+  else
+    let additional_settings = ''
+  endif
+
+  execute printf(('nnoremap <script> <silent> %s ' .
+  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name, additional_settings)
+  execute printf(('vnoremap <script> <silent> %s ' .
+  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name, additional_settings)
 endfunction
 
 Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
