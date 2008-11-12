@@ -365,6 +365,8 @@ if where git &>/dev/null; then
           sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
         } 2>/dev/null
       ))"
+    elif [ "$head_name" = '' ]; then
+      head_name='(just initialized; nothing commited)'
     fi
 
     echo " [$head_name]"
