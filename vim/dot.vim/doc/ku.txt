@@ -59,6 +59,8 @@ by |ku-key-mappings|.
 
 You can also write your own sources.  See |ku-sources| for the detail.
 
+See also a demonstration movie: http://www.screencast.com/t/P6nJkJ0DE
+
 
 Requirements:
 - Vim 7.1.299 or later
