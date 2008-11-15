@@ -1836,6 +1836,10 @@ Cvmap <count> g/  global//print
 " Experimental: alternative <Esc>
 Allnoremap <C-@>  <Esc>
 
+  " c_<Esc> mapped from something doesn't work the same as
+  " c_<Esc> directly typed by user.
+cnoremap <C-@>  <C-c>
+
 
 " Experimental: Additional keys to increment/decrement
 nnoremap +  <C-a>
