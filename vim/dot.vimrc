@@ -1563,9 +1563,15 @@ Cnmap <silent> [Space]e
 \              setlocal encoding? termencoding? fileencoding? fileencodings?
 Cnmap <silent> [Space]f  setlocal filetype? fileencoding? fileformat?
 
+" Close a fold.
+nnoremap [Space]h  zc
+
 " insert one character
 nnoremap [Space]I  I<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]i  i<C-r>=<SID>keys_to_insert_one_character()<Return>
+
+" Open a fold.
+nnoremap [Space]l  zo
 
 Fnmap <silent> [Space]J  <SID>join_here(1)
 Fnmap <silent> [Space]gJ  <SID>join_here(0)
