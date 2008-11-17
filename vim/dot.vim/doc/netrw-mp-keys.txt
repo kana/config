@@ -1,0 +1,88 @@
+*netrw-mp-keys.txt*	Monkey patch for netrw: More keyboard customizability
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*netrw-mp-keys-contents*
+
+Introduction		|netrw-mp-keys-introduction|
+Interface		|netrw-mp-keys-interface|
+  Mappings		  |netrw-mp-keys-mappings|
+Bugs			|netrw-mp-keys-bugs|
+Changelog		|netrw-mp-keys-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*netrw-mp-keys-introduction*
+
+*netrw-mp-keys* is additional Vim filetype plugin to provide more keyboard
+customizability for |netrw|.  By default, |netrw| doesn't provide pseudo key
+sequences to customize key bindings.  This filetype plugin provides them.
+
+Requirements:
+- Vim 7.2 or later
+- |netrw| (vimscript#1075)
+
+
+
+
+==============================================================================
+INTERFACE					*netrw-mp-keys-interface*
+
+------------------------------------------------------------------------------
+MAPPINGS					*netrw-mp-keys-mappings*
+
+<Plug>(netrw-default:{X})			*<Plug>(netrw-default:{X})*
+			Does the same as {X}, where {X} is any key sequence
+			which is mapped in |netrw| buffers such as |netrw-o|.
+
+			For example, use the following settings to do
+			|netrw-cr| with "o" key:
+>
+				nmap <buffer> o  <Plug>(netrw-default:<CR>)
+<
+
+
+
+
+==============================================================================
+BUGS						*netrw-mp-keys-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*netrw-mp-keys-changelog*
+
+0.0.0	2008-11-17T23:42:28+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
