@@ -22,6 +22,13 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
+function! outputz#default_uri_function()  "{{{2
+  return 'vim://filetype.' . &l:filetype
+endfunction
+
+
+
+
 function! outputz#init()  "{{{2
   let b:outputz_count = s:number_of_bytes_of_the_current_buffer()
 endfunction
@@ -58,14 +65,10 @@ function! s:send(n)  "{{{2
     echoerr 'g:outputz_secret_key is not defined'
     return
   endif
-  if !exists('g:outputz_uri')
-    echoerr 'g:outputz_uri is not defined'
-    return
-  endif
 
   silent! execute printf('!curl --form-string key=%s --form-string uri=%s --form-string "size=%d" http://outputz.com/api/post',
   \ fnameescape(g:outputz_secret_key),
-  \ fnameescape(g:outputz_uri),
+  \ fnameescape({g:outputz_uri_function}()),
   \ a:n)
 endfunction
 

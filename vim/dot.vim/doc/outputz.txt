@@ -57,11 +57,18 @@ INTERFACE					*outputz-interface*
 g:outputz_secret_key	(string)		*g:outputz_secret_key*
 			Your secret key for outputz.com.
 
-g:outputz_uri		(string)		*g:outputz_uri*
-			The URI to be sent to output.com.  For example:
+g:outputz_uri_function	(string)		*g:outputz_uri_function*
+			The name of a function which is used to generate the
+			URI to be sent to outputz.com.  This function will be
+			called with no argument.  The default value is
+			"outputz#default_uri_function" which generate URI as
+			follows:
 >
-			let g:outputz_uri = 'http://example.com/vim'
+			call outputz#default_uri_function()
+			"==> 'vim://{filetype}'
 <
+			Where {filetype} is the value of 'filetype' for the
+			buffer to being written.
 
 
 
@@ -73,8 +80,6 @@ BUGS						*outputz-bugs*
   will not be sent to outputz.com.  Because there is no way to calculate the
   size of your output in the written part.
 
-- Customizability to denote the type of each output.
-
 - There are many bugs around the world.
 
 
@@ -82,6 +87,9 @@ BUGS						*outputz-bugs*
 
 ==============================================================================
 CHANGELOG					*outputz-changelog*
+
+0.0.1	2008-11-22T14:30:38+09:00
+	- Replace g:outputz_uri with |g:outputz_uri_function|.
 
 0.0.0	2008-11-22T11:00:35+09:00
 	- Initial version.

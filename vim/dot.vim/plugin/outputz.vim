@@ -38,6 +38,11 @@ augroup plugin-outputz
 augroup END
 
 
+if !executable('g:outputz_uri_function')
+  let g:outputz_uri_function = 'outputz#default_uri_function'
+endif
+
+
 
 
 let g:loaded_outputz = 1
