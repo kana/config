@@ -127,6 +127,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
+  $(PACKAGE_vim_outputz_FILES) \
   $(PACKAGE_vim_repeat_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
@@ -199,6 +200,7 @@ ALL_PACKAGES=\
   vim-metarw-git \
   vim-misc \
   vim-narrow \
+  vim-outputz \
   vim-repeat \
   vim-scratch \
   vim-skeleton \
@@ -364,6 +366,13 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/autoload/narrow.vim \
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
+
+PACKAGE_vim_outputz_ARCHIVE=vim-outputz-0.0.0
+PACKAGE_vim_outputz_BASE=vim/dot.vim
+PACKAGE_vim_outputz_FILES=\
+  vim/dot.vim/autoload/outputz.vim \
+  vim/dot.vim/doc/outputz.txt \
+  vim/dot.vim/plugin/outputz.vim
 
 PACKAGE_vim_repeat_ARCHIVE=vim-repeat-0.0.0
 PACKAGE_vim_repeat_BASE=vim/dot.vim
