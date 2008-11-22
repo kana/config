@@ -367,7 +367,7 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
 
-PACKAGE_vim_outputz_ARCHIVE=vim-outputz-0.0.0
+PACKAGE_vim_outputz_ARCHIVE=vim-outputz-0.0.1
 PACKAGE_vim_outputz_BASE=vim/dot.vim
 PACKAGE_vim_outputz_FILES=\
   vim/dot.vim/autoload/outputz.vim \

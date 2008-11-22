@@ -1,5 +1,5 @@
 " outputz - outputz interface for Vim
-" Version: 0.0.0
+" Version: 0.0.1
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
