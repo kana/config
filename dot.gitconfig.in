@@ -13,8 +13,10 @@
 	b = branch
 	ba = branch -a
 	br = branch -r
+	cb = checkout -b
 	ci = commit
 	co = checkout
+	cob = checkout -b
 	d = diff HEAD
 	dl = diff HEAD^
 	ds = diff --cached
