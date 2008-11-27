@@ -222,6 +222,7 @@ set smartindent
 set updatetime=60000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
+set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
 set wildmenu
 set viminfo=<50,'10,h,r/a,n~/.viminfo
 
@@ -279,12 +280,17 @@ let mapleader = ','
 let maplocalleader = '.'
 
 
+
+
+" Misc.  "{{{2
+
 " Use this group for any autocmd defined in this file.
 augroup MyAutoCmd
   autocmd!
 augroup END
 
 
+call arpeggio#load()
 call idwintab#load()
 
 
@@ -326,7 +332,8 @@ endfunction
 
 
 
-" Allmap - :map in all modes  "{{{2
+" :map wrappers "{{{2
+" Allmap - :map in all modes  "{{{3
 
 command! -nargs=+ Allmap
 \   execute 'map' <q-args>
@@ -341,29 +348,7 @@ command! -nargs=+ Allunmap
 \ | execute 'unmap!' <q-args>
 
 
-
-
-" Objmap - :map for text objects  "{{{2
-"
-" Keys for text objects should be mapped in Visual mode and Operator-pending
-" mode.  The following commands are just wrappers to avoid DRY violation.
-
-command! -nargs=+ Objmap
-\   execute 'omap' <q-args>
-\ | execute 'vmap' <q-args>
-
-command! -nargs=+ Objnoremap
-\   execute 'onoremap' <q-args>
-\ | execute 'vnoremap' <q-args>
-
-command! -nargs=+ Objunmap
-\   execute 'ounmap' <q-args>
-\ | execute 'vunmap' <q-args>
-
-
-
-
-" Cmap - wrapper of :map to easily execute commands  "{{{2
+" Cmap - wrapper of :map to easily execute commands  "{{{3
 "
 " :Cmap {lhs} {script}
 "   Other variants:
@@ -414,9 +399,7 @@ function! s:cmd_Cmap(prefix, suffix, args)
 endfunction
 
 
-
-
-" Fmap - wrapper of :map to easily call a function  "{{{2
+" Fmap - wrapper of :map to easily call a function  "{{{3
 "
 " :Fmap {lhs} {expression}
 "   Other variants:
@@ -456,25 +439,40 @@ function! s:cmd_Fmap(prefix, suffix, args)
 endfunction
 
 
+" Objmap - :map for text objects  "{{{3
+"
+" Keys for text objects should be mapped in Visual mode and Operator-pending
+" mode.  The following commands are just wrappers to avoid DRY violation.
+
+command! -nargs=+ Objmap
+\   execute 'omap' <q-args>
+\ | execute 'vmap' <q-args>
+
+command! -nargs=+ Objnoremap
+\   execute 'onoremap' <q-args>
+\ | execute 'vnoremap' <q-args>
+
+command! -nargs=+ Objunmap
+\   execute 'ounmap' <q-args>
+\ | execute 'vunmap' <q-args>
 
 
-" KeyboardLayout - declare differences of logical and physical layouts  "{{{2
+" Operatormap - :map for oeprators  "{{{3
 "
-" :KeyboardLayout {physical-key}  {logical-key}
-"
-"   Declare that whenever Vim gets a character {logical-key}, the
-"   corresponding physical key is {physical-key}.  This declaration is useful
-"   to define a mapping based on physical keyboard layout.
-"
-"   Example: Map the physical key {X} to {rhs}:
-"   noremap <Plug>(physical-key-{X}) {rhs}
+" Keys for operators should be mapped in Normal mode and Visual mode.  The
+" following commands are just wrappers to avoid DRY violation.
 
-command! -nargs=+ KeyboardLayout  call s:cmd_KeyboardLayout(<f-args>)
-function! s:cmd_KeyboardLayout(physical_key, logical_key)
-  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
-  execute 'Allmap' a:logical_key indirect_key
-  execute 'Allnoremap' indirect_key a:logical_key
-endfunction
+command! -nargs=+ Operatormap
+\   execute 'nmap' <q-args>
+\ | execute 'vmap' <q-args>
+
+command! -nargs=+ Operatornoremap
+\   execute 'nnoremap' <q-args>
+\ | execute 'vnoremap' <q-args>
+
+command! -nargs=+ Operatorunmap
+\   execute 'nunmap' <q-args>
+\ | execute 'vunmap' <q-args>
 
 
 
@@ -532,6 +530,48 @@ endfunction
 
 
 
+" CD - alternative :cd with more user-friendly completion  "{{{2
+
+command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabCD <args>
+function! s:complete_cdpath(arglead, cmdline, cursorpos)
+  return split(globpath(&cdpath,
+  \                     join(split(a:cmdline, '\s', s:TRUE)[1:], ' ') . '*/'),
+  \            "\n")
+endfunction
+
+AlternateCommand cd  CD
+
+
+
+
+" DefineOperator  "{{{2
+"
+" :DefineOperator {operator-keyseq}  {function-name}
+"   Define a new operator which uses the function named {function-name} and
+"   which can be called via key sequence {operator-keyseq}.
+
+command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
+function! s:cmd_DefineOperator(operator_keyseq, function_name, ...)
+  if 0 < a:0
+    let additional_settings = '\|' . join(a:000)
+  else
+    let additional_settings = ''
+  endif
+
+  execute printf(('nnoremap <script> <silent> %s ' .
+  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name, additional_settings)
+  execute printf(('vnoremap <script> <silent> %s ' .
+  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name, additional_settings)
+endfunction
+
+Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+Allnoremap <expr> <SID>(count1)  v:count1
+
+
+
+
 " Hecho, Hechon, Hechomsg - various :echo with highlight specification  "{{{2
 
 command! -bar -nargs=+ Hecho  call s:cmd_Hecho('echo', [<f-args>])
@@ -544,6 +584,27 @@ function! s:cmd_Hecho(echo_command, args)
   execute 'echohl' highlight_name
   execute a:echo_command join(messages)
   echohl None
+endfunction
+
+
+
+
+" KeyboardLayout - declare differences of logical and physical layouts  "{{{2
+"
+" :KeyboardLayout {physical-key}  {logical-key}
+"
+"   Declare that whenever Vim gets a character {logical-key}, the
+"   corresponding physical key is {physical-key}.  This declaration is useful
+"   to define a mapping based on physical keyboard layout.
+"
+"   Example: Map the physical key {X} to {rhs}:
+"   noremap <Plug>(physical-key-{X}) {rhs}
+
+command! -nargs=+ KeyboardLayout  call s:cmd_KeyboardLayout(<f-args>)
+function! s:cmd_KeyboardLayout(physical_key, logical_key)
+  let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
+  execute 'Allmap' a:logical_key indirect_key
+  execute 'Allnoremap' indirect_key a:logical_key
 endfunction
 
 
@@ -592,34 +653,6 @@ endfunction
 
 
 
-" TabTitle - name the current tab page  "{{{2
-
-command! -bar -nargs=* TabTitle
-\   if <q-args> == ''
-\ |   let t:title = input("Set tabpage's title to: ",'')
-\ | else
-\ |   let t:title = <q-args>
-\ | endif
-
-
-
-
-" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
-" FIXME: escape spaces in <q-args> and t:cwd on :cd.
-
-command! -nargs=? TabCD
-\   execute 'cd' <q-args>
-\ | let t:cwd = getcwd()
-
-autocmd MyAutoCmd TabEnter *
-\   if !exists('t:cwd')
-\ |   let t:cwd = getcwd()
-\ | endif
-\ | execute 'cd' t:cwd
-
-
-
-
 " Qexecute - variant of :execute with some extensions  "{{{2
 "
 " Like :execute but all arguments are treated as single string like <q-args>.
@@ -651,31 +684,61 @@ command! -bar -nargs=1 Source
 
 
 
-" CD - alternative :cd with more user-friendly completion  "{{{2
+" SuspendWithAutomticCD  "{{{2
+" Assumption: Use GNU screen.
+" Assumption: There is a window with the title "another".
 
-command! -complete=customlist,s:complete_cdpath -nargs=1 CD  TabCD <args>
-function! s:complete_cdpath(arglead, cmdline, cursorpos)
-  return split(globpath(&cdpath, a:arglead . '*/'), "\n")
+if !exists('s:GNU_SCREEN_AVAILABLE_P')
+  " Check the existence of $WINDOW to avoid using GNU screen in Vim on
+  " a remote machine (for example, "screen -t remote ssh example.com").
+  let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
+endif
+
+command! -bar -nargs=0 SuspendWithAutomticCD
+\ call s:cmd_SuspendWithAutomticCD()
+function! s:cmd_SuspendWithAutomticCD()
+  if s:GNU_SCREEN_AVAILABLE_P
+    " \015 = <C-m>
+    " To avoid adding the cd script into the command-line history,
+    " there are extra leading whitespaces in the cd script.
+    silent execute '!screen -X eval'
+    \              '''select another'''
+    \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
+    redraw!
+    let s:GNU_SCREEN_AVAILABLE_P = (v:shell_error == 0)
+  endif
+
+  if !s:GNU_SCREEN_AVAILABLE_P
+    suspend
+  endif
 endfunction
 
-AlternateCommand cd  CD
+
+
+
+" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
+
+command! -nargs=? TabCD
+\   execute 'cd' fnameescape(<q-args>)
+\ | let t:cwd = getcwd()
+
+autocmd MyAutoCmd TabEnter *
+\   if !exists('t:cwd')
+\ |   let t:cwd = getcwd()
+\ | endif
+\ | execute 'cd' fnameescape(t:cwd)
 
 
 
 
-" Utf8 and others - :edit with specified 'fileencoding'  "{{{2
+" TabTitle - name the current tab page  "{{{2
 
-command! -bang -bar -complete=file -nargs=? Cp932
-\ edit<bang> ++enc=cp932 <args>
-command! -bang -bar -complete=file -nargs=? Eucjp
-\ edit<bang> ++enc=euc-jp <args>
-command! -bang -bar -complete=file -nargs=? Iso2022jp
-\ edit<bang> ++enc=iso-2022-jp <args>
-command! -bang -bar -complete=file -nargs=? Utf8
-\ edit<bang> ++enc=utf-8 <args>
-
-command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
-command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
+command! -bar -nargs=* TabTitle
+\   if <q-args> == ''
+\ |   let t:title = input("Set tabpage's title to: ",'')
+\ | else
+\ |   let t:title = <q-args>
+\ | endif
 
 
 
@@ -697,7 +760,19 @@ endfunction
 
 
 
-"{{{2
+" Utf8 and others - :edit with specified 'fileencoding'  "{{{2
+
+command! -bang -bar -complete=file -nargs=? Cp932
+\ edit<bang> ++enc=cp932 <args>
+command! -bang -bar -complete=file -nargs=? Eucjp
+\ edit<bang> ++enc=euc-jp <args>
+command! -bang -bar -complete=file -nargs=? Iso2022jp
+\ edit<bang> ++enc=iso-2022-jp <args>
+command! -bang -bar -complete=file -nargs=? Utf8
+\ edit<bang> ++enc=utf-8 <args>
+
+command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
+command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 
@@ -784,21 +859,18 @@ endfunction
 
 " for normal mode.  a:pattern is '/regexp' or '?regexp'.
 function! s:jump_section_n(pattern)
-  let pattern = strpart(a:pattern, '1')
-  if strpart(a:pattern, 0, 1) == '/'
-    let flags = 'W'
-  else
-    let flags = 'Wb'
-  endif
+  let pattern = a:pattern[1:]
+  let forward_p = a:pattern[0] == '/'
+  let flags = forward_p ? 'W' : 'Wb'
 
   mark '
   let i = 0
   while i < v:count1
     if search(pattern, flags) == 0
-      if stridx(flags, 'b') != -1
-        normal! gg
-      else
+      if forward_p
         normal! G
+      else
+        normal! gg
       endif
       break
     endif
@@ -822,6 +894,41 @@ endfunction
 " for operator-pending mode.  a:motion is '[[', '[]', ']]' or ']['.
 function! s:jump_section_o(motion)
   execute 'normal' v:count1 . a:motion
+endfunction
+
+
+
+
+" Operator function to execute a specified command  "{{{2
+
+let s:op_command_command = ''
+
+function! s:set_op_command(command)
+  let s:op_command_command = a:command
+endfunction
+
+function! s:op_command(motion_wiseness)
+  execute "'[,']" s:op_command_command
+endfunction
+
+
+
+
+" Toggle options  "{{{2
+
+function! s:toggle_bell()
+  if &visualbell
+    set novisualbell t_vb&
+    echo 'bell on'
+  else
+    set visualbell t_vb=
+    echo 'bell off'
+  endif
+endfunction
+
+function! s:toggle_option(option_name)
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
 endfunction
 
 
@@ -1000,25 +1107,17 @@ endfunction
 
 
 
-" Misc.  "{{{2
-
-function! s:toggle_bell()
-  if &visualbell
-    set novisualbell t_vb&
-    echo 'bell on'
-  else
-    set visualbell t_vb=
-    echo 'bell off'
-  endif
-endfunction
-
-function! s:toggle_option(option_name)
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
+function! s:count_sum_of_fields()  "{{{2
+  '<,'>!awk 'BEGIN{c=0} {c+=$1} END{print c}'
+  let _ = getline('.')
+  undo
+  '>put =_
 endfunction
 
 
-function! s:extend_highlight(target_group, original_group, new_settings)
+
+
+function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   redir => resp
   silent execute 'highlight' a:original_group
   redir END
@@ -1041,8 +1140,27 @@ function! s:extend_highlight(target_group, original_group, new_settings)
 endfunction
 
 
-" like join (J), but move the next line into the cursor position.
-function! s:join_here(...)
+
+
+function! s:first_line(file)  "{{{2
+  let lines = readfile(a:file, '', 1)
+  return 1 <= len(lines) ? lines[0] : ''
+endfunction
+
+
+
+
+function! s:gettabvar(tabnr, varname)  "{{{2
+  " Wrapper for non standard (my own) built-in function gettabvar().
+  return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
+endfunction
+
+
+
+
+function! s:join_here(...)  "{{{2
+  " like join (J), but move the next line into the cursor position.
+
   let adjust_spacesp = a:0 ? a:1 : 1
   let pos = getpos('.')
   let r = @"
@@ -1071,20 +1189,10 @@ function! s:join_here(...)
 endfunction
 
 
-function! s:set_short_indent()
+
+
+function! s:set_short_indent()  "{{{2
   setlocal expandtab softtabstop=2 shiftwidth=2
-endfunction
-
-
-function! s:gettabvar(tabnr, varname)
-  " Wrapper for non standard (my own) built-in function gettabvar().
-  return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
-endfunction
-
-
-function! s:first_line(file)
-  let lines = readfile(a:file, '', 1)
-  return 1 <= len(lines) ? lines[0] : ''
 endfunction
 
 
@@ -1133,10 +1241,10 @@ noremap! <Plug>(physical-key-<Return>)  ;
 noremap! <Plug>(physical-key-<S-Return>)  :
 
 " Experimental: to input semicolon/colon without the far Semicolon key.
-noremap! <Esc>,  ;
-noremap! <Esc>.  :
-noremap! <Esc>/  ;
-noremap! <Esc>?  :
+Arpeggionoremap! <Esc>,  ;
+Arpeggionoremap! <Esc>.  :
+Arpeggionoremap! <Esc>/  ;
+Arpeggionoremap! <Esc>?  :
 
 
 
@@ -1359,39 +1467,39 @@ nmap <C-g><C-w><C-k>  <C-g>wk
 " Command-line editting  "{{{2
 
 " pseudo vi-like keys
-cnoremap <Esc>h  <Left>
-cnoremap <Esc>j  <Down>
-cnoremap <Esc>k  <Up>
-cnoremap <Esc>l  <Right>
-cnoremap <Esc>H  <Home>
-cnoremap <Esc>L  <End>
-cnoremap <Esc>w  <S-Right>
-cnoremap <Esc>b  <S-Left>
-cnoremap <Esc>x  <Del>
+Arpeggiocnoremap <Esc>h  <Left>
+Arpeggiocnoremap <Esc>j  <Down>
+Arpeggiocnoremap <Esc>k  <Up>
+Arpeggiocnoremap <Esc>l  <Right>
+Arpeggiocnoremap <Esc>H  <Home>
+Arpeggiocnoremap <Esc>L  <End>
+Arpeggiocnoremap <Esc>w  <S-Right>
+Arpeggiocnoremap <Esc>b  <S-Left>
+Arpeggiocnoremap <Esc>x  <Del>
 
 " escape Command-line mode if the command line is empty (like <C-h>)
 cnoremap <expr> <C-u>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-u>")
 cnoremap <expr> <C-w>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-w>")
 
 " Search slashes easily (too lazy to prefix backslashes to slashes)
-cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> <Plug>(arpeggio-default:/)  getcmdtype() == '/' ? '\/' : '/'
 
 
 
 
 " Experimental: Little movement in Insert mode  "{{{2
 
-inoremap <Esc>h  <C-o>h
-inoremap <Esc>j  <C-o>j
-inoremap <Esc>k  <C-o>k
-inoremap <Esc>l  <C-o>l
+Arpeggioinoremap <Esc>h  <Left>
+Arpeggioinoremap <Esc>j  <Down>
+Arpeggioinoremap <Esc>k  <Up>
+Arpeggioinoremap <Esc>l  <Right>
 
-inoremap <Esc>w  <C-o>w
-inoremap <Esc>b  <C-o>b
-inoremap <Esc>e  <C-o>e
-inoremap <Esc>W  <C-o>W
-inoremap <Esc>B  <C-o>B
-inoremap <Esc>E  <C-o>E
+Arpeggioinoremap <Esc>w  <C-Right>
+Arpeggioinoremap <Esc>b  <C-Left>
+Arpeggioinoremap <Esc>e  <C-o>e
+Arpeggioinoremap <Esc>W  <C-o>W
+Arpeggioinoremap <Esc>B  <C-o>B
+Arpeggioinoremap <Esc>E  <C-o>E
 
 
 
@@ -1449,12 +1557,21 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-Cnmap <silent> [Space]e  setlocal enc? tenc? fenc? fencs?
-Cnmap <silent> [Space]f  setlocal ft? fenc? ff?
+Fvmap <silent> [Space]c  <SID>count_sum_of_fields()
+
+Cnmap <silent> [Space]e
+\              setlocal encoding? termencoding? fileencoding? fileencodings?
+Cnmap <silent> [Space]f  setlocal filetype? fileencoding? fileformat?
+
+" Close a fold.
+nnoremap [Space]h  zc
 
 " insert one character
 nnoremap [Space]I  I<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]i  i<C-r>=<SID>keys_to_insert_one_character()<Return>
+
+" Open a fold.
+nnoremap [Space]l  zo
 
 Fnmap <silent> [Space]J  <SID>join_here(1)
 Fnmap <silent> [Space]gJ  <SID>join_here(0)
@@ -1536,23 +1653,16 @@ endfor
 unlet i
 
 
-" Adjust the height of the current window as same as the selected range.
-vnoremap <silent> _
-\ <Esc>:execute (line("'>") - line("'<") + 1) 'wincmd' '_'<Return>`<zt
-nnoremap <silent> _
-\  :<C-u>set operatorfunc=<SID>adjust_window_height
-\ \|call feedkeys(v:count1 . 'g@', 't')<Return>
-function! s:adjust_window_height(motion_wiseness)
-  normal! `[v`]
-  normal _
-endfunction
-
-
 " Like "<C-w>q", but does ":quit!".
 Cnmap <C-w>Q  quit!
 
 
 Cnmap <C-w>y  SplitNicely
+
+
+" Search the word nearest to the cursor in new window.
+nnoremap <C-w>*  <C-w>s*
+nnoremap <C-w>#  <C-w>s#
 
 
 
@@ -1564,6 +1674,48 @@ Objnoremap aa  a>
 Objnoremap ia  i>
 Objnoremap ar  a]
 Objnoremap ir  i]
+
+
+" Select the last chaged text - "c" stands for "C"hanged.
+  " like gv
+nnoremap gc  `[v`]
+  " as a text object
+Objnoremap gc  :<C-u>normal gc<CR>
+  " synonyms for gc - "m" stands for "M"odified.
+  " built-in motion "gm" is overridden, but I'll never use it.
+map gm  gc
+
+
+
+
+" Operators  "{{{2
+
+" Adjust the height of the current window as same as the selected range.
+DefineOperator _  <SID>op_adjust_window_height
+function! s:op_adjust_window_height(motion_wiseness)
+  execute (line("']") - line("'[") + 1) 'wincmd' '_'
+  normal! `[zt
+endfunction
+
+
+" Operator version of :center, :left and :right.
+DefineOperator <Plug>(op-center)
+\              <SID>op_command
+\              call <SID>set_op_command('center')
+DefineOperator <Plug>(op-left)
+\              <SID>op_command
+\              call <SID>set_op_command('left')
+DefineOperator <Plug>(op-right)
+\              <SID>op_command
+\              call <SID>set_op_command('right')
+
+  " FIXME: Use :Operatormap, but how?
+Arpeggio nmap oh  <Plug>(op-left)
+Arpeggio nmap ol  <Plug>(op-right)
+Arpeggio nmap om  <Plug>(op-center)
+Arpeggio vmap oh  <Plug>(op-left)
+Arpeggio vmap ol  <Plug>(op-right)
+Arpeggio vmap om  <Plug>(op-center)
 
 
 
@@ -1616,25 +1768,10 @@ inoremap <C-w>  <C-g>u<C-w>
 inoremap <C-u>  <C-g>u<C-u>
 
 
-" Search the word nearest to the cursor in new window.
-nnoremap <C-w>*  <C-w>s*
-nnoremap <C-w>#  <C-g>s#
-
-
 " Delete the content of the current line (not the line itself).
 " BUGS: not repeatable.
 " BUGS: the default behavior is overridden, but it's still available via "x".
 nnoremap dl  0d$
-
-
-" Select the last chaged text - "c" stands for "C"hanged.
-  " like gv
-nnoremap gc  `[v`]
-  " as a text object
-Objnoremap gc  :<C-u>normal gc<CR>
-  " synonyms for gc - "m" stands for "M"odified.
-  " built-in motion "gm" is overridden, but I'll never use it.
-map gm  gc
 
 
 " Make I/A available in characterwise-visual and linewise-visual.
@@ -1651,37 +1788,26 @@ function! s:force_blockwise_visual(next_key)
 endfunction
 
 
-" Start Insert mode with [count] blank lines.
-" The default [count] is 0, so no blank line is inserted.
-" (I prefer this behavior to the default behavior of [count]o/O
-"  -- repeat the next insertion [count] times.)
-Fnmap <silent> o  <SID>start_insert_mode_with_blank_lines('o')
-Fnmap <silent> O  <SID>start_insert_mode_with_blank_lines('O')
+" Like o/O, but insert additional [count] blank lines.
+" The default [count] is 0, so that they do the same as the default o/O.
+" I prefer this behavior to the default behavior of [count]o/O which repeats
+" the next insertion [count] times, because I've never felt that it is useful.
+nnoremap <expr> <Plug>(arpeggio-default:o)
+\        <SID>start_insert_mode_with_blank_lines('o')
+nnoremap <expr> <Plug>(arpeggio-default:O)
+\        <SID>start_insert_mode_with_blank_lines('O')
 function! s:start_insert_mode_with_blank_lines(command)
-  " Do "[count]o<Esc>o" and so forth.
-  " BUGS: In map-<expr>, v:count and v:count1 don't hold correct values.
-  " FIXME: improper indenting in comments.
-  " FIXME: imperfect repeating (blank lines will not be repeated).
-
-  if v:count != v:count1  " [count] is not specified?
-    call feedkeys(a:command, 'n')
-    return
+  if v:count != v:count1
+    return a:command  " Behave the same as the default commands.
   endif
 
-  let script = v:count . a:command . "\<Esc>"
-  if a:command ==# 'O'
-    let script .= "\<Down>" . v:count . "\<Up>"  " Adjust the cursor position.
+  if a:command ==# 'o'
+    return "\<Esc>o" . repeat("\<Return>", v:count)
+  else  " a:command ==# 'O'
+    " BUGS: Not repeatable - nothing hapens.  It's possible to fix but it's
+    "       too troublesome to implement and it's not so useful.
+    return "\<Esc>OX\<Esc>m'o" . repeat("\<Return>", v:count-1) . "\<Esc>''S"
   endif
-
-  execute 'normal!' script
-  redraw
-  Hecho ModeMsg '-- INSERT (open) --'
-  let c = nr2char(getchar())
-  call feedkeys((c != "\<Esc>" ? a:command : 'A'), 'n')
-  call feedkeys(c, 'm')  " FIXME: special case - given c is <C-@>
-
-  " to undo the next inserted text and the preceding blank lines in 1 step.
-  undojoin
 endfunction
 
 
@@ -1690,45 +1816,22 @@ Fvmap *  <SID>search_the_selected_text_literaly()
 
   " FIXME: escape to search the selected text literaly.
 function! s:search_the_selected_text_literaly()
-  let reg_u = @"
-  let reg_0 = @0
+  let reg_0 = [@0, getregtype('0')]
+  let reg_u = [@", getregtype('"')]
 
   normal! gvy
   let @/ = @0
-  call histadd('/', @0)
+  call histadd('/', '\V' . escape(@0, '\'))
   normal! n
 
-  let @0 = reg_0
-  let @" = reg_u
+  call setreg('0', reg_0[0], reg_0[1])
+  call setreg('"', reg_u[0], reg_u[1])
 endfunction
 
 
-" Pseudo :suspend with automtic cd.
-" Assumption: Use GNU screen.
-" Assumption: There is a window with the title "another".
-Fmap <silent> <C-z>  <SID>pseudo_suspend_with_automatic_cd()
-
-if !exists('s:gnu_screen_availablep')
-  " Check the existence of $WINDOW to avoid using GNU screen in Vim on
-  " a remote machine (for example, "screen -t remote ssh example.com").
-  let s:gnu_screen_availablep = len($WINDOW) != 0
-endif
-function! s:pseudo_suspend_with_automatic_cd()
-  if s:gnu_screen_availablep
-    " \015 = <C-m>
-    " To avoid adding the cd script into the command-line history,
-    " there are extra leading whitespaces in the cd script.
-    silent execute '!screen -X eval'
-    \              '''select another'''
-    \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
-    redraw!
-    let s:gnu_screen_availablep = (v:shell_error == 0)
-  endif
-
-  if !s:gnu_screen_availablep
-    suspend
-  endif
-endfunction
+Cnmap <C-z>  SuspendWithAutomticCD
+vnoremap <C-z>  <Nop>
+onoremap <C-z>  <Nop>
 
 
 " Show the lines which match to the last search pattern.
@@ -1738,6 +1841,10 @@ Cvmap <count> g/  global//print
 
 " Experimental: alternative <Esc>
 Allnoremap <C-@>  <Esc>
+
+  " c_<Esc> mapped from something doesn't work the same as
+  " c_<Esc> directly typed by user.
+cnoremap <C-@>  <C-c>
 
 
 " Experimental: Additional keys to increment/decrement
@@ -1809,7 +1916,8 @@ silent! autocmd MyAutoCmd NCmdUndefined *
 \ call s:shift_to_insert_mode(expand('<amatch>'))
 function! s:shift_to_insert_mode(not_a_command_character)
   if char2nr(a:not_a_command_character) <= 0xFF  " not a multibyte character?
-    return  " should beep as same as the default behavior, but how?
+    " should beep as same as the default behavior, but how?
+    return
   endif
 
   " Take all keys in the typeahead buffer.
@@ -2092,6 +2200,18 @@ let s:on_FileType_xml_comment_dispatch_data = {
 
 
 " Plugins  "{{{1
+" arpeggio  "{{{2
+"
+" In this file, arpeggio is used to execute some type of key mappings to be
+" executed by <M-{X}> only and not by quickly typed <Esc>{X}.  But this causes
+" the unexpected behavior of c_<Esc> - starting enterd command.  So that
+" c_<Esc> must be remapped to avoid this problem.
+
+cnoremap <Plug>(arpeggio-default:<Esc>)  <C-c>
+
+
+
+
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
@@ -2142,27 +2262,38 @@ endfunction
 
 " ku  "{{{2
 
-autocmd MyAutoCmd User plugin-ku-buffer-initialized
-\ call s:on_User_plugin_ku_buffer_initialized()
-function! s:on_User_plugin_ku_buffer_initialized()
-  function! s:ku_common_action_my_cd(item)
-    " FIXME: escape special characters.
-    if isdirectory(a:item.word)
-      execute 'CD' a:item.word
-    else  " treat a:item as a file name
-      execute 'CD' fnamemodify(a:item.word, ':h')
-    endif
-  endfunction
+autocmd MyAutoCmd FileType ku
+\   call ku#default_key_mappings(s:TRUE)
+\ | call ku#custom_action('bundle', 'default', 'bundle', 'args')
+\ | call ku#custom_action('common', 'cd',
+\                         s:SID_PREFIX() . 'ku_common_action_my_cd')
+\ | call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
+\
+\ | call ku#custom_prefix('common', 'HOME', $HOME)
+\ | call ku#custom_prefix('common', '~', $HOME)
+\ | call ku#custom_prefix('common', '.vim', $HOME.'/.vim')
+\ | call ku#custom_prefix('common', '.v', $HOME.'/.vim')
+\ | call ku#custom_prefix('common', 'VIM', $VIMRUNTIME)
 
-  call ku#custom_action('common', 'cd',
-  \                     function(s:SID_PREFIX() . 'ku_common_action_my_cd'))
-  call ku#default_key_mappings(s:TRUE)
+function! s:ku_common_action_my_cd(item)
+  if isdirectory(a:item.word)
+    execute 'CD' a:item.word
+  else  " treat a:item as a file name
+    execute 'CD' fnamemodify(a:item.word, ':h')
+  endif
 endfunction
 
 
-Cnmap [Space]ka  Ku
-Cnmap [Space]kb  Ku buffer
-Cnmap [Space]kf  Ku file
+Cnmap <silent> [Space]ka  Ku args
+Cnmap <silent> [Space]kb  Ku buffer
+Cnmap <silent> [Space]kf  Ku file
+Cnmap <silent> [Space]kg  Ku metarw-git
+Cnmap <silent> [Space]kk  call ku#restart()
+  " p is for packages.
+Cnmap <silent> [Space]kp  Ku bundle
+Cnmap <silent> [Space]kq  Ku quickfix
+  " w is for ~/working.
+Cnmap <silent> [Space]kw  Ku myproject
 
 
 

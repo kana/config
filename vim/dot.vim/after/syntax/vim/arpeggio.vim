@@ -1,5 +1,5 @@
-" ku - Support to do something
-" Version: 0.1.4
+" Vim additional syntax: vim/arpeggio - highlight :Arpeggio commands
+" Version: 0.0.4
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -22,22 +22,28 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('g:loaded_ku')
-  finish
-endif
+syntax keyword vimArpeggioCommand
+\      Arpeggio
+\      skipwhite nextgroup=vimMap
+
+syntax match vimArpeggioCommand
+\      /\<Arpeggio[cilnosvx]\(\|nore\|un\)map\>/
+\      contains=vimArpeggioCommandInside
+\      skipwhite nextgroup=vimMapBang,vimMapMod,vimMapLhs
+
+syntax match vimArpeggioCommand
+\      /\<Arpeggio\%(\|nore\|un\)map\>!\?/
+\      contains=vimArpeggioCommandInside
+\      skipwhite nextgroup=vimMapMod,vimMapLhs
+
+syntax match vimArpeggioCommandInside /\<Arpeggio\zs\l*map!\?/
+\      contained
 
 
 
 
-command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
-\ call ku#start(<q-args>)
-
-command! -bar -nargs=1 KuDoAction  call ku#do_action(<q-args>)
-
-
-
-
-let g:loaded_ku = 1
+highlight default link vimArpeggioCommand  NONE
+highlight default link vimArpeggioCommandInside  vimCommand
 
 " __END__
 " vim: foldmethod=marker

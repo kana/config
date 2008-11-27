@@ -147,4 +147,4 @@ CHANGELOG					*narrow-changelog*
 
 
 ==============================================================================
-vim:tw=78:ts=8:ft=help:norl:fdm=marker:
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

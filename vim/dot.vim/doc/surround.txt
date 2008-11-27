@@ -263,7 +263,12 @@ should this be the default?
 
 CHANGELOG					*surround-changelog*
 
-2008-05-18T20:40:06+09:00	kana	<http://whileimautomaton.net>
+2008-11-09T03:26:23+09:00	kana	<http://whileimautomaton.net/>
+
+	- Fix the bug that |surround-mappings| does not work if they are not
+	  typed by user, for example, remapped from other key mappings.
+
+2008-05-18T20:40:06+09:00	kana	<http://whileimautomaton.net/>
 
 	- Fix the bug that user-defined Command-line mode mappings "%" and ">"
 	  are overriden by this plugin.

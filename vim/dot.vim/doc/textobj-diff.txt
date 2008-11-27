@@ -1,0 +1,134 @@
+*textobj-diff.txt*	Text objects for ouputs of diff(1)
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*textobj-diff-contents*
+
+Introduction		|textobj-diff-introduction|
+Interface		|textobj-diff-interface|
+  Key Mapings		  |textobj-diff-key-mappings|
+Customizing		|textobj-diff-customizing|
+Bugs			|textobj-diff-bugs|
+Changelog		|textobj-diff-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*textobj-diff-introduction*
+
+*textobj-diff* is a Vim plugin to provide text objects for outputs of diff(1).
+Currently it supports the following formats:
+- diff --context
+- diff --unified
+- git diff
+
+
+Requirements:
+- Vim 7.2 or later
+- |textobj-user| 0.3.7 or later (vimscript#2100)
+
+
+
+
+==============================================================================
+INTERFACE					*textobj-diff-interface*
+
+------------------------------------------------------------------------------
+MAPPINGS					*textobj-diff-mappings*
+
+<Plug>(textobj-diff-file-n)			*<Plug>(textobj-diff-file-n)*
+<Plug>(textobj-diff-file-p)			*<Plug>(textobj-diff-file-p)*
+	Move to the beginning of the next/previous header of files.
+
+<Plug>(textobj-diff-file-N)			*<Plug>(textobj-diff-file-N)*
+<Plug>(textobj-diff-file-P)			*<Plug>(textobj-diff-file-P)*
+	Move to the end of the next/previous header of files.
+
+<Plug>(textobj-diff-hunk-n)		 	*<Plug>(textobj-diff-hunk-n)*
+<Plug>(textobj-diff-hunk-p)		 	*<Plug>(textobj-diff-hunk-p)*
+<Plug>(textobj-diff-hunk-N)		 	*<Plug>(textobj-diff-hunk-N)*
+<Plug>(textobj-diff-hunk-P)		 	*<Plug>(textobj-diff-hunk-P)*
+	Like |<Plug>(textobj-diff-file-n)| and others, but move to an
+	appropriate part of a hunk.
+
+<Plug>(textobj-diff-file)		 	*<Plug>(textobj-diff-file)*
+	Select all hunks and the header of the next/previous files.
+
+<Plug>(textobj-diff-hunk)		 	*<Plug>(textobj-diff-hunk)*
+	Select the next/previous hunk.
+
+
+
+
+==============================================================================
+CUSTOMIZING					*textobj-diff-customizing*
+
+				      *g:textobj_diff_no_default_key_mappings*
+					      *:TextobjDiffDefaultKeyMappings*
+This plugin will define the following key mappings in Normal mode, Visual mode
+and Operator-pending mode automatically.  If you don't want these key
+mappings, define |g:textobj_diff_no_default_key_mappings| before this plugin
+is loaded (e.g. in $MYVIMRC).  You can also use
+|:TextobjDiffDefaultKeyMappings| to redefine these key mappings.
+
+	mode	{lhs}		{rhs}				~
+	----	-----		------------------------------	~
+	NVO	<Leader>dfJ	<Plug>(textobj-diff-file-N)
+	NVO	<Leader>dfK	<Plug>(textobj-diff-file-P)
+	NVO	<Leader>dfj	<Plug>(textobj-diff-file-n)
+	NVO	<Leader>dfk	<Plug>(textobj-diff-file-p)
+	NVO	<Leader>dJ	<Plug>(textobj-diff-hunk-N)
+	NVO	<Leader>dK	<Plug>(textobj-diff-hunk-P)
+	NVO	<Leader>dj	<Plug>(textobj-diff-hunk-n)
+	NVO	<Leader>dk	<Plug>(textobj-diff-hunk-p)
+	VO	adH		<Plug>(textobj-diff-file)
+	VO	adf		<Plug>(textobj-diff-file)
+	VO	adh		<Plug>(textobj-diff-hunk)
+	VO	idH		<Plug>(textobj-diff-file)
+	VO	idf		<Plug>(textobj-diff-file)
+	VO	idh		<Plug>(textobj-diff-hunk)
+
+
+
+
+==============================================================================
+BUGS						*textobj-diff-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*textobj-diff-changelog*
+
+0.0.0	2008-10-23T14:19:46+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

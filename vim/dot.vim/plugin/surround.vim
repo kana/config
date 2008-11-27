@@ -44,51 +44,74 @@ function! s:getchar()
     return c
 endfunction
 
-function! s:inputtarget()
-    let key = ''
-    let c = s:getchar()
-    while c =~ '\d'
-        let key = key . c
+let s:OBJS_BUILTIN = '"()<>BW`bpstw{}''[]'
+let s:OBJS_DELETION = '/'
+let s:OBJS_ADDITION = "T\<C-t>,l\\fF\<C-[>\<C-]>"
+let s:RE_A_OBJS = '\V\^\[' . escape(s:OBJS_BUILTIN.s:OBJS_ADDITION, '\') . '\]'
+let s:RE_D_OBJS = '\V\^\[' . escape(s:OBJS_BUILTIN.s:OBJS_DELETION, '\') . '\]'
+
+function! s:inputtarget(...)
+    let space_prefixed_p = a:0 ? a:1 : s:FALSE
+    let cnt = ''
+
+    " get count part
+    if !space_prefixed_p
         let c = s:getchar()
-    endwhile
-
-    call feedkeys(c, 't')
-    let t = s:user_obj_input()
-    if t != ''
-        return key . t
+        while c =~ '\d'
+            let cnt = cnt . c
+            let c = s:getchar()
+        endwhile
     endif
-    let key = key . s:getchar()
 
-    if key == " "
-        let key = key . s:getchar()
+    " check user-defined objects
+    let [success_p, keyseq] = s:user_obj_input(c)
+    if success_p
+        return cnt . keyseq
     endif
-    if key =~ "\<Esc>\|\<C-C>\|\0"
-        return ""
+
+    " other works
+        " FIXME: User-defined objects with keys prefixed by a whitespace.
+    if (!space_prefixed_p) && keyseq == ' '
+        let keyseq = s:inputtarget(s:TRUE)
+        if keyseq == ''
+            return ''
+        else
+            " return cnt . ' ' . keyseq  " the original doesn't accept count
+            return ' ' . keyseq
+        endif
+    endif
+    if (keyseq =~ "[\<Esc>\<C-c>\0]"
+    \   || (1 < len(keyseq) && keyseq !~# s:RE_D_OBJS))
+        return ''
     else
-        return key
+        return cnt . keyseq
     endif
 endfunction
 
-function! s:inputreplacement()
-    "echo '-- SURROUND --'
-    let key = ''
-    let c = s:getchar()
-    if c == " "
-        let key = key . c
-        let c = s:getchar()
+function! s:inputreplacement(...)
+    let space_prefixed_p = a:0 ? a:1 : s:FALSE
+    let keyseq = ''
+
+    " check user-defined objects
+    let [success_p, keyseq] = s:user_obj_input('')
+    if success_p
+        return keyseq
     endif
 
-    call feedkeys(c, 't')
-    let t = s:user_obj_input()
-    if t != ''
-        return key . t
+    " other works
+    if (!space_prefixed_p) && keyseq == ' '
+        let keyseq = s:inputreplacement(s:TRUE)
+        if keyseq == ''
+            return ''
+        else
+            return ' ' . keyseq
+        endif
     endif
-    let key = key . s:getchar()
-
-    if key =~ "\<Esc>" || key =~ "\<C-C>"
-        return ""
+    if (keyseq =~ "[\<Esc>\<C-c>\0]"
+    \   || (1 < len(keyseq) && keyseq !~# s:RE_A_OBJS))
+        return ''
     else
-        return key
+        return keyseq
     endif
 endfunction
 
@@ -789,25 +812,29 @@ function! SurroundUnregister(type, key)
 endfunction
 
 
-function! s:user_obj_input()
-    let [result, key] = s:user_obj_input_sub('b')
+function! s:user_obj_input(lookahead_c)
+    let [result, key] = s:user_obj_input_sub('b', a:lookahead_c)
     if result is s:trie.FAILED
-        call feedkeys(key, 't')
-        let [result, key] = s:user_obj_input_sub('g')
+        let [result, key] = s:user_obj_input_sub('g', key)
         if result is s:trie.FAILED
-            call feedkeys(key, 't')
-            return ''
+            return [s:FALSE, key]
         endif
     endif
 
-    return key
+    return [s:TRUE, key]
 endfunction
 
-function! s:user_obj_input_sub(type)
+function! s:user_obj_input_sub(type, lookahead_s)
     let state = s:user_obj_trie(a:type).get_incremental(s:FALSE, 'not-used')
     let key = ''
+    let i = 0
     while 1
-        let c = s:getchar()
+        if i < len(a:lookahead_s)
+            let c = a:lookahead_s[i]
+            let i += 1
+        else
+            let c = s:getchar()
+        endif
         let [result, _] = state.feed(c)
         let key = key . c
         if result is s:trie.MATCHED

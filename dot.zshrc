@@ -354,24 +354,23 @@ if where git &>/dev/null; then
     fi
 
     local head_name
-    # Method 1 - git name-rev.  This method may show inproper name
-    # if two or more heads point the same object.
-    # head_name="$(git name-rev --name-only HEAD 2>/dev/null)"
-
-    # Method 2 - reading .git/logs/HEAD.
-    head_name="$(
-      {
-        fgrep 'checkout: moving from ' .git/logs/HEAD |
-        sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
-      } 2>/dev/null
-    )"
-
-    if [ $? = 0 ]; then
-      echo " [$head_name]"
-      return 0
-    else
-      return 1
+    head_name="$(git branch | sed -e 's/^\* //;t;d')"
+    if [ "$head_name" = '(no branch)' ]; then
+      # "git branch" doesn't show the correct name of a branch after
+      # "git checkout {commitish-and-not-the-head-of-a-branch}", so we have to
+      # use another method to get the name of {commitish}.
+      head_name="($(
+        {
+          fgrep 'checkout: moving from ' .git/logs/HEAD |
+          sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
+        } 2>/dev/null
+      ))"
+    elif [ "$head_name" = '' ]; then
+      head_name='(just initialized; nothing commited)'
     fi
+
+    echo " [$head_name]"
+    return 0
   }
 else
   function prompt-git-head-name() {
@@ -483,6 +482,13 @@ source <(
       print "}"
     }'
 )
+
+
+# Don't show matches as a list for _history-complete-older and
+# _history-complete-newer.  Because number of matches is usually very big so
+# the list for them is annoying.
+
+zstyle ':completion:history-words:*' list no
 
 
 

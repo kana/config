@@ -1,5 +1,5 @@
-" ku - Support to do something
-" Version: 0.1.4
+" repeat - Enable to repeat last change by non built-in commands
+" Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -22,22 +22,42 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('g:loaded_ku')
+if exists('g:loaded_repeat')
   finish
 endif
 
 
 
 
-command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
-\ call ku#start(<q-args>)
+nnoremap <silent> <Plug>(repeat-.)  :<C-u>call repeat#_repeat(v:count)<Return>
+nnoremap <silent> <Plug>(repeat-u)  :<C-u>call repeat#_do('u', v:count)<Return>
+nnoremap <silent> <Plug>(repeat-U)  :<C-u>call repeat#_do('U', v:count)<Return>
+nnoremap <silent> <Plug>(repeat-<C-r>)
+\        :<C-u>call repeat#_do("\<LT>C-r>", v:count)<Return>
+nnoremap <silent> <Plug>(repeat-g-)
+\        :<C-u>call repeat#_do('g-', v:count)<Return>
+nnoremap <silent> <Plug>(repeat-g+)
+\        :<C-u>call repeat#_do('g+', v:count)<Return>
 
-command! -bar -nargs=1 KuDoAction  call ku#do_action(<q-args>)
+
+command! -bang -bar -nargs=0 RepeatDefaultKeyMappings
+\ call s:cmd_RepeatDefaultKeyMappings('<bang>' == '!')
+function! s:cmd_RepeatDefaultKeyMappings(bang_p)
+  let opt = a:bang_p ? '' : '<unique>'
+
+  for i in ['.', 'u', 'U', '<C-r>', 'g-', 'g+']
+    silent! execute 'nmap' opt i  '<Plug>(repeat-'.i.')'
+  endfor
+endfunction
+
+if !exists('g:repeat_no_default_key_mappings')
+  RepeatDefaultKeyMappings
+endif
 
 
 
 
-let g:loaded_ku = 1
+let g:loaded_repeat = 1
 
 " __END__
 " vim: foldmethod=marker

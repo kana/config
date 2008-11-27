@@ -1,5 +1,5 @@
 " ku - Support to do something
-" Version: 0.1.3
+" Version: 0.1.4
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -255,11 +255,12 @@ endfunction
 
 
 function! s:ku_custom_action_4(source, action, source2, action2)  "{{{3
-  let action_table = s:api(a:source2, 'action_table')
+  let action_table = (a:source2 !=# 'common'
+  \                   ? s:api(a:source2, 'action_table')
+  \                   : s:default_action_table())
   let function2 = get(action_table, a:action2, 0)
   if function2 is 0
-    echoerr printf('No such action for %s/%s: %s',
-    \              a:type, a:source2, string(a:action2))
+    echoerr printf('No such action for %s: %s', a:source2, string(a:action2))
     return
   endif
 
@@ -668,8 +669,8 @@ function! s:initialize_ku_buffer()  "{{{2
   " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
 
   " User's initialization.
-  silent doautocmd User plugin-ku-buffer-initialized
-  if !exists('#User#plugin-ku-buffer-initialized')
+  setfiletype ku
+  if !(exists('#FileType#ku') || exists('b:did_ftplugin'))
     call ku#default_key_mappings(s:FALSE)
   endif
 
@@ -686,7 +687,14 @@ function! s:on_CursorMovedI()  "{{{2
   let c0 = col('.')
   call setline(1, '')
   let c1 = col('.')
-  call setline(1, 'Source: ' . s:current_source)
+  if s:current_hisotry_index == -1
+    call setline(1, printf('Source: %s', s:current_source))
+  else
+    call setline(1, printf('Source: %s (%d/%d)',
+    \                      s:current_source,
+    \                      s:current_hisotry_index + 1,
+    \                      len(ku#input_history())))
+  endif
 
   " The order of these conditions are important.
   let line = getline('.')
@@ -926,25 +934,48 @@ endfunction
 
 " Action-related stuffs  "{{{2
 function! s:choose_action(item)  "{{{3
-  " Composite the 4 key tables on s:current_source for further work.
-  let KEY_TABLE = {}
-  for _ in [s:default_key_table(),
-  \         s:custom_key_table('common'),
-  \         s:api(s:current_source, 'key_table'),
-  \         s:custom_key_table(s:current_source)]
-    call extend(KEY_TABLE, _)
-  endfor
+  " Prompt  Item     Source
+  "    |     |         |
+  "   _^__  _^______  _^__
+  "   Item: Makefile (file)
+  "   ^C cancel      ^O open        ...
+  "   What action?   ~~ ~~~~
+  "   ~~~~~~~~~~~~    |   |
+  "         |         |   |
+  "      Message     Key  Action
+  "
+  " Here "Prompt" is highlighted with kuChoosePrompt,
+  " "Item" is highlighted with kuChooseItem, and so forth.
+  let KEY_TABLE = s:composite_key_table(s:current_source)
   call filter(KEY_TABLE, 'v:val !=# "nop"')
+  let ACTION_TABLE = s:composite_action_table(s:current_source)
+  call filter(KEY_TABLE, 'get(ACTION_TABLE, v:val, "") !=# "nop"')
 
-  echo printf('Item: %s (%s)', a:item.word, s:current_source)
+  " "Item: {item} ({source})"
+  echohl NONE
+  echo ''
+  echohl kuChoosePrompt
+  echon 'Item'
+  echohl NONE
+  echon ': '
+  echohl kuChooseItem
+  echon a:item.word
+  echohl NONE
+  echon ' ('
+  echohl kuChooseSource
+  echon s:current_source
+  echohl NONE
+  echon ')'
 
   " List keys and their actions.
   " FIXME: listing like ls - the width of each column is varied.
-  let FORMAT = '%-2s %s'
+  let KEYS = map(sort(keys(KEY_TABLE)), 'v:val')
+  let KEY_NAMES = map(copy(KEYS), 'strtrans(v:val)')
+  let MAX_KEY_WIDTH = max(map(copy(KEY_NAMES), 'len(v:val)'))
+  let ACTION_NAMES = map(copy(KEYS), 'KEY_TABLE[v:val]')
+  let MAX_ACTION_WIDTH = max(map(copy(ACTION_NAMES), 'len(v:val)'))
+  let MAX_LABEL_WIDTH = MAX_KEY_WIDTH + 1 + MAX_ACTION_WIDTH
   let SPACER = '   '
-  let KEYS = sort(keys(KEY_TABLE))
-  let LL = map(copy(KEYS), 'printf(FORMAT, strtrans(v:val), KEY_TABLE[v:val])')
-  let MAX_LABEL_WIDTH = max(map(copy(LL), 'len(v:val)'))
   let C = (&columns + len(SPACER) - 1) / (MAX_LABEL_WIDTH + len(SPACER))
   let C = max([C, 1])
   " let C = min([8, C])  " experimental
@@ -956,15 +987,24 @@ function! s:choose_action(item)  "{{{3
       if !(i < N)
         continue
       endif
-      if col == 0
-        echo LL[i]
-      else
-        echon SPACER LL[i]
-      endif
-      echon repeat(' ', MAX_LABEL_WIDTH - len(LL[i]))
+
+      " "{key} {action}"
+      echon col == 0 ? "\n" : SPACER
+      echohl kuChooseKey
+      echon KEY_NAMES[i]
+      echohl NONE
+      echon repeat(' ', MAX_KEY_WIDTH - len(KEY_NAMES[i]))
+      echon ' '
+      echohl kuChooseAction
+      echon ACTION_NAMES[i]
+      echohl NONE
+      echon repeat(' ', MAX_ACTION_WIDTH - len(ACTION_NAMES[i]))
     endfor
   endfor
+
+  echohl kuChooseMessage
   echo 'What action?'
+  echohl NONE
 
   " Take user input.
   let k = s:getkey()
@@ -982,27 +1022,34 @@ function! s:choose_action(item)  "{{{3
 endfunction
 
 
-function! s:do_action(action, item)  "{{{3
+function! s:do_action(action, item, ...)  "{{{3
   " Assumption: BeforeAction is already applied for a:item.
-  call function(s:get_action_function(a:action))(a:item)
+  let composite_p = 1 <= a:0 ? a:1 : s:TRUE
+  call function(s:get_action_function(a:action, composite_p))(a:item)
   return s:TRUE
 endfunction
 
 
-function! s:get_action_function(action)  "{{{3
-  for _ in [s:custom_action_table(s:current_source),
-  \         s:api(s:current_source, 'action_table'),
-  \         s:custom_action_table('common'),
-  \         s:default_action_table()]
-    if has_key(_, a:action)
-      return _[a:action]
+function! s:get_action_function(action, composite_p)  "{{{3
+  let ACTION_TABLE = (a:composite_p
+  \                   ? s:composite_action_table(s:current_source)
+  \                   : s:api(s:current_source, 'action_table'))
+  if has_key(ACTION_TABLE, a:action)  " exists action?
+    if ACTION_TABLE[a:action] !=# 'nop'  " enabled action?
+      return ACTION_TABLE[a:action]
+    else
+      break
     endif
-  endfor
+  endif
 
-  echoerr printf('No such action for source %s: %s',
-  \              string(s:current_source),
-  \              string(a:action))
-  return s:get_action_function('nop')
+    " To avoid echoing the location of error,
+    " use :echohl ErrorMsg instead of :echoerr.
+  echohl ErrorMsg
+  echo printf('No such action for source %s: %s',
+  \           string(s:current_source),
+  \           string(a:action))
+  echohl NONE
+  return 's:_default_action_nop'
 endfunction
 
 
@@ -1014,7 +1061,11 @@ function! s:with_split(direction_modifier, item)
   let v:errmsg = ''
   execute a:direction_modifier 'split'
   if v:errmsg == ''
-    call s:do_action('default', a:item)
+    " Here we have to do "default" action of the default action table for the
+    " current source instead of composite action table - because the latter
+    " may cause infinitely recursive loop if "default" action is overriden by
+    " other action which refers "default" action, such as "tab-Right".
+    call s:do_action('default', a:item, s:FALSE)
   endif
   return
 endfunction
@@ -1085,6 +1136,18 @@ endfunction
 
 
 " Action table  "{{{2
+function! s:composite_action_table(source)  "{{{3
+  let action_table = {}
+  for _ in [s:default_action_table(),
+  \         s:custom_action_table('common'),
+  \         s:api(a:source, 'action_table'),
+  \         s:custom_action_table(a:source)]
+    call extend(action_table, _)
+  endfor
+  return action_table
+endfunction
+
+
 function! s:custom_action_table(source)  "{{{3
   return get(s:custom_action_tables, a:source, {})
 endfunction
@@ -1116,6 +1179,18 @@ endfunction
 
 
 " Key table  "{{{2
+function! s:composite_key_table(source)  "{{{3
+  let key_table = {}
+  for _ in [s:default_key_table(),
+  \         s:custom_key_table('common'),
+  \         s:api(a:source, 'key_table'),
+  \         s:custom_key_table(a:source)]
+    call extend(key_table, _)
+  endfor
+  return key_table
+endfunction
+
+
 function! s:custom_key_table(source)  "{{{3
   return get(s:custom_key_tables, a:source, {})
 endfunction
@@ -1154,7 +1229,7 @@ endfunction
 function! s:prefix_table_for(source)  "{{{3
   let PREFIX_TABLE = {}
   for _ in [s:custom_prefix_table('common'),
-  \         s:custom_prefix_table(s:current_source)]
+  \         s:custom_prefix_table(a:source)]
     call extend(PREFIX_TABLE, _)
   endfor
   return PREFIX_TABLE

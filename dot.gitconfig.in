@@ -13,13 +13,27 @@
 	b = branch
 	ba = branch -a
 	br = branch -r
+	cb = checkout -b
 	ci = commit
 	co = checkout
+	cob = checkout -b
 	d = diff HEAD
 	dl = diff HEAD^
 	ds = diff --cached
 	du = diff
+	edit-conflicted-files = !$EDITOR $(git ls-conflicted-files)
+	f = fetch
 	l = log
+	l1 = log --pretty=oneline
+	ls-conflicted-files = ls-files --unmerged
+	m = merge
+	m1 = merge HEAD@{1}
+	m2 = merge HEAD@{2}
+	m3 = merge HEAD@{3}
+	s = show
+	s1 = show HEAD@{1}
+	s2 = show HEAD@{2}
+	s3 = show HEAD@{3}
 	st = status
 	staged = diff --cached
 	t = tag

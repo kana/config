@@ -1,5 +1,5 @@
-" ku - Support to do something
-" Version: 0.1.4
+" altkwprg - Alternative 'keywordprg' with :help-like window
+" Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -22,22 +22,44 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('g:loaded_ku')
+if exists('g:loaded_altkwprg')
   finish
 endif
 
 
 
 
-command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
-\ call ku#start(<q-args>)
-
-command! -bar -nargs=1 KuDoAction  call ku#do_action(<q-args>)
-
-
+nnoremap <silent> <Plug>(altkwprg-look)
+\        :<C-u>call altkwprg#look(expand('<cword>'))<Return>
+vnoremap <silent> <Plug>(altkwprg-look)
+\        :<C-u>call altkwprg#look(0)<Return>
 
 
-let g:loaded_ku = 1
+
+
+command! -bang -bar -nargs=0 AltkwprgDefaultKeyMappings
+\ call s:cmd_AltkwprgDefaultKeyMappings('<bang>' == '!')
+function! s:cmd_AltkwprgDefaultKeyMappings(banged_p)
+  let _ = a:banged_p ? '' : '<unique>'
+  silent! execute 'nmap' _ 'K  <Plug>(altkwprg-look)'
+  silent! execute 'vmap' _ 'K  <Plug>(altkwprg-look)'
+endfunction
+
+if !exists('g:altkwprg_no_default_key_mappings')
+  AltkwprgDefaultKeyMappings
+endif
+
+
+
+
+if &g:keywordprg ==# 'man' || &g:keywordprg ==# 'man -s'
+  let g:keywordprg = '{ man <count> <keyword> | col -b; }'
+endif
+
+
+
+
+let g:loaded_altkwprg = 1
 
 " __END__
 " vim: foldmethod=marker

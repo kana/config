@@ -1,0 +1,155 @@
+*repeat.txt*	Enable to repeat last change by non built-in commands
+
+Version 0.0.0
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*repeat-contents*
+
+Introduction		|repeat-introduction|
+Interface		|repeat-interface|
+  Functions		  |repeat-functions|
+  Mappings		  |repeat-mappings|
+Bugs			|repeat-bugs|
+Changelog		|repeat-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*repeat-introduction*
+
+*repeat* is a Vim plugin to enhance |.|, the repeat-last-change command to do
+repeat also non built-in commands provided by plugins.  By default, some types
+of non built-in commands cannot be repeated by |.|.  This plugin resolve this
+problem, although plugins which provide such commands have to do proper setup.
+
+This plugin is derived from Tim Pope's one (*).  But it does not work in
+proper manner (see |repeat-vs-original| for the detail).  That's why I rewrite
+it.  This plugin is fully compatible with Time Pope's one, so it can be
+replace by this plugin without any problem.
+(*) http://www.vim.org/scripts/script.php?script_id=2136
+
+Requirements:
+- Vim 7.2 or later
+
+
+
+
+==============================================================================
+INTERFACE					*repeat-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*repeat-functions*
+
+repeat#set({keyseq}, [{count}])			*repeat#set()*
+			Memoize {keyseq} to repeat the last change.
+			If {count} is given, it is used as the default count
+			for the repeat-last-change command.
+
+
+------------------------------------------------------------------------------
+MAPPINGS					*repeat-mappings*
+
+<Plug>(repeat-.)				*<Plug>(repeat-.)*
+			Enhanced version of |.|.  The difference is that this
+			may use {keyseq} set by |repeat#set()|.
+
+<Plug>(repeat-u)				*<Plug>(repeat-u)*
+<Plug>(repeat-U)				*<Plug>(repeat-U)*
+<Plug>(repeat-<C-r>)				*<Plug>(repeat-<C-r>)*
+<Plug>(repeat-g-)				*<Plug>(repeat-g-)*
+<Plug>(repeat-g+)				*<Plug>(repeat-g+)*
+			Internal version of |u| and other commands to keep
+			some information for |<Plug>(repeat-.)|.
+
+					    *g:repeat_no_default_key_mappings*
+						*:RepeatDefaultKeyMappings*
+This plugin defines the following key mappings.  If you don't want to define
+these default key mappings, define |g:repeat_no_default_key_mappings| before
+this plugin is loaded (e.g. in your |vimrc|).  You can also use
+|:RepeatDefaultKeyMappings| to redefine these key mappings.  This command
+doesn't override existing {lhs}s unless [!] is given.
+
+	modes	{lhs}	{rhs}			~
+	-----	-----	--------------------	~
+	n	.	<Plug>(repeat-.)
+	n	u	<Plug>(repeat-u)
+	n	U	<Plug>(repeat-U)
+	n	<C-r>	<Plug>(repeat-<C-r>)
+	n	g-	<Plug>(repeat-g-)
+	n	g+	<Plug>(repeat-g+)
+
+
+
+
+==============================================================================
+BUGS						*repeat-bugs*
+
+- After execution of Ex commands which undo or redo changes such as |:undo|,
+  |<Plug>(repeat-.)| may not repeat the command set by |repeat#set()|.
+
+- This plugin assumes that the 0, 1, ..., 9 keys are not mapped to anything.
+
+						*repeat-vs-original*
+- The original Tim Pope's one has the following problems:
+
+  (a) It use |feedkeys()| to repeat the last change.  This method doesn't work
+      if the repeat command is not typed by user, for example, remapped from
+      other mappings.
+
+      While this plugin uses |:normal| instead to avoid the problem.
+
+  (b) It overrides existing mappings and there is no way to prevent the
+      behavior.
+
+      While this plugin doesn't override and provides the way to prevent and
+      to redefine the default key mappings by
+      |g:repeat_no_default_key_mappings| and |:RepeatDefaultKeyMappings|.
+
+  (c) It doesn't provide any "interface" mappings to customize key mappings.
+      For example, I use "\" to repeat the last change and "." for
+      <LocalLeader>.  With the original one, there is no convenient way to do
+      such customization.
+
+      While this plugin provides |repeat-mappings| for such customization.
+
+  (d) It doesn't have its own |:help| documentation.
+
+      While this plugin has the document which you are currently reading.
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*repeat-changelog*
+
+0.0.0	2008-11-08T15:35:20+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

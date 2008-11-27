@@ -1,6 +1,6 @@
-*ku-buffer.txt*	ku source: buffer
+*ku-quickfix.txt*	ku source: quickfix
 
-Version 0.0.1
+Version 0.0.0
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,74 +23,62 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-CONTENTS					*ku-buffer-contents*
+CONTENTS					*ku-quickfix-contents*
 
-Introduction		|ku-buffer-introduction|
-Action Table		|ku-buffer-action-table|
-Key Table		|ku-buffer-key-table|
-Bugs			|ku-buffer-bugs|
-Changelog		|ku-buffer-changelog|
+Introduction		|ku-quickfix-introduction|
+Action Table		|ku-quickfix-action-table|
+Key Table		|ku-quickfix-key-table|
+Bugs			|ku-quickfix-bugs|
+Changelog		|ku-quickfix-changelog|
 
 
 
 
 ==============================================================================
-INTRODUCTION					*ku-buffer-introduction*
+INTRODUCTION					*ku-quickfix-introduction*
 
-*ku-buffer* is a source for |ku| to deal with buffers.  You can choose one
-from many buffers and do some action to it.
-
+*ku-quickfix* is a source for |ku| to deal with |quickfix|.  You can choose
+one from many files in the current quickfix list and do some action on it.
 
 Requirements:
-- Vim 7.1.299 or later
-- |ku| 0.1.0 or later (vimscript#2337)
+- Vim 7.2 or later
+- |ku| 0.1.4 or later (vimscript#2337)
 
 
 
 
 ==============================================================================
-ACTION TABLE					*ku-buffer-action-table*
+ACTION TABLE					*ku-quickfix-action-table*
 
-default						*ku-buffer-action-default*
-			Same as "open".
+default						*ku-quickfix-action-default*
+			Same as |ku-quickfix-action-open|.
 
-open						*ku-buffer-action-open*
-			Open the buffer specified by the selected item in the
-			current window.  If the selected item is not completed
-			one, it is treated as the name of a file or
-			a directory, and it will be open by |:edit|.
+open						*ku-quickfix-action-open*
+			Switch to the buffer corresponding to the selected
+			item, then move the cursor to the first error in the
+			buffer with |:cc|.
 
-open!						*ku-buffer-action-open!*
-			Like "open", but use :buffer! or :edit! to open the
-			selected item.
-
-unload						*ku-buffer-action-unload*
-delete						*ku-buffer-action-delete*
-wipeout						*ku-buffer-action-wipeout*
-			Do |:bunload|, |:bdelete| or |:bwipeout| on the
-			selected item.  If the selected item is not completed
-			one, nothing will be happened.
+open!						*ku-quickfix-action-open!*
+			Like |ku-quickfix-action-open|, but switch to the
+			buffer with |:buffer!|.
 
 
 
 
 ==============================================================================
-KEY TABLE					*ku-buffer-key-table*
+KEY TABLE					*ku-quickfix-key-table*
 
 Key		Action ~
 --------	--------
-<C-o>		open		|ku-buffer-action-open|
-D		delete		|ku-buffer-action-delete|
-O		open!		|ku-buffer-action-open!|
-U		unload		|ku-buffer-action-unload|
-W		wipeout		|ku-buffer-action-wipeout|
-o		open		|ku-buffer-action-open|
+<C-o>		open		|ku-quickfix-action-open|
+O		open!		|ku-quickfix-action-open!|
+o		open		|ku-quickfix-action-open|
 
 
 
 
 ==============================================================================
-BUGS						*ku-buffer-bugs*
+BUGS						*ku-quickfix-bugs*
 
 - There are many bugs around the world.
 
@@ -98,13 +86,9 @@ BUGS						*ku-buffer-bugs*
 
 
 ==============================================================================
-CHANGELOG					*ku-buffer-changelog*
+CHANGELOG					*ku-quickfix-changelog*
 
-0.0.1	2008-09-29T03:28:09+09:00
-	- Add sort priority to sort buffers which names are showed as
-	  a relative path first.
-
-0.0.0	2008-07-20T01:10:37+09:00
+0.0.0	2008-10-28T01:50:35+09:00
 	- Initial version.
 
 

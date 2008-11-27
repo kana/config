@@ -114,22 +114,28 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
 GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
+  $(PACKAGE_vim_altkwprg_FILES) \
+  $(PACKAGE_vim_arpeggio_FILES) \
   $(PACKAGE_vim_bundle_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_ft_gauche_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
+  $(PACKAGE_vim_ku_args_FILES) \
   $(PACKAGE_vim_ku_bundle_FILES) \
   $(PACKAGE_vim_ku_metarw_FILES) \
+  $(PACKAGE_vim_ku_quickfix_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
+  $(PACKAGE_vim_repeat_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
   $(PACKAGE_vim_smartchr_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
+  $(PACKAGE_vim_textobj_diff_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
   $(PACKAGE_vim_textobj_lastpat_FILES) \
@@ -138,24 +144,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
-  vim/dot.vim/after/ftplugin/gauche.vim \
-  vim/dot.vim/autoload/xml/svg11.vim \
-  vim/dot.vim/colors/black_angus.vim \
-  vim/dot.vim/colors/gothic.vim \
-  vim/dot.vim/colors/less.vim \
-  vim/dot.vim/ftplugin/issue.vim \
-  vim/dot.vim/syntax/issue.vim \
-  vim/dot.vim/syntax/rest.vim \
-  vim/dot.vim/xtr/skeleton/help-doc \
-  vim/dot.vim/xtr/skeleton/vim-additional-ftplugin \
-  vim/dot.vim/xtr/skeleton/vim-additional-indent \
-  vim/dot.vim/xtr/skeleton/vim-additional-syntax \
-  vim/dot.vim/xtr/skeleton/vim-autoload \
-  vim/dot.vim/xtr/skeleton/vim-ftplugin \
-  vim/dot.vim/xtr/skeleton/vim-indent \
-  vim/dot.vim/xtr/skeleton/vim-plugin \
-  vim/dot.vim/xtr/skeleton/vim-syntax \
-  vim/dot.vimrc
+  $(PACKAGE_vim_misc_FILES)
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_POST_TARGETS=post-vim-update-local-helptags
 define post-vim-update-local-helptags
@@ -196,22 +185,29 @@ ALL_PACKAGES=\
   cereja-all \
   opera-all \
   vim-all \
+  vim-altkwprg \
+  vim-arpeggio \
   vim-bundle \
   vim-fakeclip \
   vim-flydiff \
   vim-ft-gauche \
   vim-idwintab \
   vim-ku \
+  vim-ku-args \
   vim-ku-bundle \
   vim-ku-metarw \
+  vim-ku-quickfix \
   vim-metarw \
   vim-metarw-git \
+  vim-misc \
   vim-narrow \
+  vim-repeat \
   vim-scratch \
   vim-skeleton \
   vim-smartchr \
   vim-surround \
   vim-textobj-datetime \
+  vim-textobj-diff \
   vim-textobj-fold \
   vim-textobj-jabraces \
   vim-textobj-lastpat \
@@ -241,6 +237,21 @@ PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
 
+PACKAGE_vim_altkwprg_ARCHIVE=vim-altkwprg-0.0.0
+PACKAGE_vim_altkwprg_BASE=vim/dot.vim
+PACKAGE_vim_altkwprg_FILES=\
+  vim/dot.vim/autoload/altkwprg.vim \
+  vim/dot.vim/doc/altkwprg.txt \
+  vim/dot.vim/plugin/altkwprg.vim
+
+PACKAGE_vim_arpeggio_ARCHIVE=vim-arpeggio-0.0.4
+PACKAGE_vim_arpeggio_BASE=vim/dot.vim
+PACKAGE_vim_arpeggio_FILES=\
+  vim/dot.vim/after/syntax/vim/arpeggio.vim \
+  vim/dot.vim/autoload/arpeggio.vim \
+  vim/dot.vim/doc/arpeggio.txt \
+  vim/dot.vim/plugin/arpeggio.vim
+
 PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.2
 PACKAGE_vim_bundle_BASE=vim/dot.vim
 PACKAGE_vim_bundle_FILES=\
@@ -248,7 +259,7 @@ PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/doc/bundle.txt \
   vim/dot.vim/plugin/bundle.vim
 
-PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.0
+PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.1
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
 PACKAGE_vim_fakeclip_FILES=\
   vim/dot.vim/autoload/fakeclip.vim \
@@ -275,7 +286,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.1.3
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.1.4
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
@@ -284,7 +295,14 @@ PACKAGE_vim_ku_FILES=\
   vim/dot.vim/doc/ku.txt \
   vim/dot.vim/doc/ku-buffer.txt \
   vim/dot.vim/doc/ku-file.txt \
-  vim/dot.vim/plugin/ku.vim
+  vim/dot.vim/plugin/ku.vim \
+  vim/dot.vim/syntax/ku.vim
+
+PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.0.1
+PACKAGE_vim_ku_args_BASE=vim/dot.vim
+PACKAGE_vim_ku_args_FILES=\
+  vim/dot.vim/autoload/ku/args.vim \
+  vim/dot.vim/doc/ku-args.txt
 
 PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.1
 PACKAGE_vim_ku_bundle_BASE=vim/dot.vim
@@ -298,6 +316,12 @@ PACKAGE_vim_ku_metarw_FILES=\
   vim/dot.vim/autoload/ku/special/metarw.vim \
   vim/dot.vim/autoload/ku/special/metarw_.vim \
   vim/dot.vim/doc/ku-metarw.txt
+
+PACKAGE_vim_ku_quickfix_ARCHIVE=vim-ku-quickfix-0.0.0
+PACKAGE_vim_ku_quickfix_BASE=vim/dot.vim
+PACKAGE_vim_ku_quickfix_FILES=\
+  vim/dot.vim/autoload/ku/quickfix.vim \
+  vim/dot.vim/doc/ku-quickfix.txt
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.3
 PACKAGE_vim_metarw_BASE=vim/dot.vim
@@ -313,12 +337,42 @@ PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
   vim/dot.vim/doc/metarw-git.txt
 
+PACKAGE_vim_misc_ARCHIVE=vim-misc
+PACKAGE_vim_misc_BASE=.
+PACKAGE_vim_misc_FILES=\
+  vim/dot.vim/after/ftplugin/gauche.vim \
+  vim/dot.vim/autoload/ku/myproject.vim \
+  vim/dot.vim/autoload/xml/svg11.vim \
+  vim/dot.vim/colors/black_angus.vim \
+  vim/dot.vim/colors/gothic.vim \
+  vim/dot.vim/colors/less.vim \
+  vim/dot.vim/ftplugin/issue.vim \
+  vim/dot.vim/syntax/issue.vim \
+  vim/dot.vim/syntax/rest.vim \
+  vim/dot.vim/xtr/skeleton/help-doc \
+  vim/dot.vim/xtr/skeleton/vim-additional-ftplugin \
+  vim/dot.vim/xtr/skeleton/vim-additional-indent \
+  vim/dot.vim/xtr/skeleton/vim-additional-syntax \
+  vim/dot.vim/xtr/skeleton/vim-autoload \
+  vim/dot.vim/xtr/skeleton/vim-ftplugin \
+  vim/dot.vim/xtr/skeleton/vim-indent \
+  vim/dot.vim/xtr/skeleton/vim-plugin \
+  vim/dot.vim/xtr/skeleton/vim-syntax \
+  vim/dot.vimrc
+
 PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2
 PACKAGE_vim_narrow_BASE=vim/dot.vim
 PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/autoload/narrow.vim \
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
+
+PACKAGE_vim_repeat_ARCHIVE=vim-repeat-0.0.0
+PACKAGE_vim_repeat_BASE=vim/dot.vim
+PACKAGE_vim_repeat_FILES=\
+  vim/dot.vim/autoload/repeat.vim \
+  vim/dot.vim/doc/repeat.txt \
+  vim/dot.vim/plugin/repeat.vim
 
 PACKAGE_vim_scratch_ARCHIVE=vim-scratch-0.1+
 PACKAGE_vim_scratch_BASE=vim/dot.vim
@@ -352,6 +406,12 @@ PACKAGE_vim_textobj_datetime_FILES=\
   vim/dot.vim/doc/textobj-datetime.txt \
   vim/dot.vim/plugin/textobj/datetime.vim
 
+PACKAGE_vim_textobj_diff_ARCHIVE=vim-textobj-diff-0.0.0
+PACKAGE_vim_textobj_diff_BASE=vim/dot.vim
+PACKAGE_vim_textobj_diff_FILES=\
+  vim/dot.vim/doc/textobj-diff.txt \
+  vim/dot.vim/plugin/textobj/diff.vim
+
 PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.1.2
 PACKAGE_vim_textobj_fold_BASE=vim/dot.vim
 PACKAGE_vim_textobj_fold_FILES=\
@@ -370,7 +430,7 @@ PACKAGE_vim_textobj_lastpat_FILES=\
   vim/dot.vim/doc/textobj-lastpat.txt \
   vim/dot.vim/plugin/textobj/lastpat.vim
 
-PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.6
+PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.7
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
@@ -534,6 +594,11 @@ vimup-script:
 
 clean:
 	rm -rf `find -name '*~' -or -name ',*'`
+
+clean-vim:
+	rm -rf `find $(HOME)/.vim \
+	        -mindepth 1 -maxdepth 1 \
+	        -not -name 'info' -not -name 'xtr'`
 
 
 

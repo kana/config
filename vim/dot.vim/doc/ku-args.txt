@@ -1,6 +1,7 @@
-*ku-buffer.txt*	ku source: buffer
+*ku-args.txt*	ku source: args
 
 Version 0.0.1
+Script ID: 2410
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,74 +24,65 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-CONTENTS					*ku-buffer-contents*
+CONTENTS					*ku-args-contents*
 
-Introduction		|ku-buffer-introduction|
-Action Table		|ku-buffer-action-table|
-Key Table		|ku-buffer-key-table|
-Bugs			|ku-buffer-bugs|
-Changelog		|ku-buffer-changelog|
+Introduction		|ku-args-introduction|
+Action Table		|ku-args-action-table|
+Key Table		|ku-args-key-table|
+Bugs			|ku-args-bugs|
+Changelog		|ku-args-changelog|
 
 
 
 
 ==============================================================================
-INTRODUCTION					*ku-buffer-introduction*
+INTRODUCTION					*ku-args-introduction*
 
-*ku-buffer* is a source for |ku| to deal with buffers.  You can choose one
-from many buffers and do some action to it.
-
+*ku-args* is a source for |ku| to deal with |argument-list|.  You can choose
+one from many files in the argument list and do some action on it.
 
 Requirements:
-- Vim 7.1.299 or later
-- |ku| 0.1.0 or later (vimscript#2337)
+- Vim 7.2 or later
+- |ku| 0.1.4 or later (vimscript#2337)
 
 
 
 
 ==============================================================================
-ACTION TABLE					*ku-buffer-action-table*
+ACTION TABLE					*ku-args-action-table*
 
-default						*ku-buffer-action-default*
-			Same as "open".
+argdelete					*ku-args-action-argdelete*
+			Do |:argdelete| on the selected item.
 
-open						*ku-buffer-action-open*
-			Open the buffer specified by the selected item in the
-			current window.  If the selected item is not completed
-			one, it is treated as the name of a file or
-			a directory, and it will be open by |:edit|.
+default						*ku-args-action-default*
+			Same as |ku-args-action-open|.
 
-open!						*ku-buffer-action-open!*
-			Like "open", but use :buffer! or :edit! to open the
-			selected item.
+open						*ku-args-action-open*
+			Switch to the buffer corresponding to the selected
+			item.
 
-unload						*ku-buffer-action-unload*
-delete						*ku-buffer-action-delete*
-wipeout						*ku-buffer-action-wipeout*
-			Do |:bunload|, |:bdelete| or |:bwipeout| on the
-			selected item.  If the selected item is not completed
-			one, nothing will be happened.
+open!						*ku-args-action-open!*
+			Like |ku-args-action-open|, but switch to the buffer
+			with |:buffer!|.
 
 
 
 
 ==============================================================================
-KEY TABLE					*ku-buffer-key-table*
+KEY TABLE					*ku-args-key-table*
 
 Key		Action ~
 --------	--------
-<C-o>		open		|ku-buffer-action-open|
-D		delete		|ku-buffer-action-delete|
-O		open!		|ku-buffer-action-open!|
-U		unload		|ku-buffer-action-unload|
-W		wipeout		|ku-buffer-action-wipeout|
-o		open		|ku-buffer-action-open|
+<C-o>		open		|ku-args-action-open|
+D		argdelete	|ku-args-action-argdelete|
+O		open!		|ku-args-action-open|!
+o		open		|ku-args-action-open|
 
 
 
 
 ==============================================================================
-BUGS						*ku-buffer-bugs*
+BUGS						*ku-args-bugs*
 
 - There are many bugs around the world.
 
@@ -98,13 +90,13 @@ BUGS						*ku-buffer-bugs*
 
 
 ==============================================================================
-CHANGELOG					*ku-buffer-changelog*
+CHANGELOG					*ku-args-changelog*
 
-0.0.1	2008-09-29T03:28:09+09:00
-	- Add sort priority to sort buffers which names are showed as
-	  a relative path first.
+0.0.1	2008-10-21T10:28:32+09:00
+	- Rewrite |ku-args-action-table| and |ku-args-key-table|.  Old ones
+	  did not properly work.
 
-0.0.0	2008-07-20T01:10:37+09:00
+0.0.0	2008-10-20T01:04:50+09:00
 	- Initial version.
 
 

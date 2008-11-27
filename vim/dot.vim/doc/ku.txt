@@ -1,6 +1,6 @@
 *ku.txt*	Support to do something
 
-Version 0.1.3
+Version 0.1.4
 Script ID: 2337
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -58,6 +58,8 @@ input pattern (see |ku-pattern| for the detail).  Then you can take an action
 by |ku-key-mappings|.
 
 You can also write your own sources.  See |ku-sources| for the detail.
+
+See also a demonstration movie: http://www.screencast.com/t/P6nJkJ0DE
 
 
 Requirements:
@@ -119,11 +121,15 @@ ku#custom_action({source}, {action}, {source2}, {action2})
 
 			In the former case, {function} is the name of
 			a function which will be called as {action}.
+							*ku-disable-action*
+			{function} can be "nop", if so, the corresponding
+			action will be disabled.
 
 			In the latter case, the function corresponding to the
 			{action2} for items from {source2} will be called as
 			{action}.  {action2} will be searched from the default
-			action table for {source2}.
+			action table for {source2} or the default action table
+			for all sources if {source2} is "common".
 
 			{source} is the name of a source or "common".  In the
 			former case, the given {action} is only available for
@@ -363,6 +369,8 @@ left						*ku-action-left*
 right						*ku-action-right*
 			Open a new window in the direction specified by the
 			name of each action, then do |ku-action-default|.
+			NB: "default" action will be searched from the default
+			action table of the current source.
 
 			For example, "left" opens a window at the left side of
 			the current window, then do |ku-action-default| in the
@@ -576,14 +584,14 @@ ku#special#{source}_#sources()		      *ku#special#{source}_#sources()*
 ==============================================================================
 CUSTOMIZING					*ku-customizing*
 
-User plugin-ku-buffer-initialized		*plugin-ku-buffer-initialize*
+FileType ku					*filetype-ku*
 	This event is published whenever the ku buffer is created then being
 	initialized.  Use this event to do your initialization, for example,
 	customize key mappings for the ku buffer.
 
-	Note that if there is no |:autocmd| for this event,
-	|ku#default_key_mappings()| will be called.  Otherwise, it will not be
-	called.
+	Note that if there is no |:autocmd| nor filetype plugin for this
+	event, |ku#default_key_mappings()| will be called.  Otherwise, it will
+	not be called.
 
 g:ku_buffer_name				*g:ku_buffer_name*
 	A string which reporesents the name of the ku buffer.  This value
@@ -705,12 +713,33 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
+0.1.5	2008-10-19T21:32:12+09:00
+	- Show the information about |ku-input-history| in |the-ku-buffer|.
+	- |ku#custom_action()|: Accept "common" for {source2} to specify an
+	  action from the default action table for all sources.  For example:
+>
+	  call ku#custom_action('buffer', 'xyzzy', 'common', 'tab-Right')
+<
+	- Modify |ku-action-right| and other actions to refer "default" action
+	  from the default action table of the current source.  Because they
+	  may fall into infinite loop if user-defined "default" action refers
+	  "default" action.
+
 0.1.4	2008-09-29T02:31:12+09:00
 	- Add |ku#{source}#acc_valid_p()| to filter items for
 	  |ku-auto-component-completion|.
 	- Add |g:ku_history_added_p|.
 	- Fix an error when input history becomes larger than its maximum
 	  size.
+	- Add a way to disable a specific action.  See |ku-disable-action|.
+	- Set 'filetype' of |the-ku-buffer| to "ku".
+	- Add syntax highlighting for |the-ku-buffer| and messages by
+	  |<Plug>(ku-choose-an-action)|.
+	- Refactor on minor stuffs.
+
+	Incompatible changes:
+	- Don't publish "User plugin-ku-buffer-initialized".
+	  Use "FileType ku" and/or filetype plugin instead.
 
 0.1.3	2008-09-28T03:30:42+09:00
 	- Inconpatible change:
@@ -764,4 +793,4 @@ CHANGELOG					*ku-changelog*
 
 
 ==============================================================================
-vim:tw=78:ts=8:ft=help:norl:fdm=marker:
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
