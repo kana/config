@@ -158,13 +158,60 @@ function! s:define_entering_mapping(submode, mode, options, lhs, rhs)  "{{{2
   execute s:map_command(a:mode, 'r')
   \       s:map_options('')
   \       s:named_key_prefix(a:submode)
-  \       s:named_key_leave(a:submode)
+  \       s:named_key_leave_or_reenter(a:submode)
   execute s:map_command(a:mode, '')
   \       s:map_options('')
   \       s:named_key_leave(a:submode)
   \       printf('%s<SID>on_leaving_submode(%s)<Return>',
   \              a:mode =~# '[ic]' ? '<C-r>=' : '@=',
   \              string(a:submode))
+
+  execute s:map_command(a:mode, 'r')
+  \       s:map_options('')
+  \       s:named_key_leave_or_reenter(a:submode)
+  \       (s:named_key_check_timeout()
+  \        . s:named_key__leave_or_reenter(a:submode))
+  execute s:map_command(a:mode, '')
+  \       s:map_options('')
+  \       s:named_key_check_timeout()
+  \       printf('%s<SID>check_timeout()<Return>',
+  \              a:mode =~# '[ic]' ? '<C-r>=' : '@=')
+  execute s:map_command(a:mode, 'r')
+  \       s:map_options('e')
+  \       s:named_key__leave_or_reenter(a:submode)
+  \       printf('g:submode__timeout_p ? %s : %s.repeat(DROP_THE_LAST_KEY,0)',
+  \              string(s:named_key_leave(a:submode)),
+  \              string(s:named_key_enter(a:submode)))
+  " NB: Unfortunately, we cannot realize the behavior same as Normal mode and
+  " Visualmode that unbound key sequences are just ignored.  We want to
+  " process an unbound key sequence as follows:
+  "
+  "   {prefix}{unbound key sequence}
+  "   {leave or reenter}{the last key of unbound key sequence}
+  "   {check timeout}{% leave or reenter}{the last key}
+  "   {% leave or reenter}
+  "   {...}
+  "   {prefix}
+  "
+  " But there are the following problems, so that we cannot realize:
+  "
+  " (a) It's impossible to separate the last key of an unbound key sequence.
+  "     Because there are too many keys to map, so that we have to choose the
+  "     way dropping the last key afterward.
+  " (b) {check timeout} is the only place to drop,
+  "     but it's impossible to drop only {the last key}.
+  " (c) {% leave or reenter} uses the result of {check timeout},
+  "     so that the order of them must not be changed.
+  " (d) In {% leave or reenter}, it's impossible to drop a key because
+  "     {% leave or reenter} must be map-<expr> and getchar() doesn't fetch
+  "     a character from the typeahead buffer in map-<expr>.
+  " (e) It's impossible to generate {% leave or reenter} from {check timeout}.
+  "     For Insert mode and Command-line mode, we don't have a function
+  "     equivalent to @= in Normal mode and Visual mode.  Though @= may or may
+  "     not work for this purpose.
+  "
+  " As a result, we have to compromise with the "leaving a submode by any
+  " unbound key sequence" behavior.
 
   return
 endfunction
@@ -191,7 +238,7 @@ function! s:define_submode_mapping(submode, mode, options, lhs, rhs)  "{{{2
     silent! execute s:map_command(a:mode, 'r')
     \               s:map_options(s:filter_flags(a:options, 'bu'))
     \               (s:named_key_prefix(a:submode) . first_n_keys)
-    \               s:named_key_leave(a:submode)
+    \               s:named_key_leave_or_reenter(a:submode)
   endfor
 
   return
@@ -231,6 +278,14 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:check_timeout()  "{{{2
+  let g:submode__timeout_p = getchar(1) is 0
+  return ''
+endfunction
+
+
+
+
 function! s:each_char(s)  "{{{2
   return split(a:s, '.\zs')
 endfunction
@@ -323,6 +378,13 @@ endfunction
 
 
 
+function! s:named_key_check_timeout()  "{{{2
+  return '<Plug>(submode-check-timeout)'
+endfunction
+
+
+
+
 function! s:named_key_enter(submode)  "{{{2
   return printf('<Plug>(submode-enter:%s)', a:submode)
 endfunction
@@ -332,6 +394,20 @@ endfunction
 
 function! s:named_key_leave(submode)  "{{{2
   return printf('<Plug>(submode-leave:%s)', a:submode)
+endfunction
+
+
+
+
+function! s:named_key_leave_or_reenter(submode)  "{{{2
+  return printf('<Plug>(submode-leave-or-reenter:%s)', a:submode)
+endfunction
+
+
+
+
+function! s:named_key__leave_or_reenter(submode)  "{{{2
+  return printf('<Plug>(submode-_leave-or-reenter:%s)', a:submode)
 endfunction
 
 
