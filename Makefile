@@ -133,6 +133,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
   $(PACKAGE_vim_smartchr_FILES) \
+  $(PACKAGE_vim_submode_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
   $(PACKAGE_vim_textobj_diff_FILES) \
@@ -205,6 +206,7 @@ ALL_PACKAGES=\
   vim-scratch \
   vim-skeleton \
   vim-smartchr \
+  vim-submode \
   vim-surround \
   vim-textobj-datetime \
   vim-textobj-diff \
@@ -392,6 +394,12 @@ PACKAGE_vim_smartchr_BASE=vim/dot.vim
 PACKAGE_vim_smartchr_FILES=\
   vim/dot.vim/autoload/smartchr.vim \
   vim/dot.vim/doc/smartchr.txt
+
+PACKAGE_vim_submode_ARCHIVE=vim-submode-0.0.0
+PACKAGE_vim_submode_BASE=vim/dot.vim
+PACKAGE_vim_submode_FILES=\
+  vim/dot.vim/autoload/submode.vim \
+  vim/dot.vim/doc/submode.txt
 
 PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.6
 PACKAGE_vim_surround_BASE=vim/dot.vim
