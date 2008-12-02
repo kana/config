@@ -133,6 +133,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
   $(PACKAGE_vim_smartchr_FILES) \
+  $(PACKAGE_vim_smartword_FILES) \
   $(PACKAGE_vim_submode_FILES) \
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
@@ -206,6 +207,7 @@ ALL_PACKAGES=\
   vim-scratch \
   vim-skeleton \
   vim-smartchr \
+  vim-smartword \
   vim-submode \
   vim-surround \
   vim-textobj-datetime \
@@ -394,6 +396,13 @@ PACKAGE_vim_smartchr_BASE=vim/dot.vim
 PACKAGE_vim_smartchr_FILES=\
   vim/dot.vim/autoload/smartchr.vim \
   vim/dot.vim/doc/smartchr.txt
+
+PACKAGE_vim_smartword_ARCHIVE=vim-smartword-0.0.0
+PACKAGE_vim_smartword_BASE=vim/dot.vim
+PACKAGE_vim_smartword_FILES=\
+  vim/dot.vim/autoload/smartword.vim \
+  vim/dot.vim/doc/smartword.txt \
+  vim/dot.vim/plugin/smartword.vim
 
 PACKAGE_vim_submode_ARCHIVE=vim-submode-0.0.0
 PACKAGE_vim_submode_BASE=vim/dot.vim
