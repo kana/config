@@ -120,6 +120,8 @@ BUGS						*smartword-bugs*
 
 - Don't consider about special cases such as |cw|.
 
+- Don't consider about |exclusive| and |inclusive|.
+
 
 
 
