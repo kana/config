@@ -57,8 +57,15 @@ endfunction
 
 
 function! s:parse_iskeyword(iskeyword)  "{{{2
-  " FIXME: NIY
-  return split('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', '\ze.')
+  let chars = repeat([0], 256)
+
+  " FIXME: NIY - use alphabets for test.
+  for c in split('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz','\ze.')
+    let chars[char2nr(c)] = !0
+  endfor
+
+  return filter(map(range(len(chars)), 'chars[v:val] ? nr2char(v:val) : 0'),
+  \             'v:val isnot 0')
 endfunction
 
 
