@@ -1,6 +1,7 @@
 *smartword.txt*	Smart motions on words
 
 Version 0.0.0
+Script ID: 2470
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -64,6 +65,9 @@ See also |smartword-examples| for customization.
 
 Requirements:
 - Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-smartword
 
 
 
