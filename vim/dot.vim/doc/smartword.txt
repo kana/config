@@ -124,13 +124,18 @@ BUGS						*smartword-bugs*
 
 - Don't consider about special cases such as |cw|.
 
-- Don't consider about |exclusive| and |inclusive|.
+- |o_v| and others don't work for |<Plug>(smartword-e)| and
+  |<Plug>(smartword-ge)| because of the limitation of Vim script.
 
 
 
 
 ==============================================================================
 CHANGELOG					*smartword-changelog*
+
+0.0.1	2008-12-06T01:21:37+09:00
+	- Fix |<Plug>(smartword-e)| and |<Plug>(smartword-ge)| to be
+	  |inclusive| as same as |e| and |ge|.
 
 0.0.0	2008-12-03T01:44:30+09:00
 	- Initial version.

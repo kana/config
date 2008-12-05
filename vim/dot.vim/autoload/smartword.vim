@@ -22,7 +22,11 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
-function! smartword#move(motion_command)  "{{{2
+function! smartword#move(motion_command, mode)  "{{{2
+  if a:mode ==# 'o' && (a:motion_command ==# 'e' || a:motion_command ==# 'ge')
+    normal! v
+  endif
+
   for i in range(v:count1)
     let curpos = []  " dummy
     let newpos = []  " dummy
