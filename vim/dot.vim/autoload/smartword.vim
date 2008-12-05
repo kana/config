@@ -21,11 +21,8 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-
-
-
-
-function! smartword#move(motion_command)
+" Interface  "{{{1
+function! smartword#move(motion_command)  "{{{2
   for i in range(v:count1)
     let curpos = []  " dummy
     let newpos = []  " dummy
@@ -47,20 +44,35 @@ endfunction
 
 
 
-function! s:current_char(pos)
+
+
+
+
+" Misc.  "{{{1
+function! s:current_char(pos)  "{{{2
   return getline(a:pos[1])[a:pos[2] - 1]
 endfunction
 
-function! s:parse_iskeyword(iskeyword)
+
+
+
+function! s:parse_iskeyword(iskeyword)  "{{{2
   " FIXME: NIY
   return split('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', '\ze.')
 endfunction
 
-function! s:letter_p(char)
+
+
+
+function! s:letter_p(char)  "{{{2
   let chars = s:parse_iskeyword(&l:iskeyword)
   let pattern = '[' . escape(join(chars, ''), '\[]-^:') . ']'
   return a:char =~# pattern
 endfunction
+
+
+
+
 
 
 
