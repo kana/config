@@ -121,7 +121,12 @@ endfunction
 
 
 function! s:letter_p(char)  "{{{2
-  let chars = s:parse_iskeyword(&l:iskeyword)
+  if !(exists('b:smartword_iskeyword') && b:smartword_iskeyword==#&l:iskeyword)
+    let b:smartword_iskeyword = &l:iskeyword
+    let b:smartword_parsed_iskeyword = s:parse_iskeyword(&l:iskeyword)
+  endif
+  let chars = b:smartword_parsed_iskeyword
+
   let pattern = '[' . escape(join(chars, ''), '\[]-^:') . ']'
   return a:char =~# pattern
 endfunction
