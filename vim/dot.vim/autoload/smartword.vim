@@ -51,14 +51,13 @@ function! s:current_char(pos)
   return getline(a:pos[1])[a:pos[2] - 1]
 endfunction
 
-function! s:iskeyword_to_list()
-  let set = []
+function! s:parse_iskeyword(iskeyword)
   " FIXME: NIY
   return split('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', '\ze.')
 endfunction
 
 function! s:letter_p(char)
-  let chars = s:iskeyword_to_list()
+  let chars = s:parse_iskeyword(&l:iskeyword)
   let pattern = '[' . escape(join(chars, ''), '\[]-^:') . ']'
   return a:char =~# pattern
 endfunction
