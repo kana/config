@@ -127,6 +127,10 @@ BUGS						*smartword-bugs*
 - |o_v| and others don't work for |<Plug>(smartword-e)| and
   |<Plug>(smartword-ge)| because of the limitation of Vim script.
 
+  Note that if the following patch is applied, |o_V| and |o_CTRL-V| work for
+  both motions: http://github.com/kana/vim/commits/hack/vimvar-motion_force
+  (|o_v| doesn't work yet.)
+
 
 
 
