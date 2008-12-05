@@ -1,6 +1,7 @@
 *{name}.txt*	{abstract}
 
 Version 0.0.0
+Script ID: ****
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -30,6 +31,7 @@ Interface		|{name}-interface|
   Commands		  |{name}-commands|
   Functions		  |{name}-functions|
   Mappings		  |{name}-mappings|
+Examples		|{name}-examples|
 Bugs			|{name}-bugs|
 Changelog		|{name}-changelog|
 
@@ -41,8 +43,12 @@ INTRODUCTION					*{name}-introduction*
 
 *{name}* is a Vim plugin to ...
 
+
 Requirements:
 - Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-{name}
 
 
 
@@ -53,13 +59,30 @@ INTERFACE					*{name}-interface*
 ------------------------------------------------------------------------------
 COMMANDS					*{name}-commands*
 
+:{Name}Feature					*:{Name}Feature*
+			...
+
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*{name}-functions*
 
+{name}#feature()				*{name}#feature()*
+			...
+
 
 ------------------------------------------------------------------------------
 MAPPINGS					*{name}-mappings*
+
+<Plug>({name}-feature)				*<Plug>({name}-feature)*
+			...
+
+
+
+
+==============================================================================
+EXAMPLES					*{name}-examples*
+
+(A) To realize ...
 
 
 
