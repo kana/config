@@ -45,22 +45,7 @@ function! smartword#move(motion_command, mode)  "{{{2
     endif
   endif
 
-  for i in range(v:count1)
-    let curpos = []  " dummy
-    let newpos = []  " dummy
-    while !0
-      let curpos = newpos
-      execute 'normal!' a:motion_command
-      let newpos = getpos('.')
-
-      if s:letter_p(s:current_char(newpos))
-        break
-      endif
-      if curpos == newpos  " No more word - stop.
-        return
-      endif
-    endwhile
-  endfor
+  call s:move(a:motion_command, v:count1)
 
   if exclusive_adjustment_p
     if a:motion_command ==# 'e'
@@ -159,6 +144,29 @@ function! s:letter_p(char)  "{{{2
 
   let pattern = '[' . escape(join(chars, ''), '\[]-^:') . ']'
   return a:char =~# pattern
+endfunction
+
+
+
+
+function! s:move(motion_command, times)  "{{{2
+  for i in range(v:count1)
+    let curpos = []  " dummy
+    let newpos = []  " dummy
+    while !0
+      let curpos = newpos
+      execute 'normal!' a:motion_command
+      let newpos = getpos('.')
+
+      if s:letter_p(s:current_char(newpos))
+        break
+      endif
+      if curpos == newpos  " No more word - stop.
+        return
+      endif
+    endwhile
+  endfor
+  return
 endfunction
 
 
