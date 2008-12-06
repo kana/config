@@ -48,10 +48,18 @@ function! smartword#move(motion_command, mode)  "{{{2
   call s:move(a:motion_command, v:count1)
 
   if exclusive_adjustment_p
-    if a:motion_command ==# 'e'
-      " FIXME: NIY
-    else  " a:motion_command ==# 'ge'
-      " FIXME: NIY
+    execute "normal! \<Esc>'>"
+    if getpos("'<") == getpos("'>")  " no movement - select empty area.
+      " FIXME: But how to select nothing?  Because o_v was given, so at least
+      " 1 character will be the target of the pending operator.
+    else
+      let original_whichwrap = &whichwrap
+        set whichwrap=h
+        normal! h
+        if col('.') == col('$')  " FIXME: 'virtualedit' with onemore
+          normal! h
+        endif
+      let &whichwrap = original_whichwrap
     endif
   endif
 endfunction
