@@ -44,6 +44,9 @@ function! smartword#move(motion_command, mode)  "{{{2
       normal! v
     endif
   endif
+  if a:mode == 'v'
+    normal! gv
+  endif
 
   call s:move(a:motion_command, v:count1)
 
