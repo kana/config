@@ -397,7 +397,7 @@ PACKAGE_vim_smartchr_FILES=\
   vim/dot.vim/autoload/smartchr.vim \
   vim/dot.vim/doc/smartchr.txt
 
-PACKAGE_vim_smartword_ARCHIVE=vim-smartword-0.0.0
+PACKAGE_vim_smartword_ARCHIVE=vim-smartword-0.0.1
 PACKAGE_vim_smartword_BASE=vim/dot.vim
 PACKAGE_vim_smartword_FILES=\
   vim/dot.vim/autoload/smartword.vim \
