@@ -1241,10 +1241,10 @@ noremap! <Plug>(physical-key-<Return>)  ;
 noremap! <Plug>(physical-key-<S-Return>)  :
 
 " Experimental: to input semicolon/colon without the far Semicolon key.
-Arpeggionoremap! <Esc>,  ;
-Arpeggionoremap! <Esc>.  :
-Arpeggionoremap! <Esc>/  ;
-Arpeggionoremap! <Esc>?  :
+noremap! <Esc>,  ;
+noremap! <Esc>.  :
+noremap! <Esc>/  ;
+noremap! <Esc>?  :
 
 
 
@@ -1467,15 +1467,15 @@ nmap <C-g><C-w><C-k>  <C-g>wk
 " Command-line editting  "{{{2
 
 " pseudo vi-like keys
-Arpeggiocnoremap <Esc>h  <Left>
-Arpeggiocnoremap <Esc>j  <Down>
-Arpeggiocnoremap <Esc>k  <Up>
-Arpeggiocnoremap <Esc>l  <Right>
-Arpeggiocnoremap <Esc>H  <Home>
-Arpeggiocnoremap <Esc>L  <End>
-Arpeggiocnoremap <Esc>w  <S-Right>
-Arpeggiocnoremap <Esc>b  <S-Left>
-Arpeggiocnoremap <Esc>x  <Del>
+cnoremap <Esc>h  <Left>
+cnoremap <Esc>j  <Down>
+cnoremap <Esc>k  <Up>
+cnoremap <Esc>l  <Right>
+cnoremap <Esc>H  <Home>
+cnoremap <Esc>L  <End>
+cnoremap <Esc>w  <S-Right>
+cnoremap <Esc>b  <S-Left>
+cnoremap <Esc>x  <Del>
 
 " escape Command-line mode if the command line is empty (like <C-h>)
 cnoremap <expr> <C-u>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-u>")
@@ -1489,17 +1489,17 @@ cnoremap <expr> <Plug>(arpeggio-default:/)  getcmdtype() == '/' ? '\/' : '/'
 
 " Experimental: Little movement in Insert mode  "{{{2
 
-Arpeggioinoremap <Esc>h  <Left>
-Arpeggioinoremap <Esc>j  <Down>
-Arpeggioinoremap <Esc>k  <Up>
-Arpeggioinoremap <Esc>l  <Right>
+inoremap <Esc>h  <Left>
+inoremap <Esc>j  <Down>
+inoremap <Esc>k  <Up>
+inoremap <Esc>l  <Right>
 
-Arpeggioinoremap <Esc>w  <C-Right>
-Arpeggioinoremap <Esc>b  <C-Left>
-Arpeggioinoremap <Esc>e  <C-o>e
-Arpeggioinoremap <Esc>W  <C-o>W
-Arpeggioinoremap <Esc>B  <C-o>B
-Arpeggioinoremap <Esc>E  <C-o>E
+inoremap <Esc>w  <C-Right>
+inoremap <Esc>b  <C-Left>
+inoremap <Esc>e  <C-o>e
+inoremap <Esc>W  <C-o>W
+inoremap <Esc>B  <C-o>B
+inoremap <Esc>E  <C-o>E
 
 
 
