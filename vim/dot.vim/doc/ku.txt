@@ -318,8 +318,9 @@ window.
 - Input history is saved as "info/ku/history" under the first directory in
   'runtimepath'.
 
-- Maximum size of input history is 100.  The oldest pattern will be removed on
-  overflow.
+- Maximum size of input history is configured by |g:ku_history_size|.
+  Whenever the number of inputted patterns exceeds the limit, the oldest
+  patterns will be removed.
 
 - In the ku window, <Plug>(ku-older-history) and <Plug>(ku-newer-history) can
   be used to recall an old input pattern.
@@ -621,6 +622,10 @@ g:ku_history_added_p				*g:ku_history_added_p*
 	the input history or false otherwise.  The default value means
 	non-empty pattern can be added into the input history.
 
+g:ku_history_size				*g:ku_history_size*
+	A number which is the maximum size of input history.
+	Default value is 1000.
+
 
 
 
@@ -724,6 +729,7 @@ CHANGELOG					*ku-changelog*
 	  from the default action table of the current source.  Because they
 	  may fall into infinite loop if user-defined "default" action refers
 	  "default" action.
+	- Add |g:ku_history_size|.
 
 0.1.4	2008-09-29T02:31:12+09:00
 	- Add |ku#{source}#acc_valid_p()| to filter items for

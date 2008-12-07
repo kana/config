@@ -137,6 +137,9 @@ let s:last_used_input_pattern = ''
 if !exists('g:ku_history_added_p')
   let g:ku_history_added_p = 'ku#_history_added_p'
 endif
+if !exists('g:ku_history_size')
+  let g:ku_history_size = 1000
+endif
 
 
 
@@ -1273,7 +1276,6 @@ let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
 " Variables / Constants  "{{{3
 
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
-let s:HISTORY_SIZE = 100
 let s:HISTORY_FILE = 'info/ku/history'
 
 
@@ -1283,8 +1285,8 @@ function! s:history_add(new_input_pattern)  "{{{3
   endif
   call insert(s:inputted_patterns, a:new_input_pattern, 0)
 
-  if s:HISTORY_SIZE < len(s:inputted_patterns)
-    unlet s:inputted_patterns[(s:HISTORY_SIZE):]
+  if g:ku_history_size < len(s:inputted_patterns)
+    unlet s:inputted_patterns[(g:ku_history_size):]
   endif
 endfunction
 
@@ -1306,7 +1308,7 @@ endfunction
 
 function! s:history_load()  "{{{3
   if filereadable(s:history_file())
-    let s:inputted_patterns = readfile(s:history_file(), '', s:HISTORY_SIZE)
+    let s:inputted_patterns = readfile(s:history_file(), '', g:ku_history_size)
   else
     let s:inputted_patterns = []
   endif
