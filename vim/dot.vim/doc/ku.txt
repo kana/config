@@ -178,9 +178,21 @@ ku#do_action({name})				*ku#do_action()*
 			Function version of |:KuDoAction|.
 
 ku#input_history()				*ku#input_history()*
-			Return a list of inputted patterns.  The first item is
-			the newest inputted pattern.  Returned value must not
-			be modified.
+			Return a list of inputted patterns.  Returned value
+			must not be modified.  The first item is corresponding
+			to the newest inputted pattern.  Each item is
+			a dictionary which content is as follows:
+
+			"pattern"	String
+				What user inputed before.
+
+			"time"		Number
+				The time when user inputted the pattern.
+				See |localtime()| for the detail of value.
+
+			"source"	String
+				The name of the source for which the pattern
+				was inputted.
 
 
 ------------------------------------------------------------------------------
@@ -730,6 +742,10 @@ CHANGELOG					*ku-changelog*
 	  may fall into infinite loop if user-defined "default" action refers
 	  "default" action.
 	- Add |g:ku_history_size|.
+
+	Incompatible changes:
+	- Change the format of value returned by |ku#input_history()|.
+	  Now it is a list of dictionaries, not a list of strings.
 
 0.1.4	2008-09-29T02:31:12+09:00
 	- Add |ku#{source}#acc_valid_p()| to filter items for

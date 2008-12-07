@@ -552,7 +552,7 @@ function! s:do(action_name)  "{{{2
     endif
   endif
 
-  call s:history_add(s:remove_prompt(s:last_user_input_raw))
+  call s:history_add(s:remove_prompt(s:last_user_input_raw), s:current_source)
   let s:last_used_source = s:current_source
   let s:last_used_input_pattern = s:last_user_input_raw
 
@@ -776,7 +776,7 @@ function! s:recall_input_history(delta)  "{{{2
   if n == -1
     let _ = s:unsaved_input_pattern
   else
-    let _ = ku#input_history()[n]
+    let _ = ku#input_history()[n].pattern
   endif
 
   let s:current_hisotry_index = n
@@ -1278,12 +1278,24 @@ let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
 let s:HISTORY_FILE = 'info/ku/history'
 
+" The format of history file is:
+" - Each line is corresponding to an inputted pattern.
+" - The first line is corresponding to the newest inputted pattern.
+" - Each line consists of 3 columns separated by a tab;
+"   the 1st column is an inputted pattern,
+"   the 2nd column is the source for which the pattern was inputted, and
+"   the 3rd column is the time when the pattenr was inputted (in localtime()).
 
-function! s:history_add(new_input_pattern)  "{{{3
+
+function! s:history_add(new_input_pattern, source)  "{{{3
   if !{g:ku_history_added_p}(a:new_input_pattern)
     return
   endif
-  call insert(s:inputted_patterns, a:new_input_pattern, 0)
+  call insert(s:inputted_patterns,
+  \           {'pattern': a:new_input_pattern,
+  \            'source': a:source,
+  \            'time': localtime()},
+  \           0)
 
   if g:ku_history_size < len(s:inputted_patterns)
     unlet s:inputted_patterns[(g:ku_history_size):]
@@ -1308,7 +1320,15 @@ endfunction
 
 function! s:history_load()  "{{{3
   if filereadable(s:history_file())
-    let s:inputted_patterns = readfile(s:history_file(), '', g:ku_history_size)
+    let s:inputted_patterns = []
+    for line in readfile(s:history_file(), '', g:ku_history_size)
+      let columns = split(line, '\t')
+      call add(s:inputted_patterns, {
+      \      'pattern': columns[0],
+      \      'source': 2 <= len(columns) ? columns[1] : s:INVALID_SOURCE,
+      \      'time': 3 <= len(columns) ? str2nr(columns[2]) : 0,
+      \    })
+    endfor
   else
     let s:inputted_patterns = []
   endif
@@ -1326,7 +1346,9 @@ function! s:history_save()  "{{{3
     call mkdir(directory, 'p')
   endif
 
-  call writefile(s:history_list(), file)
+  call writefile(map(copy(s:history_list()),
+  \                  'v:val.pattern ."\t". v:val.source ."\t". v:val.time'),
+  \              file)
 endfunction
 
 
