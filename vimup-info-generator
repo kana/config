@@ -42,10 +42,56 @@ def parse_doc(s)
   raise RuntimeError, 'Not found: versions' unless Regexp.last_match
   _['versions'] = Regexp.last_match(1).
                   scan(/^([\d.]+)\t.*\n((?:\t.*\n|[<>]?\n)*)/).map do |x|
-    {x[0] => x[1].gsub(/^\t/, '').chomp('')}
+    {x[0] => format_release_notes(x[1])}
   end
 
   _
+end
+
+def format_release_notes(raw_text)
+  # Drop indent from the raw_text.
+  _ = raw_text
+  _ = _.gsub /^\t/, ''
+  _ = _.chomp ''
+  #
+  #|>
+  #|  Code example
+  #|<
+  # ==>
+  #|
+  #|  Code example
+  #|
+  _ = _.gsub /^[><]$/, ''
+
+  #|- A logical line
+  #|  which is folded as this.
+  #|  - Sub line
+  #|    which is folded as this.
+  # ==>
+  #|- A logical line which is folded as this.
+  #|  - Sub line which is folded as this.
+  new_lines = []
+  lines = _.split /\n/
+  i = 0
+  while i < lines.length
+    if /^ *- /.match lines[i]
+      new_lines.push lines[i]
+      while i+1 < lines.length
+        if /^ *- /.match lines[i+1] or /^$/.match lines[i+1]
+          break
+        end
+        new_lines[-1] += ' ' if /\.$/.match new_lines[-1]
+        new_lines[-1] += ' '
+        new_lines[-1] += lines[i+1].sub /^ */, ''
+        i += 1
+      end
+    else
+      new_lines.push lines[i]
+    end
+
+    i += 1
+  end
+  new_lines.join "\n"
 end
 
 
