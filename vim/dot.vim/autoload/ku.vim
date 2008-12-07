@@ -345,6 +345,8 @@ function! ku#default_key_mappings(override_p)  "{{{2
   call s:ni_map(_, '<buffer> <C-k>', '<Plug>(ku-previous-source)')
   call s:ni_map(_, '<buffer> <Esc>j', '<Plug>(ku-newer-history)')
   call s:ni_map(_, '<buffer> <Esc>k', '<Plug>(ku-older-history)')
+  call s:ni_map(_, '<buffer> <Esc>J', '<Plug>(ku-newer-history-and-source)')
+  call s:ni_map(_, '<buffer> <Esc>K', '<Plug>(ku-older-history-and-source)')
   return
 endfunction
 
@@ -624,9 +626,13 @@ function! s:initialize_ku_buffer()  "{{{2
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
   \        :<C-u>call <SID>switch_current_source(-1)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-newer-history)
-  \        :<C-u>call <SID>recall_input_history(-1)<Return>
+  \        :<C-u>call <SID>recall_input_history(-1, 0)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-older-history)
-  \        :<C-u>call <SID>recall_input_history(1)<Return>
+  \        :<C-u>call <SID>recall_input_history(1, 0)<Return>
+  nnoremap <buffer> <silent> <Plug>(ku-newer-history-and-source)
+  \        :<C-u>call <SID>recall_input_history(-1, !0)<Return>
+  nnoremap <buffer> <silent> <Plug>(ku-older-history-and-source)
+  \        :<C-u>call <SID>recall_input_history(1, !0)<Return>
 
   nnoremap <buffer> <Plug>(ku-%-enter-insert-mode)  a
   inoremap <buffer> <Plug>(ku-%-leave-insert-mode)  <Esc>
@@ -665,6 +671,16 @@ function! s:initialize_ku_buffer()  "{{{2
   \    <Plug>(ku-%-cancel-completion)
   \<Plug>(ku-%-leave-insert-mode)
   \<Plug>(ku-older-history)
+  \<Plug>(ku-%-enter-insert-mode)
+  imap <buffer> <silent> <Plug>(ku-newer-history-and-source)
+  \    <Plug>(ku-%-cancel-completion)
+  \<Plug>(ku-%-leave-insert-mode)
+  \<Plug>(ku-newer-history-and-source)
+  \<Plug>(ku-%-enter-insert-mode)
+  imap <buffer> <silent> <Plug>(ku-older-history-and-source)
+  \    <Plug>(ku-%-cancel-completion)
+  \<Plug>(ku-%-leave-insert-mode)
+  \<Plug>(ku-older-history-and-source)
   \<Plug>(ku-%-enter-insert-mode)
 
   inoremap <buffer> <expr> <BS>  pumvisible() ? '<C-e><BS>' : '<BS>'
@@ -760,7 +776,7 @@ endfunction
 
 
 
-function! s:recall_input_history(delta)  "{{{2
+function! s:recall_input_history(delta, change_source_p)  "{{{2
   let o = s:current_hisotry_index
   let n = o + a:delta
   if n < -1
@@ -777,6 +793,12 @@ function! s:recall_input_history(delta)  "{{{2
     let _ = s:unsaved_input_pattern
   else
     let _ = ku#input_history()[n].pattern
+    if a:change_source_p
+      let new_source = ku#input_history()[n].source
+      if s:available_source_p(new_source)
+        call s:switch_current_source(new_source)
+      endif
+    endif
   endif
 
   let s:current_hisotry_index = n

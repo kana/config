@@ -114,6 +114,8 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-k>		<Plug>(ku-previous-source)
 			<Esc>j		<Plug>(ku-newer-history)
 			<Esc>k		<Plug>(ku-older-history)
+			<Esc>J		<Plug>(ku-newer-history-and-source)
+			<Esc>K		<Plug>(ku-older-history-and-source)
 
 ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 ku#custom_action({source}, {action}, {source2}, {action2})
@@ -230,7 +232,17 @@ In the ku window, the following key mappings are defined:
 <Plug>(ku-older-history)			*<Plug>(ku-older-history)*
 <Plug>(ku-newer-history)			*<Plug>(ku-newer-history)*
 			Replace the current input pattern with older/newer
-			one.
+			one in |ku-input-history|.
+
+<Plug>(ku-older-history-and-source)	 *<Plug>(ku-older-history-and-source)*
+<Plug>(ku-newer-history-and-source)	 *<Plug>(ku-newer-history-and-source)*
+			Like |<Plug>(ku-older-history)| or
+			|<Plug>(ku-newer-history)|, but change the current
+			source as same as the one for which the pattern was
+			inputted.
+
+			If the new source is not currently available, the
+			current source will not be changed.
 
 The default key mappings are defined by |ku#default_key_mappings()|.
 
@@ -334,8 +346,8 @@ window.
   Whenever the number of inputted patterns exceeds the limit, the oldest
   patterns will be removed.
 
-- In the ku window, <Plug>(ku-older-history) and <Plug>(ku-newer-history) can
-  be used to recall an old input pattern.
+- In the ku window, |<Plug>(ku-older-history)| and |<Plug>(ku-newer-history)|
+  can be used to recall an old input pattern.
 
 - Inputted pattern will be added to input history if some action is executed
   on it.
@@ -742,6 +754,8 @@ CHANGELOG					*ku-changelog*
 	  may fall into infinite loop if user-defined "default" action refers
 	  "default" action.
 	- Add |g:ku_history_size|.
+	- Add |<Plug>(ku-older-history-and-source)| and
+	  |<Plug>(ku-newer-history-and-source)|.
 
 	Incompatible changes:
 	- Change the format of value returned by |ku#input_history()|.
