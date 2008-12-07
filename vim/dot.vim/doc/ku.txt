@@ -112,6 +112,7 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-i>		<Plug>(ku-choose-an-action)
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
+			<Esc>l		<Plug>(ku-history-source)
 			<Esc>j		<Plug>(ku-newer-history)
 			<Esc>k		<Plug>(ku-older-history)
 			<Esc>J		<Plug>(ku-newer-history-and-source)
@@ -228,6 +229,18 @@ In the ku window, the following key mappings are defined:
 			- the current source is "buffer",
 			the next one is "file" and
 			the previous one is "metarw-git".
+
+<Plug>(ku-history-source)			*<Plug>(ku-history-source)*
+			If you recall a pattern from |ku-input-history|,
+			change the current source to the one for which the
+			currently recalled pattern was inputted.  Otherwise,
+			nothing will happen.
+
+			For example, if:
+			- you use |<Plug>(ku-older-history)| several times,
+			- the source for the recalled pattern is "file",
+			- and the current source is "buffer",
+			then the current source will be changed to "file".
 
 <Plug>(ku-older-history)			*<Plug>(ku-older-history)*
 <Plug>(ku-newer-history)			*<Plug>(ku-newer-history)*
@@ -756,6 +769,7 @@ CHANGELOG					*ku-changelog*
 	- Add |g:ku_history_size|.
 	- Add |<Plug>(ku-older-history-and-source)| and
 	  |<Plug>(ku-newer-history-and-source)|.
+	- Add |<Plug>(ku-history-source)|.
 
 	Incompatible changes:
 	- Change the format of value returned by |ku#input_history()|.

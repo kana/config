@@ -343,6 +343,7 @@ function! ku#default_key_mappings(override_p)  "{{{2
   call s:ni_map(_, '<buffer> <C-i>', '<Plug>(ku-choose-an-action)')
   call s:ni_map(_, '<buffer> <C-j>', '<Plug>(ku-next-source)')
   call s:ni_map(_, '<buffer> <C-k>', '<Plug>(ku-previous-source)')
+  call s:ni_map(_, '<buffer> <Esc>l', '<Plug>(ku-history-source)')
   call s:ni_map(_, '<buffer> <Esc>j', '<Plug>(ku-newer-history)')
   call s:ni_map(_, '<buffer> <Esc>k', '<Plug>(ku-older-history)')
   call s:ni_map(_, '<buffer> <Esc>J', '<Plug>(ku-newer-history-and-source)')
@@ -625,6 +626,8 @@ function! s:initialize_ku_buffer()  "{{{2
   \        :<C-u>call <SID>switch_current_source(1)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
   \        :<C-u>call <SID>switch_current_source(-1)<Return>
+  nnoremap <buffer> <silent> <Plug>(ku-history-source)
+  \        :<C-u>call <SID>switch_current_source('*history*')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-newer-history)
   \        :<C-u>call <SID>recall_input_history(-1, 0)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-older-history)
@@ -661,6 +664,11 @@ function! s:initialize_ku_buffer()  "{{{2
   \    <Plug>(ku-%-cancel-completion)
   \<Plug>(ku-%-leave-insert-mode)
   \<Plug>(ku-previous-source)
+  \<Plug>(ku-%-enter-insert-mode)
+  imap <buffer> <silent> <Plug>(ku-history-source)
+  \    <Plug>(ku-%-cancel-completion)
+  \<Plug>(ku-%-leave-insert-mode)
+  \<Plug>(ku-history-source)
   \<Plug>(ku-%-enter-insert-mode)
   imap <buffer> <silent> <Plug>(ku-newer-history)
   \    <Plug>(ku-%-cancel-completion)
@@ -820,6 +828,12 @@ endfunction
 
 
 function! s:switch_current_source(new_source)  "{{{2
+  " a:new_source must be:
+  " - A number - offset based on the current source in :help ku-sources-list.
+  " - A string - a valid source name or '*history*'.
+  "              '*history*' is treated as the source name for the currently
+  "              recalled input pattern from :help ku-input-history.
+  "
   " FIXME: Update the line to indicate the current source even if this
   "        function is called in any mode other than Insert mode.
   let _ = ku#available_sources()
@@ -830,7 +844,19 @@ function! s:switch_current_source(new_source)  "{{{2
       let n += len(_)
     endif
   else  " type(a:new_source) == type('')
-    let n = index(_, a:new_source)
+    if a:new_source ==# '*history*'
+      if 0 <= s:current_hisotry_index
+        let new_source = ku#input_history()[s:current_hisotry_index].source
+        if !s:available_source_p(new_source)
+          return s:FALSE
+        endif
+      else
+        return s:FALSE
+      endif
+    else
+      let new_source = a:new_source
+    endif
+    let n = index(_, new_source)
   endif
 
   if o == n
