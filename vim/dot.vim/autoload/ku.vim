@@ -819,18 +819,18 @@ endfunction
 
 
 
-function! s:switch_current_source(_)  "{{{2
+function! s:switch_current_source(new_source)  "{{{2
   " FIXME: Update the line to indicate the current source even if this
   "        function is called in any mode other than Insert mode.
   let _ = ku#available_sources()
   let o = index(_, s:current_source)
-  if type(a:_) == type(0)
-    let n = (o + a:_) % len(_)
+  if type(a:new_source) == type(0)
+    let n = (o + a:new_source) % len(_)
     if n < 0
       let n += len(_)
     endif
-  else  " type(a:_) == type('')
-    let n = index(_, a:_)
+  else  " type(a:new_source) == type('')
+    let n = index(_, a:new_source)
   endif
 
   if o == n
