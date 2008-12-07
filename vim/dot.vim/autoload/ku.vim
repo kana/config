@@ -709,10 +709,17 @@ function! s:on_CursorMovedI()  "{{{2
   if s:current_hisotry_index == -1
     call setline(1, printf('Source: %s', s:current_source))
   else
-    call setline(1, printf('Source: %s (%d/%d)',
+    let old_source = ku#input_history()[s:current_hisotry_index].source
+    if s:current_source ==# old_source
+      let _ = ''
+    else
+      let _ = printf(' (was %s)', old_source)
+    endif
+    call setline(1, printf('Source: %s (%d/%d)%s',
     \                      s:current_source,
     \                      s:current_hisotry_index + 1,
-    \                      len(ku#input_history())))
+    \                      len(ku#input_history()),
+    \                      _))
   endif
 
   " The order of these conditions are important.
