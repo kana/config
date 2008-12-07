@@ -41,7 +41,7 @@ def parse_doc(s)
   /^CHANGELOG\b.*\n+((.*\n)*?)=/ =~ s
   raise RuntimeError, 'Not found: versions' unless Regexp.last_match
   _['versions'] = Regexp.last_match(1).
-                  scan(/^([\d.]+)\t.*\n((?:\t.*\n|\n)*)/).map do |x|
+                  scan(/^([\d.]+)\t.*\n((?:\t.*\n|[<>]?\n)*)/).map do |x|
     {x[0] => x[1].gsub(/^\t/, '').chomp('')}
   end
 
