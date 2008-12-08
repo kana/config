@@ -196,7 +196,9 @@ ALL_PACKAGES=\
   vim-idwintab \
   vim-ku \
   vim-ku-args \
+  vim-ku-buffer \
   vim-ku-bundle \
+  vim-ku-file \
   vim-ku-metarw \
   vim-ku-quickfix \
   vim-metarw \
@@ -294,13 +296,11 @@ PACKAGE_vim_ku_ARCHIVE=vim-ku-0.1.5
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
-  vim/dot.vim/autoload/ku/buffer.vim \
-  vim/dot.vim/autoload/ku/file.vim \
   vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/doc/ku-buffer.txt \
-  vim/dot.vim/doc/ku-file.txt \
   vim/dot.vim/plugin/ku.vim \
-  vim/dot.vim/syntax/ku.vim
+  vim/dot.vim/syntax/ku.vim \
+  $(PACKAGE_vim_ku_buffer_FILES) \
+  $(PACKAGE_vim_ku_file_FILES)
 
 PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.0.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
@@ -308,11 +308,23 @@ PACKAGE_vim_ku_args_FILES=\
   vim/dot.vim/autoload/ku/args.vim \
   vim/dot.vim/doc/ku-args.txt
 
+PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-0.0.1
+PACKAGE_vim_ku_buffer_BASE=vim/dot.vim
+PACKAGE_vim_ku_buffer_FILES=\
+  vim/dot.vim/autoload/ku/buffer.vim \
+  vim/dot.vim/doc/ku-buffer.txt
+
 PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.1
 PACKAGE_vim_ku_bundle_BASE=vim/dot.vim
 PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
+
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.0.1
+PACKAGE_vim_ku_file_BASE=vim/dot.vim
+PACKAGE_vim_ku_file_FILES=\
+  vim/dot.vim/autoload/ku/file.vim \
+  vim/dot.vim/doc/ku-file.txt
 
 PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.0.1
 PACKAGE_vim_ku_metarw_BASE=vim/dot.vim
