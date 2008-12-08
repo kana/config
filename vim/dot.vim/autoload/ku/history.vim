@@ -29,6 +29,10 @@ if !exists('g:ku_history_fallback_source')
   let g:ku_history_fallback_source = 'file'
 endif
 
+if !exists('g:ku_history_sorting_style')
+  let g:ku_history_sorting_style = 'time'
+endif
+
 
 
 
@@ -42,17 +46,21 @@ function! ku#history#event_handler(event, ...)  "{{{2
     let _ = {}
     for i in copy(ku#input_history())
       let sources = get(_, i.pattern, {})
-      let sources[i.source] = 0
+      let time = get(sources, i.source, 0)
+      let sources[i.source] = max([time, i.time])
       let _[i.pattern] = sources
     endfor
 
     let s:cached_items = []
     for [pattern, sources] in items(_)
-      for source in keys(sources)
+      for [source, time] in items(sources)
         call add(s:cached_items, {
         \      'word': pattern,
         \      'menu': source,
         \      'dup': 1,
+        \      '_ku_sort_priority': (g:ku_history_sorting_style ==# 'time'
+        \                            ? -time
+        \                            : 0),
         \    })
       endfor
     endfor

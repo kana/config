@@ -77,6 +77,18 @@ o		open		|ku-history-action-open|
 ==============================================================================
 VARIABLES					*ku-history-variables*
 
+g:ku_history_sorting_style			*g:ku_history_sorting_style*
+			A string which specifies how to sort items.  This
+			variable can be one of the following values:
+
+			"pattern"
+				Sort by pattern.
+
+			"time"
+				Sort by time when a pattern was inputted.
+
+			Default value is "time".
+
 g:ku_history_fallback_source			*g:ku_history_fallback_source*
 			The name of a source which is used instead of the
 			source in |ku-input-history| if it is unavailable.
