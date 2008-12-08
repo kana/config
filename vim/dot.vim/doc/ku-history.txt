@@ -28,6 +28,7 @@ CONTENTS					*ku-history-contents*
 Introduction		|ku-history-introduction|
 Action Table		|ku-history-action-table|
 Key Table		|ku-history-key-table|
+Variables		|ku-history-variables|
 Bugs			|ku-history-bugs|
 Changelog		|ku-history-changelog|
 
@@ -69,6 +70,18 @@ Key		Action ~
 --------	--------
 <C-o>		open		|ku-history-action-open|
 o		open		|ku-history-action-open|
+
+
+
+
+==============================================================================
+VARIABLES					*ku-history-variables*
+
+g:ku_history_fallback_source			*g:ku_history_fallback_source*
+			The name of a source which is used instead of the
+			source in |ku-input-history| if it is unavailable.
+
+			Default value is "file".
 
 
 

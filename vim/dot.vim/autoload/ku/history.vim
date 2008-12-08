@@ -25,6 +25,10 @@
 
 let s:cached_items = []
 
+if !exists('g:ku_history_fallback_source')
+  let g:ku_history_fallback_source = 'file'
+endif
+
 
 
 
@@ -95,7 +99,14 @@ endfunction
 " Misc.  "{{{1
 " Actions  "{{{2
 function! ku#history#action_open(item)  "{{{3
-  call ku#start(a:item.menu, a:item.word)
+  let pattern = a:item.word
+  let source = a:item.menu
+
+  if !ku#available_source_p(source)
+    let source = g:ku_history_fallback_source
+  endif
+
+  call ku#start(source, pattern)
   return
 endfunction
 
