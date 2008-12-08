@@ -387,10 +387,7 @@ function! ku#start(source, ...)  "{{{2
   endif
 
   if s:ku_active_p()
-    " ":Ku {source}" change the current source as a:source if ku is already
-    " active.
-    call s:switch_current_source(a:source)
-    return s:TRUE
+    return s:FALSE
   endif
 
   let s:current_source = a:source
@@ -434,6 +431,18 @@ function! ku#start(source, ...)  "{{{2
   call feedkeys('A', 'n')
 
   call s:api(s:current_source, 'event_handler', 'SourceEnter')
+  return s:TRUE
+endfunction
+
+
+
+
+function! ku#switch_source(source)  "{{{2
+  if !(s:ku_active_p() && s:available_source_p(a:source))
+    return s:FALSE
+  endif
+
+  call s:switch_current_source(a:source)
   return s:TRUE
 endfunction
 
