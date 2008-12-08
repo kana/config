@@ -602,7 +602,8 @@ $(foreach group, \
 VIMUP_TASKS=update-script update-details
 vimup: package
 	./vimup-info-generator \
-	  <$(filter vim/dot.vim/doc/%.txt,$(PACKAGE_$(_PACKAGE_NAME)_FILES)) \
+	  <$(firstword $(filter vim/dot.vim/doc/%.txt, \
+	                        $(PACKAGE_$(_PACKAGE_NAME)_FILES))) \
 	  >$(PACKAGE_NAME).vimup
 	for i in $(VIMUP_TASKS); do \
 	  vimup $$i $(PACKAGE_NAME); \
