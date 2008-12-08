@@ -1385,7 +1385,7 @@ let s:HISTORY_FILE = 'info/ku/history'
 
 
 function! s:history_add(new_input_pattern, source)  "{{{3
-  if !{g:ku_history_added_p}(a:new_input_pattern)
+  if !{g:ku_history_added_p}(a:new_input_pattern, a:source)
     return
   endif
   call insert(s:inputted_patterns,
@@ -1399,8 +1399,8 @@ function! s:history_add(new_input_pattern, source)  "{{{3
   endif
 endfunction
 
-function! ku#_history_added_p(new_input_pattern)
-  return a:new_input_pattern !~ '^\s*$'
+function! ku#_history_added_p(new_input_pattern, source)
+  return a:source !=# 'history' && a:new_input_pattern !~ '^\s*$'
 endfunction
 
 

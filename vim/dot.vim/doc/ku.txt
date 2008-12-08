@@ -673,10 +673,19 @@ g:ku_component_separators			*g:ku_component_separators*
 	activated.
 
 g:ku_history_added_p				*g:ku_history_added_p*
-	A string which reporesents the name of a function which takes an input
-	pattern as a string and returns true if the pattern can be added into
-	the input history or false otherwise.  The default value means
-	non-empty pattern can be added into the input history.
+	A string which reporesents the name of a function.  This function is
+	used to determine whether an input pattern can be added to
+	|ku-input-history| or not.
+
+	This function must take 2 arguments: the 1st argument is an input
+	pattern, and the 2nd argument is the source for which the input
+	pattern was inputted.  If it returns true, the input pattern will be
+	added to the input history.  Otherwise, the input pattern will not be
+	added.
+
+	The default value will not add the following patterns:
+	- Empty patterns, or
+	- Any patterns which were inputted for source |ku-history|.
 
 g:ku_history_size				*g:ku_history_size*
 	A number which is the maximum size of input history.
@@ -780,12 +789,16 @@ CHANGELOG					*ku-changelog*
 	  the default key mapping for it (see |ku#default_key_mappings()|).
 	- Include new source |ku-history|.
 	- Add |ku#available_source_p()|.
+	- Change the default value of |g:ku_history_added_p|.  Now it also
+	  omits patterns for source |ku-history|.
 
 	Incompatible changes:
 	- Change the behavior of |:Ku| and |ku#start()| if ku is already
 	  active.  Old ones change the current source to the specified source.
 	  New ones don't nothing.  Use |ku#switch_source()| to change the
 	  current source.
+	- Change the specification of |g:ku_history_added_p|.  It took
+	  a single argument, but now, it takes 2 arguments.
 
 0.1.5	2008-10-19T21:32:12+09:00/2008-12-08T01:31:24+09:00
 	- Show the information about |ku-input-history| in |the-ku-buffer|.
