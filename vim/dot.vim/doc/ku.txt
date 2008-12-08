@@ -75,7 +75,8 @@ INTERFACE					*ku-interface*
 COMMANDS					*ku-commands*
 
 :Ku {source}					*:Ku*
-			Start selecting items from {source}.
+			Start selecting items from {source}.  It is an error
+			to use this command while ku is active.
 			See also |ku#start()|.
 
 :KuDoAction {name}
@@ -763,8 +764,8 @@ CHANGELOG					*ku-changelog*
 	Incompatible changes:
 	- Change the behavior of |:Ku| and |ku#start()| if ku is already
 	  active.  Old ones change the current source to the specified source.
-	  New ones don't so (see |ku#start()| for the details).
-	  Use |ku#switch_source()| if you want the old behavior.
+	  New ones don't nothing.  Use |ku#switch_source()| to change the
+	  current source.
 
 0.1.5	2008-10-19T21:32:12+09:00/2008-12-08T01:31:24+09:00
 	- Show the information about |ku-input-history| in |the-ku-buffer|.

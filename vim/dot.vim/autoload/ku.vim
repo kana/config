@@ -387,6 +387,8 @@ function! ku#start(source, ...)  "{{{2
   endif
 
   if s:ku_active_p()
+    echoerr 'ku: Already active - called with:'
+    \       string(a:source) 'and' string(a:000)
     return s:FALSE
   endif
 
@@ -438,7 +440,12 @@ endfunction
 
 
 function! ku#switch_source(source)  "{{{2
-  if !(s:ku_active_p() && s:available_source_p(a:source))
+  if !s:ku_active_p()
+    echoerr 'ku: Not active - called with:' string(a:source)
+    return s:FALSE
+  endif
+  if !s:available_source_p(a:source)
+    echoerr 'ku: Unavailable source:' string(a:source)
     return s:FALSE
   endif
 
