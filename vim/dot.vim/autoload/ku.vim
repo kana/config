@@ -341,6 +341,7 @@ function! ku#default_key_mappings(override_p)  "{{{2
   call s:ni_map(_, '<buffer> <C-m>', '<Plug>(ku-do-the-default-action)')
   call s:ni_map(_, '<buffer> <Tab>', '<Plug>(ku-choose-an-action)')
   call s:ni_map(_, '<buffer> <C-i>', '<Plug>(ku-choose-an-action)')
+  call s:ni_map(_, '<buffer> <Esc>i', '<Plug>(ku-do-persistent-action)')
   call s:ni_map(_, '<buffer> <C-j>', '<Plug>(ku-next-source)')
   call s:ni_map(_, '<buffer> <C-k>', '<Plug>(ku-previous-source)')
   call s:ni_map(_, '<buffer> <Esc>l', '<Plug>(ku-history-source)')
@@ -638,6 +639,8 @@ function! s:initialize_ku_buffer()  "{{{2
   \        :<C-u>call <SID>do('default')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-choose-an-action)
   \        :<C-u>call <SID>do('')<Return>
+  nnoremap <buffer> <silent> <Plug>(ku-do-persistent-action)
+  \        :<C-u>call <SID>do('persistent')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-next-source)
   \        :<C-u>call <SID>switch_current_source(1)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
@@ -671,6 +674,10 @@ function! s:initialize_ku_buffer()  "{{{2
   \    <Plug>(ku-%-accept-completion)
   \<Plug>(ku-%-leave-insert-mode)
   \<Plug>(ku-choose-an-action)
+  imap <buffer> <silent> <Plug>(ku-do-persistent-action)
+  \    <Plug>(ku-%-accept-completion)
+  \<Plug>(ku-%-leave-insert-mode)
+  \<Plug>(ku-do-persistent-action)
   imap <buffer> <silent> <Plug>(ku-next-source)
   \    <Plug>(ku-%-cancel-completion)
   \<Plug>(ku-%-leave-insert-mode)
@@ -1207,6 +1214,16 @@ function! s:_default_action_nop(item)  "{{{3
 endfunction
 
 
+function! s:_default_action_persistent(item)  "{{{3
+  let action = s:choose_action(a:item)
+  if action !=# 'cancel'
+    call s:do_action(action, a:item)
+    call ku#restart()
+  endif
+  return
+endfunction
+
+
 
 
 " Action table  "{{{2
@@ -1241,6 +1258,7 @@ function! s:default_action_table()  "{{{3
   \   'lcd': 's:_default_action_lcd',
   \   'left': 's:_default_action_left',
   \   'nop': 's:_default_action_nop',
+  \   'persistent': 's:_default_action_persistent',
   \   'right': 's:_default_action_right',
   \   'tab-Left': 's:_default_action_tab_Left',
   \   'tab-Right': 's:_default_action_tab_Right',
@@ -1279,6 +1297,7 @@ function! s:default_key_table()  "{{{3
   \   "\<C-l>": 'right',
   \   "\<C-t>": 'tab-Right',
   \   "\<Esc>": 'cancel',
+  \   "\<Esc>i": 'persistent',
   \   "\<Return>": 'default',
   \   '/': 'cd',
   \   ':': 'ex',

@@ -113,6 +113,7 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<C-m>		<Plug>(ku-do-the-default-action)
 			<Tab>		<Plug>(ku-choose-an-action)
 			<C-i>		<Plug>(ku-choose-an-action)
+			<Esc>i		<Plug>(ku-do-persistent-action)
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
 			<Esc>l		<Plug>(ku-history-source)
@@ -216,6 +217,10 @@ In the ku window, the following key mappings are defined:
 			Show the mesasge on available actions, take a single
 			key input, then do the appropriate action.  See also
 			|ku-default-action-table| and |ku-default-key-table|.
+
+<Plug>(ku-do-persistent-action)      	    *<Plug>(ku-do-persistent-action)*
+			Like |<Plug>(ku-choose-an-action)|, but execute an
+			action without quitting ku.
 
 <Plug>(ku-next-source)				*<Plug>(ku-next-source)*
 <Plug>(ku-previous-source)			*<Plug>(ku-previous-source)*
@@ -400,6 +405,11 @@ nop						*ku-aciton-nop*
 			Do nothing.  Use this action to remove an entry from
 			a key table.
 
+persistent					*ku-aciton-persistent*
+			 Choose an action the same as
+			 |<Plug>(ku-choose-an-action)|, then execute an action
+			 without quitting ku.
+
 Bottom						*ku-action-Bottom*
 Left						*ku-action-Left*
 Right						*ku-action-Right*
@@ -446,6 +456,7 @@ Key		Action ~
 <C-l>		right		|ku-action-right|
 <C-t>		tab-Right	|ku-action-tab-Right|
 <Esc>		cancel		|ku-action-cancel|
+<Esc>i		persistent	|ku-action-persistent|
 <Return>	default		|ku-action-default|
 ?		lcd		|ku-action-lcd|
 H		Left		|ku-action-Left|
@@ -760,6 +771,8 @@ CHANGELOG					*ku-changelog*
 
 0.1.6	2008-12-08T16:41:47+09:00
 	- Add |ku#switch_source()|.
+	- Add |ku-action-persistent|, |<Plug>(ku-do-persistent-action)| and
+	  the default key mapping for it (see |ku#default_key_mappings()|).
 
 	Incompatible changes:
 	- Change the behavior of |:Ku| and |ku#start()| if ku is already
