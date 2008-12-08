@@ -477,6 +477,7 @@ The following sources are included with the packages of ku:
 
 - buffer	(|ku-buffer.txt|)
 - file		(|ku-file.txt|)
+- history	(|ku-history.txt|)
 
 
 
@@ -773,6 +774,7 @@ CHANGELOG					*ku-changelog*
 	- Add |ku#switch_source()|.
 	- Add |ku-action-persistent|, |<Plug>(ku-do-persistent-action)| and
 	  the default key mapping for it (see |ku#default_key_mappings()|).
+	- Include new source |ku-history|.
 
 	Incompatible changes:
 	- Change the behavior of |:Ku| and |ku#start()| if ku is already
