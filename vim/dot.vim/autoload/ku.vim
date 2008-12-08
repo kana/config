@@ -149,6 +149,13 @@ endif
 
 
 " Interface  "{{{1
+function! ku#available_source_p(source)  "{{{2
+  return 0 <= index(ku#available_sources(), a:source)
+endfunction
+
+
+
+
 function! ku#available_sources()  "{{{2
   " Assumes that s:available_sources will be never changed during a session.
   if s:ku_active_p() && s:session_id == s:_session_id_source_cache
@@ -382,7 +389,7 @@ endfunction
 
 
 function! ku#start(source, ...)  "{{{2
-  if !s:available_source_p(a:source)
+  if !ku#available_source_p(a:source)
     echoerr 'ku: Not a valid source name:' string(a:source)
     return s:FALSE
   endif
@@ -445,7 +452,7 @@ function! ku#switch_source(source)  "{{{2
     echoerr 'ku: Not active - called with:' string(a:source)
     return s:FALSE
   endif
-  if !s:available_source_p(a:source)
+  if !ku#available_source_p(a:source)
     echoerr 'ku: Unavailable source:' string(a:source)
     return s:FALSE
   endif
@@ -833,7 +840,7 @@ function! s:recall_input_history(delta, change_source_p)  "{{{2
     let _ = ku#input_history()[n].pattern
     if a:change_source_p
       let new_source = ku#input_history()[n].source
-      if s:available_source_p(new_source)
+      if ku#available_source_p(new_source)
         call s:switch_current_source(new_source)
       endif
     endif
@@ -870,7 +877,7 @@ function! s:switch_current_source(new_source)  "{{{2
     if a:new_source ==# '*history*'
       if 0 <= s:current_hisotry_index
         let new_source = ku#input_history()[s:current_hisotry_index].source
-        if !s:available_source_p(new_source)
+        if !ku#available_source_p(new_source)
           return s:FALSE
         endif
       else
@@ -1459,13 +1466,6 @@ function! s:api(source_name, api_name, ...)  "{{{2
     return s:TRUE
   endif
   return call(func, args)
-endfunction
-
-
-
-
-function! s:available_source_p(source)  "{{{2
-  return 0 <= index(ku#available_sources(), a:source)
 endfunction
 
 

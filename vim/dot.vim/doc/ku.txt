@@ -177,6 +177,10 @@ ku#custom_priority({source}, {priority})	*ku#custom_priority()*
 
 			See also |ku-sources-list|.
 
+ku#available_source_p({source})			*ku#available_source_p()*
+			Return true if {source} is a valid one.
+			Otherwise, return false.
+
 ku#available_sources()				*ku#available_sources()*
 			Return a list of strings which represents the names of
 			available sources.
@@ -775,6 +779,7 @@ CHANGELOG					*ku-changelog*
 	- Add |ku-action-persistent|, |<Plug>(ku-do-persistent-action)| and
 	  the default key mapping for it (see |ku#default_key_mappings()|).
 	- Include new source |ku-history|.
+	- Add |ku#available_source_p()|.
 
 	Incompatible changes:
 	- Change the behavior of |:Ku| and |ku#start()| if ku is already
