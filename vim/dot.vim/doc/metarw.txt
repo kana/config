@@ -60,7 +60,7 @@ Demo:
 - http://www.screencast.com/t/fCc8cFaiQj
 
 Latest version:
-- http://github.com/kana/config/tree/master
+http://github.com/kana/config/commits/vim-metarw
 
 
 

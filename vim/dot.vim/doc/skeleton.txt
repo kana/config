@@ -46,6 +46,9 @@ INTRODUCTION					*skeleton-introduction*
 Requirements:
 - Vim 7.1 or later
 
+Latest version:
+http://github.com/kana/config/commits/vim-skeleton
+
 
 
 

@@ -59,6 +59,9 @@ Supported version control systems:
 - Subversion
 - CVS (planned)
 
+Latest version:
+http://github.com/kana/config/commits/vim-vcsi
+
 
 
 

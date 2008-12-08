@@ -47,6 +47,9 @@ completion for XML (|ft-xml-omni|), because it requires to execute |:XMLns|.
 Requirements:
 - Vim 7.0 or later
 
+Latest version:
+http://github.com/kana/config/commits/vim-xml_autons
+
 
 
 

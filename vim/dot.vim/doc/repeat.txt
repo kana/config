@@ -49,8 +49,12 @@ it.  This plugin is fully compatible with Time Pope's one, so it can be
 replace by this plugin without any problem.
 (*) http://www.vim.org/scripts/script.php?script_id=2136
 
+
 Requirements:
 - Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-repeat
 
 
 

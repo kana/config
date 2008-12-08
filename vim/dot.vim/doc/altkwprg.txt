@@ -39,8 +39,12 @@ INTRODUCTION					*altkwprg-introduction*
 *altkwprg* is a Vim plugin to provide 'keywordprg'-like features with
 |:help|-like window.
 
+
 Requirements:
 - Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-altkwprg
 
 
 

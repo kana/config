@@ -53,6 +53,9 @@ you test a bit of script or other use.
 Requirements:
 - Vim 7.0 or later
 
+Latest version:
+http://github.com/kana/config/commits/vim-scratch
+
 
 
 

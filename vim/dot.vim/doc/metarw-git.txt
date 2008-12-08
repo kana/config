@@ -48,6 +48,9 @@ Requirements:
 - Vim 7.1.299 or later
 - metarw 0.0.0 or later (vimscript#2335)
 
+Latest version:
+http://github.com/kana/config/commits/vim-metarw-git
+
 
 
 

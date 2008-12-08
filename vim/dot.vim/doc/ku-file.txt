@@ -45,6 +45,9 @@ Requirements:
 - Vim 7.1.299 or later
 - |ku| 0.1.0 or later (vimscript#2337)
 
+Latest version:
+http://github.com/kana/config/commits/vim-ku-file
+
 
 
 

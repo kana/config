@@ -52,6 +52,9 @@ Requirements:
 Supported version control systems:
 - git
 
+Latest version:
+http://github.com/kana/config/commits/vim-flydiff
+
 
 
 
