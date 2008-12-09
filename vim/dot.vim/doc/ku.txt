@@ -116,6 +116,7 @@ ku#default_key_mappings({override_p})		*ku#default_key_mappings()*
 			<Esc>i		<Plug>(ku-do-persistent-action)
 			<C-j>		<Plug>(ku-next-source)
 			<C-k>		<Plug>(ku-previous-source)
+			<C-l>		<Plug>(ku-choose-source)
 			<Esc>l		<Plug>(ku-history-source)
 			<Esc>j		<Plug>(ku-newer-history)
 			<Esc>k		<Plug>(ku-older-history)
@@ -506,12 +507,12 @@ Sources are like kinds of items.  For example, ku includes "buffer" source.
 It gathers all buffers as items to be completed.  You can choose and take an
 action on a buffer with this source.  The same can be said for other sources.
 
-						*ku-source-action-table*
+						*ku-source-action-tables*
 Sources have their own action table (|ku-action-table|).  These action tables
 have higher priority than common action tables, but these have lower priority
 than custom action table for each source.
 
-						*ku-source-key-table*
+						*ku-source-key-tables*
 Sources have their own key table (|ku-key-table|).  These key tables have
 higher priority than common key tables, but these have lower priority than
 custom key table for each source.
@@ -697,8 +698,9 @@ g:ku_history_added_p				*g:ku_history_added_p*
 	added.
 
 	The default value will not add the following patterns:
-	- Empty patterns, or
-	- Any patterns which were inputted for source |ku-history|.
+	- Any patterns which were inputted for source |ku-history|, or
+	- Any patterns which were inputted for source |ku-source|, or
+	- Empty patterns.
 
 g:ku_history_size				*g:ku_history_size*
 	A number which is the maximum size of input history.
@@ -797,6 +799,11 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.1.7	2008-12-09T17:26:01+09:00
+	- Include new source |ku-source|.
+	- Change the default value of |g:ku_history_added_p|.
+	  Now it also omits patterns for source |ku-source|.
+	- Add |<Plug>(ku-choose-source)| and the default key mapping for it
+	  (see |ku#default_key_mappings()|).
 	- Add |ku#get_the_current_input_pattern()|.
 	- Add |ku#set_the_current_input_pattern()|.
 
