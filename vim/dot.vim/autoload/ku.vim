@@ -381,7 +381,7 @@ endfunction
 
 function! ku#get_the_current_input_pattern()  "{{{2
   if s:ku_active_p()
-    return s:remove_prompt(s:get_the_current_input_pattern_raw())
+    return s:remove_prompt(getline(s:LNUM_INPUT))
   else
     return 0
   endif
@@ -406,8 +406,8 @@ endfunction
 
 function! ku#set_the_current_input_pattern(s)  "{{{2
   if s:ku_active_p()
-    let old_one = s:remove_prompt(s:get_the_current_input_pattern_raw())
-    call s:set_the_current_input_pattern(a:s)
+    let old_one = s:remove_prompt(getline(s:LNUM_INPUT))
+    call setline(s:LNUM_INPUT, a:s)
     return old_one
   else
     return 0
@@ -580,7 +580,7 @@ endfunction
 
 
 function! s:do(action_name)  "{{{2
-  let current_user_input_raw = s:get_the_current_input_pattern_raw()
+  let current_user_input_raw = getline(s:LNUM_INPUT)
   if current_user_input_raw !=# s:last_user_input_raw
     " current_user_input_raw seems to be inserted by completion.
     for _ in s:last_completed_items
@@ -1520,13 +1520,6 @@ endfunction
 
 
 
-function! s:get_the_current_input_pattern_raw()  "{{{2
-  return getline(s:LNUM_INPUT)
-endfunction
-
-
-
-
 function! s:ku_active_p()  "{{{2
   return bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
 endfunction
@@ -1595,13 +1588,6 @@ endfunction
 
 function! s:runtime_files(glob_pattern)  "{{{2
   return split(globpath(&runtimepath, a:glob_pattern), '\n')
-endfunction
-
-
-
-
-function! s:set_the_current_input_pattern(s)  "{{{2
-  return setline(s:LNUM_INPUT, a:s)
 endfunction
 
 
