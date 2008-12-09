@@ -114,41 +114,13 @@ COMMANDS					*ku-commands*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
 
-ku#start({source}, [{initial-pattern}])		*ku#start()*
-			Function version of |:Ku|.
-			If {initial-pattern} is given, it will be inserted
-			before your input.
+ku#available_source_p({source})			*ku#available_source_p()*
+			Return true if {source} is a valid one.
+			Otherwise, return false.
 
-ku#restart()					*ku#restart()*
-			Call |ku#start()| with the last used source and the
-			last input pattern.
-
-ku#switch_source({source})			*ku#switch_source()*
-			Change the current source to {source}.  This function
-			works only while ku is active.  Otherwise, do nothing.
-
-ku#default_key_mappings({override-p})		*ku#default_key_mappings()*
-			Define the following key mappings which are local to
-			the current buffer in Normal mode and Insert mode.
-			Existent key mappings will be override if {override-p}
-			is true.
-
-			{lhs}		{rhs}				~
-			------------------------------------------------~
-			<C-c>		<Plug>(ku-cancel)
-			<Return>	<Plug>(ku-do-the-default-action)
-			<C-m>		<Plug>(ku-do-the-default-action)
-			<Tab>		<Plug>(ku-choose-an-action)
-			<C-i>		<Plug>(ku-choose-an-action)
-			<Esc>i		<Plug>(ku-do-persistent-action)
-			<C-j>		<Plug>(ku-next-source)
-			<C-k>		<Plug>(ku-previous-source)
-			<C-l>		<Plug>(ku-choose-source)
-			<Esc>l		<Plug>(ku-history-source)
-			<Esc>j		<Plug>(ku-newer-history)
-			<Esc>k		<Plug>(ku-older-history)
-			<Esc>J		<Plug>(ku-newer-history-and-source)
-			<Esc>K		<Plug>(ku-older-history-and-source)
+ku#available_sources()				*ku#available_sources()*
+			Return a list of strings
+			which represents the names of available sources.
 
 ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 ku#custom_action({source}, {action}, {source2}, {action2})
@@ -208,16 +180,38 @@ ku#custom_priority({source}, {priority})	*ku#custom_priority()*
 
 			See also |ku-sources-list|.
 
-ku#available_source_p({source})			*ku#available_source_p()*
-			Return true if {source} is a valid one.
-			Otherwise, return false.
+ku#default_key_mappings({override-p})		*ku#default_key_mappings()*
+			Define the following key mappings which are local to
+			the current buffer in Normal mode and Insert mode.
+			Existent key mappings will be override if {override-p}
+			is true.
 
-ku#available_sources()				*ku#available_sources()*
-			Return a list of strings
-			which represents the names of available sources.
+			{lhs}		{rhs}				~
+			------------------------------------------------~
+			<C-c>		<Plug>(ku-cancel)
+			<Return>	<Plug>(ku-do-the-default-action)
+			<C-m>		<Plug>(ku-do-the-default-action)
+			<Tab>		<Plug>(ku-choose-an-action)
+			<C-i>		<Plug>(ku-choose-an-action)
+			<Esc>i		<Plug>(ku-do-persistent-action)
+			<C-j>		<Plug>(ku-next-source)
+			<C-k>		<Plug>(ku-previous-source)
+			<C-l>		<Plug>(ku-choose-source)
+			<Esc>l		<Plug>(ku-history-source)
+			<Esc>j		<Plug>(ku-newer-history)
+			<Esc>k		<Plug>(ku-older-history)
+			<Esc>J		<Plug>(ku-newer-history-and-source)
+			<Esc>K		<Plug>(ku-older-history-and-source)
 
 ku#do_action({name})				*ku#do_action()*
 			Function version of |:KuDoAction|.
+
+ku#get_the_current_input_pattern()	  *ku#get_the_current_input_pattern()*
+			Return the current input pattern in |the-ku-buffer|.
+			Returned value doesn't contain a prompt leading the
+			pattern.
+
+			If ku is not active, return 0.
 
 ku#input_history()				*ku#input_history()*
 			Return a list of input patterns which you inputted.
@@ -236,18 +230,24 @@ ku#input_history()				*ku#input_history()*
 				The name of the source for which the pattern
 				was inputted.
 
-ku#get_the_current_input_pattern()	  *ku#get_the_current_input_pattern()*
-			Return the current input pattern in |the-ku-buffer|.
-			Returned value doesn't contain a prompt leading the
-			pattern.
-
-			If ku is not active, return 0.
-
 ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
 			Set the current input pattern in |the-ku-buffer| to
 			{s}, then return it.
 
 			If ku is not active, just return 0.
+
+ku#restart()					*ku#restart()*
+			Call |ku#start()| with the last used source and the
+			last input pattern.
+
+ku#start({source}, [{initial-pattern}])		*ku#start()*
+			Function version of |:Ku|.
+			If {initial-pattern} is given, it will be inserted
+			before your input.
+
+ku#switch_source({source})			*ku#switch_source()*
+			Change the current source to {source}.  This function
+			works only while ku is active.  Otherwise, do nothing.
 
 
 ------------------------------------------------------------------------------
@@ -258,10 +258,6 @@ See also |ku#default_key_mappings()| for the default key mappings for them.
 
 <Plug>(ku-cancel)				*<Plug>(ku-cancel)*
 			Cancel the current selection,
-			then close |the-ku-window|.
-
-<Plug>(ku-do-the-default-action)      	    *<Plug>(ku-do-the-default-action)*
-			Do the default action on the currently selected item,
 			then close |the-ku-window|.
 
 <Plug>(ku-choose-an-action)			*<Plug>(ku-choose-an-action)*
@@ -281,6 +277,22 @@ See also |ku#default_key_mappings()| for the default key mappings for them.
 			Like |<Plug>(ku-choose-an-action)|,
 			but execute an action without quitting ku.
 
+<Plug>(ku-do-the-default-action)      	    *<Plug>(ku-do-the-default-action)*
+			Do the default action on the currently selected item,
+			then close |the-ku-window|.
+
+<Plug>(ku-history-source)			*<Plug>(ku-history-source)*
+			If you recall a pattern from |ku-input-history|,
+			change the current source to the one for which the
+			currently recalled pattern was inputted.  Otherwise,
+			nothing will happen.
+
+			For example, if:
+			- you use |<Plug>(ku-older-history)| several times,
+			- the source for the recalled pattern is "file",
+			- and the current source is "buffer",
+			then the current source will be changed to "file".
+
 <Plug>(ku-next-source)				*<Plug>(ku-next-source)*
 <Plug>(ku-previous-source)			*<Plug>(ku-previous-source)*
 			Change the current source to the next one or the
@@ -296,18 +308,6 @@ See also |ku#default_key_mappings()| for the default key mappings for them.
 			- the current source is "buffer",
 			the next one is "file" and
 			the previous one is "metarw-git".
-
-<Plug>(ku-history-source)			*<Plug>(ku-history-source)*
-			If you recall a pattern from |ku-input-history|,
-			change the current source to the one for which the
-			currently recalled pattern was inputted.  Otherwise,
-			nothing will happen.
-
-			For example, if:
-			- you use |<Plug>(ku-older-history)| several times,
-			- the source for the recalled pattern is "file",
-			- and the current source is "buffer",
-			then the current source will be changed to "file".
 
 <Plug>(ku-older-history)			*<Plug>(ku-older-history)*
 <Plug>(ku-newer-history)			*<Plug>(ku-newer-history)*
