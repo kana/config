@@ -205,6 +205,19 @@ ku#input_history()				*ku#input_history()*
 				The name of the source for which the pattern
 				was inputted.
 
+ku#get_the_current_input_pattern()	  *ku#get_the_current_input_pattern()*
+			Return the current input pattern in |the-ku-buffer|.
+			Returned value doesn't contain a prompt leading the
+			pattern.
+
+			If ku is not active, return 0.
+
+ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
+			Set the current input pattern in |the-ku-buffer| to
+			{s}, then return it.
+
+			If ku is not active, just return 0.
+
 
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
@@ -782,6 +795,10 @@ BUGS						*ku-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.1.7	2008-12-09T17:26:01+09:00
+	- Add |ku#get_the_current_input_pattern()|.
+	- Add |ku#set_the_current_input_pattern()|.
 
 0.1.6	2008-12-08T16:41:47+09:00
 	- Add |ku#switch_source()|.
