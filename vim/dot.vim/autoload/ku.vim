@@ -142,6 +142,11 @@ if !exists('g:ku_history_size')
 endif
 
 
+" Magic line numbers in the ku buffer.
+let s:LNUM_STATUS = 1
+let s:LNUM_INPUT = 2
+
+
 
 
 
@@ -575,7 +580,7 @@ endfunction
 
 
 function! s:do(action_name)  "{{{2
-  let current_user_input_raw = getline(2)
+  let current_user_input_raw = s:get_the_current_input_pattern_raw()
   if current_user_input_raw !=# s:last_user_input_raw
     " current_user_input_raw seems to be inserted by completion.
     for _ in s:last_completed_items
@@ -766,10 +771,10 @@ function! s:on_CursorMovedI()  "{{{2
   " the end of line (i.e. getline('.') < col('.')), the cursor will be move at
   " the last character of the current line after calling setline().
   let c0 = col('.')
-  call setline(1, '')
+  call setline(s:LNUM_STATUS, '')
   let c1 = col('.')
   if s:current_hisotry_index == -1
-    call setline(1, printf('Source: %s', s:current_source))
+    call setline(s:LNUM_STATUS, printf('Source: %s', s:current_source))
   else
     let old_source = ku#input_history()[s:current_hisotry_index].source
     if s:current_source ==# old_source
@@ -777,11 +782,12 @@ function! s:on_CursorMovedI()  "{{{2
     else
       let _ = printf(' (was %s)', old_source)
     endif
-    call setline(1, printf('Source: %s (%d/%d)%s',
-    \                      s:current_source,
-    \                      s:current_hisotry_index + 1,
-    \                      len(ku#input_history()),
-    \                      _))
+    call setline(s:LNUM_STATUS,
+    \            printf('Source: %s (%d/%d)%s',
+    \                   s:current_source,
+    \                   s:current_hisotry_index + 1,
+    \                   len(ku#input_history()),
+    \                   _))
   endif
 
   " The order of these conditions are important.
@@ -1515,7 +1521,7 @@ endfunction
 
 
 function! s:get_the_current_input_pattern_raw()  "{{{2
-  return getline(2)
+  return getline(s:LNUM_INPUT)
 endfunction
 
 
@@ -1595,7 +1601,7 @@ endfunction
 
 
 function! s:set_the_current_input_pattern(s)  "{{{2
-  return setline(2, a:s)
+  return setline(s:LNUM_INPUT, a:s)
 endfunction
 
 
