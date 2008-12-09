@@ -374,6 +374,17 @@ endfunction
 
 
 
+function! ku#get_the_current_input_pattern()  "{{{2
+  if s:ku_active_p()
+    return s:remove_prompt(s:get_the_current_input_pattern_raw())
+  else
+    return 0
+  endif
+endfunction
+
+
+
+
 function! ku#input_history()  "{{{2
   return s:history_list()
 endfunction
@@ -383,6 +394,19 @@ endfunction
 
 function! ku#restart()  "{{{2
   return ku#start(s:last_used_source, s:last_used_input_pattern)
+endfunction
+
+
+
+
+function! ku#set_the_current_input_pattern(s)  "{{{2
+  if s:ku_active_p()
+    let old_one = s:remove_prompt(s:get_the_current_input_pattern_raw())
+    call s:set_the_current_input_pattern(a:s)
+    return old_one
+  else
+    return 0
+  endif
 endfunction
 
 
@@ -1490,6 +1514,13 @@ endfunction
 
 
 
+function! s:get_the_current_input_pattern_raw()  "{{{2
+  return getline(2)
+endfunction
+
+
+
+
 function! s:ku_active_p()  "{{{2
   return bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
 endfunction
@@ -1558,6 +1589,13 @@ endfunction
 
 function! s:runtime_files(glob_pattern)  "{{{2
   return split(globpath(&runtimepath, a:glob_pattern), '\n')
+endfunction
+
+
+
+
+function! s:set_the_current_input_pattern(s)  "{{{2
+  return setline(2, a:s)
 endfunction
 
 
