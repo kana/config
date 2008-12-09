@@ -356,6 +356,7 @@ function! ku#default_key_mappings(override_p)  "{{{2
   call s:ni_map(_, '<buffer> <Esc>i', '<Plug>(ku-do-persistent-action)')
   call s:ni_map(_, '<buffer> <C-j>', '<Plug>(ku-next-source)')
   call s:ni_map(_, '<buffer> <C-k>', '<Plug>(ku-previous-source)')
+  call s:ni_map(_, '<buffer> <C-l>', '<Plug>(ku-choose-source)')
   call s:ni_map(_, '<buffer> <Esc>l', '<Plug>(ku-history-source)')
   call s:ni_map(_, '<buffer> <Esc>j', '<Plug>(ku-newer-history)')
   call s:ni_map(_, '<buffer> <Esc>k', '<Plug>(ku-older-history)')
@@ -681,6 +682,8 @@ function! s:initialize_ku_buffer()  "{{{2
   \        :<C-u>call <SID>switch_current_source(1)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
   \        :<C-u>call <SID>switch_current_source(-1)<Return>
+  nnoremap <buffer> <silent> <Plug>(ku-choose-source)
+  \        :<C-u>call <SID>switch_current_source('source')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-history-source)
   \        :<C-u>call <SID>switch_current_source('*history*')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-newer-history)
@@ -723,6 +726,11 @@ function! s:initialize_ku_buffer()  "{{{2
   \    <Plug>(ku-%-cancel-completion)
   \<Plug>(ku-%-leave-insert-mode)
   \<Plug>(ku-previous-source)
+  \<Plug>(ku-%-enter-insert-mode)
+  imap <buffer> <silent> <Plug>(ku-choose-source)
+  \    <Plug>(ku-%-cancel-completion)
+  \<Plug>(ku-%-leave-insert-mode)
+  \<Plug>(ku-choose-source)
   \<Plug>(ku-%-enter-insert-mode)
   imap <buffer> <silent> <Plug>(ku-history-source)
   \    <Plug>(ku-%-cancel-completion)
@@ -1430,7 +1438,9 @@ function! s:history_add(new_input_pattern, source)  "{{{3
 endfunction
 
 function! ku#_history_added_p(new_input_pattern, source)
-  return a:source !=# 'history' && a:new_input_pattern !~ '^\s*$'
+  return (a:source !=# 'history'
+  \       && a:source != 'source'
+  \       && a:new_input_pattern !~ '^\s*$')
 endfunction
 
 

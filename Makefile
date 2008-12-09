@@ -303,7 +303,8 @@ PACKAGE_vim_ku_FILES=\
   vim/dot.vim/syntax/ku.vim \
   $(PACKAGE_vim_ku_buffer_FILES) \
   $(PACKAGE_vim_ku_file_FILES) \
-  $(PACKAGE_vim_ku_history_FILES)
+  $(PACKAGE_vim_ku_history_FILES) \
+  $(PACKAGE_vim_ku_source_FILES)
 
 PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.0.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
