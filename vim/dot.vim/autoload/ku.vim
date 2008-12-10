@@ -609,9 +609,6 @@ function! s:do(action_name)  "{{{2
     endif
   endif
 
-  let s:last_used_source = s:current_source
-  let s:last_used_input_pattern = s:last_user_input_raw
-
   if a:action_name ==# '*choose*' || a:action_name ==# '*persistent*'
     let action = s:choose_action(item)
   else
@@ -642,6 +639,9 @@ function! s:end()  "{{{2
     return s:FALSE
   endif
   let s:_end_locked_p = s:TRUE
+
+  let s:last_used_source = s:current_source
+  let s:last_used_input_pattern = s:remove_prompt(getline(s:LNUM_INPUT))
 
   call s:api(s:current_source, 'event_handler', 'SourceLeave')
   close
