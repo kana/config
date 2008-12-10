@@ -469,6 +469,11 @@ nop						*ku-action-nop*
 
 			Use this action to remove an entry from a key table.
 
+selection					*ku-action-selection*
+			Return to the previous selection.
+			This action does nothing on the selected item.
+			This is a pseudo action - it cannot be overridden.
+
 Bottom						*ku-action-Bottom*
 Left						*ku-action-Left*
 Right						*ku-action-Right*
@@ -515,6 +520,7 @@ Key		Action ~
 <C-j>		below		|ku-action-below|
 <C-k>		above		|ku-action-above|
 <C-l>		right		|ku-action-right|
+<C-r>		selection	|ku-action-selection|
 <C-t>		tab-Right	|ku-action-tab-Right|
 <Esc>		cancel		|ku-action-cancel|
 <Return>	default		|ku-action-default|
@@ -887,6 +893,8 @@ CHANGELOG					*ku-changelog*
 	- Change |ku#restart()| to use the last inputted pattern and the last
 	  active source.  Old versions don't use ones if a selection is
 	  canceled by |<Plug>(ku-cancel)|.
+	- Add |ku-action-selection|
+	  and the entry for it in |ku-default-key-table|.
 
 	Incompatible changes:
 	- Remove |ku-action-persistent|;
