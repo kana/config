@@ -772,6 +772,11 @@ action						*ku-action*
 			|ku#custom_action()|.  The above commands look into
 			the tables for available actions.
 
+			Every action should be named with only lower-case
+			alphabets.  Some actions in default action tables may
+			be named like "*nop*".  Such actions must not be
+			overriden by user (i.e. with |ku#custom_action()|).
+
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
 			name of an action, and each value is the name of
