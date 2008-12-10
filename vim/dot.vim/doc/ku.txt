@@ -518,7 +518,6 @@ Key		Action ~
 <C-l>		right		|ku-action-right|
 <C-t>		tab-Right	|ku-action-tab-Right|
 <Esc>		cancel		|ku-action-cancel|
-<Esc>i		persistent	|ku-action-persistent|
 <Return>	default		|ku-action-default|
 ?		lcd		|ku-action-lcd|
 H		Left		|ku-action-Left|

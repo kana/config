@@ -1350,7 +1350,6 @@ function! s:default_key_table()  "{{{3
   \   "\<C-l>": 'right',
   \   "\<C-t>": 'tab-Right',
   \   "\<Esc>": 'cancel',
-  \   "\<Esc>i": 'persistent',
   \   "\<Return>": 'default',
   \   '/': 'cd',
   \   ':': 'ex',
