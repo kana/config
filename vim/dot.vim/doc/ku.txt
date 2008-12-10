@@ -439,6 +439,7 @@ The following actions are available as the default ones:
 
 cancel						*ku-aciton-cancel*
 			Cancel to take an action.
+			This action should not be overridden.
 
 cd						*ku-aciton-cd*
 			|:cd| to the selected item.  If the item is the name
@@ -463,11 +464,14 @@ lcd						*ku-action-lcd*
 			Like "cd", but do |:lcd| on the selected item.
 
 nop						*ku-aciton-nop*
-			Do nothing.
+			Do nothing.  Only the name of this action matters;
+			this action cannot be overridden.
+
 			Use this action to remove an entry from a key table.
 
 persistent					*ku-aciton-persistent*
 			Do |<Plug>(ku-do-persistent-action)|.
+			This action should not be overridden.
 
 Bottom						*ku-action-Bottom*
 Left						*ku-action-Left*
@@ -775,9 +779,7 @@ action						*ku-action*
 			the tables for available actions.
 
 			Every action should be named with only alphabets and
-			hyphens.  Some actions in default action tables may be
-			named like "&nop".  Such actions must not be overriden
-			by user (i.e. with |ku#custom_action()|).
+			hyphens.
 
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
