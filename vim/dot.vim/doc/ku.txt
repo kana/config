@@ -439,7 +439,7 @@ The following actions are available as the default ones:
 
 cancel						*ku-action-cancel*
 			Cancel to take an action.
-			This action should not be overridden.
+			This is a pseudo action - it cannot be overridden.
 
 cd						*ku-action-cd*
 			|:cd| to the selected item.  If the item is the name
@@ -468,10 +468,6 @@ nop						*ku-action-nop*
 			this action cannot be overridden.
 
 			Use this action to remove an entry from a key table.
-
-persistent					*ku-action-persistent*
-			Do |<Plug>(ku-do-persistent-action)|.
-			This action should not be overridden.
 
 Bottom						*ku-action-Bottom*
 Left						*ku-action-Left*
@@ -887,6 +883,13 @@ CHANGELOG					*ku-changelog*
 	- Add |ku#get_the_current_input_pattern()|.
 	- Add |ku#set_the_current_input_pattern()|.
 	- Fix typos in this document.
+	- Revise the internal stuffs.
+
+	Incompatible changes:
+	- Remove |ku-action-persistent|;
+	  use |<Plug>(ku-do-persistent-action)| instead.
+	- Change |ku-action-cancel| - now it cannot be overridden,
+	  though it should not be overridden from the beginning.
 
 0.1.6	2008-12-08T16:41:47+09:00
 	- Add |ku#switch_source()|.

@@ -613,7 +613,7 @@ function! s:do(action_name)  "{{{2
   let s:last_used_source = s:current_source
   let s:last_used_input_pattern = s:last_user_input_raw
 
-  if a:action_name ==# '*choose*'
+  if a:action_name ==# '*choose*' || a:action_name ==# '*persistent*'
     let action = s:choose_action(item)
   else
     let action = a:action_name
@@ -623,8 +623,13 @@ function! s:do(action_name)  "{{{2
   " ku window.
   call s:end()
 
-  let item = s:api(s:current_source, 'event_handler', 'BeforeAction', item)
-  call s:do_action(action, item)
+  if action !=# 'cancel'
+    let item = s:api(s:current_source, 'event_handler', 'BeforeAction', item)
+    call s:do_action(action, item)
+    if a:action_name ==# '*persistent*'
+      call ku#restart()
+    endif
+  endif
   return
 endfunction
 
@@ -677,7 +682,7 @@ function! s:initialize_ku_buffer()  "{{{2
   nnoremap <buffer> <silent> <Plug>(ku-choose-an-action)
   \        :<C-u>call <SID>do('*choose*')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-do-persistent-action)
-  \        :<C-u>call <SID>do('persistent')<Return>
+  \        :<C-u>call <SID>do('*persistent*')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-next-source)
   \        :<C-u>call <SID>switch_current_source(1)<Return>
   nnoremap <buffer> <silent> <Plug>(ku-previous-source)
@@ -1266,16 +1271,6 @@ function! s:_default_action_nop(item)  "{{{3
 endfunction
 
 
-function! s:_default_action_persistent(item)  "{{{3
-  let action = s:choose_action(a:item)
-  if action !=# 'cancel'
-    call s:do_action(action, a:item)
-    call ku#restart()
-  endif
-  return
-endfunction
-
-
 
 
 " Action table  "{{{2
@@ -1311,7 +1306,6 @@ function! s:default_action_table()  "{{{3
   \   'lcd': 's:_default_action_lcd',
   \   'left': 's:_default_action_left',
   \   'nop': 's:_default_action_nop',
-  \   'persistent': 's:_default_action_persistent',
   \   'right': 's:_default_action_right',
   \   'tab-Left': 's:_default_action_tab_Left',
   \   'tab-Right': 's:_default_action_tab_Right',
