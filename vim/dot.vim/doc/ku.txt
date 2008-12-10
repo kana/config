@@ -464,8 +464,8 @@ lcd						*ku-action-lcd*
 			Like "cd", but do |:lcd| on the selected item.
 
 nop						*ku-action-nop*
-			Do nothing.  Only the name of this action matters;
-			this action cannot be overridden.
+			Do nothing.  Only the name of this action matters.
+			This is a pseudo action - it cannot be overridden.
 
 			Use this action to remove an entry from a key table.
 
