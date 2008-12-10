@@ -443,10 +443,12 @@ cd						*ku-aciton-cd*
 			the name of a file, change to the directory which
 			contains the file.
 
-default						*ku-aciton-default*
+default						*ku-action-default*
 			Do the default action for the selected item.  This
 			action is just a placeholder and it is overriden by
-			each source.
+			each source.  So what this action does is varied for
+			each source.  See the document of each source for the
+			details of its "default" action.
 
 ex						*ku-action-ex*
 			Shift to Command-line mode, insert the selected item

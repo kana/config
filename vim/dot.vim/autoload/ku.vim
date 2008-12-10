@@ -1240,6 +1240,13 @@ function! s:_default_action_cd(item)  "{{{3
 endfunction
 
 
+function! s:_default_action_default(item)  "{{{3
+  echoerr 'ku: Source' string(a:item._ku_source)
+  \       'does not have the "default" action'
+  return
+endfunction
+
+
 function! s:_default_action_ex(item)  "{{{3
   " Support to execute an Ex command on a:item.word (as path).
   call feedkeys(printf(": %s\<C-b>", fnameescape(a:item.word)), 'n')
@@ -1299,6 +1306,7 @@ function! s:default_action_table()  "{{{3
   \   'below': 's:_default_action_below',
   \   'cancel': 's:_default_action_nop',
   \   'cd': 's:_default_action_cd',
+  \   'default': 's:_default_action_default',
   \   'ex': 's:_default_action_ex',
   \   'lcd': 's:_default_action_lcd',
   \   'left': 's:_default_action_left',
