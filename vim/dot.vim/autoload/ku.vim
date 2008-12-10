@@ -609,7 +609,6 @@ function! s:do(action_name)  "{{{2
     endif
   endif
 
-  call s:history_add(s:remove_prompt(s:last_user_input_raw), s:current_source)
   let s:last_used_source = s:current_source
   let s:last_used_input_pattern = s:last_user_input_raw
 
@@ -624,6 +623,8 @@ function! s:do(action_name)  "{{{2
   call s:end()
 
   if action !=# 'cancel'
+    call s:history_add(s:remove_prompt(s:last_used_input_pattern),
+    \                  s:last_used_source)
     let item = s:api(s:current_source, 'event_handler', 'BeforeAction', item)
     call s:do_action(action, item)
     if a:action_name ==# '*persistent*'
