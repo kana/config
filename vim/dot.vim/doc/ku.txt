@@ -237,8 +237,11 @@ ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
 			If ku is not active, just return 0.
 
 ku#restart()					*ku#restart()*
-			Call |ku#start()| with the last used source and the
-			last input pattern.
+			Call |ku#start()| with the last inputted pattern and
+			the last active source.
+
+			This is useful if you cancel a selection once,
+			but you want to continue the selection later.
 
 ku#start({source}, [{initial-pattern}])		*ku#start()*
 			Function version of |:Ku|.
@@ -881,6 +884,9 @@ CHANGELOG					*ku-changelog*
 	- Add |ku#set_the_current_input_pattern()|.
 	- Fix typos in this document.
 	- Revise the internal stuffs.
+	- Change |ku#restart()| to use the last inputted pattern and the last
+	  active source.  Old versions don't use ones if a selection is
+	  canceled by |<Plug>(ku-cancel)|.
 
 	Incompatible changes:
 	- Remove |ku-action-persistent|;
