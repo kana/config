@@ -759,40 +759,61 @@ g:ku_history_size				*g:ku_history_size*
 ==============================================================================
 TERMS						*ku-terms*
 
+action						*ku-action*
+			An action is a function which is called by
+			|<Plug>(ku-do-the-default-action)|,
+			|<Plug>(ku-choose-an-action)|, or
+			|:KuDoAction|.
+
+			Every action is registered in |ku-action-table| by
+			|ku#custom_action()|.  The above commands look into
+			the tables for available actions.
+
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
 			name of an action, and each value is the name of
 			a function that implements the action.
 
-			There are 4 action tables for each source, and above
-			listed ones have higher priority than below listed
-			ones:
+			There are 4 action tables for each source:
 
-			1. custom action table for a source
-			2. default action table for a source
-			3. custom action table for all sources
-			4. default action table for all sources
+			(1) custom action table for a source
+			(2) default action table for a source
+			(3) custom action table for all sources
+			(4) default action table for all sources
 
-			Custom action tables can be configured with
-			|ku#custom_action()|.
+			If there is the same name action in two or more
+			tables, the one in the most above table is used.
+			For example, if action "default" is found in (2) and
+			(4), the one in (2) is used.
+
+			Custom action tables ((1) and (3)) can be configured
+			with |ku#custom_action()|.
+			See also |ku-default-action-table| for (4),
+			and |ku-buffer-action-table| for an example of (2).
 
 key table					*ku-key-table*
-			Key table is a dictionary, where each key is a single
-			character that represents a key to choose an action by
-			|<Plug>(ku-choose-an-action)|, and each value is the
-			name of an action to be executed by the key.
+			Key table is a dictionary, where each key is a string
+			that represents a single key stroke to choose an
+			action by |<Plug>(ku-choose-an-action)|, and each
+			value is the name of an action to be executed by the
+			key.
 
-			There are 4 key tables for each source, and above
-			listed ones have higher priority than below listed
-			ones:
+			There are 4 key tables for each source:
 
-			1. custom key table for a source
-			2. default key table for a source
-			3. custom key table for all sources
-			4. default key table for all sources
+			(1) custom key table for a source
+			(2) default key table for a source
+			(3) custom key table for all sources
+			(4) default key table for all sources
 
-			Custom key tables can be configured with
+			If there is the same key in two or more table,
+			the entry in the most above table is used.
+			For example, if key "K" is found in (2) and (4),
+			the entry in (2) is used.
+
+			Custom key tables ((1) and (3)) can be configured with
 			|ku#custom_key()|.
+			See also |ku-default-key-table| for (4),
+			and |ku-buffer-key-table| for an example of (2).
 
 ku session					*ku-session*
 			Ku session is a period of time while |the-ku-window|
@@ -811,16 +832,17 @@ prefix table					*ku-prefix-table*
 			a string that represents the expanded text for the
 			corresponding prefix.
 
-			There are 2 prefix tables for each source, and above
-			listed ones have higher priority than below listed
-			ones:
+			There are 2 prefix tables for each source:
 
-			1. custom prefix table for a source
-			2. custom prefix table for all sources
+			(1) custom prefix table for a source
+			(2) custom prefix table for all sources
+
+			If there is the same prefix in the both tables,
+			the prefix in (1) is used.
 
 			Custom prefix tables can be configured with
-			|ku#custom_prefix()|.  There is no default entry in
-			any prefix tables.
+			|ku#custom_prefix()|.
+			There is no default entry in any prefix tables.
 
 			See also |ku-prefix-expansion|.
 
