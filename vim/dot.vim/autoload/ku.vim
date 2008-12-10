@@ -613,7 +613,7 @@ function! s:do(action_name)  "{{{2
   let s:last_used_source = s:current_source
   let s:last_used_input_pattern = s:last_user_input_raw
 
-  if a:action_name == ''
+  if a:action_name ==# '*choose*'
     let action = s:choose_action(item)
   else
     let action = a:action_name
@@ -675,7 +675,7 @@ function! s:initialize_ku_buffer()  "{{{2
   nnoremap <buffer> <silent> <Plug>(ku-do-the-default-action)
   \        :<C-u>call <SID>do('default')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-choose-an-action)
-  \        :<C-u>call <SID>do('')<Return>
+  \        :<C-u>call <SID>do('*choose*')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-do-persistent-action)
   \        :<C-u>call <SID>do('persistent')<Return>
   nnoremap <buffer> <silent> <Plug>(ku-next-source)
