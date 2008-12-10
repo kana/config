@@ -759,17 +759,6 @@ g:ku_history_size				*g:ku_history_size*
 ==============================================================================
 TERMS						*ku-terms*
 
-ku window				       *the-ku-window* *the-ku-buffer*
-			The window which is opened by |:Ku| or |ku#start()|.
-			This window will be automatically closed when:
-			- An action is taken for an item.
-			- Selection is canceled.
-			- Another window or another tab page becomes active.
-
-ku session					*ku-session*
-			Ku session is a period of time while |the-ku-window|
-			is opened and it is visible.
-
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
 			name of an action, and each value is the name of
@@ -804,6 +793,17 @@ key table					*ku-key-table*
 
 			Custom key tables can be configured with
 			|ku#custom_key()|.
+
+ku session					*ku-session*
+			Ku session is a period of time while |the-ku-window|
+			is opened and it is visible.
+
+ku window				       *the-ku-window* *the-ku-buffer*
+			The window which is opened by |:Ku| or |ku#start()|.
+			This window will be automatically closed when:
+			- An action is taken for an item.
+			- Selection is canceled.
+			- Another window or another tab page becomes active.
 
 prefix table					*ku-prefix-table*
 			Prefix table is a dictionary, where each key is
