@@ -345,7 +345,7 @@ Inserted characters in |the-ku-buffer| are treated as 3 "patterns".
   pattern for each item.
 
 Ku uses the matched positions of the above patterns for each item.  In the
-completion list, items are sorted by matched positions.  Mathced position of
+completion list, items are sorted by matched positions.  Matched position of
 "asis" pattern have higher priority than "word" pattern, and "word" pattern
 have higher priority than "skip" pattern.
 
@@ -389,7 +389,7 @@ behavior is not in bluewind, but it's useful.
 
 PREFIX EXPANSION				*ku-prefix-expansion*
 
-If the head of an input ipattern is matched to one of the prefixes in
+If the head of an input pattern is matched to one of the prefixes in
 |ku-prefix-table|, the matched part will be expanded.  For example, if you
 configure ku with the following setting:
 >
@@ -437,11 +437,11 @@ DEFAULT ACTION TABLE				*ku-default-action-table*
 
 The following actions are available as the default ones:
 
-cancel						*ku-aciton-cancel*
+cancel						*ku-action-cancel*
 			Cancel to take an action.
 			This action should not be overridden.
 
-cd						*ku-aciton-cd*
+cd						*ku-action-cd*
 			|:cd| to the selected item.  If the item is the name
 			of a directory, change to that one.  If the item is
 			the name of a file, change to the directory which
@@ -449,7 +449,7 @@ cd						*ku-aciton-cd*
 
 default						*ku-action-default*
 			Do the default action for the selected item.  This
-			action is just a placeholder and it is overriden by
+			action is just a placeholder and it is overridden by
 			each source.  So what this action does is varied for
 			each source.  See the document of each source for the
 			details of its "default" action.
@@ -463,13 +463,13 @@ ex						*ku-action-ex*
 lcd						*ku-action-lcd*
 			Like "cd", but do |:lcd| on the selected item.
 
-nop						*ku-aciton-nop*
+nop						*ku-action-nop*
 			Do nothing.  Only the name of this action matters;
 			this action cannot be overridden.
 
 			Use this action to remove an entry from a key table.
 
-persistent					*ku-aciton-persistent*
+persistent					*ku-action-persistent*
 			Do |<Plug>(ku-do-persistent-action)|.
 			This action should not be overridden.
 
@@ -639,7 +639,7 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 				prior to user input.
 
 				The default value is 0 if this item is
-				ommitted.
+				omitted.
 
 			Also, ku adds additional entries for each item.  Keys
 			of such entries are prefixed with "_ku_".  The
@@ -720,7 +720,7 @@ FileType ku					*filetype-ku*
 <
 
 g:ku_buffer_name				*g:ku_buffer_name*
-	A string which reporesents the name of the ku buffer.  This value
+	A string which represents the name of the ku buffer.  This value
 	should be unique one which cannot be a name of a usual file to avoid
 	unexpected behavior.
 
@@ -736,13 +736,13 @@ g:ku_{source}_junk_pattern			*g:ku_{source}_junk_pattern*
 	g:ku_{source}_junk_pattern is used for items from a specific {source}.
 
 g:ku_component_separators			*g:ku_component_separators*
-	A string which reporesents special characters to activate
+	A string which represents special characters to activate
 	|ku-auto-component-completion|.
 	The default value is '/\:', so if you type '/', '\' or ':',
 	|ku-auto-component-completion| will be activated.
 
 g:ku_history_added_p				*g:ku_history_added_p*
-	A string which reporesents the name of a function.  This function is
+	A string which represents the name of a function.  This function is
 	used to determine whether an input pattern can be added to
 	|ku-input-history| or not.
 
@@ -886,6 +886,7 @@ CHANGELOG					*ku-changelog*
 	  (see |ku#default_key_mappings()|).
 	- Add |ku#get_the_current_input_pattern()|.
 	- Add |ku#set_the_current_input_pattern()|.
+	- Fix typos in this document.
 
 0.1.6	2008-12-08T16:41:47+09:00
 	- Add |ku#switch_source()|.
@@ -941,7 +942,7 @@ CHANGELOG					*ku-changelog*
 	  Use "FileType ku" and/or filetype plugin instead.
 
 0.1.3	2008-09-28T03:30:42+09:00
-	- Inconpatible change:
+	- Incompatible change:
 	  - For |ku-special-sources|, |ku-source-api| takes the name of the
 	    current source as the 1st argument.
 	  - |ku-SourceEnter| and |ku-SourceLeave| don't take extra argument.
