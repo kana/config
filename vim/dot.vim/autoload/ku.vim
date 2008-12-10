@@ -619,7 +619,11 @@ function! s:do(action_name)  "{{{2
   " ku window.
   call s:end()
 
-  if action !=# 'cancel'
+  if action ==# 'cancel'
+    " Ignore.
+  elseif action ==# 'selection'
+    call ku#restart()  " Emulate to return to the previous selection.
+  else
     call s:history_add(s:remove_prompt(s:last_used_input_pattern),
     \                  s:last_used_source)
     let item = s:api(s:current_source, 'event_handler', 'BeforeAction', item)
@@ -1308,6 +1312,7 @@ function! s:default_action_table()  "{{{3
   \   'left': 's:_default_action_left',
   \   'nop': 's:_default_action_nop',
   \   'right': 's:_default_action_right',
+  \   'selection': 's:_default_action_nop',
   \   'tab-Left': 's:_default_action_tab_Left',
   \   'tab-Right': 's:_default_action_tab_Right',
   \   'tab-left': 's:_default_action_tab_left',
@@ -1343,6 +1348,7 @@ function! s:default_key_table()  "{{{3
   \   "\<C-j>": 'below',
   \   "\<C-k>": 'above',
   \   "\<C-l>": 'right',
+  \   "\<C-r>": 'selection',
   \   "\<C-t>": 'tab-Right',
   \   "\<Esc>": 'cancel',
   \   "\<Return>": 'default',
