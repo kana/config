@@ -1005,8 +1005,8 @@ function! s:move_window_into_tabpage(target_tabpagenr)
   else
     execute a:target_tabpagenr 'tabnext'
     let target_tabpagenr = a:target_tabpagenr
-    topleft new  " FIXME: be customizable?
-    execute target_bufnr 'buffer'
+      " FIXME: be customizable?
+    execute 'topleft' target_bufnr 'sbuffer'
   endif
   call winrestview(window_view)
 
