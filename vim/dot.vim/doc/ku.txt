@@ -872,6 +872,9 @@ BUGS						*ku-bugs*
 
 - Ku assumes that available sources are not changed during a |ku-session|.
 
+- Ku assumes interactive use,
+  so that it may not work with |recording| and/or |key-mapping|.
+
 - Many bugs must be around the world.
 
 
