@@ -1,6 +1,6 @@
 *ku.txt*	Support to do something
 
-Version 0.1.6
+Version 0.1.7
 Script ID: 2337
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -883,7 +883,7 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
-0.1.7	2008-12-09T17:26:01+09:00
+0.1.7	2008-12-09T17:26:01+09:00/2008-12-11T17:08:52+09:00
 	- Include new source |ku-source|.
 	- Change the default value of |g:ku_history_added_p|.
 	  Now it also omits patterns for source |ku-source|.
