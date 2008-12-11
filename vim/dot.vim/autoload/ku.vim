@@ -644,8 +644,20 @@ function! s:end()  "{{{2
   endif
   let s:_end_locked_p = s:TRUE
 
+    " Another choise is getline(s:LNUM_INPUT) (= the current input pattern in
+    " the ku buffer), but it is improper for the following reason: 
+    "
+    " - Return value from getline(s:LNUM_INPUT) may be an item which was
+    "   selected from the completion menu if s:last_user_input_raw and
+    "   getline(s:LNUM_INPUT) are the same value.
+    " - Users don't want to continue a selection with such completed value by
+    "   ku#start() and <Plug>(ku-do-persistent-action), because typical usage
+    "   of them is to do some action for several items which are matched to
+    "   a pattern.
+    "
+    " So here we have to use s:last_user_input_raw instead.
+  let s:last_used_input_pattern = s:last_user_input_raw
   let s:last_used_source = s:current_source
-  let s:last_used_input_pattern = s:remove_prompt(getline(s:LNUM_INPUT))
 
   call s:api(s:current_source, 'event_handler', 'SourceLeave')
   close
