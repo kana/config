@@ -147,6 +147,11 @@ let s:LNUM_STATUS = 1
 let s:LNUM_INPUT = 2
 
 
+if !exists('g:ku_choosing_actions_sorting_style')
+  let g:ku_choosing_actions_sorting_style = 'by-action'
+endif
+
+
 
 
 
@@ -1114,42 +1119,11 @@ function! s:choose_action(item, persistent_p)  "{{{3
   echon s:current_source
   echohl NONE
   echon ')'
-
-  " List keys and their actions.
-  " FIXME: listing like ls - the width of each column is varied.
-  let KEYS = map(sort(keys(KEY_TABLE)), 'v:val')
-  let KEY_NAMES = map(copy(KEYS), 'strtrans(v:val)')
-  let MAX_KEY_WIDTH = max(map(copy(KEY_NAMES), 'len(v:val)'))
-  let ACTION_NAMES = map(copy(KEYS), 'KEY_TABLE[v:val]')
-  let MAX_ACTION_WIDTH = max(map(copy(ACTION_NAMES), 'len(v:val)'))
-  let MAX_LABEL_WIDTH = MAX_KEY_WIDTH + 1 + MAX_ACTION_WIDTH
-  let SPACER = '   '
-  let C = (&columns + len(SPACER) - 1) / (MAX_LABEL_WIDTH + len(SPACER))
-  let C = max([C, 1])
-  " let C = min([8, C])  " experimental
-  let N = len(KEY_TABLE)
-  let R = N / C + (N % C != 0)
-  for row in range(R)
-    for col in range(C)
-      let i = col * R + row
-      if !(i < N)
-        continue
-      endif
-
-      " "{key} {action}"
-      echon col == 0 ? "\n" : SPACER
-      echohl kuChooseKey
-      echon KEY_NAMES[i]
-      echohl NONE
-      echon repeat(' ', MAX_KEY_WIDTH - len(KEY_NAMES[i]))
-      echon ' '
-      echohl kuChooseAction
-      echon ACTION_NAMES[i]
-      echohl NONE
-      echon repeat(' ', MAX_ACTION_WIDTH - len(ACTION_NAMES[i]))
-    endfor
-  endfor
-
+  if g:ku_choosing_actions_sorting_style ==# 'by-key'
+    call s:list_actions_sorted_by_key(KEY_TABLE)
+  else
+    call s:list_actions_sorted_by_action(KEY_TABLE)
+  endif
   echohl kuChooseMessage
   echo 'What action?' (a:persistent_p ? '[persistent]' : '')
   echohl NONE
@@ -1198,6 +1172,92 @@ function! s:get_action_function(action, composite_p)  "{{{3
   \           string(a:action))
   echohl NONE
   return 's:_default_action_nop'
+endfunction
+
+
+function! s:list_actions_sorted_by_action(KEY_TABLE)  "{{{3
+  let ACTION_TABLE = {}
+  for [key, action] in items(a:KEY_TABLE)
+    if !has_key(ACTION_TABLE, action)
+      let ACTION_TABLE[action] = {'keys': []}
+    endif
+    call add(ACTION_TABLE[action].keys, [key, strtrans(key)])
+  endfor
+  for _ in values(ACTION_TABLE)
+    call sort(_.keys)
+    let _.label = join(map(copy(_.keys), 'v:val[1]'), ' ')
+  endfor
+  let ACTION_NAMES = sort(keys(ACTION_TABLE), 's:compare_ignorecase')
+  let MAX_ACTION_NAME_WIDTH = max(map(keys(ACTION_TABLE), 'len(v:val)'))
+  let MAX_LABEL_WIDTH = max(map(values(ACTION_TABLE), 'len(v:val.label)'))
+  let MAX_CELL_WIDTH = MAX_ACTION_NAME_WIDTH + 1 + MAX_LABEL_WIDTH
+  let SPACER = '   '
+  let C = (&columns + len(SPACER) - 1) / (MAX_CELL_WIDTH + len(SPACER))
+  let C = max([C, 1])
+  let N = len(ACTION_TABLE)
+  let R = N / C + (N % C != 0)
+
+  unlet _
+  for row in range(R)
+    for col in range(C)
+      let i = col * R + row
+      if !(i < N)
+        continue
+      endif
+
+      echon col == 0 ? "\n" : SPACER
+
+      echohl kuChooseAction
+      let _ = ACTION_NAMES[i]
+      echon _
+      echohl NONE
+      echon repeat(' ', MAX_ACTION_NAME_WIDTH - len(_))
+
+      echohl kuChooseKey
+      echon ' '
+      let _ = ACTION_TABLE[ACTION_NAMES[i]].label
+      echon _
+      echohl NONE
+      echon repeat(' ', MAX_LABEL_WIDTH - len(_))
+    endfor
+  endfor
+endfunction
+
+
+function! s:list_actions_sorted_by_key(KEY_TABLE)  "{{{3
+  let KEYS = map(sort(keys(a:KEY_TABLE)), 'v:val')
+  let KEY_NAMES = map(copy(KEYS), 'strtrans(v:val)')
+  let MAX_KEY_WIDTH = max(map(copy(KEY_NAMES), 'len(v:val)'))
+  let ACTION_NAMES = map(copy(KEYS), 'a:KEY_TABLE[v:val]')
+  let MAX_ACTION_WIDTH = max(map(copy(ACTION_NAMES), 'len(v:val)'))
+  let MAX_LABEL_WIDTH = MAX_KEY_WIDTH + 1 + MAX_ACTION_WIDTH
+  let SPACER = '   '
+  let C = (&columns + len(SPACER) - 1) / (MAX_LABEL_WIDTH + len(SPACER))
+  let C = max([C, 1])
+  let N = len(a:KEY_TABLE)
+  let R = N / C + (N % C != 0)
+
+  for row in range(R)
+    for col in range(C)
+      let i = col * R + row
+      if !(i < N)
+        continue
+      endif
+
+      echon col == 0 ? "\n" : SPACER
+
+      echohl kuChooseKey
+      echon KEY_NAMES[i]
+      echohl NONE
+      echon repeat(' ', MAX_KEY_WIDTH - len(KEY_NAMES[i]))
+      echon ' '
+
+      echohl kuChooseAction
+      echon ACTION_NAMES[i]
+      echohl NONE
+      echon repeat(' ', MAX_ACTION_WIDTH - len(ACTION_NAMES[i]))
+    endfor
+  endfor
 endfunction
 
 
@@ -1526,6 +1586,27 @@ function! s:api(source_name, api_name, ...)  "{{{2
     return s:TRUE
   endif
   return call(func, args)
+endfunction
+
+
+
+
+function! s:compare_ignorecase(x, y)  "{{{2
+  " Comparing function for sort() to do consistently case-insensitive sort.
+  "
+  " Because sort(list, 1) does case-insensitive sort,
+  " but its result may not be in a consistent order.
+  " For example,
+  " sort(['b', 'a', 'B', 'A'], 1) may return ['a', 'A', 'b', 'B'],
+  " sort(['b', 'A', 'B', 'a'], 1) may return ['A', 'a', 'b', 'B'],
+  " and so forth.
+  "
+  " With this function, sort() always return ['A', 'a', 'B', 'b'].
+  return a:x <? a:y ? -1
+  \    : (a:x >? a:y ? 1
+  \    : (a:x <# a:y ? -1
+  \    : (a:x ># a:y ? 1
+  \    : 0)))
 endfunction
 
 
