@@ -31,6 +31,7 @@
 	m1 = merge HEAD@{1}
 	m2 = merge HEAD@{2}
 	m3 = merge HEAD@{3}
+	rw = reset --hard ORIG_HEAD
 	s = show
 	s1 = show HEAD@{1}
 	s2 = show HEAD@{2}
