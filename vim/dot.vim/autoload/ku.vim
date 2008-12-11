@@ -610,7 +610,7 @@ function! s:do(action_name)  "{{{2
   endif
 
   if a:action_name ==# '*choose*' || a:action_name ==# '*persistent*'
-    let action = s:choose_action(item)
+    let action = s:choose_action(item, a:action_name ==# '*persistent*')
   else
     let action = a:action_name
   endif
@@ -1069,7 +1069,7 @@ endfunction
 
 
 " Action-related stuffs  "{{{2
-function! s:choose_action(item)  "{{{3
+function! s:choose_action(item, persistent_p)  "{{{3
   " Prompt  Item     Source
   "    |     |         |
   "   _^__  _^______  _^__
@@ -1139,7 +1139,7 @@ function! s:choose_action(item)  "{{{3
   endfor
 
   echohl kuChooseMessage
-  echo 'What action?'
+  echo 'What action?' (a:persistent_p ? '[persistent]' : '')
   echohl NONE
 
   " Take user input.
