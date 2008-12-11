@@ -98,7 +98,7 @@
 "
 "   - Functions: Use "on_{event}_{mod}" for a handler of :autocmd {event}.
 "
-"   - Use "tabpage" instead of "tab_page" or "tab page".
+"   - Use "tabpage" instead of "tab_page" or "tab page" or "tab".
 
 
 
@@ -237,7 +237,7 @@ let &statusline .= '%='
 let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
-function! s:my_tab_line()  "{{{
+function! s:my_tabline()  "{{{
   let s = ''
 
   for i in range(1, tabpagenr('$'))
@@ -269,7 +269,7 @@ function! s:my_tab_line()  "{{{
   let s .= '%X'
   return s
 endfunction "}}}
-let &tabline = '%!' . s:SID_PREFIX() . 'my_tab_line()'
+let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
 
 " To automatically detect the width and the height of the terminal,
 " the followings must not be set.
@@ -534,7 +534,7 @@ endfunction
 
 " CD - alternative :cd with more user-friendly completion  "{{{2
 
-command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabCD <args>
+command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabpageCD <args>
 function! s:complete_cdpath(arglead, cmdline, cursorpos)
   return split(globpath(&cdpath,
   \                     join(split(a:cmdline, '\s', s:TRUE)[1:], ' ') . '*/'),
@@ -718,9 +718,9 @@ endfunction
 
 
 
-" TabCD - wrapper of :cd to keep cwd for each tabpage  "{{{2
+" TabpageCD - wrapper of :cd to keep cwd for each tabpage  "{{{2
 
-command! -nargs=? TabCD
+command! -nargs=? TabpageCD
 \   execute 'cd' fnameescape(<q-args>)
 \ | let t:cwd = getcwd()
 
@@ -733,9 +733,9 @@ autocmd MyAutoCmd TabEnter *
 
 
 
-" TabTitle - name the current tabpage  "{{{2
+" TabpageTitle - name the current tabpage  "{{{2
 
-command! -bar -nargs=* TabTitle
+command! -bar -nargs=* TabpageTitle
 \   if <q-args> == ''
 \ |   let t:title = input("Set tabpage's title to: ",'')
 \ | else
@@ -751,12 +751,12 @@ command! -bar -nargs=0 UsualDays  call s:cmd_UsualDays()
 function! s:cmd_UsualDays()
   normal! 'T
   execute 'CD' fnamemodify(expand('%'), ':p:h')
-  TabTitle meta
+  TabpageTitle meta
 
   tabnew
   normal! 'V
   execute 'CD' fnamemodify(expand('%'), ':p:h:h')
-  TabTitle config
+  TabpageTitle config
 endfunction
 
 
@@ -1152,9 +1152,9 @@ endfunction
 
 
 
-function! s:gettabvar(tabnr, varname)  "{{{2
+function! s:gettabvar(tabpagenr, varname)  "{{{2
   " Wrapper for non standard (my own) built-in function gettabvar().
-  return exists('*gettabvar') ? gettabvar(a:tabnr, a:varname) : ''
+  return exists('*gettabvar') ? gettabvar(a:tabpagenr, a:varname) : ''
 endfunction
 
 
@@ -1379,7 +1379,7 @@ Cnmap <noexec> qwg  lgrep<Space>
 
 
 
-" Tab pages  "{{{2
+" Tabpages  "{{{2
 " The mappings defined here are similar to the ones for windows.
 " FIXME: sometimes, hit-enter prompt appears.  but no idea for the reason.
 " Fallback  "{{{3
@@ -1403,10 +1403,10 @@ nmap <C-t><C-c>  <C-t>c
 nmap <C-t><C-o>  <C-t>o
 nmap <C-t><C-i>  <C-t>i
 
-Cnmap <silent> <C-t>T  TabTitle
+Cnmap <silent> <C-t>T  TabpageTitle
 
 
-" Moving around tabs.  "{{{3
+" Moving around tabpages.  "{{{3
 
 Cnmap <silent> <C-t>j
 \ execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')
@@ -1426,7 +1426,7 @@ endfor
 unlet i
 
 
-" Moving tabs themselves.  "{{{3
+" Moving tabpages themselves.  "{{{3
 
 Cnmap <silent> <C-t>l
 \ execute 'tabmove' min([tabpagenr() + v:count1 - 1, tabpagenr('$')])
