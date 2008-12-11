@@ -97,6 +97,8 @@
 "     :command-completion-customlist functions.
 "
 "   - Functions: Use "on_{event}_{mod}" for a handler of :autocmd {event}.
+"
+"   - Use "tabpage" instead of "tab_page" or "tab page".
 
 
 
@@ -716,7 +718,7 @@ endfunction
 
 
 
-" TabCD - wrapper of :cd to keep cwd for each tab page  "{{{2
+" TabCD - wrapper of :cd to keep cwd for each tabpage  "{{{2
 
 command! -nargs=? TabCD
 \   execute 'cd' fnameescape(<q-args>)
@@ -731,7 +733,7 @@ autocmd MyAutoCmd TabEnter *
 
 
 
-" TabTitle - name the current tab page  "{{{2
+" TabTitle - name the current tabpage  "{{{2
 
 command! -bar -nargs=* TabTitle
 \   if <q-args> == ''
@@ -985,9 +987,9 @@ function! s:move_window_then_equalize_if_necessary(direction)
 endfunction
 
 
-function! s:move_window_into_tab_page(target_tabpagenr)
+function! s:move_window_into_tabpage(target_tabpagenr)
   " Move the current window into a:target_tabpagenr.
-  " If a:target_tabpagenr is 0, move into new tab page.
+  " If a:target_tabpagenr is 0, move into new tabpage.
   if a:target_tabpagenr < 0  " ignore invalid number.
     return
   endif
@@ -1627,8 +1629,8 @@ unlet i
 " This {lhs} overrides the default action (Move cursor to top-left window).
 " But I rarely use its {lhs}s, so this mapping is not problematic.
 Fnmap <silent> <C-w><C-t>
-\ <SID>move_window_into_tab_page(<SID>ask_tab_page_number())
-function! s:ask_tab_page_number()
+\ <SID>move_window_into_tabpage(<SID>ask_tabpage_number())
+function! s:ask_tabpage_number()
   echon 'Which tabpage to move this window into?  '
 
   let c = nr2char(getchar())
