@@ -1982,7 +1982,7 @@ endfunction
 " let s:filetype_help_pattern_special = '<[^ <>]\+>'
 
 let s:filetype_help_pattern_link = '|[^ |]\+|'
-let s:filetype_help_pattern_option = '''\a\{2,}'''
+let s:filetype_help_pattern_option = '''[A-Za-z0-9_-]\{2,}'''
 let s:filetype_help_pattern_any = join([s:filetype_help_pattern_link,
 \                                       s:filetype_help_pattern_option],
 \                                      '\|')
