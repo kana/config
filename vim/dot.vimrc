@@ -1484,7 +1484,7 @@ cnoremap <expr> <C-u>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-u>")
 cnoremap <expr> <C-w>  <SID>keys_to_escape_command_line_mode_if_empty("\<C-w>")
 
 " Search slashes easily (too lazy to prefix backslashes to slashes)
-cnoremap <expr> <Plug>(arpeggio-default:/)  getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 
 
 
@@ -1802,7 +1802,7 @@ endfunction
 " the next insertion [count] times, because I've never felt that it is useful.
 nnoremap <expr> <Plug>(arpeggio-default:o)
 \        <SID>start_insert_mode_with_blank_lines('o')
-nnoremap <expr> <Plug>(arpeggio-default:O)
+nnoremap <expr> O
 \        <SID>start_insert_mode_with_blank_lines('O')
 function! s:start_insert_mode_with_blank_lines(command)
   if v:count != v:count1
@@ -2208,18 +2208,6 @@ let s:on_FileType_xml_comment_dispatch_data = {
 
 
 " Plugins  "{{{1
-" arpeggio  "{{{2
-"
-" In this file, arpeggio is used to execute some type of key mappings to be
-" executed by <M-{X}> only and not by quickly typed <Esc>{X}.  But this causes
-" the unexpected behavior of c_<Esc> - starting enterd command.  So that
-" c_<Esc> must be remapped to avoid this problem.
-
-cnoremap <Plug>(arpeggio-default:<Esc>)  <C-c>
-
-
-
-
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
