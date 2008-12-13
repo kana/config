@@ -623,8 +623,8 @@ $(foreach group, \
 # vimup  #{{{1
 # -- to automate to upload Vim scripts.
 
-VIMUP_TASKS=update-script update-details
-vimup: package
+#VIMUP_TASKS=
+_vimup:
 	./vimup-info-generator \
 	  <$(firstword $(filter vim/dot.vim/doc/%.txt, \
 	                        $(PACKAGE_$(_PACKAGE_NAME)_FILES))) \
@@ -634,12 +634,14 @@ vimup: package
 	done
 	rm $(PACKAGE_NAME).vimup
 
-vimup-new:
-	make VIMUP_TASKS=new-script vimup
+vimup: package
+	make VIMUP_TASKS=update-script update-details _vimup
 vimup-details:
-	make VIMUP_TASKS=update-details vimup
-vimup-script:
-	make VIMUP_TASKS=update-script vimup
+	make VIMUP_TASKS=update-details _vimup
+vimup-new:
+	make VIMUP_TASKS=new-script _vimup
+vimup-script: package
+	make VIMUP_TASKS=update-script _vimup
 
 
 
