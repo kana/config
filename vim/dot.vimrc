@@ -1701,23 +1701,23 @@ endfunction
 
 
 " Operator version of :center, :left and :right.
-DefineOperator <Plug>(op-center)
+DefineOperator <Plug>(my:op-center)
 \              <SID>op_command
 \              call <SID>set_op_command('center')
-DefineOperator <Plug>(op-left)
+DefineOperator <Plug>(my:op-left)
 \              <SID>op_command
 \              call <SID>set_op_command('left')
-DefineOperator <Plug>(op-right)
+DefineOperator <Plug>(my:op-right)
 \              <SID>op_command
 \              call <SID>set_op_command('right')
 
   " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oh  <Plug>(op-left)
-Arpeggio nmap ol  <Plug>(op-right)
-Arpeggio nmap om  <Plug>(op-center)
-Arpeggio vmap oh  <Plug>(op-left)
-Arpeggio vmap ol  <Plug>(op-right)
-Arpeggio vmap om  <Plug>(op-center)
+Arpeggio nmap oh  <Plug>(my:op-left)
+Arpeggio nmap ol  <Plug>(my:op-right)
+Arpeggio nmap om  <Plug>(my:op-center)
+Arpeggio vmap oh  <Plug>(my:op-left)
+Arpeggio vmap ol  <Plug>(my:op-right)
+Arpeggio vmap om  <Plug>(my:op-center)
 
 
 
