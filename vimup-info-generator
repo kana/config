@@ -26,7 +26,7 @@ def parse_doc(s)
 
   /^INTRODUCTION\b.*\n+((.*\n)*?)=/ =~ s
   raise RuntimeError, 'Not found: introduction' unless Regexp.last_match
-  _['introduction'] = Regexp.last_match(1).chomp('')
+  _['introduction'] = Regexp.last_match(1).chomp('').gsub(/^[><]$/, '')
 
     # FIXME: INTRODUCTION must start with the tag of the name of a script.
     #        Example of violation: ku-source-metarw should be ku-metarw
