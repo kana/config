@@ -37,8 +37,10 @@
 	s2 = show HEAD@{2}
 	s3 = show HEAD@{3}
 	sa = stash apply
+	sl = stash list
 	sp = stash pop
 	ss = stash save
+	sv = stash save
 	st = status
 	staged = diff --cached
 	t = tag
