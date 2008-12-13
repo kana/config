@@ -1591,11 +1591,11 @@ Cnmap <silent> [Space]q  help quickref
 
 Cnmap <silent> [Space]r  registers
 
-nnoremap [Space]s  <Nop>
+  " FIXME: ambiguous mappings - fix or not.
+nmap [Space]s  <Plug>(my:op-sort)
+vmap [Space]s  <Plug>(my:op-sort)
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
-
-Cvmap <count> <silent> [Space]s  sort
 
 " for backward compatibility
 nmap [Space]w  [Space]ow
@@ -1724,10 +1724,6 @@ Arpeggio vmap om  <Plug>(my:op-center)
 DefineOperator <Plug>(my:op-sort)
 \              <SID>op_command
 \              call <SID>set_op_command('sort')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap os  <Plug>(my:op-sort)
-Arpeggio vmap os  <Plug>(my:op-sort)
 
 
 
