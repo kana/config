@@ -1720,6 +1720,16 @@ Arpeggio vmap ol  <Plug>(my:op-right)
 Arpeggio vmap om  <Plug>(my:op-center)
 
 
+" Operator version of :sort.
+DefineOperator <Plug>(my:op-sort)
+\              <SID>op_command
+\              call <SID>set_op_command('sort')
+
+  " FIXME: Use :Operatormap, but how?
+Arpeggio nmap os  <Plug>(my:op-sort)
+Arpeggio vmap os  <Plug>(my:op-sort)
+
+
 
 
 " Misc.  "{{{2
