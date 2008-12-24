@@ -62,7 +62,7 @@ function! ku#bundle#action_table()  "{{{2
   return {
   \   'args!': 'ku#bundle#action_args_x',
   \   'args': 'ku#bundle#action_args',
-  \   'default': 'ku#bundle#action_load_or_args',
+  \   'default': 'ku#bundle#action_args',
   \   'load!': 'ku#bundle#action_load_x',
   \   'load': 'ku#bundle#action_load',
   \   'load-or-args': 'ku#bundle#action_load_or_args',
