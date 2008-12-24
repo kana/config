@@ -905,6 +905,7 @@ CHANGELOG					*ku-changelog*
 	- Add |g:ku_choosing_actions_sorting_style|.
 	- Change the sorting style of |<Plug>(ku-choose-an-action)|.
 	  See also |g:ku_choosing_actions_sorting_style|.
+	- Fix some bugs - see |ku-buffer-changelog| and |ku-file-changelog|.
 
 0.1.7	2008-12-09T17:26:01+09:00/2008-12-11T17:08:52+09:00
 	- Include new source |ku-source|.
