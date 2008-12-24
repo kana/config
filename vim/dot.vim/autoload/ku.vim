@@ -22,6 +22,47 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Variables  "{{{1
+" Global  "{{{2
+
+" The name of the ku buffer.
+if !exists('g:ku_buffer_name')
+  if has('win16') || has('win32') || has('win64')  " on Microsoft Windows
+    let g:ku_buffer_name = '[ku]'
+  else
+    let g:ku_buffer_name = '*ku*'
+  endif
+endif
+
+
+if !exists('g:ku_choosing_actions_sorting_style')
+  let g:ku_choosing_actions_sorting_style = 'by-action'
+endif
+
+
+" Junk patterns.
+" There may be g:ku_{source}_junk_pattern.
+if !exists('g:ku_common_junk_pattern')
+  let g:ku_common_junk_pattern = ''
+endif
+
+
+" Special characters to activate automatic component completion.
+if !exists('g:ku_component_separators')
+  let g:ku_component_separators = '/\:'
+endif
+
+
+if !exists('g:ku_history_added_p')
+  let g:ku_history_added_p = 'ku#_history_added_p'
+endif
+if !exists('g:ku_history_size')
+  let g:ku_history_size = 1000
+endif
+
+
+
+
+" Script-local  "{{{2
 
 " Misc.
 let s:FALSE = 0
@@ -34,16 +75,6 @@ if exists('s:bufnr') && bufexists(s:bufnr)
   execute s:bufnr 'bwipeout'
 endif
 let s:bufnr = s:INVALID_BUFNR
-
-
-" The name of the ku buffer.
-if !exists('g:ku_buffer_name')
-  if has('win16') || has('win32') || has('win64')  " on Microsoft Windows
-    let g:ku_buffer_name = '[ku]'
-  else
-    let g:ku_buffer_name = '*ku*'
-  endif
-endif
 
 
 " The name of the current source given to ku#start() or :Ku.
@@ -59,10 +90,6 @@ let s:INVALID_COL = -3339
 let s:last_col = s:INVALID_COL
 
 let s:automatic_component_completion_done_p = s:FALSE
-  " Special characters to activate automatic component completion.
-if !exists('g:ku_component_separators')
-  let g:ku_component_separators = '/\:'
-endif
 
 
 " To take action on the appropriate item.
@@ -104,14 +131,6 @@ if !exists('s:custom_prefix_tables')
 endif
 
 
-" Junk patterns.
-if !exists('g:ku_common_junk_pattern')
-  let g:ku_common_junk_pattern = ''
-endif
-
-" There may be g:ku_{source}_junk_pattern.
-
-
 " Priorities table: source -> priority
 if !exists('s:priority_table')
   let s:priority_table = {}
@@ -134,22 +153,9 @@ let s:last_used_source = s:INVALID_SOURCE
 let s:last_used_input_pattern = ''
 
 
-if !exists('g:ku_history_added_p')
-  let g:ku_history_added_p = 'ku#_history_added_p'
-endif
-if !exists('g:ku_history_size')
-  let g:ku_history_size = 1000
-endif
-
-
 " Magic line numbers in the ku buffer.
 let s:LNUM_STATUS = 1
 let s:LNUM_INPUT = 2
-
-
-if !exists('g:ku_choosing_actions_sorting_style')
-  let g:ku_choosing_actions_sorting_style = 'by-action'
-endif
 
 
 
