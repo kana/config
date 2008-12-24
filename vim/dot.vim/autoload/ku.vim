@@ -64,12 +64,16 @@ endif
 
 " Script-local  "{{{2
 
-" Misc.
+" Misc. constants.
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
 
+  " Magic line numbers in the ku buffer.
+let s:LNUM_STATUS = 1
+let s:LNUM_INPUT = 2
 
-" The buffer number of ku.
+
+" The buffer number of the ku buffer.
 let s:INVALID_BUFNR = -1
 if exists('s:bufnr') && bufexists(s:bufnr)
   execute s:bufnr 'bwipeout'
@@ -77,7 +81,7 @@ endif
 let s:bufnr = s:INVALID_BUFNR
 
 
-" The name of the current source given to ku#start() or :Ku.
+" The name of the current source.
 let s:INVALID_SOURCE = '*invalid*'
 let s:current_source = s:INVALID_SOURCE
 
@@ -112,7 +116,7 @@ let s:last_completed_items = []
 let s:last_user_input_raw = ''
 
 
-" Values to be restored after the ku window is closed.
+" Information to restore several stuffs after a ku session.
 let s:completeopt = ''
 let s:curwinnr = 0
 let s:ignorecase = ''
@@ -131,7 +135,7 @@ if !exists('s:custom_prefix_tables')
 endif
 
 
-" Priorities table: source -> priority
+" Priorities table: source -> priority.
 if !exists('s:priority_table')
   let s:priority_table = {}
 endif
@@ -144,18 +148,13 @@ let s:MAX_PRIORITY = 999
 let s:session_id = 0
 
 
-" For s:recall_input_history()
+" For s:recall_input_history().
 let s:current_hisotry_index = -1
 
 
-" For ku#restart()
+" For ku#restart().
 let s:last_used_source = s:INVALID_SOURCE
 let s:last_used_input_pattern = ''
-
-
-" Magic line numbers in the ku buffer.
-let s:LNUM_STATUS = 1
-let s:LNUM_INPUT = 2
 
 
 
