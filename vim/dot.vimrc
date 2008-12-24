@@ -2260,7 +2260,6 @@ endfunction
 
 autocmd MyAutoCmd FileType ku
 \   call ku#default_key_mappings(s:TRUE)
-\ | call ku#custom_action('bundle', 'default', 'bundle', 'args')
 \ | call ku#custom_action('common', 'cd',
 \                         s:SID_PREFIX() . 'ku_common_action_my_cd')
 \ | call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
