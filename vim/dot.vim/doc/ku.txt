@@ -110,7 +110,7 @@ COMMANDS					*ku-commands*
 
 			The main purpose of this command is to define a key
 			mapping to execute a specified action without
-			choosing, like |<Plug>(do-the-default-action)|.
+			choosing, like |<Plug>(ku-do-the-default-action)|.
 			See |filetype-ku| for an example of usage.
 
 
