@@ -349,27 +349,55 @@ fi
 
 if where git &>/dev/null; then
   function prompt-git-head-name() {
-    if ! [ -d .git ]; then
+    local git_dir="$(git rev-parse --git-dir 2>/dev/null)"
+    if [ -z "$git_dir" ]; then
       return 1
     fi
 
-    local head_name
-    head_name="$(git branch | sed -e 's/^\* //;t;d')"
-    if [ "$head_name" = '(no branch)' ]; then
-      # "git branch" doesn't show the correct name of a branch after
-      # "git checkout {commitish-and-not-the-head-of-a-branch}", so we have to
-      # use another method to get the name of {commitish}.
-      head_name="($(
-        {
-          fgrep 'checkout: moving from ' .git/logs/HEAD |
-          sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
-        } 2>/dev/null
-      ))"
-    elif [ "$head_name" = '' ]; then
-      head_name='(just initialized; nothing commited)'
+    local head_name=''
+    local additional_info=''
+    if [ -d "$git_dir/rebase-apply" ]; then
+      if [ -f "$git_dir/rebase-apply/rebasing" ]; then
+        additional_info="REBASE"
+      elif [ -f "$git_dir/rebase-apply/applying" ]; then
+        additional_info="AM"
+      else
+        additional_info="AM/REBASE"
+      fi
+      head_name="$(git symbolic-ref HEAD 2>/dev/null)"
+    elif [ -f "$git_dir/rebase-merge/interactive" ]; then
+      additional_info="REBASE-i"
+      head_name="$(< "$git_dir/rebase-merge/head-name")"
+    elif [ -d "$git_dir/rebase-merge" ]; then
+      additional_info="REBASE-m"
+      head_name="$(< "$git_dir/rebase-merge/head-name")"
+    elif [ -f "$git_dir/MERGE_HEAD" ]; then
+      additional_info="MERGING"
+      head_name="$(git symbolic-ref HEAD 2>/dev/null)"
+    fi
+    if [ -z "$head_name" ]; then
+      head_name="$(git branch | sed -e 's/^\* //;t;d')"
+      if [ "$head_name" = '(no branch)' ]; then
+        # "git branch" doesn't show the correct name of a branch after
+        # "git checkout {commitish-and-not-the-head-of-a-branch}",
+        # so we have to use another method to get the name of {commitish}.
+        head_name="($(
+          {
+            fgrep 'checkout: moving from ' .git/logs/HEAD |
+            sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
+          } 2>/dev/null
+        ))"
+      elif [ "$head_name" = '' ]; then
+        head_name='(just initialized; nothing commited)'
+      fi
+    else
+      head_name="${head_name##refs/heads/}"
+    fi
+    if [ -n "$additional_info" ]; then
+      additional_info="|$additional_info"
     fi
 
-    echo " [$head_name]"
+    echo " [$head_name$additional_info]"
     return 0
   }
 else
