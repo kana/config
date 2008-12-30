@@ -985,6 +985,12 @@ endfunction
 
 augroup plugin-ku
   autocmd!
+  autocmd CursorHold *
+  \   if (g:ku_history_reloading_style ==# 'idle'
+  \       || g:ku_history_reloading_style ==# 'each')
+  \ |   call s:history_reload()
+  \ | endif
+  autocmd CursorHoldI *  doautocmd plugin-ku CursorHold
   autocmd VimLeave *  call s:history_save()
 augroup END
 
@@ -1539,6 +1545,9 @@ endfunction
 
 
 function! s:history_list()  "{{{3
+  if g:ku_history_reloading_style ==# 'each'
+    call s:history_reload()
+  endif
   return s:inputted_patterns
 endfunction
 
@@ -1564,6 +1573,15 @@ if !exists('s:inputted_patterns')
 endif
 
 
+function! s:history_reload()  "{{{3
+  " FIXME: NIY
+  echomsg 'ku: reload history'
+  return
+endfunction
+
+
+
+
 function! s:history_save()  "{{{3
   let file = s:history_file()
   let directory = fnamemodify(file, ':h')
@@ -1571,7 +1589,7 @@ function! s:history_save()  "{{{3
     call mkdir(directory, 'p')
   endif
 
-  call writefile(map(copy(s:history_list()),
+  call writefile(map(copy(s:inputted_patterns),
   \                  'v:val.pattern ."\t". v:val.source ."\t". v:val.time'),
   \              file)
 endfunction
