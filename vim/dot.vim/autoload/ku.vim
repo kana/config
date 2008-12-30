@@ -1506,6 +1506,9 @@ let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
 
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
 let s:HISTORY_FILE = 'info/ku/history'
+if !exists('s:history_file_mtime')
+  let s:history_file_mtime = 0
+endif
 
 " The format of history file is:
 " - Each line is corresponding to an inputted pattern.
@@ -1553,29 +1556,39 @@ endfunction
 
 
 function! s:history_load()  "{{{3
+  let _ = []
   if filereadable(s:history_file())
-    let s:inputted_patterns = []
     for line in readfile(s:history_file(), '', g:ku_history_size)
       let columns = split(line, '\t')
-      call add(s:inputted_patterns, {
+      call add(_, {
       \      'pattern': columns[0],
       \      'source': 2 <= len(columns) ? columns[1] : s:INVALID_SOURCE,
       \      'time': 3 <= len(columns) ? str2nr(columns[2]) : 0,
       \    })
     endfor
-  else
-    let s:inputted_patterns = []
   endif
+  return _
 endfunction
 
 if !exists('s:inputted_patterns')
-  call s:history_load()
+  let s:inputted_patterns = s:history_load()
 endif
 
 
 function! s:history_reload()  "{{{3
-  " FIXME: NIY
-  echomsg 'ku: reload history'
+  let file = s:history_file()
+  let mtime = getftime(file)
+  if mtime == -1
+    call s:history_save()
+  elseif mtime != s:history_file_mtime
+    let current_history = s:inputted_patterns
+    let new_history = s:history_load()
+    let s:inputted_patterns = s:merge_histories(current_history, new_history)
+    call s:history_save()
+  else
+    " nothing to do.
+  endif
+  let s:history_file_mtime = getftime(file)
   return
 endfunction
 
@@ -1708,6 +1721,35 @@ function! s:matchend(s, pattern)  "{{{2
   let POINT_AT_INFINITY = 2147483647  " FIXME: valid value.
   let i = matchend(a:s, a:pattern)
   return 0 <= i ? i : POINT_AT_INFINITY
+endfunction
+
+
+
+
+function! s:merge_histories(a, b)  "{{{2
+  " cat
+  let _ = a:a + a:b
+
+  " sort
+  call sort(_, 's:_compare_by_time')
+  call reverse(_)
+
+  " uniq
+  let i = 0
+  while i < len(_)
+    while i + 1 < len(_) && _[i] ==# _[i+1]
+      call remove(_, i)
+      let i += 1
+    endwhile
+    let i += 1
+  endwhile
+
+  return _
+endfunction
+
+
+function! s:_compare_by_time(a, b)
+  return a:a.time < a:b.time ? -1 : (a:a.time > a:b.time ? 1 : 0)
 endfunction
 
 
