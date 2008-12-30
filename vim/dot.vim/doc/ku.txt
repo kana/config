@@ -786,7 +786,8 @@ g:ku_history_reloading_style			*g:ku_history_reloading_style*
 		- The same timings as "once" and "idle".
 
 	"idle"
-		- Whenever Vim is idle.  See also |CursorHold|.
+		- Whenever Vim becomes idle or ku is activated after idle.
+		  See also |CursorHold|.
 		- The same timings as "once".
 
 	"once"

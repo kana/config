@@ -989,6 +989,7 @@ augroup plugin-ku
   \   if (g:ku_history_reloading_style ==# 'idle'
   \       || g:ku_history_reloading_style ==# 'each')
   \ |   call s:history_reload()
+  \ |   let s:after_idle_p = s:TRUE
   \ | endif
   autocmd CursorHoldI *  doautocmd plugin-ku CursorHold
   autocmd VimLeave *  call s:history_save()
@@ -1504,6 +1505,7 @@ let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
 " History of inputted patterns  "{{{2
 " Variables / Constants  "{{{3
 
+let s:after_idle_p = s:FALSE  " to reload the history file after idle.
 " s:history_changed_p = s:FALSE
 " s:history_file_mtime = 0  " the last modified time of the history file.
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
@@ -1550,8 +1552,10 @@ endfunction
 
 
 function! s:history_list()  "{{{3
-  if g:ku_history_reloading_style ==# 'each'
+  if (g:ku_history_reloading_style ==# 'each'
+  \   || (g:ku_history_reloading_style ==# 'idle' && s:after_idle_p))
     call s:history_reload()
+    let s:after_idle_p = s:FALSE
   endif
   return s:inputted_patterns
 endfunction
