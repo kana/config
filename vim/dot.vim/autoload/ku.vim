@@ -58,6 +58,9 @@ endif
 if !exists('g:ku_history_size')
   let g:ku_history_size = 1000
 endif
+if !exists('g:ku_history_reloading_style')
+  let g:ku_history_reloading_style = 'once'
+endif
 
 
 
