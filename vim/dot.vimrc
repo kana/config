@@ -1597,6 +1597,9 @@ vmap [Space]s  <Plug>(my:op-sort)
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
 
+" Close all folds but including the cursor.
+nnoremap [Space]v  zMzv
+
 " for backward compatibility
 nmap [Space]w  [Space]ow
 
