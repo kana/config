@@ -1752,7 +1752,7 @@ nnoremap ZQ  <Nop>
 
 " Use a backslash (\) to repeat last change.
 " Since a dot (.) is used as <LocalLeader>.
-nnoremap \  .
+nmap \  <Plug>(repeat-.)
 
 
 " Complete or indent.
