@@ -263,6 +263,13 @@ should this be the default?
 
 CHANGELOG					*surround-changelog*
 
+2008-12-30T19:03:49+09:00	kana	<http://whileimautomaton.net/>
+
+	- Fix <Plug>Ysurround and others to be repeatable with a "repeat"
+	  plugin which is one of the followings:
+	  http://github.com/kana/config/commits/vim-repeat
+	  http://www.vim.org/scripts/script.php?script_id=2136
+
 2008-11-09T03:26:23+09:00	kana	<http://whileimautomaton.net/>
 
 	- Fix the bug that |surround-mappings| does not work if they are not

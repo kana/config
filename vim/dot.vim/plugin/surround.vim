@@ -622,8 +622,11 @@ function! s:opfunc(type,...)  "{{{2
     let &clipboard = cb_save
     if a:type =~ '^\d\+$'
         silent! call repeat#set("\<Plug>Y".(a:0 ? "S" : "s")."surround".char,a:type)
+    else
+        silent! call repeat#set("\<Plug>(surround-.)" . char)
     endif
 endfunction
+nnoremap <Plug>(surround-.)  .
 
 function! s:opfunc2(arg)
     call s:opfunc(a:arg,1)
