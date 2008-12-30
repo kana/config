@@ -1860,6 +1860,11 @@ nnoremap +  <C-a>
 nnoremap -  <C-x>
 
 
+" Disable solely typed <Leader>/<LocalLeader> to avoid unexpected behavior.
+noremap <Leader>  <Nop>
+noremap <LocalLeader>  <Nop>
+
+
 
 
 
