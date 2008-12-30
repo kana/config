@@ -1504,11 +1504,10 @@ let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
 " History of inputted patterns  "{{{2
 " Variables / Constants  "{{{3
 
+" s:history_changed_p = s:FALSE
+" s:history_file_mtime = 0  " the last modified time of the history file.
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
 let s:HISTORY_FILE = 'info/ku/history'
-if !exists('s:history_file_mtime')
-  let s:history_file_mtime = 0
-endif
 
 " The format of history file is:
 " - Each line is corresponding to an inputted pattern.
@@ -1523,6 +1522,7 @@ function! s:history_add(new_input_pattern, source)  "{{{3
   if !{g:ku_history_added_p}(a:new_input_pattern, a:source)
     return
   endif
+
   call insert(s:inputted_patterns,
   \           {'pattern': a:new_input_pattern,
   \            'source': a:source,
@@ -1532,6 +1532,8 @@ function! s:history_add(new_input_pattern, source)  "{{{3
   if g:ku_history_size < len(s:inputted_patterns)
     unlet s:inputted_patterns[(g:ku_history_size):]
   endif
+
+  let s:history_changed_p = s:TRUE
 endfunction
 
 function! ku#_history_added_p(new_input_pattern, source)
@@ -1572,23 +1574,30 @@ endfunction
 
 if !exists('s:inputted_patterns')
   let s:inputted_patterns = s:history_load()
+  let s:history_file_mtime = getftime(s:history_file())
+  let s:history_changed_p = s:FALSE
 endif
 
 
 function! s:history_reload()  "{{{3
   let file = s:history_file()
   let mtime = getftime(file)
-  if mtime == -1
-    call s:history_save()
-  elseif mtime != s:history_file_mtime
+  if mtime == -1  " history file is not found
+    let s:history_changed_p = s:TRUE
+  elseif mtime != s:history_file_mtime  " history file is updated
     let current_history = s:inputted_patterns
     let new_history = s:history_load()
     let s:inputted_patterns = s:merge_histories(current_history, new_history)
-    call s:history_save()
+    let s:history_changed_p = s:TRUE
   else
-    " nothing to do.
+    " history file is not changed
   endif
-  let s:history_file_mtime = getftime(file)
+
+  if s:history_changed_p
+    call s:history_save()
+    let s:history_file_mtime = getftime(file)
+    let s:history_changed_p = s:FALSE
+  endif
   return
 endfunction
 
