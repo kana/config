@@ -736,7 +736,7 @@ g:ku_buffer_name				*g:ku_buffer_name*
 	Windows.
 
 g:ku_choosing_actions_sorting_style	 *g:ku_choosing_actions_sorting_style*
-	A string which specify how to sort actions
+	A string which specifies how to sort actions
 	when |<Plug>(ku-choose-an-action)| shows available actions.
 	This variable can be one of the following values:
 
