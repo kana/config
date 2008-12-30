@@ -1,6 +1,6 @@
 *ku.txt*	Support to do something
 
-Version 0.1.8
+Version 0.1.9
 Script ID: 2337
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -920,7 +920,7 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
-0.1.9	2008-12-30T23:13:04+09:00
+0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
 	- Add |g:ku_history_reloading_style|.
 	- Change the default timings to reload and to save |ku-input-history|.
 	  See also "idle" on |g:ku_history_reloading_style|.
