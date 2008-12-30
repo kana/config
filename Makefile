@@ -440,7 +440,7 @@ PACKAGE_vim_submode_FILES=\
   vim/dot.vim/autoload/submode.vim \
   vim/dot.vim/doc/submode.txt
 
-PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.6
+PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.7
 PACKAGE_vim_surround_BASE=vim/dot.vim
 PACKAGE_vim_surround_FILES=\
   vim/dot.vim/doc/surround.txt \
