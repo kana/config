@@ -297,7 +297,7 @@ function! s:write(scheme, fakepath, line1, line2, event_name)  "{{{2
   let _ = metarw#{a:scheme}#write(a:fakepath, a:line1, a:line2,
   \                               a:event_name ==# 'FileAppendCmd')
   if _[0] ==# 'write'
-    execute a:line1 ',' a:line2 'write' v:cmdarg _[1]
+    silent execute a:line1 ',' a:line2 'write' v:cmdarg _[1]
     if v:shell_error != 0
       let _ = ['error', 'Failed to write: ' . string(a:fakepath)]
     endif
