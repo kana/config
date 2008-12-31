@@ -809,15 +809,20 @@ TERMS						*ku-terms*
 action						*ku-action*
 			An action is a function which is called by
 			|<Plug>(ku-do-the-default-action)|,
-			|<Plug>(ku-choose-an-action)|, or
-			|:KuDoAction|.
+			|<Plug>(ku-choose-an-action)|,
+			|:KuDoAction| and other commands.
 
 			Every action is registered in |ku-action-table| by
 			|ku#custom_action()|.  The above commands look into
 			the tables for available actions.
 
-			Every action should be named with only alphabets and
-			hyphens.
+			An action consists of the following elements:
+			- The "name" of the action.
+			  It should consist of only alphabets and hyphens.
+			- The name of the "function"
+			  which is called whenever the action is executed.
+			- The list of the names of "sources"
+			  to which the action can be applied.
 
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
@@ -919,6 +924,12 @@ BUGS						*ku-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.2.0	2008-12-31T22:06:44+09:00
+	Incompatible changes:
+	- Change many points about |ku-sources| and |ku-action|.
+	  - Sources for 0.1.x are not compatible with 0.2.x.
+	  - ...
 
 0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
 	- Add |g:ku_history_reloading_style|.
