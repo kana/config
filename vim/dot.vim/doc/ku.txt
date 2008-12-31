@@ -632,29 +632,31 @@ ku#{source}#key_table()				*ku#{source}#key_table()*
 
 ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			Return a list of items which are matched to the given
-			{pattern}.  See |complete-items| for the detail of
-			items.
+			{pattern}.  Each item is a dictionary.
+			See |complete-items| for the details.
 
 			Sources may add additional entries for each item.
 			Keys of such entries must be prefixed with
-			"_{source}_", where {source} is the name of a source.
-			Also sources may add the following items:
+			"ku_{source}_", where {source} is the name of
+			a source.  Also sources may add the following items:
 
-						*_ku_sort_priority*
-			_ku_sort_priority	(integer)
-				This value is used to sort items and it is
-				prior to user input.
+						*ku__sort_priority*
+			ku__sort_priority	(integer)
+				This value is used to sort items,
+				and it is prior to user input.
 
-				The default value is 0 if this item is
-				omitted.
+				The default value is 0
+				if this item is omitted.
 
-			Also, ku adds additional entries for each item.  Keys
-			of such entries are prefixed with "_ku_".  The
-			following keys are officially provided:
+			Also, ku adds additional entries for each item.
+			Keys of such entries are prefixed with "ku__".
+			The following keys are officially provided:
 
-			_ku_completed_p		(boolean)
-				Normally true.  If the item is not completed
-				one, it is set to false.
+						*ku__completed_p*
+			ku__completed_p		(boolean)
+				Normally true.
+				If the item is not completed one,
+				it is set to false.
 
 ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 			Return true if {item} can be used for ACC,
@@ -929,6 +931,10 @@ CHANGELOG					*ku-changelog*
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.
 	  - Sources for 0.1.x are not compatible with 0.2.x.
+	  - |ku#{source}#gather_items()|: Change the naming rules about
+	    additional entries for each item.
+	    Old versions use "_{source}_..." and "_ku_...".
+	    New versions use "ku_{source}_..." and "ku__..." instead.
 	  - ...
 
 0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
