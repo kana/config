@@ -296,7 +296,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.1.7
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.1.9
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
@@ -314,19 +314,19 @@ PACKAGE_vim_ku_args_FILES=\
   vim/dot.vim/autoload/ku/args.vim \
   vim/dot.vim/doc/ku-args.txt
 
-PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-0.0.1
+PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-0.0.2
 PACKAGE_vim_ku_buffer_BASE=vim/dot.vim
 PACKAGE_vim_ku_buffer_FILES=\
   vim/dot.vim/autoload/ku/buffer.vim \
   vim/dot.vim/doc/ku-buffer.txt
 
-PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.1
+PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.2
 PACKAGE_vim_ku_bundle_BASE=vim/dot.vim
 PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
 
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.0.1
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.0.2
 PACKAGE_vim_ku_file_BASE=vim/dot.vim
 PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
@@ -440,7 +440,7 @@ PACKAGE_vim_submode_FILES=\
   vim/dot.vim/autoload/submode.vim \
   vim/dot.vim/doc/submode.txt
 
-PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.6
+PACKAGE_vim_surround_ARCHIVE=vim-surround-1.34.7
 PACKAGE_vim_surround_BASE=vim/dot.vim
 PACKAGE_vim_surround_FILES=\
   vim/dot.vim/doc/surround.txt \
@@ -635,7 +635,7 @@ _vimup:
 	rm $(PACKAGE_NAME).vimup
 
 vimup: package
-	make VIMUP_TASKS=update-script update-details _vimup
+	make VIMUP_TASKS="update-script update-details" _vimup
 vimup-details:
 	make VIMUP_TASKS=update-details _vimup
 vimup-new:

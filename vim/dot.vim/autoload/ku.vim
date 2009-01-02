@@ -1,5 +1,5 @@
 " ku - Support to do something
-" Version: 0.1.7
+" Version: 0.1.9
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -22,19 +22,7 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Variables  "{{{1
-
-" Misc.
-let s:FALSE = 0
-let s:TRUE = !s:FALSE
-
-
-" The buffer number of ku.
-let s:INVALID_BUFNR = -1
-if exists('s:bufnr') && bufexists(s:bufnr)
-  execute s:bufnr 'bwipeout'
-endif
-let s:bufnr = s:INVALID_BUFNR
-
+" Global  "{{{2
 
 " The name of the ku buffer.
 if !exists('g:ku_buffer_name')
@@ -46,7 +34,57 @@ if !exists('g:ku_buffer_name')
 endif
 
 
-" The name of the current source given to ku#start() or :Ku.
+if !exists('g:ku_choosing_actions_sorting_style')
+  let g:ku_choosing_actions_sorting_style = 'by-action'
+endif
+
+
+" Junk patterns.
+" There may be g:ku_{source}_junk_pattern.
+if !exists('g:ku_common_junk_pattern')
+  let g:ku_common_junk_pattern = ''
+endif
+
+
+" Special characters to activate automatic component completion.
+if !exists('g:ku_component_separators')
+  let g:ku_component_separators = '/\:'
+endif
+
+
+if !exists('g:ku_history_added_p')
+  let g:ku_history_added_p = 'ku#_history_added_p'
+endif
+if !exists('g:ku_history_size')
+  let g:ku_history_size = 1000
+endif
+if !exists('g:ku_history_reloading_style')
+  let g:ku_history_reloading_style = 'idle'
+endif
+
+
+
+
+" Script-local  "{{{2
+
+" Misc. constants.
+let s:FALSE = 0
+let s:TRUE = !s:FALSE
+
+  " Magic line numbers in the ku buffer.
+let s:LNUM_STATUS = 1
+let s:LNUM_INPUT = 2
+
+
+" The buffer number of the ku buffer.
+let s:INVALID_BUFNR = -1
+if exists('s:bufnr') && bufexists(s:bufnr)
+  execute s:bufnr 'bwipeout'
+endif
+let s:bufnr = s:INVALID_BUFNR
+
+
+" The name of the current source.
 let s:INVALID_SOURCE = '*invalid*'
 let s:current_source = s:INVALID_SOURCE
 
@@ -59,10 +97,6 @@ let s:INVALID_COL = -3339
 let s:last_col = s:INVALID_COL
 
 let s:automatic_component_completion_done_p = s:FALSE
-  " Special characters to activate automatic component completion.
-if !exists('g:ku_component_separators')
-  let g:ku_component_separators = '/\:'
-endif
 
 
 " To take action on the appropriate item.
@@ -85,7 +119,7 @@ let s:last_completed_items = []
 let s:last_user_input_raw = ''
 
 
-" Values to be restored after the ku window is closed.
+" Information to restore several stuffs after a ku session.
 let s:completeopt = ''
 let s:curwinnr = 0
 let s:ignorecase = ''
@@ -104,15 +138,7 @@ if !exists('s:custom_prefix_tables')
 endif
 
 
-" Junk patterns.
-if !exists('g:ku_common_junk_pattern')
-  let g:ku_common_junk_pattern = ''
-endif
-
-" There may be g:ku_{source}_junk_pattern.
-
-
-" Priorities table: source -> priority
+" Priorities table: source -> priority.
 if !exists('s:priority_table')
   let s:priority_table = {}
 endif
@@ -125,31 +151,13 @@ let s:MAX_PRIORITY = 999
 let s:session_id = 0
 
 
-" For s:recall_input_history()
+" For s:recall_input_history().
 let s:current_hisotry_index = -1
 
 
-" For ku#restart()
+" For ku#restart().
 let s:last_used_source = s:INVALID_SOURCE
 let s:last_used_input_pattern = ''
-
-
-if !exists('g:ku_history_added_p')
-  let g:ku_history_added_p = 'ku#_history_added_p'
-endif
-if !exists('g:ku_history_size')
-  let g:ku_history_size = 1000
-endif
-
-
-" Magic line numbers in the ku buffer.
-let s:LNUM_STATUS = 1
-let s:LNUM_INPUT = 2
-
-
-if !exists('g:ku_choosing_actions_sorting_style')
-  let g:ku_choosing_actions_sorting_style = 'by-action'
-endif
 
 
 
@@ -977,6 +985,13 @@ endfunction
 
 augroup plugin-ku
   autocmd!
+  autocmd CursorHold *
+  \   if (g:ku_history_reloading_style ==# 'idle'
+  \       || g:ku_history_reloading_style ==# 'each')
+  \ |   call s:history_reload()
+  \ |   let s:after_idle_p = s:TRUE
+  \ | endif
+  autocmd CursorHoldI *  doautocmd plugin-ku CursorHold
   autocmd VimLeave *  call s:history_save()
 augroup END
 
@@ -1490,6 +1505,9 @@ let s:_current_source_expand_prefix3 = s:INVALID_SOURCE
 " History of inputted patterns  "{{{2
 " Variables / Constants  "{{{3
 
+let s:after_idle_p = s:FALSE  " to reload the history file after idle.
+" s:history_changed_p = s:FALSE
+" s:history_file_mtime = 0  " the last modified time of the history file.
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
 let s:HISTORY_FILE = 'info/ku/history'
 
@@ -1506,6 +1524,7 @@ function! s:history_add(new_input_pattern, source)  "{{{3
   if !{g:ku_history_added_p}(a:new_input_pattern, a:source)
     return
   endif
+
   call insert(s:inputted_patterns,
   \           {'pattern': a:new_input_pattern,
   \            'source': a:source,
@@ -1515,6 +1534,8 @@ function! s:history_add(new_input_pattern, source)  "{{{3
   if g:ku_history_size < len(s:inputted_patterns)
     unlet s:inputted_patterns[(g:ku_history_size):]
   endif
+
+  let s:history_changed_p = s:TRUE
 endfunction
 
 function! ku#_history_added_p(new_input_pattern, source)
@@ -1531,29 +1552,60 @@ endfunction
 
 
 function! s:history_list()  "{{{3
+  if (g:ku_history_reloading_style ==# 'each'
+  \   || (g:ku_history_reloading_style ==# 'idle' && s:after_idle_p))
+    call s:history_reload()
+    let s:after_idle_p = s:FALSE
+  endif
   return s:inputted_patterns
 endfunction
 
 
 function! s:history_load()  "{{{3
+  let _ = []
   if filereadable(s:history_file())
-    let s:inputted_patterns = []
     for line in readfile(s:history_file(), '', g:ku_history_size)
       let columns = split(line, '\t')
-      call add(s:inputted_patterns, {
+      call add(_, {
       \      'pattern': columns[0],
       \      'source': 2 <= len(columns) ? columns[1] : s:INVALID_SOURCE,
       \      'time': 3 <= len(columns) ? str2nr(columns[2]) : 0,
       \    })
     endfor
-  else
-    let s:inputted_patterns = []
   endif
+  return _
 endfunction
 
 if !exists('s:inputted_patterns')
-  call s:history_load()
+  let s:inputted_patterns = s:history_load()
+  let s:history_file_mtime = getftime(s:history_file())
+  let s:history_changed_p = s:FALSE
 endif
+
+
+function! s:history_reload()  "{{{3
+  let file = s:history_file()
+  let mtime = getftime(file)
+  if mtime == -1  " history file is not found
+    let s:history_changed_p = s:TRUE
+  elseif mtime != s:history_file_mtime  " history file is updated
+    let current_history = s:inputted_patterns
+    let new_history = s:history_load()
+    let s:inputted_patterns = s:merge_histories(current_history, new_history)
+    let s:history_changed_p = s:TRUE
+  else
+    " history file is not changed
+  endif
+
+  if s:history_changed_p
+    call s:history_save()
+    let s:history_file_mtime = getftime(file)
+    let s:history_changed_p = s:FALSE
+  endif
+  return
+endfunction
+
+
 
 
 function! s:history_save()  "{{{3
@@ -1563,7 +1615,7 @@ function! s:history_save()  "{{{3
     call mkdir(directory, 'p')
   endif
 
-  call writefile(map(copy(s:history_list()),
+  call writefile(map(copy(s:inputted_patterns),
   \                  'v:val.pattern ."\t". v:val.source ."\t". v:val.time'),
   \              file)
 endfunction
@@ -1682,6 +1734,35 @@ function! s:matchend(s, pattern)  "{{{2
   let POINT_AT_INFINITY = 2147483647  " FIXME: valid value.
   let i = matchend(a:s, a:pattern)
   return 0 <= i ? i : POINT_AT_INFINITY
+endfunction
+
+
+
+
+function! s:merge_histories(a, b)  "{{{2
+  " cat
+  let _ = a:a + a:b
+
+  " sort
+  call sort(_, 's:_compare_by_time')
+  call reverse(_)
+
+  " uniq
+  let i = 0
+  while i < len(_)
+    while i + 1 < len(_) && _[i] ==# _[i+1]
+      call remove(_, i)
+      let i += 1
+    endwhile
+    let i += 1
+  endwhile
+
+  return _
+endfunction
+
+
+function! s:_compare_by_time(a, b)
+  return a:a.time < a:b.time ? -1 : (a:a.time > a:b.time ? 1 : 0)
 endfunction
 
 

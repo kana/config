@@ -1,6 +1,6 @@
 *ku-bundle.txt*	ku source: bundle
 
-Version 0.0.1
+Version 0.0.2
 Script ID: 2343
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -64,7 +64,7 @@ args!						*ku-bundle-action-args!*
 			Do |:ArgsBundle!| for the selected.
 
 default						*ku-bundle-action-default*
-			Same as "load-or-args".
+			Same as "args".
 
 load						*ku-bundle-action-load*
 			Do |:LoadBundle| for the selected item.
@@ -121,6 +121,11 @@ BUGS						*ku-bundle-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-bundle-changelog*
+
+0.0.2	2008-12-24T15:27:07+09:00
+	- Change |ku-bundle-action-default|.
+	  Now it does the same as |ku-bundle-action-args|
+	  instead of |ku-bundle-action-load-or-args|.
 
 0.0.1	2008-08-13T06:17:35+09:00
 	- Support to complete files in a bundle with "{bundle}/{path}"

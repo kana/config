@@ -4,7 +4,7 @@ Author:  Tim Pope <vimNOSPAM@tpope.info>        *surround-author*
 ModifiedBy: kana <http://whileimautomaton.net/>
 License: Same terms as Vim itself (see |license|)
 BasedOn: $Id: surround.vim,v 1.34 2008-02-15 21:43:42 tpope Exp $
-Version: 1.34.6
+Version: 1.34.7
 
 NOTE: This is a modified version of surround.vim.  See |surround-changelog|
 for the detail of the difference from the original version.
@@ -262,6 +262,13 @@ should this be the default?
 
 
 CHANGELOG					*surround-changelog*
+
+2008-12-30T19:03:49+09:00	kana	<http://whileimautomaton.net/>
+
+	- Fix <Plug>Ysurround and others to be repeatable with a "repeat"
+	  plugin which is one of the followings:
+	  http://github.com/kana/config/commits/vim-repeat
+	  http://www.vim.org/scripts/script.php?script_id=2136
 
 2008-11-09T03:26:23+09:00	kana	<http://whileimautomaton.net/>
 

@@ -1597,6 +1597,9 @@ vmap [Space]s  <Plug>(my:op-sort)
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
 
+" Close all folds but including the cursor.
+nnoremap [Space]v  zMzv
+
 " for backward compatibility
 nmap [Space]w  [Space]ow
 
@@ -1752,7 +1755,7 @@ nnoremap ZQ  <Nop>
 
 " Use a backslash (\) to repeat last change.
 " Since a dot (.) is used as <LocalLeader>.
-nnoremap \  .
+nmap \  <Plug>(repeat-.)
 
 
 " Complete or indent.
@@ -1858,6 +1861,11 @@ cnoremap <C-@>  <C-c>
 " Experimental: Additional keys to increment/decrement
 nnoremap +  <C-a>
 nnoremap -  <C-x>
+
+
+" Disable solely typed <Leader>/<LocalLeader> to avoid unexpected behavior.
+noremap <Leader>  <Nop>
+noremap <LocalLeader>  <Nop>
 
 
 
@@ -2260,7 +2268,6 @@ endfunction
 
 autocmd MyAutoCmd FileType ku
 \   call ku#default_key_mappings(s:TRUE)
-\ | call ku#custom_action('bundle', 'default', 'bundle', 'args')
 \ | call ku#custom_action('common', 'cd',
 \                         s:SID_PREFIX() . 'ku_common_action_my_cd')
 \ | call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
@@ -2284,10 +2291,12 @@ Cnmap <silent> [Space]ka  Ku args
 Cnmap <silent> [Space]kb  Ku buffer
 Cnmap <silent> [Space]kf  Ku file
 Cnmap <silent> [Space]kg  Ku metarw-git
+Cnmap <silent> [Space]kh  Ku history
 Cnmap <silent> [Space]kk  call ku#restart()
   " p is for packages.
 Cnmap <silent> [Space]kp  Ku bundle
 Cnmap <silent> [Space]kq  Ku quickfix
+Cnmap <silent> [Space]ks  Ku source
   " w is for ~/working.
 Cnmap <silent> [Space]kw  Ku myproject
 

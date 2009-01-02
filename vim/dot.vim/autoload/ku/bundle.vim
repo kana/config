@@ -1,5 +1,5 @@
 " ku source: bundle
-" Version: 0.0.1
+" Version: 0.0.2
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -62,7 +62,7 @@ function! ku#bundle#action_table()  "{{{2
   return {
   \   'args!': 'ku#bundle#action_args_x',
   \   'args': 'ku#bundle#action_args',
-  \   'default': 'ku#bundle#action_load_or_args',
+  \   'default': 'ku#bundle#action_args',
   \   'load!': 'ku#bundle#action_load_x',
   \   'load': 'ku#bundle#action_load',
   \   'load-or-args': 'ku#bundle#action_load_or_args',
