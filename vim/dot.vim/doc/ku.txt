@@ -663,6 +663,23 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 				The name of the source
 				to which an item belongs.
 
+			There are the following rules on return values:
+			- During a |ku-session|, ku assumes that
+			  a return value is determined only by {pattern}.
+			  This means: >
+				let a = ku#{source}#gather_items("foo")
+				let b = ku#{source}#gather_items("foo")
+				echo a == b  "==> true
+<			- During a ku session, return values are cached by ku,
+			  so that sources don't have to do caching unless they
+			  want to do caching over ku sessions.
+			- Don't return the same list for 2 or more callings.
+			  ku may reuse return lists.
+			- ku may modify any item in return lists.  If so,
+			  ku adds/modifies entries named "ku__..." in items.
+			  But ku doesn't modify return lists themselves.
+			- See also |ku#{source}#special_char_p()|.
+
 ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 			Return true if {item} can be used for ACC,
 			|ku-auto-component-completion|, or return false
@@ -672,6 +689,19 @@ ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 
 			This function is optional; if it is not defined, all
 			{item}s can be used for ACC.
+
+ku#{source}#special_char_p({character})		*ku#{source}#special_char_p()*
+			Return true if a given {character} is a special one,
+			otherwise return false.
+
+			Here "a special character" is defined as follows:
+			|ku#{source}#gather_items()| returns a different list
+			before whenever user types that character.
+
+			For example, return lists from |ku-file| are different
+			whenever user types "/" or "\".
+			So that ku#file#special_char_p() returns true for '/'
+			and '\', while returns false for other values.
 
 
 						*ku-special-sources*
@@ -934,14 +964,16 @@ CHANGELOG					*ku-changelog*
 
 0.2.0	2008-12-31T22:06:44+09:00
 	- Add |ku__source|.
+	- Add |ku#{source}#special_char_p()|.
 
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.
 	  - Sources for 0.1.x are not compatible with 0.2.x.
-	  - |ku#{source}#gather_items()|: Change the naming rules about
-	    additional entries for each item.
-	    Old versions use "_{source}_..." and "_ku_...".
-	    New versions use "ku_{source}_..." and "ku__..." instead.
+	  - |ku#{source}#gather_items()|:
+	    - Change the naming rules about additional entries for each item:
+	      Old versions use "_{source}_..." and "_ku_...".
+	      New versions use "ku_{source}_..." and "ku__..." instead.
+	    - Add several rules on return values.
 	  - ...
 
 0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
