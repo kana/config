@@ -512,7 +512,8 @@ endfunction
 
 
 " Core  "{{{1
-function! ku#_omnifunc(findstart, base)  "{{{2
+" Completion  "{{{2
+function! ku#_omnifunc(findstart, base)  "{{{3
   " FIXME: caching
   " items = a list of items
   " item = a dictionary as described in :help complete-items.
@@ -574,11 +575,12 @@ function! ku#_omnifunc(findstart, base)  "{{{2
 endfunction
 
 
-function! s:_compare_items(a, b)
+function! s:_compare_items(a, b)  "{{{3
   return s:_compare_lists(a:a.ku__sort_priorities, a:b.ku__sort_priorities)
 endfunction
 
-function! s:_compare_lists(a, b)
+
+function! s:_compare_lists(a, b)  "{{{3
   " Assumption: len(a:a) == len(a:b)
   for i in range(len(a:a))
     if a:a[i] < a:b[i]
