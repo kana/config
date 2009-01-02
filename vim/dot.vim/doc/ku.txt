@@ -673,8 +673,6 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 <			- During a ku session, return values are cached by ku,
 			  so that sources don't have to do caching unless they
 			  want to do caching over ku sessions.
-			- Don't return the same list for 2 or more callings.
-			  ku may reuse return lists.
 			- ku may modify any item in return lists.  If so,
 			  ku adds/modifies entries named "ku__..." in items.
 			  But ku doesn't modify return lists themselves.
