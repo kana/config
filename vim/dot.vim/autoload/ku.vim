@@ -516,8 +516,8 @@ endfunction
 " Variables on omnifunc  "{{{3
 
 let s:_OMNIFUNC_INVALID = []  " to indicate values not in the cache.
-let s:_omnifunc_cache = {}  " {source}{prompt}{pattern} => items
-let s:_omnifunc_session_id = 0
+let s:_omnifunc_cache = {}  " '{source}{prompt}{pattern}' => [item, ...]
+let s:_omnifunc_session_id = 0  " to clear the cache for each ku session.
 
 
 function! ku#_omnifunc(findstart, base)  "{{{3
@@ -528,7 +528,7 @@ function! ku#_omnifunc(findstart, base)  "{{{3
   if a:findstart
     let s:last_completed_items = []
     if s:_omnifunc_session_id != s:session_id
-      " New ku session - clear cache.
+      " Clear the cache for each ku session.
       let s:_omnifunc_cache = {}
       let s:_omnifunc_session_id = s:session_id
     endif
