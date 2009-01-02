@@ -516,8 +516,8 @@ function! ku#_omnifunc(findstart, base)  "{{{2
   " FIXME: caching
   " items = a list of items
   " item = a dictionary as described in :help complete-items.
-  "        '^_ku_.*$' - additional keys used by ku.
-  "        '^_{source}_.*$' - additional keys used by {source}.
+  "        '^ku__.*$' - additional keys used by ku.
+  "        '^ku_{source}_.*$' - additional keys used by {source}.
   if a:findstart
     let s:last_completed_items = []
     return 0
@@ -531,10 +531,10 @@ function! ku#_omnifunc(findstart, base)  "{{{2
     let s:last_completed_items
     \   = copy(s:api(s:current_source, 'gather_items', pattern))
     for _ in s:last_completed_items
-      let _['_ku_completed_p'] = s:TRUE
-      let _['_ku_source'] = s:current_source
-      let _['_ku_sort_priorities'] = [
-      \     has_key(_, '_ku_sort_priority') ? _['_ku_sort_priority'] : 0,
+      let _['ku__completed_p'] = s:TRUE
+      let _['ku__source'] = s:current_source
+      let _['ku__sort_priorities'] = [
+      \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
       \     _.word =~# g:ku_common_junk_pattern,
       \     (exists('g:ku_{s:current_source}_junk_pattern')
       \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
@@ -558,7 +558,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       " doesn't want such items to be completed.
       " BUGS: Don't forget to update the index for the matched position of
       "       case-insensitive skip_regexp.
-    call filter(s:last_completed_items, '0 <= v:val._ku_sort_priorities[-3]')
+    call filter(s:last_completed_items, '0 <= v:val.ku__sort_priorities[-3]')
     call sort(s:last_completed_items, function('s:_compare_items'))
     if exists('g:ku_debug_p') && g:ku_debug_p
       echomsg 'base' string(a:base)
@@ -566,7 +566,7 @@ function! ku#_omnifunc(findstart, base)  "{{{2
       echomsg 'word' string(word_regexp)
       echomsg 'skip' string(skip_regexp)
       for _ in s:last_completed_items
-        echomsg string(_._ku_sort_priorities)
+        echomsg string(_.ku__sort_priorities)
       endfor
     endif
     return s:last_completed_items
@@ -575,7 +575,7 @@ endfunction
 
 
 function! s:_compare_items(a, b)
-  return s:_compare_lists(a:a._ku_sort_priorities, a:b._ku_sort_priorities)
+  return s:_compare_lists(a:a.ku__sort_priorities, a:b.ku__sort_priorities)
 endfunction
 
 function! s:_compare_lists(a, b)
@@ -618,7 +618,7 @@ function! s:do(action_name)  "{{{2
       " there's no item -- user seems to take action on current_user_input_raw.
       let item = {'word':
       \             s:expand_prefix(s:remove_prompt(current_user_input_raw)),
-      \           '_ku_completed_p': s:FALSE}
+      \           'ku__completed_p': s:FALSE}
     endif
   endif
 
@@ -1338,7 +1338,7 @@ endfunction
 
 
 function! s:_default_action_default(item)  "{{{3
-  echoerr 'ku: Source' string(a:item._ku_source)
+  echoerr 'ku: Source' string(a:item.ku__source)
   \       'does not have the "default" action'
   return
 endfunction
