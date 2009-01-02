@@ -513,65 +513,91 @@ endfunction
 
 " Core  "{{{1
 " Completion  "{{{2
+" Variables on omnifunc  "{{{3
+
+let s:_OMNIFUNC_INVALID = []  " to indicate values not in the cache.
+let s:_omnifunc_cache = {}  " {source}{prompt}{pattern} => items
+let s:_omnifunc_session_id = 0
+
+
 function! ku#_omnifunc(findstart, base)  "{{{3
-  " FIXME: caching
   " items = a list of items
   " item = a dictionary as described in :help complete-items.
   "        '^ku__.*$' - additional keys used by ku.
   "        '^ku_{source}_.*$' - additional keys used by {source}.
   if a:findstart
     let s:last_completed_items = []
+    if s:_omnifunc_session_id != s:session_id
+      " New ku session - clear cache.
+      let s:_omnifunc_cache = {}
+      let s:_omnifunc_session_id = s:session_id
+    endif
     return 0
   else
     let pattern = s:expand_prefix(s:remove_prompt(a:base))
 
-    let asis_regexp = s:make_asis_regexp(pattern)
-    let word_regexp = s:make_word_regexp(pattern)
-    let skip_regexp = s:make_skip_regexp(pattern)
-
-    let s:last_completed_items
-    \   = copy(s:api(s:current_source, 'gather_items', pattern))
-    for _ in s:last_completed_items
-      let _['ku__completed_p'] = s:TRUE
-      let _['ku__source'] = s:current_source
-      let _['ku__sort_priorities'] = [
-      \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
-      \     _.word =~# g:ku_common_junk_pattern,
-      \     (exists('g:ku_{s:current_source}_junk_pattern')
-      \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
-      \     s:match(_.word, '\C' . asis_regexp),
-      \     s:matchend(_.word, '\C' . asis_regexp),
-      \     s:match(_.word, '\c' . asis_regexp),
-      \     s:matchend(_.word, '\c' . asis_regexp),
-      \     s:match(_.word, '\C' . word_regexp),
-      \     s:matchend(_.word, '\C' . word_regexp),
-      \     s:match(_.word, '\c' . word_regexp),
-      \     s:matchend(_.word, '\c' . word_regexp),
-      \     match(_.word, '\C' . skip_regexp),
-      \     matchend(_.word, '\C' . skip_regexp),
-      \     match(_.word, '\c' . skip_regexp),
-      \     matchend(_.word, '\c' . skip_regexp),
-      \     _.word,
-      \   ]
-    endfor
-
-      " Remove items not matched to case-insensitive skip_regexp, because user
-      " doesn't want such items to be completed.
-      " BUGS: Don't forget to update the index for the matched position of
-      "       case-insensitive skip_regexp.
-    call filter(s:last_completed_items, '0 <= v:val.ku__sort_priorities[-3]')
-    call sort(s:last_completed_items, function('s:_omnifunc_compare_items'))
-    if exists('g:ku_debug_p') && g:ku_debug_p
-      echomsg 'base' string(a:base)
-      echomsg 'asis' string(asis_regexp)
-      echomsg 'word' string(word_regexp)
-      echomsg 'skip' string(skip_regexp)
-      for _ in s:last_completed_items
-        echomsg string(_.ku__sort_priorities)
-      endfor
+    let cache_key = s:current_source . s:PROMPT . pattern
+    let cached_value = get(s:_omnifunc_cache, cache_key, s:_OMNIFUNC_INVALID)
+    if cached_value is s:_OMNIFUNC_INVALID
+      let _ = s:_omnifunc_core(pattern)
+      let cached_value = _
+      let s:_omnifunc_cache[cache_key] = _
     endif
+
+    let s:last_completed_items = cached_value
+
     return s:last_completed_items
   endif
+endfunction
+
+
+function! s:_omnifunc_core(pattern)  "{{{3
+  let asis_regexp = s:make_asis_regexp(a:pattern)
+  let word_regexp = s:make_word_regexp(a:pattern)
+  let skip_regexp = s:make_skip_regexp(a:pattern)
+
+  let items = copy(s:api(s:current_source, 'gather_items', a:pattern))
+  for _ in items
+    let _['ku__completed_p'] = s:TRUE
+    let _['ku__source'] = s:current_source
+    let _['ku__sort_priorities'] = [
+    \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
+    \     _.word =~# g:ku_common_junk_pattern,
+    \     (exists('g:ku_{s:current_source}_junk_pattern')
+    \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
+    \     s:match(_.word, '\C' . asis_regexp),
+    \     s:matchend(_.word, '\C' . asis_regexp),
+    \     s:match(_.word, '\c' . asis_regexp),
+    \     s:matchend(_.word, '\c' . asis_regexp),
+    \     s:match(_.word, '\C' . word_regexp),
+    \     s:matchend(_.word, '\C' . word_regexp),
+    \     s:match(_.word, '\c' . word_regexp),
+    \     s:matchend(_.word, '\c' . word_regexp),
+    \     match(_.word, '\C' . skip_regexp),
+    \     matchend(_.word, '\C' . skip_regexp),
+    \     match(_.word, '\c' . skip_regexp),
+    \     matchend(_.word, '\c' . skip_regexp),
+    \     _.word,
+    \   ]
+  endfor
+
+    " Remove items not matched to case-insensitive skip_regexp, because user
+    " doesn't want such items to be completed.
+    " BUGS: Don't forget to update the index for the matched position of
+    "       case-insensitive skip_regexp.
+  call filter(items, '0 <= v:val.ku__sort_priorities[-3]')
+  call sort(items, function('s:_omnifunc_compare_items'))
+
+  if exists('g:ku_debug_p') && g:ku_debug_p
+    echomsg 'pattern' string(a:pattern)
+    echomsg 'asis' string(asis_regexp)
+    echomsg 'word' string(word_regexp)
+    echomsg 'skip' string(skip_regexp)
+    for _ in items
+      echomsg string(_.ku__sort_priorities)
+    endfor
+  endif
+  return items
 endfunction
 
 
