@@ -658,6 +658,11 @@ ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 				If the item is not completed one,
 				it is set to false.
 
+						*ku__source*
+			ku__source		(string)
+				The name of the source
+				to which an item belongs.
+
 ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 			Return true if {item} can be used for ACC,
 			|ku-auto-component-completion|, or return false
@@ -928,6 +933,8 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.2.0	2008-12-31T22:06:44+09:00
+	- Add |ku__source|.
+
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.
 	  - Sources for 0.1.x are not compatible with 0.2.x.
