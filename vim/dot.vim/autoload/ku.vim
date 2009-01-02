@@ -560,7 +560,7 @@ function! ku#_omnifunc(findstart, base)  "{{{3
       " BUGS: Don't forget to update the index for the matched position of
       "       case-insensitive skip_regexp.
     call filter(s:last_completed_items, '0 <= v:val.ku__sort_priorities[-3]')
-    call sort(s:last_completed_items, function('s:_compare_items'))
+    call sort(s:last_completed_items, function('s:_omnifunc_compare_items'))
     if exists('g:ku_debug_p') && g:ku_debug_p
       echomsg 'base' string(a:base)
       echomsg 'asis' string(asis_regexp)
@@ -575,12 +575,13 @@ function! ku#_omnifunc(findstart, base)  "{{{3
 endfunction
 
 
-function! s:_compare_items(a, b)  "{{{3
-  return s:_compare_lists(a:a.ku__sort_priorities, a:b.ku__sort_priorities)
+function! s:_omnifunc_compare_items(a, b)  "{{{3
+  return s:_omnifunc_compare_lists(a:a.ku__sort_priorities,
+  \                                a:b.ku__sort_priorities)
 endfunction
 
 
-function! s:_compare_lists(a, b)  "{{{3
+function! s:_omnifunc_compare_lists(a, b)  "{{{3
   " Assumption: len(a:a) == len(a:b)
   for i in range(len(a:a))
     if a:a[i] < a:b[i]
