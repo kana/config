@@ -536,12 +536,29 @@ function! ku#_omnifunc(findstart, base)  "{{{3
   else
     let pattern = s:expand_prefix(s:remove_prompt(a:base))
 
-    let cache_key = s:current_source . s:PROMPT . pattern
+    let cache_key = s:_omnifunc_cache_key(pattern)
     let cached_value = get(s:_omnifunc_cache, cache_key, s:_OMNIFUNC_INVALID)
     if cached_value is s:_OMNIFUNC_INVALID
-      let _ = s:_omnifunc_core(pattern)
+      if pattern == '' || s:_omnifunc_special_char_p(pattern[-1:])
+        " Base cases.
+        let _ = s:_omnifunc_core(
+        \         pattern,
+        \         s:api(s:current_source, 'gather_items', pattern)
+        \       )
+      else
+        " The last character (which seems to be typed by user)
+        " is not a special character i.e. ordinary character.
+        " Make a list of items
+        " by filtering a cache for a base case to the given pattern.
+        let _ = s:_omnifunc_core(
+        \         pattern,
+        \         ku#_omnifunc(s:FALSE, s:_omnifunc_base_case_pattern(pattern))
+        \       )
+      endif
+
       let cached_value = _
       let s:_omnifunc_cache[cache_key] = _
+    else
     endif
 
     let s:last_completed_items = cached_value
@@ -551,12 +568,14 @@ function! ku#_omnifunc(findstart, base)  "{{{3
 endfunction
 
 
-function! s:_omnifunc_core(pattern)  "{{{3
+function! s:_omnifunc_core(pattern, items)  "{{{3
+  " NB: This function doesn't know about the cache.
+
   let asis_regexp = s:make_asis_regexp(a:pattern)
   let word_regexp = s:make_word_regexp(a:pattern)
   let skip_regexp = s:make_skip_regexp(a:pattern)
 
-  let items = copy(s:api(s:current_source, 'gather_items', a:pattern))
+  let items = copy(a:items)
   for _ in items
     let _['ku__completed_p'] = s:TRUE
     let _['ku__source'] = s:current_source
@@ -601,6 +620,23 @@ function! s:_omnifunc_core(pattern)  "{{{3
 endfunction
 
 
+function! s:_omnifunc_base_case_pattern(pattern)  "{{{3
+  let i = len(a:pattern) - 1
+  while (0 <= i
+  \      && !s:_omnifunc_special_char_p(a:pattern[i])
+  \      && !has_key(s:_omnifunc_cache, s:_omnifunc_cache_key(a:pattern[:i])))
+    let i -= 1
+  endwhile
+
+  return 0 <= i ? a:pattern[:i] : ''
+endfunction
+
+
+function! s:_omnifunc_cache_key(pattern)  "{{{3
+  return s:current_source . s:PROMPT . a:pattern
+endfunction
+
+
 function! s:_omnifunc_compare_items(a, b)  "{{{3
   return s:_omnifunc_compare_lists(a:a.ku__sort_priorities,
   \                                a:b.ku__sort_priorities)
@@ -617,6 +653,13 @@ function! s:_omnifunc_compare_lists(a, b)  "{{{3
     endif
   endfor
   return 0
+endfunction
+
+
+function! s:_omnifunc_special_char_p(c)  "{{{3
+  " FIXME: Temporary stuff - this should be replaced with the following:
+  "        s:api(s:current_source,'special_char_p',pattern[-1:])
+  return a:c =~ '[/:\\]'
 endfunction
 
 
