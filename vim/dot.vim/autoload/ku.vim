@@ -539,7 +539,7 @@ function! ku#_omnifunc(findstart, base)  "{{{3
     let cache_key = s:_omnifunc_cache_key(pattern)
     let cached_value = get(s:_omnifunc_cache, cache_key, s:_OMNIFUNC_INVALID)
     if cached_value is s:_OMNIFUNC_INVALID
-      if pattern == '' || s:_omnifunc_special_char_p(pattern[-1:])
+      if pattern == '' || s:api(s:current_source,'special_char_p',pattern[-1:])
         " Base cases.
         let _ = s:_omnifunc_core(
         \         pattern,
@@ -623,7 +623,7 @@ endfunction
 function! s:_omnifunc_base_case_pattern(pattern)  "{{{3
   let i = len(a:pattern) - 1
   while (0 <= i
-  \      && !s:_omnifunc_special_char_p(a:pattern[i])
+  \      && !s:api(s:current_source, 'special_char_p', a:pattern[i])
   \      && !has_key(s:_omnifunc_cache, s:_omnifunc_cache_key(a:pattern[:i])))
     let i -= 1
   endwhile
@@ -653,13 +653,6 @@ function! s:_omnifunc_compare_lists(a, b)  "{{{3
     endif
   endfor
   return 0
-endfunction
-
-
-function! s:_omnifunc_special_char_p(c)  "{{{3
-  " FIXME: Temporary stuff - this should be replaced with the following:
-  "        s:api(s:current_source,'special_char_p',pattern[-1:])
-  return a:c =~ '[/:\\]'
 endfunction
 
 
@@ -1708,8 +1701,11 @@ function! s:api(source_name, api_name, ...)  "{{{2
 
   if a:api_name ==# 'acc_valid_p' && !exists('*' . func)
     return s:TRUE
+  elseif a:api_name ==# 'special_char_p' && !exists('*' . func)
+    return a:1 =~ '[/:\\]'
+  else
+    return call(func, args)
   endif
-  return call(func, args)
 endfunction
 
 
