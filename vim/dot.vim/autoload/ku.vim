@@ -1702,7 +1702,7 @@ function! s:api(source_name, api_name, ...)  "{{{2
   if a:api_name ==# 'acc_valid_p' && !exists('*' . func)
     return s:TRUE
   elseif a:api_name ==# 'special_char_p' && !exists('*' . func)
-    return a:1 =~ '[/:\\]'
+    return 0 <= stridx(g:ku_component_separators, a:1)
   else
     return call(func, args)
   endif
