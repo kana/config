@@ -592,7 +592,7 @@ endfunction
 
 function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   " NB: This function doesn't know about the cache.
-
+  let INFINITY = 2147483647  " to easily sort by ku__sort_priorities.
   let asis_regexp = s:make_asis_regexp(a:pattern)
   let word_regexp = s:make_word_regexp(a:pattern)
   let skip_regexp = s:make_skip_regexp(a:pattern)
@@ -602,19 +602,30 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
     let _['ku__completed_p'] = s:TRUE
     let _['ku__source'] = a:current_source
 
-    let INFINITY = 2147483647
-    let skip_c_ms =                      match   (_.word, '\c' . skip_regexp)
-    let skip_c_me =                      matchend(_.word, '\c' . skip_regexp)
-    let skip_C_ms =                      match   (_.word, '\C' . skip_regexp)
-    let skip_C_me =                      matchend(_.word, '\C' . skip_regexp)
-    let word_c_ms =                      match   (_.word, '\c' . word_regexp)
-    let word_c_me =                      matchend(_.word, '\c' . word_regexp)
-    let word_C_ms =                      match   (_.word, '\C' . word_regexp)
-    let word_C_me =                      matchend(_.word, '\C' . word_regexp)
-    let asis_c_ms =                      match   (_.word, '\c' . asis_regexp)
-    let asis_c_me =                      matchend(_.word, '\c' . asis_regexp)
-    let asis_C_ms =                      match   (_.word, '\C' . asis_regexp)
-    let asis_C_me =                      matchend(_.word, '\C' . asis_regexp)
+    " Skip many match()/matchend() callings by the following conditions:
+    " (a) If match() is failed for a pattern,
+    "     it's not necessary to call matchend() for that pattern.
+    " (b) If a case-insensitive pattern is not matched,
+    "     the corresponding case-sensitive pattern is not also matched.
+    " (c) If a "skip" pattern is not matched,
+    "     the corresponding "word" pattern is not also matched.
+    "     If a "word" pattern is not matched,
+    "     the corresponding "asis" pattern is not also matched.
+      " Cases (c)
+    let skip_c_ms = match(_.word, '\c' . skip_regexp)
+    let word_c_ms = skip_c_ms < 0 ? -1 : match(_.word, '\c' . word_regexp)
+    let asis_c_ms = word_c_ms < 0 ? -1 : match(_.word, '\c' . asis_regexp)
+      " Cases (b)
+    let skip_C_ms = skip_c_ms < 0 ? -1 : match(_.word, '\C' . skip_regexp)
+    let word_C_ms = word_c_ms < 0 ? -1 : match(_.word, '\C' . word_regexp)
+    let asis_C_ms = asis_c_ms < 0 ? -1 : match(_.word, '\C' . asis_regexp)
+      " Cases (a)
+    let skip_c_me = skip_c_ms < 0 ? -1 : matchend(_.word, '\c' . skip_regexp)
+    let skip_C_me = skip_C_ms < 0 ? -1 : matchend(_.word, '\C' . skip_regexp)
+    let word_c_me = word_c_ms < 0 ? -1 : matchend(_.word, '\c' . word_regexp)
+    let word_C_me = word_C_ms < 0 ? -1 : matchend(_.word, '\C' . word_regexp)
+    let asis_c_me = asis_c_ms < 0 ? -1 : matchend(_.word, '\c' . asis_regexp)
+    let asis_C_me = asis_C_ms < 0 ? -1 : matchend(_.word, '\C' . asis_regexp)
 
     let _['ku__sort_priorities'] = [
     \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
