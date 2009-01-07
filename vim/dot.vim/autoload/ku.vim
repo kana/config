@@ -1779,10 +1779,7 @@ endfunction
 
 
 function! s:make_word_regexp(s)  "{{{2
-  let p_asis = s:make_asis_regexp(substitute(a:s,
-  \                                          '\v\' . s:PATH_SEP,
-  \                                          ' ' . s:PATH_SEP . ' ',
-  \                                          'g'))
+  let p_asis = s:make_asis_regexp(a:s)
   return substitute(p_asis, '\s\+', '\\.\\{-}', 'g')
 endfunction
 

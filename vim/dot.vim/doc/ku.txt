@@ -341,8 +341,8 @@ Inserted characters in |the-ku-buffer| are treated as 3 "patterns".
 - The 1st one is "asis" pattern.  Ku tries to literally match user input to
   each item.
 
-- The 2nd one is "word" pattern.  User input is split by spaces or a slash,
-  and each space or slash is treated as a wild card, so it is matched to any
+- The 2nd one is "word" pattern.  User input is split by spaces,
+  and each space is treated as a wild card, so it is matched to any
   0 or more characters.  Ku tries to match this pattern for each item.
 
 - The last one is "skip" pattern.  Ku treats user input have a wild card
@@ -978,6 +978,9 @@ CHANGELOG					*ku-changelog*
 	      New versions use "ku_{source}_..." and "ku__..." instead.
 	    - Add several rules on return values.
 	  - |ku#{source}#gather_items()|: New API to implement.
+	- |ku-pattern|: Change the definition of "word" pattern.
+	  Old versions use spaces and slashes as wildcards.
+	  New versions use only spaces as wildcards.
 
 0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
 	- Add |g:ku_history_reloading_style|.
