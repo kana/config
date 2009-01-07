@@ -593,9 +593,17 @@ endfunction
 function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   " NB: This function doesn't know about the cache.
   let INFINITY = 2147483647  " to easily sort by ku__sort_priorities.
-  let asis_regexp = s:make_asis_regexp(a:pattern)
-  let word_regexp = s:make_word_regexp(a:pattern)
-  let skip_regexp = s:make_skip_regexp(a:pattern)
+
+  " By automatic component completion, it's hard to insert text with
+  " uncompleted "prefix", so that "prefix" is excluded to match.
+  let i = match(a:pattern,
+  \             '\V\[^' . escape(g:ku_component_separators, '\[^]') . ']\*\$')
+  " let prefix = i == 0 ? '' : a:pattern[:i-1]
+  let pattern = a:pattern[(i):]
+
+  let asis_regexp = s:make_asis_regexp(pattern)
+  let word_regexp = s:make_word_regexp(pattern)
+  let skip_regexp = s:make_skip_regexp(pattern)
 
   let items = copy(a:items)
   for _ in items
@@ -612,20 +620,20 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
     "     If a "word" pattern is not matched,
     "     the corresponding "asis" pattern is not also matched.
       " Cases (c)
-    let skip_c_ms = match(_.word, '\c' . skip_regexp)
-    let word_c_ms = skip_c_ms < 0 ? -1 : match(_.word, '\c' . word_regexp)
-    let asis_c_ms = word_c_ms < 0 ? -1 : match(_.word, '\c' . asis_regexp)
+    let skip_c_ms = match(_.word, '\c' . skip_regexp, i)
+    let word_c_ms = skip_c_ms < 0 ? -1 : match(_.word, '\c' . word_regexp, i)
+    let asis_c_ms = word_c_ms < 0 ? -1 : match(_.word, '\c' . asis_regexp, i)
       " Cases (b)
-    let skip_C_ms = skip_c_ms < 0 ? -1 : match(_.word, '\C' . skip_regexp)
-    let word_C_ms = word_c_ms < 0 ? -1 : match(_.word, '\C' . word_regexp)
-    let asis_C_ms = asis_c_ms < 0 ? -1 : match(_.word, '\C' . asis_regexp)
+    let skip_C_ms = skip_c_ms < 0 ? -1 : match(_.word, '\C' . skip_regexp, i)
+    let word_C_ms = word_c_ms < 0 ? -1 : match(_.word, '\C' . word_regexp, i)
+    let asis_C_ms = asis_c_ms < 0 ? -1 : match(_.word, '\C' . asis_regexp, i)
       " Cases (a)
-    let skip_c_me = skip_c_ms < 0 ? -1 : matchend(_.word, '\c' . skip_regexp)
-    let skip_C_me = skip_C_ms < 0 ? -1 : matchend(_.word, '\C' . skip_regexp)
-    let word_c_me = word_c_ms < 0 ? -1 : matchend(_.word, '\c' . word_regexp)
-    let word_C_me = word_C_ms < 0 ? -1 : matchend(_.word, '\C' . word_regexp)
-    let asis_c_me = asis_c_ms < 0 ? -1 : matchend(_.word, '\c' . asis_regexp)
-    let asis_C_me = asis_C_ms < 0 ? -1 : matchend(_.word, '\C' . asis_regexp)
+    let skip_c_me = skip_c_ms < 0 ? -1 : matchend(_.word, '\c'.skip_regexp, i)
+    let skip_C_me = skip_C_ms < 0 ? -1 : matchend(_.word, '\C'.skip_regexp, i)
+    let word_c_me = word_c_ms < 0 ? -1 : matchend(_.word, '\c'.word_regexp, i)
+    let word_C_me = word_C_ms < 0 ? -1 : matchend(_.word, '\C'.word_regexp, i)
+    let asis_c_me = asis_c_ms < 0 ? -1 : matchend(_.word, '\c'.asis_regexp, i)
+    let asis_C_me = asis_C_ms < 0 ? -1 : matchend(_.word, '\C'.asis_regexp, i)
 
     let _['ku__sort_priorities'] = [
     \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,

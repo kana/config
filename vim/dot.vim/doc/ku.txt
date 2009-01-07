@@ -969,7 +969,7 @@ CHANGELOG					*ku-changelog*
 	- Add |ku__source|.
 	- Fix a few assumptions on path separator.
 	- Improve the performance to complete items.
-	  Now it is 3 times faster than old versions.
+	  Now it is 10 times faster than old versions.
 
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.
