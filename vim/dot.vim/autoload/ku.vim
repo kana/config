@@ -75,6 +75,9 @@ let s:TRUE = !s:FALSE
 let s:LNUM_STATUS = 1
 let s:LNUM_INPUT = 2
 
+  " Path separator.
+let s:PATH_SEP = exists('+shellslash') && &shellslash ? '\' : '/'
+
 
 " The buffer number of the ku buffer.
 let s:INVALID_BUFNR = -1
@@ -1611,8 +1614,7 @@ endfunction
 
 
 function! s:history_file()  "{{{3
-  " FIXME: path separator assumption
-  return printf('%s/%s', split(&runtimepath, ',')[0], s:HISTORY_FILE)
+  return split(&runtimepath, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
 endfunction
 
 
@@ -1777,8 +1779,10 @@ endfunction
 
 
 function! s:make_word_regexp(s)  "{{{2
-  " FIXME: path separator assumption
-  let p_asis = s:make_asis_regexp(substitute(a:s, '/', ' / ', 'g'))
+  let p_asis = s:make_asis_regexp(substitute(a:s,
+  \                                          '\v\' . s:PATH_SEP,
+  \                                          ' ' . s:PATH_SEP . ' ',
+  \                                          'g'))
   return substitute(p_asis, '\s\+', '\\.\\{-}', 'g')
 endfunction
 
