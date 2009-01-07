@@ -656,6 +656,15 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
       let word_C_me = word_C_ms < 0 ? -1 : matchend(_.word,'\C'.word_regexp, i)
       let asis_c_me = asis_c_ms < 0 ? -1 : matchend(_.word,'\c'.asis_regexp, i)
       let asis_C_me = asis_C_ms < 0 ? -1 : matchend(_.word,'\C'.asis_regexp, i)
+
+      let asis_C_me = asis_C_me < 0 ? INFINITY : asis_C_me
+      let asis_C_ms = asis_C_ms < 0 ? INFINITY : asis_C_ms
+      let asis_c_me = asis_c_me < 0 ? INFINITY : asis_c_me
+      let asis_c_ms = asis_c_ms < 0 ? INFINITY : asis_c_ms
+      let word_C_me = word_C_me < 0 ? INFINITY : word_C_me
+      let word_C_ms = word_C_ms < 0 ? INFINITY : word_C_ms
+      let word_c_me = word_c_me < 0 ? INFINITY : word_c_me
+      let word_c_ms = word_c_ms < 0 ? INFINITY : word_c_ms
     endif
 
     let _['ku__sort_priorities'] = [
@@ -663,18 +672,9 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
     \     _.word =~# g:ku_common_junk_pattern,
     \     (exists('g:ku_{a:current_source}_junk_pattern')
     \      && _.word =~# g:ku_{a:current_source}_junk_pattern),
-    \     asis_C_ms < 0 ? INFINITY : asis_C_ms,
-    \     asis_C_me < 0 ? INFINITY : asis_C_me,
-    \     asis_c_ms < 0 ? INFINITY : asis_c_ms,
-    \     asis_c_me < 0 ? INFINITY : asis_c_me,
-    \     word_C_ms < 0 ? INFINITY : word_C_ms,
-    \     word_C_me < 0 ? INFINITY : word_C_me,
-    \     word_c_ms < 0 ? INFINITY : word_c_ms,
-    \     word_c_me < 0 ? INFINITY : word_c_me,
-    \     skip_C_ms,
-    \     skip_C_me,
-    \     skip_c_ms,
-    \     skip_c_me,
+    \     asis_C_ms, asis_C_me,  asis_c_ms, asis_c_me,
+    \     word_C_ms, word_C_me,  word_c_ms, word_c_me,
+    \     skip_C_ms, skip_C_me,  skip_c_ms, skip_c_me,
     \     _.word,
     \   ]
   endfor
