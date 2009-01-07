@@ -600,40 +600,63 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   \             '\V\[^' . escape(g:ku_component_separators, '\[^]') . ']\*\$')
   " let prefix = i == 0 ? '' : a:pattern[:i-1]
   let pattern = a:pattern[(i):]
+  let empty_pattern_p = pattern == ''
 
   let asis_regexp = s:make_asis_regexp(pattern)
   let word_regexp = s:make_word_regexp(pattern)
   let skip_regexp = s:make_skip_regexp(pattern)
+  if empty_pattern_p
+    " Dummy values for ku__sort_priorities,
+    " because match()/matchend() are skipped for empty "pattern" for speed-up.
+    let asis_C_me = 0
+    let asis_C_ms = 0
+    let asis_c_me = 0
+    let asis_c_ms = 0
+    let skip_C_me = 0
+    let skip_C_ms = 0
+    let skip_c_me = 0
+    let skip_c_ms = 0
+    let word_C_me = 0
+    let word_C_ms = 0
+    let word_c_me = 0
+    let word_c_ms = 0
+  endif
 
   let items = copy(a:items)
   for _ in items
     let _['ku__completed_p'] = s:TRUE
     let _['ku__source'] = a:current_source
 
-    " Skip many match()/matchend() callings by the following conditions:
-    " (a) If match() is failed for a pattern,
-    "     it's not necessary to call matchend() for that pattern.
-    " (b) If a case-insensitive pattern is not matched,
-    "     the corresponding case-sensitive pattern is not also matched.
-    " (c) If a "skip" pattern is not matched,
-    "     the corresponding "word" pattern is not also matched.
-    "     If a "word" pattern is not matched,
-    "     the corresponding "asis" pattern is not also matched.
-      " Cases (c)
-    let skip_c_ms = match(_.word, '\c' . skip_regexp, i)
-    let word_c_ms = skip_c_ms < 0 ? -1 : match(_.word, '\c' . word_regexp, i)
-    let asis_c_ms = word_c_ms < 0 ? -1 : match(_.word, '\c' . asis_regexp, i)
-      " Cases (b)
-    let skip_C_ms = skip_c_ms < 0 ? -1 : match(_.word, '\C' . skip_regexp, i)
-    let word_C_ms = word_c_ms < 0 ? -1 : match(_.word, '\C' . word_regexp, i)
-    let asis_C_ms = asis_c_ms < 0 ? -1 : match(_.word, '\C' . asis_regexp, i)
-      " Cases (a)
-    let skip_c_me = skip_c_ms < 0 ? -1 : matchend(_.word, '\c'.skip_regexp, i)
-    let skip_C_me = skip_C_ms < 0 ? -1 : matchend(_.word, '\C'.skip_regexp, i)
-    let word_c_me = word_c_ms < 0 ? -1 : matchend(_.word, '\c'.word_regexp, i)
-    let word_C_me = word_C_ms < 0 ? -1 : matchend(_.word, '\C'.word_regexp, i)
-    let asis_c_me = asis_c_ms < 0 ? -1 : matchend(_.word, '\c'.asis_regexp, i)
-    let asis_C_me = asis_C_ms < 0 ? -1 : matchend(_.word, '\C'.asis_regexp, i)
+    if empty_pattern_p
+      " To skip unnecessary checkings in s:_omnifunc_compare_lists(),
+      " use the unique part of _.word which is matched to patterns.
+      let asis_C_ms = _.word[(i):]
+    else
+      " Skip many match()/matchend() callings by the following conditions:
+      " (a) If match() is failed for a pattern,
+      "     it's not necessary to call matchend() for that pattern.
+      " (b) If a case-insensitive pattern is not matched,
+      "     the corresponding case-sensitive pattern is not also matched.
+      " (c) If a "skip" pattern is not matched,
+      "     the corresponding "word" pattern is not also matched.
+      "     If a "word" pattern is not matched,
+      "     the corresponding "asis" pattern is not also matched.
+        " Cases (c)
+      let skip_c_ms = match(_.word, '\c' . skip_regexp, i)
+      let word_c_ms = skip_c_ms < 0 ? -1 : match(_.word, '\c' . word_regexp, i)
+      let asis_c_ms = word_c_ms < 0 ? -1 : match(_.word, '\c' . asis_regexp, i)
+        " Cases (b)
+      let skip_C_ms = skip_c_ms < 0 ? -1 : match(_.word, '\C' . skip_regexp, i)
+      let word_C_ms = word_c_ms < 0 ? -1 : match(_.word, '\C' . word_regexp, i)
+      let asis_C_ms = asis_c_ms < 0 ? -1 : match(_.word, '\C' . asis_regexp, i)
+        " Cases (a)
+      let skip_c_me = skip_c_ms < 0 ? -1 : matchend(_.word,'\c'.skip_regexp, i)
+      let skip_C_me = skip_C_ms < 0 ? -1 : matchend(_.word,'\C'.skip_regexp, i)
+      let word_c_me = word_c_ms < 0 ? -1 : matchend(_.word,'\c'.word_regexp, i)
+      let word_C_me = word_C_ms < 0 ? -1 : matchend(_.word,'\C'.word_regexp, i)
+      let asis_c_me = asis_c_ms < 0 ? -1 : matchend(_.word,'\c'.asis_regexp, i)
+      let asis_C_me = asis_C_ms < 0 ? -1 : matchend(_.word,'\C'.asis_regexp, i)
+    endif
 
     let _['ku__sort_priorities'] = [
     \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
