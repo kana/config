@@ -1280,6 +1280,12 @@ Cnmap <silent> tN  tlast
 nmap <Plug>(physical-key-<Return>)  tt
 vmap <Plug>(physical-key-<Return>)  tt
 
+" additions, for ease of typing
+nmap [Space]<Return>  tt
+vmap [Space]<Return>  tt
+nmap [Space];  tt
+vmap [Space];  tt
+
 " addition, interactive use.
 Cnmap <noexec> t<Space>  tag<Space>
 
