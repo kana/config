@@ -545,6 +545,7 @@ function! ku#_omnifunc(findstart, base)  "{{{3
       if pattern == '' || s:api(s:current_source,'special_char_p',pattern[-1:])
         " Base cases.
         let _ = s:_omnifunc_core(
+        \         s:current_source,
         \         pattern,
         \         s:api(s:current_source, 'gather_items', pattern)
         \       )
@@ -554,6 +555,7 @@ function! ku#_omnifunc(findstart, base)  "{{{3
         " Make a list of items
         " by filtering a cache for a base case to the given pattern.
         let _ = s:_omnifunc_core(
+        \         s:current_source,
         \         pattern,
         \         ku#_omnifunc(s:FALSE, s:_omnifunc_base_case_pattern(pattern))
         \       )
@@ -571,7 +573,24 @@ function! ku#_omnifunc(findstart, base)  "{{{3
 endfunction
 
 
-function! s:_omnifunc_core(pattern, items)  "{{{3
+function! ku#_omnifunc_profile(source, pattern, ...)  "{{{3
+  let n = a:0 ? a:1 : 1
+  let base_time = reltime()
+
+  let raw_items = s:api(a:source, 'gather_items', a:pattern)
+  let gathering_time = reltime(base_time)
+
+  let base_time = reltime()
+  for _ in range(n)
+    let filtered_items = s:_omnifunc_core(a:source, a:pattern, raw_items)
+  endfor
+  let filtering_time = reltime(base_time)
+
+  return [reltimestr(gathering_time), reltimestr(filtering_time)]
+endfunction
+
+
+function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   " NB: This function doesn't know about the cache.
 
   let asis_regexp = s:make_asis_regexp(a:pattern)
@@ -581,12 +600,12 @@ function! s:_omnifunc_core(pattern, items)  "{{{3
   let items = copy(a:items)
   for _ in items
     let _['ku__completed_p'] = s:TRUE
-    let _['ku__source'] = s:current_source
+    let _['ku__source'] = a:current_source
     let _['ku__sort_priorities'] = [
     \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
     \     _.word =~# g:ku_common_junk_pattern,
-    \     (exists('g:ku_{s:current_source}_junk_pattern')
-    \      && _.word =~# g:ku_{s:current_source}_junk_pattern),
+    \     (exists('g:ku_{a:current_source}_junk_pattern')
+    \      && _.word =~# g:ku_{a:current_source}_junk_pattern),
     \     s:match(_.word, '\C' . asis_regexp),
     \     s:matchend(_.word, '\C' . asis_regexp),
     \     s:match(_.word, '\c' . asis_regexp),
