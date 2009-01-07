@@ -601,23 +601,38 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   for _ in items
     let _['ku__completed_p'] = s:TRUE
     let _['ku__source'] = a:current_source
+
+    let INFINITY = 2147483647
+    let skip_c_ms =                      match   (_.word, '\c' . skip_regexp)
+    let skip_c_me =                      matchend(_.word, '\c' . skip_regexp)
+    let skip_C_ms =                      match   (_.word, '\C' . skip_regexp)
+    let skip_C_me =                      matchend(_.word, '\C' . skip_regexp)
+    let word_c_ms =                      match   (_.word, '\c' . word_regexp)
+    let word_c_me =                      matchend(_.word, '\c' . word_regexp)
+    let word_C_ms =                      match   (_.word, '\C' . word_regexp)
+    let word_C_me =                      matchend(_.word, '\C' . word_regexp)
+    let asis_c_ms =                      match   (_.word, '\c' . asis_regexp)
+    let asis_c_me =                      matchend(_.word, '\c' . asis_regexp)
+    let asis_C_ms =                      match   (_.word, '\C' . asis_regexp)
+    let asis_C_me =                      matchend(_.word, '\C' . asis_regexp)
+
     let _['ku__sort_priorities'] = [
     \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
     \     _.word =~# g:ku_common_junk_pattern,
     \     (exists('g:ku_{a:current_source}_junk_pattern')
     \      && _.word =~# g:ku_{a:current_source}_junk_pattern),
-    \     s:match(_.word, '\C' . asis_regexp),
-    \     s:matchend(_.word, '\C' . asis_regexp),
-    \     s:match(_.word, '\c' . asis_regexp),
-    \     s:matchend(_.word, '\c' . asis_regexp),
-    \     s:match(_.word, '\C' . word_regexp),
-    \     s:matchend(_.word, '\C' . word_regexp),
-    \     s:match(_.word, '\c' . word_regexp),
-    \     s:matchend(_.word, '\c' . word_regexp),
-    \     match(_.word, '\C' . skip_regexp),
-    \     matchend(_.word, '\C' . skip_regexp),
-    \     match(_.word, '\c' . skip_regexp),
-    \     matchend(_.word, '\c' . skip_regexp),
+    \     asis_C_ms < 0 ? INFINITY : asis_C_ms,
+    \     asis_C_me < 0 ? INFINITY : asis_C_me,
+    \     asis_c_ms < 0 ? INFINITY : asis_c_ms,
+    \     asis_c_me < 0 ? INFINITY : asis_c_me,
+    \     word_C_ms < 0 ? INFINITY : word_C_ms,
+    \     word_C_me < 0 ? INFINITY : word_C_me,
+    \     word_c_ms < 0 ? INFINITY : word_c_ms,
+    \     word_c_me < 0 ? INFINITY : word_c_me,
+    \     skip_C_ms,
+    \     skip_C_me,
+    \     skip_c_ms,
+    \     skip_c_me,
     \     _.word,
     \   ]
   endfor
@@ -1800,28 +1815,6 @@ endfunction
 function! s:make_word_regexp(s)  "{{{2
   let p_asis = s:make_asis_regexp(a:s)
   return substitute(p_asis, '\s\+', '\\.\\{-}', 'g')
-endfunction
-
-
-
-
-function! s:match(s, pattern)  "{{{2
-  " Like match(), but return a very big number (POINT_AT_INFINITY) to express
-  " that a:s is not matched to a:pattern.  This returning value is very useful
-  " to sort with matched positions.
-  let POINT_AT_INFINITY = 2147483647  " FIXME: valid value.
-  let i = match(a:s, a:pattern)
-  return 0 <= i ? i : POINT_AT_INFINITY
-endfunction
-
-
-
-
-function! s:matchend(s, pattern)  "{{{2
-  " Like s:match(), but the meaning of returning value is same as matchend().
-  let POINT_AT_INFINITY = 2147483647  " FIXME: valid value.
-  let i = matchend(a:s, a:pattern)
-  return 0 <= i ? i : POINT_AT_INFINITY
 endfunction
 
 
