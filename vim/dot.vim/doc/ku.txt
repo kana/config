@@ -360,6 +360,17 @@ case-insensitive way.
 
 See also |g:ku_common_junk_pattern|.
 
+						*ku-pattern-prefix-assumption*
+Ku assumes that the "prefix" of a pattern is always matched to the head of
+each item, so that skips the "prefix" for pattern matching described in the
+above.
+
+Here the "prefix" of a pattern is defined as follows:
+1. Split the pattern with any character in |g:ku_component_separators|.
+2. Exclude the tail one from the pattern.  This is the "prefix".
+For example, the "prefix" of a pattern "/foo/bar/baz" is "/foo/bar/"
+(if g:ku_component_separators contains "/").
+
 
 AUTO COMPONENT COMPLETION			*ku-auto-component-completion*
 						*ku-auto-directory-completion*
@@ -980,9 +991,11 @@ CHANGELOG					*ku-changelog*
 	      New versions use "ku_{source}_..." and "ku__..." instead.
 	    - Add several rules on return values.
 	  - |ku#{source}#gather_items()|: New API to implement.
-	- |ku-pattern|: Change the definition of "word" pattern.
-	  Old versions use spaces and slashes as wildcards.
-	  New versions use only spaces as wildcards.
+	- |ku-pattern|:
+	  - Change the definition of "word" pattern.
+	    Old versions use spaces and slashes as wildcards.
+	    New versions use only spaces as wildcards.
+	  - Add an assumption - see |ku-pattern-prefix-assumption|.
 
 0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
 	- Add |g:ku_history_reloading_style|.
