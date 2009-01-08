@@ -620,6 +620,10 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
     let word_c_ms = 0
   endif
 
+  let source_junk_pattern = (exists('g:ku_{a:current_source}_junk_pattern')
+  \                          ? g:ku_{a:current_source}_junk_pattern
+  \                          : 0)
+
   let items = copy(a:items)
   for _ in items
     let _['ku__completed_p'] = s:TRUE
@@ -662,10 +666,9 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
     endif
 
     let _['ku__sort_priorities'] = [
-    \     has_key(_, 'ku__sort_priority') ? _['ku__sort_priority'] : 0,
+    \     get(_, 'ku__sort_priority', 0),
     \     _.word =~# g:ku_common_junk_pattern,
-    \     (exists('g:ku_{a:current_source}_junk_pattern')
-    \      && _.word =~# g:ku_{a:current_source}_junk_pattern),
+    \     source_junk_pattern is 0 ? 0 : _.word =~# source_junk_pattern,
     \     asis_C_ms,             asis_c_ms,
     \     word_C_ms, word_C_me,  word_c_ms, word_c_me,
     \     skip_C_ms, skip_C_me,  skip_c_ms, skip_c_me,
