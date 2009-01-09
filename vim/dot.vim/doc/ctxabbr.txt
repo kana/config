@@ -114,6 +114,9 @@ ctxabbr#clear({lhs})				*ctxabbr#clear()*
 			Delete all context-sensitive abbreviations for {lhs}
 			defined by |ctxabbr#define()|.
 
+ctxabbr#dump([{lhs}, ...])			*ctxabbr#dump()*
+			Show what abbreviations are defined for {lhs}.
+
 
 
 
