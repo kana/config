@@ -22,6 +22,13 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
+function! ctxabbr#clear(lhs)  "{{{2
+  let s:db[a:lhs] = []
+endfunction
+
+
+
+
 function! ctxabbr#define(lhs, rhs, condition)  "{{{2
   call s:register(a:lhs, a:rhs, a:condition)
   execute 'inoreabbrev <expr>' a:lhs  '<SID>expand(' string(a:lhs) ')'
