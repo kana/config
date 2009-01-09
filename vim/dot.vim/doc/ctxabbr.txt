@@ -29,7 +29,6 @@ CONTENTS					*ctxabbr-contents*
 Introduction		|ctxabbr-introduction|
 Interface		|ctxabbr-interface|
   Functions		  |ctxabbr-functions|
-Examples		|ctxabbr-examples|
 Bugs			|ctxabbr-bugs|
 Changelog		|ctxabbr-changelog|
 
@@ -57,7 +56,6 @@ With the above setting, whenever you enter "sc", it is replaced with
 	using sc       ==>    using System.Collections
 	// sc sc sc    ==>    // sc sc sc
 <
-See also |ctxabbr-examples|.
 
 
 Requirements:
@@ -74,6 +72,10 @@ INTERFACE					*ctxabbr-interface*
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*ctxabbr-functions*
+
+ctxabbr#clear({lhs})				*ctxabbr#clear()*
+			Delete all context-sensitive abbreviations for {lhs}
+			defined by |ctxabbr#define()|.
 
 ctxabbr#define({lhs}, {rhs}, [{condition}])	*ctxabbr#define()*
 			Like ":inoreabbrev {lhs} {rhs}",
@@ -110,20 +112,8 @@ ctxabbr#define({lhs}, {rhs}, [{condition}])	*ctxabbr#define()*
 					/{regexp} searchs forward.
 					?{regexp} searchs backward.
 
-ctxabbr#clear({lhs})				*ctxabbr#clear()*
-			Delete all context-sensitive abbreviations for {lhs}
-			defined by |ctxabbr#define()|.
-
 ctxabbr#dump([{lhs}, ...])			*ctxabbr#dump()*
 			Show what abbreviations are defined for {lhs}.
-
-
-
-
-==============================================================================
-EXAMPLES					*ctxabbr-examples*
-
-(A) ...
 
 
 
