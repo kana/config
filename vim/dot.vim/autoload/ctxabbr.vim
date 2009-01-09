@@ -48,6 +48,19 @@ endfunction
 
 
 
+function! ctxabbr#dump(...)  "{{{2
+  let lhss = 1 <= a:0 ? a:000 : sort(keys(s:db))
+  for lhs in lhss
+    echo 'lhs' string(lhs)
+    for [condition, rhs] in get(s:db, lhs, [])
+      echo '  rhs' string(rhs) 'condition' string(condition)
+    endfor
+  endfor
+endfunction
+
+
+
+
 
 
 
