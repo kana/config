@@ -79,6 +79,10 @@ ctxabbr#define({lhs}, {rhs}, [{condition}])	*ctxabbr#define()*
 			Like ":inoreabbrev {lhs} {rhs}",
 			but {lhs} is replaced if {condition} is met.
 
+			If this function is called multiple times with the
+			same {lhs}, later called definition is prior to
+			others.
+
 			{lhs}		(string)
 				Abbreviated word.
 
@@ -87,7 +91,9 @@ ctxabbr#define({lhs}, {rhs}, [{condition}])	*ctxabbr#define()*
 
 			{condition}	(string)
 				The first character indicates the type of
-				the condition:
+				the condition, and the rest of the string is
+				the data for this condition.  The details are
+				as follows:
 
 				<{WORDs}
 					|WORD|s must be appeared in the
@@ -128,14 +134,8 @@ BUGS						*ctxabbr-bugs*
 
 - |:map-arguments| are not supported yet.
 
-- The result of calling |ctxabbr#deinfe()| multiple times with the same {lhs}
-  and the same or similar {condition} is not defined.  For example:
->
-	call ctxabbr#define('lhs', 'A', '<X')
-	call ctxabbr#define('lhs', 'B', '<X')
-	call ctxabbr#define('lhs', 'C', '<XY')
-	call ctxabbr#define('lhs', 'D', '<XYZ')
-<
+- There is no way to delete all or a part of context-sensitive abbreviations
+  for the same {lhs}.
 
 
 
