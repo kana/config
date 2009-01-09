@@ -110,6 +110,10 @@ ctxabbr#define({lhs}, {rhs}, [{condition}])	*ctxabbr#define()*
 					/{regexp} searchs forward.
 					?{regexp} searchs backward.
 
+ctxabbr#clear({lhs})				*ctxabbr#clear()*
+			Delete all context-sensitive abbreviations for {lhs}
+			defined by |ctxabbr#define()|.
+
 
 
 
@@ -133,9 +137,6 @@ BUGS						*ctxabbr-bugs*
   Command-line mode is not supported yet.
 
 - |:map-arguments| are not supported yet.
-
-- There is no way to delete all or a part of context-sensitive abbreviations
-  for the same {lhs}.
 
 
 
