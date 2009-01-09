@@ -1,0 +1,143 @@
+*ctxabbr.txt*	Context-sensitive abbreviations
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2008 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ctxabbr-contents*
+
+Introduction		|ctxabbr-introduction|
+Interface		|ctxabbr-interface|
+  Functions		  |ctxabbr-functions|
+Examples		|ctxabbr-examples|
+Bugs			|ctxabbr-bugs|
+Changelog		|ctxabbr-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*ctxabbr-introduction*
+
+*ctxabbr* is a Vim plugin to provide a convenient way to define a variant of
+normal |abbreviations|, called as "context-sensitive abbreviations".
+Normal abbreviations are short words which will be replaced with the words
+they stand for whenever you enter the short words.
+But sometimes, it is useful to replace such abbreviations
+with some text according to the context - text around the cursor.
+
+For example,
+>
+	call ctxabbr#define('sc', 'System.Collections', '<using')
+<
+With the above setting, whenever you enter "sc", it is replaced with
+"System.Collections" if it is entered after a word "using", or
+"sc" otherwise.  It is illustrated as follows:
+>
+	using sc;      ==>    using System.Collections;
+	// sc sc sc    ==>    // sc sc sc
+<
+See also |ctxabbr-examples|.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-ctxabbr
+
+
+
+
+==============================================================================
+INTERFACE					*ctxabbr-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*ctxabbr-functions*
+
+ctxabbr#define({lhs}, {rhs}, [{condition}])	*ctxabbr#define()*
+			Like ":inoreabbrev {lhs} {rhs}",
+			but {lhs} is replaced if {condition} is met.
+
+			{lhs}		(string)
+				Abbreviated word.
+
+			{rhs}		(string)
+				Expanded form of {lhs}.
+
+			{condition}	(string)
+				The first character indicates the type of
+				the condition:
+
+				<{WORDs}
+					|WORD|s must be appeared in the
+					current line and before the cursor.
+
+				>{WORDs}
+					|WORD|s must be appeared in the
+					current line and after the cursor.
+
+				/{regexp}
+				?{regexp}
+					Some text must be matched to {regexp}.
+					The search starts at the cursor.
+					/{regexp} searchs forward.
+					?{regexp} searchs backward.
+
+
+
+
+==============================================================================
+EXAMPLES					*ctxabbr-examples*
+
+(A) ...
+
+
+
+
+==============================================================================
+BUGS						*ctxabbr-bugs*
+
+- Technically, this plugin just provides a wrapper function for |:abbreviate|.
+
+- Currently, context-sensitive abbreviations are available
+  only in Insert mode and its variants.
+  Command-line mode is not supported yet.
+
+- {condition} of |ctxabbr#define()| is not matured; welcome your feedback.
+
+
+
+
+==============================================================================
+CHANGELOG					*ctxabbr-changelog*
+
+0.0.0	2009-01-09T16:02:13+09:00
+	- Initial version.  Inspired from:
+	  http://d.hatena.ne.jp/tkuro/20090108/1231383410
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

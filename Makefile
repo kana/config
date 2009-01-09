@@ -117,6 +117,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_altkwprg_FILES) \
   $(PACKAGE_vim_arpeggio_FILES) \
   $(PACKAGE_vim_bundle_FILES) \
+  $(PACKAGE_vim_ctxabbr_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_ft_gauche_FILES) \
@@ -192,6 +193,7 @@ ALL_PACKAGES=\
   vim-altkwprg \
   vim-arpeggio \
   vim-bundle \
+  vim-ctxabbr \
   vim-fakeclip \
   vim-flydiff \
   vim-ft-gauche \
@@ -270,6 +272,12 @@ PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/autoload/bundle.vim \
   vim/dot.vim/doc/bundle.txt \
   vim/dot.vim/plugin/bundle.vim
+
+PACKAGE_vim_ctxabbr_ARCHIVE=vim-ctxabbr-0.0.0
+PACKAGE_vim_ctxabbr_BASE=vim/dot.vim
+PACKAGE_vim_ctxabbr_FILES=\
+  vim/dot.vim/autoload/ctxabbr.vim \
+  vim/dot.vim/doc/ctxabbr.txt
 
 PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.1
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
