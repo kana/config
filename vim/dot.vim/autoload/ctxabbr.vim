@@ -21,6 +21,17 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Variables  "{{{1
+
+let s:db = {}  " lhs -> [[condition, rhs], ...]
+
+
+
+
+
+
+
+
 " Interface  "{{{1
 function! ctxabbr#clear(lhs)  "{{{2
   let s:db[a:lhs] = []
@@ -42,13 +53,6 @@ endfunction
 
 
 " Misc.  "{{{1
-" Variables  "{{{2
-
-let s:db = {}  " lhs -> [[condition, rhs], ...]
-
-
-
-
 function! s:expand(lhs)  "{{{2
   echomsg 's:expand' string(a:lhs)
   for [condition, rhs] in get(s:db, a:lhs, [])
@@ -104,7 +108,7 @@ endfunction
 
 
 function! s:register(lhs, rhs, condition)  "{{{2
-  let s:db[a:lhs] = insert(get(s:db, a:lhs, []), [a:condition, a:rhs])
+  let s:db[a:lhs] = insert(get(s:db, a:lhs, []), [a:condition, a:rhs], 0)
 endfunction
 
 
