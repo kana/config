@@ -22,6 +22,10 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
+function! ctxabbr#define(lhs, rhs, condition)  "{{{2
+  call s:register(a:lhs, a:rhs, a:condition)
+  execute 'inoreabbrev <expr>' a:lhs  '<SID>expand(' string(a:lhs) ')'
+endfunction
 
 
 
@@ -31,6 +35,70 @@
 
 
 " Misc.  "{{{1
+" Variables  "{{{2
+
+let s:db = {}  " lhs -> [[condition, rhs], ...]
+
+
+
+
+function! s:expand(lhs)  "{{{2
+  echomsg 's:expand' string(a:lhs)
+  for [condition, rhs] in get(s:db, a:lhs, [])
+    echomsg 'condition' string(condition)
+    echomsg 'rhs' string(rhs)
+    if s:met_p(condition, a:lhs)
+      echomsg 'result' string(rhs)
+      return rhs
+    endif
+  endfor
+  echomsg 'result' string(a:lhs)
+  return a:lhs
+endfunction
+
+
+
+
+function! s:met_p(condition, lhs)  "{{{2
+  let type = a:condition[0]
+  let rest = a:condition[1:]
+
+  if type == '<'
+    let type = '?'
+    let rest = '\V' . s:regexp_WORDs(rest . ' ' . a:lhs) . '\s\*\%#'
+  elseif type == '>'
+    let type = '/'
+    let rest = '\V' . '\%#\s\*' . s:regexp_WORDs(rest)
+  endif
+  echomsg 'type' string(type)
+  echomsg 'rest' string(rest)
+
+  if type == '/'
+    return search(rest, 'cnW')
+  elseif type == '?'
+    return search(rest, 'bcnW')
+  else
+    echoerr 'Invalid condition:' string(a:condition)
+    return 0
+  endif
+endfunction
+
+
+
+
+function! s:regexp_WORDs(WORDs)  "{{{2
+  " returns a regular expression for \V.
+  return join(map(split(substitute(a:WORDs, ' \+', ' ', 'g')),
+  \               'escape(v:val, ''\'')'),
+  \           '\s\+')
+endfunction
+
+
+
+
+function! s:register(lhs, rhs, condition)  "{{{2
+  let s:db[a:lhs] = insert(get(s:db, a:lhs, []), [a:condition, a:rhs])
+endfunction
 
 
 
