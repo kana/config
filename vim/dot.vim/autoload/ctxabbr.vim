@@ -90,14 +90,24 @@ function! s:met_p(condition, lhs)  "{{{2
     let rest = '\V' . '\%#\s\*' . s:regexp_WORDs(rest)
   endif
 
-  if type == '/'
-    return search(rest, 'cnW')
+  if type == '/' ||
+    return search(s:regexp_cursor(rest, a:lhs), 'cnW')
   elseif type == '?'
-    return search(rest, 'bcnW')
+    return search(s:regexp_cursor(rest, a:lhs), 'bcnW')
   else
     echoerr 'Invalid condition:' string(a:condition)
     return 0
   endif
+endfunction
+
+
+
+
+function! s:regexp_cursor(regexp, lhs)  "{{{2
+  return substitute(a:regexp,
+  \                 '\\(cursor)',
+  \                 '\V' . escape(a:lhs, '\') . '\s\*\%#',
+  \                 '')
 endfunction
 
 
