@@ -91,6 +91,13 @@ endfunction
 
 
 
+function! ku#quickfix#special_char_p(character)  "{{{2
+  return 0
+endfunction
+
+
+
+
 
 
 
