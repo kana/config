@@ -45,7 +45,7 @@ function! ku#buffer#event_handler(event, ...)  "{{{2
         \      'menu': printf('buffer %*d', len(bufnr('$')), i),
         \      'dup': 1,
         \      'ku_buffer_nr': i,
-        \      'ku__sort_priority': bufname[0] ==# '/',
+        \      'ku__sort_priority': bufname ==# fnamemodify(bufname, ':p')
         \    })
       endif
     endfor
