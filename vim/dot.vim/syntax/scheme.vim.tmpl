@@ -1,4 +1,4 @@
-" Vim indent: scheme/gauche
+" Vim syntax: scheme/gauche
 " Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -22,16 +22,28 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if !exists('b:did_indent')
-  runtime! indent/scheme.vim
+if !exists('b:current_syntax')
+  if !exists('s:_')
+    let s:_ = 0
+    runtime! syntax/scheme.vim syntax/scheme/*.vim
+    unlet s:_
+  else
+    finish
+  endif
 endif
 
 
 
 
 if exists('g:is_gauche') || exists('b:is_gauche')
-  " Nothing, currently.
+  ##gauche-define##
+
+  highlight default link schemeGaucheGeneric  Function
+  highlight default link schemeGaucheMacro  Statement
+  highlight default link schemeGaucheProcedure  Function
+  highlight default link schemeGaucheSyntax  Statement
 endif
 
 " __END__
 " vim: foldmethod=marker
+" vim: filetype=vim

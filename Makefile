@@ -172,12 +172,12 @@ endef
 	done | sort --unique >$@
 ,gauche-symbols: gauche-generate-symbols.scm ,gauche-modules
 	gosh gauche-generate-symbols.scm <,gauche-modules | sort --unique >$@
-vim/dot.vim/syntax/gauche.vim: gauche-generate-syntax-vim.scm \
+vim/dot.vim/syntax/scheme.vim: gauche-generate-syntax-vim.scm \
 		,gauche-modules ,gauche-symbols \
-		vim/dot.vim/syntax/gauche.vim.tmpl
+		vim/dot.vim/syntax/scheme.vim.tmpl
 	gosh gauche-generate-syntax-vim.scm \
 	  ,gauche-modules ,gauche-symbols \
-	  vim/dot.vim/syntax/gauche.vim.tmpl \
+	  vim/dot.vim/syntax/scheme.vim.tmpl \
 	  >$@
 
 
@@ -288,9 +288,7 @@ PACKAGE_vim_flydiff_FILES=\
 PACKAGE_vim_ft_gauche_ARCHIVE=vim-ft-gauche-0.0.0
 PACKAGE_vim_ft_gauche_BASE=vim/dot.vim
 PACKAGE_vim_ft_gauche_FILES=\
-  vim/dot.vim/ftplugin/gauche.vim \
-  vim/dot.vim/indent/gauche.vim \
-  vim/dot.vim/syntax/gauche.vim
+  vim/dot.vim/syntax/scheme.vim
 
 PACKAGE_vim_ft_haskell_ARCHIVE=vim-ft-haskell-0.0.0
 PACKAGE_vim_ft_haskell_BASE=vim/dot.vim
