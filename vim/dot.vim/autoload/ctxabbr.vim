@@ -67,16 +67,11 @@ endfunction
 
 " Misc.  "{{{1
 function! s:expand(lhs)  "{{{2
-  echomsg 's:expand' string(a:lhs)
   for [condition, rhs] in get(s:db, a:lhs, [])
-    echomsg 'condition' string(condition)
-    echomsg 'rhs' string(rhs)
     if s:met_p(condition, a:lhs)
-      echomsg 'result' string(rhs)
       return rhs
     endif
   endfor
-  echomsg 'result' string(a:lhs)
   return a:lhs
 endfunction
 
@@ -94,8 +89,6 @@ function! s:met_p(condition, lhs)  "{{{2
     let type = '/'
     let rest = '\V' . '\%#\s\*' . s:regexp_WORDs(rest)
   endif
-  echomsg 'type' string(type)
-  echomsg 'rest' string(rest)
 
   if type == '/'
     return search(rest, 'cnW')
