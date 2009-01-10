@@ -23,7 +23,7 @@
 " }}}
 " Variables  "{{{1
 
-let s:db = {}  " lhs -> [[condition, rhs], ...]
+let s:db = {}  " lhs -> [Dict, ...] -- see s:register() for the details.
 
 
 
@@ -52,8 +52,8 @@ function! ctxabbr#dump(...)  "{{{2
   let lhss = 1 <= a:0 ? a:000 : sort(keys(s:db))
   for lhs in lhss
     echo 'lhs' string(lhs)
-    for [condition, rhs] in get(s:db, lhs, [])
-      echo '  rhs' string(rhs) 'condition' string(condition)
+    for _ in get(s:db, lhs, [])
+      echo '  rhs' string(_.rhs) 'condition' string(_.condition)
     endfor
   endfor
 endfunction
@@ -67,16 +67,16 @@ endfunction
 
 " Misc.  "{{{1
 function! s:expand(lhs)  "{{{2
-  let _ = get(s:db, a:lhs, [])
-  for [condition, rhs] in filter(copy(_), 'v:val[0][0] != "!"')
-    if s:met_p(condition, a:lhs)
-      return rhs
+  let entries = get(s:db, a:lhs, [])
+  for _ in filter(copy(entries), 'v:val.condition[0] != "!"')
+    if s:met_p(_.condition, a:lhs)
+      return _.rhs
     endif
   endfor
 
-  let _ = filter(copy(_), 'v:val[0][0] == "!"')
-  if 0 < len(_)
-    return _[0][1]
+  let entries = filter(copy(entries), 'v:val.condition[0] == "!"')
+  if 0 < len(entries)
+    return entries[0].rhs
   endif
 
   return a:lhs
@@ -121,7 +121,10 @@ endfunction
 
 
 function! s:register(lhs, rhs, condition)  "{{{2
-  let s:db[a:lhs] = insert(get(s:db, a:lhs, []), [a:condition, a:rhs], 0)
+  let s:db[a:lhs] = insert(get(s:db, a:lhs, []),
+  \                        {'condition': a:condition,
+  \                         'rhs': a:rhs},
+  \                        0)
 endfunction
 
 
