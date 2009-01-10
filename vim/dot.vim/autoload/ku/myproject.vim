@@ -39,7 +39,7 @@ function! ku#myproject#event_handler(event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let s:cached_items = map(split(glob('~/working/*/'), '\n'), '{
     \                      "word": fnamemodify(v:val, ":h:t"),
-    \                      "_myproject_path": fnamemodify(v:val, ":p:h")
+    \                      "ku_myproject_path": fnamemodify(v:val, ":p:h")
     \                    }')
     return
   else
@@ -105,7 +105,7 @@ endfunction
 " Misc.  "{{{1
 " Actions  "{{{2
 function! ku#myproject#action_open(item)  "{{{3
-  execute 'CD' a:item._myproject_path
+  execute 'CD' a:item.ku_myproject_path
   Ku file
   return
 endfunction
