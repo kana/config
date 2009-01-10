@@ -597,7 +597,7 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   " By automatic component completion, it's hard to insert text with
   " uncompleted "prefix", so that "prefix" is excluded to match.
   let i = match(a:pattern,
-  \             '\V\[^' . escape(g:ku_component_separators, '\[^]') . ']\*\$')
+  \             s:regexp_not_any_char_of(g:ku_component_separators) . '\*\$')
   " let prefix = i == 0 ? '' : a:pattern[:i-1]
   let pattern = a:pattern[(i):]
   let empty_pattern_p = pattern == ''
@@ -1893,6 +1893,20 @@ function! s:ni_map(...)  "{{{2
     silent! execute _.'map' join(a:000)
   endfor
   return
+endfunction
+
+
+
+
+function! s:regexp_any_char_of(cs)  "{{{2
+  return '\V\[' . escape(a:cs, '\[]') . ']'
+endfunction
+
+
+
+
+function! s:regexp_not_any_char_of(cs)  "{{{2
+  return '\V\[^' . escape(a:cs, '\[]^') . ']'
 endfunction
 
 
