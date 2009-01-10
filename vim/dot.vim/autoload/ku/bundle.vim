@@ -97,7 +97,7 @@ function! ku#bundle#gather_items(pattern)  "{{{2
       let s:current_bundle_name = bundle_name
       let s:cached_paths = map(
       \     (0 <= j ? copy(bundle#files(bundle_name)) : []),
-      \     '{"word": bundle_name.a:pattern[i].v:val, "_bundle_path": v:val}'
+      \     '{"word": bundle_name.a:pattern[i].v:val, "ku_bundle_path": v:val}'
       \   )
       return s:cached_paths
     endif
@@ -126,7 +126,7 @@ endfunction
 
 function! s:open_by_source_file(bang, item)  "{{{2
   let _ = copy(a:item)
-  let _.word = _._bundle_path
+  let _.word = _.ku_bundle_path
 
   if a:bang == '!'
     call ku#file#action_open_x(_)
@@ -140,7 +140,7 @@ endfunction
 
 
 function! ku#bundle#action_args(item)  "{{{2
-  if has_key(a:item, '_bundle_path')
+  if has_key(a:item, 'ku_bundle_path')
     call s:open_by_source_file('', a:item)
   else
     execute 'ArgsBundle' a:item.word
@@ -152,7 +152,7 @@ endfunction
 
 
 function! ku#bundle#action_args_x(item)  "{{{2
-  if has_key(a:item, '_bundle_path')
+  if has_key(a:item, 'ku_bundle_path')
     call s:open_by_source_file('!', a:item)
   else
     execute 'ArgsBundle!' a:item.word
@@ -164,7 +164,7 @@ endfunction
 
 
 function! ku#bundle#action_load(item)  "{{{2
-  if has_key(a:item, '_bundle_path')
+  if has_key(a:item, 'ku_bundle_path')
     call s:open_by_source_file('', a:item)
   else
     execute 'LoadBundle' a:item.word
@@ -176,7 +176,7 @@ endfunction
 
 
 function! ku#bundle#action_load_x(item)  "{{{2
-  if has_key(a:item, '_bundle_path')
+  if has_key(a:item, 'ku_bundle_path')
     call s:open_by_source_file('!', a:item)
   else
     execute 'LoadBundle!' a:item.word

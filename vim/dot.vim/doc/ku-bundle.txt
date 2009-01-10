@@ -46,7 +46,7 @@ INTRODUCTION					*ku-bundle-introduction*
 Requirements:
 - Vim 7.1 or later
 - |bundle| 0.0.2 or later (vimscript#2338)
-- |ku| 0.1.1 or later (vimscript#2337)
+- |ku| 0.2.0 or later (vimscript#2337)
 
 Latest version:
 http://github.com/kana/config/commits/vim-ku-bundle
@@ -121,6 +121,9 @@ BUGS						*ku-bundle-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-bundle-changelog*
+
+0.0.3	2009-01-10T16:08:02+09:00
+	- Update for ku 0.2.0.
 
 0.0.2	2008-12-24T15:27:07+09:00
 	- Change |ku-bundle-action-default|.
