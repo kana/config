@@ -43,7 +43,7 @@ one from many files in the current quickfix list and do some action on it.
 
 Requirements:
 - Vim 7.2 or later
-- |ku| 0.1.4 or later (vimscript#2337)
+- |ku| 0.2.0 or later (vimscript#2337)
 
 Latest version:
 http://github.com/kana/config/commits/vim-ku-quickfix
@@ -91,6 +91,9 @@ BUGS						*ku-quickfix-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-quickfix-changelog*
+
+0.0.1	2009-01-10T16:10:13+09:00
+	- Update for ku 0.2.0.
 
 0.0.0	2008-10-28T01:50:35+09:00
 	- Initial version.

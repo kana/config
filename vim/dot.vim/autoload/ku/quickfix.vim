@@ -50,8 +50,8 @@ function! ku#quickfix#event_handler(event, ...)  "{{{2
     let s:cached_items = map(_, '{
     \   "word": bufname(v:val[1]),
     \   "menu": v:val[2] . " error" . (v:val[2] == 1 ? "" : "s"),
-    \   "_quickfix_bufnr": v:val[1],
-    \   "_quickfix_ccnr": v:val[0],
+    \   "ku_quickfix_bufnr": v:val[1],
+    \   "ku_quickfix_ccnr": v:val[0],
     \ }')
     return
   else
@@ -100,8 +100,8 @@ function! s:open(bang, item)  "{{{2
   if a:item._ku_completed_p
     let original_switchbuf = &switchbuf
       let &switchbuf = ''
-      execute a:item._quickfix_bufnr 'buffer'.a:bang
-      execute 'cc' a:item._quickfix_ccnr
+      execute a:item.ku_quickfix_bufnr 'buffer'.a:bang
+      execute 'cc' a:item.ku_quickfix_ccnr
     let &switchbuf = original_switchbuf
   else
     echoerr 'No such file:' string(a:item.word)
