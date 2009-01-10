@@ -67,11 +67,18 @@ endfunction
 
 " Misc.  "{{{1
 function! s:expand(lhs)  "{{{2
-  for [condition, rhs] in get(s:db, a:lhs, [])
+  let _ = get(s:db, a:lhs, [])
+  for [condition, rhs] in filter(copy(_), 'v:val[0][0] != "!"')
     if s:met_p(condition, a:lhs)
       return rhs
     endif
   endfor
+
+  let _ = filter(copy(_), 'v:val[0][0] == "!"')
+  if 0 < len(_)
+    return _[0][1]
+  endif
+
   return a:lhs
 endfunction
 
