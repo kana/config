@@ -137,6 +137,10 @@ ctxabbr#define({lhs}, {rhs}, {condition}, [{options}])	*ctxabbr#define()*
 ctxabbr#dump([{lhs}, ...])			*ctxabbr#dump()*
 			Show what abbreviations are defined for {lhs}.
 
+ctxabbr#reset([{types}])			*ctxabbr#reset()*
+			Delete all context-sensitive abbreviations.
+			See |ctxabbr#clear()| for the details of arguments.
+
 
 
 
@@ -159,6 +163,7 @@ CHANGELOG					*ctxabbr-changelog*
 
 0.0.2	2009-01-10T14:05:21+09:00
 	- Support buffer-local abbreviations.
+	- Add |ctxabbr#reset()|.
 
 0.0.1	2009-01-10T12:57:03+09:00
 	- Remove unintentionally remained :echomsg for debugging.

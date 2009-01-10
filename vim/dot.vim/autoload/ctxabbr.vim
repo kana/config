@@ -23,8 +23,8 @@
 " }}}
 " Variables  "{{{1
 
-let s:ctxabbr_db = {}  " lhs -> [Dict, ...] -- see also s:register().
-" let b:ctxabbr_db = ...
+" let s:ctxabbr_db = {}  " lhs -> [Dict, ...] -- see also s:register().
+" let b:ctxabbr_db = {}
 
 
 
@@ -73,20 +73,28 @@ endfunction
 
 
 
+function! ctxabbr#reset(...)  "{{{2
+  let types = a:0 ? a:1 : 'g'
+  for type in split(types, '.\zs')
+    let _ = (type ==# 'b' ? 'b' : 's') . ':ctxabbr_db'
+    unlet {_}
+  endfor
+endfunction
+
+
+
+
 
 
 
 
 " Misc.  "{{{1
 function! s:db(type)  "{{{2
-  if a:type ==# 'b'
-    if !exists('b:ctxabbr_db')
-      let b:ctxabbr_db = {}
-    endif
-    return b:ctxabbr_db
-  else
-    return s:ctxabbr_db
+  let _ = (a:type ==# 'b' ? 'b' : 's') . ':ctxabbr_db'
+  if !exists('{_}')
+    let {_} = {}
   endif
+  return {_}
 endfunction
 
 
