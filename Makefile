@@ -380,7 +380,7 @@ PACKAGE_vim_metarw_git_FILES=\
 PACKAGE_vim_misc_ARCHIVE=vim-misc
 PACKAGE_vim_misc_BASE=.
 PACKAGE_vim_misc_FILES=\
-  vim/dot.vim/after/ftplugin/gauche.vim \
+  vim/dot.vim/after/ftplugin/scheme.vim \
   vim/dot.vim/autoload/ku/myproject.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
   vim/dot.vim/colors/black_angus.vim \

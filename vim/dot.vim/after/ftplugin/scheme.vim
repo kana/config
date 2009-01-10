@@ -1,4 +1,4 @@
-" Vim additional ftplugin: gauche
+" Vim additional ftplugin: scheme
 " Version: 0.0.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
