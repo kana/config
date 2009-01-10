@@ -1,6 +1,6 @@
 *ctxabbr.txt*	Context-sensitive abbreviations
 
-Version 0.0.0
+Version 0.0.1
 Script ID: 2514
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
