@@ -44,8 +44,8 @@ function! ku#buffer#event_handler(event, ...)  "{{{2
         \      'word': bufname,
         \      'menu': printf('buffer %*d', len(bufnr('$')), i),
         \      'dup': 1,
-        \      '_buffer_nr': i,
-        \      '_ku_sort_priority': bufname[0] ==# '/',
+        \      'ku_buffer_nr': i,
+        \      'ku__sort_priority': bufname[0] ==# '/',
         \    })
       endif
     endfor
@@ -100,8 +100,8 @@ endfunction
 
 " Misc.  "{{{1
 function! s:open(bang, item)  "{{{2
-  if a:item._ku_completed_p
-    execute a:item._buffer_nr 'buffer'.a:bang
+  if a:item.ku__completed_p
+    execute a:item.ku_buffer_nr 'buffer'.a:bang
   else
     execute 'edit'.a:bang fnameescape(a:item.word)
   endif
@@ -111,8 +111,8 @@ endfunction
 
 
 function! s:delete(delete_command, item)  "{{{2
-  if a:item._ku_completed_p
-    execute a:item._buffer_nr a:delete_command
+  if a:item.ku__completed_p
+    execute a:item.ku_buffer_nr a:delete_command
   else
     echoerr 'No such buffer:' string(a:item.word)
   endif
