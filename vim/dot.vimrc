@@ -2261,7 +2261,7 @@ endfunction
 function! s:system(command)
   let _ = system(a:command)
   if v:shell_error != 0
-    echoerr 'Command filed:' string(a:command)
+    echoerr 'Command failed:' string(a:command)
     let _ = ''
   endif
   return _
