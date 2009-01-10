@@ -35,7 +35,8 @@ endif
 
 
 
-if exists('g:is_gauche') || exists('b:is_gauche')
+if ((exists('g:is_gauche') && g:is_gauche)
+\   || (exists('b:is_gauche') && b:is_gauche))
   ##gauche-define##
 
   highlight default link schemeGaucheGeneric  Function
