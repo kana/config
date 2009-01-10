@@ -2081,6 +2081,13 @@ autocmd MyAutoCmd FileType ruby
 
 
 
+" scheme  "{{{2
+
+let g:is_gauche = 1
+
+
+
+
 " sh, zsh  "{{{2
 
 autocmd MyAutoCmd FileType sh,zsh
