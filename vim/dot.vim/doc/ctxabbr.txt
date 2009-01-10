@@ -73,11 +73,20 @@ INTERFACE					*ctxabbr-interface*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ctxabbr-functions*
 
-ctxabbr#clear({lhs})				*ctxabbr#clear()*
+ctxabbr#clear({lhs}, [{types}])			*ctxabbr#clear()*
 			Delete all context-sensitive abbreviations for {lhs}
 			defined by |ctxabbr#define()|.
 
-ctxabbr#define({lhs}, {rhs}, {condition})	*ctxabbr#define()*
+			{types}		(stirng)
+				List of letters that
+				specify the types of abbreviations to delete.
+
+				b	Delete buffer-local abbreviations.
+				g	Delete global abbreviations.
+
+				The default value is "g".
+
+ctxabbr#define({lhs}, {rhs}, {condition}, [{options}])	*ctxabbr#define()*
 			Like ":inoreabbrev {lhs} {rhs}",
 			but {lhs} is replaced if {condition} is met.
 			If all conditions are not met, {lhs} is left as-is.
@@ -118,6 +127,13 @@ ctxabbr#define({lhs}, {rhs}, {condition})	*ctxabbr#define()*
 					If all other conditions are not met,
 					this condition is used.
 
+			{options}	(stirng)
+				List of letters that specify a minor option
+				for this abbreviation.  The meaning of each
+				letter is as follows:
+
+				b	Define buffer-local abbreviations.
+
 ctxabbr#dump([{lhs}, ...])			*ctxabbr#dump()*
 			Show what abbreviations are defined for {lhs}.
 
@@ -135,13 +151,14 @@ BUGS						*ctxabbr-bugs*
   only in Insert mode and its variants.
   Command-line mode is not supported yet.
 
-- |:map-arguments| are not supported yet.
-
 
 
 
 ==============================================================================
 CHANGELOG					*ctxabbr-changelog*
+
+0.0.2	2009-01-10T14:05:21+09:00
+	- Support buffer-local abbreviations.
 
 0.0.1	2009-01-10T12:57:03+09:00
 	- Remove unintentionally remained :echomsg for debugging.

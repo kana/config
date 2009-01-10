@@ -23,7 +23,8 @@
 " }}}
 " Variables  "{{{1
 
-let s:db = {}  " lhs -> [Dict, ...] -- see s:register() for the details.
+let s:ctxabbr_db = {}  " lhs -> [Dict, ...] -- see also s:register().
+" let b:ctxabbr_db = ...
 
 
 
@@ -33,15 +34,19 @@ let s:db = {}  " lhs -> [Dict, ...] -- see s:register() for the details.
 
 
 " Interface  "{{{1
-function! ctxabbr#clear(lhs)  "{{{2
-  let s:db[a:lhs] = []
+function! ctxabbr#clear(lhs, ...)  "{{{2
+  let types = a:0 ? a:1 : 'g'
+  for type in split(types, '.\zs')
+    let db = s:db(type)
+    let db[a:lhs] = []
+  endfor
 endfunction
 
 
 
 
-function! ctxabbr#define(lhs, rhs, condition)  "{{{2
-  call s:register(a:lhs, a:rhs, a:condition)
+function! ctxabbr#define(lhs, rhs, condition, ...)  "{{{2
+  call s:register(a:lhs, a:rhs, a:condition, a:0 ? a:1 : '')
   execute 'inoreabbrev <expr>' a:lhs  '<SID>expand(' string(a:lhs) ')'
 endfunction
 
@@ -49,11 +54,18 @@ endfunction
 
 
 function! ctxabbr#dump(...)  "{{{2
-  let lhss = 1 <= a:0 ? a:000 : sort(keys(s:db))
-  for lhs in lhss
-    echo 'lhs' string(lhs)
-    for _ in get(s:db, lhs, [])
-      echo '  rhs' string(_.rhs) 'condition' string(_.condition)
+  for type in ['b', 'g']
+    echo '--- type' type '---'
+    let db = s:db(type)
+
+    let lhss = 1 <= a:0 ? a:000 : sort(keys(db))
+    for lhs in lhss
+      echo 'lhs' string(lhs)
+      for _ in s:entries(db, lhs)
+        echo '  rhs' string(_.rhs)
+        \    'condition' string(_.condition)
+        \    'options' string(_.options)
+      endfor
     endfor
   endfor
 endfunction
@@ -66,8 +78,33 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:db(type)  "{{{2
+  if a:type ==# 'b'
+    if !exists('b:ctxabbr_db')
+      let b:ctxabbr_db = {}
+    endif
+    return b:ctxabbr_db
+  else
+    return s:ctxabbr_db
+  endif
+endfunction
+
+
+
+
+function! s:entries(db, lhs)  "{{{2
+  if !has_key(a:db, a:lhs)
+    let a:db[a:lhs] = []
+  endif
+  return a:db[a:lhs]
+endfunction
+
+
+
+
 function! s:expand(lhs)  "{{{2
-  let entries = get(s:db, a:lhs, [])
+  let entries = s:entries(s:db('b'), a:lhs) + s:entries(s:db('g'), a:lhs)
+
   for _ in filter(copy(entries), 'v:val.condition[0] != "!"')
     if s:met_p(_.condition, a:lhs)
       return _.rhs
@@ -120,11 +157,12 @@ endfunction
 
 
 
-function! s:register(lhs, rhs, condition)  "{{{2
-  let s:db[a:lhs] = insert(get(s:db, a:lhs, []),
-  \                        {'condition': a:condition,
-  \                         'rhs': a:rhs},
-  \                        0)
+function! s:register(lhs, rhs, condition, options)  "{{{2
+  let db = s:db(a:options =~# 'b' ? 'b' : 'g')
+  call insert(s:entries(db, a:lhs),
+  \           {'condition': a:condition,
+  \            'options': a:options,
+  \            'rhs': a:rhs})
 endfunction
 
 
