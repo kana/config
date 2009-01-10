@@ -341,8 +341,8 @@ Inserted characters in |the-ku-buffer| are treated as 3 "patterns".
 - The 1st one is "asis" pattern.  Ku tries to literally match user input to
   each item.
 
-- The 2nd one is "word" pattern.  User input is split by spaces or a slash,
-  and each space or slash is treated as a wild card, so it is matched to any
+- The 2nd one is "word" pattern.  User input is split by spaces,
+  and each space is treated as a wild card, so it is matched to any
   0 or more characters.  Ku tries to match this pattern for each item.
 
 - The last one is "skip" pattern.  Ku treats user input have a wild card
@@ -359,6 +359,17 @@ matched positions of case-sensitive way have higher priority than the ones of
 case-insensitive way.
 
 See also |g:ku_common_junk_pattern|.
+
+						*ku-pattern-prefix-assumption*
+Ku assumes that the "prefix" of a pattern is always matched to the head of
+each item, so that skips the "prefix" for pattern matching described in the
+above.
+
+Here the "prefix" of a pattern is defined as follows:
+1. Split the pattern with any character in |g:ku_component_separators|.
+2. Exclude the tail one from the pattern.  This is the "prefix".
+For example, the "prefix" of a pattern "/foo/bar/baz" is "/foo/bar/"
+(if g:ku_component_separators contains "/").
 
 
 AUTO COMPONENT COMPLETION			*ku-auto-component-completion*
@@ -632,29 +643,51 @@ ku#{source}#key_table()				*ku#{source}#key_table()*
 
 ku#{source}#gather_items({pattern})		*ku#{source}#gather_items()*
 			Return a list of items which are matched to the given
-			{pattern}.  See |complete-items| for the detail of
-			items.
+			{pattern}.  Each item is a dictionary.
+			See |complete-items| for the details.
 
 			Sources may add additional entries for each item.
 			Keys of such entries must be prefixed with
-			"_{source}_", where {source} is the name of a source.
-			Also sources may add the following items:
+			"ku_{source}_", where {source} is the name of
+			a source.  Also sources may add the following items:
 
-						*_ku_sort_priority*
-			_ku_sort_priority	(integer)
-				This value is used to sort items and it is
-				prior to user input.
+						*ku__sort_priority*
+			ku__sort_priority	(integer)
+				This value is used to sort items,
+				and it is prior to user input.
 
-				The default value is 0 if this item is
-				omitted.
+				The default value is 0
+				if this item is omitted.
 
-			Also, ku adds additional entries for each item.  Keys
-			of such entries are prefixed with "_ku_".  The
-			following keys are officially provided:
+			Also, ku adds additional entries for each item.
+			Keys of such entries are prefixed with "ku__".
+			The following keys are officially provided:
 
-			_ku_completed_p		(boolean)
-				Normally true.  If the item is not completed
-				one, it is set to false.
+						*ku__completed_p*
+			ku__completed_p		(boolean)
+				Normally true.
+				If the item is not completed one,
+				it is set to false.
+
+						*ku__source*
+			ku__source		(string)
+				The name of the source
+				to which an item belongs.
+
+			There are the following rules on return values:
+			- During a |ku-session|, ku assumes that
+			  a return value is determined only by {pattern}.
+			  This means: >
+				let a = ku#{source}#gather_items("foo")
+				let b = ku#{source}#gather_items("foo")
+				echo a == b  "==> true
+<			- During a ku session, return values are cached by ku,
+			  so that sources don't have to do caching unless they
+			  want to do caching over ku sessions.
+			- ku may modify any item in return lists.  If so,
+			  ku adds/modifies entries named "ku__..." in items.
+			  But ku doesn't modify return lists themselves.
+			- See also |ku#{source}#special_char_p()|.
 
 ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 			Return true if {item} can be used for ACC,
@@ -665,6 +698,24 @@ ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 
 			This function is optional; if it is not defined, all
 			{item}s can be used for ACC.
+
+ku#{source}#special_char_p({character})		*ku#{source}#special_char_p()*
+			Return true if a given {character} is a special one,
+			otherwise return false.
+
+			Here "a special character" is defined as follows:
+			|ku#{source}#gather_items()| returns a different list
+			before whenever user types that character.
+
+			For example, return lists from |ku-file| are different
+			whenever user types "/" or "\".
+			So that ku#file#special_char_p() returns true for '/'
+			and '\', while returns false for other values.
+
+			This function is optional; if it is not defined,
+			it returns true if {character} is in
+			|g:ku_component_separators|
+			or it returns false otherwise.
 
 
 						*ku-special-sources*
@@ -809,15 +860,20 @@ TERMS						*ku-terms*
 action						*ku-action*
 			An action is a function which is called by
 			|<Plug>(ku-do-the-default-action)|,
-			|<Plug>(ku-choose-an-action)|, or
-			|:KuDoAction|.
+			|<Plug>(ku-choose-an-action)|,
+			|:KuDoAction| and other commands.
 
 			Every action is registered in |ku-action-table| by
 			|ku#custom_action()|.  The above commands look into
 			the tables for available actions.
 
-			Every action should be named with only alphabets and
-			hyphens.
+			An action consists of the following elements:
+			- The "name" of the action.
+			  It should consist of only alphabets and hyphens.
+			- The name of the "function"
+			  which is called whenever the action is executed.
+			- The list of the names of "sources"
+			  to which the action can be applied.
 
 action table					*ku-action-table*
 			Action table is a dictionary, where each key is the
@@ -919,6 +975,35 @@ BUGS						*ku-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.2.0	2008-12-31T22:06:44+09:00
+	- Add |ku__source|.
+	- Fix a few assumptions on path separator.
+	- Improve the performance to complete items.
+	  Now it is 10 times faster than old versions.
+	- Modify the sorting order of items.
+	  If an item contains any character of |g:ku_component_separators|,
+	  it is prior to other items which don't contain that characters.
+	  For example, if there are two items "foo/bar" and "foo-bar",
+	  new versions put "foo/bar" before "foo-bar",
+	  while old versions put "foo-bar" before "foo/bar".
+	  This change is to avoid selecting unexpected item with
+	  |ku-auto-component-completion|.
+
+	Incompatible changes:
+	- Change many points about |ku-sources| and |ku-action|.
+	  - Sources for 0.1.x are not compatible with 0.2.x.
+	  - |ku#{source}#gather_items()|:
+	    - Change the naming rules about additional entries for each item:
+	      Old versions use "_{source}_..." and "_ku_...".
+	      New versions use "ku_{source}_..." and "ku__..." instead.
+	    - Add several rules on return values.
+	  - |ku#{source}#gather_items()|: New API to implement.
+	- |ku-pattern|:
+	  - Change the definition of "word" pattern.
+	    Old versions use spaces and slashes as wildcards.
+	    New versions use only spaces as wildcards.
+	  - Add an assumption - see |ku-pattern-prefix-assumption|.
 
 0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
 	- Add |g:ku_history_reloading_style|.

@@ -58,7 +58,7 @@ function! ku#history#event_handler(event, ...)  "{{{2
         \      'word': pattern,
         \      'menu': source,
         \      'dup': 1,
-        \      '_ku_sort_priority': (g:ku_history_sorting_style ==# 'time'
+        \      'ku__sort_priority': (g:ku_history_sorting_style ==# 'time'
         \                            ? -time
         \                            : 0),
         \    })
