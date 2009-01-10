@@ -137,6 +137,9 @@ BUGS						*ctxabbr-bugs*
 ==============================================================================
 CHANGELOG					*ctxabbr-changelog*
 
+0.0.1	2009-01-10T12:57:03+09:00
+	- Remove unintentionally remained :echomsg for debugging.
+
 0.0.0	2009-01-09T16:02:13+09:00
 	- Initial version.  Inspired from:
 	  http://d.hatena.ne.jp/tkuro/20090108/1231383410
