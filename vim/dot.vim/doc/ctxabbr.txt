@@ -77,7 +77,7 @@ ctxabbr#clear({lhs})				*ctxabbr#clear()*
 			Delete all context-sensitive abbreviations for {lhs}
 			defined by |ctxabbr#define()|.
 
-ctxabbr#define({lhs}, {rhs}, [{condition}])	*ctxabbr#define()*
+ctxabbr#define({lhs}, {rhs}, {condition})	*ctxabbr#define()*
 			Like ":inoreabbrev {lhs} {rhs}",
 			but {lhs} is replaced if {condition} is met.
 
