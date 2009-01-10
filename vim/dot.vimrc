@@ -2227,35 +2227,21 @@ let s:on_FileType_xml_comment_dispatch_data = {
 autocmd MyAutoCmd User BundleAvailability
 \ call bundle#return(s:available_packages())
 
-autocmd MyAutoCmd User BundleUndefined!:*  call s:on_User_BundleUndefined()
-function! s:on_User_BundleUndefined()
-  let name = bundle#name()
-  if s:available_package_p(name)
-    call bundle#return(s:package_files(name))
-  endif
-  return
-endfunction
+autocmd MyAutoCmd User BundleUndefined!:*
+\ call bundle#return(s:package_files(bundle#name()))
 
 
-function! s:available_package_p(name)
-  return index(s:available_packages(), a:name) != -1
-endfunction
+let s:CONFIG_DIR = '~/working/config'
+let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
 
 function! s:available_packages()
-  if s:in_confid_dir_p()
-    return split(s:system('make available-packages'))
-  else
-    return []
-  endif
-endfunction
-
-function! s:in_confid_dir_p()
-  " BUGS: Ad hoc condition, but it's hard to check correctly.
-  return getcwd() =~ '/config$' && filereadable('Makefile')
+  return split(s:system('make -f '.s:CONFIG_MAKEFILE.' available-packages'))
 endfunction
 
 function! s:package_files(name)
-  return split(s:system('make PACKAGE_NAME='.a:name.' package-files'))
+  return map(split(s:system('make -f '.s:CONFIG_MAKEFILE.' '
+  \                         . 'PACKAGE_NAME='.a:name.' package-files')),
+  \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
 endfunction
 
 function! s:system(command)
