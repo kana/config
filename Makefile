@@ -273,7 +273,7 @@ PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/doc/bundle.txt \
   vim/dot.vim/plugin/bundle.vim
 
-PACKAGE_vim_ctxabbr_ARCHIVE=vim-ctxabbr-0.0.0
+PACKAGE_vim_ctxabbr_ARCHIVE=vim-ctxabbr-0.0.1
 PACKAGE_vim_ctxabbr_BASE=vim/dot.vim
 PACKAGE_vim_ctxabbr_FILES=\
   vim/dot.vim/autoload/ctxabbr.vim \
