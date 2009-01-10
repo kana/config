@@ -623,6 +623,7 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   let source_junk_pattern = (exists('g:ku_{a:current_source}_junk_pattern')
   \                          ? g:ku_{a:current_source}_junk_pattern
   \                          : 0)
+  let re_acc_sep = '\ze' . s:regexp_any_char_of(g:ku_component_separators)
 
   let items = copy(a:items)
   for _ in items
@@ -632,7 +633,8 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
     if empty_pattern_p
       " To skip unnecessary checkings in s:_omnifunc_compare_lists(),
       " use the unique part of _.word which is matched to patterns.
-      let asis_C_ms = _.word[(i):]
+      let asis_C_ms = substitute(_.word[(i):], re_acc_sep, ' ', 'g')
+      let word = 0
     else
       " Skip many match()/matchend() callings by the following conditions:
       " (a) If match() is failed for a pattern,
@@ -663,6 +665,8 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
       let word_C_ms = word_C_ms < 0 ? INFINITY : word_C_ms
       let word_c_me = word_c_me < 0 ? INFINITY : word_c_me
       let word_c_ms = word_c_ms < 0 ? INFINITY : word_c_ms
+
+      let word = substitute(_.word[(i):], re_acc_sep, ' ', 'g')
     endif
 
     let _['ku__sort_priorities'] = [
@@ -672,7 +676,7 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
     \     asis_C_ms,             asis_c_ms,
     \     word_C_ms, word_C_me,  word_c_ms, word_c_me,
     \     skip_C_ms, skip_C_me,  skip_c_ms, skip_c_me,
-    \     _.word,
+    \     word,
     \   ]
   endfor
 

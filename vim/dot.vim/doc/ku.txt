@@ -981,6 +981,14 @@ CHANGELOG					*ku-changelog*
 	- Fix a few assumptions on path separator.
 	- Improve the performance to complete items.
 	  Now it is 10 times faster than old versions.
+	- Modify the sorting order of items.
+	  If an item contains any character of |g:ku_component_separators|,
+	  it is prior to other items which don't contain that characters.
+	  For example, if there are two items "foo/bar" and "foo-bar",
+	  new versions put "foo/bar" before "foo-bar",
+	  while old versions put "foo-bar" before "foo/bar".
+	  This change is to avoid selecting unexpected item with
+	  |ku-auto-component-completion|.
 
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.
