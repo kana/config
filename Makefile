@@ -148,6 +148,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_bundle_FILES) \
   $(PACKAGE_vim_ku_metarw_FILES) \
   $(PACKAGE_vim_ku_quickfix_FILES) \
+  $(PACKAGE_vim_melissa_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
@@ -232,6 +233,7 @@ ALL_PACKAGES=\
   vim-ku-metarw \
   vim-ku-quickfix \
   vim-ku-source \
+  vim-melissa \
   vim-metarw \
   vim-metarw-git \
   vim-misc \
@@ -398,6 +400,12 @@ PACKAGE_vim_ku_source_BASE=vim/dot.vim
 PACKAGE_vim_ku_source_FILES=\
   vim/dot.vim/autoload/ku/source.vim \
   vim/dot.vim/doc/ku-source.txt
+
+PACKAGE_vim_melissa_ARCHIVE=vim-melissa-0.0.0
+PACKAGE_vim_melissa_BASE=vim/dot.vim
+PACKAGE_vim_melissa_FILES=\
+  vim/dot.vim/autoload/melissa.vim \
+  vim/dot.vim/doc/melissa.txt
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.4
 PACKAGE_vim_metarw_BASE=vim/dot.vim

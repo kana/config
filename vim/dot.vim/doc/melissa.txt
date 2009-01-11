@@ -1,0 +1,102 @@
+*melissa.txt*	S-expression to Vim script
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*melissa-contents*
+
+Introduction		|melissa-introduction|
+Interface		|melissa-interface|
+  Functions		  |melissa-functions|
+Visp language		|melissa-visp|
+Bugs			|melissa-bugs|
+Changelog		|melissa-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*melissa-introduction*
+
+*melissa* is a Vim plugin to provide a set of features to write Vim script in
+its own DSL based on Scheme.  It enables you to write Vim script as
+a programmable programming language.
+
+
+Requirements:
+- Vim 7.2 or later
+- Gauche 0.8.13 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-melissa
+
+
+
+
+==============================================================================
+INTERFACE					*melissa-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*melissa-functions*
+
+melissa#compile_file({path})			*melissa#compile_file()*
+melissa#compile_string({string})		*melissa#compile_string()*
+			Compile a |Visp| script into a Vim script,
+			then return it as a string.
+			You have to pass the result to |:execute|.
+
+			Visp script can be given as a {string} or a {path} to
+			a file that contains a Visp script.
+
+
+
+
+==============================================================================
+VISP LANGUAGE					*melissa-visp* *Visp*
+
+Visp is a DSL based on Scheme to write Vim script in Scheme style.
+It is a Scheme with the following procedures, macros and so forth:
+
+
+
+
+==============================================================================
+BUGS						*melissa-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*melissa-changelog*
+
+0.0.0	2009-01-11T09:20:12+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
