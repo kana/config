@@ -391,6 +391,10 @@ m/			usr/share/man/		(*3)
 This feature is derived from bluewind, command-based application launcher for
 Microsoft Windows <http://cspace.s2.xrea.com/software/bluewind/>.
 
+See also:
+- |g:ku_acc_style|
+- |g:ku_component_separators|
+
 (*1) In the above example, '/' is a special character to activate this
 completion.  This character is configurable with |g:ku_component_separators|.
 
@@ -777,6 +781,18 @@ FileType ku					*filetype-ku*
 		\ | execute 'inoremap <M-[>  <Esc>:<C-u>KuDoAction left<CR>'
 <
 
+g:ku_acc_style					*g:ku_acc_style*
+	A string which specifies the behavior
+	about |ku-auto-component-completion| (ACC).
+	This value is a comma-separated list of words.  The valid words and
+	their meanings are as follows:
+
+	rejection
+		Whenever ACC is failed,
+		the last inserted component separator is deleted.
+
+	The default value is "".
+
 g:ku_buffer_name				*g:ku_buffer_name*
 	A string which represents the name of the ku buffer.  This value
 	should be unique one which cannot be a name of a usual file to avoid
@@ -993,6 +1009,7 @@ CHANGELOG					*ku-changelog*
 	  - Improve the conditions to activate.
 	    Now it is not unexpectedly activated for some cases.
 	  - Improve how many components to be completed.
+	- |g:ku_acc_style|: New.
 
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.

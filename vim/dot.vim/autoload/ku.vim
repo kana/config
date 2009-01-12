@@ -24,6 +24,12 @@
 " Variables  "{{{1
 " Global  "{{{2
 
+" Behavior about auto component completion.
+if !exists('g:ku_acc_style')
+  let g:ku_acc_style = ''  " A comma-separated list of words.
+endif
+
+
 " The name of the ku buffer.
 if !exists('g:ku_buffer_name')
   if has('win16') || has('win32') || has('win64')  " on Microsoft Windows
@@ -1013,7 +1019,10 @@ function! s:on_CursorMovedI()  "{{{2
         let keys = "\<End>" . line[-1:]
         let s:automatic_component_completion_done_p = s:TRUE
       else
-        let keys = s:KEYS_TO_START_COMPLETION
+          " Delete the last inserted character to express that ACC is failed.
+        let keys = (g:ku_acc_style =~# '\<rejection\>'
+        \           ? "\<C-h>"
+        \           : s:KEYS_TO_START_COMPLETION)
         let s:automatic_component_completion_done_p = s:FALSE
       endif
     else
