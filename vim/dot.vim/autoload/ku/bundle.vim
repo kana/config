@@ -109,6 +109,13 @@ endfunction
 
 
 
+function! ku#bundle#acc_valid_p(item, sep)  "{{{2
+  return !has_key(a:item, 'ku_bundle_path')
+endfunction
+
+
+
+
 
 
 
