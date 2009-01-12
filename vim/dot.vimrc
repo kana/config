@@ -1827,17 +1827,19 @@ endfunction
 
 
 " Search for the selected text.
-Fvmap *  <SID>search_the_selected_text_literaly()
+Fvmap *  <SID>search_the_selected_text_literaly('n')
+Fvmap #  <SID>search_the_selected_text_literaly('N')
 
   " FIXME: escape to search the selected text literaly.
-function! s:search_the_selected_text_literaly()
+function! s:search_the_selected_text_literaly(search_command)
   let reg_0 = [@0, getregtype('0')]
   let reg_u = [@", getregtype('"')]
 
   normal! gvy
   let @/ = @0
   call histadd('/', '\V' . escape(@0, '\'))
-  normal! n
+  execute 'normal!' a:search_command
+  let v:searchforward = a:search_command ==# 'n'
 
   call setreg('0', reg_0[0], reg_0[1])
   call setreg('"', reg_u[0], reg_u[1])
