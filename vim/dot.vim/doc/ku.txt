@@ -989,8 +989,10 @@ CHANGELOG					*ku-changelog*
 	  while old versions put "foo-bar" before "foo/bar".
 	  This change is to avoid selecting unexpected item with
 	  |ku-auto-component-completion|.
-	- Improve the conditions to activate |ku-auto-component-completion|.
-	  Now it is not unexpectedly activated for some cases.
+	- |ku-auto-component-completion|:
+	  - Improve the conditions to activate.
+	    Now it is not unexpectedly activated for some cases.
+	  - Improve how many components to be completed.
 
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.

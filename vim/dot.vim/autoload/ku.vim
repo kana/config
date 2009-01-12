@@ -1205,10 +1205,7 @@ function! s:text_by_automatic_component_completion(line)  "{{{3
   "     completion text will be 'usr/share/man', because user seems to want to
   "     complete till the component which matches to 'm'.
   let items = copy(ku#_omnifunc(s:FALSE, a:line[:-2]))  " without the last SEP
-  for item in filter(items, '
-  \                    0 <= stridx(v:val.word, SEP)
-  \                    || s:api(s:current_source, "acc_valid_p", v:val, SEP)
-  \                  ')
+  for item in items
     let item_components = split(item.word, SEP, s:TRUE)
 
     if len(line_components) < 2
@@ -1232,14 +1229,33 @@ function! s:text_by_automatic_component_completion(line)  "{{{3
 
       " for the case (c), find the index of a component to be completed.
     let _ = len(line_components) - 2
-    for i in range(len(line_components) - 2, len(item_components) - 1)
-      if item_components[i] =~? s:make_skip_regexp(line_components[-2])
-        let _ = i
-        break
+    let p = '\c' . s:make_skip_regexp(line_components[-2])
+    let t = join(item_components[_ :], SEP)  " p may be matched many components
+    let i = matchend(t, p)
+    " echomsg 'line' string(a:line)
+    " echomsg 'item.word' string(item.word)
+    " echomsg '_' string(_)
+    " echomsg 'p' string(p)
+    " echomsg 't' string(t)
+    " echomsg 'i' string(i)
+    if 0 <= i
+      let j = stridx(t, SEP, i)
+      " echomsg 'j' string(j)
+      if 0 <= j
+        let result = item.word[:-(len(t)-j+1)]
+      elseif s:api(s:current_source, "acc_valid_p", item, SEP)
+        " echomsg 'acc_valid_p'
+        let result = join(item_components[:_], SEP)
+      else
+        " echomsg '(c) failed'
+        continue
       endif
-    endfor
+    else
+      " By 'omnifunc', the last pattern matching must be succeeded.
+      echoerr 'Assumption is failed in auto component completion'
+      throw 'ku:e3'
+    endif
 
-    let result = join(item_components[:_], SEP)
     if prefix_expanded_p && stridx(result, text) == 0
       let result = prefix . result[len(text):]
     endif
