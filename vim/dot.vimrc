@@ -128,7 +128,8 @@ if $ENV_WORKING ==# 'colinux' || $ENV_WORKING ==# 'mac'
 else
   set encoding=japan
 endif
-if !exists('did_encoding_settings') && has('iconv')
+
+if has('iconv')
   let s:enc_euc = 'euc-jp'
   let s:enc_jis = 'iso-2022-jp'
 
@@ -161,8 +162,6 @@ if !exists('did_encoding_settings') && has('iconv')
 
   unlet s:enc_euc
   unlet s:enc_jis
-
-  let did_encoding_settings = 1
 endif
 
 
@@ -233,7 +232,7 @@ let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
   "" temporary disabled.
   "let &statusline .= '(%{' . s:SID_PREFIX() . 'vcs_branch_name(getcwd())}) '
-let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
+let &statusline .= '[%{&l:fileencoding == "" ? &encoding : &l:fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
 function! s:my_tabline()  "{{{
