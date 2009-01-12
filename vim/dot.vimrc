@@ -220,7 +220,6 @@ set mouse=
 set ruler
 set showcmd
 set showmode
-set smartindent
 set updatetime=60000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
