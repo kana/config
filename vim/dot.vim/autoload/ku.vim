@@ -594,11 +594,11 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   " NB: This function doesn't know about the cache.
   let INFINITY = 2147483647  " to easily sort by ku__sort_priorities.
 
-  " By automatic component completion, it's hard to insert text with
-  " uncompleted "prefix", so that "prefix" is excluded to match.
+  " Prefix assumption - By automatic component completion, it's hard to insert
+  " text with uncompleted "prefix", so that "prefix" is excluded to match.
   let i = match(a:pattern,
   \             s:regexp_not_any_char_of(g:ku_component_separators) . '\*\$')
-  " let prefix = i == 0 ? '' : a:pattern[:i-1]
+  let prefix = i == 0 ? '' : a:pattern[:i-1]
   let pattern = a:pattern[(i):]
   let empty_pattern_p = pattern == ''
 
@@ -626,6 +626,9 @@ function! s:_omnifunc_core(current_source, pattern, items)  "{{{3
   let re_acc_sep = '\ze' . s:regexp_any_char_of(g:ku_component_separators)
 
   let items = copy(a:items)
+  if 0 < i  " ensure prefix assumption
+    call filter(items, 'v:val.word[:i-1] ==# prefix')
+  endif
   for _ in items
     let _['ku__completed_p'] = s:TRUE
     let _['ku__source'] = a:current_source
