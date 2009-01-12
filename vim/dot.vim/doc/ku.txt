@@ -696,8 +696,8 @@ ku#{source}#acc_valid_p({item}, {sep})		*ku#{source}#acc_valid_p()*
 
 			{sep} is the separator inputted by user.
 
-			This function is optional; if it is not defined, all
-			{item}s can be used for ACC.
+			This function is optional; if it is not defined,
+			all {item}s can not be used for ACC.
 
 ku#{source}#special_char_p({character})		*ku#{source}#special_char_p()*
 			Return true if a given {character} is a special one,
@@ -989,6 +989,8 @@ CHANGELOG					*ku-changelog*
 	  while old versions put "foo-bar" before "foo/bar".
 	  This change is to avoid selecting unexpected item with
 	  |ku-auto-component-completion|.
+	- Improve the conditions to activate |ku-auto-component-completion|.
+	  Now it is not unexpectedly activated for some cases.
 
 	Incompatible changes:
 	- Change many points about |ku-sources| and |ku-action|.
@@ -999,6 +1001,10 @@ CHANGELOG					*ku-changelog*
 	      New versions use "ku_{source}_..." and "ku__..." instead.
 	    - Add several rules on return values.
 	  - |ku#{source}#gather_items()|: New API to implement.
+	  - |ku#{source}#acc_valid_p()|:
+	    Change the default value if it is not defined.
+	    Old versions always return true.
+	    New versions always return false.
 	- |ku-pattern|:
 	  - Change the definition of "word" pattern.
 	    Old versions use spaces and slashes as wildcards.
