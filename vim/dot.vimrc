@@ -1874,6 +1874,11 @@ noremap <Leader>  <Nop>
 noremap <LocalLeader>  <Nop>
 
 
+" Make searching directions consistent
+noremap <expr> n  v:searchforward ? 'n' : 'N'
+noremap <expr> N  v:searchforward ? 'N' : 'n'
+
+
 
 
 
