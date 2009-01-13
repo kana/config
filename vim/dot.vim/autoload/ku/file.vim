@@ -114,6 +114,13 @@ endfunction
 
 
 
+function! ku#file#special_char_p(char)  "{{{2
+  return 0 <= stridx(g:ku_component_separators, a:char) || a:char == '.'
+endfunction
+
+
+
+
 
 
 
