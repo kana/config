@@ -1240,6 +1240,10 @@ noremap! <Plug>(physical-key-:)  <S-Return>
 noremap! <Plug>(physical-key-<Return>)  ;
 noremap! <Plug>(physical-key-<S-Return>)  :
 
+" Synonyms for the far Return key.
+map [Space]<Return>  <Plug>(physical-key-<Return>)
+map [Space];  <Plug>(physical-key-<Return>)
+
 " Experimental: to input semicolon/colon without the far Semicolon key.
 noremap! <Esc>,  ;
 noremap! <Esc>.  :
@@ -1277,12 +1281,6 @@ Cnmap <silent> tN  tlast
 " additions, like Web browsers
 nmap <Plug>(physical-key-<Return>)  tt
 vmap <Plug>(physical-key-<Return>)  tt
-
-" additions, for ease of typing
-nmap [Space]<Return>  tt
-vmap [Space]<Return>  tt
-nmap [Space];  tt
-vmap [Space];  tt
 
 " addition, interactive use.
 Cnmap <noexec> t<Space>  tag<Space>
