@@ -29,6 +29,8 @@ CONTENTS					*melissa-contents*
 Introduction		|melissa-introduction|
 Interface		|melissa-interface|
   Functions		  |melissa-functions|
+  External commands	  |melissa-external-commands|
+  Scheme API		  |melissa-scheme-api|
 Visp language		|melissa-visp|
 Bugs			|melissa-bugs|
 Changelog		|melissa-changelog|
@@ -40,7 +42,7 @@ Changelog		|melissa-changelog|
 INTRODUCTION					*melissa-introduction*
 
 *melissa* is a Vim plugin to provide a set of features to write Vim script in
-its own DSL based on Scheme.  It enables you to write Vim script as
+its own DSL based on Scheme.  It enables you to write Vim script in
 a programmable programming language.
 
 
@@ -62,82 +64,89 @@ FUNCTIONS					*melissa-functions*
 
 melissa#compile_file({path})			*melissa#compile_file()*
 melissa#compile_string({string})		*melissa#compile_string()*
-			Compile a |Visp| script into a Vim script,
+			Compile a |Melissa-script| into a Vim script,
 			then return it as a string.
 			You have to pass the result to |:execute|.
 
-			Visp script can be given as a {string} or a {path} to
-			a file that contains a Visp script.
+			Melissa script can be given as a {string} or a {path}
+			to a file that contains a Visp script.
+
+
+------------------------------------------------------------------------------
+EXTERNAL COMMANDS				*melissa-external-commands*
+
+melisssac					*melissac*
+			External command to compile a |Melissa-script| into
+			a Vim script.  It reads a Melissa script from the
+			standard input and it writes the corresponding Vim
+			script to the standard output.
+
+
+------------------------------------------------------------------------------
+SCHEME API					*melissa-scheme-api*
+
+(compile-visp {s-exprssion})			*(compile-visp)*
+			Compile a |Visp| script, a Vim script written in
+			{s-exprssion}, then write the result to the current
+			output port.
+
+(define-visp-syntax ...)			*(define-visp-syntax)*
+			Define a new syntax for |Visp|.
+			XXX
 
 
 
 
 ==============================================================================
-VISP LANGUAGE					*melissa-visp* *Visp*
+VISP LANGUAGE					*melissa-visp*
 
-Visp is a DSL based on Scheme to write Vim script in Scheme style.
-It is a Scheme with the following procedures, macros and so forth:
+OVERVIEW ~
 
-Vim script			Visp ~
+*Visp* is another form of Vim script which is written in S-expression.
+*Melissa-script* is a scheme script to generate a Vim script via Visp.
 
-Number				<integer>
-Float				<real>
-String				<string>
-Funcref				<string> represents Vim script function name
-List				<list> or <null>
-Dictionary			<hash-table>, string=? type
+- An "Ex command" is a list, which contains a keyword or a symbol starting
+  with a colon as its first item.
 
-|expr1| expr2 ? expr1 : expr1	(if expr2 expr1 expr1)
+  Example: >
+	(:let cait_sith "nekoko")
+<
+- A Visp script is a list which contains zero or more "Ex commands".
 
-|expr2| expr3 || expr3 ..	(or expr3 expr3)
+  Example: >
+	((:let cait_sith "nekoko")
+	 (:echo cait_sith))
+<
+- To compile a Visp script into a Vim script, use |(compile-visp)|.
 
-|expr3| expr4 && expr4 ..	(and expr4 expr4)
+  Example: >
+	(compile-visp '((:let cait_sith "nekoko")
+	                (:echo cait_sith)))
+	;==> Output the following Vim script to the current output port:
+	;        let cait_sith = 'nekoko'
+	;        echo cait_sith
+<
+- To introduce a Lisp-style macro to Visp script, use |(define-visp-syntax)|.
 
-|expr4|	expr5 == expr5		(== expr5 expr5)
-	expr5 != expr5		(!= expr5 expr5)
-	expr5 >	 expr5		(> expr5 expr5)
-	expr5 >= expr5		(>= expr5 expr5)
-	expr5 <	 expr5		(< expr5 expr5)
-	expr5 <= expr5		(<= expr5 expr5)
-	expr5 =~ expr5		(=~ expr5 expr5)
-	expr5 !~ expr5		(!~ expr5 expr5)
+  Example: >
+	(define-visp-syntax :aif XXX)
+	(compile-visp '((:aif (+ 1 1)
+	                 (:echo it)
+			 (:echo "boo"))))
+	;==> Output the following Vim script to the current output port:
+	;        let it = 1 + 1
+	;        if it
+	;          echo it
+	;        else
+	;          echo "boo"
+	;        endif
+<
 
-	expr5 ==? expr5		(==? expr5 expr5)
-	expr5 ==# expr5		(==% expr5 expr5)
-	etc.			As above, append ? for ignoring case, % for
-				matching case (not #)
 
-	expr5 is expr5		(is expr5 expr5)
-	expr5 isnot expr5	(isnot expr5 expr5)
+EX COMMANDS REFERENCE ~
 
-|expr5|	expr6 +	 expr6 ..	(+ expr6 expr6 ..)
-	expr6 -	 expr6 ..	(- expr6 expr6 ..)
-	expr6 .	 expr6 ..	(. expr6 expr6 ..)
-
-|expr6|	expr7 *	 expr7 ..	(* expr7 expr7 ..)
-	expr7 /	 expr7 ..	(/ expr7 expr7 ..)
-	expr7 %	 expr7 ..	(% expr7 expr7 ..)
-
-|expr7|	! expr7			(not expr7)
-	- expr7			(- expr7)
-	+ expr7			(+ expr7)
-
-|expr8|	expr8[expr1]		(<> expr8 expr1)
-	expr8[expr1 : expr1]	(<> expr8 expr1 expr1)
-	expr8.name		(<> expr8 name)
-	expr8(expr1, ...)	(expr8 expr1 ...)
-
-|expr9| number			<integer>
-	"string"		<string>
-	'string'		<string>
-	[expr1, ...]		<list> or <null>
-	{expr1: expr1, ...}	<hash-table>
-	&option			(& option)
-	(expr1)			(expr1)
-	variable		<symbol>
-	va{ria}ble		XXX
-	$VAR			($ VAR)
-	@r			(@ r)
+(:XXX XXX ...)					*(:XXX)*
+			XXX
 
 
 
