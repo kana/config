@@ -1,0 +1,56 @@
+#!/usr/bin/env gosh
+; Core  ;{{{1
+
+(define (main args)
+  (load-from-port (current-input-port))
+  0)
+
+(define *visp-command-table* (make-hash-table 'eq?))
+; :command-name => procedure-to-generate-visp-script
+
+(define (unknown-visp-command a-command)
+  (error "Unknown Visp command:" a-command))
+
+(define (compile-visp list-of-commands)
+  (for-each
+    (lambda (a-command)
+      (let1 proc (hash-table-get *visp-command-table*
+                                 (car a-command)
+                                 unknown-visp-command)
+        (if (eq? proc unknown-visp-command)
+          (unknown-visp-command a-command)
+          (apply proc (cdr a-command)))))
+    list-of-commands)
+  "")
+
+(define-macro (define-visp-syntax command-name argspec . rest)
+  (unless (keyword? command-name)
+    (error "command-name must be a keyword, but given:"
+           (class-of command-name)
+           command-name))
+
+  `(hash-table-put! *visp-command-table*
+                    ,command-name
+                    (lambda ,argspec ,@rest)))
+
+
+
+
+
+
+
+
+; Predefined Visp commands  ;{{{1
+
+; (define-visp-syntax :XXX XXX XXX)
+; ...
+
+
+
+
+
+
+
+
+; __END__  ;{{{1
+; vim: filetype=scheme foldmethod=marker

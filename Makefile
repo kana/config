@@ -405,7 +405,8 @@ PACKAGE_vim_melissa_ARCHIVE=vim-melissa-0.0.0
 PACKAGE_vim_melissa_BASE=vim/dot.vim
 PACKAGE_vim_melissa_FILES=\
   vim/dot.vim/autoload/melissa.vim \
-  vim/dot.vim/doc/melissa.txt
+  vim/dot.vim/doc/melissa.txt \
+  vim/dot.vim/tool/melissac
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.4
 PACKAGE_vim_metarw_BASE=vim/dot.vim
