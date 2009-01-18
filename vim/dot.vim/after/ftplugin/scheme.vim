@@ -29,10 +29,12 @@ setlocal softtabstop=2
 
 
 
-if !exists('b:undo_ftplugin')
+if exists('b:undo_ftplugin')
+  let b:undo_ftplugin .= '|'
+else
   let b:undo_ftplugin = ''
 endif
-let b:undo_ftplugin .= '| setlocal expandtab& shiftwidth& softtabstop&'
+let b:undo_ftplugin .= 'setlocal expandtab& shiftwidth& softtabstop&'
 
 " __END__
 " vim: foldmethod=marker
