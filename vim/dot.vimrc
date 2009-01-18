@@ -1877,6 +1877,11 @@ noremap <expr> n  v:searchforward ? 'nzv' : 'Nzv'
 noremap <expr> N  v:searchforward ? 'Nzv' : 'nzv'
 
 
+" Till before non keyword and non space character.
+" This is a generalized synonym to t(, t}, t& and so forth.
+onoremap q  :<C-u>call search('.\&\(\k\<Bar>\_s\)\@!', 'W')<Return>
+
+
 
 
 
