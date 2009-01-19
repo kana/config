@@ -382,6 +382,7 @@ PACKAGE_vim_misc_BASE=.
 PACKAGE_vim_misc_FILES=\
   vim/dot.vim/after/ftplugin/scheme.vim \
   vim/dot.vim/autoload/ku/myproject.vim \
+  vim/dot.vim/autoload/syntaxcomplete.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
