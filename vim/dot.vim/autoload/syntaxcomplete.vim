@@ -1,3 +1,5 @@
+" kana's version: Fix wrong treatment of 'iskeyword'
+
 " Vim completion script
 " Language:    All languages, uses existing syntax highlighting rules
 " Maintainer:  David Fishburn <dfishburn.vim@gmail.com>
@@ -351,19 +353,7 @@ function! s:SyntaxCSyntaxGroupItems( group_name, syntax_full )
             " This will replace non-word characters with spaces.
             let syn_list = substitute( syn_list, '[^0-9A-Za-z_ ]', ' ', 'g' )
         else
-            let accept_chars = ','.&l:iskeyword.','
-            " Remove all character ranges
-            " let accept_chars = substitute(accept_chars, ',[^,]\+-[^,]\+,', ',', 'g')
-            let accept_chars = substitute(accept_chars, ',\@<=[^,]\+-[^,]\+,', '', 'g')
-            " Remove all numeric specifications
-            " let accept_chars = substitute(accept_chars, ',\d\{-},', ',', 'g')
-            let accept_chars = substitute(accept_chars, ',\@<=\d\{-},', '', 'g')
-            " Remove all commas
-            let accept_chars = substitute(accept_chars, ',', '', 'g')
-            " Escape special regex characters
-            let accept_chars = escape(accept_chars, '\\/.*$^~[]' )
-            " Remove all characters that are not acceptable
-            let syn_list = substitute( syn_list, '[^0-9A-Za-z_ '.accept_chars.']', ' ', 'g' )
+            let syn_list = substitute( syn_list, '.\&\(\k\| \)\@!', ' ', 'g' )
         endif
 
         if b:omni_syntax_minimum_length > 0
