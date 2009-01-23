@@ -82,13 +82,6 @@ endfunction
 
 
 
-function! s:letter_p(char)  "{{{2
-  return a:char =~# '\k'
-endfunction
-
-
-
-
 function! s:move(motion_command, times)  "{{{2
   for i in range(v:count1)
     let curpos = []  " dummy
@@ -98,7 +91,7 @@ function! s:move(motion_command, times)  "{{{2
       execute 'normal!' a:motion_command
       let newpos = getpos('.')
 
-      if s:letter_p(s:current_char(newpos))
+      if s:current_char(newpos) =~# '\k'
         break
       endif
       if curpos == newpos  " No more word - stop.
