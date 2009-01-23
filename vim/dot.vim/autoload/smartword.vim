@@ -82,79 +82,8 @@ endfunction
 
 
 
-function! s:parse_iskeyword(iskeyword)  "{{{2
-  let chars = repeat([0], 256)
-
-  let parts = split(a:iskeyword, ',', !0)
-  let i = 0
-  while i < len(parts)
-    let part = parts[i]
-
-    if part =~ '^\^[^\^].*'
-      let part = part[1:]
-      let v = !!0
-    else
-      let v = !0
-    endif
-
-    let _ = split(part, '-')
-    if len(_) == 2
-      for j in range(s:part2nr(_[0]), s:part2nr(_[1]))
-        let chars[j] = v
-      endfor
-    elseif part == ''
-      if i + 1 < len(parts)
-        if parts[i+1] == ''  " '...,,,...'
-          let chars[char2nr(',')] = !0
-          let i += 1
-        else  " '...,,X,...' (undefined case)
-          " ignore.
-        endif
-      else  " '...,' (undefined case)
-        " ignore.
-      endif
-    elseif part == '^'
-      if i + 1 < len(parts)
-        if parts[i+1] == ''  " '...,^,,...'
-          let chars[char2nr(',')] = !!0
-          let i += 1
-        else " '...,^,X,...'
-          let chars[char2nr('^')] = !0
-        endif
-      else  " '...,^'
-        let chars[char2nr('^')] = !0
-      endif
-    elseif part == '@'
-      " FIXME: '@' means all characters where isalpha() returns TRUE.
-      for j in range(char2nr('A'), char2nr('Z'))
-        let chars[j] = v
-      endfor
-      for j in range(char2nr('a'), char2nr('z'))
-        let chars[j] = v
-      endfor
-    else
-      let chars[s:part2nr(part)] = v
-    endif
-
-    let i += 1
-  endwhile
-
-  return filter(map(range(len(chars)), 'chars[v:val] ? nr2char(v:val) : 0'),
-  \             'v:val isnot 0')
-endfunction
-
-
-
-
 function! s:letter_p(char)  "{{{2
-  if !(exists('b:smartword_iskeyword') && b:smartword_iskeyword==#&l:iskeyword)
-    let b:smartword_iskeyword = &l:iskeyword
-    let b:smartword_parsed_iskeyword = s:parse_iskeyword(&l:iskeyword)
-  endif
-  let chars = b:smartword_parsed_iskeyword
-
-  let pattern = '[' . escape(join(chars, ''), '\[]-^:') . ']'
-  return a:char =~# pattern
+  return a:char =~# '\k'
 endfunction
 
 
@@ -178,17 +107,6 @@ function! s:move(motion_command, times)  "{{{2
     endwhile
   endfor
   return
-endfunction
-
-
-
-
-function! s:part2nr(s)  "{{{2
-  if a:s =~ '^\d\+$'
-    return str2nr(a:s)
-  else
-    return char2nr(a:s)
-  endif
 endfunction
 
 
