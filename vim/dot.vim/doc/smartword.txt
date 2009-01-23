@@ -62,6 +62,9 @@ cursor as follows:
 
 See also |smartword-examples| for customization.
 
+See also the following image if the above figures aren't correctly displayed:
+http://gyazo.com/bc7887d9bb0f6aa3eee1e67b0d756b2e.png
+
 
 Requirements:
 - Vim 7.2 or later
@@ -136,6 +139,9 @@ BUGS						*smartword-bugs*
 
 ==============================================================================
 CHANGELOG					*smartword-changelog*
+
+0.0.2	2009-01-23T19:13:29+09:00
+	- Fix the document a bit.
 
 0.0.1	2008-12-06T01:21:37+09:00
 	- Fix |<Plug>(smartword-e)| and |<Plug>(smartword-ge)| to be
