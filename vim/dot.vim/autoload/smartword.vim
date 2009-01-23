@@ -51,16 +51,22 @@ function! smartword#move(motion_command, mode)  "{{{2
   call s:move(a:motion_command, v:count1)
 
   if exclusive_adjustment_p
-    execute "normal! \<Esc>`>"
+    execute "normal! \<Esc>"
     if getpos("'<") == getpos("'>")  " no movement - select empty area.
       " FIXME: But how to select nothing?  Because o_v was given, so at least
       " 1 character will be the target of the pending operator.
     else
       let original_whichwrap = &whichwrap
         set whichwrap=h
+        normal! `>
         normal! h
         if col('.') == col('$')  " FIXME: 'virtualedit' with onemore
           normal! h
+        endif
+        if a:motion_command ==# 'ge'
+          " 'ge' is backward motion,
+          " so that it's necessary to specify the target text in this way.
+          normal! v`<
         endif
       let &whichwrap = original_whichwrap
     endif
