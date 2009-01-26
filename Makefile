@@ -143,6 +143,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_indent_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
   $(PACKAGE_vim_textobj_lastpat_FILES) \
+  $(PACKAGE_vim_textobj_quotes_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_tofunc_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
@@ -223,6 +224,7 @@ ALL_PACKAGES=\
   vim-textobj-indent \
   vim-textobj-jabraces \
   vim-textobj-lastpat \
+  vim-textobj-quotes \
   vim-textobj-user \
   vim-tofunc \
   vim-vcsi \
@@ -489,6 +491,12 @@ PACKAGE_vim_textobj_lastpat_BASE=vim/dot.vim
 PACKAGE_vim_textobj_lastpat_FILES=\
   vim/dot.vim/doc/textobj-lastpat.txt \
   vim/dot.vim/plugin/textobj/lastpat.vim
+
+PACKAGE_vim_textobj_quotes_ARCHIVE=vim-textobj-quotes-0.0.0
+PACKAGE_vim_textobj_quotes_BASE=vim/dot.vim
+PACKAGE_vim_textobj_quotes_FILES=\
+  vim/dot.vim/doc/textobj-quotes.txt \
+  vim/dot.vim/plugin/textobj/quotes.vim
 
 PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.7
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim

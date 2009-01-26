@@ -1,0 +1,143 @@
+*textobj-quotes.txt*	Text objects for various quotes
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*textobj-quotes-contents*
+
+Introduction		|textobj-quotes-introduction|
+Interface		|textobj-quotes-interface|
+  Mappings		  |textobj-quotes-mappings|
+Customizing		|textobj-quotes-customizing|
+Examples		|textobj-quotes-examples|
+Bugs			|textobj-quotes-bugs|
+Changelog		|textobj-quotes-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*textobj-quotes-introduction*
+
+*textobj-quotes* is a Vim plugin to provide universal text objects to select
+some range which is surrounded with a pair of quotes or other symbols.
+Although Vim provides various text objects such as |a(|, |i{| and so forth,
+it sometimes annoys users because it's necessary to specify the type of
+symbols to select.  In many cases, users want to select the intermost range
+surrounded with a pair of symbols, so that it's useful if there is a way to
+select such range.  This plugin provides such text objects
+|<Plug>(textobj-quotes-a)| and |<Plug>(textobj-quotes-i)|.
+
+For example, if there is the following line and the cursor is at the position
+indicated by "^":
+
+		"foo /is/ bar (a.k.a <baz>)"
+		          ^
+
+|<Plug>(textobj-quotes-i)| selects the following range indicated by "-":
+
+		"foo /is/ bar (a.k.a <baz>)"
+		 --------------------------
+
+If the cursor is at another position indicated by "^":
+
+		"foo /is/ bar (a.k.a <baz>)"
+		                 ^
+
+|<Plug>(textobj-quotes-i)| selects the following range indicated by "-":
+
+		"foo /is/ bar (a.k.a <baz>)"
+		               -----------
+
+
+Requirements:
+- Vim 7.2 or later
+- |textobj-user| 0.3.5 or later (vimscript#2100)
+
+Latest version:
+http://github.com/kana/config/commits/vim-textobj-quotes
+
+
+
+
+==============================================================================
+INTERFACE					*textobj-quotes-interface*
+
+------------------------------------------------------------------------------
+MAPPINGS					*textobj-quotes-mappings*
+
+<Plug>(textobj-quotes-a)			*<Plug>(textobj-quotes-a)*
+			Like |<Plug>(textobj-quotes-a)|, but the surrounding
+			quotes and the leading or trailing spaces are counted
+			as the range, like |a(|, |a{| and others.
+
+<Plug>(textobj-quotes-i)			*<Plug>(textobj-quotes-i)*
+			Select the intermost range surrounded with a pair of
+			quotes.  The surrounding quotes are not counted as the
+			range, like |i(|, |i{| and others.
+
+
+
+
+==============================================================================
+CUSTOMIZING					*textobj-quotes-customizing*
+
+				   *g:textobj_quotes_no_default_key_mappings*
+					   *:TextobjQuotesDefaultKeyMappings*
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode automatically.  If you don't want these key mappings,
+define |g:textobj_quotes_no_default_key_mappings| before this plugin is loaded
+(e.g. in your |vimrc|).  You can also use |:TextobjQuotesDefaultKeyMappings|
+to redefine these key mappings.  This command doesn't override existing {lhs}s
+unless [!] is given.
+
+	{lhs}	{rhs}				~
+	-----	---------------------------	~
+	aq	|<Plug>(textobj-quotes-a)|
+	iq	|<Plug>(textobj-quotes-i)|
+
+XXX: Customize the definition of "a pair of quotes".
+
+
+
+
+==============================================================================
+BUGS						*textobj-quotes-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*textobj-quotes-changelog*
+
+0.0.0	2009-01-27T00:21:27+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
