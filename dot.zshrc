@@ -459,6 +459,12 @@ bindkey -M viins -r '^[/'
 bindkey -M viins '^[,' _history-complete-newer
 bindkey -M viins '^[.' _history-complete-older
 
+# Hot key to continue a Vim process from the previous pseudo-:suspend.
+my-screen-to-other () { screen -X other; }
+zle -N my-screen-to-other
+bindkey -M vicmd '^Z' my-screen-to-other
+bindkey -M viins '^Z' my-screen-to-other
+
 
 
 
