@@ -22,8 +22,10 @@ _report_error() {  # variable-name message
 # COMMON  {{{2
 
 # What machine am I working on?
-  # BUGS: The way to determine is not so good.
-if [ "$OSTYPE" == 'cygwin' ]; then
+# BUGS: ad hoc conditions to determine.
+if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
+  export ENV_WORKING='mac'
+elif [ "$OSTYPE" == 'cygwin' ]; then
   export ENV_WORKING='cygwin'
 elif [ "$HOSTNAME" == 'colinux' ]; then
   export ENV_WORKING='colinux'
