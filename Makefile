@@ -70,9 +70,9 @@ GROUP_DOTS_FILES=\
   dot.screen/conf \
   dot.screen/keys \
   dot.screen/keys.clear \
+  dot.sh_common_login \
   dot.Xdefaults \
   dot.zprofile \
-  dot.zshenv \
   dot.zshrc
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
 dot.gitconfig: dot.gitconfig.in

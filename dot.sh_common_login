@@ -1,0 +1,153 @@
+# Common rc file for login shells
+# Environment detection  #{{{1
+
+# What machine am I working on?
+# BUGS: ad hoc conditions to determine.
+if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
+  export ENV_WORKING='mac'
+elif [ "$OSTYPE" = 'cygwin' ]; then
+  export ENV_WORKING='cygwin'
+elif [ "$HOST" = 'colinux' ]; then
+  export ENV_WORKING='colinux'
+else
+  export ENV_WORKING='linux'
+fi
+
+
+# What machine am I using to access $ENV_WORKING?
+if [ "$TERM" = 'xterm-256color' ] || [ "$ENV_WORKING" = 'mac' ]; then
+  # FIXME: How to determine colinux or linux?
+  export ENV_ACCESS="$ENV_WORKING"
+else
+  export ENV_ACCESS='cygwin'
+fi
+
+
+# Suitable character encoding for $ENV_WORKING
+export ENCODING_colinux='utf-8'
+export ENCODING_cygwin='cp932'
+export ENCODING_linux='euc-jp'
+
+
+
+
+# PATH  #{{{1
+
+export PATH MANPATH INFOPATH
+
+if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
+  # for Ruby
+  if which gem &>/dev/null; then
+    PATH="$PATH:$(gem environment gempath)/bin"
+  fi
+
+  # for MacPorts
+  if [ -d /opt/local ]; then
+    for i in /opt/local/{bin,sbin}; do
+      if [ -d "$i" ]; then
+        PATH="$i:$PATH"
+      fi
+    done
+    if [ -d "/opt/local/share/man" ]; then
+      MANPATH="/opt/local/share/man:$MANPATH"
+    fi
+  fi
+
+  # for cabal
+  if [ -d "$HOME/.cabal/bin" ]; then PATH="$HOME/.cabal/bin:$PATH"; fi
+
+  # for manually built applications
+  if [ -d /usr/local/apps ]; then
+    for i in /usr/local/apps/*; do
+      if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
+      if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
+      if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
+      if [ -d "$i/info" ]; then INFOPATH="$i/info:$INFOPATH"; fi
+    done
+  fi
+
+  # for my own tools
+  if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
+  if [ -d "$HOME/man" ]; then MANPATH="$HOME/man:$MANPATH"; fi
+  if [ -d "$HOME/share/man" ]; then MANPATH="$HOME/share/man:$MANPATH"; fi
+  if [ -d "$HOME/info" ]; then INFOPATH="$HOME/info:$INFOPATH"; fi
+fi
+
+
+
+
+# Misc.  #{{{1
+# Common stuffs  #{{{2
+export EDITOR=vim
+export PAGER=less
+export SHELL=$(which zsh)
+export TZ=JST-9
+
+case "$ENV_ACCESS" in
+  cygwin)
+    export TERM=rxvt-cygwin-native
+    export LANG=
+    ;;
+  colinux|linux|*)
+    # export TERM=...  # Don't touch -- use the default values.
+    # export LANG=...  # Don't touch -- use the default values.
+    ;;
+esac
+
+export CYGHOME="/c/cygwin$HOME"
+
+
+# cvs  #{{{2
+export CVS_RSH=ssh
+if [ "$ENV_WORKING" = 'cygwin' ]; then
+  export CVSROOT=$HOME/var/cvsroot
+fi
+
+
+# gzip  #{{{2
+export GZIP='--best --name --verbose'
+
+
+# less  #{{{2
+# -P '[?eEOF:?pB%pB\%..]  .?f%f:(stdin).?m (%i of %m).?lb  %lb?L/%L..'
+export LESS='-P [?eEOF:?PB%PB\%..]'
+case "$ENV_ACCESS" in
+  cygwin)
+    export JLESSCHARSET=japanese-sjis
+    ;;
+  colinux|linux|*)
+    # Don't set.
+    ;;
+esac
+
+
+# Mac OS X  #{{{2
+if [ "$ENV_WORKING" = 'mac' ]; then
+  # To use pbcopy/pbpaste with UTF-8 encoding.
+  export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
+fi
+
+
+# make  #{{{2
+if [ "$ENV_WORKING" = 'cygwin' ]; then
+  export MAKE_MODE=unix
+fi
+
+
+# X  #{{{2
+if [ "$ENV_WORKING" = 'linux' ] && [ -n "$DISPLAY" ]; then
+  setxkbmap us
+  xmodmap ~/.xmodmaprc
+  if ! xset q | grep $HOME >/dev/null; then
+    for dir in ~/share/fonts/*; do
+      xset fp+ $dir
+    done
+    xset fp rehash
+  fi
+fi
+
+
+
+
+# __END__  #{{{1
+# vim: filetype=sh foldmethod=marker
