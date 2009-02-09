@@ -1879,7 +1879,10 @@ noremap <expr> N  v:searchforward ? 'Nzv' : 'nzv'
 
 " Till before non keyword and non space character.
 " This is a generalized synonym to t(, t}, t& and so forth.
-onoremap <silent> q  :<C-u>call search('.\&\(\k\<Bar>\_s\)\@!', 'W')<Return>
+Comap <silent> q
+\       for i in range(v:count1)
+\ <Bar>   call search('.\&\(\k\<Bar>\_s\)\@!', 'W')
+\ <Bar> endfor
 
 
 
