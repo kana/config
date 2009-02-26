@@ -129,6 +129,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_quickfix_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
+  $(PACKAGE_vim_metarw_sudo_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_repeat_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
@@ -208,6 +209,7 @@ ALL_PACKAGES=\
   vim-ku-source \
   vim-metarw \
   vim-metarw-git \
+  vim-metarw-sudo \
   vim-misc \
   vim-narrow \
   vim-repeat \
@@ -376,6 +378,12 @@ PACKAGE_vim_metarw_git_BASE=vim/dot.vim
 PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
   vim/dot.vim/doc/metarw-git.txt
+
+PACKAGE_vim_metarw_sudo_ARCHIVE=vim-metarw-sudo-0.0.0
+PACKAGE_vim_metarw_sudo_BASE=vim/dot.vim
+PACKAGE_vim_metarw_sudo_FILES=\
+  vim/dot.vim/autoload/metarw/sudo.vim \
+  vim/dot.vim/doc/metarw-sudo.txt
 
 PACKAGE_vim_misc_ARCHIVE=vim-misc
 PACKAGE_vim_misc_BASE=.
