@@ -27,8 +27,7 @@ License: MIT license  {{{
 CONTENTS					*metarw-sudo-contents*
 
 Introduction		|metarw-sudo-introduction|
-Notations		|metarw-sudo-notations|
-Examples		|metarw-sudo-examples|
+Commands		|metarw-sudo-commands|
 Bugs			|metarw-sudo-bugs|
 Changelog		|metarw-sudo-changelog|
 
@@ -50,6 +49,24 @@ Requirements:
 
 Latest version:
 http://github.com/kana/config/commits/vim-metarw-sudo
+
+
+
+
+==============================================================================
+COMMANDS					*metarw-sudo-commands*
+
+:Sudoize					*:Sudoize*
+			Change the name of the current buffer as
+			"sudo:{name}", or remove "sudo:" from the name if it
+			is already prefixed with "sudo:".
+
+			Sometimes you want to write a buffer as the root
+			account after editing it.  This command is useful for
+			such cases.
+
+:Sudowrite					*:Sudowrite*
+			Synonym for ":write sudo:{path}" and so forth.
 
 
 
