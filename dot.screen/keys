@@ -38,6 +38,7 @@ bind =	# removebuf
 
 bind ^H help
 
+bind ^@ copy
 bind p paste .
 bind ^P paste .
 bind T title
