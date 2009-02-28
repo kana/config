@@ -131,6 +131,11 @@ BUGS						*narrow-bugs*
 ==============================================================================
 CHANGELOG					*narrow-changelog*
 
+0.2.1	2009-02-28T16:55:24+09:00
+	- Fix minor bugs:
+	  - |:Widen| raises an error for buffers without fold.
+	  - |:Narrow| doesn't hide lines smaller than 'foldminlines'.
+
 0.2	2007-12-29T07:24:53+09:00
 	- Fix |:Narrow| and |:Widen| not to use temporary files.  Now |:Widen|
 	  correctly works even if the target buffer is |:Narrow|'ed by two or
