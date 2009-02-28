@@ -2279,7 +2279,9 @@ endfunction
 autocmd MyAutoCmd FileType ku  call ku#default_key_mappings(s:TRUE)
 
 
+call ku#custom_action('common', 'Yank', s:SID_PREFIX().'ku_common_action_Yank')
 call ku#custom_action('common', 'cd', s:SID_PREFIX().'ku_common_action_my_cd')
+call ku#custom_action('common', 'yank', s:SID_PREFIX().'ku_common_action_yank')
 call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
 
 function! s:ku_common_action_my_cd(item)
@@ -2289,6 +2291,17 @@ function! s:ku_common_action_my_cd(item)
     execute 'CD' fnamemodify(a:item.word, ':h')
   endif
 endfunction
+
+function! s:ku_common_action_yank(item)
+  call setreg('"', a:item.word, 'c')
+endfunction
+function! s:ku_common_action_Yank(item)
+  call setreg('"', a:item.word, 'l')
+endfunction
+
+
+call ku#custom_key('common', 'y', 'yank')
+call ku#custom_key('common', 'Y', 'Yank')
 
 
 call ku#custom_prefix('common', '.vim', $HOME.'/.vim')
