@@ -2278,15 +2278,9 @@ endfunction
 
 autocmd MyAutoCmd FileType ku  call ku#default_key_mappings(s:TRUE)
 
+
 call ku#custom_action('common', 'cd', s:SID_PREFIX().'ku_common_action_my_cd')
 call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
-
-call ku#custom_prefix('common', '.vim', $HOME.'/.vim')
-call ku#custom_prefix('common', 'DL', $HOME.'/Downloads')
-call ku#custom_prefix('common', 'HOME', $HOME)
-call ku#custom_prefix('common', 'LA', $HOME.'/Downloads')
-call ku#custom_prefix('common', 'VIM', $VIMRUNTIME)
-call ku#custom_prefix('common', '~', $HOME)
 
 function! s:ku_common_action_my_cd(item)
   if isdirectory(a:item.word)
@@ -2295,6 +2289,14 @@ function! s:ku_common_action_my_cd(item)
     execute 'CD' fnamemodify(a:item.word, ':h')
   endif
 endfunction
+
+
+call ku#custom_prefix('common', '.vim', $HOME.'/.vim')
+call ku#custom_prefix('common', 'DL', $HOME.'/Downloads')
+call ku#custom_prefix('common', 'HOME', $HOME)
+call ku#custom_prefix('common', 'LA', $HOME.'/Downloads')
+call ku#custom_prefix('common', 'VIM', $VIMRUNTIME)
+call ku#custom_prefix('common', '~', $HOME)
 
 
 Cnmap <silent> [Space]ka  Ku args
