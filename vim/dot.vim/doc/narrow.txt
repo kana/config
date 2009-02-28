@@ -1,6 +1,6 @@
 *narrow.txt*	Emulate Emacs' narrowing feature
 
-Version 0.2
+Version 0.2.1
 Script ID: 2097
 Copyright (C) 2007 kana <http://whileimautomaton.net/>
 License: MIT license  {{{

@@ -1,5 +1,5 @@
 " narrow - Emulate Emacs' narrowing feature
-" Version: 0.2
+" Version: 0.2.1
 " Copyright (C) 2007 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining

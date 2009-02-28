@@ -401,7 +401,7 @@ PACKAGE_vim_misc_FILES=\
   vim/dot.vim/xtr/skeleton/vim-syntax \
   vim/dot.vimrc
 
-PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2
+PACKAGE_vim_narrow_ARCHIVE=vim-narrow-0.2.1
 PACKAGE_vim_narrow_BASE=vim/dot.vim
 PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/autoload/narrow.vim \
