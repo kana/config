@@ -2198,6 +2198,10 @@ function! s:on_FileType_xml()
   inoremap <buffer> >>  ><Return>X<Return><LT>/<C-x><C-o><C-r>=
                        \<SID>keys_to_stop_insert_mode_completion()
                        \<Return><C-o><Up><BS>
+
+  if search('\V\<xmlns:n="http://nicht.s8.xrea.com/"', 'cnw') != 0
+    call s:on_FileType_nicht()
+  endif
 endfunction
 
 
@@ -2231,6 +2235,10 @@ let s:on_FileType_xml_comment_dispatch_data = {
 \     '*': '{{'."{8\<Esc>",
 \     '(': '{{'."{9\<Esc>",
 \   }
+
+
+function! s:on_FileType_nicht()
+endfunction
 
 
 
