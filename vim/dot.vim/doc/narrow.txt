@@ -125,6 +125,9 @@ BUGS						*narrow-bugs*
   * Modify the content of a hidden portion by |:s| or other commands.
   In Emacs, these actions aren't allowed.
 
+- The following situation is not supported:
+  The same buffer showed in two or more windows.
+
 
 
 
