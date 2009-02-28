@@ -2238,7 +2238,27 @@ let s:on_FileType_xml_comment_dispatch_data = {
 
 
 function! s:on_FileType_nicht()
+  Fnmap <buffer> <silent> <LocalLeader>n  <SID>nicht_add_new_topic()
 endfunction
+
+function! s:nicht_add_new_topic()
+  let reg_pattern = @/
+
+  execute 'normal!' "gg/<n:body>\<Return>"
+  put =''
+  put =''
+  put =''
+  put =''
+  put ='<n:topic datetime=\"'.strftime('%Y-%m-%dT%H:%M:%S').'\" tags=\"\">'
+  put ='  <n:title></n:title>'
+  put =''
+  put ='  <p></p>'
+  put ='</n:topic>'
+  execute 'normal!' "?datetime\<Return>Wf\""
+
+  let @/ = reg_pattern
+endfunction
+
 
 
 
