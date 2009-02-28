@@ -41,6 +41,7 @@ function! narrow#Narrow(line1, line2)
 
   setlocal foldenable
   setlocal foldmethod=manual
+  setlocal foldminlines=0  " to completely hide non-narrowed lines
   setlocal foldtext=''
   call s:adjust_cursor_if_invoked_via_visual_mode(line1, line2)
   let pos = getpos('.')
@@ -141,6 +142,7 @@ function! s:save_the_state_of_buffer()  "{{{2
   let original_state = {}
   let original_state.foldenable = &l:foldenable
   let original_state.foldmethod = &l:foldmethod
+  let original_state.foldminlines = &l:foldminlines
   let original_state.foldtext = &l:foldtext
 
   " save folds
@@ -172,6 +174,7 @@ endfunction
 function! s:load_the_state_of_buffer(original_state)  "{{{2
   let &l:foldenable = a:original_state.foldenable
   let &l:foldmethod = a:original_state.foldmethod
+  let &l:foldminlines = a:original_state.foldminlines
   let &l:foldtext = a:original_state.foldtext
 
   " restore folds.
