@@ -175,11 +175,13 @@ function! s:load_the_state_of_buffer(original_state)  "{{{2
   let &l:foldtext = a:original_state.foldtext
 
   " restore folds.
-  %foldopen!
-  for line in a:original_state.foldstate
-    call cursor(line, 0)
-    foldclose
-  endfor
+  if 0 < len(a:original_state.foldstate)
+    %foldopen!  " This raises an error if there is no fold to open.
+    for line in a:original_state.foldstate
+      call cursor(line, 0)
+      foldclose
+    endfor
+  endif
 endfunction
 
 
