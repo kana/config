@@ -1,4 +1,4 @@
-*skeleton.txt*	Skeleton for newly created files
+*skeleton.txt*	Skeleton for newly created buffers
 
 Version 0.0.1
 Script ID: 2291
@@ -28,7 +28,6 @@ CONTENTS					*skeleton-contents*
 
 Introduction		|skeleton-introduction|
 Interface		|skeleton-interface|
-  Overview		  |skeleton-overview|
   Commands		  |skeleton-commands|
   Events		  |skeleton-events|
 Bugs			|skeleton-bugs|
@@ -41,25 +40,13 @@ Changelog		|skeleton-changelog|
 INTRODUCTION					*skeleton-introduction*
 
 *skeleton* is a Vim plugin to set up a skeleton for a newly created buffer.
-
-
-Requirements:
-- Vim 7.1 or later
-
-Latest version:
-http://github.com/kana/config/commits/vim-skeleton
-
-
-
-
-==============================================================================
-INTERFACE					*skeleton-interface*
-
-------------------------------------------------------------------------------
-OVERVIEW					*skeleton-overview*
+Once you put skeleton files into specific directories, appropriate ones will
+be automatically expanded for newly created buffers.
 
 - Skeleton files must be put in a directory named "xtr/skeleton/" which is
   under any directory listed in 'runtimepath'.
+
+  For example: ~/.vim/xtr/skeleton/
 
 - The name of a skeleton file should be "{filetype}" or "{filetype}-{suffix}",
   where {filetype} is the 'filetype' for a newly created buffer and {suffix}
@@ -68,6 +55,8 @@ OVERVIEW					*skeleton-overview*
   The former "{filetype}" is used as the default skeleton file for that
   'filetype'.  The latter "{filetype}-{suffix}" is used to override the
   default one for some cases which are speicifed by user.
+
+  For example: ~/.vim/xtr/skeleton/vim ~/.vim/xtr/skeleton/vim-plugin
 
 - Whenever user starts to edit a file that doesn't exists:
 
@@ -86,6 +75,18 @@ OVERVIEW					*skeleton-overview*
 
      If there is no such skeleton file, nothing will be happened.
 
+
+Requirements:
+- Vim 7.1 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-skeleton
+
+
+
+
+==============================================================================
+INTERFACE					*skeleton-interface*
 
 ------------------------------------------------------------------------------
 COMMANDS					*skeleton-commands*
@@ -124,6 +125,9 @@ BUGS						*skeleton-bugs*
 
 ==============================================================================
 CHANGELOG					*skeleton-changelog*
+
+0.0.2	2009-03-17T01:16:29+09:00
+	- Refine the document.
 
 0.0.1	2008-07-13T00:20:09+09:00
 	- Fix to suppress extra message if there is no autocmd for
