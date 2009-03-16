@@ -128,6 +128,7 @@ CHANGELOG					*skeleton-changelog*
 
 0.0.2	2009-03-17T01:16:29+09:00
 	- Refine the document.
+	-|:SkeletonLoad|: Support completion.
 
 0.0.1	2008-07-13T00:20:09+09:00
 	- Fix to suppress extra message if there is no autocmd for

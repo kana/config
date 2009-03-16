@@ -26,10 +26,13 @@ if exists('g:loaded_skeleton')
   finish
 endif
 
+let s:SKELETON_DIR = 'xtr/skeleton/'
 
 
 
-command! -bar -nargs=1 SkeletonLoad
+
+command! -bar -complete=customlist,s:cmd_SkeletonLoad_complete -nargs=1
+\ SkeletonLoad
 \ call s:cmd_SkeletonLoad(<q-args>, expand('<abuf>') == '')
 
 function! s:cmd_SkeletonLoad(name, interactive_use_p)
@@ -46,7 +49,7 @@ function! s:cmd_SkeletonLoad(name, interactive_use_p)
     return
   endif
 
-  let candidates = split(globpath(&runtimepath, 'xtr/skeleton/'.a:name), "\n")
+  let candidates = split(globpath(&runtimepath, s:SKELETON_DIR.a:name), "\n")
   if len(candidates) < 1
     if a:interactive_use_p
       echo 'Skeleton file is not found:' string(a:name)
@@ -59,6 +62,11 @@ function! s:cmd_SkeletonLoad(name, interactive_use_p)
   0 delete _
 
   return
+endfunction
+
+function! s:cmd_SkeletonLoad_complete(arglead, cmdline, cursorpos)
+  return map(split(globpath(&runtimepath, s:SKELETON_DIR.a:arglead.'*'), "\n"),
+  \          'fnamemodify(v:val, ":t")')
 endfunction
 
 
