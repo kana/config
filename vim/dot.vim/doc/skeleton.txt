@@ -92,10 +92,15 @@ INTERFACE					*skeleton-interface*
 COMMANDS					*skeleton-commands*
 
 						*:SkeletonLoad*
-:SkeletonLoad {name}
+:SkeletonLoad[!] {name}
 	Load the skeleton file with {name} for the current buffer.
-	If the current buffer is not a normal buffer or its content is not
-	empty, nothing will be happened.
+
+	- If the current buffer is not a normal buffer,
+	  nothing will be happened.
+	- If "!" is not given and the current buffer is not empty,
+	  nothing will be happened.
+	- If "!" is given, existing content of the current buffer will be
+	  deleted before loading the specified skeleton.
 
 
 ------------------------------------------------------------------------------
@@ -128,7 +133,9 @@ CHANGELOG					*skeleton-changelog*
 
 0.0.2	2009-03-17T01:16:29+09:00
 	- Refine the document.
-	-|:SkeletonLoad|: Support completion.
+	- |:SkeletonLoad|:
+	  - Support completion.
+	  - Allow to override existing content of a buffer with "!".
 
 0.0.1	2008-07-13T00:20:09+09:00
 	- Fix to suppress extra message if there is no autocmd for

@@ -31,18 +31,18 @@ let s:SKELETON_DIR = 'xtr/skeleton/'
 
 
 
-command! -bar -complete=customlist,s:cmd_SkeletonLoad_complete -nargs=1
+command! -bang -bar -complete=customlist,s:cmd_SkeletonLoad_complete -nargs=1
 \ SkeletonLoad
-\ call s:cmd_SkeletonLoad(<q-args>, expand('<abuf>') == '')
+\ call s:cmd_SkeletonLoad(<q-args>, expand('<abuf>') == '', <bang>0)
 
-function! s:cmd_SkeletonLoad(name, interactive_use_p)
+function! s:cmd_SkeletonLoad(name, interactive_use_p, banged_p)
   if &l:buftype != ''
     if a:interactive_use_p
       echo 'This buffer is not a normal one.  Skeleton leaves it as is.'
     endif
     return
   endif
-  if line('$') != 1 || len(getline(1)) != 0
+  if (!a:banged_p) && (line('$') != 1 || len(getline(1)) != 0)
     if a:interactive_use_p
       echo 'This buffer is not empty.  Skeleton leaves it as is.'
     endif
@@ -58,6 +58,9 @@ function! s:cmd_SkeletonLoad(name, interactive_use_p)
   endif
 
   " Load skeleton file.
+  if a:banged_p
+    % delete _
+  endif
   silent keepalt 1 read `=candidates[0]`
   0 delete _
 
