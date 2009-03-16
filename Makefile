@@ -422,7 +422,7 @@ PACKAGE_vim_scratch_FILES=\
   vim/dot.vim/doc/scratch.txt \
   vim/dot.vim/plugin/scratch.vim
 
-PACKAGE_vim_skeleton_ARCHIVE=vim-skeleton-0.0.1
+PACKAGE_vim_skeleton_ARCHIVE=vim-skeleton-0.0.2
 PACKAGE_vim_skeleton_BASE=vim/dot.vim
 PACKAGE_vim_skeleton_FILES=\
   vim/dot.vim/doc/skeleton.txt \

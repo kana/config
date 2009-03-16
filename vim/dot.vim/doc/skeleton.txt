@@ -1,6 +1,6 @@
 *skeleton.txt*	Skeleton for newly created buffers
 
-Version 0.0.1
+Version 0.0.2
 Script ID: 2291
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
