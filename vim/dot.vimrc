@@ -1107,6 +1107,26 @@ endfunction
 
 
 
+" Sum numbers "{{{2
+
+command! -bang -bar -nargs=* -range Sum
+\ <line1>,<line2>call s:cmd_Sum(<bang>0, <f-args>)
+function! s:cmd_Sum(banged_p, ...) range
+  let field_number = (1 <= a:0 ? a:1 : 1)
+  let field_separator = (2 <= a:0 ? a:2 : 0)
+  execute a:firstline ',' a:lastline '!awk'
+  \ (field_separator is 0 ? '' : '-F'.field_separator)
+  \ "'"
+  \ 'BEGIN {x = 0}'
+  \ '{x = x + $'.field_number '}'
+  \ '{if (\!' a:banged_p ') print $0}'
+  \ 'END {print x}'
+  \ "'"
+endfunction
+
+
+
+
 function! s:count_sum_of_fields()  "{{{2
   '<,'>!awk 'BEGIN{c=0} {c+=$1} END{print c}'
   let _ = getline('.')
