@@ -141,6 +141,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_surround_FILES) \
   $(PACKAGE_vim_textobj_datetime_FILES) \
   $(PACKAGE_vim_textobj_diff_FILES) \
+  $(PACKAGE_vim_textobj_entire_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
   $(PACKAGE_vim_textobj_indent_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
@@ -221,6 +222,7 @@ ALL_PACKAGES=\
   vim-surround \
   vim-textobj-datetime \
   vim-textobj-diff \
+  vim-textobj-entire \
   vim-textobj-fold \
   vim-textobj-indent \
   vim-textobj-jabraces \
@@ -467,6 +469,12 @@ PACKAGE_vim_textobj_diff_BASE=vim/dot.vim
 PACKAGE_vim_textobj_diff_FILES=\
   vim/dot.vim/doc/textobj-diff.txt \
   vim/dot.vim/plugin/textobj/diff.vim
+
+PACKAGE_vim_textobj_entire_ARCHIVE=vim-textobj-entire-0.0.0
+PACKAGE_vim_textobj_entire_BASE=vim/dot.vim
+PACKAGE_vim_textobj_entire_FILES=\
+  vim/dot.vim/doc/textobj-entire.txt \
+  vim/dot.vim/plugin/textobj/entire.vim
 
 PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.1.2
 PACKAGE_vim_textobj_fold_BASE=vim/dot.vim
