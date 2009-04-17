@@ -41,10 +41,14 @@ let s:RE_ISSUE_ID = '#\<\d\+\>'
 
 " Key mappings  "{{{1
 
-nnoremap <buffer> <Plug>(issue-show-status)  :<C-u>call <SID>ShowStatus()<Return>
-nnoremap <buffer> <Plug>(issue-new-issue)  :<C-u>call <SID>NewIssue()<Return>
-nnoremap <buffer> <Plug>(issue-new-note)  :<C-u>call <SID>NewNote()<Return>
-nnoremap <buffer> <Plug>(issue-jump-to-issue)  :<C-u>call <SID>JumpToIssue()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-show-status)
+\        :<C-u>call <SID>ShowStatus()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-new-issue)
+\        :<C-u>call <SID>NewIssue()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-new-note)
+\        :<C-u>call <SID>NewNote()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-jump-to-issue)
+\        :<C-u>call <SID>JumpToIssue()<Return>
 
 silent! nmap <unique> <buffer> <LocalLeader>s  <Plug>(issue-show-status)
 silent! nmap <unique> <buffer> <LocalLeader>i  <Plug>(issue-new-issue)
