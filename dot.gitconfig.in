@@ -26,6 +26,7 @@
 	l = log
 	l1 = log --pretty=oneline
 	lg = log --graph --pretty=oneline
+	lr = !git l1 | head | tac
 	ls-conflicted-files = ls-files --unmerged
 	m = merge
 	m1 = merge HEAD@{1}
