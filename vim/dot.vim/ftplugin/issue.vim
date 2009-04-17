@@ -113,27 +113,19 @@ endfunction
 
 
 function! s:JumpToIssue()
-  echo 'FIXME: Not Implemented Yet.'
-  return
-  let BAD = [0, 0]
-  let pos = [line('.'), col('.')]
-
-  let fb = textobj#user#move(s:RE_ISSUE_ID, 'n')
-  let fe = textobj#user#move(s:RE_ISSUE_ID, 'ne')
-  let fdiff = s:Distance(pos, fb, fe)
-
-  let bb = textobj#user#move(s:RE_ISSUE_ID, 'nb')
-  let be = textobj#user#move(s:RE_ISSUE_ID, 'nbe')
-  let bdiff = s:Distance(pos, bb, be)
-
-  if fdiff != BAD && bdiff != BAD
-    if s:LT(fdiff, bdiff)
-    endif
-  elseif fdiff != BAD && bdiff == BAD
-  elseif fdiff == BAD && bdiff != BAD
-  else  " if fdiff == BAD && bdiff == BAD
-    " nop
+  if search(s:RE_ISSUE_ID, 'cW') == 0
+    echo 'There is no issue id in this buffer.'
+    return 0
   endif
+
+  let id_string = matchstr(getline('.'), s:RE_ISSUE_ID)
+  if search('^' . id_string . '\>', 'cw') == 0
+    echo 'There is no issue for this id.'
+    return 0
+  endif
+
+  normal! zv
+  return !0
 endfunction
 
 
