@@ -158,6 +158,16 @@ endfunction
 
 " Misc. finalization "{{{1
 
+let b:undo_ftplugin = 'setlocal foldmethod<
+                     \|silent! nunmap <buffer> <LocalLeader>J
+                     \|silent! nunmap <buffer> <LocalLeader>K
+                     \|silent! nunmap <buffer> <LocalLeader>i
+                     \|silent! nunmap <buffer> <LocalLeader>j
+                     \|silent! nunmap <buffer> <LocalLeader>k
+                     \|silent! nunmap <buffer> <LocalLeader>n
+                     \|silent! nunmap <buffer> <LocalLeader>s
+                     \|silent! nunmap <buffer> <Return>
+                     \'
 let b:did_ftplugin = 1
 
 
