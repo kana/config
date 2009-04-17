@@ -41,9 +41,9 @@
 	sl = stash list
 	sp = stash pop
 	ss = stash save
-	sv = stash save
 	st = status
 	staged = diff --cached
+	sv = stash save
 	t = tag
 	unstaged = diff
 
