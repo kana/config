@@ -128,7 +128,7 @@ function! s:JumpToIssue()
     return 0
   endif
 
-  normal! zv
+  normal! zvzz
   return !0
 endfunction
 
