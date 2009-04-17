@@ -482,7 +482,7 @@ PACKAGE_vim_textobj_fold_FILES=\
   vim/dot.vim/doc/textobj-fold.txt \
   vim/dot.vim/plugin/textobj/fold.vim
 
-PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.1
+PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.2
 PACKAGE_vim_textobj_indent_BASE=vim/dot.vim
 PACKAGE_vim_textobj_indent_FILES=\
   vim/dot.vim/doc/textobj-indent.txt \
