@@ -485,9 +485,9 @@ PACKAGE_vim_textobj_fold_FILES=\
 PACKAGE_vim_textobj_function_ARCHIVE=vim-textobj-function-0.1.0
 PACKAGE_vim_textobj_function_BASE=vim/dot.vim
 PACKAGE_vim_textobj_function_FILES=\
+  vim/dot.vim/after/ftplugin/c/textobj-function.vim \
+  vim/dot.vim/after/ftplugin/vim/textobj-function.vim \
   vim/dot.vim/doc/textobj-function.txt \
-  vim/dot.vim/ftplugin/c/textobj-function.vim \
-  vim/dot.vim/ftplugin/vim/textobj-function.vim \
   vim/dot.vim/plugin/textobj/function.vim
 
 PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.2
