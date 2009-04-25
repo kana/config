@@ -487,6 +487,8 @@ PACKAGE_vim_textobj_function_BASE=vim/dot.vim
 PACKAGE_vim_textobj_function_FILES=\
   vim/dot.vim/after/ftplugin/c/textobj-function.vim \
   vim/dot.vim/after/ftplugin/vim/textobj-function.vim \
+  vim/dot.vim/doc/textobj-function-c.txt \
+  vim/dot.vim/doc/textobj-function-vim.txt \
   vim/dot.vim/doc/textobj-function.txt \
   vim/dot.vim/plugin/textobj/function.vim
 
