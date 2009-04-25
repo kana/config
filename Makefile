@@ -143,11 +143,11 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_diff_FILES) \
   $(PACKAGE_vim_textobj_entire_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
+  $(PACKAGE_vim_textobj_function_FILES) \
   $(PACKAGE_vim_textobj_indent_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
   $(PACKAGE_vim_textobj_lastpat_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
-  $(PACKAGE_vim_tofunc_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
@@ -224,11 +224,11 @@ ALL_PACKAGES=\
   vim-textobj-diff \
   vim-textobj-entire \
   vim-textobj-fold \
+  vim-textobj-function \
   vim-textobj-indent \
   vim-textobj-jabraces \
   vim-textobj-lastpat \
   vim-textobj-user \
-  vim-tofunc \
   vim-vcsi \
   vim-xml_autons \
   vim-xml_move
@@ -482,6 +482,14 @@ PACKAGE_vim_textobj_fold_FILES=\
   vim/dot.vim/doc/textobj-fold.txt \
   vim/dot.vim/plugin/textobj/fold.vim
 
+PACKAGE_vim_textobj_function_ARCHIVE=vim-textobj-function-0.1.0
+PACKAGE_vim_textobj_function_BASE=vim/dot.vim
+PACKAGE_vim_textobj_function_FILES=\
+  vim/dot.vim/doc/textobj-function.txt \
+  vim/dot.vim/ftplugin/c/textobj-function.vim \
+  vim/dot.vim/ftplugin/vim/textobj-function.vim \
+  vim/dot.vim/plugin/textobj/function.vim
+
 PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.2
 PACKAGE_vim_textobj_indent_BASE=vim/dot.vim
 PACKAGE_vim_textobj_indent_FILES=\
@@ -505,14 +513,6 @@ PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
   vim/dot.vim/doc/textobj-user.txt
-
-PACKAGE_vim_tofunc_ARCHIVE=vim-tofunc-0.0
-PACKAGE_vim_tofunc_BASE=vim/dot.vim
-PACKAGE_vim_tofunc_FILES=\
-  vim/dot.vim/after/ftplugin/c_tofunc.vim \
-  vim/dot.vim/after/ftplugin/vim_tofunc.vim \
-  vim/dot.vim/doc/tofunc.txt \
-  vim/dot.vim/plugin/tofunc.vim
 
 PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.1.0
 PACKAGE_vim_vcsi_BASE=vim/dot.vim
