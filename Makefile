@@ -645,8 +645,8 @@ $(foreach group, \
 #VIMUP_TASKS=
 _vimup:
 	./vimup-info-generator \
-	  <$(firstword $(filter vim/dot.vim/doc/%.txt, \
-	                        $(PACKAGE_$(_PACKAGE_NAME)_FILES))) \
+	  <$(filter vim/dot.vim/doc/$(patsubst vim-%,%,$(PACKAGE_NAME)).txt, \
+	            $(PACKAGE_$(_PACKAGE_NAME)_FILES)) \
 	  >$(PACKAGE_NAME).vimup
 	for i in $(VIMUP_TASKS); do \
 	  vimup $$i $(PACKAGE_NAME); \
