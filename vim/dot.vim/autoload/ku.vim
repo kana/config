@@ -189,27 +189,7 @@ function! ku#available_sources()  "{{{2
     return s:available_sources
   endif
 
-  let _ = s:FALSE
-
-  if s:normal_source_cache_expired_p()
-    call s:update_normal_source_cache()
-    let _ = s:TRUE
-  endif
-
-  if s:special_source_cache_expired_p()
-    call s:update_special_source_cache()
-    let _ = s:TRUE
-  endif
-
-  if s:source_priorities_changed_p
-    let s:source_priorities_changed_p = s:FALSE
-    let _ = s:TRUE
-  endif
-
-  if _
-    let s:available_sources = s:sort_sources(s:available_normal_sources
-    \                                        + s:available_special_sources)
-  endif
+  let s:available_sources = sort(s:calculate_available_sources())
 
   let s:_session_id_source_cache = s:session_id
   return s:available_sources
@@ -219,46 +199,15 @@ if !exists('s:available_sources')
   let s:available_sources = []  " [source-name, ...]
 endif
 let s:_session_id_source_cache = 0
-let s:source_priorities_changed_p = s:TRUE
 
 
-" cache for normal sources  "{{{3
-let s:available_normal_sources = []  " [source-name, ...]
-let s:last_normal_source_directory_timestamps = []  " [timestamp, ...]
-let s:current_normal_source_directory_timestamps = []  " [timestamp, ...]
-
-function! s:normal_source_cache_expired_p()
-  let s:current_normal_source_directory_timestamps
-  \   = map(s:runtime_files('autoload/ku/'), 'getftime(v:val)')
-
-  return s:current_normal_source_directory_timestamps
-  \      != s:last_normal_source_directory_timestamps
-endfunction
-
-function! s:update_normal_source_cache()
-  let s:available_normal_sources = map(s:runtime_files('autoload/ku/*.vim'),
-  \                                    'fnamemodify(v:val, ":t:r")')
-
-  let s:last_normal_source_directory_timestamps
-  \   = s:current_normal_source_directory_timestamps
-endfunction
-
-
-" cache for special sources  "{{{3
-" FIXME: Implement proper caching.  The following interface is just to hide
-"        the detail of caching.
-let s:available_special_sources = []  " [source-name, ...]
-
-function! s:special_source_cache_expired_p()
-  return s:TRUE
-endfunction
-
-function! s:update_special_source_cache()
-  let s:available_special_sources = []
-  for f in s:runtime_files('autoload/ku/special/*_.vim')
-    let s:available_special_sources
-    \   += ku#special#{fnamemodify(f, ':t:r')}#sources()
+function! s:calculate_available_sources()
+  let _ = []
+  for source_name_base in map(s:runtime_files('autoload/ku/*.vim'),
+  \                           'fnamemodify(v:val, ":t:r")')
+    call extend(_, s:api_available_sources(source_name_base))
   endfor
+  return _
 endfunction
 
 
@@ -347,8 +296,6 @@ function! ku#custom_priority(source, priority)  "{{{2
   endif
 
   let s:priority_table[a:source] = a:priority
-
-  let s:source_priorities_changed_p = s:TRUE
 endfunction
 
 
@@ -1816,6 +1763,15 @@ function! s:api(source_name, api_name, ...)  "{{{2
   else
     return call(func, args)
   endif
+endfunction
+
+function! s:api_available_sources(source_name_base)
+  silent! let source_names = ku#{a:source_name_base}#available_sources()
+
+  if !exists('source_names')
+    let source_names = [a:source_name_base]
+  endif
+  return source_names
 endfunction
 
 
