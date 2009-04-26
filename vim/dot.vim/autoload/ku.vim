@@ -1746,15 +1746,11 @@ endfunction
 
 
 function! s:api(source_name, api_name, ...)  "{{{2
-  let _ = matchstr(a:source_name, '^[a-z]\+\ze-')
+  let [source_name_base, source_name_ext]
+  \   = split(a:source_name.'/', '/', s:TRUE)[:1]
 
-  if _ == ''  " normal source
-    let func = printf('ku#%s#%s', a:source_name, a:api_name)
-    let args = a:000
-  else  " special source
-    let func = printf('ku#special#%s#%s', _, a:api_name)
-    let args = [a:source_name] + a:000
-  endif
+  let func = printf('ku#%s#%s', source_name_base, a:api_name)
+  let args = [source_name_ext] + a:000
 
   if a:api_name ==# 'acc_valid_p' && !exists('*' . func)
     return s:FALSE
