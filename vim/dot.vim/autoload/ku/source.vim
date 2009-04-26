@@ -34,7 +34,7 @@ let s:the_old_input_pattern = ''
 
 
 " Interface  "{{{1
-function! ku#source#event_handler(event, ...)  "{{{2
+function! ku#source#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let s:cached_items = map(copy(ku#available_sources()), '{"word": v:val}')
     let s:the_old_input_pattern = ku#set_the_current_input_pattern('')
@@ -50,7 +50,7 @@ endfunction
 
 
 
-function! ku#source#action_table()  "{{{2
+function! ku#source#action_table(source_name_ext)  "{{{2
   return {
   \   'default': 'ku#source#action_open',
   \   'open': 'ku#source#action_open',
@@ -60,7 +60,7 @@ endfunction
 
 
 
-function! ku#source#key_table()  "{{{2
+function! ku#source#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'o': 'open',
@@ -70,14 +70,14 @@ endfunction
 
 
 
-function! ku#source#gather_items(pattern)  "{{{2
+function! ku#source#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#source#special_char_p(character)  "{{{2
+function! ku#source#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 

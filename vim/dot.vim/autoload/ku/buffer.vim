@@ -33,7 +33,7 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#buffer#event_handler(event, ...)  "{{{2
+function! ku#buffer#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     " FIXME: better caching
     let _ = []
@@ -59,7 +59,7 @@ endfunction
 
 
 
-function! ku#buffer#action_table()  "{{{2
+function! ku#buffer#action_table(source_name_ext)  "{{{2
   return {
   \   'default': 'ku#buffer#action_open',
   \   'delete': 'ku#buffer#action_delete',
@@ -73,7 +73,7 @@ endfunction
 
 
 
-function! ku#buffer#key_table()  "{{{2
+function! ku#buffer#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'D': 'delete',
@@ -87,14 +87,14 @@ endfunction
 
 
 
-function! ku#buffer#gather_items(pattern)  "{{{2
+function! ku#buffer#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#buffer#special_char_p(character)  "{{{2
+function! ku#buffer#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 

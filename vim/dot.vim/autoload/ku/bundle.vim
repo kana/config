@@ -39,7 +39,7 @@ let s:tabpages = 0
 
 
 " Interface  "{{{1
-function! ku#bundle#event_handler(event, ...)  "{{{2
+function! ku#bundle#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let s:available_bundles = bundle#available_bundles()
     let s:cached_bundles = map(copy(s:available_bundles), '{"word": v:val}')
@@ -58,7 +58,7 @@ endfunction
 
 
 
-function! ku#bundle#action_table()  "{{{2
+function! ku#bundle#action_table(source_name_ext)  "{{{2
   return {
   \   'args!': 'ku#bundle#action_args_x',
   \   'args': 'ku#bundle#action_args',
@@ -72,7 +72,7 @@ endfunction
 
 
 
-function! ku#bundle#key_table()  "{{{2
+function! ku#bundle#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-a>": 'args',
   \   "\<C-o>": 'load',
@@ -86,7 +86,7 @@ endfunction
 
 
 
-function! ku#bundle#gather_items(pattern)  "{{{2
+function! ku#bundle#gather_items(source_name_ext, pattern)  "{{{2
   let i = match(a:pattern, s:separator_regexp())
   if 0 <= i  " {bundle}/{path}
     let bundle_name = a:pattern[:i-1]
@@ -109,7 +109,7 @@ endfunction
 
 
 
-function! ku#bundle#acc_valid_p(item, sep)  "{{{2
+function! ku#bundle#acc_valid_p(source_name_ext, item, sep)  "{{{2
   return !has_key(a:item, 'ku_bundle_path')
 endfunction
 

@@ -33,7 +33,7 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#quickfix#event_handler(event, ...)  "{{{2
+function! ku#quickfix#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let qflist = getqflist()
       " [[error number, buffer number, number of errors in the buffer], ...]
@@ -62,7 +62,7 @@ endfunction
 
 
 
-function! ku#quickfix#action_table()  "{{{2
+function! ku#quickfix#action_table(source_name_ext)  "{{{2
   return {
   \   'default': 'ku#quickfix#action_open',
   \   'open!': 'ku#quickfix#action_open_x',
@@ -73,7 +73,7 @@ endfunction
 
 
 
-function! ku#quickfix#key_table()  "{{{2
+function! ku#quickfix#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'O': 'open!',
@@ -84,14 +84,14 @@ endfunction
 
 
 
-function! ku#quickfix#gather_items(pattern)  "{{{2
+function! ku#quickfix#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#quickfix#special_char_p(character)  "{{{2
+function! ku#quickfix#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 

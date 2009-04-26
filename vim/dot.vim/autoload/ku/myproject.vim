@@ -35,7 +35,7 @@ let s:cached_items = []  " [path, ...]
 
 
 " Interface  "{{{1
-function! ku#myproject#event_handler(event, ...)  "{{{2
+function! ku#myproject#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let s:cached_items = map(split(glob('~/working/*/'), '\n'), '{
     \                      "word": fnamemodify(v:val, ":h:t"),
@@ -50,7 +50,7 @@ endfunction
 
 
 
-function! ku#myproject#action_table()  "{{{2
+function! ku#myproject#action_table(source_name_ext)  "{{{2
   return {
   \   'Bottom': 'nop',
   \   'Left': 'nop',
@@ -68,7 +68,7 @@ endfunction
 
 
 
-function! ku#myproject#key_table()  "{{{2
+function! ku#myproject#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-h>": 'tab-right',
   \   "\<C-l>": 'tab-left',
@@ -84,21 +84,21 @@ endfunction
 
 
 
-function! ku#myproject#gather_items(pattern)  "{{{2
+function! ku#myproject#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#myproject#acc_valid_p(item, sep)  "{{{2
+function! ku#myproject#acc_valid_p(source_name_ext, item, sep)  "{{{2
   return 0
 endfunction
 
 
 
 
-function! ku#myproject#special_char_p(character)  "{{{2
+function! ku#myproject#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 

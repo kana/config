@@ -41,7 +41,7 @@ endif
 
 
 " Interface  "{{{1
-function! ku#history#event_handler(event, ...)  "{{{2
+function! ku#history#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let _ = {}
     for i in copy(ku#input_history())
@@ -73,7 +73,7 @@ endfunction
 
 
 
-function! ku#history#action_table()  "{{{2
+function! ku#history#action_table(source_name_ext)  "{{{2
   return {
   \   'default': 'ku#history#action_open',
   \   'open': 'ku#history#action_open',
@@ -83,7 +83,7 @@ endfunction
 
 
 
-function! ku#history#key_table()  "{{{2
+function! ku#history#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'o': 'open',
@@ -93,14 +93,14 @@ endfunction
 
 
 
-function! ku#history#gather_items(pattern)  "{{{2
+function! ku#history#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#history#special_char_p(character)  "{{{2
+function! ku#history#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 

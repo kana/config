@@ -33,7 +33,7 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#args#event_handler(event, ...)  "{{{2
+function! ku#args#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let s:cached_items = map(argv(), '{"word": v:val}')
     if 0 < argc()
@@ -48,7 +48,7 @@ endfunction
 
 
 
-function! ku#args#action_table()  "{{{2
+function! ku#args#action_table(source_name_ext)  "{{{2
   return {
   \   'argdelete': 'ku#args#action_argdelete',
   \   'default': 'ku#args#action_open',
@@ -60,7 +60,7 @@ endfunction
 
 
 
-function! ku#args#key_table()  "{{{2
+function! ku#args#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'D': 'argdelete',
@@ -72,14 +72,14 @@ endfunction
 
 
 
-function! ku#args#gather_items(pattern)  "{{{2
+function! ku#args#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#args#special_char_p(character)  "{{{2
+function! ku#args#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 

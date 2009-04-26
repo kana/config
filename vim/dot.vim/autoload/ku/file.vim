@@ -36,7 +36,7 @@ let s:cached_items = {}  " pattern -> [item, ...]
 
 
 " Interface  "{{{1
-function! ku#file#event_handler(event, ...)  "{{{2
+function! ku#file#event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'SourceEnter'
     let s:cached_items = {}
     return
@@ -48,7 +48,7 @@ endfunction
 
 
 
-function! ku#file#action_table()  "{{{2
+function! ku#file#action_table(source_name_ext)  "{{{2
   return {
   \   'default': 'ku#file#action_open',
   \   'open!': 'ku#file#action_open_x',
@@ -59,7 +59,7 @@ endfunction
 
 
 
-function! ku#file#key_table()  "{{{2
+function! ku#file#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'O': 'open!',
@@ -70,7 +70,7 @@ endfunction
 
 
 
-function! ku#file#gather_items(pattern)  "{{{2
+function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
   " FIXME: path separator assumption
   let cache_key = (a:pattern != '' ? a:pattern : "\<Plug>(ku)")
   if has_key(s:cached_items, cache_key)
@@ -107,14 +107,14 @@ endfunction
 
 
 
-function! ku#file#acc_valid_p(item, sep)  "{{{2
+function! ku#file#acc_valid_p(source_name_ext, item, sep)  "{{{2
   return a:sep ==# '/' && isdirectory(a:item.word)
 endfunction
 
 
 
 
-function! ku#file#special_char_p(char)  "{{{2
+function! ku#file#special_char_p(source_name_ext, char)  "{{{2
   return 0 <= stridx(g:ku_component_separators, a:char) || a:char == '.'
 endfunction
 
