@@ -914,6 +914,26 @@ endfunction
 
 
 
+" Sum numbers "{{{2
+
+command! -bang -bar -nargs=* -range Sum
+\ <line1>,<line2>call s:cmd_Sum(<bang>0, <f-args>)
+function! s:cmd_Sum(banged_p, ...) range
+  let field_number = (1 <= a:0 ? a:1 : 1)
+  let field_separator = (2 <= a:0 ? a:2 : 0)
+  execute a:firstline ',' a:lastline '!awk'
+  \ (field_separator is 0 ? '' : '-F'.field_separator)
+  \ "'"
+  \ 'BEGIN {x = 0}'
+  \ '{x = x + $'.field_number '}'
+  \ '{if (\!' a:banged_p ') print $0}'
+  \ 'END {print x}'
+  \ "'"
+endfunction
+
+
+
+
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
@@ -1102,26 +1122,6 @@ function! s:_vcs_branch_name(dir)
   endif
 
   return [branch_name, getftime(head_file)]
-endfunction
-
-
-
-
-" Sum numbers "{{{2
-
-command! -bang -bar -nargs=* -range Sum
-\ <line1>,<line2>call s:cmd_Sum(<bang>0, <f-args>)
-function! s:cmd_Sum(banged_p, ...) range
-  let field_number = (1 <= a:0 ? a:1 : 1)
-  let field_separator = (2 <= a:0 ? a:2 : 0)
-  execute a:firstline ',' a:lastline '!awk'
-  \ (field_separator is 0 ? '' : '-F'.field_separator)
-  \ "'"
-  \ 'BEGIN {x = 0}'
-  \ '{x = x + $'.field_number '}'
-  \ '{if (\!' a:banged_p ') print $0}'
-  \ 'END {print x}'
-  \ "'"
 endfunction
 
 
