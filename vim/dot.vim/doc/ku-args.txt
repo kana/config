@@ -96,6 +96,9 @@ BUGS						*ku-args-bugs*
 ==============================================================================
 CHANGELOG					*ku-args-changelog*
 
+0.1.0	2009-04-28T00:27:49+09:00
+	- Update for ku 0.2.0.
+
 0.0.1	2008-10-21T10:28:32+09:00
 	- Rewrite |ku-args-action-table| and |ku-args-key-table|.  Old ones
 	  did not properly work.
