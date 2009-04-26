@@ -212,7 +212,7 @@ set history=100
 set hlsearch
 nohlsearch  " To avoid (re)highlighting the last search pattern
             " whenever $MYVIMRC is (re)loaded.
-set grepprg=internal
+" set grepprg=... " See s:toggle_grepprg().
 set incsearch
 set laststatus=2  " always show status lines.
 set mouse=
@@ -946,6 +946,25 @@ function! s:toggle_bell()
   endif
 endfunction
 
+function! s:toggle_grepprg()
+  " Toggle, more precisely, rotate the value of 'grepprg'.
+  " If 'grepprg' has a value not listed in VALUES,
+  " treat VALUES[0] as the default/fallback value,
+  " and set 'grepprg' to the value.
+  let VALUES = ['git grep -n', 'internal']
+  let i = (index(VALUES, &grepprg) + 1) % len(VALUES)
+
+  let grepprg = &grepprg
+  let &grepprg = VALUES[i]
+  echo "'grepprg' =" &grepprg '(was' grepprg.')'
+endfunction
+if !exists('s:loaded_my_vimrc')
+  " Set 'grepprg' to my default value.  In this scope, 'grepprg' has Vim's
+  " default value and it differs from what I want to use.  So that calling
+  " s:toggle_grepprg() at here does set 'grepprg' to my default value.
+  silent call s:toggle_grepprg()
+endif
+
 function! s:toggle_option(option_name)
   execute 'setlocal' a:option_name.'!'
   execute 'setlocal' a:option_name.'?'
@@ -1607,6 +1626,7 @@ Cnmap <silent> [Space]m  marks
 
 nnoremap [Space]o  <Nop>
 Fnmap <silent> [Space]ob  <SID>toggle_bell()
+Fnmap <silent> [Space]og  <SID>toggle_grepprg()
 Fnmap <silent> [Space]ow  <SID>toggle_option('wrap')
 
 Cnmap <silent> [Space]q  help quickref
