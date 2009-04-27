@@ -1432,6 +1432,7 @@ nnoremap <C-t>  <Nop>
   " Move new tabpage at the last.
 Cnmap <silent> <C-t>n  tabnew \| tabmove
 Cnmap <silent> <C-t>c  tabclose
+Cnmap <silent> <C-t>C  tabclose!
 Cnmap <silent> <C-t>o  tabonly
 Cnmap <silent> <C-t>i  tabs
 
