@@ -1538,7 +1538,7 @@ function! s:composite_key_table(source)  "{{{3
   let key_table = {}
   for _ in [s:default_key_table(),
   \         s:custom_key_table('common'),
-  \         s:api(a:source, 'key_table'),
+  \         s:api_key_table(a:source),
   \         s:custom_key_table(a:source)]
     call extend(key_table, _)
   endfor
@@ -1807,6 +1807,18 @@ function! s:api_gather_items(source_name, pattern)  "{{{3
 endfunction
 
 
+function! s:api_key_table(source_name)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let _ = ku#{source_name_base}#key_table(source_name_ext)
+
+  if !exists('_')
+    let _ = {}
+  endif
+  return _
+endfunction
+
+
 function! s:api_special_char_p(source_name, character)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
@@ -1817,16 +1829,6 @@ function! s:api_special_char_p(source_name, character)  "{{{3
     let _ = 0 <= stridx(g:ku_component_separators, a:character)
   endif
   return _
-endfunction
-
-
-function! s:api(source_name, api_name, ...)  "{{{3
-  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
-
-  let func = printf('ku#%s#%s', source_name_base, a:api_name)
-  let args = [source_name_ext] + a:000
-
-  return call(func, args)
 endfunction
 
 
