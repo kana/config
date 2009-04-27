@@ -21,12 +21,6 @@ fi
 export ENV_ACCESS="$ENV_WORKING"
 
 
-# Suitable character encoding for $ENV_WORKING
-export ENCODING_colinux='utf-8'
-export ENCODING_cygwin='cp932'
-export ENCODING_linux='euc-jp'
-
-
 
 
 # PATH  #{{{1
