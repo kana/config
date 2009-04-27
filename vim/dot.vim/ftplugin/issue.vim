@@ -53,7 +53,7 @@ nnoremap <buffer> <silent> <Plug>(issue-jump-to-issue)
 silent! nmap <unique> <buffer> <LocalLeader>s  <Plug>(issue-show-status)
 silent! nmap <unique> <buffer> <LocalLeader>i  <Plug>(issue-new-issue)
 silent! nmap <unique> <buffer> <LocalLeader>n  <Plug>(issue-new-note)
-silent! nmap <unique> <buffer> <Return>  <Plug>(issue-jump-to-issue)
+silent! nmap <unique> <buffer> <LocalLeader>g  <Plug>(issue-jump-to-issue)
 
 call textobj#user#plugin('issue', {
 \      'id': {
@@ -165,12 +165,12 @@ endfunction
 let b:undo_ftplugin = 'setlocal foldmethod<
                      \|silent! nunmap <buffer> <LocalLeader>J
                      \|silent! nunmap <buffer> <LocalLeader>K
+                     \|silent! nunmap <buffer> <LocalLeader>g
                      \|silent! nunmap <buffer> <LocalLeader>i
                      \|silent! nunmap <buffer> <LocalLeader>j
                      \|silent! nunmap <buffer> <LocalLeader>k
                      \|silent! nunmap <buffer> <LocalLeader>n
                      \|silent! nunmap <buffer> <LocalLeader>s
-                     \|silent! nunmap <buffer> <Return>
                      \'
 let b:did_ftplugin = 1
 
