@@ -628,50 +628,50 @@ ku#{source}#available_sources()		     *ku#{source}#available_sources()*
 				  return ['{source}']
 				endfunction
 <
-ku#{source}#event_handler({ext}, {event}, ...)	*ku#{source}#event_handler()*
-			Function which is called whenever an interesting event
-			is happened.  {event} is a string which represents
-			what event is occurred.
+					      *ku#{source}#on_before_action()*
+ku#{source}#on_before_action({ext}, {item})
+			This function is called before an action is
+			executed.
 
-			"SourceEnter"		*ku-SourceEnter*
-				The current source is switched from another
-				source to {source}, or |the-ku-window| is open
-				and the current source is {source}.
+			{item} is a dictionary which represents the item to be
+			primarily passed to the action.
 
-				Return value is ignored.
+			Return value is dictionary which represents an item.
+			This item will be passed to the action instead of the
+			item given to the event handler.  Note that if you
+			want to pass a modified item based on the given item,
+			you must not modify the given item in-place.  Because
+			items may be cached by {source}.
 
-			"SourceLeave"		*ku-SourceLeave*
-				The current source is switched from {source}
-				to another source, or |the-ku-window| is
-				closed and the current source is {source}.
+			This function is optional; if this function is not
+			defined, nothing will happen for the above event.
 
-				Return value is ignored.
+					       *ku#{source}#on_source_enter()*
+ku#{source}#on_source_enter({ext})
+			This function is called whenever
+			- the current source is switched from another source
+			  to {source}, or
+			- |the-ku-window| is open and the current source is
+			  {source}.
 
-			"BeforeAction"		*ku-BeforeAction*
-				Just before an action is executed.
+			Return value is ignored.
 
-				For this event, an extra argument is given to
-				an event handler.  It is a dictionary which
-				represents the item to be primarily passed to
-				the action.
+			This function is optional; if this function is not
+			defined, nothing will happen for the above events.
 
-				An event handler must return a dictionary
-				which represents an item.  This item will be
-				passed to the action instead of the item given
-				to the event handler.  Note that if you want
-				to pass a modified item based on the given
-				item, you must not modify the given item
-				in-place.  Because items may be cached by
-				{source}.
+					       *ku#{source}#on_source_leave()*
+ku#{source}#on_source_leave({ext})
+			This function is called whenever
+			- the current source is switched from {source} to
+			  another source, or
+			- |the-ku-window| is closed and the current source is
+			  {source}.
 
-			If ku#{source}#event_handler() doesn't handle one or
-			more events, it must call ku#default_event_handler()
-			with the same arguments and it must return the return
-			value of that calling.  For example:
->
-				return call('ku#default_event_handler',
-				\           [a:ext, a:event] + a:000)
-<
+			Return value is ignored.
+
+			This function is optional; if this function is not
+			defined, nothing will happen for the above events.
+
 ku#{source}#action_table({ext})			*ku#{source}#action_table()*
 			Return the default action table for {souce}.
 			See also |ku-action-table|.
@@ -1027,6 +1027,11 @@ CHANGELOG					*ku-changelog*
 	  - |ku#{source}#available_sources()|: New function to implement.
 	  - |ku-source-api|: Most of functions must take an additional
 	    argument about source name.
+	  - |ku#{source}#event_handler()|: Delete.  This function is now split
+	    into the following functions:
+	    - |ku#{source}#on_before_action()|
+	    - |ku#{source}#on_source_enter()|
+	    - |ku#{source}#on_source_leave()|
 	- |ku-pattern|:
 	  - Change the definition of "word" pattern.
 	    Old versions use spaces and slashes as wildcards.
