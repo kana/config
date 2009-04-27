@@ -242,7 +242,7 @@ endfunction
 
 function! s:ku_custom_action_4(source, action, source2, action2)  "{{{3
   let action_table = (a:source2 !=# 'common'
-  \                   ? s:api(a:source2, 'action_table')
+  \                   ? s:api_action_table(a:source2)
   \                   : s:default_action_table())
   let function2 = get(action_table, a:action2, 0)
   if function2 is 0
@@ -1293,7 +1293,7 @@ endfunction
 function! s:get_action_function(action, composite_p)  "{{{3
   let ACTION_TABLE = (a:composite_p
   \                   ? s:composite_action_table(s:current_source)
-  \                   : s:api(s:current_source, 'action_table'))
+  \                   : s:api_action_table(s:current_source))
   if has_key(ACTION_TABLE, a:action)  " exists action?
     if ACTION_TABLE[a:action] !=# 'nop'  " enabled action?
       return ACTION_TABLE[a:action]
@@ -1493,7 +1493,7 @@ function! s:composite_action_table(source)  "{{{3
   let action_table = {}
   for _ in [s:default_action_table(),
   \         s:custom_action_table('common'),
-  \         s:api(a:source, 'action_table'),
+  \         s:api_action_table(a:source),
   \         s:custom_action_table(a:source)]
     call extend(action_table, _)
   endfor
@@ -1755,6 +1755,18 @@ function! s:api_acc_valid_p(source_name, item, separator)  "{{{3
 
   if !exists('_')
     let _ = s:FALSE
+  endif
+  return _
+endfunction
+
+
+function! s:api_action_table(source_name)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let _ = ku#{source_name_base}#action_table(source_name_ext)
+
+  if !exists('_')
+    let _ = {}
   endif
   return _
 endfunction
