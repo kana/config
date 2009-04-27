@@ -1,8 +1,8 @@
 *ku.txt*	Support to do something
 
-Version 0.1.9
+Version 0.2.0
 Script ID: 2337
-Copyright (C) 2008 kana <http://whileimautomaton.net/>
+Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -999,7 +999,7 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
-0.2.0	2008-12-31T22:06:44+09:00
+0.2.0	2008-12-31T22:06:44+09:00/2009-04-28T01:45:50+09:00
 	- Add |ku__source|.
 	- Fix a few assumptions on path separator.
 	- Improve the performance to complete items.
