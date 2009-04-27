@@ -495,7 +495,7 @@ function! ku#_omnifunc(findstart, base)  "{{{3
     let cache_key = s:_omnifunc_cache_key(pattern)
     let cached_value = get(s:_omnifunc_cache, cache_key, s:_OMNIFUNC_INVALID)
     if cached_value is s:_OMNIFUNC_INVALID
-      if pattern == '' || s:api(s:current_source,'special_char_p',pattern[-1:])
+      if pattern == '' || s:api_special_char_p(s:current_source, pattern[-1:])
         " Base cases.
         let _ = s:_omnifunc_core(
         \         s:current_source,
@@ -659,7 +659,7 @@ endfunction
 function! s:_omnifunc_base_case_pattern(pattern)  "{{{3
   let i = len(a:pattern) - 1
   while (0 <= i
-  \      && !s:api(s:current_source, 'special_char_p', a:pattern[i])
+  \      && !s:api_special_char_p(s:current_source, a:pattern[i])
   \      && !has_key(s:_omnifunc_cache, s:_omnifunc_cache_key(a:pattern[:i])))
     let i -= 1
   endwhile
@@ -1770,17 +1770,26 @@ function! s:api_available_sources(source_name_base)  "{{{3
 endfunction
 
 
+function! s:api_special_char_p(source_name, character)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  silent! let _ = ku#{source_name_base}#special_char_p(source_name_ext,
+  \                                                    a:character)
+
+  if !exists('_')
+    let _ = 0 <= stridx(g:ku_component_separators, a:character)
+  endif
+  return _
+endfunction
+
+
 function! s:api(source_name, api_name, ...)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
   let func = printf('ku#%s#%s', source_name_base, a:api_name)
   let args = [source_name_ext] + a:000
 
-  if a:api_name ==# 'special_char_p' && !exists('*' . func)
-    return 0 <= stridx(g:ku_component_separators, a:1)
-  else
-    return call(func, args)
-  endif
+  return call(func, args)
 endfunction
 
 
