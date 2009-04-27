@@ -34,7 +34,7 @@ syntax case match
 syntax match kuStatusLine /\%1l.*/
 \            contains=kuSourcePrompt,kuSourceName,kuHistoryInfo
 syntax match kuSourcePrompt /^Source/ contained
-syntax match kuSourceName /: \zs[a-zA-Z-]*/ contained
+syntax match kuSourceName /: \zs[a-zA-Z\/]*/ contained
 syntax match kuHistoryInfo ! (\zs\d+/\d+\ze)$! contained
 
 syntax match kuInputLine /\%2l.*/ contains=kuInputPrompt
