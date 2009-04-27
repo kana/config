@@ -41,7 +41,7 @@ function! ku#args#event_handler(source_name_ext, event, ...)  "{{{2
     endif
     return
   else
-    return call('ku#default_event_handler', [a:event] + a:000)
+    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
   endif
 endfunction
 

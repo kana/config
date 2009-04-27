@@ -301,7 +301,7 @@ endfunction
 
 
 
-function! ku#default_event_handler(event, ...)  "{{{2
+function! ku#default_event_handler(source_name_ext, event, ...)  "{{{2
   if a:event ==# 'BeforeAction'
     return a:1
   else
@@ -439,7 +439,7 @@ function! ku#start(source, ...)  "{{{2
   " Start Insert mode.
   call feedkeys('A', 'n')
 
-  call s:api(s:current_source, 'event_handler', 'SourceEnter')
+  call s:api_event_handler(s:current_source, 'SourceEnter')
   return s:TRUE
 endfunction
 
@@ -740,7 +740,7 @@ function! s:do(action_name)  "{{{2
   else
     call s:history_add(s:remove_prompt(s:last_used_input_pattern),
     \                  s:last_used_source)
-    let item = s:api(s:current_source, 'event_handler', 'BeforeAction', item)
+    let item = s:api_event_handler(s:current_source, 'BeforeAction', item)
     call s:do_action(action, item)
     if a:action_name ==# '*persistent*'
       call ku#restart()
@@ -773,7 +773,7 @@ function! s:end()  "{{{2
   let s:last_used_input_pattern = s:last_user_input_raw
   let s:last_used_source = s:current_source
 
-  call s:api(s:current_source, 'event_handler', 'SourceLeave')
+  call s:api_event_handler(s:current_source, 'SourceLeave')
   close
 
   let &completeopt = s:completeopt
@@ -1070,8 +1070,8 @@ function! s:switch_current_source(new_source)  "{{{2
     return s:FALSE
   endif
 
-  call s:api(_[o], 'event_handler', 'SourceLeave')
-  call s:api(_[n], 'event_handler', 'SourceEnter')
+  call s:api_event_handler(_[o], 'SourceLeave')
+  call s:api_event_handler(_[n], 'SourceEnter')
 
   let s:current_source = _[n]
   return s:TRUE
@@ -1779,6 +1779,19 @@ function! s:api_available_sources(source_name_base)  "{{{3
     let source_names = [a:source_name_base]
   endif
   return source_names
+endfunction
+
+
+function! s:api_event_handler(source_name, event_name, ...)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let args = [source_name_ext, a:event_name] + a:000
+  let _ = call('ku#'.source_name_base.'#event_handler', args)
+
+  if !exists('_')
+    let _ = call(ku#default_event_handler, args)
+  endif
+  return _
 endfunction
 
 

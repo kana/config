@@ -41,7 +41,7 @@ function! ku#file#event_handler(source_name_ext, event, ...)  "{{{2
     let s:cached_items = {}
     return
   else
-    return call('ku#default_event_handler', [a:event] + a:000)
+    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
   endif
 endfunction
 

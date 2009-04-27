@@ -43,7 +43,7 @@ function! ku#source#event_handler(source_name_ext, event, ...)  "{{{2
     call ku#set_the_current_input_pattern(s:the_old_input_pattern)
     return
   else
-    return call('ku#default_event_handler', [a:event] + a:000)
+    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
   endif
 endfunction
 

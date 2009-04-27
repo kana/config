@@ -37,7 +37,7 @@ function! ku#metarw#event_handler(source_name_ext, event, ...)  "{{{2
     let _.word = a:source_name_ext . ':' . _.word
     return _
   else
-    return call('ku#default_event_handler', [a:event] + a:000)
+    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
   endif
 endfunction
 

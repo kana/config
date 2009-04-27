@@ -670,7 +670,7 @@ ku#{source}#event_handler({ext}, {event}, ...)	*ku#{source}#event_handler()*
 			value of that calling.  For example:
 >
 				return call('ku#default_event_handler',
-				\           [a:event] + a:000)
+				\           [a:ext, a:event] + a:000)
 <
 ku#{source}#action_table({ext})			*ku#{source}#action_table()*
 			Return the default action table for {souce}.

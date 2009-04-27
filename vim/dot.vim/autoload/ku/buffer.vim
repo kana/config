@@ -52,7 +52,7 @@ function! ku#buffer#event_handler(source_name_ext, event, ...)  "{{{2
     let s:cached_items = _
     return
   else
-    return call('ku#default_event_handler', [a:event] + a:000)
+    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
   endif
 endfunction
 
