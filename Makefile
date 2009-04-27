@@ -348,7 +348,7 @@ PACKAGE_vim_ku_history_FILES=\
   vim/dot.vim/autoload/ku/history.vim \
   vim/dot.vim/doc/ku-history.txt
 
-PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.0.1
+PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.1.0
 PACKAGE_vim_ku_metarw_BASE=vim/dot.vim
 PACKAGE_vim_ku_metarw_FILES=\
   vim/dot.vim/autoload/ku/metarw.vim \

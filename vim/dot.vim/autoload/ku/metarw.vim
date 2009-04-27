@@ -1,6 +1,6 @@
 " ku source: metarw
-" Version: 0.0.1
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Version: 0.1.0
+" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
