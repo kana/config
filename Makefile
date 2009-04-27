@@ -342,7 +342,7 @@ PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
   vim/dot.vim/doc/ku-file.txt
 
-PACKAGE_vim_ku_history_ARCHIVE=vim-ku-history-0.0.0
+PACKAGE_vim_ku_history_ARCHIVE=vim-ku-history-0.1.0
 PACKAGE_vim_ku_history_BASE=vim/dot.vim
 PACKAGE_vim_ku_history_FILES=\
   vim/dot.vim/autoload/ku/history.vim \
