@@ -1745,7 +1745,18 @@ endfunction
 
 
 
-function! s:api(source_name, api_name, ...)  "{{{2
+" Source API wrappers  "{{{2
+function! s:api_available_sources(source_name_base)  "{{{3
+  silent! let source_names = ku#{a:source_name_base}#available_sources()
+
+  if !exists('source_names')
+    let source_names = [a:source_name_base]
+  endif
+  return source_names
+endfunction
+
+
+function! s:api(source_name, api_name, ...)  "{{{3
   let [source_name_base, source_name_ext]
   \   = split(a:source_name.'/', '/', s:TRUE)[:1]
 
@@ -1759,15 +1770,6 @@ function! s:api(source_name, api_name, ...)  "{{{2
   else
     return call(func, args)
   endif
-endfunction
-
-function! s:api_available_sources(source_name_base)
-  silent! let source_names = ku#{a:source_name_base}#available_sources()
-
-  if !exists('source_names')
-    let source_names = [a:source_name_base]
-  endif
-  return source_names
 endfunction
 
 
