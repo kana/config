@@ -2389,7 +2389,7 @@ call ku#custom_prefix('common', '~', $HOME)
 Cnmap <silent> [Space]ka  Ku args
 Cnmap <silent> [Space]kb  Ku buffer
 Cnmap <silent> [Space]kf  Ku file
-Cnmap <silent> [Space]kg  Ku metarw-git
+Cnmap <silent> [Space]kg  Ku metarw/git
 Cnmap <silent> [Space]kh  Ku history
 Cnmap <silent> [Space]kk  call ku#restart()
   " p is for packages.
