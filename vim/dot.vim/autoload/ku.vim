@@ -301,20 +301,6 @@ endfunction
 
 
 
-function! ku#default_event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'BeforeAction'
-    return a:1
-  else
-    " a:event ==# 'SourceEnter'
-    " a:event ==# 'SourceLeave'
-    "   Nothing to do.
-    return
-  endif
-endfunction
-
-
-
-
 function! ku#default_key_mappings(override_p)  "{{{2
   let _ = a:override_p ? '' : '<unique>'
   call s:ni_map(_, '<buffer> <C-c>', '<Plug>(ku-cancel)')
@@ -1806,31 +1792,30 @@ function! s:api_key_table(source_name)  "{{{3
 endfunction
 
 
-function! s:_api_event_handler(source_name, event_name, ...)  "{{{3
+function! s:api_on_before_action(source_name, item)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  let args = [source_name_ext, a:event_name] + a:000
-  let _ = call('ku#'.source_name_base.'#event_handler', args)
+  silent! let _ = ku#{source_name_base}#on_before_action(source_name_ext,
+  \                                                      a:item)
 
   if !exists('_')
-    let _ = call(ku#default_event_handler, args)
+    let _ = a:item
   endif
   return _
 endfunction
 
 
-function! s:api_on_before_action(source_name, item)  "{{{3
-  return s:_api_event_handler(a:source_name, 'BeforeAction', a:item)
-endfunction
-
-
 function! s:api_on_source_enter(source_name)  "{{{3
-  return s:_api_event_handler(a:source_name, 'SourceEnter')
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  silent! call ku#{source_name_base}#on_source_enter(source_name_ext)
 endfunction
 
 
 function! s:api_on_source_leave(source_name)  "{{{3
-  return s:_api_event_handler(a:source_name, 'SourceLeave')
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  silent! call ku#{source_name_base}#on_source_leave(source_name_ext)
 endfunction
 
 
