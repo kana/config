@@ -30,15 +30,11 @@ endfunction
 
 
 
-function! ku#metarw#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'BeforeAction'
-    " See also ku#metarw#gather_items().
-    let _ = copy(a:1)
-    let _.word = a:source_name_ext . ':' . _.word
-    return _
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+function! ku#metarw#on_before_action(source_name_ext, item)  "{{{2
+  " See also ku#metarw#gather_items().
+  let _ = copy(a:item)
+  let _.word = a:source_name_ext . ':' . _.word
+  return _
 endfunction
 
 

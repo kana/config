@@ -34,17 +34,16 @@ let s:the_old_input_pattern = ''
 
 
 " Interface  "{{{1
-function! ku#source#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let s:cached_items = map(copy(ku#available_sources()), '{"word": v:val}')
-    let s:the_old_input_pattern = ku#set_the_current_input_pattern('')
-    return
-  elseif a:event ==# 'SourceLeave'
-    call ku#set_the_current_input_pattern(s:the_old_input_pattern)
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+function! ku#source#on_source_enter(source_name_ext)  "{{{2
+  let s:cached_items = map(copy(ku#available_sources()), '{"word": v:val}')
+  let s:the_old_input_pattern = ku#set_the_current_input_pattern('')
+endfunction
+
+
+
+
+function! ku#source#on_source_leave(source_name_ext)  "{{{2
+  call ku#set_the_current_input_pattern(s:the_old_input_pattern)
 endfunction
 
 

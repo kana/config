@@ -33,27 +33,22 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#buffer#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    " FIXME: better caching
-    let _ = []
-    for i in range(1, bufnr('$'))
-      if bufexists(i) && buflisted(i)
-        let bufname = bufname(i)
-        call add(_, {
-        \      'word': bufname,
-        \      'menu': printf('buffer %*d', len(bufnr('$')), i),
-        \      'dup': 1,
-        \      'ku_buffer_nr': i,
-        \      'ku__sort_priority': bufname ==# fnamemodify(bufname, ':p')
-        \    })
-      endif
-    endfor
-    let s:cached_items = _
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+function! ku#buffer#on_source_enter(source_name_ext)  "{{{2
+  " FIXME: better caching
+  let _ = []
+  for i in range(1, bufnr('$'))
+    if bufexists(i) && buflisted(i)
+      let bufname = bufname(i)
+      call add(_, {
+      \      'word': bufname,
+      \      'menu': printf('buffer %*d', len(bufnr('$')), i),
+      \      'dup': 1,
+      \      'ku_buffer_nr': i,
+      \      'ku__sort_priority': bufname ==# fnamemodify(bufname, ':p')
+      \    })
+    endif
+  endfor
+  let s:cached_items = _
 endfunction
 
 

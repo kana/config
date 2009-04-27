@@ -36,13 +36,8 @@ let s:cached_items = {}  " pattern -> [item, ...]
 
 
 " Interface  "{{{1
-function! ku#file#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let s:cached_items = {}
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+function! ku#file#on_source_enter(source_name_ext)  "{{{2
+  let s:cached_items = {}
 endfunction
 
 

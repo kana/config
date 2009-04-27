@@ -41,33 +41,28 @@ endif
 
 
 " Interface  "{{{1
-function! ku#history#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let _ = {}
-    for i in copy(ku#input_history())
-      let sources = get(_, i.pattern, {})
-      let time = get(sources, i.source, 0)
-      let sources[i.source] = max([time, i.time])
-      let _[i.pattern] = sources
-    endfor
+function! ku#history#on_source_enter(source_name_ext)  "{{{2
+  let _ = {}
+  for i in copy(ku#input_history())
+    let sources = get(_, i.pattern, {})
+    let time = get(sources, i.source, 0)
+    let sources[i.source] = max([time, i.time])
+    let _[i.pattern] = sources
+  endfor
 
-    let s:cached_items = []
-    for [pattern, sources] in items(_)
-      for [source, time] in items(sources)
-        call add(s:cached_items, {
-        \      'word': pattern,
-        \      'menu': source,
-        \      'dup': 1,
-        \      'ku__sort_priority': (g:ku_history_sorting_style ==# 'time'
-        \                            ? -time
-        \                            : 0),
-        \    })
-      endfor
+  let s:cached_items = []
+  for [pattern, sources] in items(_)
+    for [source, time] in items(sources)
+      call add(s:cached_items, {
+      \      'word': pattern,
+      \      'menu': source,
+      \      'dup': 1,
+      \      'ku__sort_priority': (g:ku_history_sorting_style ==# 'time'
+      \                            ? -time
+      \                            : 0),
+      \    })
     endfor
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+  endfor
 endfunction
 
 

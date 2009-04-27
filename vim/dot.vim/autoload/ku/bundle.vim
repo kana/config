@@ -39,20 +39,14 @@ let s:tabpages = 0
 
 
 " Interface  "{{{1
-function! ku#bundle#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let s:available_bundles = bundle#available_bundles()
-    let s:cached_bundles = map(copy(s:available_bundles), '{"word": v:val}')
-    let s:cached_paths = []
-    let s:current_bundle_name = ''
+function! ku#bundle#on_source_enter(source_name_ext)  "{{{2
+  let s:available_bundles = bundle#available_bundles()
+  let s:cached_bundles = map(copy(s:available_bundles), '{"word": v:val}')
+  let s:cached_paths = []
+  let s:current_bundle_name = ''
 
-    let s:windows = winnr('$') - 1
-    let s:tabpages = tabpagenr('$')
-
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+  let s:windows = winnr('$') - 1
+  let s:tabpages = tabpagenr('$')
 endfunction
 
 

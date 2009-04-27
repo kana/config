@@ -33,15 +33,10 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#args#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let s:cached_items = map(argv(), '{"word": v:val}')
-    if 0 < argc()
-      let s:cached_items[argidx()].menu = '*'
-    endif
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
+function! ku#args#on_source_enter(source_name_ext)  "{{{2
+  let s:cached_items = map(argv(), '{"word": v:val}')
+  if 0 < argc()
+    let s:cached_items[argidx()].menu = '*'
   endif
 endfunction
 

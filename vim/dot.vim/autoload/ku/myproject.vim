@@ -35,16 +35,11 @@ let s:cached_items = []  " [path, ...]
 
 
 " Interface  "{{{1
-function! ku#myproject#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let s:cached_items = map(split(glob('~/working/*/'), '\n'), '{
-    \                      "word": fnamemodify(v:val, ":h:t"),
-    \                      "ku_myproject_path": fnamemodify(v:val, ":p:h")
-    \                    }')
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+function! ku#myproject#on_source_enter(source_name_ext)  "{{{2
+  let s:cached_items = map(split(glob('~/working/*/'), '\n'), '{
+  \                      "word": fnamemodify(v:val, ":h:t"),
+  \                      "ku_myproject_path": fnamemodify(v:val, ":p:h")
+  \                    }')
 endfunction
 
 

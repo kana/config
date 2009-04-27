@@ -33,30 +33,25 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#quickfix#event_handler(source_name_ext, event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let qflist = getqflist()
-      " [[error number, buffer number, number of errors in the buffer], ...]
-    let _ = map(range(len(qflist)), '[v:val+1, qflist[v:val].bufnr, 1]')
-    let i = 0
-    while i + 1 < len(_)
-      while i + 1 < len(_) && _[i][1] == _[i+1][1]
-        call remove(_, i+1)
-        let _[i][2] += 1
-      endwhile
-      let i += 1
+function! ku#quickfix#on_source_enter(source_name_ext)  "{{{2
+  let qflist = getqflist()
+    " [[error number, buffer number, number of errors in the buffer], ...]
+  let _ = map(range(len(qflist)), '[v:val+1, qflist[v:val].bufnr, 1]')
+  let i = 0
+  while i + 1 < len(_)
+    while i + 1 < len(_) && _[i][1] == _[i+1][1]
+      call remove(_, i+1)
+      let _[i][2] += 1
     endwhile
+    let i += 1
+  endwhile
 
-    let s:cached_items = map(_, '{
-    \   "word": bufname(v:val[1]),
-    \   "menu": v:val[2] . " error" . (v:val[2] == 1 ? "" : "s"),
-    \   "ku_quickfix_bufnr": v:val[1],
-    \   "ku_quickfix_ccnr": v:val[0],
-    \ }')
-    return
-  else
-    return call('ku#default_event_handler', [a:source_name_ext,a:event]+a:000)
-  endif
+  let s:cached_items = map(_, '{
+  \   "word": bufname(v:val[1]),
+  \   "menu": v:val[2] . " error" . (v:val[2] == 1 ? "" : "s"),
+  \   "ku_quickfix_bufnr": v:val[1],
+  \   "ku_quickfix_ccnr": v:val[0],
+  \ }')
 endfunction
 
 
