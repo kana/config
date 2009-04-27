@@ -500,7 +500,7 @@ function! ku#_omnifunc(findstart, base)  "{{{3
         let _ = s:_omnifunc_core(
         \         s:current_source,
         \         pattern,
-        \         s:api(s:current_source, 'gather_items', pattern)
+        \         s:api_gather_items(s:current_source, pattern)
         \       )
       else
         " The last character (which seems to be typed by user)
@@ -530,7 +530,7 @@ function! ku#_omnifunc_profile(source, pattern, ...)  "{{{3
   let n = a:0 ? a:1 : 1
   let base_time = reltime()
 
-  let raw_items = s:api(a:source, 'gather_items', a:pattern)
+  let raw_items = s:api_gather_items(a:source, a:pattern)
   let gathering_time = reltime(base_time)
 
   let base_time = reltime()
@@ -1790,6 +1790,18 @@ function! s:api_event_handler(source_name, event_name, ...)  "{{{3
 
   if !exists('_')
     let _ = call(ku#default_event_handler, args)
+  endif
+  return _
+endfunction
+
+
+function! s:api_gather_items(source_name, pattern)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let _ = ku#{source_name_base}#gather_items(source_name_ext, a:pattern)
+
+  if !exists('_')
+    let _ = []
   endif
   return _
 endfunction
