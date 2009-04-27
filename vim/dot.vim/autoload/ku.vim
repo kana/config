@@ -1199,7 +1199,7 @@ function! s:text_by_automatic_component_completion(line)  "{{{3
       " echomsg 'j' string(j)
       if 0 <= j
         let result = item.word[:-(len(t)-j+1)]
-      elseif s:api(s:current_source, "acc_valid_p", item, SEP)
+      elseif s:api_acc_valid_p(s:current_source, item, SEP)
         " echomsg 'acc_valid_p'
         let result = join(item_components[:_], SEP)
       else
@@ -1746,6 +1746,20 @@ endfunction
 
 
 " Source API wrappers  "{{{2
+function! s:api_acc_valid_p(source_name, item, separator)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  silent! let _ = ku#{source_name_base}#acc_valid_p(source_name_ext,
+  \                                                 a:item,
+  \                                                 a:separator)
+
+  if !exists('_')
+    let _ = s:FALSE
+  endif
+  return _
+endfunction
+
+
 function! s:api_available_sources(source_name_base)  "{{{3
   silent! let source_names = ku#{a:source_name_base}#available_sources()
 
@@ -1757,15 +1771,12 @@ endfunction
 
 
 function! s:api(source_name, api_name, ...)  "{{{3
-  let [source_name_base, source_name_ext]
-  \   = split(a:source_name.'/', '/', s:TRUE)[:1]
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
   let func = printf('ku#%s#%s', source_name_base, a:api_name)
   let args = [source_name_ext] + a:000
 
-  if a:api_name ==# 'acc_valid_p' && !exists('*' . func)
-    return s:FALSE
-  elseif a:api_name ==# 'special_char_p' && !exists('*' . func)
+  if a:api_name ==# 'special_char_p' && !exists('*' . func)
     return 0 <= stridx(g:ku_component_separators, a:1)
   else
     return call(func, args)
@@ -1914,6 +1925,14 @@ function! s:sort_sources(_)  "{{{2
   let _ = sort(_)
   let _ = map(_, 'v:val[3:]')  " Assumption: priority is 3-digit integer.
   return _
+endfunction
+
+
+
+
+function! s:split_source_name(source_name)  "{{{2
+  " ==> [source_name_base, source_name_ext]
+  return split(a:source_name.'/', '/', s:TRUE)[:1]
 endfunction
 
 
