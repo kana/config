@@ -15,12 +15,10 @@ fi
 
 
 # What machine am I using to access $ENV_WORKING?
-if [ "$TERM" = 'xterm-256color' ] || [ "$ENV_WORKING" = 'mac' ]; then
-  # FIXME: How to determine colinux or linux?
-  export ENV_ACCESS="$ENV_WORKING"
-else
-  export ENV_ACCESS='cygwin'
-fi
+  # FIXME: How to detect the right value?
+  # Currently, I don't often work with situations such as ENV_ACCESS !=
+  # ENV_WORKING.  So that it's useful to assume that both of them are the same.
+export ENV_ACCESS="$ENV_WORKING"
 
 
 # Suitable character encoding for $ENV_WORKING
