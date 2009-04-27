@@ -324,7 +324,7 @@ PACKAGE_vim_ku_args_FILES=\
   vim/dot.vim/autoload/ku/args.vim \
   vim/dot.vim/doc/ku-args.txt
 
-PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-0.0.2
+PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-0.1.0
 PACKAGE_vim_ku_buffer_BASE=vim/dot.vim
 PACKAGE_vim_ku_buffer_FILES=\
   vim/dot.vim/autoload/ku/buffer.vim \
