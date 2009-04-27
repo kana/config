@@ -439,7 +439,7 @@ function! ku#start(source, ...)  "{{{2
   " Start Insert mode.
   call feedkeys('A', 'n')
 
-  call s:api_event_handler(s:current_source, 'SourceEnter')
+  call s:api_on_source_enter(s:current_source)
   return s:TRUE
 endfunction
 
@@ -740,7 +740,7 @@ function! s:do(action_name)  "{{{2
   else
     call s:history_add(s:remove_prompt(s:last_used_input_pattern),
     \                  s:last_used_source)
-    let item = s:api_event_handler(s:current_source, 'BeforeAction', item)
+    let item = s:api_on_before_action(s:current_source, item)
     call s:do_action(action, item)
     if a:action_name ==# '*persistent*'
       call ku#restart()
@@ -773,7 +773,7 @@ function! s:end()  "{{{2
   let s:last_used_input_pattern = s:last_user_input_raw
   let s:last_used_source = s:current_source
 
-  call s:api_event_handler(s:current_source, 'SourceLeave')
+  call s:api_on_source_leave(s:current_source)
   close
 
   let &completeopt = s:completeopt
@@ -1070,8 +1070,8 @@ function! s:switch_current_source(new_source)  "{{{2
     return s:FALSE
   endif
 
-  call s:api_event_handler(_[o], 'SourceLeave')
-  call s:api_event_handler(_[n], 'SourceEnter')
+  call s:api_on_source_leave(_[o])
+  call s:api_on_source_enter(_[n])
 
   let s:current_source = _[n]
   return s:TRUE
@@ -1782,19 +1782,6 @@ function! s:api_available_sources(source_name_base)  "{{{3
 endfunction
 
 
-function! s:api_event_handler(source_name, event_name, ...)  "{{{3
-  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
-
-  let args = [source_name_ext, a:event_name] + a:000
-  let _ = call('ku#'.source_name_base.'#event_handler', args)
-
-  if !exists('_')
-    let _ = call(ku#default_event_handler, args)
-  endif
-  return _
-endfunction
-
-
 function! s:api_gather_items(source_name, pattern)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
@@ -1816,6 +1803,34 @@ function! s:api_key_table(source_name)  "{{{3
     let _ = {}
   endif
   return _
+endfunction
+
+
+function! s:_api_event_handler(source_name, event_name, ...)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let args = [source_name_ext, a:event_name] + a:000
+  let _ = call('ku#'.source_name_base.'#event_handler', args)
+
+  if !exists('_')
+    let _ = call(ku#default_event_handler, args)
+  endif
+  return _
+endfunction
+
+
+function! s:api_on_before_action(source_name, item)  "{{{3
+  return s:_api_event_handler(a:source_name, 'BeforeAction', a:item)
+endfunction
+
+
+function! s:api_on_source_enter(source_name)  "{{{3
+  return s:_api_event_handler(a:source_name, 'SourceEnter')
+endfunction
+
+
+function! s:api_on_source_leave(source_name)  "{{{3
+  return s:_api_event_handler(a:source_name, 'SourceLeave')
 endfunction
 
 
