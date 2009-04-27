@@ -123,10 +123,10 @@ endfunction
 " Encoding  "{{{2
 
 " To deal with Japanese language.
-if $ENV_WORKING ==# 'colinux' || $ENV_WORKING ==# 'mac'
-  set encoding=utf-8
-else
+if $ENV_WORKING ==# 'cygwin'
   set encoding=japan
+else
+  set encoding=utf-8
 endif
 
 if has('iconv')
