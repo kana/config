@@ -1,4 +1,4 @@
-*ku.txt*	Support to do something
+*ku.txt*	An interface for anything
 
 Version 0.2.0
 Script ID: 2337

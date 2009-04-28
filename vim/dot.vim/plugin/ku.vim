@@ -1,4 +1,4 @@
-" ku - Support to do something
+" ku - An interface for anything
 " Version: 0.2.0
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
