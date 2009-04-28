@@ -620,9 +620,9 @@ ku#{source}#available_sources()		     *ku#{source}#available_sources()*
 			Return a list of strings.  Each string represents the
 			name of a source which this source script provides.
 
-			This function is optional; if this function is not
-			defined, ku treats as if the following function is
-			defined:
+			Normally, a source script provides just one source, so
+			that all you have to do is to define one like the
+			following:
 >
 				function! ku#{source}#available_sources()
 				  return ['{source}']

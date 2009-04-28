@@ -35,6 +35,13 @@ let s:cached_items = []  " [path, ...]
 
 
 " Interface  "{{{1
+function! ku#myproject#available_sources()  "{{{2
+  return ['myproject']
+endfunction
+
+
+
+
 function! ku#myproject#on_source_enter(source_name_ext)  "{{{2
   let s:cached_items = map(split(glob('~/working/*/'), '\n'), '{
   \                      "word": fnamemodify(v:val, ":h:t"),

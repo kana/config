@@ -34,6 +34,13 @@ let s:the_old_input_pattern = ''
 
 
 " Interface  "{{{1
+function! ku#source#available_sources()  "{{{2
+  return ['source']
+endfunction
+
+
+
+
 function! ku#source#on_source_enter(source_name_ext)  "{{{2
   let s:cached_items = map(copy(ku#available_sources()), '{"word": v:val}')
   let s:the_old_input_pattern = ku#set_the_current_input_pattern('')

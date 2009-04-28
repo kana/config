@@ -33,6 +33,13 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
+function! ku#quickfix#available_sources()  "{{{2
+  return ['quickfix']
+endfunction
+
+
+
+
 function! ku#quickfix#on_source_enter(source_name_ext)  "{{{2
   let qflist = getqflist()
     " [[error number, buffer number, number of errors in the buffer], ...]

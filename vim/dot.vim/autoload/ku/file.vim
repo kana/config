@@ -36,6 +36,13 @@ let s:cached_items = {}  " pattern -> [item, ...]
 
 
 " Interface  "{{{1
+function! ku#file#available_sources()  "{{{2
+  return ['file']
+endfunction
+
+
+
+
 function! ku#file#on_source_enter(source_name_ext)  "{{{2
   let s:cached_items = {}
 endfunction

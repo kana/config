@@ -33,6 +33,13 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
+function! ku#buffer#available_sources()  "{{{2
+  return ['buffer']
+endfunction
+
+
+
+
 function! ku#buffer#on_source_enter(source_name_ext)  "{{{2
   " FIXME: better caching
   let _ = []

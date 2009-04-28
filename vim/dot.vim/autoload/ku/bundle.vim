@@ -39,6 +39,13 @@ let s:tabpages = 0
 
 
 " Interface  "{{{1
+function! ku#bundle#available_sources()  "{{{2
+  return ['bundle']
+endfunction
+
+
+
+
 function! ku#bundle#on_source_enter(source_name_ext)  "{{{2
   let s:available_bundles = bundle#available_bundles()
   let s:cached_bundles = map(copy(s:available_bundles), '{"word": v:val}')

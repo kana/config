@@ -1759,12 +1759,10 @@ endfunction
 
 
 function! s:api_available_sources(source_name_base)  "{{{3
-  silent! let source_names = ku#{a:source_name_base}#available_sources()
-
-  if !exists('source_names')
-    let source_names = [a:source_name_base]
-  endif
-  return source_names
+  " Unlike other Source API functions,
+  " - This function takes source_name_base instead of source_name.
+  " - Sources must define this API.
+  return ku#{a:source_name_base}#available_sources()
 endfunction
 
 

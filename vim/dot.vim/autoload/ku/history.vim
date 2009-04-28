@@ -41,6 +41,13 @@ endif
 
 
 " Interface  "{{{1
+function! ku#history#available_sources()  "{{{2
+  return ['history']
+endfunction
+
+
+
+
 function! ku#history#on_source_enter(source_name_ext)  "{{{2
   let _ = {}
   for i in copy(ku#input_history())
