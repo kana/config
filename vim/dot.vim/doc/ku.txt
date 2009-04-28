@@ -239,13 +239,6 @@ ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
 
 			If ku is not active, just return 0.
 
-ku#restart()					*ku#restart()*
-			Call |ku#start()| with the last inputted pattern and
-			the last active source.
-
-			This is useful if you cancel a selection once,
-			but you want to continue the selection later.
-
 ku#start({source}, [{initial-pattern}])		*ku#start()*
 			Function version of |:Ku|.
 			If {initial-pattern} is given, it will be inserted
@@ -254,6 +247,13 @@ ku#start({source}, [{initial-pattern}])		*ku#start()*
 ku#switch_source({source})			*ku#switch_source()*
 			Change the current source to {source}.  This function
 			works only while ku is active.  Otherwise, do nothing.
+
+ku#restart()					*ku#restart()*
+			Call |ku#start()| with the last inputted pattern and
+			the last active source.
+
+			This is useful if you cancel a selection once,
+			but you want to continue the selection later.
 
 
 ------------------------------------------------------------------------------
