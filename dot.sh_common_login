@@ -6,7 +6,7 @@
   # FIXME: Use hostname for this variable.
   #        Currently the name of a system is used instead.
 if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
-  export ENV_WORKING='mac'
+  export ENV_WORKING='avril'  # Home - MacBook
 elif [ "$OSTYPE" = 'cygwin' ]; then
   export ENV_WORKING='summer'  # Home - Cygwin on Windows PC
 elif [ "$HOST" = 'colinux' ]; then
@@ -118,7 +118,7 @@ esac
 
 
 # Mac OS X  #{{{2
-if [ "$ENV_WORKING" = 'mac' ]; then
+if [ "$ENV_WORKING" = 'avril' ]; then
   # To use pbcopy/pbpaste with UTF-8 encoding.
   export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
 fi

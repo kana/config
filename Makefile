@@ -22,7 +22,7 @@ ALL_GROUPS_winter=COLINUX_external
 ALL_GROUPS_winter_root=COLINUX_internal
 ALL_GROUPS_summer=CEREJA COLINUX_external DOTS_summer OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
-ALL_GROUPS_mac=OPERA
+ALL_GROUPS_avril=OPERA
 
 GROUP_CEREJA_FILES=\
   cereja/config.lua \
@@ -97,7 +97,7 @@ GROUP_OPERA_summer_FILES=\
   opera/skin/windows_skin3.zip \
   opera/styles/user.css \
   opera/toolbar/my-toolbar.ini
-GROUP_OPERA_mac_FILES=\
+GROUP_OPERA_avril_FILES=\
   opera/Keyboard/my-keyboard-9.60.ini \
   opera/Keyboard/my-keyboard-revised.ini \
   opera/Keyboard/my-keyboard.ini \

@@ -15,7 +15,7 @@ bindkey -v  # vi!  vi!
 # Parameters  #{{{1
 
 case "$ENV_WORKING" in
-  mac)
+  avril)
     export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
     ;;
   summer)
