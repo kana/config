@@ -48,36 +48,69 @@ Changelog		|ku-changelog|
 ==============================================================================
 INTRODUCTION					*ku-introduction*
 
-*ku* is a Vim plugin to provide new interface to choose many items from
-various sources with automatic and fuzzy completion and to do some action on
-a selected item.
+*ku* is a Vim plugin to provide new interface for Vim.  With ku,
 
-For example, with |ku-buffer|, you can choose a buffer from many buffers and
-do some action on it -- open it in the current window, open it in a new window
-which is created at the left side, delete it, and so on.  Some useful sources
-are included with a package of this plugin (see |ku-default-sources|).
-Other sources may be available at www.vim.org.  See the following URI:
-http://www.vim.org/scripts/script_search_results.php?keywords=ku
+- You can choose many items from various sources such as buffers, files and
+  others.  This selection is very efficient, because ku supports it by
+  automatic and elegant completion, so that you don't have to type much.
 
-To start a selection, use |:Ku| or |ku#start()|.
-They will open |the-ku-window| to take your input.
-- As you input some characters, |ins-completion-menu| will be automatically
-  appeared and updated to show the proper candidates for the given input (see
-  |ku-pattern| for the details of how items are filtered).
-- Then you can choose and execute an action on the selected item with
-  |<Plug>(ku-choose-an-action)|.
-- Some action is marked as the default action.  You can also execute the
-  default action without choosing by |<Plug>(ku-do-the-default-action)|.
-  See also |ku#default_key_table()| and |ku-key-mappings| for other operations
-  available in |the-ku-window|.
+- Then you can take an action on the selected item.  Various actions are
+  available for each kind of items.
 
-See also a demonstration movie: http://www.screencast.com/t/P6nJkJ0DE
 
-You can also write your own sources.  See |ku-sources| for the details.
+To start a selection, execute |:Ku| or |ku#start()|.  |the-ku-window| will be
+opened at the top of the current tabpage.  The window is to select items and
+to do an action on a selected item.  In the window,
+
+- |ins-completion-menu| is automatically appeared to show available items.
+  As you input a character, the menu is updated to show more proper items for
+  the given input.
+
+  If you want to know how ku interpret what you input,
+  see |ku-pattern|, |ku-auto-component-completion| and |ku-prefix-expansion|.
+
+- If you find what you want in the menu, select it with <C-n> or <C-p>.  If
+  the first item in the menu is what you want, you don't have to select it.
+
+- Then you can take an action on the selected item with <Enter> or <Tab>.
+
+  - With <Enter>, ku executes the default action for the item.
+
+  - With <Tab>, ku shows a list of available actions for the item.  Each
+    action is labeled with a key to execute it.  If you type one of the keys,
+    the corresponding action will be executed.
+
+  <Enter> and <Tab> are just the default key bindings.  You can customize
+  them, of course.  See |ku-key-mappings| and |ku#default_key_mappings()|.
+  If you want to customize key bindings in a list of actions by <Tab>, see
+  |ku#custom_key()|, |ku-default-key-table| and |ku-key-table|.
+
+- If you don't want to take any action and stop to select, type <C-c> in any
+  mode.  The window is closed and the current tabpage is restored to the
+  previous state.
+
+
+In ku, a kind of items is called "source".  Some sources are available by
+default.  See |ku-default-sources| for the details.  You can write your own
+sources if you want to select and to take action on something which is not
+provided by the default sources.  To add sources, put the corresponding
+scripts into "autoload/ku/" directories in 'runtimepath'.  As scripts are put,
+ku recognizes them automatically, so that you don't have to reboot Vim.  See
+alsso |ku-sources| for the details.
+
+
+Screenshots:
+http://www.flickr.com/photos/whileimautomaton/tags/vim-ku/
+
+Demonstration movie:
+http://www.screencast.com/t/P6nJkJ0DE
 
 
 Requirements:
 - Vim 7.1.299 or later
+
+Sources and related scripts:
+http://www.vim.org/scripts/script_search_results.php?keywords=ku
 
 Latest version:
 http://github.com/kana/config/commits/vim-ku
