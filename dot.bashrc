@@ -209,7 +209,7 @@ source ~/.bash.d/cdhist.sh
 
 
 case "$ENV_WORKING" in
-  chocolate|cygwin|linux)
+  chocolate|linux|summer)
     BASH_COMPLETION=~/.bash.d/bash_completion
     BASH_COMPLETION_DIR=~/.bash.d/NO_SUCH_DIR  # Don't use contrib for this.
     ;;

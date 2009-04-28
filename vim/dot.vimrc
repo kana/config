@@ -123,7 +123,7 @@ endfunction
 " Encoding  "{{{2
 
 " To deal with Japanese language.
-if $ENV_WORKING ==# 'cygwin'
+if $ENV_WORKING ==# 'summer'
   set encoding=japan
 else
   set encoding=utf-8
@@ -165,7 +165,7 @@ if has('iconv')
 endif
 
 
-if $ENV_ACCESS ==# 'cygwin'
+if $ENV_ACCESS ==# 'summer'
   set termencoding=cp932
 else  " fallback
   set termencoding=  " same as 'encoding'
@@ -1241,7 +1241,7 @@ endfunction
 " FIXME: some mappings are not countable.
 " Physical/Logical keyboard layout declaration  "{{{2
 
-if $ENV_WORKING !=# 'colinux' && $ENV_WORKING != 'cygwin'
+if $ENV_WORKING !=# 'colinux' && $ENV_WORKING != 'summer'
   " Semicolon and Return are swapped by KeyRemap4MacBook, Mayu or Kinesis on
   " some environments.
   KeyboardLayout ;  <Return>

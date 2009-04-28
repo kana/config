@@ -15,11 +15,11 @@ bindkey -v  # vi!  vi!
 # Parameters  #{{{1
 
 case "$ENV_WORKING" in
-  cygwin)
-    export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
-    ;;
   mac)
     export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
+    ;;
+  summer)
+    export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
     ;;
   *)
     export CDPATH="$(echo . ~/{working,} | tr ' ' ':')"

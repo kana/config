@@ -20,7 +20,7 @@ ALL_GROUPS=\
 ALL_GROUPS_common=DOTS VIM
 ALL_GROUPS_colinux=COLINUX_external
 ALL_GROUPS_colinux_root=COLINUX_internal
-ALL_GROUPS_cygwin=CEREJA COLINUX_external DOTS_cygwin OPERA SAMURIZE
+ALL_GROUPS_summer=CEREJA COLINUX_external DOTS_summer OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
 ALL_GROUPS_mac=OPERA
 
@@ -78,9 +78,9 @@ GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
 dot.gitconfig: dot.gitconfig.in
 	sed -e 's!= ~/!= $(HOME)/!' <$< >$@
 
-GROUP_DOTS_cygwin_FILES=\
+GROUP_DOTS_summer_FILES=\
   dot.mayu
-GROUP_DOTS_cygwin_RULE=$(GROUP_DOTS_RULE)
+GROUP_DOTS_summer_RULE=$(GROUP_DOTS_RULE)
 
 GROUP_DOTS_linux_FILES=\
   dot.xmodmaprc \
@@ -88,7 +88,7 @@ GROUP_DOTS_linux_FILES=\
 GROUP_DOTS_linux_RULE=$(GROUP_DOTS_RULE)
 
 GROUP_OPERA_FILES=$(GROUP_OPERA_$(ENV_WORKING)_FILES)
-GROUP_OPERA_cygwin_FILES=\
+GROUP_OPERA_summer_FILES=\
   opera/keyboard/my-keyboard-9.60.ini \
   opera/keyboard/my-keyboard-revised.ini \
   opera/keyboard/my-keyboard.ini \
@@ -236,7 +236,7 @@ ALL_PACKAGES=\
 PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
 PACKAGE_all_FILES=./Makefile \
-                  $(foreach w, common colinux colinux_root cygwin linux, \
+                  $(foreach w, common colinux colinux_root summer linux, \
                     $(foreach g, $(sort $(ALL_GROUPS_$(w))), \
                       $(foreach f, $(GROUP_$(g)_FILES), \
                         ./$(f))))

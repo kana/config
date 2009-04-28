@@ -17,7 +17,7 @@ _check_then_source() {  # script-path
 }
 
 case "$ENV_WORKING" in
-  chocolate|colinux|cygwin)
+  chocolate|colinux|summer)
     _check_then_source /etc/bash.bashrc
     ;;
   linux)

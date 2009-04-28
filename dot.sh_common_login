@@ -8,7 +8,7 @@
 if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
   export ENV_WORKING='mac'
 elif [ "$OSTYPE" = 'cygwin' ]; then
-  export ENV_WORKING='cygwin'
+  export ENV_WORKING='summer'  # Home - Cygwin on Windows PC
 elif [ "$HOST" = 'colinux' ]; then
   export ENV_WORKING='colinux'
 elif [ "$HOST" = 'chocolate' ]; then
@@ -80,7 +80,7 @@ export SHELL=$(which zsh)
 export TZ=JST-9
 
 case "$ENV_ACCESS" in
-  cygwin)
+  summer)
     export TERM=rxvt-cygwin-native
     export LANG=
     ;;
@@ -95,7 +95,7 @@ export CYGHOME="/c/cygwin$HOME"
 
 # cvs  #{{{2
 export CVS_RSH=ssh
-if [ "$ENV_WORKING" = 'cygwin' ]; then
+if [ "$ENV_WORKING" = 'summer' ]; then
   export CVSROOT=$HOME/var/cvsroot
 fi
 
@@ -108,7 +108,7 @@ export GZIP='--best --name --verbose'
 # -P '[?eEOF:?pB%pB\%..]  .?f%f:(stdin).?m (%i of %m).?lb  %lb?L/%L..'
 export LESS='-P [?eEOF:?PB%PB\%..]'
 case "$ENV_ACCESS" in
-  cygwin)
+  summer)
     export JLESSCHARSET=japanese-sjis
     ;;
   colinux|linux|*)
@@ -125,7 +125,7 @@ fi
 
 
 # make  #{{{2
-if [ "$ENV_WORKING" = 'cygwin' ]; then
+if [ "$ENV_WORKING" = 'summer' ]; then
   export MAKE_MODE=unix
 fi
 
