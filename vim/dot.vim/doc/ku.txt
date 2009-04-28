@@ -632,8 +632,8 @@ ku#{source}#available_sources()		     *ku#{source}#available_sources()*
 
 					      *ku#{source}#on_before_action()*
 ku#{source}#on_before_action({ext}, {item})
-			This function is called before an action is
-			executed.
+			Event handler - this function is called:
+			- Before executing an action.
 
 			{item} is a dictionary which represents the item to be
 			primarily passed to the action.
@@ -650,11 +650,11 @@ ku#{source}#on_before_action({ext}, {item})
 
 					       *ku#{source}#on_source_enter()*
 ku#{source}#on_source_enter({ext})
-			This function is called whenever
-			- the current source is switched from another source
-			  to {source}, or
-			- |the-ku-window| is open and the current source is
-			  {source}.
+			Event handler - this function is called:
+			- Before switching the current source from another
+			  source to {source}.
+			- After opening |the-ku-window|, and the current
+			  source is {source}.
 
 			Return value is ignored.
 
@@ -663,11 +663,11 @@ ku#{source}#on_source_enter({ext})
 
 					       *ku#{source}#on_source_leave()*
 ku#{source}#on_source_leave({ext})
-			This function is called whenever
-			- the current source is switched from {source} to
-			  another source, or
-			- |the-ku-window| is closed and the current source is
-			  {source}.
+			Event handler - this function is called:
+			- Before switching the current source from {source} to
+			  another source.
+			- Before closing |the-ku-window| and the current
+			  source is {source}.
 
 			Return value is ignored.
 
