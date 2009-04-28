@@ -14,11 +14,17 @@ bindkey -v  # vi!  vi!
 
 # Parameters  #{{{1
 
-if [ "$ENV_WORKING" = 'mac' ]; then
-  export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
-else
-  export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
-fi
+case "$ENV_WORKING" in
+  cygwin)
+    export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
+    ;;
+  mac)
+    export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
+    ;;
+  *)
+    export CDPATH="$(echo . ~/{working,} | tr ' ' ':')"
+    ;;
+esac
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
