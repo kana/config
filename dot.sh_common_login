@@ -2,13 +2,17 @@
 # Environment detection  #{{{1
 
 # What machine am I working on?
-# BUGS: ad hoc conditions to determine.
+  # BUGS: ad hoc conditions to determine.
+  # FIXME: Use hostname for this variable.
+  #        Currently the name of a system is used instead.
 if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
   export ENV_WORKING='mac'
 elif [ "$OSTYPE" = 'cygwin' ]; then
   export ENV_WORKING='cygwin'
 elif [ "$HOST" = 'colinux' ]; then
   export ENV_WORKING='colinux'
+elif [ "$HOST" = 'chocolate' ]; then
+  export ENV_WORKING='chocolate'  # Office - Debian on VMWare Player on Windows
 else
   export ENV_WORKING='linux'
 fi
