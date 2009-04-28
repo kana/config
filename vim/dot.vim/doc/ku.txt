@@ -608,13 +608,30 @@ named as "{source}/{ext}", corresponding source scripts are named as
 						*ku-source-api*
 Sources must provide the following functions.  In the following descriptions,
 
-{source}
-	means the name of a source.
-	For sources named as "{source}/{ext}", "/{ext}" is not included.
+	{source}
+		means the name of a source.  For sources named as
+		"{source}/{ext}", "/{ext}" is not included.
 
-{ext}
-	means the tail of the name of a source namaed as "{source}/{ext}".
-	For sources without {ext} in their names, {ext} is an empty string.
+	{ext}
+		means the tail of the name of a source namaed as
+		"{source}/{ext}".  For sources without {ext} in their names,
+		{ext} is an empty string.
+
+ku#{source}#acc_valid_p({ext}, {item}, {sep})	*ku#{source}#acc_valid_p()*
+			Return true if {item} can be used for ACC,
+			|ku-auto-component-completion|, or return false
+			otherwise.
+
+			{sep} is the separator inputted by user.
+
+			This function is optional; if it is not defined,
+			all {item}s can not be used for ACC.
+
+ku#{source}#action_table({ext})			*ku#{source}#action_table()*
+			Return the default action table for {souce}.
+			See also |ku-action-table|.
+
+			This function is requried.
 
 ku#{source}#available_sources()		     *ku#{source}#available_sources()*
 			Return a list of strings.  Each string represents the
@@ -628,62 +645,6 @@ ku#{source}#available_sources()		     *ku#{source}#available_sources()*
 				  return ['{source}']
 				endfunction
 <
-			This function is requried.
-
-					      *ku#{source}#on_before_action()*
-ku#{source}#on_before_action({ext}, {item})
-			Event handler - this function is called:
-			- Before executing an action.
-
-			{item} is a dictionary which represents the item to be
-			primarily passed to the action.
-
-			Return value is dictionary which represents an item.
-			This item will be passed to the action instead of the
-			item given to the event handler.  Note that if you
-			want to pass a modified item based on the given item,
-			you must not modify the given item in-place.  Because
-			items may be cached by {source}.
-
-			This function is optional; if this function is not
-			defined, nothing will happen for the above event.
-
-					       *ku#{source}#on_source_enter()*
-ku#{source}#on_source_enter({ext})
-			Event handler - this function is called:
-			- Before switching the current source from another
-			  source to {source}.
-			- After opening |the-ku-window|, and the current
-			  source is {source}.
-
-			Return value is ignored.
-
-			This function is optional; if this function is not
-			defined, nothing will happen for the above events.
-
-					       *ku#{source}#on_source_leave()*
-ku#{source}#on_source_leave({ext})
-			Event handler - this function is called:
-			- Before switching the current source from {source} to
-			  another source.
-			- Before closing |the-ku-window| and the current
-			  source is {source}.
-
-			Return value is ignored.
-
-			This function is optional; if this function is not
-			defined, nothing will happen for the above events.
-
-ku#{source}#action_table({ext})			*ku#{source}#action_table()*
-			Return the default action table for {souce}.
-			See also |ku-action-table|.
-
-			This function is requried.
-
-ku#{source}#key_table({ext})			*ku#{source}#key_table()*
-			Return the default key table for {souce}.
-			See also |ku-key-table|.
-
 			This function is requried.
 
 ku#{source}#gather_items({ext}, {pattern})	*ku#{source}#gather_items()*
@@ -736,15 +697,55 @@ ku#{source}#gather_items({ext}, {pattern})	*ku#{source}#gather_items()*
 
 			This function is requried.
 
-ku#{source}#acc_valid_p({ext}, {item}, {sep})	*ku#{source}#acc_valid_p()*
-			Return true if {item} can be used for ACC,
-			|ku-auto-component-completion|, or return false
-			otherwise.
+ku#{source}#key_table({ext})			*ku#{source}#key_table()*
+			Return the default key table for {souce}.
+			See also |ku-key-table|.
 
-			{sep} is the separator inputted by user.
+			This function is requried.
 
-			This function is optional; if it is not defined,
-			all {item}s can not be used for ACC.
+					      *ku#{source}#on_before_action()*
+ku#{source}#on_before_action({ext}, {item})
+			Event handler - this function is called:
+			- Before executing an action.
+
+			{item} is a dictionary which represents the item to be
+			primarily passed to the action.
+
+			Return value is dictionary which represents an item.
+			This item will be passed to the action instead of the
+			item given to the event handler.  Note that if you
+			want to pass a modified item based on the given item,
+			you must not modify the given item in-place.  Because
+			items may be cached by {source}.
+
+			This function is optional; if this function is not
+			defined, nothing will happen for the above event.
+
+					       *ku#{source}#on_source_enter()*
+ku#{source}#on_source_enter({ext})
+			Event handler - this function is called:
+			- Before switching the current source from another
+			  source to {source}.
+			- After opening |the-ku-window|, and the current
+			  source is {source}.
+
+			Return value is ignored.
+
+			This function is optional; if this function is not
+			defined, nothing will happen for the above events.
+
+					       *ku#{source}#on_source_leave()*
+ku#{source}#on_source_leave({ext})
+			Event handler - this function is called:
+			- Before switching the current source from {source} to
+			  another source.
+			- Before closing |the-ku-window| and the current
+			  source is {source}.
+
+			Return value is ignored.
+
+			This function is optional; if this function is not
+			defined, nothing will happen for the above events.
 
 ku#{source}#special_char_p({ext}, {character})	*ku#{source}#special_char_p()*
 			Return true if a given {character} is a special one,
