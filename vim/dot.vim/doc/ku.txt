@@ -155,8 +155,8 @@ ku#available_source_p({source})			*ku#available_source_p()*
 			Otherwise, return false.
 
 ku#available_sources()				*ku#available_sources()*
-			Return a list of strings
-			which represents the names of available sources.
+			Return a list of strings.  This list represents the
+			names of available sources.
 
 ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
 ku#custom_action({source}, {action}, {source2}, {action2})
@@ -266,6 +266,13 @@ ku#input_history()				*ku#input_history()*
 				The name of the source for which the pattern
 				was inputted.
 
+ku#restart()					*ku#restart()*
+			Call |ku#start()| with the last inputted pattern and
+			the last active source.
+
+			This is useful if you cancel a selection once,
+			but you want to continue the selection later.
+
 ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
 			Set the current input pattern in |the-ku-buffer| to
 			{s}, then return it.
@@ -280,13 +287,6 @@ ku#start({source}, [{initial-pattern}])		*ku#start()*
 ku#switch_source({source})			*ku#switch_source()*
 			Change the current source to {source}.  This function
 			works only while ku is active.  Otherwise, do nothing.
-
-ku#restart()					*ku#restart()*
-			Call |ku#start()| with the last inputted pattern and
-			the last active source.
-
-			This is useful if you cancel a selection once,
-			but you want to continue the selection later.
 
 
 ------------------------------------------------------------------------------
