@@ -628,6 +628,8 @@ ku#{source}#available_sources()		     *ku#{source}#available_sources()*
 				  return ['{source}']
 				endfunction
 <
+			This function is requried.
+
 					      *ku#{source}#on_before_action()*
 ku#{source}#on_before_action({ext}, {item})
 			This function is called before an action is
@@ -676,9 +678,13 @@ ku#{source}#action_table({ext})			*ku#{source}#action_table()*
 			Return the default action table for {souce}.
 			See also |ku-action-table|.
 
+			This function is requried.
+
 ku#{source}#key_table({ext})			*ku#{source}#key_table()*
 			Return the default key table for {souce}.
 			See also |ku-key-table|.
+
+			This function is requried.
 
 ku#{source}#gather_items({ext}, {pattern})	*ku#{source}#gather_items()*
 			Return a list of items which are matched to the given
@@ -727,6 +733,8 @@ ku#{source}#gather_items({ext}, {pattern})	*ku#{source}#gather_items()*
 			  ku adds/modifies entries named "ku__..." in items.
 			  But ku doesn't modify return lists themselves.
 			- See also |ku#{source}#special_char_p()|.
+
+			This function is requried.
 
 ku#{source}#acc_valid_p({ext}, {item}, {sep})	*ku#{source}#acc_valid_p()*
 			Return true if {item} can be used for ACC,
