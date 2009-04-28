@@ -10,7 +10,7 @@ if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
 elif [ "$OSTYPE" = 'cygwin' ]; then
   export ENV_WORKING='summer'  # Home - Cygwin on Windows PC
 elif [ "$HOST" = 'colinux' ]; then
-  export ENV_WORKING='colinux'
+  export ENV_WORKING='winter'  # Home - coLinux on Windows PC
 elif [ "$HOST" = 'chocolate' ]; then
   export ENV_WORKING='chocolate'  # Office - Debian on VMWare Player on Windows
 else
@@ -84,7 +84,7 @@ case "$ENV_ACCESS" in
     export TERM=rxvt-cygwin-native
     export LANG=
     ;;
-  colinux|linux|*)
+  linux|winter|*)
     # export TERM=...  # Don't touch -- use the default values.
     # export LANG=...  # Don't touch -- use the default values.
     ;;

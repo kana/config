@@ -1241,7 +1241,7 @@ endfunction
 " FIXME: some mappings are not countable.
 " Physical/Logical keyboard layout declaration  "{{{2
 
-if $ENV_WORKING !=# 'colinux' && $ENV_WORKING != 'summer'
+if $ENV_WORKING != 'summer' && $ENV_WORKING !=# 'winter'
   " Semicolon and Return are swapped by KeyRemap4MacBook, Mayu or Kinesis on
   " some environments.
   KeyboardLayout ;  <Return>

@@ -18,8 +18,8 @@ ALL_GROUPS=\
   $(ALL_GROUPS_$(ENV_WORKING)) \
   $(ALL_GROUPS_$(ENV_WORKING)_$(USER))
 ALL_GROUPS_common=DOTS VIM
-ALL_GROUPS_colinux=COLINUX_external
-ALL_GROUPS_colinux_root=COLINUX_internal
+ALL_GROUPS_winter=COLINUX_external
+ALL_GROUPS_winter_root=COLINUX_internal
 ALL_GROUPS_summer=CEREJA COLINUX_external DOTS_summer OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
 ALL_GROUPS_mac=OPERA
@@ -236,7 +236,7 @@ ALL_PACKAGES=\
 PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
 PACKAGE_all_FILES=./Makefile \
-                  $(foreach w, common colinux colinux_root summer linux, \
+                  $(foreach w, common winter winter_root summer linux, \
                     $(foreach g, $(sort $(ALL_GROUPS_$(w))), \
                       $(foreach f, $(GROUP_$(g)_FILES), \
                         ./$(f))))

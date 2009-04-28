@@ -64,7 +64,7 @@ _set_up_prompt() {
   esac
   local _c_host
   case "$HOSTNAME" in
-    colinux) _c_host="$_c_cyan" ;;
+    winter) _c_host="$_c_cyan" ;;
     *)
       if [ "$ENV_WORKING" != "$ENV_ACCESS" ]; then
         _c_host="$_c_cyan"
@@ -122,7 +122,7 @@ alias ..='cd ..'
 
 alias afk='echo "Away From Keyboard ..."; while true; do date; sleep 5m; done'
 
-if [ "$ENV_WORKING" = 'colinux' ]; then
+if [ "$ENV_WORKING" = 'winter' ]; then
   alias mount-c='mount-x c'
   alias umount-c='umount-x c'
 
@@ -213,7 +213,7 @@ case "$ENV_WORKING" in
     BASH_COMPLETION=~/.bash.d/bash_completion
     BASH_COMPLETION_DIR=~/.bash.d/NO_SUCH_DIR  # Don't use contrib for this.
     ;;
-  colinux)
+  winter)
     BASH_COMPLETION=/etc/bash_completion
     # BASH_COMPLETION_DIR=...  # Don't set - use the default value.
     ;;

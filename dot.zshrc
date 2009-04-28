@@ -210,7 +210,7 @@ function prompt_setup() {
   esac
   local c_host
   case "$HOST" in
-    colinux)
+    winter)
       c_host="$c_cyan"
       ;;
     *)
@@ -268,7 +268,7 @@ alias ..='cd ..'
 
 # colinux only  #{{{2
 
-if [ "$ENV_WORKING" = 'colinux' ]; then
+if [ "$ENV_WORKING" = 'winter' ]; then
   alias shutdown-colinux='sudo halt; exit'
 
   # mount wrappers  #{{{
