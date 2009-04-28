@@ -1735,26 +1735,19 @@ endfunction
 function! s:api_acc_valid_p(source_name, item, separator)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  silent! let _ = ku#{source_name_base}#acc_valid_p(source_name_ext,
-  \                                                 a:item,
-  \                                                 a:separator)
-
-  if !exists('_')
-    let _ = s:FALSE
+  let _ = 'ku#'.source_name_base.'#acc_valid_p'
+  if exists('*{_}')
+    return {_}(source_name_ext, a:item, a:separator)
+  else
+    return s:FALSE
   endif
-  return _
 endfunction
 
 
 function! s:api_action_table(source_name)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  let _ = ku#{source_name_base}#action_table(source_name_ext)
-
-  if !exists('_')
-    let _ = {}
-  endif
-  return _
+  return ku#{source_name_base}#action_table(source_name_ext)
 endfunction
 
 
@@ -1769,64 +1762,58 @@ endfunction
 function! s:api_gather_items(source_name, pattern)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  let _ = ku#{source_name_base}#gather_items(source_name_ext, a:pattern)
-
-  if !exists('_')
-    let _ = []
-  endif
-  return _
+  return ku#{source_name_base}#gather_items(source_name_ext, a:pattern)
 endfunction
 
 
 function! s:api_key_table(source_name)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  let _ = ku#{source_name_base}#key_table(source_name_ext)
-
-  if !exists('_')
-    let _ = {}
-  endif
-  return _
+  return ku#{source_name_base}#key_table(source_name_ext)
 endfunction
 
 
 function! s:api_on_before_action(source_name, item)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  silent! let _ = ku#{source_name_base}#on_before_action(source_name_ext,
-  \                                                      a:item)
-
-  if !exists('_')
-    let _ = a:item
+  let _ = 'ku#'.source_name_base.'#on_before_action'
+  if exists('*{_}')
+    return {_}(source_name_ext, a:item)
+  else
+    return a:item
   endif
-  return _
 endfunction
 
 
 function! s:api_on_source_enter(source_name)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  silent! call ku#{source_name_base}#on_source_enter(source_name_ext)
+  let _ = 'ku#'.source_name_base.'#on_source_enter'
+  if exists('*{_}')
+    call {_}(source_name_ext)
+  endif
 endfunction
 
 
 function! s:api_on_source_leave(source_name)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  silent! call ku#{source_name_base}#on_source_leave(source_name_ext)
+  let _ = 'ku#'.source_name_base.'#on_source_leave'
+  if exists('*{_}')
+    call {_}(source_name_ext)
+  endif
 endfunction
 
 
 function! s:api_special_char_p(source_name, character)  "{{{3
   let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  silent! let _ = ku#{source_name_base}#special_char_p(source_name_ext,
-  \                                                    a:character)
-
-  if !exists('_')
-    let _ = 0 <= stridx(g:ku_component_separators, a:character)
+  let _ = 'ku#'.source_name_base.'#special_char_p'
+  if exists('*{_}')
+    return {_}(source_name_ext, a:character)
+  else
+    return 0 <= stridx(g:ku_component_separators, a:character)
   endif
-  return _
 endfunction
 
 
