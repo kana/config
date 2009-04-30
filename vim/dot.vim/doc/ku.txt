@@ -1036,6 +1036,8 @@ CHANGELOG					*ku-changelog*
 	- |<Plug>(ku-choose-action)|: Fix a bug that an error message is
 	  displayed unexpectedly, whenever a key which is not associated with
 	  any action is pressed.
+	- Fix a bug that the current source name in |the-ku-buffer| is not
+	  highlighted correctly in some cases.
 
 0.2.0	2008-12-31T22:06:44+09:00/2009-04-28T01:45:50+09:00
 	- Add |ku__source|.
