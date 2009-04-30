@@ -1032,6 +1032,11 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
+0.2.1	2009-05-01T01:40:08+09:00
+	- |<Plug>(ku-choose-action)|: Fix a bug that an error message is
+	  displayed unexpectedly, whenever a key which is not associated with
+	  any action is pressed.
+
 0.2.0	2008-12-31T22:06:44+09:00/2009-04-28T01:45:50+09:00
 	- Add |ku__source|.
 	- Fix a few assumptions on path separator.

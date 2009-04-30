@@ -719,7 +719,7 @@ function! s:do(action_name)  "{{{2
   " ku window.
   call s:end()
 
-  if action ==# 'cancel'
+  if action ==# 'cancel' || action ==# 'nop'
     " Ignore.
   elseif action ==# 'selection'
     call ku#restart()  " Emulate to return to the previous selection.
