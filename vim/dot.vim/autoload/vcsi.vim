@@ -493,8 +493,8 @@ function! s:vcs_type(targets)  "{{{2
   let prefix = fnamemodify(a:targets[0], ':p:h')
   let path = prefix . ';/'
 
-  let _ = finddir('.git', path)
-  if _ != ''
+  let _ = system('git rev-parse --git-dir')
+  if v:shell_error == 0
     return 'git'
   endif
 
