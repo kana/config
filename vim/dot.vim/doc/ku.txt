@@ -901,7 +901,7 @@ g:ku_history_reloading_style			*g:ku_history_reloading_style*
 		- Loading: After first activating ku for each Vim process.
 		- Saving: Before exiting Vim.
 
-	Default value is "once".
+	Default value is "idle".
 
 g:ku_history_size				*g:ku_history_size*
 	A number which is the maximum size of input history.
@@ -1038,6 +1038,8 @@ CHANGELOG					*ku-changelog*
 	  any action is pressed.
 	- Fix a bug that the current source name in |the-ku-buffer| is not
 	  highlighted correctly in some cases.
+	- Document: Fix a wrong description on the default value of
+	  |g:ku_history_reloading_style|.  It is "idle", not "once".
 
 0.2.0	2008-12-31T22:06:44+09:00/2009-04-28T01:45:50+09:00
 	- Add |ku__source|.
