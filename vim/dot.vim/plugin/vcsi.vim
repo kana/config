@@ -38,6 +38,8 @@ endif
 
 command! -bar -complete=file -count=0 -nargs=* VcsiAdd
 \       call vcsi#add(<f-args>)
+command! -bar -complete=file -count=0 -nargs=* VcsiAmend
+\       call vcsi#amend(<f-args>)
 command! -bar -complete=file -count=0 -nargs=* VcsiCommit
 \       call vcsi#commit(<f-args>)
 command! -bar -complete=file -count=0 -nargs=* VcsiDiff
@@ -58,6 +60,8 @@ function! s:cmd_VcsiDefaultKeyMappings(banged_p)
   let modifier = (a:banged_p ? '' : '<unique>')
   silent! execute 'nmap' modifier '<Leader>vA' '<Plug>(vcsi-add-all)'
   silent! execute 'nmap' modifier '<Leader>va' '<Plug>(vcsi-add-it)'
+  silent! execute 'nmap' modifier '<Leader>vF' '<Plug>(vcsi-amend-all)'
+  silent! execute 'nmap' modifier '<Leader>vf' '<Plug>(vcsi-amend-it)'
   silent! execute 'nmap' modifier '<Leader>vC' '<Plug>(vcsi-commit-all)'
   silent! execute 'nmap' modifier '<Leader>vc' '<Plug>(vcsi-commit-it)'
   silent! execute 'nmap' modifier '<Leader>vD' '<Plug>(vcsi-diff-all)'
@@ -76,6 +80,7 @@ endfunction
 
 
 nnoremap <silent> <Plug>(vcsi-add-all)  :<C-u>VcsiAdd .<Return>
+nnoremap <silent> <Plug>(vcsi-amend-all)  :<C-u>VcsiAmend .<Return>
 nnoremap <silent> <Plug>(vcsi-commit-all)  :<C-u>VcsiCommit .<Return>
 nnoremap <silent> <Plug>(vcsi-diff-all)  :VcsiDiff .<Return>
 nnoremap <silent> <Plug>(vcsi-log-all)  :<C-u>VcsiLog .<Return>
@@ -83,6 +88,7 @@ nnoremap <silent> <Plug>(vcsi-revert-all)  :<C-u>VcsiRevert .<Return>
 nnoremap <silent> <Plug>(vcsi-status-all)  :<C-u>VcsiStatus .<Return>
 
 nnoremap <silent> <Plug>(vcsi-add-it)  :<C-u>VcsiAdd<Return>
+nnoremap <silent> <Plug>(vcsi-amend-it)  :<C-u>VcsiAmend<Return>
 nnoremap <silent> <Plug>(vcsi-commit-it)  :<C-u>VcsiCommit<Return>
 nnoremap <silent> <Plug>(vcsi-diff-it)  :VcsiDiff<Return>
 nnoremap <silent> <Plug>(vcsi-log-it)  :<C-u>VcsiLog<Return>

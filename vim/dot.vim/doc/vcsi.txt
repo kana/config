@@ -108,6 +108,11 @@ COMMANDS					*vcsi-commands*
 :VcsiAdd [target] ...				*:VcsiAdd*
 	Add targets under the control of a version control system.
 
+:VcsiAmend [target] ...				*:VcsiAmend*
+	Like |:VcsiCommit|, but amend the last commit.
+
+	Available only for git.
+
 :VcsiCommit [target] ...			*:VcsiCommit*
 	Open new buffer to edit a commit log.
 	When the buffer is written, the change of [target]s will be committed.
@@ -154,6 +159,7 @@ COMMANDS					*vcsi-commands*
 FUNCTIONS					*vcsi-functions*
 
 vcsi#add([{target}, ...])			*vcsi#add()*
+vcsi#amend([{target}, ...])			*vcsi#amend()*
 vcsi#commit([{target}, ...])			*vcsi#commit()*
 vcsi#diff({count}, [{target}, ...])		*vcsi#diff()*
 vcsi#log([{target}, ...])			*vcsi#log()*
@@ -169,6 +175,8 @@ KEY MAPPINGS					*vcsi-key-mappings*
 
 <Plug>(vcsi-add-all)				*<Plug>(vcsi-add-all)*
 <Plug>(vcsi-add-it)				*<Plug>(vcsi-add-it)*
+<Plug>(vcsi-amend-all)				*<Plug>(vcsi-amend-all)*
+<Plug>(vcsi-amend-it)				*<Plug>(vcsi-amend-it)*
 <Plug>(vcsi-commit-all)				*<Plug>(vcsi-commit-all)*
 <Plug>(vcsi-commit-it)				*<Plug>(vcsi-commit-it)*
 <Plug>(vcsi-diff-all)				*<Plug>(vcsi-diff-all)*
@@ -197,6 +205,8 @@ by |:VcsiDefaultKeyMappings|.
 	----------		----------------------- ~
 	<Leader>vA		<Plug>(vcsi-add-all)
 	<Leader>va		<Plug>(vcsi-add-it)
+	<Leader>vF		<Plug>(vcsi-amend-all)
+	<Leader>vf		<Plug>(vcsi-amend-it)
 	<Leader>vC		<Plug>(vcsi-commit-all)
 	<Leader>vc		<Plug>(vcsi-commit-it)
 	<Leader>vD		<Plug>(vcsi-diff-all)
@@ -278,6 +288,7 @@ CHANGELOG					*vcsi-changelog*
 
 0.1.1	2008-09-29T01:34:57+09:00
 	- Highlight the first = summary line for buffers to edit commit log.
+	- Add |:VcsiAmend| and other interfaces for it.
 
 0.1.0	2008-07-13T20:26:10+09:00
 	- Rewritten:
