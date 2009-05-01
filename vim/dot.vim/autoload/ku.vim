@@ -728,7 +728,10 @@ function! s:do(action_name)  "{{{2
     endif
   endif
 
-  if a:action_name ==# '*choose*' || a:action_name ==# '*persistent*'
+  let nothing_to_do_p = item.word ==# '' && !(item.ku__completed_p)
+  if nothing_to_do_p
+    " Ignore.
+  elseif a:action_name ==# '*choose*' || a:action_name ==# '*persistent*'
     let action = s:choose_action(item, a:action_name ==# '*persistent*')
   else
     let action = a:action_name
@@ -738,7 +741,9 @@ function! s:do(action_name)  "{{{2
   " ku window.
   call s:end()
 
-  if action ==# 'cancel' || action ==# 'nop'
+  if nothing_to_do_p
+    echo 'Nothing to do, because you gave empty pattern and there is no item.'
+  elseif action ==# 'cancel' || action ==# 'nop'
     " Ignore.
   elseif action ==# 'selection'
     call ku#restart()  " Emulate to return to the previous selection.
