@@ -106,7 +106,7 @@ endfunction
 
 " Misc.  "{{{1
 function! s:open(bang, item)  "{{{2
-  if a:item._ku_completed_p
+  if a:item.ku__completed_p
     let original_switchbuf = &switchbuf
       let &switchbuf = ''
       execute a:item.ku_quickfix_bufnr 'buffer'.a:bang
