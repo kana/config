@@ -76,11 +76,11 @@ endfunction
 
 
 nnoremap <silent> <Plug>(vcsi-add-all)  :<C-u>VcsiAdd .<Return>
-nnoremap <silent> <Plug>(vcsi-commit-all)  :<C-u>VcsiCommit.<Return>
-nnoremap <silent> <Plug>(vcsi-diff-all)  :VcsiDiff.<Return>
-nnoremap <silent> <Plug>(vcsi-log-all)  :<C-u>VcsiLog.<Return>
-nnoremap <silent> <Plug>(vcsi-revert-all)  :<C-u>VcsiRevert.<Return>
-nnoremap <silent> <Plug>(vcsi-status-all)  :<C-u>VcsiStatus.<Return>
+nnoremap <silent> <Plug>(vcsi-commit-all)  :<C-u>VcsiCommit .<Return>
+nnoremap <silent> <Plug>(vcsi-diff-all)  :VcsiDiff .<Return>
+nnoremap <silent> <Plug>(vcsi-log-all)  :<C-u>VcsiLog .<Return>
+nnoremap <silent> <Plug>(vcsi-revert-all)  :<C-u>VcsiRevert .<Return>
+nnoremap <silent> <Plug>(vcsi-status-all)  :<C-u>VcsiStatus .<Return>
 
 nnoremap <silent> <Plug>(vcsi-add-it)  :<C-u>VcsiAdd<Return>
 nnoremap <silent> <Plug>(vcsi-commit-it)  :<C-u>VcsiCommit<Return>
