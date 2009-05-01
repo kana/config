@@ -289,6 +289,7 @@ CHANGELOG					*vcsi-changelog*
 0.1.1	2008-09-29T01:34:57+09:00
 	- Highlight the first = summary line for buffers to edit commit log.
 	- Add |:VcsiAmend| and other interfaces for it.
+	- git: Improve the way to get a template for commit log.
 
 0.1.0	2008-07-13T20:26:10+09:00
 	- Rewritten:
