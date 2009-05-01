@@ -21,6 +21,24 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Coding Guidelines  "{{{1
+" Naming Guidelines  "{{{2
+"
+" - Use the prefix "original_" and include the namaes of options/functions for
+"   variables which hold values from options/functions to restore the states
+"   of Vim before a ku session.
+"
+"   For example, 'completeopt' is changed while a ku session, so that the
+"   original value of 'completeopt' must be saved and restored.  To keep the
+"   original value of 'completeopt', use "original_completeopt".
+
+
+
+
+
+
+
+
 " Variables  "{{{1
 " Global  "{{{2
 
@@ -129,10 +147,10 @@ let s:last_user_input_raw = ''
 
 
 " Information to restore several stuffs after a ku session.
-let s:completeopt = ''
-let s:curwinnr = 0
-let s:ignorecase = ''
-let s:winrestcmd = ''
+let s:original_completeopt = ''
+let s:original_curwinnr = 0
+let s:original_ignorecase = ''
+let s:original_winrestcmd = ''
 
 
 " User defined action tables, key tables and prefix table for sources.
@@ -390,10 +408,10 @@ function! ku#start(source, ...)  "{{{2
   let s:current_hisotry_index = -1
 
   " Save some values to restore the original state.
-  let s:completeopt = &completeopt
-  let s:ignorecase = &ignorecase
-  let s:curwinnr = winnr()
-  let s:winrestcmd = winrestcmd()
+  let s:original_completeopt = &completeopt
+  let s:original_ignorecase = &ignorecase
+  let s:original_curwinnr = winnr()
+  let s:original_winrestcmd = winrestcmd()
 
   " Open or create the ku buffer.
   let v:errmsg = ''
@@ -762,10 +780,10 @@ function! s:end()  "{{{2
   call s:api_on_source_leave(s:current_source)
   close
 
-  let &completeopt = s:completeopt
-  let &ignorecase = s:ignorecase
-  execute s:curwinnr 'wincmd w'
-  execute s:winrestcmd
+  let &completeopt = s:original_completeopt
+  let &ignorecase = s:original_ignorecase
+  execute s:original_curwinnr 'wincmd w'
+  execute s:original_winrestcmd
 
   let s:_end_locked_p = s:FALSE
   return s:TRUE
