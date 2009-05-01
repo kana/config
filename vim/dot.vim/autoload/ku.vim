@@ -1415,14 +1415,28 @@ endfunction
 " "default" variants with :split "{{{3
 function! s:with_split(direction_modifier, item)
   let v:errmsg = ''
+  let original_tabpagenr = tabpagenr()
+  let original_curwinnr = winnr()
+  let original_winrestcmd = winrestcmd()
+
   execute a:direction_modifier 'split'
-  if v:errmsg == ''
-    " Here we have to do "default" action of the default action table for the
-    " current source instead of composite action table - because the latter
-    " may cause infinitely recursive loop if "default" action is overriden by
-    " other action which refers "default" action, such as "tab-Right".
-    call s:do_action('default', a:item, s:FALSE)
+  if v:errmsg != ''
+    return
   endif
+
+  " Here we have to do "default" action of the default action table for the
+  " current source instead of composite action table - because the latter
+  " may cause infinitely recursive loop if "default" action is overriden by
+  " other action which refers "default" action, such as "tab-Right".
+  call s:do_action('default', a:item, s:FALSE)
+  if v:errmsg != ''
+    close
+    execute 'tabnext' original_tabpagenr
+    execute original_curwinnr 'wincmd w'
+    execute original_winrestcmd
+    return
+  endif
+
   return
 endfunction
 

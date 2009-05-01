@@ -1046,6 +1046,9 @@ CHANGELOG					*ku-changelog*
 	- Change the behavior not to take any action if an input pattern is
 	  empty and there is no item, because there is nothing to do in such
 	  case.
+	- |ku-action-left| and other actions: Fix a bug that they don't close
+	  a window or a tab page created by them even if |ku-action-default|
+	  is failed.
 
 0.2.0	2008-12-31T22:06:44+09:00/2009-04-28T01:45:50+09:00
 	- Add |ku__source|.
