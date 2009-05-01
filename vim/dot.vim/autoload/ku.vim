@@ -723,7 +723,8 @@ function! s:do(action_name)  "{{{2
       " there's no item -- user seems to take action on current_user_input_raw.
       let item = {'word':
       \             s:expand_prefix(s:remove_prompt(current_user_input_raw)),
-      \           'ku__completed_p': s:FALSE}
+      \           'ku__completed_p': s:FALSE,
+      \           'ku__source': s:current_source}
     endif
   endif
 
