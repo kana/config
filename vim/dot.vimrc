@@ -1865,7 +1865,6 @@ endfunction
 Fvmap *  <SID>search_the_selected_text_literaly('n')
 Fvmap #  <SID>search_the_selected_text_literaly('N')
 
-  " FIXME: escape to search the selected text literaly.
 function! s:search_the_selected_text_literaly(search_command)
   let reg_0 = [@0, getregtype('0')]
   let reg_u = [@", getregtype('"')]
