@@ -1295,8 +1295,14 @@ endfunction
 function! s:do_action(action, item, ...)  "{{{3
   " Assumption: BeforeAction is already applied for a:item.
   let composite_p = 1 <= a:0 ? a:1 : s:TRUE
-  call function(s:get_action_function(a:action, composite_p))(a:item)
-  return s:TRUE
+  let _ = function(s:get_action_function(a:action, composite_p))(a:item)
+
+  if _ isnot 0
+    echohl ErrorMsg
+    echomsg _
+    echohl NONE
+  endif
+  return _
 endfunction
 
 
