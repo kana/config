@@ -928,6 +928,11 @@ action						*ku-action*
 			  It should consist of only alphabets and hyphens.
 			- The name of the "function"
 			  which is called whenever the action is executed.
+			  - This function must take 1 argument which is
+			    a dictionary as an item.
+			  - This function must return 0 if it succeeds, or
+			    a string which represents an error message if it
+			    fails.
 			- The list of the names of "sources"
 			  to which the action can be applied.
 
@@ -1051,6 +1056,10 @@ CHANGELOG					*ku-changelog*
 	- Change the behavior not to take any action if an input pattern is
 	  empty and there is no item, because there is nothing to do in such
 	  case.
+	- Change the specification on |ku-action|.  Now the function
+	  corresponding to an action must return 0 if it succeeds, or a string
+	  which represents an error message if it fails.  Old versions don't
+	  touch on return values.
 
 	Misc.:
 	- Refactor the core.
