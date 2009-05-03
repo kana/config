@@ -112,10 +112,10 @@ function! s:open(bang, item)  "{{{2
       execute a:item.ku_quickfix_bufnr 'buffer'.a:bang
       execute 'cc' a:item.ku_quickfix_ccnr
     let &switchbuf = original_switchbuf
+    return 0
   else
-    echoerr 'No such file:' string(a:item.word)
+    return 'No such file: ' . string(a:item.word)
   endif
-  return
 endfunction
 
 
@@ -123,14 +123,12 @@ endfunction
 
 " Actions  "{{{2
 function! ku#quickfix#action_open(item)  "{{{3
-  call s:open('', a:item)
-  return
+  return s:open('', a:item)
 endfunction
 
 
 function! ku#quickfix#action_open_x(item)  "{{{3
-  call s:open('!', a:item)
-  return
+  return s:open('!', a:item)
 endfunction
 
 

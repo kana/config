@@ -137,11 +137,10 @@ function! s:open_by_source_file(bang, item)  "{{{2
   let _.word = _.ku_bundle_path
 
   if a:bang == '!'
-    call ku#file#action_open_x(_)
+    return ku#file#action_open_x(_)
   else
-    call ku#file#action_open(_)
+    return ku#file#action_open(_)
   endif
-  return
 endfunction
 
 
@@ -149,11 +148,13 @@ endfunction
 
 function! ku#bundle#action_args(item)  "{{{2
   if has_key(a:item, 'ku_bundle_path')
-    call s:open_by_source_file('', a:item)
-  else
+    return s:open_by_source_file('', a:item)
+  elseif a:item.ku__completed_p
     execute 'ArgsBundle' a:item.word
+    return 0
+  else
+    return 'No such bundle: ' . string(a:item.word)
   endif
-  return
 endfunction
 
 
@@ -161,11 +162,13 @@ endfunction
 
 function! ku#bundle#action_args_x(item)  "{{{2
   if has_key(a:item, 'ku_bundle_path')
-    call s:open_by_source_file('!', a:item)
-  else
+    return s:open_by_source_file('!', a:item)
+  elseif a:item.ku__completed_p
     execute 'ArgsBundle!' a:item.word
+    return 0
+  else
+    return 'No such bundle: ' . string(a:item.word)
   endif
-  return
 endfunction
 
 
@@ -173,11 +176,13 @@ endfunction
 
 function! ku#bundle#action_load(item)  "{{{2
   if has_key(a:item, 'ku_bundle_path')
-    call s:open_by_source_file('', a:item)
-  else
+    return s:open_by_source_file('', a:item)
+  elseif a:item.ku__completed_p
     execute 'LoadBundle' a:item.word
+    return 0
+  else
+    return 'No such bundle: ' . string(a:item.word)
   endif
-  return
 endfunction
 
 
@@ -185,11 +190,13 @@ endfunction
 
 function! ku#bundle#action_load_x(item)  "{{{2
   if has_key(a:item, 'ku_bundle_path')
-    call s:open_by_source_file('!', a:item)
-  else
+    return s:open_by_source_file('!', a:item)
+  elseif a:item.ku__completed_p
     execute 'LoadBundle!' a:item.word
+    return 0
+  else
+    return 'No such bundle: ' . string(a:item.word)
   endif
-  return
 endfunction
 
 

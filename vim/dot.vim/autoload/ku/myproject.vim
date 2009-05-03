@@ -116,7 +116,7 @@ endfunction
 function! ku#myproject#action_open(item)  "{{{3
   execute 'CD' a:item.ku_myproject_path
   Ku file
-  return
+  return 0  " FIXME: action: How about the results of the previous commands?
 endfunction
 
 

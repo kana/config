@@ -97,10 +97,10 @@ function! s:open(bang, item)  "{{{2
   let bufnr = bufnr(fnameescape(a:item.word))
   if bufnr != -1
     execute bufnr 'buffer'.a:bang
+    return 0
   else
-    echoerr 'No such buffer:' string(a:item.word)
+    return 'No such buffer: ' . string(a:item.word)
   endif
-  return
 endfunction
 
 
@@ -108,20 +108,19 @@ endfunction
 
 " Actions  "{{{2
 function! ku#args#action_open(item)  "{{{3
-  call s:open('', a:item)
-  return
+  return s:open('', a:item)
 endfunction
 
 
 function! ku#args#action_open_x(item)  "{{{3
-  call s:open('!', a:item)
-  return
+  return s:open('!', a:item)
 endfunction
 
 
 function! ku#args#action_argdelete(item)  "{{{3
-  execute 'argdelete' fnameescape(a:item.word)
-  return
+  let v:errmsg = ''
+  silent! execute 'argdelete' fnameescape(a:item.word)
+  return v:errmsg == '' ? 0 : v:errmsg
 endfunction
 
 

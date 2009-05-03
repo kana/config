@@ -124,7 +124,7 @@ function! ku#history#action_open(item)  "{{{3
   endif
 
   call ku#start(source, pattern)
-  return
+  return 0  " FIXME: action: How about the result of ku#start()?
 endfunction
 
 

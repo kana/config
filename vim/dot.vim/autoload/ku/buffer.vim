@@ -114,6 +114,7 @@ function! s:open(bang, item)  "{{{2
   else
     execute 'edit'.a:bang fnameescape(a:item.word)
   endif
+  return 0  " FIXME: action: How about the results of the previous commands?
 endfunction
 
 
@@ -122,8 +123,9 @@ endfunction
 function! s:delete(delete_command, item)  "{{{2
   if a:item.ku__completed_p
     execute a:item.ku_buffer_nr a:delete_command
+    return 0
   else
-    echoerr 'No such buffer:' string(a:item.word)
+    return 'No such buffer: ' . string(a:item.word)
   endif
 endfunction
 
@@ -132,32 +134,27 @@ endfunction
 
 " Actions  "{{{2
 function! ku#buffer#action_delete(item)  "{{{3
-  call s:delete('bdelete', a:item)
-  return
+  return s:delete('bdelete', a:item)
 endfunction
 
 
 function! ku#buffer#action_open(item)  "{{{3
-  call s:open('', a:item)
-  return
+  return s:open('', a:item)
 endfunction
 
 
 function! ku#buffer#action_open_x(item)  "{{{3
-  call s:open('!', a:item)
-  return
+  return s:open('!', a:item)
 endfunction
 
 
 function! ku#buffer#action_unload(item)  "{{{3
-  call s:delete('bunload', a:item)
-  return
+  return s:delete('bunload', a:item)
 endfunction
 
 
 function! ku#buffer#action_wipeout(item)  "{{{3
-  call s:delete('bwipeout', a:item)
-  return
+  return s:delete('bwipeout', a:item)
 endfunction
 
 
