@@ -116,6 +116,10 @@ endfunction
 " Misc.  "{{{1
 " Actions  "{{{2
 function! ku#history#action_open(item)  "{{{3
+  if !a:item.ku__completed_p
+    return 'No such entry in the input history: ' . string(a:item.word)
+  endif
+
   let pattern = a:item.word
   let source = a:item.menu
 
