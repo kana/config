@@ -1425,9 +1425,9 @@ function! s:with_split(direction_modifier, item)
   let original_winrestcmd = winrestcmd()
 
   let v:errmsg = ''
-  execute a:direction_modifier 'split'
+  silent! execute a:direction_modifier 'split'
   if v:errmsg != ''
-    return
+    return v:errmsg
   endif
 
   " Here we have to do "default" action of the default action table for the
@@ -1485,34 +1485,35 @@ endfunction
 
 
 function! s:_default_action_cd(item)  "{{{3
-  cd `=fnamemodify(a:item.word, ':p:h')`
-  return
+  let v:errmsg = ''
+  silent! cd `=fnamemodify(a:item.word, ':p:h')`
+  return v:errmsg == '' ? 0 : v:errmsg
 endfunction
 
 
 function! s:_default_action_default(item)  "{{{3
-  echoerr 'ku: Source' string(a:item.ku__source)
-  \       'does not have the "default" action'
-  return
+  return 'ku: Source ' . string(a:item.ku__source)
+  \      . ' does not have the "default" action'
 endfunction
 
 
 function! s:_default_action_ex(item)  "{{{3
   " Support to execute an Ex command on a:item.word (as path).
   call feedkeys(printf(": %s\<C-b>", fnameescape(a:item.word)), 'n')
-  return
+  return 0
 endfunction
 
 
 function! s:_default_action_lcd(item)  "{{{3
-  lcd `=fnamemodify(a:item.word, ':p:h')`
-  return
+  let v:errmsg = ''
+  silent! lcd `=fnamemodify(a:item.word, ':p:h')`
+  return v:errmsg == '' ? 0 : v:errmsg
 endfunction
 
 
 function! s:_default_action_nop(item)  "{{{3
   " NOP
-  return
+  return 0
 endfunction
 
 
