@@ -1033,6 +1033,7 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.2.1	2009-05-01T01:40:08+09:00
+	Bug fixes:
 	- |<Plug>(ku-choose-action)|: Fix a bug that an error message is
 	  displayed unexpectedly, whenever a key which is not associated with
 	  any action is pressed.
@@ -1040,15 +1041,19 @@ CHANGELOG					*ku-changelog*
 	  highlighted correctly in some cases.
 	- Document: Fix a wrong description on the default value of
 	  |g:ku_history_reloading_style|.  It is "idle", not "once".
-	- Refactor the core.
 	- |ku__source|: Fix a bug that it doesn't exist for items which are
 	  not completed by ku.
-	- Change the behavior not to take any action if an input pattern is
-	  empty and there is no item, because there is nothing to do in such
-	  case.
 	- |ku-action-left| and other actions: Fix a bug that they don't close
 	  a window or a tab page created by them even if |ku-action-default|
 	  is failed.
+
+	Incompatible changes:
+	- Change the behavior not to take any action if an input pattern is
+	  empty and there is no item, because there is nothing to do in such
+	  case.
+
+	Misc.:
+	- Refactor the core.
 
 0.2.0	2008-12-31T22:06:44+09:00/2009-04-28T01:45:50+09:00
 	- Add |ku__source|.
