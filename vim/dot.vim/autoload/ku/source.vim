@@ -97,9 +97,13 @@ endfunction
 " Misc.  "{{{1
 " Actions  "{{{2
 function! ku#source#action_open(item)  "{{{3
-  let source = a:item.word  " FIXME: How about if this source is unavailable?
-  call ku#start(source, s:the_old_input_pattern)
-  return 0  " FIXME: action: How about the results of the previous commands?
+  if a:item.ku__completed_p
+    let source = a:item.word  " FIXME: How about if this source is unavailable?
+    call ku#start(source, s:the_old_input_pattern)
+    return 0  " FIXME: action: How about the results of the previous commands?
+  else
+    return 'Not a valid source: ' . string(a:item.word)
+  endif
 endfunction
 
 
