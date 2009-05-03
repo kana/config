@@ -114,9 +114,13 @@ endfunction
 " Misc.  "{{{1
 " Actions  "{{{2
 function! ku#myproject#action_open(item)  "{{{3
-  execute 'CD' a:item.ku_myproject_path
-  Ku file
-  return 0  " FIXME: action: How about the results of the previous commands?
+  if a:item.ku__completed_p
+    execute 'CD' a:item.ku_myproject_path
+    Ku file
+    return 0  " FIXME: action: How about the results of the previous commands?
+  else
+    return 'No such project: ' . string(a:item.word)
+  endif
 endfunction
 
 
