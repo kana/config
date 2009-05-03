@@ -109,8 +109,7 @@ function! s:open(bang, item)  "{{{2
   if a:item.ku__completed_p
     let original_switchbuf = &switchbuf
       let &switchbuf = ''
-      execute a:item.ku_quickfix_bufnr 'buffer'.a:bang
-      execute 'cc' a:item.ku_quickfix_ccnr
+      execute 'cc'.a:bang a:item.ku_quickfix_ccnr
     let &switchbuf = original_switchbuf
     return 0
   else
