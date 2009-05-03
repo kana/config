@@ -354,7 +354,7 @@ PACKAGE_vim_ku_metarw_FILES=\
   vim/dot.vim/autoload/ku/metarw.vim \
   vim/dot.vim/doc/ku-metarw.txt
 
-PACKAGE_vim_ku_quickfix_ARCHIVE=vim-ku-quickfix-0.1.0
+PACKAGE_vim_ku_quickfix_ARCHIVE=vim-ku-quickfix-0.1.1
 PACKAGE_vim_ku_quickfix_BASE=vim/dot.vim
 PACKAGE_vim_ku_quickfix_FILES=\
   vim/dot.vim/autoload/ku/quickfix.vim \
