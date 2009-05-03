@@ -318,7 +318,7 @@ PACKAGE_vim_ku_FILES=\
   $(PACKAGE_vim_ku_history_FILES) \
   $(PACKAGE_vim_ku_source_FILES)
 
-PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.0
+PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
 PACKAGE_vim_ku_args_FILES=\
   vim/dot.vim/autoload/ku/args.vim \
