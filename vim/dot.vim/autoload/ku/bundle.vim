@@ -147,11 +147,13 @@ endfunction
 
 
 function! ku#bundle#action_args(item)  "{{{2
-  if has_key(a:item, 'ku_bundle_path')
-    return s:open_by_source_file('', a:item)
-  elseif a:item.ku__completed_p
-    execute 'ArgsBundle' a:item.word
-    return 0
+  if a:item.ku__completed_p
+    if has_key(a:item, 'ku_bundle_path')
+      return s:open_by_source_file('', a:item)
+    else
+      execute 'ArgsBundle' a:item.word
+      return 0
+    endif
   else
     return 'No such bundle: ' . string(a:item.word)
   endif
@@ -161,11 +163,13 @@ endfunction
 
 
 function! ku#bundle#action_args_x(item)  "{{{2
-  if has_key(a:item, 'ku_bundle_path')
-    return s:open_by_source_file('!', a:item)
-  elseif a:item.ku__completed_p
-    execute 'ArgsBundle!' a:item.word
-    return 0
+  if a:item.ku__completed_p
+    if has_key(a:item, 'ku_bundle_path')
+      return s:open_by_source_file('!', a:item)
+    else
+      execute 'ArgsBundle!' a:item.word
+      return 0
+    endif
   else
     return 'No such bundle: ' . string(a:item.word)
   endif
@@ -175,11 +179,13 @@ endfunction
 
 
 function! ku#bundle#action_load(item)  "{{{2
-  if has_key(a:item, 'ku_bundle_path')
-    return s:open_by_source_file('', a:item)
-  elseif a:item.ku__completed_p
-    execute 'LoadBundle' a:item.word
-    return 0
+  if a:item.ku__completed_p
+    if has_key(a:item, 'ku_bundle_path')
+      return s:open_by_source_file('', a:item)
+    else
+      execute 'LoadBundle' a:item.word
+      return 0
+    endif
   else
     return 'No such bundle: ' . string(a:item.word)
   endif
@@ -189,11 +195,13 @@ endfunction
 
 
 function! ku#bundle#action_load_x(item)  "{{{2
-  if has_key(a:item, 'ku_bundle_path')
-    return s:open_by_source_file('!', a:item)
-  elseif a:item.ku__completed_p
-    execute 'LoadBundle!' a:item.word
-    return 0
+  if a:item.ku__completed_p
+    if has_key(a:item, 'ku_bundle_path')
+      return s:open_by_source_file('!', a:item)
+    else
+      execute 'LoadBundle!' a:item.word
+      return 0
+    endif
   else
     return 'No such bundle: ' . string(a:item.word)
   endif
