@@ -217,7 +217,7 @@ function! s:initialize_commit_buffer(args)  "{{{3
     if s:vcs_type(a:args.targets) ==# 'git'
       let git_dir = split(system('git rev-parse --git-dir'), '\n')[0]
       silent execute '!EDITOR=' s:make_vcs_command_script(a:args, s:FALSE)
-      silent read `=git_dir . '/COMMIT_EDITMSG'`
+      silent keepalt read `=git_dir . '/COMMIT_EDITMSG'`
     else
       silent execute 'read !'
       \ 'EDITOR=cat' s:make_vcs_command_script(a:args, s:FALSE) '2>/dev/null'
