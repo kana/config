@@ -102,7 +102,7 @@ endfunction
 function! s:git_branches(git_dir)  "{{{2
   " Assumption: Branches given by "git branch -a" are already sorted.
   let output = system(printf('git --git-dir=%s branch -a',
-  \                          fnameescape(a:git_dir)))
+  \                          shellescape(a:git_dir)))
   if v:shell_error != 0
     echoerr 'git branch failed with the following reason:'
     echoerr output
@@ -120,10 +120,10 @@ function! s:git_ls_tree(git_dir, commit_ish, leading_path)  "{{{2
   let _ = []
 
   let output = system(printf("git --git-dir=%s ls-tree %s %s%s",
-  \                          fnameescape(a:git_dir),
-  \                          fnameescape(a:commit_ish),
-  \                          fnameescape(a:leading_path),
-  \                          fnameescape((a:leading_path == '' ? '.' : '/'))))
+  \                          shellescape(a:git_dir),
+  \                          shellescape(a:commit_ish),
+  \                          shellescape(a:leading_path),
+  \                          shellescape((a:leading_path == '' ? '.' : '/'))))
   if v:shell_error != 0
     echoerr 'git ls-tree failed with the following reason:'
     echoerr output
@@ -223,9 +223,9 @@ endfunction
 function! s:read_blob(_)  "{{{2
   return ['read',
   \       printf('!git --git-dir=%s show %s:%s',
-  \              fnameescape(a:_.git_dir),
-  \              fnameescape(a:_.commit_ish),
-  \              fnameescape(a:_.incomplete_path))]
+  \              shellescape(a:_.git_dir),
+  \              shellescape(a:_.commit_ish),
+  \              shellescape(a:_.incomplete_path))]
 endfunction
 
 
@@ -254,8 +254,8 @@ endfunction
 function! s:read_commit(_)  "{{{2
   return ['read',
   \       printf('!git --git-dir=%s show %s',
-  \              fnameescape(a:_.git_dir),
-  \              fnameescape(a:_.commit_ish))]
+  \              shellescape(a:_.git_dir),
+  \              shellescape(a:_.commit_ish))]
 endfunction
 
 
