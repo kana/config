@@ -4,6 +4,7 @@ ID=$$Id$$#{{{1
 
 all: update
 .PHONY: \
+  _validate-package-arguments \
   _vimup \
   all \
   clean \
@@ -563,15 +564,7 @@ PACKAGE_SUFFIX_tar=.tar.bz2
 PACKAGE_COMMAND_zip=zip
 PACKAGE_SUFFIX_zip=.zip
 
-package:
-	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
-	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
-	  false; \
-	fi
-	if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
-	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
-	  false; \
-	fi
+package: _validate-package-arguments
 	ln -s $(PACKAGE_$(_PACKAGE_NAME)_BASE) \
 	      $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 	$(PACKAGE_COMMAND_$(PACKAGE_TYPE)) \
@@ -582,6 +575,15 @@ package:
 	                       $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)/%, \
 	                       $(file)))
 	rm $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
+_validate-package-arguments:
+	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	  false; \
+	fi
+	if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
+	  false; \
+	fi
 
 
 # for vim-bundle
