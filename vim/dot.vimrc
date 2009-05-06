@@ -2326,12 +2326,15 @@ let s:CONFIG_DIR = '~/working/config'
 let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
 
 function! s:available_packages()
-  return split(s:system('make -f '.s:CONFIG_MAKEFILE.' available-packages'))
+  return split(s:system('make -f '
+  \                     . s:CONFIG_MAKEFILE
+  \                     . ' list-available-packages'))
 endfunction
 
 function! s:package_files(name)
-  return map(split(s:system('make -f '.s:CONFIG_MAKEFILE.' '
-  \                         . 'PACKAGE_NAME='.a:name.' package-files')),
+  return map(split(s:system('make -f ' . s:CONFIG_MAKEFILE
+  \                         . ' PACKAGE_NAME=' . a:name
+  \                         . ' list-files-in-a-package')),
   \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
 endfunction
 

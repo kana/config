@@ -6,11 +6,11 @@ all: update
 .PHONY: \
   _vimup \
   all \
-  available-packages \
   clean \
   clean-vim \
+  list-available-packages \
+  list-files-in-a-package \
   package \
-  package-files \
   update \
   vimup \
   vimup-details \
@@ -586,10 +586,10 @@ package:
 
 # for vim-bundle
 
-available-packages:
+list-available-packages:
 	@echo $(ALL_PACKAGES)
 
-package-files:
+list-files-in-a-package:
 	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
