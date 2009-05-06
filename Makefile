@@ -580,12 +580,12 @@ package: _validate-package-arguments test-a-package
 	rm $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 _validate-package-arguments: _validate-package-name _validate-package-type
 _validate-package-name:
-	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
 _validate-package-type:
-	if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
+	@if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
 	  false; \
 	fi
@@ -697,7 +697,7 @@ clean-vim:
 # test  #{{{1
 
 test-a-package: _validate-package-name  # (PACKAGE_NAME)
-	if [ -f test/$(PACKAGE_NAME).expected ]; then \
+	@if [ -f test/$(PACKAGE_NAME).expected ]; then \
 	  $(MAKE) test/$(PACKAGE_NAME).ok; \
 	else \
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
