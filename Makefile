@@ -4,12 +4,17 @@ ID=$$Id$$#{{{1
 
 all: update
 .PHONY: \
+  _vimup \
   all \
+  available-packages \
   clean \
+  clean-vim \
   package \
+  package-files \
   update \
   vimup \
   vimup-details \
+  vimup-new \
   vimup-script
 
 SHELL=/bin/sh
