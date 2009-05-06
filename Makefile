@@ -3,7 +3,15 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean package _package update vimup vimup-details vimup-script
+.PHONY: \
+  all \
+  clean \
+  package \
+  _package \
+  update \
+  vimup \
+  vimup-details \
+  vimup-script
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
