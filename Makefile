@@ -5,6 +5,8 @@ ID=$$Id$$#{{{1
 all: update
 .PHONY: \
   _validate-package-arguments \
+  _validate-package-name \
+  _validate-package-type \
   _vimup \
   all \
   clean \
@@ -575,11 +577,13 @@ package: _validate-package-arguments
 	                       $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)/%, \
 	                       $(file)))
 	rm $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
-_validate-package-arguments:
+_validate-package-arguments: _validate-package-name _validate-package-type
+_validate-package-name:
 	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
+_validate-package-type:
 	if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
 	  false; \
