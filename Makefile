@@ -7,7 +7,6 @@ all: update
   all \
   clean \
   package \
-  _package \
   update \
   vimup \
   vimup-details \
@@ -568,8 +567,6 @@ package:
 	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
 	  false; \
 	fi
-	$(MAKE) _package
-_package:
 	ln -s $(PACKAGE_$(_PACKAGE_NAME)_BASE) \
 	      $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 	$(PACKAGE_COMMAND_$(PACKAGE_TYPE)) \
