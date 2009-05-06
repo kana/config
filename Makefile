@@ -14,6 +14,7 @@ all: update
   list-available-packages \
   list-files-in-a-package \
   package \
+  test-a-package \
   update \
   vimup \
   vimup-details \
@@ -566,7 +567,7 @@ PACKAGE_SUFFIX_tar=.tar.bz2
 PACKAGE_COMMAND_zip=zip
 PACKAGE_SUFFIX_zip=.zip
 
-package: _validate-package-arguments
+package: _validate-package-arguments test-a-package
 	ln -s $(PACKAGE_$(_PACKAGE_NAME)_BASE) \
 	      $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 	$(PACKAGE_COMMAND_$(PACKAGE_TYPE)) \
@@ -689,6 +690,18 @@ clean-vim:
 	rm -rf `find $(HOME)/.vim \
 	        -mindepth 1 -maxdepth 1 \
 	        -not -name 'info' -not -name 'xtr'`
+
+
+
+
+# test  #{{{1
+
+test-a-package: _validate-package-name  # (PACKAGE_NAME)
+	if [ -f test/$(PACKAGE_NAME).expected ]; then \
+	  $(MAKE) test/$(PACKAGE_NAME).ok; \
+	else \
+	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
+	fi
 
 
 
