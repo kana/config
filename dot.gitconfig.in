@@ -44,8 +44,10 @@
 	r1 = rebase HEAD@{1}
 	r2 = rebase HEAD@{2}
 	r3 = rebase HEAD@{3}
+	ra = rebase --abort
+	rc = rebase --continue
 	rh = reset --hard
-	ri = !git rebase -i HEAD~${1:-10}
+	ri = "!$SHELL -c 'git rebase -i \"HEAD~${1:-10}\"' __dummy__"
 	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
 	s = show
