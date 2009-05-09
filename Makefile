@@ -40,9 +40,9 @@ vim-generate-each-page:
 vim/,index.txt: vim/index.txt $(shell $(CMD_VIM_DOC_FILES))
 	./generate-vimhelp-index $^ >$@
 
-vim/index.html: vim/,index.txt
+vim/index.html: vim/,index.txt convert-vimhelp-to-html
 	./convert-vimhelp-to-html $< >$@
-vim/%.html: data/vim/dot.vim/doc/%.txt
+vim/%.html: data/vim/dot.vim/doc/%.txt convert-vimhelp-to-html
 	./convert-vimhelp-to-html $< >$@
 
 # __END__
