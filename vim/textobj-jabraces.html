@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: textobj-jabraces - Text objects for Japanese braces</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">textobj-jabraces.txt</span><span class="Ignore">*</span>  Text objects for Japanese braces
+
+Version 0.1.1
+Script ID: 2276
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-jabraces-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-jabraces-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">textobj-jabraces-interface</span><span class="Ignore">|</span>
+  Key Mapings             <span class="Ignore">|</span><span class="Identifier">textobj-jabraces-key-mappings</span><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><span class="Identifier">textobj-jabraces-customizing</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-jabraces-bugs</span><span class="Ignore">|</span>
+ChangeLog               <span class="Ignore">|</span><span class="Identifier">textobj-jabraces-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-jabraces-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">textobj-jabraces</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for Japanese braces
+such as 「foo」 or 【bar】.
+
+
+Requirements:
+- Vim 7.0 or later
+- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.3 or later (vimscript#2100)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-jabraces">http://github.com/kana/config/commits/vim-textobj-jabraces</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-jabraces-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">textobj-jabraces-key-mappings</span><span class="Ignore">*</span>
+
+Thie plugin provides following key mappings in Visual mode and
+Operator-pending mode.  &quot;i&quot; versions select &quot;inner block&quot; and &quot;a&quot; versions
+select &quot;a block&quot;.  The key mappings and their corresponding characters are as
+followings:
+
+<span class="PreProc">Characters      Key Mappings</span><span class="Ignore"> ~</span>
+<span class="PreProc">----------      ------------</span><span class="Ignore"> ~</span>
+（）          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-parens-i)</span><span class="Ignore">*</span>
+［］          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-braces-i)</span><span class="Ignore">*</span>
+｛｝          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-brackets-i)</span><span class="Ignore">*</span>
+＜＞          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-angles-i)</span><span class="Ignore">*</span>
+≪≫          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-double-angles-i)</span><span class="Ignore">*</span>
+「」          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-kakko-i)</span><span class="Ignore">*</span>
+『』          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-double-kakko-i)</span><span class="Ignore">*</span>
+〈〉          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-yama-kakko-i)</span><span class="Ignore">*</span>
+《》          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-double-yama-kakko-i)</span><span class="Ignore">*</span>
+〔〕          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-kikkou-kakko-i)</span><span class="Ignore">*</span>
+【】          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-sumi-kakko-i)</span><span class="Ignore">*</span>
+（）          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-parens-a)</span><span class="Ignore">*</span>
+［］          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-braces-a)</span><span class="Ignore">*</span>
+｛｝          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-brackets-a)</span><span class="Ignore">*</span>
+＜＞          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-angles-a)</span><span class="Ignore">*</span>
+≪≫          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-double-angles-a)</span><span class="Ignore">*</span>
+「」          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-kakko-a)</span><span class="Ignore">*</span>
+『』          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-double-kakko-a)</span><span class="Ignore">*</span>
+〈〉          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-yama-kakko-a)</span><span class="Ignore">*</span>
+《》          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-double-yama-kakko-a)</span><span class="Ignore">*</span>
+〔〕          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-kikkou-kakko-a)</span><span class="Ignore">*</span>
+【】          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-jabraces-sumi-kakko-a)</span><span class="Ignore">*</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-jabraces-customizing</span><span class="Ignore">*</span>
+
+                                  <span class="Ignore">*</span><span class="Constant">g:textobj_jabraces_no_default_key_mappings</span><span class="Ignore">*</span>
+                                          <span class="Ignore">*</span><span class="Constant">:TextobjJabracesDefaultKeyMappings</span><span class="Ignore">*</span>
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode, and each key mappings will not be defined if its <span class="Special">{lsh}</span>
+is already mapped to other <span class="Special">{rhs}</span>.
+
+If you don't want these key mappings, define
+<span class="Ignore">|</span><span class="Identifier">g:textobj_jabraces_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is loaded
+(e.g. in $MYVIMRC).
+
+You can also use <span class="Ignore">|</span><span class="Identifier">:TextobjJabracesDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key
+mappings.  If you want to override existent key mappings, use
+:TextobjJabracesDefaultKeyMappings! instead.
+
+        <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
+        <span class="PreProc">-----  ---------------------------</span><span class="Ignore">      ~</span>
+        <span class="Ignore">*</span><span class="Constant">ajb</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-parens-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj(</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-parens-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj)</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-parens-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajB</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-braces-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj{</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-braces-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj}</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-braces-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajr</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-brackets-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj[</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-brackets-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj]</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-brackets-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aja</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-angles-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj&lt;</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-angles-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">aj&gt;</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-angles-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajA</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-double-angles-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajk</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-kakko-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajK</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-double-kakko-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajy</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-yama-kakko-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajY</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-double-yama-kakko-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajt</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-kikkou-kakko-a)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ajs</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-sumi-kakko-a)</span><span class="Ignore">|</span>
+
+        <span class="Ignore">*</span><span class="Constant">ijb</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-parens-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij(</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-parens-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij)</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-parens-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijB</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-braces-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij{</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-braces-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij}</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-braces-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijr</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-brackets-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij[</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-brackets-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij]</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-brackets-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ija</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-angles-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij&lt;</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-angles-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ij&gt;</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-angles-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijA</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-double-angles-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijk</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-kakko-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijK</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-double-kakko-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijy</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-yama-kakko-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijY</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-double-yama-kakko-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijt</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-kikkou-kakko-i)</span><span class="Ignore">|</span>
+        <span class="Ignore">*</span><span class="Constant">ijs</span><span class="Ignore">*</span>  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-jabraces-sumi-kakko-i)</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-jabraces-bugs</span><span class="Ignore">*</span>
+
+- Not known yet.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-jabraces-changelog</span><span class="Ignore">*</span>
+
+0.1.1   2008-06-11T22:12:16+09:00
+        - Modify to use textobj-user version 0.3.3 or later.
+
+0.1.0   2008-06-08T23:19:02+09:00
+        - Rewrite to use textobj-user 0.3.x.
+          - Rename interface mappings.  For example:
+            Old name: <span class="Special">&lt;Plug&gt;</span>(textobj-jabraces-i-kakko)
+            New name: <span class="Special">&lt;Plug&gt;</span>(textobj-jabraces-kakko-i)
+
+0.0.0   2008-04-17T19:09:06+09:00
+        - First release.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

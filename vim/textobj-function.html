@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: textobj-function - Text object for a function</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">textobj-function.txt</span><span class="Ignore">*</span>  Text object for a function
+
+Version 0.1.0
+Script ID: 2619
+Copyright (C) 2007-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-function-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-function-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">textobj-function-interface</span><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><span class="Identifier">textobj-function-key-mappings</span><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><span class="Identifier">textobj-function-customizing</span><span class="Ignore">|</span>
+API                     <span class="Ignore">|</span><span class="Identifier">textobj-function-api</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-function-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-function-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-function-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">textobj-function</span><span class="Ignore">*</span> is a Vim plugin to provide universal text objects for
+various kinds of functions.  For example, you can select any function with
+<span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-function-a)</span><span class="Ignore">|</span> / <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-function-i)</span><span class="Ignore">|</span> (default key
+bindings: af / if).
+
+The definition of a &quot;function&quot; is usually differed depending on what you are
+editing, so at first, you have to tell the definition of what kind of function
+you want to select to textobj-function.  By default, textobj-function knows
+about functions in the following languages:
+                                            <span class="Ignore">*</span><span class="Constant">textobj-function-known-languages</span><span class="Ignore">*</span>
+- C language            <span class="Ignore">|</span><span class="Identifier">textobj-function-c</span><span class="Ignore">|</span>
+- Vim script            <span class="Ignore">|</span><span class="Identifier">textobj-function-vim</span><span class="Ignore">|</span>
+
+If you want to tell about more functions in other languages, see
+<span class="Ignore">|</span><span class="Identifier">textobj-function-customizing</span><span class="Ignore">|</span> for how to tell and
+after/ftplugin/*/textobj-function.vim for the samples.
+
+Requirements:
+- Vim 7.2 or later
+- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-function">http://github.com/kana/config/commits/vim-textobj-function</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-function-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                   </span><span class="Ignore">*</span><span class="Constant">textobj-function-key-mappings</span><span class="Ignore">*</span>
+
+In visual mode and operator-pending mode, the following text objects are
+available.  <span class="Todo">Note</span> that the fllowing key mappings will not be defined when its
+<span class="Special">{lhs}</span> is already mapped.
+
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-function-a)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-function-a)</span><span class="Ignore">*</span>
+                        &quot;a function&quot; - Select the all range of a function.
+                        This text object is <span class="Ignore">|</span><span class="Identifier">linewise</span><span class="Ignore">|</span> by default, but it may
+                        be <span class="Ignore">|</span><span class="Identifier">characterwise</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">blockwise</span><span class="Ignore">|</span> depending on what
+                        function is being selected.
+
+                        <span class="Todo">Note</span> that unlike built-in text objects, &quot;a function&quot;
+                        doesn't include leading or trailing blanks and/or
+                        blank lines.  This problem will be fixed in the near
+                        future - by adding another text object.
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-function-i)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-function-i)</span><span class="Ignore">*</span>
+                        &quot;inner function&quot; - Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-function-a)</span><span class="Ignore">|</span>,
+                        but select the body of a function, other parts of
+                        a function are not included e.g. its name, its
+                        arguments and so forth).
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-function-customizing</span><span class="Ignore">*</span>
+
+                                  <span class="Ignore">*</span><span class="Constant">g:textobj_function_no_default_key_mappings</span><span class="Ignore">*</span>
+                                          <span class="Ignore">*</span><span class="Constant">:TextobjFunctionDefaultKeyMappings</span><span class="Ignore">*</span>
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode automatically.  If you don't want these key mappings,
+define <span class="Ignore">|</span><span class="Identifier">g:textobj_function_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is
+loaded (e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use
+<span class="Ignore">|</span><span class="Identifier">:TextobjFunctionDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.  This
+command doesn't override existing <span class="Special">{lhs}</span>s unless [!] is given.
+
+        <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
+        <span class="PreProc">-----  ---------------------------</span><span class="Ignore">      ~</span>
+        af      <span class="Special">&lt;Plug&gt;</span>(textobj-function-a)
+        if      <span class="Special">&lt;Plug&gt;</span>(textobj-function-i)
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">API                                             </span><span class="Ignore">*</span><span class="Constant">textobj-function-api</span><span class="Ignore">*</span>
+
+textobj-function uses the following function to know the range to select
+a function which is appropriate for the current buffer.  See
+after/ftplugin/*/textobj-function.vim in the archives of textobj-function for
+examples.
+
+b:textobj_function_select(<span class="Special">{object-type}</span>)        <span class="Ignore">*</span><span class="Constant">b:textobj_function_select()</span><span class="Ignore">*</span>
+                Return a list to indicate the range to select a function.  If
+                there is no function to select, return 0 instead.
+
+                <span class="Special">{object-type}</span> specifies the type of object to select.  This
+                can be one of the following values:
+
+                        <span class="PreProc">Value        Meaning </span><span class="Ignore">       ~</span>
+                        <span class="PreProc">-----------------------</span><span class="Ignore"> ~</span>
+                        'a'     &quot;a function&quot;
+                        'i'     &quot;inner function&quot;
+
+                The detail of a list to return is as follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                        [{*wise}, {start-position}, {end-position}]</span>
+<span class="Ignore">&lt;</span>
+                - <span class="Special">{*wise}</span> denotes the default type of selection.  Valid values
+                  are &quot;v&quot;, &quot;V&quot; or &quot;\<span class="Special">&lt;C-v&gt;</span>&quot;.  The meaning of the values are
+                  characterwise, linewise or blockwise.
+                - <span class="Special">{start-position}</span> denotes the start position of the area to
+                  be selected.  The detail of this value is the same as
+                  <span class="Ignore">|</span><span class="Identifier">getpos()</span><span class="Ignore">|</span>.
+                - <span class="Special">{end-position}</span> is like <span class="Special">{start-position}</span>, but it denotes the
+                  end position of the area to be selected.
+
+                In this function, it is allowd to move the cursor to anywhere.
+                The cursor will be automatically adjusted or restored after
+                calling this function.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-function-bugs</span><span class="Ignore">*</span>
+
+- See <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span> for further information.
+
+- Please report me if you find any bug not described above.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-function-changelog</span><span class="Ignore">*</span>
+
+0.1.0   2009-04-25T14:17:41+09:00
+        - Rename the name of this plugin as textobj-function.  The old name is
+          tofunc and it's not clear to indicate what this plugin does.
+        - Change to use <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> instead of its own framework.
+        - Change the API.  See <span class="Ignore">|</span><span class="Identifier">textobj-function-api</span><span class="Ignore">|</span> for the details.  It is
+          now incompatible with old versions.
+        - Add documents for sample scripts.
+          See <span class="Ignore">|</span><span class="Identifier">textobj-function-known-languages</span><span class="Ignore">|</span>.
+
+0.0     2007-XX-XX
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

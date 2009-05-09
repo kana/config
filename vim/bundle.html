@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: bundle - Load a series of files easily</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">bundle.txt</span><span class="Ignore">*</span>    Load a series of files easily
+
+Version 0.0.2
+Script ID: 2338
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">bundle-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">bundle-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">bundle-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">bundle-commands</span><span class="Ignore">|</span>
+  Events                  <span class="Ignore">|</span><span class="Identifier">bundle-events</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">bundle-functions</span><span class="Ignore">|</span>
+  Variables               <span class="Ignore">|</span><span class="Identifier">bundle-variables</span><span class="Ignore">|</span>
+Loading Steps           <span class="Ignore">|</span><span class="Identifier">bundle-loading-steps</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">bundle-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">bundle-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">bundle-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">bundle</span><span class="Ignore">*</span> is a Vim plugin to easily load a series of files which is called as
+&quot;bundle&quot;.  For example, if you often edit files foo.c, bar.txt and baz.vim in
+project named &quot;qux&quot;, you can use &quot;<span class="Ignore">|</span><span class="Identifier">:LoadBundle</span><span class="Ignore">|</span> qux&quot; to load the files.
+
+The correspondence of bundle names and lists of files can be configured by
+static way (<span class="Ignore">|</span><span class="Identifier">g:bundle_dictionary</span><span class="Ignore">|</span>) and dynamic way (<span class="Ignore">|</span><span class="Identifier">bundle-events</span><span class="Ignore">|</span>).
+
+
+Requirements:
+- Vim 7.1.299 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-bundle">http://github.com/kana/config/commits/vim-bundle</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">bundle-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">bundle-commands</span><span class="Ignore">*</span>
+
+:ArgsBundle[!] <span class="Special">{name}</span>                           <span class="Ignore">*</span><span class="Constant">:ArgsBundle</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">:ArgsBundle!</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">:LoadBundle</span><span class="Ignore">|</span>, but do <span class="Ignore">|</span><span class="Identifier">:args</span><span class="Ignore">|</span> with files in the
+                        bundle <span class="Special">{name}</span>.  If [!] is given, do <span class="Ignore">|</span><span class="Identifier">:args!</span><span class="Ignore">|</span> instead
+                        of <span class="Ignore">|</span><span class="Identifier">:args</span><span class="Ignore">|</span>.
+
+                        <span class="Special">{name}</span> can be completed.
+
+:LoadBundle[!] <span class="Special">{name}</span>                           <span class="Ignore">*</span><span class="Constant">:LoadBundle</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">:LoadBundle!</span><span class="Ignore">*</span>
+                        Load files in the bundle specified by <span class="Special">{name}</span>.
+
+                        This means that files will be added to the buffer list
+                        by <span class="Ignore">|</span><span class="Identifier">:badd</span><span class="Ignore">|</span>.  If [!] is given, each file will be
+                        actually loaded by <span class="Ignore">|</span><span class="Identifier">:edit</span><span class="Ignore">|</span>, but the current and other
+                        states will never be changed.
+
+                        <span class="Special">{name}</span> can be completed.
+
+                        Example:<span class="Ignore"> &gt;</span>
+<span class="Comment">                                LoadBundle qux</span>
+<span class="Ignore">&lt;</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">EVENTS                                          </span><span class="Ignore">*</span><span class="Constant">bundle-events</span><span class="Ignore">*</span>
+
+Bundle uses the following <span class="Ignore">|</span><span class="Identifier">autocmd-events</span><span class="Ignore">|</span>:
+
+User BundleAvailability                         <span class="Ignore">*</span><span class="Constant">BundleAvailability</span><span class="Ignore">*</span>
+                        When the names of available bundles are gathered.
+                        Gatherd information is used to complete arguments to
+                        <span class="Ignore">|</span><span class="Identifier">:LoadBundle</span><span class="Ignore">|</span>.
+
+                        Handlers for this event must call <span class="Ignore">|</span><span class="Identifier">bundle#return()</span><span class="Ignore">|</span>
+                        with a list of the names of bundles which are
+                        supported by those handlers.
+
+                        Example:<span class="Ignore"> &gt;</span>
+<span class="Comment">                                autocmd User BundleAvailability</span>
+<span class="Comment">                                \ call bundle#return(['qux'])</span>
+<span class="Ignore">&lt;</span>
+User BundleUndefined:<span class="Special">{name}</span>                     <span class="Ignore">*</span><span class="Constant">BundleUndefined</span><span class="Ignore">*</span>
+User BundleUndefined!:<span class="Special">{name}</span>                    <span class="Ignore">*</span><span class="Constant">BundleUndefined!</span><span class="Ignore">*</span>
+                        &quot;BundleUndefined&quot; is published when the bundle
+                        specified by <span class="Special">{name}</span> is loaded but it is not found in
+                        <span class="Ignore">|</span><span class="Identifier">g:bundle_dictionary</span><span class="Ignore">|</span>.
+
+
+                        &quot;BundleUndefined!&quot; is published before investigating
+                        entries in <span class="Ignore">|</span><span class="Identifier">g:bundle_dictionary</span><span class="Ignore">|</span> to load the bundle
+                        specified by <span class="Special">{name}</span>.  Use this event to provide
+                        bundles to override entries in <span class="Ignore">|</span><span class="Identifier">g:bundle_dictionary</span><span class="Ignore">|</span>.
+
+                        Handlers for these events must call <span class="Ignore">|</span><span class="Identifier">bundle#return()</span><span class="Ignore">|</span>
+                        with a list of files which is corresponding to the
+                        bundle <span class="Special">{name}</span> if they want to give information on the
+                        bundle <span class="Special">{name}</span>, otherwise they must not call
+                        <span class="Ignore">|</span><span class="Identifier">bundle#return()</span><span class="Ignore">|</span>.
+
+                        Returned lists from handlers for &quot;BundleUndefined&quot; are
+                        automatically cahed into <span class="Ignore">|</span><span class="Identifier">g:bundle_dictionary</span><span class="Ignore">|</span>.  For
+                        handlers for &quot;BundleUndefined!&quot;, such caching is not
+                        done.
+
+                        Example:<span class="Ignore"> &gt;</span>
+<span class="Comment">                                autocmd User BundleUndefined:qux</span>
+<span class="Comment">                                \ call bundle#return([</span>
+<span class="Comment">                                \   'foo.c',</span>
+<span class="Comment">                                \   'bar.txt',</span>
+<span class="Comment">                                \   'baz.vim'</span>
+<span class="Comment">                                \ ])</span>
+
+<span class="Comment">                                autocmd User BundleUndefined!:quux</span>
+<span class="Comment">                                \ call bundle#return(split(glob('*.c'), '\n'))</span>
+<span class="Ignore">&lt;</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">bundle-functions</span><span class="Ignore">*</span>
+
+bundle#args(<span class="Special">{bang-p}</span>, <span class="Special">{name}</span>)                   <span class="Ignore">*</span><span class="Constant">bundle#args()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><span class="Identifier">:ArgsBundle</span><span class="Ignore">|</span>, like
+                        <span class="Ignore">|</span><span class="Identifier">bundle#load()</span><span class="Ignore">|</span>.
+
+bundle#available_bundles()                      <span class="Ignore">*</span><span class="Constant">bundle#available_bundles()</span><span class="Ignore">*</span>
+                        Return a list of the names of available bundles.
+
+bundle#files(<span class="Special">{name}</span>)                            <span class="Ignore">*</span><span class="Constant">bundle#files()</span><span class="Ignore">*</span>
+                        Return a list of the files in the bundle <span class="Special">{name}</span>.
+                        If the bundle <span class="Special">{name}</span> is not found, empty list will be
+                        returned.
+
+bundle#load(<span class="Special">{bang-p}</span>, <span class="Special">{name}</span>)                   <span class="Ignore">*</span><span class="Constant">bundle#load()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><span class="Identifier">:LoadBundle</span><span class="Ignore">|</span>.
+
+                        If <span class="Special">{bang-p}</span> is true, it does &quot;:LoadBundle!&quot;, otherwise
+                        it does &quot;:LoadBundle&quot;.
+
+bundle#name()                                   <span class="Ignore">*</span><span class="Constant">bundle#name()</span><span class="Ignore">*</span>
+                        Return the name of bundle to be loaded.  This function
+                        is available only for handlers for <span class="Ignore">|</span><span class="Identifier">BundleUndefined</span><span class="Ignore">|</span>
+                        or <span class="Ignore">|</span><span class="Identifier">BundleUndefined!</span><span class="Ignore">|</span>.
+
+bundle#return(...)                              <span class="Ignore">*</span><span class="Constant">bundle#return()</span><span class="Ignore">*</span>
+                        Function to return values from handlers for
+                        <span class="Ignore">|</span><span class="Identifier">bundle-events</span><span class="Ignore">|</span>.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">bundle-variables</span><span class="Ignore">*</span>
+
+g:bundle_dictionary                             <span class="Ignore">*</span><span class="Constant">g:bundle_dictionary</span><span class="Ignore">*</span>
+                        A dictionary which contains the correspondence of
+                        names of bundles and lists of files.  Each key is the
+                        name of a bundle and each value is a list of files
+                        corresponding to the bundle.
+
+                        The default value is {}, that means there is no
+                        bundle.
+
+                        Example:<span class="Ignore"> &gt;</span>
+<span class="Comment">                        let g:bundle_dictionary = {</span>
+<span class="Comment">                        \     'qux': ['foo.c', 'bar.txt', 'baz.vim'],</span>
+<span class="Comment">                        \   }</span>
+<span class="Ignore">&lt;</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">LOADING STEPS                                   </span><span class="Ignore">*</span><span class="Constant">bundle-loading-steps</span><span class="Ignore">*</span>
+
+The steps to load a bundle are as follows:
+
+1. Use <span class="Ignore">|</span><span class="Identifier">BundleUndefined!</span><span class="Ignore">|</span> to gather available bundles.
+2. Check <span class="Ignore">|</span><span class="Identifier">g:bundle_dictionary</span><span class="Ignore">|</span> for available bundles.
+3. Use <span class="Ignore">|</span><span class="Identifier">BundleUndefined</span><span class="Ignore">|</span> to gather available bundles.
+
+If a proper bundle is found in one of the above steps, the bundle will be
+loaded and rest steps will be skipped.  If no bundle is found, nothing will be
+loaded.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">bundle-bugs</span><span class="Ignore">*</span>
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">bundle-changelog</span><span class="Ignore">*</span>
+
+0.0.2   2008-08-10T20:24:17+09:00
+        - Add <span class="Ignore">|</span><span class="Identifier">bundle#available_bundles()</span><span class="Ignore">|</span>.
+
+0.0.1   2008-08-10T19:05:47+09:00
+        - Change the required version of Vim - 7.1.299 or later.
+        - Add <span class="Ignore">|</span><span class="Identifier">:ArgsBundle</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">bundle#args()</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">bundle#files()</span><span class="Ignore">|</span>.
+
+0.0.0   2008-08-09T13:56:16+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

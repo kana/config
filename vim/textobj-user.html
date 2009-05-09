@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: textobj-user - Support for user-defined text objects</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Special { color: #c000c0; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">textobj-user.txt</span><span class="Ignore">*</span>      Support for user-defined text objects
+
+Version 0.3.7
+Script ID: 2100
+Copyright (C) 2007-2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-user-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-user-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">textobj-user-interface</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">textobj-user-functions</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-user-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-user-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">textobj-user</span><span class="Ignore">*</span> is a Vim plugin to SUPPORT writing user-defined text objects,
+especially, simple text objects which can be defined by regular expression.
+
+<span class="Todo">Note</span> that this plugin only provides functions to support writing user-defined
+text objects, and this plugin does not provide any useful text objects.  That
+is your work.
+
+
+Requirements:
+- Vim 7.0 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-user">http://github.com/kana/config/commits/vim-textobj-user</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-user-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">textobj-user-function</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">textobj#user#move()</span><span class="Ignore">*</span>
+textobj#user#move(<span class="Special">{pattern}</span>, <span class="Special">{flags}</span>, <span class="Special">{previous-mode}</span>)
+        Move the cursor to the appropriate object defined by <span class="Special">{pattern}</span>.
+
+        <span class="Special">{flags}</span> is a string, which can contain the following character flags:
+                <span class="PreProc">char  meaning</span><span class="Ignore"> ~</span>
+                <span class="PreProc">----  -------</span><span class="Ignore"> ~</span>
+                'b'     search backward instead of forward.
+                'e'     move to the end of the match.
+
+        <span class="Special">{previous-mode}</span> is a string representing the &quot;previous&quot; mode,
+        that is, which mode of mapping causes the calling of this function.
+        For example, if this function is called via a mapping for
+        Operator-pending mode, <span class="Special">{previous-mode}</span> must be 'o'.
+                <span class="PreProc">char  meaning</span><span class="Ignore"> ~</span>
+                <span class="PreProc">----  -------</span><span class="Ignore"> ~</span>
+                'n'     Normal mode
+                'o'     Operator-pending mode
+                'v'     Visual mode
+
+        Return value is same as <span class="Ignore">|</span><span class="Identifier">searchpos()</span><span class="Ignore">|</span>.
+
+                                                <span class="Ignore">*</span><span class="Constant">textobj#user#select()</span><span class="Ignore">*</span>
+textobj#user#select(<span class="Special">{pattern}</span>, <span class="Special">{flags}</span>, <span class="Special">{prevous-mode}</span>)
+        Select the appropriate object defined by <span class="Special">{pattern}</span>.
+        If the cursor is already in the range of an object, select it.
+        If the cursor is not in the range of an object, select the nearest
+        object after the cursor.
+
+        <span class="Special">{flags}</span> is a string, which can contain the following character flags:
+                <span class="PreProc">char  meaning</span><span class="Ignore"> ~</span>
+                <span class="PreProc">----  -------</span><span class="Ignore"> ~</span>
+                'b'     select the nearest object BEFORE the cursor if the
+                        cursor is not in the range of an object.
+
+        For the detail of <span class="Special">{previous-mode}</span>, see <span class="Ignore">|</span><span class="Identifier">textobj#user#move()</span><span class="Ignore">|</span>.
+
+        Return value is not defined.
+
+                                                <span class="Ignore">*</span><span class="Constant">textobj#user#select_pair()</span><span class="Ignore">*</span>
+textobj#user#select_pair(<span class="Special">{pattern1}</span>, <span class="Special">{pattern2}</span>, <span class="Special">{flags}</span>, <span class="Special">{previous-mode}</span>)
+        Select the appropriate object which starts with <span class="Special">{pattern1}</span> and ends
+        with <span class="Special">{pattern2}</span>.
+
+        <span class="Special">{flags}</span> is a string, which can contain the following character flags:
+                <span class="PreProc">char  meaning</span><span class="Ignore"> ~</span>
+                <span class="PreProc">----  -------</span><span class="Ignore"> ~</span>
+                'a'     select the range including <span class="Special">{pattern1}</span> and <span class="Special">{pattern2}</span>,
+                        like <span class="Ignore">|</span><span class="Identifier">at</span><span class="Ignore">|</span>.
+                'i'     select the range excluding <span class="Special">{pattern1}</span> and <span class="Special">{pattern2}</span>,
+                        like <span class="Ignore">|</span><span class="Identifier">it</span><span class="Ignore">|</span>.  This is the default behavior unless 'a' is
+                        explicitly specified.  If the cursor is not in a text
+                        between <span class="Special">{pattern1}</span> and <span class="Special">{pattern2}</span>, this function does
+                        nothing.
+
+        For the detail of <span class="Special">{previous-mode}</span>, see <span class="Ignore">|</span><span class="Identifier">textobj#user#move()</span><span class="Ignore">|</span>.
+
+        Return value is not defined.
+
+                                                <span class="Ignore">*</span><span class="Constant">textobj#user#define()</span><span class="Ignore">*</span>
+textobj#user#define(<span class="Special">{pattern}</span>, <span class="Special">{pattern1}</span>, <span class="Special">{pattern2}</span>, <span class="Special">{guideline}</span>)
+        Support function to define key mappings for the text object defined by
+        <span class="Special">{pattern}</span>, or <span class="Special">{pattern1}</span> and <span class="Special">{pattern2}</span>.  <span class="Special">{guideline}</span> is a dictionary
+        consists of key-value pairs where key is a string to represent the
+        name of function and value is a list of strings (each string
+        represents <span class="Special">{lhs}</span> for corresponding key).
+
+        <span class="PreProc">function name          meaning</span><span class="Ignore"> ~</span>
+        <span class="PreProc">-------------          -------</span><span class="Ignore"> ~</span>
+        'move-to-next'          textobj#user#move(<span class="Special">{pattern}</span>, '')
+        'move-to-prev'          textobj#user#move(<span class="Special">{pattern}</span>, 'b')
+        'move-to-next-end'      textobj#user#move(<span class="Special">{pattern}</span>, 'e')
+        'move-to-prev-end'      textobj#user#move(<span class="Special">{pattern}</span>, <span class="Type">'be'</span>)
+        <span class="Type">'select'</span>               synonym for 'select-next'
+        'select-next'           textobj#user#select(<span class="Special">{pattern}</span>, '',
+                                                    <span class="Special">{previous-mode}</span>)
+        'select-prev'           textobj#user#select(<span class="Special">{pattern}</span>, 'b',
+                                                    <span class="Special">{previous-mode}</span>)
+        'select-pair-all'       textobj#user#select_pair(<span class="Special">{pattern1}</span>,
+                                                         <span class="Special">{pattern2}</span>,
+                                                         'a', <span class="Special">{previous-mode}</span>)
+        'select-pair-inner'     textobj#user#select_pair(<span class="Special">{pattern1}</span>,
+                                                         <span class="Special">{pattern2}</span>,
+                                                         'i', <span class="Special">{previous-mode}</span>)
+
+        Example:<span class="Ignore"> &gt;</span>
+<span class="Comment">                call textobj#user#define('foo', '', '',</span>
+<span class="Comment">                                 \ {'move-to-next': 'gj',</span>
+<span class="Comment">                                 \  'move-to-prev': 'gk',</span>
+<span class="Comment">                                 \  'select': ['ig', 'ag']})</span>
+<span class="Ignore">&lt;</span>
+                                                <span class="Ignore">*</span><span class="Constant">textobj#user#plugin()</span><span class="Ignore">*</span>
+textobj#user#plugin(<span class="Special">{plugin}</span>, <span class="Special">{obj-specs}</span>)
+        Define key mappings and a command to support writing a plugin which
+        provides various user-defined text objects.
+
+        Example: If textobj#user#plugin() is called like the following:<span class="Ignore"> &gt;</span>
+
+<span class="Comment">                call textobj#user#plugin('foo', {</span>
+<span class="Comment">                \   'cdata': {</span>
+<span class="Comment">                \     '*pattern*': ['&lt;!\[CDATA\[', '\]\]&gt;'],</span>
+<span class="Comment">                \     'select-a': 'aC',</span>
+<span class="Comment">                \     'select-i': 'iC',</span>
+<span class="Comment">                \   },</span>
+<span class="Comment">                \   'date': {</span>
+<span class="Comment">                \     '*pattern*': '\&lt;\d\{4}-\d\{2}-\d\{2}\&gt;',</span>
+<span class="Comment">                \     'select': ['ad', 'id'],</span>
+<span class="Comment">                \   },</span>
+<span class="Comment">                \   'helptag': {</span>
+<span class="Comment">                \     '*pattern*': '\*[^*]\+\*',</span>
+<span class="Comment">                \     'move-n': ',j',</span>
+<span class="Comment">                \     'move-p': ',k',</span>
+<span class="Comment">                \     'move-N': ',J',</span>
+<span class="Comment">                \     'move-P': ',K',</span>
+<span class="Comment">                \   },</span>
+<span class="Comment">                \   '-': {</span>
+<span class="Comment">                \     '*select-function*': 'SelectFoo',</span>
+<span class="Comment">                \     'select': ['ax', 'ix'],</span>
+<span class="Comment">                \   },</span>
+<span class="Comment">                \ })</span>
+<span class="Ignore">&lt;</span>
+                (1) New command :TextobjFooDefaultKeyMappings will be defined.
+                This command defines the following key mappings as the default
+                ones for the new text objects (this command doesn't override
+                existing <span class="Special">{lhs}</span>s unless &quot;!&quot; is given):<span class="Ignore"> &gt;</span>
+
+<span class="Comment">                        omap aC  &lt;Plug&gt;(textobj-foo-cdata-a)</span>
+<span class="Comment">                        vmap aC  &lt;Plug&gt;(textobj-foo-cdata-a)</span>
+<span class="Comment">                        omap iC  &lt;Plug&gt;(textobj-foo-cdata-i)</span>
+<span class="Comment">                        vmap iC  &lt;Plug&gt;(textobj-foo-cdata-i)</span>
+<span class="Comment">                        omap ad  &lt;Plug&gt;(textobj-foo-date)</span>
+<span class="Comment">                        vmap ad  &lt;Plug&gt;(textobj-foo-date)</span>
+<span class="Comment">                        omap id  &lt;Plug&gt;(textobj-foo-date)</span>
+<span class="Comment">                        vmap id  &lt;Plug&gt;(textobj-foo-date)</span>
+<span class="Comment">                        omap ax  &lt;Plug&gt;(textobj-foo)</span>
+<span class="Comment">                        vmap ax  &lt;Plug&gt;(textobj-foo)</span>
+<span class="Comment">                        omap ix  &lt;Plug&gt;(textobj-foo)</span>
+<span class="Comment">                        vmap ix  &lt;Plug&gt;(textobj-foo)</span>
+<span class="Comment">                        map ,j  &lt;Plug&gt;(textobj-foo-helptag-n)</span>
+<span class="Comment">                        map ,k  &lt;Plug&gt;(textobj-foo-helptag-p)</span>
+<span class="Comment">                        map ,J  &lt;Plug&gt;(textobj-foo-helptag-N)</span>
+<span class="Comment">                        map ,K  &lt;Plug&gt;(textobj-foo-helptag-P)</span>
+<span class="Ignore">&lt;</span>
+                (2) New variable g:__textobj_foo will be defined.  This is
+                a dictionary which contains various functions and values.
+
+                (3) Key mappings <span class="Special">&lt;Plug&gt;</span>(textobj-foo-...) which execute
+                appropriate actions will be defined if &quot;*pattern*&quot; or
+                &quot;*<span class="Special">{spec}</span>-function*&quot; is given for a <span class="Special">{spec}</span>.  Otherwise,
+                <span class="Special">&lt;Plug&gt;</span>(textobj-foo-...) will not be defined.
+
+                (4) :TextobjFooDefaultKeyMappings will be executed unless
+                <span class="Special">{specs}</span> contains the key &quot;*no-default-key-mappings&quot; or the
+                variable g:textobj_foo_no_default_key_mappings is defined.
+
+        <span class="Special">{plugin}</span> is the name of a plugin.  It must be a string which consits
+        of only lowercase alphabets.
+
+        <span class="Special">{obj-specs}</span> is a dictionary (and given value is cached by this
+        plugin, so you have to pass copied one if necessary).  In this
+        dictionary, each key/value pair expresses one text object:
+        - each key is a string of the name of the text object, and
+        - each value (called as &quot;specs&quot;) is a dictionary which denotes some
+          details of the text object.
+
+        The following specs are available:
+
+        &quot;move-n&quot;        <span class="Special">{lhs}</span> or [<span class="Special">{lhs}</span>, ...]
+                A string which is a key sequence to move the cursor to the
+                next text object.  If the value is a list of strings, each
+                string is mapped to move the cursor.
+
+        &quot;move-p&quot;        <span class="Special">{lhs}</span> or [<span class="Special">{lhs}</span>, ...]
+        &quot;move-<span class="Special">N</span>&quot;       <span class="Special">{lhs}</span> or [<span class="Special">{lhs}</span>, ...]
+        &quot;move-P&quot;        <span class="Special">{lhs}</span> or [<span class="Special">{lhs}</span>, ...]
+                Like &quot;move-n&quot;, but each string is treated as a key sequence to
+                move the cursor to the previous text object, the end of the
+                next text object, or the end of the previous text object.
+
+        &quot;select&quot;        <span class="Special">{lhs}</span> or [<span class="Special">{lhs}</span>, ...]
+                Like &quot;move-n&quot;, but each string is treated as a key sequence to
+                select the text object.
+
+        &quot;select-a&quot;      <span class="Special">{lhs}</span> or [<span class="Special">{lhs}</span>, ...]
+        &quot;select-i&quot;      <span class="Special">{lhs}</span> or [<span class="Special">{lhs}</span>, ...]
+                Like &quot;select&quot;, but each string is treated as a key sequence
+                to select &quot;a&quot; text object or &quot;inner&quot; text object.
+
+        &quot;*pattern*&quot;     <span class="Special">{regexp}</span> or [<span class="Special">{regexp}</span>, <span class="Special">{regexp}</span>]
+                A regular expression which matches to a text object.  If the
+                value is a list of two regular expressions, it denotes that
+                the text object starts with the first regular expression and
+                ends with the second regular expression.
+
+        &quot;*no-default-key-mappings*&quot;     anything
+                If this key exists, :Textobj<span class="Special">{Plugin}</span>DefaultKeyMappings will
+                not be executed when textobj#user#plugin() is called.  The
+                corresponding value doesn't matter.
+
+        &quot;*<span class="Special">{spec}</span>-function*&quot;    <span class="Special">{fname}</span>
+                If this key exists, use the function named <span class="Special">{fname}</span> instead of
+                the default algorithm based on regular expression to select
+                a text for <span class="Special">{spec}</span>.
+
+                The function must take no argument and it must return a list
+                to denote the area to be selected or 0 to denote that there is
+                nothing to select.  The detail of a list is as follows:
+                        [motion_type, start_position, end_position]
+                - &quot;motion_type&quot; denotes the default type of motion.  Valid
+                  values are &quot;v&quot;, &quot;V&quot; or &quot;\<span class="Special">&lt;C-v&gt;</span>&quot;.  The meaning of the values
+                  are characterwise, linewise or blockwise.
+                - &quot;start_position&quot; denotes the start position of the area to
+                  be selected.  The detail of this value is the same as
+                  <span class="Ignore">|</span><span class="Identifier">getpos()</span><span class="Ignore">|</span>.
+                - &quot;end_position&quot; is like &quot;start_position&quot;, but it denotes the
+                  end position of the area to be selected.
+
+                Example definition:<span class="Ignore"> &gt;</span>
+<span class="Comment">                        funcion! SelectSomething()</span>
+<span class="Comment">                          if SomethinWrong()</span>
+<span class="Comment">                            return 0</span>
+<span class="Comment">                          endif</span>
+
+<span class="Comment">                          return ['v', getpos(&quot;'[&quot;), getpos(&quot;']&quot;)]</span>
+<span class="Comment">                        endfunction</span>
+<span class="Ignore">&lt;</span>
+        &quot;*sfile*&quot;       <span class="Special">{string}</span>
+                Value must be expand('<span class="Special">&lt;sfile&gt;</span>').  This value is used to
+                calculate <span class="Special">&lt;SNR&gt;</span> prefix for script-local functions which are
+                specified &quot;*<span class="Special">{spec}</span>-function*&quot;.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-user-bugs</span><span class="Ignore">*</span>
+
+- textobj#user#select() and textobj#user#select_pair() override the current
+  <span class="Special">{Visual}</span>, unlike built-in text objects such as iw/aw, is/as, and so forth.
+
+- textobj#user#select() and textobj#user#select_pair() cannot be used with
+  <span class="Special">[count]</span>.
+
+- textobj#user#select_pair() with <span class="Ignore">|</span><span class="Identifier">o_CTRL-V</span><span class="Ignore">|</span> may not work properly.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-user-changelog</span><span class="Ignore">*</span>
+
+0.3.8   2009-04-26T02:10:08+09:00
+        - Fix a bug that it was not possible to select any range which starts
+          with the end of a line.
+
+0.3.7   2008-10-24T02:25:59+09:00
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#select()</span><span class="Ignore">|</span>: Fix a bug that it didn't select an object
+          which: (1) matches to multiple lines and (2) contains the cursor.
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#select()</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">textobj#user#select_pair()</span><span class="Ignore">|</span>,
+          <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span> with &quot;*<span class="Special">{spec}</span>-function*&quot;:
+          Support <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others.  To use this feature, you have to apply
+          the following patch to Vim:
+          <span class="Constant"><a href="http://github.com/kana/vim/commits/hack/vimvar-motion_force">http://github.com/kana/vim/commits/hack/vimvar-motion_force</a></span>
+
+0.3.6   2008-08-31T03:17:55+09:00
+        - Remove unnecessary messages for some cases.  They were just for
+          debugging.
+
+0.3.5   2008-08-24T23:01:45+09:00
+        Incompatible changes with 0.3.4 or ealier:
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Change the specification of functions for
+          &quot;*<span class="Special">{spec}</span>-function*&quot;.
+
+        Other changes:
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Add missing description of functions for
+          &quot;*<span class="Special">{spec}</span>-function*&quot;.
+
+0.3.4   2008-06-26T14:13:33+09:00
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>:
+          - Add &quot;*<span class="Special">{spec}</span>-function*&quot; to customize the way to move the cursor or
+            to select a text by the given function instead of regular
+            expression based selection.
+
+0.3.3   2008-06-11T21:16:53+09:00
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>:
+          - Rename the spec &quot;*pattern*&quot; instead of &quot;pattern&quot;.
+          - Fix incorrect processing on &quot;*no-default-key-mappings*&quot;.
+
+0.3.2   2008-06-11T02:53:41+09:00
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Change the names of interface mappings for
+          the text object of which name is '-'.
+          Old: <span class="Special">&lt;Plug&gt;</span>(textobj-<span class="Special">{plugin}</span>---a)
+          New: <span class="Special">&lt;Plug&gt;</span>(textobj-<span class="Special">{plugin}</span>-a)
+
+0.3.1   2008-06-08T22:05:02+09:00
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Execute :Textobj<span class="Special">{Plugin}</span>DefaultKeyMappings
+          if necessary.
+
+0.3     2008-06-04T21:16:02+09:00
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: New.
+        - <span class="Ignore">|</span><span class="Identifier">textobj#user#define()</span><span class="Ignore">|</span>: Now obsolete.  Use textobj#user#define().
+
+0.2.2   2008-06-02T06:26:12+09:00
+        - Fix wrong sentences in the document.
+
+0.2.1   2008-05-22T00:17:24+09:00
+        - textobj#user#select_pair(): Fix the bug that it selects wrong text
+          in Operator-pending mode.
+
+0.2     2008-01-07T08:44:14+09:00
+        - textobj#user#select(): Fix the wrong selecting in Operator-pending
+          mode.
+        - textobj#user#move(): Modify to be able to use in Visual and
+          Operator-pending mode.
+
+0.1     2007-11-16T01:17:45+09:00
+        - Modify to be autoloaded.
+        - Change the names of all API.
+
+0.0     2007-10-15T20:41:34+09:00
+        - First release.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

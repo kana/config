@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: metarw - a framework to read/write a fake:path</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">metarw.txt</span><span class="Ignore">*</span>    a framework to read/write a fake:path
+
+Version 0.0.3
+Script ID: 2335
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">metarw-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">metarw-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">metarw-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">metarw-commands</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">metarw-functions</span><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><span class="Identifier">metarw-key-mappings</span><span class="Ignore">|</span>
+  Content Browswer        <span class="Ignore">|</span><span class="Identifier">metarw-content-browser</span><span class="Ignore">|</span>
+Schemes                 <span class="Ignore">|</span><span class="Identifier">metarw-schemes</span><span class="Ignore">|</span>
+Terms                   <span class="Ignore">|</span><span class="Identifier">metarw-terms</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">metarw-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">metarw-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">metarw-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">metarw</span><span class="Ignore">*</span> is a Vim plugin to provide a framework to read/write a file-like
+argument of which name is written in URI-like notation such as
+&quot;git:master:src/ui.c&quot;.  metarw also provides content browser like <span class="Ignore">|</span><span class="Identifier">netrw</span><span class="Ignore">|</span>'s
+one for some sorts of argumetns if they are given to :edit or other command.
+
+
+Requirements:
+- Vim 7.1.299 or later
+
+Optionals:
+- <span class="Ignore">|</span><span class="Identifier">metarw-scheme-script</span><span class="Ignore">|</span> such as <span class="Ignore">|</span><span class="Identifier">metarw-git</span><span class="Ignore">|</span> (vimscript#2336)
+- <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> (vimscript#2337) and <span class="Ignore">|</span><span class="Identifier">ku-metarw</span><span class="Ignore">|</span> (vimscript#2344)
+
+Demo:
+- <span class="Constant"><a href="http://www.screencast.com/t/fCc8cFaiQj">http://www.screencast.com/t/fCc8cFaiQj</a></span>
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-metarw">http://github.com/kana/config/commits/vim-metarw</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">metarw-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">metarw-commands</span><span class="Ignore">*</span>
+
+:Edit[!] <span class="Special">[++opt]</span> <span class="Special">[+cmd]</span> [<span class="Special">{file}</span>]                <span class="Ignore">*</span><span class="Constant">:Edit</span><span class="Ignore">*</span>
+:Read <span class="Special">[++opt]</span> [<span class="Special">{file}</span>]                          <span class="Ignore">*</span><span class="Constant">:Read</span><span class="Ignore">*</span>
+:Source [<span class="Special">{file}</span>]                                <span class="Ignore">*</span><span class="Constant">:Source</span><span class="Ignore">*</span>
+:<span class="Special">[range]</span>Write[!] [<span class="Special">{file}</span>]                       <span class="Ignore">*</span><span class="Constant">:Write</span><span class="Ignore">*</span>
+                        Same as <span class="Ignore">|</span><span class="Identifier">:edit</span><span class="Ignore">|</span> and other commands, but the completion
+                        of their arguments is extended to also complete
+                        fakepathes.
+
+                        These wrapper commands are not defined automatically.
+                        If you want them, you have to call
+                        <span class="Ignore">|</span><span class="Identifier">metarw#define_wrapper_commands()</span><span class="Ignore">|</span>.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">metarw-functions</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">metarw#complete()</span><span class="Ignore">*</span>
+metarw#complete(<span class="Special">{arglead}</span>, <span class="Special">{cmdline}</span>, <span class="Special">{cursorpos}</span>)
+                        Function for <span class="Ignore">|</span><span class="Identifier">:command-complete</span><span class="Ignore">|</span> to complete also
+                        fakepathes.  Use as follows:
+                        &quot;-complete=customlist,metarw#complete&quot;.
+
+                                            <span class="Ignore">*</span><span class="Constant">metarw#define_wrapper_commands()</span><span class="Ignore">*</span>
+metarw#define_wrapper_commands(<span class="Special">{override-p}</span>)
+                        Define wrapper commands (see <span class="Ignore">|</span><span class="Identifier">metarw-commands</span><span class="Ignore">|</span>.)
+                        Override existent commands if <span class="Special">{override-p}</span> is true.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">metarw-key-mappings</span><span class="Ignore">*</span>
+
+The following key mappings are available for <span class="Ignore">|</span><span class="Identifier">metarw-content-browser</span><span class="Ignore">|</span>.  All of
+them are buffer-local and defined in Normal mode:
+
+
+<span class="Special">&lt;Plug&gt;</span>(metarw-open-here)                        <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(metarw-open-here)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(metarw-open-split)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(metarw-open-split)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(metarw-open-vsplit)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(metarw-open-vsplit)</span><span class="Ignore">*</span>
+                        Open the item under the cursor in the current window
+                        or newly created window.  If there is no item under
+                        the cursor, nothing will be happened.
+
+<span class="Special">&lt;Plug&gt;</span>(metarw-go-to-parent)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(metarw-go-to-parent)</span><span class="Ignore">*</span>
+                        Open the &quot;parent&quot; item in the current window.  The
+                        &quot;parent&quot; item is always the first item listed in
+                        a content browser.
+
+                                            <span class="Ignore">*</span><span class="Constant">g:metarw_no_default_key_mappings</span><span class="Ignore">*</span>
+The following key mappings will be also available unless
+g:metarw_no_default_key_mappings is defined:
+
+<span class="Special">{lhs}</span>                   <span class="Special">{rhs}</span>
+<span class="PreProc">--------                -----------------------------</span>
+<span class="Special">&lt;Return&gt;</span>                <span class="Special">&lt;Plug&gt;</span>(metarw-open-here)
+<span class="Special">&lt;C-m&gt;</span>                   <span class="Special">&lt;Plug&gt;</span>(metarw-open-here)
+o                       <span class="Special">&lt;Plug&gt;</span>(metarw-open-split)
+v                       <span class="Special">&lt;Plug&gt;</span>(metarw-open-vsplit)
+-                       <span class="Special">&lt;Plug&gt;</span>(metarw-go-to-parent)
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">CONTENT BROWSER                                 </span><span class="Ignore">*</span><span class="Constant">metarw-content-browser</span><span class="Ignore">*</span>
+
+If some sorts of fakepaths (which depend on their schemes) are given to
+<span class="Ignore">|</span><span class="Identifier">:edit</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">:new</span><span class="Ignore">|</span> or other commands, metarw will set up the newly created buffer
+as a content browser like <span class="Ignore">|</span><span class="Identifier">newrw</span><span class="Ignore">|</span>'s one for the given fakepath.
+
+In this content browser, <span class="Ignore">|</span><span class="Identifier">metarw-key-mappings</span><span class="Ignore">|</span> are available, and <span class="Type">'filetype'</span>
+of a content browser is set to &quot;metarw&quot;.  Use this information for your own
+customization.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">SCHEMES                                         </span><span class="Ignore">*</span><span class="Constant">metarw-schemes</span><span class="Ignore">*</span>
+
+To add your own scheme, write a Vim script and put it under a directory named
+&quot;autoload/metarw/&quot; in <span class="Type">'runtimepath'</span>.  Such script is called as a scheme
+script.  The name of a scheme script must be &quot;<span class="Special">{scheme}</span>.vim&quot;, where <span class="Special">{scheme}</span> is
+the name of the scheme.
+
+Scheme scripts must implements the following functions.  Most of works such as
+hooking read/write events are automatically treated by metarw, so you don't
+have to think about troublesome stuffs.
+
+                                                <span class="Ignore">*</span><span class="Constant">metarw#{scheme}#complete()</span><span class="Ignore">*</span>
+metarw#<span class="Special">{scheme}</span>#complete(<span class="Special">{arglead}</span>, <span class="Special">{cmdline}</span>, <span class="Special">{cursorpos}</span>)
+                        Complete the names of fakepaths.  This function is
+                        like the one which is described at
+                        <span class="Ignore">|</span><span class="Identifier">:command-completion-customlist</span><span class="Ignore">|</span>, but there are the
+                        following differences:
+
+                        - <span class="Special">{arglead}</span> is split into &quot;head&quot; part and &quot;tail&quot; part.
+                          They must fulfill the following equation:
+                                <span class="Special">{arglead}</span> ==# head_part . tail_part
+                        - This function must complete candidates which are
+                          conteind in a stuff represented by the &quot;head&quot; part.
+                        - Return value is a list with 3 items.
+                          The first item is a list of candidates.
+                          The second item is the &quot;head&quot; part.
+                          The third item is the &quot;tail&quot; part.
+                        - Returned candidates will be filtered by callers.  So
+                          don't filter in this function.
+
+                        For example, when completing file names and <span class="Special">{arglead}</span>
+                        is &quot;foo/b&quot;:
+                        - The &quot;head&quot; part is &quot;foo/&quot;.
+                        - The &quot;tail&quot; part is &quot;b&quot;.
+                        - This function must complete files in the directory
+                          &quot;foo/&quot;.
+
+metarw#<span class="Special">{scheme}</span>#read(<span class="Special">{fakepath}</span>)                <span class="Ignore">*</span><span class="Constant">metarw#{scheme}#read()</span><span class="Ignore">*</span>
+                        Read the content of <span class="Special">{fakepath}</span>.
+
+                        This function must return a list with two items.  The
+                        first item indicates the type of the second value:
+
+                        <span class="PreProc">1st value    2nd value</span><span class="Ignore"> ~</span>
+                        <span class="PreProc">---------    ---------</span><span class="Ignore"> ~</span>
+                        &quot;error&quot;         a string which represents an error
+                                        message.
+                        &quot;read&quot;          a string which will be given to
+                                        <span class="Ignore">|</span><span class="Identifier">:read</span><span class="Ignore">|</span> to read the content of
+                                        <span class="Special">{fakepath}</span>.
+                        &quot;browse&quot;        a list to set up
+                                        <span class="Ignore">|</span><span class="Identifier">metarw-content-browser</span><span class="Ignore">|</span>.
+
+                        If the second item of return value is a list, each
+                        item in the list is a dictionary which represents an
+                        item in <span class="Special">{fakepath}</span>.  The meaning of key-value pairs
+                        are:
+
+                        &quot;label&quot; (string) /required/
+                                Displayed as the label of the item.
+
+                        &quot;fakepath&quot; (string) /required/
+                                Used to open an item by
+                                <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(metarw-open-here)</span><span class="Ignore">|</span> or other ways.
+
+                        And, the first item should be the &quot;parent&quot; of
+                        <span class="Special">{fakepath}</span>.  This item is used for
+                        <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(metarw-go-to-parent)</span><span class="Ignore">|</span>.
+
+                        See also <span class="Ignore">|</span><span class="Identifier">metarw-content-browser</span><span class="Ignore">|</span>.
+
+                                                <span class="Ignore">*</span><span class="Constant">metarw#{scheme}#write()</span><span class="Ignore">*</span>
+metarw#<span class="Special">{scheme}</span>#write(<span class="Special">{fakepath}</span>, <span class="Special">{line1}</span>, <span class="Special">{line2}</span>, <span class="Special">{append-p}</span>)
+                        Write or append the content of the current buffer from
+                        <span class="Special">{line1}</span> to <span class="Special">{line2}</span> into <span class="Special">{fakepath}</span>.  If <span class="Special">{append-p}</span> is
+                        true, does appending instead of writing.
+
+                        This function must return a list with two items like
+                        <span class="Ignore">|</span><span class="Identifier">metarw#{scheme}#read()</span><span class="Ignore">|</span>, but the meaning of values is
+                        as follows:
+
+                        <span class="PreProc">1st value    2nd value</span><span class="Ignore"> ~</span>
+                        <span class="PreProc">---------    ---------</span><span class="Ignore"> ~</span>
+                        &quot;error&quot;         a string which represents an error
+                                        message.
+                        &quot;write&quot;         a string which will be given to
+                                        <span class="Ignore">|</span><span class="Identifier">:write</span><span class="Ignore">|</span> to write the content of
+                                        <span class="Special">{fakepath}</span>.
+                        &quot;done&quot;          ignored.  This 1st value means that
+                                        writing is already done by
+                                        <span class="Ignore">|</span><span class="Identifier">metarw#{scheme}#write()</span><span class="Ignore">|</span>.
+
+                        Don't reset <span class="Type">'modified'</span> in this function.  It will be
+                        automatically treated by metarw.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">TERMS                                           </span><span class="Ignore">*</span><span class="Constant">metarw-terms</span><span class="Ignore">*</span>
+
+Fakepath                                        <span class="Ignore">*</span><span class="Constant">metarw-fakepath</span><span class="Ignore">*</span>
+        Fakepathes are file-like arguments written in URI-like notation.
+        For example, &quot;git:master:src/ui.c&quot; is a fakepath.
+
+Scheme                                          <span class="Ignore">*</span><span class="Constant">metarw-scheme</span><span class="Ignore">*</span>
+        Scheme is the substring before the first &quot;:&quot; in the name of
+        a fakepath.  For example, the scheme of &quot;git:master:src/ui.c&quot; is
+        &quot;git&quot;.
+
+        The name of a scheme must consist of 2 or more characters, and it
+        should consist of only lowercase, English alphabets.
+
+Scheme script                                   <span class="Ignore">*</span><span class="Constant">metarw-scheme-script</span><span class="Ignore">*</span>
+        Support script to enable to read/write fakepathes.  One scheme script
+        supports just one scheme.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">metarw-bugs</span><span class="Ignore">*</span>
+
+- <span class="Special">{range}</span> for &quot;:read <span class="Special">{fakepath}</span>&quot; is ignored and it will always be treated as
+  the current line.  Because there is no way to get <span class="Special">{range}</span> in <span class="Ignore">|</span><span class="Identifier">FileReadCmd</span><span class="Ignore">|</span>.
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">metarw-changelog</span><span class="Ignore">*</span>
+
+0.0.3   2008-08-30T03:11:55+09:00
+        - <span class="Ignore">|</span><span class="Identifier">metarw#{scheme}#write()</span><span class="Ignore">|</span>:
+          - Fix wrong implementation.
+          - Add new type of return value &quot;done&quot;.
+
+0.0.2   2008-08-10T23:43:48+09:00
+        - Separate <span class="Ignore">|</span><span class="Identifier">ku-metarw</span><span class="Ignore">|</span> as a independent package.
+
+0.0.1   2008-08-10T12:19:52+09:00
+        - Add a special source of ku (see <span class="Ignore">|</span><span class="Identifier">metarw-schemes-as-ku-sources</span><span class="Ignore">|</span>).
+        - Fix autocommands not to hook fakepaths with any schene name which
+          consists of less than 2 characters.  Old definitions incorrectly
+          recognized paths with a drive letter in Microsoft Windows
+          environment as a fakepath.  (thanks to id:thinca)
+        - Add 2 rules on the name of a scheme (see <span class="Ignore">|</span><span class="Identifier">metarw-scheme</span><span class="Ignore">|</span>).
+        - Fix plugin/metarw.vim to be properly reloadable.
+        - Fix requirements - metarw uses <span class="Ignore">|</span><span class="Identifier">fnameescape()</span><span class="Ignore">|</span> which is added since
+          Vim 7.1.299.  (thanks to id:thinca)
+
+0.0.0   2008-07-11T16:51:59+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

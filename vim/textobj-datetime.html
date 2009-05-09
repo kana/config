@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: textobj-datetime - Text objects for date and time</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Todo { color: #000000; background-color: #00ffff; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">textobj-datetime.txt</span><span class="Ignore">*</span>  Text objects for date and time
+
+Version 0.3.1
+Script ID: 2101
+Copyright (C) 2007-2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-datetime-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">textobj-datetime-interface</span><span class="Ignore">|</span>
+  Key Mapings             <span class="Ignore">|</span><span class="Identifier">textobj-datetime-key-mappings</span><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><span class="Identifier">textobj-datetime-customizing</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-datetime-bugs</span><span class="Ignore">|</span>
+ChangeLog               <span class="Ignore">|</span><span class="Identifier">textobj-datetime-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">textobj-datetime</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for date and time.
+
+
+Requirements:
+- Vim 7.0 or later
+- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.3 or later (vimscript#2100)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-datetime">http://github.com/kana/config/commits/vim-textobj-datetime</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-key-mappings</span><span class="Ignore">*</span>
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-auto)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-auto)</span><span class="Ignore">*</span>
+        Select one of the following objects (as long as possible).
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-full)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-full)</span><span class="Ignore">*</span>
+        Select a date and time.
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-date)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-date)</span><span class="Ignore">*</span>
+        Select a date (YYYY or YYYY-MM or YYYY-MM-DD).
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-time)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-time)</span><span class="Ignore">*</span>
+        Select a time (hh:mm or hh:mm:ss).
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-tz)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-tz)</span><span class="Ignore">*</span>
+        Select a time zone designator (Z or +hh:mm or -hh:mm).
+        It must be preceded by a time.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-customizing</span><span class="Ignore">*</span>
+
+                                  <span class="Ignore">*</span><span class="Constant">g:textobj_datetime_no_default_key_mappings</span><span class="Ignore">*</span>
+                                          <span class="Ignore">*</span><span class="Constant">:TextobjDatetimeDefaultKeyMappings</span><span class="Ignore">*</span>
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode automatically.  If you don't want these key mappings,
+define <span class="Ignore">|</span><span class="Identifier">g:textobj_datetime_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is
+loaded (e.g. in $MYVIMRC).  You can also use
+<span class="Ignore">|</span><span class="Identifier">:TextobjDatetimeDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.
+
+        <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
+        <span class="PreProc">-----  ---------------------------</span><span class="Ignore">      ~</span>
+        ada     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-auto)
+        add     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-date)
+        adf     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-full)
+        adt     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-time)
+        adz     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-tz)
+
+        ida     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-auto)
+        idd     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-date)
+        idf     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-full)
+        idt     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-time)
+        idz     <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-tz)
+
+<span class="Todo">Note</span> that there is no difference between a<span class="Special">{x}</span> and i<span class="Special">{x}</span>.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-bugs</span><span class="Ignore">*</span>
+
+Currently, W3C-DTF is only supported.
+
+[W3C-DTF]       <span class="Constant"><a href="http://www.w3.org/TR/NOTE-datetime">http://www.w3.org/TR/NOTE-datetime</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-changelog</span><span class="Ignore">*</span>
+
+0.3.1   2008-06-11T22:07:26+09:00
+        - Modify to use textobj-user version 0.3.3 or later.
+
+0.3     2008-06-08T21:41:15+09:00
+        - Modify to use textobj-user version 0.3 or later.
+          - Rename interface mappings.  For example:
+            Old name: <span class="Special">&lt;Plug&gt;</span>textobj#datetime#full
+            New name: <span class="Special">&lt;Plug&gt;</span>(textobj-datetime-full)
+
+0.2     2008-01-08T23:03:05+09:00
+        - Fix the incorrect design - modify not to be autoloaded.
+        - Modify the policy for the defauly key mappings.
+          See <span class="Ignore">|</span><span class="Identifier">g:textobj_datetime_no_default_key_mappings</span><span class="Ignore">|</span>.
+
+0.1     2007-11-17
+        - Requires <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span>.
+        - Modify to be autoloaded.
+        - Change the name of APIs.
+
+0.0     2007-09-26
+        - First release.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

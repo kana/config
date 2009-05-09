@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: xml_move - support moving around various objects in XML documents</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">xml_move.txt</span><span class="Ignore">*</span>  support moving around various objects in XML documents
+
+Version 0.0.2
+Copyright (C) 2007-2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">xml_move-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">xml_move-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">xml_move-interface</span><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><span class="Identifier">xml_move-key-mappings</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">xml_move-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">xml_move-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">xml_move-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">xml_move</span><span class="Ignore">*</span> is an additional filetype plugin for Vim to provide mappings to
+move various objects in XML documents, e.g.  start-tags, end-tags, attributes
+and text nodes.
+
+
+Requirements:
+- Vim 7.0 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-xml_move">http://github.com/kana/config/commits/vim-xml_move</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">xml_move-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">xml_move-key-mappings</span><span class="Ignore">*</span>
+
+The following key mappings are global.
+<span class="Todo">Note</span> that all moving commands are <span class="Ignore">|</span><span class="Identifier">exclusive</span><span class="Ignore">|</span>.
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextHeadSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_SObjNextHeadSR</span><span class="Ignore">*</span>
+                        Move to the head of the next SObj that is one of the
+                        following objects:
+                        * start-tag (<span class="Special">&lt;p&gt;</span>, <span class="Special">&lt;pre&gt;</span>, ...)
+                        * start-sign of a comment (&lt;!--)
+                        * start-sign of a CDATA section (&lt;![CDATA[)
+                        * processing instructions (&lt;?xml-stylesheet ... ?&gt;)
+                        * various decralations (&lt;!ENTITY ... &gt;)
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextTailSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_SObjNextTailSR</span><span class="Ignore">*</span>
+                        Move to the tail of the next SObj.
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_SObjPrevHeadSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_SObjPrevHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_SObjPrevTailSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_SObjPrevTailSR</span><span class="Ignore">*</span>
+                        Move to the head or the tail of the previous SObj.
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_EObjNextHeadSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_EObjNextHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_EObjNextTailSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_EObjNextTailSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_EObjPrevHeadSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_EObjPrevHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_EObjPrevTailSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_EObjPrevTailSR</span><span class="Ignore">*</span>
+                        Like <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextHeadSR and others, but move
+                        to an EObj that is one of the following objects:
+                        * end-tag (&lt;/p&gt;, &lt;/pre&gt;, ...)
+                        * end-sign of a comment (--&gt;)
+                        * end-sign of a CDATA section (]]&gt;)
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_TextNextHeadSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_TextNextHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_TextNextTailSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_TextNextTailSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_TextPrevHeadSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_TextPrevHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_TextPrevTailSR                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_TextPrevTailSR</span><span class="Ignore">*</span>
+                        Like <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextHeadSR and others, but move
+                        to a range of text that satisfies the following
+                        conditions:
+                        * is enclosed in SObj and/or EObj.
+                        * contains at least one non-space character.
+                        * its head and its tail are not space characters.
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllNextHeadSR              <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrAllNextHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllNextTailSR              <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrAllNextTailSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllPrevHeadSR              <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrAllPrevHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllPrevTailSR              <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrAllPrevTailSR</span><span class="Ignore">*</span>
+                        Like <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextHeadSR and others, but move
+                        to an attribute in start-tags or empty-element tags.
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNameNextHeadSR            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrNameNextHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNameNextTailSR            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrNameNextTailSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNamePrevHeadSR            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrNamePrevHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNamePrevTailSR            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrNamePrevTailSR</span><span class="Ignore">*</span>
+                        Like <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllNextHeadSR and other, but
+                        move to the name of an attribute in start-tags or
+                        empty-element tags.
+
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValueNextHeadSR          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrValueNextHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValueNextTailSR          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrValueNextTailSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValuePrevHeadSR          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrValuePrevHeadSR</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValuePrevTailSR          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;XmlMove_AttrValuePrevTailSR</span><span class="Ignore">*</span>
+                        Like <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllNextHeadSR and other, but
+                        move to the value of an attribute in start-tags or
+                        empty-element tags.
+
+
+The following key mappings are local to each buffer.
+These mappings are not defined if the mappings already exist.
+
+<span class="PreProc">Key sequence            Mapped to</span><span class="Ignore"> ~</span>
+                             <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;j</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;f</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;F</span><span class="Ignore">*</span>
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;r</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;R</span><span class="Ignore">*</span>
+<span class="Special">&lt;LocalLeader&gt;</span>j          <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>f          <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>F          <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjNextTailSR
+<span class="Special">&lt;LocalLeader&gt;</span>r          <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjPrevHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>R          <span class="Special">&lt;Plug&gt;</span>XmlMove_SObjPrevTailSR
+                             <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;k</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;d</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;D</span><span class="Ignore">*</span>
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;e</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;E</span><span class="Ignore">*</span>
+<span class="Special">&lt;LocalLeader&gt;</span>k          <span class="Special">&lt;Plug&gt;</span>XmlMove_EObjNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>d          <span class="Special">&lt;Plug&gt;</span>XmlMove_EObjNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>D          <span class="Special">&lt;Plug&gt;</span>XmlMove_EObjNextTailSR
+<span class="Special">&lt;LocalLeader&gt;</span>e          <span class="Special">&lt;Plug&gt;</span>XmlMove_EObjPrevHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>E          <span class="Special">&lt;Plug&gt;</span>XmlMove_EObjPrevTailSR
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;s</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;S</span><span class="Ignore">*</span>
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;w</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;W</span><span class="Ignore">*</span>
+<span class="Special">&lt;LocalLeader&gt;</span>s          <span class="Special">&lt;Plug&gt;</span>XmlMove_TextNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>S          <span class="Special">&lt;Plug&gt;</span>XmlMove_TextNextTailSR
+<span class="Special">&lt;LocalLeader&gt;</span>w          <span class="Special">&lt;Plug&gt;</span>XmlMove_TextPrevHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>W          <span class="Special">&lt;Plug&gt;</span>XmlMove_TextPrevTailSR
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;a</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;A</span><span class="Ignore">*</span>
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;q</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;Q</span><span class="Ignore">*</span>
+<span class="Special">&lt;LocalLeader&gt;</span>a          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>A          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllNextTailSR
+<span class="Special">&lt;LocalLeader&gt;</span>q          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllPrevHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>Q          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrAllPrevTailSR
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;g</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;G</span><span class="Ignore">*</span>
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;t</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;T</span><span class="Ignore">*</span>
+<span class="Special">&lt;LocalLeader&gt;</span>g          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNameNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>G          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNameNextTailSR
+<span class="Special">&lt;LocalLeader&gt;</span>t          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNamePrevHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>T          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrNamePrevTailSR
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;h</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;H</span><span class="Ignore">*</span>
+                                              <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;y</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">&lt;LocalLeader&gt;Y</span><span class="Ignore">*</span>
+<span class="Special">&lt;LocalLeader&gt;</span>h          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValueNextHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>H          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValueNextTailSR
+<span class="Special">&lt;LocalLeader&gt;</span>y          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValuePrevHeadSR
+<span class="Special">&lt;LocalLeader&gt;</span>Y          <span class="Special">&lt;Plug&gt;</span>XmlMove_AttrValuePrevTailSR
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">xml_move-bugs</span><span class="Ignore">*</span>
+
+* Moving around sibling tags.
+
+* More better key mappings.
+
+* ...
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">xml_move-changelog</span><span class="Ignore">*</span>
+
+0.0.2   2008-04-27T12:02:50+09:00
+        - Add key mappings to move around attribute names and values.
+
+0.0.1   2007-05-10
+        - Fix the bug that all moving commands doesn't work in Visual mode,
+          i.e. visual selection will be canceled after moving.
+
+0.0.0   2007-04-24
+        - First release.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

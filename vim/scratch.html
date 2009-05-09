@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: scratch - Emacs like scratch buffer</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Comment { color: #c00000; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">scratch.txt</span><span class="Ignore">*</span>   Emacs like scratch buffer
+
+Version 0.1+
+Script ID: 2107
+Copyright (C) 2007 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">scratch-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">scratch-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">scratch-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">scratch-commands</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">scratch-functions</span><span class="Ignore">|</span>
+  Key Mapings             <span class="Ignore">|</span><span class="Identifier">scratch-key-mappings</span><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><span class="Identifier">scratch-customizing</span><span class="Ignore">|</span>
+  Variables               <span class="Ignore">|</span><span class="Identifier">scratch-variables</span><span class="Ignore">|</span>
+  Autocommands            <span class="Ignore">|</span><span class="Identifier">scratch-autocommands</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">scratch-bugs</span><span class="Ignore">|</span>
+ChangeLog               <span class="Ignore">|</span><span class="Identifier">scratch-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">scratch-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">scratch</span><span class="Ignore">*</span> is a Vim plugin to provide Emacs-like scratch buffer.  You can write
+anything in it, and you can also evaluate a part of the buffer as Vim script.
+It is a temporary buffer and it is not related to a real file, so the content
+of the buffer will be discarded when you quit Vim.  This buffer is useful when
+you test a bit of script or other use.
+
+
+Requirements:
+- Vim 7.0 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-scratch">http://github.com/kana/config/commits/vim-scratch</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">scratch-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">scratch-commands</span><span class="Ignore">*</span>
+
+:ScratchOpen                                    <span class="Ignore">*</span><span class="Constant">:ScratchOpen</span><span class="Ignore">*</span>
+        ``Open'' the scratch buffer, i.e., create the buffer if it does not
+        exist, show if it is not visible, or move the cursor to the window
+        that shows it.
+
+        See <span class="Ignore">|</span><span class="Identifier">g:scratch_show_command</span><span class="Ignore">|</span> if you want to change the way to open.
+
+:ScratchClose                                   <span class="Ignore">*</span><span class="Constant">:ScratchClose</span><span class="Ignore">*</span>
+        Close a window that shows the scratch buffer if able.
+
+:<span class="Special">[range]</span>ScratchEvaluate[!]                      <span class="Ignore">*</span><span class="Constant">:ScratchEvaluate</span><span class="Ignore">*</span>
+        Evaluate the <span class="Special">[range]</span> as a Vim script.
+        The default <span class="Special">[range]</span> is the current line.
+        Without [!], the cursor will be moved to the next line of the script
+        after evaluating.  If there is no line to move, new blank line will be
+        appended then the cursor will be moved to the new line.
+        With [!], such adjustment will not be done.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">scratch-functions</span><span class="Ignore">*</span>
+
+scratch#open()                                  <span class="Ignore">*</span><span class="Constant">scratch#open()</span><span class="Ignore">*</span>
+        Function version of <span class="Ignore">|</span><span class="Identifier">:ScratchOpen</span><span class="Ignore">|</span>.
+        The return value is not defined.
+
+scratch#close()                                 <span class="Ignore">*</span><span class="Constant">scratch#close()</span><span class="Ignore">*</span>
+        Function version of <span class="Ignore">|</span><span class="Identifier">:ScratchClose</span><span class="Ignore">|</span>.
+        The return value is not defined.
+
+                                                <span class="Ignore">*</span><span class="Constant">scratch#evaluate_linewise()</span><span class="Ignore">*</span>
+scratch#evaluate_linewise(<span class="Special">{line1}</span>, <span class="Special">{line2}</span>, <span class="Special">{adjust-cursorp}</span>)
+        Function version of <span class="Ignore">|</span><span class="Identifier">:ScratchEvaluate</span><span class="Ignore">|</span>.
+        If <span class="Special">{adjust-cursorp}</span> is true, the cursor position will be adjusted as
+        same as <span class="Ignore">|</span><span class="Identifier">:ScratchEvaluate</span><span class="Ignore">|</span>.  If <span class="Special">{adjust-cursorp}</span> is false, such
+        adjustment will not be done.
+        The return value is not defined.
+
+scratch#evaluate(<span class="Special">{pos1}</span>, <span class="Special">{pos2}</span>, <span class="Special">{adjust-cursorp}</span>)      <span class="Ignore">*</span><span class="Constant">scratch#evaluate()</span><span class="Ignore">*</span>
+        Same as <span class="Ignore">|</span><span class="Identifier">scratch#evaluate_linewise()</span><span class="Ignore">|</span>, but this takes the range of the
+        script to be evaluated as <span class="Special">{pos1}</span> and <span class="Special">{pos2}</span>, which are same as the
+        returning value of <span class="Ignore">|</span><span class="Identifier">getpos()</span><span class="Ignore">|</span>.
+        The return value is not defined.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">scratch-key-mappings</span><span class="Ignore">*</span>
+
+<span class="PreProc">GLOBAL MAPPINGS</span><span class="Ignore"> ~</span>
+
+<span class="Special">&lt;Plug&gt;</span>(scratch-open)                            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(scratch-open)</span><span class="Ignore">*</span>
+        Do <span class="Ignore">|</span><span class="Identifier">:ScratchOpen</span><span class="Ignore">|</span>.
+
+<span class="Special">&lt;Plug&gt;</span>(scratch-close)                           <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(scratch-close)</span><span class="Ignore">*</span>
+        Do <span class="Ignore">|</span><span class="Identifier">:ScratchClose</span><span class="Ignore">|</span>.
+
+<span class="Special">&lt;Plug&gt;</span>(scratch-evaluate)                        <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(scratch-evaluate)</span><span class="Ignore">*</span>
+        Do <span class="Ignore">|</span><span class="Identifier">:ScratchEvaluate</span><span class="Ignore">|</span> without [!].
+
+<span class="Special">&lt;Plug&gt;</span>(scratch-evaluate!)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(scratch-evaluate!)</span><span class="Ignore">*</span>
+        Do <span class="Ignore">|</span><span class="Identifier">:ScratchEvaluate</span><span class="Ignore">|</span> with [!].
+
+<span class="PreProc">SCRATCH BUFFER-LOCAL MAPPINGS</span><span class="Ignore"> ~</span>
+
+<span class="Special">&lt;C-j&gt;</span>   or                                      <span class="Ignore">*</span><span class="Constant">&lt;C-j&gt;</span><span class="Ignore">*</span>
+<span class="Special">&lt;C-m&gt;</span>   or                                      <span class="Ignore">*</span><span class="Constant">&lt;C-m&gt;</span><span class="Ignore">*</span>
+<span class="Special">&lt;CR&gt;</span>                                            <span class="Ignore">*</span><span class="Constant">&lt;CR&gt;</span><span class="Ignore">*</span>
+        Mapped to <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;scratch-evaluate</span><span class="Ignore">|</span>.
+        <span class="Todo">Note</span> that these mappings will not be defined when <span class="Special">{lhs}</span> is already
+        mapped to something.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">scratch-customizing</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">scratch-variables</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">g:scratch_buffer_name</span><span class="Ignore">*</span>
+g:scratch_buffer_name           string (default: &quot;*Scratch*&quot;)
+        The name of the scratch buffer.
+        <span class="Todo">Note</span> that this value must be set before this plugin is loaded (for
+        example, in $MYVIMRC).
+
+                                                <span class="Ignore">*</span><span class="Constant">g:scratch_show_command</span><span class="Ignore">*</span>
+g:scratch_show_command          string (default: 'topleft split | hide buffer')
+        The command to show the scratch buffer.  When this plugin shows the
+        scratch buffer, it will execute the following script:<span class="Ignore"> &gt;</span>
+
+<span class="Comment">        execute g:scratch_show_command the_buffer_number_of_the_scratch_buffer</span>
+<span class="Ignore">&lt;</span>
+        Examples:
+        'topleft split | hide buffer' (default value)
+                Create new window at the top and show in it.
+        'hide buffer'
+                Show in the active window.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">AUTOCOMMANDS                                    </span><span class="Ignore">*</span><span class="Constant">scratch-autocommands</span><span class="Ignore">*</span>
+
+When the scratch buffer is created, two events will be triggered to initialize
+it.  If you want to add and/or override the default settings, use <span class="Ignore">|</span><span class="Identifier">autocmd</span><span class="Ignore">|</span>
+like the following:<span class="Ignore"> &gt;</span>
+
+<span class="Comment">        autocmd User PluginScratchInitializeBefore {any-command}</span>
+<span class="Comment">        autocmd User PluginScratchInitializeAfter {any-command}</span>
+<span class="Ignore">&lt;</span>
+&quot;User PluginScratchInitializeBefore&quot; is triggered before the default
+initialization.  &quot;User PluginScratchInitializeAfter&quot; is triggered after the
+default initialization.
+
+The default initialization does:
+- set <span class="Type">'filetype'</span> as vim.  (if <span class="Type">'filetype'</span> is not set)
+- put some informative message.  (if <span class="Type">'filetype'</span> is vim)
+- define several buffer-local key mappings.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">scratch-bugs</span><span class="Ignore">*</span>
+
+- Don't do <span class="Ignore">|</span><span class="Identifier">:edit</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">:bunload</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">:bdelete</span><span class="Ignore">|</span> on the scratch buffer.  The
+  content of the scratch buffer and/or other information (e.g., mappings) will
+  be cleared.
+  If you did it accidentally, do <span class="Ignore">|</span><span class="Identifier">:bwipeout</span><span class="Ignore">|</span> then <span class="Ignore">|</span><span class="Identifier">:ScratchOpen</span><span class="Ignore">|</span> to recreate
+  the scratch buffer.
+
+- <span class="Ignore">|</span><span class="Identifier">:ScratchOpen</span><span class="Ignore">|</span> - To create the scratch buffer, the current buffer will be
+  hidden temporary.  This behavior may cause some problems.
+
+- <span class="Ignore">|</span><span class="Identifier">:ScratchEvaluate</span><span class="Ignore">|</span> - Is it useful to evaluate any programming language other
+  than Vim script?
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">scratch-changelog</span><span class="Ignore">*</span>
+
+0.1+    2008-01-13T00:47:42+09:00
+        - Modify <span class="Ignore">|</span><span class="Identifier">:ScratchEvaluate</span><span class="Ignore">|</span> to accept <span class="Ignore">|</span><span class="Identifier">line-continuation</span><span class="Ignore">|</span>.
+        - scratch#open(): Modify not to use g:scratch_show_command in some
+          cases to avoid showing the scratch buffer in two windows.
+
+0.1     2007-12-25T03:57:18+09:00
+        - Rewrote.
+
+0.0     2007-xx-xx
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

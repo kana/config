@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: smartchr - Insert several candidates with a single key</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">smartchr.txt</span><span class="Ignore">*</span>  Insert several candidates with a single key
+
+Version 0.0.1
+Script ID: 2290
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">smartchr-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">smartchr-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">smartchr-interface</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">smartchr-functions</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">smartchr-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">smartchr-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">smartchr-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">smartchr</span><span class="Ignore">*</span> is a Vim plugin to support input several candidates with a single
+key, like ess-smart-underscore in Emacs Speaks Statistics -- when user types
+&quot;_&quot; key, it inserts &quot; &lt;- &quot; for the first time or it replaces &quot; &lt;- &quot; by &quot;_&quot; for
+the second time.  This plugin provides a function to support to define such
+key bindings.
+
+
+Requirements:
+- Vim 7.1 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-smartchar">http://github.com/kana/config/commits/vim-smartchar</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">smartchr-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">smartchr-functions</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">smartchr#loop()</span><span class="Ignore">*</span>
+smartchr#loop(...)
+        Same as <span class="Ignore">|</span><span class="Identifier">smartchr#one_of()</span><span class="Ignore">|</span>, but it returns the key sequence to
+        replace the <span class="Special">{N}</span>th argument by the 1st argument for the <span class="Special">{N+1}</span>th time.
+        For example,
+<span class="Ignore">&gt;</span>
+<span class="Comment">                inoremap &lt;expr&gt; _  smartchr#loop(' &lt;- ', '_')</span>
+<span class="Ignore">&lt;</span>
+        With the above setting, whenever user types &quot;_&quot; key:
+        - &quot; &lt;- &quot; is inserted for the 1st time, or
+        - the previously inserted &quot; &lt;- &quot; is removed then &quot;_&quot; is inserted for
+          the 2nd time, or
+        - the previously inserted &quot;_&quot; is removed then &quot; &lt;- &quot; is inserted for
+          the 3rd time, and so forth.
+
+                                                <span class="Ignore">*</span><span class="Constant">smartchr#one_of()</span><span class="Ignore">*</span>
+smartchr#one_of(...)
+        Returns a string which represents the key sequence to insert one of
+        the given arguments.  For example, the following setting emulates
+        ess-smart-underscore in Emacs Speaks Statistics:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                inoremap &lt;expr&gt; _  smartchr#one_of(' &lt;- ', '_')</span>
+<span class="Ignore">&lt;</span>
+        With the above setting, whenever user types &quot;_&quot; key:
+        - &quot; &lt;- &quot; is inserted for the 1st time, or
+        - the previously inserted &quot; &lt;- &quot; is removed then &quot;_&quot; is inserted for
+          the 2nd time.
+
+        More generally, this function returns the key sequence to:
+        - insert the 1st argument for the 1st time, or
+        - replace the 1st argument by the 2nd argument for the 2nd time, or
+        - ...
+        - replace the <span class="Special">{N-1}</span>th argument by the <span class="Special">{N}</span>th argument for the <span class="Special">{N}</span>th
+          time.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">smartchr-bugs</span><span class="Ignore">*</span>
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">smartchr-changelog</span><span class="Ignore">*</span>
+
+0.0.1   2008-08-28T12:39:07+09:00
+        - Add <span class="Ignore">|</span><span class="Identifier">smartchr#loop()</span><span class="Ignore">|</span>.
+
+0.0.0   2008-07-11T11:55:47+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

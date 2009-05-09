@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: smartword - Smart motions on words</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Todo { color: #000000; background-color: #00ffff; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">smartword.txt</span><span class="Ignore">*</span> Smart motions on words
+
+Version 0.0.2
+Script ID: 2470
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">smartword-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">smartword-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">smartword-interface</span><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><span class="Identifier">smartword-mappings</span><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><span class="Identifier">smartword-examples</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">smartword-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">smartword-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">smartword-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">smartword</span><span class="Ignore">*</span> is a Vim plugin to provide <span class="Special">{motion}</span>s on <span class="Ignore">|</span><span class="Identifier">word</span><span class="Ignore">|</span>s which are smarter
+than the built-in ones in some sense.  For example, <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> moves the cursor to
+the next word as follows (here &quot;#&quot; means a position to which <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> moves the
+cursor for each time):
+
+        &lt;a href=&quot;<span class="Constant"><a href="http://www.vim.org/">http://www.vim.org/</a></span>&quot;&gt;<span class="Constant">www.vim.org</span>&lt;/a&gt;
+         # #   # #   #  #  ##  ##  #  #  ##  ##  # #
+
+Because there are two types of words and <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> moves to the next word which can
+be the both types.  Let's call &quot;L&quot; for a type of words and &quot;P&quot; for another
+type of words, where &quot;L&quot; means a word which consists of a sequence of letters
+(which are defined by <span class="Type">'iskeyword'</span> option) and &quot;P&quot; means a word which consists
+of a sequence of other non-blank characters.
+
+In many cases, you might want to move to the next &quot;L&quot;, not &quot;P&quot;.  This plugin
+provides <span class="Special">{motion}</span>s to behave so.  For example, <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-w)</span><span class="Ignore">|</span> which is
+corresponding to <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> moves the cursor as follows:
+
+        &lt;a href=&quot;<span class="Constant"><a href="http://www.vim.org/">http://www.vim.org/</a></span>&quot;&gt;<span class="Constant">www.vim.org</span>&lt;/a&gt;
+         # #     #      #   #   #     #   #   #    #
+
+See also <span class="Ignore">|</span><span class="Identifier">smartword-examples</span><span class="Ignore">|</span> for customization.
+
+See also the following image if the above figures aren't correctly displayed:
+<span class="Constant"><a href="http://gyazo.com/bc7887d9bb0f6aa3eee1e67b0d756b2e.png">http://gyazo.com/bc7887d9bb0f6aa3eee1e67b0d756b2e.png</a></span>
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-smartword">http://github.com/kana/config/commits/vim-smartword</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">smartword-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">smartword-mappings</span><span class="Ignore">*</span>
+
+<span class="Special">&lt;Plug&gt;</span>(smartword-w)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-w)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smartword-b)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-b)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smartword-e)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smartword-ge)                            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">*</span>
+                        Smart versions of <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">b</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">e</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">ge</span><span class="Ignore">|</span>.
+                        These mappings are defined in Normal mode, Visual mode
+                        and Operator-pending mode.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant">smartword-examples</span><span class="Ignore">*</span>
+
+(A) Replace <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> and others with <span class="Ignore">|</span><span class="Identifier">smartword-mappings</span><span class="Ignore">|</span>:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        map w  &lt;Plug&gt;(smartword-w)</span>
+<span class="Comment">        map b  &lt;Plug&gt;(smartword-b)</span>
+<span class="Comment">        map e  &lt;Plug&gt;(smartword-e)</span>
+<span class="Comment">        map ge  &lt;Plug&gt;(smartword-ge)</span>
+<span class="Ignore">&lt;</span>
+
+(B) Use other key sequences for smart version:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        map ,w  &lt;Plug&gt;(smartword-w)</span>
+<span class="Comment">        map ,b  &lt;Plug&gt;(smartword-b)</span>
+<span class="Comment">        map ,e  &lt;Plug&gt;(smartword-e)</span>
+<span class="Comment">        map ,ge  &lt;Plug&gt;(smartword-ge)</span>
+<span class="Ignore">&lt;</span>
+
+(C) Keep the default meanings of <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> and others in other key sequences:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        noremap ,w  w</span>
+<span class="Comment">        noremap ,b  b</span>
+<span class="Comment">        noremap ,e  e</span>
+<span class="Comment">        noremap ,ge  ge</span>
+<span class="Ignore">&lt;</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">smartword-bugs</span><span class="Ignore">*</span>
+
+- Don't consider about special cases such as <span class="Ignore">|</span><span class="Identifier">cw</span><span class="Ignore">|</span>.
+
+- <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others don't work for <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">|</span> and
+  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">|</span> because of the limitation of Vim script.
+
+  <span class="Todo">Note</span> that if the following patch (*) is applied to Vim, <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others
+  work for both motions.  But <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> with empty selection still doesn't work.
+  (*) <span class="Constant"><a href="http://github.com/kana/vim/commits/hack/vimvar-motion_force">http://github.com/kana/vim/commits/hack/vimvar-motion_force</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">smartword-changelog</span><span class="Ignore">*</span>
+
+0.0.2   2009-01-23T19:13:29+09:00
+        - Fix the document a bit.
+        - Revise the treatment on <span class="Type">'iskeyword'</span>.
+        - Fix 2 bugs on <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">|</span> with
+          <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span>.  These bugs are appeared only in Vim with the patch (*).
+
+0.0.1   2008-12-06T01:21:37+09:00
+        - Fix <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">|</span> to be
+          <span class="Ignore">|</span><span class="Identifier">inclusive</span><span class="Ignore">|</span> as same as <span class="Ignore">|</span><span class="Identifier">e</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">ge</span><span class="Ignore">|</span>.
+
+0.0.0   2008-12-03T01:44:30+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

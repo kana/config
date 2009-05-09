@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: surround - Plugin for deleting, changing, and adding "surroundings"</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Identifier { color: #804000; text-decoration: underline; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Type { color: #008000; text-decoration: underline; }
+.Statement { color: #008080; font-weight: bold; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">surround.txt</span><span class="Ignore">*</span>  Plugin for deleting, changing, and adding &quot;surroundings&quot;
+
+Author:  Tim Pope &lt;vimNOSPAM@tpope.info&gt;        <span class="Ignore">*</span><span class="Constant">surround-author</span><span class="Ignore">*</span>
+ModifiedBy: kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: Same terms as Vim itself (see <span class="Ignore">|</span><span class="Identifier">license</span><span class="Ignore">|</span>)
+BasedOn: $Id: surround.vim,v 1.34 2008-02-15 21:43:42 tpope Exp $
+Version: 1.34.7
+
+<span class="Todo">NOTE</span>: This is a modified version of surround.vim.  See <span class="Ignore">|</span><span class="Identifier">surround-changelog</span><span class="Ignore">|</span>
+for the detail of the difference from the original version.
+
+This plugin is only available if <span class="Type">'compatible'</span> is not set.
+
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">surround</span><span class="Ignore">*</span>
+
+This plugin is a tool for dealing with pairs of &quot;surroundings.&quot;  Examples
+of surroundings include parentheses, quotes, and HTML tags.  They are
+closely related to what Vim refers to as <span class="Ignore">|</span><span class="Identifier">text-objects</span><span class="Ignore">|</span>.  Provided
+are mappings to allow for removing, changing, and adding surroundings.
+
+Details follow on the exact semantics, but first, consider the following
+examples.  An asterisk (*) is used to denote the cursor position.
+
+  <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
+  &quot;Hello *world!&quot;           ds&quot;         Hello world!
+  [123+4*56]/2              cs])        (123+456)/2
+  &quot;Look ma, I'm *HTML!&quot;     cs&quot;<span class="Special">&lt;q&gt;</span>      <span class="Special">&lt;q&gt;</span>Look ma, I'm HTML!&lt;/q&gt;
+  if *x&gt;3 {                 ysW(        if ( x&gt;3 ) {
+  my $str = *whee!;         vlllls'     my $str = 'whee!';
+
+While a few features of this plugin will work in older versions of Vim,
+Vim 7 is recommended for full functionality.
+
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">surround-mappings</span><span class="Ignore">*</span>
+
+Delete surroundings is <span class="Ignore">*</span><span class="Constant">ds</span><span class="Ignore">*</span> .  The next character given determines the target
+to delete.  The exact nature of the target are explained in <span class="Ignore">|</span><span class="Identifier">surround-targets</span><span class="Ignore">|</span>
+but essentially it is the last character of a <span class="Ignore">|</span><span class="Identifier">text-object</span><span class="Ignore">|</span>.  This mapping
+deletes the difference between the &quot;inner&quot; object and &quot;an&quot; object.  This is
+easiest to understand with some examples:
+
+  <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
+  &quot;Hello *world!&quot;           ds&quot;         Hello world!
+  (123+4*56)/2              ds)         123+456/2
+  <span class="Special">&lt;div&gt;</span>Yo!*&lt;/div&gt;           dst         Yo!
+
+Change surroundings is <span class="Ignore">*</span><span class="Constant">cs</span><span class="Ignore">*</span> .  It takes two arguments, a target like with
+<span class="Ignore">|</span><span class="Identifier">ds</span><span class="Ignore">|</span>, and a replacement.  Details about the second argument can be found
+below in <span class="Ignore">|</span><span class="Identifier">surround-replacements</span><span class="Ignore">|</span>.  Once again, examples are in order.
+
+  <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
+  &quot;Hello *world!&quot;           cs&quot;'        'Hello world!'
+  &quot;Hello *world!&quot;           cs&quot;<span class="Special">&lt;q&gt;</span>      <span class="Special">&lt;q&gt;</span>Hello world!&lt;/q&gt;
+  (123+4*56)/2              cs)]        [123+456]/2
+  (123+4*56)/2              cs)[        [ 123+456 ]/2
+  <span class="Special">&lt;div&gt;</span>Yo!*&lt;/div&gt;           cst<span class="Special">&lt;p&gt;</span>      <span class="Special">&lt;p&gt;</span>Yo!&lt;/p&gt;
+
+<span class="Ignore">*</span><span class="Constant">ys</span><span class="Ignore">*</span> takes an valid Vim motion or text object as the first object, and wraps
+it using the second argument as with <span class="Ignore">|</span><span class="Identifier">cs</span><span class="Ignore">|</span>.  (Unfortunately there's no good
+mnemonic for &quot;ys&quot;.)
+
+  <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
+  Hello w*orld!             ysiw)       Hello (world)!
+
+As a special case, <span class="Ignore">*</span><span class="Constant">yss</span><span class="Ignore">*</span> operates on the current line, ignoring leading
+whitespace.
+
+  <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
+      Hello w*orld!         yssB            {Hello world!}
+
+There is also <span class="Ignore">*</span><span class="Constant">yS</span><span class="Ignore">*</span> and <span class="Ignore">*</span><span class="Constant">ySS</span><span class="Ignore">*</span> which indent the surrounded text and place it
+on a line of its own.
+
+In visual mode, a simple &quot;s&quot; with an argument wraps the selection.  This is
+referred to as the <span class="Ignore">*</span><span class="Constant">vs</span><span class="Ignore">*</span> mapping, although ordinarily there will be
+additional keystrokes between the v and s.  In linewise visual mode, the
+surroundings are placed on separate lines.  In blockwise visual mode, each
+line is surrounded.
+
+An &quot;S&quot; in visual mode (*vS*) behaves similarly but always places the
+surroundings on separate lines.  Additionally, the surrounded text is
+indented.  In blockwise visual mode, using &quot;S&quot; instead of &quot;s&quot; instead skips
+trailing whitespace.
+
+<span class="Todo">Note</span> that &quot;s&quot; and &quot;S&quot; already have valid meaning in visual mode, but it is
+identical to &quot;c&quot;.  If you have muscle memory for &quot;s&quot; and would like to use a
+different key, add your own mapping and the existing one will be disabled.
+<span class="Ignore">&gt;</span>
+<span class="Comment">  vmap &lt;Leader&gt;s &lt;Plug&gt;Vsurround</span>
+<span class="Comment">  vmap &lt;Leader&gt;S &lt;Plug&gt;VSurround</span>
+<span class="Ignore">&lt;</span>
+<span class="Statement">                                                </span><span class="Ignore">*</span><span class="Constant">i_CTRL-G_s</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">i_CTRL-G_S</span><span class="Ignore">*</span>
+Finally, there is an experimental insert mode mapping on <span class="Special">&lt;C-G&gt;</span>s and <span class="Special">&lt;C-S&gt;</span>.
+Beware that the latter won't work on terminals with flow control (if you
+accidentally freeze your terminal, use <span class="Special">&lt;C-Q&gt;</span> to unfreeze it).  The mapping
+inserts the specified surroundings and puts the cursor between them.  If,
+immediately after the mapping and before the replacement, a second <span class="Special">&lt;C-S&gt;</span> or
+carriage return is pressed, the prefix, cursor, and suffix will be placed on
+three separate lines.  <span class="Special">&lt;C-G&gt;</span>S (not <span class="Special">&lt;C-G&gt;</span>s) also exhibits this behavior.
+
+<span class="Statement">TARGETS                                         </span><span class="Ignore">*</span><span class="Constant">surround-targets</span><span class="Ignore">*</span>
+
+The <span class="Ignore">|</span><span class="Identifier">ds</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">cs</span><span class="Ignore">|</span> commands both take a target as their first argument.  The
+possible targets are based closely on the <span class="Ignore">|</span><span class="Identifier">text-objects</span><span class="Ignore">|</span> provided by Vim.
+In order for a target to work, the corresponding text object must be
+supported in the version of Vim used (Vim 7 adds several text objects, and
+thus is highly recommended).  All targets are currently just one character.
+
+Eight punctuation marks, (, ), {, }, [, ], &lt;, and &gt;, represent themselves
+and their counterpart.  If the opening mark is used, contained whitespace is
+also trimmed.  The targets b, B, r, and a are aliases for ), }, ], and<span class="Ignore"> &gt;</span>
+(the first two mirror Vim; the second two are completely arbitrary and
+subject to change).
+
+Three quote marks, ', &quot;, `, represent themselves, in pairs.  They are only
+searched for on the current line.
+
+A t is a pair of HTML or XML tags.  See <span class="Ignore">|</span><span class="Identifier">tag-blocks</span><span class="Ignore">|</span> for details.  Remember
+that you can specify a numerical argument if you want to get to a tag other
+than the innermost one.
+
+The letters w, W, and s correspond to a <span class="Ignore">|</span><span class="Identifier">word</span><span class="Ignore">|</span>, a <span class="Ignore">|</span><span class="Identifier">WORD</span><span class="Ignore">|</span>, and a <span class="Ignore">|</span><span class="Identifier">sentence</span><span class="Ignore">|</span>,
+respectively.  These are special in that they have nothing to delete, and
+used with <span class="Ignore">|</span><span class="Identifier">ds</span><span class="Ignore">|</span> they are a no-op.  With <span class="Ignore">|</span><span class="Identifier">cs</span><span class="Ignore">|</span>, one could consider them a
+slight shortcut for ysi (cswb == ysiwb, more or less).
+
+A p represents a <span class="Ignore">|</span><span class="Identifier">paragraph</span><span class="Ignore">|</span>.  This behaves similarly to w, W, and s above;
+however, newlines are sometimes added and/or removed.
+
+<span class="Statement">REPLACEMENTS                                    </span><span class="Ignore">*</span><span class="Constant">surround-replacements</span><span class="Ignore">*</span>
+
+A replacement argument is a single character, and is required by <span class="Ignore">|</span><span class="Identifier">cs</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">ys</span><span class="Ignore">|</span>,
+and <span class="Ignore">|</span><span class="Identifier">vs</span><span class="Ignore">|</span>.  Undefined replacement characters (with the exception of alphabetic
+characters) default to placing themselves at the beginning and end of the
+destination, which can be useful for characters like / and |.
+
+If either ), }, ], or &gt; is used, the text is wrapped in the appropriate pair
+of characters.  Similar behavior can be found with (, {, and [ (but not &lt;),
+which append an additional space to the inside.  Like with the targets above,
+b, B, r, and a are aliases for ), }, ], and &gt;.  To fulfill the common need for
+code blocks in C-style languages, <span class="Special">&lt;C-}&gt;</span> (which is really <span class="Special">&lt;C-]&gt;</span>) adds braces on
+lines separate from the content.
+
+If t or &lt; is used, Vim prompts for an HTML/XML tag to insert.  You may specify
+attributes here and they will be stripped from the closing tag.  End your
+input by pressing <span class="Special">&lt;CR&gt;</span> or &gt;.  If <span class="Special">&lt;C-T&gt;</span> is used, the tags will appear on lines
+by themselves.
+
+A deprecated replacement of a LaTeX environment is provided on \ and l.  The
+name of the environment and any arguments will be input from a prompt.  This
+will be removed once a more fully functional customization system is
+implemented.  The following shows the resulting environment from
+csp\tabular}{lc<span class="Special">&lt;CR&gt;</span>
+<span class="Ignore">&gt;</span>
+<span class="Comment">  \begin{tabular}{lc}</span>
+<span class="Comment">  \end{tabular}</span>
+<span class="Ignore">&lt;</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">surround-customizing</span><span class="Ignore">*</span>
+
+<span class="Todo">NOTE</span>: There are some incompatible changes from the original version.
+See <span class="Ignore">|</span><span class="Identifier">surrounding-customizing-difference</span><span class="Ignore">|</span> for the detail.
+
+The following adds a potential replacement on &quot;-&quot; (ASCII 45) in PHP files.
+(To determine the ASCII code to use, :echo char2nr(&quot;-&quot;)).  The carriage
+return will be replaced by the original text.
+<span class="Ignore">&gt;</span>
+<span class="Comment">  autocmd FileType php let b:surround_45 = &quot;&lt;?php \r ?&gt;&quot;</span>
+<span class="Ignore">&lt;</span>
+This can be used in a PHP file as in the following example.
+
+  <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
+  print &quot;Hello *world!&quot;     yss-        &lt;?php print &quot;Hello world!&quot; ?&gt;
+
+Additionally, one can use a global variable for globally available
+replacements.
+<span class="Ignore">&gt;</span>
+<span class="Comment">  let g:surround_45 = &quot;&lt;% \r %&gt;&quot;</span>
+<span class="Comment">  let g:surround_61 = &quot;&lt;%= \r %&gt;&quot;</span>
+<span class="Ignore">&lt;</span>
+Advanced, experimental, and subject to change:  One can also prompt for
+replacement text.  The syntax for this is to surround the replacement in pairs
+of low numbered control characters.  If this sounds confusing, that's because
+it is (but it makes the parsing easy).  Consider the following example for a
+LaTeX environment on the &quot;l&quot; replacement.
+<span class="Ignore">&gt;</span>
+<span class="Comment">  let g:surround_108 = &quot;\\begin{\1environment: \1}\r\\end{\1\1}&quot;</span>
+<span class="Ignore">&lt;</span>
+When this replacement is used,  the user is prompted with an &quot;environment: &quot;
+prompt for input.  This input is inserted between each set of \1's.
+Additional inputs up to \7 can be used.
+
+Furthermore, one can specify a regular expression substitution to apply.
+<span class="Ignore">&gt;</span>
+<span class="Comment">  let g:surround_108 = &quot;\\begin{\1environment: \1}\r\\end{\1\r}.*\r\1}&quot;</span>
+<span class="Ignore">&lt;</span>
+This will remove anything after the first } in the input when the text is
+placed within the \end{} slot.  The first \r marks where the pattern begins,
+and the second where the replacement text begins.
+
+Here's a second example for creating an HTML <span class="Special">&lt;div&gt;</span>.  The substitution cleverly
+prompts for an id, but only adds id=&quot;&quot; if it is non-blank.  You may have to
+read this one a few times slowly before you understand it.
+<span class="Ignore">&gt;</span>
+<span class="Comment">  let g:surround_{char2nr(&quot;d&quot;)} = &quot;&lt;div\1id: \r..*\r id=\&quot;&amp;\&quot;\1&gt;\r&lt;/div&gt;&quot;</span>
+<span class="Ignore">&lt;</span>
+Inputting text replacements is a proof of concept at this point. The ugly,
+unintuitive interface and the brevity of the documentation reflect this.
+
+Finally, It is possible to always append a string to surroundings in insert
+mode (and only insert mode).  This is useful with certain plugins and mappings
+that allow you to jump to such markings.
+<span class="Ignore">&gt;</span>
+<span class="Comment">  let g:surround_insert_tail = &quot;&lt;++&gt;&quot;</span>
+<span class="Ignore">&lt;</span>
+                                        <span class="Ignore">*</span><span class="Constant">surrounding-customizing-difference</span><span class="Ignore">*</span>
+<span class="PreProc">DIFFERENCE FROM THE ORIGINAL VERSION</span><span class="Ignore"> ~</span>
+
+The original way - g:surround_{char2nr(key)} - is no longer supported.  Please
+use <span class="Ignore">|</span><span class="Identifier">SurroundRegister</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">SurroundUnregister</span><span class="Ignore">|</span> to register/unregister
+user-defined surrounding objects.
+
+Tips:
+        <span class="PreProc">g:surround_{char2nr(key)} = template</span><span class="Ignore">   ~</span>
+        <span class="PreProc">b:surround_{char2nr(key)} = template</span><span class="Ignore">   ~</span>
+and
+        <span class="PreProc">call SurroundRegister('g', key, template)</span><span class="Ignore">      ~</span>
+        <span class="PreProc">call SurroundRegister('b', key, template)</span><span class="Ignore">      ~</span>
+have same meaning.
+
+SurroundRegister(<span class="Special">{type}</span>, <span class="Special">{key}</span>, <span class="Special">{template}</span>)             <span class="Ignore">*</span><span class="Constant">SurroundRegister</span><span class="Ignore">*</span>
+        Register new user-defined surrounding object.
+
+        <span class="Special">{type}</span> ('b' or 'g')
+                The scope of this object.
+                'b' means buffer-local and
+                'g' means global.
+
+        <span class="Special">{key}</span>  (string with 1 or more characters)
+                Key stroke for this object.
+
+        <span class="Special">{template}</span>
+                Template for this object.
+                See <span class="Ignore">|</span><span class="Identifier">surrounding-customizing</span><span class="Ignore">|</span> for the detail.
+
+SurroundUnregister(<span class="Special">{type}</span>, <span class="Special">{key}</span>)                       <span class="Ignore">*</span><span class="Constant">SurroundUnregister</span><span class="Ignore">*</span>
+        Unregister user-defined surrounding object corresponding to
+        the givin <span class="Special">{key}</span>.
+
+<span class="Statement">ISSUES                                          </span><span class="Ignore">*</span><span class="Constant">surround-issues</span><span class="Ignore">*</span>
+
+Vim could potentially get confused when deleting/changing occurs at the very
+end of the line.  Please report any repeatable instances of this.
+
+Do we need to use <span class="Ignore">|</span><span class="Identifier">inputsave()</span><span class="Ignore">|</span><span class="Identifier">/</span><span class="Ignore">|</span><span class="Identifier">inputrestore()</span><span class="Ignore">|</span> with the tag replacement?
+
+Indenting is handled haphazardly.  Need to decide the most appropriate
+behavior and implement it.  Right now one can do :let b:surround_indent = 1
+(or the global equivalent) to enable automatic re-indenting by Vim via <span class="Ignore">|</span><span class="Identifier">=</span><span class="Ignore">|</span>;
+should this be the default?
+
+
+
+
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">surround-changelog</span><span class="Ignore">*</span>
+
+2008-12-30T19:03:49+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - Fix <span class="Special">&lt;Plug&gt;</span>Ysurround and others to be repeatable with a &quot;repeat&quot;
+          plugin which is one of the followings:
+          <span class="Constant"><a href="http://github.com/kana/config/commits/vim-repeat">http://github.com/kana/config/commits/vim-repeat</a></span>
+          <span class="Constant"><a href="http://www.vim.org/scripts/script.php?script_id=2136">http://www.vim.org/scripts/script.php?script_id=2136</a></span>
+
+2008-11-09T03:26:23+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - Fix the bug that <span class="Ignore">|</span><span class="Identifier">surround-mappings</span><span class="Ignore">|</span> does not work if they are not
+          typed by user, for example, remapped from other key mappings.
+
+2008-05-18T20:40:06+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - Fix the bug that user-defined Command-line mode mappings &quot;%&quot; and &quot;&gt;&quot;
+          are overriden by this plugin.
+
+2008-05-18T20:32:11+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - Merge the changes between version 1.33 and version 1.34.
+
+2008-02-09T23:23:55+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - Merge the changes between version 1.26 and version 1.33.
+
+2007-10-01T22:46:14+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - INCOMPATIBLE CHANGE: the way of <span class="Ignore">|</span><span class="Identifier">surround-customizing</span><span class="Ignore">|</span> is changed.
+          See <span class="Ignore">|</span><span class="Identifier">surrounding-customizing-difference</span><span class="Ignore">|</span> for the detail.
+
+        - Support n-stroke key for user-defined surrounding objects.
+
+2007-10-01T03:43:51+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - Support dynamic template for <span class="Ignore">|</span><span class="Identifier">surround-customizing</span><span class="Ignore">|</span>.
+          Now templates of user-defined surrounding objects may be functions
+          or funcrefs which must return a template.
+
+          For example, the following setting provides two-stroke keys &quot;xa&quot; and
+          &quot;xb&quot; for some templates.
+<span class="Ignore">&gt;</span>
+<span class="Comment">          function g:surround_{char2nr('x')}()</span>
+<span class="Comment">            let c = nr2char(getchar())</span>
+<span class="Comment">            if c ==# 'b'</span>
+<span class="Comment">              return &quot;(((\r)))&quot;</span>
+<span class="Comment">            elseif c ==# 'B'</span>
+<span class="Comment">              return &quot;{{{\r}}}&quot;</span>
+<span class="Comment">            else</span>
+<span class="Comment">              return ''</span>
+<span class="Comment">            endif</span>
+<span class="Comment">          endfunction</span>
+<span class="Ignore">&lt;</span>
+2007-10-01T00:25:20+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+
+        - Support user-defined surrounding objects (<span class="Ignore">|</span><span class="Identifier">surround-customizing</span><span class="Ignore">|</span>) as
+          <span class="Ignore">|</span><span class="Identifier">surround-targets</span><span class="Ignore">|</span>.  The original version (1.26) does not support
+          this feature.
+
+          BUGS: <span class="Special">[count]</span> is not supported yet.
+
+
+
+
+ vim:tw=78:ts=8:ft=help:norl:
+</pre>
+</body>
+</html>

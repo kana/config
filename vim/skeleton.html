@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: skeleton - Skeleton for newly created buffers</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Type { color: #008000; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">skeleton.txt</span><span class="Ignore">*</span>  Skeleton for newly created buffers
+
+Version 0.0.2
+Script ID: 2291
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">skeleton-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">skeleton-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">skeleton-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">skeleton-commands</span><span class="Ignore">|</span>
+  Events                  <span class="Ignore">|</span><span class="Identifier">skeleton-events</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">skeleton-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">skeleton-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">skeleton-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">skeleton</span><span class="Ignore">*</span> is a Vim plugin to set up a skeleton for a newly created buffer.
+Once you put skeleton files into specific directories, appropriate ones will
+be automatically expanded for newly created buffers.
+
+- Skeleton files must be put in a directory named &quot;xtr/skeleton/&quot; which is
+  under any directory listed in <span class="Type">'runtimepath'</span>.
+
+  For example: ~/.vim/xtr/skeleton/
+
+- The name of a skeleton file should be &quot;<span class="Special">{filetype}</span>&quot; or &quot;<span class="Special">{filetype}</span>-<span class="Special">{suffix}</span>&quot;,
+  where <span class="Special">{filetype}</span> is the <span class="Type">'filetype'</span> for a newly created buffer and <span class="Special">{suffix}</span>
+  is an arbitrary string.
+
+  The former &quot;<span class="Special">{filetype}</span>&quot; is used as the default skeleton file for that
+  <span class="Type">'filetype'</span>.  The latter &quot;<span class="Special">{filetype}</span>-<span class="Special">{suffix}</span>&quot; is used to override the
+  default one for some cases which are speicifed by user.
+
+  For example: ~/.vim/xtr/skeleton/vim ~/.vim/xtr/skeleton/vim-plugin
+
+- Whenever user starts to edit a file that doesn't exists:
+
+  1) Skeleton publish a <span class="Ignore">|</span><span class="Identifier">User:plugin-skeleton-detect</span><span class="Ignore">|</span> event.  This event can
+     be used to <span class="Ignore">|</span><span class="Identifier">:SkeletonLoad</span><span class="Ignore">|</span> a special skeleton file other than the default
+     one.
+
+  2) If <span class="Ignore">|</span><span class="Identifier">:SkeletonLoad</span><span class="Ignore">|</span> is not done for the previous step, Skeleton executes
+     the following command:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        execute 'SkeletonLoad' &amp;l:filetype</span>
+<span class="Ignore">&lt;</span>
+     This means a skeleton file named &quot;<span class="Special">{filetype}</span>&quot; in a directory
+     &quot;xtr/skeleton/&quot; which is under any directory listed in <span class="Type">'runtimepath'</span> is
+     loaded as a skeleton file.
+
+     If there is no such skeleton file, nothing will be happened.
+
+
+Requirements:
+- Vim 7.1 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-skeleton">http://github.com/kana/config/commits/vim-skeleton</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">skeleton-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">skeleton-commands</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">:SkeletonLoad</span><span class="Ignore">*</span>
+:SkeletonLoad[!] <span class="Special">{name}</span>
+        Load the skeleton file with <span class="Special">{name}</span> for the current buffer.
+
+        - If the current buffer is not a normal buffer,
+          nothing will be happened.
+        - If &quot;!&quot; is not given and the current buffer is not empty,
+          nothing will be happened.
+        - If &quot;!&quot; is given, existing content of the current buffer will be
+          deleted before loading the specified skeleton.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">EVENTS                                          </span><span class="Ignore">*</span><span class="Constant">skeleton-events</span><span class="Ignore">*</span>
+
+User plugin-skeleton-detect                     <span class="Ignore">*</span><span class="Constant">User:plugin-skeleton-detect</span><span class="Ignore">*</span>
+        Event to override the default skeleton file.  User can set up
+        <span class="Ignore">|</span><span class="Identifier">:autocmd</span><span class="Ignore">|</span> for this event to <span class="Ignore">|</span><span class="Identifier">:SkeletonLoad</span><span class="Ignore">|</span> a special skeleton file
+        other than the default one.
+
+        Example:<span class="Ignore"> &gt;</span>
+<span class="Comment">                autocmd User plugin-skeleton-detect</span>
+<span class="Comment">                \   if expand('%') =~# '\&lt;plugin/.*\.vim$'</span>
+<span class="Comment">                \ |   SkeletonLoad vim-plugin</span>
+<span class="Comment">                \ | endif</span>
+<span class="Ignore">&lt;</span>
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">skeleton-bugs</span><span class="Ignore">*</span>
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">skeleton-changelog</span><span class="Ignore">*</span>
+
+0.0.2   2009-03-17T01:16:29+09:00
+        - Refine the document.
+        - <span class="Ignore">|</span><span class="Identifier">:SkeletonLoad</span><span class="Ignore">|</span>:
+          - Support completion.
+          - Allow to override existing content of a buffer with &quot;!&quot;.
+
+0.0.1   2008-07-13T00:20:09+09:00
+        - Fix to suppress extra message if there is no autocmd for
+          <span class="Ignore">|</span><span class="Identifier">User:plugin-skeleton-detect</span><span class="Ignore">|</span>.
+        - Fix not to do the default <span class="Ignore">|</span><span class="Identifier">:SkeletonLoad</span><span class="Ignore">|</span> if <span class="Type">'filetype'</span> of the
+          current buffer is unknown.
+
+0.0.0   2008-07-11T12:23:55+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

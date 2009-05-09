@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: ku-quickfix - ku source: quickfix</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">ku-quickfix.txt</span><span class="Ignore">*</span>       ku source: quickfix
+
+Version 0.1.1
+Script ID: 2622
+Copyright (C) 2008-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">ku-quickfix-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">ku-quickfix-introduction</span><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><span class="Identifier">ku-quickfix-action-table</span><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><span class="Identifier">ku-quickfix-key-table</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">ku-quickfix-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">ku-quickfix-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">ku-quickfix-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">ku-quickfix</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> to deal with <span class="Ignore">|</span><span class="Identifier">quickfix</span><span class="Ignore">|</span>.  You can choose
+one from many files in the current quickfix list and do some action on it.
+
+
+Requirements:
+- Vim 7.2 or later
+- <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-quickfix">http://github.com/kana/config/commits/vim-ku-quickfix</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant">ku-quickfix-action-table</span><span class="Ignore">*</span>
+
+default                                         <span class="Ignore">*</span><span class="Constant">ku-quickfix-action-default</span><span class="Ignore">*</span>
+                        Same as <span class="Ignore">|</span><span class="Identifier">ku-quickfix-action-open</span><span class="Ignore">|</span>.
+
+open                                            <span class="Ignore">*</span><span class="Constant">ku-quickfix-action-open</span><span class="Ignore">*</span>
+                        Switch to the buffer corresponding to the selected
+                        item, then move the cursor to the first error in the
+                        buffer with <span class="Ignore">|</span><span class="Identifier">:cc</span><span class="Ignore">|</span>.
+
+open!                                           <span class="Ignore">*</span><span class="Constant">ku-quickfix-action-open!</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">ku-quickfix-action-open</span><span class="Ignore">|</span>, but switch to the
+                        buffer with <span class="Ignore">|</span><span class="Identifier">:buffer!</span><span class="Ignore">|</span>.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant">ku-quickfix-key-table</span><span class="Ignore">*</span>
+
+<span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
+<span class="PreProc">--------        --------</span>
+<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><span class="Identifier">ku-quickfix-action-open</span><span class="Ignore">|</span>
+O               open!           <span class="Ignore">|</span><span class="Identifier">ku-quickfix-action-open!</span><span class="Ignore">|</span>
+o               open            <span class="Ignore">|</span><span class="Identifier">ku-quickfix-action-open</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">ku-quickfix-bugs</span><span class="Ignore">*</span>
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">ku-quickfix-changelog</span><span class="Ignore">*</span>
+
+0.1.1   2009-05-04T02:43:38+09:00
+        - Update for ku 0.2.1.
+        - Refactor a bit.
+
+0.1.0   2009-01-10T16:10:13+09:00/2009-04-28T02:03:52+09:00
+        - Update for ku 0.2.0.
+
+0.0.0   2008-10-28T01:50:35+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

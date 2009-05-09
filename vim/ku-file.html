@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: ku-file - ku source: file</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">ku-file.txt</span><span class="Ignore">*</span>   ku source: file
+
+Version 0.1.1
+Copyright (C) 2008-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">ku-file-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">ku-file-introduction</span><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><span class="Identifier">ku-file-action-table</span><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><span class="Identifier">ku-file-key-table</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">ku-file-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">ku-file-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">ku-file-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">ku-file</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> to deal with files and directories.  You can
+choose one from many files and directories and do some action to it.
+
+
+Requirements:
+- Vim 7.1.299 or later
+- <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-file">http://github.com/kana/config/commits/vim-ku-file</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant">ku-file-action-table</span><span class="Ignore">*</span>
+
+default                                         <span class="Ignore">*</span><span class="Constant">ku-file-aciton-default</span><span class="Ignore">*</span>
+                        Same as &quot;open&quot;.
+
+open                                            <span class="Ignore">*</span><span class="Constant">ku-file-aciton-open</span><span class="Ignore">*</span>
+                        Open the file or directory specified by the selected
+                        item in the current window, regardless of whether the
+                        selected item is completed one or not.
+
+open!                                           <span class="Ignore">*</span><span class="Constant">ku-file-aciton-open!</span><span class="Ignore">*</span>
+                        Like &quot;open&quot;, but use :edit! to open the selected item.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant">ku-file-key-table</span><span class="Ignore">*</span>
+
+<span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
+<span class="PreProc">--------        --------</span>
+<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><span class="Identifier">ku-file-action-open</span><span class="Ignore">|</span>
+O               open!           <span class="Ignore">|</span><span class="Identifier">ku-file-action-open!</span><span class="Ignore">|</span>
+o               open            <span class="Ignore">|</span><span class="Identifier">ku-file-action-open</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">ku-file-bugs</span><span class="Ignore">*</span>
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">ku-file-changelog</span><span class="Ignore">*</span>
+
+0.1.1   2009-05-04T01:45:44+09:00
+        - Update for ku 0.2.1.
+
+0.1.0   2009-04-27T02:49:51+09:00/2009-04-28T02:00:05+09:00
+        - Update for ku 0.2.0.
+
+0.0.2   2008-12-24T14:08:50+09:00
+        - Fix the bug that a file or a directory which path contains a space
+          cannot be correctly opened.
+
+0.0.1   2008-09-29T02:42:28+09:00
+        - Filter items for <span class="Ignore">|</span><span class="Identifier">ku-auto-component-completion</span><span class="Ignore">|</span>.  Only directories
+          are completed.
+        - List dot files if the last part of an input pattern starts with
+          a dot, for example, &quot;.a&quot;, &quot;b/c/.d&quot; and so forth.
+        - Fix the bug that parent directories are not listed.
+
+0.0.0   2008-07-20T01:10:37+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

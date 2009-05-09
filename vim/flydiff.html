@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: flydiff - on-the-fly diff</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">flydiff.txt</span><span class="Ignore">*</span>   on-the-fly diff
+
+Version 0.0.1
+Script ID: 2274
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">flydiff-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">flydiff-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">flydiff-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">flydiff-commands</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">flydiff-functions</span><span class="Ignore">|</span>
+  Variables               <span class="Ignore">|</span><span class="Identifier">flydiff-variables</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">flydiff-bugs</span><span class="Ignore">|</span>
+Terms                   <span class="Ignore">|</span><span class="Identifier">flydiff-terms</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">flydiff-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">flydiff-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">flydiff</span><span class="Ignore">*</span> is a Vim plugin to perform on-the-fly diff on the current buffer
+with some version control system and show the differences in another buffer.
+
+
+Requirements:
+- Vim 7.1.299 or later
+- Ordinary *nix shells such as bash and zsh
+
+Supported version control systems:
+- git
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-flydiff">http://github.com/kana/config/commits/vim-flydiff</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">flydiff-commands</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">:Flydiff</span><span class="Ignore">*</span>
+:Flydiff <span class="Special">[flag]</span>
+        Start on-the-fly diff on the current buffer.  If on-the-fly diff is
+        already started, it will be stopped.
+
+        If <span class="Special">[flag]</span> is &quot;on&quot;, start on-the-fly diff.
+        If <span class="Special">[flag]</span> is &quot;off&quot;, stop on-the-fly diff.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-functions</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">flydiff#toggle()</span><span class="Ignore">*</span>
+flydiff#toggle(<span class="Special">{bufnr}</span>, <span class="Special">{state}</span>)
+        Function version of <span class="Ignore">|</span><span class="Identifier">:Flydiff</span><span class="Ignore">|</span>.
+        <span class="Special">{bufnr}</span> is the number of a buffer to be performed on-the-fly diff.
+        <span class="Special">{state}</span> is like <span class="Special">[flag]</span> for <span class="Ignore">|</span><span class="Identifier">:Flydiff</span><span class="Ignore">|</span>:
+        - If <span class="Special">{state}</span> is &quot;on&quot;, start on-the-fly diff.
+        - If <span class="Special">{state}</span> is &quot;off&quot;, stop on-the-fly diff.
+        - Otherwise, toggle on-the-fly diff.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-variables</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">b:flydiff_info</span><span class="Ignore">*</span>
+b:flydiff_info
+        The variable to save some information to perform on-the-fly diff.
+        Don't touch this variable.
+
+                                                <span class="Ignore">*</span><span class="Constant">g:flydiff_direction</span><span class="Ignore">*</span>
+g:flydiff_direction
+        Specify the direction to open a window to show on-the-fly diff.
+        The value is a string of modifier commands such as <span class="Ignore">|</span><span class="Identifier">:aboveleft</span><span class="Ignore">|</span>,
+        <span class="Ignore">|</span><span class="Identifier">:botright</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">:vertical</span><span class="Ignore">|</span>.
+
+        The default value is &quot;vertical rightbelow&quot;.
+
+                                                <span class="Ignore">*</span><span class="Constant">g:flydiff_filetype</span><span class="Ignore">*</span>
+g:flydiff_filetype
+        Specify the <span class="Type">'filetype'</span> for buffers to show on-the-fly diff.
+
+        The default value is &quot;diff&quot;.
+
+                                                <span class="Ignore">*</span><span class="Constant">g:flydiff_timing</span><span class="Ignore">*</span>
+g:flydiff_timing
+        Specify timings to perform on-the-fly diff.  The value is
+        a comma-separated list of strings.  The following values are
+        available:
+
+        <span class="PreProc">value          timing</span><span class="Ignore"> ~</span>
+        &quot;realtime&quot;      Whenever you don't nothing for a while (see
+                        <span class="Ignore">|</span><span class="Identifier">CursorHold</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">CursorHoldI</span><span class="Ignore">|</span> for the detail of
+                        a timing).
+        &quot;written&quot;       Whenever the whole buffer is written to a file (see
+                        <span class="Ignore">|</span><span class="Identifier">BufWritePost</span><span class="Ignore">|</span> for the detail of a timing).
+
+        The default value is &quot;realtime&quot;.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">flydiff-bugs</span><span class="Ignore">*</span>
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">TERMS                                           </span><span class="Ignore">*</span><span class="Constant">flydiff-terms</span><span class="Ignore">*</span>
+
+In this document and the source code of flydiff, the following terms are used:
+
+<span class="PreProc">Diff buffer</span><span class="Ignore"> ~</span>
+        A buffer to show a result of on-the-fly diff.
+
+<span class="PreProc">Diff buffer window</span><span class="Ignore"> ~</span>
+        A window which shows a diff buffer.
+
+<span class="PreProc">Normal buffer</span><span class="Ignore"> ~</span>
+        A buffer which is not a diff buffer.
+
+<span class="PreProc">Normal buffer window</span><span class="Ignore"> ~</span>
+        A window which shows a normal buffer.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-changelog</span><span class="Ignore">*</span>
+
+0.0.1   2008-06-28T03:46:26+09:00
+        Fix many minor bugs:
+        - Set <span class="Type">'nobuflist'</span> for diff buffers.
+        - Change naming style for diff buffers.
+        - Don't create diff buffers until they are really necessary.
+        - Don't create extra unnamed buffers.
+        - Perform on-the-fly diff forcedly for the first time even if a base
+          buffer is not modified.
+        - Don't show a message by :update while performing on-the-fly diff.
+        - Show a message in a diff buffer if there is no difference in the
+          corresponding base buffer.
+        - Adjust the cursor in a diff buffer to point the line which is
+          equivalent to the cursor position in the corresponding base buffer.
+          This behavior is useful if there are many differences and they are
+          not showed in a diff buffer window at once.
+        - Revise some error messages.
+        - Revise internal stuffs.
+
+0.0     2008-06-25T21:07:55+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

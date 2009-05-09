@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: repeat - Enable to repeat last change by non built-in commands</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">repeat.txt</span><span class="Ignore">*</span>    Enable to repeat last change by non built-in commands
+
+Version 0.0.0
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">repeat-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">repeat-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">repeat-interface</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">repeat-functions</span><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><span class="Identifier">repeat-mappings</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">repeat-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">repeat-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">repeat-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">repeat</span><span class="Ignore">*</span> is a Vim plugin to enhance <span class="Ignore">|</span><span class="Identifier">.</span><span class="Ignore">|</span>, the repeat-last-change command to do
+repeat also non built-in commands provided by plugins.  By default, some types
+of non built-in commands cannot be repeated by <span class="Ignore">|</span><span class="Identifier">.</span><span class="Ignore">|</span>.  This plugin resolve this
+problem, although plugins which provide such commands have to do proper setup.
+
+This plugin is derived from Tim Pope's one (*).  But it does not work in
+proper manner (see <span class="Ignore">|</span><span class="Identifier">repeat-vs-original</span><span class="Ignore">|</span> for the detail).  That's why I rewrite
+it.  This plugin is fully compatible with Time Pope's one, so it can be
+replace by this plugin without any problem.
+(*) <span class="Constant"><a href="http://www.vim.org/scripts/script.php?script_id=2136">http://www.vim.org/scripts/script.php?script_id=2136</a></span>
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-repeat">http://github.com/kana/config/commits/vim-repeat</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">repeat-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">repeat-functions</span><span class="Ignore">*</span>
+
+repeat#set(<span class="Special">{keyseq}</span>, [<span class="Special">{count}</span>])                 <span class="Ignore">*</span><span class="Constant">repeat#set()</span><span class="Ignore">*</span>
+                        Memoize <span class="Special">{keyseq}</span> to repeat the last change.
+                        If <span class="Special">{count}</span> is given, it is used as the default count
+                        for the repeat-last-change command.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">repeat-mappings</span><span class="Ignore">*</span>
+
+<span class="Special">&lt;Plug&gt;</span>(repeat-.)                                <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(repeat-.)</span><span class="Ignore">*</span>
+                        Enhanced version of <span class="Ignore">|</span><span class="Identifier">.</span><span class="Ignore">|</span>.  The difference is that this
+                        may use <span class="Special">{keyseq}</span> set by <span class="Ignore">|</span><span class="Identifier">repeat#set()</span><span class="Ignore">|</span>.
+
+<span class="Special">&lt;Plug&gt;</span>(repeat-u)                                <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(repeat-u)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(repeat-U)                                <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(repeat-U)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(repeat-<span class="Special">&lt;C-r&gt;</span>)                            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(repeat-&lt;C-r&gt;)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(repeat-g-)                               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(repeat-g-)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(repeat-g+)                               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(repeat-g+)</span><span class="Ignore">*</span>
+                        Internal version of <span class="Ignore">|</span><span class="Identifier">u</span><span class="Ignore">|</span> and other commands to keep
+                        some information for <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(repeat-.)</span><span class="Ignore">|</span>.
+
+                                            <span class="Ignore">*</span><span class="Constant">g:repeat_no_default_key_mappings</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant">:RepeatDefaultKeyMappings</span><span class="Ignore">*</span>
+This plugin defines the following key mappings.  If you don't want to define
+these default key mappings, define <span class="Ignore">|</span><span class="Identifier">g:repeat_no_default_key_mappings</span><span class="Ignore">|</span> before
+this plugin is loaded (e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use
+<span class="Ignore">|</span><span class="Identifier">:RepeatDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.  This command
+doesn't override existing <span class="Special">{lhs}</span>s unless [!] is given.
+
+        <span class="PreProc">modes  {lhs}   {rhs}           </span><span class="Ignore">    ~</span>
+        <span class="PreProc">-----  -----   --------------------</span><span class="Ignore">       ~</span>
+        n       .       <span class="Special">&lt;Plug&gt;</span>(repeat-.)
+        n       u       <span class="Special">&lt;Plug&gt;</span>(repeat-u)
+        n       U       <span class="Special">&lt;Plug&gt;</span>(repeat-U)
+        n       <span class="Special">&lt;C-r&gt;</span>        <span class="Special">&lt;Plug&gt;</span>(repeat-<span class="Special">&lt;C-r&gt;</span>)
+        n       g-      <span class="Special">&lt;Plug&gt;</span>(repeat-g-)
+        n       g+      <span class="Special">&lt;Plug&gt;</span>(repeat-g+)
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">repeat-bugs</span><span class="Ignore">*</span>
+
+- After execution of Ex commands which undo or redo changes such as <span class="Ignore">|</span><span class="Identifier">:undo</span><span class="Ignore">|</span>,
+  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(repeat-.)</span><span class="Ignore">|</span> may not repeat the command set by <span class="Ignore">|</span><span class="Identifier">repeat#set()</span><span class="Ignore">|</span>.
+
+- This plugin assumes that the 0, 1, ..., 9 keys are not mapped to anything.
+
+                                                <span class="Ignore">*</span><span class="Constant">repeat-vs-original</span><span class="Ignore">*</span>
+- The original Tim Pope's one has the following problems:
+
+  (a) It use <span class="Ignore">|</span><span class="Identifier">feedkeys()</span><span class="Ignore">|</span> to repeat the last change.  This method doesn't work
+      if the repeat command is not typed by user, for example, remapped from
+      other mappings.
+
+      While this plugin uses <span class="Ignore">|</span><span class="Identifier">:normal</span><span class="Ignore">|</span> instead to avoid the problem.
+
+  (b) It overrides existing mappings and there is no way to prevent the
+      behavior.
+
+      While this plugin doesn't override and provides the way to prevent and
+      to redefine the default key mappings by
+      <span class="Ignore">|</span><span class="Identifier">g:repeat_no_default_key_mappings</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">:RepeatDefaultKeyMappings</span><span class="Ignore">|</span>.
+
+  (c) It doesn't provide any &quot;interface&quot; mappings to customize key mappings.
+      For example, I use &quot;\&quot; to repeat the last change and &quot;.&quot; for
+      <span class="Special">&lt;LocalLeader&gt;</span>.  With the original one, there is no convenient way to do
+      such customization.
+
+      While this plugin provides <span class="Ignore">|</span><span class="Identifier">repeat-mappings</span><span class="Ignore">|</span> for such customization.
+
+  (d) It doesn't have its own <span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span> documentation.
+
+      While this plugin has the document which you are currently reading.
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">repeat-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2008-11-08T15:35:20+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

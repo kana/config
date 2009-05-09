@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: arpeggio - Mappings for simultaneously pressed keys</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Special { color: #c000c0; font-weight: bold; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Type { color: #008000; text-decoration: underline; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">arpeggio.txt</span><span class="Ignore">*</span>  Mappings for simultaneously pressed keys
+
+Version 0.0.5
+Script ID: 2425
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">arpeggio-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">arpeggio-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">arpeggio-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">arpeggio-commands</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">arpeggio-functions</span><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><span class="Identifier">arpeggio-mappings</span><span class="Ignore">|</span>
+  Variables               <span class="Ignore">|</span><span class="Identifier">arpeggio-variables</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">arpeggio-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">arpeggio-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">arpeggio-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">arpeggio</span><span class="Ignore">*</span> is a Vim plugin to define another type of <span class="Ignore">|</span><span class="Identifier">key-mapping</span><span class="Ignore">|</span> called as
+<span class="Ignore">*</span><span class="Constant">arpeggio-key-mapping</span><span class="Ignore">*</span> which consists of 2 or more keys and it will be mapped
+to a key sequence whenever all keys are simultaneously pressed.  For example:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        Arpeggionoremap! jk  &lt;Esc&gt;</span>
+<span class="Comment">        &quot; OR</span>
+<span class="Comment">        call arpeggio#map('ic', '', 0, 'jk', '&lt;Esc&gt;')</span>
+<span class="Ignore">&lt;</span>
+With the above definition, you can input <span class="Special">&lt;Esc&gt;</span> in Insert mode and Command-line
+mode by pressing &quot;j&quot; and &quot;k&quot; simultaneously, while solely pressed &quot;j&quot; are &quot;k&quot;
+are worked the same as the default ones.
+
+The concept of this plugin is derived from Emacs' key-chord.el (*1), but there
+are the following differences:
+
+- Number of keys to be simultaneously pressed is unlimited.
+
+- Custom delay for each key is supported (see <span class="Ignore">|</span><span class="Identifier">g:arpeggio_timeoutlens</span><span class="Ignore">|</span>).
+  This is a generalization of space-chord.el (*2).
+
+(*1) <span class="Constant"><a href="http://www.emacswiki.org/emacs/key-chord.el">http://www.emacswiki.org/emacs/key-chord.el</a></span>
+(*2) <span class="Constant"><a href="http://www.emacswiki.org/emacs/space-chord.el">http://www.emacswiki.org/emacs/space-chord.el</a></span>
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-arpeggio">http://github.com/kana/config/commits/vim-arpeggio</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">arpeggio-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">arpeggio-commands</span><span class="Ignore">*</span>
+
+:Arpeggio <span class="Special">{command}</span> ...                         <span class="Ignore">*</span><span class="Constant">:Arpeggio</span><span class="Ignore">*</span>
+                        Equivalent to &quot;:Arpeggio<span class="Special">{command}</span> ...&quot;.  This command
+                        is just for readability.
+
+:Arpeggiomap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                        <span class="Ignore">*</span><span class="Constant">:Arpeggiomap</span><span class="Ignore">*</span>
+:Arpeggiomap! <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggiomap!</span><span class="Ignore">*</span>
+:Arpeggiocmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggiocmap</span><span class="Ignore">*</span>
+:Arpeggioimap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggioimap</span><span class="Ignore">*</span>
+:Arpeggiolmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggiolmap</span><span class="Ignore">*</span>
+:Arpeggionmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggionmap</span><span class="Ignore">*</span>
+:Arpeggioomap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggioomap</span><span class="Ignore">*</span>
+:Arpeggiosmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggiosmap</span><span class="Ignore">*</span>
+:Arpeggiovmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggiovmap</span><span class="Ignore">*</span>
+:Arpeggioxmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                       <span class="Ignore">*</span><span class="Constant">:Arpeggioxmap</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">:map</span><span class="Ignore">|</span> and others, but map to <span class="Special">{rhs}</span> if and only
+                        if all keys in <span class="Special">{lhs}</span> are simultaneously pressed.
+
+                        Available <span class="Ignore">|</span><span class="Identifier">:map-arguments</span><span class="Ignore">|</span> are <span class="Special">&lt;buffer&gt;</span>, <span class="Special">&lt;expr&gt;</span>,
+                        <span class="Special">&lt;silent&gt;</span> and/or <span class="Special">&lt;unique&gt;</span>.  See also <span class="Ignore">|</span><span class="Identifier">arpeggio#map()</span><span class="Ignore">|</span>
+                        for other notes and limitations.
+
+:Arpeggionoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                    <span class="Ignore">*</span><span class="Constant">:Arpeggionoremap</span><span class="Ignore">*</span>
+:Arpeggionoremap! <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggionoremap!</span><span class="Ignore">*</span>
+:Arpeggiocnoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggiocnoremap</span><span class="Ignore">*</span>
+:Arpeggioinoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggioinoremap</span><span class="Ignore">*</span>
+:Arpeggiolnoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggiolnoremap</span><span class="Ignore">*</span>
+:Arpeggionnoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggionnoremap</span><span class="Ignore">*</span>
+:Arpeggioonoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggioonoremap</span><span class="Ignore">*</span>
+:Arpeggiosnoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggiosnoremap</span><span class="Ignore">*</span>
+:Arpeggiovnoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggiovnoremap</span><span class="Ignore">*</span>
+:Arpeggioxnoremap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                   <span class="Ignore">*</span><span class="Constant">:Arpeggioxnoremap</span><span class="Ignore">*</span>
+                        Variants of <span class="Ignore">|</span><span class="Identifier">:Arpeggiomap</span><span class="Ignore">|</span> without remapping, like
+                        <span class="Ignore">|</span><span class="Identifier">:noremap</span><span class="Ignore">|</span>.
+
+:Arpeggiounmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                      <span class="Ignore">*</span><span class="Constant">:Arpeggiounmap</span><span class="Ignore">*</span>
+:Arpeggiounmap! <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggiounmap!</span><span class="Ignore">*</span>
+:Arpeggiocunmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggiocunmap</span><span class="Ignore">*</span>
+:Arpeggioiunmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggioiunmap</span><span class="Ignore">*</span>
+:Arpeggiolunmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggiolunmap</span><span class="Ignore">*</span>
+:Arpeggionunmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggionunmap</span><span class="Ignore">*</span>
+:Arpeggioounmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggioounmap</span><span class="Ignore">*</span>
+:Arpeggiosunmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggiosunmap</span><span class="Ignore">*</span>
+:Arpeggiovunmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggiovunmap</span><span class="Ignore">*</span>
+:Arpeggioxunmap <span class="Special">{lhs}</span> <span class="Special">{rhs}</span>                     <span class="Ignore">*</span><span class="Constant">:Arpeggioxunmap</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">:unmap</span><span class="Ignore">|</span> and others, but remove key mappings
+                        defined by <span class="Ignore">|</span><span class="Identifier">:Arpeggiomap</span><span class="Ignore">|</span> and/or others.
+
+:Arpeggiomap [<span class="Special">{lhs}</span>]                            <span class="Ignore">*</span><span class="Constant">:Arpeggiomap_l</span><span class="Ignore">*</span>
+:Arpeggiomap! [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggiomap_l!</span><span class="Ignore">*</span>
+:Arpeggiocmap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggiocmap_l</span><span class="Ignore">*</span>
+:Arpeggioimap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggioimap_l</span><span class="Ignore">*</span>
+:Arpeggiolmap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggiolmap_l</span><span class="Ignore">*</span>
+:Arpeggionmap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggionmap_l</span><span class="Ignore">*</span>
+:Arpeggioomap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggioomap_l</span><span class="Ignore">*</span>
+:Arpeggiosmap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggiosmap_l</span><span class="Ignore">*</span>
+:Arpeggiovmap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggiovmap_l</span><span class="Ignore">*</span>
+:Arpeggioxmap [<span class="Special">{lhs}</span>]                           <span class="Ignore">*</span><span class="Constant">:Arpeggioxmap_l</span><span class="Ignore">*</span>
+                        List key mappings which are defined by <span class="Ignore">|</span><span class="Identifier">:Arpeggiomap</span><span class="Ignore">|</span>
+                        or others and which contain all keys in <span class="Special">{lhs}</span>.
+                        If <span class="Special">{lhs}</span> is omitted, list all key mappings defined by
+                        <span class="Ignore">|</span><span class="Identifier">:Arpeggiomap</span><span class="Ignore">|</span> or others.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">arpeggio-functions</span><span class="Ignore">*</span>
+
+arpeggio#list(<span class="Special">{modes}</span>, <span class="Special">{options}</span>, [<span class="Special">{lhs}</span>])      <span class="Ignore">*</span><span class="Constant">arpeggio#list()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><span class="Identifier">:Arpeggiomap_l</span><span class="Ignore">|</span> and others.
+                        See <span class="Ignore">|</span><span class="Identifier">arpeggio#map()</span><span class="Ignore">|</span> for the details of arguments.
+
+                        For this function, <span class="Special">{lhs}</span> can be omitted or can be 0.
+                        If so, all arpeggio mappings defined in <span class="Special">{modes}</span> will
+                        be listed.
+
+arpeggio#load()                                 <span class="Ignore">*</span><span class="Constant">arpeggio#load()</span><span class="Ignore">*</span>
+                        Load this plugin if it is not loaded yet.  Otherwise,
+                        does nothing.  Call this function to ensure that
+                        <span class="Ignore">|</span><span class="Identifier">arpeggio-commands</span><span class="Ignore">|</span> are defined before you use one of
+                        them, especially, in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>.
+
+                                                <span class="Ignore">*</span><span class="Constant">arpeggio#map()</span><span class="Ignore">*</span>
+arpeggio#map(<span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{remap-p}</span>, <span class="Special">{lhs}</span>, <span class="Special">{rhs}</span>)
+                        Function version of <span class="Ignore">|</span><span class="Identifier">:Arpeggiomap</span><span class="Ignore">|</span> and others.
+
+                        <span class="Special">{modes}</span>
+                                String.  Each character means one or more
+                                modes to define the given key mapping.  &quot;n&quot;
+                                means Normal mode, &quot;v&quot; means Visual mode and
+                                Select mode (the same as what <span class="Ignore">|</span><span class="Identifier">:vmap</span><span class="Ignore">|</span> does),
+                                and so forth.
+
+                        <span class="Special">{options}</span>
+                                String.  Each character means one of
+                                <span class="Ignore">|</span><span class="Identifier">:map-arguments</span><span class="Ignore">|</span>.  The meanings of characters
+                                are as follows:
+
+                                <span class="PreProc">Char        Meaning</span><span class="Ignore"> ~</span>
+                                b       <span class="Special">&lt;buffer&gt;</span>
+                                e       <span class="Special">&lt;expr&gt;</span>
+                                s       <span class="Special">&lt;silent&gt;</span>
+                                u       <span class="Special">&lt;unique&gt;</span>
+
+                                Other <span class="Ignore">|</span><span class="Identifier">:map-arguments</span><span class="Ignore">|</span> are not supported for
+                                arpeggio key mappings.
+
+                                <span class="Todo">Note</span> that the meaning of <span class="Special">&lt;unique&gt;</span> is a bit
+                                differed as follows:
+
+                                - If a key in <span class="Special">{lhs}</span> is already mapped to
+                                  something other than a part of
+                                  <span class="Ignore">|</span><span class="Identifier">arpeggio-key-mapping</span><span class="Ignore">|</span>, an error will be
+                                  raised and defining of this mapping will be
+                                  aborted.
+
+                                - If <span class="Special">{lhs}</span> is already mapped to another
+                                  <span class="Ignore">|</span><span class="Identifier">arpeggio-key-mapping</span><span class="Ignore">|</span>, an error will be
+                                  raised and defining of this mapping will be
+                                  aborted.
+
+                        <span class="Special">{remap-p}</span>
+                                Number as a boolean.  True means that rhs can
+                                be remapped, false means remapping is not
+                                allowed.
+
+                        <span class="Special">{lhs}</span>
+                                String.  This value must contain two or more
+                                keys.  Special keys such as <span class="Special">&lt;C-u&gt;</span> must be
+                                escaped with &lt; and &gt;, i.e., use '<span class="Special">&lt;C-u&gt;</span>' not
+                                &quot;\<span class="Special">&lt;C-u&gt;</span>&quot;.
+
+                        <span class="Special">{rhs}</span>
+                                String.
+
+arpeggio#unmap(<span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{lhs}</span>)       <span class="Ignore">*</span><span class="Constant">arpeggio#unmap()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><span class="Identifier">:Arpeggiounmap</span><span class="Ignore">|</span> and others.
+                        See <span class="Ignore">|</span><span class="Identifier">arpeggio#map()</span><span class="Ignore">|</span> for the details of arguments.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">arpeggio-mappings</span><span class="Ignore">*</span>
+
+In the following description, <span class="Special">{X}</span> means a character in <span class="Special">{lhs}</span> which are used
+for <span class="Ignore">|</span><span class="Identifier">:Arpeggiomap</span><span class="Ignore">|</span> and others.
+
+<span class="Special">{X}</span>
+                        Mapped to internal stuffs.  Don't map <span class="Special">{X}</span> to anything.
+                        To customize the action for solely typed <span class="Special">{X}</span>, use
+                        <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(arpeggio-default:{X})</span><span class="Ignore">|</span> instead.
+
+<span class="Special">&lt;Plug&gt;</span>(arpeggio-default:<span class="Special">{X}</span>)                    <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(arpeggio-default:{X})</span><span class="Ignore">*</span>
+                        Pseudo key sequence to customize the action whenever
+                        <span class="Special">{X}</span> is typed solely.  By default, this key sequence is
+                        mapped to <span class="Special">{X}</span> with no remapping.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">arpeggio-variables</span><span class="Ignore">*</span>
+
+g:arpeggio_timeoutlen   number  (default 40)    <span class="Ignore">*</span><span class="Constant">g:arpeggio_timeoutlen</span><span class="Ignore">*</span>
+                        The time in milliseconds to determine whether typed
+                        keys are simultaneously pressed or not.
+
+g:arpeggio_timeoutlens  Dictionary (default {}) <span class="Ignore">*</span><span class="Constant">g:arpeggio_timeoutlens</span><span class="Ignore">*</span>
+                        Each key (in this dictionary) is a string of a key (on
+                        a keyboard), and each value is a number which means
+                        the same as <span class="Ignore">|</span><span class="Identifier">g:arpeggio_timeoutlen</span><span class="Ignore">|</span> but it is used
+                        only for the corresponding key.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">arpeggio-bugs</span><span class="Ignore">*</span>
+
+- Not all keyboards have <span class="Special">N</span>-key rollover (*).  Though this plugin supports
+  unlimited number of simultaneously pressed keys, 3 or more keys may not be
+  inputted simultaneously.
+
+  For keyboards which don't have <span class="Special">N</span>-key rollover, it's possible to emulate to
+  simultaneously press 3 or more keys by pressing each key after another key
+  in short time, i.e., arpeggio.
+
+  (*) <span class="Constant"><a href="http://en.wikipedia.org/wiki/Rollover_(key">http://en.wikipedia.org/wiki/Rollover_(key</a></span>)
+
+- <span class="Ignore">|</span><span class="Identifier">arpeggio-key-mapping</span><span class="Ignore">|</span> may not be worked or may be conflicted with <span class="Ignore">|</span><span class="Identifier">@</span><span class="Ignore">|</span>
+  and/or <span class="Ignore">|</span><span class="Identifier">key-mapping</span><span class="Ignore">|</span>.  Because recorded key sequence doesn't have any
+  information about typing delay for each key.  So some keys may be treated as
+  an arpeggio key mapping unexpectedly.
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">arpeggio-changelog</span><span class="Ignore">*</span>
+
+0.0.5   2008-11-19T23:11:31+09:00
+        - Remove the assumption on <span class="Type">'timeout'</span> and <span class="Type">'ttimeout'</span>.  Old version
+          assumes that &quot;set timeout notimeout&quot;, but now their values can be
+          arbitrary.
+        - Fix the bug that <span class="Type">'ttimeoutlen'</span> can be interpreted as an unexpected
+          value because of the adjustment of <span class="Type">'timeout'</span> and <span class="Type">'timeoutlen'</span> for
+          arpeggio key mappings.
+
+0.0.4   2008-11-10T02:38:07+09:00
+        - Add syntax highlighting for <span class="Ignore">|</span><span class="Identifier">arpeggio-commands</span><span class="Ignore">|</span>.
+        - Fix bugs of &quot;noremap&quot; version of <span class="Ignore">|</span><span class="Identifier">arpeggio-commands</span><span class="Ignore">|</span> such as
+          <span class="Ignore">|</span><span class="Identifier">:Arpeggionoremap</span><span class="Ignore">|</span> that <span class="Special">{rhs}</span> are remapped despite the meaning of
+          the commands.  (Thanks for id:ampmmn)
+
+0.0.3   2008-11-09T10:37:46+09:00
+        - Add <span class="Ignore">|</span><span class="Identifier">:Arpeggio</span><span class="Ignore">|</span>.
+        - Support <span class="Ignore">|</span><span class="Identifier">:map-&lt;unique&gt;</span><span class="Ignore">|</span> for <span class="Ignore">|</span><span class="Identifier">arpeggio#map()</span><span class="Ignore">|</span> and other commands.
+        - In <span class="Ignore">|</span><span class="Identifier">arpeggio#map()</span><span class="Ignore">|</span> and other commands, warn if a key in <span class="Special">{lhs}</span> is
+          already mapped to something other than a part of another
+          <span class="Ignore">|</span><span class="Identifier">arpeggio-key-mapping</span><span class="Ignore">|</span>.
+        - Add custom <span class="Type">'timeoutlen'</span> per key.  See <span class="Ignore">|</span><span class="Identifier">g:arpeggio_timeoutlens</span><span class="Ignore">|</span>.
+        - Add a bit of completion for <span class="Ignore">|</span><span class="Identifier">arpeggio-commands</span><span class="Ignore">|</span>.
+
+0.0.2   2008-11-07T22:16:51+09:00
+        - Fix <span class="Ignore">|</span><span class="Identifier">:Arpeggionoremap</span><span class="Ignore">|</span> that allowed remapping but it should not do
+          so.  (Thanks for id:ampmmn)
+        - Define <span class="Ignore">|</span><span class="Identifier">arpeggio-commands</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">arpeggio-variables</span><span class="Ignore">|</span> automatically
+          for interactive or other use.  (But you still have to call
+          <span class="Ignore">|</span><span class="Identifier">arpeggio#load()</span><span class="Ignore">|</span> to use them in vimrc.)
+
+0.0.1   2008-11-06T09:34:19+09:00
+        - Implement <span class="Ignore">|</span><span class="Identifier">arpeggio-commands</span><span class="Ignore">|</span>.
+        - Add missing <span class="Ignore">|</span><span class="Identifier">arpeggio#list()</span><span class="Ignore">|</span>.
+        - Revise minor stuffs.
+
+0.0.0   2008-11-04T15:53:03+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

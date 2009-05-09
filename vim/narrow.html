@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: narrow - Emulate Emacs' narrowing feature</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Special { color: #c000c0; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">narrow.txt</span><span class="Ignore">*</span>    Emulate Emacs' narrowing feature
+
+Version 0.2.1
+Script ID: 2097
+Copyright (C) 2007 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">narrow-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">narrow-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">narrow-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">narrow-commands</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">narrow-functions</span><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><span class="Identifier">narrow-customizing</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">narrow-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">narrow-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">narrow-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">narrow</span><span class="Ignore">*</span> is a Vim plugin to emulate Emacs' narrowing feature.
+From GNU Emacs Manual:
+
+        Narrowing means focusing in on some portion of the buffer, making the
+        rest temporarily inaccessible. The portion which you can still get to
+        is called the accessible portion. Canceling the narrowing, which makes
+        the entire buffer once again accessible, is called widening. The
+        bounds of narrowing in effect in a buffer are called the buffer's
+        restriction.
+
+        Narrowing can make it easier to concentrate on a single subroutine or
+        paragraph by eliminating clutter. It can also be used to limit the
+        range of operation of a replace command or repeating keyboard macro.
+
+<span class="Todo">Note</span> that there are some differences from the original behavior.
+See <span class="Ignore">|</span><span class="Identifier">narrow-bugs</span><span class="Ignore">|</span> for the detail.
+
+
+Requirements:
+- Vim 7.0 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-narrow">http://github.com/kana/config/commits/vim-narrow</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">narrow-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">narrow-commands</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">:Narrow</span><span class="Ignore">*</span>
+:<span class="Special">[range]</span>Narrow
+        Narrow down to <span class="Special">[range]</span>.  The default <span class="Special">[range]</span> is the current line.
+        See <span class="Ignore">|</span><span class="Identifier">g:narrow_allow_overridingp</span><span class="Ignore">|</span> in the case of the buffer is already
+        narrowed.
+
+                                                <span class="Ignore">*</span><span class="Constant">:Widen</span><span class="Ignore">*</span>
+:Widen
+        Widen to make the entire buffer visible again.
+        If the buffer is not narrowed, nothing will happen.
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">narrow-functions</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">narrow#Narrow()</span><span class="Ignore">*</span>
+narrow#Narrow(<span class="Special">{line1}</span>, <span class="Special">{line2}</span>)
+        Function version of <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span>.
+        Narrow down to between <span class="Special">{line1}</span> and <span class="Special">{line2}</span>.
+        Return true on success or false on failure.
+
+                                                <span class="Ignore">*</span><span class="Constant">narrow#Widen()</span><span class="Ignore">*</span>
+narrow#Widen()
+        Function version of <span class="Ignore">|</span><span class="Identifier">:Widen</span><span class="Ignore">|</span>.
+        Return true on success or false on failure.
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">narrow-customizing</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">b:narrow_original_state</span><span class="Ignore">*</span>
+b:narrow_original_state
+        The variable to save the state of the buffer before narrowing.
+        This variable doesn't exist when the buffer is not narrowed.
+
+                                                <span class="Ignore">*</span><span class="Constant">g:narrow_allow_overridingp</span><span class="Ignore">*</span>
+g:narrow_allow_overridingp
+        When the buffer is already narrowed, <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span> is allowed if this
+        variable is set to true.  Otherwise it's not allowed, so nothing will
+        happen.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">narrow-bugs</span><span class="Ignore">*</span>
+
+- Narrowing is based on Vim's <span class="Ignore">|</span><span class="Identifier">folding</span><span class="Ignore">|</span> feature.  So you can
+<span class="Statement">  </span>* See hidden portions as folds.
+<span class="Statement">  </span>* Show a hidden portion by <span class="Ignore">|</span><span class="Identifier">zR</span><span class="Ignore">|</span> or other commands.
+<span class="Statement">  </span>* Move the cursor into a hidden portion.
+<span class="Statement">  </span>* Modify the content of a hidden portion by <span class="Ignore">|</span><span class="Identifier">:s</span><span class="Ignore">|</span> or other commands.
+  In Emacs, these actions aren't allowed.
+
+- The following situation is not supported:
+  The same buffer showed in two or more windows.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">narrow-changelog</span><span class="Ignore">*</span>
+
+0.2.1   2009-02-28T16:55:24+09:00
+        - Fix minor bugs:
+          - <span class="Ignore">|</span><span class="Identifier">:Widen</span><span class="Ignore">|</span> raises an error for buffers without fold.
+          - <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span> doesn't hide lines smaller than <span class="Type">'foldminlines'</span>.
+
+0.2     2007-12-29T07:24:53+09:00
+        - Fix <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">:Widen</span><span class="Ignore">|</span> not to use temporary files.  Now <span class="Ignore">|</span><span class="Identifier">:Widen</span><span class="Ignore">|</span>
+          correctly works even if the target buffer is <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span>'ed by two or
+          more Vim processes.
+        - Modify <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span> to <span class="Ignore">|</span><span class="Identifier">zz</span><span class="Ignore">|</span> after narrowing for visibility.
+        - Modify <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span> to include all lines of closed folds in <span class="Special">[range]</span>.
+
+0.1     2007-12-28T01:13:48+09:00
+        - Fix the bug that <span class="Type">'foldenable'</span> is not set after <span class="Ignore">|</span><span class="Identifier">:Narrow</span><span class="Ignore">|</span>.
+        - Fix the bug that the cursor is moved to somewhere after <span class="Ignore">|</span><span class="Identifier">:Widen</span><span class="Ignore">|</span>.
+        - Add <span class="Ignore">|</span><span class="Identifier">g:narrow_allow_overridingp</span><span class="Ignore">|</span>.
+
+0.0     2007-12-15T22:34:52+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

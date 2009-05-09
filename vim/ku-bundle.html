@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: ku-bundle - ku source: bundle</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">ku-bundle.txt</span><span class="Ignore">*</span> ku source: bundle
+
+Version 0.1.1
+Script ID: 2343
+Copyright (C) 2008-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">ku-bundle-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">ku-bundle-introduction</span><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-table</span><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><span class="Identifier">ku-bundle-key-table</span><span class="Ignore">|</span>
+Variables               <span class="Ignore">|</span><span class="Identifier">ku-bundle-variables</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">ku-bundle-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">ku-bundle-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">ku-bundle-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">ku-bundle</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> to deal with bundles for a Vim plugin
+<span class="Ignore">|</span><span class="Identifier">bundle</span><span class="Ignore">|</span>.  You can choose one from many bundles and do some action to it.
+
+
+Requirements:
+- Vim 7.1 or later
+- <span class="Ignore">|</span><span class="Identifier">bundle</span><span class="Ignore">|</span> 0.0.2 or later (vimscript#2338)
+- <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-bundle">http://github.com/kana/config/commits/vim-ku-bundle</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant">ku-bundle-action-table</span><span class="Ignore">*</span>
+
+args                                            <span class="Ignore">*</span><span class="Constant">ku-bundle-action-args</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><span class="Identifier">:ArgsBundle</span><span class="Ignore">|</span> for the selected item.
+
+args!                                           <span class="Ignore">*</span><span class="Constant">ku-bundle-action-args!</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><span class="Identifier">:ArgsBundle!</span><span class="Ignore">|</span> for the selected.
+
+default                                         <span class="Ignore">*</span><span class="Constant">ku-bundle-action-default</span><span class="Ignore">*</span>
+                        Same as &quot;args&quot;.
+
+load                                            <span class="Ignore">*</span><span class="Constant">ku-bundle-action-load</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><span class="Identifier">:LoadBundle</span><span class="Ignore">|</span> for the selected item.
+
+load!                                           <span class="Ignore">*</span><span class="Constant">ku-bundle-action-load!</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><span class="Identifier">:LoadBundle!</span><span class="Ignore">|</span> for the selected item.
+
+load-or-args                                   <span class="Ignore">*</span><span class="Constant">ku-bundle-action-load-or-args</span><span class="Ignore">*</span>
+                        Normally, do &quot;load&quot;.  If this action is invoked via
+                        <span class="Ignore">|</span><span class="Identifier">ku-action-left</span><span class="Ignore">|</span> or similar actions, do &quot;args&quot;
+                        instead.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant">ku-bundle-key-table</span><span class="Ignore">*</span>
+
+<span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
+<span class="PreProc">--------        --------</span>
+<span class="Special">&lt;C-a&gt;</span>           args            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args</span><span class="Ignore">|</span>
+<span class="Special">&lt;C-o&gt;</span>           load            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load</span><span class="Ignore">|</span>
+A               args!           <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args!</span><span class="Ignore">|</span>
+O               load!           <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load!</span><span class="Ignore">|</span>
+a               args            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args</span><span class="Ignore">|</span>
+o               load            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">ku-bundle-variables</span><span class="Ignore">*</span>
+
+g:ku_bundle_path_separators                     <span class="Ignore">*</span><span class="Constant">g:ku_bundle_path_separators</span><span class="Ignore">*</span>
+        String to specify separators for &quot;<span class="Special">{bundle}</span>/<span class="Special">{path}</span>&quot; notation.  Each
+        character in this variable can be used to separate <span class="Special">{bundle}</span> and
+        <span class="Special">{path}</span>.  For example, if g:ku_bundle_path_separators = '&gt;_&lt;', you can
+        use &quot;<span class="Special">{bundle}</span>&gt;<span class="Special">{path}</span>&quot;, &quot;<span class="Special">{bundle}</span>_<span class="Special">{path}</span>&quot; or &quot;<span class="Special">{bundle}</span>&lt;<span class="Special">{path}</span>&quot; instead
+        of &quot;<span class="Special">{bundle}</span>/<span class="Special">{path}</span>&quot;.
+
+        This variable is not defined by default.  If it's not defined, the
+        value of <span class="Ignore">|</span><span class="Identifier">g:ku_component_separators</span><span class="Ignore">|</span> will be used instead.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">ku-bundle-bugs</span><span class="Ignore">*</span>
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">ku-bundle-changelog</span><span class="Ignore">*</span>
+
+0.1.1   2009-05-04T01:44:00+09:00
+        - Update for ku 0.2.1.
+
+0.1.0   2009-01-10T16:08:02+09:00/2009-04-28T01:58:45+09:00
+        - Update for ku 0.2.0.
+
+0.0.2   2008-12-24T15:27:07+09:00
+        - Change <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-default</span><span class="Ignore">|</span>.
+          Now it does the same as <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args</span><span class="Ignore">|</span>
+          instead of <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load-or-args</span><span class="Ignore">|</span>.
+
+0.0.1   2008-08-13T06:17:35+09:00
+        - Support to complete files in a bundle with &quot;<span class="Special">{bundle}</span>/<span class="Special">{path}</span>&quot;
+          notation.  Such item is opened with <span class="Ignore">|</span><span class="Identifier">ku-file-action-open</span><span class="Ignore">|</span> or
+          <span class="Ignore">|</span><span class="Identifier">ku-file-action-open!</span><span class="Ignore">|</span>.  The separator between <span class="Special">{bundle}</span> and <span class="Special">{path}</span>
+          can be configured by <span class="Ignore">|</span><span class="Identifier">g:ku_bundle_path_separators</span><span class="Ignore">|</span>.
+
+0.0.0   2008-08-10T22:30:40+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

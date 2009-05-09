@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: fakeclip - pseudo clipboard register for non-GUI version of Vim</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">fakeclip.txt</span><span class="Ignore">*</span>  pseudo clipboard register for non-GUI version of Vim
+
+Version 0.2.3
+Script ID: 2098
+Copyright (C) 2007-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">fakeclip-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">fakeclip-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">fakeclip-interface</span><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><span class="Identifier">fakeclip-key-mappings</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">fakeclip-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">fakeclip-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">fakeclip-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">fakeclip</span><span class="Ignore">*</span> is a Vim plugin to provide pseudo clipboard register (<span class="Ignore">|</span><span class="Identifier">quotestar</span><span class="Ignore">|</span>
+or <span class="Ignore">|</span><span class="Identifier">quoteplus</span><span class="Ignore">|</span>) for non-GUI version of Vim on the following platforms:
+
+- Cygwin
+- Mac OS X
+
+
+fakeclip also supports the following stuff as a pseudo register:
+
+- GNU screen (the paste buffer)
+
+
+FAQ: If you can't copy/paste multibyte characters with the clipboard
+     on Mac OS X, see <span class="Ignore">|</span><span class="Identifier">fakeclip-multibyte-on-mac</span><span class="Ignore">|</span>.
+
+
+Requirements:
+- Vim 7.0 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-fakeclip">http://github.com/kana/config/commits/vim-fakeclip</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">fakeclip-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">fakeclip-key-mappings</span><span class="Ignore">*</span>
+
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-y)<span class="Special">{motion}</span>               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-y)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-Y)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-Y)</span><span class="Ignore">*</span>
+<span class="Special">{Visual}&lt;Plug&gt;</span>(fakeclip-y)                      <span class="Ignore">*</span><span class="Constant">v_&lt;Plug&gt;(fakeclip-y)</span><span class="Ignore">*</span>
+<span class="Special">{Visual}&lt;Plug&gt;</span>(fakeclip-Y)                      <span class="Ignore">*</span><span class="Constant">v_&lt;Plug&gt;(fakeclip-Y)</span><span class="Ignore">*</span>
+                        Like as <span class="Ignore">|</span><span class="Identifier">y</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">Y</span><span class="Ignore">|</span>, but yank into the clipboard.
+
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-p)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-p)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-P)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-P)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-gp)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-gp)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-gP)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-gP)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-]p)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-]p)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-]P)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-]P)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-[p)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-[p)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-[P)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-[P)</span><span class="Ignore">*</span>
+                        Like as <span class="Ignore">|</span><span class="Identifier">p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">gp</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">gP</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">]p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">]P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">[p</span><span class="Ignore">|</span> or
+                        <span class="Ignore">|</span><span class="Identifier">[P</span><span class="Ignore">|</span>, but put from the clipboard.
+                                                <span class="Ignore">*</span><span class="Constant">c_&lt;Plug&gt;(fakeclip-insert)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-insert)                         <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-insert)</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant">c_&lt;Plug&gt;(fakeclip-insert-r)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-r)                       <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-insert-r)</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant">c_&lt;Plug&gt;(fakeclip-insert-o)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-o)                       <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-insert-o)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-p)                       <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-insert-p)</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">i_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-O</span><span class="Ignore">|</span>,
+                        <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-R</span><span class="Ignore">|</span> or
+                        <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-O</span><span class="Ignore">|</span>, but insert the content of the
+                        clipboard.
+
+
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-y)<span class="Special">{motion}</span>        <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-y)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-Y)                <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-Y)</span><span class="Ignore">*</span>
+<span class="Special">{Visual}&lt;Plug&gt;</span>(fakeclip-screen-y)               <span class="Ignore">*</span><span class="Constant">v_&lt;Plug&gt;(fakeclip-screen-y)</span><span class="Ignore">*</span>
+<span class="Special">{Visual}&lt;Plug&gt;</span>(fakeclip-screen-Y)               <span class="Ignore">*</span><span class="Constant">v_&lt;Plug&gt;(fakeclip-screen-Y)</span><span class="Ignore">*</span>
+                        Like as <span class="Ignore">|</span><span class="Identifier">y</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">Y</span><span class="Ignore">|</span>, but yank into the paste buffer of
+                        GNU screen.
+
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-p)                <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-p)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-P)                <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-P)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-gp)               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-gp)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-gP)               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-gP)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-]p)               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-]p)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-]P)               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-]P)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-[p)               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-[p)</span><span class="Ignore">*</span>
+<span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-[P)               <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(fakeclip-screen-[P)</span><span class="Ignore">*</span>
+                        Like as <span class="Ignore">|</span><span class="Identifier">p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">gp</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">gP</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">]p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">]P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">[p</span><span class="Ignore">|</span> or
+                        <span class="Ignore">|</span><span class="Identifier">[P</span><span class="Ignore">|</span>, but put from the paste buffer of GNU screen.
+                                        <span class="Ignore">*</span><span class="Constant">c_&lt;Plug&gt;(fakeclip-screen-insert)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert)          <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-screen-insert)</span><span class="Ignore">*</span>
+                                        <span class="Ignore">*</span><span class="Constant">c_&lt;Plug&gt;(fakeclip-screen-insert-r)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert-r)        <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-screen-insert-r)</span><span class="Ignore">*</span>
+                                        <span class="Ignore">*</span><span class="Constant">c_&lt;Plug&gt;(fakeclip-screen-insert-o)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert-o)        <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-screen-insert-o)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert-p)        <span class="Ignore">*</span><span class="Constant">i_&lt;Plug&gt;(fakeclip-screen-insert-p)</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">i_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-O</span><span class="Ignore">|</span>,
+                        <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-R</span><span class="Ignore">|</span> or
+                        <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-O</span><span class="Ignore">|</span>, but insert the content of the
+                        paste buffer of GNU screen.
+
+
+                                          <span class="Ignore">*</span><span class="Constant">g:fakeclip_no_default_key_mappings</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant">:FakeclipDefaultKeyMappings</span><span class="Ignore">*</span>
+Fakeclip will define the following key mappings.  If you don't want to define
+these default key mappings, define <span class="Ignore">|</span><span class="Identifier">g:fakeclip_no_default_key_mappings</span><span class="Ignore">|</span> before
+this plugin is loaded (e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use
+<span class="Ignore">|</span><span class="Identifier">:FakeclipDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.  This command
+doesn't override existing <span class="Special">{lhs}</span>s unless [!] is given.
+
+        <span class="PreProc">modes  {lhs}           {rhs}                           </span><span class="Ignore"> ~</span>
+        <span class="PreProc">-----  -----------     --------------------------------</span><span class="Ignore">     ~</span>
+        nv      &quot;+y             <span class="Special">&lt;Plug&gt;</span>(fakeclip-y)
+        nv      &quot;*y             <span class="Special">&lt;Plug&gt;</span>(fakeclip-y)
+        n       &quot;+yy            <span class="Special">&lt;Plug&gt;</span>(fakeclip-Y)
+        n       &quot;*yy            <span class="Special">&lt;Plug&gt;</span>(fakeclip-Y)
+        nv      &quot;+Y             <span class="Special">&lt;Plug&gt;</span>(fakeclip-Y)
+        nv      &quot;*Y             <span class="Special">&lt;Plug&gt;</span>(fakeclip-Y)
+        nv      &quot;+p             <span class="Special">&lt;Plug&gt;</span>(fakeclip-p)
+        nv      &quot;*p             <span class="Special">&lt;Plug&gt;</span>(fakeclip-p)
+        nv      &quot;+P             <span class="Special">&lt;Plug&gt;</span>(fakeclip-P)
+        nv      &quot;*P             <span class="Special">&lt;Plug&gt;</span>(fakeclip-P)
+        nv      &quot;+gp            <span class="Special">&lt;Plug&gt;</span>(fakeclip-gp)
+        nv      &quot;*gp            <span class="Special">&lt;Plug&gt;</span>(fakeclip-gp)
+        nv      &quot;+gP            <span class="Special">&lt;Plug&gt;</span>(fakeclip-gP)
+        nv      &quot;*gP            <span class="Special">&lt;Plug&gt;</span>(fakeclip-gP)
+        nv      &quot;+]p            <span class="Special">&lt;Plug&gt;</span>(fakeclip-]p)
+        nv      &quot;*]p            <span class="Special">&lt;Plug&gt;</span>(fakeclip-]p)
+        nv      &quot;+]P            <span class="Special">&lt;Plug&gt;</span>(fakeclip-]P)
+        nv      &quot;*]P            <span class="Special">&lt;Plug&gt;</span>(fakeclip-]P)
+        nv      &quot;+[p            <span class="Special">&lt;Plug&gt;</span>(fakeclip-[p)
+        nv      &quot;*[p            <span class="Special">&lt;Plug&gt;</span>(fakeclip-[p)
+        nv      &quot;+[P            <span class="Special">&lt;Plug&gt;</span>(fakeclip-[P)
+        nv      &quot;*[P            <span class="Special">&lt;Plug&gt;</span>(fakeclip-[P)
+        ic      <span class="Special">&lt;C-r&gt;</span>+              <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert)
+        ic      <span class="Special">&lt;C-r&gt;</span>*              <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert)
+        ic      <span class="Special">&lt;C-r&gt;&lt;C-r&gt;</span>+ <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-r)
+        ic      <span class="Special">&lt;C-r&gt;&lt;C-r&gt;</span>* <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-r)
+        ic      <span class="Special">&lt;C-r&gt;&lt;C-o&gt;</span>+ <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-o)
+        ic      <span class="Special">&lt;C-r&gt;&lt;C-o&gt;</span>* <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-o)
+        i       <span class="Special">&lt;C-r&gt;&lt;C-p&gt;</span>+  <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-p)
+        i       <span class="Special">&lt;C-r&gt;&lt;C-p&gt;</span>*  <span class="Special">&lt;Plug&gt;</span>(fakeclip-insert-p)
+        nv      &quot;&amp;y             <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-y)
+        n       &quot;&amp;yy            <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-Y)
+        nv      &quot;&amp;Y             <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-Y)
+        nv      &quot;&amp;p             <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-p)
+        nv      &quot;&amp;P             <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-P)
+        nv      &quot;&amp;gp            <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-gp)
+        nv      &quot;&amp;gP            <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-gP)
+        nv      &quot;&amp;]p            <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-]p)
+        nv      &quot;&amp;]P            <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-]P)
+        nv      &quot;&amp;[p            <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-[p)
+        nv      &quot;&amp;[P            <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-[P)
+        ic      <span class="Special">&lt;C-r&gt;</span>&amp;              <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert)
+        ic      <span class="Special">&lt;C-r&gt;&lt;C-r&gt;</span>&amp; <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert-r)
+        ic      <span class="Special">&lt;C-r&gt;&lt;C-o&gt;</span>&amp; <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert-o)
+        i       <span class="Special">&lt;C-r&gt;&lt;C-p&gt;</span>&amp;  <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert-p)
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">fakeclip-bugs</span><span class="Ignore">*</span>
+
+(a) This plugin just provide pseudo clipboard register for ordinary editing.
+So <span class="Ignore">|</span><span class="Identifier">getreg()</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">setreg()</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">expr-register</span><span class="Ignore">|</span> and other interface on clipboard
+register are not supported.
+
+(b) The characteristic (i.e., characterwise, linewise or blockwise) of the
+clipboard content is not remembered.  It will be linewise if each line of the
+clipboard content ends with a newline, otherwise it will be characterwise.
+
+(c) Executing <span class="Special">&lt;Plug&gt;</span>(fakeclip-y) in Normal mode, the display of <span class="Type">'showcmd'</span> is
+different from the ordinary one.
+
+(d) <span class="Special">&lt;Plug&gt;</span>(fakeclip-y) in Normal mode doesn't accept &quot;y&quot; as a linewise
+<span class="Special">{motion}</span> like the built-in <span class="Ignore">|</span><span class="Identifier">y</span><span class="Ignore">|</span>.
+                                                <span class="Ignore">*</span><span class="Constant">fakeclip-multibyte-on-mac</span><span class="Ignore">*</span>
+(e) On Mac OS X, you have to set a proper value to the environment variable
+__CF_USER_TEXT_ENCODING.  It contins :-separated values:
+
+    - The 1st value means a user id.  It must be the same as the result of the
+      following command:
+<span class="Ignore">&gt;</span>
+<span class="Comment">          printf '0x%X\n' `id -u`</span>
+<span class="Ignore">&lt;</span>
+    - The 2nd value means the character encoding which is used to translate
+      string data between GUI and Terminal.  For example, if you work on
+      Terminal with UTF-8, the 2nd value of __CF_USER_TEXT_ENCODING must be
+      set to &quot;0x08000100&quot;.  See the following URI for the magic values to
+      specify character encodings:
+
+<span class="Constant"><a href="http://developer.apple.com/documentation/CoreFoundation/Reference/CFStringRef/">http://developer.apple.com/documentation/CoreFoundation/Reference/CFStringRef/</a></span>
+
+    For example, the valaue of __CF_USER_TEXT_ENCODING on the author's
+    environment is as follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        0x1F5:0x08000100:0</span>
+<span class="Ignore">&lt;</span>
+(f) On Mac OS X, if you use Vim on GNU screen and you can't copy/paste text
+    with the clipboard, try installing GNU screen from MacPorts with &quot;+darwin&quot;
+    variants.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">fakeclip-changelog</span><span class="Ignore">*</span>
+
+0.2.3   2009-05-06T03:03:25+09:00
+        - Revise the documents on Mac OS X specific problems.  See
+          <span class="Ignore">|</span><span class="Identifier">fakeclip-multibyte-on-mac</span><span class="Ignore">|</span> if you can't copy/paste with the
+          clipboard on Mac OS X.
+        - Fix a bug that fakeclip uses wrong function to escape file-like
+          arguments to shells.  Thanks @thinca for reporting this.
+
+0.2.2   2008-10-24T19:54:35+09:00/2009-03-25T21:17:25+09:00
+        - Add equivalents for the following commands:
+          <span class="Ignore">|</span><span class="Identifier">]p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">]P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">[p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">[P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-O</span><span class="Ignore">|</span>,
+          <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-O</span><span class="Ignore">|</span>.
+        - Fix the way to detect the current platform.  For Mac OS X, it
+          depended on some assumptions.  Thanks for someone who wrote about
+          this bug at the Vim Tips Wiki.
+
+0.2.1   2008-10-24T16:18:32+09:00
+        - Refactor.
+        - Support the paste buffer of GNU screen as a pseudo register.
+
+0.2.0   2008-07-14T14:09:49+09:00
+        - Rename as &quot;fakeclip&quot; (the old name is &quot;cygclip&quot;).
+        - Support Mac OS X.
+        - Autoloaded.
+
+0.1     2007-12-27T22:47:34+09:00
+        - Modify to automatically define the default key mappings as this
+          plugin is loaded.  See <span class="Ignore">|</span><span class="Identifier">g:fakeclip_no_default_key_mappings</span><span class="Ignore">|</span> for how
+          to suppress this behavior.
+
+0.0     2007-08-13
+        - First release.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

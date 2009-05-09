@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: altkwprg - Alternative 'keywordprg' with :help-like window</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Type { color: #008000; text-decoration: underline; }
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">altkwprg.txt</span><span class="Ignore">*</span>  Alternative <span class="Type">'keywordprg'</span> with :help-like window
+
+Version 0.0.0
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">altkwprg-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">altkwprg-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">altkwprg-interface</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">altkwprg-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">altkwprg-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">altkwprg-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">altkwprg</span><span class="Ignore">*</span> is a Vim plugin to provide <span class="Type">'keywordprg'</span>-like features with
+<span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span>-like window.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-altkwprg">http://github.com/kana/config/commits/vim-altkwprg</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">altkwprg-interface</span><span class="Ignore">*</span>
+
+<span class="Special">&lt;Plug&gt;</span>(altkwprg-look)                           <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(altkwprg-look)</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">K</span><span class="Ignore">|</span>, but:
+
+                        - Open a new window like <span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span>.  If such window is
+                          already opened, use the window.
+
+                        - Create a new buffer for the keyword.  If such buffer
+                          already exists, switch to the buffer.
+
+                        - Show output same as <span class="Ignore">|</span><span class="Identifier">K</span><span class="Ignore">|</span> in the buffer.
+
+<span class="Special">{Visual}&lt;Plug&gt;</span>(altkwprg-look)                   <span class="Ignore">*</span><span class="Constant">v_&lt;Plug&gt;(altkwprg-look)</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(altkwprg-look)</span><span class="Ignore">|</span>, but look up the selected
+                        text.
+
+                                          <span class="Ignore">*</span><span class="Constant">g:altkwprg_no_default_key_mappings</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant">:AltkwprgDefaultKeyMappings</span><span class="Ignore">*</span>
+This plugin automatically defines the following key mapping unless key
+mappings with same <span class="Special">{lhs}</span>s are already defined.  If you don't want these key
+mappings, define <span class="Ignore">|</span><span class="Identifier">g:altkwprg_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is
+loaded (e.g. in $MYVIMRC).  You can also use <span class="Ignore">|</span><span class="Identifier">:AltkwprgDefaultKeyMappings</span><span class="Ignore">|</span> to
+redefine these key mappings.
+
+        <span class="PreProc">modes  {lhs}   {rhs}           </span><span class="Ignore">    ~</span>
+        <span class="PreProc">-----  -----   ---------------------</span><span class="Ignore">      ~</span>
+        nv      K       <span class="Special">&lt;Plug&gt;</span>(altkwprg-look)
+
+
+g:keywordprg                                    <span class="Ignore">*</span><span class="Constant">g:keywordprg</span><span class="Ignore">*</span>
+b:keywordprg                                    <span class="Ignore">*</span><span class="Constant">b:keywordprg</span><span class="Ignore">*</span>
+        Alternative variables to <span class="Type">'keywordprg'</span>.  These variables have higher
+        priorities than <span class="Type">'keywordprg'</span>, and <span class="Ignore">|</span><span class="Identifier">b:keywordprg</span><span class="Ignore">|</span> has higher priority
+        than <span class="Ignore">|</span><span class="Identifier">g:keywordprg</span><span class="Ignore">|</span>.
+
+        Values of these variables are used like <span class="Type">'keywordprg'</span>, but they may
+        contain the following escape sequence:
+
+        <span class="Special">&lt;keyword&gt;</span>      Expanded to the keyword to look up.
+
+        <span class="Special">&lt;count&gt;</span>                Expanded to the given count or empty if count is not
+                        given.
+
+        <span class="Ignore">|</span><span class="Identifier">b:keywordprg</span><span class="Ignore">|</span> does not exist by default.
+        <span class="Ignore">|</span><span class="Identifier">g:keywordprg</span><span class="Ignore">|</span> also does not exist by default,
+        but if the global value of <span class="Type">'keywordprg'</span> is &quot;man&quot; or &quot;man -s&quot;,
+        the default value of <span class="Ignore">|</span><span class="Identifier">g:keywordprg</span><span class="Ignore">|</span> is:
+        &quot;{ man <span class="Special">&lt;count&gt;</span> <span class="Special">&lt;keyword&gt;</span> | col -b; }&quot;.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">altkwprg-bugs</span><span class="Ignore">*</span>
+
+- <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(altkwprg-look)</span><span class="Ignore">|</span> does not emulate all behaviors of <span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span> yet, for
+  example, how to <span class="Ignore">|</span><span class="Identifier">:split</span><span class="Ignore">|</span> windows.
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">altkwprg-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2008-10-29T00:38:49+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

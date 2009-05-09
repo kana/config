@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: textobj-entire - Text objects for entire buffer</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">textobj-entire.txt</span><span class="Ignore">*</span>    Text objects for entire buffer
+
+Version 0.0.0
+Script ID: 2610
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-entire-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-entire-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">textobj-entire-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">textobj-entire-commands</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">textobj-entire-functions</span><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><span class="Identifier">textobj-entire-mappings</span><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><span class="Identifier">textobj-entire-examples</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-entire-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-entire-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-entire-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">textobj-entire</span><span class="Ignore">*</span> is a Vim plugin to provide text objects to select the entire
+content of a buffer.
+
+
+Requirements:
+- Vim 7.2 or later
+- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-entire">http://github.com/kana/config/commits/vim-textobj-entire</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-entire-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-entire-mappings</span><span class="Ignore">*</span>
+
+These key mappings are defined in Visual mode and Operator-pending mode.
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-entire-a)                        <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-entire-a)</span><span class="Ignore">*</span>
+                        Select the entire content of the current buffer.
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-entire-i)                        <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-entire-i)</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-entire-a)</span><span class="Ignore">|</span>, but leading and
+                        trailing empty lines are excluded.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-entire-customizing</span><span class="Ignore">*</span>
+
+                                    <span class="Ignore">*</span><span class="Constant">g:textobj_entire_no_default_key_mappings</span><span class="Ignore">*</span>
+                                            <span class="Ignore">*</span><span class="Constant">:TextobjEntireDefaultKeyMappings</span><span class="Ignore">*</span>
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode automatically.  If you don't want these key mappings,
+define <span class="Ignore">|</span><span class="Identifier">g:textobj_entire_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is loaded
+(e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use <span class="Ignore">|</span><span class="Identifier">:TextobjEntireDefaultKeyMappings</span><span class="Ignore">|</span>
+to redefine these key mappings.  This command doesn't override existing <span class="Special">{lhs}</span>s
+unless [!] is given.
+
+        <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                    <span class="Ignore">~</span>
+        <span class="PreProc">-----  ----------------------</span><span class="Ignore">   ~</span>
+        ae      <span class="Special">&lt;Plug&gt;</span>(textobj-entire-a)
+        ie      <span class="Special">&lt;Plug&gt;</span>(textobj-entire-i)
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-entire-bugs</span><span class="Ignore">*</span>
+
+- <span class="Special">[count]</span> is just ignored.
+
+- See <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span> for further information.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-entire-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-04-15T14:41:17+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

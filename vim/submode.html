@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: submode - Create your own submodes</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Special { color: #c000c0; font-weight: bold; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Type { color: #008000; text-decoration: underline; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">submode.txt</span><span class="Ignore">*</span>   Create your own submodes
+
+Version 0.0.0
+Script ID: 2467
+Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">submode-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">submode-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">submode-interface</span><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">submode-functions</span><span class="Ignore">|</span>
+  Variables               <span class="Ignore">|</span><span class="Identifier">submode-variables</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">submode-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">submode-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">submode-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">submode</span><span class="Ignore">*</span> is a Vim plugin to provide the way to define &quot;submodes&quot; to the
+built-in <span class="Ignore">|</span><span class="Identifier">vim-modes</span><span class="Ignore">|</span>.  For example, whenever you type <span class="Ignore">|</span><span class="Identifier">g-</span><span class="Ignore">|</span> and/or <span class="Ignore">|</span><span class="Identifier">g+</span><span class="Ignore">|</span> to
+undo/redo many times, don't you want to type &quot;g++--++...&quot; instead
+&quot;g+g+g-g-g+g+...&quot;?  With this plugin, you can define such interface with the
+following settings:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        call submode#enter_with('undo/redo', 'n', '', 'g-', 'g-')</span>
+<span class="Comment">        call submode#enter_with('undo/redo', 'n', '', 'g+', 'g+')</span>
+<span class="Comment">        call submode#leave_with('undo/redo', 'n', '', '&lt;Esc&gt;')</span>
+<span class="Comment">        call submode#map('undo/redo', 'n', '', '-', 'g-')</span>
+<span class="Comment">        call submode#map('undo/redo', 'n', '', '+', 'g+')</span>
+<span class="Ignore">&lt;</span>
+The above settings mean:
+- Define a new submode named &quot;undo/redo&quot;.
+- Define &quot;g-&quot; and &quot;g+&quot; as key sequences to enter the submode &quot;undo/redo&quot; from
+  Normal mode.  Aditionally, they does undo/redo before entering the submode
+  &quot;undo/redo&quot;.
+- In the submode &quot;undo/redo&quot;, &quot;-&quot; and &quot;+&quot; do undo/redo.
+- In the submode &quot;undo/redo&quot;, &quot;<span class="Special">&lt;Esc&gt;</span>&quot; leaves the submode.
+
+                                                <span class="Ignore">*</span><span class="Constant">submode-leaving</span><span class="Ignore">*</span>
+By default, <span class="Special">&lt;Esc&gt;</span> is automatically defined as a key to leave any submode.
+So you don't have to explicitly define like the above example.
+There are also 2 ways to leave submodes:
+- Type any key sequence which is not mapped in the submode.
+- Don't type any key for a long time.  See <span class="Ignore">|</span><span class="Identifier">submode-variables</span><span class="Ignore">|</span> to configure
+  the details of this time out.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-submode">http://github.com/kana/config/commits/vim-submode</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">submode-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">submode-commands</span><span class="Ignore">*</span>
+
+:SubmodeRestoreOptions                          <span class="Ignore">*</span><span class="Constant">:SubmodeRestoreOptions</span><span class="Ignore">*</span>
+                        Ex command version of <span class="Ignore">|</span><span class="Identifier">submode#restore_options()</span><span class="Ignore">|</span>.
+
+
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">submode-functions</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant">submode#enter_with()</span><span class="Ignore">*</span>
+submode#enter_with(<span class="Special">{submode}</span>, <span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{lhs}</span>, [<span class="Special">{rhs}</span>])
+                        Define a key mapping to enter the <span class="Special">{submode}</span> from
+                        <span class="Special">{modes}</span>.  If <span class="Special">{rhs}</span> is given, it will be executed
+                        whenever entering the <span class="Special">{submode}</span> by <span class="Special">{lhs}</span>.
+
+                        See <span class="Ignore">|</span><span class="Identifier">submode#map()</span><span class="Ignore">|</span> for the details of arguments.
+
+                                                <span class="Ignore">*</span><span class="Constant">submode#leave_with()</span><span class="Ignore">*</span>
+submode#leave_with(<span class="Special">{submode}</span>, <span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{lhs}</span>)
+                        Define a key mapping (<span class="Special">{lhs}</span>) to leave the <span class="Special">{submode}</span> in
+                        <span class="Special">{modes}</span>.
+
+                        See <span class="Ignore">|</span><span class="Identifier">submode#map()</span><span class="Ignore">|</span> for the details of arguments.
+
+                                                <span class="Ignore">*</span><span class="Constant">submode#map()</span><span class="Ignore">*</span>
+submode#map(<span class="Special">{submode}</span>, <span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{lhs}</span>, <span class="Special">{rhs}</span>)
+                        Define a key mapping (<span class="Special">{lhs}</span> to <span class="Special">{rhs}</span>) in the <span class="Special">{submode}</span>
+                        in <span class="Special">{modes}</span>.
+
+                        <span class="Special">{submode}</span>    String
+                                The name of the submode.  It is recommended to
+                                use only the following characters:
+
+                                Alphabets       A-Z, a-z
+                                Digits          0-9
+                                Some symbols    -, _, /
+
+                        <span class="Special">{modes}</span>              String
+                                A sequence of letters which specifies the
+                                modes to define a key mapping.  The meanings
+                                of letters are as follows:
+
+                                c       Command-line mode
+                                i       Insert mode
+                                n       Normal mode
+                                s       Select mode only
+                                v       Visual mode and Select mode
+                                x       Visual mode only
+
+                                <span class="Todo">Note</span> that Operator-pending mode and
+                                <span class="Ignore">|</span><span class="Identifier">language-mapping</span><span class="Ignore">|</span> are not supported, because
+                                the both modes are always leaved by 1 key
+                                sequence, so that submdoes can't be built on
+                                the both modes.
+
+                        <span class="Special">{options}</span>    String
+                                A sequence of letters which specifies some
+                                options for a key mapping to be defined.  The
+                                meanings of letters are as follows:
+
+                                b       Same as <span class="Ignore">|</span><span class="Identifier">:map-&lt;buffer&gt;</span><span class="Ignore">|</span>.
+                                e       Same as <span class="Ignore">|</span><span class="Identifier">:map-&lt;expr&gt;</span><span class="Ignore">|</span>.
+                                r       <span class="Special">{rhs}</span> may be remapped.
+                                        If this letter is not included,
+                                        <span class="Special">{rhs}</span> will be never remapped.
+                                s       Same as <span class="Ignore">|</span><span class="Identifier">:map-&lt;silent&gt;</span><span class="Ignore">|</span>.
+                                u       Same as <span class="Ignore">|</span><span class="Identifier">:map-&lt;unique&gt;</span><span class="Ignore">|</span>.
+                                x       After executing <span class="Special">{rhs}</span>, leave the
+                                        submode.  This matters only for
+                                        <span class="Ignore">|</span><span class="Identifier">submode#map()</span><span class="Ignore">|</span>.
+
+                        <span class="Special">{lhs}</span>                String
+                                A key sequence to type.
+
+                                To denote a special key such as <span class="Special">&lt;Esc&gt;</span>, write
+                                it in &lt;&gt;-escaped form instead of the character
+                                as is.  For example, use '<span class="Special">&lt;Esc&gt;</span>' instead of
+                                &quot;\<span class="Special">&lt;Esc&gt;</span>&quot;.
+
+                        <span class="Special">{rhs}</span>        String
+                                A key sequence to be executed by typing <span class="Special">{lhs}</span>.
+
+                                See also <span class="Special">{lhs}</span> for other notes.
+
+submode#restore_options()                       <span class="Ignore">*</span><span class="Constant">submode#restore_options()</span><span class="Ignore">*</span>
+                        Restore options overriden by this plugin.
+
+                        This plugin overrides some options before entering
+                        a submode and restores the options after leaving
+                        a submode.  <span class="Special">&lt;C-c&gt;</span> can be used to leave a submode, but
+                        it disturbs to restore the options.  Call this
+                        function if you do so.
+
+                                                <span class="Ignore">*</span><span class="Constant">submode#unmap()</span><span class="Ignore">*</span>
+submode#unmap(<span class="Special">{submode}</span>, <span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{lhs}</span>)
+                        Delete a key mapping (<span class="Special">{lhs}</span> to something) in the
+                        <span class="Special">{submode}</span> in <span class="Special">{modes}</span>.
+
+                        See <span class="Ignore">|</span><span class="Identifier">submode#map()</span><span class="Ignore">|</span> for the details of arguments.
+                        <span class="Todo">Note</span> that only &quot;b&quot; matters for <span class="Special">{options}</span> and other
+                        letters are just ignored.
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">submode-variables</span><span class="Ignore">*</span>
+
+g:submode_keyseqs_to_leave      list of strings (default: ['<span class="Special">&lt;Esc&gt;</span>'])
+        The default key sequences to leave a submode.
+
+g:submode_timeout               boolean (default: same as <span class="Type">'timeout'</span>)
+        If this value is true, time out on submodes is enabled.  Otherwise,
+        time out is disabled.  If time out is enabled, not typing any key in
+        a submode for a long time causes to leave the submode.
+
+        If this variable is not defined, the value of <span class="Type">'timeout'</span> is used
+        instead.
+
+g:submode_timeoutlen            number (default: same as <span class="Type">'timeoutlen'</span>)
+        The time in milliseconds that is waited for typing keys in a submode.
+
+        If this variable is not defined, the value of <span class="Type">'timeoutlen'</span> is used
+        instead.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">submode-bugs</span><span class="Ignore">*</span>
+
+<span class="PreProc">LIMITATIONS</span><span class="Ignore"> ~</span>
+
+- In <span class="Special">{rhs}</span> of a key mapping for a submode, <span class="Special">&lt;SID&gt;</span> cannot be used.  Because key
+  mappings for a submode is defined by this plugin, not callers.
+
+- To behave the same as Normal mode and Visual mode, any unbound key sequence
+  should be ignored in a submode, but it's impossible to implement.
+
+
+<span class="PreProc">PROBLEMS</span><span class="Ignore"> ~</span>
+
+- Missing <span class="Special">[count]</span> support in a submode.
+
+- Unmap mappings for a submode properly.  The current inplementation just
+  replaces rhs with <span class="Special">&lt;Nop&gt;</span>, but it may cause some problems.
+
+- Add commands like <span class="Ignore">|</span><span class="Identifier">:map</span><span class="Ignore">|</span> and others to deal with submode mappings for
+  readability.
+
+- There are many bugs around the world.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">submode-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2008-11-27T01:58:43+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

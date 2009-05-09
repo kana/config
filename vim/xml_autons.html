@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: xml_autons - auto :XMLns by the current content</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Type { color: #008000; text-decoration: underline; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant">xml_autons.txt</span><span class="Ignore">*</span>        auto :XMLns by the current content
+
+Version 0.0.1
+Script ID: 2099
+Copyright (C) 2007 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">xml_autons-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><span class="Identifier">xml_autons-introduction</span><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><span class="Identifier">xml_autons-interface</span><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><span class="Identifier">xml_autons-commands</span><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><span class="Identifier">xml_autons-customizing</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><span class="Identifier">xml_autons-bugs</span><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><span class="Identifier">xml_autons-changelog</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">xml_autons-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant">xml_autons</span><span class="Ignore">*</span> is an additional Vim filetype plugin for XML to execute <span class="Ignore">|</span><span class="Identifier">:XMLns</span><span class="Ignore">|</span>
+according to the content of the current buffer.  This supports to use omni
+completion for XML (<span class="Ignore">|</span><span class="Identifier">ft-xml-omni</span><span class="Ignore">|</span>), because it requires to execute <span class="Ignore">|</span><span class="Identifier">:XMLns</span><span class="Ignore">|</span>.
+
+
+Requirements:
+- Vim 7.0 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-xml_autons">http://github.com/kana/config/commits/vim-xml_autons</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">xml_autons-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">xml_autons-commands</span><span class="Ignore">*</span>
+
+:AutoXMLns                                              <span class="Ignore">*</span><span class="Constant">:AutoXMLns</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><span class="Identifier">:XMLns</span><span class="Ignore">|</span> according to the content of the current
+                        buffer.  For example, if the current buffer has the
+                        following content:<span class="Ignore"> &gt;</span>
+
+<span class="Comment">                        &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="Comment">                        &lt;xsl:stylesheet version=&quot;1.0&quot;</span>
+<span class="Comment">                          xmlns:xsl=&quot;<a href="http://www.w3.org/1999/XSL/Transform">http://www.w3.org/1999/XSL/Transform</a>&quot;</span>
+<span class="Comment">                          xmlns:h=&quot;<a href="http://www.w3.org/1999/xhtml">http://www.w3.org/1999/xhtml</a>&quot;</span>
+<span class="Comment">                          xmlns=&quot;<a href="http://www.w3.org/1999/xhtml">http://www.w3.org/1999/xhtml</a>&quot;</span>
+<span class="Comment">                          exclude-result-prefixes=&quot;xsl h&quot;&gt;</span>
+<span class="Comment">                          &lt;!-- many templates ... --&gt;</span>
+<span class="Comment">                        &lt;/xsl:stylesheet&gt;</span>
+<span class="Ignore">&lt;</span>
+                        :AutoXMLns will execute the following commands:<span class="Ignore"> &gt;</span>
+
+<span class="Comment">                        :XMLns xsl xsl</span>
+<span class="Comment">                        :XMLns xhtml11 h</span>
+<span class="Comment">                        :XMLns xhtml11</span>
+<span class="Ignore">&lt;</span>
+                        :AutoXMLns will be automatically executed for each
+                        time you begin to edit an XML document, so that you
+                        don't have to do it manually.
+
+                        See also <span class="Ignore">|</span><span class="Identifier">g:AutoXMLns_Dict</span><span class="Ignore">|</span>.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">xml_autons-customizing</span><span class="Ignore">*</span>
+
+g:AutoXMLns_Dict                                        <span class="Ignore">*</span><span class="Constant">g:AutoXMLns_Dict</span><span class="Ignore">*</span>
+                        <span class="Ignore">|</span><span class="Identifier">Dictionary</span><span class="Ignore">|</span> to translate a namespace URI to the
+                        corresponding name for <span class="Ignore">|</span><span class="Identifier">:XMLns</span><span class="Ignore">|</span>.  For example, If you
+                        prefer XHTML 1.0 Strict to XHTML 1.1, set as follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                        let g:AutoXMLns_Dict['<a href="http://www.w3.org/1999/xhtml">http://www.w3.org/1999/xhtml</a>']</span>
+<span class="Comment">                            \ = 'xhtml10s'</span>
+<span class="Ignore">&lt;</span>
+                        As the default, XHTML 1.1 and XSLT are supported.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">xml_autons-bugs</span><span class="Ignore">*</span>
+
+- <span class="Ignore">|</span><span class="Identifier">:AutoXMLns</span><span class="Ignore">|</span> checks only namespace declarations in the root tag.  So that
+  declarations in other tags are ignored.  Because namespaces may be locally
+  overriden and <span class="Ignore">|</span><span class="Identifier">ft-xml-omni</span><span class="Ignore">|</span> cannot deal with such XML documents correctly.
+
+- <span class="Ignore">|</span><span class="Identifier">:AutoXMLns</span><span class="Ignore">|</span> checks only namespace URIs and doesn't check DTD decralations.
+  This may cause some accidents, for example, the namespace URI of XHTML 1.1
+  and the one of XHTML 1.0 Strict (and other variants) are same.  So that
+  :AutoXMLns may treat the current buffer as XHTML 1.1 even if the proper
+  version is XHTML 1.0 Strict.
+
+- <span class="Ignore">|</span><span class="Identifier">:AutoXMLns</span><span class="Ignore">|</span> uses <span class="Ignore">|</span><span class="Identifier">:XMLns</span><span class="Ignore">|</span>, so that this filetype plugin must be placed
+  <span class="Ignore">|</span><span class="Identifier">after-directory</span><span class="Ignore">|</span> to load it after the default filetype plugin.
+
+- When new <span class="Ignore">|</span><span class="Identifier">xml-omni-datafile</span><span class="Ignore">|</span> is added, you have to add the entry for it to
+  <span class="Ignore">|</span><span class="Identifier">g:AutoXMLns_Dict</span><span class="Ignore">|</span> manually.  It is convenient to compute the default values
+  of <span class="Ignore">|</span><span class="Identifier">g:AutoXMLns_Dict</span><span class="Ignore">|</span> from <span class="Ignore">|</span><span class="Identifier">xml-omni-datafile</span><span class="Ignore">|</span> in <span class="Type">'runtimepath'</span>, but
+  <span class="Ignore">|</span><span class="Identifier">xml-omni-datafile</span><span class="Ignore">|</span> doesn't contain the corresponding namespace URI.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                               </span><span class="Ignore">*</span><span class="Constant">xml_autons-changelog</span><span class="Ignore">*</span>
+
+
+0.0.1   2007-05-10
+        - <span class="Ignore">|</span><span class="Identifier">:AutoXMLns</span><span class="Ignore">|</span>: Suppress messages when the root tag is written in
+          more than <span class="Type">'report'</span> lines.
+
+        - <span class="Ignore">|</span><span class="Identifier">g:AutoXMLns_Dict</span><span class="Ignore">|</span>: Don't override user settings that were done
+          before this filetype plugin is first loaded.
+
+0.0     2007-04-28
+        - First release.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>
