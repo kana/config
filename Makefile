@@ -30,7 +30,11 @@ vim-commit: vim-generate
 	for i in $$($(CMD_VIM_DELETED_FILES)); do \
 	  git rm "$$i"; \
 	done
-	git commit -m "Vim documents: Reflect changes to master:$$(git rev-parse master)"
+	git commit -m \
+	"Vim: Reflect changes to $$(date '+%Y-%m-%d %H:%M:%S %Z')"$$'\n'\
+	$$'\n'\
+	"master $$(git rev-parse master)"$$'\n'\
+	"gh-pages $$(git rev-parse HEAD)"
 
 vim-generate: vim-generate-each-page vim/index.html
 
