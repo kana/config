@@ -1,0 +1,33 @@
+#!/bin/sh
+
+vim -u NONE -N -e -s <<END
+  set encoding=utf-8
+
+  args $@
+  /INSERT-LIST-HERE
+  split
+
+  while 1
+    let v:errmsg = ''
+    silent! next
+    if v:errmsg != ''
+      break
+    endif
+
+    1 yank
+    wincmd p
+    put 0
+    substitute/\*/|/
+    substitute/\*/|/
+    wincmd p
+  endwhile
+
+  wincmd p
+  /INSERT-LIST-HERE/ delete _
+
+  write !cat
+  qall!
+END
+exit 0
+
+# __END__

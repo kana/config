@@ -1,0 +1,10 @@
+*index.txt*	Documents of Vim plugins written by kana
+
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+
+
+INSERT-LIST-HERE
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
