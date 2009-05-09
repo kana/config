@@ -1,0 +1,32 @@
+#!/bin/sh
+
+vim -u NONE -N -e -s <<END
+  set encoding=utf-8
+
+  syntax enable
+  colorscheme ron
+  set t_Co=16
+  set background=light
+
+  edit $1
+
+  setfiletype help
+  let g:html_ignore_folding = 1
+  let g:html_use_css = 1
+  let g:use_xhtml = 1
+
+  silent! runtime syntax/2html.vim
+
+  wincmd p
+  1 substitute!\\v^\\*([^.]+)\\.txt\\*\\s*(.*)\$!<title>Vim: \\1 - \\2</title>!
+  1 yank
+  wincmd p
+  /<title>/ delete _
+  put! 0
+
+  write !cat
+  qall!
+END
+exit 0
+
+# __END__
