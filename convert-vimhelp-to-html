@@ -33,14 +33,17 @@ vim -u NONE -N -e -s <<END
   let TAGS = {}
   for i in readfile('vim/tags')
     let _ = split(i)
-    let _[0] = substitute(_[0], '<', '&lt;', 'g')
-    let _[0] = substitute(_[0], '>', '&gt;', 'g')
-    let _[0] = substitute(_[0], '&', '&amp;', 'g')
-    let _[0] = substitute(_[0], '"', '&quot;', 'g')
-    let TAGS[_[0]] = substitute(_[1], '\\.txt\$', '.html#'._[0], '')
+    let _[0] = substitute(_[0], '&', '\\&amp;', 'g')
+    let _[0] = substitute(_[0], '<', '\\&lt;', 'g')
+    let _[0] = substitute(_[0], '>', '\\&gt;', 'g')
+    let _[0] = substitute(_[0], '"', '\\&quot;', 'g')
+    let TAGS[_[0]] = substitute(_[1], '\\.txt\$', '.html', '') . '#'._[0]
   endfor
-  % substitute!\\V<span class="Ignore">|</span>\\zs<span\\( class="Identifier">\\)\\(\\[^<>]\\+\\)</span>\\ze<span class="Ignore">|</span>!\\='<a href="' . get(TAGS, submatch(2), 'XXX') . '"' . submatch(1) . submatch(2) . '</a>'!g
-  % substitute!\\V<a href="XXX" class="Identifier">\\(\\[^<>]\\+\\)</a>!<span class="Identifier">\\1</span>!g
+  function! RemoveTags(s)
+    return substitute(a:s, '<[^<>]*>', '', 'g')
+  endfunction
+  % substitute!\\V<span class="Ignore">|</span>\\zs\\(\\.\\{-}\\)\\ze<span class="Ignore">|</span>!\\='<a href="' . get(TAGS, RemoveTags(submatch(1)), 'XXX') . '">' . submatch(1) . '</a>'!g
+  % substitute!\\V<a href="XXX">\\(\\.\\{-}\\)</a>!\\1!g
 
   write !cat
   qall!
