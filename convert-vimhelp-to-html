@@ -24,6 +24,14 @@ vim -u NONE -N -e -s <<END
   /<title>/ delete _
   put! 0
 
+  " Convert tags to ids.
+  " FIXME: Convert ids to be HTML-valid ones.
+  % substitute!\\V<span class="Ignore">*</span><span class="Constant"\\zs\\ze>\\(\\[^<>]\\+\\)</span><span class="Ignore">*</span>! id="\\1"!g
+
+  " Convert :help links to HTML links.
+  " FIXME: Not real URIs.
+  % substitute!\\V<span class="Ignore">|</span>\\zs<span\\( class="Identifier">\\[^<>]\\+\\)</span>\\ze<span class="Ignore">|</span>!<a href="#"\\1</a>!g
+
   write !cat
   qall!
 END
