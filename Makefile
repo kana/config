@@ -3,17 +3,13 @@
 SHELL=/bin/bash
 .PHONY: \
 	all \
-	validate-status \
 	vim-all \
 	vim-commit \
-	vim-generate
+	vim-generate \
+	vim-generate-each-page
 
 all: vim-all
 	git push github gh-pages
-
-validate-status:
-	@# FIXME: This checking is not perfect.  For example, "git rebase -i".
-	@test "$$(git branch | grep '*' | sed 's/[ *]//g')" = 'gh-pages'
 
 
 
@@ -44,9 +40,9 @@ vim-generate-each-page:
 vim/,index.txt: vim/index.txt $(shell $(CMD_VIM_DOC_FILES))
 	./generate-vimhelp-index $^ >$@
 
-vim/index.html: vim/,index.txt validate-status
+vim/index.html: vim/,index.txt
 	./convert-vimhelp-to-html $< >$@
-vim/%.html: data/vim/dot.vim/doc/%.txt validate-status
+vim/%.html: data/vim/dot.vim/doc/%.txt
 	./convert-vimhelp-to-html $< >$@
 
 # __END__
