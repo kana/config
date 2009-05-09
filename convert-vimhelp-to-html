@@ -29,8 +29,18 @@ vim -u NONE -N -e -s <<END
   % substitute!\\V<span class="Ignore">*</span><span class="Constant"\\zs\\ze>\\(\\[^<>]\\+\\)</span><span class="Ignore">*</span>! id="\\1"!g
 
   " Convert :help links to HTML links.
-  " FIXME: Not real URIs.
-  % substitute!\\V<span class="Ignore">|</span>\\zs<span\\( class="Identifier">\\[^<>]\\+\\)</span>\\ze<span class="Ignore">|</span>!<a href="#"\\1</a>!g
+  " FIXME: Not all kinds of links are converted yet.
+  let TAGS = {}
+  for i in readfile('vim/tags')
+    let _ = split(i)
+    let _[0] = substitute(_[0], '<', '&lt;', 'g')
+    let _[0] = substitute(_[0], '>', '&gt;', 'g')
+    let _[0] = substitute(_[0], '&', '&amp;', 'g')
+    let _[0] = substitute(_[0], '"', '&quot;', 'g')
+    let TAGS[_[0]] = substitute(_[1], '\\.txt\$', '.html#'._[0], '')
+  endfor
+  % substitute!\\V<span class="Ignore">|</span>\\zs<span\\( class="Identifier">\\)\\(\\[^<>]\\+\\)</span>\\ze<span class="Ignore">|</span>!\\='<a href="' . get(TAGS, submatch(2), 'XXX') . '"' . submatch(1) . submatch(2) . '</a>'!g
+  % substitute!\\V<a href="XXX" class="Identifier">\\(\\[^<>]\\+\\)</a>!<span class="Identifier">\\1</span>!g
 
   write !cat
   qall!

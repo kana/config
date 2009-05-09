@@ -40,9 +40,14 @@ vim-generate-each-page:
 vim/,index.txt: vim/index.txt $(shell $(CMD_VIM_DOC_FILES))
 	./generate-vimhelp-index $^ >$@
 
-vim/index.html: vim/,index.txt convert-vimhelp-to-html
+vim/index.html: vim/,index.txt convert-vimhelp-to-html vim/tags
 	./convert-vimhelp-to-html $< >$@
-vim/%.html: data/vim/dot.vim/doc/%.txt convert-vimhelp-to-html
+vim/%.html: data/vim/dot.vim/doc/%.txt convert-vimhelp-to-html vim/tags
 	./convert-vimhelp-to-html $< >$@
+
+vim/tags: data/vim/dot.vim/doc/tags
+	cp $< $@
+data/vim/dot.vim/doc/tags: $(shell $(CMD_VIM_DOC_FILES))
+	vim -e -s -c "helptags $$(dirname $<)"
 
 # __END__
