@@ -20,7 +20,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">ku-args.txt</span><span class="Ignore">*</span>   ku source: args
+<span class="Ignore">*</span><span class="Constant" id="ku-args.txt">ku-args.txt</span><span class="Ignore">*</span>   ku source: args
 
 Version 0.1.1
 Script ID: 2410
@@ -46,27 +46,27 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">ku-args-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="ku-args-contents">ku-args-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">ku-args-introduction</span><span class="Ignore">|</span>
-Action Table            <span class="Ignore">|</span><span class="Identifier">ku-args-action-table</span><span class="Ignore">|</span>
-Key Table               <span class="Ignore">|</span><span class="Identifier">ku-args-key-table</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">ku-args-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">ku-args-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="ku-args.html#ku-args-introduction" class="Identifier">ku-args-introduction</a><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-table" class="Identifier">ku-args-action-table</a><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><a href="ku-args.html#ku-args-key-table" class="Identifier">ku-args-key-table</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="ku-args.html#ku-args-bugs" class="Identifier">ku-args-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="ku-args.html#ku-args-changelog" class="Identifier">ku-args-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">ku-args-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-args-introduction">ku-args-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">ku-args</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> to deal with <span class="Ignore">|</span><span class="Identifier">argument-list</span><span class="Ignore">|</span>.  You can choose
+<span class="Ignore">*</span><span class="Constant" id="ku-args">ku-args</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> to deal with <span class="Ignore">|</span><span class="Identifier">argument-list</span><span class="Ignore">|</span>.  You can choose
 one from many files in the argument list and do some action on it.
 
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+- <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-args">http://github.com/kana/config/commits/vim-ku-args</a></span>
@@ -75,40 +75,40 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant">ku-args-action-table</span><span class="Ignore">*</span>
+<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-args-action-table">ku-args-action-table</span><span class="Ignore">*</span>
 
-argdelete                                       <span class="Ignore">*</span><span class="Constant">ku-args-action-argdelete</span><span class="Ignore">*</span>
+argdelete                                       <span class="Ignore">*</span><span class="Constant" id="ku-args-action-argdelete">ku-args-action-argdelete</span><span class="Ignore">*</span>
                         Do <span class="Ignore">|</span><span class="Identifier">:argdelete</span><span class="Ignore">|</span> on the selected item.
 
-default                                         <span class="Ignore">*</span><span class="Constant">ku-args-action-default</span><span class="Ignore">*</span>
-                        Same as <span class="Ignore">|</span><span class="Identifier">ku-args-action-open</span><span class="Ignore">|</span>.
+default                                         <span class="Ignore">*</span><span class="Constant" id="ku-args-action-default">ku-args-action-default</span><span class="Ignore">*</span>
+                        Same as <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-open" class="Identifier">ku-args-action-open</a><span class="Ignore">|</span>.
 
-open                                            <span class="Ignore">*</span><span class="Constant">ku-args-action-open</span><span class="Ignore">*</span>
+open                                            <span class="Ignore">*</span><span class="Constant" id="ku-args-action-open">ku-args-action-open</span><span class="Ignore">*</span>
                         Switch to the buffer corresponding to the selected
                         item.
 
-open!                                           <span class="Ignore">*</span><span class="Constant">ku-args-action-open!</span><span class="Ignore">*</span>
-                        Like <span class="Ignore">|</span><span class="Identifier">ku-args-action-open</span><span class="Ignore">|</span>, but switch to the buffer
+open!                                           <span class="Ignore">*</span><span class="Constant" id="ku-args-action-open!">ku-args-action-open!</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-open" class="Identifier">ku-args-action-open</a><span class="Ignore">|</span>, but switch to the buffer
                         with <span class="Ignore">|</span><span class="Identifier">:buffer!</span><span class="Ignore">|</span>.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant">ku-args-key-table</span><span class="Ignore">*</span>
+<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-args-key-table">ku-args-key-table</span><span class="Ignore">*</span>
 
 <span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
 <span class="PreProc">--------        --------</span>
-<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><span class="Identifier">ku-args-action-open</span><span class="Ignore">|</span>
-D               argdelete       <span class="Ignore">|</span><span class="Identifier">ku-args-action-argdelete</span><span class="Ignore">|</span>
-O               open!           <span class="Ignore">|</span><span class="Identifier">ku-args-action-open</span><span class="Ignore">|</span>!
-o               open            <span class="Ignore">|</span><span class="Identifier">ku-args-action-open</span><span class="Ignore">|</span>
+<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-open" class="Identifier">ku-args-action-open</a><span class="Ignore">|</span>
+D               argdelete       <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-argdelete" class="Identifier">ku-args-action-argdelete</a><span class="Ignore">|</span>
+O               open!           <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-open" class="Identifier">ku-args-action-open</a><span class="Ignore">|</span>!
+o               open            <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-open" class="Identifier">ku-args-action-open</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">ku-args-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="ku-args-bugs">ku-args-bugs</span><span class="Ignore">*</span>
 
 - There are many bugs around the world.
 
@@ -116,7 +116,7 @@ o               open            <span class="Ignore">|</span><span class="Identi
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">ku-args-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-args-changelog">ku-args-changelog</span><span class="Ignore">*</span>
 
 0.1.1   2009-05-04T01:26:57+09:00
         - Update for ku 0.2.1.
@@ -125,7 +125,7 @@ o               open            <span class="Ignore">|</span><span class="Identi
         - Update for ku 0.2.0.
 
 0.0.1   2008-10-21T10:28:32+09:00
-        - Rewrite <span class="Ignore">|</span><span class="Identifier">ku-args-action-table</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">ku-args-key-table</span><span class="Ignore">|</span>.  Old ones
+        - Rewrite <span class="Ignore">|</span><a href="ku-args.html#ku-args-action-table" class="Identifier">ku-args-action-table</a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="ku-args.html#ku-args-key-table" class="Identifier">ku-args-key-table</a><span class="Ignore">|</span>.  Old ones
           did not properly work.
 
 0.0.0   2008-10-20T01:04:50+09:00

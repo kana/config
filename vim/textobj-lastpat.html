@@ -20,7 +20,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-lastpat.txt</span><span class="Ignore">*</span>   Text objects for the last searched pattern
+<span class="Ignore">*</span><span class="Constant" id="textobj-lastpat.txt">textobj-lastpat.txt</span><span class="Ignore">*</span>   Text objects for the last searched pattern
 
 Version 0.0.0
 Script ID: 2355
@@ -46,29 +46,29 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-lastpat-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-lastpat-contents">textobj-lastpat-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-lastpat-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-lastpat-interface</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-lastpat.html#textobj-lastpat-introduction" class="Identifier">textobj-lastpat-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-lastpat.html#textobj-lastpat-interface" class="Identifier">textobj-lastpat-interface</a><span class="Ignore">|</span>
   Commands                <span class="Ignore">|</span><span class="Identifier">textobj-lastpat-commands</span><span class="Ignore">|</span>
   Functions               <span class="Ignore">|</span><span class="Identifier">textobj-lastpat-functions</span><span class="Ignore">|</span>
-  Mappings                <span class="Ignore">|</span><span class="Identifier">textobj-lastpat-mappings</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-lastpat-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-lastpat-changelog</span><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><a href="textobj-lastpat.html#textobj-lastpat-mappings" class="Identifier">textobj-lastpat-mappings</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-lastpat.html#textobj-lastpat-bugs" class="Identifier">textobj-lastpat-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-lastpat.html#textobj-lastpat-changelog" class="Identifier">textobj-lastpat-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-lastpat-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-lastpat-introduction">textobj-lastpat-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-lastpat</span><span class="Ignore">*</span> is a Vim plugin to provide text objects to select an area
+<span class="Ignore">*</span><span class="Constant" id="textobj-lastpat">textobj-lastpat</span><span class="Ignore">*</span> is a Vim plugin to provide text objects to select an area
  which is matched to <span class="Ignore">|</span><span class="Identifier">last-pattern</span><span class="Ignore">|</span>.
 
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.5 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.5 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-lastpat">http://github.com/kana/config/commits/vim-textobj-lastpat</a></span>
@@ -77,17 +77,17 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-lastpat-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-lastpat-interface">textobj-lastpat-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-lastpat-mappings</span><span class="Ignore">*</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-lastpat-mappings">textobj-lastpat-mappings</span><span class="Ignore">*</span>
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-lastpat-n)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-lastpat-n)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-lastpat-n)                       <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-lastpat-n)">&lt;Plug&gt;(textobj-lastpat-n)</span><span class="Ignore">*</span>
                         Select the first area which is matched to the
                         <span class="Ignore">|</span><span class="Identifier">last-pattern</span><span class="Ignore">|</span>.  The direction to search is the same
                         as <span class="Ignore">|</span><span class="Identifier">n</span><span class="Ignore">|</span>.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-lastpat-<span class="Special">N</span>)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-lastpat-N)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-lastpat-<span class="Special">N</span>)                       <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-lastpat-N)">&lt;Plug&gt;(textobj-lastpat-N)</span><span class="Ignore">*</span>
                         Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-lastpat-n</span><span class="Ignore">|</span>, but the direction to
                         search is the same as <span class="Ignore">|</span><span class="Identifier">N</span><span class="Ignore">|</span>.
 
@@ -95,15 +95,15 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-lastpat-customizing</span><span class="Ignore">*</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="textobj-lastpat-customizing">textobj-lastpat-customizing</span><span class="Ignore">*</span>
 
-                                   <span class="Ignore">*</span><span class="Constant">g:textobj_lastpat_no_default_key_mappings</span><span class="Ignore">*</span>
-                                           <span class="Ignore">*</span><span class="Constant">:TextobjLastpatDefaultKeyMappings</span><span class="Ignore">*</span>
+                                   <span class="Ignore">*</span><span class="Constant" id="g:textobj_lastpat_no_default_key_mappings">g:textobj_lastpat_no_default_key_mappings</span><span class="Ignore">*</span>
+                                           <span class="Ignore">*</span><span class="Constant" id=":TextobjLastpatDefaultKeyMappings">:TextobjLastpatDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
-define <span class="Ignore">|</span><span class="Identifier">g:textobj_lastpat_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is
+define <span class="Ignore">|</span><a href="textobj-lastpat.html#g:textobj_lastpat_no_default_key_mappings" class="Identifier">g:textobj_lastpat_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is
 loaded (e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use
-<span class="Ignore">|</span><span class="Identifier">:TextobjLastpatDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.  This
+<span class="Ignore">|</span><a href="textobj-lastpat.html#:TextobjLastpatDefaultKeyMappings" class="Identifier">:TextobjLastpatDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.  This
 command doesn't override existing <span class="Special">{lhs}</span>s unless [!] is given.
 
         <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
@@ -117,18 +117,18 @@ command doesn't override existing <span class="Special">{lhs}</span>s unless [!]
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-lastpat-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-lastpat-bugs">textobj-lastpat-bugs</span><span class="Ignore">*</span>
 
 - <span class="Special">[count]</span> is just ignored.  It may be useful to select some area like <span class="Ignore">|</span><span class="Identifier">aw</span><span class="Ignore">|</span> or
   <span class="Ignore">|</span><span class="Identifier">iw</span><span class="Ignore">|</span> with <span class="Special">[count]</span>.
 
-- See <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span> for further information.
+- See <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-bugs" class="Identifier">textobj-user-bugs</a><span class="Ignore">|</span> for further information.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-lastpat-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-lastpat-changelog">textobj-lastpat-changelog</span><span class="Ignore">*</span>
 
 0.0.0   2008-08-24T17:43:28+09:00
         - Initial version.

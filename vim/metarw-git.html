@@ -21,7 +21,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">metarw-git.txt</span><span class="Ignore">*</span>        metarw scheme: git
+<span class="Ignore">*</span><span class="Constant" id="metarw-git.txt">metarw-git.txt</span><span class="Ignore">*</span>        metarw scheme: git
 
 Version 0.0.2
 Script ID: 2336
@@ -47,20 +47,20 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">metarw-git-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="metarw-git-contents">metarw-git-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">metarw-git-introduction</span><span class="Ignore">|</span>
-Notations               <span class="Ignore">|</span><span class="Identifier">metarw-git-notations</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">metarw-git-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">metarw-git-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="metarw-git.html#metarw-git-introduction" class="Identifier">metarw-git-introduction</a><span class="Ignore">|</span>
+Notations               <span class="Ignore">|</span><a href="metarw-git.html#metarw-git-notations" class="Identifier">metarw-git-notations</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="metarw-git.html#metarw-git-bugs" class="Identifier">metarw-git-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="metarw-git.html#metarw-git-changelog" class="Identifier">metarw-git-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">metarw-git-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="metarw-git-introduction">metarw-git-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">metarw-git</span><span class="Ignore">*</span> is a scheme for <span class="Ignore">|</span><span class="Identifier">metarw</span><span class="Ignore">|</span> to read or to browse various objects in
+<span class="Ignore">*</span><span class="Constant" id="metarw-git">metarw-git</span><span class="Ignore">*</span> is a scheme for <span class="Ignore">|</span><a href="metarw.html#metarw" class="Identifier">metarw</a><span class="Ignore">|</span> to read or to browse various objects in
 a git repository with fakepaths like &quot;git:HEAD~3:src/ui.c&quot;.
 
 <span class="Todo">Note</span> that this scheme just supports reading from an object.  Writing to an
@@ -78,28 +78,28 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">NOTATIONS                                       </span><span class="Ignore">*</span><span class="Constant">metarw-git-notations</span><span class="Ignore">*</span>
+<span class="Statement">NOTATIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="metarw-git-notations">metarw-git-notations</span><span class="Ignore">*</span>
 
 In metarw-git, the following notations are available.
 
-                                                <span class="Ignore">*</span><span class="Constant">git:{commit-ish}:{path}</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="git:{commit-ish}:{path}">git:{commit-ish}:{path}</span><span class="Ignore">*</span>
 git:<span class="Special">{commit-ish}</span>:<span class="Special">{path}</span>
         Show the result of &quot;git show <span class="Special">{commit-ish}</span>:<span class="Special">{path}</span>&quot;, where:
         - <span class="Special">{commit-ish}</span> is a commit object or a tag object pointing to a commit
           object.  Example: master, HEAD, HEAD^3, v0.0.0
         - <span class="Special">{path}</span> is the path to a blog or a tree object in the <span class="Special">{commit-ish}</span>.
 
-git:<span class="Special">{commit-ish}</span>:<span class="Special">{tree}</span>/        OR              <span class="Ignore">*</span><span class="Constant">git:{commit-ish}:{tree}/</span><span class="Ignore">*</span>
-git:<span class="Special">{commit-ish}</span>:               OR              <span class="Ignore">*</span><span class="Constant">git:{commit-ish}:</span><span class="Ignore">*</span>
-git:                                            <span class="Ignore">*</span><span class="Constant">git:</span><span class="Ignore">*</span>
-        Show the content by <span class="Ignore">|</span><span class="Identifier">metarw-content-browser</span><span class="Ignore">|</span> if it is suitable.
+git:<span class="Special">{commit-ish}</span>:<span class="Special">{tree}</span>/        OR              <span class="Ignore">*</span><span class="Constant" id="git:{commit-ish}:{tree}/">git:{commit-ish}:{tree}/</span><span class="Ignore">*</span>
+git:<span class="Special">{commit-ish}</span>:               OR              <span class="Ignore">*</span><span class="Constant" id="git:{commit-ish}:">git:{commit-ish}:</span><span class="Ignore">*</span>
+git:                                            <span class="Ignore">*</span><span class="Constant" id="git:">git:</span><span class="Ignore">*</span>
+        Show the content by <span class="Ignore">|</span><a href="metarw.html#metarw-content-browser" class="Identifier">metarw-content-browser</a><span class="Ignore">|</span> if it is suitable.
         Otherwise, same as &quot;git:<span class="Special">{commit-ish}</span>:<span class="Special">{path}</span>&quot;.
 
         The 1st form shows the content of the <span class="Special">{tree}</span> in <span class="Special">{commit-ish}</span>.
         The 2nd form shows the content of the top tree in <span class="Special">{commit-ish}</span>.
         The 3rd form shows the all branches of the current repository.
 
-                                       <span class="Ignore">*</span><span class="Constant">git:@{git-dir}</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant">git:@{git-dir}:[...]</span><span class="Ignore">*</span>
+                                       <span class="Ignore">*</span><span class="Constant" id="git:@{git-dir}">git:@{git-dir}</span><span class="Ignore">*</span> <span class="Ignore">*</span><span class="Constant" id="git:@{git-dir}:[...]">git:@{git-dir}:[...]</span><span class="Ignore">*</span>
 Additionally, GIT_DIR can be specified with the following notation:
 
         git:@<span class="Special">{git-dir}</span>:[...]
@@ -111,12 +111,12 @@ ommitted.  If <span class="Special">{git-dir}</span> part is ommitted, it is tre
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">metarw-git-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="metarw-git-bugs">metarw-git-bugs</span><span class="Ignore">*</span>
 
 - Whenever you do <span class="Ignore">|</span><span class="Identifier">:cd</span><span class="Ignore">|</span>, the content of buffers opened via metarw-git without
   <span class="Special">{git-dir}</span> may be changed if they are reloaded.
 
-- metarw-git should complete <span class="Special">{git-dir}</span> in <span class="Ignore">|</span><span class="Identifier">metarw-git-notations</span><span class="Ignore">|</span> but it
+- metarw-git should complete <span class="Special">{git-dir}</span> in <span class="Ignore">|</span><a href="metarw-git.html#metarw-git-notations" class="Identifier">metarw-git-notations</a><span class="Ignore">|</span> but it
   doesn't support yet.
 
 - There are many bugs around the world.
@@ -125,7 +125,7 @@ ommitted.  If <span class="Special">{git-dir}</span> part is ommitted, it is tre
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">metarw-git-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="metarw-git-changelog">metarw-git-changelog</span><span class="Ignore">*</span>
 
 0.0.2   2009-05-06T03:34:11+09:00
         - Fix a bug that metarw-git uses wrong function to escape file-like

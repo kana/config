@@ -22,7 +22,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">vcsi.txt</span><span class="Ignore">*</span>      Version Control System Interface
+<span class="Ignore">*</span><span class="Constant" id="vcsi.txt">vcsi.txt</span><span class="Ignore">*</span>      Version Control System Interface
 
 Version 0.1.0
 Copyright (C) 2007-2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
@@ -47,25 +47,25 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">vcsi-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="vcsi-contents">vcsi-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">vcsi-introduction</span><span class="Ignore">|</span>
-Terms                   <span class="Ignore">|</span><span class="Identifier">vcsi-terms</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">vcsi-interface</span><span class="Ignore">|</span>
-  Commands                <span class="Ignore">|</span><span class="Identifier">vcsi-commands</span><span class="Ignore">|</span>
-  Functions               <span class="Ignore">|</span><span class="Identifier">vcsi-functions</span><span class="Ignore">|</span>
-  Key Mapings             <span class="Ignore">|</span><span class="Identifier">vcsi-key-mappings</span><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><span class="Identifier">vcsi-customizing</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">vcsi-bugs</span><span class="Ignore">|</span>
-ChangeLog               <span class="Ignore">|</span><span class="Identifier">vcsi-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="vcsi.html#vcsi-introduction" class="Identifier">vcsi-introduction</a><span class="Ignore">|</span>
+Terms                   <span class="Ignore">|</span><a href="vcsi.html#vcsi-terms" class="Identifier">vcsi-terms</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="vcsi.html#vcsi-interface" class="Identifier">vcsi-interface</a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="vcsi.html#vcsi-commands" class="Identifier">vcsi-commands</a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="vcsi.html#vcsi-functions" class="Identifier">vcsi-functions</a><span class="Ignore">|</span>
+  Key Mapings             <span class="Ignore">|</span><a href="vcsi.html#vcsi-key-mappings" class="Identifier">vcsi-key-mappings</a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="vcsi.html#vcsi-customizing" class="Identifier">vcsi-customizing</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="vcsi.html#vcsi-bugs" class="Identifier">vcsi-bugs</a><span class="Ignore">|</span>
+ChangeLog               <span class="Ignore">|</span><a href="vcsi.html#vcsi-changelog" class="Identifier">vcsi-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">vcsi-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="vcsi-introduction">vcsi-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">vcsi</span><span class="Ignore">*</span> is a Vim plugin which provides interface for several version control
+<span class="Ignore">*</span><span class="Constant" id="vcsi">vcsi</span><span class="Ignore">*</span> is a Vim plugin which provides interface for several version control
 systems.  You will be able to commit, diff and other daily works quickly.
 <span class="Todo">Note</span> that this plugin doesn't provide interface for commands which are rarely
 used.
@@ -90,12 +90,12 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">TERMS                                           </span><span class="Ignore">*</span><span class="Constant">vcsi-terms</span><span class="Ignore">*</span>
+<span class="Statement">TERMS                                           </span><span class="Ignore">*</span><span class="Constant" id="vcsi-terms">vcsi-terms</span><span class="Ignore">*</span>
 
 Vcsi command
-        One of <span class="Ignore">|</span><span class="Identifier">vcsi-commands</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">vcsi-functions</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">vcsi-key-mappings</span><span class="Ignore">|</span>.
+        One of <span class="Ignore">|</span><a href="vcsi.html#vcsi-commands" class="Identifier">vcsi-commands</a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="vcsi.html#vcsi-functions" class="Identifier">vcsi-functions</a><span class="Ignore">|</span> or <span class="Ignore">|</span><a href="vcsi.html#vcsi-key-mappings" class="Identifier">vcsi-key-mappings</a><span class="Ignore">|</span>.
 
-Target                                          <span class="Ignore">*</span><span class="Constant">vcsi-target</span><span class="Ignore">*</span>
+Target                                          <span class="Ignore">*</span><span class="Constant" id="vcsi-target">vcsi-target</span><span class="Ignore">*</span>
         Most of vcsi commands take zero or more <span class="Special">{target}</span>s:
 
         - A <span class="Special">{target}</span> is a file or directory.
@@ -113,7 +113,7 @@ Target                                          <span class="Ignore">*</span><sp
 
 <span class="Special">{command}</span> buffer
         A temporary buffer created by a vcsi command to edit or to show some
-        information.  For example, a buffer created by <span class="Ignore">|</span><span class="Identifier">:VcsiDiff</span><span class="Ignore">|</span> is called
+        information.  For example, a buffer created by <span class="Ignore">|</span><a href="vcsi.html#:VcsiDiff" class="Identifier">:VcsiDiff</a><span class="Ignore">|</span> is called
         as a &quot;diff buffer&quot;, and &quot;<span class="Special">{command}</span> buffer&quot; is the generic notation of
         such buffers.
 
@@ -124,29 +124,29 @@ Target                                          <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">vcsi-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="vcsi-interface">vcsi-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">vcsi-commands</span><span class="Ignore">*</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant" id="vcsi-commands">vcsi-commands</span><span class="Ignore">*</span>
 
-:VcsiAdd <span class="Special">[target]</span> ...                           <span class="Ignore">*</span><span class="Constant">:VcsiAdd</span><span class="Ignore">*</span>
+:VcsiAdd <span class="Special">[target]</span> ...                           <span class="Ignore">*</span><span class="Constant" id=":VcsiAdd">:VcsiAdd</span><span class="Ignore">*</span>
         Add targets under the control of a version control system.
 
-:VcsiAmend <span class="Special">[target]</span> ...                         <span class="Ignore">*</span><span class="Constant">:VcsiAmend</span><span class="Ignore">*</span>
-        Like <span class="Ignore">|</span><span class="Identifier">:VcsiCommit</span><span class="Ignore">|</span>, but amend the last commit.
+:VcsiAmend <span class="Special">[target]</span> ...                         <span class="Ignore">*</span><span class="Constant" id=":VcsiAmend">:VcsiAmend</span><span class="Ignore">*</span>
+        Like <span class="Ignore">|</span><a href="vcsi.html#:VcsiCommit" class="Identifier">:VcsiCommit</a><span class="Ignore">|</span>, but amend the last commit.
 
         Available only for git.
 
-:VcsiCommit <span class="Special">[target]</span> ...                        <span class="Ignore">*</span><span class="Constant">:VcsiCommit</span><span class="Ignore">*</span>
+:VcsiCommit <span class="Special">[target]</span> ...                        <span class="Ignore">*</span><span class="Constant" id=":VcsiCommit">:VcsiCommit</span><span class="Ignore">*</span>
         Open new buffer to edit a commit log.
         When the buffer is written, the change of <span class="Special">[target]</span>s will be committed.
 
         See also:
-        - <span class="Ignore">|</span><span class="Identifier">g:vcsi_diff_in_commit_buffer_p</span><span class="Ignore">|</span>
-        - <span class="Ignore">|</span><span class="Identifier">g:vcsi_status_in_commit_buffer_p</span><span class="Ignore">|</span>
-        - <span class="Ignore">|</span><span class="Identifier">g:vcsi_use_native_message_p</span><span class="Ignore">|</span>
+        - <span class="Ignore">|</span><a href="vcsi.html#g:vcsi_diff_in_commit_buffer_p" class="Identifier">g:vcsi_diff_in_commit_buffer_p</a><span class="Ignore">|</span>
+        - <span class="Ignore">|</span><a href="vcsi.html#g:vcsi_status_in_commit_buffer_p" class="Identifier">g:vcsi_status_in_commit_buffer_p</a><span class="Ignore">|</span>
+        - <span class="Ignore">|</span><a href="vcsi.html#g:vcsi_use_native_message_p" class="Identifier">g:vcsi_use_native_message_p</a><span class="Ignore">|</span>
 
-:<span class="Special">[count]</span>VcsiDiff <span class="Special">[target]</span> ...                   <span class="Ignore">*</span><span class="Constant">:VcsiDiff</span><span class="Ignore">*</span>
+:<span class="Special">[count]</span>VcsiDiff <span class="Special">[target]</span> ...                   <span class="Ignore">*</span><span class="Constant" id=":VcsiDiff">:VcsiDiff</span><span class="Ignore">*</span>
         Open new buffer to show the difference between the current content of
         <span class="Special">{target}</span>s and the latest commited version of <span class="Special">{target}</span>s.
 
@@ -154,7 +154,7 @@ Target                                          <span class="Ignore">*</span><sp
         latest version to show the difference.  (here the latest version is
         treated as the 0th older version)
 
-:VcsiLog <span class="Special">{target}</span> ...                           <span class="Ignore">*</span><span class="Constant">:VcsiLog</span><span class="Ignore">*</span>
+:VcsiLog <span class="Special">{target}</span> ...                           <span class="Ignore">*</span><span class="Constant" id=":VcsiLog">:VcsiLog</span><span class="Ignore">*</span>
         Open new buffer to show the commit logs related to <span class="Special">{target}</span>s, from the
         latest version to the oldest version.
 
@@ -162,56 +162,56 @@ Target                                          <span class="Ignore">*</span><sp
         <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(vcsi-log-more)</span><span class="Ignore">|</span> on the log buffer, more 100 commit logs will
         be appended.
 
-:VcsiRemove[!] <span class="Special">[target]</span> ...                     <span class="Ignore">*</span><span class="Constant">:VcsiRemove</span><span class="Ignore">*</span>
+:VcsiRemove[!] <span class="Special">[target]</span> ...                     <span class="Ignore">*</span><span class="Constant" id=":VcsiRemove">:VcsiRemove</span><span class="Ignore">*</span>
         Remove targets under the control of a version control system.
         If [!] is given, remove targets forcedly, even if they have local
         modifications.
 
-:VcsiRevert <span class="Special">[target]</span> ...                        <span class="Ignore">*</span><span class="Constant">:VcsiRevert</span><span class="Ignore">*</span>
+:VcsiRevert <span class="Special">[target]</span> ...                        <span class="Ignore">*</span><span class="Constant" id=":VcsiRevert">:VcsiRevert</span><span class="Ignore">*</span>
         Revert <span class="Special">{target}</span>s to the lateset version, recursively.
 
-:VcsiStatus <span class="Special">[target]</span> ...                        <span class="Ignore">*</span><span class="Constant">:VcsiStatus</span><span class="Ignore">*</span>
+:VcsiStatus <span class="Special">[target]</span> ...                        <span class="Ignore">*</span><span class="Constant" id=":VcsiStatus">:VcsiStatus</span><span class="Ignore">*</span>
         Open new buffer to show the status of <span class="Special">{target}</span>s, recursively.
 
 
-:VcsiDefaultKeyMappings[!]                      <span class="Ignore">*</span><span class="Constant">VcsiDefaultKeyMappings</span><span class="Ignore">*</span>
-        Define <span class="Ignore">|</span><span class="Identifier">vcsi-default-key-mappings</span><span class="Ignore">|</span>.
+:VcsiDefaultKeyMappings[!]                      <span class="Ignore">*</span><span class="Constant" id="VcsiDefaultKeyMappings">VcsiDefaultKeyMappings</span><span class="Ignore">*</span>
+        Define <span class="Ignore">|</span><a href="vcsi.html#vcsi-default-key-mappings" class="Identifier">vcsi-default-key-mappings</a><span class="Ignore">|</span>.
         If [!] is specified, this may override existing mappings.
 
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">vcsi-functions</span><span class="Ignore">*</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="vcsi-functions">vcsi-functions</span><span class="Ignore">*</span>
 
-vcsi#add([<span class="Special">{target}</span>, ...])                       <span class="Ignore">*</span><span class="Constant">vcsi#add()</span><span class="Ignore">*</span>
-vcsi#amend([<span class="Special">{target}</span>, ...])                     <span class="Ignore">*</span><span class="Constant">vcsi#amend()</span><span class="Ignore">*</span>
-vcsi#commit([<span class="Special">{target}</span>, ...])                    <span class="Ignore">*</span><span class="Constant">vcsi#commit()</span><span class="Ignore">*</span>
-vcsi#diff(<span class="Special">{count}</span>, [<span class="Special">{target}</span>, ...])             <span class="Ignore">*</span><span class="Constant">vcsi#diff()</span><span class="Ignore">*</span>
-vcsi#log([<span class="Special">{target}</span>, ...])                       <span class="Ignore">*</span><span class="Constant">vcsi#log()</span><span class="Ignore">*</span>
-vcsi#remove({banged_p}, [<span class="Special">{target}</span>, ...])        <span class="Ignore">*</span><span class="Constant">vcsi#remove()</span><span class="Ignore">*</span>
-vcsi#revert([<span class="Special">{target}</span>, ...])                    <span class="Ignore">*</span><span class="Constant">vcsi#revert()</span><span class="Ignore">*</span>
-vcsi#status([<span class="Special">{target}</span>, ...])                    <span class="Ignore">*</span><span class="Constant">vcsi#status()</span><span class="Ignore">*</span>
+vcsi#add([<span class="Special">{target}</span>, ...])                       <span class="Ignore">*</span><span class="Constant" id="vcsi#add()">vcsi#add()</span><span class="Ignore">*</span>
+vcsi#amend([<span class="Special">{target}</span>, ...])                     <span class="Ignore">*</span><span class="Constant" id="vcsi#amend()">vcsi#amend()</span><span class="Ignore">*</span>
+vcsi#commit([<span class="Special">{target}</span>, ...])                    <span class="Ignore">*</span><span class="Constant" id="vcsi#commit()">vcsi#commit()</span><span class="Ignore">*</span>
+vcsi#diff(<span class="Special">{count}</span>, [<span class="Special">{target}</span>, ...])             <span class="Ignore">*</span><span class="Constant" id="vcsi#diff()">vcsi#diff()</span><span class="Ignore">*</span>
+vcsi#log([<span class="Special">{target}</span>, ...])                       <span class="Ignore">*</span><span class="Constant" id="vcsi#log()">vcsi#log()</span><span class="Ignore">*</span>
+vcsi#remove({banged_p}, [<span class="Special">{target}</span>, ...])        <span class="Ignore">*</span><span class="Constant" id="vcsi#remove()">vcsi#remove()</span><span class="Ignore">*</span>
+vcsi#revert([<span class="Special">{target}</span>, ...])                    <span class="Ignore">*</span><span class="Constant" id="vcsi#revert()">vcsi#revert()</span><span class="Ignore">*</span>
+vcsi#status([<span class="Special">{target}</span>, ...])                    <span class="Ignore">*</span><span class="Constant" id="vcsi#status()">vcsi#status()</span><span class="Ignore">*</span>
         Function version of the corresponding command.
         Return true if it succeeded, otherwise return false.
 
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">vcsi-key-mappings</span><span class="Ignore">*</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant" id="vcsi-key-mappings">vcsi-key-mappings</span><span class="Ignore">*</span>
 
-<span class="Special">&lt;Plug&gt;</span>(vcsi-add-all)                            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-add-all)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-add-it)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-add-it)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-amend-all)                          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-amend-all)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-amend-it)                           <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-amend-it)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-commit-all)                         <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-commit-all)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-commit-it)                          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-commit-it)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-diff-all)                           <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-diff-all)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-diff-it)                            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-diff-it)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-log-all)                            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-log-all)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-log-it)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-log-it)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-remove-it)                          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-remove-it)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-revert-all)                         <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-revert-all)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-revert-it)                          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-revert-it)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-status-all)                         <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-status-all)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(vcsi-status-it)                          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(vcsi-status-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-add-all)                            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-add-all)">&lt;Plug&gt;(vcsi-add-all)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-add-it)                             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-add-it)">&lt;Plug&gt;(vcsi-add-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-amend-all)                          <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-amend-all)">&lt;Plug&gt;(vcsi-amend-all)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-amend-it)                           <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-amend-it)">&lt;Plug&gt;(vcsi-amend-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-commit-all)                         <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-commit-all)">&lt;Plug&gt;(vcsi-commit-all)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-commit-it)                          <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-commit-it)">&lt;Plug&gt;(vcsi-commit-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-diff-all)                           <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-diff-all)">&lt;Plug&gt;(vcsi-diff-all)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-diff-it)                            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-diff-it)">&lt;Plug&gt;(vcsi-diff-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-log-all)                            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-log-all)">&lt;Plug&gt;(vcsi-log-all)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-log-it)                             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-log-it)">&lt;Plug&gt;(vcsi-log-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-remove-it)                          <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-remove-it)">&lt;Plug&gt;(vcsi-remove-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-revert-all)                         <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-revert-all)">&lt;Plug&gt;(vcsi-revert-all)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-revert-it)                          <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-revert-it)">&lt;Plug&gt;(vcsi-revert-it)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-status-all)                         <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-status-all)">&lt;Plug&gt;(vcsi-status-all)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(vcsi-status-it)                          <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(vcsi-status-it)">&lt;Plug&gt;(vcsi-status-it)</span><span class="Ignore">*</span>
         These mappings are defined for Normal mode.
         Each mapping executes the corresponding command.
         &quot;-all&quot; version executes the corresponding command for the current
@@ -220,9 +220,9 @@ vcsi#status([<span class="Special">{target}</span>, ...])                    <sp
         buffer.
         <span class="Special">&lt;Plug&gt;</span>(vcsi-remove-all) doesn't exist, because it'll never be used.
 
-                                                <span class="Ignore">*</span><span class="Constant">vcsi-default-key-mappings</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="vcsi-default-key-mappings">vcsi-default-key-mappings</span><span class="Ignore">*</span>
 The following key mappings will be defined as this plugin is loaded unless
-<span class="Ignore">|</span><span class="Identifier">g:vcsi_no_default_key_mappings</span><span class="Ignore">|</span> exists.  You can redefine these key mappings
+<span class="Ignore">|</span><a href="vcsi.html#g:vcsi_no_default_key_mappings" class="Identifier">g:vcsi_no_default_key_mappings</a><span class="Ignore">|</span> exists.  You can redefine these key mappings
 by <span class="Ignore">|</span><span class="Identifier">:VcsiDefaultKeyMappings</span><span class="Ignore">|</span>.
 
         <span class="Special">{lhs}</span>                  <span class="Special">{rhs}</span>
@@ -249,27 +249,27 @@ by <span class="Ignore">|</span><span class="Identifier">:VcsiDefaultKeyMappings
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">vcsi-customizing</span><span class="Ignore">*</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="vcsi-customizing">vcsi-customizing</span><span class="Ignore">*</span>
 
-g:vcsi_diff_in_commit_buffer_p                <span class="Ignore">*</span><span class="Constant">g:vcsi_diff_in_commit_buffer_p</span><span class="Ignore">*</span>
+g:vcsi_diff_in_commit_buffer_p                <span class="Ignore">*</span><span class="Constant" id="g:vcsi_diff_in_commit_buffer_p">g:vcsi_diff_in_commit_buffer_p</span><span class="Ignore">*</span>
                                 number (default: 0)
         Whenever a commit buffer is created, if this value is true, the result
-        of <span class="Ignore">|</span><span class="Identifier">:VcsiDiff</span><span class="Ignore">|</span> will be automatically inserted as a comment.
+        of <span class="Ignore">|</span><a href="vcsi.html#:VcsiDiff" class="Identifier">:VcsiDiff</a><span class="Ignore">|</span> will be automatically inserted as a comment.
 
-g:vcsi_echo_script_p                            <span class="Ignore">*</span><span class="Constant">g:vcsi_echo_script_p</span><span class="Ignore">*</span>
+g:vcsi_echo_script_p                            <span class="Ignore">*</span><span class="Constant" id="g:vcsi_echo_script_p">g:vcsi_echo_script_p</span><span class="Ignore">*</span>
                                 number (default: 1)
         Whenever a command of version control systems is executed, <span class="Ignore">|</span><span class="Identifier">:echomsg</span><span class="Ignore">|</span>
         it if this value is true.
 
-g:vcsi_no_default_key_mappings                <span class="Ignore">*</span><span class="Constant">g:vcsi_no_default_key_mappings</span><span class="Ignore">*</span>
-        See <span class="Ignore">|</span><span class="Identifier">vcsi-default-key-mappings</span><span class="Ignore">|</span>.
+g:vcsi_no_default_key_mappings                <span class="Ignore">*</span><span class="Constant" id="g:vcsi_no_default_key_mappings">g:vcsi_no_default_key_mappings</span><span class="Ignore">*</span>
+        See <span class="Ignore">|</span><a href="vcsi.html#vcsi-default-key-mappings" class="Identifier">vcsi-default-key-mappings</a><span class="Ignore">|</span>.
 
-g:vcsi_open_command                             <span class="Ignore">*</span><span class="Constant">g:vcsi_open_command</span><span class="Ignore">*</span>
-g:vcsi_open_command_commit                      <span class="Ignore">*</span><span class="Constant">g:vcsi_open_command_commit</span><span class="Ignore">*</span>
-g:vcsi_open_command_diff                        <span class="Ignore">*</span><span class="Constant">g:vcsi_open_command_diff</span><span class="Ignore">*</span>
-g:vcsi_open_command_log                         <span class="Ignore">*</span><span class="Constant">g:vcsi_open_command_log</span><span class="Ignore">*</span>
-g:vcsi_open_command_revert                      <span class="Ignore">*</span><span class="Constant">g:vcsi_open_command_revert</span><span class="Ignore">*</span>
-g:vcsi_open_command_status                      <span class="Ignore">*</span><span class="Constant">g:vcsi_open_command_status</span><span class="Ignore">*</span>
+g:vcsi_open_command                             <span class="Ignore">*</span><span class="Constant" id="g:vcsi_open_command">g:vcsi_open_command</span><span class="Ignore">*</span>
+g:vcsi_open_command_commit                      <span class="Ignore">*</span><span class="Constant" id="g:vcsi_open_command_commit">g:vcsi_open_command_commit</span><span class="Ignore">*</span>
+g:vcsi_open_command_diff                        <span class="Ignore">*</span><span class="Constant" id="g:vcsi_open_command_diff">g:vcsi_open_command_diff</span><span class="Ignore">*</span>
+g:vcsi_open_command_log                         <span class="Ignore">*</span><span class="Constant" id="g:vcsi_open_command_log">g:vcsi_open_command_log</span><span class="Ignore">*</span>
+g:vcsi_open_command_revert                      <span class="Ignore">*</span><span class="Constant" id="g:vcsi_open_command_revert">g:vcsi_open_command_revert</span><span class="Ignore">*</span>
+g:vcsi_open_command_status                      <span class="Ignore">*</span><span class="Constant" id="g:vcsi_open_command_status">g:vcsi_open_command_status</span><span class="Ignore">*</span>
                                 string (default: 'belowright new')
 
         Specify the command to create a <span class="Special">{command}</span> buffer.
@@ -280,12 +280,12 @@ g:vcsi_open_command_status                      <span class="Ignore">*</span><sp
         If g:vcsi_open_command_<span class="Special">{command}</span> exists, use it rather than
         g:vcsi_open_command for <span class="Special">{command}</span>.
 
-g:vcsi_status_in_commit_buffer_p            <span class="Ignore">*</span><span class="Constant">g:vcsi_status_in_commit_buffer_p</span><span class="Ignore">*</span>
+g:vcsi_status_in_commit_buffer_p            <span class="Ignore">*</span><span class="Constant" id="g:vcsi_status_in_commit_buffer_p">g:vcsi_status_in_commit_buffer_p</span><span class="Ignore">*</span>
                                 number (default: 0)
         Whenever a commit buffer is created, if this value is true, the result
-        of <span class="Ignore">|</span><span class="Identifier">:VcsiStatus</span><span class="Ignore">|</span> will be automatically inserted as a comment.
+        of <span class="Ignore">|</span><a href="vcsi.html#:VcsiStatus" class="Identifier">:VcsiStatus</a><span class="Ignore">|</span> will be automatically inserted as a comment.
 
-g:vcsi_use_native_message_p                     <span class="Ignore">*</span><span class="Constant">g:vcsi_use_native_message_p</span><span class="Ignore">*</span>
+g:vcsi_use_native_message_p                     <span class="Ignore">*</span><span class="Constant" id="g:vcsi_use_native_message_p">g:vcsi_use_native_message_p</span><span class="Ignore">*</span>
                                 number (default: 0)
         Whenever a commit buffer is created, if this value is true, the
         message which is generated by the commit command of a version control
@@ -295,12 +295,12 @@ g:vcsi_use_native_message_p                     <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">vcsi-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="vcsi-bugs">vcsi-bugs</span><span class="Ignore">*</span>
 
-- <span class="Ignore">|</span><span class="Identifier">:VcsiCommit</span><span class="Ignore">|</span>: writing commit log buffer with <span class="Ignore">|</span><span class="Identifier">:wq</span><span class="Ignore">|</span> causes closing extra
+- <span class="Ignore">|</span><a href="vcsi.html#:VcsiCommit" class="Identifier">:VcsiCommit</a><span class="Ignore">|</span>: writing commit log buffer with <span class="Ignore">|</span><span class="Identifier">:wq</span><span class="Ignore">|</span> causes closing extra
   window.
 
-- <span class="Ignore">|</span><span class="Identifier">:VcsiDiff</span><span class="Ignore">|</span>: <span class="Special">[count]</span> is supported by git only.
+- <span class="Ignore">|</span><a href="vcsi.html#:VcsiDiff" class="Identifier">:VcsiDiff</a><span class="Ignore">|</span>: <span class="Special">[count]</span> is supported by git only.
 
 - There are many bugs around the world.
 
@@ -308,11 +308,11 @@ g:vcsi_use_native_message_p                     <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">vcsi-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="vcsi-changelog">vcsi-changelog</span><span class="Ignore">*</span>
 
 0.1.1   2008-09-29T01:34:57+09:00
         - Highlight the first = summary line for buffers to edit commit log.
-        - Add <span class="Ignore">|</span><span class="Identifier">:VcsiAmend</span><span class="Ignore">|</span> and other interfaces for it.
+        - Add <span class="Ignore">|</span><a href="vcsi.html#:VcsiAmend" class="Identifier">:VcsiAmend</a><span class="Ignore">|</span> and other interfaces for it.
         - git: Improve the way to get a template for commit log.
 
 0.1.0   2008-07-13T20:26:10+09:00
@@ -320,27 +320,27 @@ g:vcsi_use_native_message_p                     <span class="Ignore">*</span><sp
           - Revise the internal.
           - Remove some commands - :VcsiBranchList, :VcsiBranchSwitch,
             :VcsiInfo, :VcsiPropedit.
-          - Rename some variables (<span class="Ignore">|</span><span class="Identifier">vcsi-customizing</span><span class="Ignore">|</span>).
-          - Add <span class="Ignore">|</span><span class="Identifier">g:vcsi_use_native_message_p</span><span class="Ignore">|</span>.
-          - Add <span class="Ignore">|</span><span class="Identifier">:VcsiAdd</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">:VcsiRemove</span><span class="Ignore">|</span>.
-          - Change the default key mappings for <span class="Ignore">|</span><span class="Identifier">:VcsiRevert</span><span class="Ignore">|</span>.  Use &quot;v&quot;
-            instead of &quot;r&quot;, because now &quot;r&quot; is used for <span class="Ignore">|</span><span class="Identifier">:VcsiRemove</span><span class="Ignore">|</span>.
+          - Rename some variables (<span class="Ignore">|</span><a href="vcsi.html#vcsi-customizing" class="Identifier">vcsi-customizing</a><span class="Ignore">|</span>).
+          - Add <span class="Ignore">|</span><a href="vcsi.html#g:vcsi_use_native_message_p" class="Identifier">g:vcsi_use_native_message_p</a><span class="Ignore">|</span>.
+          - Add <span class="Ignore">|</span><a href="vcsi.html#:VcsiAdd" class="Identifier">:VcsiAdd</a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="vcsi.html#:VcsiRemove" class="Identifier">:VcsiRemove</a><span class="Ignore">|</span>.
+          - Change the default key mappings for <span class="Ignore">|</span><a href="vcsi.html#:VcsiRevert" class="Identifier">:VcsiRevert</a><span class="Ignore">|</span>.  Use &quot;v&quot;
+            instead of &quot;r&quot;, because now &quot;r&quot; is used for <span class="Ignore">|</span><a href="vcsi.html#:VcsiRemove" class="Identifier">:VcsiRemove</a><span class="Ignore">|</span>.
 
 0.0.7   2008-05-19T20:16:54+09:00
         - <span class="Ignore">|</span><span class="Identifier">:VcsiBranchList</span><span class="Ignore">|</span>: New.
         - <span class="Ignore">|</span><span class="Identifier">:VcsiBranchSwitch</span><span class="Ignore">|</span>: New.
-        - <span class="Ignore">|</span><span class="Identifier">:VcsiDiff</span><span class="Ignore">|</span> (git): Add separators for staged changes and unstaged
+        - <span class="Ignore">|</span><a href="vcsi.html#:VcsiDiff" class="Identifier">:VcsiDiff</a><span class="Ignore">|</span> (git): Add separators for staged changes and unstaged
           changes
-        - <span class="Ignore">|</span><span class="Identifier">:VcsiCommit</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">:VcsiDiff</span><span class="Ignore">|</span>: Add sysntax highlighting for several
+        - <span class="Ignore">|</span><a href="vcsi.html#:VcsiCommit" class="Identifier">:VcsiCommit</a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="vcsi.html#:VcsiDiff" class="Identifier">:VcsiDiff</a><span class="Ignore">|</span>: Add sysntax highlighting for several
           items.
         - Fix syntax highlighting for buffers to edit commit log.
         - Fix minor bugs.
 
 0.0.6   2008-04-27T12:35:59+09:00
-        - <span class="Ignore">|</span><span class="Identifier">:VcsiDiff</span><span class="Ignore">|</span> (git): Show also --cached difference.
+        - <span class="Ignore">|</span><a href="vcsi.html#:VcsiDiff" class="Identifier">:VcsiDiff</a><span class="Ignore">|</span> (git): Show also --cached difference.
 
 0.0.5   2008-03-13T21:48:06+09:00
-        - <span class="Ignore">|</span><span class="Identifier">:VcsiRevert</span><span class="Ignore">|</span> (git): Fix to process a file or directory which name
+        - <span class="Ignore">|</span><a href="vcsi.html#:VcsiRevert" class="Identifier">:VcsiRevert</a><span class="Ignore">|</span> (git): Fix to process a file or directory which name
           is same as a branch.
 
 0.0.4   2008-02-21T23:21:36+09:00

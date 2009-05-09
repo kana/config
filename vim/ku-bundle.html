@@ -20,7 +20,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">ku-bundle.txt</span><span class="Ignore">*</span> ku source: bundle
+<span class="Ignore">*</span><span class="Constant" id="ku-bundle.txt">ku-bundle.txt</span><span class="Ignore">*</span> ku source: bundle
 
 Version 0.1.1
 Script ID: 2343
@@ -46,29 +46,29 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">ku-bundle-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="ku-bundle-contents">ku-bundle-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">ku-bundle-introduction</span><span class="Ignore">|</span>
-Action Table            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-table</span><span class="Ignore">|</span>
-Key Table               <span class="Ignore">|</span><span class="Identifier">ku-bundle-key-table</span><span class="Ignore">|</span>
-Variables               <span class="Ignore">|</span><span class="Identifier">ku-bundle-variables</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">ku-bundle-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">ku-bundle-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-introduction" class="Identifier">ku-bundle-introduction</a><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-table" class="Identifier">ku-bundle-action-table</a><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-key-table" class="Identifier">ku-bundle-key-table</a><span class="Ignore">|</span>
+Variables               <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-variables" class="Identifier">ku-bundle-variables</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-bugs" class="Identifier">ku-bundle-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-changelog" class="Identifier">ku-bundle-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">ku-bundle-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-bundle-introduction">ku-bundle-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">ku-bundle</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> to deal with bundles for a Vim plugin
-<span class="Ignore">|</span><span class="Identifier">bundle</span><span class="Ignore">|</span>.  You can choose one from many bundles and do some action to it.
+<span class="Ignore">*</span><span class="Constant" id="ku-bundle">ku-bundle</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> to deal with bundles for a Vim plugin
+<span class="Ignore">|</span><a href="bundle.html#bundle" class="Identifier">bundle</a><span class="Ignore">|</span>.  You can choose one from many bundles and do some action to it.
 
 
 Requirements:
 - Vim 7.1 or later
-- <span class="Ignore">|</span><span class="Identifier">bundle</span><span class="Ignore">|</span> 0.0.2 or later (vimscript#2338)
-- <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+- <span class="Ignore">|</span><a href="bundle.html#bundle" class="Identifier">bundle</a><span class="Ignore">|</span> 0.0.2 or later (vimscript#2338)
+- <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-bundle">http://github.com/kana/config/commits/vim-ku-bundle</a></span>
@@ -77,50 +77,50 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant">ku-bundle-action-table</span><span class="Ignore">*</span>
+<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-bundle-action-table">ku-bundle-action-table</span><span class="Ignore">*</span>
 
-args                                            <span class="Ignore">*</span><span class="Constant">ku-bundle-action-args</span><span class="Ignore">*</span>
-                        Do <span class="Ignore">|</span><span class="Identifier">:ArgsBundle</span><span class="Ignore">|</span> for the selected item.
+args                                            <span class="Ignore">*</span><span class="Constant" id="ku-bundle-action-args">ku-bundle-action-args</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><a href="bundle.html#:ArgsBundle" class="Identifier">:ArgsBundle</a><span class="Ignore">|</span> for the selected item.
 
-args!                                           <span class="Ignore">*</span><span class="Constant">ku-bundle-action-args!</span><span class="Ignore">*</span>
-                        Do <span class="Ignore">|</span><span class="Identifier">:ArgsBundle!</span><span class="Ignore">|</span> for the selected.
+args!                                           <span class="Ignore">*</span><span class="Constant" id="ku-bundle-action-args!">ku-bundle-action-args!</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><a href="bundle.html#:ArgsBundle!" class="Identifier">:ArgsBundle!</a><span class="Ignore">|</span> for the selected.
 
-default                                         <span class="Ignore">*</span><span class="Constant">ku-bundle-action-default</span><span class="Ignore">*</span>
+default                                         <span class="Ignore">*</span><span class="Constant" id="ku-bundle-action-default">ku-bundle-action-default</span><span class="Ignore">*</span>
                         Same as &quot;args&quot;.
 
-load                                            <span class="Ignore">*</span><span class="Constant">ku-bundle-action-load</span><span class="Ignore">*</span>
-                        Do <span class="Ignore">|</span><span class="Identifier">:LoadBundle</span><span class="Ignore">|</span> for the selected item.
+load                                            <span class="Ignore">*</span><span class="Constant" id="ku-bundle-action-load">ku-bundle-action-load</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><a href="bundle.html#:LoadBundle" class="Identifier">:LoadBundle</a><span class="Ignore">|</span> for the selected item.
 
-load!                                           <span class="Ignore">*</span><span class="Constant">ku-bundle-action-load!</span><span class="Ignore">*</span>
-                        Do <span class="Ignore">|</span><span class="Identifier">:LoadBundle!</span><span class="Ignore">|</span> for the selected item.
+load!                                           <span class="Ignore">*</span><span class="Constant" id="ku-bundle-action-load!">ku-bundle-action-load!</span><span class="Ignore">*</span>
+                        Do <span class="Ignore">|</span><a href="bundle.html#:LoadBundle!" class="Identifier">:LoadBundle!</a><span class="Ignore">|</span> for the selected item.
 
-load-or-args                                   <span class="Ignore">*</span><span class="Constant">ku-bundle-action-load-or-args</span><span class="Ignore">*</span>
+load-or-args                                   <span class="Ignore">*</span><span class="Constant" id="ku-bundle-action-load-or-args">ku-bundle-action-load-or-args</span><span class="Ignore">*</span>
                         Normally, do &quot;load&quot;.  If this action is invoked via
-                        <span class="Ignore">|</span><span class="Identifier">ku-action-left</span><span class="Ignore">|</span> or similar actions, do &quot;args&quot;
+                        <span class="Ignore">|</span><a href="ku.html#ku-action-left" class="Identifier">ku-action-left</a><span class="Ignore">|</span> or similar actions, do &quot;args&quot;
                         instead.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant">ku-bundle-key-table</span><span class="Ignore">*</span>
+<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-bundle-key-table">ku-bundle-key-table</span><span class="Ignore">*</span>
 
 <span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
 <span class="PreProc">--------        --------</span>
-<span class="Special">&lt;C-a&gt;</span>           args            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args</span><span class="Ignore">|</span>
-<span class="Special">&lt;C-o&gt;</span>           load            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load</span><span class="Ignore">|</span>
-A               args!           <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args!</span><span class="Ignore">|</span>
-O               load!           <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load!</span><span class="Ignore">|</span>
-a               args            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args</span><span class="Ignore">|</span>
-o               load            <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load</span><span class="Ignore">|</span>
+<span class="Special">&lt;C-a&gt;</span>           args            <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-args" class="Identifier">ku-bundle-action-args</a><span class="Ignore">|</span>
+<span class="Special">&lt;C-o&gt;</span>           load            <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-load" class="Identifier">ku-bundle-action-load</a><span class="Ignore">|</span>
+A               args!           <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-args!" class="Identifier">ku-bundle-action-args!</a><span class="Ignore">|</span>
+O               load!           <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-load!" class="Identifier">ku-bundle-action-load!</a><span class="Ignore">|</span>
+a               args            <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-args" class="Identifier">ku-bundle-action-args</a><span class="Ignore">|</span>
+o               load            <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-load" class="Identifier">ku-bundle-action-load</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">ku-bundle-variables</span><span class="Ignore">*</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-bundle-variables">ku-bundle-variables</span><span class="Ignore">*</span>
 
-g:ku_bundle_path_separators                     <span class="Ignore">*</span><span class="Constant">g:ku_bundle_path_separators</span><span class="Ignore">*</span>
+g:ku_bundle_path_separators                     <span class="Ignore">*</span><span class="Constant" id="g:ku_bundle_path_separators">g:ku_bundle_path_separators</span><span class="Ignore">*</span>
         String to specify separators for &quot;<span class="Special">{bundle}</span>/<span class="Special">{path}</span>&quot; notation.  Each
         character in this variable can be used to separate <span class="Special">{bundle}</span> and
         <span class="Special">{path}</span>.  For example, if g:ku_bundle_path_separators = '&gt;_&lt;', you can
@@ -128,13 +128,13 @@ g:ku_bundle_path_separators                     <span class="Ignore">*</span><sp
         of &quot;<span class="Special">{bundle}</span>/<span class="Special">{path}</span>&quot;.
 
         This variable is not defined by default.  If it's not defined, the
-        value of <span class="Ignore">|</span><span class="Identifier">g:ku_component_separators</span><span class="Ignore">|</span> will be used instead.
+        value of <span class="Ignore">|</span><a href="ku.html#g:ku_component_separators" class="Identifier">g:ku_component_separators</a><span class="Ignore">|</span> will be used instead.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">ku-bundle-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="ku-bundle-bugs">ku-bundle-bugs</span><span class="Ignore">*</span>
 
 - There are many bugs around the world.
 
@@ -142,7 +142,7 @@ g:ku_bundle_path_separators                     <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">ku-bundle-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-bundle-changelog">ku-bundle-changelog</span><span class="Ignore">*</span>
 
 0.1.1   2009-05-04T01:44:00+09:00
         - Update for ku 0.2.1.
@@ -151,15 +151,15 @@ g:ku_bundle_path_separators                     <span class="Ignore">*</span><sp
         - Update for ku 0.2.0.
 
 0.0.2   2008-12-24T15:27:07+09:00
-        - Change <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-default</span><span class="Ignore">|</span>.
-          Now it does the same as <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-args</span><span class="Ignore">|</span>
-          instead of <span class="Ignore">|</span><span class="Identifier">ku-bundle-action-load-or-args</span><span class="Ignore">|</span>.
+        - Change <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-default" class="Identifier">ku-bundle-action-default</a><span class="Ignore">|</span>.
+          Now it does the same as <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-args" class="Identifier">ku-bundle-action-args</a><span class="Ignore">|</span>
+          instead of <span class="Ignore">|</span><a href="ku-bundle.html#ku-bundle-action-load-or-args" class="Identifier">ku-bundle-action-load-or-args</a><span class="Ignore">|</span>.
 
 0.0.1   2008-08-13T06:17:35+09:00
         - Support to complete files in a bundle with &quot;<span class="Special">{bundle}</span>/<span class="Special">{path}</span>&quot;
           notation.  Such item is opened with <span class="Ignore">|</span><span class="Identifier">ku-file-action-open</span><span class="Ignore">|</span> or
           <span class="Ignore">|</span><span class="Identifier">ku-file-action-open!</span><span class="Ignore">|</span>.  The separator between <span class="Special">{bundle}</span> and <span class="Special">{path}</span>
-          can be configured by <span class="Ignore">|</span><span class="Identifier">g:ku_bundle_path_separators</span><span class="Ignore">|</span>.
+          can be configured by <span class="Ignore">|</span><a href="ku-bundle.html#g:ku_bundle_path_separators" class="Identifier">g:ku_bundle_path_separators</a><span class="Ignore">|</span>.
 
 0.0.0   2008-08-10T22:30:40+09:00
         - Initial version.

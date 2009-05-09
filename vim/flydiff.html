@@ -21,7 +21,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">flydiff.txt</span><span class="Ignore">*</span>   on-the-fly diff
+<span class="Ignore">*</span><span class="Constant" id="flydiff.txt">flydiff.txt</span><span class="Ignore">*</span>   on-the-fly diff
 
 Version 0.0.1
 Script ID: 2274
@@ -47,24 +47,24 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">flydiff-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="flydiff-contents">flydiff-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">flydiff-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">flydiff-interface</span><span class="Ignore">|</span>
-  Commands                <span class="Ignore">|</span><span class="Identifier">flydiff-commands</span><span class="Ignore">|</span>
-  Functions               <span class="Ignore">|</span><span class="Identifier">flydiff-functions</span><span class="Ignore">|</span>
-  Variables               <span class="Ignore">|</span><span class="Identifier">flydiff-variables</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">flydiff-bugs</span><span class="Ignore">|</span>
-Terms                   <span class="Ignore">|</span><span class="Identifier">flydiff-terms</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">flydiff-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="flydiff.html#flydiff-introduction" class="Identifier">flydiff-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="flydiff.html#flydiff-interface" class="Identifier">flydiff-interface</a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="flydiff.html#flydiff-commands" class="Identifier">flydiff-commands</a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="flydiff.html#flydiff-functions" class="Identifier">flydiff-functions</a><span class="Ignore">|</span>
+  Variables               <span class="Ignore">|</span><a href="flydiff.html#flydiff-variables" class="Identifier">flydiff-variables</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="flydiff.html#flydiff-bugs" class="Identifier">flydiff-bugs</a><span class="Ignore">|</span>
+Terms                   <span class="Ignore">|</span><a href="flydiff.html#flydiff-terms" class="Identifier">flydiff-terms</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="flydiff.html#flydiff-changelog" class="Identifier">flydiff-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">flydiff-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="flydiff-introduction">flydiff-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">flydiff</span><span class="Ignore">*</span> is a Vim plugin to perform on-the-fly diff on the current buffer
+<span class="Ignore">*</span><span class="Constant" id="flydiff">flydiff</span><span class="Ignore">*</span> is a Vim plugin to perform on-the-fly diff on the current buffer
 with some version control system and show the differences in another buffer.
 
 
@@ -82,12 +82,12 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="flydiff-interface">flydiff-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant">flydiff-commands</span><span class="Ignore">*</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant" id="flydiff-commands">flydiff-commands</span><span class="Ignore">*</span>
 
-                                                <span class="Ignore">*</span><span class="Constant">:Flydiff</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id=":Flydiff">:Flydiff</span><span class="Ignore">*</span>
 :Flydiff <span class="Special">[flag]</span>
         Start on-the-fly diff on the current buffer.  If on-the-fly diff is
         already started, it will be stopped.
@@ -97,27 +97,27 @@ Latest version:
 
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-functions</span><span class="Ignore">*</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="flydiff-functions">flydiff-functions</span><span class="Ignore">*</span>
 
-                                                <span class="Ignore">*</span><span class="Constant">flydiff#toggle()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="flydiff#toggle()">flydiff#toggle()</span><span class="Ignore">*</span>
 flydiff#toggle(<span class="Special">{bufnr}</span>, <span class="Special">{state}</span>)
-        Function version of <span class="Ignore">|</span><span class="Identifier">:Flydiff</span><span class="Ignore">|</span>.
+        Function version of <span class="Ignore">|</span><a href="flydiff.html#:Flydiff" class="Identifier">:Flydiff</a><span class="Ignore">|</span>.
         <span class="Special">{bufnr}</span> is the number of a buffer to be performed on-the-fly diff.
-        <span class="Special">{state}</span> is like <span class="Special">[flag]</span> for <span class="Ignore">|</span><span class="Identifier">:Flydiff</span><span class="Ignore">|</span>:
+        <span class="Special">{state}</span> is like <span class="Special">[flag]</span> for <span class="Ignore">|</span><a href="flydiff.html#:Flydiff" class="Identifier">:Flydiff</a><span class="Ignore">|</span>:
         - If <span class="Special">{state}</span> is &quot;on&quot;, start on-the-fly diff.
         - If <span class="Special">{state}</span> is &quot;off&quot;, stop on-the-fly diff.
         - Otherwise, toggle on-the-fly diff.
 
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-variables</span><span class="Ignore">*</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant" id="flydiff-variables">flydiff-variables</span><span class="Ignore">*</span>
 
-                                                <span class="Ignore">*</span><span class="Constant">b:flydiff_info</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="b:flydiff_info">b:flydiff_info</span><span class="Ignore">*</span>
 b:flydiff_info
         The variable to save some information to perform on-the-fly diff.
         Don't touch this variable.
 
-                                                <span class="Ignore">*</span><span class="Constant">g:flydiff_direction</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="g:flydiff_direction">g:flydiff_direction</span><span class="Ignore">*</span>
 g:flydiff_direction
         Specify the direction to open a window to show on-the-fly diff.
         The value is a string of modifier commands such as <span class="Ignore">|</span><span class="Identifier">:aboveleft</span><span class="Ignore">|</span>,
@@ -125,13 +125,13 @@ g:flydiff_direction
 
         The default value is &quot;vertical rightbelow&quot;.
 
-                                                <span class="Ignore">*</span><span class="Constant">g:flydiff_filetype</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="g:flydiff_filetype">g:flydiff_filetype</span><span class="Ignore">*</span>
 g:flydiff_filetype
         Specify the <span class="Type">'filetype'</span> for buffers to show on-the-fly diff.
 
         The default value is &quot;diff&quot;.
 
-                                                <span class="Ignore">*</span><span class="Constant">g:flydiff_timing</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="g:flydiff_timing">g:flydiff_timing</span><span class="Ignore">*</span>
 g:flydiff_timing
         Specify timings to perform on-the-fly diff.  The value is
         a comma-separated list of strings.  The following values are
@@ -150,7 +150,7 @@ g:flydiff_timing
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">flydiff-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="flydiff-bugs">flydiff-bugs</span><span class="Ignore">*</span>
 
 - There are many bugs around the world.
 
@@ -158,7 +158,7 @@ g:flydiff_timing
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">TERMS                                           </span><span class="Ignore">*</span><span class="Constant">flydiff-terms</span><span class="Ignore">*</span>
+<span class="Statement">TERMS                                           </span><span class="Ignore">*</span><span class="Constant" id="flydiff-terms">flydiff-terms</span><span class="Ignore">*</span>
 
 In this document and the source code of flydiff, the following terms are used:
 
@@ -178,7 +178,7 @@ In this document and the source code of flydiff, the following terms are used:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">flydiff-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="flydiff-changelog">flydiff-changelog</span><span class="Ignore">*</span>
 
 0.0.1   2008-06-28T03:46:26+09:00
         Fix many minor bugs:

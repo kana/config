@@ -21,7 +21,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-indent.txt</span><span class="Ignore">*</span>    Text objects for lines with the same indentation level
+<span class="Ignore">*</span><span class="Constant" id="textobj-indent.txt">textobj-indent.txt</span><span class="Ignore">*</span>    Text objects for lines with the same indentation level
 
 Version 0.0.2
 Script ID: 2484
@@ -47,23 +47,23 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-indent-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-contents">textobj-indent-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-indent-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-indent-interface</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-introduction" class="Identifier">textobj-indent-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-interface" class="Identifier">textobj-indent-interface</a><span class="Ignore">|</span>
   Commands                <span class="Ignore">|</span><span class="Identifier">textobj-indent-commands</span><span class="Ignore">|</span>
   Functions               <span class="Ignore">|</span><span class="Identifier">textobj-indent-functions</span><span class="Ignore">|</span>
-  Mappings                <span class="Ignore">|</span><span class="Identifier">textobj-indent-mappings</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-indent-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-indent-changelog</span><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-mappings" class="Identifier">textobj-indent-mappings</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-bugs" class="Identifier">textobj-indent-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-changelog" class="Identifier">textobj-indent-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-indent-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-introduction">textobj-indent-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-indent</span><span class="Ignore">*</span> is a Vim plugin to provide text objects to select a block of
+<span class="Ignore">*</span><span class="Constant" id="textobj-indent">textobj-indent</span><span class="Ignore">*</span> is a Vim plugin to provide text objects to select a block of
 lines with the same indentation level.
 
 For example, if the content of a buffer as follows:
@@ -112,7 +112,7 @@ For example, if the content of a buffer as follows:
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-indent">http://github.com/kana/config/commits/vim-textobj-indent</a></span>
@@ -121,14 +121,14 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-indent-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-interface">textobj-indent-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-indent-mappings</span><span class="Ignore">*</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-mappings">textobj-indent-mappings</span><span class="Ignore">*</span>
 
 These key mappings are defined in Visual mode and Operator-pending mode.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-indent-a)                        <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-indent-a)                        <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-indent-a)">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">*</span>
                         Select a block of lines with the same indentation
                         level.  More precisely, select lines which are:
                         - adjacent to the current line, and
@@ -140,7 +140,7 @@ These key mappings are defined in Visual mode and Operator-pending mode.
                         also ampty, the indentation of the next line of that
                         line will be used instead.  And so forth.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-indent-i)                        <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-indent-i)                        <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-indent-i)">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">*</span>
                         Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span>, but it doesn't
                         include empty lines.
 
@@ -148,14 +148,14 @@ These key mappings are defined in Visual mode and Operator-pending mode.
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-indent-customizing</span><span class="Ignore">*</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-customizing">textobj-indent-customizing</span><span class="Ignore">*</span>
 
-                                    <span class="Ignore">*</span><span class="Constant">g:textobj_indent_no_default_key_mappings</span><span class="Ignore">*</span>
-                                            <span class="Ignore">*</span><span class="Constant">:TextobjIndentDefaultKeyMappings</span><span class="Ignore">*</span>
+                                    <span class="Ignore">*</span><span class="Constant" id="g:textobj_indent_no_default_key_mappings">g:textobj_indent_no_default_key_mappings</span><span class="Ignore">*</span>
+                                            <span class="Ignore">*</span><span class="Constant" id=":TextobjIndentDefaultKeyMappings">:TextobjIndentDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
-define <span class="Ignore">|</span><span class="Identifier">g:textobj_indent_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is loaded
-(e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use <span class="Ignore">|</span><span class="Identifier">:TextobjIndentDefaultKeyMappings</span><span class="Ignore">|</span>
+define <span class="Ignore">|</span><a href="textobj-indent.html#g:textobj_indent_no_default_key_mappings" class="Identifier">g:textobj_indent_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is loaded
+(e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use <span class="Ignore">|</span><a href="textobj-indent.html#:TextobjIndentDefaultKeyMappings" class="Identifier">:TextobjIndentDefaultKeyMappings</a><span class="Ignore">|</span>
 to redefine these key mappings.  This command doesn't override existing <span class="Special">{lhs}</span>s
 unless [!] is given.
 
@@ -168,7 +168,7 @@ unless [!] is given.
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-indent-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-bugs">textobj-indent-bugs</span><span class="Ignore">*</span>
 
 - <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">|</span> count indentation
   level by the number of leading whitespace and/or tab.
@@ -179,13 +179,13 @@ unless [!] is given.
 
 - So that <span class="Special">[count]</span> is just ignored.
 
-- See <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span> for further information.
+- See <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-bugs" class="Identifier">textobj-user-bugs</a><span class="Ignore">|</span> for further information.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-indent-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-changelog">textobj-indent-changelog</span><span class="Ignore">*</span>
 
 0.0.2   2009-04-17T17:45:31+09:00
         - Fix the bug to calculate indentation levels.  Now these text objects

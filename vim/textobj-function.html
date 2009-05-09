@@ -22,7 +22,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-function.txt</span><span class="Ignore">*</span>  Text object for a function
+<span class="Ignore">*</span><span class="Constant" id="textobj-function.txt">textobj-function.txt</span><span class="Ignore">*</span>  Text object for a function
 
 Version 0.1.0
 Script ID: 2619
@@ -48,23 +48,23 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-function-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-contents">textobj-function-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-function-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-function-interface</span><span class="Ignore">|</span>
-  Key Mappings            <span class="Ignore">|</span><span class="Identifier">textobj-function-key-mappings</span><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><span class="Identifier">textobj-function-customizing</span><span class="Ignore">|</span>
-API                     <span class="Ignore">|</span><span class="Identifier">textobj-function-api</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-function-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-function-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-introduction" class="Identifier">textobj-function-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-interface" class="Identifier">textobj-function-interface</a><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-key-mappings" class="Identifier">textobj-function-key-mappings</a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-customizing" class="Identifier">textobj-function-customizing</a><span class="Ignore">|</span>
+API                     <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-api" class="Identifier">textobj-function-api</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-bugs" class="Identifier">textobj-function-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-changelog" class="Identifier">textobj-function-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-function-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-introduction">textobj-function-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-function</span><span class="Ignore">*</span> is a Vim plugin to provide universal text objects for
+<span class="Ignore">*</span><span class="Constant" id="textobj-function">textobj-function</span><span class="Ignore">*</span> is a Vim plugin to provide universal text objects for
 various kinds of functions.  For example, you can select any function with
 <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-function-a)</span><span class="Ignore">|</span> / <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-function-i)</span><span class="Ignore">|</span> (default key
 bindings: af / if).
@@ -73,17 +73,17 @@ The definition of a &quot;function&quot; is usually differed depending on what y
 editing, so at first, you have to tell the definition of what kind of function
 you want to select to textobj-function.  By default, textobj-function knows
 about functions in the following languages:
-                                            <span class="Ignore">*</span><span class="Constant">textobj-function-known-languages</span><span class="Ignore">*</span>
-- C language            <span class="Ignore">|</span><span class="Identifier">textobj-function-c</span><span class="Ignore">|</span>
-- Vim script            <span class="Ignore">|</span><span class="Identifier">textobj-function-vim</span><span class="Ignore">|</span>
+                                            <span class="Ignore">*</span><span class="Constant" id="textobj-function-known-languages">textobj-function-known-languages</span><span class="Ignore">*</span>
+- C language            <span class="Ignore">|</span><a href="textobj-function-c.html#textobj-function-c" class="Identifier">textobj-function-c</a><span class="Ignore">|</span>
+- Vim script            <span class="Ignore">|</span><a href="textobj-function-vim.html#textobj-function-vim" class="Identifier">textobj-function-vim</a><span class="Ignore">|</span>
 
 If you want to tell about more functions in other languages, see
-<span class="Ignore">|</span><span class="Identifier">textobj-function-customizing</span><span class="Ignore">|</span> for how to tell and
+<span class="Ignore">|</span><a href="textobj-function.html#textobj-function-customizing" class="Identifier">textobj-function-customizing</a><span class="Ignore">|</span> for how to tell and
 after/ftplugin/*/textobj-function.vim for the samples.
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-function">http://github.com/kana/config/commits/vim-textobj-function</a></span>
@@ -92,17 +92,17 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-function-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-interface">textobj-function-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">KEY MAPPINGS                                   </span><span class="Ignore">*</span><span class="Constant">textobj-function-key-mappings</span><span class="Ignore">*</span>
+<span class="Statement">KEY MAPPINGS                                   </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-key-mappings">textobj-function-key-mappings</span><span class="Ignore">*</span>
 
 In visual mode and operator-pending mode, the following text objects are
 available.  <span class="Todo">Note</span> that the fllowing key mappings will not be defined when its
 <span class="Special">{lhs}</span> is already mapped.
 
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-function-a)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-function-a)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-function-a)                      <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-function-a)">&lt;Plug&gt;(textobj-function-a)</span><span class="Ignore">*</span>
                         &quot;a function&quot; - Select the all range of a function.
                         This text object is <span class="Ignore">|</span><span class="Identifier">linewise</span><span class="Ignore">|</span> by default, but it may
                         be <span class="Ignore">|</span><span class="Identifier">characterwise</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">blockwise</span><span class="Ignore">|</span> depending on what
@@ -113,7 +113,7 @@ available.  <span class="Todo">Note</span> that the fllowing key mappings will n
                         blank lines.  This problem will be fixed in the near
                         future - by adding another text object.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-function-i)                      <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-function-i)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-function-i)                      <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-function-i)">&lt;Plug&gt;(textobj-function-i)</span><span class="Ignore">*</span>
                         &quot;inner function&quot; - Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-function-a)</span><span class="Ignore">|</span>,
                         but select the body of a function, other parts of
                         a function are not included e.g. its name, its
@@ -123,15 +123,15 @@ available.  <span class="Todo">Note</span> that the fllowing key mappings will n
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-function-customizing</span><span class="Ignore">*</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-customizing">textobj-function-customizing</span><span class="Ignore">*</span>
 
-                                  <span class="Ignore">*</span><span class="Constant">g:textobj_function_no_default_key_mappings</span><span class="Ignore">*</span>
-                                          <span class="Ignore">*</span><span class="Constant">:TextobjFunctionDefaultKeyMappings</span><span class="Ignore">*</span>
+                                  <span class="Ignore">*</span><span class="Constant" id="g:textobj_function_no_default_key_mappings">g:textobj_function_no_default_key_mappings</span><span class="Ignore">*</span>
+                                          <span class="Ignore">*</span><span class="Constant" id=":TextobjFunctionDefaultKeyMappings">:TextobjFunctionDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
-define <span class="Ignore">|</span><span class="Identifier">g:textobj_function_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is
+define <span class="Ignore">|</span><a href="textobj-function.html#g:textobj_function_no_default_key_mappings" class="Identifier">g:textobj_function_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is
 loaded (e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use
-<span class="Ignore">|</span><span class="Identifier">:TextobjFunctionDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.  This
+<span class="Ignore">|</span><a href="textobj-function.html#:TextobjFunctionDefaultKeyMappings" class="Identifier">:TextobjFunctionDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.  This
 command doesn't override existing <span class="Special">{lhs}</span>s unless [!] is given.
 
         <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
@@ -143,14 +143,14 @@ command doesn't override existing <span class="Special">{lhs}</span>s unless [!]
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">API                                             </span><span class="Ignore">*</span><span class="Constant">textobj-function-api</span><span class="Ignore">*</span>
+<span class="Statement">API                                             </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-api">textobj-function-api</span><span class="Ignore">*</span>
 
 textobj-function uses the following function to know the range to select
 a function which is appropriate for the current buffer.  See
 after/ftplugin/*/textobj-function.vim in the archives of textobj-function for
 examples.
 
-b:textobj_function_select(<span class="Special">{object-type}</span>)        <span class="Ignore">*</span><span class="Constant">b:textobj_function_select()</span><span class="Ignore">*</span>
+b:textobj_function_select(<span class="Special">{object-type}</span>)        <span class="Ignore">*</span><span class="Constant" id="b:textobj_function_select()">b:textobj_function_select()</span><span class="Ignore">*</span>
                 Return a list to indicate the range to select a function.  If
                 there is no function to select, return 0 instead.
 
@@ -183,9 +183,9 @@ b:textobj_function_select(<span class="Special">{object-type}</span>)        <sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-function-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-bugs">textobj-function-bugs</span><span class="Ignore">*</span>
 
-- See <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span> for further information.
+- See <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-bugs" class="Identifier">textobj-user-bugs</a><span class="Ignore">|</span> for further information.
 
 - Please report me if you find any bug not described above.
 
@@ -193,16 +193,16 @@ b:textobj_function_select(<span class="Special">{object-type}</span>)        <sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-function-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-changelog">textobj-function-changelog</span><span class="Ignore">*</span>
 
 0.1.0   2009-04-25T14:17:41+09:00
         - Rename the name of this plugin as textobj-function.  The old name is
           tofunc and it's not clear to indicate what this plugin does.
-        - Change to use <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> instead of its own framework.
-        - Change the API.  See <span class="Ignore">|</span><span class="Identifier">textobj-function-api</span><span class="Ignore">|</span> for the details.  It is
+        - Change to use <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> instead of its own framework.
+        - Change the API.  See <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-api" class="Identifier">textobj-function-api</a><span class="Ignore">|</span> for the details.  It is
           now incompatible with old versions.
         - Add documents for sample scripts.
-          See <span class="Ignore">|</span><span class="Identifier">textobj-function-known-languages</span><span class="Ignore">|</span>.
+          See <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-known-languages" class="Identifier">textobj-function-known-languages</a><span class="Ignore">|</span>.
 
 0.0     2007-XX-XX
         - Initial version.

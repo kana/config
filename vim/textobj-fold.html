@@ -21,7 +21,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-fold.txt</span><span class="Ignore">*</span>      Text objects for foldings
+<span class="Ignore">*</span><span class="Constant" id="textobj-fold.txt">textobj-fold.txt</span><span class="Ignore">*</span>      Text objects for foldings
 
 Version 0.1.2
 Script ID: 2275
@@ -47,27 +47,27 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-fold-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-fold-contents">textobj-fold-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-fold-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-fold-interface</span><span class="Ignore">|</span>
-  Key Mapings             <span class="Ignore">|</span><span class="Identifier">textobj-fold-key-mappings</span><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><span class="Identifier">textobj-fold-customizing</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-fold-bugs</span><span class="Ignore">|</span>
-ChangeLog               <span class="Ignore">|</span><span class="Identifier">textobj-fold-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-fold.html#textobj-fold-introduction" class="Identifier">textobj-fold-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-fold.html#textobj-fold-interface" class="Identifier">textobj-fold-interface</a><span class="Ignore">|</span>
+  Key Mapings             <span class="Ignore">|</span><a href="textobj-fold.html#textobj-fold-key-mappings" class="Identifier">textobj-fold-key-mappings</a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="textobj-fold.html#textobj-fold-customizing" class="Identifier">textobj-fold-customizing</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-fold.html#textobj-fold-bugs" class="Identifier">textobj-fold-bugs</a><span class="Ignore">|</span>
+ChangeLog               <span class="Ignore">|</span><a href="textobj-fold.html#textobj-fold-changelog" class="Identifier">textobj-fold-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-fold-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-fold-introduction">textobj-fold-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-fold</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for foldings.
+<span class="Ignore">*</span><span class="Constant" id="textobj-fold">textobj-fold</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for foldings.
 
 
 Requirements:
 - Vim 7.0 or later
-- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.5 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.5 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-fold">http://github.com/kana/config/commits/vim-textobj-fold</a></span>
@@ -76,12 +76,12 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-fold-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-fold-interface">textobj-fold-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">textobj-fold-key-mappings</span><span class="Ignore">*</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-fold-key-mappings">textobj-fold-key-mappings</span><span class="Ignore">*</span>
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-fold-a)                          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-fold-a)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-fold-a)                          <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-fold-a)">&lt;Plug&gt;(textobj-fold-a)</span><span class="Ignore">*</span>
         &quot;a folding&quot;, select <span class="Special">[count]</span> foldings.
         Leading or trailing lines which are not in any foldings are also
         included, but not counted.
@@ -90,7 +90,7 @@ Latest version:
         selection will be switched to linewise.  In Operator-pending mode,
         affected text will be linewise.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-fold-i)                          <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-fold-i)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-fold-i)                          <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-fold-i)">&lt;Plug&gt;(textobj-fold-i)</span><span class="Ignore">*</span>
         &quot;inner folding&quot;, select <span class="Special">[count]</span> foldings.
         Leading or trailing lines which are not in any foldings are also
         counted too.
@@ -103,15 +103,15 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-fold-customizing</span><span class="Ignore">*</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="textobj-fold-customizing">textobj-fold-customizing</span><span class="Ignore">*</span>
 
-                                      <span class="Ignore">*</span><span class="Constant">g:textobj_fold_no_default_key_mappings</span><span class="Ignore">*</span>
-                                          <span class="Ignore">*</span><span class="Constant">:TextobjFoldDefaultKeyMappings</span><span class="Ignore">*</span>
+                                      <span class="Ignore">*</span><span class="Constant" id="g:textobj_fold_no_default_key_mappings">g:textobj_fold_no_default_key_mappings</span><span class="Ignore">*</span>
+                                          <span class="Ignore">*</span><span class="Constant" id=":TextobjFoldDefaultKeyMappings">:TextobjFoldDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
-define <span class="Ignore">|</span><span class="Identifier">g:textobj_fold_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is
+define <span class="Ignore">|</span><a href="textobj-fold.html#g:textobj_fold_no_default_key_mappings" class="Identifier">g:textobj_fold_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is
 loaded (e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use
-<span class="Ignore">|</span><span class="Identifier">:TextobjFoldDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.  This command
+<span class="Ignore">|</span><a href="textobj-fold.html#:TextobjFoldDefaultKeyMappings" class="Identifier">:TextobjFoldDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.  This command
 doesn't override existing <span class="Special">{lhs}</span>s unless [!] is given.
 
         <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
@@ -123,7 +123,7 @@ doesn't override existing <span class="Special">{lhs}</span>s unless [!] is give
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-fold-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-fold-bugs">textobj-fold-bugs</span><span class="Ignore">*</span>
 
 - Even if user explicitly specify a wise for an operator by <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> or others,
   <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-fold-a)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-fold-i)</span><span class="Ignore">|</span> are always linewise.
@@ -137,13 +137,13 @@ doesn't override existing <span class="Special">{lhs}</span>s unless [!] is give
   expand selection.  This behavior is unlike Vim's built-in text objects such
   as <span class="Ignore">|</span><span class="Identifier">iw</span><span class="Ignore">|</span>.
 
-- See <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span> for further information.
+- See <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-bugs" class="Identifier">textobj-user-bugs</a><span class="Ignore">|</span> for further information.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-fold-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-fold-changelog">textobj-fold-changelog</span><span class="Ignore">*</span>
 
 0.1.2   2008-08-25T00:53:18+09:00
         - Use textobj-user 0.3.5 or later.

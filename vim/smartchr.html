@@ -21,7 +21,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">smartchr.txt</span><span class="Ignore">*</span>  Insert several candidates with a single key
+<span class="Ignore">*</span><span class="Constant" id="smartchr.txt">smartchr.txt</span><span class="Ignore">*</span>  Insert several candidates with a single key
 
 Version 0.0.1
 Script ID: 2290
@@ -47,21 +47,21 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">smartchr-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="smartchr-contents">smartchr-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">smartchr-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">smartchr-interface</span><span class="Ignore">|</span>
-  Functions               <span class="Ignore">|</span><span class="Identifier">smartchr-functions</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">smartchr-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">smartchr-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="smartchr.html#smartchr-introduction" class="Identifier">smartchr-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="smartchr.html#smartchr-interface" class="Identifier">smartchr-interface</a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="smartchr.html#smartchr-functions" class="Identifier">smartchr-functions</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="smartchr.html#smartchr-bugs" class="Identifier">smartchr-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="smartchr.html#smartchr-changelog" class="Identifier">smartchr-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">smartchr-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="smartchr-introduction">smartchr-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">smartchr</span><span class="Ignore">*</span> is a Vim plugin to support input several candidates with a single
+<span class="Ignore">*</span><span class="Constant" id="smartchr">smartchr</span><span class="Ignore">*</span> is a Vim plugin to support input several candidates with a single
 key, like ess-smart-underscore in Emacs Speaks Statistics -- when user types
 &quot;_&quot; key, it inserts &quot; &lt;- &quot; for the first time or it replaces &quot; &lt;- &quot; by &quot;_&quot; for
 the second time.  This plugin provides a function to support to define such
@@ -78,14 +78,14 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">smartchr-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="smartchr-interface">smartchr-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">smartchr-functions</span><span class="Ignore">*</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="smartchr-functions">smartchr-functions</span><span class="Ignore">*</span>
 
-                                                <span class="Ignore">*</span><span class="Constant">smartchr#loop()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="smartchr#loop()">smartchr#loop()</span><span class="Ignore">*</span>
 smartchr#loop(...)
-        Same as <span class="Ignore">|</span><span class="Identifier">smartchr#one_of()</span><span class="Ignore">|</span>, but it returns the key sequence to
+        Same as <span class="Ignore">|</span><a href="smartchr.html#smartchr#one_of()" class="Identifier">smartchr#one_of()</a><span class="Ignore">|</span>, but it returns the key sequence to
         replace the <span class="Special">{N}</span>th argument by the 1st argument for the <span class="Special">{N+1}</span>th time.
         For example,
 <span class="Ignore">&gt;</span>
@@ -98,7 +98,7 @@ smartchr#loop(...)
         - the previously inserted &quot;_&quot; is removed then &quot; &lt;- &quot; is inserted for
           the 3rd time, and so forth.
 
-                                                <span class="Ignore">*</span><span class="Constant">smartchr#one_of()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="smartchr#one_of()">smartchr#one_of()</span><span class="Ignore">*</span>
 smartchr#one_of(...)
         Returns a string which represents the key sequence to insert one of
         the given arguments.  For example, the following setting emulates
@@ -122,7 +122,7 @@ smartchr#one_of(...)
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">smartchr-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="smartchr-bugs">smartchr-bugs</span><span class="Ignore">*</span>
 
 - There are many bugs around the world.
 
@@ -130,10 +130,10 @@ smartchr#one_of(...)
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">smartchr-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="smartchr-changelog">smartchr-changelog</span><span class="Ignore">*</span>
 
 0.0.1   2008-08-28T12:39:07+09:00
-        - Add <span class="Ignore">|</span><span class="Identifier">smartchr#loop()</span><span class="Ignore">|</span>.
+        - Add <span class="Ignore">|</span><a href="smartchr.html#smartchr#loop()" class="Identifier">smartchr#loop()</a><span class="Ignore">|</span>.
 
 0.0.0   2008-07-11T11:55:47+09:00
         - Initial version.

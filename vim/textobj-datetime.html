@@ -21,7 +21,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-datetime.txt</span><span class="Ignore">*</span>  Text objects for date and time
+<span class="Ignore">*</span><span class="Constant" id="textobj-datetime.txt">textobj-datetime.txt</span><span class="Ignore">*</span>  Text objects for date and time
 
 Version 0.3.1
 Script ID: 2101
@@ -47,27 +47,27 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-contents">textobj-datetime-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-datetime-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-datetime-interface</span><span class="Ignore">|</span>
-  Key Mapings             <span class="Ignore">|</span><span class="Identifier">textobj-datetime-key-mappings</span><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><span class="Identifier">textobj-datetime-customizing</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-datetime-bugs</span><span class="Ignore">|</span>
-ChangeLog               <span class="Ignore">|</span><span class="Identifier">textobj-datetime-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-introduction" class="Identifier">textobj-datetime-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-interface" class="Identifier">textobj-datetime-interface</a><span class="Ignore">|</span>
+  Key Mapings             <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-key-mappings" class="Identifier">textobj-datetime-key-mappings</a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-customizing" class="Identifier">textobj-datetime-customizing</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-bugs" class="Identifier">textobj-datetime-bugs</a><span class="Ignore">|</span>
+ChangeLog               <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-changelog" class="Identifier">textobj-datetime-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-introduction">textobj-datetime-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-datetime</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for date and time.
+<span class="Ignore">*</span><span class="Constant" id="textobj-datetime">textobj-datetime</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for date and time.
 
 
 Requirements:
 - Vim 7.0 or later
-- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.3 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.3 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-datetime">http://github.com/kana/config/commits/vim-textobj-datetime</a></span>
@@ -76,24 +76,24 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-interface">textobj-datetime-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-key-mappings</span><span class="Ignore">*</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-key-mappings">textobj-datetime-key-mappings</span><span class="Ignore">*</span>
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-auto)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-auto)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-auto)                   <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-datetime-auto)">&lt;Plug&gt;(textobj-datetime-auto)</span><span class="Ignore">*</span>
         Select one of the following objects (as long as possible).
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-full)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-full)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-full)                   <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-datetime-full)">&lt;Plug&gt;(textobj-datetime-full)</span><span class="Ignore">*</span>
         Select a date and time.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-date)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-date)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-date)                   <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-datetime-date)">&lt;Plug&gt;(textobj-datetime-date)</span><span class="Ignore">*</span>
         Select a date (YYYY or YYYY-MM or YYYY-MM-DD).
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-time)                   <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-time)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-time)                   <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-datetime-time)">&lt;Plug&gt;(textobj-datetime-time)</span><span class="Ignore">*</span>
         Select a time (hh:mm or hh:mm:ss).
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-tz)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-datetime-tz)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-datetime-tz)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-datetime-tz)">&lt;Plug&gt;(textobj-datetime-tz)</span><span class="Ignore">*</span>
         Select a time zone designator (Z or +hh:mm or -hh:mm).
         It must be preceded by a time.
 
@@ -101,15 +101,15 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-customizing</span><span class="Ignore">*</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-customizing">textobj-datetime-customizing</span><span class="Ignore">*</span>
 
-                                  <span class="Ignore">*</span><span class="Constant">g:textobj_datetime_no_default_key_mappings</span><span class="Ignore">*</span>
-                                          <span class="Ignore">*</span><span class="Constant">:TextobjDatetimeDefaultKeyMappings</span><span class="Ignore">*</span>
+                                  <span class="Ignore">*</span><span class="Constant" id="g:textobj_datetime_no_default_key_mappings">g:textobj_datetime_no_default_key_mappings</span><span class="Ignore">*</span>
+                                          <span class="Ignore">*</span><span class="Constant" id=":TextobjDatetimeDefaultKeyMappings">:TextobjDatetimeDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
-define <span class="Ignore">|</span><span class="Identifier">g:textobj_datetime_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin is
+define <span class="Ignore">|</span><a href="textobj-datetime.html#g:textobj_datetime_no_default_key_mappings" class="Identifier">g:textobj_datetime_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is
 loaded (e.g. in $MYVIMRC).  You can also use
-<span class="Ignore">|</span><span class="Identifier">:TextobjDatetimeDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.
+<span class="Ignore">|</span><a href="textobj-datetime.html#:TextobjDatetimeDefaultKeyMappings" class="Identifier">:TextobjDatetimeDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.
 
         <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
         <span class="PreProc">-----  ---------------------------</span><span class="Ignore">      ~</span>
@@ -131,7 +131,7 @@ loaded (e.g. in $MYVIMRC).  You can also use
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-bugs">textobj-datetime-bugs</span><span class="Ignore">*</span>
 
 Currently, W3C-DTF is only supported.
 
@@ -141,7 +141,7 @@ Currently, W3C-DTF is only supported.
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-datetime-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-changelog">textobj-datetime-changelog</span><span class="Ignore">*</span>
 
 0.3.1   2008-06-11T22:07:26+09:00
         - Modify to use textobj-user version 0.3.3 or later.
@@ -155,10 +155,10 @@ Currently, W3C-DTF is only supported.
 0.2     2008-01-08T23:03:05+09:00
         - Fix the incorrect design - modify not to be autoloaded.
         - Modify the policy for the defauly key mappings.
-          See <span class="Ignore">|</span><span class="Identifier">g:textobj_datetime_no_default_key_mappings</span><span class="Ignore">|</span>.
+          See <span class="Ignore">|</span><a href="textobj-datetime.html#g:textobj_datetime_no_default_key_mappings" class="Identifier">g:textobj_datetime_no_default_key_mappings</a><span class="Ignore">|</span>.
 
 0.1     2007-11-17
-        - Requires <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span>.
+        - Requires <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span>.
         - Modify to be autoloaded.
         - Change the name of APIs.
 

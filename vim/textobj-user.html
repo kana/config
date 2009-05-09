@@ -23,7 +23,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-user.txt</span><span class="Ignore">*</span>      Support for user-defined text objects
+<span class="Ignore">*</span><span class="Constant" id="textobj-user.txt">textobj-user.txt</span><span class="Ignore">*</span>      Support for user-defined text objects
 
 Version 0.3.7
 Script ID: 2100
@@ -49,21 +49,21 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-user-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-user-contents">textobj-user-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-user-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-user-interface</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-introduction" class="Identifier">textobj-user-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-interface" class="Identifier">textobj-user-interface</a><span class="Ignore">|</span>
   Functions               <span class="Ignore">|</span><span class="Identifier">textobj-user-functions</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-user-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-user-changelog</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-bugs" class="Identifier">textobj-user-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-changelog" class="Identifier">textobj-user-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-user-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-user-introduction">textobj-user-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-user</span><span class="Ignore">*</span> is a Vim plugin to SUPPORT writing user-defined text objects,
+<span class="Ignore">*</span><span class="Constant" id="textobj-user">textobj-user</span><span class="Ignore">*</span> is a Vim plugin to SUPPORT writing user-defined text objects,
 especially, simple text objects which can be defined by regular expression.
 
 <span class="Todo">Note</span> that this plugin only provides functions to support writing user-defined
@@ -81,12 +81,12 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-user-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-user-interface">textobj-user-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">textobj-user-function</span><span class="Ignore">*</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-user-function">textobj-user-function</span><span class="Ignore">*</span>
 
-                                                <span class="Ignore">*</span><span class="Constant">textobj#user#move()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="textobj#user#move()">textobj#user#move()</span><span class="Ignore">*</span>
 textobj#user#move(<span class="Special">{pattern}</span>, <span class="Special">{flags}</span>, <span class="Special">{previous-mode}</span>)
         Move the cursor to the appropriate object defined by <span class="Special">{pattern}</span>.
 
@@ -108,7 +108,7 @@ textobj#user#move(<span class="Special">{pattern}</span>, <span class="Special">
 
         Return value is same as <span class="Ignore">|</span><span class="Identifier">searchpos()</span><span class="Ignore">|</span>.
 
-                                                <span class="Ignore">*</span><span class="Constant">textobj#user#select()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="textobj#user#select()">textobj#user#select()</span><span class="Ignore">*</span>
 textobj#user#select(<span class="Special">{pattern}</span>, <span class="Special">{flags}</span>, <span class="Special">{prevous-mode}</span>)
         Select the appropriate object defined by <span class="Special">{pattern}</span>.
         If the cursor is already in the range of an object, select it.
@@ -121,11 +121,11 @@ textobj#user#select(<span class="Special">{pattern}</span>, <span class="Special
                 'b'     select the nearest object BEFORE the cursor if the
                         cursor is not in the range of an object.
 
-        For the detail of <span class="Special">{previous-mode}</span>, see <span class="Ignore">|</span><span class="Identifier">textobj#user#move()</span><span class="Ignore">|</span>.
+        For the detail of <span class="Special">{previous-mode}</span>, see <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#move()" class="Identifier">textobj#user#move()</a><span class="Ignore">|</span>.
 
         Return value is not defined.
 
-                                                <span class="Ignore">*</span><span class="Constant">textobj#user#select_pair()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="textobj#user#select_pair()">textobj#user#select_pair()</span><span class="Ignore">*</span>
 textobj#user#select_pair(<span class="Special">{pattern1}</span>, <span class="Special">{pattern2}</span>, <span class="Special">{flags}</span>, <span class="Special">{previous-mode}</span>)
         Select the appropriate object which starts with <span class="Special">{pattern1}</span> and ends
         with <span class="Special">{pattern2}</span>.
@@ -141,11 +141,11 @@ textobj#user#select_pair(<span class="Special">{pattern1}</span>, <span class="S
                         between <span class="Special">{pattern1}</span> and <span class="Special">{pattern2}</span>, this function does
                         nothing.
 
-        For the detail of <span class="Special">{previous-mode}</span>, see <span class="Ignore">|</span><span class="Identifier">textobj#user#move()</span><span class="Ignore">|</span>.
+        For the detail of <span class="Special">{previous-mode}</span>, see <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#move()" class="Identifier">textobj#user#move()</a><span class="Ignore">|</span>.
 
         Return value is not defined.
 
-                                                <span class="Ignore">*</span><span class="Constant">textobj#user#define()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="textobj#user#define()">textobj#user#define()</span><span class="Ignore">*</span>
 textobj#user#define(<span class="Special">{pattern}</span>, <span class="Special">{pattern1}</span>, <span class="Special">{pattern2}</span>, <span class="Special">{guideline}</span>)
         Support function to define key mappings for the text object defined by
         <span class="Special">{pattern}</span>, or <span class="Special">{pattern1}</span> and <span class="Special">{pattern2}</span>.  <span class="Special">{guideline}</span> is a dictionary
@@ -177,7 +177,7 @@ textobj#user#define(<span class="Special">{pattern}</span>, <span class="Special
 <span class="Comment">                                 \  'move-to-prev': 'gk',</span>
 <span class="Comment">                                 \  'select': ['ig', 'ag']})</span>
 <span class="Ignore">&lt;</span>
-                                                <span class="Ignore">*</span><span class="Constant">textobj#user#plugin()</span><span class="Ignore">*</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="textobj#user#plugin()">textobj#user#plugin()</span><span class="Ignore">*</span>
 textobj#user#plugin(<span class="Special">{plugin}</span>, <span class="Special">{obj-specs}</span>)
         Define key mappings and a command to support writing a plugin which
         provides various user-defined text objects.
@@ -321,7 +321,7 @@ textobj#user#plugin(<span class="Special">{plugin}</span>, <span class="Special"
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-user-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-user-bugs">textobj-user-bugs</span><span class="Ignore">*</span>
 
 - textobj#user#select() and textobj#user#select_pair() override the current
   <span class="Special">{Visual}</span>, unlike built-in text objects such as iw/aw, is/as, and so forth.
@@ -335,17 +335,17 @@ textobj#user#plugin(<span class="Special">{plugin}</span>, <span class="Special"
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-user-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-user-changelog">textobj-user-changelog</span><span class="Ignore">*</span>
 
 0.3.8   2009-04-26T02:10:08+09:00
         - Fix a bug that it was not possible to select any range which starts
           with the end of a line.
 
 0.3.7   2008-10-24T02:25:59+09:00
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#select()</span><span class="Ignore">|</span>: Fix a bug that it didn't select an object
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#select()" class="Identifier">textobj#user#select()</a><span class="Ignore">|</span>: Fix a bug that it didn't select an object
           which: (1) matches to multiple lines and (2) contains the cursor.
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#select()</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">textobj#user#select_pair()</span><span class="Ignore">|</span>,
-          <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span> with &quot;*<span class="Special">{spec}</span>-function*&quot;:
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#select()" class="Identifier">textobj#user#select()</a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#select_pair()" class="Identifier">textobj#user#select_pair()</a><span class="Ignore">|</span>,
+          <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span> with &quot;*<span class="Special">{spec}</span>-function*&quot;:
           Support <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others.  To use this feature, you have to apply
           the following patch to Vim:
           <span class="Constant"><a href="http://github.com/kana/vim/commits/hack/vimvar-motion_force">http://github.com/kana/vim/commits/hack/vimvar-motion_force</a></span>
@@ -356,37 +356,37 @@ textobj#user#plugin(<span class="Special">{plugin}</span>, <span class="Special"
 
 0.3.5   2008-08-24T23:01:45+09:00
         Incompatible changes with 0.3.4 or ealier:
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Change the specification of functions for
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span>: Change the specification of functions for
           &quot;*<span class="Special">{spec}</span>-function*&quot;.
 
         Other changes:
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Add missing description of functions for
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span>: Add missing description of functions for
           &quot;*<span class="Special">{spec}</span>-function*&quot;.
 
 0.3.4   2008-06-26T14:13:33+09:00
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>:
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span>:
           - Add &quot;*<span class="Special">{spec}</span>-function*&quot; to customize the way to move the cursor or
             to select a text by the given function instead of regular
             expression based selection.
 
 0.3.3   2008-06-11T21:16:53+09:00
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>:
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span>:
           - Rename the spec &quot;*pattern*&quot; instead of &quot;pattern&quot;.
           - Fix incorrect processing on &quot;*no-default-key-mappings*&quot;.
 
 0.3.2   2008-06-11T02:53:41+09:00
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Change the names of interface mappings for
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span>: Change the names of interface mappings for
           the text object of which name is '-'.
           Old: <span class="Special">&lt;Plug&gt;</span>(textobj-<span class="Special">{plugin}</span>---a)
           New: <span class="Special">&lt;Plug&gt;</span>(textobj-<span class="Special">{plugin}</span>-a)
 
 0.3.1   2008-06-08T22:05:02+09:00
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: Execute :Textobj<span class="Special">{Plugin}</span>DefaultKeyMappings
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span>: Execute :Textobj<span class="Special">{Plugin}</span>DefaultKeyMappings
           if necessary.
 
 0.3     2008-06-04T21:16:02+09:00
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#plugin()</span><span class="Ignore">|</span>: New.
-        - <span class="Ignore">|</span><span class="Identifier">textobj#user#define()</span><span class="Ignore">|</span>: Now obsolete.  Use textobj#user#define().
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()" class="Identifier">textobj#user#plugin()</a><span class="Ignore">|</span>: New.
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#define()" class="Identifier">textobj#user#define()</a><span class="Ignore">|</span>: Now obsolete.  Use textobj#user#define().
 
 0.2.2   2008-06-02T06:26:12+09:00
         - Fix wrong sentences in the document.

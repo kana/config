@@ -20,7 +20,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-diff.txt</span><span class="Ignore">*</span>      Text objects for ouputs of diff(1)
+<span class="Ignore">*</span><span class="Constant" id="textobj-diff.txt">textobj-diff.txt</span><span class="Ignore">*</span>      Text objects for ouputs of diff(1)
 
 Version 0.0.0
 Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
@@ -45,22 +45,22 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-diff-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-contents">textobj-diff-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-diff-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-diff-interface</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-introduction" class="Identifier">textobj-diff-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-interface" class="Identifier">textobj-diff-interface</a><span class="Ignore">|</span>
   Key Mapings             <span class="Ignore">|</span><span class="Identifier">textobj-diff-key-mappings</span><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><span class="Identifier">textobj-diff-customizing</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-diff-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-diff-changelog</span><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-customizing" class="Identifier">textobj-diff-customizing</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-bugs" class="Identifier">textobj-diff-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-changelog" class="Identifier">textobj-diff-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">textobj-diff-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-introduction">textobj-diff-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-diff</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for outputs of diff(1).
+<span class="Ignore">*</span><span class="Constant" id="textobj-diff">textobj-diff</span><span class="Ignore">*</span> is a Vim plugin to provide text objects for outputs of diff(1).
 Currently it supports the following formats:
 - diff --context
 - diff --unified
@@ -69,7 +69,7 @@ Currently it supports the following formats:
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><span class="Identifier">textobj-user</span><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-diff">http://github.com/kana/config/commits/vim-textobj-diff</a></span>
@@ -78,45 +78,45 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">textobj-diff-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-interface">textobj-diff-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-diff-mappings</span><span class="Ignore">*</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-mappings">textobj-diff-mappings</span><span class="Ignore">*</span>
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-n)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-file-n)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-p)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-file-p)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-n)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-file-n)">&lt;Plug&gt;(textobj-diff-file-n)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-p)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-file-p)">&lt;Plug&gt;(textobj-diff-file-p)</span><span class="Ignore">*</span>
         Move to the beginning of the next/previous header of files.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-<span class="Special">N</span>)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-file-N)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-P)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-file-P)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-<span class="Special">N</span>)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-file-N)">&lt;Plug&gt;(textobj-diff-file-N)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file-P)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-file-P)">&lt;Plug&gt;(textobj-diff-file-P)</span><span class="Ignore">*</span>
         Move to the end of the next/previous header of files.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-n)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-hunk-n)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-p)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-hunk-p)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-<span class="Special">N</span>)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-hunk-N)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-P)                     <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-hunk-P)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-n)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk-n)">&lt;Plug&gt;(textobj-diff-hunk-n)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-p)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk-p)">&lt;Plug&gt;(textobj-diff-hunk-p)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-<span class="Special">N</span>)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk-N)">&lt;Plug&gt;(textobj-diff-hunk-N)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-P)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk-P)">&lt;Plug&gt;(textobj-diff-hunk-P)</span><span class="Ignore">*</span>
         Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-diff-file-n)</span><span class="Ignore">|</span> and others, but move to an
         appropriate part of a hunk.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-file)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-file)                       <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-file)">&lt;Plug&gt;(textobj-diff-file)</span><span class="Ignore">*</span>
         Select all hunks and the header of the next/previous files.
 
-<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk)                       <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(textobj-diff-hunk)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk)                       <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk)">&lt;Plug&gt;(textobj-diff-hunk)</span><span class="Ignore">*</span>
         Select the next/previous hunk.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant">textobj-diff-customizing</span><span class="Ignore">*</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-customizing">textobj-diff-customizing</span><span class="Ignore">*</span>
 
-                                      <span class="Ignore">*</span><span class="Constant">g:textobj_diff_no_default_key_mappings</span><span class="Ignore">*</span>
-                                              <span class="Ignore">*</span><span class="Constant">:TextobjDiffDefaultKeyMappings</span><span class="Ignore">*</span>
+                                      <span class="Ignore">*</span><span class="Constant" id="g:textobj_diff_no_default_key_mappings">g:textobj_diff_no_default_key_mappings</span><span class="Ignore">*</span>
+                                              <span class="Ignore">*</span><span class="Constant" id=":TextobjDiffDefaultKeyMappings">:TextobjDiffDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Normal mode, Visual mode
 and Operator-pending mode automatically.  If you don't want these key
-mappings, define <span class="Ignore">|</span><span class="Identifier">g:textobj_diff_no_default_key_mappings</span><span class="Ignore">|</span> before this plugin
+mappings, define <span class="Ignore">|</span><a href="textobj-diff.html#g:textobj_diff_no_default_key_mappings" class="Identifier">g:textobj_diff_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin
 is loaded (e.g. in $MYVIMRC).  You can also use
-<span class="Ignore">|</span><span class="Identifier">:TextobjDiffDefaultKeyMappings</span><span class="Ignore">|</span> to redefine these key mappings.
+<span class="Ignore">|</span><a href="textobj-diff.html#:TextobjDiffDefaultKeyMappings" class="Identifier">:TextobjDiffDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.
 
         <span class="PreProc">mode   {lhs}           {rhs}                   </span><span class="Ignore">   ~</span>
         <span class="PreProc">----   -----           ------------------------------</span><span class="Ignore">     ~</span>
@@ -139,7 +139,7 @@ is loaded (e.g. in $MYVIMRC).  You can also use
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-diff-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-bugs">textobj-diff-bugs</span><span class="Ignore">*</span>
 
 - There are many bugs around the world.
 
@@ -147,7 +147,7 @@ is loaded (e.g. in $MYVIMRC).  You can also use
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-diff-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-changelog">textobj-diff-changelog</span><span class="Ignore">*</span>
 
 0.0.0   2008-10-23T14:19:46+09:00
         - Initial version.

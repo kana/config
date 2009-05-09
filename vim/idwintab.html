@@ -19,7 +19,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">idwintab.txt</span><span class="Ignore">*</span>  Give unique ID for each window and tab page
+<span class="Ignore">*</span><span class="Constant" id="idwintab.txt">idwintab.txt</span><span class="Ignore">*</span>  Give unique ID for each window and tab page
 
 Version 0.0.1
 Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
@@ -44,21 +44,21 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">idwintab-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="idwintab-contents">idwintab-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">idwintab-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">idwintab-interface</span><span class="Ignore">|</span>
-  Functions               <span class="Ignore">|</span><span class="Identifier">idwintab-functions</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">idwintab-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">idwintab-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="idwintab.html#idwintab-introduction" class="Identifier">idwintab-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="idwintab.html#idwintab-interface" class="Identifier">idwintab-interface</a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="idwintab.html#idwintab-functions" class="Identifier">idwintab-functions</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="idwintab.html#idwintab-bugs" class="Identifier">idwintab-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="idwintab.html#idwintab-changelog" class="Identifier">idwintab-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">idwintab-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="idwintab-introduction">idwintab-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">idwintab</span><span class="Ignore">*</span> is a Vim plugin to give unique ID for each window and tab page to
+<span class="Ignore">*</span><span class="Constant" id="idwintab">idwintab</span><span class="Ignore">*</span> is a Vim plugin to give unique ID for each window and tab page to
 identify one of them.  Because the returning values of Vim's built-in
 functions such as <span class="Ignore">|</span><span class="Identifier">winnr()</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">tabpagenr()</span><span class="Ignore">|</span> are calculated by their
 positions, so that the values aren't invariant.
@@ -74,12 +74,12 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">idwintab-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="idwintab-interface">idwintab-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant">idwintab-functions</span><span class="Ignore">*</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="idwintab-functions">idwintab-functions</span><span class="Ignore">*</span>
 
-idwintab#load()                                 <span class="Ignore">*</span><span class="Constant">idwintab#load()</span><span class="Ignore">*</span>
+idwintab#load()                                 <span class="Ignore">*</span><span class="Constant" id="idwintab#load()">idwintab#load()</span><span class="Ignore">*</span>
                         Load the code of this plugin.  You have to call this
                         function in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span> and the calling position must
                         be before any autocommands which use <span class="Ignore">|</span><span class="Identifier">WinEnter</span><span class="Ignore">|</span> or
@@ -89,7 +89,7 @@ idwintab#load()                                 <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">idwintab-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="idwintab-bugs">idwintab-bugs</span><span class="Ignore">*</span>
 
 - Many bugs must be around the world.
 
@@ -97,10 +97,10 @@ idwintab#load()                                 <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">idwintab-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="idwintab-changelog">idwintab-changelog</span><span class="Ignore">*</span>
 
 0.0.1   2008-05-22T11:02:37+09:00
-        - Fix the bug that IDs are't assigned when <span class="Ignore">|</span><span class="Identifier">idwintab#load()</span><span class="Ignore">|</span> is first
+        - Fix the bug that IDs are't assigned when <span class="Ignore">|</span><a href="idwintab.html#idwintab#load()" class="Identifier">idwintab#load()</a><span class="Ignore">|</span> is first
           called and there is only one tab page or only one window in a tab
           page.
 

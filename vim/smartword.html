@@ -23,7 +23,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">smartword.txt</span><span class="Ignore">*</span> Smart motions on words
+<span class="Ignore">*</span><span class="Constant" id="smartword.txt">smartword.txt</span><span class="Ignore">*</span> Smart motions on words
 
 Version 0.0.2
 Script ID: 2470
@@ -49,22 +49,22 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">smartword-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="smartword-contents">smartword-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">smartword-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">smartword-interface</span><span class="Ignore">|</span>
-  Mappings                <span class="Ignore">|</span><span class="Identifier">smartword-mappings</span><span class="Ignore">|</span>
-Examples                <span class="Ignore">|</span><span class="Identifier">smartword-examples</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">smartword-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">smartword-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="smartword.html#smartword-introduction" class="Identifier">smartword-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="smartword.html#smartword-interface" class="Identifier">smartword-interface</a><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><a href="smartword.html#smartword-mappings" class="Identifier">smartword-mappings</a><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><a href="smartword.html#smartword-examples" class="Identifier">smartword-examples</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="smartword.html#smartword-bugs" class="Identifier">smartword-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="smartword.html#smartword-changelog" class="Identifier">smartword-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">smartword-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="smartword-introduction">smartword-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">smartword</span><span class="Ignore">*</span> is a Vim plugin to provide <span class="Special">{motion}</span>s on <span class="Ignore">|</span><span class="Identifier">word</span><span class="Ignore">|</span>s which are smarter
+<span class="Ignore">*</span><span class="Constant" id="smartword">smartword</span><span class="Ignore">*</span> is a Vim plugin to provide <span class="Special">{motion}</span>s on <span class="Ignore">|</span><span class="Identifier">word</span><span class="Ignore">|</span>s which are smarter
 than the built-in ones in some sense.  For example, <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> moves the cursor to
 the next word as follows (here &quot;#&quot; means a position to which <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> moves the
 cursor for each time):
@@ -85,7 +85,7 @@ corresponding to <span class="Ignore">|</span><span class="Identifier">w</span><
         &lt;a href=&quot;<span class="Constant"><a href="http://www.vim.org/">http://www.vim.org/</a></span>&quot;&gt;<span class="Constant">www.vim.org</span>&lt;/a&gt;
          # #     #      #   #   #     #   #   #    #
 
-See also <span class="Ignore">|</span><span class="Identifier">smartword-examples</span><span class="Ignore">|</span> for customization.
+See also <span class="Ignore">|</span><a href="smartword.html#smartword-examples" class="Identifier">smartword-examples</a><span class="Ignore">|</span> for customization.
 
 See also the following image if the above figures aren't correctly displayed:
 <span class="Constant"><a href="http://gyazo.com/bc7887d9bb0f6aa3eee1e67b0d756b2e.png">http://gyazo.com/bc7887d9bb0f6aa3eee1e67b0d756b2e.png</a></span>
@@ -101,15 +101,15 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant">smartword-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="smartword-interface">smartword-interface</span><span class="Ignore">*</span>
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
-<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant">smartword-mappings</span><span class="Ignore">*</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant" id="smartword-mappings">smartword-mappings</span><span class="Ignore">*</span>
 
-<span class="Special">&lt;Plug&gt;</span>(smartword-w)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-w)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(smartword-b)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-b)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(smartword-e)                             <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">*</span>
-<span class="Special">&lt;Plug&gt;</span>(smartword-ge)                            <span class="Ignore">*</span><span class="Constant">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smartword-w)                             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(smartword-w)">&lt;Plug&gt;(smartword-w)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smartword-b)                             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(smartword-b)">&lt;Plug&gt;(smartword-b)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smartword-e)                             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(smartword-e)">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smartword-ge)                            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(smartword-ge)">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">*</span>
                         Smart versions of <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">b</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">e</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">ge</span><span class="Ignore">|</span>.
                         These mappings are defined in Normal mode, Visual mode
                         and Operator-pending mode.
@@ -118,9 +118,9 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant">smartword-examples</span><span class="Ignore">*</span>
+<span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant" id="smartword-examples">smartword-examples</span><span class="Ignore">*</span>
 
-(A) Replace <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> and others with <span class="Ignore">|</span><span class="Identifier">smartword-mappings</span><span class="Ignore">|</span>:
+(A) Replace <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> and others with <span class="Ignore">|</span><a href="smartword.html#smartword-mappings" class="Identifier">smartword-mappings</a><span class="Ignore">|</span>:
 <span class="Ignore">&gt;</span>
 <span class="Comment">        map w  &lt;Plug&gt;(smartword-w)</span>
 <span class="Comment">        map b  &lt;Plug&gt;(smartword-b)</span>
@@ -148,7 +148,7 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">smartword-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="smartword-bugs">smartword-bugs</span><span class="Ignore">*</span>
 
 - Don't consider about special cases such as <span class="Ignore">|</span><span class="Identifier">cw</span><span class="Ignore">|</span>.
 
@@ -163,7 +163,7 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">smartword-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="smartword-changelog">smartword-changelog</span><span class="Ignore">*</span>
 
 0.0.2   2009-01-23T19:13:29+09:00
         - Fix the document a bit.

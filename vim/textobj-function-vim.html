@@ -20,7 +20,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">textobj-function-vim.txt</span><span class="Ignore">*</span>      Text objects for functions in Vim script
+<span class="Ignore">*</span><span class="Constant" id="textobj-function-vim.txt">textobj-function-vim.txt</span><span class="Ignore">*</span>      Text objects for functions in Vim script
 
 Version 0.1.0
 Script ID: ****
@@ -46,28 +46,28 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">textobj-function-vim-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-vim-contents">textobj-function-vim-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">textobj-function-vim-introduction</span><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><span class="Identifier">textobj-function-vim-interface</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">textobj-function-vim-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">textobj-function-vim-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-function-vim.html#textobj-function-vim-introduction" class="Identifier">textobj-function-vim-introduction</a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-function-vim.html#textobj-function-vim-interface" class="Identifier">textobj-function-vim-interface</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-function-vim.html#textobj-function-vim-bugs" class="Identifier">textobj-function-vim-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-function-vim.html#textobj-function-vim-changelog" class="Identifier">textobj-function-vim-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                               </span><span class="Ignore">*</span><span class="Constant">textobj-function-vim-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                               </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-vim-introduction">textobj-function-vim-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">textobj-function-vim</span><span class="Ignore">*</span> is a Vim additional filetype plugin to provide text
+<span class="Ignore">*</span><span class="Constant" id="textobj-function-vim">textobj-function-vim</span><span class="Ignore">*</span> is a Vim additional filetype plugin to provide text
 objects for functions in Vim script.  This is a support script for
-<span class="Ignore">|</span><span class="Identifier">textobj-function</span><span class="Ignore">|</span>, so that you have to install it to enable the text objects.
+<span class="Ignore">|</span><a href="textobj-function.html#textobj-function" class="Identifier">textobj-function</a><span class="Ignore">|</span>, so that you have to install it to enable the text objects.
 Unless installing, this script does nothing.
 
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><span class="Identifier">textobj-function</span><span class="Ignore">|</span> 0.1.0 or later (vimscript#2619)
+- <span class="Ignore">|</span><a href="textobj-function.html#textobj-function" class="Identifier">textobj-function</a><span class="Ignore">|</span> 0.1.0 or later (vimscript#2619)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-function">http://github.com/kana/config/commits/vim-textobj-function</a></span>
@@ -76,16 +76,16 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTERFACE                                     </span><span class="Ignore">*</span><span class="Constant">textobj-function-vim-interface</span><span class="Ignore">*</span>
+<span class="Statement">INTERFACE                                     </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-vim-interface">textobj-function-vim-interface</span><span class="Ignore">*</span>
 
-See <span class="Ignore">|</span><span class="Identifier">textobj-function</span><span class="Ignore">|</span> for the details.  Because this plugin just enhances the
+See <span class="Ignore">|</span><a href="textobj-function.html#textobj-function" class="Identifier">textobj-function</a><span class="Ignore">|</span> for the details.  Because this plugin just enhances the
 power of textobj-function and does not provide any user interface.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">textobj-function-vim-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-vim-bugs">textobj-function-vim-bugs</span><span class="Ignore">*</span>
 
 - Assumption: <span class="Ignore">|</span><span class="Identifier">:function</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">:endfunction</span><span class="Ignore">|</span> must be written solely in their
   own lines, as follows:
@@ -101,16 +101,16 @@ power of textobj-function and does not provide any user interface.
 <span class="Comment">        endfunction</span>
 <span class="Ignore">&lt;</span>
 
-- See <span class="Ignore">|</span><span class="Identifier">textobj-function-bugs</span><span class="Ignore">|</span> for further information.
+- See <span class="Ignore">|</span><a href="textobj-function.html#textobj-function-bugs" class="Identifier">textobj-function-bugs</a><span class="Ignore">|</span> for further information.
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">textobj-function-vim-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-function-vim-changelog">textobj-function-vim-changelog</span><span class="Ignore">*</span>
 
 0.1.0   2009-04-25T20:09:50+09:00
-        - Rewrite for new version of <span class="Ignore">|</span><span class="Identifier">textobj-function</span><span class="Ignore">|</span>.
+        - Rewrite for new version of <span class="Ignore">|</span><a href="textobj-function.html#textobj-function" class="Identifier">textobj-function</a><span class="Ignore">|</span>.
 
 0.0     2007-XX-XX
         - Initial version.

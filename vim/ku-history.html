@@ -20,7 +20,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant">ku-history.txt</span><span class="Ignore">*</span>        ku source: history
+<span class="Ignore">*</span><span class="Constant" id="ku-history.txt">ku-history.txt</span><span class="Ignore">*</span>        ku source: history
 
 Version 0.1.1
 Copyright (C) 2008-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
@@ -45,28 +45,28 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant">ku-history-contents</span><span class="Ignore">*</span>
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="ku-history-contents">ku-history-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><span class="Identifier">ku-history-introduction</span><span class="Ignore">|</span>
-Action Table            <span class="Ignore">|</span><span class="Identifier">ku-history-action-table</span><span class="Ignore">|</span>
-Key Table               <span class="Ignore">|</span><span class="Identifier">ku-history-key-table</span><span class="Ignore">|</span>
-Variables               <span class="Ignore">|</span><span class="Identifier">ku-history-variables</span><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><span class="Identifier">ku-history-bugs</span><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><span class="Identifier">ku-history-changelog</span><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="ku-history.html#ku-history-introduction" class="Identifier">ku-history-introduction</a><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><a href="ku-history.html#ku-history-action-table" class="Identifier">ku-history-action-table</a><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><a href="ku-history.html#ku-history-key-table" class="Identifier">ku-history-key-table</a><span class="Ignore">|</span>
+Variables               <span class="Ignore">|</span><a href="ku-history.html#ku-history-variables" class="Identifier">ku-history-variables</a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="ku-history.html#ku-history-bugs" class="Identifier">ku-history-bugs</a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="ku-history.html#ku-history-changelog" class="Identifier">ku-history-changelog</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant">ku-history-introduction</span><span class="Ignore">*</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-history-introduction">ku-history-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant">ku-history</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> to deal with <span class="Ignore">|</span><span class="Identifier">ku-input-history</span><span class="Ignore">|</span>.  You can
+<span class="Ignore">*</span><span class="Constant" id="ku-history">ku-history</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> to deal with <span class="Ignore">|</span><a href="ku.html#ku-input-history" class="Identifier">ku-input-history</a><span class="Ignore">|</span>.  You can
 choose an input pattern from the history and do some action to it.
 
 
 Requirements:
 - Vim 7.1.299 or later
-- <span class="Ignore">|</span><span class="Identifier">ku</span><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+- <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-history">http://github.com/kana/config/commits/vim-ku-history</a></span>
@@ -75,12 +75,12 @@ Latest version:
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant">ku-history-action-table</span><span class="Ignore">*</span>
+<span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-history-action-table">ku-history-action-table</span><span class="Ignore">*</span>
 
-default                                         <span class="Ignore">*</span><span class="Constant">ku-history-action-default</span><span class="Ignore">*</span>
+default                                         <span class="Ignore">*</span><span class="Constant" id="ku-history-action-default">ku-history-action-default</span><span class="Ignore">*</span>
                         Same as &quot;open&quot;.
 
-open                                            <span class="Ignore">*</span><span class="Constant">ku-history-action-open</span><span class="Ignore">*</span>
+open                                            <span class="Ignore">*</span><span class="Constant" id="ku-history-action-open">ku-history-action-open</span><span class="Ignore">*</span>
                         Replace the current input pattern with the selected
                         item and change the current source to the source for
                         which the item was inputted.
@@ -89,20 +89,20 @@ open                                            <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant">ku-history-key-table</span><span class="Ignore">*</span>
+<span class="Statement">KEY TABLE                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-history-key-table">ku-history-key-table</span><span class="Ignore">*</span>
 
 <span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
 <span class="PreProc">--------        --------</span>
-<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><span class="Identifier">ku-history-action-open</span><span class="Ignore">|</span>
-o               open            <span class="Ignore">|</span><span class="Identifier">ku-history-action-open</span><span class="Ignore">|</span>
+<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><a href="ku-history.html#ku-history-action-open" class="Identifier">ku-history-action-open</a><span class="Ignore">|</span>
+o               open            <span class="Ignore">|</span><a href="ku-history.html#ku-history-action-open" class="Identifier">ku-history-action-open</a><span class="Ignore">|</span>
 
 
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant">ku-history-variables</span><span class="Ignore">*</span>
+<span class="Statement">VARIABLES                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-history-variables">ku-history-variables</span><span class="Ignore">*</span>
 
-g:ku_history_sorting_style                      <span class="Ignore">*</span><span class="Constant">g:ku_history_sorting_style</span><span class="Ignore">*</span>
+g:ku_history_sorting_style                      <span class="Ignore">*</span><span class="Constant" id="g:ku_history_sorting_style">g:ku_history_sorting_style</span><span class="Ignore">*</span>
                         A string which specifies how to sort items.  This
                         variable can be one of the following values:
 
@@ -114,9 +114,9 @@ g:ku_history_sorting_style                      <span class="Ignore">*</span><sp
 
                         Default value is &quot;time&quot;.
 
-g:ku_history_fallback_source                    <span class="Ignore">*</span><span class="Constant">g:ku_history_fallback_source</span><span class="Ignore">*</span>
+g:ku_history_fallback_source                    <span class="Ignore">*</span><span class="Constant" id="g:ku_history_fallback_source">g:ku_history_fallback_source</span><span class="Ignore">*</span>
                         The name of a source which is used instead of the
-                        source in <span class="Ignore">|</span><span class="Identifier">ku-input-history</span><span class="Ignore">|</span> if it is unavailable.
+                        source in <span class="Ignore">|</span><a href="ku.html#ku-input-history" class="Identifier">ku-input-history</a><span class="Ignore">|</span> if it is unavailable.
 
                         Default value is &quot;file&quot;.
 
@@ -124,7 +124,7 @@ g:ku_history_fallback_source                    <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant">ku-history-bugs</span><span class="Ignore">*</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="ku-history-bugs">ku-history-bugs</span><span class="Ignore">*</span>
 
 - There are many bugs around the world.
 
@@ -132,7 +132,7 @@ g:ku_history_fallback_source                    <span class="Ignore">*</span><sp
 
 
 <span class="PreProc">==============================================================================</span>
-<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant">ku-history-changelog</span><span class="Ignore">*</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-history-changelog">ku-history-changelog</span><span class="Ignore">*</span>
 
 0.1.1   2009-05-04T01:49:29+09:00
         - Update for ku 0.2.1.
