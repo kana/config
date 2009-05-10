@@ -49,13 +49,13 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-contents">textobj-indent-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-introduction" class="Identifier">textobj-indent-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-interface" class="Identifier">textobj-indent-interface</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-introduction"><span class="Identifier">textobj-indent-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-interface"><span class="Identifier">textobj-indent-interface</span></a><span class="Ignore">|</span>
   Commands                <span class="Ignore">|</span><span class="Identifier">textobj-indent-commands</span><span class="Ignore">|</span>
   Functions               <span class="Ignore">|</span><span class="Identifier">textobj-indent-functions</span><span class="Ignore">|</span>
-  Mappings                <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-mappings" class="Identifier">textobj-indent-mappings</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-bugs" class="Identifier">textobj-indent-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-changelog" class="Identifier">textobj-indent-changelog</a><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-mappings"><span class="Identifier">textobj-indent-mappings</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-bugs"><span class="Identifier">textobj-indent-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-changelog"><span class="Identifier">textobj-indent-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -80,7 +80,7 @@ For example, if the content of a buffer as follows:
 <span class="Comment">          __...</span>
 <span class="Comment">          endif</span>
 <span class="Ignore">&lt;</span>
-<span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span> will select lines as follows:
+<span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> will select lines as follows:
 (here &quot;&gt;&quot; indicates the selected line)
 <span class="Ignore">&gt;</span>
 <span class="Comment">          if some_condition_is_satisfied</span>
@@ -94,7 +94,7 @@ For example, if the content of a buffer as follows:
 <span class="Comment">          __...</span>
 <span class="Comment">          endif</span>
 <span class="Ignore">&lt;</span>
-<span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">|</span> will select lines as follows:
+<span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span> will select lines as follows:
 (here &quot;&gt;&quot; indicates the selected line)
 <span class="Ignore">&gt;</span>
 <span class="Comment">          if some_condition_is_satisfied</span>
@@ -112,10 +112,13 @@ For example, if the content of a buffer as follows:
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user"><span class="Identifier">textobj-user</span></a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-indent">http://github.com/kana/config/commits/vim-textobj-indent</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/textobj-indent.html">http://kana.github.com/config/vim/textobj-indent.html</a></span>
 
 
 
@@ -141,7 +144,7 @@ These key mappings are defined in Visual mode and Operator-pending mode.
                         line will be used instead.  And so forth.
 
 <span class="Special">&lt;Plug&gt;</span>(textobj-indent-i)                        <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-indent-i)">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">*</span>
-                        Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span>, but it doesn't
+                        Like <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span>, but it doesn't
                         include empty lines.
 
 
@@ -154,8 +157,8 @@ These key mappings are defined in Visual mode and Operator-pending mode.
                                             <span class="Ignore">*</span><span class="Constant" id=":TextobjIndentDefaultKeyMappings">:TextobjIndentDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
-define <span class="Ignore">|</span><a href="textobj-indent.html#g:textobj_indent_no_default_key_mappings" class="Identifier">g:textobj_indent_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is loaded
-(e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use <span class="Ignore">|</span><a href="textobj-indent.html#:TextobjIndentDefaultKeyMappings" class="Identifier">:TextobjIndentDefaultKeyMappings</a><span class="Ignore">|</span>
+define <span class="Ignore">|</span><a href="textobj-indent.html#g:textobj_indent_no_default_key_mappings"><span class="Identifier">g:textobj_indent_no_default_key_mappings</span></a><span class="Ignore">|</span> before this plugin is loaded
+(e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use <span class="Ignore">|</span><a href="textobj-indent.html#:TextobjIndentDefaultKeyMappings"><span class="Identifier">:TextobjIndentDefaultKeyMappings</span></a><span class="Ignore">|</span>
 to redefine these key mappings.  This command doesn't override existing <span class="Special">{lhs}</span>s
 unless [!] is given.
 
@@ -170,16 +173,16 @@ unless [!] is given.
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-bugs">textobj-indent-bugs</span><span class="Ignore">*</span>
 
-- <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">|</span> count indentation
+- <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span> count indentation
   level by the number of leading whitespace and/or tab.
 
 - The current selection is not extended like <span class="Ignore">|</span><span class="Identifier">aw</span><span class="Ignore">|</span> nor <span class="Ignore">|</span><span class="Identifier">ip</span><span class="Ignore">|</span>
-  whenever <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">|</span> is
+  whenever <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> or <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span> is
   repeated in Visual mode.
 
 - So that <span class="Special">[count]</span> is just ignored.
 
-- See <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-bugs" class="Identifier">textobj-user-bugs</a><span class="Ignore">|</span> for further information.
+- See <span class="Ignore">|</span><a href="textobj-user.html#textobj-user-bugs"><span class="Identifier">textobj-user-bugs</span></a><span class="Ignore">|</span> for further information.
 
 
 
@@ -192,9 +195,9 @@ unless [!] is given.
           target a set of lines with the same indentation as you see.
 
 0.0.1   2009-02-27T13:04:37+09:00
-        - Add <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">|</span>.
+        - Add <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span>.
         - Remove <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent)</span><span class="Ignore">|</span>.
-          Use <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">|</span> instead.
+          Use <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> instead.
 
 0.0.0   2008-12-13T23:04:37+09:00
         - Initial version.

@@ -48,10 +48,10 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="altkwprg-contents">altkwprg-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-introduction" class="Identifier">altkwprg-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-interface" class="Identifier">altkwprg-interface</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-bugs" class="Identifier">altkwprg-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-changelog" class="Identifier">altkwprg-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-introduction"><span class="Identifier">altkwprg-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-interface"><span class="Identifier">altkwprg-interface</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-bugs"><span class="Identifier">altkwprg-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="altkwprg.html#altkwprg-changelog"><span class="Identifier">altkwprg-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -68,6 +68,9 @@ Requirements:
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-altkwprg">http://github.com/kana/config/commits/vim-altkwprg</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/altkwprg.html">http://kana.github.com/config/vim/altkwprg.html</a></span>
 
 
 
@@ -87,15 +90,15 @@ Latest version:
                         - Show output same as <span class="Ignore">|</span><span class="Identifier">K</span><span class="Ignore">|</span> in the buffer.
 
 <span class="Special">{Visual}&lt;Plug&gt;</span>(altkwprg-look)                   <span class="Ignore">*</span><span class="Constant" id="v_&lt;Plug&gt;(altkwprg-look)">v_&lt;Plug&gt;(altkwprg-look)</span><span class="Ignore">*</span>
-                        Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(altkwprg-look)</span><span class="Ignore">|</span>, but look up the selected
+                        Like <span class="Ignore">|</span><a href="altkwprg.html#&lt;Plug&gt;(altkwprg-look)"><span class="Identifier">&lt;Plug&gt;(altkwprg-look)</span></a><span class="Ignore">|</span>, but look up the selected
                         text.
 
                                           <span class="Ignore">*</span><span class="Constant" id="g:altkwprg_no_default_key_mappings">g:altkwprg_no_default_key_mappings</span><span class="Ignore">*</span>
                                                 <span class="Ignore">*</span><span class="Constant" id=":AltkwprgDefaultKeyMappings">:AltkwprgDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin automatically defines the following key mapping unless key
 mappings with same <span class="Special">{lhs}</span>s are already defined.  If you don't want these key
-mappings, define <span class="Ignore">|</span><a href="altkwprg.html#g:altkwprg_no_default_key_mappings" class="Identifier">g:altkwprg_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is
-loaded (e.g. in $MYVIMRC).  You can also use <span class="Ignore">|</span><a href="altkwprg.html#:AltkwprgDefaultKeyMappings" class="Identifier">:AltkwprgDefaultKeyMappings</a><span class="Ignore">|</span> to
+mappings, define <span class="Ignore">|</span><a href="altkwprg.html#g:altkwprg_no_default_key_mappings"><span class="Identifier">g:altkwprg_no_default_key_mappings</span></a><span class="Ignore">|</span> before this plugin is
+loaded (e.g. in $MYVIMRC).  You can also use <span class="Ignore">|</span><a href="altkwprg.html#:AltkwprgDefaultKeyMappings"><span class="Identifier">:AltkwprgDefaultKeyMappings</span></a><span class="Ignore">|</span> to
 redefine these key mappings.
 
         <span class="PreProc">modes  {lhs}   {rhs}           </span><span class="Ignore">    ~</span>
@@ -106,8 +109,8 @@ redefine these key mappings.
 g:keywordprg                                    <span class="Ignore">*</span><span class="Constant" id="g:keywordprg">g:keywordprg</span><span class="Ignore">*</span>
 b:keywordprg                                    <span class="Ignore">*</span><span class="Constant" id="b:keywordprg">b:keywordprg</span><span class="Ignore">*</span>
         Alternative variables to <span class="Type">'keywordprg'</span>.  These variables have higher
-        priorities than <span class="Type">'keywordprg'</span>, and <span class="Ignore">|</span><a href="altkwprg.html#b:keywordprg" class="Identifier">b:keywordprg</a><span class="Ignore">|</span> has higher priority
-        than <span class="Ignore">|</span><a href="altkwprg.html#g:keywordprg" class="Identifier">g:keywordprg</a><span class="Ignore">|</span>.
+        priorities than <span class="Type">'keywordprg'</span>, and <span class="Ignore">|</span><a href="altkwprg.html#b:keywordprg"><span class="Identifier">b:keywordprg</span></a><span class="Ignore">|</span> has higher priority
+        than <span class="Ignore">|</span><a href="altkwprg.html#g:keywordprg"><span class="Identifier">g:keywordprg</span></a><span class="Ignore">|</span>.
 
         Values of these variables are used like <span class="Type">'keywordprg'</span>, but they may
         contain the following escape sequence:
@@ -117,10 +120,10 @@ b:keywordprg                                    <span class="Ignore">*</span><sp
         <span class="Special">&lt;count&gt;</span>                Expanded to the given count or empty if count is not
                         given.
 
-        <span class="Ignore">|</span><a href="altkwprg.html#b:keywordprg" class="Identifier">b:keywordprg</a><span class="Ignore">|</span> does not exist by default.
-        <span class="Ignore">|</span><a href="altkwprg.html#g:keywordprg" class="Identifier">g:keywordprg</a><span class="Ignore">|</span> also does not exist by default,
+        <span class="Ignore">|</span><a href="altkwprg.html#b:keywordprg"><span class="Identifier">b:keywordprg</span></a><span class="Ignore">|</span> does not exist by default.
+        <span class="Ignore">|</span><a href="altkwprg.html#g:keywordprg"><span class="Identifier">g:keywordprg</span></a><span class="Ignore">|</span> also does not exist by default,
         but if the global value of <span class="Type">'keywordprg'</span> is &quot;man&quot; or &quot;man -s&quot;,
-        the default value of <span class="Ignore">|</span><a href="altkwprg.html#g:keywordprg" class="Identifier">g:keywordprg</a><span class="Ignore">|</span> is:
+        the default value of <span class="Ignore">|</span><a href="altkwprg.html#g:keywordprg"><span class="Identifier">g:keywordprg</span></a><span class="Ignore">|</span> is:
         &quot;{ man <span class="Special">&lt;count&gt;</span> <span class="Special">&lt;keyword&gt;</span> | col -b; }&quot;.
 
 
@@ -129,7 +132,7 @@ b:keywordprg                                    <span class="Ignore">*</span><sp
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="altkwprg-bugs">altkwprg-bugs</span><span class="Ignore">*</span>
 
-- <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(altkwprg-look)</span><span class="Ignore">|</span> does not emulate all behaviors of <span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span> yet, for
+- <span class="Ignore">|</span><a href="altkwprg.html#&lt;Plug&gt;(altkwprg-look)"><span class="Identifier">&lt;Plug&gt;(altkwprg-look)</span></a><span class="Ignore">|</span> does not emulate all behaviors of <span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span> yet, for
   example, how to <span class="Ignore">|</span><span class="Identifier">:split</span><span class="Ignore">|</span> windows.
 
 - There are many bugs around the world.

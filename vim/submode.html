@@ -51,12 +51,12 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="submode-contents">submode-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="submode.html#submode-introduction" class="Identifier">submode-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="submode.html#submode-interface" class="Identifier">submode-interface</a><span class="Ignore">|</span>
-  Functions               <span class="Ignore">|</span><a href="submode.html#submode-functions" class="Identifier">submode-functions</a><span class="Ignore">|</span>
-  Variables               <span class="Ignore">|</span><a href="submode.html#submode-variables" class="Identifier">submode-variables</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="submode.html#submode-bugs" class="Identifier">submode-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="submode.html#submode-changelog" class="Identifier">submode-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="submode.html#submode-introduction"><span class="Identifier">submode-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="submode.html#submode-interface"><span class="Identifier">submode-interface</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="submode.html#submode-functions"><span class="Identifier">submode-functions</span></a><span class="Ignore">|</span>
+  Variables               <span class="Ignore">|</span><a href="submode.html#submode-variables"><span class="Identifier">submode-variables</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="submode.html#submode-bugs"><span class="Identifier">submode-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="submode.html#submode-changelog"><span class="Identifier">submode-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -89,7 +89,7 @@ By default, <span class="Special">&lt;Esc&gt;</span> is automatically defined as
 So you don't have to explicitly define like the above example.
 There are also 2 ways to leave submodes:
 - Type any key sequence which is not mapped in the submode.
-- Don't type any key for a long time.  See <span class="Ignore">|</span><a href="submode.html#submode-variables" class="Identifier">submode-variables</a><span class="Ignore">|</span> to configure
+- Don't type any key for a long time.  See <span class="Ignore">|</span><a href="submode.html#submode-variables"><span class="Identifier">submode-variables</span></a><span class="Ignore">|</span> to configure
   the details of this time out.
 
 
@@ -98,6 +98,9 @@ Requirements:
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-submode">http://github.com/kana/config/commits/vim-submode</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/submode.html">http://kana.github.com/config/vim/submode.html</a></span>
 
 
 
@@ -109,7 +112,7 @@ Latest version:
 <span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant" id="submode-commands">submode-commands</span><span class="Ignore">*</span>
 
 :SubmodeRestoreOptions                          <span class="Ignore">*</span><span class="Constant" id=":SubmodeRestoreOptions">:SubmodeRestoreOptions</span><span class="Ignore">*</span>
-                        Ex command version of <span class="Ignore">|</span><a href="submode.html#submode#restore_options()" class="Identifier">submode#restore_options()</a><span class="Ignore">|</span>.
+                        Ex command version of <span class="Ignore">|</span><a href="submode.html#submode#restore_options()"><span class="Identifier">submode#restore_options()</span></a><span class="Ignore">|</span>.
 
 
 
@@ -123,14 +126,14 @@ submode#enter_with(<span class="Special">{submode}</span>, <span class="Special"
                         <span class="Special">{modes}</span>.  If <span class="Special">{rhs}</span> is given, it will be executed
                         whenever entering the <span class="Special">{submode}</span> by <span class="Special">{lhs}</span>.
 
-                        See <span class="Ignore">|</span><a href="submode.html#submode#map()" class="Identifier">submode#map()</a><span class="Ignore">|</span> for the details of arguments.
+                        See <span class="Ignore">|</span><a href="submode.html#submode#map()"><span class="Identifier">submode#map()</span></a><span class="Ignore">|</span> for the details of arguments.
 
                                                 <span class="Ignore">*</span><span class="Constant" id="submode#leave_with()">submode#leave_with()</span><span class="Ignore">*</span>
 submode#leave_with(<span class="Special">{submode}</span>, <span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{lhs}</span>)
                         Define a key mapping (<span class="Special">{lhs}</span>) to leave the <span class="Special">{submode}</span> in
                         <span class="Special">{modes}</span>.
 
-                        See <span class="Ignore">|</span><a href="submode.html#submode#map()" class="Identifier">submode#map()</a><span class="Ignore">|</span> for the details of arguments.
+                        See <span class="Ignore">|</span><a href="submode.html#submode#map()"><span class="Identifier">submode#map()</span></a><span class="Ignore">|</span> for the details of arguments.
 
                                                 <span class="Ignore">*</span><span class="Constant" id="submode#map()">submode#map()</span><span class="Ignore">*</span>
 submode#map(<span class="Special">{submode}</span>, <span class="Special">{modes}</span>, <span class="Special">{options}</span>, <span class="Special">{lhs}</span>, <span class="Special">{rhs}</span>)
@@ -177,7 +180,7 @@ submode#map(<span class="Special">{submode}</span>, <span class="Special">{modes
                                 u       Same as <span class="Ignore">|</span><span class="Identifier">:map-&lt;unique&gt;</span><span class="Ignore">|</span>.
                                 x       After executing <span class="Special">{rhs}</span>, leave the
                                         submode.  This matters only for
-                                        <span class="Ignore">|</span><a href="submode.html#submode#map()" class="Identifier">submode#map()</a><span class="Ignore">|</span>.
+                                        <span class="Ignore">|</span><a href="submode.html#submode#map()"><span class="Identifier">submode#map()</span></a><span class="Ignore">|</span>.
 
                         <span class="Special">{lhs}</span>                String
                                 A key sequence to type.
@@ -206,7 +209,7 @@ submode#unmap(<span class="Special">{submode}</span>, <span class="Special">{mod
                         Delete a key mapping (<span class="Special">{lhs}</span> to something) in the
                         <span class="Special">{submode}</span> in <span class="Special">{modes}</span>.
 
-                        See <span class="Ignore">|</span><a href="submode.html#submode#map()" class="Identifier">submode#map()</a><span class="Ignore">|</span> for the details of arguments.
+                        See <span class="Ignore">|</span><a href="submode.html#submode#map()"><span class="Identifier">submode#map()</span></a><span class="Ignore">|</span> for the details of arguments.
                         <span class="Todo">Note</span> that only &quot;b&quot; matters for <span class="Special">{options}</span> and other
                         letters are just ignored.
 

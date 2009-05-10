@@ -51,12 +51,12 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="smartword-contents">smartword-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="smartword.html#smartword-introduction" class="Identifier">smartword-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="smartword.html#smartword-interface" class="Identifier">smartword-interface</a><span class="Ignore">|</span>
-  Mappings                <span class="Ignore">|</span><a href="smartword.html#smartword-mappings" class="Identifier">smartword-mappings</a><span class="Ignore">|</span>
-Examples                <span class="Ignore">|</span><a href="smartword.html#smartword-examples" class="Identifier">smartword-examples</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="smartword.html#smartword-bugs" class="Identifier">smartword-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="smartword.html#smartword-changelog" class="Identifier">smartword-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="smartword.html#smartword-introduction"><span class="Identifier">smartword-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="smartword.html#smartword-interface"><span class="Identifier">smartword-interface</span></a><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><a href="smartword.html#smartword-mappings"><span class="Identifier">smartword-mappings</span></a><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><a href="smartword.html#smartword-examples"><span class="Identifier">smartword-examples</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="smartword.html#smartword-bugs"><span class="Identifier">smartword-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="smartword.html#smartword-changelog"><span class="Identifier">smartword-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -79,13 +79,13 @@ type of words, where &quot;L&quot; means a word which consists of a sequence of 
 of a sequence of other non-blank characters.
 
 In many cases, you might want to move to the next &quot;L&quot;, not &quot;P&quot;.  This plugin
-provides <span class="Special">{motion}</span>s to behave so.  For example, <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-w)</span><span class="Ignore">|</span> which is
+provides <span class="Special">{motion}</span>s to behave so.  For example, <span class="Ignore">|</span><a href="smartword.html#&lt;Plug&gt;(smartword-w)"><span class="Identifier">&lt;Plug&gt;(smartword-w)</span></a><span class="Ignore">|</span> which is
 corresponding to <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> moves the cursor as follows:
 
         &lt;a href=&quot;<span class="Constant"><a href="http://www.vim.org/">http://www.vim.org/</a></span>&quot;&gt;<span class="Constant">www.vim.org</span>&lt;/a&gt;
          # #     #      #   #   #     #   #   #    #
 
-See also <span class="Ignore">|</span><a href="smartword.html#smartword-examples" class="Identifier">smartword-examples</a><span class="Ignore">|</span> for customization.
+See also <span class="Ignore">|</span><a href="smartword.html#smartword-examples"><span class="Identifier">smartword-examples</span></a><span class="Ignore">|</span> for customization.
 
 See also the following image if the above figures aren't correctly displayed:
 <span class="Constant"><a href="http://gyazo.com/bc7887d9bb0f6aa3eee1e67b0d756b2e.png">http://gyazo.com/bc7887d9bb0f6aa3eee1e67b0d756b2e.png</a></span>
@@ -96,6 +96,9 @@ Requirements:
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-smartword">http://github.com/kana/config/commits/vim-smartword</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/smartword.html">http://kana.github.com/config/vim/smartword.html</a></span>
 
 
 
@@ -120,7 +123,7 @@ Latest version:
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant" id="smartword-examples">smartword-examples</span><span class="Ignore">*</span>
 
-(A) Replace <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> and others with <span class="Ignore">|</span><a href="smartword.html#smartword-mappings" class="Identifier">smartword-mappings</a><span class="Ignore">|</span>:
+(A) Replace <span class="Ignore">|</span><span class="Identifier">w</span><span class="Ignore">|</span> and others with <span class="Ignore">|</span><a href="smartword.html#smartword-mappings"><span class="Identifier">smartword-mappings</span></a><span class="Ignore">|</span>:
 <span class="Ignore">&gt;</span>
 <span class="Comment">        map w  &lt;Plug&gt;(smartword-w)</span>
 <span class="Comment">        map b  &lt;Plug&gt;(smartword-b)</span>
@@ -152,8 +155,8 @@ Latest version:
 
 - Don't consider about special cases such as <span class="Ignore">|</span><span class="Identifier">cw</span><span class="Ignore">|</span>.
 
-- <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others don't work for <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">|</span> and
-  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">|</span> because of the limitation of Vim script.
+- <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others don't work for <span class="Ignore">|</span><a href="smartword.html#&lt;Plug&gt;(smartword-e)"><span class="Identifier">&lt;Plug&gt;(smartword-e)</span></a><span class="Ignore">|</span> and
+  <span class="Ignore">|</span><a href="smartword.html#&lt;Plug&gt;(smartword-ge)"><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span></a><span class="Ignore">|</span> because of the limitation of Vim script.
 
   <span class="Todo">Note</span> that if the following patch (*) is applied to Vim, <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others
   work for both motions.  But <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> with empty selection still doesn't work.
@@ -168,11 +171,11 @@ Latest version:
 0.0.2   2009-01-23T19:13:29+09:00
         - Fix the document a bit.
         - Revise the treatment on <span class="Type">'iskeyword'</span>.
-        - Fix 2 bugs on <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">|</span> with
+        - Fix 2 bugs on <span class="Ignore">|</span><a href="smartword.html#&lt;Plug&gt;(smartword-e)"><span class="Identifier">&lt;Plug&gt;(smartword-e)</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="smartword.html#&lt;Plug&gt;(smartword-ge)"><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span></a><span class="Ignore">|</span> with
           <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span>.  These bugs are appeared only in Vim with the patch (*).
 
 0.0.1   2008-12-06T01:21:37+09:00
-        - Fix <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-e)</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span><span class="Ignore">|</span> to be
+        - Fix <span class="Ignore">|</span><a href="smartword.html#&lt;Plug&gt;(smartword-e)"><span class="Identifier">&lt;Plug&gt;(smartword-e)</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="smartword.html#&lt;Plug&gt;(smartword-ge)"><span class="Identifier">&lt;Plug&gt;(smartword-ge)</span></a><span class="Ignore">|</span> to be
           <span class="Ignore">|</span><span class="Identifier">inclusive</span><span class="Ignore">|</span> as same as <span class="Ignore">|</span><span class="Identifier">e</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">ge</span><span class="Ignore">|</span>.
 
 0.0.0   2008-12-03T01:44:30+09:00

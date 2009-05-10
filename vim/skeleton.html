@@ -50,12 +50,12 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="skeleton-contents">skeleton-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="skeleton.html#skeleton-introduction" class="Identifier">skeleton-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="skeleton.html#skeleton-interface" class="Identifier">skeleton-interface</a><span class="Ignore">|</span>
-  Commands                <span class="Ignore">|</span><a href="skeleton.html#skeleton-commands" class="Identifier">skeleton-commands</a><span class="Ignore">|</span>
-  Events                  <span class="Ignore">|</span><a href="skeleton.html#skeleton-events" class="Identifier">skeleton-events</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="skeleton.html#skeleton-bugs" class="Identifier">skeleton-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="skeleton.html#skeleton-changelog" class="Identifier">skeleton-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="skeleton.html#skeleton-introduction"><span class="Identifier">skeleton-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="skeleton.html#skeleton-interface"><span class="Identifier">skeleton-interface</span></a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="skeleton.html#skeleton-commands"><span class="Identifier">skeleton-commands</span></a><span class="Ignore">|</span>
+  Events                  <span class="Ignore">|</span><a href="skeleton.html#skeleton-events"><span class="Identifier">skeleton-events</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="skeleton.html#skeleton-bugs"><span class="Identifier">skeleton-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="skeleton.html#skeleton-changelog"><span class="Identifier">skeleton-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -84,11 +84,11 @@ be automatically expanded for newly created buffers.
 
 - Whenever user starts to edit a file that doesn't exists:
 
-  1) Skeleton publish a <span class="Ignore">|</span><a href="skeleton.html#User:plugin-skeleton-detect" class="Identifier">User:plugin-skeleton-detect</a><span class="Ignore">|</span> event.  This event can
-     be used to <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad" class="Identifier">:SkeletonLoad</a><span class="Ignore">|</span> a special skeleton file other than the default
+  1) Skeleton publish a <span class="Ignore">|</span><a href="skeleton.html#User:plugin-skeleton-detect"><span class="Identifier">User:plugin-skeleton-detect</span></a><span class="Ignore">|</span> event.  This event can
+     be used to <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad"><span class="Identifier">:SkeletonLoad</span></a><span class="Ignore">|</span> a special skeleton file other than the default
      one.
 
-  2) If <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad" class="Identifier">:SkeletonLoad</a><span class="Ignore">|</span> is not done for the previous step, Skeleton executes
+  2) If <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad"><span class="Identifier">:SkeletonLoad</span></a><span class="Ignore">|</span> is not done for the previous step, Skeleton executes
      the following command:
 <span class="Ignore">&gt;</span>
 <span class="Comment">        execute 'SkeletonLoad' &amp;l:filetype</span>
@@ -105,6 +105,9 @@ Requirements:
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-skeleton">http://github.com/kana/config/commits/vim-skeleton</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/skeleton.html">http://kana.github.com/config/vim/skeleton.html</a></span>
 
 
 
@@ -132,7 +135,7 @@ Latest version:
 
 User plugin-skeleton-detect                     <span class="Ignore">*</span><span class="Constant" id="User:plugin-skeleton-detect">User:plugin-skeleton-detect</span><span class="Ignore">*</span>
         Event to override the default skeleton file.  User can set up
-        <span class="Ignore">|</span><span class="Identifier">:autocmd</span><span class="Ignore">|</span> for this event to <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad" class="Identifier">:SkeletonLoad</a><span class="Ignore">|</span> a special skeleton file
+        <span class="Ignore">|</span><span class="Identifier">:autocmd</span><span class="Ignore">|</span> for this event to <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad"><span class="Identifier">:SkeletonLoad</span></a><span class="Ignore">|</span> a special skeleton file
         other than the default one.
 
         Example:<span class="Ignore"> &gt;</span>
@@ -157,14 +160,14 @@ User plugin-skeleton-detect                     <span class="Ignore">*</span><sp
 
 0.0.2   2009-03-17T01:16:29+09:00
         - Refine the document.
-        - <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad" class="Identifier">:SkeletonLoad</a><span class="Ignore">|</span>:
+        - <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad"><span class="Identifier">:SkeletonLoad</span></a><span class="Ignore">|</span>:
           - Support completion.
           - Allow to override existing content of a buffer with &quot;!&quot;.
 
 0.0.1   2008-07-13T00:20:09+09:00
         - Fix to suppress extra message if there is no autocmd for
-          <span class="Ignore">|</span><a href="skeleton.html#User:plugin-skeleton-detect" class="Identifier">User:plugin-skeleton-detect</a><span class="Ignore">|</span>.
-        - Fix not to do the default <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad" class="Identifier">:SkeletonLoad</a><span class="Ignore">|</span> if <span class="Type">'filetype'</span> of the
+          <span class="Ignore">|</span><a href="skeleton.html#User:plugin-skeleton-detect"><span class="Identifier">User:plugin-skeleton-detect</span></a><span class="Ignore">|</span>.
+        - Fix not to do the default <span class="Ignore">|</span><a href="skeleton.html#:SkeletonLoad"><span class="Identifier">:SkeletonLoad</span></a><span class="Ignore">|</span> if <span class="Type">'filetype'</span> of the
           current buffer is unknown.
 
 0.0.0   2008-07-11T12:23:55+09:00

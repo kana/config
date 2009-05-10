@@ -47,12 +47,12 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-diff-contents">textobj-diff-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-introduction" class="Identifier">textobj-diff-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-interface" class="Identifier">textobj-diff-interface</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-introduction"><span class="Identifier">textobj-diff-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-interface"><span class="Identifier">textobj-diff-interface</span></a><span class="Ignore">|</span>
   Key Mapings             <span class="Ignore">|</span><span class="Identifier">textobj-diff-key-mappings</span><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-customizing" class="Identifier">textobj-diff-customizing</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-bugs" class="Identifier">textobj-diff-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-changelog" class="Identifier">textobj-diff-changelog</a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-customizing"><span class="Identifier">textobj-diff-customizing</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-bugs"><span class="Identifier">textobj-diff-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="textobj-diff.html#textobj-diff-changelog"><span class="Identifier">textobj-diff-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -69,10 +69,13 @@ Currently it supports the following formats:
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user"><span class="Identifier">textobj-user</span></a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-diff">http://github.com/kana/config/commits/vim-textobj-diff</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/textobj-diff.html">http://kana.github.com/config/vim/textobj-diff.html</a></span>
 
 
 
@@ -95,7 +98,7 @@ Latest version:
 <span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-p)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk-p)">&lt;Plug&gt;(textobj-diff-hunk-p)</span><span class="Ignore">*</span>
 <span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-<span class="Special">N</span>)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk-N)">&lt;Plug&gt;(textobj-diff-hunk-N)</span><span class="Ignore">*</span>
 <span class="Special">&lt;Plug&gt;</span>(textobj-diff-hunk-P)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-hunk-P)">&lt;Plug&gt;(textobj-diff-hunk-P)</span><span class="Ignore">*</span>
-        Like <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(textobj-diff-file-n)</span><span class="Ignore">|</span> and others, but move to an
+        Like <span class="Ignore">|</span><a href="textobj-diff.html#&lt;Plug&gt;(textobj-diff-file-n)"><span class="Identifier">&lt;Plug&gt;(textobj-diff-file-n)</span></a><span class="Ignore">|</span> and others, but move to an
         appropriate part of a hunk.
 
 <span class="Special">&lt;Plug&gt;</span>(textobj-diff-file)                       <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-diff-file)">&lt;Plug&gt;(textobj-diff-file)</span><span class="Ignore">*</span>
@@ -114,9 +117,9 @@ Latest version:
                                               <span class="Ignore">*</span><span class="Constant" id=":TextobjDiffDefaultKeyMappings">:TextobjDiffDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Normal mode, Visual mode
 and Operator-pending mode automatically.  If you don't want these key
-mappings, define <span class="Ignore">|</span><a href="textobj-diff.html#g:textobj_diff_no_default_key_mappings" class="Identifier">g:textobj_diff_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin
+mappings, define <span class="Ignore">|</span><a href="textobj-diff.html#g:textobj_diff_no_default_key_mappings"><span class="Identifier">g:textobj_diff_no_default_key_mappings</span></a><span class="Ignore">|</span> before this plugin
 is loaded (e.g. in $MYVIMRC).  You can also use
-<span class="Ignore">|</span><a href="textobj-diff.html#:TextobjDiffDefaultKeyMappings" class="Identifier">:TextobjDiffDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.
+<span class="Ignore">|</span><a href="textobj-diff.html#:TextobjDiffDefaultKeyMappings"><span class="Identifier">:TextobjDiffDefaultKeyMappings</span></a><span class="Ignore">|</span> to redefine these key mappings.
 
         <span class="PreProc">mode   {lhs}           {rhs}                   </span><span class="Ignore">   ~</span>
         <span class="PreProc">----   -----           ------------------------------</span><span class="Ignore">     ~</span>

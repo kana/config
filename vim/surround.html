@@ -31,7 +31,7 @@ License: Same terms as Vim itself (see <span class="Ignore">|</span><span class=
 BasedOn: $Id: surround.vim,v 1.34 2008-02-15 21:43:42 tpope Exp $
 Version: 1.34.7
 
-<span class="Todo">NOTE</span>: This is a modified version of surround.vim.  See <span class="Ignore">|</span><a href="surround.html#surround-changelog" class="Identifier">surround-changelog</a><span class="Ignore">|</span>
+<span class="Todo">NOTE</span>: This is a modified version of surround.vim.  See <span class="Ignore">|</span><a href="surround.html#surround-changelog"><span class="Identifier">surround-changelog</span></a><span class="Ignore">|</span>
 for the detail of the difference from the original version.
 
 This plugin is only available if <span class="Type">'compatible'</span> is not set.
@@ -59,7 +59,7 @@ Vim 7 is recommended for full functionality.
 <span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant" id="surround-mappings">surround-mappings</span><span class="Ignore">*</span>
 
 Delete surroundings is <span class="Ignore">*</span><span class="Constant" id="ds">ds</span><span class="Ignore">*</span> .  The next character given determines the target
-to delete.  The exact nature of the target are explained in <span class="Ignore">|</span><a href="surround.html#surround-targets" class="Identifier">surround-targets</a><span class="Ignore">|</span>
+to delete.  The exact nature of the target are explained in <span class="Ignore">|</span><a href="surround.html#surround-targets"><span class="Identifier">surround-targets</span></a><span class="Ignore">|</span>
 but essentially it is the last character of a <span class="Ignore">|</span><span class="Identifier">text-object</span><span class="Ignore">|</span>.  This mapping
 deletes the difference between the &quot;inner&quot; object and &quot;an&quot; object.  This is
 easiest to understand with some examples:
@@ -70,8 +70,8 @@ easiest to understand with some examples:
   <span class="Special">&lt;div&gt;</span>Yo!*&lt;/div&gt;           dst         Yo!
 
 Change surroundings is <span class="Ignore">*</span><span class="Constant" id="cs">cs</span><span class="Ignore">*</span> .  It takes two arguments, a target like with
-<span class="Ignore">|</span><a href="surround.html#ds" class="Identifier">ds</a><span class="Ignore">|</span>, and a replacement.  Details about the second argument can be found
-below in <span class="Ignore">|</span><a href="surround.html#surround-replacements" class="Identifier">surround-replacements</a><span class="Ignore">|</span>.  Once again, examples are in order.
+<span class="Ignore">|</span><a href="surround.html#ds"><span class="Identifier">ds</span></a><span class="Ignore">|</span>, and a replacement.  Details about the second argument can be found
+below in <span class="Ignore">|</span><a href="surround.html#surround-replacements"><span class="Identifier">surround-replacements</span></a><span class="Ignore">|</span>.  Once again, examples are in order.
 
   <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
   &quot;Hello *world!&quot;           cs&quot;'        'Hello world!'
@@ -81,7 +81,7 @@ below in <span class="Ignore">|</span><a href="surround.html#surround-replacemen
   <span class="Special">&lt;div&gt;</span>Yo!*&lt;/div&gt;           cst<span class="Special">&lt;p&gt;</span>      <span class="Special">&lt;p&gt;</span>Yo!&lt;/p&gt;
 
 <span class="Ignore">*</span><span class="Constant" id="ys">ys</span><span class="Ignore">*</span> takes an valid Vim motion or text object as the first object, and wraps
-it using the second argument as with <span class="Ignore">|</span><a href="surround.html#cs" class="Identifier">cs</a><span class="Ignore">|</span>.  (Unfortunately there's no good
+it using the second argument as with <span class="Ignore">|</span><a href="surround.html#cs"><span class="Identifier">cs</span></a><span class="Ignore">|</span>.  (Unfortunately there's no good
 mnemonic for &quot;ys&quot;.)
 
   <span class="PreProc">Old text                  Command     New text</span><span class="Ignore"> ~</span>
@@ -125,7 +125,7 @@ three separate lines.  <span class="Special">&lt;C-G&gt;</span>S (not <span clas
 
 <span class="Statement">TARGETS                                         </span><span class="Ignore">*</span><span class="Constant" id="surround-targets">surround-targets</span><span class="Ignore">*</span>
 
-The <span class="Ignore">|</span><a href="surround.html#ds" class="Identifier">ds</a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="surround.html#cs" class="Identifier">cs</a><span class="Ignore">|</span> commands both take a target as their first argument.  The
+The <span class="Ignore">|</span><a href="surround.html#ds"><span class="Identifier">ds</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="surround.html#cs"><span class="Identifier">cs</span></a><span class="Ignore">|</span> commands both take a target as their first argument.  The
 possible targets are based closely on the <span class="Ignore">|</span><span class="Identifier">text-objects</span><span class="Ignore">|</span> provided by Vim.
 In order for a target to work, the corresponding text object must be
 supported in the version of Vim used (Vim 7 adds several text objects, and
@@ -146,7 +146,7 @@ than the innermost one.
 
 The letters w, W, and s correspond to a <span class="Ignore">|</span><span class="Identifier">word</span><span class="Ignore">|</span>, a <span class="Ignore">|</span><span class="Identifier">WORD</span><span class="Ignore">|</span>, and a <span class="Ignore">|</span><span class="Identifier">sentence</span><span class="Ignore">|</span>,
 respectively.  These are special in that they have nothing to delete, and
-used with <span class="Ignore">|</span><a href="surround.html#ds" class="Identifier">ds</a><span class="Ignore">|</span> they are a no-op.  With <span class="Ignore">|</span><a href="surround.html#cs" class="Identifier">cs</a><span class="Ignore">|</span>, one could consider them a
+used with <span class="Ignore">|</span><a href="surround.html#ds"><span class="Identifier">ds</span></a><span class="Ignore">|</span> they are a no-op.  With <span class="Ignore">|</span><a href="surround.html#cs"><span class="Identifier">cs</span></a><span class="Ignore">|</span>, one could consider them a
 slight shortcut for ysi (cswb == ysiwb, more or less).
 
 A p represents a <span class="Ignore">|</span><span class="Identifier">paragraph</span><span class="Ignore">|</span>.  This behaves similarly to w, W, and s above;
@@ -154,8 +154,8 @@ however, newlines are sometimes added and/or removed.
 
 <span class="Statement">REPLACEMENTS                                    </span><span class="Ignore">*</span><span class="Constant" id="surround-replacements">surround-replacements</span><span class="Ignore">*</span>
 
-A replacement argument is a single character, and is required by <span class="Ignore">|</span><a href="surround.html#cs" class="Identifier">cs</a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="surround.html#ys" class="Identifier">ys</a><span class="Ignore">|</span>,
-and <span class="Ignore">|</span><a href="surround.html#vs" class="Identifier">vs</a><span class="Ignore">|</span>.  Undefined replacement characters (with the exception of alphabetic
+A replacement argument is a single character, and is required by <span class="Ignore">|</span><a href="surround.html#cs"><span class="Identifier">cs</span></a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="surround.html#ys"><span class="Identifier">ys</span></a><span class="Ignore">|</span>,
+and <span class="Ignore">|</span><a href="surround.html#vs"><span class="Identifier">vs</span></a><span class="Ignore">|</span>.  Undefined replacement characters (with the exception of alphabetic
 characters) default to placing themselves at the beginning and end of the
 destination, which can be useful for characters like / and |.
 
@@ -183,7 +183,7 @@ csp\tabular}{lc<span class="Special">&lt;CR&gt;</span>
 <span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="surround-customizing">surround-customizing</span><span class="Ignore">*</span>
 
 <span class="Todo">NOTE</span>: There are some incompatible changes from the original version.
-See <span class="Ignore">|</span><a href="surround.html#surrounding-customizing-difference" class="Identifier">surrounding-customizing-difference</a><span class="Ignore">|</span> for the detail.
+See <span class="Ignore">|</span><a href="surround.html#surrounding-customizing-difference"><span class="Identifier">surrounding-customizing-difference</span></a><span class="Ignore">|</span> for the detail.
 
 The following adds a potential replacement on &quot;-&quot; (ASCII 45) in PHP files.
 (To determine the ASCII code to use, :echo char2nr(&quot;-&quot;)).  The carriage
@@ -241,7 +241,7 @@ that allow you to jump to such markings.
 <span class="PreProc">DIFFERENCE FROM THE ORIGINAL VERSION</span><span class="Ignore"> ~</span>
 
 The original way - g:surround_{char2nr(key)} - is no longer supported.  Please
-use <span class="Ignore">|</span><a href="surround.html#SurroundRegister" class="Identifier">SurroundRegister</a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="surround.html#SurroundUnregister" class="Identifier">SurroundUnregister</a><span class="Ignore">|</span> to register/unregister
+use <span class="Ignore">|</span><a href="surround.html#SurroundRegister"><span class="Identifier">SurroundRegister</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="surround.html#SurroundUnregister"><span class="Identifier">SurroundUnregister</span></a><span class="Ignore">|</span> to register/unregister
 user-defined surrounding objects.
 
 Tips:
@@ -293,11 +293,14 @@ should this be the default?
         - Fix <span class="Special">&lt;Plug&gt;</span>Ysurround and others to be repeatable with a &quot;repeat&quot;
           plugin which is one of the followings:
           <span class="Constant"><a href="http://github.com/kana/config/commits/vim-repeat">http://github.com/kana/config/commits/vim-repeat</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/surround.html">http://kana.github.com/config/vim/surround.html</a></span>
           <span class="Constant"><a href="http://www.vim.org/scripts/script.php?script_id=2136">http://www.vim.org/scripts/script.php?script_id=2136</a></span>
 
 2008-11-09T03:26:23+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 
-        - Fix the bug that <span class="Ignore">|</span><a href="surround.html#surround-mappings" class="Identifier">surround-mappings</a><span class="Ignore">|</span> does not work if they are not
+        - Fix the bug that <span class="Ignore">|</span><a href="surround.html#surround-mappings"><span class="Identifier">surround-mappings</span></a><span class="Ignore">|</span> does not work if they are not
           typed by user, for example, remapped from other key mappings.
 
 2008-05-18T20:40:06+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
@@ -315,14 +318,14 @@ should this be the default?
 
 2007-10-01T22:46:14+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 
-        - INCOMPATIBLE CHANGE: the way of <span class="Ignore">|</span><a href="surround.html#surround-customizing" class="Identifier">surround-customizing</a><span class="Ignore">|</span> is changed.
-          See <span class="Ignore">|</span><a href="surround.html#surrounding-customizing-difference" class="Identifier">surrounding-customizing-difference</a><span class="Ignore">|</span> for the detail.
+        - INCOMPATIBLE CHANGE: the way of <span class="Ignore">|</span><a href="surround.html#surround-customizing"><span class="Identifier">surround-customizing</span></a><span class="Ignore">|</span> is changed.
+          See <span class="Ignore">|</span><a href="surround.html#surrounding-customizing-difference"><span class="Identifier">surrounding-customizing-difference</span></a><span class="Ignore">|</span> for the detail.
 
         - Support n-stroke key for user-defined surrounding objects.
 
 2007-10-01T03:43:51+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 
-        - Support dynamic template for <span class="Ignore">|</span><a href="surround.html#surround-customizing" class="Identifier">surround-customizing</a><span class="Ignore">|</span>.
+        - Support dynamic template for <span class="Ignore">|</span><a href="surround.html#surround-customizing"><span class="Identifier">surround-customizing</span></a><span class="Ignore">|</span>.
           Now templates of user-defined surrounding objects may be functions
           or funcrefs which must return a template.
 
@@ -342,8 +345,8 @@ should this be the default?
 <span class="Ignore">&lt;</span>
 2007-10-01T00:25:20+09:00       kana    &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 
-        - Support user-defined surrounding objects (<span class="Ignore">|</span><a href="surround.html#surround-customizing" class="Identifier">surround-customizing</a><span class="Ignore">|</span>) as
-          <span class="Ignore">|</span><a href="surround.html#surround-targets" class="Identifier">surround-targets</a><span class="Ignore">|</span>.  The original version (1.26) does not support
+        - Support user-defined surrounding objects (<span class="Ignore">|</span><a href="surround.html#surround-customizing"><span class="Identifier">surround-customizing</span></a><span class="Ignore">|</span>) as
+          <span class="Ignore">|</span><a href="surround.html#surround-targets"><span class="Identifier">surround-targets</span></a><span class="Ignore">|</span>.  The original version (1.26) does not support
           this feature.
 
           BUGS: <span class="Special">[count]</span> is not supported yet.

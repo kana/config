@@ -47,12 +47,12 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="repeat-contents">repeat-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="repeat.html#repeat-introduction" class="Identifier">repeat-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="repeat.html#repeat-interface" class="Identifier">repeat-interface</a><span class="Ignore">|</span>
-  Functions               <span class="Ignore">|</span><a href="repeat.html#repeat-functions" class="Identifier">repeat-functions</a><span class="Ignore">|</span>
-  Mappings                <span class="Ignore">|</span><a href="repeat.html#repeat-mappings" class="Identifier">repeat-mappings</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="repeat.html#repeat-bugs" class="Identifier">repeat-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="repeat.html#repeat-changelog" class="Identifier">repeat-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="repeat.html#repeat-introduction"><span class="Identifier">repeat-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="repeat.html#repeat-interface"><span class="Identifier">repeat-interface</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="repeat.html#repeat-functions"><span class="Identifier">repeat-functions</span></a><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><a href="repeat.html#repeat-mappings"><span class="Identifier">repeat-mappings</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="repeat.html#repeat-bugs"><span class="Identifier">repeat-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="repeat.html#repeat-changelog"><span class="Identifier">repeat-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -66,7 +66,7 @@ of non built-in commands cannot be repeated by <span class="Ignore">|</span><spa
 problem, although plugins which provide such commands have to do proper setup.
 
 This plugin is derived from Tim Pope's one (*).  But it does not work in
-proper manner (see <span class="Ignore">|</span><a href="repeat.html#repeat-vs-original" class="Identifier">repeat-vs-original</a><span class="Ignore">|</span> for the detail).  That's why I rewrite
+proper manner (see <span class="Ignore">|</span><a href="repeat.html#repeat-vs-original"><span class="Identifier">repeat-vs-original</span></a><span class="Ignore">|</span> for the detail).  That's why I rewrite
 it.  This plugin is fully compatible with Time Pope's one, so it can be
 replace by this plugin without any problem.
 (*) <span class="Constant"><a href="http://www.vim.org/scripts/script.php?script_id=2136">http://www.vim.org/scripts/script.php?script_id=2136</a></span>
@@ -77,6 +77,9 @@ Requirements:
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-repeat">http://github.com/kana/config/commits/vim-repeat</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/repeat.html">http://kana.github.com/config/vim/repeat.html</a></span>
 
 
 
@@ -98,7 +101,7 @@ repeat#set(<span class="Special">{keyseq}</span>, [<span class="Special">{count}
 
 <span class="Special">&lt;Plug&gt;</span>(repeat-.)                                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(repeat-.)">&lt;Plug&gt;(repeat-.)</span><span class="Ignore">*</span>
                         Enhanced version of <span class="Ignore">|</span><span class="Identifier">.</span><span class="Ignore">|</span>.  The difference is that this
-                        may use <span class="Special">{keyseq}</span> set by <span class="Ignore">|</span><a href="repeat.html#repeat#set()" class="Identifier">repeat#set()</a><span class="Ignore">|</span>.
+                        may use <span class="Special">{keyseq}</span> set by <span class="Ignore">|</span><a href="repeat.html#repeat#set()"><span class="Identifier">repeat#set()</span></a><span class="Ignore">|</span>.
 
 <span class="Special">&lt;Plug&gt;</span>(repeat-u)                                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(repeat-u)">&lt;Plug&gt;(repeat-u)</span><span class="Ignore">*</span>
 <span class="Special">&lt;Plug&gt;</span>(repeat-U)                                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(repeat-U)">&lt;Plug&gt;(repeat-U)</span><span class="Ignore">*</span>
@@ -106,14 +109,14 @@ repeat#set(<span class="Special">{keyseq}</span>, [<span class="Special">{count}
 <span class="Special">&lt;Plug&gt;</span>(repeat-g-)                               <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(repeat-g-)">&lt;Plug&gt;(repeat-g-)</span><span class="Ignore">*</span>
 <span class="Special">&lt;Plug&gt;</span>(repeat-g+)                               <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(repeat-g+)">&lt;Plug&gt;(repeat-g+)</span><span class="Ignore">*</span>
                         Internal version of <span class="Ignore">|</span><span class="Identifier">u</span><span class="Ignore">|</span> and other commands to keep
-                        some information for <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(repeat-.)</span><span class="Ignore">|</span>.
+                        some information for <span class="Ignore">|</span><a href="repeat.html#&lt;Plug&gt;(repeat-.)"><span class="Identifier">&lt;Plug&gt;(repeat-.)</span></a><span class="Ignore">|</span>.
 
                                             <span class="Ignore">*</span><span class="Constant" id="g:repeat_no_default_key_mappings">g:repeat_no_default_key_mappings</span><span class="Ignore">*</span>
                                                 <span class="Ignore">*</span><span class="Constant" id=":RepeatDefaultKeyMappings">:RepeatDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin defines the following key mappings.  If you don't want to define
-these default key mappings, define <span class="Ignore">|</span><a href="repeat.html#g:repeat_no_default_key_mappings" class="Identifier">g:repeat_no_default_key_mappings</a><span class="Ignore">|</span> before
+these default key mappings, define <span class="Ignore">|</span><a href="repeat.html#g:repeat_no_default_key_mappings"><span class="Identifier">g:repeat_no_default_key_mappings</span></a><span class="Ignore">|</span> before
 this plugin is loaded (e.g. in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>).  You can also use
-<span class="Ignore">|</span><a href="repeat.html#:RepeatDefaultKeyMappings" class="Identifier">:RepeatDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.  This command
+<span class="Ignore">|</span><a href="repeat.html#:RepeatDefaultKeyMappings"><span class="Identifier">:RepeatDefaultKeyMappings</span></a><span class="Ignore">|</span> to redefine these key mappings.  This command
 doesn't override existing <span class="Special">{lhs}</span>s unless [!] is given.
 
         <span class="PreProc">modes  {lhs}   {rhs}           </span><span class="Ignore">    ~</span>
@@ -132,7 +135,7 @@ doesn't override existing <span class="Special">{lhs}</span>s unless [!] is give
 <span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="repeat-bugs">repeat-bugs</span><span class="Ignore">*</span>
 
 - After execution of Ex commands which undo or redo changes such as <span class="Ignore">|</span><span class="Identifier">:undo</span><span class="Ignore">|</span>,
-  <span class="Ignore">|</span><span class="Identifier">&lt;Plug&gt;(repeat-.)</span><span class="Ignore">|</span> may not repeat the command set by <span class="Ignore">|</span><a href="repeat.html#repeat#set()" class="Identifier">repeat#set()</a><span class="Ignore">|</span>.
+  <span class="Ignore">|</span><a href="repeat.html#&lt;Plug&gt;(repeat-.)"><span class="Identifier">&lt;Plug&gt;(repeat-.)</span></a><span class="Ignore">|</span> may not repeat the command set by <span class="Ignore">|</span><a href="repeat.html#repeat#set()"><span class="Identifier">repeat#set()</span></a><span class="Ignore">|</span>.
 
 - This plugin assumes that the 0, 1, ..., 9 keys are not mapped to anything.
 
@@ -150,14 +153,14 @@ doesn't override existing <span class="Special">{lhs}</span>s unless [!] is give
 
       While this plugin doesn't override and provides the way to prevent and
       to redefine the default key mappings by
-      <span class="Ignore">|</span><a href="repeat.html#g:repeat_no_default_key_mappings" class="Identifier">g:repeat_no_default_key_mappings</a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="repeat.html#:RepeatDefaultKeyMappings" class="Identifier">:RepeatDefaultKeyMappings</a><span class="Ignore">|</span>.
+      <span class="Ignore">|</span><a href="repeat.html#g:repeat_no_default_key_mappings"><span class="Identifier">g:repeat_no_default_key_mappings</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="repeat.html#:RepeatDefaultKeyMappings"><span class="Identifier">:RepeatDefaultKeyMappings</span></a><span class="Ignore">|</span>.
 
   (c) It doesn't provide any &quot;interface&quot; mappings to customize key mappings.
       For example, I use &quot;\&quot; to repeat the last change and &quot;.&quot; for
       <span class="Special">&lt;LocalLeader&gt;</span>.  With the original one, there is no convenient way to do
       such customization.
 
-      While this plugin provides <span class="Ignore">|</span><a href="repeat.html#repeat-mappings" class="Identifier">repeat-mappings</a><span class="Ignore">|</span> for such customization.
+      While this plugin provides <span class="Ignore">|</span><a href="repeat.html#repeat-mappings"><span class="Identifier">repeat-mappings</span></a><span class="Ignore">|</span> for such customization.
 
   (d) It doesn't have its own <span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span> documentation.
 

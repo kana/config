@@ -49,12 +49,12 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="textobj-datetime-contents">textobj-datetime-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-introduction" class="Identifier">textobj-datetime-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-interface" class="Identifier">textobj-datetime-interface</a><span class="Ignore">|</span>
-  Key Mapings             <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-key-mappings" class="Identifier">textobj-datetime-key-mappings</a><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-customizing" class="Identifier">textobj-datetime-customizing</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-bugs" class="Identifier">textobj-datetime-bugs</a><span class="Ignore">|</span>
-ChangeLog               <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-changelog" class="Identifier">textobj-datetime-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-introduction"><span class="Identifier">textobj-datetime-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-interface"><span class="Identifier">textobj-datetime-interface</span></a><span class="Ignore">|</span>
+  Key Mapings             <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-key-mappings"><span class="Identifier">textobj-datetime-key-mappings</span></a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-customizing"><span class="Identifier">textobj-datetime-customizing</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-bugs"><span class="Identifier">textobj-datetime-bugs</span></a><span class="Ignore">|</span>
+ChangeLog               <span class="Ignore">|</span><a href="textobj-datetime.html#textobj-datetime-changelog"><span class="Identifier">textobj-datetime-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -67,10 +67,13 @@ ChangeLog               <span class="Ignore">|</span><a href="textobj-datetime.h
 
 Requirements:
 - Vim 7.0 or later
-- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span> 0.3.3 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user"><span class="Identifier">textobj-user</span></a><span class="Ignore">|</span> 0.3.3 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-datetime">http://github.com/kana/config/commits/vim-textobj-datetime</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/textobj-datetime.html">http://kana.github.com/config/vim/textobj-datetime.html</a></span>
 
 
 
@@ -107,9 +110,9 @@ Latest version:
                                           <span class="Ignore">*</span><span class="Constant" id=":TextobjDatetimeDefaultKeyMappings">:TextobjDatetimeDefaultKeyMappings</span><span class="Ignore">*</span>
 This plugin will define the following key mappings in Visual mode and
 Operator-pending mode automatically.  If you don't want these key mappings,
-define <span class="Ignore">|</span><a href="textobj-datetime.html#g:textobj_datetime_no_default_key_mappings" class="Identifier">g:textobj_datetime_no_default_key_mappings</a><span class="Ignore">|</span> before this plugin is
+define <span class="Ignore">|</span><a href="textobj-datetime.html#g:textobj_datetime_no_default_key_mappings"><span class="Identifier">g:textobj_datetime_no_default_key_mappings</span></a><span class="Ignore">|</span> before this plugin is
 loaded (e.g. in $MYVIMRC).  You can also use
-<span class="Ignore">|</span><a href="textobj-datetime.html#:TextobjDatetimeDefaultKeyMappings" class="Identifier">:TextobjDatetimeDefaultKeyMappings</a><span class="Ignore">|</span> to redefine these key mappings.
+<span class="Ignore">|</span><a href="textobj-datetime.html#:TextobjDatetimeDefaultKeyMappings"><span class="Identifier">:TextobjDatetimeDefaultKeyMappings</span></a><span class="Ignore">|</span> to redefine these key mappings.
 
         <span class="Special">{lhs}</span>  <span class="Special">{rhs}</span>                            <span class="Ignore">~</span>
         <span class="PreProc">-----  ---------------------------</span><span class="Ignore">      ~</span>
@@ -155,10 +158,10 @@ Currently, W3C-DTF is only supported.
 0.2     2008-01-08T23:03:05+09:00
         - Fix the incorrect design - modify not to be autoloaded.
         - Modify the policy for the defauly key mappings.
-          See <span class="Ignore">|</span><a href="textobj-datetime.html#g:textobj_datetime_no_default_key_mappings" class="Identifier">g:textobj_datetime_no_default_key_mappings</a><span class="Ignore">|</span>.
+          See <span class="Ignore">|</span><a href="textobj-datetime.html#g:textobj_datetime_no_default_key_mappings"><span class="Identifier">g:textobj_datetime_no_default_key_mappings</span></a><span class="Ignore">|</span>.
 
 0.1     2007-11-17
-        - Requires <span class="Ignore">|</span><a href="textobj-user.html#textobj-user" class="Identifier">textobj-user</a><span class="Ignore">|</span>.
+        - Requires <span class="Ignore">|</span><a href="textobj-user.html#textobj-user"><span class="Identifier">textobj-user</span></a><span class="Ignore">|</span>.
         - Modify to be autoloaded.
         - Change the name of APIs.
 

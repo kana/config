@@ -47,11 +47,11 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="ku-buffer-contents">ku-buffer-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-introduction" class="Identifier">ku-buffer-introduction</a><span class="Ignore">|</span>
-Action Table            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-table" class="Identifier">ku-buffer-action-table</a><span class="Ignore">|</span>
-Key Table               <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-key-table" class="Identifier">ku-buffer-key-table</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-bugs" class="Identifier">ku-buffer-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-changelog" class="Identifier">ku-buffer-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-introduction"><span class="Identifier">ku-buffer-introduction</span></a><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-table"><span class="Identifier">ku-buffer-action-table</span></a><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-key-table"><span class="Identifier">ku-buffer-key-table</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-bugs"><span class="Identifier">ku-buffer-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-changelog"><span class="Identifier">ku-buffer-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -59,16 +59,19 @@ Changelog               <span class="Ignore">|</span><a href="ku-buffer.html#ku-
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-buffer-introduction">ku-buffer-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant" id="ku-buffer">ku-buffer</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> to deal with buffers.  You can choose one
+<span class="Ignore">*</span><span class="Constant" id="ku-buffer">ku-buffer</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> to deal with buffers.  You can choose one
 from many buffers and do some action to it.
 
 
 Requirements:
 - Vim 7.1.299 or later
-- <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+- <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-buffer">http://github.com/kana/config/commits/vim-ku-buffer</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/ku-buffer.html">http://kana.github.com/config/vim/ku-buffer.html</a></span>
 
 
 
@@ -104,12 +107,12 @@ wipeout                                         <span class="Ignore">*</span><sp
 
 <span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
 <span class="PreProc">--------        --------</span>
-<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-open" class="Identifier">ku-buffer-action-open</a><span class="Ignore">|</span>
-D               delete          <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-delete" class="Identifier">ku-buffer-action-delete</a><span class="Ignore">|</span>
-O               open!           <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-open!" class="Identifier">ku-buffer-action-open!</a><span class="Ignore">|</span>
-U               unload          <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-unload" class="Identifier">ku-buffer-action-unload</a><span class="Ignore">|</span>
-W               wipeout         <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-wipeout" class="Identifier">ku-buffer-action-wipeout</a><span class="Ignore">|</span>
-o               open            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-open" class="Identifier">ku-buffer-action-open</a><span class="Ignore">|</span>
+<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-open"><span class="Identifier">ku-buffer-action-open</span></a><span class="Ignore">|</span>
+D               delete          <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-delete"><span class="Identifier">ku-buffer-action-delete</span></a><span class="Ignore">|</span>
+O               open!           <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-open!"><span class="Identifier">ku-buffer-action-open!</span></a><span class="Ignore">|</span>
+U               unload          <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-unload"><span class="Identifier">ku-buffer-action-unload</span></a><span class="Ignore">|</span>
+W               wipeout         <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-wipeout"><span class="Identifier">ku-buffer-action-wipeout</span></a><span class="Ignore">|</span>
+o               open            <span class="Ignore">|</span><a href="ku-buffer.html#ku-buffer-action-open"><span class="Identifier">ku-buffer-action-open</span></a><span class="Ignore">|</span>
 
 
 

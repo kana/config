@@ -49,12 +49,12 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="xml_autons-contents">xml_autons-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-introduction" class="Identifier">xml_autons-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-interface" class="Identifier">xml_autons-interface</a><span class="Ignore">|</span>
-  Commands                <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-commands" class="Identifier">xml_autons-commands</a><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-customizing" class="Identifier">xml_autons-customizing</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-bugs" class="Identifier">xml_autons-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-changelog" class="Identifier">xml_autons-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-introduction"><span class="Identifier">xml_autons-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-interface"><span class="Identifier">xml_autons-interface</span></a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-commands"><span class="Identifier">xml_autons-commands</span></a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-customizing"><span class="Identifier">xml_autons-customizing</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-bugs"><span class="Identifier">xml_autons-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="xml_autons.html#xml_autons-changelog"><span class="Identifier">xml_autons-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -72,6 +72,9 @@ Requirements:
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-xml_autons">http://github.com/kana/config/commits/vim-xml_autons</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/xml_autons.html">http://kana.github.com/config/vim/xml_autons.html</a></span>
 
 
 
@@ -106,7 +109,7 @@ Latest version:
                         time you begin to edit an XML document, so that you
                         don't have to do it manually.
 
-                        See also <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict" class="Identifier">g:AutoXMLns_Dict</a><span class="Ignore">|</span>.
+                        See also <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict"><span class="Identifier">g:AutoXMLns_Dict</span></a><span class="Ignore">|</span>.
 
 
 
@@ -130,22 +133,22 @@ g:AutoXMLns_Dict                                        <span class="Ignore">*</
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="xml_autons-bugs">xml_autons-bugs</span><span class="Ignore">*</span>
 
-- <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns" class="Identifier">:AutoXMLns</a><span class="Ignore">|</span> checks only namespace declarations in the root tag.  So that
+- <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns"><span class="Identifier">:AutoXMLns</span></a><span class="Ignore">|</span> checks only namespace declarations in the root tag.  So that
   declarations in other tags are ignored.  Because namespaces may be locally
   overriden and <span class="Ignore">|</span><span class="Identifier">ft-xml-omni</span><span class="Ignore">|</span> cannot deal with such XML documents correctly.
 
-- <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns" class="Identifier">:AutoXMLns</a><span class="Ignore">|</span> checks only namespace URIs and doesn't check DTD decralations.
+- <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns"><span class="Identifier">:AutoXMLns</span></a><span class="Ignore">|</span> checks only namespace URIs and doesn't check DTD decralations.
   This may cause some accidents, for example, the namespace URI of XHTML 1.1
   and the one of XHTML 1.0 Strict (and other variants) are same.  So that
   :AutoXMLns may treat the current buffer as XHTML 1.1 even if the proper
   version is XHTML 1.0 Strict.
 
-- <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns" class="Identifier">:AutoXMLns</a><span class="Ignore">|</span> uses <span class="Ignore">|</span><span class="Identifier">:XMLns</span><span class="Ignore">|</span>, so that this filetype plugin must be placed
+- <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns"><span class="Identifier">:AutoXMLns</span></a><span class="Ignore">|</span> uses <span class="Ignore">|</span><span class="Identifier">:XMLns</span><span class="Ignore">|</span>, so that this filetype plugin must be placed
   <span class="Ignore">|</span><span class="Identifier">after-directory</span><span class="Ignore">|</span> to load it after the default filetype plugin.
 
 - When new <span class="Ignore">|</span><span class="Identifier">xml-omni-datafile</span><span class="Ignore">|</span> is added, you have to add the entry for it to
-  <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict" class="Identifier">g:AutoXMLns_Dict</a><span class="Ignore">|</span> manually.  It is convenient to compute the default values
-  of <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict" class="Identifier">g:AutoXMLns_Dict</a><span class="Ignore">|</span> from <span class="Ignore">|</span><span class="Identifier">xml-omni-datafile</span><span class="Ignore">|</span> in <span class="Type">'runtimepath'</span>, but
+  <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict"><span class="Identifier">g:AutoXMLns_Dict</span></a><span class="Ignore">|</span> manually.  It is convenient to compute the default values
+  of <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict"><span class="Identifier">g:AutoXMLns_Dict</span></a><span class="Ignore">|</span> from <span class="Ignore">|</span><span class="Identifier">xml-omni-datafile</span><span class="Ignore">|</span> in <span class="Type">'runtimepath'</span>, but
   <span class="Ignore">|</span><span class="Identifier">xml-omni-datafile</span><span class="Ignore">|</span> doesn't contain the corresponding namespace URI.
 
 
@@ -156,10 +159,10 @@ g:AutoXMLns_Dict                                        <span class="Ignore">*</
 
 
 0.0.1   2007-05-10
-        - <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns" class="Identifier">:AutoXMLns</a><span class="Ignore">|</span>: Suppress messages when the root tag is written in
+        - <span class="Ignore">|</span><a href="xml_autons.html#:AutoXMLns"><span class="Identifier">:AutoXMLns</span></a><span class="Ignore">|</span>: Suppress messages when the root tag is written in
           more than <span class="Type">'report'</span> lines.
 
-        - <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict" class="Identifier">g:AutoXMLns_Dict</a><span class="Ignore">|</span>: Don't override user settings that were done
+        - <span class="Ignore">|</span><a href="xml_autons.html#g:AutoXMLns_Dict"><span class="Identifier">g:AutoXMLns_Dict</span></a><span class="Ignore">|</span>: Don't override user settings that were done
           before this filetype plugin is first loaded.
 
 0.0     2007-04-28

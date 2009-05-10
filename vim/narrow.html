@@ -50,13 +50,13 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="narrow-contents">narrow-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="narrow.html#narrow-introduction" class="Identifier">narrow-introduction</a><span class="Ignore">|</span>
-Interface               <span class="Ignore">|</span><a href="narrow.html#narrow-interface" class="Identifier">narrow-interface</a><span class="Ignore">|</span>
-  Commands                <span class="Ignore">|</span><a href="narrow.html#narrow-commands" class="Identifier">narrow-commands</a><span class="Ignore">|</span>
-  Functions               <span class="Ignore">|</span><a href="narrow.html#narrow-functions" class="Identifier">narrow-functions</a><span class="Ignore">|</span>
-Customizing             <span class="Ignore">|</span><a href="narrow.html#narrow-customizing" class="Identifier">narrow-customizing</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="narrow.html#narrow-bugs" class="Identifier">narrow-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="narrow.html#narrow-changelog" class="Identifier">narrow-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="narrow.html#narrow-introduction"><span class="Identifier">narrow-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="narrow.html#narrow-interface"><span class="Identifier">narrow-interface</span></a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="narrow.html#narrow-commands"><span class="Identifier">narrow-commands</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="narrow.html#narrow-functions"><span class="Identifier">narrow-functions</span></a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="narrow.html#narrow-customizing"><span class="Identifier">narrow-customizing</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="narrow.html#narrow-bugs"><span class="Identifier">narrow-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="narrow.html#narrow-changelog"><span class="Identifier">narrow-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -79,7 +79,7 @@ From GNU Emacs Manual:
         range of operation of a replace command or repeating keyboard macro.
 
 <span class="Todo">Note</span> that there are some differences from the original behavior.
-See <span class="Ignore">|</span><a href="narrow.html#narrow-bugs" class="Identifier">narrow-bugs</a><span class="Ignore">|</span> for the detail.
+See <span class="Ignore">|</span><a href="narrow.html#narrow-bugs"><span class="Identifier">narrow-bugs</span></a><span class="Ignore">|</span> for the detail.
 
 
 Requirements:
@@ -87,6 +87,9 @@ Requirements:
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-narrow">http://github.com/kana/config/commits/vim-narrow</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/narrow.html">http://kana.github.com/config/vim/narrow.html</a></span>
 
 
 
@@ -100,7 +103,7 @@ Latest version:
                                                 <span class="Ignore">*</span><span class="Constant" id=":Narrow">:Narrow</span><span class="Ignore">*</span>
 :<span class="Special">[range]</span>Narrow
         Narrow down to <span class="Special">[range]</span>.  The default <span class="Special">[range]</span> is the current line.
-        See <span class="Ignore">|</span><a href="narrow.html#g:narrow_allow_overridingp" class="Identifier">g:narrow_allow_overridingp</a><span class="Ignore">|</span> in the case of the buffer is already
+        See <span class="Ignore">|</span><a href="narrow.html#g:narrow_allow_overridingp"><span class="Identifier">g:narrow_allow_overridingp</span></a><span class="Ignore">|</span> in the case of the buffer is already
         narrowed.
 
                                                 <span class="Ignore">*</span><span class="Constant" id=":Widen">:Widen</span><span class="Ignore">*</span>
@@ -113,13 +116,13 @@ Latest version:
 
                                                 <span class="Ignore">*</span><span class="Constant" id="narrow#Narrow()">narrow#Narrow()</span><span class="Ignore">*</span>
 narrow#Narrow(<span class="Special">{line1}</span>, <span class="Special">{line2}</span>)
-        Function version of <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span>.
+        Function version of <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span>.
         Narrow down to between <span class="Special">{line1}</span> and <span class="Special">{line2}</span>.
         Return true on success or false on failure.
 
                                                 <span class="Ignore">*</span><span class="Constant" id="narrow#Widen()">narrow#Widen()</span><span class="Ignore">*</span>
 narrow#Widen()
-        Function version of <span class="Ignore">|</span><a href="narrow.html#:Widen" class="Identifier">:Widen</a><span class="Ignore">|</span>.
+        Function version of <span class="Ignore">|</span><a href="narrow.html#:Widen"><span class="Identifier">:Widen</span></a><span class="Ignore">|</span>.
         Return true on success or false on failure.
 
 <span class="PreProc">==============================================================================</span>
@@ -132,7 +135,7 @@ b:narrow_original_state
 
                                                 <span class="Ignore">*</span><span class="Constant" id="g:narrow_allow_overridingp">g:narrow_allow_overridingp</span><span class="Ignore">*</span>
 g:narrow_allow_overridingp
-        When the buffer is already narrowed, <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span> is allowed if this
+        When the buffer is already narrowed, <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span> is allowed if this
         variable is set to true.  Otherwise it's not allowed, so nothing will
         happen.
 
@@ -160,20 +163,20 @@ g:narrow_allow_overridingp
 
 0.2.1   2009-02-28T16:55:24+09:00
         - Fix minor bugs:
-          - <span class="Ignore">|</span><a href="narrow.html#:Widen" class="Identifier">:Widen</a><span class="Ignore">|</span> raises an error for buffers without fold.
-          - <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span> doesn't hide lines smaller than <span class="Type">'foldminlines'</span>.
+          - <span class="Ignore">|</span><a href="narrow.html#:Widen"><span class="Identifier">:Widen</span></a><span class="Ignore">|</span> raises an error for buffers without fold.
+          - <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span> doesn't hide lines smaller than <span class="Type">'foldminlines'</span>.
 
 0.2     2007-12-29T07:24:53+09:00
-        - Fix <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="narrow.html#:Widen" class="Identifier">:Widen</a><span class="Ignore">|</span> not to use temporary files.  Now <span class="Ignore">|</span><a href="narrow.html#:Widen" class="Identifier">:Widen</a><span class="Ignore">|</span>
-          correctly works even if the target buffer is <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span>'ed by two or
+        - Fix <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="narrow.html#:Widen"><span class="Identifier">:Widen</span></a><span class="Ignore">|</span> not to use temporary files.  Now <span class="Ignore">|</span><a href="narrow.html#:Widen"><span class="Identifier">:Widen</span></a><span class="Ignore">|</span>
+          correctly works even if the target buffer is <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span>'ed by two or
           more Vim processes.
-        - Modify <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span> to <span class="Ignore">|</span><span class="Identifier">zz</span><span class="Ignore">|</span> after narrowing for visibility.
-        - Modify <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span> to include all lines of closed folds in <span class="Special">[range]</span>.
+        - Modify <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span> to <span class="Ignore">|</span><span class="Identifier">zz</span><span class="Ignore">|</span> after narrowing for visibility.
+        - Modify <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span> to include all lines of closed folds in <span class="Special">[range]</span>.
 
 0.1     2007-12-28T01:13:48+09:00
-        - Fix the bug that <span class="Type">'foldenable'</span> is not set after <span class="Ignore">|</span><a href="narrow.html#:Narrow" class="Identifier">:Narrow</a><span class="Ignore">|</span>.
-        - Fix the bug that the cursor is moved to somewhere after <span class="Ignore">|</span><a href="narrow.html#:Widen" class="Identifier">:Widen</a><span class="Ignore">|</span>.
-        - Add <span class="Ignore">|</span><a href="narrow.html#g:narrow_allow_overridingp" class="Identifier">g:narrow_allow_overridingp</a><span class="Ignore">|</span>.
+        - Fix the bug that <span class="Type">'foldenable'</span> is not set after <span class="Ignore">|</span><a href="narrow.html#:Narrow"><span class="Identifier">:Narrow</span></a><span class="Ignore">|</span>.
+        - Fix the bug that the cursor is moved to somewhere after <span class="Ignore">|</span><a href="narrow.html#:Widen"><span class="Identifier">:Widen</span></a><span class="Ignore">|</span>.
+        - Add <span class="Ignore">|</span><a href="narrow.html#g:narrow_allow_overridingp"><span class="Identifier">g:narrow_allow_overridingp</span></a><span class="Ignore">|</span>.
 
 0.0     2007-12-15T22:34:52+09:00
         - Initial version.

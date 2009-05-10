@@ -48,11 +48,11 @@ License: MIT license  {{{
 
 <span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="ku-quickfix-contents">ku-quickfix-contents</span><span class="Ignore">*</span>
 
-Introduction            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-introduction" class="Identifier">ku-quickfix-introduction</a><span class="Ignore">|</span>
-Action Table            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-table" class="Identifier">ku-quickfix-action-table</a><span class="Ignore">|</span>
-Key Table               <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-key-table" class="Identifier">ku-quickfix-key-table</a><span class="Ignore">|</span>
-Bugs                    <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-bugs" class="Identifier">ku-quickfix-bugs</a><span class="Ignore">|</span>
-Changelog               <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-changelog" class="Identifier">ku-quickfix-changelog</a><span class="Ignore">|</span>
+Introduction            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-introduction"><span class="Identifier">ku-quickfix-introduction</span></a><span class="Ignore">|</span>
+Action Table            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-table"><span class="Identifier">ku-quickfix-action-table</span></a><span class="Ignore">|</span>
+Key Table               <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-key-table"><span class="Identifier">ku-quickfix-key-table</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-bugs"><span class="Identifier">ku-quickfix-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-changelog"><span class="Identifier">ku-quickfix-changelog</span></a><span class="Ignore">|</span>
 
 
 
@@ -60,16 +60,19 @@ Changelog               <span class="Ignore">|</span><a href="ku-quickfix.html#k
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-quickfix-introduction">ku-quickfix-introduction</span><span class="Ignore">*</span>
 
-<span class="Ignore">*</span><span class="Constant" id="ku-quickfix">ku-quickfix</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> to deal with <span class="Ignore">|</span><span class="Identifier">quickfix</span><span class="Ignore">|</span>.  You can choose
+<span class="Ignore">*</span><span class="Constant" id="ku-quickfix">ku-quickfix</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> to deal with <span class="Ignore">|</span><span class="Identifier">quickfix</span><span class="Ignore">|</span>.  You can choose
 one from many files in the current quickfix list and do some action on it.
 
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><a href="ku.html#ku" class="Identifier">ku</a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+- <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-quickfix">http://github.com/kana/config/commits/vim-ku-quickfix</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/ku-quickfix.html">http://kana.github.com/config/vim/ku-quickfix.html</a></span>
 
 
 
@@ -78,7 +81,7 @@ Latest version:
 <span class="Statement">ACTION TABLE                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-quickfix-action-table">ku-quickfix-action-table</span><span class="Ignore">*</span>
 
 default                                         <span class="Ignore">*</span><span class="Constant" id="ku-quickfix-action-default">ku-quickfix-action-default</span><span class="Ignore">*</span>
-                        Same as <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open" class="Identifier">ku-quickfix-action-open</a><span class="Ignore">|</span>.
+                        Same as <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open"><span class="Identifier">ku-quickfix-action-open</span></a><span class="Ignore">|</span>.
 
 open                                            <span class="Ignore">*</span><span class="Constant" id="ku-quickfix-action-open">ku-quickfix-action-open</span><span class="Ignore">*</span>
                         Switch to the buffer corresponding to the selected
@@ -86,7 +89,7 @@ open                                            <span class="Ignore">*</span><sp
                         buffer with <span class="Ignore">|</span><span class="Identifier">:cc</span><span class="Ignore">|</span>.
 
 open!                                           <span class="Ignore">*</span><span class="Constant" id="ku-quickfix-action-open!">ku-quickfix-action-open!</span><span class="Ignore">*</span>
-                        Like <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open" class="Identifier">ku-quickfix-action-open</a><span class="Ignore">|</span>, but switch to the
+                        Like <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open"><span class="Identifier">ku-quickfix-action-open</span></a><span class="Ignore">|</span>, but switch to the
                         buffer with <span class="Ignore">|</span><span class="Identifier">:buffer!</span><span class="Ignore">|</span>.
 
 
@@ -97,9 +100,9 @@ open!                                           <span class="Ignore">*</span><sp
 
 <span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
 <span class="PreProc">--------        --------</span>
-<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open" class="Identifier">ku-quickfix-action-open</a><span class="Ignore">|</span>
-O               open!           <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open!" class="Identifier">ku-quickfix-action-open!</a><span class="Ignore">|</span>
-o               open            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open" class="Identifier">ku-quickfix-action-open</a><span class="Ignore">|</span>
+<span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open"><span class="Identifier">ku-quickfix-action-open</span></a><span class="Ignore">|</span>
+O               open!           <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open!"><span class="Identifier">ku-quickfix-action-open!</span></a><span class="Ignore">|</span>
+o               open            <span class="Ignore">|</span><a href="ku-quickfix.html#ku-quickfix-action-open"><span class="Identifier">ku-quickfix-action-open</span></a><span class="Ignore">|</span>
 
 
 
