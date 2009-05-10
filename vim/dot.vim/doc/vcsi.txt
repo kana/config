@@ -62,6 +62,9 @@ Supported version control systems:
 Latest version:
 http://github.com/kana/config/commits/vim-vcsi
 
+Document in HTML format:
+http://kana.github.com/config/vim/vcsi.html
+
 
 
 

@@ -51,6 +51,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-metarw-git
 
+Document in HTML format:
+http://kana.github.com/config/vim/metarw-git.html
+
 
 
 
