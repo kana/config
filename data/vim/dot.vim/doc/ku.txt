@@ -115,6 +115,9 @@ http://www.vim.org/scripts/script_search_results.php?keywords=ku
 Latest version:
 http://github.com/kana/config/commits/vim-ku
 
+Document in HTML format:
+http://kana.github.com/config/vim/ku.html
+
 
 
 

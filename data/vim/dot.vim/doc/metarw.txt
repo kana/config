@@ -62,6 +62,9 @@ Demo:
 Latest version:
 http://github.com/kana/config/commits/vim-metarw
 
+Document in HTML format:
+http://kana.github.com/config/vim/metarw.html
+
 
 
 

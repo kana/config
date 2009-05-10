@@ -82,6 +82,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-skeleton
 
+Document in HTML format:
+http://kana.github.com/config/vim/skeleton.html
+
 
 
 
