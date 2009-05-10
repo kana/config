@@ -37,9 +37,9 @@ Changelog		|xml_move-changelog|
 ==============================================================================
 INTRODUCTION					*xml_move-introduction*
 
-*xml_move* is an additional filetype plugin for Vim to provide mappings to
-move various objects in XML documents, e.g.  start-tags, end-tags, attributes
-and text nodes.
+*xml_move* is an additional Vim filetype plugin to provide mappings to move
+various objects in XML documents, e.g.  start-tags, end-tags, attributes and
+text nodes.
 
 
 Requirements:
