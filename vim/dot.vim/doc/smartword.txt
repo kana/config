@@ -72,6 +72,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-smartword
 
+Document in HTML format:
+http://kana.github.com/config/vim/smartword.html
+
 
 
 

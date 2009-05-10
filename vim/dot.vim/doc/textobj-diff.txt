@@ -52,6 +52,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-textobj-diff
 
+Document in HTML format:
+http://kana.github.com/config/vim/textobj-diff.html
+
 
 
 

@@ -56,6 +56,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-bundle
 
+Document in HTML format:
+http://kana.github.com/config/vim/bundle.html
+
 
 
 
