@@ -52,6 +52,9 @@ vim/%.html: data/vim/dot.vim/doc/%.txt convert-vimhelp-to-html vim/tags
 vim/tags: data/vim/dot.vim/doc/tags
 	cp $< $@
 data/vim/dot.vim/doc/tags: $(shell $(CMD_VIM_DOC_FILES))
-	vim -e -s -c "helptags $$(dirname $<) | quit"
+	# BUGS: The vim command always exits with 1 if it starts in Ex mode.
+	#       For convenience, the exit status is simply ignored,
+	#       but it shouldn't be ignored.
+	-vim -e -s -c "helptags $$(dirname $<) | quit"
 
 # __END__
