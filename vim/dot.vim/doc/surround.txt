@@ -268,9 +268,6 @@ CHANGELOG					*surround-changelog*
 	- Fix <Plug>Ysurround and others to be repeatable with a "repeat"
 	  plugin which is one of the followings:
 	  http://github.com/kana/config/commits/vim-repeat
-
-Document in HTML format:
-http://kana.github.com/config/vim/surround.html
 	  http://www.vim.org/scripts/script.php?script_id=2136
 
 2008-11-09T03:26:23+09:00	kana	<http://whileimautomaton.net/>
