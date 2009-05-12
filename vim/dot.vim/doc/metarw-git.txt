@@ -1,6 +1,6 @@
 *metarw-git.txt*	metarw scheme: git
 
-Version 0.0.2
+Version 0.0.3
 Script ID: 2336
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
