@@ -118,8 +118,9 @@ function! s:git_branches(git_dir)  "{{{2
     return []
   endif
 
-  return map(split(output_local, "\n") + split(output_remote, "\n"),
-  \          'matchstr(v:val, ''^[ *]*\zs.*\ze$'')')
+  return filter(map(split(output_local, "\n") + split(output_remote, "\n"),
+  \                 'matchstr(v:val, ''^[ *]*\zs.*\ze$'')'),
+  \             'v:val !=# "(no branch)" && v:val !~ " -> "')
 endfunction
 
 
