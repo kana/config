@@ -107,6 +107,10 @@ BUGS						*metarw-git-bugs*
 ==============================================================================
 CHANGELOG					*metarw-git-changelog*
 
+0.0.3	2009-05-13T00:59:53+09:00
+	- When completing branches, remove "remotes/" prefix from
+	  remote-tracking branches.
+
 0.0.2	2009-05-06T03:34:11+09:00
 	- Fix a bug that metarw-git uses wrong function to escape file-like
 	  arguments to shells.  Thanks @thinca for reporting this.
