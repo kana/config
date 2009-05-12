@@ -49,7 +49,7 @@ Requirements:
 - |metarw-scheme-script| such as |metarw-git| (vimscript#2336)
 
 Latest version:
-http://github.com/kana/config/commits/vim-ku-metarw
+http://github.com/kana/config/commits/vim-ku-source-metarw
 
 Document in HTML format:
 http://kana.github.com/config/vim/ku-metarw.html
