@@ -100,7 +100,7 @@ let s:LNUM_STATUS = 1
 let s:LNUM_INPUT = 2
 
   " Path separator.
-let s:PATH_SEP = exists('+shellslash') && &shellslash ? '\' : '/'
+let s:PATH_SEP = (exists('+shellslash') && !&shellslash) ? '\' : '/'
 
 
 " The buffer number of the ku buffer.
