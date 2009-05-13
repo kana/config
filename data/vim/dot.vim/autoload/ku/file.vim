@@ -79,8 +79,8 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
     return s:cached_items[cache_key]
   endif
 
-  let i = strridx(a:pattern, '/')
-  let components = split(a:pattern, '/', !0)
+  let i = strridx(a:pattern, ku#path_separator())
+  let components = split(a:pattern, ku#path_separator(), !0)
   let root_directory_pattern_p = i == 0
   let user_seems_want_dotfiles_p = components[-1][:0] == '.'
   let wildcard = (user_seems_want_dotfiles_p
@@ -89,9 +89,9 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
   if i < 0  " no path separator
     let glob_pattern = wildcard
   elseif root_directory_pattern_p
-    let glob_pattern = '/' . wildcard
+    let glob_pattern = ku#path_separator() . wildcard
   else  " more than one path separators
-    let glob_pattern = join(components[:-2], '/') . '/' . wildcard
+    let glob_pattern = call('ku#make_path', components[:-2] + [wildcard])
   endif
 
   let _ = []
@@ -110,7 +110,7 @@ endfunction
 
 
 function! ku#file#acc_valid_p(source_name_ext, item, sep)  "{{{2
-  return a:sep ==# '/' && isdirectory(a:item.word)
+  return a:sep ==# ku#path_separator() && isdirectory(a:item.word)
 endfunction
 
 

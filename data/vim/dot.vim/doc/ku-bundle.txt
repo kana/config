@@ -49,7 +49,7 @@ Requirements:
 - |ku| 0.2.0 or later (vimscript#2337)
 
 Latest version:
-http://github.com/kana/config/commits/vim-ku-bundle
+http://github.com/kana/config/commits/vim-ku-source-bundle
 
 Document in HTML format:
 http://kana.github.com/config/vim/ku-bundle.html

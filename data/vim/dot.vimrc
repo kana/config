@@ -110,7 +110,10 @@
 " Basic  "{{{1
 " Absolute  "{{{2
 
-set nocompatible  " to use many extensions of Vim.
+if !exists('s:loaded_my_vimrc')
+  " Don't reset twice on reloading - 'compatible' has SO many side effects.
+  set nocompatible  " to use many extensions of Vim.
+endif
 
 
 function! s:SID_PREFIX()
@@ -2359,6 +2362,8 @@ call ku#custom_action('common', 'Yank', s:SID_PREFIX().'ku_common_action_Yank')
 call ku#custom_action('common', 'cd', s:SID_PREFIX().'ku_common_action_my_cd')
 call ku#custom_action('common', 'yank', s:SID_PREFIX().'ku_common_action_yank')
 call ku#custom_action('myproject', 'default', 'common', 'tab-Right')
+call ku#custom_action('metarw/git', 'checkout',
+\                     s:SID_PREFIX().'ku_metarw_git_action_checkout')
 
 function! s:ku_common_action_my_cd(item)
   if isdirectory(a:item.word)
@@ -2375,9 +2380,27 @@ function! s:ku_common_action_Yank(item)
   call setreg('"', a:item.word, 'l')
 endfunction
 
+function! s:ku_metarw_git_action_checkout(item)
+  if a:item.ku__completed_p
+    let branch_name = matchstr(a:item.word, '^git:\zs[^:]\+\ze:')
+    let message = system('git checkout ' . shellescape(branch_name))
+    if v:shell_error == 0
+      echomsg 'git checkout' branch_name
+      return 0
+    else
+      return message
+    endif
+  else
+    return 'No such branch: ' . string(a:item.word)
+  endif
+endfunction
+
+
 
 call ku#custom_key('common', 'y', 'yank')
 call ku#custom_key('common', 'Y', 'Yank')
+call ku#custom_key('metarw/git', '/', 'checkout')
+call ku#custom_key('metarw/git', '?', 'checkout')
 
 
 call ku#custom_prefix('common', '.vim', $HOME.'/.vim')

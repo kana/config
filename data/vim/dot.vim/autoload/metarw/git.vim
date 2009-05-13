@@ -1,5 +1,5 @@
 " metarw scheme: git
-" Version: 0.0.2
+" Version: 0.0.3
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -100,16 +100,27 @@ endfunction
 
 " Misc.  "{{{1
 function! s:git_branches(git_dir)  "{{{2
-  " Assumption: Branches given by "git branch -a" are already sorted.
-  let output = system(printf('git --git-dir=%s branch -a',
-  \                          shellescape(a:git_dir)))
+  " Assumption: Branches given by "git branch" are already sorted.
+
+  let output_local = system(printf('git --git-dir=%s branch',
+  \                                shellescape(a:git_dir)))
   if v:shell_error != 0
-    echoerr 'git branch failed with the following reason:'
-    echoerr output
+    echoerr '"git branch" failed with the following reason:'
+    echoerr output_local
     return []
   endif
 
-  return map(split(output, "\n"), 'matchstr(v:val, ''^[ *]*\zs.*\ze$'')')
+  let output_remote = system(printf('git --git-dir=%s branch -r',
+  \                                 shellescape(a:git_dir)))
+  if v:shell_error != 0
+    echoerr '"git branch -r" failed with the following reason:'
+    echoerr output_remote
+    return []
+  endif
+
+  return filter(map(split(output_local, "\n") + split(output_remote, "\n"),
+  \                 'matchstr(v:val, ''^[ *]*\zs.*\ze$'')'),
+  \             'v:val !=# "(no branch)" && v:val !~ " -> "')
 endfunction
 
 
