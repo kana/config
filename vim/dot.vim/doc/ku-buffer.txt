@@ -46,7 +46,7 @@ Requirements:
 - |ku| 0.2.0 or later (vimscript#2337)
 
 Latest version:
-http://github.com/kana/config/commits/vim-ku-buffer
+http://github.com/kana/config/commits/vim-ku-source-buffer
 
 Document in HTML format:
 http://kana.github.com/config/vim/ku-buffer.html

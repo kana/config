@@ -23,7 +23,9 @@
 " }}}
 " Interface  "{{{1
 function! ku#metarw#available_sources()  "{{{2
-  return map(split(globpath(&runtimepath, 'autoload/metarw/*.vim'), '\n'),
+  return map(split(globpath(&runtimepath,
+  \                         ku#make_path('autoload', 'metarw', '*.vim')),
+  \                '\n'),
   \          '"metarw/" . fnamemodify(v:val, ":t:r")')
 endfunction
 

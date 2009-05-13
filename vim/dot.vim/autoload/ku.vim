@@ -221,8 +221,9 @@ let s:_session_id_source_cache = 0
 
 function! s:calculate_available_sources()
   let _ = []
-  for source_name_base in map(s:runtime_files('autoload/ku/*.vim'),
-  \                           'fnamemodify(v:val, ":t:r")')
+  for source_name_base
+  \ in map(s:runtime_files(ku#make_path('autoload', 'ku', '*.vim')),
+  \                        'fnamemodify(v:val, ":t:r")')
     call extend(_, s:api_available_sources(source_name_base))
   endfor
   return _
@@ -366,6 +367,24 @@ endfunction
 
 function! ku#input_history()  "{{{2
   return s:history_list()
+endfunction
+
+
+
+
+function! ku#make_path(...)  "{{{2
+  if a:0 == 1 && type(a:1) is type([])
+    return join(a:1, s:PATH_SEP)
+  else
+    return join(a:000, s:PATH_SEP)
+  endif
+endfunction
+
+
+
+
+function! ku#path_separator()  "{{{2
+  return s:PATH_SEP
 endfunction
 
 
@@ -1663,7 +1682,7 @@ let s:after_idle_p = s:FALSE  " to reload the history file after idle.
 " s:history_changed_p = s:FALSE
 " s:history_file_mtime = 0  " the last modified time of the history file.
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
-let s:HISTORY_FILE = 'info/ku/history'
+let s:HISTORY_FILE = ku#make_path('info', 'ku', 'history')
 
 " The format of history file is:
 " - Each line is corresponding to an inputted pattern.
