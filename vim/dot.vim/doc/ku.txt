@@ -1063,6 +1063,7 @@ CHANGELOG					*ku-changelog*
 	- Fix an assumption that the separator for pathes is "/".  This
 	  assumption causes unexpected behavior on some environments such as
 	  Microsoft Windows.
+	- Fix a wrong condition to use 'shellslash'.
 
 	Feature enhancements:
 	- Add API functions to deal with pathes.  See also:
