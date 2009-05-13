@@ -110,7 +110,10 @@
 " Basic  "{{{1
 " Absolute  "{{{2
 
-set nocompatible  " to use many extensions of Vim.
+if !exists('s:loaded_my_vimrc')
+  " Don't reset twice on reloading - 'compatible' has SO many side effects.
+  set nocompatible  " to use many extensions of Vim.
+endif
 
 
 function! s:SID_PREFIX()
