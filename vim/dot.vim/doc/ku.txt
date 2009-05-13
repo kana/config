@@ -270,6 +270,7 @@ ku#input_history()				*ku#input_history()*
 				was inputted.
 
 ku#make_path({component}, ...)			*ku#make_path()*
+ku#make_path([{component}, ...])
 			Return a path which consists of given {component}s.
 			For example:
 >
@@ -278,7 +279,7 @@ ku#make_path({component}, ...)			*ku#make_path()*
 				.vim/autoload/ku
 
 				" On Microsoft Windows
-				:echo ku#make_path('.vim', 'autoload', 'ku')
+				:echo ku#make_path(['.vim', 'autoload', 'ku'])
 				.vim\autoload\ku
 <
 ku#path_separator()				*ku#path_separator()*

@@ -373,7 +373,11 @@ endfunction
 
 
 function! ku#make_path(...)  "{{{2
-  return join(a:000, s:PATH_SEP)
+  if a:0 == 1 && type(a:1) is type([])
+    return join(a:1, s:PATH_SEP)
+  else
+    return join(a:000, s:PATH_SEP)
+  endif
 endfunction
 
 
