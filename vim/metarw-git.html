@@ -23,7 +23,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="metarw-git.txt">metarw-git.txt</span><span class="Ignore">*</span>        metarw scheme: git
 
-Version 0.0.2
+Version 0.0.3
 Script ID: 2336
 Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -129,6 +129,12 @@ ommitted.  If <span class="Special">{git-dir}</span> part is ommitted, it is tre
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="metarw-git-changelog">metarw-git-changelog</span><span class="Ignore">*</span>
+
+0.0.3   2009-05-13T00:59:53+09:00
+        - When completing branches, remove &quot;remotes/&quot; prefix from
+          remote-tracking branches.
+        - Fix not to complete wrong or unnecessary stuffs as branches.
+          For example, &quot;(no branch)&quot;, &quot;origin/HEAD -&gt; origin/master&quot;, etc.
 
 0.0.2   2009-05-06T03:34:11+09:00
         - Fix a bug that metarw-git uses wrong function to escape file-like

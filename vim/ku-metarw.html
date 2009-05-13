@@ -65,12 +65,12 @@ choose one from many fakepaths and do some action to it.
 
 Requirements:
 - Vim 7.1 or later
-- <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> 0.2.0 or later (vimscript#2337)
+- <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> 0.2.2 or later (vimscript#2337)
 - <span class="Ignore">|</span><a href="metarw.html#metarw"><span class="Identifier">metarw</span></a><span class="Ignore">|</span> 0.0.1 or later (vimscript#2335)
 - <span class="Ignore">|</span><a href="metarw.html#metarw-scheme-script"><span class="Identifier">metarw-scheme-script</span></a><span class="Ignore">|</span> such as <span class="Ignore">|</span><a href="metarw-git.html#metarw-git"><span class="Identifier">metarw-git</span></a><span class="Ignore">|</span> (vimscript#2336)
 
 Latest version:
-<span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-metarw">http://github.com/kana/config/commits/vim-ku-metarw</a></span>
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-source-metarw">http://github.com/kana/config/commits/vim-ku-source-metarw</a></span>
 
 Document in HTML format:
 <span class="Constant"><a href="http://kana.github.com/config/vim/ku-metarw.html">http://kana.github.com/config/vim/ku-metarw.html</a></span>
@@ -104,6 +104,15 @@ Same as <span class="Ignore">|</span><a href="ku-file.html#ku-file-key-table"><s
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-metarw-changelog">ku-metarw-changelog</span><span class="Ignore">*</span>
+
+0.1.2   2009-05-13T22:49:03+09:00               <span class="Ignore">*</span><span class="Constant" id="ku-metarw-changelog-0.1.2">ku-metarw-changelog-0.1.2</span><span class="Ignore">*</span>
+        Bug fixes:
+        - Fix an assumption that the separator for pathes is &quot;/&quot;.  This
+          assumption causes unexpected behavior on some environments such as
+          Microsoft Windows.
+
+        Incompatible changes:
+        - Require ku 0.2.2.
 
 0.1.1   2009-05-04T01:53:09+09:00
         - Update for ku 0.2.1.
