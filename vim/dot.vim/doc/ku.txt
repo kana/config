@@ -1040,6 +1040,12 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
+0.2.2	2009-05-13T21:40:20+09:00
+	Bug fixes:
+	- Fix an assumption that the separator for pathes is "/".  This
+	  assumption causes unexpected behavior on some environments such as
+	  Microsoft Windows.
+
 0.2.1	2009-05-01T01:40:08+09:00
 	Bug fixes:
 	- |<Plug>(ku-choose-action)|: Fix a bug that an error message is

@@ -221,8 +221,9 @@ let s:_session_id_source_cache = 0
 
 function! s:calculate_available_sources()
   let _ = []
-  for source_name_base in map(s:runtime_files('autoload/ku/*.vim'),
-  \                           'fnamemodify(v:val, ":t:r")')
+  for source_name_base
+  \ in map(s:runtime_files(s:make_path('autoload', 'ku', '*.vim')),
+  \                        'fnamemodify(v:val, ":t:r")')
     call extend(_, s:api_available_sources(source_name_base))
   endfor
   return _
@@ -1095,6 +1096,14 @@ endfunction
 
 
 " Misc.  "{{{1
+" Stuffs which must be defined earlier than others.  "{{{2
+function! s:make_path(...)  "{{{3
+  return join(a:000, s:PATH_SEP)
+endfunction
+
+
+
+
 " Autocommands  "{{{2
 
 augroup plugin-ku
@@ -1663,7 +1672,7 @@ let s:after_idle_p = s:FALSE  " to reload the history file after idle.
 " s:history_changed_p = s:FALSE
 " s:history_file_mtime = 0  " the last modified time of the history file.
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
-let s:HISTORY_FILE = 'info/ku/history'
+let s:HISTORY_FILE = s:make_path('info', 'ku', 'history')
 
 " The format of history file is:
 " - Each line is corresponding to an inputted pattern.
