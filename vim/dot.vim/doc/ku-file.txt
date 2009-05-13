@@ -43,7 +43,7 @@ choose one from many files and directories and do some action to it.
 
 Requirements:
 - Vim 7.1.299 or later
-- |ku| 0.2.0 or later (vimscript#2337)
+- |ku| 0.2.2 or later (vimscript#2337)
 
 Latest version:
 http://github.com/kana/config/commits/vim-ku-source-file
@@ -93,6 +93,15 @@ BUGS						*ku-file-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-file-changelog*
+
+0.1.2	2009-05-13T22:33:46+09:00		*ku-file-changelog-0.1.2*
+	Bug fixes:
+	- Fix an assumption that the separator for pathes is "/".  This
+	  assumption causes unexpected behavior on some environments such as
+	  Microsoft Windows.
+
+	Incompatible changes:
+	- Require ku 0.2.2.
 
 0.1.1	2009-05-04T01:45:44+09:00
 	- Update for ku 0.2.1.
