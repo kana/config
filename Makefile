@@ -697,7 +697,7 @@ clean-vim:
 # test  #{{{1
 
 test-a-package: _validate-package-name  # (PACKAGE_NAME)
-	@if [ -f test/$(PACKAGE_NAME).expected ]; then \
+	@if [ -d test/$(PACKAGE_NAME) ]; then \
 	  $(MAKE) test/$(PACKAGE_NAME).ok; \
 	else \
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
