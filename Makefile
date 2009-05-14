@@ -703,14 +703,21 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
 	fi
 
-test/vim-ku.ok: test/vim-ku/0001.ok
+TESTS_vim_ku = 0001
+test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
 	touch $@
 
-test/vim-ku/0001.ok: test/vim-ku/0001.expected test/vim-ku/0001.output
+test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
 	diff $^
 	touch $@
-test/vim-ku/0001.output: test/vim-ku/0001.input test/vim-ku/tester
+test/vim-ku/%.output: test/vim-ku/%.input
 	./test/vim-ku/tester $< >$@
+
+define GENERATE_RULES_TO_TEST_vim_ku
+test/vim-ku/$(1).ok: test/vim-ku/$(1).expected test/vim-ku/$(1).output
+test/vim-ku/$(1).output: test/vim-ku/$(1).input test/vim-ku/tester
+endef
+$(eval $(call GENERATE_RULES_TO_TEST_vim_ku,$(TESTS_vim_ku)))
 
 
 
