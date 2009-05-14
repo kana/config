@@ -1883,6 +1883,19 @@ endfunction
 
 
 
+" For tests  "{{{2
+function! ku#_local_variables()
+  return s:
+endfunction
+
+
+function! ku#_sid()
+  return matchstr(expand('<sfile>'), '^<SNR>\d\+_')
+endfunction
+
+
+
+
 function! s:compare_ignorecase(x, y)  "{{{2
   " Comparing function for sort() to do consistently case-insensitive sort.
   "
