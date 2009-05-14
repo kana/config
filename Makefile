@@ -703,6 +703,15 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
 	fi
 
+test/vim-ku.ok: test/vim-ku/0001.ok
+	touch $@
+
+test/vim-ku/0001.ok: test/vim-ku/0001.expected test/vim-ku/0001.output
+	diff $^
+	touch $@
+test/vim-ku/0001.output: test/vim-ku/0001.input test/vim-ku/tester
+	./test/vim-ku/tester $< >$@
+
 
 
 
