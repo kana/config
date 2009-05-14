@@ -73,6 +73,7 @@ endfunction
 
 
 function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
+  " NB: Here we call items which names start with a dot as 'dotfile'.
   " FIXME: path separator assumption
   let cache_key = (a:pattern != '' ? a:pattern : "\<Plug>(ku)")
   if has_key(s:cached_items, cache_key)
@@ -83,24 +84,35 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
   let components = split(a:pattern, ku#path_separator(), !0)
   let root_directory_pattern_p = i == 0
   let user_seems_want_dotfiles_p = components[-1][:0] == '.'
-  let wildcard = (user_seems_want_dotfiles_p
-  \               ? ('{*,.*' . (root_directory_pattern_p ? '' : ',..') . '}')
-  \               : '*')
+    " On Microsoft Windows, glob('{,.}*') doesn't list dotfiles,
+    " so that here we have to list dotfiles and other items separately.
+  let wildcards = user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
+
+    " glob_prefix must be followed by ku#separator() if it is not empty.
   if i < 0  " no path separator
-    let glob_pattern = wildcard
+    let glob_prefix = ''
   elseif root_directory_pattern_p
-    let glob_pattern = ku#path_separator() . wildcard
+    let glob_prefix = ku#path_separator()
   else  " more than one path separators
-    let glob_pattern = ku#make_path(components[:-2] + [wildcard])
+    let glob_prefix = ku#make_path(components[:-2]) . ku#path_separator()
   endif
 
   let _ = []
-  for entry in split(glob(glob_pattern), "\n")
-    call add(_, {
-    \      'word': entry,
-    \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
-    \    })
+  for wildcard in wildcards
+    for entry in split(glob(glob_prefix . wildcard), "\n")
+      call add(_, {
+      \      'word': entry,
+      \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
+      \    })
+    endfor
   endfor
+    " Remove the '..' item if user seems to find files under the root
+    " directory, because it is strange for such situation.
+    " FIXME: Drive letter and other cases on Microsoft Windows.  E.g. 'C:\'.
+  if fnamemodify(glob_prefix, ':p') == ku#path_separator()  " root directory?
+    let parent_directory_name = glob_prefix . '..'
+    call filter(_, 'v:val.word !=# parent_directory_name')
+  endif
 
   let s:cached_items[cache_key] = _
   return _
