@@ -91,7 +91,7 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
   elseif root_directory_pattern_p
     let glob_pattern = ku#path_separator() . wildcard
   else  " more than one path separators
-    let glob_pattern = call('ku#make_path', components[:-2] + [wildcard])
+    let glob_pattern = ku#make_path(components[:-2] + [wildcard])
   endif
 
   let _ = []
