@@ -14,6 +14,7 @@ all: update
   list-available-packages \
   list-files-in-a-package \
   package \
+  test \
   test-a-package \
   update \
   vimup \
@@ -695,6 +696,11 @@ clean-vim:
 
 
 # test  #{{{1
+
+test:
+	for i in $(ALL_PACKAGES); do \
+	  $(MAKE) PACKAGE_NAME=$$i test-a-package; \
+	done
 
 test-a-package: _validate-package-name  # (PACKAGE_NAME)
 	@if [ -d test/$(PACKAGE_NAME) ]; then \
