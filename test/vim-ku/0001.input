@@ -1,1 +1,9 @@
-Dummy Data
+" Test to test the test system.
+
+echo 'foo'
+ls
+cho 'bar'
+echo 'baz'
+echo ''
+
+" __END__

@@ -1,5 +1,9 @@
 #!/bin/bash
 
-cat "$1"
+vim -u NONE -N -e -s <<END 2>&1 | sed "s|$(pwd)||g"
+  set runtimepath=vim/dot.vim
+  1 verbose source $1
+  qall!
+END
 
 # __END__
