@@ -74,7 +74,6 @@ endfunction
 
 function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
   " NB: Here we call items which names start with a dot as 'dotfile'.
-  " FIXME: path separator assumption
   let cache_key = (a:pattern != '' ? a:pattern : "\<Plug>(ku)")
   if has_key(s:cached_items, cache_key)
     return s:cached_items[cache_key]
