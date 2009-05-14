@@ -86,6 +86,10 @@ o		open		|ku-file-action-open|
 ==============================================================================
 BUGS						*ku-file-bugs*
 
+- ".." for the root directories is not listed.  But on Microsoft Windows, this
+  behavior is not worked properly, so that ".." is also listed in some
+  situations.
+
 - There are many bugs around the world.
 
 
@@ -99,6 +103,13 @@ CHANGELOG					*ku-file-changelog*
 	- Fix an assumption that the separator for pathes is "/".  This
 	  assumption causes unexpected behavior on some environments such as
 	  Microsoft Windows.
+	- Fix a bug that dot files are not listed on Microsoft Windows.
+	  Thanks to thinca for reporting this.
+	- Fix a bug that directories are suffixed with a path separator
+	  unexpectedly if some condition is met.  It is somewhat inconvenient
+	  with |ku-auto-component-completion|.
+	- Don't list ".." for the root directory.  This is not worked for
+	  Microsoft Windows yet.
 
 	Incompatible changes:
 	- Require ku 0.2.2.

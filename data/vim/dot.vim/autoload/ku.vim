@@ -100,7 +100,7 @@ let s:LNUM_STATUS = 1
 let s:LNUM_INPUT = 2
 
   " Path separator.
-let s:PATH_SEP = exists('+shellslash') && &shellslash ? '\' : '/'
+let s:PATH_SEP = (exists('+shellslash') && !&shellslash) ? '\' : '/'
 
 
 " The buffer number of the ku buffer.
@@ -1878,6 +1878,19 @@ function! s:api_special_char_p(source_name, character)  "{{{3
   else
     return 0 <= stridx(g:ku_component_separators, a:character)
   endif
+endfunction
+
+
+
+
+" For tests  "{{{2
+function! ku#_local_variables()
+  return s:
+endfunction
+
+
+function! ku#_sid()
+  return matchstr(expand('<sfile>'), '^<SNR>\d\+_')
 endfunction
 
 
