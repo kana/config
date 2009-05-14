@@ -1050,6 +1050,9 @@ BUGS						*ku-bugs*
 - Ku assumes interactive use,
   so that it may not work with |recording| and/or |key-mapping|.
 
+- Ku assumes that 'shellslash' is never changed after any script of ku is
+  loaded.
+
 - Many bugs must be around the world.
 
 
