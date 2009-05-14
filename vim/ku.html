@@ -1075,6 +1075,9 @@ prefix table                                    <span class="Ignore">*</span><sp
 - Ku assumes interactive use,
   so that it may not work with <span class="Ignore">|</span><span class="Identifier">recording</span><span class="Ignore">|</span> and/or <span class="Ignore">|</span><span class="Identifier">key-mapping</span><span class="Ignore">|</span>.
 
+- Ku assumes that <span class="Type">'shellslash'</span> is never changed after any script of ku is
+  loaded.
+
 - Many bugs must be around the world.
 
 
@@ -1088,6 +1091,7 @@ prefix table                                    <span class="Ignore">*</span><sp
         - Fix an assumption that the separator for pathes is &quot;/&quot;.  This
           assumption causes unexpected behavior on some environments such as
           Microsoft Windows.
+        - Fix a wrong condition to use <span class="Type">'shellslash'</span>.
 
         Feature enhancements:
         - Add API functions to deal with pathes.  See also:

@@ -108,6 +108,10 @@ o               open            <span class="Ignore">|</span><span class="Identi
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="ku-file-bugs">ku-file-bugs</span><span class="Ignore">*</span>
 
+- &quot;..&quot; for the root directories is not listed.  But on Microsoft Windows, this
+  behavior is not worked properly, so that &quot;..&quot; is also listed in some
+  situations.
+
 - There are many bugs around the world.
 
 
@@ -121,6 +125,13 @@ o               open            <span class="Ignore">|</span><span class="Identi
         - Fix an assumption that the separator for pathes is &quot;/&quot;.  This
           assumption causes unexpected behavior on some environments such as
           Microsoft Windows.
+        - Fix a bug that dot files are not listed on Microsoft Windows.
+          Thanks to thinca for reporting this.
+        - Fix a bug that directories are suffixed with a path separator
+          unexpectedly if some condition is met.  It is somewhat inconvenient
+          with <span class="Ignore">|</span><a href="ku.html#ku-auto-component-completion"><span class="Identifier">ku-auto-component-completion</span></a><span class="Ignore">|</span>.
+        - Don't list &quot;..&quot; for the root directory.  This is not worked for
+          Microsoft Windows yet.
 
         Incompatible changes:
         - Require ku 0.2.2.
