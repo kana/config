@@ -684,7 +684,10 @@ vimup-script: package
 # clean  #{{{1
 
 clean:
-	rm -rf `find -name '*~' -or -name ',*'`
+	rm -rf `find -name '*~' \
+	         -or -name ',*' \
+	         -or -name '*.ok' \
+	         -or -name '*.output'`
 
 clean-vim:
 	rm -rf `find $(HOME)/.vim \
