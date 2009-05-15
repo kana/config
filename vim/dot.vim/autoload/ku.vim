@@ -731,6 +731,7 @@ function! s:do(action_name)  "{{{2
       echoerr 'Internal error: No match found in s:last_completed_items'
       echoerr 'current_user_input_raw' string(current_user_input_raw)
       echoerr 's:last_user_input_raw' string(s:last_user_input_raw)
+      echoerr 's:last_completed_items' string(s:last_completed_items)
       throw 'ku:e1'
     endif
   else
