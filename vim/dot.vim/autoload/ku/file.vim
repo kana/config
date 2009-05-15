@@ -101,6 +101,7 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
     for entry in split(glob(glob_prefix . wildcard), "\n")
       call add(_, {
       \      'word': entry,
+      \      'abbr': entry . (isdirectory(entry) ? ku#path_separator() : ''),
       \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
       \    })
     endfor

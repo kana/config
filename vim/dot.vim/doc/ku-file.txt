@@ -114,6 +114,12 @@ CHANGELOG					*ku-file-changelog*
 	  don't escape a given path properly.  Thanks to thinca for reporting
 	  this.
 
+	Feature enhancements:
+	- In the |ins-completion-menu|, append a path separator for each item
+	  which is a directory to clear whether an item is a directory or not.
+	  This appending only affects the menu, and internal data are not
+	  always suffixed with a path separator.
+
 	Incompatible changes:
 	- Require ku 0.2.2.
 
