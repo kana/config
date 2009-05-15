@@ -1,5 +1,5 @@
 " ku source: file
-" Version: 0.1.1
+" Version: 0.1.2
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -101,6 +101,7 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
     for entry in split(glob(glob_prefix . wildcard), "\n")
       call add(_, {
       \      'word': entry,
+      \      'abbr': entry . (isdirectory(entry) ? ku#path_separator() : ''),
       \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
       \    })
     endfor
@@ -143,7 +144,7 @@ function! s:open(bang, item)  "{{{2
   " BUGS: ":silent! edit {file with swp owned by another Vim process}" causes
   " some strange behavior - there is no message but Vim waits for a key input.
   " It makes users confusing, so here :silent!/v:errmsg are not used.
-  execute 'edit'.a:bang fnameescape(a:item.word)
+  execute 'edit'.a:bang '`=a:item.word`'
   return 0
 endfunction
 

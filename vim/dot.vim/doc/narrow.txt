@@ -137,24 +137,24 @@ BUGS						*narrow-bugs*
 ==============================================================================
 CHANGELOG					*narrow-changelog*
 
-0.2.1	2009-02-28T16:55:24+09:00
+0.2.1	2009-02-28T16:55:24+09:00		*narrow-changelog-0.2.1*
 	- Fix minor bugs:
 	  - |:Widen| raises an error for buffers without fold.
 	  - |:Narrow| doesn't hide lines smaller than 'foldminlines'.
 
-0.2	2007-12-29T07:24:53+09:00
+0.2	2007-12-29T07:24:53+09:00		*narrow-changelog-0.2*
 	- Fix |:Narrow| and |:Widen| not to use temporary files.  Now |:Widen|
 	  correctly works even if the target buffer is |:Narrow|'ed by two or
 	  more Vim processes.
 	- Modify |:Narrow| to |zz| after narrowing for visibility.
 	- Modify |:Narrow| to include all lines of closed folds in [range].
 
-0.1	2007-12-28T01:13:48+09:00
+0.1	2007-12-28T01:13:48+09:00		*narrow-changelog-0.1*
 	- Fix the bug that 'foldenable' is not set after |:Narrow|.
 	- Fix the bug that the cursor is moved to somewhere after |:Widen|.
 	- Add |g:narrow_allow_overridingp|.
 
-0.0	2007-12-15T22:34:52+09:00
+0.0	2007-12-15T22:34:52+09:00		*narrow-changelog-0.0*
 	- Initial version.
 
 
