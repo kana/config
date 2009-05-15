@@ -323,7 +323,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.1
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.2
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
@@ -353,7 +353,7 @@ PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
 
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.1
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.2
 PACKAGE_vim_ku_file_BASE=vim/dot.vim
 PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
@@ -365,7 +365,7 @@ PACKAGE_vim_ku_history_FILES=\
   vim/dot.vim/autoload/ku/history.vim \
   vim/dot.vim/doc/ku-history.txt
 
-PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.1.1
+PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.1.2
 PACKAGE_vim_ku_metarw_BASE=vim/dot.vim
 PACKAGE_vim_ku_metarw_FILES=\
   vim/dot.vim/autoload/ku/metarw.vim \

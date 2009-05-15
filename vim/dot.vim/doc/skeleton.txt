@@ -134,19 +134,19 @@ BUGS						*skeleton-bugs*
 ==============================================================================
 CHANGELOG					*skeleton-changelog*
 
-0.0.2	2009-03-17T01:16:29+09:00
+0.0.2	2009-03-17T01:16:29+09:00		*skeleton-changelog-0.0.2*
 	- Refine the document.
 	- |:SkeletonLoad|:
 	  - Support completion.
 	  - Allow to override existing content of a buffer with "!".
 
-0.0.1	2008-07-13T00:20:09+09:00
+0.0.1	2008-07-13T00:20:09+09:00		*skeleton-changelog-0.0.1*
 	- Fix to suppress extra message if there is no autocmd for
 	  |User:plugin-skeleton-detect|.
 	- Fix not to do the default |:SkeletonLoad| if 'filetype' of the
 	  current buffer is unknown.
 
-0.0.0	2008-07-11T12:23:55+09:00
+0.0.0	2008-07-11T12:23:55+09:00		*skeleton-changelog-0.0.0*
 	- Initial version.
 
 

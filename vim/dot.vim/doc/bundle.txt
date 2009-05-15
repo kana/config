@@ -221,14 +221,14 @@ BUGS						*bundle-bugs*
 ==============================================================================
 CHANGELOG					*bundle-changelog*
 
-0.0.2	2008-08-10T20:24:17+09:00
+0.0.2	2008-08-10T20:24:17+09:00		*bundle-changelog-0.0.2*
 	- Add |bundle#available_bundles()|.
 
-0.0.1	2008-08-10T19:05:47+09:00
+0.0.1	2008-08-10T19:05:47+09:00		*bundle-changelog-0.0.1*
 	- Change the required version of Vim - 7.1.299 or later.
 	- Add |:ArgsBundle|, |bundle#args()| and |bundle#files()|.
 
-0.0.0	2008-08-09T13:56:16+09:00
+0.0.0	2008-08-09T13:56:16+09:00		*bundle-changelog-0.0.0*
 	- Initial version.
 
 

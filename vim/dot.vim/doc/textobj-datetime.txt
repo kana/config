@@ -123,26 +123,26 @@ Currently, W3C-DTF is only supported.
 ==============================================================================
 CHANGELOG					*textobj-datetime-changelog*
 
-0.3.1	2008-06-11T22:07:26+09:00
+0.3.1	2008-06-11T22:07:26+09:00	    *textobj-datetime-changelog-0.3.1*
 	- Modify to use textobj-user version 0.3.3 or later.
 
-0.3	2008-06-08T21:41:15+09:00
+0.3	2008-06-08T21:41:15+09:00	      *textobj-datetime-changelog-0.3*
 	- Modify to use textobj-user version 0.3 or later.
 	  - Rename interface mappings.  For example:
 	    Old name: <Plug>textobj#datetime#full
 	    New name: <Plug>(textobj-datetime-full)
 
-0.2	2008-01-08T23:03:05+09:00
+0.2	2008-01-08T23:03:05+09:00	      *textobj-datetime-changelog-0.2*
 	- Fix the incorrect design - modify not to be autoloaded.
 	- Modify the policy for the defauly key mappings.
 	  See |g:textobj_datetime_no_default_key_mappings|.
 
-0.1	2007-11-17
+0.1	2007-11-17			      *textobj-datetime-changelog-0.1*
 	- Requires |textobj-user|.
 	- Modify to be autoloaded.
 	- Change the name of APIs.
 
-0.0	2007-09-26
+0.0	2007-09-26			      *textobj-datetime-changelog-0.0*
 	- First release.
 
 

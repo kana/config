@@ -131,7 +131,7 @@ BUGS						*textobj-diff-bugs*
 ==============================================================================
 CHANGELOG					*textobj-diff-changelog*
 
-0.0.0	2008-10-23T14:19:46+09:00
+0.0.0	2008-10-23T14:19:46+09:00		*textobj-diff-changelog-0.0.0*
 	- Initial version.
 
 
