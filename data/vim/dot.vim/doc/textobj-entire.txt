@@ -109,7 +109,7 @@ BUGS						*textobj-entire-bugs*
 ==============================================================================
 CHANGELOG					*textobj-entire-changelog*
 
-0.0.0	2009-04-15T14:41:17+09:00
+0.0.0	2009-04-15T14:41:17+09:00	      *textobj-entire-changelog-0.0.0*
 	- Initial version.
 
 

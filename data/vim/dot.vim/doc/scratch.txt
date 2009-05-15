@@ -211,15 +211,15 @@ BUGS						*scratch-bugs*
 ==============================================================================
 CHANGELOG					*scratch-changelog*
 
-0.1+	2008-01-13T00:47:42+09:00
+0.1+	2008-01-13T00:47:42+09:00		*scratch-changelog-0.1+*
 	- Modify |:ScratchEvaluate| to accept |line-continuation|.
 	- scratch#open(): Modify not to use g:scratch_show_command in some
 	  cases to avoid showing the scratch buffer in two windows.
 
-0.1	2007-12-25T03:57:18+09:00
+0.1	2007-12-25T03:57:18+09:00		*scratch-changelog-0.1*
 	- Rewrote.
 
-0.0	2007-xx-xx
+0.0	2007-xx-xx				*scratch-changelog-0.0*
 	- Initial version.
 
 

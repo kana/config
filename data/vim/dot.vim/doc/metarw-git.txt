@@ -107,21 +107,21 @@ BUGS						*metarw-git-bugs*
 ==============================================================================
 CHANGELOG					*metarw-git-changelog*
 
-0.0.3	2009-05-13T00:59:53+09:00
+0.0.3	2009-05-13T00:59:53+09:00		*metarw-git-changelog-0.0.3*
 	- When completing branches, remove "remotes/" prefix from
 	  remote-tracking branches.
 	- Fix not to complete wrong or unnecessary stuffs as branches.
 	  For example, "(no branch)", "origin/HEAD -> origin/master", etc.
 
-0.0.2	2009-05-06T03:34:11+09:00
+0.0.2	2009-05-06T03:34:11+09:00		*metarw-git-changelog-0.0.2*
 	- Fix a bug that metarw-git uses wrong function to escape file-like
 	  arguments to shells.  Thanks @thinca for reporting this.
 
-0.0.1	2008-08-10T12:20:41+09:00
+0.0.1	2008-08-10T12:20:41+09:00		*metarw-git-changelog-0.0.1*
 	- Fix requirements - metarw-git uses |fnameescape()| which is added
 	  since Vim 7.1.299.  (thanks to id:thinca)
 
-0.0.0	2008-07-25T06:18:40+09:00
+0.0.0	2008-07-25T06:18:40+09:00		*metarw-git-changelog-0.0.0*
 	- Initial version.
 
 
