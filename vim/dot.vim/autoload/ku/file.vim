@@ -143,7 +143,7 @@ function! s:open(bang, item)  "{{{2
   " BUGS: ":silent! edit {file with swp owned by another Vim process}" causes
   " some strange behavior - there is no message but Vim waits for a key input.
   " It makes users confusing, so here :silent!/v:errmsg are not used.
-  execute 'edit'.a:bang fnameescape(a:item.word)
+  execute 'edit'.a:bang '`=a:item.word`'
   return 0
 endfunction
 

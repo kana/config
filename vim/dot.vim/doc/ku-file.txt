@@ -110,6 +110,9 @@ CHANGELOG					*ku-file-changelog*
 	  with |ku-auto-component-completion|.
 	- Don't list ".." for the root directory.  This is not worked for
 	  Microsoft Windows yet.
+	- Fix a bug that |ku-file-action-open| and |ku-file-action-open!|
+	  don't escape a given path properly.  Thanks to thinca for reporting
+	  this.
 
 	Incompatible changes:
 	- Require ku 0.2.2.
