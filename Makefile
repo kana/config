@@ -717,10 +717,18 @@ test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
 	touch $@
 
 test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
-	diff $^
-	touch $@
+	@echo -n 'TEST: $(<:.expected=) ... '
+	@if diff -u $^ >,test-vim-ku; then \
+	   echo 'ok'; \
+	 else \
+	   echo 'FAILED'; \
+	   cat ,test-vim-ku; \
+	   echo 'END'; \
+	   false; \
+	 fi
+	@touch $@
 test/vim-ku/%.output: test/vim-ku/%.input
-	./test/vim-ku/tester $< &>$@
+	@./test/vim-ku/tester $< &>$@
 
 define GENERATE_RULES_TO_TEST_vim_ku
 test/vim-ku/$(1).ok: test/vim-ku/$(1).expected test/vim-ku/$(1).output
