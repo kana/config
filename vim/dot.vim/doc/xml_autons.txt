@@ -132,7 +132,7 @@ BUGS						*xml_autons-bugs*
 
 
 ==============================================================================
-CHANGELOG						*xml_autons-changelog*
+CHANGELOG					*xml_autons-changelog*
 
 
 0.0.1	2007-05-10				*xml_autons-changelog-0.0.1*
