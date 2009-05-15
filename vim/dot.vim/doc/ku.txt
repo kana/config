@@ -1,6 +1,6 @@
 *ku.txt*	An interface for anything
 
-Version 0.2.1
+Version 0.2.2
 Script ID: 2337
 Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
