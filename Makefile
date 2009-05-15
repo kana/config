@@ -353,7 +353,7 @@ PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
 
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.1
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.2
 PACKAGE_vim_ku_file_BASE=vim/dot.vim
 PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
