@@ -125,18 +125,18 @@ BUGS						*textobj-fold-bugs*
 ==============================================================================
 CHANGELOG					*textobj-fold-changelog*
 
-0.1.2	2008-08-25T00:53:18+09:00
+0.1.2	2008-08-25T00:53:18+09:00		*textobj-fold-changelog-0.1.2*
 	- Use textobj-user 0.3.5 or later.
 	- Fix the bug that closed foldings were not correctly selected.
 
-0.1.1	2008-06-26T21:17:20+09:00
+0.1.1	2008-06-26T21:17:20+09:00		*textobj-fold-changelog-0.1.1*
 	- Use textobj-user 0.3.4 or later.
 
-0.1.0	2008-06-12T17:15:10+09:00
+0.1.0	2008-06-12T17:15:10+09:00		*textobj-fold-changelog-0.1.0*
 	- Use textobj-user 0.3.3 or later.
 	- Update/Fix the document.
 
-0.0.0	2008-03-16T21:42:31+09:00
+0.0.0	2008-03-16T21:42:31+09:00		*textobj-fold-changelog-0.0.0*
 	- Initial version.
 
 

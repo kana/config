@@ -289,12 +289,12 @@ BUGS						*vcsi-bugs*
 ==============================================================================
 CHANGELOG					*vcsi-changelog*
 
-0.1.1	2008-09-29T01:34:57+09:00
+0.1.1	2008-09-29T01:34:57+09:00		*vcsi-changelog-0.1.1*
 	- Highlight the first = summary line for buffers to edit commit log.
 	- Add |:VcsiAmend| and other interfaces for it.
 	- git: Improve the way to get a template for commit log.
 
-0.1.0	2008-07-13T20:26:10+09:00
+0.1.0	2008-07-13T20:26:10+09:00		*vcsi-changelog-0.1.0*
 	- Rewritten:
 	  - Revise the internal.
 	  - Remove some commands - :VcsiBranchList, :VcsiBranchSwitch,
@@ -305,7 +305,7 @@ CHANGELOG					*vcsi-changelog*
 	  - Change the default key mappings for |:VcsiRevert|.  Use "v"
 	    instead of "r", because now "r" is used for |:VcsiRemove|.
 
-0.0.7	2008-05-19T20:16:54+09:00
+0.0.7	2008-05-19T20:16:54+09:00		*vcsi-changelog-0.0.7*
 	- |:VcsiBranchList|: New.
 	- |:VcsiBranchSwitch|: New.
 	- |:VcsiDiff| (git): Add separators for staged changes and unstaged
@@ -315,32 +315,32 @@ CHANGELOG					*vcsi-changelog*
 	- Fix syntax highlighting for buffers to edit commit log.
 	- Fix minor bugs.
 
-0.0.6	2008-04-27T12:35:59+09:00
+0.0.6	2008-04-27T12:35:59+09:00		*vcsi-changelog-0.0.6*
 	- |:VcsiDiff| (git): Show also --cached difference.
 
-0.0.5	2008-03-13T21:48:06+09:00
+0.0.5	2008-03-13T21:48:06+09:00		*vcsi-changelog-0.0.5*
 	- |:VcsiRevert| (git): Fix to process a file or directory which name
 	  is same as a branch.
 
-0.0.4	2008-02-21T23:21:36+09:00
+0.0.4	2008-02-21T23:21:36+09:00		*vcsi-changelog-0.0.4*
 	- Support git.
 
-0.0.3	2008-02-11T23:38:25+09:00
+0.0.3	2008-02-11T23:38:25+09:00		*vcsi-changelog-0.0.3*
 	- Fix the bug that |E676| happens when a commit log buffer is written.
 
-0.0.2	2008-01-26T02:38:14+09:00
+0.0.2	2008-01-26T02:38:14+09:00		*vcsi-changelog-0.0.2*
 	- Improve the speed to switch between buffers.
 	- Modify the meaning of g:vcsi_open_command and other variables (open
 	  new window rather than open the specified buffer).
 
-0.0.1	2008-01-13T00:02:47+09:00
+0.0.1	2008-01-13T00:02:47+09:00		*vcsi-changelog-0.0.1*
 	- Fix the bug that most of temporary buffers are marked as modified.
 	- Fix the bug that hit-enter prompt is appeared in most of cases.
 	- Fix the bug that same temporary buffer is showed in two windows in
 	  some cases.
 	- Add "diff" syntax for commit log buffers.
 
-0.0	2007-12-29T14:49:35+09:00
+0.0	2007-12-29T14:49:35+09:00		*vcsi-changelog-0.0*
 	- Initial version.
 
 

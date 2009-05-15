@@ -135,14 +135,14 @@ BUGS						*xml_autons-bugs*
 CHANGELOG						*xml_autons-changelog*
 
 
-0.0.1	2007-05-10
+0.0.1	2007-05-10				*xml_autons-changelog-0.0.1*
 	- |:AutoXMLns|: Suppress messages when the root tag is written in
 	  more than 'report' lines.
 
 	- |g:AutoXMLns_Dict|: Don't override user settings that were done
 	  before this filetype plugin is first loaded.
 
-0.0	2007-04-28
+0.0	2007-04-28				*xml_autons-changelog-0.0*
 	- First release.
 
 

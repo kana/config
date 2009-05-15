@@ -120,7 +120,7 @@ BUGS						*altkwprg-bugs*
 ==============================================================================
 CHANGELOG					*altkwprg-changelog*
 
-0.0.0	2008-10-29T00:38:49+09:00
+0.0.0	2008-10-29T00:38:49+09:00		*altkwprg-changelog-0.0.0*
 	- Initial version.
 
 

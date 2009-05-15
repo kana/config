@@ -143,17 +143,17 @@ BUGS						*smartword-bugs*
 ==============================================================================
 CHANGELOG					*smartword-changelog*
 
-0.0.2	2009-01-23T19:13:29+09:00
+0.0.2	2009-01-23T19:13:29+09:00		*smartword-changelog-0.0.2*
 	- Fix the document a bit.
 	- Revise the treatment on 'iskeyword'.
 	- Fix 2 bugs on |<Plug>(smartword-e)| and |<Plug>(smartword-ge)| with
 	  |o_v|.  These bugs are appeared only in Vim with the patch (*).
 
-0.0.1	2008-12-06T01:21:37+09:00
+0.0.1	2008-12-06T01:21:37+09:00		*smartword-changelog-0.0.1*
 	- Fix |<Plug>(smartword-e)| and |<Plug>(smartword-ge)| to be
 	  |inclusive| as same as |e| and |ge|.
 
-0.0.0	2008-12-03T01:44:30+09:00
+0.0.0	2008-12-03T01:44:30+09:00		*smartword-changelog-0.0.0*
 	- Initial version.
 
 

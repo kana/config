@@ -96,14 +96,14 @@ BUGS						*ku-source-bugs*
 ==============================================================================
 CHANGELOG					*ku-source-changelog*
 
-0.1.1	2009-05-04T02:51:26+09:00
+0.1.1	2009-05-04T02:51:26+09:00		*ku-source-changelog-0.1.1*
 	- Update for ku 0.2.1.
 	- Fix a bug that there was no consideration on non-completed items.
 
-0.1.0	2009-04-27T02:50:59+09:00
+0.1.0	2009-04-27T02:50:59+09:00		*ku-source-changelog-0.1.0*
 	- Update for ku 0.2.0.
 
-0.0.0	2008-12-09T16:54:28+09:00
+0.0.0	2008-12-09T16:54:28+09:00		*ku-source-changelog-0.0.0*
 	- Initial version.
 
 

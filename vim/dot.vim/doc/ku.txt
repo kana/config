@@ -1040,7 +1040,7 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
-0.2.1	2009-05-01T01:40:08+09:00
+0.2.1	2009-05-01T01:40:08+09:00		*ku-changelog-0.2.1*
 	Bug fixes:
 	- |<Plug>(ku-choose-action)|: Fix a bug that an error message is
 	  displayed unexpectedly, whenever a key which is not associated with
@@ -1067,7 +1067,7 @@ CHANGELOG					*ku-changelog*
 	Misc.:
 	- Refactor the core.
 
-0.2.0	2008-12-31T22:06:44+09:00/2009-04-28T01:45:50+09:00
+0.2.0	2009-04-28T01:45:50+09:00		*ku-changelog-0.2.0*
 	- Add |ku__source|.
 	- Fix a few assumptions on path separator.
 	- Improve the performance to complete items.
@@ -1115,19 +1115,19 @@ CHANGELOG					*ku-changelog*
 	    New versions use only spaces as wildcards.
 	  - Add an assumption - see |ku-pattern-prefix-assumption|.
 
-0.1.9	2008-12-30T23:13:04+09:00/2008-12-31T06:52:02+09:00
+0.1.9	2008-12-31T06:52:02+09:00		*ku-changelog-0.1.9*
 	- Add |g:ku_history_reloading_style|.
 	- Change the default timings to reload and to save |ku-input-history|.
 	  See also "idle" on |g:ku_history_reloading_style|.
 	  Old versions use "each", but "idle" is used instead from now on.
 
-0.1.8	2008-12-12T02:03:37+09:00/2008-12-24T17:33:31+09:00
+0.1.8	2008-12-24T17:33:31+09:00		*ku-changelog-0.1.8*
 	- Add |g:ku_choosing_actions_sorting_style|.
 	- Change the sorting style of |<Plug>(ku-choose-an-action)|.
 	  See also |g:ku_choosing_actions_sorting_style|.
 	- Fix some bugs - see |ku-buffer-changelog| and |ku-file-changelog|.
 
-0.1.7	2008-12-09T17:26:01+09:00/2008-12-11T17:08:52+09:00
+0.1.7	2008-12-11T17:08:52+09:00		*ku-changelog-0.1.7*
 	- Include new source |ku-source|.
 	- Change the default value of |g:ku_history_added_p|.
 	  Now it also omits patterns for source |ku-source|.
@@ -1156,7 +1156,7 @@ CHANGELOG					*ku-changelog*
 	  if the action to be taken is |ku-action-cancel|.
 	  Old versions do add, but it seems to be unexpected behabior.
 
-0.1.6	2008-12-08T16:41:47+09:00
+0.1.6	2008-12-08T16:41:47+09:00		*ku-changelog-0.1.6*
 	- Add |ku#switch_source()|.
 	- Add |ku-action-persistent|, |<Plug>(ku-do-persistent-action)| and
 	  the default key mapping for it (see |ku#default_key_mappings()|).
@@ -1173,7 +1173,7 @@ CHANGELOG					*ku-changelog*
 	- Change the specification of |g:ku_history_added_p|.  It took
 	  a single argument, but now, it takes 2 arguments.
 
-0.1.5	2008-10-19T21:32:12+09:00/2008-12-08T01:31:24+09:00
+0.1.5	2008-12-08T01:31:24+09:00		*ku-changelog-0.1.5*
 	- Show the information about |ku-input-history| in |the-ku-buffer|.
 	- |ku#custom_action()|: Accept "common" for {source2} to specify an
 	  action from the default action table for all sources.  For example:
@@ -1193,7 +1193,7 @@ CHANGELOG					*ku-changelog*
 	- Change the format of value returned by |ku#input_history()|.
 	  Now it is a list of dictionaries, not a list of strings.
 
-0.1.4	2008-09-29T02:31:12+09:00
+0.1.4	2008-09-29T02:31:12+09:00		*ku-changelog-0.1.4*
 	- Add |ku#{source}#acc_valid_p()| to filter items for
 	  |ku-auto-component-completion|.
 	- Add |g:ku_history_added_p|.
@@ -1209,7 +1209,7 @@ CHANGELOG					*ku-changelog*
 	- Don't publish "User plugin-ku-buffer-initialized".
 	  Use "FileType ku" and/or filetype plugin instead.
 
-0.1.3	2008-09-28T03:30:42+09:00
+0.1.3	2008-09-28T03:30:42+09:00		*ku-changelog-0.1.3*
 	- Incompatible change:
 	  - For |ku-special-sources|, |ku-source-api| takes the name of the
 	    current source as the 1st argument.
@@ -1222,7 +1222,7 @@ CHANGELOG					*ku-changelog*
 	- Add source-specific priority on sorting items.  See
 	  |_ku_sort_priority| for the detail.
 
-0.1.2	2008-08-11T01:56:15+09:00
+0.1.2	2008-08-11T01:56:15+09:00		*ku-changelog-0.1.2*
 	- Fix a bug in |ku-prefix-expansion| - it didn't expand proper prefix
 	  if there are 2 or more prefixes which have the same head part.  For
 	  example, if there are prefixes "ab", "abc", "abcd" and so forth, it
@@ -1242,7 +1242,7 @@ CHANGELOG					*ku-changelog*
 	- Improve the performance of |ku#available_sources()|.
 	- Add priorities for |ku-sources-list|.
 
-0.1.1	2008-08-10T12:17:09+09:00
+0.1.1	2008-08-10T12:17:09+09:00		*ku-changelog-0.1.1*
 	- Add |ku-special-sources|.
 	- Remove the feature to provide |metarw-schemes| as |ku-sources|.
 	  This feature is implemented as a special source and it is included
@@ -1250,10 +1250,10 @@ CHANGELOG					*ku-changelog*
 	- Fix requirements - ku uses |fnameescape()| which is added since Vim
 	  7.1.299.  (thanks to id:thinca)
 
-0.1.0	2008-07-18T15:23:02+09:00
+0.1.0	2008-07-18T15:23:02+09:00		*ku-changelog-0.1.0*
 	- Redesign.
 
-0.0.0	2008-01-25T19:34:13+09:00
+0.0.0	2008-01-25T19:34:13+09:00		*ku-changelog-0.0.0*
 	- Derived from buffuzzy and zapit.
 	- Still under development.
 
