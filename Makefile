@@ -16,6 +16,7 @@ all: update
   package \
   test \
   test-a-package \
+  generate-missing-files-to-test \
   update \
   vimup \
   vimup-details \
@@ -711,6 +712,17 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 	else \
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
 	fi
+
+generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
+	for i in $(TESTS_$(_PACKAGE_NAME)); do \
+	  if ! [ -f test/$(PACKAGE_NAME)/$$i.input ]; then \
+	    echo "# Add files for $$i"; \
+	    touch test/$(PACKAGE_NAME)/$$i.input \
+	          test/$(PACKAGE_NAME)/$$i.expected; \
+	    git add test/$(PACKAGE_NAME)/$$i.input \
+	            test/$(PACKAGE_NAME)/$$i.expected; \
+	  fi; \
+	done
 
 TESTS_vim_ku = 0001
 test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
