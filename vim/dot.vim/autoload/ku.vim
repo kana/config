@@ -1889,12 +1889,12 @@ function! ku#_local_variables()
 endfunction
 
 
-function! s:SID()
+function! s:SID_PREFIX()
   return matchstr(expand('<sfile>'), '\%(^\|\.\.\)\zs<SNR>\d\+_')
 endfunction
 
-function! ku#_sid()
-  return s:SID()
+function! ku#_sid_prefix()
+  return s:SID_PREFIX()
 endfunction
 
 
