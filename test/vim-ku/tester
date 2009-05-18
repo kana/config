@@ -2,6 +2,7 @@
 
 vim -u NONE -N -e -s <<END 2>&1 | sed "s|$(pwd)||g"
   set runtimepath=vim/dot.vim
+  source test/libtest.vim
   runtime! plugin/ku.vim
   1 verbose source $1
   qall!

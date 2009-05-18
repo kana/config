@@ -1,0 +1,28 @@
+" Test for misc. utilities
+
+let s:SID_PREFIX = ku#_sid_prefix()
+function! Call(function_name, ...)
+  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
+endfunction
+
+
+
+
+Title let _ = Call('s:split_source_name', 'base')
+Assert type(_) ==> type([])
+Assert len(_) ==> 2
+Assert _[0] ==> 'base'
+Assert _[1] ==> ''
+
+
+Title let _ = Call('s:split_source_name', 'base/ext')
+Assert type(_) ==> type([])
+Assert len(_) ==> 2
+Assert _[0] ==> 'base'
+Assert _[1] ==> 'ext'
+
+" This is just a test to test/libtest.vim.
+" More tests will be written later.
+
+" __END__
+" vim: filetype=vim

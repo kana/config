@@ -1,0 +1,13 @@
+
+
+===== let _ = Call('s:split_source_name', 'base')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base' ... ok
+TEST: _[1]  ==>  '' ... ok
+
+===== let _ = Call('s:split_source_name', 'base/ext')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base' ... ok
+TEST: _[1]  ==>  'ext' ... ok
