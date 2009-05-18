@@ -8,18 +8,25 @@ endfunction
 
 
 
-Title let _ = Call('s:split_source_name', 'base')
-Assert type(_) ==> type([])
-Assert len(_) ==> 2
-Assert _[0] ==> 'base'
-Assert _[1] ==> ''
+function! s:test_0001()
+  Title let _ = Call('s:split_source_name', 'base')
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert _[0] ==> 'base'
+  Assert _[1] ==> ''
+endfunction
 
 
-Title let _ = Call('s:split_source_name', 'base/ext')
-Assert type(_) ==> type([])
-Assert len(_) ==> 2
-Assert _[0] ==> 'base'
-Assert _[1] ==> 'ext'
+function! s:test_0002()
+  Title let _ = Call('s:split_source_name', 'base/ext')
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert _[0] ==> 'base'
+  Assert _[1] ==> 'ext'
+endfunction
+
+
+Test
 
 " This is just a test to test/libtest.vim.
 " More tests will be written later.

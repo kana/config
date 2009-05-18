@@ -38,6 +38,9 @@ command! -complete=expression -nargs=* Assert
 \ call s:cmd_Assert(s:split_expressions(<q-args>),
 \                   map(s:split_expressions(<q-args>), 'eval(v:val)'))
 
+command! -nargs=0 Test
+\ call s:cmd_Test()
+
 command! -complete=command -nargs=* Title
 \ call s:cmd_Title(<q-args>) | execute <q-args>
 
@@ -88,19 +91,47 @@ endfunction
 
 
 
+function! s:cmd_Test()  "{{{2
+  redir => function_names
+  silent function /
+  redir END
+
+  let _ = split(function_names, '\n')
+  call map(_, 'matchstr(v:val, ''^function \zs<SNR>\d\+_test_[^(]*\ze('')')
+  call filter(_, 'v:val != ""')
+  call map(_, 'substitute(v:val, "<SNR>", "\<SNR>", "")')
+  call sort(_)
+
+  for function_name in _
+    call {function_name}()
+    call s:show_result(s:count_group_failures, s:count_group_tests)
+    echon "\n"
+  endfor
+
+  echo '=====' 'Total'
+  call s:show_result(s:count_total_failures, s:count_total_tests)
+  echon "\n"
+
+  return
+endfunction
+
+
+
+
 function! s:cmd_Title(stmt_test)  "{{{2
   " stmt_{name} -- A string which represents an statement of Vim script.
-  if s:count_group_tests != s:INVALID_COUNT
-    echo 'Result:'
-    \    (s:count_group_tests - s:count_group_failures)
-    \    '/'
-    \    s:count_group_tests
-  endif
-  echon "\n"
   echo '=====' a:stmt_test
 
   let s:count_group_failures = 0
   let s:count_group_tests = 0
+endfunction
+
+
+
+
+function! s:show_result(count_failures, count_total)  "{{{2
+    echo 'Result:' (a:count_total - a:count_failures) '/' a:count_total
+    return
 endfunction
 
 
