@@ -1,6 +1,5 @@
 " Test for misc. utilities
-
-let s:SID_PREFIX = ku#_sid_prefix()
+let s:SID_PREFIX = ku#_sid_prefix()  "{{{1
 function! Call(function_name, ...)
   return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
 endfunction
@@ -8,7 +7,7 @@ endfunction
 
 
 
-function! s:test_0001()
+function! s:test_split_source_name_0001()  "{{{1
   Title let _ = Call('s:split_source_name', 'base')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -17,7 +16,9 @@ function! s:test_0001()
 endfunction
 
 
-function! s:test_0002()
+
+
+function! s:test_split_source_name_0002()  "{{{1
   Title let _ = Call('s:split_source_name', 'base/ext')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -26,10 +27,53 @@ function! s:test_0002()
 endfunction
 
 
-Test
 
-" This is just a test to test/libtest.vim.
-" More tests will be written later.
+
+function! s:test_split_source_name_0003()  "{{{1
+  Title let _ = Call('s:split_source_name', '')
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert _[0] ==> ''
+  Assert _[1] ==> ''
+endfunction
+
+
+
+
+function! s:test_split_source_name_0004()  "{{{1
+  Title let _ = Call('s:split_source_name', 'foo/bar/baz')
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert _[0] ==> 'foo'
+  Assert _[1] ==> 'bar'
+endfunction
+
+
+
+
+function! s:test_split_source_name_0005()  "{{{1
+  Title let _ = Call('s:split_source_name', 'base-only/')
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert _[0] ==> 'base-only'
+  Assert _[1] ==> ''
+endfunction
+
+
+
+
+function! s:test_split_source_name_0006()  "{{{1
+  Title let _ = Call('s:split_source_name', '/ext-only')
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert _[0] ==> ''
+  Assert _[1] ==> 'ext-only'
+endfunction
+
+
+
+
+Test  "{{{1
 
 " __END__
-" vim: filetype=vim
+" vim: filetype=vim foldmethod=marker
