@@ -21,30 +21,35 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-
-if exists('g:loaded_libtest')
+if exists('g:loaded_libtest')  "{{{1
   finish
 endif
 
 
 
 
+
+
+
+
+" Interface  "{{{1
+
 command! -complete=expression -nargs=* Assert
 \ call s:cmd_Assert(s:split_expressions(<q-args>),
 \                   map(s:split_expressions(<q-args>), 'eval(v:val)'))
+
 command! -complete=command -nargs=* Title
 \ call s:cmd_Title(<q-args>) | execute <q-args>
 
 
 
 
-function! s:split_expressions(s)
-  " FIXME: Error handlings.
-  return matchlist(a:s, '\(.\{-}\)==>\(.*\)')[1:2]
-endfunction
 
 
-function! s:cmd_Assert(pair_exprs, pair_vals)
+
+
+" Misc.  "{{{1
+function! s:cmd_Assert(pair_exprs, pair_vals)  "{{{2
   " expr_{variable} -- A string which represents an expression of Vim script.
   " val_{variable} -- A value which is evaluated from expr_{variable}.
   let [expr_actual, expr_expected] = a:pair_exprs
@@ -65,7 +70,9 @@ function! s:cmd_Assert(pair_exprs, pair_vals)
 endfunction
 
 
-function! s:cmd_Title(stmt_test)
+
+
+function! s:cmd_Title(stmt_test)  "{{{2
   " stmt_{name} -- A string which represents an statement of Vim script.
   echon "\n"
   echo '=====' a:stmt_test
@@ -74,8 +81,28 @@ endfunction
 
 
 
+function! s:split_expressions(s)  "{{{2
+  " FIXME: Error handlings.
+  return matchlist(a:s, '\(.\{-}\)==>\(.*\)')[1:2]
+endfunction
+
+
+
+
+
+
+
+
+" Fin.  "{{{1
 
 let g:loaded_libtest = 1
+
+
+
+
+
+
+
 
 " __END__
 " vim: foldmethod=marker
