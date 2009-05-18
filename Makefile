@@ -739,12 +739,12 @@ test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
 	   false; \
 	 fi
 	@touch $@
-test/vim-ku/%.output: test/vim-ku/%.input
+test/vim-ku/%.output: test/vim-ku/%.input test/vim-ku/tester test/libtest.vim
 	@./test/vim-ku/tester $< &>$@
 
 define GENERATE_RULES_TO_TEST_vim_ku
 test/vim-ku/$(1).ok: test/vim-ku/$(1).expected test/vim-ku/$(1).output
-test/vim-ku/$(1).output: test/vim-ku/$(1).input test/vim-ku/tester
+test/vim-ku/$(1).output: test/vim-ku/$(1).input
 endef
 $(eval $(call GENERATE_RULES_TO_TEST_vim_ku,$(TESTS_vim_ku)))
 
