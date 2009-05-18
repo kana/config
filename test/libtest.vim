@@ -49,11 +49,25 @@ command! -complete=command -nargs=* Title
 
 
 " Misc.  "{{{1
+" Variables  "{{{2
+
+let s:INVALID_COUNT = -13
+
+let s:count_group_failures = s:INVALID_COUNT
+let s:count_group_tests = s:INVALID_COUNT
+let s:count_total_failures = 0
+let s:count_total_tests = 0
+
+
+
+
 function! s:cmd_Assert(pair_exprs, pair_vals)  "{{{2
   " expr_{variable} -- A string which represents an expression of Vim script.
   " val_{variable} -- A value which is evaluated from expr_{variable}.
   let [expr_actual, expr_expected] = a:pair_exprs
   let [val_actual, val_expected] = a:pair_vals
+  let s:count_group_tests += 1
+  let s:count_total_tests += 1
 
   echo 'TEST:' expr_actual '==>' expr_expected '... '
   let succeeded_p = val_actual ==# val_expected
@@ -64,6 +78,8 @@ function! s:cmd_Assert(pair_exprs, pair_vals)  "{{{2
     echon 'FAILED'
     echo '  Actual value:' val_actual
     echo '  Expected value:' val_expected
+    let s:count_group_failures += 1
+    let s:count_total_failures += 1
   endif
 
   return
@@ -74,8 +90,17 @@ endfunction
 
 function! s:cmd_Title(stmt_test)  "{{{2
   " stmt_{name} -- A string which represents an statement of Vim script.
+  if s:count_group_tests != s:INVALID_COUNT
+    echo 'Result:'
+    \    (s:count_group_tests - s:count_group_failures)
+    \    '/'
+    \    s:count_group_tests
+  endif
   echon "\n"
   echo '=====' a:stmt_test
+
+  let s:count_group_failures = 0
+  let s:count_group_tests = 0
 endfunction
 
 
