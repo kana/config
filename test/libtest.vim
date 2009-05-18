@@ -29,10 +29,11 @@ endif
 
 
 
-command! -nargs=* Assert
+command! -complete=expression -nargs=* Assert
 \ call s:cmd_Assert(s:split_expressions(<q-args>),
 \                   map(s:split_expressions(<q-args>), 'eval(v:val)'))
-command! -nargs=* Title  call s:cmd_Title(<q-args>) | execute <q-args>
+command! -complete=command -nargs=* Title
+\ call s:cmd_Title(<q-args>) | execute <q-args>
 
 
 
