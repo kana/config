@@ -226,7 +226,7 @@ function! s:calculate_available_sources()
   \                        'fnamemodify(v:val, ":t:r")')
     call extend(_, s:api_available_sources(source_name_base))
   endfor
-  return _
+  return s:uniq(sort(_))
 endfunction
 
 
