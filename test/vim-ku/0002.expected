@@ -1,0 +1,44 @@
+===== let _ = Call('s:split_source_name', 'base')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base' ... ok
+TEST: _[1]  ==>  '' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', 'base/ext')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base' ... ok
+TEST: _[1]  ==>  'ext' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', '')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  '' ... ok
+TEST: _[1]  ==>  '' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', 'foo/bar/baz')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'foo' ... ok
+TEST: _[1]  ==>  'bar' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', 'base-only/')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base-only' ... ok
+TEST: _[1]  ==>  '' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', '/ext-only')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  '' ... ok
+TEST: _[1]  ==>  'ext-only' ... ok
+Result: 4 / 4
+
+===== Total
+Result: 24 / 24
