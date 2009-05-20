@@ -455,12 +455,22 @@ function! ku#start(source, ...)  "{{{2
   set ignorecase
 
   " Reset the content of the ku buffer
+  " BUGS: To avoid unexpected behavior caused by automatic completion of the
+  "       prompt, append the prompt and {initial-pattern} at this timing.
+  "       Automatic completion is implemented by feedkeys() and starting
+  "       Insert mode is also implemented by feedkeys().  These feedings must
+  "       be done carefully.
   silent % delete _
-  call append(1, (a:0 == 0 ? '' : a:1))
+  call append(1, s:PROMPT . (a:0 == 0 ? '' : a:1))
   normal! 2G
 
   " Start Insert mode.
-  call feedkeys('A', 'n')
+  " BUGS: :startinsert! may not work with append()/setline():put.
+  "       If the typeahead buffer is empty, ther is no problem.
+  "       Otherwise, :startinsert! behaves as '$i', not 'A',
+  "       so it is inconvenient.
+  let typeahead_buffer = getchar(1) ? s:getkey() : ''
+  call feedkeys('A' . typeahead_buffer, 'n')
 
   call s:api_on_source_enter(s:current_source)
   return s:TRUE
