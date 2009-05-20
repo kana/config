@@ -96,6 +96,10 @@ BUGS						*ku-source-bugs*
 ==============================================================================
 CHANGELOG					*ku-source-changelog*
 
+0.1.2	2009-05-21T01:53:41+09:00		*ku-source-changelog-0.1.2*
+	- Fix a bug that the cursor position is altered unexpectedly after
+	  entering to other source from this source.
+
 0.1.1	2009-05-04T02:51:26+09:00		*ku-source-changelog-0.1.1*
 	- Update for ku 0.2.1.
 	- Fix a bug that there was no consideration on non-completed items.

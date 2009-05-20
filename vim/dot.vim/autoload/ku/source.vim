@@ -25,6 +25,7 @@
 
 let s:cached_items = []
 let s:the_old_input_pattern = ''
+let s:original_cursor_position = []
 
 
 
@@ -43,6 +44,7 @@ endfunction
 
 function! ku#source#on_source_enter(source_name_ext)  "{{{2
   let s:cached_items = map(copy(ku#available_sources()), '{"word": v:val}')
+  let s:original_cursor_position = getpos('.')
   let s:the_old_input_pattern = ku#set_the_current_input_pattern('')
 endfunction
 
@@ -51,6 +53,7 @@ endfunction
 
 function! ku#source#on_source_leave(source_name_ext)  "{{{2
   call ku#set_the_current_input_pattern(s:the_old_input_pattern)
+  call setpos('.', s:original_cursor_position)
 endfunction
 
 
