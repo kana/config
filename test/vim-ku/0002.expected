@@ -1,3 +1,18 @@
+===== let _ = Call('s:calculate_available_sources')  " Normal
+TEST: type(_)  ==>  type([]) ... ok
+TEST: _  ==>  expected_sources ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:calculate_available_sources')  " empty 'runtimepath'
+TEST: type(_)  ==>  type([]) ... ok
+TEST: _  ==>  expected_sources ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:calculate_available_sources')  " conflict on sources
+TEST: type(_)  ==>  type([]) ... ok
+TEST: _  ==>  expected_sources ... ok
+Result: 2 / 2
+
 ===== let _ = Call('s:split_source_name', 'base')
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  2 ... ok
@@ -82,4 +97,4 @@ TEST: _  ==>  ['a'] ... ok
 Result: 4 / 4
 
 ===== Total
-Result: 47 / 47
+Result: 53 / 53

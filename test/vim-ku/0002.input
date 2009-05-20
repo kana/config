@@ -7,6 +7,73 @@ endfunction
 
 
 
+function! s:test_calculate_available_sources_0001()  "{{{1
+  let expected_sources = [
+  \     'args',
+  \     'buffer',
+  \     'bundle',
+  \     'file',
+  \     'history',
+  \     'metarw/git',
+  \     'myproject',
+  \     'quickfix',
+  \     'source',
+  \   ]
+  Title let _ = Call('s:calculate_available_sources')  " Normal
+  Assert type(_) ==> type([])
+  Assert _ ==> expected_sources
+endfunction
+
+
+
+
+function! s:test_calculate_available_sources_0002()  "{{{1
+  let expected_sources = []
+  let original_runtimepath = &runtimepath
+  set runtimepath=
+  Title let _ = Call('s:calculate_available_sources')  " empty 'runtimepath'
+  let &runtimepath = original_runtimepath
+  Assert type(_) ==> type([])
+  Assert _ ==> expected_sources
+endfunction
+
+
+
+
+function! s:test_calculate_available_sources_0003()  "{{{1
+  let expected_sources = [
+  \     'args',
+  \     'buffer',
+  \     'bundle',
+  \     'file',
+  \     'history',
+  \     'metarw/git',
+  \     'metarw/git',
+  \     'myproject',
+  \     'quickfix',
+  \     'source',
+  \     'args',
+  \     'buffer',
+  \     'bundle',
+  \     'file',
+  \     'history',
+  \     'metarw/git',
+  \     'metarw/git',
+  \     'myproject',
+  \     'quickfix',
+  \     'source',
+  \   ]
+  let original_runtimepath = &runtimepath
+  let &runtimepath .= ',' . original_runtimepath
+  Title let _ = Call('s:calculate_available_sources')  " conflict on sources
+  let &runtimepath = original_runtimepath
+  Assert type(_) ==> type([])
+  Assert _ ==> expected_sources
+endfunction
+
+
+
+
 function! s:test_split_source_name_0001()  "{{{1
   Title let _ = Call('s:split_source_name', 'base')
   Assert type(_) ==> type([])
@@ -173,7 +240,6 @@ endfunction
 " ?? ku#set_the_current_input_pattern()
 " ?? ku#start()
 " ?? ku#switch_source()
-" ?? s:calculate_available_sources()
 " ?? s:ku_custom_action_3()
 " ?? s:ku_custom_action_4()
 " ::
