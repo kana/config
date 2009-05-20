@@ -1,0 +1,100 @@
+===== let _ = Call('s:calculate_available_sources')  " Normal
+TEST: type(_)  ==>  type([]) ... ok
+TEST: _  ==>  expected_sources ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:calculate_available_sources')  " empty 'runtimepath'
+TEST: type(_)  ==>  type([]) ... ok
+TEST: _  ==>  expected_sources ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:calculate_available_sources')  " conflict on sources
+TEST: type(_)  ==>  type([]) ... ok
+TEST: _  ==>  expected_sources ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:split_source_name', 'base')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base' ... ok
+TEST: _[1]  ==>  '' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', 'base/ext')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base' ... ok
+TEST: _[1]  ==>  'ext' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', '')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  '' ... ok
+TEST: _[1]  ==>  '' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', 'foo/bar/baz')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'foo' ... ok
+TEST: _[1]  ==>  'bar' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', 'base-only/')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  'base-only' ... ok
+TEST: _[1]  ==>  '' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:split_source_name', '/ext-only')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: _[0]  ==>  '' ... ok
+TEST: _[1]  ==>  'ext-only' ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:uniq', empty_list)
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  0 ... ok
+TEST: _ isnot empty_list  ==>  1 ... ok
+Result: 3 / 3
+
+===== let _ = Call('s:uniq', list_with_an_item)
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  1 ... ok
+TEST: _ isnot list_with_an_item  ==>  1 ... ok
+TEST: _  ==>  list_with_an_item ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:uniq', list_with_many_items)
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  3 ... ok
+TEST: _ isnot list_with_many_items  ==>  1 ... ok
+TEST: _  ==>  ['a', 'b', 'c'] ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:uniq', list_with_many_items)
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  4 ... ok
+TEST: _ isnot list_with_many_items  ==>  1 ... ok
+TEST: _  ==>  ['a', 'b', 'c', 'd'] ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:uniq', list_with_many_items)
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  5 ... ok
+TEST: _ isnot list_with_many_items  ==>  1 ... ok
+TEST: _  ==>  ['z', 'a', 'b', 'c', 'd'] ... ok
+Result: 4 / 4
+
+===== let _ = Call('s:uniq', list_with_many_items)
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  1 ... ok
+TEST: _ isnot list_with_many_items  ==>  1 ... ok
+TEST: _  ==>  ['a'] ... ok
+Result: 4 / 4
+
+===== Total
+Result: 53 / 53

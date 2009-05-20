@@ -226,7 +226,7 @@ function! s:calculate_available_sources()
   \                        'fnamemodify(v:val, ":t:r")')
     call extend(_, s:api_available_sources(source_name_base))
   endfor
-  return _
+  return s:uniq(sort(_))
 endfunction
 
 
@@ -455,12 +455,22 @@ function! ku#start(source, ...)  "{{{2
   set ignorecase
 
   " Reset the content of the ku buffer
+  " BUGS: To avoid unexpected behavior caused by automatic completion of the
+  "       prompt, append the prompt and {initial-pattern} at this timing.
+  "       Automatic completion is implemented by feedkeys() and starting
+  "       Insert mode is also implemented by feedkeys().  These feedings must
+  "       be done carefully.
   silent % delete _
-  call append(1, (a:0 == 0 ? '' : a:1))
+  call append(1, s:PROMPT . (a:0 == 0 ? '' : a:1))
   normal! 2G
 
   " Start Insert mode.
-  call feedkeys('A', 'n')
+  " BUGS: :startinsert! may not work with append()/setline():put.
+  "       If the typeahead buffer is empty, ther is no problem.
+  "       Otherwise, :startinsert! behaves as '$i', not 'A',
+  "       so it is inconvenient.
+  let typeahead_buffer = getchar(1) ? s:getkey() : ''
+  call feedkeys('A' . typeahead_buffer, 'n')
 
   call s:api_on_source_enter(s:current_source)
   return s:TRUE
@@ -731,6 +741,7 @@ function! s:do(action_name)  "{{{2
       echoerr 'Internal error: No match found in s:last_completed_items'
       echoerr 'current_user_input_raw' string(current_user_input_raw)
       echoerr 's:last_user_input_raw' string(s:last_user_input_raw)
+      echoerr 's:last_completed_items' string(s:last_completed_items)
       throw 'ku:e1'
     endif
   else
@@ -1889,8 +1900,12 @@ function! ku#_local_variables()
 endfunction
 
 
-function! ku#_sid()
-  return matchstr(expand('<sfile>'), '^<SNR>\d\+_')
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '\%(^\|\.\.\)\zs<SNR>\d\+_')
+endfunction
+
+function! ku#_sid_prefix()
+  return s:SID_PREFIX()
 endfunction
 
 
@@ -2043,6 +2058,25 @@ endfunction
 function! s:split_source_name(source_name)  "{{{2
   " ==> [source_name_base, source_name_ext]
   return split(a:source_name.'/', '/', s:TRUE)[:1]
+endfunction
+
+
+
+
+function! s:uniq(sorted_list)  "{{{2
+  if len(a:sorted_list) <= 1
+    return copy(a:sorted_list)
+  endif
+
+  let _ = [a:sorted_list[0]]
+  let i = 1
+  while i < len(a:sorted_list)
+    if a:sorted_list[i-1] !=# a:sorted_list[i]
+      call add(_, a:sorted_list[i])
+    endif
+    let i += 1
+  endwhile
+  return _
 endfunction
 
 
