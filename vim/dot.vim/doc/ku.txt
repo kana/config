@@ -1061,6 +1061,16 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
+0.2.3	2009-05-16T03:05:10+09:00		*ku-changelog-0.2.3*
+	Misc. improvements:
+	- Improve an error message.
+
+	Bug fixes:
+	- Fix a bug that ku list the same sources many times if there are 2 or
+	  more source scripts which filenames are the same in 'runtimepath'.
+	- Fix bugs that ku may be confuse if typeahead buffer is not empty at
+	  the beginning of a |ku-session|.
+
 0.2.2	2009-05-13T21:40:20+09:00		*ku-changelog-0.2.2*
 	Bug fixes:
 	- Fix an assumption that the separator for pathes is "/".  This
