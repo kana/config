@@ -2053,6 +2053,25 @@ endfunction
 
 
 
+function! s:uniq(sorted_list)  "{{{2
+  if len(a:sorted_list) <= 1
+    return copy(a:sorted_list)
+  endif
+
+  let _ = [a:sorted_list[0]]
+  let i = 1
+  while i < len(a:sorted_list)
+    if a:sorted_list[i-1] !=# a:sorted_list[i]
+      call add(_, a:sorted_list[i])
+    endif
+    let i += 1
+  endwhile
+  return _
+endfunction
+
+
+
+
 
 
 

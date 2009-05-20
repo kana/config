@@ -73,6 +73,77 @@ endfunction
 
 
 
+function! s:test_uniq_0001()  "{{{1
+  let empty_list = []
+  Title let _ = Call('s:uniq', empty_list)
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 0
+  Assert _ isnot empty_list ==> 1
+endfunction
+
+
+
+
+function! s:test_uniq_0002()  "{{{1
+  let list_with_an_item = ['x']
+  Title let _ = Call('s:uniq', list_with_an_item)
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 1
+  Assert _ isnot list_with_an_item ==> 1
+  Assert _ ==> list_with_an_item
+endfunction
+
+
+
+
+function! s:test_uniq_0003()  "{{{1
+  let list_with_many_items = ['a', 'a', 'b', 'b', 'c', 'c']
+  Title let _ = Call('s:uniq', list_with_many_items)
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 3
+  Assert _ isnot list_with_many_items ==> 1
+  Assert _ ==> ['a', 'b', 'c']
+endfunction
+
+
+
+
+function! s:test_uniq_0004()  "{{{1
+  let list_with_many_items = ['a', 'a', 'b', 'b', 'c', 'd']
+  Title let _ = Call('s:uniq', list_with_many_items)
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 4
+  Assert _ isnot list_with_many_items ==> 1
+  Assert _ ==> ['a', 'b', 'c', 'd']
+endfunction
+
+
+
+
+function! s:test_uniq_0005()  "{{{1
+  let list_with_many_items = ['z', 'a', 'b', 'b', 'c', 'd']
+  Title let _ = Call('s:uniq', list_with_many_items)
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 5
+  Assert _ isnot list_with_many_items ==> 1
+  Assert _ ==> ['z', 'a', 'b', 'c', 'd']
+endfunction
+
+
+
+
+function! s:test_uniq_0006()  "{{{1
+  let list_with_many_items = ['a', 'a', 'a', 'a', 'a']
+  Title let _ = Call('s:uniq', list_with_many_items)
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 1
+  Assert _ isnot list_with_many_items ==> 1
+  Assert _ ==> ['a']
+endfunction
+
+
+
+
 " Entities which are not tested yet  "{{{1
 "
 "   __ has any side effect
