@@ -28,6 +28,8 @@
   "       a single ku session.
 let s:cached_items = {}  " pattern -> [item, ...]
 
+let s:BACKSLASH_AS_SLASH_P = exists('+shellslash')
+
 
 
 
@@ -79,22 +81,15 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
     return s:cached_items[cache_key]
   endif
 
-  let i = strridx(a:pattern, ku#path_separator())
-  let components = split(a:pattern, ku#path_separator(), !0)
-  let root_directory_pattern_p = i == 0
-  let user_seems_want_dotfiles_p = components[-1][:0] == '.'
+  let path_separator_regexp = s:BACKSLASH_AS_SLASH_P
+  \                           ? '[/\\]'
+  \                           : escape(ku#path_separator(), '\')
+  let [glob_prefix, trailing]
+  \   = matchlist(a:pattern, '^\(.*'.path_separator_regexp.'\)\?\(.*\)$')[1:2]
+  let user_seems_want_dotfiles_p = trailing[:0] == '.'
     " On Microsoft Windows, glob('{,.}*') doesn't list dotfiles,
     " so that here we have to list dotfiles and other items separately.
   let wildcards = user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
-
-    " glob_prefix must be followed by ku#separator() if it is not empty.
-  if i < 0  " no path separator
-    let glob_prefix = ''
-  elseif root_directory_pattern_p
-    let glob_prefix = ku#path_separator()
-  else  " more than one path separators
-    let glob_prefix = ku#make_path(components[:-2]) . ku#path_separator()
-  endif
 
   let _ = []
   for wildcard in wildcards
@@ -106,6 +101,11 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
       \    })
     endfor
   endfor
+  if s:BACKSLASH_AS_SLASH_P
+    for item in _
+      let item.word = glob_prefix . fnamemodify(item.word, ':t'),
+    endfor
+  endif
     " Remove the '..' item if user seems to find files under the root
     " directory, because it is strange for such situation.
     " FIXME: Drive letter and other cases on Microsoft Windows.  E.g. 'C:\'.
@@ -122,7 +122,11 @@ endfunction
 
 
 function! ku#file#acc_valid_p(source_name_ext, item, sep)  "{{{2
-  return a:sep ==# ku#path_separator() && isdirectory(a:item.word)
+  if s:BACKSLASH_AS_SLASH_P
+    return a:sep =~# '[/\\]' && isdirectory(a:item.word)
+  else
+    return a:sep =~# ku#path_separator() && isdirectory(a:item.word)
+  endif
 endfunction
 
 
