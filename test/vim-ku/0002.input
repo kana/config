@@ -112,6 +112,30 @@ endfunction
 
 
 
+function s:test_history_file_0001()  "{{{1
+  Title let _ = Call('s:history_file')
+  Assert type(_) ==> type('')
+  Assert g:ku_personal_runtime ==> 'vim/dot.vim'
+  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
+endfunction
+
+
+
+
+function s:test_history_file_0002()  "{{{1
+  let original_ku_personal_runtime = g:ku_personal_runtime
+
+  Title let g:ku_personal_runtime = 'first' | let _ = Call('s:history_file')
+  Assert type(_) ==> type('')
+  Assert g:ku_personal_runtime ==> 'first'
+  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
+
+  let g:ku_personal_runtime = original_ku_personal_runtime
+endfunction
+
+
+
+
 function s:test_ku_set_the_current_input_pattern_0001()  "{{{1
   Title let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is not avtive.
   Assert type(_) ==> type(0)
@@ -312,30 +336,6 @@ function s:test_uniq_0006()  "{{{1
   Assert len(_) ==> 1
   Assert _ isnot list_with_many_items ==> 1
   Assert _ ==> ['a']
-endfunction
-
-
-
-
-function s:test_history_file_0001()  "{{{1
-  Title let _ = Call('s:history_file')
-  Assert type(_) ==> type('')
-  Assert g:ku_personal_runtime ==> 'vim/dot.vim'
-  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
-endfunction
-
-
-
-
-function s:test_history_file_0002()  "{{{1
-  let original_ku_personal_runtime = g:ku_personal_runtime
-
-  Title let g:ku_personal_runtime = 'first' | let _ = Call('s:history_file')
-  Assert type(_) ==> type('')
-  Assert g:ku_personal_runtime ==> 'first'
-  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
-
-  let g:ku_personal_runtime = original_ku_personal_runtime
 endfunction
 
 
