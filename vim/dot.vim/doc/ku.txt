@@ -296,7 +296,7 @@ ku#restart()					*ku#restart()*
 
 ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
 			Set the current input pattern in |the-ku-buffer| to
-			{s}, then return it.
+			{s}, then return the old one.
 
 			If ku is not active, just return 0.
 
@@ -1070,6 +1070,8 @@ CHANGELOG					*ku-changelog*
 	  more source scripts which filenames are the same in 'runtimepath'.
 	- Fix bugs that ku may be confuse if typeahead buffer is not empty at
 	  the beginning of a |ku-session|.
+	- |ku#set_the_current_input_pattern()|:
+	  - Fix a wrong description in the document.
 
 	See also:
 	- |ku-source-changelog-0.1.2|
