@@ -63,6 +63,51 @@ endfunction
 
 
 
+function s:test_remove_prompt_0001()  "{{{1
+  Title let _ = Call('s:remove_prompt', 'foo')
+  Assert type(_) ==> type('')
+  Assert _ ==> 'foo'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0002()  "{{{1
+  Title let _ = Call('s:remove_prompt', '>foo')
+  Assert type(_) ==> type('')
+  Assert _ ==> 'foo'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0003()  "{{{1
+  Title let _ = Call('s:remove_prompt', '>_<')
+  Assert type(_) ==> type('')
+  Assert _ ==> '_<'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0004()  "{{{1
+  Title let _ = Call('s:remove_prompt', '-->')
+  Assert type(_) ==> type('')
+  Assert _ ==> '-->'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0005()  "{{{1
+  Title let _ = Call('s:remove_prompt', repeat('>', 10))
+  Assert type(_) ==> type('')
+  Assert _ ==> repeat('>', 10 - 1)
+endfunction
+
+
+
+
 function s:test_split_source_name_0001()  "{{{1
   Title let _ = Call('s:split_source_name', 'base')
   Assert type(_) ==> type([])
@@ -256,7 +301,6 @@ endfunction
 " :: Automatic completion
 " ?? s:complete_the_prompt()
 " ?? s:contains_the_prompt_p()
-" ?? s:remove_prompt()
 " ?? s:text_by_automatic_component_completion()
 " ::
 " :: Action-related stuffs

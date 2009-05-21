@@ -13,6 +13,31 @@ TEST: type(_)  ==>  type([]) ... ok
 TEST: _  ==>  expected_sources ... ok
 Result: 2 / 2
 
+===== let _ = Call('s:remove_prompt', 'foo')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'foo' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', '>foo')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'foo' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', '>_<')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  '_<' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', '-->')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  '-->' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', repeat('>', 10))
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  repeat('>', 10 - 1) ... ok
+Result: 2 / 2
+
 ===== let _ = Call('s:split_source_name', 'base')
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  2 ... ok
@@ -97,4 +122,4 @@ TEST: _  ==>  ['a'] ... ok
 Result: 4 / 4
 
 ===== Total
-Result: 53 / 53
+Result: 63 / 63
