@@ -50,11 +50,6 @@ TEST: g:ku_personal_runtime  ==>  'first' ... ok
 TEST: _  ==>  g:ku_personal_runtime . '/info/ku/history' ... ok
 Result: 3 / 3
 
-===== let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is not avtive.
-TEST: type(_)  ==>  type(0) ... ok
-TEST: _  ==>  0 ... ok
-Result: 2 / 2
-
 ===== let _ = Call('s:remove_prompt', 'foo')
 TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  'foo' ... ok
@@ -164,4 +159,4 @@ TEST: _  ==>  ['a'] ... ok
 Result: 4 / 4
 
 ===== Total
-Result: 81 / 81
+Result: 79 / 79

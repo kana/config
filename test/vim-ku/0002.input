@@ -136,29 +136,6 @@ endfunction
 
 
 
-function s:test_ku_set_the_current_input_pattern_0001()  "{{{1
-  Title let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is not avtive.
-  Assert type(_) ==> type(0)
-  Assert _ ==> 0
-endfunction
-
-
-
-
-"function s:test_ku_set_the_current_input_pattern_0002()  "{{{1
-"  " FIXME: It's hard to test stuffs that requrie to start a ku session.
-"  Ku file
-"  Title let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is avtive.
-"  Assert type(_) ==> type('')
-"  Assert _ ==> ''
-"
-"  normal! ^y$
-"  Assert @0 ==> '>xyzzy'
-"endfunction
-
-
-
-
 function s:test_remove_prompt_0001()  "{{{1
   Title let _ = Call('s:remove_prompt', 'foo')
   Assert type(_) ==> type('')
@@ -348,48 +325,6 @@ endfunction
 " | /
 " ||
 " ||
-" ::
-" :: Variables
-" ?? ...
-" ::
-" :: Interface
-" ?? ku#available_source_p()
-" ?? ku#available_sources()
-" ?? ku#command_complete()
-" ?? ku#custom_action()
-" ?? ku#custom_key()
-" ?? ku#custom_prefix()
-" ?? ku#custom_priority()
-" ?? ku#default_key_mappings()
-" ?? ku#do_action()
-" ?? ku#get_the_current_input_pattern()
-" ?? ku#input_history()
-" ?? ku#make_path()
-" ?? ku#path_separator()
-" ?? ku#reload()
-" ?? ku#restart()
-" ?? ku#start()
-" ?? ku#switch_source()
-" ?? s:ku_custom_action_3()
-" ?? s:ku_custom_action_4()
-" ::
-" :: Core
-" ?? s:do()
-" ?? s:end()
-" ?? s:initialize_ku_buffer()
-" ?? s:on_CursorMovedI()
-" ?? s:on_InsertEnter()
-" ?? s:recall_input_history()
-" ?? s:switch_current_source()
-" ::
-" :: Completion
-" ?? ku#_omnifunc()
-" ?? ku#_omnifunc_profile()
-" ?? s:_omnifunc_base_case_pattern()
-" ?? s:_omnifunc_cache_key()
-" ?? s:_omnifunc_compare_items()
-" ?? s:_omnifunc_compare_lists()
-" ?? s:_omnifunc_core()
 " ::
 " :: Autocommands
 " ?? ...
