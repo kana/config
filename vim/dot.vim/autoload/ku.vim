@@ -399,8 +399,16 @@ endfunction
 
 function! ku#set_the_current_input_pattern(s)  "{{{2
   if s:ku_active_p()
+    " BUGS: To avoid unexpected behavior caused by automatic completion of
+    "       the prompt, put also the prompt with a:s at this timing.
+    "
+    "       Even if there is no problem as described the above, the prompt
+    "       must be put at this timing.  Without putting, it's not easy to set
+    "       a string which starts with the same character as the prompt,
+    "       because the first character will be treated as the prompt and not
+    "       a part of the given string.
     let old_one = s:remove_prompt(getline(s:LNUM_INPUT))
-    call setline(s:LNUM_INPUT, a:s)
+    call setline(s:LNUM_INPUT, s:PROMPT . a:s)
     return old_one
   else
     return 0

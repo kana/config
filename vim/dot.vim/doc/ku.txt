@@ -1073,6 +1073,12 @@ CHANGELOG					*ku-changelog*
 	  the beginning of a |ku-session|.
 	- |ku#set_the_current_input_pattern()|:
 	  - Fix a wrong description in the document.
+	  - Fix a bug on the treatment of a given string.  If a given string
+	    starts with the same character as the prompt, that character is
+	    treated as the prompt and not a part of the given string, so it's
+	    not easy to set such strings.
+	  - Fix a bug on the automatic completion.  The cursor position may be
+	    altered in several cases.
 
 	See also:
 	- |ku-source-changelog-0.1.2|

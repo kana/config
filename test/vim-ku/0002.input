@@ -307,7 +307,7 @@ endfunction
 "  Assert _ ==> ''
 "
 "  normal! ^y$
-"  Assert @0 ==> 'xyzzy'
+"  Assert @0 ==> '>xyzzy'
 "endfunction
 
 
