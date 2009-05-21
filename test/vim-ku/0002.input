@@ -1,13 +1,17 @@
-" Test for misc. utilities
-let s:SID_PREFIX = ku#_sid_prefix()  "{{{1
-function! Call(function_name, ...)
+" Tests for misc. utilities
+" Set up  "{{{1
+
+let s:SID_PREFIX = ku#_sid_prefix()
+function Call(function_name, ...)
   return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
 endfunction
 
+let g:ku_personal_runtime = split(&runtimepath, ',')[0]
 
 
 
-function! s:test_calculate_available_sources_0001()  "{{{1
+
+function s:test_calculate_available_sources_0001()  "{{{1
   let expected_sources = [
   \     'args',
   \     'buffer',
@@ -27,7 +31,7 @@ endfunction
 
 
 
-function! s:test_calculate_available_sources_0002()  "{{{1
+function s:test_calculate_available_sources_0002()  "{{{1
   let expected_sources = []
   let original_runtimepath = &runtimepath
   set runtimepath=
@@ -40,7 +44,7 @@ endfunction
 
 
 
-function! s:test_calculate_available_sources_0003()  "{{{1
+function s:test_calculate_available_sources_0003()  "{{{1
   let expected_sources = [
   \     'args',
   \     'buffer',
@@ -63,7 +67,121 @@ endfunction
 
 
 
-function! s:test_split_source_name_0001()  "{{{1
+function s:test_contains_the_prompt_p_0001()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', 'foo')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0002()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', '>foo')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0003()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', '>_<')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0004()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', '-->')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0005()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', repeat('>', 10))
+  Assert type(_) ==> type(0)
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_history_file_0001()  "{{{1
+  Title let _ = Call('s:history_file')
+  Assert type(_) ==> type('')
+  Assert g:ku_personal_runtime ==> 'vim/dot.vim'
+  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
+endfunction
+
+
+
+
+function s:test_history_file_0002()  "{{{1
+  let original_ku_personal_runtime = g:ku_personal_runtime
+
+  Title let g:ku_personal_runtime = 'first' | let _ = Call('s:history_file')
+  Assert type(_) ==> type('')
+  Assert g:ku_personal_runtime ==> 'first'
+  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
+
+  let g:ku_personal_runtime = original_ku_personal_runtime
+endfunction
+
+
+
+
+function s:test_remove_prompt_0001()  "{{{1
+  Title let _ = Call('s:remove_prompt', 'foo')
+  Assert type(_) ==> type('')
+  Assert _ ==> 'foo'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0002()  "{{{1
+  Title let _ = Call('s:remove_prompt', '>foo')
+  Assert type(_) ==> type('')
+  Assert _ ==> 'foo'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0003()  "{{{1
+  Title let _ = Call('s:remove_prompt', '>_<')
+  Assert type(_) ==> type('')
+  Assert _ ==> '_<'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0004()  "{{{1
+  Title let _ = Call('s:remove_prompt', '-->')
+  Assert type(_) ==> type('')
+  Assert _ ==> '-->'
+endfunction
+
+
+
+
+function s:test_remove_prompt_0005()  "{{{1
+  Title let _ = Call('s:remove_prompt', repeat('>', 10))
+  Assert type(_) ==> type('')
+  Assert _ ==> repeat('>', 10 - 1)
+endfunction
+
+
+
+
+function s:test_split_source_name_0001()  "{{{1
   Title let _ = Call('s:split_source_name', 'base')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -74,7 +192,7 @@ endfunction
 
 
 
-function! s:test_split_source_name_0002()  "{{{1
+function s:test_split_source_name_0002()  "{{{1
   Title let _ = Call('s:split_source_name', 'base/ext')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -85,7 +203,7 @@ endfunction
 
 
 
-function! s:test_split_source_name_0003()  "{{{1
+function s:test_split_source_name_0003()  "{{{1
   Title let _ = Call('s:split_source_name', '')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -96,7 +214,7 @@ endfunction
 
 
 
-function! s:test_split_source_name_0004()  "{{{1
+function s:test_split_source_name_0004()  "{{{1
   Title let _ = Call('s:split_source_name', 'foo/bar/baz')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -107,7 +225,7 @@ endfunction
 
 
 
-function! s:test_split_source_name_0005()  "{{{1
+function s:test_split_source_name_0005()  "{{{1
   Title let _ = Call('s:split_source_name', 'base-only/')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -118,7 +236,7 @@ endfunction
 
 
 
-function! s:test_split_source_name_0006()  "{{{1
+function s:test_split_source_name_0006()  "{{{1
   Title let _ = Call('s:split_source_name', '/ext-only')
   Assert type(_) ==> type([])
   Assert len(_) ==> 2
@@ -129,7 +247,7 @@ endfunction
 
 
 
-function! s:test_uniq_0001()  "{{{1
+function s:test_uniq_0001()  "{{{1
   let empty_list = []
   Title let _ = Call('s:uniq', empty_list)
   Assert type(_) ==> type([])
@@ -140,7 +258,7 @@ endfunction
 
 
 
-function! s:test_uniq_0002()  "{{{1
+function s:test_uniq_0002()  "{{{1
   let list_with_an_item = ['x']
   Title let _ = Call('s:uniq', list_with_an_item)
   Assert type(_) ==> type([])
@@ -152,7 +270,7 @@ endfunction
 
 
 
-function! s:test_uniq_0003()  "{{{1
+function s:test_uniq_0003()  "{{{1
   let list_with_many_items = ['a', 'a', 'b', 'b', 'c', 'c']
   Title let _ = Call('s:uniq', list_with_many_items)
   Assert type(_) ==> type([])
@@ -164,7 +282,7 @@ endfunction
 
 
 
-function! s:test_uniq_0004()  "{{{1
+function s:test_uniq_0004()  "{{{1
   let list_with_many_items = ['a', 'a', 'b', 'b', 'c', 'd']
   Title let _ = Call('s:uniq', list_with_many_items)
   Assert type(_) ==> type([])
@@ -176,7 +294,7 @@ endfunction
 
 
 
-function! s:test_uniq_0005()  "{{{1
+function s:test_uniq_0005()  "{{{1
   let list_with_many_items = ['z', 'a', 'b', 'b', 'c', 'd']
   Title let _ = Call('s:uniq', list_with_many_items)
   Assert type(_) ==> type([])
@@ -188,7 +306,7 @@ endfunction
 
 
 
-function! s:test_uniq_0006()  "{{{1
+function s:test_uniq_0006()  "{{{1
   let list_with_many_items = ['a', 'a', 'a', 'a', 'a']
   Title let _ = Call('s:uniq', list_with_many_items)
   Assert type(_) ==> type([])
@@ -208,55 +326,11 @@ endfunction
 " ||
 " ||
 " ::
-" :: Variables
-" ?? ...
-" ::
-" :: Interface
-" ?? ku#available_source_p()
-" ?? ku#available_sources()
-" ?? ku#command_complete()
-" ?? ku#custom_action()
-" ?? ku#custom_key()
-" ?? ku#custom_prefix()
-" ?? ku#custom_priority()
-" ?? ku#default_key_mappings()
-" ?? ku#do_action()
-" ?? ku#get_the_current_input_pattern()
-" ?? ku#input_history()
-" ?? ku#make_path()
-" ?? ku#path_separator()
-" ?? ku#restart()
-" ?? ku#set_the_current_input_pattern()
-" ?? ku#start()
-" ?? ku#switch_source()
-" ?? s:ku_custom_action_3()
-" ?? s:ku_custom_action_4()
-" ::
-" :: Core
-" ?? s:do()
-" ?? s:end()
-" ?? s:initialize_ku_buffer()
-" ?? s:on_CursorMovedI()
-" ?? s:on_InsertEnter()
-" ?? s:recall_input_history()
-" ?? s:switch_current_source()
-" ::
-" :: Completion
-" ?? ku#_omnifunc()
-" ?? ku#_omnifunc_profile()
-" ?? s:_omnifunc_base_case_pattern()
-" ?? s:_omnifunc_cache_key()
-" ?? s:_omnifunc_compare_items()
-" ?? s:_omnifunc_compare_lists()
-" ?? s:_omnifunc_core()
-" ::
 " :: Autocommands
 " ?? ...
 " ::
 " :: Automatic completion
 " ?? s:complete_the_prompt()
-" ?? s:contains_the_prompt_p()
-" ?? s:remove_prompt()
 " ?? s:text_by_automatic_component_completion()
 " ::
 " :: Action-related stuffs

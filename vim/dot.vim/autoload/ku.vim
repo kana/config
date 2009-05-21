@@ -87,6 +87,16 @@ if !exists('g:ku_history_reloading_style')
 endif
 
 
+" The directory to store personal settings and information.
+if !exists('g:ku_personal_runtime')
+  let s:original_runtimepath = &runtimepath
+    set runtimepath&
+    let g:ku_personal_runtime = split(&runtimepath, ',')[0]
+  let &runtimepath = s:original_runtimepath
+  unlet s:original_runtimepath
+endif
+
+
 
 
 " Script-local  "{{{2
@@ -390,6 +400,22 @@ endfunction
 
 
 
+function! ku#reload()  "{{{2
+  " BUGS: ku#reload() cannot be redefined, because it is in use at this timing.
+  echo 'Reloading the whole system of ku ... '
+
+  silent! runtime autoload/ku.vim
+  for source_name_base in map(s:calculate_available_sources(),
+  \                           's:split_source_name(v:val)[0]')
+    execute 'runtime autoload/ku/'.source_name_base.'.vim'
+  endfor
+
+  echon 'done.'
+endfunction
+
+
+
+
 function! ku#restart()  "{{{2
   return ku#start(s:last_used_source, s:last_used_input_pattern)
 endfunction
@@ -399,8 +425,16 @@ endfunction
 
 function! ku#set_the_current_input_pattern(s)  "{{{2
   if s:ku_active_p()
+    " BUGS: To avoid unexpected behavior caused by automatic completion of
+    "       the prompt, put also the prompt with a:s at this timing.
+    "
+    "       Even if there is no problem as described the above, the prompt
+    "       must be put at this timing.  Without putting, it's not easy to set
+    "       a string which starts with the same character as the prompt,
+    "       because the first character will be treated as the prompt and not
+    "       a part of the given string.
     let old_one = s:remove_prompt(getline(s:LNUM_INPUT))
-    call setline(s:LNUM_INPUT, a:s)
+    call setline(s:LNUM_INPUT, s:PROMPT . a:s)
     return old_one
   else
     return 0
@@ -1730,7 +1764,7 @@ endfunction
 
 
 function! s:history_file()  "{{{3
-  return split(&runtimepath, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
+  return split(g:ku_personal_runtime, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
 endfunction
 
 
