@@ -1064,6 +1064,7 @@ CHANGELOG					*ku-changelog*
 0.2.3	2009-05-16T03:05:10+09:00		*ku-changelog-0.2.3*
 	Misc. improvements:
 	- Improve an error message.
+	- Add tests, not perfect yet.
 
 	Bug fixes:
 	- Fix a bug that ku list the same sources many times if there are 2 or
