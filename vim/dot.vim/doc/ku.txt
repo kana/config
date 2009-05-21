@@ -492,11 +492,9 @@ INPUT HISTORY					*ku-input-history*
 Input patterns are automatically saved and they will be automatically loaded
 the next Vim session.  You can recall an old input pattern in the ku window.
 
-- Input history is saved as "info/ku/history" under the first directory in the
-  default value of 'runtimepath'.  For example, input history is saved into
-  "$HOME/.vim/info/ku/history" on *nix environments,
-  "$HOME/vimfiles/info/ku/history" on Microsoft Windows,
-  and so forth.  See 'runtimepath' for the details of which directory is used.
+- Input history is saved as "info/ku/history" under the directory which is
+  specified by |g:ku_personal_runtime|.  For example, the default path to the
+  file is "$HOME/.vim/info/ku/history" on *nix environments.
 
 - Maximum size of input history is configured by |g:ku_history_size|.
   Whenever the number of inputted patterns exceeds the limit, the oldest
@@ -931,6 +929,18 @@ g:ku_history_size				*g:ku_history_size*
 	A number which is the maximum size of input history.
 	Default value is 1000.
 
+g:ku_personal_runtime				*g:ku_personal_runtime*
+	A string which is the path to the directory to store personal settings
+	and information.  Whenever ku saves information such as
+	|ku-input-history|, this directory is used.
+
+	Default value is the same as the first directory in the default value
+	of 'runtimepath'.  For example:
+	- "$HOME/.vim/info/ku/history" on *nix environments,
+	- "$HOME/vimfiles/info/ku/history" on Microsoft Windows,
+	- etc.
+	See 'runtimepath' for the details of which directory is used.
+
 
 
 
@@ -1073,6 +1083,8 @@ CHANGELOG					*ku-changelog*
 	  of the current value of 'runtimepath'.  Because some users customize
 	  'runtimepath', and the first directory in such values may not refer
 	  a directory for personal settings.
+	- Add |g:ku_personal_runtime| to customize where information such as
+	  |ku-input-history| to be saved.
 
 	Bug fixes:
 	- Fix a bug that ku list the same sources many times if there are 2 or

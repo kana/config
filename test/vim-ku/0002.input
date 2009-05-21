@@ -1,8 +1,12 @@
 " Test for misc. utilities
-let s:SID_PREFIX = ku#_sid_prefix()  "{{{1
+" Set up  "{{{1
+
+let s:SID_PREFIX = ku#_sid_prefix()
 function Call(function_name, ...)
   return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
 endfunction
+
+let g:ku_personal_runtime = split(&runtimepath, ',')[0]
 
 
 
@@ -314,32 +318,24 @@ endfunction
 
 
 function s:test_history_file_0001()  "{{{1
-  let origial_runtimepath = &runtimepath
-  set runtimepath&
-  let default_runtimepath = &runtimepath
-  let &runtimepath = origial_runtimepath
-
   Title let _ = Call('s:history_file')
   Assert type(_) ==> type('')
-  Assert &runtimepath ==> 'vim/dot.vim'
-  Assert _ ==> split(default_runtimepath, ',')[0] . '/info/ku/history'
+  Assert g:ku_personal_runtime ==> 'vim/dot.vim'
+  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
 endfunction
 
 
 
 
 function s:test_history_file_0002()  "{{{1
-  let origial_runtimepath = &runtimepath
-  set runtimepath&
-  let default_runtimepath = &runtimepath
-  let &runtimepath = 'first,second,third'
+  let original_ku_personal_runtime = g:ku_personal_runtime
 
-  Title let _ = Call('s:history_file')
+  Title let g:ku_personal_runtime = 'first' | let _ = Call('s:history_file')
   Assert type(_) ==> type('')
-  Assert split(&runtimepath, ',')[0] ==> 'first'
-  Assert _ ==> split(default_runtimepath, ',')[0] . '/info/ku/history'
+  Assert g:ku_personal_runtime ==> 'first'
+  Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
 
-  let &runtimepath = origial_runtimepath
+  let g:ku_personal_runtime = original_ku_personal_runtime
 endfunction
 
 

@@ -40,14 +40,14 @@ Result: 2 / 2
 
 ===== let _ = Call('s:history_file')
 TEST: type(_)  ==>  type('') ... ok
-TEST: &runtimepath  ==>  'vim/dot.vim' ... ok
-TEST: _  ==>  split(default_runtimepath, ',')[0] . '/info/ku/history' ... ok
+TEST: g:ku_personal_runtime  ==>  'vim/dot.vim' ... ok
+TEST: _  ==>  g:ku_personal_runtime . '/info/ku/history' ... ok
 Result: 3 / 3
 
-===== let _ = Call('s:history_file')
+===== let g:ku_personal_runtime = 'first' | let _ = Call('s:history_file')
 TEST: type(_)  ==>  type('') ... ok
-TEST: split(&runtimepath, ',')[0]  ==>  'first' ... ok
-TEST: _  ==>  split(default_runtimepath, ',')[0] . '/info/ku/history' ... ok
+TEST: g:ku_personal_runtime  ==>  'first' ... ok
+TEST: _  ==>  g:ku_personal_runtime . '/info/ku/history' ... ok
 Result: 3 / 3
 
 ===== let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is not avtive.

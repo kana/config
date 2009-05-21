@@ -87,6 +87,16 @@ if !exists('g:ku_history_reloading_style')
 endif
 
 
+" The directory to store personal settings and information.
+if !exists('g:ku_personal_runtime')
+  let s:original_runtimepath = &runtimepath
+    set runtimepath&
+    let g:ku_personal_runtime = split(&runtimepath, ',')[0]
+  let &runtimepath = s:original_runtimepath
+  unlet s:original_runtimepath
+endif
+
+
 
 
 " Script-local  "{{{2
@@ -1738,12 +1748,7 @@ endfunction
 
 
 function! s:history_file()  "{{{3
-  let original_runtimepath = &runtimepath
-  set runtimepath&
-  let default_runtimepath = &runtimepath
-  let &runtimepath = original_runtimepath
-
-  return split(default_runtimepath, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
+  return split(g:ku_personal_runtime, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
 endfunction
 
 
