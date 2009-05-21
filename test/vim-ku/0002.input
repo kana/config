@@ -313,6 +313,31 @@ endfunction
 
 
 
+function s:test_history_file_0001()  "{{{1
+  Title let _ = Call('s:history_file')
+  Assert type(_) ==> type('')
+  Assert &runtimepath ==> 'vim/dot.vim'
+  Assert _ ==> 'vim/dot.vim/info/ku/history'
+endfunction
+
+
+
+
+function s:test_history_file_0002()  "{{{1
+  let origial_runtimepath = &runtimepath
+  let &runtimepath = 'first,second,third'
+
+  Title let _ = Call('s:history_file')
+  Assert type(_) ==> type('')
+  Assert split(&runtimepath, ',')[0] ==> 'first'
+  Assert _ ==> 'first/info/ku/history'
+
+  let &runtimepath = origial_runtimepath
+endfunction
+
+
+
+
 " Entities which are not tested yet  "{{{1
 "
 "   __ has any side effect
