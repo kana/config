@@ -13,6 +13,31 @@ TEST: type(_)  ==>  type([]) ... ok
 TEST: _  ==>  expected_sources ... ok
 Result: 2 / 2
 
+===== let _ = Call('s:contains_the_prompt_p', 'foo')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', '>foo')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  1 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', '>_<')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  1 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', '-->')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', repeat('>', 10))
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  1 ... ok
+Result: 2 / 2
+
 ===== let _ = Call('s:remove_prompt', 'foo')
 TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  'foo' ... ok
@@ -122,4 +147,4 @@ TEST: _  ==>  ['a'] ... ok
 Result: 4 / 4
 
 ===== Total
-Result: 63 / 63
+Result: 73 / 73

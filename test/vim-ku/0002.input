@@ -63,6 +63,51 @@ endfunction
 
 
 
+function s:test_contains_the_prompt_p_0001()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', 'foo')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0002()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', '>foo')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0003()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', '>_<')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0004()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', '-->')
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_contains_the_prompt_p_0005()  "{{{1
+  Title let _ = Call('s:contains_the_prompt_p', repeat('>', 10))
+  Assert type(_) ==> type(0)
+  Assert _ ==> 1
+endfunction
+
+
+
+
 function s:test_remove_prompt_0001()  "{{{1
   Title let _ = Call('s:remove_prompt', 'foo')
   Assert type(_) ==> type('')
@@ -300,7 +345,6 @@ endfunction
 " ::
 " :: Automatic completion
 " ?? s:complete_the_prompt()
-" ?? s:contains_the_prompt_p()
 " ?? s:text_by_automatic_component_completion()
 " ::
 " :: Action-related stuffs
