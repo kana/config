@@ -739,7 +739,11 @@ test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
 	   false; \
 	 fi
 	@touch $@
-test/vim-ku/%.output: test/vim-ku/%.input test/vim-ku/tester test/libtest.vim
+test/vim-ku/%.output: \
+		test/vim-ku/%.input \
+		test/vim-ku/tester \
+		test/libtest.vim \
+		vim/dot.vim/autoload/ku.vim
 	@./test/vim-ku/tester $< &>$@
 
 define GENERATE_RULES_TO_TEST_vim_ku
