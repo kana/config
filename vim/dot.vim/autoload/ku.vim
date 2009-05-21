@@ -1738,7 +1738,12 @@ endfunction
 
 
 function! s:history_file()  "{{{3
-  return split(&runtimepath, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
+  let original_runtimepath = &runtimepath
+  set runtimepath&
+  let default_runtimepath = &runtimepath
+  let &runtimepath = original_runtimepath
+
+  return split(default_runtimepath, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
 endfunction
 
 
