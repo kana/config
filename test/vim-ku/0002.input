@@ -366,6 +366,7 @@ endfunction
 " ?? ku#input_history()
 " ?? ku#make_path()
 " ?? ku#path_separator()
+" ?? ku#reload()
 " ?? ku#restart()
 " ?? ku#set_the_current_input_pattern()
 " ?? ku#start()

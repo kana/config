@@ -400,6 +400,22 @@ endfunction
 
 
 
+function! ku#reload()  "{{{2
+  " BUGS: ku#reload() cannot be redefined, because it is in use at this timing.
+  echo 'Reloading the whole system of ku ... '
+
+  silent! runtime autoload/ku.vim
+  for source_name_base in map(s:calculate_available_sources(),
+  \                           's:split_source_name(v:val)[0]')
+    execute 'runtime autoload/ku/'.source_name_base.'.vim'
+  endfor
+
+  echon 'done.'
+endfunction
+
+
+
+
 function! ku#restart()  "{{{2
   return ku#start(s:last_used_source, s:last_used_input_pattern)
 endfunction

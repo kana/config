@@ -149,6 +149,11 @@ COMMANDS					*ku-commands*
 			choosing, like |<Plug>(ku-do-the-default-action)|.
 			See |filetype-ku| for an example of usage.
 
+:KuReload					*:KuReload*
+			Reload the whole system of ku.  This is useful to
+			reflect the changes made to any scripts after ku is
+			loaded.
+
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
@@ -286,6 +291,9 @@ ku#path_separator()				*ku#path_separator()*
 			Return the path separator for the current environment.
 			It returns "/" for most environments such as *nix or
 			"\" for some environments such as Microsoft Windows.
+
+ku#reload()					*ku#reload()*
+			Function version of |:KuReload|.
 
 ku#restart()					*ku#restart()*
 			Call |ku#start()| with the last inputted pattern and
@@ -1085,6 +1093,7 @@ CHANGELOG					*ku-changelog*
 	  a directory for personal settings.
 	- Add |g:ku_personal_runtime| to customize where information such as
 	  |ku-input-history| to be saved.
+	- Add |:KuReload| and |ku#reload()| to reload the whole system of ku.
 
 	Bug fixes:
 	- Fix a bug that ku list the same sources many times if there are 2 or
