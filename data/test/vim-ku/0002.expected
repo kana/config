@@ -13,6 +13,68 @@ TEST: type(_)  ==>  type([]) ... ok
 TEST: _  ==>  expected_sources ... ok
 Result: 2 / 2
 
+===== let _ = Call('s:contains_the_prompt_p', 'foo')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', '>foo')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  1 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', '>_<')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  1 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', '-->')
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:contains_the_prompt_p', repeat('>', 10))
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  1 ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:history_file')
+TEST: type(_)  ==>  type('') ... ok
+TEST: g:ku_personal_runtime  ==>  'vim/dot.vim' ... ok
+TEST: _  ==>  g:ku_personal_runtime . '/info/ku/history' ... ok
+Result: 3 / 3
+
+===== let g:ku_personal_runtime = 'first' | let _ = Call('s:history_file')
+TEST: type(_)  ==>  type('') ... ok
+TEST: g:ku_personal_runtime  ==>  'first' ... ok
+TEST: _  ==>  g:ku_personal_runtime . '/info/ku/history' ... ok
+Result: 3 / 3
+
+===== let _ = Call('s:remove_prompt', 'foo')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'foo' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', '>foo')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'foo' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', '>_<')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  '_<' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', '-->')
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  '-->' ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:remove_prompt', repeat('>', 10))
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  repeat('>', 10 - 1) ... ok
+Result: 2 / 2
+
 ===== let _ = Call('s:split_source_name', 'base')
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  2 ... ok
@@ -97,4 +159,4 @@ TEST: _  ==>  ['a'] ... ok
 Result: 4 / 4
 
 ===== Total
-Result: 53 / 53
+Result: 79 / 79

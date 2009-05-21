@@ -34,6 +34,8 @@ command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
 
 command! -bar -nargs=1 KuDoAction  call ku#do_action(<q-args>)
 
+command! -bar -nargs=0 KuReload  call ku#reload()
+
 
 
 

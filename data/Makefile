@@ -724,7 +724,7 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	  fi; \
 	done
 
-TESTS_vim_ku = 0001 0002
+TESTS_vim_ku = 0001 0002 0003
 test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
 	touch $@
 
@@ -739,7 +739,11 @@ test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
 	   false; \
 	 fi
 	@touch $@
-test/vim-ku/%.output: test/vim-ku/%.input test/vim-ku/tester test/libtest.vim
+test/vim-ku/%.output: \
+		test/vim-ku/%.input \
+		test/vim-ku/tester \
+		test/libtest.vim \
+		vim/dot.vim/autoload/ku.vim
 	@./test/vim-ku/tester $< &>$@
 
 define GENERATE_RULES_TO_TEST_vim_ku

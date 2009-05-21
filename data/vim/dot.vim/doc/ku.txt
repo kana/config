@@ -149,6 +149,11 @@ COMMANDS					*ku-commands*
 			choosing, like |<Plug>(ku-do-the-default-action)|.
 			See |filetype-ku| for an example of usage.
 
+:KuReload					*:KuReload*
+			Reload the whole system of ku.  This is useful to
+			reflect the changes made to any scripts after ku is
+			loaded.
+
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
@@ -287,6 +292,9 @@ ku#path_separator()				*ku#path_separator()*
 			It returns "/" for most environments such as *nix or
 			"\" for some environments such as Microsoft Windows.
 
+ku#reload()					*ku#reload()*
+			Function version of |:KuReload|.
+
 ku#restart()					*ku#restart()*
 			Call |ku#start()| with the last inputted pattern and
 			the last active source.
@@ -296,7 +304,7 @@ ku#restart()					*ku#restart()*
 
 ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
 			Set the current input pattern in |the-ku-buffer| to
-			{s}, then return it.
+			{s}, then return the old one.
 
 			If ku is not active, just return 0.
 
@@ -492,8 +500,9 @@ INPUT HISTORY					*ku-input-history*
 Input patterns are automatically saved and they will be automatically loaded
 the next Vim session.  You can recall an old input pattern in the ku window.
 
-- Input history is saved as "info/ku/history" under the first directory in
-  'runtimepath'.
+- Input history is saved as "info/ku/history" under the directory which is
+  specified by |g:ku_personal_runtime|.  For example, the default path to the
+  file is "$HOME/.vim/info/ku/history" on *nix environments.
 
 - Maximum size of input history is configured by |g:ku_history_size|.
   Whenever the number of inputted patterns exceeds the limit, the oldest
@@ -928,6 +937,18 @@ g:ku_history_size				*g:ku_history_size*
 	A number which is the maximum size of input history.
 	Default value is 1000.
 
+g:ku_personal_runtime				*g:ku_personal_runtime*
+	A string which is the path to the directory to store personal settings
+	and information.  Whenever ku saves information such as
+	|ku-input-history|, this directory is used.
+
+	Default value is the same as the first directory in the default value
+	of 'runtimepath'.  For example:
+	- "$HOME/.vim/info/ku/history" on *nix environments,
+	- "$HOME/vimfiles/info/ku/history" on Microsoft Windows,
+	- etc.
+	See 'runtimepath' for the details of which directory is used.
+
 
 
 
@@ -1064,12 +1085,32 @@ CHANGELOG					*ku-changelog*
 0.2.3	2009-05-16T03:05:10+09:00		*ku-changelog-0.2.3*
 	Misc. improvements:
 	- Improve an error message.
+	- Add tests, not perfect yet.
+	- |ku-input-history|: Change the directory to save input history.  Use
+	  the first directory in the default value of 'runtimepath', instead
+	  of the current value of 'runtimepath'.  Because some users customize
+	  'runtimepath', and the first directory in such values may not refer
+	  a directory for personal settings.
+	- Add |g:ku_personal_runtime| to customize where information such as
+	  |ku-input-history| to be saved.
+	- Add |:KuReload| and |ku#reload()| to reload the whole system of ku.
 
 	Bug fixes:
 	- Fix a bug that ku list the same sources many times if there are 2 or
 	  more source scripts which filenames are the same in 'runtimepath'.
 	- Fix bugs that ku may be confuse if typeahead buffer is not empty at
 	  the beginning of a |ku-session|.
+	- |ku#set_the_current_input_pattern()|:
+	  - Fix a wrong description in the document.
+	  - Fix a bug on the treatment of a given string.  If a given string
+	    starts with the same character as the prompt, that character is
+	    treated as the prompt and not a part of the given string, so it's
+	    not easy to set such strings.
+	  - Fix a bug on the automatic completion.  The cursor position may be
+	    altered in several cases.
+
+	See also:
+	- |ku-source-changelog-0.1.2|
 
 0.2.2	2009-05-13T21:40:20+09:00		*ku-changelog-0.2.2*
 	Bug fixes:
