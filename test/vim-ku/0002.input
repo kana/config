@@ -290,6 +290,29 @@ endfunction
 
 
 
+function s:test_ku_set_the_current_input_pattern_0001()  "{{{1
+  Title let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is not avtive.
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+endfunction
+
+
+
+
+"function s:test_ku_set_the_current_input_pattern_0002()  "{{{1
+"  " FIXME: It's hard to test stuffs that requrie to start a ku session.
+"  Ku file
+"  Title let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is avtive.
+"  Assert type(_) ==> type('')
+"  Assert _ ==> ''
+"
+"  normal! ^y$
+"  Assert @0 ==> 'xyzzy'
+"endfunction
+
+
+
+
 " Entities which are not tested yet  "{{{1
 "
 "   __ has any side effect

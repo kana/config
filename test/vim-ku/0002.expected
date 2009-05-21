@@ -38,6 +38,11 @@ TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  1 ... ok
 Result: 2 / 2
 
+===== let _ = ku#set_the_current_input_pattern('xyzzy')  " ku is not avtive.
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+Result: 2 / 2
+
 ===== let _ = Call('s:remove_prompt', 'foo')
 TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  'foo' ... ok
@@ -147,4 +152,4 @@ TEST: _  ==>  ['a'] ... ok
 Result: 4 / 4
 
 ===== Total
-Result: 73 / 73
+Result: 75 / 75
