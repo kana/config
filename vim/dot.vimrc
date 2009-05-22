@@ -551,9 +551,12 @@ AlternateCommand cd  CD
 
 " DefineOperator  "{{{2
 "
-" :DefineOperator {operator-keyseq}  {function-name}
-"   Define a new operator which uses the function named {function-name} and
-"   which can be called via key sequence {operator-keyseq}.
+" :DefineOperator {operator-keyseq}  {function-name} [{additional-settings}]
+"   Define a new operator
+"   which is executed via key sequence {operator-keyseq}, and
+"   which behavior is implemented by the function named {function-name}.
+"   If {additional-settings} is given, it is executed
+"   after setting 'operatorfunc' and before executing the operator.
 
 command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
 function! s:cmd_DefineOperator(operator_keyseq, function_name, ...)
