@@ -466,6 +466,9 @@ command! -nargs=+ Objunmap
 "
 " Keys for operators should be mapped in Normal mode and Visual mode.  The
 " following commands are just wrappers to avoid DRY violation.
+"
+" FIXME: How about mapping to g@ in Operator-pending mode
+"        to use {operator}{operator} pattern?
 
 command! -nargs=+ Operatormap
 \   execute 'nmap' <q-args>
@@ -1643,8 +1646,7 @@ Cnmap <silent> [Space]q  help quickref
 Cnmap <silent> [Space]r  registers
 
   " FIXME: ambiguous mappings - fix or not.
-nmap [Space]s  <Plug>(my:op-sort)
-vmap [Space]s  <Plug>(my:op-sort)
+Operatormap [Space]s  <Plug>(my:op-sort)
 omap [Space]s  g@
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
