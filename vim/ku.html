@@ -25,7 +25,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="ku.txt">ku.txt</span><span class="Ignore">*</span>        An interface for anything
 
-Version 0.2.2
+Version 0.2.3
 Script ID: 2337
 Copyright (C) 2008-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -1108,6 +1108,11 @@ prefix table                                    <span class="Ignore">*</span><sp
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-changelog">ku-changelog</span><span class="Ignore">*</span>
 
 0.2.3   2009-05-16T03:05:10+09:00               <span class="Ignore">*</span><span class="Constant" id="ku-changelog-0.2.3">ku-changelog-0.2.3</span><span class="Ignore">*</span>
+        Feature enhancements:
+        - Add <span class="Ignore">|</span><a href="ku.html#g:ku_personal_runtime"><span class="Identifier">g:ku_personal_runtime</span></a><span class="Ignore">|</span> to customize where information such as
+          <span class="Ignore">|</span><a href="ku.html#ku-input-history"><span class="Identifier">ku-input-history</span></a><span class="Ignore">|</span> to be saved.
+        - Add <span class="Ignore">|</span><a href="ku.html#:KuReload"><span class="Identifier">:KuReload</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="ku.html#ku#reload()"><span class="Identifier">ku#reload()</span></a><span class="Ignore">|</span> to reload the whole system of ku.
+
         Misc. improvements:
         - Improve an error message.
         - Add tests, not perfect yet.
@@ -1116,9 +1121,6 @@ prefix table                                    <span class="Ignore">*</span><sp
           of the current value of <span class="Type">'runtimepath'</span>.  Because some users customize
           <span class="Type">'runtimepath'</span>, and the first directory in such values may not refer
           a directory for personal settings.
-        - Add <span class="Ignore">|</span><a href="ku.html#g:ku_personal_runtime"><span class="Identifier">g:ku_personal_runtime</span></a><span class="Ignore">|</span> to customize where information such as
-          <span class="Ignore">|</span><a href="ku.html#ku-input-history"><span class="Identifier">ku-input-history</span></a><span class="Ignore">|</span> to be saved.
-        - Add <span class="Ignore">|</span><a href="ku.html#:KuReload"><span class="Identifier">:KuReload</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="ku.html#ku#reload()"><span class="Identifier">ku#reload()</span></a><span class="Ignore">|</span> to reload the whole system of ku.
 
         Bug fixes:
         - Fix a bug that ku list the same sources many times if there are 2 or
