@@ -99,6 +99,12 @@
 "   - Functions: Use "on_{event}_{mod}" for a handler of :autocmd {event}.
 "
 "   - Use "tabpage" instead of "tab_page" or "tab page" or "tab".
+"
+" * Register usage:
+"
+"   - "g for :global.
+"
+"   - Don't overwrite other named registers.
 
 
 
@@ -1886,6 +1892,21 @@ endfunction
 Cnmap <C-z>  SuspendWithAutomticCD
 vnoremap <C-z>  <Nop>
 onoremap <C-z>  <Nop>
+
+
+" :g/re/y - Yank the lines which match to the last search pattern.
+" Note that "<C-b>foo<C-e>bar" will be translated into "foo{range}bar".
+Cnmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
+Cvmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
+
+function! s:glogal_regexp_yank(range)
+  let original_cursor_position = getpos('.')
+    let @g = ''
+    silent execute a:range 'global//yank G'
+    let @g = @g[1:]
+  call setpos('.', original_cursor_position)
+  echo len(split(@g, '\n')) 'lines greyed'
+endfunction
 
 
 " Show the lines which match to the last search pattern.
