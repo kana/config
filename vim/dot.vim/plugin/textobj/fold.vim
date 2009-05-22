@@ -1,4 +1,4 @@
-" textobj-fold - Text objects for date and time
+" textobj-fold - Text objects for foldings
 " Version: 0.1.2
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
