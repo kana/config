@@ -1645,6 +1645,7 @@ Cnmap <silent> [Space]r  registers
   " FIXME: ambiguous mappings - fix or not.
 nmap [Space]s  <Plug>(my:op-sort)
 vmap [Space]s  <Plug>(my:op-sort)
+omap [Space]s  g@
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
 
@@ -1772,6 +1773,20 @@ Arpeggio nmap om  <Plug>(my:op-center)
 Arpeggio vmap oh  <Plug>(my:op-left)
 Arpeggio vmap ol  <Plug>(my:op-right)
 Arpeggio vmap om  <Plug>(my:op-center)
+Arpeggio omap oh  g@
+Arpeggio omap ol  g@
+Arpeggio omap om  g@
+
+
+" Operator version of :join.
+DefineOperator <Plug>(my:op-join)
+\              <SID>op_command
+\              call <SID>set_op_command('join')
+
+  " FIXME: Use :Operatormap, but how?
+Arpeggio nmap oj  <Plug>(my:op-join)
+Arpeggio vmap oj  <Plug>(my:op-join)
+Arpeggio omap oj  g@
 
 
 " Operator version of :join.
