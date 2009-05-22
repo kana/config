@@ -324,7 +324,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.2
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
@@ -378,7 +378,7 @@ PACKAGE_vim_ku_quickfix_FILES=\
   vim/dot.vim/autoload/ku/quickfix.vim \
   vim/dot.vim/doc/ku-quickfix.txt
 
-PACKAGE_vim_ku_source_ARCHIVE=vim-ku-source-0.1.1
+PACKAGE_vim_ku_source_ARCHIVE=vim-ku-source-0.1.2
 PACKAGE_vim_ku_source_BASE=vim/dot.vim
 PACKAGE_vim_ku_source_FILES=\
   vim/dot.vim/autoload/ku/source.vim \
