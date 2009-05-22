@@ -280,6 +280,9 @@ BUGS						*arpeggio-bugs*
 ==============================================================================
 CHANGELOG					*arpeggio-changelog*
 
+0.0.6	2009-05-23T03:12:08+09:00		*arpeggio-changelog-0.0.6*
+	- Fix minor mistakes.
+
 0.0.5	2008-11-19T23:11:31+09:00		*arpeggio-changelog-0.0.5*
 	- Remove the assumption on 'timeout' and 'ttimeout'.  Old version
 	  assumes that "set timeout notimeout", but now their values can be
