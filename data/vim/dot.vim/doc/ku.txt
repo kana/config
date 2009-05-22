@@ -1,6 +1,6 @@
 *ku.txt*	An interface for anything
 
-Version 0.2.2
+Version 0.2.3
 Script ID: 2337
 Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -1083,6 +1083,11 @@ BUGS						*ku-bugs*
 CHANGELOG					*ku-changelog*
 
 0.2.3	2009-05-16T03:05:10+09:00		*ku-changelog-0.2.3*
+	Feature enhancements:
+	- Add |g:ku_personal_runtime| to customize where information such as
+	  |ku-input-history| to be saved.
+	- Add |:KuReload| and |ku#reload()| to reload the whole system of ku.
+
 	Misc. improvements:
 	- Improve an error message.
 	- Add tests, not perfect yet.
@@ -1091,9 +1096,6 @@ CHANGELOG					*ku-changelog*
 	  of the current value of 'runtimepath'.  Because some users customize
 	  'runtimepath', and the first directory in such values may not refer
 	  a directory for personal settings.
-	- Add |g:ku_personal_runtime| to customize where information such as
-	  |ku-input-history| to be saved.
-	- Add |:KuReload| and |ku#reload()| to reload the whole system of ku.
 
 	Bug fixes:
 	- Fix a bug that ku list the same sources many times if there are 2 or
