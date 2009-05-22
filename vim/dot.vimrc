@@ -99,6 +99,12 @@
 "   - Functions: Use "on_{event}_{mod}" for a handler of :autocmd {event}.
 "
 "   - Use "tabpage" instead of "tab_page" or "tab page" or "tab".
+"
+" * Register usage:
+"
+"   - "g for :global.
+"
+"   - Don't overwrite other named registers.
 
 
 
@@ -460,6 +466,9 @@ command! -nargs=+ Objunmap
 "
 " Keys for operators should be mapped in Normal mode and Visual mode.  The
 " following commands are just wrappers to avoid DRY violation.
+"
+" FIXME: How about mapping to g@ in Operator-pending mode
+"        to use {operator}{operator} pattern?
 
 command! -nargs=+ Operatormap
 \   execute 'nmap' <q-args>
@@ -545,9 +554,12 @@ AlternateCommand cd  CD
 
 " DefineOperator  "{{{2
 "
-" :DefineOperator {operator-keyseq}  {function-name}
-"   Define a new operator which uses the function named {function-name} and
-"   which can be called via key sequence {operator-keyseq}.
+" :DefineOperator {operator-keyseq}  {function-name} [{additional-settings}]
+"   Define a new operator
+"   which is executed via key sequence {operator-keyseq}, and
+"   which behavior is implemented by the function named {function-name}.
+"   If {additional-settings} is given, it is executed
+"   after setting 'operatorfunc' and before executing the operator.
 
 command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
 function! s:cmd_DefineOperator(operator_keyseq, function_name, ...)
@@ -1634,8 +1646,8 @@ Cnmap <silent> [Space]q  help quickref
 Cnmap <silent> [Space]r  registers
 
   " FIXME: ambiguous mappings - fix or not.
-nmap [Space]s  <Plug>(my:op-sort)
-vmap [Space]s  <Plug>(my:op-sort)
+Operatormap [Space]s  <Plug>(my:op-sort)
+omap [Space]s  g@
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
 
@@ -1763,6 +1775,30 @@ Arpeggio nmap om  <Plug>(my:op-center)
 Arpeggio vmap oh  <Plug>(my:op-left)
 Arpeggio vmap ol  <Plug>(my:op-right)
 Arpeggio vmap om  <Plug>(my:op-center)
+Arpeggio omap oh  g@
+Arpeggio omap ol  g@
+Arpeggio omap om  g@
+
+
+" Operator version of :join.
+DefineOperator <Plug>(my:op-join)
+\              <SID>op_command
+\              call <SID>set_op_command('join')
+
+  " FIXME: Use :Operatormap, but how?
+Arpeggio nmap oj  <Plug>(my:op-join)
+Arpeggio vmap oj  <Plug>(my:op-join)
+Arpeggio omap oj  g@
+
+
+" Operator version of :join.
+DefineOperator <Plug>(my:op-join)
+\              <SID>op_command
+\              call <SID>set_op_command('join')
+
+  " FIXME: Use :Operatormap, but how?
+Arpeggio nmap oj  <Plug>(my:op-join)
+Arpeggio vmap oj  <Plug>(my:op-join)
 
 
 " Operator version of :sort.
@@ -1886,6 +1922,21 @@ endfunction
 Cnmap <C-z>  SuspendWithAutomticCD
 vnoremap <C-z>  <Nop>
 onoremap <C-z>  <Nop>
+
+
+" :g/re/y - Yank the lines which match to the last search pattern.
+" Note that "<C-b>foo<C-e>bar" will be translated into "foo{range}bar".
+Cnmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
+Cvmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
+
+function! s:glogal_regexp_yank(range)
+  let original_cursor_position = getpos('.')
+    let @g = ''
+    silent execute a:range 'global//yank G'
+    let @g = @g[1:]
+  call setpos('.', original_cursor_position)
+  echo len(split(@g, '\n')) 'lines greyed'
+endfunction
 
 
 " Show the lines which match to the last search pattern.
