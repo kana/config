@@ -700,7 +700,7 @@ clean-vim:
 
 
 # test  #{{{1
-
+# Core  #{{{2
 test:
 	for i in $(ALL_PACKAGES); do \
 	  $(MAKE) PACKAGE_NAME=$$i test-a-package; \
@@ -713,6 +713,19 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
 	fi
 
+test/%.ok: test/%.expected test/%.output
+	@echo -n 'TEST: $(<:.expected=) ... '
+	@if diff -u $^ >,,test-$$$$; then \
+	   echo 'ok'; \
+	 else \
+	   echo 'FAILED'; \
+	   cat ,,test-$$$$; \
+	   echo 'END'; \
+	   false; \
+	 fi; \
+	 rm ,,test-$$$$
+	@touch $@
+
 generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	for i in $(TESTS_$(_PACKAGE_NAME)); do \
 	  if ! [ -f test/$(PACKAGE_NAME)/$$i.input ]; then \
@@ -724,33 +737,35 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	  fi; \
 	done
 
-TESTS_vim_ku = 0001 0002 0003
-test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
-	touch $@
 
-test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
-	@echo -n 'TEST: $(<:.expected=) ... '
-	@if diff -u $^ >,test-vim-ku; then \
-	   echo 'ok'; \
-	 else \
-	   echo 'FAILED'; \
-	   cat ,test-vim-ku; \
-	   echo 'END'; \
-	   false; \
-	 fi
-	@touch $@
+# vim-ku  #{{{2
+TESTS_vim_ku = 0001 0002 0003
+
 test/vim-ku/%.output: \
 		test/vim-ku/%.input \
-		test/vim-ku/tester \
+		test/tester-vim \
 		test/libtest.vim \
-		vim/dot.vim/autoload/ku.vim
-	@./test/vim-ku/tester $< &>$@
+		vim/dot.vim/autoload/ku.vim \
+		vim/dot.vim/plugin/ku.vim
+	@./test/tester-vim $< 'plugin/ku.vim' &>$@
 
-define GENERATE_RULES_TO_TEST_vim_ku
-test/vim-ku/$(1).ok: test/vim-ku/$(1).expected test/vim-ku/$(1).output
-test/vim-ku/$(1).output: test/vim-ku/$(1).input
+
+# Misc.  #{{{2
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_1
+test/$(1).ok: $(foreach n,$(TESTS_$(subst -,_,$(1))),test/$(1)/$(n).ok)
+	touch test/$(1).ok
 endef
-$(eval $(call GENERATE_RULES_TO_TEST_vim_ku,$(TESTS_vim_ku)))
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_2
+test/$(1)/$(2).ok: test/$(1)/$(2).expected test/$(1)/$(2).output
+test/$(1)/$(2).output: test/$(1)/$(2).input
+endef
+
+$(foreach package, $(ALL_PACKAGES), \
+  $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_1,$(package))) \
+  $(foreach case, $(TESTS_$(subst -,_,$(package))), \
+    $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_2,$(package),$(case)))))
 
 
 
