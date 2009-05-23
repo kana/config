@@ -745,10 +745,10 @@ test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
 
 test/vim-ku/%.output: \
 		test/vim-ku/%.input \
-		test/vim-ku/tester \
+		test/tester-vim \
 		test/libtest.vim \
 		vim/dot.vim/autoload/ku.vim
-	@./test/vim-ku/tester $< 'plugin/ku.vim' &>$@
+	@./test/tester-vim $< 'plugin/ku.vim' &>$@
 
 define GENERATE_RULES_TO_TEST_vim_ku
 test/vim-ku/$(1).ok: test/vim-ku/$(1).expected test/vim-ku/$(1).output
