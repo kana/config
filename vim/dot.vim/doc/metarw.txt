@@ -294,6 +294,8 @@ CHANGELOG					*metarw-changelog*
 
 0.0.4	2009-05-23T14:51:43+09:00		*metarw-changelog-0.0.4*
 	- Refine the document.
+	- |metarw#{scheme}#write()|:
+	  - Fix a bug that some kind of errors are not handled properly.
 
 0.0.3	2008-08-30T03:11:55+09:00		*metarw-changelog-0.0.3*
 	- |metarw#{scheme}#write()|:
