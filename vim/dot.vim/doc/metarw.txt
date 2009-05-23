@@ -190,16 +190,22 @@ metarw#{scheme}#read({fakepath})		*metarw#{scheme}#read()*
 			Read the content of {fakepath}.
 
 			This function must return a list with two items.  The
-			first item indicates the type of the second value:
+			first item indicates the type of a return value, and
+			the second item is an additional information for the
+			return value.  The meanings of return values are as
+			follows:
 
-			1st value	2nd value ~
-			---------	--------- ~
-			"error"		a string which represents an error
+			First item	Second item ~
+			----------	---------------------------------- ~
+						*metarw#{scheme}#read()-error*
+			"error"		A string which represents an error
 					message.
-			"read"		a string which will be given to
+						*metarw#{scheme}#read()-read*
+			"read"		A string which will be given to
 					|:read| to read the content of
 					{fakepath}.
-			"browse"	a list to set up
+					       *metarw#{scheme}#read()-browse*
+			"browse"	A list to set up
 					|metarw-content-browser|.
 
 			If the second item of return value is a list, each
@@ -226,20 +232,23 @@ metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			{line1} to {line2} into {fakepath}.  If {append-p} is
 			true, does appending instead of writing.
 
-			This function must return a list with two items like
-			|metarw#{scheme}#read()|, but the meaning of values is
-			as follows:
+			This function must return a list with one or more
+			items like |metarw#{scheme}#read()|, but the meanings
+			of return values are as follows:
 
-			1st value	2nd value ~
-			---------	--------- ~
-			"error"		a string which represents an error
-					message.
-			"write"		a string which will be given to
-					|:write| to write the content of
-					{fakepath}.
-			"done"		ignored.  This 1st value means that
-					writing is already done by
-					|metarw#{scheme}#write()|.
+			First item	Rest items ~
+			----------	----------------------------------- ~
+					       *metarw#{scheme}#write()-error*
+			"error"		The second item must be a string which
+					represents an error message.
+					       *metarw#{scheme}#write()-write*
+			"write"		The second item must be a string which
+					will be given to |:write| to write the
+					content of {fakepath}.
+						*metarw#{scheme}#write()-done*
+			"done"		The rest items are just ignored.  This
+					type means that writing is already
+					done by |metarw#{scheme}#write()|.
 
 			Don't reset 'modified' in this function.  It will be
 			automatically treated by metarw.
@@ -282,6 +291,9 @@ BUGS						*metarw-bugs*
 
 ==============================================================================
 CHANGELOG					*metarw-changelog*
+
+0.0.4	2009-05-23T14:51:43+09:00		*metarw-changelog-0.0.4*
+	- Refine the document.
 
 0.0.3	2008-08-30T03:11:55+09:00		*metarw-changelog-0.0.3*
 	- |metarw#{scheme}#write()|:
