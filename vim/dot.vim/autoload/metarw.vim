@@ -305,6 +305,10 @@ function! s:write(scheme, fakepath, line1, line2, event_name)  "{{{2
     if v:errmsg != ''
       let _ = ['error', 'Failed to write: ' . v:errmsg]
     endif
+
+    if _[0] != 'error' && 3 <= len(_)
+      execute _[2]
+    endif
   endif
   if _[0] !=# 'error'
   \  && a:event_name ==# 'BufWriteCmd' && a:fakepath ==# bufname('')

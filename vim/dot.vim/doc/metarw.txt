@@ -245,6 +245,11 @@ metarw#{scheme}#write({fakepath}, {line1}, {line2}, {append-p})
 			"write"		The second item must be a string which
 					will be given to |:write| to write the
 					content of {fakepath}.
+
+					The third item is optional; if it is
+					given, it must be a string which is
+					a Vim script and it will be
+					|:execute|d after writing.
 						*metarw#{scheme}#write()-done*
 			"done"		The rest items are just ignored.  This
 					type means that writing is already
@@ -296,6 +301,8 @@ CHANGELOG					*metarw-changelog*
 	- Refine the document.
 	- |metarw#{scheme}#write()|:
 	  - Fix a bug that some kind of errors are not handled properly.
+	  - Add a way to execute a script after writing.  See
+	    |metarw#{scheme}#write()-write| for the details.
 
 0.0.3	2008-08-30T03:11:55+09:00		*metarw-changelog-0.0.3*
 	- |metarw#{scheme}#write()|:
