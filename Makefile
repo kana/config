@@ -700,7 +700,7 @@ clean-vim:
 
 
 # test  #{{{1
-
+# Core  #{{{2
 test:
 	for i in $(ALL_PACKAGES); do \
 	  $(MAKE) PACKAGE_NAME=$$i test-a-package; \
@@ -724,6 +724,8 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	  fi; \
 	done
 
+
+# vim-ku  #{{{2
 TESTS_vim_ku = 0001 0002 0003
 test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
 	touch $@
