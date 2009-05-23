@@ -747,7 +747,8 @@ test/vim-ku/%.output: \
 		test/vim-ku/%.input \
 		test/tester-vim \
 		test/libtest.vim \
-		vim/dot.vim/autoload/ku.vim
+		vim/dot.vim/autoload/ku.vim \
+		vim/dot.vim/plugin/ku.vim
 	@./test/tester-vim $< 'plugin/ku.vim' &>$@
 
 define GENERATE_RULES_TO_TEST_vim_ku
