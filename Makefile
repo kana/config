@@ -740,8 +740,6 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 
 # vim-ku  #{{{2
 TESTS_vim_ku = 0001 0002 0003
-test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
-	touch $@
 
 test/vim-ku/%.output: \
 		test/vim-ku/%.input \
@@ -751,12 +749,23 @@ test/vim-ku/%.output: \
 		vim/dot.vim/plugin/ku.vim
 	@./test/tester-vim $< 'plugin/ku.vim' &>$@
 
-define GENERATE_RULES_TO_TEST_vim_ku
-test/vim-ku/$(1).ok: test/vim-ku/$(1).expected test/vim-ku/$(1).output
-test/vim-ku/$(1).output: test/vim-ku/$(1).input
+
+# Misc.  #{{{2
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_1
+test/$(1).ok: $(foreach n,$(TESTS_$(subst -,_,$(1))),test/$(1)/$(n).ok)
+	touch test/$(1).ok
 endef
-$(foreach case, $(TESTS_vim_ku), \
-  $(eval $(call GENERATE_RULES_TO_TEST_vim_ku,$(case))))
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_2
+test/$(1)/$(2).ok: test/$(1)/$(2).expected test/$(1)/$(2).output
+test/$(1)/$(2).output: test/$(1)/$(2).input
+endef
+
+$(foreach package, $(ALL_PACKAGES), \
+  $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_1,$(package))) \
+  $(foreach case, $(TESTS_$(subst -,_,$(package))), \
+    $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_2,$(package),$(case)))))
 
 
 
