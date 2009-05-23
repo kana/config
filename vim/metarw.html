@@ -23,9 +23,9 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="metarw.txt">metarw.txt</span><span class="Ignore">*</span>    a framework to read/write a fake:path
 
-Version 0.0.3
+Version 0.0.4
 Script ID: 2335
-Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+Copyright (C) 2008-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -213,16 +213,22 @@ metarw#<span class="Special">{scheme}</span>#read(<span class="Special">{fakepat
                         Read the content of <span class="Special">{fakepath}</span>.
 
                         This function must return a list with two items.  The
-                        first item indicates the type of the second value:
+                        first item indicates the type of a return value, and
+                        the second item is an additional information for the
+                        return value.  The meanings of return values are as
+                        follows:
 
-                        <span class="PreProc">1st value    2nd value</span><span class="Ignore"> ~</span>
-                        <span class="PreProc">---------    ---------</span><span class="Ignore"> ~</span>
-                        &quot;error&quot;         a string which represents an error
+                        <span class="PreProc">First item   Second item</span><span class="Ignore"> ~</span>
+                        <span class="PreProc">----------   ----------------------------------</span><span class="Ignore"> ~</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="metarw#{scheme}#read()-error">metarw#{scheme}#read()-error</span><span class="Ignore">*</span>
+                        &quot;error&quot;         A string which represents an error
                                         message.
-                        &quot;read&quot;          a string which will be given to
+                                                <span class="Ignore">*</span><span class="Constant" id="metarw#{scheme}#read()-read">metarw#{scheme}#read()-read</span><span class="Ignore">*</span>
+                        &quot;read&quot;          A string which will be given to
                                         <span class="Ignore">|</span><span class="Identifier">:read</span><span class="Ignore">|</span> to read the content of
                                         <span class="Special">{fakepath}</span>.
-                        &quot;browse&quot;        a list to set up
+                                               <span class="Ignore">*</span><span class="Constant" id="metarw#{scheme}#read()-browse">metarw#{scheme}#read()-browse</span><span class="Ignore">*</span>
+                        &quot;browse&quot;        A list to set up
                                         <span class="Ignore">|</span><a href="metarw.html#metarw-content-browser"><span class="Identifier">metarw-content-browser</span></a><span class="Ignore">|</span>.
 
                         If the second item of return value is a list, each
@@ -249,20 +255,28 @@ metarw#<span class="Special">{scheme}</span>#write(<span class="Special">{fakepa
                         <span class="Special">{line1}</span> to <span class="Special">{line2}</span> into <span class="Special">{fakepath}</span>.  If <span class="Special">{append-p}</span> is
                         true, does appending instead of writing.
 
-                        This function must return a list with two items like
-                        <span class="Ignore">|</span><a href="metarw.html#metarw#{scheme}#read()"><span class="Identifier">metarw#{scheme}#read()</span></a><span class="Ignore">|</span>, but the meaning of values is
-                        as follows:
+                        This function must return a list with one or more
+                        items like <span class="Ignore">|</span><a href="metarw.html#metarw#{scheme}#read()"><span class="Identifier">metarw#{scheme}#read()</span></a><span class="Ignore">|</span>, but the meanings
+                        of return values are as follows:
 
-                        <span class="PreProc">1st value    2nd value</span><span class="Ignore"> ~</span>
-                        <span class="PreProc">---------    ---------</span><span class="Ignore"> ~</span>
-                        &quot;error&quot;         a string which represents an error
-                                        message.
-                        &quot;write&quot;         a string which will be given to
-                                        <span class="Ignore">|</span><span class="Identifier">:write</span><span class="Ignore">|</span> to write the content of
-                                        <span class="Special">{fakepath}</span>.
-                        &quot;done&quot;          ignored.  This 1st value means that
-                                        writing is already done by
-                                        <span class="Ignore">|</span><a href="metarw.html#metarw#{scheme}#write()"><span class="Identifier">metarw#{scheme}#write()</span></a><span class="Ignore">|</span>.
+                        <span class="PreProc">First item   Rest items</span><span class="Ignore"> ~</span>
+                        <span class="PreProc">----------   -----------------------------------</span><span class="Ignore"> ~</span>
+                                               <span class="Ignore">*</span><span class="Constant" id="metarw#{scheme}#write()-error">metarw#{scheme}#write()-error</span><span class="Ignore">*</span>
+                        &quot;error&quot;         The second item must be a string which
+                                        represents an error message.
+                                               <span class="Ignore">*</span><span class="Constant" id="metarw#{scheme}#write()-write">metarw#{scheme}#write()-write</span><span class="Ignore">*</span>
+                        &quot;write&quot;         The second item must be a string which
+                                        will be given to <span class="Ignore">|</span><span class="Identifier">:write</span><span class="Ignore">|</span> to write the
+                                        content of <span class="Special">{fakepath}</span>.
+
+                                        The third item is optional; if it is
+                                        given, it must be a string which is
+                                        a Vim script and it will be
+                                        <span class="Ignore">|</span><span class="Identifier">:execute</span><span class="Ignore">|</span>d after writing.
+                                                <span class="Ignore">*</span><span class="Constant" id="metarw#{scheme}#write()-done">metarw#{scheme}#write()-done</span><span class="Ignore">*</span>
+                        &quot;done&quot;          The rest items are just ignored.  This
+                                        type means that writing is already
+                                        done by <span class="Ignore">|</span><a href="metarw.html#metarw#{scheme}#write()"><span class="Identifier">metarw#{scheme}#write()</span></a><span class="Ignore">|</span>.
 
                         Don't reset <span class="Type">'modified'</span> in this function.  It will be
                         automatically treated by metarw.
@@ -305,6 +319,13 @@ Scheme script                                   <span class="Ignore">*</span><sp
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="metarw-changelog">metarw-changelog</span><span class="Ignore">*</span>
+
+0.0.4   2009-05-23T14:51:43+09:00               <span class="Ignore">*</span><span class="Constant" id="metarw-changelog-0.0.4">metarw-changelog-0.0.4</span><span class="Ignore">*</span>
+        - Refine the document.
+        - <span class="Ignore">|</span><a href="metarw.html#metarw#{scheme}#write()"><span class="Identifier">metarw#{scheme}#write()</span></a><span class="Ignore">|</span>:
+          - Fix a bug that some kind of errors are not handled properly.
+          - Add a way to execute a script after writing.  See
+            <span class="Ignore">|</span><a href="metarw.html#metarw#{scheme}#write()-write"><span class="Identifier">metarw#{scheme}#write()-write</span></a><span class="Ignore">|</span> for the details.
 
 0.0.3   2008-08-30T03:11:55+09:00               <span class="Ignore">*</span><span class="Constant" id="metarw-changelog-0.0.3">metarw-changelog-0.0.3</span><span class="Ignore">*</span>
         - <span class="Ignore">|</span><a href="metarw.html#metarw#{scheme}#write()"><span class="Identifier">metarw#{scheme}#write()</span></a><span class="Ignore">|</span>:
