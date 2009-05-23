@@ -1,6 +1,6 @@
 " metarw - a framework to read/write a fake:path
-" Version: 0.0.3
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Version: 0.0.4
+" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -297,9 +297,17 @@ function! s:write(scheme, fakepath, line1, line2, event_name)  "{{{2
   let _ = metarw#{a:scheme}#write(a:fakepath, a:line1, a:line2,
   \                               a:event_name ==# 'FileAppendCmd')
   if _[0] ==# 'write'
+    let v:errmsg = ''
     execute a:line1 ',' a:line2 'write' v:cmdarg _[1]
     if v:shell_error != 0
-      let _ = ['error', 'Failed to write: ' . string(a:fakepath)]
+      let _ = ['error', 'Failed to :write !{cmd}']
+    endif
+    if v:errmsg != ''
+      let _ = ['error', 'Failed to write: ' . v:errmsg]
+    endif
+
+    if _[0] != 'error' && 3 <= len(_)
+      execute _[2]
     endif
   endif
   if _[0] !=# 'error'
