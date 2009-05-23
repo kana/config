@@ -117,7 +117,7 @@ endfunction
 
 
 function! s:JumpToIssue()
-  if search(s:RE_ISSUE_ID, 'cW') == 0
+  if search(s:RE_ISSUE_ID, 'ceW') == 0
     echo 'There is no issue id in this buffer.'
     return 0
   endif
