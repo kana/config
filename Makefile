@@ -384,7 +384,7 @@ PACKAGE_vim_ku_source_FILES=\
   vim/dot.vim/autoload/ku/source.vim \
   vim/dot.vim/doc/ku-source.txt
 
-PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.3
+PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.4
 PACKAGE_vim_metarw_BASE=vim/dot.vim
 PACKAGE_vim_metarw_FILES=\
   vim/dot.vim/autoload/metarw.vim \
