@@ -713,6 +713,19 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
 	fi
 
+test/%.ok: test/%.expected test/%.output
+	@echo -n 'TEST: $(<:.expected=) ... '
+	@if diff -u $^ >,,test-$$$$; then \
+	   echo 'ok'; \
+	 else \
+	   echo 'FAILED'; \
+	   cat ,,test-$$$$; \
+	   echo 'END'; \
+	   false; \
+	 fi; \
+	 rm ,,test-$$$$
+	@touch $@
+
 generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	for i in $(TESTS_$(_PACKAGE_NAME)); do \
 	  if ! [ -f test/$(PACKAGE_NAME)/$$i.input ]; then \
@@ -730,17 +743,6 @@ TESTS_vim_ku = 0001 0002 0003
 test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
 	touch $@
 
-test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
-	@echo -n 'TEST: $(<:.expected=) ... '
-	@if diff -u $^ >,test-vim-ku; then \
-	   echo 'ok'; \
-	 else \
-	   echo 'FAILED'; \
-	   cat ,test-vim-ku; \
-	   echo 'END'; \
-	   false; \
-	 fi
-	@touch $@
 test/vim-ku/%.output: \
 		test/vim-ku/%.input \
 		test/vim-ku/tester \
