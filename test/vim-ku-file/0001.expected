@@ -171,6 +171,14 @@ TEST: type(_[0])  ==>  type({}) ... ok
 TEST: len(filter(copy(_), 'v:val.word == ku#path_separator() . ".."'))  ==>  0 ... ok
 Result: 4 / 4
 
+===== let _ = ku#file#gather_items('Yes, {ext} is ignored', '')
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  'dir1' ... ok
+TEST: _[1].word  ==>  'file1' ... ok
+Result: 5 / 5
+
 ===== let _ = ku#file#key_table('')
 TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_key_table ... ok
@@ -232,4 +240,4 @@ TEST: _[3]  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 128 / 128
+Result: 133 / 133

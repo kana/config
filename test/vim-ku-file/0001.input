@@ -436,6 +436,24 @@ endfunction
 
 
 
+function s:test_ku_file_gather_items_0017()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('Yes, {ext} is ignored', '')
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> 'dir1'
+  Assert _[1].word ==> 'file1'
+
+  cd -
+endfunction
+
+
+
+
 function s:test_ku_file_on_source_enter_0001()  "{{{1
   let VARS = ku#file#_local_variables()
 
