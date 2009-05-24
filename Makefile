@@ -715,7 +715,9 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 
 test/%.ok: test/%.expected test/%.output
 	@echo -n 'TEST: $(<:.expected=) ... '
-	@if diff -u $^ >,,test-$$$$; then \
+	@diff -u $^ >,,test-$$$$; \
+	 result=$$?; \
+	 if [ "$$result" = '0' ]; then \
 	   echo 'ok'; \
 	 else \
 	   echo 'FAILED'; \
@@ -723,7 +725,8 @@ test/%.ok: test/%.expected test/%.output
 	   echo 'END'; \
 	   false; \
 	 fi; \
-	 rm ,,test-$$$$
+	 rm ,,test-$$$$; \
+	 exit $$result
 	@touch $@
 
 generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
