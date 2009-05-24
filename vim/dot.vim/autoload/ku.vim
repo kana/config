@@ -844,7 +844,7 @@ function! s:end()  "{{{2
     "   a pattern.
     "
     " So here we have to use s:last_user_input_raw instead.
-  let s:last_used_input_pattern = s:last_user_input_raw
+  let s:last_used_input_pattern = s:remove_prompt(s:last_user_input_raw)
   let s:last_used_source = s:current_source
 
   call s:api_on_source_leave(s:current_source)

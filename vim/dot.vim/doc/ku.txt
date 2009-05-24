@@ -1082,6 +1082,12 @@ BUGS						*ku-bugs*
 ==============================================================================
 CHANGELOG					*ku-changelog*
 
+0.2.4	2009-05-25T00:53:07+09:00		*ku-changelog-0.2.4*
+	Bug fixes:
+	- |ku#restart()|: Fix a bug that is caused by a change in the previous
+	  version.  As ku#restart() is called, the prompt character will be
+	  inserted many times.
+
 0.2.3	2009-05-16T03:05:10+09:00		*ku-changelog-0.2.3*
 	Feature enhancements:
 	- Add |g:ku_personal_runtime| to customize where information such as
