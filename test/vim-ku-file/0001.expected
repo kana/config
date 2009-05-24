@@ -3,5 +3,15 @@ TEST: type(_)  ==>  type([]) ... ok
 TEST: _  ==>  ['file'] ... ok
 Result: 2 / 2
 
-===== Total
+===== let _ = ku#file#key_table('')
+TEST: type(_)  ==>  type({}) ... ok
+TEST: _  ==>  expected_key_table ... ok
 Result: 2 / 2
+
+===== let _ = ku#file#key_table('xyzzy')  " {ext} is not used.
+TEST: type(_)  ==>  type({}) ... ok
+TEST: _  ==>  expected_key_table ... ok
+Result: 2 / 2
+
+===== Total
+Result: 6 / 6
