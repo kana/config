@@ -837,7 +837,7 @@ function! s:end()  "{{{2
     "
     " - Return value from getline(s:LNUM_INPUT) may be an item which was
     "   selected from the completion menu if s:last_user_input_raw and
-    "   getline(s:LNUM_INPUT) are the same value.
+    "   getline(s:LNUM_INPUT) are different.
     " - Users don't want to continue a selection with such completed value by
     "   ku#start() and <Plug>(ku-do-persistent-action), because typical usage
     "   of them is to do some action for several items which are matched to
