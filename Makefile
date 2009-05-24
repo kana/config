@@ -730,6 +730,7 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	for i in $(TESTS_$(_PACKAGE_NAME)); do \
 	  if ! [ -f test/$(PACKAGE_NAME)/$$i.input ]; then \
 	    echo "# Add files for $$i"; \
+	    mkdir -p test/$(PACKAGE_NAME); \
 	    touch test/$(PACKAGE_NAME)/$$i.input \
 	          test/$(PACKAGE_NAME)/$$i.expected; \
 	    git add test/$(PACKAGE_NAME)/$$i.input \
