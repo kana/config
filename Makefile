@@ -764,7 +764,7 @@ test/vim-ku-file/%.output: \
 		vim/dot.vim/autoload/ku.vim \
 		vim/dot.vim/autoload/ku/file.vim \
 		vim/dot.vim/plugin/ku.vim
-	@./test/tester-vim $< 'plugin/ku.vim' &>$@
+	@./test/tester-vim $< 'plugin/ku.vim autoload/ku.vim' &>$@
 
 
 # Misc.  #{{{2
