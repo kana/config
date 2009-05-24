@@ -87,21 +87,18 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
     return s:cached_items[cache_key]
   endif
 
-  let i = strridx(a:pattern, ku#path_separator())
-  let components = split(a:pattern, ku#path_separator(), !0)
-  let root_directory_pattern_p = i == 0
-  let user_seems_want_dotfiles_p = components[-1][:0] == '.'
+  let _ = s:parse_pattern(a:pattern)
+
     " On Microsoft Windows, glob('{,.}*') doesn't list dotfiles,
     " so that here we have to list dotfiles and other items separately.
-  let wildcards = user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
-
+  let wildcards = _.user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
     " glob_prefix must be followed by ku#separator() if it is not empty.
-  if i < 0  " no path separator
+  if len(_.components) == 1  " no path separator
     let glob_prefix = ''
-  elseif root_directory_pattern_p
+  elseif _.root_directory_pattern_p
     let glob_prefix = ku#path_separator()
   else  " more than one path separators
-    let glob_prefix = ku#make_path(components[:-2]) . ku#path_separator()
+    let glob_prefix = ku#make_path(_.components[:-2]) . ku#path_separator()
   endif
 
   let items = []
@@ -171,6 +168,18 @@ function! s:open(bang, item)  "{{{2
   " It makes users confusing, so here :silent!/v:errmsg are not used.
   execute 'edit'.a:bang '`=a:item.word`'
   return 0
+endfunction
+
+
+
+
+function! s:parse_pattern(pattern)  "{{{2
+  let _ = {}
+  let _.components = split(a:pattern, ku#path_separator(), !0)
+  let _.root_directory_pattern_p = 2 <= len(_.components)
+  \                                && _.components[0] == ''
+  let _.user_seems_want_dotfiles_p = _.components[-1][:0] == '.'
+  return _
 endfunction
 
 
