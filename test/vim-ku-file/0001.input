@@ -72,13 +72,108 @@ endfunction
 
 
 
+function s:test_ku_file_special_char_p_0001()  "{{{1
+  let chars = map(range(0x100), 'nr2char(v:val)')
+
+  Title let _ = map(chars, "ku#file#special_char_p('', v:val)")
+  Assert type(_) ==> type([])
+  Assert type(_[0]) ==> type(0)
+
+    " By the default value of g:ku_component_separators.
+  Assert _[char2nr('/')] ==> 1
+  Assert _[char2nr('\')] ==> 1
+  Assert _[char2nr(':')] ==> 1
+    " By ku source file itself.
+  Assert _[char2nr('.')] ==> 1
+
+  let _[0x00] = 0  " Ignore NUL, because Vim script cannot handle it.
+  let sum = 0
+  for i in _
+    let sum += abs(i)
+  endfor
+    " So the rest of characters are not special ones.
+  Assert sum ==> 4
+endfunction
+
+
+
+
+function s:test_ku_file_special_char_p_0002()  "{{{1
+  let chars = map(range(0x100), 'nr2char(v:val)')
+
+  Title let _ = map(chars, "ku#file#special_char_p('xyzzy', v:val)")
+  Assert type(_) ==> type([])
+  Assert type(_[0]) ==> type(0)
+
+    " By the default value of g:ku_component_separators.
+  Assert _[char2nr('/')] ==> 1
+  Assert _[char2nr('\')] ==> 1
+  Assert _[char2nr(':')] ==> 1
+    " By ku source file itself.
+  Assert _[char2nr('.')] ==> 1
+
+  let _[0x00] = 0  " Ignore NUL, because Vim script cannot handle it.
+  let sum = 0
+  for i in _
+    let sum += abs(i)
+  endfor
+    " So the rest of characters are not special ones.
+  Assert sum ==> 4
+endfunction
+
+
+
+
+function s:test_ku_file_special_char_p_0003()  "{{{1
+  let chars = ['', 'foo', ':\/', g:ku_component_separators]
+
+  Title let _ = map(chars, "ku#file#special_char_p('', v:val)")
+  Assert type(_) ==> type([])
+  Assert type(_[0]) ==> type(0)
+
+    " FIXME: Null string should not be accepcted.
+  Assert _[0] ==> 1
+
+    " Not a single-character string.  Rejected.
+  Assert _[1] ==> 0
+  Assert _[2] ==> 0
+
+    " FIXME: Not a single-character string, but accepted
+    "        because of the use of stridx().
+  Assert _[3] ==> 1
+endfunction
+
+
+
+
+function s:test_ku_file_special_char_p_0004()  "{{{1
+  let chars = ['', 'foo', ':\/', g:ku_component_separators]
+
+  Title let _ = map(chars, "ku#file#special_char_p('xyzzy', v:val)")
+  Assert type(_) ==> type([])
+  Assert type(_[0]) ==> type(0)
+
+    " FIXME: Null string should not be accepcted.
+  Assert _[0] ==> 1
+
+    " Not a single-character string.  Rejected.
+  Assert _[1] ==> 0
+  Assert _[2] ==> 0
+
+    " FIXME: Not a single-character string, but accepted
+    "        because of the use of stridx().
+  Assert _[3] ==> 1
+endfunction
+
+
+
+
 " Entities which are not tested yet  "{{{1
 "
 " API
 " ku#file#acc_valid_p(source_name_ext, item, sep)
 " ku#file#gather_items(source_name_ext, pattern)
 " ku#file#on_source_enter(source_name_ext)
-" ku#file#special_char_p(source_name_ext, char)
 "
 " Actions
 " s:open(bang, item)

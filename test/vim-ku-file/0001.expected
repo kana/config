@@ -23,5 +23,43 @@ TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_key_table ... ok
 Result: 2 / 2
 
+===== let _ = map(chars, "ku#file#special_char_p('', v:val)")
+TEST: type(_)  ==>  type([]) ... ok
+TEST: type(_[0])  ==>  type(0) ... ok
+TEST: _[char2nr('/')]  ==>  1 ... ok
+TEST: _[char2nr('\')]  ==>  1 ... ok
+TEST: _[char2nr(':')]  ==>  1 ... ok
+TEST: _[char2nr('.')]  ==>  1 ... ok
+TEST: sum  ==>  4 ... ok
+Result: 7 / 7
+
+===== let _ = map(chars, "ku#file#special_char_p('xyzzy', v:val)")
+TEST: type(_)  ==>  type([]) ... ok
+TEST: type(_[0])  ==>  type(0) ... ok
+TEST: _[char2nr('/')]  ==>  1 ... ok
+TEST: _[char2nr('\')]  ==>  1 ... ok
+TEST: _[char2nr(':')]  ==>  1 ... ok
+TEST: _[char2nr('.')]  ==>  1 ... ok
+TEST: sum  ==>  4 ... ok
+Result: 7 / 7
+
+===== let _ = map(chars, "ku#file#special_char_p('', v:val)")
+TEST: type(_)  ==>  type([]) ... ok
+TEST: type(_[0])  ==>  type(0) ... ok
+TEST: _[0]  ==>  1 ... ok
+TEST: _[1]  ==>  0 ... ok
+TEST: _[2]  ==>  0 ... ok
+TEST: _[3]  ==>  1 ... ok
+Result: 6 / 6
+
+===== let _ = map(chars, "ku#file#special_char_p('xyzzy', v:val)")
+TEST: type(_)  ==>  type([]) ... ok
+TEST: type(_[0])  ==>  type(0) ... ok
+TEST: _[0]  ==>  1 ... ok
+TEST: _[1]  ==>  0 ... ok
+TEST: _[2]  ==>  0 ... ok
+TEST: _[3]  ==>  1 ... ok
+Result: 6 / 6
+
 ===== Total
-Result: 10 / 10
+Result: 36 / 36
