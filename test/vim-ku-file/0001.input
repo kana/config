@@ -158,11 +158,11 @@ function s:test_ku_file_gather_items_0001()  "{{{1
 
   Title let _ = ku#file#gather_items('', '')  " Current directory
   Assert type(_) ==> type([])
-  Assert len(_) ==> 2
+  Assert len(_) ==> 5
   Assert type(_[0]) ==> type({})
 
-  Assert _[0].word ==> 'dir1'
-  Assert _[1].word ==> 'file1'
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
 
   cd -
 endfunction
@@ -176,11 +176,11 @@ function s:test_ku_file_gather_items_0002()  "{{{1
 
   Title let _ = ku#file#gather_items('', 'money')  " Last component is ignored
   Assert type(_) ==> type([])
-  Assert len(_) ==> 2
+  Assert len(_) ==> 5
   Assert type(_[0]) ==> type({})
 
-  Assert _[0].word ==> 'dir1'
-  Assert _[1].word ==> 'file1'
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
 
   cd -
 endfunction
@@ -194,13 +194,11 @@ function s:test_ku_file_gather_items_0003()  "{{{1
 
   Title let _ = ku#file#gather_items('', '.')  " Dot items now appear.
   Assert type(_) ==> type([])
-  Assert len(_) ==> 4
+  Assert len(_) ==> 7
   Assert type(_[0]) ==> type({})
 
-  Assert _[0].word ==> 'dir1'
-  Assert _[1].word ==> 'file1'
-  Assert _[2].word ==> '..'
-  Assert _[3].word ==> '.file1'
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1']
 
   cd -
 endfunction
@@ -214,13 +212,11 @@ function s:test_ku_file_gather_items_0004()  "{{{1
 
   Title let _ = ku#file#gather_items('', '.money')  " Only '.' matters.
   Assert type(_) ==> type([])
-  Assert len(_) ==> 4
+  Assert len(_) ==> 7
   Assert type(_[0]) ==> type({})
 
-  Assert _[0].word ==> 'dir1'
-  Assert _[1].word ==> 'file1'
-  Assert _[2].word ==> '..'
-  Assert _[3].word ==> '.file1'
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1']
 
   cd -
 endfunction
@@ -234,11 +230,11 @@ function s:test_ku_file_gather_items_0005()  "{{{1
 
   Title let _ = ku#file#gather_items('', 'money.')  " Only first '.' matters.
   Assert type(_) ==> type([])
-  Assert len(_) ==> 2
+  Assert len(_) ==> 5
   Assert type(_[0]) ==> type({})
 
-  Assert _[0].word ==> 'dir1'
-  Assert _[1].word ==> 'file1'
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
 
   cd -
 endfunction
@@ -280,11 +276,11 @@ function s:test_ku_file_gather_items_0008()  "{{{1
 
   Title let _ = ku#file#gather_items('', 'dir1')  " Not traversed w/ this pat.
   Assert type(_) ==> type([])
-  Assert len(_) ==> 2
+  Assert len(_) ==> 5
   Assert type(_[0]) ==> type({})
 
-  Assert _[0].word ==> 'dir1'
-  Assert _[1].word ==> 'file1'
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
 
   cd -
 endfunction
@@ -442,11 +438,11 @@ function s:test_ku_file_gather_items_0017()  "{{{1
 
   Title let _ = ku#file#gather_items('Yes, {ext} is ignored', '')
   Assert type(_) ==> type([])
-  Assert len(_) ==> 2
+  Assert len(_) ==> 5
   Assert type(_[0]) ==> type({})
 
-  Assert _[0].word ==> 'dir1'
-  Assert _[1].word ==> 'file1'
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
 
   cd -
 endfunction
@@ -725,6 +721,108 @@ function s:test_parse_pattern_0012()  "{{{1
   Assert _.components ==> ['', 'foo', '.bar']
   Assert _.root_directory_pattern_p ==> 1
   Assert _.user_seems_want_dotfiles_p ==> 1
+endfunction
+
+
+
+
+function s:test_parse_pattern_1001()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+
+  Title let _ = Call('s:parse_pattern', ku#make_path('a.zip'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'directory'
+  Assert _.components ==> ['a.zip']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+
+  cd -
+endfunction
+
+
+
+
+function s:test_parse_pattern_1002()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+
+  Title let _ = Call('s:parse_pattern', ku#make_path('.a.zip'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'directory'
+  Assert _.components ==> ['.a.zip']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 1
+
+  cd -
+endfunction
+
+
+
+
+function s:test_parse_pattern_1003()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+
+  Title let _ = Call('s:parse_pattern', ku#make_path('', 'a.zip'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'directory'
+  Assert _.components ==> ['', 'a.zip']
+  Assert _.root_directory_pattern_p ==> 1
+  Assert _.user_seems_want_dotfiles_p ==> 0
+
+  cd -
+endfunction
+
+
+
+
+function s:test_parse_pattern_1004()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+
+  Title let _ = Call('s:parse_pattern', ku#make_path('', '.a.zip'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'directory'
+  Assert _.components ==> ['', '.a.zip']
+  Assert _.root_directory_pattern_p ==> 1
+  Assert _.user_seems_want_dotfiles_p ==> 1
+
+  cd -
+endfunction
+
+
+
+
+function s:test_parse_pattern_1005()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+
+  Title let _ = Call('s:parse_pattern', ku#make_path('a.zip', ''))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'archive'
+  Assert _.components ==> ['a.zip', '']
+  Assert _.archive_format ==> 'zip'
+  Assert _.trailing_part ==> ku#make_path('')
+
+  cd -
+endfunction
+
+
+
+
+function s:test_parse_pattern_1006()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+
+  Title let _ = Call('s:parse_pattern', ku#make_path('a.zip', 'bar', 'baz'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'archive'
+  Assert _.components ==> ['a.zip', 'bar', 'baz']
+  Assert _.archive_format ==> 'zip'
+  Assert _.trailing_part ==> ku#make_path('bar', 'baz')
+
+  cd -
 endfunction
 
 

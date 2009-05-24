@@ -47,47 +47,38 @@ Result: 2 / 2
 
 ===== let _ = ku#file#gather_items('', '')  " Current directory
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  2 ... ok
+TEST: len(_)  ==>  5 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0].word  ==>  'dir1' ... ok
-TEST: _[1].word  ==>  'file1' ... ok
-Result: 5 / 5
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', 'money')  " Last component is ignored
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  2 ... ok
+TEST: len(_)  ==>  5 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0].word  ==>  'dir1' ... ok
-TEST: _[1].word  ==>  'file1' ... ok
-Result: 5 / 5
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', '.')  " Dot items now appear.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  4 ... ok
+TEST: len(_)  ==>  7 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0].word  ==>  'dir1' ... ok
-TEST: _[1].word  ==>  'file1' ... ok
-TEST: _[2].word  ==>  '..' ... ok
-TEST: _[3].word  ==>  '.file1' ... ok
-Result: 7 / 7
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1'] ... ok
+Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', '.money')  " Only '.' matters.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  4 ... ok
+TEST: len(_)  ==>  7 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0].word  ==>  'dir1' ... ok
-TEST: _[1].word  ==>  'file1' ... ok
-TEST: _[2].word  ==>  '..' ... ok
-TEST: _[3].word  ==>  '.file1' ... ok
-Result: 7 / 7
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1'] ... ok
+Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', 'money.')  " Only first '.' matters.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  2 ... ok
+TEST: len(_)  ==>  5 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0].word  ==>  'dir1' ... ok
-TEST: _[1].word  ==>  'file1' ... ok
-Result: 5 / 5
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('No such dir', ''))
 TEST: type(_)  ==>  type([]) ... ok
@@ -101,11 +92,10 @@ Result: 2 / 2
 
 ===== let _ = ku#file#gather_items('', 'dir1')  " Not traversed w/ this pat.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  2 ... ok
+TEST: len(_)  ==>  5 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0].word  ==>  'dir1' ... ok
-TEST: _[1].word  ==>  'file1' ... ok
-Result: 5 / 5
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('dir1', ''))
 TEST: type(_)  ==>  type([]) ... ok
@@ -173,11 +163,10 @@ Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('Yes, {ext} is ignored', '')
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  2 ... ok
+TEST: len(_)  ==>  5 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0].word  ==>  'dir1' ... ok
-TEST: _[1].word  ==>  'file1' ... ok
-Result: 5 / 5
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+Result: 4 / 4
 
 ===== let _ = ku#file#key_table('')
 TEST: type(_)  ==>  type({}) ... ok
@@ -347,5 +336,59 @@ TEST: _.root_directory_pattern_p  ==>  1 ... ok
 TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
+===== let _ = Call('s:parse_pattern', ku#make_path('a.zip'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'directory' ... ok
+TEST: _.components  ==>  ['a.zip'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 6 / 6
+
+===== let _ = Call('s:parse_pattern', ku#make_path('.a.zip'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'directory' ... ok
+TEST: _.components  ==>  ['.a.zip'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
+Result: 6 / 6
+
+===== let _ = Call('s:parse_pattern', ku#make_path('', 'a.zip'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'directory' ... ok
+TEST: _.components  ==>  ['', 'a.zip'] ... ok
+TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 6 / 6
+
+===== let _ = Call('s:parse_pattern', ku#make_path('', '.a.zip'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'directory' ... ok
+TEST: _.components  ==>  ['', '.a.zip'] ... ok
+TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
+Result: 6 / 6
+
+===== let _ = Call('s:parse_pattern', ku#make_path('a.zip', ''))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'archive' ... ok
+TEST: _.components  ==>  ['a.zip', ''] ... ok
+TEST: _.archive_format  ==>  'zip' ... ok
+TEST: _.trailing_part  ==>  ku#make_path('') ... ok
+Result: 6 / 6
+
+===== let _ = Call('s:parse_pattern', ku#make_path('a.zip', 'bar', 'baz'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'archive' ... ok
+TEST: _.components  ==>  ['a.zip', 'bar', 'baz'] ... ok
+TEST: _.archive_format  ==>  'zip' ... ok
+TEST: _.trailing_part  ==>  ku#make_path('bar', 'baz') ... ok
+Result: 6 / 6
+
 ===== Total
-Result: 205 / 205
+Result: 230 / 230

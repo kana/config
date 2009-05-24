@@ -200,8 +200,23 @@ endfunction
 
 function! s:parse_pattern(pattern)  "{{{2
   let _ = {}
-  let _.type = 'directory'
   let _.components = split(a:pattern, ku#path_separator(), !0)
+
+  for i in range(len(_.components) - 1)
+    let leading_part = ku#make_path(_.components[:i])
+      " FIXME: Should "learn" the correspondences of archive formats and their
+      "        standard extensions.
+      " FIXME: Support other archive formats.
+    if leading_part =~# '\.zip$' && filereadable(leading_part)
+      let _.type = 'archive'
+      let _.archive_format = 'zip'
+        " FIXME: Is this entry necessary?  What information do we really need?
+      let _.trailing_part = ku#make_path(_.components[i+1:])
+      return _
+    endif
+  endfor
+
+  let _.type = 'directory'
   let _.root_directory_pattern_p = 2 <= len(_.components)
   \                                && _.components[0] == ''
   let _.user_seems_want_dotfiles_p = _.components[-1][:0] == '.'
