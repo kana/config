@@ -1,3 +1,13 @@
+===== let _ = ku#file#action_table('')
+TEST: type(_)  ==>  type({}) ... ok
+TEST: _  ==>  expected_action_table ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_table('xyzzy')  " {ext} is not used.
+TEST: type(_)  ==>  type({}) ... ok
+TEST: _  ==>  expected_action_table ... ok
+Result: 2 / 2
+
 ===== let _ = ku#file#available_sources()
 TEST: type(_)  ==>  type([]) ... ok
 TEST: _  ==>  ['file'] ... ok
@@ -14,4 +24,4 @@ TEST: _  ==>  expected_key_table ... ok
 Result: 2 / 2
 
 ===== Total
-Result: 6 / 6
+Result: 10 / 10

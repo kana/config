@@ -9,11 +9,36 @@ endfunction
 let g:ku_personal_runtime = split(&runtimepath, ',')[0]
 
 
+let s:expected_action_table = {
+  \   'default': 'ku#file#action_open',
+  \   'open!': 'ku#file#action_open_x',
+  \   'open': 'ku#file#action_open',
+  \ }
 let s:expected_key_table = {
 \     "\<C-o>": 'open',
 \     'O': 'open!',
 \     'o': 'open',
 \   }
+
+
+
+
+function s:test_ku_file_action_table_0001()  "{{{1
+  let expected_action_table = s:expected_action_table
+  Title let _ = ku#file#action_table('')
+  Assert type(_) ==> type({})
+  Assert _ ==> expected_action_table
+endfunction
+
+
+
+
+function s:test_ku_file_action_table_0002()  "{{{1
+  let expected_action_table = s:expected_action_table
+  Title let _ = ku#file#action_table('xyzzy')  " {ext} is not used.
+  Assert type(_) ==> type({})
+  Assert _ ==> expected_action_table
+endfunction
 
 
 
@@ -51,7 +76,6 @@ endfunction
 "
 " API
 " ku#file#acc_valid_p(source_name_ext, item, sep)
-" ku#file#action_table(source_name_ext)
 " ku#file#gather_items(source_name_ext, pattern)
 " ku#file#on_source_enter(source_name_ext)
 " ku#file#special_char_p(source_name_ext, char)
