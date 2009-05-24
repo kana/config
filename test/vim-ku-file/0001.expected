@@ -1,3 +1,35 @@
+===== let _ = ku#file#acc_valid_p('', file_item, ku#path_separator())
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('', directory_item, ku#path_separator())
+TEST: _  ==>  1 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('', file_item, 'a')  " Invalid sep.
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('', directory_item, 'a')  " Invalid sep.
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('foo', file_item, ku#path_separator())
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('foo', directory_item, ku#path_separator())
+TEST: _  ==>  1 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('foo', file_item, 'a')  " Invalid sep.
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('foo', directory_item, 'a')  " Invalid sep.
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
 ===== let _ = ku#file#action_table('')
 TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_action_table ... ok
@@ -62,4 +94,4 @@ TEST: _[3]  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 36 / 36
+Result: 44 / 44

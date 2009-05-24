@@ -23,6 +23,78 @@ let s:expected_key_table = {
 
 
 
+function s:test_ku_file_acc_valid_p_0001()  "{{{1
+  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  Title let _ = ku#file#acc_valid_p('', file_item, ku#path_separator())
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0002()  "{{{1
+  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  Title let _ = ku#file#acc_valid_p('', directory_item, ku#path_separator())
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0003()  "{{{1
+  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  Title let _ = ku#file#acc_valid_p('', file_item, 'a')  " Invalid sep.
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0004()  "{{{1
+  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  Title let _ = ku#file#acc_valid_p('', directory_item, 'a')  " Invalid sep.
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0005()  "{{{1
+  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  Title let _ = ku#file#acc_valid_p('foo', file_item, ku#path_separator())
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0006()  "{{{1
+  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  Title let _ = ku#file#acc_valid_p('foo', directory_item, ku#path_separator())
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0007()  "{{{1
+  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  Title let _ = ku#file#acc_valid_p('foo', file_item, 'a')  " Invalid sep.
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0008()  "{{{1
+  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  Title let _ = ku#file#acc_valid_p('foo', directory_item, 'a')  " Invalid sep.
+  Assert _ ==> 0
+endfunction
+
+
+
+
 function s:test_ku_file_action_table_0001()  "{{{1
   let expected_action_table = s:expected_action_table
   Title let _ = ku#file#action_table('')
@@ -171,7 +243,6 @@ endfunction
 " Entities which are not tested yet  "{{{1
 "
 " API
-" ku#file#acc_valid_p(source_name_ext, item, sep)
 " ku#file#gather_items(source_name_ext, pattern)
 " ku#file#on_source_enter(source_name_ext)
 "
