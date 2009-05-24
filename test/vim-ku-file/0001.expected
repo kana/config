@@ -239,5 +239,101 @@ TEST: _[2]  ==>  0 ... ok
 TEST: _[3]  ==>  1 ... ok
 Result: 6 / 6
 
+===== let _ = Call('s:parse_pattern', '')
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  [''] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('foo'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['foo'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('foo', 'bar'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['foo', 'bar'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('foo', 'bar', 'baz'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['foo', 'bar', 'baz'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('.foo', 'bar', 'baz'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['.foo', 'bar', 'baz'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('.foo', '.bar', 'baz'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['.foo', '.bar', 'baz'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('.foo', '.bar', '.baz'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['.foo', '.bar', '.baz'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('.foo'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['.foo'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('', ''))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['', ''] ... ok
+TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('', 'foo'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['', 'foo'] ... ok
+TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('', 'foo', 'bar'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['', 'foo', 'bar'] ... ok
+TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 5 / 5
+
+===== let _ = Call('s:parse_pattern', ku#make_path('', 'foo', '.bar'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  3 ... ok
+TEST: _.components  ==>  ['', 'foo', '.bar'] ... ok
+TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
+Result: 5 / 5
+
 ===== Total
-Result: 133 / 133
+Result: 193 / 193

@@ -574,6 +574,150 @@ endfunction
 
 
 
+function s:test_parse_pattern_0001()  "{{{1
+  Title let _ = Call('s:parse_pattern', '')
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0002()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('foo'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['foo']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0003()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('foo', 'bar'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['foo', 'bar']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0004()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('foo', 'bar', 'baz'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['foo', 'bar', 'baz']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0005()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('.foo', 'bar', 'baz'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['.foo', 'bar', 'baz']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0006()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('.foo', '.bar', 'baz'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['.foo', '.bar', 'baz']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0007()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('.foo', '.bar', '.baz'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['.foo', '.bar', '.baz']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 1
+endfunction
+
+
+
+
+function s:test_parse_pattern_0008()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('.foo'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['.foo']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 1
+endfunction
+
+
+
+
+function s:test_parse_pattern_0009()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('', ''))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['', '']
+  Assert _.root_directory_pattern_p ==> 1
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0010()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('', 'foo'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['', 'foo']
+  Assert _.root_directory_pattern_p ==> 1
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0011()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('', 'foo', 'bar'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['', 'foo', 'bar']
+  Assert _.root_directory_pattern_p ==> 1
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_0012()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('', 'foo', '.bar'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 3
+  Assert _.components ==> ['', 'foo', '.bar']
+  Assert _.root_directory_pattern_p ==> 1
+  Assert _.user_seems_want_dotfiles_p ==> 1
+endfunction
+
+
+
+
 " Entities which are not tested yet  "{{{1
 "
 " Actions
