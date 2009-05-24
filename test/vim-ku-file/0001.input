@@ -144,6 +144,290 @@ endfunction
 
 
 
+function s:test_ku_file_gather_items_0001()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', '')  " Current directory
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> 'dir1'
+  Assert _[1].word ==> 'file1'
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0002()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', 'money')  " Last component is ignored
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> 'dir1'
+  Assert _[1].word ==> 'file1'
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0003()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', '.')  " Dot items now appear.
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 4
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> 'dir1'
+  Assert _[1].word ==> 'file1'
+  Assert _[2].word ==> '..'
+  Assert _[3].word ==> '.file1'
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0004()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', '.money')  " Only '.' matters.
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 4
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> 'dir1'
+  Assert _[1].word ==> 'file1'
+  Assert _[2].word ==> '..'
+  Assert _[3].word ==> '.file1'
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0005()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', 'money.')  " Only first '.' matters.
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> 'dir1'
+  Assert _[1].word ==> 'file1'
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0006()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('No such dir', ''))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 0
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0007()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('file1', ''))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 0
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0008()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', 'dir1')  " Not traversed w/ this pat.
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> 'dir1'
+  Assert _[1].word ==> 'file1'
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0009()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('dir1', ''))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> ku#make_path('dir1', 'dir2')
+  Assert _[1].word ==> ku#make_path('dir1', 'file2')
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0010()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'ignored'))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> ku#make_path('dir1', 'dir2')
+  Assert _[1].word ==> ku#make_path('dir1', 'file2')
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0011()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('dir1', '. aappeared!'))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 4
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> ku#make_path('dir1', 'dir2')
+  Assert _[1].word ==> ku#make_path('dir1', 'file2')
+  Assert _[2].word ==> ku#make_path('dir1', '..')
+  Assert _[3].word ==> ku#make_path('dir1', '.file2')
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0012()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'bad . here'))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 2
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> ku#make_path('dir1', 'dir2')
+  Assert _[1].word ==> ku#make_path('dir1', 'file2')
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0013()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'dir2', ''))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 1
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> ku#make_path('dir1', 'dir2', 'file3')
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0014()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'dir2', '.'))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 3
+  Assert type(_[0]) ==> type({})
+
+  Assert _[0].word ==> ku#make_path('dir1', 'dir2', 'file3')
+  Assert _[1].word ==> ku#make_path('dir1', 'dir2', '..')
+  Assert _[2].word ==> ku#make_path('dir1', 'dir2', '.file3')
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0015()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#path_separator())
+  Assert type(_) ==> type([])
+  Assert 0 < len(_) ==> 1
+  Assert type(_[0]) ==> type({})
+
+  Assert len(filter(copy(_), 'v:val.word == ku#path_separator() . ".."')) ==> 0
+
+  cd -
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_0016()  "{{{1
+  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('', '.'))
+  Assert type(_) ==> type([])
+  Assert 0 < len(_) ==> 1
+  Assert type(_[0]) ==> type({})
+
+  Assert len(filter(copy(_), 'v:val.word == ku#path_separator() . ".."')) ==> 0
+
+  cd -
+endfunction
+
+
+
+
 function s:test_ku_file_on_source_enter_0001()  "{{{1
   let VARS = ku#file#_local_variables()
 
@@ -265,9 +549,6 @@ endfunction
 
 
 " Entities which are not tested yet  "{{{1
-"
-" API
-" ku#file#gather_items(source_name_ext, pattern)
 "
 " Actions
 " s:open(bang, item)

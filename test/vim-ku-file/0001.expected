@@ -45,6 +45,132 @@ TEST: type(_)  ==>  type([]) ... ok
 TEST: _  ==>  ['file'] ... ok
 Result: 2 / 2
 
+===== let _ = ku#file#gather_items('', '')  " Current directory
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  'dir1' ... ok
+TEST: _[1].word  ==>  'file1' ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#gather_items('', 'money')  " Last component is ignored
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  'dir1' ... ok
+TEST: _[1].word  ==>  'file1' ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#gather_items('', '.')  " Dot items now appear.
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  4 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  'dir1' ... ok
+TEST: _[1].word  ==>  'file1' ... ok
+TEST: _[2].word  ==>  '..' ... ok
+TEST: _[3].word  ==>  '.file1' ... ok
+Result: 7 / 7
+
+===== let _ = ku#file#gather_items('', '.money')  " Only '.' matters.
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  4 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  'dir1' ... ok
+TEST: _[1].word  ==>  'file1' ... ok
+TEST: _[2].word  ==>  '..' ... ok
+TEST: _[3].word  ==>  '.file1' ... ok
+Result: 7 / 7
+
+===== let _ = ku#file#gather_items('', 'money.')  " Only first '.' matters.
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  'dir1' ... ok
+TEST: _[1].word  ==>  'file1' ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#gather_items('', ku#make_path('No such dir', ''))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  0 ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#gather_items('', ku#make_path('file1', ''))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  0 ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#gather_items('', 'dir1')  " Not traversed w/ this pat.
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  'dir1' ... ok
+TEST: _[1].word  ==>  'file1' ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#gather_items('', ku#make_path('dir1', ''))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  ku#make_path('dir1', 'dir2') ... ok
+TEST: _[1].word  ==>  ku#make_path('dir1', 'file2') ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#gather_items('', ku#make_path('dir1', 'ignored'))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  ku#make_path('dir1', 'dir2') ... ok
+TEST: _[1].word  ==>  ku#make_path('dir1', 'file2') ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#gather_items('', ku#make_path('dir1', '. aappeared!'))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  4 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  ku#make_path('dir1', 'dir2') ... ok
+TEST: _[1].word  ==>  ku#make_path('dir1', 'file2') ... ok
+TEST: _[2].word  ==>  ku#make_path('dir1', '..') ... ok
+TEST: _[3].word  ==>  ku#make_path('dir1', '.file2') ... ok
+Result: 7 / 7
+
+===== let _ = ku#file#gather_items('', ku#make_path('dir1', 'bad . here'))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  2 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  ku#make_path('dir1', 'dir2') ... ok
+TEST: _[1].word  ==>  ku#make_path('dir1', 'file2') ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#gather_items('', ku#make_path('dir1', 'dir2', ''))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  1 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  ku#make_path('dir1', 'dir2', 'file3') ... ok
+Result: 4 / 4
+
+===== let _ = ku#file#gather_items('', ku#make_path('dir1', 'dir2', '.'))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  3 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: _[0].word  ==>  ku#make_path('dir1', 'dir2', 'file3') ... ok
+TEST: _[1].word  ==>  ku#make_path('dir1', 'dir2', '..') ... ok
+TEST: _[2].word  ==>  ku#make_path('dir1', 'dir2', '.file3') ... ok
+Result: 6 / 6
+
+===== let _ = ku#file#gather_items('', ku#path_separator())
+TEST: type(_)  ==>  type([]) ... ok
+TEST: 0 < len(_)  ==>  1 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: len(filter(copy(_), 'v:val.word == ku#path_separator() . ".."'))  ==>  0 ... ok
+Result: 4 / 4
+
+===== let _ = ku#file#gather_items('', ku#make_path('', '.'))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: 0 < len(_)  ==>  1 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: len(filter(copy(_), 'v:val.word == ku#path_separator() . ".."'))  ==>  0 ... ok
+Result: 4 / 4
+
 ===== let _ = ku#file#key_table('')
 TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_key_table ... ok
@@ -106,4 +232,4 @@ TEST: _[3]  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 50 / 50
+Result: 128 / 128
