@@ -10,13 +10,21 @@ let g:ku_personal_runtime = split(&runtimepath, ',')[0]
 
 
 let s:expected_action_table = {
-  \   'default': 'ku#file#action_open',
-  \   'open!': 'ku#file#action_open_x',
-  \   'open': 'ku#file#action_open',
-  \ }
+\     'default': 'ku#file#action_open',
+\     'extract-asis': 'ku#file#action_extract_asis',
+\     'extract-smartly': 'ku#file#action_extract_smartly',
+\     'extract-solely': 'ku#file#action_extract_solely',
+\     'open!': 'ku#file#action_open_x',
+\     'open': 'ku#file#action_open',
+\   }
 let s:expected_key_table = {
+\     "\<C-e>": 'extract-smartly',
 \     "\<C-o>": 'open',
+\     "\<Esc>e": 'extract-solely',
+\     "\<M-e>": 'extract-solely',
+\     'E': 'extract-asis',
 \     'O': 'open!',
+\     'e': 'extract-smartly',
 \     'o': 'open',
 \   }
 

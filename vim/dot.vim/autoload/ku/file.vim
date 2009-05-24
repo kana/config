@@ -53,6 +53,9 @@ endfunction
 function! ku#file#action_table(source_name_ext)  "{{{2
   return {
   \   'default': 'ku#file#action_open',
+  \   'extract-asis': 'ku#file#action_extract_asis',
+  \   'extract-smartly': 'ku#file#action_extract_smartly',
+  \   'extract-solely': 'ku#file#action_extract_solely',
   \   'open!': 'ku#file#action_open_x',
   \   'open': 'ku#file#action_open',
   \ }
@@ -63,8 +66,13 @@ endfunction
 
 function! ku#file#key_table(source_name_ext)  "{{{2
   return {
+  \   "\<C-e>": 'extract-smartly',
   \   "\<C-o>": 'open',
+  \   "\<Esc>e": 'extract-solely',
+  \   "\<M-e>": 'extract-solely',
+  \   'E': 'extract-asis',
   \   'O': 'open!',
+  \   'e': 'extract-smartly',
   \   'o': 'open',
   \ }
 endfunction
@@ -169,6 +177,24 @@ endfunction
 
 
 " Actions  "{{{2
+function! ku#file#action_extract_asis(item)  "{{{3
+  echo 'ku: file: extract-asis: This action is not implemented yet.'
+  return 0  " FIXME: NIY
+endfunction
+
+
+function! ku#file#action_extract_smartly(item)  "{{{3
+  echo 'ku: file: extract-smartly: This action is not implemented yet.'
+  return 0  " FIXME: NIY
+endfunction
+
+
+function! ku#file#action_extract_solely(item)  "{{{3
+  echo 'ku: file: extract-solely: This action is not implemented yet.'
+  return 0  " FIXME
+endfunction
+
+
 function! ku#file#action_open(item)  "{{{3
   return s:open('', a:item)
 endfunction
