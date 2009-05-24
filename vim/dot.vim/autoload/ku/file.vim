@@ -104,10 +104,10 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
     let glob_prefix = ku#make_path(components[:-2]) . ku#path_separator()
   endif
 
-  let _ = []
+  let items = []
   for wildcard in wildcards
     for entry in split(glob(glob_prefix . wildcard), "\n")
-      call add(_, {
+      call add(items, {
       \      'word': entry,
       \      'abbr': entry . (isdirectory(entry) ? ku#path_separator() : ''),
       \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
@@ -119,11 +119,11 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
     " FIXME: Drive letter and other cases on Microsoft Windows.  E.g. 'C:\'.
   if fnamemodify(glob_prefix, ':p') == ku#path_separator()  " root directory?
     let parent_directory_name = glob_prefix . '..'
-    call filter(_, 'v:val.word !=# parent_directory_name')
+    call filter(items, 'v:val.word !=# parent_directory_name')
   endif
 
-  let s:cached_items[cache_key] = _
-  return _
+  let s:cached_items[cache_key] = items
+  return items
 endfunction
 
 
