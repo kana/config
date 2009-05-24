@@ -140,6 +140,23 @@ endfunction
 
 
 " Misc.  "{{{1
+" For tests  "{{{2
+function! ku#file#_local_variables()
+  return s:
+endfunction
+
+
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '\%(^\|\.\.\)\zs<SNR>\d\+_')
+endfunction
+
+function! ku#file#_sid_prefix()
+  return s:SID_PREFIX()
+endfunction
+
+
+
+
 function! s:open(bang, item)  "{{{2
   " BUGS: ":silent! edit {file with swp owned by another Vim process}" causes
   " some strange behavior - there is no message but Vim waits for a key input.

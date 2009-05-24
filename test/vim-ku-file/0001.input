@@ -1,0 +1,36 @@
+" Tests for misc. utilities
+" Set up  "{{{1
+
+let s:SID_PREFIX = ku#file#_sid_prefix()
+function Call(function_name, ...)
+  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
+endfunction
+
+let g:ku_personal_runtime = split(&runtimepath, ',')[0]
+
+
+
+
+" Entities which are not tested yet  "{{{1
+"
+" API
+" ku#file#acc_valid_p(source_name_ext, item, sep)
+" ku#file#action_table(source_name_ext)
+" ku#file#available_sources()
+" ku#file#gather_items(source_name_ext, pattern)
+" ku#file#key_table(source_name_ext)
+" ku#file#on_source_enter(source_name_ext)
+" ku#file#special_char_p(source_name_ext, char)
+"
+" Actions
+" s:open(bang, item)
+" ku#file#action_open(item)
+" ku#file#action_open_x(item)
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
