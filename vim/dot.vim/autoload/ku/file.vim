@@ -89,34 +89,13 @@ function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
 
   let _ = s:parse_pattern(a:pattern)
 
-    " On Microsoft Windows, glob('{,.}*') doesn't list dotfiles,
-    " so that here we have to list dotfiles and other items separately.
-  let wildcards = _.user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
-    " glob_prefix must be followed by ku#separator() if it is not empty.
-  if len(_.components) == 1  " no path separator
-    let glob_prefix = ''
-  elseif _.root_directory_pattern_p
-    let glob_prefix = ku#path_separator()
-  else  " more than one path separators
-    let glob_prefix = ku#make_path(_.components[:-2]) . ku#path_separator()
-  endif
-
-  let items = []
-  for wildcard in wildcards
-    for entry in split(glob(glob_prefix . wildcard), "\n")
-      call add(items, {
-      \      'word': entry,
-      \      'abbr': entry . (isdirectory(entry) ? ku#path_separator() : ''),
-      \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
-      \    })
-    endfor
-  endfor
-    " Remove the '..' item if user seems to find files under the root
-    " directory, because it is strange for such situation.
-    " FIXME: Drive letter and other cases on Microsoft Windows.  E.g. 'C:\'.
-  if fnamemodify(glob_prefix, ':p') == ku#path_separator()  " root directory?
-    let parent_directory_name = glob_prefix . '..'
-    call filter(items, 'v:val.word !=# parent_directory_name')
+  if _.type ==# 'directory'
+    let items = s:gather_items_from_directory(_)
+  elseif _.type ==# 'archive'
+    let items = s:gather_items_from_archive(_)
+  else
+    throw printf('ku:file:e1: Unexpected _.type: _ = %s / a: = %s',
+    \            string(_), string(a:))
   endif
 
   let s:cached_items[cache_key] = items
@@ -162,6 +141,52 @@ endfunction
 
 
 
+function! s:gather_items_from_directory(_)  "{{{2
+  let _ = a:_
+
+    " On Microsoft Windows, glob('{,.}*') doesn't list dotfiles,
+    " so that here we have to list dotfiles and other items separately.
+  let wildcards = _.user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
+    " glob_prefix must be followed by ku#separator() if it is not empty.
+  if len(_.components) == 1  " no path separator
+    let glob_prefix = ''
+  elseif _.root_directory_pattern_p
+    let glob_prefix = ku#path_separator()
+  else  " more than one path separators
+    let glob_prefix = ku#make_path(_.components[:-2]) . ku#path_separator()
+  endif
+
+  let items = []
+  for wildcard in wildcards
+    for entry in split(glob(glob_prefix . wildcard), "\n")
+      call add(items, {
+      \      'word': entry,
+      \      'abbr': entry . (isdirectory(entry) ? ku#path_separator() : ''),
+      \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
+      \    })
+    endfor
+  endfor
+    " Remove the '..' item if user seems to find files under the root
+    " directory, because it is strange for such situation.
+    " FIXME: Drive letter and other cases on Microsoft Windows.  E.g. 'C:\'.
+  if fnamemodify(glob_prefix, ':p') == ku#path_separator()  " root directory?
+    let parent_directory_name = glob_prefix . '..'
+    call filter(items, 'v:val.word !=# parent_directory_name')
+  endif
+
+  return items
+endfunction
+
+
+
+
+function! s:gather_items_from_archive(_)  "{{{2
+  return []  " FIXME: Not implemented yet.
+endfunction
+
+
+
+
 function! s:open(bang, item)  "{{{2
   " BUGS: ":silent! edit {file with swp owned by another Vim process}" causes
   " some strange behavior - there is no message but Vim waits for a key input.
@@ -175,6 +200,7 @@ endfunction
 
 function! s:parse_pattern(pattern)  "{{{2
   let _ = {}
+  let _.type = 'directory'
   let _.components = split(a:pattern, ku#path_separator(), !0)
   let _.root_directory_pattern_p = 2 <= len(_.components)
   \                                && _.components[0] == ''
