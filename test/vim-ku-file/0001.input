@@ -144,6 +144,30 @@ endfunction
 
 
 
+function s:test_ku_file_on_source_enter_0001()  "{{{1
+  let VARS = ku#file#_local_variables()
+
+  Title let _ = ku#file#on_source_enter('')
+  Assert _ ==> 0
+  Assert VARS.cached_items ==> {}
+endfunction
+
+
+
+
+function s:test_ku_file_on_source_enter_0002()  "{{{1
+  let VARS = ku#file#_local_variables()
+
+  Title let VARS.cached_items.foo = 'bar'
+  Assert VARS.cached_items.foo ==> 'bar'
+  Assert VARS.cached_items ==> {'foo': 'bar'}
+  Assert ku#file#on_source_enter('') ==> 0
+  Assert VARS.cached_items ==> {}
+endfunction
+
+
+
+
 function s:test_ku_file_special_char_p_0001()  "{{{1
   let chars = map(range(0x100), 'nr2char(v:val)')
 
@@ -244,7 +268,6 @@ endfunction
 "
 " API
 " ku#file#gather_items(source_name_ext, pattern)
-" ku#file#on_source_enter(source_name_ext)
 "
 " Actions
 " s:open(bang, item)

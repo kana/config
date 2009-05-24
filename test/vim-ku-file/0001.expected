@@ -55,6 +55,18 @@ TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_key_table ... ok
 Result: 2 / 2
 
+===== let _ = ku#file#on_source_enter('')
+TEST: _  ==>  0 ... ok
+TEST: VARS.cached_items  ==>  {} ... ok
+Result: 2 / 2
+
+===== let VARS.cached_items.foo = 'bar'
+TEST: VARS.cached_items.foo  ==>  'bar' ... ok
+TEST: VARS.cached_items  ==>  {'foo': 'bar'} ... ok
+TEST: ku#file#on_source_enter('')  ==>  0 ... ok
+TEST: VARS.cached_items  ==>  {} ... ok
+Result: 4 / 4
+
 ===== let _ = map(chars, "ku#file#special_char_p('', v:val)")
 TEST: type(_)  ==>  type([]) ... ok
 TEST: type(_[0])  ==>  type(0) ... ok
@@ -94,4 +106,4 @@ TEST: _[3]  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 44 / 44
+Result: 50 / 50
