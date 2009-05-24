@@ -1,2 +1,7 @@
+===== let _ = ku#file#available_sources()
+TEST: type(_)  ==>  type([]) ... ok
+TEST: _  ==>  ['file'] ... ok
+Result: 2 / 2
+
 ===== Total
-Result: 0 / 0
+Result: 2 / 2

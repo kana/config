@@ -11,12 +11,20 @@ let g:ku_personal_runtime = split(&runtimepath, ',')[0]
 
 
 
+function s:test_ku_file_available_sources_0001()  "{{{1
+  Title let _ = ku#file#available_sources()
+  Assert type(_) ==> type([])
+  Assert _ ==> ['file']
+endfunction
+
+
+
+
 " Entities which are not tested yet  "{{{1
 "
 " API
 " ku#file#acc_valid_p(source_name_ext, item, sep)
 " ku#file#action_table(source_name_ext)
-" ku#file#available_sources()
 " ku#file#gather_items(source_name_ext, pattern)
 " ku#file#key_table(source_name_ext)
 " ku#file#on_source_enter(source_name_ext)
