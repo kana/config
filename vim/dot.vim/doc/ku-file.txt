@@ -28,6 +28,7 @@ CONTENTS					*ku-file-contents*
 Introduction		|ku-file-introduction|
 Action Table		|ku-file-action-table|
 Key Table		|ku-file-key-table|
+Archives		|ku-file-archives|
 Bugs			|ku-file-bugs|
 Changelog		|ku-file-changelog|
 
@@ -38,7 +39,8 @@ Changelog		|ku-file-changelog|
 INTRODUCTION					*ku-file-introduction*
 
 *ku-file* is a source for |ku| to deal with files and directories.  You can
-choose one from many files and directories and do some action to it.
+choose one from many files, directories and contents in archive files, then
+take an action on it.
 
 
 Requirements:
@@ -69,6 +71,42 @@ open!						*ku-file-aciton-open!*
 			Like "open", but use :edit! to open the selected item.
 
 
+ACTIONS FOR ITEMS IN ARCHIVES	       *ku-file-actions-for-items-in-archives*
+ACTIONS FOR ARCHIVE ITEMS		   *ku-file-actions-for-archive-items*
+
+extract-asis					*ku-file-aciton-extract-asis*
+			Extract the archive or the specified item in the
+			archive with the same directory structure in the
+			archive.
+
+extract-smartly				      *ku-file-aciton-extract-smartly*
+			Like "extract-asis", but extract the archive or the
+			specified item in the archive in a directory which
+			name is the same as the basename of the archive if the
+			archive doesn't contain such directory.
+
+extract-solely				       *ku-file-aciton-extract-solely*
+			Like "extract-asis", but extract the specified item in
+			the archive without any directory structure in the
+			archive.  This action is not available for items which
+			are archive.
+
+Example of "extract-*" actions ~
+
+In the following table,
+"a.zip" is an archive file which contains "a/foo.txt",
+"b.zip" is an archive file which contains "bar.txt", and
+"c.zip" is an archive file which contains "d/baz.txt".
+
+            |                  Extracted stuff                ~
+Target item |------------------------------------------------ ~
+            | extract-asis     extract-smartly extract-solely ~
+------------------------------------------------------------- ~
+a.zip         a/foo.txt        a/foo.txt       foo.txt
+b.zip         bar.txt          a/bar.txt       bar.txt
+c.zip         d/baz.txt        a/d/baz.txt     baz.txt
+
+
 
 
 ==============================================================================
@@ -76,9 +114,73 @@ KEY TABLE					*ku-file-key-table*
 
 Key		Action ~
 --------	--------
+<C-e>		extract-smartly	|ku-file-action-extract-smartly|
 <C-o>		open		|ku-file-action-open|
+<Esc>e		extract-solely	|ku-file-action-extract-solely|
+<M-e>		extract-solely	|ku-file-action-extract-solely|
+E		extract-asis	|ku-file-action-extract-asis|
 O		open!		|ku-file-action-open!|
+e		extract-smartly	|ku-file-action-extract-smartly|
 o		open		|ku-file-action-open|
+
+
+
+
+==============================================================================
+ARCHIVES					*ku-file-archives*
+
+ITEMS IN ARCHIVES				*ku-file-items-in-archives*
+
+|ku-file| can treat archive files as if they are directories.  For example, as
+you input "dir/" in |the-ku-buffer|, ku will list files and directories in the
+directory "dir".  Like this operation, as you input "foo.zip/" in the ku
+buffer, ku will list files and directories in the archive file "foo.zip".  If
+"foo.zip" contains "README.txt", "Makefile" and "bar.c", ku will list them as
+follows:
+>
+	Source: file
+	>foo.zip/
+	foo.zip/Makefile
+	foo.zip/README.txt
+	foo.zip/bar.c
+<
+You can take an action on such items.  For example, if you do "open" on
+"foo.zip/bar.c", the content of "bar.c" in "foo.zip" will be displayed in
+a new buffer.
+
+Additional actions are available for items in archive files.
+See |ku-file-actions-for-items-in-archives| for the details.
+
+
+ARCHIVE ITEMS					*ku-file-archive-items*
+
+Additional actions are available for items which are archive files.
+See |ku-file-actions-for-archive-items| for the details.
+
+
+LIMITATIONS					*ku-file-archives-limitations*
+
+Currently, there are the following limitations to deal with archives files:
+
+- Recursive archive files are not supported yet.  This means that archive
+  files which are contained in another archive file are not treated specially.
+  For example, if there is "a.zip" which contains "b.zip" and "b.zip" contains
+  "c.txt", you can choose "b.zip" with some patterns such as "a.zip/b.zip",
+  but you cannot choose "c.txt" with any pattern such as "a.zip/b.zip/c.txt".
+
+- The following formats are supported:
+  - .zip
+
+  The following formats are supported later:
+  - .Z
+  - .bz2
+  - .gz
+  - .tar
+  - .tar.Z
+  - .tar.bz2
+  - .tar.gz
+
+- Archive files without standard extensions are not supported yet.
 
 
 
@@ -90,6 +192,12 @@ BUGS						*ku-file-bugs*
   behavior is not worked properly, so that ".." is also listed in some
   situations.
 
+- See also |ku-file-archives-limitations|.
+
+- Actions specific to archive files or items in archive files are also
+  available for all items even if they are not such items.  Currently, such
+  actions don't nothing for improper items.
+
 - There are many bugs around the world.
 
 
@@ -97,6 +205,11 @@ BUGS						*ku-file-bugs*
 
 ==============================================================================
 CHANGELOG					*ku-file-changelog*
+
+0.1.3	2009-05-24T15:57:13+09:00		*ku-file-changelog-0.1.3*
+	Feature enhancements:
+	- Support to deal with files in an archive files.  See also
+	  |ku-file-archives| for the details.
 
 0.1.2	2009-05-13T22:33:46+09:00		*ku-file-changelog-0.1.2*
 	Bug fixes:
