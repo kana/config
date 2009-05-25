@@ -426,10 +426,10 @@ function s:test_ku_file_gather_items_1002()  "{{{1
   " Now the content of a.zip is listed with this pattern.
   Title let _ = ku#file#gather_items('', ku#make_path('a.zip', ''))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 0
+  Assert len(_) ==> 1
+  Assert type(_[0]) ==> type({})
 
-  " Note that this is a dummy result to check the change of behaviors.
-  Assert map(copy(_), 'v:val.word') ==> []
+  Assert map(copy(_), 'v:val.word') ==> [ku#make_path('a.zip', 'a', 'foo.txt')]
 endfunction
 
 
@@ -441,10 +441,10 @@ function s:test_ku_file_gather_items_1003()  "{{{1
   " Trailing part is just ignored.
   Title let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo'))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 0
+  Assert len(_) ==> 1
+  Assert type(_[0]) ==> type({})
 
-  " Note that this is a dummy result to check the change of behaviors.
-  Assert map(copy(_), 'v:val.word') ==> []
+  Assert map(copy(_), 'v:val.word') ==> [ku#make_path('a.zip', 'a', 'foo.txt')]
 endfunction
 
 
@@ -456,10 +456,10 @@ function s:test_ku_file_gather_items_1004()  "{{{1
   " Trailing part is just ignored.
   Title let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo', 'bar'))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 0
+  Assert len(_) ==> 1
+  Assert type(_[0]) ==> type({})
 
-  " Note that this is a dummy result to check the change of behaviors.
-  Assert map(copy(_), 'v:val.word') ==> []
+  Assert map(copy(_), 'v:val.word') ==> [ku#make_path('a.zip', 'a', 'foo.txt')]
 endfunction
 
 

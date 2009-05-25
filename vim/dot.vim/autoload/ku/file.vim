@@ -181,7 +181,35 @@ endfunction
 
 
 function! s:gather_items_from_archive(_)  "{{{2
-  return []  " FIXME: Not implemented yet.
+  if has_key(s:cached_items, a:_.leading_part)
+    return s:cached_items[a:_.leading_part]
+  endif
+
+  if a:_.archive_format ==# 'zip'
+    " FIXME: If the "unzip" command is renamed.
+    let output = system('unzip -l -- ' . shellescape(a:_.leading_part))
+    if v:shell_error != 0
+      echoerr 'ku: file: unzip failed:' output
+      return []
+    endif
+
+    let items = split(output, '\n')
+    call map(items,
+    \        'matchstr(v:val, ''^\s*\d\+\s\+[0-9-]\+\s\+[0-9:]\+\s\+\zs.*$'')')
+    call filter(items, 'v:val != ""')
+    call map(items, '{
+    \   "word": ku#make_path(a:_.leading_part, v:val),
+    \   "menu": "in archive",
+    \   "ku_file_archive_format": a:_.archive_format,
+    \   "ku_file_archive_path": a:_.leading_part,
+    \   "ku_file_archive_content_path": v:val,
+    \ }')
+  else
+    throw printf('ku:file:e2: Unexpected archive format: %s / a: = %s',
+    \            string(a:_.archive_format), string(a:))
+  endif
+
+  return items
 endfunction
 
 
