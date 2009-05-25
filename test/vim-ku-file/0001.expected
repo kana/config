@@ -47,37 +47,37 @@ Result: 2 / 2
 
 ===== let _ = ku#file#gather_items('', '')  " Current directory
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  5 ... ok
+TEST: len(_)  ==>  6 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1'] ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', 'money')  " Last component is ignored
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  5 ... ok
+TEST: len(_)  ==>  6 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1'] ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', '.')  " Dot items now appear.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  7 ... ok
+TEST: len(_)  ==>  8 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1'] ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1', '..', '.file1'] ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', '.money')  " Only '.' matters.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  7 ... ok
+TEST: len(_)  ==>  8 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1'] ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1', '..', '.file1'] ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', 'money.')  " Only first '.' matters.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  5 ... ok
+TEST: len(_)  ==>  6 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1'] ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('No such dir', ''))
@@ -92,9 +92,9 @@ Result: 2 / 2
 
 ===== let _ = ku#file#gather_items('', 'dir1')  " Not traversed w/ this pat.
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  5 ... ok
+TEST: len(_)  ==>  6 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1'] ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('dir1', ''))
@@ -163,9 +163,9 @@ Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('Yes, {ext} is ignored', '')
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  5 ... ok
+TEST: len(_)  ==>  6 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1'] ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1'] ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#key_table('')
