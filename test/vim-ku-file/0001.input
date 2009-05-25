@@ -404,6 +404,67 @@ endfunction
 
 
 
+function s:test_ku_file_gather_items_1001()  "{{{1
+  call ku#file#on_source_enter('')
+
+  " The content of a.zip is NOT listed with this pattern.
+  Title let _ = ku#file#gather_items('', ku#make_path('a.zip'))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 6
+  Assert type(_[0]) ==> type({})
+
+  Assert map(copy(_), 'v:val.word')
+  \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1']
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_1002()  "{{{1
+  call ku#file#on_source_enter('')
+
+  " Now the content of a.zip is listed with this pattern.
+  Title let _ = ku#file#gather_items('', ku#make_path('a.zip', ''))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 0
+
+  " Note that this is a dummy result to check the change of behaviors.
+  Assert map(copy(_), 'v:val.word') ==> []
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_1003()  "{{{1
+  call ku#file#on_source_enter('')
+
+  " Trailing part is just ignored.
+  Title let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo'))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 0
+
+  " Note that this is a dummy result to check the change of behaviors.
+  Assert map(copy(_), 'v:val.word') ==> []
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_1004()  "{{{1
+  call ku#file#on_source_enter('')
+
+  " Trailing part is just ignored.
+  Title let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo', 'bar'))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 0
+
+  " Note that this is a dummy result to check the change of behaviors.
+  Assert map(copy(_), 'v:val.word') ==> []
+endfunction
+
+
+
+
 function s:test_ku_file_on_source_enter_0001()  "{{{1
   let VARS = ku#file#_local_variables()
 
