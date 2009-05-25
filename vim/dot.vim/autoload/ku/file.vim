@@ -186,6 +186,10 @@ function! s:gather_items_from_archive(_)  "{{{2
   endif
 
   if a:_.archive_format ==# 'zip'
+    if executable('unzip') != 1  " FIXME: test
+      echoerr 'ku: file: unzip is not available on the current environment.'
+      return []
+    endif
     " FIXME: If the "unzip" command is renamed.
     let output = system('unzip -l -- ' . shellescape(a:_.leading_part))
     if v:shell_error != 0
