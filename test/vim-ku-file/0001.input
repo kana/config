@@ -29,10 +29,13 @@ let s:expected_key_table = {
 \   }
 
 
+cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
+
+
 
 
 function s:test_ku_file_acc_valid_p_0001()  "{{{1
-  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  let file_item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#acc_valid_p('', file_item, ku#path_separator())
   Assert _ ==> 0
 endfunction
@@ -41,7 +44,7 @@ endfunction
 
 
 function s:test_ku_file_acc_valid_p_0002()  "{{{1
-  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  let directory_item = {'word': ku#make_path('dir1')}
   Title let _ = ku#file#acc_valid_p('', directory_item, ku#path_separator())
   Assert _ ==> 1
 endfunction
@@ -50,7 +53,7 @@ endfunction
 
 
 function s:test_ku_file_acc_valid_p_0003()  "{{{1
-  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  let file_item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#acc_valid_p('', file_item, 'a')  " Invalid sep.
   Assert _ ==> 0
 endfunction
@@ -59,7 +62,7 @@ endfunction
 
 
 function s:test_ku_file_acc_valid_p_0004()  "{{{1
-  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  let directory_item = {'word': ku#make_path('dir1')}
   Title let _ = ku#file#acc_valid_p('', directory_item, 'a')  " Invalid sep.
   Assert _ ==> 0
 endfunction
@@ -68,7 +71,7 @@ endfunction
 
 
 function s:test_ku_file_acc_valid_p_0005()  "{{{1
-  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  let file_item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#acc_valid_p('foo', file_item, ku#path_separator())
   Assert _ ==> 0
 endfunction
@@ -77,7 +80,7 @@ endfunction
 
 
 function s:test_ku_file_acc_valid_p_0006()  "{{{1
-  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  let directory_item = {'word': ku#make_path('dir1')}
   Title let _ = ku#file#acc_valid_p('foo', directory_item, ku#path_separator())
   Assert _ ==> 1
 endfunction
@@ -86,7 +89,7 @@ endfunction
 
 
 function s:test_ku_file_acc_valid_p_0007()  "{{{1
-  let file_item = {'word': ku#make_path('test', 'vim-ku-file', '0001.input')}
+  let file_item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#acc_valid_p('foo', file_item, 'a')  " Invalid sep.
   Assert _ ==> 0
 endfunction
@@ -95,7 +98,7 @@ endfunction
 
 
 function s:test_ku_file_acc_valid_p_0008()  "{{{1
-  let directory_item = {'word': ku#make_path('test', 'vim-ku-file')}
+  let directory_item = {'word': ku#make_path('dir1')}
   Title let _ = ku#file#acc_valid_p('foo', directory_item, 'a')  " Invalid sep.
   Assert _ ==> 0
 endfunction
@@ -153,7 +156,6 @@ endfunction
 
 
 function s:test_ku_file_gather_items_0001()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', '')  " Current directory
@@ -163,15 +165,12 @@ function s:test_ku_file_gather_items_0001()  "{{{1
 
   Assert map(copy(_), 'v:val.word')
   \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0002()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', 'money')  " Last component is ignored
@@ -181,15 +180,12 @@ function s:test_ku_file_gather_items_0002()  "{{{1
 
   Assert map(copy(_), 'v:val.word')
   \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0003()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', '.')  " Dot items now appear.
@@ -199,15 +195,12 @@ function s:test_ku_file_gather_items_0003()  "{{{1
 
   Assert map(copy(_), 'v:val.word')
   \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1']
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0004()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', '.money')  " Only '.' matters.
@@ -217,15 +210,12 @@ function s:test_ku_file_gather_items_0004()  "{{{1
 
   Assert map(copy(_), 'v:val.word')
   \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1', '..', '.file1']
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0005()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', 'money.')  " Only first '.' matters.
@@ -235,43 +225,34 @@ function s:test_ku_file_gather_items_0005()  "{{{1
 
   Assert map(copy(_), 'v:val.word')
   \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0006()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('No such dir', ''))
   Assert type(_) ==> type([])
   Assert len(_) ==> 0
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0007()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('file1', ''))
   Assert type(_) ==> type([])
   Assert len(_) ==> 0
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0008()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', 'dir1')  " Not traversed w/ this pat.
@@ -281,15 +262,12 @@ function s:test_ku_file_gather_items_0008()  "{{{1
 
   Assert map(copy(_), 'v:val.word')
   \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0009()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('dir1', ''))
@@ -299,15 +277,12 @@ function s:test_ku_file_gather_items_0009()  "{{{1
 
   Assert _[0].word ==> ku#make_path('dir1', 'dir2')
   Assert _[1].word ==> ku#make_path('dir1', 'file2')
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0010()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'ignored'))
@@ -317,15 +292,12 @@ function s:test_ku_file_gather_items_0010()  "{{{1
 
   Assert _[0].word ==> ku#make_path('dir1', 'dir2')
   Assert _[1].word ==> ku#make_path('dir1', 'file2')
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0011()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('dir1', '. aappeared!'))
@@ -337,15 +309,12 @@ function s:test_ku_file_gather_items_0011()  "{{{1
   Assert _[1].word ==> ku#make_path('dir1', 'file2')
   Assert _[2].word ==> ku#make_path('dir1', '..')
   Assert _[3].word ==> ku#make_path('dir1', '.file2')
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0012()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'bad . here'))
@@ -355,15 +324,12 @@ function s:test_ku_file_gather_items_0012()  "{{{1
 
   Assert _[0].word ==> ku#make_path('dir1', 'dir2')
   Assert _[1].word ==> ku#make_path('dir1', 'file2')
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0013()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'dir2', ''))
@@ -372,15 +338,12 @@ function s:test_ku_file_gather_items_0013()  "{{{1
   Assert type(_[0]) ==> type({})
 
   Assert _[0].word ==> ku#make_path('dir1', 'dir2', 'file3')
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0014()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('dir1', 'dir2', '.'))
@@ -391,15 +354,12 @@ function s:test_ku_file_gather_items_0014()  "{{{1
   Assert _[0].word ==> ku#make_path('dir1', 'dir2', 'file3')
   Assert _[1].word ==> ku#make_path('dir1', 'dir2', '..')
   Assert _[2].word ==> ku#make_path('dir1', 'dir2', '.file3')
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0015()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#path_separator())
@@ -408,15 +368,12 @@ function s:test_ku_file_gather_items_0015()  "{{{1
   Assert type(_[0]) ==> type({})
 
   Assert len(filter(copy(_), 'v:val.word == ku#path_separator() . ".."')) ==> 0
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0016()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('', ku#make_path('', '.'))
@@ -425,15 +382,12 @@ function s:test_ku_file_gather_items_0016()  "{{{1
   Assert type(_[0]) ==> type({})
 
   Assert len(filter(copy(_), 'v:val.word == ku#path_separator() . ".."')) ==> 0
-
-  cd -
 endfunction
 
 
 
 
 function s:test_ku_file_gather_items_0017()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
   call ku#file#on_source_enter('')
 
   Title let _ = ku#file#gather_items('Yes, {ext} is ignored', '')
@@ -443,8 +397,6 @@ function s:test_ku_file_gather_items_0017()  "{{{1
 
   Assert map(copy(_), 'v:val.word')
   \ ==> ['a.zip', 'b.zip', 'c.zip', 'dir1', 'file1']
-
-  cd -
 endfunction
 
 
@@ -727,8 +679,6 @@ endfunction
 
 
 function s:test_parse_pattern_1001()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
-
   Title let _ = Call('s:parse_pattern', ku#make_path('a.zip'))
   Assert type(_) ==> type({})
   Assert len(keys(_)) ==> 4
@@ -736,16 +686,12 @@ function s:test_parse_pattern_1001()  "{{{1
   Assert _.components ==> ['a.zip']
   Assert _.root_directory_pattern_p ==> 0
   Assert _.user_seems_want_dotfiles_p ==> 0
-
-  cd -
 endfunction
 
 
 
 
 function s:test_parse_pattern_1002()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
-
   Title let _ = Call('s:parse_pattern', ku#make_path('.a.zip'))
   Assert type(_) ==> type({})
   Assert len(keys(_)) ==> 4
@@ -753,16 +699,12 @@ function s:test_parse_pattern_1002()  "{{{1
   Assert _.components ==> ['.a.zip']
   Assert _.root_directory_pattern_p ==> 0
   Assert _.user_seems_want_dotfiles_p ==> 1
-
-  cd -
 endfunction
 
 
 
 
 function s:test_parse_pattern_1003()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
-
   Title let _ = Call('s:parse_pattern', ku#make_path('', 'a.zip'))
   Assert type(_) ==> type({})
   Assert len(keys(_)) ==> 4
@@ -770,16 +712,12 @@ function s:test_parse_pattern_1003()  "{{{1
   Assert _.components ==> ['', 'a.zip']
   Assert _.root_directory_pattern_p ==> 1
   Assert _.user_seems_want_dotfiles_p ==> 0
-
-  cd -
 endfunction
 
 
 
 
 function s:test_parse_pattern_1004()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
-
   Title let _ = Call('s:parse_pattern', ku#make_path('', '.a.zip'))
   Assert type(_) ==> type({})
   Assert len(keys(_)) ==> 4
@@ -787,16 +725,12 @@ function s:test_parse_pattern_1004()  "{{{1
   Assert _.components ==> ['', '.a.zip']
   Assert _.root_directory_pattern_p ==> 1
   Assert _.user_seems_want_dotfiles_p ==> 1
-
-  cd -
 endfunction
 
 
 
 
 function s:test_parse_pattern_1005()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
-
   Title let _ = Call('s:parse_pattern', ku#make_path('a.zip', ''))
   Assert type(_) ==> type({})
   Assert len(keys(_)) ==> 4
@@ -804,16 +738,12 @@ function s:test_parse_pattern_1005()  "{{{1
   Assert _.components ==> ['a.zip', '']
   Assert _.archive_format ==> 'zip'
   Assert _.trailing_part ==> ku#make_path('')
-
-  cd -
 endfunction
 
 
 
 
 function s:test_parse_pattern_1006()  "{{{1
-  cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
-
   Title let _ = Call('s:parse_pattern', ku#make_path('a.zip', 'bar', 'baz'))
   Assert type(_) ==> type({})
   Assert len(keys(_)) ==> 4
@@ -821,8 +751,6 @@ function s:test_parse_pattern_1006()  "{{{1
   Assert _.components ==> ['a.zip', 'bar', 'baz']
   Assert _.archive_format ==> 'zip'
   Assert _.trailing_part ==> ku#make_path('bar', 'baz')
-
-  cd -
 endfunction
 
 
