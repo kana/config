@@ -196,6 +196,20 @@ TEST: type(_[0])  ==>  type({}) ... ok
 TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('a.zip', 'a', 'foo.txt')] ... ok
 Result: 4 / 4
 
+===== let _ = ku#file#gather_items('', ku#make_path('b.zip', ''))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  1 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('b.zip', 'bar.txt')] ... ok
+Result: 4 / 4
+
+===== let _ = ku#file#gather_items('', ku#make_path('c.zip', ''))
+TEST: type(_)  ==>  type([]) ... ok
+TEST: len(_)  ==>  1 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('c.zip', 'd', 'baz.txt')] ... ok
+Result: 4 / 4
+
 ===== let _ = ku#file#key_table('')
 TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_key_table ... ok
@@ -437,4 +451,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 258 / 258
+Result: 266 / 266

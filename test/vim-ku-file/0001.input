@@ -465,6 +465,34 @@ endfunction
 
 
 
+function s:test_ku_file_gather_items_1005()  "{{{1
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('b.zip', ''))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 1
+  Assert type(_[0]) ==> type({})
+
+  Assert map(copy(_), 'v:val.word') ==> [ku#make_path('b.zip', 'bar.txt')]
+endfunction
+
+
+
+
+function s:test_ku_file_gather_items_1006()  "{{{1
+  call ku#file#on_source_enter('')
+
+  Title let _ = ku#file#gather_items('', ku#make_path('c.zip', ''))
+  Assert type(_) ==> type([])
+  Assert len(_) ==> 1
+  Assert type(_[0]) ==> type({})
+
+  Assert map(copy(_), 'v:val.word') ==> [ku#make_path('c.zip', 'd', 'baz.txt')]
+endfunction
+
+
+
+
 function s:test_ku_file_on_source_enter_0001()  "{{{1
   let VARS = ku#file#_local_variables()
 
