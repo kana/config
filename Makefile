@@ -703,7 +703,7 @@ clean-vim:
 # Core  #{{{2
 test:
 	for i in $(ALL_PACKAGES); do \
-	  $(MAKE) PACKAGE_NAME=$$i test-a-package; \
+	  $(MAKE) PACKAGE_NAME=$$i test-a-package || exit 1; \
 	done
 
 test-a-package: _validate-package-name  # (PACKAGE_NAME)
