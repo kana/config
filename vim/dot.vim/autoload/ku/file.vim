@@ -190,13 +190,14 @@ function! s:gather_items_from_archive(_)  "{{{2
       echoerr 'ku: file: unzip is not available on the current environment.'
       return []
     endif
-    " FIXME: If the "unzip" command is renamed.
+      " FIXME: If the "unzip" command is renamed.
     let output = system('unzip -l -- ' . shellescape(a:_.leading_part))
-    if v:shell_error != 0
+    if v:shell_error != 0  " FIXME: test
       echoerr 'ku: file: unzip failed:' output
       return []
     endif
 
+    " FIXME: Is this parsing good enough?
     let items = split(output, '\n')
     call map(items,
     \        'matchstr(v:val, ''^\s*\d\+\s\+[0-9-]\+\s\+[0-9:]\+\s\+\zs.*$'')')
@@ -208,7 +209,7 @@ function! s:gather_items_from_archive(_)  "{{{2
     \   "ku_file_archive_path": a:_.leading_part,
     \   "ku_file_archive_content_path": v:val,
     \ }')
-  else
+  else  " FIXME: test, but how?
     throw printf('ku:file:e2: Unexpected archive format: %s / a: = %s',
     \            string(a:_.archive_format), string(a:))
   endif
