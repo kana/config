@@ -735,11 +735,10 @@ endfunction
 function s:test_parse_pattern_1005()  "{{{1
   Title let _ = Call('s:parse_pattern', ku#make_path('a.zip', ''))
   Assert type(_) ==> type({})
-  Assert len(keys(_)) ==> 4
+  Assert len(keys(_)) ==> 3
   Assert _.type ==> 'archive'
   Assert _.components ==> ['a.zip', '']
   Assert _.archive_format ==> 'zip'
-  Assert _.trailing_part ==> ku#make_path('')
 endfunction
 
 
@@ -748,11 +747,10 @@ endfunction
 function s:test_parse_pattern_1006()  "{{{1
   Title let _ = Call('s:parse_pattern', ku#make_path('a.zip', 'bar', 'baz'))
   Assert type(_) ==> type({})
-  Assert len(keys(_)) ==> 4
+  Assert len(keys(_)) ==> 3
   Assert _.type ==> 'archive'
   Assert _.components ==> ['a.zip', 'bar', 'baz']
   Assert _.archive_format ==> 'zip'
-  Assert _.trailing_part ==> ku#make_path('bar', 'baz')
 endfunction
 
 

@@ -374,21 +374,19 @@ Result: 6 / 6
 
 ===== let _ = Call('s:parse_pattern', ku#make_path('a.zip', ''))
 TEST: type(_)  ==>  type({}) ... ok
-TEST: len(keys(_))  ==>  4 ... ok
+TEST: len(keys(_))  ==>  3 ... ok
 TEST: _.type  ==>  'archive' ... ok
 TEST: _.components  ==>  ['a.zip', ''] ... ok
 TEST: _.archive_format  ==>  'zip' ... ok
-TEST: _.trailing_part  ==>  ku#make_path('') ... ok
-Result: 6 / 6
+Result: 5 / 5
 
 ===== let _ = Call('s:parse_pattern', ku#make_path('a.zip', 'bar', 'baz'))
 TEST: type(_)  ==>  type({}) ... ok
-TEST: len(keys(_))  ==>  4 ... ok
+TEST: len(keys(_))  ==>  3 ... ok
 TEST: _.type  ==>  'archive' ... ok
 TEST: _.components  ==>  ['a.zip', 'bar', 'baz'] ... ok
 TEST: _.archive_format  ==>  'zip' ... ok
-TEST: _.trailing_part  ==>  ku#make_path('bar', 'baz') ... ok
-Result: 6 / 6
+Result: 5 / 5
 
 ===== let _ = Call('s:parse_pattern', ku#make_path('dir1.zip'))
 TEST: type(_)  ==>  type({}) ... ok
@@ -409,4 +407,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 242 / 242
+Result: 240 / 240

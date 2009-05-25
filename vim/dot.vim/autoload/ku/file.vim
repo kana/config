@@ -207,11 +207,11 @@ function! s:parse_pattern(pattern)  "{{{2
       " FIXME: Should "learn" the correspondences of archive formats and their
       "        standard extensions.
       " FIXME: Support other archive formats.
+      " FIXME: Support "recursive archives".
+      " Is it a file with a standard extension, not a directory?
     if leading_part =~# '\.zip$' && filereadable(leading_part)
       let _.type = 'archive'
       let _.archive_format = 'zip'
-        " FIXME: Is this entry necessary?  What information do we really need?
-      let _.trailing_part = ku#make_path(_.components[i+1:])
       return _
     endif
   endfor
