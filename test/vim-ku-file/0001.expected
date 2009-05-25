@@ -179,35 +179,35 @@ Result: 4 / 4
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  1 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('a.zip', 'a', 'foo.txt')] ... ok
+TEST: _[0]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'), } ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo'))
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  1 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('a.zip', 'a', 'foo.txt')] ... ok
+TEST: _[0]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'), } ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo', 'bar'))
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  1 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('a.zip', 'a', 'foo.txt')] ... ok
+TEST: _[0]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'), } ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('b.zip', ''))
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  1 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('b.zip', 'bar.txt')] ... ok
+TEST: _[0]  ==>  { 'word': ku#make_path('b.zip', 'bar.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('b.zip'), 'ku_file_archive_content_path': ku#make_path('bar.txt'), } ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('c.zip', ''))
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  1 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: map(copy(_), 'v:val.word')  ==>  [ku#make_path('c.zip', 'd', 'baz.txt')] ... ok
+TEST: _[0]  ==>  { 'word': ku#make_path('c.zip', 'd', 'baz.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('c.zip'), 'ku_file_archive_content_path': ku#make_path('d', 'baz.txt'), } ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#key_table('')
