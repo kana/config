@@ -390,5 +390,23 @@ TEST: _.archive_format  ==>  'zip' ... ok
 TEST: _.trailing_part  ==>  ku#make_path('bar', 'baz') ... ok
 Result: 6 / 6
 
+===== let _ = Call('s:parse_pattern', ku#make_path('dir1.zip'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'directory' ... ok
+TEST: _.components  ==>  ['dir1.zip'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
+Result: 6 / 6
+
+===== let _ = Call('s:parse_pattern', ku#make_path('dir1.zip', '.xxx'))
+TEST: type(_)  ==>  type({}) ... ok
+TEST: len(keys(_))  ==>  4 ... ok
+TEST: _.type  ==>  'directory' ... ok
+TEST: _.components  ==>  ['dir1.zip', '.xxx'] ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
+TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
+Result: 6 / 6
+
 ===== Total
-Result: 230 / 230
+Result: 242 / 242

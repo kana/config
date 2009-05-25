@@ -758,6 +758,32 @@ endfunction
 
 
 
+function s:test_parse_pattern_1007()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('dir1.zip'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'directory'
+  Assert _.components ==> ['dir1.zip']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 0
+endfunction
+
+
+
+
+function s:test_parse_pattern_1008()  "{{{1
+  Title let _ = Call('s:parse_pattern', ku#make_path('dir1.zip', '.xxx'))
+  Assert type(_) ==> type({})
+  Assert len(keys(_)) ==> 4
+  Assert _.type ==> 'directory'
+  Assert _.components ==> ['dir1.zip', '.xxx']
+  Assert _.root_directory_pattern_p ==> 0
+  Assert _.user_seems_want_dotfiles_p ==> 1
+endfunction
+
+
+
+
 " Entities which are not tested yet  "{{{1
 "
 " Actions
