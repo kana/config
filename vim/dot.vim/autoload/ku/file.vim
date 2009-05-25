@@ -212,6 +212,7 @@ function! s:parse_pattern(pattern)  "{{{2
     if leading_part =~# '\.zip$' && filereadable(leading_part)
       let _.type = 'archive'
       let _.archive_format = 'zip'
+      let _.leading_part = leading_part
       return _
     endif
   endfor
