@@ -1,3 +1,23 @@
+===== let _ = Call('s:archive_type', ku#make_path('a.zip'))
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  ku#file#_local_variables().ARCHIVE_TYPE_ZIP ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:archive_type', ku#make_path('dir1.zip'))
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  ku#file#_local_variables().ARCHIVE_TYPE_INVALID ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:archive_type', ku#make_path('dir1', 'file2'))
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  ku#file#_local_variables().ARCHIVE_TYPE_INVALID ... ok
+Result: 2 / 2
+
+===== let _ = Call('s:archive_type', ku#make_path('.', 'b.zip'))
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  ku#file#_local_variables().ARCHIVE_TYPE_ZIP ... ok
+Result: 2 / 2
+
 ===== let _ = ku#file#acc_valid_p('', file_item, ku#path_separator())
 TEST: _  ==>  0 ... ok
 Result: 1 / 1
@@ -451,4 +471,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 266 / 266
+Result: 274 / 274

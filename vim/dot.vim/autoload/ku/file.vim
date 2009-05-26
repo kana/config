@@ -141,6 +141,26 @@ endfunction
 
 
 
+function! s:archive_type(path)  "{{{2
+  " FIXME: Should "learn" the correspondences of archive formats and their
+  "        standard extensions.
+  " FIXME: Support other archive formats.
+  " FIXME: Support "recursive archives", but how?
+
+  " Is it a file with a standard extension, not a directory?
+  if a:path =~# '\.zip$' && filereadable(a:path)
+    return s:ARCHIVE_TYPE_ZIP
+  else
+    return s:ARCHIVE_TYPE_INVALID
+  endif
+endfunction
+
+let s:ARCHIVE_TYPE_ZIP = 'zip'
+let s:ARCHIVE_TYPE_INVALID = '*invalid*'
+
+
+
+
 function! s:gather_items_from_directory(_)  "{{{2
   let _ = a:_
 
@@ -232,19 +252,16 @@ endfunction
 
 
 function! s:parse_pattern(pattern)  "{{{2
+  " FIXME: Support "recursive archives".
   let _ = {}
   let _.components = split(a:pattern, ku#path_separator(), !0)
 
   for i in range(len(_.components) - 1)
     let leading_part = ku#make_path(_.components[:i])
-      " FIXME: Should "learn" the correspondences of archive formats and their
-      "        standard extensions.
-      " FIXME: Support other archive formats.
-      " FIXME: Support "recursive archives".
-      " Is it a file with a standard extension, not a directory?
-    if leading_part =~# '\.zip$' && filereadable(leading_part)
+    let archive_type = s:archive_type(leading_part)
+    if archive_type !=# s:ARCHIVE_TYPE_INVALID
       let _.type = 'archive'
-      let _.archive_format = 'zip'
+      let _.archive_format = archive_type
       let _.leading_part = leading_part
       return _
     endif

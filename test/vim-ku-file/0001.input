@@ -34,6 +34,42 @@ cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
 
 
 
+function s:test_archive_type_0001()  "{{{1
+  Title let _ = Call('s:archive_type', ku#make_path('a.zip'))
+  Assert type(_) ==> type('')
+  Assert _ ==> ku#file#_local_variables().ARCHIVE_TYPE_ZIP
+endfunction
+
+
+
+
+function s:test_archive_type_0002()  "{{{1
+  Title let _ = Call('s:archive_type', ku#make_path('dir1.zip'))
+  Assert type(_) ==> type('')
+  Assert _ ==> ku#file#_local_variables().ARCHIVE_TYPE_INVALID
+endfunction
+
+
+
+
+function s:test_archive_type_0003()  "{{{1
+  Title let _ = Call('s:archive_type', ku#make_path('dir1', 'file2'))
+  Assert type(_) ==> type('')
+  Assert _ ==> ku#file#_local_variables().ARCHIVE_TYPE_INVALID
+endfunction
+
+
+
+
+function s:test_archive_type_0004()  "{{{1
+  Title let _ = Call('s:archive_type', ku#make_path('.', 'b.zip'))
+  Assert type(_) ==> type('')
+  Assert _ ==> ku#file#_local_variables().ARCHIVE_TYPE_ZIP
+endfunction
+
+
+
+
 function s:test_ku_file_acc_valid_p_0001()  "{{{1
   let file_item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#acc_valid_p('', file_item, ku#path_separator())
