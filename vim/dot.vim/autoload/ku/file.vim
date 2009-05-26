@@ -161,6 +161,16 @@ let s:ARCHIVE_TYPE_INVALID = '*invalid*'
 
 
 
+function! s:command_unzip(...)  "{{{2
+  " FIXME: If the "unzip" command is renamed.
+  " BUGS: Don't check executable('unzip') because system() also fails
+  "       if unzip is not available.
+  return system('unzip ' . join(a:000))
+endfunction
+
+
+
+
 function! s:extract_zip_archive_asis(item)  "{{{2
   return 'FIXME: NIY: archive'
 endfunction
@@ -241,12 +251,7 @@ function! s:gather_items_from_archive(_)  "{{{2
   endif
 
   if a:_.archive_format ==# 'zip'
-    if executable('unzip') != 1  " FIXME: test
-      echoerr 'ku: file: unzip is not available on the current environment.'
-      return []
-    endif
-      " FIXME: If the "unzip" command is renamed.
-    let output = system('unzip -l -- ' . shellescape(a:_.leading_part))
+    let output = s:command_unzip('-l', '--', shellescape(a:_.leading_part))
     if v:shell_error != 0  " FIXME: test
       echoerr 'ku: file: unzip failed:' output
       return []
