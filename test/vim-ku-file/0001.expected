@@ -82,19 +82,30 @@ TEST: filereadable(ku#make_path('d', 'baz.txt'))  ==>  1 ... ok
 Result: 4 / 4
 
 ===== let _ = ku#file#action_extract_asis(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: content' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('a'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('a', 'foo.txt'))  ==>  1 ... ok
+:!rm -fr a
+
+Result: 4 / 4
 
 ===== let _ = ku#file#action_extract_asis(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: content' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: filereadable(ku#make_path('bar.txt'))  ==>  1 ... ok
+:!rm -f bar.txt
+
+Result: 3 / 3
 
 ===== let _ = ku#file#action_extract_asis(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: content' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('d'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('d', 'baz.txt'))  ==>  1 ... ok
+:!rm -fr d
+
+Result: 4 / 4
 
 ===== let _ = ku#file#action_extract_smartly(item)
 TEST: type(_)  ==>  type('') ... ok
@@ -587,4 +598,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 321 / 321
+Result: 326 / 326

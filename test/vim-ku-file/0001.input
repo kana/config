@@ -207,10 +207,14 @@ function s:test_ku_file_action_extract_asis_0005()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('a', 'foo.txt')
   \ }
   Title let _ = ku#file#action_extract_asis(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('a')) ==> 1
+  Assert filereadable(ku#make_path('a', 'foo.txt')) ==> 1
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
+  !rm -fr a
 endfunction
 
 
@@ -224,10 +228,12 @@ function s:test_ku_file_action_extract_asis_0006()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('bar.txt')
   \ }
   Title let _ = ku#file#action_extract_asis(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert filereadable(ku#make_path('bar.txt')) ==> 1
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  !rm -f bar.txt
 endfunction
 
 
@@ -241,10 +247,14 @@ function s:test_ku_file_action_extract_asis_0007()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('d', 'baz.txt')
   \ }
   Title let _ = ku#file#action_extract_asis(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('d')) ==> 1
+  Assert filereadable(ku#make_path('d', 'baz.txt')) ==> 1
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
+  !rm -fr d
 endfunction
 
 
