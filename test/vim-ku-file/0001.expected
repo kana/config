@@ -50,6 +50,111 @@ Result: 1 / 1
 TEST: _  ==>  0 ... ok
 Result: 1 / 1
 
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'extract-asis: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: archive' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: archive' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: archive' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_smartly(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'extract-smartly: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_smartly(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: archive' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_smartly(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: archive' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_smartly(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: archive' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_smartly(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_smartly(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_smartly(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'extract-solely: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'extract-solely: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'extract-solely: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'extract-solely: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
+Result: 2 / 2
+
 ===== let _ = ku#file#action_table('')
 TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_action_table ... ok
@@ -471,4 +576,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 274 / 274
+Result: 316 / 316

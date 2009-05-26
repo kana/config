@@ -279,20 +279,42 @@ endfunction
 
 " Actions  "{{{2
 function! ku#file#action_extract_asis(item)  "{{{3
-  echo 'ku: file: extract-asis: This action is not implemented yet.'
-  return 0  " FIXME: NIY
+  if has_key(a:item, 'ku_file_archive_content_path')
+    return 'FIXME: NIY: content'
+  else
+    let archive_type = s:archive_type(a:item.word)
+    if archive_type ==# s:ARCHIVE_TYPE_INVALID
+      return 'extract-asis: Not available for this item: '
+      \      . string(a:item.word)
+    endif
+
+    return 'FIXME: NIY: archive'
+  endif
 endfunction
 
 
 function! ku#file#action_extract_smartly(item)  "{{{3
-  echo 'ku: file: extract-smartly: This action is not implemented yet.'
-  return 0  " FIXME: NIY
+  if has_key(a:item, 'ku_file_archive_content_path')
+    return 'FIXME: NIY: content'
+  else
+    let archive_type = s:archive_type(a:item.word)
+    if archive_type ==# s:ARCHIVE_TYPE_INVALID
+      return 'extract-smartly: Not available for this item: '
+      \      . string(a:item.word)
+    endif
+
+    return 'FIXME: NIY: archive'
+  endif
 endfunction
 
 
 function! ku#file#action_extract_solely(item)  "{{{3
-  echo 'ku: file: extract-solely: This action is not implemented yet.'
-  return 0  " FIXME
+  if has_key(a:item, 'ku_file_archive_content_path')
+    return 'FIXME: NIY: content'
+  else
+    return 'extract-solely: Not available for this item: '
+    \      . string(a:item.word)
+  endif
 endfunction
 
 
