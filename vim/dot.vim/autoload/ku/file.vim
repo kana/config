@@ -172,7 +172,12 @@ endfunction
 
 
 function! s:extract_zip_archive_asis(item)  "{{{2
-  return 'FIXME: NIY: archive'
+  let output = s:command_unzip('--', shellescape(a:item.word))
+  if v:shell_error != 0  " FIXME: test
+    return 'ku: file: Failed to extract all content of a zip archive: '
+    \      . output
+  endif
+  return 0
 endfunction
 
 
