@@ -161,6 +161,41 @@ let s:ARCHIVE_TYPE_INVALID = '*invalid*'
 
 
 
+function! s:extract_zip_archive_asis(item)  "{{{2
+  return 'FIXME: NIY: archive'
+endfunction
+
+
+
+
+function! s:extract_zip_archive_smartly(item)  "{{{2
+  return 'FIXME: NIY: archive'
+endfunction
+
+
+
+
+function! s:extract_zip_content_asis(item)  "{{{2
+  return 'FIXME: NIY: content'
+endfunction
+
+
+
+
+function! s:extract_zip_content_smartly(item)  "{{{2
+  return 'FIXME: NIY: content'
+endfunction
+
+
+
+
+function! s:extract_zip_content_solely(item)  "{{{2
+  return 'FIXME: NIY: content'
+endfunction
+
+
+
+
 function! s:gather_items_from_directory(_)  "{{{2
   let _ = a:_
 
@@ -280,7 +315,7 @@ endfunction
 " Actions  "{{{2
 function! ku#file#action_extract_asis(item)  "{{{3
   if has_key(a:item, 'ku_file_archive_content_path')
-    return 'FIXME: NIY: content'
+    return s:extract_{a:item.ku_file_archive_format}_content_asis(a:item)
   else
     let archive_type = s:archive_type(a:item.word)
     if archive_type ==# s:ARCHIVE_TYPE_INVALID
@@ -288,14 +323,14 @@ function! ku#file#action_extract_asis(item)  "{{{3
       \      . string(a:item.word)
     endif
 
-    return 'FIXME: NIY: archive'
+    return s:extract_{archive_type}_archive_asis(a:item)
   endif
 endfunction
 
 
 function! ku#file#action_extract_smartly(item)  "{{{3
   if has_key(a:item, 'ku_file_archive_content_path')
-    return 'FIXME: NIY: content'
+    return s:extract_{a:item.ku_file_archive_format}_content_smartly(a:item)
   else
     let archive_type = s:archive_type(a:item.word)
     if archive_type ==# s:ARCHIVE_TYPE_INVALID
@@ -303,14 +338,14 @@ function! ku#file#action_extract_smartly(item)  "{{{3
       \      . string(a:item.word)
     endif
 
-    return 'FIXME: NIY: archive'
+    return s:extract_{archive_type}_archive_smartly(a:item)
   endif
 endfunction
 
 
 function! ku#file#action_extract_solely(item)  "{{{3
   if has_key(a:item, 'ku_file_archive_content_path')
-    return 'FIXME: NIY: content'
+    return s:extract_{a:item.ku_file_archive_format}_content_solely(a:item)
   else
     return 'extract-solely: Not available for this item: '
     \      . string(a:item.word)
