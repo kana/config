@@ -253,7 +253,8 @@ function! s:gather_items_from_archive(_)  "{{{2
   if a:_.archive_format ==# 'zip'
     let output = s:command_unzip('-l', '--', shellescape(a:_.leading_part))
     if v:shell_error != 0  " FIXME: test
-      echoerr 'ku: file: unzip failed:' output
+      echoerr 'ku: file: Failed to list the content of a zip archive:'
+      echoerr '--' output
       return []
     endif
 
