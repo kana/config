@@ -1076,6 +1076,23 @@ BUGS						*ku-bugs*
 
 - Many bugs must be around the world.
 
+						*ku-planned-features*
+- Inline completion in a buffer other than the ku buffer.
+
+- Pluggable architecture to sort items.
+
+- Pluggable architecture to filter items.
+
+- A key mapping to delete a component in the ku buffer.
+
+- Mark multiple items then take an action on the marked items.
+
+- Source "all" to gather items for all sources.  No need to choose a source.
+
+- More sources: "tag", "mark", "action", etc.
+
+- More actions.
+
 
 
 
