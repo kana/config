@@ -160,6 +160,7 @@ function s:test_ku_file_action_extract_asis_0002()  "{{{1
   Assert _ ==> 0
   Assert isdirectory(ku#make_path('a')) ==> 1
   Assert filereadable(ku#make_path('a', 'foo.txt')) ==> 1
+  Assert filereadable(ku#make_path('a', 'foofoo.txt')) ==> 1
 
   " Remove extracted files.
   " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
@@ -175,9 +176,11 @@ function s:test_ku_file_action_extract_asis_0003()  "{{{1
   Assert type(_) ==> type(0)
   Assert _ ==> 0
   Assert filereadable(ku#make_path('bar.txt')) ==> 1
+  Assert filereadable(ku#make_path('barbar.txt')) ==> 1
 
   " Remove extracted files.
   !rm -f bar.txt
+  !rm -f barbar.txt
 endfunction
 
 
@@ -188,11 +191,14 @@ function s:test_ku_file_action_extract_asis_0004()  "{{{1
   Title let _ = ku#file#action_extract_asis(item)
   Assert type(_) ==> type(0)
   Assert _ ==> 0
+  Assert isdirectory(ku#make_path('c')) ==> 1
   Assert isdirectory(ku#make_path('d')) ==> 1
-  Assert filereadable(ku#make_path('d', 'baz.txt')) ==> 1
+  Assert filereadable(ku#make_path('c', 'baz.txt')) ==> 1
+  Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 1
 
   " Remove extracted files.
   " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
+  !rm -fr c
   !rm -fr d
 endfunction
 
@@ -211,6 +217,7 @@ function s:test_ku_file_action_extract_asis_0005()  "{{{1
   Assert _ ==> 0
   Assert isdirectory(ku#make_path('a')) ==> 1
   Assert filereadable(ku#make_path('a', 'foo.txt')) ==> 1
+  Assert filereadable(ku#make_path('a', 'foofoo.txt')) ==> 0
 
   " Remove extracted files.
   " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
@@ -231,9 +238,11 @@ function s:test_ku_file_action_extract_asis_0006()  "{{{1
   Assert type(_) ==> type(0)
   Assert _ ==> 0
   Assert filereadable(ku#make_path('bar.txt')) ==> 1
+  Assert filereadable(ku#make_path('barbar.txt')) ==> 0
 
   " Remove extracted files.
   !rm -f bar.txt
+  !rm -f barbar.txt
 endfunction
 
 
@@ -241,19 +250,22 @@ endfunction
 
 function s:test_ku_file_action_extract_asis_0007()  "{{{1
   let item = {
-  \   'word': ku#make_path('c.zip', 'd', 'baz.txt'),
+  \   'word': ku#make_path('c.zip', 'c', 'baz.txt'),
   \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
   \   'ku_file_archive_path': ku#make_path('c.zip'),
-  \   'ku_file_archive_content_path': ku#make_path('d', 'baz.txt')
+  \   'ku_file_archive_content_path': ku#make_path('c', 'baz.txt')
   \ }
   Title let _ = ku#file#action_extract_asis(item)
   Assert type(_) ==> type(0)
   Assert _ ==> 0
-  Assert isdirectory(ku#make_path('d')) ==> 1
-  Assert filereadable(ku#make_path('d', 'baz.txt')) ==> 1
+  Assert isdirectory(ku#make_path('c')) ==> 1
+  Assert filereadable(ku#make_path('c', 'baz.txt')) ==> 1
+  Assert isdirectory(ku#make_path('d')) ==> 0
+  Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 0
 
   " Remove extracted files.
   " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
+  !rm -fr c
   !rm -fr d
 endfunction
 
@@ -343,10 +355,10 @@ endfunction
 
 function s:test_ku_file_action_extract_smartly_0007()  "{{{1
   let item = {
-  \   'word': ku#make_path('c.zip', 'd', 'baz.txt'),
+  \   'word': ku#make_path('c.zip', 'c', 'baz.txt'),
   \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
   \   'ku_file_archive_path': ku#make_path('c.zip'),
-  \   'ku_file_archive_content_path': ku#make_path('d', 'baz.txt')
+  \   'ku_file_archive_content_path': ku#make_path('c', 'baz.txt')
   \ }
   Title let _ = ku#file#action_extract_smartly(item)
   Assert type(_) ==> type('')
@@ -438,10 +450,10 @@ endfunction
 
 function s:test_ku_file_action_extract_solely_0007()  "{{{1
   let item = {
-  \   'word': ku#make_path('c.zip', 'd', 'baz.txt'),
+  \   'word': ku#make_path('c.zip', 'c', 'baz.txt'),
   \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
   \   'ku_file_archive_path': ku#make_path('c.zip'),
-  \   'ku_file_archive_content_path': ku#make_path('d', 'baz.txt')
+  \   'ku_file_archive_content_path': ku#make_path('c', 'baz.txt')
   \ }
   Title let _ = ku#file#action_extract_solely(item)
   Assert type(_) ==> type('')
@@ -773,7 +785,7 @@ function s:test_ku_file_gather_items_1002()  "{{{1
   " Now the content of a.zip is listed with this pattern.
   Title let _ = ku#file#gather_items('', ku#make_path('a.zip', ''))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 1
+  Assert len(_) ==> 2
   Assert type(_[0]) ==> type({})
 
   Assert _[0] ==> {
@@ -782,6 +794,13 @@ function s:test_ku_file_gather_items_1002()  "{{{1
   \ 'ku_file_archive_format': 'zip',
   \ 'ku_file_archive_path': ku#make_path('a.zip'),
   \ 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'),
+  \ }
+  Assert _[1] ==> {
+  \ 'word': ku#make_path('a.zip', 'a', 'foofoo.txt'),
+  \ 'menu': 'in archive',
+  \ 'ku_file_archive_format': 'zip',
+  \ 'ku_file_archive_path': ku#make_path('a.zip'),
+  \ 'ku_file_archive_content_path': ku#make_path('a', 'foofoo.txt'),
   \ }
 endfunction
 
@@ -794,7 +813,7 @@ function s:test_ku_file_gather_items_1003()  "{{{1
   " Trailing part is just ignored.
   Title let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo'))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 1
+  Assert len(_) ==> 2
   Assert type(_[0]) ==> type({})
 
   Assert _[0] ==> {
@@ -803,6 +822,13 @@ function s:test_ku_file_gather_items_1003()  "{{{1
   \ 'ku_file_archive_format': 'zip',
   \ 'ku_file_archive_path': ku#make_path('a.zip'),
   \ 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'),
+  \ }
+  Assert _[1] ==> {
+  \ 'word': ku#make_path('a.zip', 'a', 'foofoo.txt'),
+  \ 'menu': 'in archive',
+  \ 'ku_file_archive_format': 'zip',
+  \ 'ku_file_archive_path': ku#make_path('a.zip'),
+  \ 'ku_file_archive_content_path': ku#make_path('a', 'foofoo.txt'),
   \ }
 endfunction
 
@@ -815,7 +841,7 @@ function s:test_ku_file_gather_items_1004()  "{{{1
   " Trailing part is just ignored.
   Title let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo', 'bar'))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 1
+  Assert len(_) ==> 2
   Assert type(_[0]) ==> type({})
 
   Assert _[0] ==> {
@@ -824,6 +850,13 @@ function s:test_ku_file_gather_items_1004()  "{{{1
   \ 'ku_file_archive_format': 'zip',
   \ 'ku_file_archive_path': ku#make_path('a.zip'),
   \ 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'),
+  \ }
+  Assert _[1] ==> {
+  \ 'word': ku#make_path('a.zip', 'a', 'foofoo.txt'),
+  \ 'menu': 'in archive',
+  \ 'ku_file_archive_format': 'zip',
+  \ 'ku_file_archive_path': ku#make_path('a.zip'),
+  \ 'ku_file_archive_content_path': ku#make_path('a', 'foofoo.txt'),
   \ }
 endfunction
 
@@ -835,7 +868,7 @@ function s:test_ku_file_gather_items_1005()  "{{{1
 
   Title let _ = ku#file#gather_items('', ku#make_path('b.zip', ''))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 1
+  Assert len(_) ==> 2
   Assert type(_[0]) ==> type({})
 
   Assert _[0] ==> {
@@ -844,6 +877,13 @@ function s:test_ku_file_gather_items_1005()  "{{{1
   \ 'ku_file_archive_format': 'zip',
   \ 'ku_file_archive_path': ku#make_path('b.zip'),
   \ 'ku_file_archive_content_path': ku#make_path('bar.txt'),
+  \ }
+  Assert _[1] ==> {
+  \ 'word': ku#make_path('b.zip', 'barbar.txt'),
+  \ 'menu': 'in archive',
+  \ 'ku_file_archive_format': 'zip',
+  \ 'ku_file_archive_path': ku#make_path('b.zip'),
+  \ 'ku_file_archive_content_path': ku#make_path('barbar.txt'),
   \ }
 endfunction
 
@@ -855,15 +895,22 @@ function s:test_ku_file_gather_items_1006()  "{{{1
 
   Title let _ = ku#file#gather_items('', ku#make_path('c.zip', ''))
   Assert type(_) ==> type([])
-  Assert len(_) ==> 1
+  Assert len(_) ==> 2
   Assert type(_[0]) ==> type({})
 
   Assert _[0] ==> {
-  \ 'word': ku#make_path('c.zip', 'd', 'baz.txt'),
+  \ 'word': ku#make_path('c.zip', 'c', 'baz.txt'),
   \ 'menu': 'in archive',
   \ 'ku_file_archive_format': 'zip',
   \ 'ku_file_archive_path': ku#make_path('c.zip'),
-  \ 'ku_file_archive_content_path': ku#make_path('d', 'baz.txt'),
+  \ 'ku_file_archive_content_path': ku#make_path('c', 'baz.txt'),
+  \ }
+  Assert _[1] ==> {
+  \ 'word': ku#make_path('c.zip', 'd', 'bazbaz.txt'),
+  \ 'menu': 'in archive',
+  \ 'ku_file_archive_format': 'zip',
+  \ 'ku_file_archive_path': ku#make_path('c.zip'),
+  \ 'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt'),
   \ }
 endfunction
 

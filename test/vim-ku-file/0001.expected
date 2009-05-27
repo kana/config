@@ -60,52 +60,68 @@ TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
 TEST: isdirectory(ku#make_path('a'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('a', 'foo.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('a', 'foofoo.txt'))  ==>  1 ... ok
 :!rm -fr a
 
-Result: 4 / 4
+Result: 5 / 5
 
 ===== let _ = ku#file#action_extract_asis(item)
 TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
 TEST: filereadable(ku#make_path('bar.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('barbar.txt'))  ==>  1 ... ok
 :!rm -f bar.txt
 
-Result: 3 / 3
+:!rm -f barbar.txt
+
+Result: 4 / 4
 
 ===== let _ = ku#file#action_extract_asis(item)
 TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('c'))  ==>  1 ... ok
 TEST: isdirectory(ku#make_path('d'))  ==>  1 ... ok
-TEST: filereadable(ku#make_path('d', 'baz.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('c', 'baz.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  1 ... ok
+:!rm -fr c
+
 :!rm -fr d
 
-Result: 4 / 4
+Result: 6 / 6
 
 ===== let _ = ku#file#action_extract_asis(item)
 TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
 TEST: isdirectory(ku#make_path('a'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('a', 'foo.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('a', 'foofoo.txt'))  ==>  0 ... ok
 :!rm -fr a
 
-Result: 4 / 4
+Result: 5 / 5
 
 ===== let _ = ku#file#action_extract_asis(item)
 TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
 TEST: filereadable(ku#make_path('bar.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('barbar.txt'))  ==>  0 ... ok
 :!rm -f bar.txt
 
-Result: 3 / 3
+:!rm -f barbar.txt
+
+Result: 4 / 4
 
 ===== let _ = ku#file#action_extract_asis(item)
 TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
-TEST: isdirectory(ku#make_path('d'))  ==>  1 ... ok
-TEST: filereadable(ku#make_path('d', 'baz.txt'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('c'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('c', 'baz.txt'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('d'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  0 ... ok
+:!rm -fr c
+
 :!rm -fr d
 
-Result: 4 / 4
+Result: 6 / 6
 
 ===== let _ = ku#file#action_extract_smartly(item)
 TEST: type(_)  ==>  type('') ... ok
@@ -324,38 +340,43 @@ Result: 4 / 4
 
 ===== let _ = ku#file#gather_items('', ku#make_path('a.zip', ''))
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  1 ... ok
+TEST: len(_)  ==>  2 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
 TEST: _[0]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'), } ... ok
-Result: 4 / 4
+TEST: _[1]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foofoo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foofoo.txt'), } ... ok
+Result: 5 / 5
 
 ===== let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo'))
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  1 ... ok
+TEST: len(_)  ==>  2 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
 TEST: _[0]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'), } ... ok
-Result: 4 / 4
+TEST: _[1]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foofoo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foofoo.txt'), } ... ok
+Result: 5 / 5
 
 ===== let _ = ku#file#gather_items('', ku#make_path('a.zip', 'foo', 'bar'))
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  1 ... ok
+TEST: len(_)  ==>  2 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
 TEST: _[0]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foo.txt'), } ... ok
-Result: 4 / 4
+TEST: _[1]  ==>  { 'word': ku#make_path('a.zip', 'a', 'foofoo.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('a.zip'), 'ku_file_archive_content_path': ku#make_path('a', 'foofoo.txt'), } ... ok
+Result: 5 / 5
 
 ===== let _ = ku#file#gather_items('', ku#make_path('b.zip', ''))
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  1 ... ok
+TEST: len(_)  ==>  2 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
 TEST: _[0]  ==>  { 'word': ku#make_path('b.zip', 'bar.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('b.zip'), 'ku_file_archive_content_path': ku#make_path('bar.txt'), } ... ok
-Result: 4 / 4
+TEST: _[1]  ==>  { 'word': ku#make_path('b.zip', 'barbar.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('b.zip'), 'ku_file_archive_content_path': ku#make_path('barbar.txt'), } ... ok
+Result: 5 / 5
 
 ===== let _ = ku#file#gather_items('', ku#make_path('c.zip', ''))
 TEST: type(_)  ==>  type([]) ... ok
-TEST: len(_)  ==>  1 ... ok
+TEST: len(_)  ==>  2 ... ok
 TEST: type(_[0])  ==>  type({}) ... ok
-TEST: _[0]  ==>  { 'word': ku#make_path('c.zip', 'd', 'baz.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('c.zip'), 'ku_file_archive_content_path': ku#make_path('d', 'baz.txt'), } ... ok
-Result: 4 / 4
+TEST: _[0]  ==>  { 'word': ku#make_path('c.zip', 'c', 'baz.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('c.zip'), 'ku_file_archive_content_path': ku#make_path('c', 'baz.txt'), } ... ok
+TEST: _[1]  ==>  { 'word': ku#make_path('c.zip', 'd', 'bazbaz.txt'), 'menu': 'in archive', 'ku_file_archive_format': 'zip', 'ku_file_archive_path': ku#make_path('c.zip'), 'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt'), } ... ok
+Result: 5 / 5
 
 ===== let _ = ku#file#key_table('')
 TEST: type(_)  ==>  type({}) ... ok
@@ -598,4 +619,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 326 / 326
+Result: 339 / 339
