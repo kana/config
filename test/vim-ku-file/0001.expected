@@ -61,7 +61,7 @@ TEST: _  ==>  0 ... ok
 TEST: isdirectory(ku#make_path('a'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('a', 'foo.txt'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('a', 'foofoo.txt'))  ==>  1 ... ok
-:!rm -fr a
+:!rm -fr 'a'
 
 Result: 5 / 5
 
@@ -70,9 +70,9 @@ TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
 TEST: filereadable(ku#make_path('bar.txt'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('barbar.txt'))  ==>  1 ... ok
-:!rm -f bar.txt
+:!rm -fr 'bar.txt'
 
-:!rm -f barbar.txt
+:!rm -fr 'barbar.txt'
 
 Result: 4 / 4
 
@@ -83,9 +83,9 @@ TEST: isdirectory(ku#make_path('c'))  ==>  1 ... ok
 TEST: isdirectory(ku#make_path('d'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('c', 'baz.txt'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  1 ... ok
-:!rm -fr c
+:!rm -fr 'c'
 
-:!rm -fr d
+:!rm -fr 'd'
 
 Result: 6 / 6
 
@@ -95,7 +95,7 @@ TEST: _  ==>  0 ... ok
 TEST: isdirectory(ku#make_path('a'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('a', 'foo.txt'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('a', 'foofoo.txt'))  ==>  0 ... ok
-:!rm -fr a
+:!rm -fr 'a'
 
 Result: 5 / 5
 
@@ -104,9 +104,9 @@ TEST: type(_)  ==>  type(0) ... ok
 TEST: _  ==>  0 ... ok
 TEST: filereadable(ku#make_path('bar.txt'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('barbar.txt'))  ==>  0 ... ok
-:!rm -f bar.txt
+:!rm -fr 'bar.txt'
 
-:!rm -f barbar.txt
+:!rm -fr 'barbar.txt'
 
 Result: 4 / 4
 
@@ -117,9 +117,9 @@ TEST: isdirectory(ku#make_path('c'))  ==>  1 ... ok
 TEST: filereadable(ku#make_path('c', 'baz.txt'))  ==>  1 ... ok
 TEST: isdirectory(ku#make_path('d'))  ==>  0 ... ok
 TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  0 ... ok
-:!rm -fr c
+:!rm -fr 'c'
 
-:!rm -fr d
+:!rm -fr 'd'
 
 Result: 6 / 6
 

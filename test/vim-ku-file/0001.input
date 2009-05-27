@@ -6,6 +6,13 @@ function Call(function_name, ...)
   return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
 endfunction
 
+function! s:rm(path)
+  " FIXME: This is not portable.
+  "        But there is no function to delete a directory in Vim script.
+  execute '!rm -fr' shellescape(a:path)
+endfunction
+
+
 let g:ku_personal_runtime = split(&runtimepath, ',')[0]
 
 
@@ -163,8 +170,7 @@ function s:test_ku_file_action_extract_asis_0002()  "{{{1
   Assert filereadable(ku#make_path('a', 'foofoo.txt')) ==> 1
 
   " Remove extracted files.
-  " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
-  !rm -fr a
+  call s:rm('a')
 endfunction
 
 
@@ -179,8 +185,8 @@ function s:test_ku_file_action_extract_asis_0003()  "{{{1
   Assert filereadable(ku#make_path('barbar.txt')) ==> 1
 
   " Remove extracted files.
-  !rm -f bar.txt
-  !rm -f barbar.txt
+  call s:rm('bar.txt')
+  call s:rm('barbar.txt')
 endfunction
 
 
@@ -197,9 +203,8 @@ function s:test_ku_file_action_extract_asis_0004()  "{{{1
   Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 1
 
   " Remove extracted files.
-  " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
-  !rm -fr c
-  !rm -fr d
+  call s:rm('c')
+  call s:rm('d')
 endfunction
 
 
@@ -220,8 +225,7 @@ function s:test_ku_file_action_extract_asis_0005()  "{{{1
   Assert filereadable(ku#make_path('a', 'foofoo.txt')) ==> 0
 
   " Remove extracted files.
-  " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
-  !rm -fr a
+  call s:rm('a')
 endfunction
 
 
@@ -241,8 +245,8 @@ function s:test_ku_file_action_extract_asis_0006()  "{{{1
   Assert filereadable(ku#make_path('barbar.txt')) ==> 0
 
   " Remove extracted files.
-  !rm -f bar.txt
-  !rm -f barbar.txt
+  call s:rm('bar.txt')
+  call s:rm('barbar.txt')
 endfunction
 
 
@@ -264,9 +268,8 @@ function s:test_ku_file_action_extract_asis_0007()  "{{{1
   Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 0
 
   " Remove extracted files.
-  " FIXME: This one is not portalbe, but deletedirectory() doesn't exist.
-  !rm -fr c
-  !rm -fr d
+  call s:rm('c')
+  call s:rm('d')
 endfunction
 
 
