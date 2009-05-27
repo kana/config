@@ -275,6 +275,29 @@ endfunction
 
 
 
+function s:test_ku_file_action_extract_asis_0008()  "{{{1
+  let item = {
+  \   'word': ku#make_path('c.zip', 'd', 'bazbaz.txt'),
+  \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
+  \   'ku_file_archive_path': ku#make_path('c.zip'),
+  \   'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt')
+  \ }
+  Title let _ = ku#file#action_extract_asis(item)
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('c')) ==> 0
+  Assert filereadable(ku#make_path('c', 'baz.txt')) ==> 0
+  Assert isdirectory(ku#make_path('d')) ==> 1
+  Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 1
+
+  " Remove extracted files.
+  call s:rm('c')
+  call s:rm('d')
+endfunction
+
+
+
+
 function s:test_ku_file_action_extract_smartly_0001()  "{{{1
   let item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#action_extract_smartly(item)
@@ -373,6 +396,23 @@ endfunction
 
 
 
+function s:test_ku_file_action_extract_smartly_0008()  "{{{1
+  let item = {
+  \   'word': ku#make_path('c.zip', 'd', 'bazbaz.txt'),
+  \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
+  \   'ku_file_archive_path': ku#make_path('c.zip'),
+  \   'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt')
+  \ }
+  Title let _ = ku#file#action_extract_smartly(item)
+  Assert type(_) ==> type('')
+  Assert _ ==> 'FIXME: NIY: content'
+
+  " Remove extracted files - if the action is implemented.
+endfunction
+
+
+
+
 function s:test_ku_file_action_extract_solely_0001()  "{{{1
   let item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#action_extract_solely(item)
@@ -457,6 +497,23 @@ function s:test_ku_file_action_extract_solely_0007()  "{{{1
   \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
   \   'ku_file_archive_path': ku#make_path('c.zip'),
   \   'ku_file_archive_content_path': ku#make_path('c', 'baz.txt')
+  \ }
+  Title let _ = ku#file#action_extract_solely(item)
+  Assert type(_) ==> type('')
+  Assert _ ==> 'FIXME: NIY: content'
+
+  " Remove extracted files - if the action is implemented.
+endfunction
+
+
+
+
+function s:test_ku_file_action_extract_solely_0008()  "{{{1
+  let item = {
+  \   'word': ku#make_path('c.zip', 'd', 'bazbaz.txt'),
+  \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
+  \   'ku_file_archive_path': ku#make_path('c.zip'),
+  \   'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt')
   \ }
   Title let _ = ku#file#action_extract_solely(item)
   Assert type(_) ==> type('')

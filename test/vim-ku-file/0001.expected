@@ -123,6 +123,19 @@ TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  0 ... ok
 
 Result: 6 / 6
 
+===== let _ = ku#file#action_extract_asis(item)
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('c'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('c', 'baz.txt'))  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('d'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  1 ... ok
+:!rm -fr 'c'
+
+:!rm -fr 'd'
+
+Result: 6 / 6
+
 ===== let _ = ku#file#action_extract_smartly(item)
 TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  'extract-smartly: Not available for this item: ' . string(item.word) ... ok
@@ -158,9 +171,9 @@ TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  'FIXME: NIY: content' ... ok
 Result: 2 / 2
 
-===== let _ = ku#file#action_extract_solely(item)
+===== let _ = ku#file#action_extract_smartly(item)
 TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'extract-solely: Not available for this item: ' . string(item.word) ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
 Result: 2 / 2
 
 ===== let _ = ku#file#action_extract_solely(item)
@@ -176,6 +189,16 @@ Result: 2 / 2
 ===== let _ = ku#file#action_extract_solely(item)
 TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  'extract-solely: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'extract-solely: Not available for this item: ' . string(item.word) ... ok
+Result: 2 / 2
+
+===== let _ = ku#file#action_extract_solely(item)
+TEST: type(_)  ==>  type('') ... ok
+TEST: _  ==>  'FIXME: NIY: content' ... ok
 Result: 2 / 2
 
 ===== let _ = ku#file#action_extract_solely(item)
@@ -619,4 +642,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 339 / 339
+Result: 349 / 349
