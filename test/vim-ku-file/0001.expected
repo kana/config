@@ -213,24 +213,50 @@ TEST: _  ==>  'FIXME: NIY: archive' ... ok
 Result: 2 / 2
 
 ===== let _ = ku#file#action_extract_smartly(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: content' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('a'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('a', 'foo.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('a', 'foofoo.txt'))  ==>  0 ... ok
+:!rm -fr 'a'
+
+Result: 5 / 5
 
 ===== let _ = ku#file#action_extract_smartly(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: content' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('b'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('b', 'bar.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('b', 'barbar.txt'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('bar.txt'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('barbar.txt'))  ==>  0 ... ok
+:!rm -fr 'b'
+
+Result: 7 / 7
 
 ===== let _ = ku#file#action_extract_smartly(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: content' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('c'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('c', 'baz.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('c', 'bazbaz.txt'))  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('d'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('d', 'baz.txt'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  0 ... ok
+:!rm -fr 'c'
+
+Result: 8 / 8
 
 ===== let _ = ku#file#action_extract_smartly(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: content' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('c'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('c', 'd'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('c', 'd', 'bazbaz.txt'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('d'))  ==>  0 ... ok
+:!rm -fr 'c'
+
+Result: 6 / 6
 
 ===== let _ = ku#file#action_extract_solely(item)
 TEST: type(_)  ==>  type('') ... ok
@@ -742,4 +768,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 381 / 381
+Result: 399 / 399

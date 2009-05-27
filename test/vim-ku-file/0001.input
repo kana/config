@@ -465,10 +465,14 @@ function s:test_ku_file_action_extract_smartly_0005()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('a', 'foo.txt')
   \ }
   Title let _ = ku#file#action_extract_smartly(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('a')) ==> 1
+  Assert filereadable(ku#make_path('a', 'foo.txt')) ==> 1
+  Assert filereadable(ku#make_path('a', 'foofoo.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('a')
 endfunction
 
 
@@ -482,10 +486,16 @@ function s:test_ku_file_action_extract_smartly_0006()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('bar.txt')
   \ }
   Title let _ = ku#file#action_extract_smartly(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('b')) ==> 1
+  Assert filereadable(ku#make_path('b', 'bar.txt')) ==> 1
+  Assert filereadable(ku#make_path('b', 'barbar.txt')) ==> 0
+  Assert filereadable(ku#make_path('bar.txt')) ==> 0
+  Assert filereadable(ku#make_path('barbar.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('b')
 endfunction
 
 
@@ -499,10 +509,17 @@ function s:test_ku_file_action_extract_smartly_0007()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('c', 'baz.txt')
   \ }
   Title let _ = ku#file#action_extract_smartly(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('c')) ==> 1
+  Assert filereadable(ku#make_path('c', 'baz.txt')) ==> 1
+  Assert filereadable(ku#make_path('c', 'bazbaz.txt')) ==> 0
+  Assert isdirectory(ku#make_path('d')) ==> 0
+  Assert filereadable(ku#make_path('d', 'baz.txt')) ==> 0
+  Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('c')
 endfunction
 
 
@@ -516,10 +533,15 @@ function s:test_ku_file_action_extract_smartly_0008()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt')
   \ }
   Title let _ = ku#file#action_extract_smartly(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('c')) ==> 1
+  Assert isdirectory(ku#make_path('c', 'd')) ==> 1
+  Assert filereadable(ku#make_path('c', 'd', 'bazbaz.txt')) ==> 1
+  Assert isdirectory(ku#make_path('d')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('c')
 endfunction
 
 
