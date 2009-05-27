@@ -214,7 +214,19 @@ endfunction
 
 
 function! s:extract_zip_content_solely(item)  "{{{2
-  return 'FIXME: NIY: content'
+  let path_to_extract = fnamemodify(a:item.ku_file_archive_content_path, ':t')
+  let output = s:command_unzip(
+  \              '-p', '--', shellescape(a:item.ku_file_archive_path),
+  \              shellescape(a:item.ku_file_archive_content_path),
+  \              '>', shellescape(path_to_extract)
+  \            )
+  if v:shell_error != 0  " FIXME: test
+      " Because this file is already created by redirection.
+    call delete(path_to_extract)
+    return 'ku: file: Failed to extract an item of a zip archive: '
+    \      . output
+  endif
+  return 0
 endfunction
 
 

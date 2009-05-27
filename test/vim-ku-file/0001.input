@@ -465,10 +465,17 @@ function s:test_ku_file_action_extract_solely_0005()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('a', 'foo.txt')
   \ }
   Title let _ = ku#file#action_extract_solely(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert filereadable(ku#make_path('foo.txt')) ==> 1
+  Assert isdirectory(ku#make_path('a')) ==> 0
+  Assert filereadable(ku#make_path('a', 'foo.txt')) ==> 0
+  Assert filereadable(ku#make_path('a', 'foofoo.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('a')
+  call s:rm('foo.txt')
+  call s:rm('foofoo.txt')
 endfunction
 
 
@@ -482,10 +489,14 @@ function s:test_ku_file_action_extract_solely_0006()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('bar.txt')
   \ }
   Title let _ = ku#file#action_extract_solely(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert filereadable(ku#make_path('bar.txt')) ==> 1
+  Assert filereadable(ku#make_path('barbar.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('bar.txt')
+  call s:rm('barbar.txt')
 endfunction
 
 
@@ -499,10 +510,20 @@ function s:test_ku_file_action_extract_solely_0007()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('c', 'baz.txt')
   \ }
   Title let _ = ku#file#action_extract_solely(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert filereadable(ku#make_path('baz.txt')) ==> 1
+  Assert filereadable(ku#make_path('bazbaz.txt')) ==> 0
+  Assert isdirectory(ku#make_path('c')) ==> 0
+  Assert filereadable(ku#make_path('c', 'baz.txt')) ==> 0
+  Assert isdirectory(ku#make_path('d')) ==> 0
+  Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('baz.txt')
+  call s:rm('bazbaz.txt')
+  call s:rm('c')
+  call s:rm('d')
 endfunction
 
 
@@ -516,10 +537,20 @@ function s:test_ku_file_action_extract_solely_0008()  "{{{1
   \   'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt')
   \ }
   Title let _ = ku#file#action_extract_solely(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: content'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert filereadable(ku#make_path('baz.txt')) ==> 0
+  Assert filereadable(ku#make_path('bazbaz.txt')) ==> 1
+  Assert isdirectory(ku#make_path('c')) ==> 0
+  Assert filereadable(ku#make_path('c', 'baz.txt')) ==> 0
+  Assert isdirectory(ku#make_path('d')) ==> 0
+  Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('baz.txt')
+  call s:rm('bazbaz.txt')
+  call s:rm('c')
+  call s:rm('d')
 endfunction
 
 
