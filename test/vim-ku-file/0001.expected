@@ -58,6 +58,22 @@ TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  ku#file#_local_variables().ARCHIVE_TYPE_ZIP ... ok
 Result: 2 / 2
 
+===== let _ = Call('s:first_directory', ku#make_path('foo'))
+TEST: _  ==>  '' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:first_directory', ku#make_path('foo', 'bar'))
+TEST: _  ==>  'foo' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:first_directory', ku#make_path('foo', 'bar', 'baz'))
+TEST: _  ==>  'foo' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:first_directory', ku#make_path('', 'foo'))
+TEST: _  ==>  '' ... ok
+Result: 1 / 1
+
 ===== let _ = ku#file#acc_valid_p('', file_item, ku#path_separator())
 TEST: _  ==>  0 ... ok
 Result: 1 / 1
@@ -726,4 +742,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 377 / 377
+Result: 381 / 381

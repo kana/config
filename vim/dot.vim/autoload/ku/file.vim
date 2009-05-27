@@ -240,6 +240,21 @@ endfunction
 
 
 
+function! s:first_directory(path)  "{{{2
+  " a:path ==> 'foo/bar/baz'
+  let components = split(a:path, ku#path_separator())  " ==> ['foo', ...]
+  if len(components) <= 1  " a:path without any directory
+    return ''
+  endif
+
+  let heads = components[:1]  " ==> ['foo', 'bar']
+  let partial_path = join(heads, ku#path_separator())  " ==> 'foo/bar'
+  return fnamemodify(partial_path, ':h')  " ==> 'foo'
+endfunction
+
+
+
+
 function! s:gather_items_from_directory(_)  "{{{2
   let _ = a:_
 

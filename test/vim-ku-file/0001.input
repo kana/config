@@ -157,6 +157,38 @@ endfunction
 
 
 
+function s:test_first_directory_0001()  "{{{1
+  Title let _ = Call('s:first_directory', ku#make_path('foo'))
+  Assert _ ==> ''
+endfunction
+
+
+
+
+function s:test_first_directory_0002()  "{{{1
+  Title let _ = Call('s:first_directory', ku#make_path('foo', 'bar'))
+  Assert _ ==> 'foo'
+endfunction
+
+
+
+
+function s:test_first_directory_0003()  "{{{1
+  Title let _ = Call('s:first_directory', ku#make_path('foo', 'bar', 'baz'))
+  Assert _ ==> 'foo'
+endfunction
+
+
+
+
+function s:test_first_directory_0004()  "{{{1
+  Title let _ = Call('s:first_directory', ku#make_path('', 'foo'))
+  Assert _ ==> ''
+endfunction
+
+
+
+
 function s:test_ku_file_acc_valid_p_0001()  "{{{1
   let file_item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#acc_valid_p('', file_item, ku#path_separator())
