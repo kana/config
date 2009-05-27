@@ -41,6 +41,86 @@ cd `=ku#make_path('test', 'vim-ku-file', 'test-data')`
 
 
 
+function s:test_archive_basename_0001()  "{{{1
+  Title let _ = Call('s:archive_basename', 'foo.bar')  " Unknown case.
+  Assert _ ==> 'foo.bar'
+endfunction
+
+
+
+
+function s:test_archive_basename_0002()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.zip')
+  Assert _ ==> 'a'
+endfunction
+
+
+
+
+function s:test_archive_basename_0003()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.ZiP')  " FIXME: How about cases?
+  Assert _ ==> 'a.ZiP'
+endfunction
+
+
+
+
+function s:test_archive_basename_0004()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.Z')  " Not supported yet
+  Assert _ ==> 'a.Z'
+endfunction
+
+
+
+
+function s:test_archive_basename_0005()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.bz2')  " Not supported yet
+  Assert _ ==> 'a.bz2'
+endfunction
+
+
+
+
+function s:test_archive_basename_0006()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.gz')  " Not supported yet
+  Assert _ ==> 'a.gz'
+endfunction
+
+
+
+
+function s:test_archive_basename_0007()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.tar')  " Not supported yet
+  Assert _ ==> 'a.tar'
+endfunction
+
+
+
+
+function s:test_archive_basename_0008()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.tar.Z')  " Not supported yet
+  Assert _ ==> 'a.tar.Z'
+endfunction
+
+
+
+
+function s:test_archive_basename_0009()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.tar.bz2')  " Not supported yet
+  Assert _ ==> 'a.tar.bz2'
+endfunction
+
+
+
+
+function s:test_archive_basename_0010()  "{{{1
+  Title let _ = Call('s:archive_basename', 'a.tar.gz')  " Not supported yet
+  Assert _ ==> 'a.tar.gz'
+endfunction
+
+
+
+
 function s:test_archive_type_0001()  "{{{1
   Title let _ = Call('s:archive_type', ku#make_path('a.zip'))
   Assert type(_) ==> type('')

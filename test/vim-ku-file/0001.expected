@@ -1,3 +1,43 @@
+===== let _ = Call('s:archive_basename', 'foo.bar')  " Unknown case.
+TEST: _  ==>  'foo.bar' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.zip')
+TEST: _  ==>  'a' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.ZiP')  " FIXME: How about cases?
+TEST: _  ==>  'a.ZiP' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.Z')  " Not supported yet
+TEST: _  ==>  'a.Z' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.bz2')  " Not supported yet
+TEST: _  ==>  'a.bz2' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.gz')  " Not supported yet
+TEST: _  ==>  'a.gz' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.tar')  " Not supported yet
+TEST: _  ==>  'a.tar' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.tar.Z')  " Not supported yet
+TEST: _  ==>  'a.tar.Z' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.tar.bz2')  " Not supported yet
+TEST: _  ==>  'a.tar.bz2' ... ok
+Result: 1 / 1
+
+===== let _ = Call('s:archive_basename', 'a.tar.gz')  " Not supported yet
+TEST: _  ==>  'a.tar.gz' ... ok
+Result: 1 / 1
+
 ===== let _ = Call('s:archive_type', ku#make_path('a.zip'))
 TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  ku#file#_local_variables().ARCHIVE_TYPE_ZIP ... ok
@@ -686,4 +726,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 367 / 367
+Result: 377 / 377

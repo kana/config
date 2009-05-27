@@ -141,6 +141,14 @@ endfunction
 
 
 
+function! s:archive_basename(path)  "{{{2
+  " FIXME: Same as s:archive_type()
+  return matchstr(a:path, '\C^.\{-}\ze\(\.zip\)\?$')
+endfunction
+
+
+
+
 function! s:archive_type(path)  "{{{2
   " FIXME: Should "learn" the correspondences of archive formats and their
   "        standard extensions.
