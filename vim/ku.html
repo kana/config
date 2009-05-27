@@ -865,8 +865,9 @@ FileType ku                                     <span class="Ignore">*</span><sp
         customize key mappings for the ku buffer.
 
         <span class="Todo">Note</span> that if there is no <span class="Ignore">|</span><span class="Identifier">:autocmd</span><span class="Ignore">|</span> nor filetype plugin for this
-        event, <span class="Ignore">|</span><a href="ku.html#ku#default_key_mappings()"><span class="Identifier">ku#default_key_mappings()</span></a><span class="Ignore">|</span> will be called.  Otherwise, it will
-        not be called.
+        event, ku will call ku#default_key_mappings(!0) to define the default
+        key mappings.  Otherwise, this initialization will not be done.  See
+        <span class="Ignore">|</span><a href="ku.html#ku#default_key_mappings()"><span class="Identifier">ku#default_key_mappings()</span></a><span class="Ignore">|</span> for the details of key mappings.
 
         Example: Define a key mapping to execute &quot;left&quot; action with a single
         key stroke.
@@ -1101,6 +1102,23 @@ prefix table                                    <span class="Ignore">*</span><sp
 
 - Many bugs must be around the world.
 
+                                                <span class="Ignore">*</span><span class="Constant" id="ku-planned-features">ku-planned-features</span><span class="Ignore">*</span>
+- Inline completion in a buffer other than the ku buffer.
+
+- Pluggable architecture to sort items.
+
+- Pluggable architecture to filter items.
+
+- A key mapping to delete a component in the ku buffer.
+
+- Mark multiple items then take an action on the marked items.
+
+- Source &quot;all&quot; to gather items for all sources.  No need to choose a source.
+
+- More sources: &quot;tag&quot;, &quot;mark&quot;, &quot;action&quot;, etc.
+
+- More actions.
+
 
 
 
@@ -1112,6 +1130,20 @@ prefix table                                    <span class="Ignore">*</span><sp
         - <span class="Ignore">|</span><a href="ku.html#ku#restart()"><span class="Identifier">ku#restart()</span></a><span class="Ignore">|</span>: Fix a bug that is caused by a change in the previous
           version.  As ku#restart() is called, the prompt character will be
           inserted many times.
+
+        Misc. improvements:
+        - <span class="Ignore">|</span><a href="ku.html#filetype-ku"><span class="Identifier">filetype-ku</span></a><span class="Ignore">|</span>: Modify the default initialization on <span class="Ignore">|</span><a href="ku.html#the-ku-buffer"><span class="Identifier">the-ku-buffer</span></a><span class="Ignore">|</span>.
+          Old versions don't override existing key mappings.
+          New versions now override existing key mappings.
+          It is convenient for starters to use ku without any configuration.
+
+          For example, many people customize <span class="Special">&lt;Tab&gt;</span> to complete something in
+          Insert mode.  In such cases, old versions don't override <span class="Special">&lt;Tab&gt;</span> to
+          <span class="Ignore">|</span><a href="ku.html#&lt;Plug&gt;(ku-choose-an-action)"><span class="Identifier">&lt;Plug&gt;(ku-choose-an-action)</span></a><span class="Ignore">|</span>, but it's very inconvenient to use ku.
+          All key mappings defined by <span class="Ignore">|</span><a href="ku.html#ku#default_key_mappings()"><span class="Identifier">ku#default_key_mappings()</span></a><span class="Ignore">|</span> are local to
+          a buffer, so that it's not necessary to avoid overriding.
+
+          Thanks to rphillips and other persons for reporting this problem.
 
 0.2.3   2009-05-16T03:05:10+09:00               <span class="Ignore">*</span><span class="Constant" id="ku-changelog-0.2.3">ku-changelog-0.2.3</span><span class="Ignore">*</span>
         Feature enhancements:
