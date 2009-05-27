@@ -840,8 +840,9 @@ FileType ku					*filetype-ku*
 	customize key mappings for the ku buffer.
 
 	Note that if there is no |:autocmd| nor filetype plugin for this
-	event, |ku#default_key_mappings()| will be called.  Otherwise, it will
-	not be called.
+	event, ku will call ku#default_key_mappings(!0) to define the default
+	key mappings.  Otherwise, this initialization will not be done.  See
+	|ku#default_key_mappings()| for the details of key mappings.
 
 	Example: Define a key mapping to execute "left" action with a single
 	key stroke.
@@ -1104,6 +1105,20 @@ CHANGELOG					*ku-changelog*
 	- |ku#restart()|: Fix a bug that is caused by a change in the previous
 	  version.  As ku#restart() is called, the prompt character will be
 	  inserted many times.
+
+	Misc. improvements:
+	- |filetype-ku|: Modify the default initialization on |the-ku-buffer|.
+	  Old versions don't override existing key mappings.
+	  New versions now override existing key mappings.
+	  It is convenient for starters to use ku without any configuration.
+
+	  For example, many people customize <Tab> to complete something in
+	  Insert mode.  In such cases, old versions don't override <Tab> to
+	  |<Plug>(ku-choose-an-action)|, but it's very inconvenient to use ku.
+	  All key mappings defined by |ku#default_key_mappings()| are local to
+	  a buffer, so that it's not necessary to avoid overriding.
+
+	  Thanks to rphillips and other persons for reporting this problem.
 
 0.2.3	2009-05-16T03:05:10+09:00		*ku-changelog-0.2.3*
 	Feature enhancements:
