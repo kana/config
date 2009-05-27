@@ -975,7 +975,7 @@ function! s:initialize_ku_buffer()  "{{{2
   " User's initialization.
   setfiletype ku
   if !(exists('#FileType#ku') || exists('b:did_ftplugin'))
-    call ku#default_key_mappings(s:FALSE)
+    call ku#default_key_mappings(s:TRUE)
   endif
 
   return
