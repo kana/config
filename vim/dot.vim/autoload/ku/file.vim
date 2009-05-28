@@ -230,7 +230,28 @@ endfunction
 
 
 function! s:extract_zip_archive_smartly(item)  "{{{2
-  return 'FIXME: NIY: archive'
+  let archive_basename = s:archive_basename(a:item.word)
+  let smart_archive_p = !0
+  let paths = s:command_unzip_list(a:item.word)
+  for path in paths
+    let first_directory = s:first_directory(path)
+    if first_directory !=# archive_basename
+      let smart_archive_p = 0
+      break
+    endif
+  endfor
+
+  let output = s:command_unzip(
+  \              '-d',
+  \              shellescape(smart_archive_p ? '.' : archive_basename),
+  \              '--',
+  \              shellescape(a:item.word)
+  \            )
+  if v:shell_error != 0  " FIXME: test
+    return 'ku: file: Failed to extract an item in a zip archive: '
+    \      . output
+  endif
+  return 0
 endfunction
 
 

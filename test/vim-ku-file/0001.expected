@@ -198,19 +198,48 @@ TEST: _  ==>  'extract-smartly: Not available for this item: ' . string(item.wor
 Result: 2 / 2
 
 ===== let _ = ku#file#action_extract_smartly(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: archive' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('a'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('a', 'foo.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('a', 'foofoo.txt'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('a', 'a'))  ==>  0 ... ok
+:!rm -fr 'a'
+
+Result: 6 / 6
 
 ===== let _ = ku#file#action_extract_smartly(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: archive' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('b'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('b', 'bar.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('b', 'barbar.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('bar.txt'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('barbar.txt'))  ==>  0 ... ok
+:!rm -fr 'b'
+
+:!rm -fr 'bar.txt'
+
+:!rm -fr 'barbar.txt'
+
+Result: 7 / 7
 
 ===== let _ = ku#file#action_extract_smartly(item)
-TEST: type(_)  ==>  type('') ... ok
-TEST: _  ==>  'FIXME: NIY: archive' ... ok
-Result: 2 / 2
+TEST: type(_)  ==>  type(0) ... ok
+TEST: _  ==>  0 ... ok
+TEST: isdirectory(ku#make_path('c'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('c', 'c'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('c', 'd'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('c', 'c', 'baz.txt'))  ==>  1 ... ok
+TEST: filereadable(ku#make_path('c', 'd', 'bazbaz.txt'))  ==>  1 ... ok
+TEST: isdirectory(ku#make_path('d'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('c', 'baz.txt'))  ==>  0 ... ok
+TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  0 ... ok
+:!rm -fr 'c'
+
+:!rm -fr 'd'
+
+Result: 10 / 10
 
 ===== let _ = ku#file#action_extract_smartly(item)
 TEST: type(_)  ==>  type(0) ... ok
@@ -768,4 +797,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 399 / 399
+Result: 416 / 416

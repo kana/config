@@ -424,10 +424,15 @@ endfunction
 function s:test_ku_file_action_extract_smartly_0002()  "{{{1
   let item = {'word': ku#make_path('a.zip')}
   Title let _ = ku#file#action_extract_smartly(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: archive'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('a')) ==> 1
+  Assert filereadable(ku#make_path('a', 'foo.txt')) ==> 1
+  Assert filereadable(ku#make_path('a', 'foofoo.txt')) ==> 1
+  Assert isdirectory(ku#make_path('a', 'a')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('a')
 endfunction
 
 
@@ -436,10 +441,18 @@ endfunction
 function s:test_ku_file_action_extract_smartly_0003()  "{{{1
   let item = {'word': ku#make_path('b.zip')}
   Title let _ = ku#file#action_extract_smartly(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: archive'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('b')) ==> 1
+  Assert filereadable(ku#make_path('b', 'bar.txt')) ==> 1
+  Assert filereadable(ku#make_path('b', 'barbar.txt')) ==> 1
+  Assert filereadable(ku#make_path('bar.txt')) ==> 0
+  Assert filereadable(ku#make_path('barbar.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('b')
+  call s:rm('bar.txt')
+  call s:rm('barbar.txt')
 endfunction
 
 
@@ -448,10 +461,20 @@ endfunction
 function s:test_ku_file_action_extract_smartly_0004()  "{{{1
   let item = {'word': ku#make_path('c.zip')}
   Title let _ = ku#file#action_extract_smartly(item)
-  Assert type(_) ==> type('')
-  Assert _ ==> 'FIXME: NIY: archive'
+  Assert type(_) ==> type(0)
+  Assert _ ==> 0
+  Assert isdirectory(ku#make_path('c')) ==> 1
+  Assert isdirectory(ku#make_path('c', 'c')) ==> 1
+  Assert isdirectory(ku#make_path('c', 'd')) ==> 1
+  Assert filereadable(ku#make_path('c', 'c', 'baz.txt')) ==> 1
+  Assert filereadable(ku#make_path('c', 'd', 'bazbaz.txt')) ==> 1
+  Assert isdirectory(ku#make_path('d')) ==> 0
+  Assert filereadable(ku#make_path('c', 'baz.txt')) ==> 0
+  Assert filereadable(ku#make_path('d', 'bazbaz.txt')) ==> 0
 
-  " Remove extracted files - if the action is implemented.
+  " Remove extracted files.
+  call s:rm('c')
+  call s:rm('d')
 endfunction
 
 
