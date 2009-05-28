@@ -40,7 +40,7 @@ Result: 2 / 2
 
 ===== let _ = Call('s:history_file')
 TEST: type(_)  ==>  type('') ... ok
-TEST: g:ku_personal_runtime  ==>  'vim/dot.vim' ... ok
+TEST: g:ku_personal_runtime  ==>  fnamemodify('vim/dot.vim', ':p') ... ok
 TEST: _  ==>  g:ku_personal_runtime . '/info/ku/history' ... ok
 Result: 3 / 3
 
