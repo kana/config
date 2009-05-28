@@ -354,7 +354,7 @@ PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
 
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.2
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.3
 PACKAGE_vim_ku_file_BASE=vim/dot.vim
 PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
@@ -392,7 +392,7 @@ PACKAGE_vim_metarw_FILES=\
   vim/dot.vim/plugin/metarw.vim \
   vim/dot.vim/syntax/metarw.vim
 
-PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.2
+PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.3
 PACKAGE_vim_metarw_git_BASE=vim/dot.vim
 PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
@@ -700,10 +700,10 @@ clean-vim:
 
 
 # test  #{{{1
-
+# Core  #{{{2
 test:
 	for i in $(ALL_PACKAGES); do \
-	  $(MAKE) PACKAGE_NAME=$$i test-a-package; \
+	  $(MAKE) PACKAGE_NAME=$$i test-a-package || exit 1; \
 	done
 
 test-a-package: _validate-package-name  # (PACKAGE_NAME)
@@ -713,10 +713,27 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
 	fi
 
+test/%.ok: test/%.expected test/%.output
+	@echo -n 'TEST: $(<:.expected=) ... '
+	@diff -u $^ >,,test-$$$$; \
+	 result=$$?; \
+	 if [ "$$result" = '0' ]; then \
+	   echo 'ok'; \
+	 else \
+	   echo 'FAILED'; \
+	   cat ,,test-$$$$; \
+	   echo 'END'; \
+	   false; \
+	 fi; \
+	 rm ,,test-$$$$; \
+	 exit $$result
+	@touch $@
+
 generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	for i in $(TESTS_$(_PACKAGE_NAME)); do \
 	  if ! [ -f test/$(PACKAGE_NAME)/$$i.input ]; then \
 	    echo "# Add files for $$i"; \
+	    mkdir -p test/$(PACKAGE_NAME); \
 	    touch test/$(PACKAGE_NAME)/$$i.input \
 	          test/$(PACKAGE_NAME)/$$i.expected; \
 	    git add test/$(PACKAGE_NAME)/$$i.input \
@@ -724,33 +741,48 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	  fi; \
 	done
 
-TESTS_vim_ku = 0001 0002 0003
-test/vim-ku.ok: $(foreach n,$(TESTS_vim_ku),test/vim-ku/$(n).ok)
-	touch $@
 
-test/vim-ku/%.ok: test/vim-ku/%.expected test/vim-ku/%.output
-	@echo -n 'TEST: $(<:.expected=) ... '
-	@if diff -u $^ >,test-vim-ku; then \
-	   echo 'ok'; \
-	 else \
-	   echo 'FAILED'; \
-	   cat ,test-vim-ku; \
-	   echo 'END'; \
-	   false; \
-	 fi
-	@touch $@
+# vim-ku  #{{{2
+TESTS_vim_ku = 0001 0002 0003
+
 test/vim-ku/%.output: \
 		test/vim-ku/%.input \
-		test/vim-ku/tester \
+		test/tester-vim \
 		test/libtest.vim \
-		vim/dot.vim/autoload/ku.vim
-	@./test/vim-ku/tester $< &>$@
+		vim/dot.vim/autoload/ku.vim \
+		vim/dot.vim/plugin/ku.vim
+	@./test/tester-vim $< 'plugin/ku.vim' &>$@
 
-define GENERATE_RULES_TO_TEST_vim_ku
-test/vim-ku/$(1).ok: test/vim-ku/$(1).expected test/vim-ku/$(1).output
-test/vim-ku/$(1).output: test/vim-ku/$(1).input
+
+# vim-ku-file  #{{{2
+TESTS_vim_ku_file = 0001
+
+test/vim-ku-file/%.output: \
+		test/vim-ku-file/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/ku.vim \
+		vim/dot.vim/autoload/ku/file.vim \
+		vim/dot.vim/plugin/ku.vim
+	@./test/tester-vim $< 'plugin/ku.vim autoload/ku.vim' &>$@
+
+
+# Misc.  #{{{2
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_1
+test/$(1).ok: $(foreach n,$(TESTS_$(subst -,_,$(1))),test/$(1)/$(n).ok)
+	touch test/$(1).ok
 endef
-$(eval $(call GENERATE_RULES_TO_TEST_vim_ku,$(TESTS_vim_ku)))
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_2
+test/$(1)/$(2).ok: test/$(1)/$(2).expected test/$(1)/$(2).output
+test/$(1)/$(2).output: test/$(1)/$(2).input
+endef
+
+$(foreach package, $(ALL_PACKAGES), \
+  $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_1,$(package))) \
+  $(foreach case, $(TESTS_$(subst -,_,$(package))), \
+    $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_2,$(package),$(case)))))
 
 
 
