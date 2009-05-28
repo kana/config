@@ -217,8 +217,8 @@ endfunction
 
 
 
-function! s:extract_zip_archive_asis(item)  "{{{2
-  let output = s:command_unzip('--', shellescape(a:item.word))
+function! s:extract_zip_archive_asis(archive_path)  "{{{2
+  let output = s:command_unzip('--', shellescape(a:archive_path))
   if v:shell_error != 0  " FIXME: test
     return 'ku: file: Failed to extract all content of a zip archive: '
     \      . output
@@ -229,10 +229,10 @@ endfunction
 
 
 
-function! s:extract_zip_archive_smartly(item)  "{{{2
-  let archive_basename = s:archive_basename(a:item.word)
+function! s:extract_zip_archive_smartly(archive_path)  "{{{2
+  let archive_basename = s:archive_basename(a:archive_path)
   let smart_archive_p = !0
-  let paths = s:command_unzip_list(a:item.word)
+  let paths = s:command_unzip_list(a:archive_path)
   for path in paths
     let first_directory = s:first_directory(path)
     if first_directory !=# archive_basename
@@ -245,7 +245,7 @@ function! s:extract_zip_archive_smartly(item)  "{{{2
   \              '-d',
   \              shellescape(smart_archive_p ? '.' : archive_basename),
   \              '--',
-  \              shellescape(a:item.word)
+  \              shellescape(a:archive_path)
   \            )
   if v:shell_error != 0  " FIXME: test
     return 'ku: file: Failed to extract an item in a zip archive: '
@@ -257,11 +257,11 @@ endfunction
 
 
 
-function! s:extract_zip_content_asis(item)  "{{{2
+function! s:extract_zip_content_asis(archive_path, content_path)  "{{{2
   let output = s:command_unzip(
   \              '--',
-  \              shellescape(a:item.ku_file_archive_path),
-  \              shellescape(a:item.ku_file_archive_content_path)
+  \              shellescape(a:archive_path),
+  \              shellescape(a:content_path)
   \            )
   if v:shell_error != 0  " FIXME: test
     return 'ku: file: Failed to extract an item in a zip archive: '
@@ -273,17 +273,17 @@ endfunction
 
 
 
-function! s:extract_zip_content_smartly(item)  "{{{2
-  let archive_basename = s:archive_basename(a:item.ku_file_archive_path)
-  let first_directory = s:first_directory(a:item.ku_file_archive_content_path)
+function! s:extract_zip_content_smartly(archive_path, content_path)  "{{{2
+  let archive_basename = s:archive_basename(a:archive_path)
+  let first_directory = s:first_directory(a:content_path)
   let output = s:command_unzip(
   \              '-d',
   \              shellescape(first_directory ==# archive_basename
   \                          ? '.'
   \                          : archive_basename),
   \              '--',
-  \              shellescape(a:item.ku_file_archive_path),
-  \              shellescape(a:item.ku_file_archive_content_path)
+  \              shellescape(a:archive_path),
+  \              shellescape(a:content_path)
   \            )
   if v:shell_error != 0  " FIXME: test
     return 'ku: file: Failed to extract an item in a zip archive: '
@@ -295,11 +295,11 @@ endfunction
 
 
 
-function! s:extract_zip_content_solely(item)  "{{{2
-  let path_to_extract = fnamemodify(a:item.ku_file_archive_content_path, ':t')
+function! s:extract_zip_content_solely(archive_path, content_path)  "{{{2
+  let path_to_extract = fnamemodify(a:content_path, ':t')
   let output = s:command_unzip(
-  \              '-p', '--', shellescape(a:item.ku_file_archive_path),
-  \              shellescape(a:item.ku_file_archive_content_path),
+  \              '-p', '--', shellescape(a:archive_path),
+  \              shellescape(a:content_path),
   \              '>', shellescape(path_to_extract)
   \            )
   if v:shell_error != 0  " FIXME: test
@@ -433,7 +433,10 @@ endfunction
 " Actions  "{{{2
 function! ku#file#action_extract_asis(item)  "{{{3
   if has_key(a:item, 'ku_file_archive_content_path')
-    return s:extract_{a:item.ku_file_archive_format}_content_asis(a:item)
+    return s:extract_{a:item.ku_file_archive_format}_content_asis(
+    \        a:item.ku_file_archive_path,
+    \        a:item.ku_file_archive_content_path
+    \      )
   else
     let archive_type = s:archive_type(a:item.word)
     if archive_type ==# s:ARCHIVE_TYPE_INVALID
@@ -441,14 +444,17 @@ function! ku#file#action_extract_asis(item)  "{{{3
       \      . string(a:item.word)
     endif
 
-    return s:extract_{archive_type}_archive_asis(a:item)
+    return s:extract_{archive_type}_archive_asis(a:item.word)
   endif
 endfunction
 
 
 function! ku#file#action_extract_smartly(item)  "{{{3
   if has_key(a:item, 'ku_file_archive_content_path')
-    return s:extract_{a:item.ku_file_archive_format}_content_smartly(a:item)
+    return s:extract_{a:item.ku_file_archive_format}_content_smartly(
+    \        a:item.ku_file_archive_path,
+    \        a:item.ku_file_archive_content_path
+    \      )
   else
     let archive_type = s:archive_type(a:item.word)
     if archive_type ==# s:ARCHIVE_TYPE_INVALID
@@ -456,14 +462,17 @@ function! ku#file#action_extract_smartly(item)  "{{{3
       \      . string(a:item.word)
     endif
 
-    return s:extract_{archive_type}_archive_smartly(a:item)
+    return s:extract_{archive_type}_archive_smartly(a:item.word)
   endif
 endfunction
 
 
 function! ku#file#action_extract_solely(item)  "{{{3
   if has_key(a:item, 'ku_file_archive_content_path')
-    return s:extract_{a:item.ku_file_archive_format}_content_solely(a:item)
+    return s:extract_{a:item.ku_file_archive_format}_content_solely(
+    \        a:item.ku_file_archive_path,
+    \        a:item.ku_file_archive_content_path
+    \      )
   else
     return 'extract-solely: Not available for this item: '
     \      . string(a:item.word)
