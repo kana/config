@@ -115,7 +115,7 @@ endfunction
 function s:test_history_file_0001()  "{{{1
   Title let _ = Call('s:history_file')
   Assert type(_) ==> type('')
-  Assert g:ku_personal_runtime ==> 'vim/dot.vim'
+  Assert g:ku_personal_runtime ==> fnamemodify('vim/dot.vim', ':p')
   Assert _ ==> g:ku_personal_runtime . '/info/ku/history'
 endfunction
 

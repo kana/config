@@ -324,7 +324,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.3
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.4
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
@@ -354,7 +354,7 @@ PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
 
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.2
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.3
 PACKAGE_vim_ku_file_BASE=vim/dot.vim
 PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
@@ -703,7 +703,7 @@ clean-vim:
 # Core  #{{{2
 test:
 	for i in $(ALL_PACKAGES); do \
-	  $(MAKE) PACKAGE_NAME=$$i test-a-package; \
+	  $(MAKE) PACKAGE_NAME=$$i test-a-package || exit 1; \
 	done
 
 test-a-package: _validate-package-name  # (PACKAGE_NAME)
@@ -715,7 +715,9 @@ test-a-package: _validate-package-name  # (PACKAGE_NAME)
 
 test/%.ok: test/%.expected test/%.output
 	@echo -n 'TEST: $(<:.expected=) ... '
-	@if diff -u $^ >,,test-$$$$; then \
+	@diff -u $^ >,,test-$$$$; \
+	 result=$$?; \
+	 if [ "$$result" = '0' ]; then \
 	   echo 'ok'; \
 	 else \
 	   echo 'FAILED'; \
@@ -723,13 +725,15 @@ test/%.ok: test/%.expected test/%.output
 	   echo 'END'; \
 	   false; \
 	 fi; \
-	 rm ,,test-$$$$
+	 rm ,,test-$$$$; \
+	 exit $$result
 	@touch $@
 
 generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	for i in $(TESTS_$(_PACKAGE_NAME)); do \
 	  if ! [ -f test/$(PACKAGE_NAME)/$$i.input ]; then \
 	    echo "# Add files for $$i"; \
+	    mkdir -p test/$(PACKAGE_NAME); \
 	    touch test/$(PACKAGE_NAME)/$$i.input \
 	          test/$(PACKAGE_NAME)/$$i.expected; \
 	    git add test/$(PACKAGE_NAME)/$$i.input \
@@ -748,6 +752,19 @@ test/vim-ku/%.output: \
 		vim/dot.vim/autoload/ku.vim \
 		vim/dot.vim/plugin/ku.vim
 	@./test/tester-vim $< 'plugin/ku.vim' &>$@
+
+
+# vim-ku-file  #{{{2
+TESTS_vim_ku_file = 0001
+
+test/vim-ku-file/%.output: \
+		test/vim-ku-file/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/ku.vim \
+		vim/dot.vim/autoload/ku/file.vim \
+		vim/dot.vim/plugin/ku.vim
+	@./test/tester-vim $< 'plugin/ku.vim autoload/ku.vim' &>$@
 
 
 # Misc.  #{{{2
