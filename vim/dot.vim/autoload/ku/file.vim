@@ -179,6 +179,44 @@ endfunction
 
 
 
+function! s:command_unzip_list(archive_path)  "{{{2
+  let output = s:command_unzip('-l', '--', shellescape(a:archive_path))
+  if v:shell_error != 0  " FIXME: test
+    echoerr 'ku: file: Failed to list the content of a zip archive:'
+    echoerr '--' output
+    return []
+  endif
+
+  " FIXME: Is this parsing good enough?
+  "
+  " $ unzip -l vim-ku-0.2.3.zip
+  " Archive:  foo.zip
+  "   Length     Date   Time    Name
+  "  --------    ----   ----    ----
+  "     60535  05-22-09 22:09   vim-ku-0.2.3/autoload/ku.vim
+  "     49435  05-22-09 22:09   vim-ku-0.2.3/doc/ku.txt
+  "      1582  05-22-09 22:09   vim-ku-0.2.3/plugin/ku.vim
+  "      2449  05-22-09 22:09   vim-ku-0.2.3/syntax/ku.vim
+  "      3731  05-22-09 02:02   vim-ku-0.2.3/autoload/ku/buffer.vim
+  "      4079  05-16-09 01:48   vim-ku-0.2.3/doc/ku-buffer.txt
+  "      4718  05-22-09 02:02   vim-ku-0.2.3/autoload/ku/file.vim
+  "      4985  05-22-09 00:57   vim-ku-0.2.3/doc/ku-file.txt
+  "      3310  05-22-09 02:02   vim-ku-0.2.3/autoload/ku/history.vim
+  "      3895  05-16-09 01:48   vim-ku-0.2.3/doc/ku-history.txt
+  "      2893  05-22-09 22:09   vim-ku-0.2.3/autoload/ku/source.vim
+  "      3722  05-22-09 22:09   vim-ku-0.2.3/doc/ku-source.txt
+  "  --------                   -------
+  "    145334                   12 files
+  let lines = split(output, '\n')
+  call map(lines,
+  \        'matchstr(v:val, ''^\s*\d\+\s\+[0-9-]\+\s\+[0-9:]\+\s\+\zs.*$'')')
+  call filter(lines, 'v:val != ""')
+  return lines  " ['vim-ku-0.2.3/autoload/ku.vim', ...]
+endfunction
+
+
+
+
 function! s:extract_zip_archive_asis(item)  "{{{2
   let output = s:command_unzip('--', shellescape(a:item.word))
   if v:shell_error != 0  " FIXME: test
@@ -315,18 +353,7 @@ function! s:gather_items_from_archive(_)  "{{{2
   endif
 
   if a:_.archive_format ==# 'zip'
-    let output = s:command_unzip('-l', '--', shellescape(a:_.leading_part))
-    if v:shell_error != 0  " FIXME: test
-      echoerr 'ku: file: Failed to list the content of a zip archive:'
-      echoerr '--' output
-      return []
-    endif
-
-    " FIXME: Is this parsing good enough?
-    let items = split(output, '\n')
-    call map(items,
-    \        'matchstr(v:val, ''^\s*\d\+\s\+[0-9-]\+\s\+[0-9:]\+\s\+\zs.*$'')')
-    call filter(items, 'v:val != ""')
+    let items = s:command_unzip_list(a:_.leading_part)
     call map(items, '{
     \   "word": ku#make_path(a:_.leading_part, v:val),
     \   "menu": "in archive",
