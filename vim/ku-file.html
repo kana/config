@@ -11,6 +11,7 @@
 .Identifier { color: #804000; text-decoration: underline; }
 .PreProc { color: #c000c0; text-decoration: underline; }
 .Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
 pre { font-family: monospace; color: #000000; background-color: #ffffff; }
 body { font-family: monospace; color: #000000; background-color: #ffffff; }
 .Ignore { color: #ffffff; }
@@ -22,7 +23,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="ku-file.txt">ku-file.txt</span><span class="Ignore">*</span>   ku source: file
 
-Version 0.1.2
+Version 0.1.3
 Copyright (C) 2008-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -50,6 +51,7 @@ License: MIT license  {{{
 Introduction            <span class="Ignore">|</span><a href="ku-file.html#ku-file-introduction"><span class="Identifier">ku-file-introduction</span></a><span class="Ignore">|</span>
 Action Table            <span class="Ignore">|</span><a href="ku-file.html#ku-file-action-table"><span class="Identifier">ku-file-action-table</span></a><span class="Ignore">|</span>
 Key Table               <span class="Ignore">|</span><a href="ku-file.html#ku-file-key-table"><span class="Identifier">ku-file-key-table</span></a><span class="Ignore">|</span>
+Archives                <span class="Ignore">|</span><a href="ku-file.html#ku-file-archives"><span class="Identifier">ku-file-archives</span></a><span class="Ignore">|</span>
 Bugs                    <span class="Ignore">|</span><a href="ku-file.html#ku-file-bugs"><span class="Identifier">ku-file-bugs</span></a><span class="Ignore">|</span>
 Changelog               <span class="Ignore">|</span><a href="ku-file.html#ku-file-changelog"><span class="Identifier">ku-file-changelog</span></a><span class="Ignore">|</span>
 
@@ -60,12 +62,14 @@ Changelog               <span class="Ignore">|</span><a href="ku-file.html#ku-fi
 <span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="ku-file-introduction">ku-file-introduction</span><span class="Ignore">*</span>
 
 <span class="Ignore">*</span><span class="Constant" id="ku-file">ku-file</span><span class="Ignore">*</span> is a source for <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> to deal with files and directories.  You can
-choose one from many files and directories and do some action to it.
+choose one from many files, directories and contents in archive files, then
+take an action on it.
 
 
 Requirements:
 - Vim 7.1.299 or later
 - <span class="Ignore">|</span><a href="ku.html#ku"><span class="Identifier">ku</span></a><span class="Ignore">|</span> 0.2.2 or later (vimscript#2337)
+- <span class="Ignore">|</span><span class="Identifier">pi_zip.txt</span><span class="Ignore">|</span>: Zip archive explorer v17 or later (standard plugins)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-ku-source-file">http://github.com/kana/config/commits/vim-ku-source-file</a></span>
@@ -91,6 +95,42 @@ open!                                           <span class="Ignore">*</span><sp
                         Like &quot;open&quot;, but use :edit! to open the selected item.
 
 
+<span class="Statement">ACTIONS FOR ITEMS IN ARCHIVES          </span><span class="Ignore">*</span><span class="Constant" id="ku-file-actions-for-items-in-archives">ku-file-actions-for-items-in-archives</span><span class="Ignore">*</span>
+<span class="Statement">ACTIONS FOR ARCHIVE ITEMS                  </span><span class="Ignore">*</span><span class="Constant" id="ku-file-actions-for-archive-items">ku-file-actions-for-archive-items</span><span class="Ignore">*</span>
+
+extract-asis                                    <span class="Ignore">*</span><span class="Constant" id="ku-file-aciton-extract-asis">ku-file-aciton-extract-asis</span><span class="Ignore">*</span>
+                        Extract the archive or the specified item in the
+                        archive with the same directory structure in the
+                        archive.
+
+extract-smartly                               <span class="Ignore">*</span><span class="Constant" id="ku-file-aciton-extract-smartly">ku-file-aciton-extract-smartly</span><span class="Ignore">*</span>
+                        Like &quot;extract-asis&quot;, but extract the archive or the
+                        specified item in the archive in a directory which
+                        name is the same as the basename of the archive if the
+                        archive doesn't contain such directory.
+
+extract-solely                                 <span class="Ignore">*</span><span class="Constant" id="ku-file-aciton-extract-solely">ku-file-aciton-extract-solely</span><span class="Ignore">*</span>
+                        Like &quot;extract-asis&quot;, but extract the specified item in
+                        the archive without any directory structure in the
+                        archive.  This action is not available for items which
+                        are archive.
+
+<span class="PreProc">Example of &quot;extract-*&quot; actions</span><span class="Ignore"> ~</span>
+
+In the following table,
+&quot;a.zip&quot; is an archive file which contains &quot;a/foo.txt&quot;,
+&quot;b.zip&quot; is an archive file which contains &quot;bar.txt&quot;, and
+&quot;c.zip&quot; is an archive file which contains &quot;d/baz.txt&quot;.
+
+            <span class="PreProc">|                  Extracted stuff               </span><span class="Ignore"> ~</span>
+<span class="PreProc">Target item |------------------------------------------------</span><span class="Ignore"> ~</span>
+            <span class="PreProc">| extract-asis     extract-smartly extract-solely</span><span class="Ignore"> ~</span>
+<span class="PreProc">-------------------------------------------------------------</span><span class="Ignore"> ~</span>
+a.zip         a/foo.txt        a/foo.txt       foo.txt
+b.zip         bar.txt          a/bar.txt       bar.txt
+c.zip         d/baz.txt        a/d/baz.txt     baz.txt
+
+
 
 
 <span class="PreProc">==============================================================================</span>
@@ -98,9 +138,73 @@ open!                                           <span class="Ignore">*</span><sp
 
 <span class="PreProc">Key             Action</span><span class="Ignore"> ~</span>
 <span class="PreProc">--------        --------</span>
+<span class="Special">&lt;C-e&gt;</span>           extract-smartly <span class="Ignore">|</span><span class="Identifier">ku-file-action-extract-smartly</span><span class="Ignore">|</span>
 <span class="Special">&lt;C-o&gt;</span>           open            <span class="Ignore">|</span><span class="Identifier">ku-file-action-open</span><span class="Ignore">|</span>
+<span class="Special">&lt;Esc&gt;</span>e          extract-solely  <span class="Ignore">|</span><span class="Identifier">ku-file-action-extract-solely</span><span class="Ignore">|</span>
+<span class="Special">&lt;M-e&gt;</span>           extract-solely  <span class="Ignore">|</span><span class="Identifier">ku-file-action-extract-solely</span><span class="Ignore">|</span>
+E               extract-asis    <span class="Ignore">|</span><span class="Identifier">ku-file-action-extract-asis</span><span class="Ignore">|</span>
 O               open!           <span class="Ignore">|</span><span class="Identifier">ku-file-action-open!</span><span class="Ignore">|</span>
+e               extract-smartly <span class="Ignore">|</span><span class="Identifier">ku-file-action-extract-smartly</span><span class="Ignore">|</span>
 o               open            <span class="Ignore">|</span><span class="Identifier">ku-file-action-open</span><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">ARCHIVES                                        </span><span class="Ignore">*</span><span class="Constant" id="ku-file-archives">ku-file-archives</span><span class="Ignore">*</span>
+
+<span class="Statement">ITEMS IN ARCHIVES                               </span><span class="Ignore">*</span><span class="Constant" id="ku-file-items-in-archives">ku-file-items-in-archives</span><span class="Ignore">*</span>
+
+<span class="Ignore">|</span><a href="ku-file.html#ku-file"><span class="Identifier">ku-file</span></a><span class="Ignore">|</span> can treat archive files as if they are directories.  For example, as
+you input &quot;dir/&quot; in <span class="Ignore">|</span><a href="ku.html#the-ku-buffer"><span class="Identifier">the-ku-buffer</span></a><span class="Ignore">|</span>, ku will list files and directories in the
+directory &quot;dir&quot;.  Like this operation, as you input &quot;foo.zip/&quot; in the ku
+buffer, ku will list files and directories in the archive file &quot;foo.zip&quot;.  If
+&quot;foo.zip&quot; contains &quot;README.txt&quot;, &quot;Makefile&quot; and &quot;bar.c&quot;, ku will list them as
+follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        Source: file</span>
+<span class="Comment">        &gt;foo.zip/</span>
+<span class="Comment">        foo.zip/Makefile</span>
+<span class="Comment">        foo.zip/README.txt</span>
+<span class="Comment">        foo.zip/bar.c</span>
+<span class="Ignore">&lt;</span>
+You can take an action on such items.  For example, if you do &quot;open&quot; on
+&quot;foo.zip/bar.c&quot;, the content of &quot;bar.c&quot; in &quot;foo.zip&quot; will be displayed in
+a new buffer.
+
+Additional actions are available for items in archive files.
+See <span class="Ignore">|</span><a href="ku-file.html#ku-file-actions-for-items-in-archives"><span class="Identifier">ku-file-actions-for-items-in-archives</span></a><span class="Ignore">|</span> for the details.
+
+
+<span class="Statement">ARCHIVE ITEMS                                   </span><span class="Ignore">*</span><span class="Constant" id="ku-file-archive-items">ku-file-archive-items</span><span class="Ignore">*</span>
+
+Additional actions are available for items which are archive files.
+See <span class="Ignore">|</span><a href="ku-file.html#ku-file-actions-for-archive-items"><span class="Identifier">ku-file-actions-for-archive-items</span></a><span class="Ignore">|</span> for the details.
+
+
+<span class="Statement">LIMITATIONS                                     </span><span class="Ignore">*</span><span class="Constant" id="ku-file-archives-limitations">ku-file-archives-limitations</span><span class="Ignore">*</span>
+
+Currently, there are the following limitations to deal with archives files:
+
+- Recursive archive files are not supported yet.  This means that archive
+  files which are contained in another archive file are not treated specially.
+  For example, if there is &quot;a.zip&quot; which contains &quot;b.zip&quot; and &quot;b.zip&quot; contains
+  &quot;c.txt&quot;, you can choose &quot;b.zip&quot; with some patterns such as &quot;a.zip/b.zip&quot;,
+  but you cannot choose &quot;c.txt&quot; with any pattern such as &quot;a.zip/b.zip/c.txt&quot;.
+
+- The following formats are supported:
+  - .zip
+
+  The following formats are supported later:
+  - .Z
+  - .bz2
+  - .gz
+  - .tar
+  - .tar.Z
+  - .tar.bz2
+  - .tar.gz
+
+- Archive files without standard extensions are not supported yet.
 
 
 
@@ -112,6 +216,12 @@ o               open            <span class="Ignore">|</span><span class="Identi
   behavior is not worked properly, so that &quot;..&quot; is also listed in some
   situations.
 
+- See also <span class="Ignore">|</span><a href="ku-file.html#ku-file-archives-limitations"><span class="Identifier">ku-file-archives-limitations</span></a><span class="Ignore">|</span>.
+
+- Actions specific to archive files or items in archive files are also
+  available for all items even if they are not such items.  Currently, such
+  actions don't nothing for improper items.
+
 - There are many bugs around the world.
 
 
@@ -119,6 +229,11 @@ o               open            <span class="Ignore">|</span><span class="Identi
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-file-changelog">ku-file-changelog</span><span class="Ignore">*</span>
+
+0.1.3   2009-05-24T15:57:13+09:00               <span class="Ignore">*</span><span class="Constant" id="ku-file-changelog-0.1.3">ku-file-changelog-0.1.3</span><span class="Ignore">*</span>
+        Feature enhancements:
+        - Support to deal with files in an archive files.  See also
+          <span class="Ignore">|</span><a href="ku-file.html#ku-file-archives"><span class="Identifier">ku-file-archives</span></a><span class="Ignore">|</span> for the details.
 
 0.1.2   2009-05-13T22:33:46+09:00               <span class="Ignore">*</span><span class="Constant" id="ku-file-changelog-0.1.2">ku-file-changelog-0.1.2</span><span class="Ignore">*</span>
         Bug fixes:
