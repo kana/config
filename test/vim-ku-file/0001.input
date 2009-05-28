@@ -261,6 +261,42 @@ endfunction
 
 
 
+function s:test_ku_file_acc_valid_p_0009()  "{{{1
+  let archive_item = {'word': ku#make_path('a.zip')}
+  Title let _ = ku#file#acc_valid_p('', archive_item, ku#path_separator())
+  Assert _ ==> 1
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0010()  "{{{1
+  let archive_item = {'word': ku#make_path('a.zip')}
+  Title let _ = ku#file#acc_valid_p('', archive_item, 'a')
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0011()  "{{{1
+  let archive_item = {'word': ku#make_path('a.zip', 'a', 'foo.txt')}
+  Title let _ = ku#file#acc_valid_p('', archive_item, ku#path_separator())
+  Assert _ ==> 0
+endfunction
+
+
+
+
+function s:test_ku_file_acc_valid_p_0012()  "{{{1
+  let archive_item = {'word': ku#make_path('a.zip', 'a', 'foo.txt')}
+  Title let _ = ku#file#acc_valid_p('', archive_item, 'a')
+  Assert _ ==> 0
+endfunction
+
+
+
+
 function s:test_ku_file_action_extract_asis_0001()  "{{{1
   let item = {'word': ku#make_path('file1')}
   Title let _ = ku#file#action_extract_asis(item)

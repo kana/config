@@ -106,7 +106,9 @@ endfunction
 
 
 function! ku#file#acc_valid_p(source_name_ext, item, sep)  "{{{2
-  return a:sep ==# ku#path_separator() && isdirectory(a:item.word)
+  return a:sep ==# ku#path_separator()
+  \      && (isdirectory(a:item.word)
+  \          || s:archive_type(a:item.word) !=# s:ARCHIVE_TYPE_INVALID)
 endfunction
 
 

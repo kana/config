@@ -106,6 +106,22 @@ Result: 1 / 1
 TEST: _  ==>  0 ... ok
 Result: 1 / 1
 
+===== let _ = ku#file#acc_valid_p('', archive_item, ku#path_separator())
+TEST: _  ==>  1 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('', archive_item, 'a')
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('', archive_item, ku#path_separator())
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
+===== let _ = ku#file#acc_valid_p('', archive_item, 'a')
+TEST: _  ==>  0 ... ok
+Result: 1 / 1
+
 ===== let _ = ku#file#action_extract_asis(item)
 TEST: type(_)  ==>  type('') ... ok
 TEST: _  ==>  'extract-asis: Not available for this item: ' . string(item.word) ... ok
@@ -860,4 +876,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 451 / 451
+Result: 455 / 455
