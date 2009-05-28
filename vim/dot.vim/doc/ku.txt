@@ -1120,6 +1120,10 @@ CHANGELOG					*ku-changelog*
 
 	  Thanks to rphillips and other persons for reporting this problem.
 
+	Feature enhancements:
+	- |ku-file|: Support to deal with files in archives.  See also
+	  |ku-file-changelog-0.1.3| for the details.
+
 0.2.3	2009-05-16T03:05:10+09:00		*ku-changelog-0.2.3*
 	Feature enhancements:
 	- Add |g:ku_personal_runtime| to customize where information such as
