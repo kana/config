@@ -399,16 +399,26 @@ function! s:open(bang, item)  "{{{2
   " It makes users confusing, so here :silent!/v:errmsg are not used.
 
   if has_key(a:item, 'ku_file_archive_content_path')
-    execute 'edit'.a:bang
-    \       '`=printf("zipfile:%s::%s",
-    \                 fnamemodify(a:item.ku_file_archive_path, ":p"),
-    \                 a:item.ku_file_archive_content_path)`'
-    filetype detect
+    call s:open_{a:item.ku_file_archive_format}_content(
+    \      a:bang,
+    \      a:item.ku_file_archive_path,
+    \      a:item.ku_file_archive_content_path
+    \    )
   else  " Ordinary file or directory.
     execute 'edit'.a:bang '`=a:item.word`'
   endif
 
   return 0
+endfunction
+
+
+
+
+function! s:open_zip_content(bang, archive_path, content_path)  "{{{2
+  execute 'edit'.a:bang '`=printf("zipfile:%s::%s",
+  \                               fnamemodify(a:archive_path, ":p"),
+  \                               a:content_path)`'
+  filetype detect
 endfunction
 
 
