@@ -46,6 +46,7 @@ take an action on it.
 Requirements:
 - Vim 7.1.299 or later
 - |ku| 0.2.2 or later (vimscript#2337)
+- |pi_zip.txt|: Zip archive explorer v17 or later (standard plugins)
 
 Latest version:
 http://github.com/kana/config/commits/vim-ku-source-file
