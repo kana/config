@@ -713,6 +713,141 @@ endfunction
 
 
 
+function s:test_ku_file_action_open_0001()  "{{{1
+  let item = {'word': ku#make_path('file1')}
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> 'file1'
+  Assert line('$') ==> 1
+  Assert getline(1) ==> ''
+  enew!
+endfunction
+
+
+
+
+function s:test_ku_file_action_open_0002()  "{{{1
+  let item = {'word': ku#make_path('a.zip')}
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> 'a.zip'
+  Assert 2 < line('$') ==> 1
+  Assert getline(line('$') - 1) ==> ku#make_path('a', 'foo.txt')
+  Assert getline(line('$')) ==> ku#make_path('a', 'foofoo.txt')
+  enew!
+endfunction
+
+
+
+
+function s:test_ku_file_action_open_0003()  "{{{1
+  let item = {'word': ku#make_path('b.zip')}
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> 'b.zip'
+  Assert 2 < line('$') ==> 1
+  Assert getline(line('$') - 1) ==> ku#make_path('bar.txt')
+  Assert getline(line('$')) ==> ku#make_path('barbar.txt')
+  enew!
+endfunction
+
+
+
+
+function s:test_ku_file_action_open_0004()  "{{{1
+  let item = {'word': ku#make_path('c.zip')}
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> 'c.zip'
+  Assert 2 < line('$') ==> 1
+  Assert getline(line('$') - 1) ==> ku#make_path('c', 'baz.txt')
+  Assert getline(line('$')) ==> ku#make_path('d', 'bazbaz.txt')
+  enew!
+endfunction
+
+
+
+
+function s:test_ku_file_action_open_0005()  "{{{1
+  let item = {
+  \   'word': ku#make_path('a.zip', 'a', 'foo.txt'),
+  \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
+  \   'ku_file_archive_path': ku#make_path('a.zip'),
+  \   'ku_file_archive_content_path': ku#make_path('a', 'foo.txt')
+  \ }
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> printf('zipfile:%s::%s',
+  \ fnamemodify(item.ku_file_archive_path, ':p'),
+  \ item.ku_file_archive_content_path)
+  Assert line('$') ==> 1
+  Assert getline(1) ==> 'foo'
+  enew!
+endfunction
+
+
+
+
+function s:test_ku_file_action_open_0006()  "{{{1
+  let item = {
+  \   'word': ku#make_path('b.zip', 'bar.txt'),
+  \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
+  \   'ku_file_archive_path': ku#make_path('b.zip'),
+  \   'ku_file_archive_content_path': ku#make_path('bar.txt')
+  \ }
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> printf('zipfile:%s::%s',
+  \ fnamemodify(item.ku_file_archive_path, ':p'),
+  \ item.ku_file_archive_content_path)
+  Assert line('$') ==> 1
+  Assert getline(1) ==> 'bar'
+  enew!
+endfunction
+
+
+
+
+function s:test_ku_file_action_open_0007()  "{{{1
+  let item = {
+  \   'word': ku#make_path('c.zip', 'c', 'baz.txt'),
+  \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
+  \   'ku_file_archive_path': ku#make_path('c.zip'),
+  \   'ku_file_archive_content_path': ku#make_path('c', 'baz.txt')
+  \ }
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> printf('zipfile:%s::%s',
+  \ fnamemodify(item.ku_file_archive_path, ':p'),
+  \ item.ku_file_archive_content_path)
+  Assert line('$') ==> 1
+  Assert getline(1) ==> 'baz'
+  enew!
+endfunction
+
+
+
+
+function s:test_ku_file_action_open_0008()  "{{{1
+  let item = {
+  \   'word': ku#make_path('c.zip', 'd', 'bazbaz.txt'),
+  \   'ku_file_archive_format': ku#file#_local_variables().ARCHIVE_TYPE_ZIP,
+  \   'ku_file_archive_path': ku#make_path('c.zip'),
+  \   'ku_file_archive_content_path': ku#make_path('d', 'bazbaz.txt')
+  \ }
+  Title let _ = ku#file#action_open(item)
+  Assert _ ==> 0
+  Assert expand('%') ==> printf('zipfile:%s::%s',
+  \ fnamemodify(item.ku_file_archive_path, ':p'),
+  \ item.ku_file_archive_content_path)
+  Assert line('$') ==> 1
+  Assert getline(1) ==> 'bazbaz'
+  enew!
+endfunction
+
+
+
+
 function s:test_ku_file_action_table_0001()  "{{{1
   let expected_action_table = s:expected_action_table
   Title let _ = ku#file#action_table('')

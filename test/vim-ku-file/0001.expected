@@ -371,6 +371,69 @@ TEST: filereadable(ku#make_path('d', 'bazbaz.txt'))  ==>  0 ... ok
 
 Result: 8 / 8
 
+===== let _ = ku#file#action_open(item)
+"file1" 
+"file1" 0L, 0C
+Reading viminfo file "/Users/kana/.viminfo" marks
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  'file1' ... ok
+TEST: line('$')  ==>  1 ... ok
+TEST: getline(1)  ==>  '' ... ok
+Result: 4 / 4
+
+===== let _ = ku#file#action_open(item)
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  'a.zip' ... ok
+TEST: 2 < line('$')  ==>  1 ... ok
+TEST: getline(line('$') - 1)  ==>  ku#make_path('a', 'foo.txt') ... ok
+TEST: getline(line('$'))  ==>  ku#make_path('a', 'foofoo.txt') ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#action_open(item)
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  'b.zip' ... ok
+TEST: 2 < line('$')  ==>  1 ... ok
+TEST: getline(line('$') - 1)  ==>  ku#make_path('bar.txt') ... ok
+TEST: getline(line('$'))  ==>  ku#make_path('barbar.txt') ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#action_open(item)
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  'c.zip' ... ok
+TEST: 2 < line('$')  ==>  1 ... ok
+TEST: getline(line('$') - 1)  ==>  ku#make_path('c', 'baz.txt') ... ok
+TEST: getline(line('$'))  ==>  ku#make_path('d', 'bazbaz.txt') ... ok
+Result: 5 / 5
+
+===== let _ = ku#file#action_open(item)
+not found in 'runtimepath': "ftdetect/*.vim"
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  printf('zipfile:%s::%s', fnamemodify(item.ku_file_archive_path, ':p'), item.ku_file_archive_content_path) ... ok
+TEST: line('$')  ==>  1 ... ok
+TEST: getline(1)  ==>  'foo' ... ok
+Result: 4 / 4
+
+===== let _ = ku#file#action_open(item)
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  printf('zipfile:%s::%s', fnamemodify(item.ku_file_archive_path, ':p'), item.ku_file_archive_content_path) ... ok
+TEST: line('$')  ==>  1 ... ok
+TEST: getline(1)  ==>  'bar' ... ok
+Result: 4 / 4
+
+===== let _ = ku#file#action_open(item)
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  printf('zipfile:%s::%s', fnamemodify(item.ku_file_archive_path, ':p'), item.ku_file_archive_content_path) ... ok
+TEST: line('$')  ==>  1 ... ok
+TEST: getline(1)  ==>  'baz' ... ok
+Result: 4 / 4
+
+===== let _ = ku#file#action_open(item)
+TEST: _  ==>  0 ... ok
+TEST: expand('%')  ==>  printf('zipfile:%s::%s', fnamemodify(item.ku_file_archive_path, ':p'), item.ku_file_archive_content_path) ... ok
+TEST: line('$')  ==>  1 ... ok
+TEST: getline(1)  ==>  'bazbaz' ... ok
+Result: 4 / 4
+
 ===== let _ = ku#file#action_table('')
 TEST: type(_)  ==>  type({}) ... ok
 TEST: _  ==>  expected_action_table ... ok
@@ -797,4 +860,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 416 / 416
+Result: 451 / 451

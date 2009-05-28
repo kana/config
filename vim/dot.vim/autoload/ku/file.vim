@@ -397,7 +397,17 @@ function! s:open(bang, item)  "{{{2
   " BUGS: ":silent! edit {file with swp owned by another Vim process}" causes
   " some strange behavior - there is no message but Vim waits for a key input.
   " It makes users confusing, so here :silent!/v:errmsg are not used.
-  execute 'edit'.a:bang '`=a:item.word`'
+
+  if has_key(a:item, 'ku_file_archive_content_path')
+    execute 'edit'.a:bang
+    \       '`=printf("zipfile:%s::%s",
+    \                 fnamemodify(a:item.ku_file_archive_path, ":p"),
+    \                 a:item.ku_file_archive_content_path)`'
+    filetype detect
+  else  " Ordinary file or directory.
+    execute 'edit'.a:bang '`=a:item.word`'
+  endif
+
   return 0
 endfunction
 
