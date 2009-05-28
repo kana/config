@@ -324,7 +324,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.3
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.4
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
