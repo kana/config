@@ -207,6 +207,14 @@ BUGS						*ku-file-bugs*
 ==============================================================================
 CHANGELOG					*ku-file-changelog*
 
+0.1.4	2009-05-29T09:11:39+09:00		*ku-file-changelog-0.1.4*
+	Bug fixes:
+	- Fix a bug that it is not possible to list the contents in the most
+	  of absolute paths.  This bug was mixed in version 0.1.3.
+
+	  Thanks to Travis Jeffery for a feedback.  I noticed this bug by the
+	  feedback, though it doesn't imply this bug.
+
 0.1.3	2009-05-24T15:57:13+09:00		*ku-file-changelog-0.1.3*
 	Feature enhancements:
 	- Support to deal with files in an archive files.  See also

@@ -443,8 +443,7 @@ function! s:parse_pattern(pattern)  "{{{2
   endfor
 
   let _.type = 'directory'
-  let _.root_directory_pattern_p = 2 <= len(_.components)
-  \                                && _.components[0] == ''
+  let _.root_directory_pattern_p = strridx(a:pattern, ku#path_separator()) == 0
   let _.user_seems_want_dotfiles_p = _.components[-1][:0] == '.'
   return _
 endfunction
