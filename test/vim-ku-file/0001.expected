@@ -588,6 +588,13 @@ TEST: type(_[0])  ==>  type({}) ... ok
 TEST: map(copy(_), 'v:val.word')  ==>  ['a.zip', 'b.zip', 'c.zip', 'dir1', 'dir1.zip', 'file1'] ... ok
 Result: 4 / 4
 
+===== let _ = ku#file#gather_items('', prefix)  " Exploring absolute path
+TEST: type(_)  ==>  type([]) ... ok
+TEST: 0 < len(_)  ==>  1 ... ok
+TEST: type(_[0])  ==>  type({}) ... ok
+TEST: len(filter(copy(_), 'v:val.word[:len(prefix)-1] ==# prefix'))  ==>  len(_) ... ok
+Result: 4 / 4
+
 ===== let _ = ku#file#gather_items('', ku#make_path('a.zip'))
 TEST: type(_)  ==>  type([]) ... ok
 TEST: len(_)  ==>  6 ... ok
@@ -790,7 +797,7 @@ TEST: type(_)  ==>  type({}) ... ok
 TEST: len(keys(_))  ==>  4 ... ok
 TEST: _.type  ==>  'directory' ... ok
 TEST: _.components  ==>  ['', 'foo', 'bar'] ... ok
-TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
 TEST: _.user_seems_want_dotfiles_p  ==>  0 ... ok
 Result: 6 / 6
 
@@ -799,7 +806,7 @@ TEST: type(_)  ==>  type({}) ... ok
 TEST: len(keys(_))  ==>  4 ... ok
 TEST: _.type  ==>  'directory' ... ok
 TEST: _.components  ==>  ['', 'foo', '.bar'] ... ok
-TEST: _.root_directory_pattern_p  ==>  1 ... ok
+TEST: _.root_directory_pattern_p  ==>  0 ... ok
 TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
@@ -876,4 +883,4 @@ TEST: _.user_seems_want_dotfiles_p  ==>  1 ... ok
 Result: 6 / 6
 
 ===== Total
-Result: 455 / 455
+Result: 459 / 459

@@ -1182,6 +1182,22 @@ endfunction
 
 
 
+function s:test_ku_file_gather_items_0018()  "{{{1
+  call ku#file#on_source_enter('')
+
+  let prefix = ku#make_path($HOME, '')
+  Title let _ = ku#file#gather_items('', prefix)  " Exploring absolute path
+  Assert type(_) ==> type([])
+  Assert 0 < len(_) ==> 1
+  Assert type(_[0]) ==> type({})
+
+  Assert len(filter(copy(_), 'v:val.word[:len(prefix)-1] ==# prefix'))
+  \ ==> len(_)
+endfunction
+
+
+
+
 function s:test_ku_file_gather_items_1001()  "{{{1
   call ku#file#on_source_enter('')
 
@@ -1592,7 +1608,7 @@ function s:test_parse_pattern_0011()  "{{{1
   Assert len(keys(_)) ==> 4
   Assert _.type ==> 'directory'
   Assert _.components ==> ['', 'foo', 'bar']
-  Assert _.root_directory_pattern_p ==> 1
+  Assert _.root_directory_pattern_p ==> 0
   Assert _.user_seems_want_dotfiles_p ==> 0
 endfunction
 
@@ -1605,7 +1621,7 @@ function s:test_parse_pattern_0012()  "{{{1
   Assert len(keys(_)) ==> 4
   Assert _.type ==> 'directory'
   Assert _.components ==> ['', 'foo', '.bar']
-  Assert _.root_directory_pattern_p ==> 1
+  Assert _.root_directory_pattern_p ==> 0
   Assert _.user_seems_want_dotfiles_p ==> 1
 endfunction
 

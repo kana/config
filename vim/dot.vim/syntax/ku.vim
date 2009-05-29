@@ -1,5 +1,5 @@
 " Vim syntax: ku
-" Version: 0.2.4
+" Version: 0.2.4.1
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
