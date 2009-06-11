@@ -154,6 +154,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
   $(PACKAGE_vim_smartchr_FILES) \
+  $(PACKAGE_vim_smarttill_FILES) \
   $(PACKAGE_vim_smartword_FILES) \
   $(PACKAGE_vim_submode_FILES) \
   $(PACKAGE_vim_surround_FILES) \
@@ -235,6 +236,7 @@ ALL_PACKAGES=\
   vim-scratch \
   vim-skeleton \
   vim-smartchr \
+  vim-smarttill \
   vim-smartword \
   vim-submode \
   vim-surround \
@@ -454,6 +456,13 @@ PACKAGE_vim_smartchr_BASE=vim/dot.vim
 PACKAGE_vim_smartchr_FILES=\
   vim/dot.vim/autoload/smartchr.vim \
   vim/dot.vim/doc/smartchr.txt
+
+PACKAGE_vim_smarttill_ARCHIVE=vim-smarttill-0.0.0
+PACKAGE_vim_smarttill_BASE=vim/dot.vim
+PACKAGE_vim_smarttill_FILES=\
+  vim/dot.vim/autoload/smarttill.vim \
+  vim/dot.vim/doc/smarttill.txt \
+  vim/dot.vim/plugin/smarttill.vim
 
 PACKAGE_vim_smartword_ARCHIVE=vim-smartword-0.0.2
 PACKAGE_vim_smartword_BASE=vim/dot.vim
