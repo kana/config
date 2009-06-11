@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: smarttill - Smart motions, till before/after a punctuation</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Todo { color: #000000; background-color: #00ffff; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="smarttill.txt">smarttill.txt</span><span class="Ignore">*</span> Smart motions, till before/after a punctuation
+
+Version 0.0.0
+Script ID: 2673
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="smarttill-contents">smarttill-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="smarttill.html#smarttill-introduction"><span class="Identifier">smarttill-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="smarttill.html#smarttill-interface"><span class="Identifier">smarttill-interface</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><span class="Identifier">smarttill-functions</span><span class="Ignore">|</span>
+  Mappings                <span class="Ignore">|</span><a href="smarttill.html#smarttill-mappings"><span class="Identifier">smarttill-mappings</span></a><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><a href="smarttill.html#smarttill-examples"><span class="Identifier">smarttill-examples</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="smarttill.html#smarttill-bugs"><span class="Identifier">smarttill-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="smarttill.html#smarttill-changelog"><span class="Identifier">smarttill-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="smarttill-introduction">smarttill-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="smarttill">smarttill</span><span class="Ignore">*</span> is a Vim plugin to provide <span class="Special">{motion}</span>s like <span class="Ignore">|</span><span class="Identifier">t</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">T</span><span class="Ignore">|</span>, but they
+are smarter than the built-in ones in some sense.  For example, if you edit
+the following text and you want to delete a partial text from the cursor till
+before a comma, you have to type &quot;dt,&quot; (here &quot;|&quot; means the cursor position):
+
+                ...|Yo DJ, pump this party! ...
+                    ^^^^^
+
+But it's somewhat annoying to type another character to specify where the
+cursor should be moved to explicitly.  It's useful if there is a motion to
+move the cursor till before comma, period or other punctuations without
+specifying a character.  smarttill provides the features as
+<span class="Ignore">|</span><a href="smarttill.html#&lt;Plug&gt;(smarttill-t)"><span class="Identifier">&lt;Plug&gt;(smarttill-t)</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="smarttill.html#&lt;Plug&gt;(smarttill-T)"><span class="Identifier">&lt;Plug&gt;(smarttill-T)</span></a><span class="Ignore">|</span>.
+
+See also <span class="Ignore">|</span><a href="smarttill.html#smarttill-examples"><span class="Identifier">smarttill-examples</span></a><span class="Ignore">|</span> for customization.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-smarttill">http://github.com/kana/config/commits/vim-smarttill</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/smarttill.html">http://kana.github.com/config/vim/smarttill.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="smarttill-interface">smarttill-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">MAPPINGS                                        </span><span class="Ignore">*</span><span class="Constant" id="smarttill-mappings">smarttill-mappings</span><span class="Ignore">*</span>
+
+<span class="Special">&lt;Plug&gt;</span>(smarttill-t)                             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(smarttill-t)">&lt;Plug&gt;(smarttill-t)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(smarttill-T)                             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(smarttill-T)">&lt;Plug&gt;(smarttill-T)</span><span class="Ignore">*</span>
+                        Smart versions of <span class="Ignore">|</span><span class="Identifier">t</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">T</span><span class="Ignore">|</span>.
+                        See <span class="Ignore">|</span><a href="smarttill.html#smarttill-introduction"><span class="Identifier">smarttill-introduction</span></a><span class="Ignore">|</span> for what these are.
+                        These mappings are defined in Normal mode, Visual mode
+                        and Operator-pending mode.
+
+                        <span class="Todo">Note</span> that <span class="Special">&lt;Plug&gt;</span>(smarttill-T) is not implemented yet.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant" id="smarttill-examples">smarttill-examples</span><span class="Ignore">*</span>
+
+(A) Replace <span class="Ignore">|</span><span class="Identifier">t</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">T</span><span class="Ignore">|</span> with <span class="Ignore">|</span><a href="smarttill.html#smarttill-mappings"><span class="Identifier">smarttill-mappings</span></a><span class="Ignore">|</span>:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        map t  &lt;Plug&gt;(smartword-t)</span>
+<span class="Comment">        map T  &lt;Plug&gt;(smartword-T)</span>
+<span class="Ignore">&lt;</span>
+
+(B) Use other key sequences for smart version:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        map ,t  &lt;Plug&gt;(smartword-t)</span>
+<span class="Comment">        map ,T  &lt;Plug&gt;(smartword-T)</span>
+<span class="Ignore">&lt;</span>
+
+(C) Keep the default meanings of <span class="Ignore">|</span><span class="Identifier">t</span><span class="Ignore">|</span> and <span class="Ignore">|</span><span class="Identifier">T</span><span class="Ignore">|</span> in other key sequences:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        noremap ,t  t</span>
+<span class="Comment">        noremap ,T  T</span>
+<span class="Ignore">&lt;</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="smarttill-bugs">smarttill-bugs</span><span class="Ignore">*</span>
+
+- Unlike <span class="Ignore">|</span><span class="Identifier">t</span><span class="Ignore">|</span><span class="Identifier">/</span><span class="Ignore">|</span><span class="Identifier">T</span><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="smarttill.html#&lt;Plug&gt;(smarttill-t)"><span class="Identifier">&lt;Plug&gt;(smarttill-t)</span></a><span class="Ignore">|</span><span class="Identifier">/</span><span class="Ignore">|</span><a href="smarttill.html#&lt;Plug&gt;(smarttill-T)"><span class="Identifier">&lt;Plug&gt;(smarttill-T)</span></a><span class="Ignore">|</span> move the cursor
+  over the current line.
+
+- Don't consider about <span class="Ignore">|</span><span class="Identifier">o_v</span><span class="Ignore">|</span> and others.
+
+- Some edge cases aren't handled correctly yet.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="smarttill-changelog">smarttill-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-06-11T23:27:16+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>
