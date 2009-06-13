@@ -24,7 +24,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="fakeclip.txt">fakeclip.txt</span><span class="Ignore">*</span>  pseudo clipboard register for non-GUI version of Vim
 
-Version 0.2.3
+Version 0.2.4
 Script ID: 2098
 Copyright (C) 2007-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -261,6 +261,16 @@ __CF_USER_TEXT_ENCODING.  It contins :-separated values:
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog">fakeclip-changelog</span><span class="Ignore">*</span>
+
+0.2.4   2009-06-13T18:22:01+09:00               <span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog-0.2.4">fakeclip-changelog-0.2.4</span><span class="Ignore">*</span>
+        - Revise on platforms where <span class="Ignore">|</span><span class="Identifier">+clipboard</span><span class="Ignore">|</span> is available:
+          - Define all stuffs such as <span class="Ignore">|</span><a href="fakeclip.html#fakeclip-key-mappings"><span class="Identifier">fakeclip-key-mappings</span></a><span class="Ignore">|</span> on all
+            platforms.  Without this, the pseudo register for GNU screen's
+            paste buffer is not available if <span class="Ignore">|</span><span class="Identifier">+clipboard</span><span class="Ignore">|</span> is available.
+          - <span class="Ignore">|</span><a href="fakeclip.html#:FakeclipDefaultKeyMappings"><span class="Identifier">:FakeclipDefaultKeyMappings</span></a><span class="Ignore">|</span>: Don't define the default key
+            mappings for clipboard to avoid confusion with the built-in key
+            mappings.  For example, &quot;*y and &quot;+y are not mapped to
+            <span class="Ignore">|</span><a href="fakeclip.html#&lt;Plug&gt;(fakeclip-y)"><span class="Identifier">&lt;Plug&gt;(fakeclip-y)</span></a><span class="Ignore">|</span>.
 
 0.2.3   2009-05-06T03:03:25+09:00               <span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog-0.2.3">fakeclip-changelog-0.2.3</span><span class="Ignore">*</span>
         - Revise the documents on Mac OS X specific problems.  See
