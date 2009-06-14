@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: altercmd - Alter built-in Ex commands by your own ones</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="altercmd.txt">altercmd.txt</span><span class="Ignore">*</span>  Alter built-in Ex commands by your own ones
+
+Version 0.0.0
+Script ID: 2675
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="altercmd-contents">altercmd-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="altercmd.html#altercmd-introduction"><span class="Identifier">altercmd-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="altercmd.html#altercmd-interface"><span class="Identifier">altercmd-interface</span></a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="altercmd.html#altercmd-commands"><span class="Identifier">altercmd-commands</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="altercmd.html#altercmd-functions"><span class="Identifier">altercmd-functions</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="altercmd.html#altercmd-bugs"><span class="Identifier">altercmd-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="altercmd.html#altercmd-changelog"><span class="Identifier">altercmd-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="altercmd-introduction">altercmd-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="altercmd">altercmd</span><span class="Ignore">*</span> is a Vim plugin to provide an easy way to alternate built-in Ex
+commands by user-defined Ex commands.  This plugin provides <span class="Ignore">|</span><a href="altercmd.html#:AlterCommand"><span class="Identifier">:AlterCommand</span></a><span class="Ignore">|</span>
+for this purpose.  For example, if you define :CD, a custom version of <span class="Ignore">|</span><span class="Identifier">:cd</span><span class="Ignore">|</span>,
+add the following in your vimrc.
+<span class="Ignore">&gt;</span>
+<span class="Comment">        AlterCommand cd  CD</span>
+<span class="Ignore">&lt;</span>
+With the above setting, you can use :cd as if it is :CD.  It means that :CD
+will be automatically inserted if you type :cd as an Ex command, so you don't
+have to type :CD to use :cd and you'll never encounter mistyping :cd and :CD.
+
+:AlterCommand also supports partial command names.  For example, <span class="Ignore">|</span><span class="Identifier">:help</span><span class="Ignore">|</span> can
+be invoked with :h, :he, :hel or :help.
+<span class="Ignore">&gt;</span>
+<span class="Comment">        AlterCommand h[elp]  HELP</span>
+<span class="Ignore">&lt;</span>
+With the above setting, you can use :h, :he, :hel and :help as if they are
+:HELP, your own version of :help.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-altercmd">http://github.com/kana/config/commits/vim-altercmd</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/altercmd.html">http://kana.github.com/config/vim/altercmd.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="altercmd-interface">altercmd-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant" id="altercmd-commands">altercmd-commands</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant" id=":AlterCommand">:AlterCommand</span><span class="Ignore">*</span>
+:AlterCommand [<span class="Special">&lt;buffer&gt;</span>] <span class="Special">{original}</span>  <span class="Special">{alternative}</span>
+                        Declare to use <span class="Special">{alternative}</span> Ex command instead of
+                        <span class="Special">{original}</span> Ex command.
+
+                        If <span class="Special">&lt;buffer&gt;</span> is given, this declaration is only
+                        available for the current buffer.  Otherwise, this
+                        declaration is available globally.
+
+                        See also <span class="Ignore">|</span><a href="altercmd.html#altercmd-introduction"><span class="Identifier">altercmd-introduction</span></a><span class="Ignore">|</span> for examples.
+
+                        Technically, this Ex command does just define some
+                        <span class="Ignore">|</span><span class="Identifier">abbreviations</span><span class="Ignore">|</span> in Command-line mode.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="altercmd-functions">altercmd-functions</span><span class="Ignore">*</span>
+
+altercmd#define(<span class="Special">{original}</span>, <span class="Special">{alternative}</span>)      <span class="Ignore">*</span><span class="Constant" id="altercmd#define()">altercmd#define()</span><span class="Ignore">*</span>
+altercmd#define('<span class="Special">&lt;buffer&gt;</span>', <span class="Special">{original}</span>, <span class="Special">{alternative}</span>)
+                        Function version of <span class="Ignore">|</span><a href="altercmd.html#:AlterCommand"><span class="Identifier">:AlterCommand</span></a><span class="Ignore">|</span>.
+
+altercmd#load()                                 <span class="Ignore">*</span><span class="Constant" id="altercmd#load()">altercmd#load()</span><span class="Ignore">*</span>
+                        Load this plugin.  You have to call this in your vimrc
+                        if you want to use <span class="Ignore">|</span><a href="altercmd.html#:AlterCommand"><span class="Identifier">:AlterCommand</span></a><span class="Ignore">|</span> in your vimrc.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="altercmd-bugs">altercmd-bugs</span><span class="Ignore">*</span>
+
+- Not all cases are supported.  For example:
+
+  - <span class="Special">[range]</span> is not supported yet.  If <span class="Special">[range]</span> is given, altercmd doesn't work.
+
+  - If any argument is not given to an Ex command which has an alternative Ex
+    command, altercmd doesn't work.
+
+  - And there may be more cases where altercmd doesn't work well.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="altercmd-changelog">altercmd-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-06-14T03:47:25+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>
