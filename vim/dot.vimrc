@@ -185,7 +185,7 @@ endif
 
 " Options  "{{{2
 
-if 1 < &t_Co && has('syntax')
+if (1 < &t_Co || has('gui')) && has('syntax')
   if &term ==# 'rxvt-cygwin-native'
     set t_Co=256
   endif
