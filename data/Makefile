@@ -134,6 +134,7 @@ GROUP_SAMURIZE_RULE=$(patsubst samurize/%,$(GROUP_SAMURIZE_DIR)/%,$(1))
 GROUP_SAMURIZE_DIR=$(abspath samurize/profile-link)
 
 GROUP_VIM_FILES=\
+  $(PACKAGE_vim_altercmd_FILES) \
   $(PACKAGE_vim_altkwprg_FILES) \
   $(PACKAGE_vim_arpeggio_FILES) \
   $(PACKAGE_vim_bundle_FILES) \
@@ -211,6 +212,7 @@ ALL_PACKAGES=\
   cereja-all \
   opera-all \
   vim-all \
+  vim-altercmd \
   vim-altkwprg \
   vim-arpeggio \
   vim-bundle \
@@ -272,6 +274,13 @@ PACKAGE_opera_all_FILES=$(GROUP_OPERA_FILES)
 PACKAGE_vim_all_ARCHIVE=vim-all
 PACKAGE_vim_all_BASE=vim
 PACKAGE_vim_all_FILES=$(GROUP_VIM_FILES)
+
+PACKAGE_vim_altercmd_ARCHIVE=vim-altercmd-0.0.0
+PACKAGE_vim_altercmd_BASE=vim/dot.vim
+PACKAGE_vim_altercmd_FILES=\
+  vim/dot.vim/autoload/altercmd.vim \
+  vim/dot.vim/doc/altercmd.txt \
+  vim/dot.vim/plugin/altercmd.vim
 
 PACKAGE_vim_altkwprg_ARCHIVE=vim-altkwprg-0.0.0
 PACKAGE_vim_altkwprg_BASE=vim/dot.vim
