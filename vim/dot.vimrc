@@ -199,6 +199,14 @@ endif
 filetype plugin indent on
 
 
+" TODO: Use :SetDefault to set my default values for options.
+command! -bar -complete=option -nargs=+ SetDefault
+\   if exists('s:loaded_my_vimrc')
+\ |   execute 'setglobal' <q-args>
+\ | else
+\ |   execute 'set' <q-args>
+\ | endif
+
 set ambiwidth=double
 set autoindent
 set backspace=indent,eol,start
