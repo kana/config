@@ -118,7 +118,7 @@
 
 if !exists('s:loaded_my_vimrc')
   " Don't reset twice on reloading - 'compatible' has SO many side effects.
-  set nocompatible  " to use many extensions of Vim.
+  setglobal nocompatible  " to use many extensions of Vim.
 endif
 
 
@@ -133,9 +133,9 @@ endfunction
 
 " To deal with Japanese language.
 if $ENV_WORKING ==# 'summer'
-  set encoding=japan
+  setglobal encoding=japan
 else
-  set encoding=utf-8
+  setglobal encoding=utf-8
 endif
 
 if has('iconv')
@@ -149,25 +149,25 @@ if has('iconv')
   endif
 
   " Make fileencodings
-  let &fileencodings = 'ucs-bom'
-  if &encoding !=# 'utf-8'
-    let &fileencodings = &fileencodings . ',' . 'ucs-2le'
-    let &fileencodings = &fileencodings . ',' . 'ucs-2'
+  let &g:fileencodings = 'ucs-bom'
+  if &g:encoding !=# 'utf-8'
+    let &g:fileencodings = &g:fileencodings . ',' . 'ucs-2le'
+    let &g:fileencodings = &g:fileencodings . ',' . 'ucs-2'
   endif
-  let &fileencodings = &fileencodings . ',' . s:enc_jis
+  let &g:fileencodings = &g:fileencodings . ',' . s:enc_jis
 
-  if &encoding ==# 'utf-8'
-    let &fileencodings = &fileencodings . ',' . s:enc_euc
-    let &fileencodings = &fileencodings . ',' . 'cp932'
-  elseif &encoding =~# '^euc-\%(jp\|jisx0213\)$'
-    let &encoding = s:enc_euc
-    let &fileencodings = &fileencodings . ',' . 'utf-8'
-    let &fileencodings = &fileencodings . ',' . 'cp932'
+  if &g:encoding ==# 'utf-8'
+    let &g:fileencodings = &g:fileencodings . ',' . s:enc_euc
+    let &g:fileencodings = &g:fileencodings . ',' . 'cp932'
+  elseif &g:encoding =~# '^euc-\%(jp\|jisx0213\)$'
+    let &g:encoding = s:enc_euc
+    let &g:fileencodings = &g:fileencodings . ',' . 'utf-8'
+    let &g:fileencodings = &g:fileencodings . ',' . 'cp932'
   else  " cp932
-    let &fileencodings = &fileencodings . ',' . 'utf-8'
-    let &fileencodings = &fileencodings . ',' . s:enc_euc
+    let &g:fileencodings = &g:fileencodings . ',' . 'utf-8'
+    let &g:fileencodings = &g:fileencodings . ',' . s:enc_euc
   endif
-  let &fileencodings = &fileencodings . ',' . &encoding
+  let &g:fileencodings = &g:fileencodings . ',' . &g:encoding
 
   unlet s:enc_euc
   unlet s:enc_jis
@@ -175,9 +175,9 @@ endif
 
 
 if $ENV_ACCESS ==# 'summer'
-  set termencoding=cp932
+  setglobal termencoding=cp932
 else  " fallback
-  set termencoding=  " same as 'encoding'
+  setglobal termencoding=  " same as 'encoding'
 endif
 
 
@@ -187,12 +187,12 @@ endif
 
 if 1 < &t_Co && has('syntax')
   if &term ==# 'rxvt-cygwin-native'
-    set t_Co=256
+    setglobal t_Co=256
   endif
   syntax enable
   if !exists('g:colors_name')  " Don't override colorscheme on reloading.
     colorscheme desert
-    set background=dark
+    setglobal background=dark
   endif
 endif
 
@@ -207,46 +207,46 @@ command! -bar -complete=option -nargs=+ SetDefault
 \ |   execute 'set' <q-args>
 \ | endif
 
-set ambiwidth=double
+setglobal ambiwidth=double
 set autoindent
-set backspace=indent,eol,start
-set backup
-set backupcopy&
-set backupdir=.,~/tmp
-set backupskip&
-set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
+setglobal backspace=indent,eol,start
+setglobal backup
+setglobal backupcopy&
+setglobal backupdir=.,~/tmp
+setglobal backupskip&
+setglobal backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
-set directory=.,~/tmp
-set noequalalways
+setglobal directory=.,~/tmp
+setglobal noequalalways
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
-set history=100
-set hlsearch
+setglobal history=100
+setglobal hlsearch
 nohlsearch  " To avoid (re)highlighting the last search pattern
             " whenever $MYVIMRC is (re)loaded.
-" set grepprg=... " See s:toggle_grepprg().
-set incsearch
-set laststatus=2  " always show status lines.
-set mouse=
-set ruler
-set showcmd
-set showmode
-set updatetime=60000
-set title
-set titlestring=Vim:\ %f\ %h%r%m
-set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
-set wildmenu
-set viminfo=<50,'10,h,r/a,n~/.viminfo
+" setglobal grepprg=... " See s:toggle_grepprg().
+setglobal incsearch
+setglobal laststatus=2  " always show status lines.
+setglobal mouse=
+setglobal ruler
+setglobal showcmd
+setglobal showmode
+setglobal updatetime=60000
+setglobal title
+setglobal titlestring=Vim:\ %f\ %h%r%m
+setglobal ttimeoutlen=50  " Reduce annoying delay for key codes esp. <Esc>seq
+setglobal wildmenu
+setglobal viminfo=<50,'10,h,r/a,n~/.viminfo
 
 " default 'statusline' with 'fileencoding'.
-let &statusline = ''
-let &statusline .= '%<%f %h%m%r%w'
-let &statusline .= '%='
+let &g:statusline = ''
+let &g:statusline .= '%<%f %h%m%r%w'
+let &g:statusline .= '%='
   "" temporary disabled.
   "let &statusline .= '(%{' . s:SID_PREFIX() . 'vcs_branch_name(getcwd())}) '
-let &statusline .= '[%{&l:fileencoding == "" ? &encoding : &l:fileencoding}]'
-let &statusline .= '  %-14.(%l,%c%V%) %P'
+let &g:statusline .= '[%{&l:fileencoding=="" ? &g:encoding : &l:fileencoding}]'
+let &g:statusline .= '  %-14.(%l,%c%V%) %P'
 
 function! s:my_tabline()  "{{{
   let s = ''
@@ -280,13 +280,13 @@ function! s:my_tabline()  "{{{
   let s .= '%X'
   return s
 endfunction "}}}
-let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
+let &g:tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
 
 " To automatically detect the width and the height of the terminal,
 " the followings must not be set.
 "
-" set columns=80
-" set lines=25
+" setglobal columns=80
+" setglobal lines=25
 
 
 let mapleader = ','
@@ -526,11 +526,12 @@ function! s:cmd_DefineOperator(operator_keyseq, function_name, ...)
   endif
 
   execute printf(('nnoremap <script> <silent> %s ' .
-  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
+  \               ':<C-u>setglobal operatorfunc=%s%s<Return><SID>(count)g@'),
   \              a:operator_keyseq, a:function_name, additional_settings)
-  execute printf(('vnoremap <script> <silent> %s ' .
-  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
+  execute printf(
+  \         ('vnoremap <script> <silent> %s ' .
+  \          '<Esc>:<C-u>setglobal operatorfunc=%s%s<Return>gv<SID>(count)g@'),
+  \         a:operator_keyseq, a:function_name, additional_settings)
 endfunction
 
 Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
@@ -905,10 +906,10 @@ endfunction
 
 function! s:toggle_bell()
   if &visualbell
-    set novisualbell t_vb&
+    setglobal novisualbell t_vb&
     echo 'bell on'
   else
-    set visualbell t_vb=
+    setglobal visualbell t_vb=
     echo 'bell off'
   endif
 endfunction
@@ -919,11 +920,11 @@ function! s:toggle_grepprg()
   " treat VALUES[0] as the default/fallback value,
   " and set 'grepprg' to the value.
   let VALUES = ['git grep -n', 'internal']
-  let i = (index(VALUES, &grepprg) + 1) % len(VALUES)
+  let i = (index(VALUES, &g:grepprg) + 1) % len(VALUES)
 
-  let grepprg = &grepprg
-  let &grepprg = VALUES[i]
-  echo "'grepprg' =" &grepprg '(was' grepprg.')'
+  let grepprg = &g:grepprg
+  let &g:grepprg = VALUES[i]
+  echo "'grepprg' =" &g:grepprg '(was' grepprg.')'
 endfunction
 if !exists('s:loaded_my_vimrc')
   " Set 'grepprg' to my default value.  In this scope, 'grepprg' has Vim's
@@ -2011,7 +2012,7 @@ endfunction
 
 " Unset 'paste' automatically.  It's often hard to do so because of most
 " mappings are disabled in Paste mode.
-autocmd MyAutoCmd InsertLeave *  set nopaste
+autocmd MyAutoCmd InsertLeave *  setglobal nopaste
 
 
 
@@ -2533,7 +2534,7 @@ endif
 
 
 
-set secure  " must be written at the last.  see :help 'secure'.
+setglobal secure  " must be written at the last.  see :help 'secure'.
 
 
 
