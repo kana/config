@@ -208,19 +208,19 @@ command! -bar -complete=option -nargs=+ SetDefault
 \ | endif
 
 setglobal ambiwidth=double
-set autoindent
+SetDefault autoindent
 setglobal backspace=indent,eol,start
 setglobal backup
 setglobal backupcopy&
 setglobal backupdir=.,~/tmp
 setglobal backupskip&
 setglobal backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
-set cinoptions=:0,t0,(0,W1s
+SetDefault cinoptions=:0,t0,(0,W1s
 setglobal directory=.,~/tmp
 setglobal noequalalways
-set formatoptions=tcroqnlM1
-set formatlistpat&
-let &formatlistpat .= '\|^\s*[*+-]\s*'
+SetDefault formatoptions=tcroqnlM1
+SetDefault formatlistpat&
+SetDefault formatlistpat+=\\\|^\\s*[*+-]\\s*
 setglobal history=100
 setglobal hlsearch
 nohlsearch  " To avoid (re)highlighting the last search pattern
