@@ -1739,16 +1739,6 @@ Arpeggio vmap oj  <Plug>(my:op-join)
 Arpeggio omap oj  g@
 
 
-" Operator version of :join.
-DefineOperator <Plug>(my:op-join)
-\              <SID>op_command
-\              call <SID>set_op_command('join')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oj  <Plug>(my:op-join)
-Arpeggio vmap oj  <Plug>(my:op-join)
-
-
 " Operator version of :sort.
 DefineOperator <Plug>(my:op-sort)
 \              <SID>op_command
