@@ -150,6 +150,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_quickfix_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
+  $(PACKAGE_vim_myoperator_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
   $(PACKAGE_vim_repeat_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
@@ -232,6 +233,7 @@ ALL_PACKAGES=\
   vim-ku-source \
   vim-metarw \
   vim-metarw-git \
+  vim-myoperator \
   vim-misc \
   vim-narrow \
   vim-repeat \
@@ -408,6 +410,13 @@ PACKAGE_vim_metarw_git_BASE=vim/dot.vim
 PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
   vim/dot.vim/doc/metarw-git.txt
+
+PACKAGE_vim_myoperator_ARCHIVE=vim-myoperator-0.0.0
+PACKAGE_vim_myoperator_BASE=vim/dot.vim
+PACKAGE_vim_myoperator_FILES=\
+  vim/dot.vim/autoload/myoperator.vim \
+  vim/dot.vim/doc/myoperator.txt \
+  vim/dot.vim/plugin/myoperator.vim
 
 PACKAGE_vim_misc_ARCHIVE=vim-misc
 PACKAGE_vim_misc_BASE=.
@@ -782,6 +791,18 @@ test/vim-ku-file/%.output: \
 		vim/dot.vim/autoload/ku.vim \
 		vim/dot.vim/autoload/ku/file.vim \
 		vim/dot.vim/plugin/ku.vim
+	@./test/tester-vim $< &>$@
+
+
+# vim-myoperator  #{{{2
+TESTS_vim_myoperator = 0001
+
+test/vim-myoperator/%.output: \
+		test/vim-myoperator/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/myoperator.vim \
+		vim/dot.vim/plugin/myoperator.vim
 	@./test/tester-vim $< &>$@
 
 
