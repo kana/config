@@ -185,7 +185,7 @@ endif
 
 " Options  "{{{2
 
-if 1 < &t_Co && has('syntax')
+if (1 < &t_Co || has('gui')) && has('syntax')
   if &term ==# 'rxvt-cygwin-native'
     set t_Co=256
   endif
@@ -1737,16 +1737,6 @@ DefineOperator <Plug>(my:op-join)
 Arpeggio nmap oj  <Plug>(my:op-join)
 Arpeggio vmap oj  <Plug>(my:op-join)
 Arpeggio omap oj  g@
-
-
-" Operator version of :join.
-DefineOperator <Plug>(my:op-join)
-\              <SID>op_command
-\              call <SID>set_op_command('join')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oj  <Plug>(my:op-join)
-Arpeggio vmap oj  <Plug>(my:op-join)
 
 
 " Operator version of :sort.
