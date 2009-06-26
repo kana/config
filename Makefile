@@ -794,6 +794,18 @@ test/vim-ku-file/%.output: \
 	@./test/tester-vim $< 'plugin/ku.vim autoload/ku.vim' &>$@
 
 
+# vim-myoperator  #{{{2
+TESTS_vim_myoperator = 0001
+
+test/vim-myoperator/%.output: \
+		test/vim-myoperator/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/myoperator.vim \
+		vim/dot.vim/plugin/myoperator.vim
+	@./test/tester-vim $< &>$@
+
+
 # Misc.  #{{{2
 
 define GENERATE_DEPENDENCY_RULES_TO_TEST_1
