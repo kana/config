@@ -1,5 +1,5 @@
-" myoperator - Define your own operator easily
-" Version: 0.0.0
+" operator-user - Define your own operator easily
+" Version: 0.0.1
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -21,21 +21,60 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Interface  "{{{1
+function! operator#user#define(operator_keyseq, function_name, ...)  "{{{2
+  if 0 < a:0
+    let additional_settings = '\|' . join(a:000)
+  else
+    let additional_settings = ''
+  endif
 
-if exists('g:loaded_myoperator')
-  finish
-endif
+  execute printf(('nnoremap <script> <silent> %s ' .
+  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name, additional_settings)
+  execute printf(('vnoremap <script> <silent> %s ' .
+  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
+  \              a:operator_keyseq, a:function_name, additional_settings)
+  execute printf('onoremap %s  g@', a:operator_keyseq)
+endfunction
 
 
 
 
-command! -complete=function -nargs=+ DefineOperator
-\        call myoperator#define(<f-args>)
+function! operator#user#load()  "{{{2
+  runtime! plugin/operator#user.vim
+endfunction
 
 
 
 
-let g:loaded_myoperator = 1
+function! operator#user#_sid_prefix()  "{{{2
+  return s:SID_PREFIX()
+endfunction
 
-" __END__
+
+
+
+
+
+
+
+" Misc.  "{{{1
+
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '\%(^\|\.\.\)\zs<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
+
+nnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+vnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+
+
+
+
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker
