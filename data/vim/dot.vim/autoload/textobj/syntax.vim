@@ -1,4 +1,4 @@
-" myoperator - Define your own operator easily
+" textobj-syntax - Text objects for syntax highlighted items
 " Version: 0.0.0
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -22,34 +22,46 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
-function! myoperator#define(operator_keyseq, function_name, ...)  "{{{2
-  if 0 < a:0
-    let additional_settings = '\|' . join(a:000)
-  else
-    let additional_settings = ''
+function! textobj#syntax#select_a()  "{{{2
+  " FIXME: Currently this acts the same as "iy", but it'll be changed.
+  return textobj#syntax#select_i()
+endfunction
+
+
+
+
+function! textobj#syntax#select_i()  "{{{2
+  let current_position = getpos('.')
+  let synstack = synstack(current_position[1], current_position[2])
+
+  if empty(synstack)   " The character under the cursor is not highlighted.
+    return 0
   endif
 
-  execute printf(('nnoremap <script> <silent> %s ' .
-  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
-  execute printf(('vnoremap <script> <silent> %s ' .
-  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
-  execute printf('onoremap %s  g@', a:operator_keyseq)
-endfunction
+  let original_whichwrap = &g:whichwrap
+    setglobal whichwrap=h,l
+    while !0
+      let start_position = getpos('.')
+      normal! h
+      let _ = getpos('.')
+      if synstack(_[1], _[2])[:len(synstack)-1] != synstack
+      \  || start_position == _
+        break
+      endif
+    endwhile
 
-
-
-
-function! myoperator#load()  "{{{2
-  runtime! plugin/myoperator.vim
-endfunction
-
-
-
-
-function! myoperator#_sid_prefix()  "{{{2
-  return s:SID_PREFIX()
+    call setpos('.', current_position)
+    while !0
+      let end_position = getpos('.')
+      normal! l
+      let _ = getpos('.')
+      if synstack(_[1], _[2])[:len(synstack)-1] != synstack
+      \  || end_position == _
+        break
+      endif
+    endwhile
+  let &g:whichwrap = original_whichwrap
+  return ['v', start_position, end_position]
 endfunction
 
 
@@ -60,14 +72,6 @@ endfunction
 
 
 " Misc.  "{{{1
-
-function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '\%(^\|\.\.\)\zs<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
-
-
-nnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
-vnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
 
 
 

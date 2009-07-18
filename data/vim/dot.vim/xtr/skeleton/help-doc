@@ -26,14 +26,15 @@ License: MIT license  {{{
 
 CONTENTS					*{name}-contents*
 
-Introduction		|{name}-introduction|
-Interface		|{name}-interface|
-  Commands		  |{name}-commands|
-  Functions		  |{name}-functions|
-  Mappings		  |{name}-mappings|
-Examples		|{name}-examples|
-Bugs			|{name}-bugs|
-Changelog		|{name}-changelog|
+Introduction            |{name}-introduction|
+Interface               |{name}-interface|
+  Commands                |{name}-commands|
+  Functions               |{name}-functions|
+  Key Mappings            |{name}-key-mappings|
+Customizing             |{name}-customizing|
+Examples                |{name}-examples|
+Bugs                    |{name}-bugs|
+Changelog               |{name}-changelog|
 
 
 
@@ -74,7 +75,16 @@ FUNCTIONS					*{name}-functions*
 
 
 ------------------------------------------------------------------------------
-MAPPINGS					*{name}-mappings*
+KEY MAPPINGS					*{name}-key-mappings*
+
+DEFAULT KEY MAPPINGS				*{name}-default-key-mappings*
+
+Modes	{lhs}		{rhs}
+------------------------------------------------
+nvo	feature		|<Plug>({name}-feature)|	*feature*
+
+
+NAMED KEY MAPPINGS				*{name}-named-key-mappings*
 
 <Plug>({name}-feature)				*<Plug>({name}-feature)*
 			...
@@ -83,9 +93,17 @@ MAPPINGS					*{name}-mappings*
 
 
 ==============================================================================
+CUSTOMIZATION					*{name}-customization*
+
+(A) To ...
+
+
+
+
+==============================================================================
 EXAMPLES					*{name}-examples*
 
-(A) To realize ...
+(A) To ...
 
 
 

@@ -150,8 +150,8 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_ku_quickfix_FILES) \
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
-  $(PACKAGE_vim_myoperator_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
+  $(PACKAGE_vim_operator_user_FILES) \
   $(PACKAGE_vim_repeat_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
   $(PACKAGE_vim_skeleton_FILES) \
@@ -168,6 +168,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_indent_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
   $(PACKAGE_vim_textobj_lastpat_FILES) \
+  $(PACKAGE_vim_textobj_syntax_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
@@ -233,9 +234,9 @@ ALL_PACKAGES=\
   vim-ku-source \
   vim-metarw \
   vim-metarw-git \
-  vim-myoperator \
   vim-misc \
   vim-narrow \
+  vim-operator-user \
   vim-repeat \
   vim-scratch \
   vim-skeleton \
@@ -252,6 +253,7 @@ ALL_PACKAGES=\
   vim-textobj-indent \
   vim-textobj-jabraces \
   vim-textobj-lastpat \
+  vim-textobj-syntax \
   vim-textobj-user \
   vim-vcsi \
   vim-xml_autons \
@@ -411,13 +413,6 @@ PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
   vim/dot.vim/doc/metarw-git.txt
 
-PACKAGE_vim_myoperator_ARCHIVE=vim-myoperator-0.0.0
-PACKAGE_vim_myoperator_BASE=vim/dot.vim
-PACKAGE_vim_myoperator_FILES=\
-  vim/dot.vim/autoload/myoperator.vim \
-  vim/dot.vim/doc/myoperator.txt \
-  vim/dot.vim/plugin/myoperator.vim
-
 PACKAGE_vim_misc_ARCHIVE=vim-misc
 PACKAGE_vim_misc_BASE=.
 PACKAGE_vim_misc_FILES=\
@@ -448,6 +443,13 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/autoload/narrow.vim \
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
+
+PACKAGE_vim_operator_user_ARCHIVE=vim-operator-user-0.0.1
+PACKAGE_vim_operator_user_BASE=vim/dot.vim
+PACKAGE_vim_operator_user_FILES=\
+  vim/dot.vim/autoload/operator/user.vim \
+  vim/dot.vim/doc/operator-user.txt \
+  vim/dot.vim/plugin/operator/user.vim
 
 PACKAGE_vim_repeat_ARCHIVE=vim-repeat-0.0.0
 PACKAGE_vim_repeat_BASE=vim/dot.vim
@@ -554,7 +556,14 @@ PACKAGE_vim_textobj_lastpat_FILES=\
   vim/dot.vim/doc/textobj-lastpat.txt \
   vim/dot.vim/plugin/textobj/lastpat.vim
 
-PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.7
+PACKAGE_vim_textobj_syntax_ARCHIVE=vim-textobj-syntax-0.0.0
+PACKAGE_vim_textobj_syntax_BASE=vim/dot.vim
+PACKAGE_vim_textobj_syntax_FILES=\
+  vim/dot.vim/autoload/textobj/syntax.vim \
+  vim/dot.vim/doc/textobj-syntax.txt \
+  vim/dot.vim/plugin/textobj/syntax.vim
+
+PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.8
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
@@ -794,15 +803,27 @@ test/vim-ku-file/%.output: \
 	@./test/tester-vim $< &>$@
 
 
-# vim-myoperator  #{{{2
-TESTS_vim_myoperator = 0001
+# vim-operator-user  #{{{2
+TESTS_vim_operator_user = 0001
 
-test/vim-myoperator/%.output: \
-		test/vim-myoperator/%.input \
+test/vim-operator-user/%.output: \
+		test/vim-operator-user/%.input \
 		test/libtest.vim \
 		test/tester-vim \
-		vim/dot.vim/autoload/myoperator.vim \
-		vim/dot.vim/plugin/myoperator.vim
+		vim/dot.vim/autoload/operator/user.vim \
+		vim/dot.vim/plugin/operator/user.vim
+	@./test/tester-vim $< &>$@
+
+
+# vim-textobj-syntax  #{{{2
+TESTS_vim_textobj_syntax = 0001
+
+test/vim-textobj-syntax/%.output: \
+		test/vim-textobj-syntax/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/textobj/syntax.vim \
+		vim/dot.vim/plugin/textobj/syntax.vim
 	@./test/tester-vim $< &>$@
 
 

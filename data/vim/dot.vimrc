@@ -2443,13 +2443,16 @@ function! s:on_User_plugin_skeleton_detect()
   if len(_) == 0
     return
   endif
+  let after_p = _[1] != ''
+  let type = _[2]
+  let extension = _[3]
 
-  if _[2] ==# 'doc' && _[3] ==# 'txt'
+  if type ==# 'doc' && extension ==# 'txt'
     SkeletonLoad help-doc
   endif
 
-  if _[2] !=# 'doc' && _[3] ==# 'vim'
-    if _[1] != ''
+  if type !=# 'doc' && extension ==# 'vim'
+    if after_p != ''
       execute 'SkeletonLoad' 'vim-additional-'._[2]
     endif
     execute 'SkeletonLoad' 'vim-'._[2]
