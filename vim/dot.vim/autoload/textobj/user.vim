@@ -1,5 +1,5 @@
 " textobj-user - Support for user-defined text objects
-" Version: 0.3.7
+" Version: 0.3.8
 " Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -329,11 +329,19 @@ function s:plugin.normalize()
       endif
 
       if spec_name =~# '^\*.*-function\*$'
-        if !has_key(specs, '*sfile*')
-          throw ''
+        if spec_info =~# '^s:'
+          if has_key(specs, '*sfile*')
+            let specs[spec_name] = substitute(spec_info,
+            \                                 '^s:',
+            \                                 s:snr_prefix(specs['*sfile*']),
+            \                                 '')
+          else
+            echoerr 'Script-local function is given without *sfile*:'
+            \       string(spec_name) '/' string(spec_info)
+          endif
+        else
+          " Nothing to do.
         endif
-        let specs[spec_name]
-        \ = substitute(spec_info, '^s:', s:snr_prefix(specs['*sfile*']), '')
       endif
 
       unlet spec_info  " to avoid E706.
