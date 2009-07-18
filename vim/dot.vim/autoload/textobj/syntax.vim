@@ -23,7 +23,8 @@
 " }}}
 " Interface  "{{{1
 function! textobj#syntax#select_a()  "{{{2
-  return 0
+  " FIXME: Currently this acts the same as "iy", but it'll be changed.
+  return textobj#syntax#select_i()
 endfunction
 
 
