@@ -815,6 +815,18 @@ test/vim-operator-user/%.output: \
 	@./test/tester-vim $< &>$@
 
 
+# vim-textobj-syntax  #{{{2
+TESTS_vim_textobj_syntax = 0001
+
+test/vim-textobj-syntax/%.output: \
+		test/vim-textobj-syntax/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/textobj/syntax.vim \
+		vim/dot.vim/plugin/textobj/syntax.vim
+	@./test/tester-vim $< &>$@
+
+
 # Misc.  #{{{2
 
 define GENERATE_DEPENDENCY_RULES_TO_TEST_1
