@@ -147,6 +147,10 @@ See |textobj-syntax-introduction|.
 ==============================================================================
 BUGS						*textobj-syntax-bugs*
 
+- Because of the definition of the current syntax highlighting,
+  |<Plug>(textobj-syntax-a)| and |<Plug>(textobj-syntax-i)| may not select
+  a region of text as you expect.
+
 - The current selection is not extended like |aw| nor |ip|
   whenever |<Plug>(textobj-syntax-a)| or |<Plug>(textobj-syntax-i)| is
   repeated in Visual mode.
