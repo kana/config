@@ -1,0 +1,29 @@
+" Tests for textobj-syntax
+function s:test_global_variables()  "{{{1
+  Title "Check global variables"
+
+  Assert !!exists('g:loaded_textobj_syntax') ==> 1
+endfunction
+
+
+
+
+function s:test_named_key_mappings()  "{{{1
+  Title "Check the existence of the named key mappings in each mode"
+
+  for _ in ['<Plug>(textobj-syntax-a)', '<Plug>(textobj-syntax-i)']
+    Assert maparg(_, 'c') != '' ==> 0
+    Assert maparg(_, 'i') != '' ==> 0
+    Assert maparg(_, 'n') != '' ==> 0
+    Assert maparg(_, 'o') != '' ==> 1
+    Assert maparg(_, 'v') != '' ==> 1
+  endfor
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker

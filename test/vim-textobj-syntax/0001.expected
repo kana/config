@@ -1,0 +1,19 @@
+===== "Check global variables"
+TEST: !!exists('g:loaded_textobj_syntax')  ==>  1 ... ok
+Result: 1 / 1
+
+===== "Check the existence of the named key mappings in each mode"
+TEST: maparg(_, 'c') != ''  ==>  0 ... ok
+TEST: maparg(_, 'i') != ''  ==>  0 ... ok
+TEST: maparg(_, 'n') != ''  ==>  0 ... ok
+TEST: maparg(_, 'o') != ''  ==>  1 ... ok
+TEST: maparg(_, 'v') != ''  ==>  1 ... ok
+TEST: maparg(_, 'c') != ''  ==>  0 ... ok
+TEST: maparg(_, 'i') != ''  ==>  0 ... ok
+TEST: maparg(_, 'n') != ''  ==>  0 ... ok
+TEST: maparg(_, 'o') != ''  ==>  1 ... ok
+TEST: maparg(_, 'v') != ''  ==>  1 ... ok
+Result: 10 / 10
+
+===== Total
+Result: 11 / 11
