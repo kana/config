@@ -33,7 +33,7 @@ vim-commit: vim-generate
 	git commit -m \
 	"Vim: Reflect changes to $$(date '+%Y-%m-%d %H:%M:%S %Z')"$$'\n'\
 	$$'\n'\
-	"master $$(git rev-parse master)"$$'\n'\
+	"origin/master $$(git rev-parse origin/master)"$$'\n'\
 	"gh-pages $$(git rev-parse HEAD)"
 
 vim-generate: vim-generate-each-page vim/index.html
