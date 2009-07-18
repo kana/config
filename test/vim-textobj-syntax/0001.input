@@ -23,6 +23,68 @@ endfunction
 
 
 
+function s:test_select_i()  "{{{1
+  Title "<Plug>(textobj-syntax-i)"
+
+  enew!
+  setfiletype c
+  put ='#define ABC 123 /* FIXME: Fix me. */'
+  "    0....*....1....*....2....*....3....*.
+  "     ------------------------------------  cDefine
+  "                 ---                       cNumbers
+  "                 ---                       cNumber
+  "                     --------------------  cComment
+  "                     --                --  cCommentStart
+  "                        -----              cTodo
+
+  normal! 1|
+  normal yiy
+  Assert @0 ==> ''
+  " FIXME: This must be line('.').
+
+  normal! 10|
+  normal yiy
+  Assert @0 ==> ''
+  " FIXME: This must be line('.').
+
+  normal! 15|
+  normal yiy
+  Assert @0 ==> ''
+  " FIXME: This must be '123'.
+
+  normal! 17|
+  normal yiy
+  Assert @0 ==> ''
+  " FIXME: This must be '/*'.
+
+  normal! 19|
+  normal yiy
+  Assert @0 ==> ''
+  " FIXME: This must be '/* FIXME: Fix me. */'.
+
+  normal! 20|
+  normal yiy
+  Assert @0 ==> ''
+  " FIXME: This must be 'FIXME'.
+
+  normal! 35|
+  normal yiy
+  Assert @0 ==> ''
+  " FIXME: This must be '*/'.
+endfunction
+
+
+
+
+function s:test_select_a()  "{{{1
+  Title "<Plug>(textobj-syntax-a)"
+
+  " FIXME: Concrete and revise <Plug>(textobj-syntax-a) semantics.
+endfunction
+
+
+
+
 Test  "{{{1
 
 " __END__

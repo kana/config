@@ -15,5 +15,18 @@ TEST: maparg(_, 'o') != ''  ==>  1 ... ok
 TEST: maparg(_, 'v') != ''  ==>  1 ... ok
 Result: 10 / 10
 
+===== "<Plug>(textobj-syntax-a)"
+Result: 0 / 0
+
+===== "<Plug>(textobj-syntax-i)"
+TEST: @0  ==>  '' ... ok
+TEST: @0  ==>  '' ... ok
+TEST: @0  ==>  '' ... ok
+TEST: @0  ==>  '' ... ok
+TEST: @0  ==>  '' ... ok
+TEST: @0  ==>  '' ... ok
+TEST: @0  ==>  '' ... ok
+Result: 7 / 7
+
 ===== Total
-Result: 11 / 11
+Result: 18 / 18

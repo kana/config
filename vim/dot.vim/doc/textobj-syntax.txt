@@ -95,6 +95,9 @@ NAMED KEY MAPPINGS			   *textobj-syntax-named-key-mappings*
 			Like |<Plug>(textobj-syntax-i)|, but this text object
 			selects also leading or trailing white spaces.
 
+			Note that currently this acts the same as
+			|<Plug>(textobj-syntax-i)|.
+
 <Plug>(textobj-syntax-i)			*<Plug>(textobj-syntax-i)*
 			Select the syntax highlighted item under the cursor.
 			If the character under the cursor is not syntax
