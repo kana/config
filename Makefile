@@ -168,6 +168,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_indent_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
   $(PACKAGE_vim_textobj_lastpat_FILES) \
+  $(PACKAGE_vim_textobj_syntax_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
@@ -252,6 +253,7 @@ ALL_PACKAGES=\
   vim-textobj-indent \
   vim-textobj-jabraces \
   vim-textobj-lastpat \
+  vim-textobj-syntax \
   vim-textobj-user \
   vim-vcsi \
   vim-xml_autons \
@@ -554,6 +556,13 @@ PACKAGE_vim_textobj_lastpat_FILES=\
   vim/dot.vim/doc/textobj-lastpat.txt \
   vim/dot.vim/plugin/textobj/lastpat.vim
 
+PACKAGE_vim_textobj_syntax_ARCHIVE=vim-textobj-syntax-0.0.0
+PACKAGE_vim_textobj_syntax_BASE=vim/dot.vim
+PACKAGE_vim_textobj_syntax_FILES=\
+  vim/dot.vim/autoload/textobj/syntax.vim \
+  vim/dot.vim/doc/textobj-syntax.txt \
+  vim/dot.vim/plugin/textobj/syntax.vim
+
 PACKAGE_vim_textobj_user_ARCHIVE=vim-textobj-user-0.3.8
 PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
@@ -803,6 +812,18 @@ test/vim-operator-user/%.output: \
 		test/tester-vim \
 		vim/dot.vim/autoload/operator/user.vim \
 		vim/dot.vim/plugin/operator/user.vim
+	@./test/tester-vim $< &>$@
+
+
+# vim-textobj-syntax  #{{{2
+TESTS_vim_textobj_syntax = 0001
+
+test/vim-textobj-syntax/%.output: \
+		test/vim-textobj-syntax/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/textobj/syntax.vim \
+		vim/dot.vim/plugin/textobj/syntax.vim
 	@./test/tester-vim $< &>$@
 
 

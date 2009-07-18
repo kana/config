@@ -1,0 +1,40 @@
+not found in 'runtimepath': "ftdetect/*.vim"
+===== "Check global variables"
+TEST: !!exists('g:loaded_textobj_syntax')  ==>  1 ... ok
+Result: 1 / 1
+
+===== "Check the existence of the named key mappings in each mode"
+TEST: maparg(_, 'c') != ''  ==>  0 ... ok
+TEST: maparg(_, 'i') != ''  ==>  0 ... ok
+TEST: maparg(_, 'n') != ''  ==>  0 ... ok
+TEST: maparg(_, 'o') != ''  ==>  1 ... ok
+TEST: maparg(_, 'v') != ''  ==>  1 ... ok
+TEST: maparg(_, 'c') != ''  ==>  0 ... ok
+TEST: maparg(_, 'i') != ''  ==>  0 ... ok
+TEST: maparg(_, 'n') != ''  ==>  0 ... ok
+TEST: maparg(_, 'o') != ''  ==>  1 ... ok
+TEST: maparg(_, 'v') != ''  ==>  1 ... ok
+Result: 10 / 10
+
+===== "<Plug>(textobj-syntax-a)"
+TEST: @0  ==>  getline('.') ... ok
+TEST: @0  ==>  getline('.') ... ok
+TEST: @0  ==>  '123' ... ok
+TEST: @0  ==>  '/*' ... ok
+TEST: @0  ==>  '/* FIXME: Fix me. ' ... ok
+TEST: @0  ==>  'FIXME' ... ok
+TEST: @0  ==>  '*/' ... ok
+Result: 7 / 7
+
+===== "<Plug>(textobj-syntax-i)"
+TEST: @0  ==>  getline('.') ... ok
+TEST: @0  ==>  getline('.') ... ok
+TEST: @0  ==>  '123' ... ok
+TEST: @0  ==>  '/*' ... ok
+TEST: @0  ==>  '/* FIXME: Fix me. ' ... ok
+TEST: @0  ==>  'FIXME' ... ok
+TEST: @0  ==>  '*/' ... ok
+Result: 7 / 7
+
+===== Total
+Result: 25 / 25
