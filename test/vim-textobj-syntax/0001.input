@@ -1,4 +1,11 @@
 " Tests for textobj-syntax
+" Set up  "{{{1
+
+syntax enable
+
+
+
+
 function s:test_global_variables()  "{{{1
   Title "Check global variables"
 
@@ -33,44 +40,40 @@ function s:test_select_i()  "{{{1
   "     ------------------------------------  cDefine
   "                 ---                       cNumbers
   "                 ---                       cNumber
-  "                     --------------------  cComment
+  "                     ------------------XX  cComment
   "                     --                --  cCommentStart
   "                        -----              cTodo
+  "
+  " BUGS: "XX" is not a part of cComment region with the default syntax/c.vim.
+  "       But why?  It should be a part of cComment region.
 
   normal! 1|
   normal yiy
-  Assert @0 ==> ''
-  " FIXME: This must be line('.').
+  Assert @0 ==> getline('.')
 
   normal! 10|
   normal yiy
-  Assert @0 ==> ''
-  " FIXME: This must be line('.').
+  Assert @0 ==> getline('.')
 
   normal! 15|
   normal yiy
-  Assert @0 ==> ''
-  " FIXME: This must be '123'.
+  Assert @0 ==> '123'
 
   normal! 17|
   normal yiy
-  Assert @0 ==> ''
-  " FIXME: This must be '/*'.
+  Assert @0 ==> '/*'
 
   normal! 19|
   normal yiy
-  Assert @0 ==> ''
-  " FIXME: This must be '/* FIXME: Fix me. */'.
+  Assert @0 ==> '/* FIXME: Fix me. '
 
   normal! 20|
   normal yiy
-  Assert @0 ==> ''
-  " FIXME: This must be 'FIXME'.
+  Assert @0 ==> 'FIXME'
 
   normal! 35|
   normal yiy
-  Assert @0 ==> ''
-  " FIXME: This must be '*/'.
+  Assert @0 ==> '*/'
 endfunction
 
 

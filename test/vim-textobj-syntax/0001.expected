@@ -1,3 +1,4 @@
+not found in 'runtimepath': "ftdetect/*.vim"
 ===== "Check global variables"
 TEST: !!exists('g:loaded_textobj_syntax')  ==>  1 ... ok
 Result: 1 / 1
@@ -19,13 +20,13 @@ Result: 10 / 10
 Result: 0 / 0
 
 ===== "<Plug>(textobj-syntax-i)"
-TEST: @0  ==>  '' ... ok
-TEST: @0  ==>  '' ... ok
-TEST: @0  ==>  '' ... ok
-TEST: @0  ==>  '' ... ok
-TEST: @0  ==>  '' ... ok
-TEST: @0  ==>  '' ... ok
-TEST: @0  ==>  '' ... ok
+TEST: @0  ==>  getline('.') ... ok
+TEST: @0  ==>  getline('.') ... ok
+TEST: @0  ==>  '123' ... ok
+TEST: @0  ==>  '/*' ... ok
+TEST: @0  ==>  '/* FIXME: Fix me. ' ... ok
+TEST: @0  ==>  'FIXME' ... ok
+TEST: @0  ==>  '*/' ... ok
 Result: 7 / 7
 
 ===== Total

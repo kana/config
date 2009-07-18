@@ -30,7 +30,37 @@ endfunction
 
 
 function! textobj#syntax#select_i()  "{{{2
-  return 0
+  let current_position = getpos('.')
+  let synstack = synstack(current_position[1], current_position[2])
+
+  if empty(synstack)   " The character under the cursor is not highlighted.
+    return 0
+  endif
+
+  let original_whichwrap = &g:whichwrap
+    setglobal whichwrap=h,l
+    while !0
+      let start_position = getpos('.')
+      normal! h
+      let _ = getpos('.')
+      if synstack(_[1], _[2])[:len(synstack)-1] != synstack
+      \  || start_position == _
+        break
+      endif
+    endwhile
+
+    call setpos('.', current_position)
+    while !0
+      let end_position = getpos('.')
+      normal! l
+      let _ = getpos('.')
+      if synstack(_[1], _[2])[:len(synstack)-1] != synstack
+      \  || end_position == _
+        break
+      endif
+    endwhile
+  let &g:whichwrap = original_whichwrap
+  return ['v', start_position, end_position]
 endfunction
 
 
