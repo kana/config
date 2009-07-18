@@ -25,7 +25,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="textobj-user.txt">textobj-user.txt</span><span class="Ignore">*</span>      Support for user-defined text objects
 
-Version 0.3.7
+Version 0.3.8
 Script ID: 2100
 Copyright (C) 2007-2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -340,9 +340,12 @@ textobj#user#plugin(<span class="Special">{plugin}</span>, <span class="Special"
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-user-changelog">textobj-user-changelog</span><span class="Ignore">*</span>
 
-0.3.8   2009-04-26T02:10:08+09:00               <span class="Ignore">*</span><span class="Constant" id="textobj-user-changelog-0.3.8">textobj-user-changelog-0.3.8</span><span class="Ignore">*</span>
+0.3.8   2009-07-18T10:02:40+09:00               <span class="Ignore">*</span><span class="Constant" id="textobj-user-changelog-0.3.8">textobj-user-changelog-0.3.8</span><span class="Ignore">*</span>
         - Fix a bug that it was not possible to select any range which starts
           with the end of a line.
+        - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#plugin()"><span class="Identifier">textobj#user#plugin()</span></a><span class="Ignore">|</span>: Fix a bug that it did not accept
+          any function which is not script-local as a value for
+          &quot;*<span class="Special">{spec}</span>-function*&quot;.
 
 0.3.7   2008-10-24T02:25:59+09:00               <span class="Ignore">*</span><span class="Constant" id="textobj-user-changelog-0.3.7">textobj-user-changelog-0.3.7</span><span class="Ignore">*</span>
         - <span class="Ignore">|</span><a href="textobj-user.html#textobj#user#select()"><span class="Identifier">textobj#user#select()</span></a><span class="Ignore">|</span>: Fix a bug that it didn't select an object
