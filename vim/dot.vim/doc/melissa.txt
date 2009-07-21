@@ -1,4 +1,4 @@
-*melissa.txt*	S-expression to Vim script
+*melissa.txt*	System to change Vim script into a programmable language
 
 Version 0.0.0
 Script ID: ****
@@ -28,10 +28,10 @@ CONTENTS					*melissa-contents*
 
 Introduction		|melissa-introduction|
 Interface		|melissa-interface|
-  Functions		  |melissa-functions|
   External commands	  |melissa-external-commands|
   Scheme API		  |melissa-scheme-api|
-Visp language		|melissa-visp|
+  Melissa script	  |melissa-script|
+Examples		|melissa-examples|
 Bugs			|melissa-bugs|
 Changelog		|melissa-changelog|
 
@@ -41,14 +41,20 @@ Changelog		|melissa-changelog|
 ==============================================================================
 INTRODUCTION					*melissa-introduction*
 
-*melissa* is a Vim plugin to provide a set of features to write Vim script in
-its own DSL based on Scheme.  It enables you to write Vim script in
-a programmable programming language.
+*melissa* is a Vim plugin to provide a system to write Vim script in its own
+DSL based on Scheme.  It enables you to write Vim script in a programmable
+programming language.  Why to use melissa?  Because:
+
+- Vim script is weak.  Vim script is just a series of Ex commands and the
+  syntax is too arbitrary as a programming language.
+- There is several interfaces to other lantuages such as |if_tcl|, but they
+  are not portable nor seemlessly integrated into Vim.
+- And all of these problems are solved with melissa.
 
 
 Requirements:
 - Vim 7.2 or later
-- Gauche 0.8.13 or later
+- Gauche 0.8.13 or later <http://practical-scheme.net/gauche/>
 
 Latest version:
 http://github.com/kana/config/commits/vim-melissa
@@ -60,93 +66,91 @@ http://github.com/kana/config/commits/vim-melissa
 INTERFACE					*melissa-interface*
 
 ------------------------------------------------------------------------------
-FUNCTIONS					*melissa-functions*
-
-melissa#compile_file({path})			*melissa#compile_file()*
-melissa#compile_string({string})		*melissa#compile_string()*
-			Compile a |Melissa-script| into a Vim script,
-			then return it as a string.
-			You have to pass the result to |:execute|.
-
-			Melissa script can be given as a {string} or a {path}
-			to a file that contains a Visp script.
-
-
-------------------------------------------------------------------------------
 EXTERNAL COMMANDS				*melissa-external-commands*
 
 melisssac					*melissac*
-			External command to compile a |Melissa-script| into
-			a Vim script.  It reads a Melissa script from the
+			External command to compile a |melissa-script| into
+			a Vim script.  It reads a melissa script from the
 			standard input and it writes the corresponding Vim
 			script to the standard output.
+
+			This command is found in the "bin" directory in
+			a package of melissa.
 
 
 ------------------------------------------------------------------------------
 SCHEME API					*melissa-scheme-api*
 
-(compile-visp {s-exprssion})			*(compile-visp)*
-			Compile a |Visp| script, a Vim script written in
-			{s-exprssion}, then write the result to the current
+(compile-vise {vise} ...)			*(compile-vise)*
+			Compile given {vise}s into a Vim script.
+			Return value is a list of strings and each string is
+			corresponding to an Ex command.
+
+(define-vise-syntax ...)			*(define-vise-syntax)*
+			FIXME: Define new syntax (= macro) for Vise.
+
+(generate-vim-script {vise} ...)		*(generate-vim-script)*
+			Compile given {vise}s with |(compile-vise)|,
+			then write the compiled Vim script to the current
 			output port.
 
-(define-visp-syntax ...)			*(define-visp-syntax)*
-			Define a new syntax for |Visp|.
-			XXX
+(vise-macroexpand {form})			*(vise-macroexpand)*
+			Like (macroexpand), but use |(vise-macroexpand1)| to
+			expand macros.
+
+(vise-macroexpand1 {form})			*(vise-macroexpand1)*
+			Like (macroexpand1), but use macros defined by
+			|(define-vise-syntax)| to expand {form}.
+
+
+------------------------------------------------------------------------------
+MELISSA SCRIPT					*melissa-script*
+
+OVERVIEW ~
+
+Melissa script is just a Scheme script, more precisely, Gauche script.  But
+there are the following differences from ordinary Gauche script:
+
+- Keywords (such as :keyword) are applicable.  For example, suppose you try to
+  evaluate the following expression:
+>
+	(:set wrap!)
+<
+  If a keyword is applied to some arguments, the expression is treated as if
+  it were like this:
+>
+	(generate-vim-script (:set wrap!))
+<
+  This expression generates a Vim script ":set wrap!" which is corresponding
+  to the given expression "(:set wrap!)".
+
+
+VISE ~
+
+*Vise* is abbreviation for "Vim script In S-Expression" and it is
+a S-expression notation for writing Vim script.  The summary of Vise is as
+follows:
+
+- A Vise expression is corresponding to an Ex command, a macro or a sequence
+  of Vise expressions.
+- An Ex command is expressed as a list which has a keyword as the first
+  element.  The keyword is the name of the Ex command, and the rest elements
+  are arguments for the Ex command.
+- A macro is expressed as a list which has a keyword as the first element.
+  The keyword is the name of the macro.
+- A sequence of Vise expressions is expressed as a list of lists.  Each
+  element is corresponding to a Vise expression as described here and the
+  above.
+
+FIXME: More about Vise.
 
 
 
 
 ==============================================================================
-VISP LANGUAGE					*melissa-visp*
+EXAMPLES					*melissa-examples*
 
-OVERVIEW ~
-
-*Visp* is another form of Vim script which is written in S-expression.
-*Melissa-script* is a scheme script to generate a Vim script via Visp.
-
-- An "Ex command" is a list, which contains a keyword or a symbol starting
-  with a colon as its first item.
-
-  Example: >
-	(:let cait_sith "nekoko")
-<
-- A Visp script is a list which contains zero or more "Ex commands".
-
-  Example: >
-	((:let cait_sith "nekoko")
-	 (:echo cait_sith))
-<
-- To compile a Visp script into a Vim script, use |(compile-visp)|.
-
-  Example: >
-	(compile-visp '((:let cait_sith "nekoko")
-	                (:echo cait_sith)))
-	;==> Output the following Vim script to the current output port:
-	;        let cait_sith = 'nekoko'
-	;        echo cait_sith
-<
-- To introduce a Lisp-style macro to Visp script, use |(define-visp-syntax)|.
-
-  Example: >
-	(define-visp-syntax :aif XXX)
-	(compile-visp '((:aif (+ 1 1)
-	                 (:echo it)
-			 (:echo "boo"))))
-	;==> Output the following Vim script to the current output port:
-	;        let it = 1 + 1
-	;        if it
-	;          echo it
-	;        else
-	;          echo "boo"
-	;        endif
-<
-
-
-EX COMMANDS REFERENCE ~
-
-(:XXX XXX ...)					*(:XXX)*
-			XXX
+FIXME:
 
 
 
@@ -154,7 +158,16 @@ EX COMMANDS REFERENCE ~
 ==============================================================================
 BUGS						*melissa-bugs*
 
-- There are many bugs around the world.
+KNOWN ISSUES ~
+
+- Currently there is no known issue.
+
+
+PLANNED FEATURES ~
+
+- Addtional syntax file for filetype=scheme to edit Melissa script.
+
+- Runtime compilation of Melissa script in Vim.
 
 
 
