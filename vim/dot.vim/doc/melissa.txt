@@ -106,26 +106,26 @@ SCHEME API					*melissa-scheme-api*
 ------------------------------------------------------------------------------
 MELISSA SCRIPT					*melissa-script*
 
-OVERVIEW ~
+OVERVIEW					*melissa-script-overview*
 
 Melissa script is just a Scheme script, more precisely, Gauche script.  But
 there are the following differences from ordinary Gauche script:
 
-- Keywords (such as :keyword) are applicable.  For example, suppose you try to
+- In the top level, any list which has a keyword (such as :keyword) as its
+  first element is processed specially.  For example, suppose you try to
   evaluate the following expression:
 >
-	(:set wrap!)
+	(:set wrap)
 <
-  If a keyword is applied to some arguments, the expression is treated as if
-  it were like this:
+  The expression is treated as if it were like this:
 >
-	(generate-vim-script (:set wrap!))
+	(generate-vim-script '(:set wrap))
 <
-  This expression generates a Vim script ":set wrap!" which is corresponding
-  to the given expression "(:set wrap!)".
+  This expression generates a Vim script "set wrap" which is corresponding to
+  the given expression "(:set wrap)".
 
 
-VISE ~
+VISE						*melissa-script-vise* *{vise}*
 
 *Vise* is abbreviation for "Vim script In S-Expression" and it is
 a S-expression notation for writing Vim script.  The summary of Vise is as
@@ -133,16 +133,36 @@ follows:
 
 - A Vise expression is corresponding to an Ex command, a macro or a sequence
   of Vise expressions.
+>
+	{vise-expression} ::= {ex-command} | {macro} | {vise-expressions}
+<
 - An Ex command is expressed as a list which has a keyword as the first
   element.  The keyword is the name of the Ex command, and the rest elements
   are arguments for the Ex command.
+>
+	{ex-command} ::= (:{ex-command-name} {argument} ...)
+<
 - A macro is expressed as a list which has a keyword as the first element.
   The keyword is the name of the macro.
+>
+	{macro} ::= (:{macro-name} {argument} ...)
+<
 - A sequence of Vise expressions is expressed as a list of lists.  Each
   element is corresponding to a Vise expression as described here and the
   above.
+>
+	{vise-expressions} ::= ({vise-expression} ...)
+<
 
 FIXME: More about Vise.
+- Ex command arguments
+- expression
+  - function
+  - literal
+  - operator
+  - option
+  - variable
+  - ...
 
 
 
