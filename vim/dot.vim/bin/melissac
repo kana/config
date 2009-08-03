@@ -1,38 +1,81 @@
 #!/usr/bin/env gosh
-; Core  ;{{{1
+; melissac - Melissa script to Vim script compiler
+; Version: 0.0.0
+; Copyright (C) 2009 kana <http://whileimautomaton.net/>
+; License: MIT license  {{{1
+;     Permission is hereby granted, free of charge, to any person obtaining
+;     a copy of this software and associated documentation files (the
+;     "Software"), to deal in the Software without restriction, including
+;     without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to
+;     permit persons to whom the Software is furnished to do so, subject to
+;     the following conditions:
+; 
+;     The above copyright notice and this permission notice shall be included
+;     in all copies or substantial portions of the Software.
+; 
+;     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+;     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+;     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+;     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+;     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+;     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+;     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(define (main args)
-  (load-from-port (current-input-port))
+
+
+
+
+
+
+
+; Main  ;{{{1
+(define (main args)  ;{{{2
+  ; FIXME: NIY
   0)
 
-(define *visp-command-table* (make-hash-table 'eq?))
-; :command-name => procedure-to-generate-visp-script
 
-(define (unknown-visp-command a-command)
-  (error "Unknown Visp command:" a-command))
 
-(define (compile-visp list-of-commands)
+
+
+
+
+
+; API  ;{{{1
+(define (compile-vise . vises)  ;{{{2
+  ; FIXME: NIY
+  )
+
+
+
+
+(define (define-vise-syntax . args)  ;{{{2
+  ; FIXME: NIY
+  )
+
+
+
+
+(define (generate-vim-script . vises)  ;{{{2
   (for-each
-    (lambda (a-command)
-      (let1 proc (hash-table-get *visp-command-table*
-                                 (car a-command)
-                                 unknown-visp-command)
-        (if (eq? proc unknown-visp-command)
-          (unknown-visp-command a-command)
-          (apply proc (cdr a-command)))))
-    list-of-commands)
-  "")
+    (lambda (s)
+      (display s)
+      (newline))
+    (apply compile-vise vises)))
 
-(define-macro (define-visp-syntax command-name argspec . rest)
-  (unless (keyword? command-name)
-    (error "command-name must be a keyword, but given:"
-           (class-of command-name)
-           command-name))
 
-  `(hash-table-put! *visp-command-table*
-                    ,command-name
-                    (lambda ,argspec ,@rest)))
 
+
+(define (vise-macroexpand form)  ;{{{2
+  ; FIXME: NIIY
+  )
+
+
+
+
+(define (vise-macroexpand1 form)  ;{{{2
+  ; FIXME: NIIY
+  )
 
 
 
@@ -40,9 +83,10 @@
 
 
 
-; Predefined Visp commands  ;{{{1
 
-; (define-visp-syntax :XXX XXX XXX)
+; Predefined Ex commands  ;{{{1
+
+; (define-viep-syntax :XXX XXX XXX)
 ; ...
 
 
