@@ -29,19 +29,22 @@
 
 
 
-; Main  ;{{{1
-(define (main args)  ;{{{2
-  ; FIXME: NIY
-  0)
-
-
-
-
-
-
-
-
 ; API  ;{{{1
+(define-module vim-melissa  ;{{{2
+  ; (use xxx)
+  (export
+    compile-vise
+    define-vise-syntax
+    generate-vim-script
+    vise-macroexpand
+    vise-macroexpand1
+    )
+  )
+(select-module vim-melissa)
+
+
+
+
 (define (compile-vise . vises)  ;{{{2
   ; FIXME: NIY
   )
@@ -80,6 +83,11 @@
 
 
 
+(provide "vim-melissa")  ;{{{2
+
+
+
+
 
 
 
@@ -88,6 +96,21 @@
 
 ; (define-viep-syntax :XXX XXX XXX)
 ; ...
+
+
+
+
+
+
+
+
+; Main  ;{{{1
+(select-module user)
+(import vim-melissa)
+
+(define (main args)
+  ; FIXME: NIY
+  0)
 
 
 

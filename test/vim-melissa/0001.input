@@ -2,6 +2,7 @@
 (use gauche.test)
 (test-start "vim-melissa: melissac")
 (load "./vim/dot.vim/bin/melissac")
+(import vim-melissa)
 
 
 
