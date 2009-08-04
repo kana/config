@@ -1,0 +1,35 @@
+; Initialization  ;{{{1
+(use gauche.test)
+(test-start "vim-melissa: melissac")
+(load "./vim/dot.vim/bin/melissac")
+
+
+
+
+(test-section "compile-vise")  ;{{{1
+
+
+
+
+(test-section "define-vise-syntax")  ;{{{1
+
+
+
+
+(test-section "generate-vim-script")  ;{{{1
+
+
+
+
+(test-section "vise-macroexpand")  ;{{{1
+
+
+
+
+(test-section "vise-macroexpand1")  ;{{{1
+
+
+
+
+(test-end)  ;{{{1
+; vim: filetype=scheme foldmethod=marker

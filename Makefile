@@ -812,6 +812,15 @@ test/vim-ku-file/%.output: \
 	@./test/tester-vim $< &>$@
 
 
+# vim-melissa  #{{{2
+TESTS_vim_melissa = 0001
+
+test/vim-melissa/%.output: \
+		test/vim-melissa/%.input \
+		vim/dot.vim/bin/melissac
+	@gosh $< >$@
+
+
 # vim-operator-user  #{{{2
 TESTS_vim_operator_user = 0001
 
