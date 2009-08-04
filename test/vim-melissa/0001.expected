@@ -3,6 +3,16 @@ Testing vim-melissa: melissac =================================================
 <define-vise-syntax>-----------------------------------------------------------
 <generate-vim-script>----------------------------------------------------------
 <translate-melissa-expr>-------------------------------------------------------
+test number, expects 1 ==> ok
+test string, expects "string" ==> ok
+test symbol, expects symbol ==> ok
+test keyword, expects :keyword ==> ok
+test (symbol . something), expects (symbol . something) ==> ok
+test (symbol), expects (symbol) ==> ok
+test (symbol something), expects (symbol something) ==> ok
+test (:keyword . something), expects (:keyword . something) ==> ok
+test (:keyword), expects (generate-vim-script '(:keyword)) ==> ok
+test (:keyword something), expects (generate-vim-script '(:keyword something)) ==> ok
 <vise-macroexpand>-------------------------------------------------------------
 <vise-macroexpand1>------------------------------------------------------------
 passed.

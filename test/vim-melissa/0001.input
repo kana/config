@@ -25,6 +25,25 @@
 
 (test-section "translate-melissa-expr")  ;{{{1
 
+(test* "number" 1 (translate-melissa-expr 1))
+(test* "string" "string" (translate-melissa-expr "string"))
+(test* "symbol" 'symbol (translate-melissa-expr 'symbol))
+(test* "keyword" :keyword (translate-melissa-expr :keyword))
+
+(test* "(symbol . something)" '(symbol . something)
+       (translate-melissa-expr '(symbol . something)))
+(test* "(symbol)" '(symbol)
+       (translate-melissa-expr '(symbol)))
+(test* "(symbol something)" '(symbol something)
+       (translate-melissa-expr '(symbol something)))
+
+(test* "(:keyword . something)" '(:keyword . something)
+       (translate-melissa-expr '(:keyword . something)))
+(test* "(:keyword)" '(generate-vim-script '(:keyword))
+       (translate-melissa-expr '(:keyword)))
+(test* "(:keyword something)" '(generate-vim-script '(:keyword something))
+       (translate-melissa-expr '(:keyword something)))
+
 
 
 
