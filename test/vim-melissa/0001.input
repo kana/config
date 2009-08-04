@@ -2,6 +2,7 @@
 (use gauche.test)
 (test-start "vim-melissa: melissac")
 (load "./vim/dot.vim/bin/melissac")
+(with-module user (set! main #f))  ; Here "main" must not be called.
 (import vim-melissa)
 
 
