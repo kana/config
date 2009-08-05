@@ -79,14 +79,14 @@
 
 
 (define (vise-macroexpand form)  ;{{{2
-  ; FIXME: NIIY
+  ; FIXME: NIY
   )
 
 
 
 
 (define (vise-macroexpand1 form)  ;{{{2
-  ; FIXME: NIIY
+  ; FIXME: NIY
   )
 
 
@@ -103,7 +103,7 @@
 
 ; Predefined Ex commands  ;{{{1
 
-; (define-viep-syntax :XXX XXX XXX)
+; (define-vise-syntax :XXX XXX XXX)
 ; ...
 
 
