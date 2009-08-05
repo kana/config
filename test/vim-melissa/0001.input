@@ -18,6 +18,24 @@
 
 
 
+(test-section "ex-command-expr?")  ;{{{1
+
+(test* "number" #f (ex-command-expr? 1))
+(test* "string" #f (ex-command-expr? "string"))
+(test* "symbol" #f (ex-command-expr? 'symbol))
+(test* "keyword" #f (ex-command-expr? :keyword))
+
+(test* "(symbol . something)" #f (ex-command-expr? '(symbol . something)))
+(test* "(symbol)" #f (ex-command-expr? '(symbol)))
+(test* "(symbol something)" #f (ex-command-expr? '(symbol something)))
+
+(test* "(:keyword . something)" #f (ex-command-expr? '(:keyword . something)))
+(test* "(:keyword)" #t (ex-command-expr? '(:keyword)))
+(test* "(:keyword something)" #t (ex-command-expr? '(:keyword something)))
+
+
+
+
 (test-section "generate-vim-script")  ;{{{1
 
 

@@ -1,6 +1,17 @@
 Testing vim-melissa: melissac =================================================
 <compile-vise>-----------------------------------------------------------------
 <define-vise-syntax>-----------------------------------------------------------
+<ex-command-expr?>-------------------------------------------------------------
+test number, expects #f ==> ok
+test string, expects #f ==> ok
+test symbol, expects #f ==> ok
+test keyword, expects #f ==> ok
+test (symbol . something), expects #f ==> ok
+test (symbol), expects #f ==> ok
+test (symbol something), expects #f ==> ok
+test (:keyword . something), expects #f ==> ok
+test (:keyword), expects #t ==> ok
+test (:keyword something), expects #t ==> ok
 <generate-vim-script>----------------------------------------------------------
 <translate-melissa-expr>-------------------------------------------------------
 test number, expects 1 ==> ok

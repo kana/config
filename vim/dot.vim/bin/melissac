@@ -35,6 +35,7 @@
   (export
     compile-vise
     define-vise-syntax
+    ex-command-expr?
     generate-vim-script
     translate-melissa-expr
     vise-macroexpand
