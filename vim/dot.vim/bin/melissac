@@ -60,6 +60,12 @@
 
 
 
+(define (ex-command-expr? expr)  ;{{{2
+  (and (list? expr) (keyword? (car expr))))
+
+
+
+
 (define (generate-vim-script . vises)  ;{{{2
   (for-each
     (lambda (s)
@@ -71,7 +77,7 @@
 
 
 (define (translate-melissa-expr expr)  ;{{{2
-  (if (and (list? expr) (keyword? (car expr)))  ; ex-command-expr?
+  (if (ex-command-expr? expr)
     `(generate-vim-script ',expr)
     expr))
 
