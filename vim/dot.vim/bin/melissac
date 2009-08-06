@@ -37,6 +37,7 @@
     define-vise-syntax
     ex-command-expr?
     generate-vim-script
+    output-compiled-vise
     translate-melissa-expr
     vise-macroexpand
     vise-macroexpand1
@@ -73,6 +74,19 @@
       (display s)
       (newline))
     (apply compile-vise vises)))
+
+
+
+
+(define (output-compiled-vise . compiled-vises)  ;{{{2
+  (for-each
+    (lambda (compiled-vise)
+      (for-each
+        (lambda (ex-command-string)
+          (display ex-command-string)
+          (newline))
+        compiled-vise))
+    compiled-vises))
 
 
 

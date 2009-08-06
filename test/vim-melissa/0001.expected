@@ -13,6 +13,11 @@ test (:keyword . something), expects #f ==> ok
 test (:keyword), expects #t ==> ok
 test (:keyword something), expects #t ==> ok
 <generate-vim-script>----------------------------------------------------------
+<output-compiled-vise>---------------------------------------------------------
+test (()), expects "" ==> ok
+test (()), expects "\n" ==> ok
+test ((set wrap vertical diffsplit No.1)), expects "set wrap\nvertical diffsplit No.1\n" ==> ok
+test ((set wrap) (vertical diffsplit No.1)), expects "set wrap\nvertical diffsplit No.1\n" ==> ok
 <translate-melissa-expr>-------------------------------------------------------
 test number, expects 1 ==> ok
 test string, expects "string" ==> ok

@@ -41,6 +41,26 @@
 
 
 
+(test-section "output-compiled-vise")  ;{{{1
+
+(let ((test% (lambda (expected . exprs)
+               (test* (x->string exprs)
+                      expected
+                      (with-output-to-string
+                        (lambda ()
+                          (apply output-compiled-vise exprs)))))))
+  (test% "" '())
+  (test% "\n" '(""))
+  (test% "set wrap\nvertical diffsplit No.1\n"
+         '("set wrap" "vertical diffsplit No.1"))
+  (test% "set wrap\nvertical diffsplit No.1\n"
+         '("set wrap")
+         '("vertical diffsplit No.1"))
+  )
+
+
+
+
 (test-section "translate-melissa-expr")  ;{{{1
 
 (test* "number" 1 (translate-melissa-expr 1))

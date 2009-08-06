@@ -83,7 +83,7 @@ SCHEME API					*melissa-scheme-api*
 
 (compile-vise {vise} ...)			*(compile-vise)*
 			Compile given {vise}s into a Vim script.
-			Return value is a list of strings and each string is
+			Return value is a list of objects and each object is
 			corresponding to an Ex command.
 
 (define-vise-syntax ...)			*(define-vise-syntax)*
@@ -93,6 +93,9 @@ SCHEME API					*melissa-scheme-api*
 			Compile given {vise}s with |(compile-vise)|,
 			then write the compiled Vim script to the current
 			output port.
+
+(output-compiled-vise {compiled-vise} ...)	*(output-compiled-vise)*
+			Write compiled {vise}s to the current output port.
 
 (vise-macroexpand {form})			*(vise-macroexpand)*
 			Like (macroexpand), but use |(vise-macroexpand1)| to
