@@ -1,5 +1,8 @@
 Testing vim-melissa: melissac =================================================
 <compile-vise>-----------------------------------------------------------------
+test (), expects () ==> ERROR: GOT #<undef>
+test ((set wrap)), expects ("set wrap") ==> ERROR: GOT #<undef>
+test ((set wrap) (vertical diffsplit No.1)), expects ("set wrap" "vertical diffsplit No.1") ==> ERROR: GOT #<undef>
 <define-vise-syntax>-----------------------------------------------------------
 <ex-command-expr?>-------------------------------------------------------------
 test number, expects #f ==> ok
@@ -31,4 +34,8 @@ test (:keyword), expects (generate-vim-script '(:keyword)) ==> ok
 test (:keyword something), expects (generate-vim-script '(:keyword something)) ==> ok
 <vise-macroexpand>-------------------------------------------------------------
 <vise-macroexpand1>------------------------------------------------------------
-passed.
+failed.
+discrepancies found.  Errors are:
+test (): expects () => got #<undef>
+test ((set wrap)): expects ("set wrap") => got #<undef>
+test ((set wrap) (vertical diffsplit No.1)): expects ("set wrap" "vertical diffsplit No.1") => got #<undef>
