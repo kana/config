@@ -56,9 +56,19 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
   # for cabal
   if [ -d "$HOME/.cabal/bin" ]; then PATH="$HOME/.cabal/bin:$PATH"; fi
 
-  # for manually built applications
+  # for manually built applications - global
   if [ -d /usr/local/apps ]; then
     for i in /usr/local/apps/*; do
+      if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
+      if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
+      if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
+      if [ -d "$i/info" ]; then INFOPATH="$i/info:$INFOPATH"; fi
+    done
+  fi
+
+  # for manually built applications - per-user
+  if [ -d "$HOME/apps" ]; then
+    for i in "$HOME/apps/"*; do
       if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
       if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
       if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
