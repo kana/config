@@ -69,11 +69,7 @@
 
 
 (define (generate-vim-script . vises)  ;{{{2
-  (for-each
-    (lambda (s)
-      (display s)
-      (newline))
-    (apply compile-vise vises)))
+  (output-compiled-vise (apply compile-vise vises)))
 
 
 
