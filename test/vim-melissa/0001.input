@@ -8,12 +8,12 @@
 
 
 
-(test-section "compile-vise")  ;{{{1
+(test-section "compile-vise")  ; FIXME: NTY  ;{{{1
 
 
 
 
-(test-section "define-vise-syntax")  ;{{{1
+(test-section "define-vise-syntax")  ; FIXME: NTY  ;{{{1
 
 
 
@@ -36,7 +36,7 @@
 
 
 
-(test-section "generate-vim-script")  ;{{{1
+(test-section "generate-vim-script")  ; FIXME: NTY  ;{{{1
 
 
 
@@ -85,12 +85,12 @@
 
 
 
-(test-section "vise-macroexpand")  ;{{{1
+(test-section "vise-macroexpand")  ; FIXME: NTY  ;{{{1
 
 
 
 
-(test-section "vise-macroexpand1")  ;{{{1
+(test-section "vise-macroexpand1")  ; FIXME: NTY  ;{{{1
 
 
 
