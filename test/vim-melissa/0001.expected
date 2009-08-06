@@ -1,8 +1,8 @@
 Testing vim-melissa: melissac =================================================
 <compile-vise>-----------------------------------------------------------------
-test (), expects () ==> ERROR: GOT #<undef>
-test ((set wrap)), expects ("set wrap") ==> ERROR: GOT #<undef>
-test ((set wrap) (vertical diffsplit No.1)), expects ("set wrap" "vertical diffsplit No.1") ==> ERROR: GOT #<undef>
+test (), expects () ==> ok
+test ((set wrap)), expects ("set wrap") ==> ERROR: GOT #<error "Unknown vise (:set wrap)">
+test ((set wrap) (vertical diffsplit No.1)), expects ("set wrap" "vertical diffsplit No.1") ==> ERROR: GOT #<error "Unknown vise (:set wrap)">
 <define-vise-syntax>-----------------------------------------------------------
 <ex-command-expr?>-------------------------------------------------------------
 test number, expects #f ==> ok
@@ -36,6 +36,5 @@ test (:keyword something), expects (generate-vim-script '(:keyword something)) =
 <vise-macroexpand1>------------------------------------------------------------
 failed.
 discrepancies found.  Errors are:
-test (): expects () => got #<undef>
-test ((set wrap)): expects ("set wrap") => got #<undef>
-test ((set wrap) (vertical diffsplit No.1)): expects ("set wrap" "vertical diffsplit No.1") => got #<undef>
+test ((set wrap)): expects ("set wrap") => got #<error "Unknown vise (:set wrap)">
+test ((set wrap) (vertical diffsplit No.1)): expects ("set wrap" "vertical diffsplit No.1") => got #<error "Unknown vise (:set wrap)">

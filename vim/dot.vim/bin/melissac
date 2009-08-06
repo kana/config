@@ -49,8 +49,22 @@
 
 
 (define (compile-vise . vises)  ;{{{2
-  ; FIXME: NIY
-  )
+  (define (%default-vise-compiler vise)
+    (error "Unknown vise" vise))
+  (define (compile-vise1 vise)
+    ((hash-table-get %vise-compiler-table (car vise) %default-vise-compiler)
+     vise))
+  (map compile-vise1 vises))
+
+
+
+
+; Predefined Ex commands  ;{{{2
+
+(define %vise-compiler-table (make-hash-table 'eq?))
+  ; :ex-command-name => procedure (vise->string)
+
+; (hash-table-put! :set (lambda (vise) ...))  ; FIXME: NIY
 
 
 
@@ -110,18 +124,6 @@
 
 
 (provide "vim-melissa")  ;{{{2
-
-
-
-
-
-
-
-
-; Predefined Ex commands  ;{{{1
-
-; (define-vise-syntax :XXX XXX XXX)
-; ...
 
 
 
