@@ -8,18 +8,23 @@
 
 
 
-(test-section "compile-vise")  ; FIXME: NTY  ;{{{1
+(test-section "compile-vise")  ;{{{1
 
 (let ((test% (lambda (expected . exprs)
                (test* (x->string exprs)
                       expected
                       (apply compile-vise exprs)))))
+  ; No command - nothing will be outputed.
   (test% '())
+
+  ; FIXME: The followings are just dummies.
   (test% '("set wrap") '(:set wrap))
   (test% '("set wrap"
            "vertical diffsplit No.1")
          '(:set wrap)
          '(:vertical diffsplit No.1))
+
+  ; FIXME: Tests for predefined Ex commands.
   )
 
 
