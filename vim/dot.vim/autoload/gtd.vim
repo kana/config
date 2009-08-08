@@ -56,7 +56,13 @@ endfunction
 
 
 function! gtd#new_issue()  "{{{2
-  throw 'FIXME: NIY'
+  let [max_id, sum] = gtd#status()
+  let new_id = max_id + 1
+
+  normal! ggzv
+  call search('^INBOX$', 'cW')
+  put ='#' . new_id . ' '
+  startinsert!
 endfunction
 
 

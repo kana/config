@@ -68,6 +68,47 @@ endfunction
 
 
 
+function s:test_gtd_new_issue_1()  "{{{1
+  Title "gtd#new_issue() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+
+  call gtd#new_issue()
+  Assert getline(1, '$') ==> ['', '#1 ']
+endfunction
+
+
+
+
+function s:test_gtd_new_issue_2()  "{{{1
+  Title "gtd#new_issue() - with some content - without INBOX marker"
+
+  % delete _
+  put =['#1', 'x', '#91', '#4']
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#91', '#4']
+
+  call gtd#new_issue()
+  Assert getline(1, '$') ==> ['', '#92 ', '#1', 'x', '#91', '#4']
+endfunction
+
+
+
+
+function s:test_gtd_new_issue_3()  "{{{1
+  Title "gtd#new_issue() - with some content - with INBOX marker"
+
+  % delete _
+  put =['#1', 'x', '#91', 'INBOX', '#4']
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#91', 'INBOX', '#4']
+
+  call gtd#new_issue()
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#91', 'INBOX', '#92 ', '#4']
+endfunction
+
+
+
+
 Test  "{{{1
 
 " __END__

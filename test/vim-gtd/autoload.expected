@@ -8,6 +8,22 @@ TEST: getline(1, '$')  ==>  ['', 'a', 'b', 'c'] ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 Result: 2 / 2
 
+===== "gtd#new_issue() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+E486: Pattern not found: ^#
+TEST: getline(1, '$')  ==>  ['', '#1 '] ... ok
+Result: 2 / 2
+
+===== "gtd#new_issue() - with some content - without INBOX marker"
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', '#4'] ... ok
+TEST: getline(1, '$')  ==>  ['', '#92 ', '#1', 'x', '#91', '#4'] ... ok
+Result: 2 / 2
+
+===== "gtd#new_issue() - with some content - with INBOX marker"
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', 'INBOX', '#4'] ... ok
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', 'INBOX', '#92 ', '#4'] ... ok
+Result: 2 / 2
+
 ===== "gtd#status() - without any content"
 TEST: getline(1, '$')  ==>  [''] ... ok
 E486: Pattern not found: ^#
@@ -21,4 +37,4 @@ TEST: gtd#status()  ==>  [999, 3] ... ok
 Result: 2 / 2
 
 ===== Total
-Result: 8 / 8
+Result: 14 / 14
