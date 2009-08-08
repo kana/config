@@ -142,6 +142,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_ft_gauche_FILES) \
   $(PACKAGE_vim_ft_haskell_FILES) \
+  $(PACKAGE_vim_gtd_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_ku_args_FILES) \
@@ -223,6 +224,7 @@ ALL_PACKAGES=\
   vim-ft-gauche \
   vim-ft-haskell \
   vim-idwintab \
+  vim-gtd \
   vim-ku \
   vim-ku-args \
   vim-ku-buffer \
@@ -338,6 +340,14 @@ PACKAGE_vim_idwintab_BASE=vim/dot.vim
 PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
+
+PACKAGE_vim_gtd_ARCHIVE=vim-gtd-0.0.0
+PACKAGE_vim_gtd_BASE=vim/dot.vim
+PACKAGE_vim_gtd_FILES=\
+  vim/dot.vim/autoload/gtd.vim \
+  vim/dot.vim/doc/gtd.txt \
+  vim/dot.vim/ftplugin/gtd.vim \
+  vim/dot.vim/syntax/gtd.vim
 
 PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.4.1
 PACKAGE_vim_ku_BASE=vim/dot.vim
@@ -777,6 +787,19 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	            test/$(PACKAGE_NAME)/$$i.expected; \
 	  fi; \
 	done
+
+
+# vim-gtd  #{{{2
+	# FIXME: Implement tests.
+TESTS_vim_gtd = autoload ftplugin syntax
+
+test/vim-gtd/%.output: \
+		test/vim-gtd/%.input \
+		test/tester-vim \
+		test/libtest.vim \
+		vim/dot.vim/autoload/gtd.vim \
+		vim/dot.vim/ftplugin/gtd.vim
+	@./test/tester-vim $< &>$@
 
 
 # vim-ku  #{{{2
