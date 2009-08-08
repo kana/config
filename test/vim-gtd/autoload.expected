@@ -8,5 +8,17 @@ TEST: getline(1, '$')  ==>  ['', 'a', 'b', 'c'] ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 Result: 2 / 2
 
+===== "gtd#status() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+E486: Pattern not found: ^#
+TEST: gtd#status()  ==>  [0, 0] ... ok
+Result: 2 / 2
+
+===== "gtd#status() - with some content"
+4 more lines
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#3', '#999'] ... ok
+TEST: gtd#status()  ==>  [999, 3] ... ok
+Result: 2 / 2
+
 ===== Total
-Result: 4 / 4
+Result: 8 / 8

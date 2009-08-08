@@ -44,6 +44,30 @@ endfunction
 
 
 
+function s:test_gtd_status_1()  "{{{1
+  Title "gtd#status() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+  Assert gtd#status() ==> [0, 0]
+endfunction
+
+
+
+
+function s:test_gtd_status_2()  "{{{1
+  Title "gtd#status() - with some content"
+
+  % delete _
+  put =['#1', 'x', '#3', '#999']
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#3', '#999']
+
+  Assert gtd#status() ==> [999, 3]
+endfunction
+
+
+
+
 Test  "{{{1
 
 " __END__
