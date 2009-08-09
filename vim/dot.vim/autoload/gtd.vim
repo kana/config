@@ -53,7 +53,21 @@ endfunction
 
 
 function! gtd#jump_to_issue()  "{{{2
-  throw 'FIXME: NIY'
+  let pos = getpos('.')
+  if search(s:RE_ISSUE_ID, 'ceW') == 0
+    echo 'There is no issue id in this buffer.'
+    return 0
+  endif
+
+  let id_string = matchstr(getline('.'), s:RE_ISSUE_ID)
+  if search('\V\^' . id_string . ' ', 'cw') == 0
+    echo 'There is no issue for this id.'
+    call setpos('.', pos)
+    return 0
+  endif
+
+  normal! zvzz
+  return !0
 endfunction
 
 
