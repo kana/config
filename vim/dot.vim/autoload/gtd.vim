@@ -21,6 +21,17 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Constants  "{{{1
+
+let s:RE_ISSUE_ID = '#\<\d\+\>'
+
+
+
+
+
+
+
+
 " Interface  "{{{1
 function! gtd#initialize()  "{{{2
   % delete _
@@ -69,7 +80,12 @@ endfunction
 
 
 function! gtd#new_note()  "{{{2
-  throw 'FIXME: NIY'
+  call search('^' . s:RE_ISSUE_ID, 'bcW')
+  let lines = ["\t" . strftime('%Y-%m-%dT%H:%M:%S'), "\t\t", '']
+  for line in lines
+    put =line
+  endfor
+  startinsert!
 endfunction
 
 

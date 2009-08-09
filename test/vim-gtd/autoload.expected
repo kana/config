@@ -24,6 +24,29 @@ TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', 'INBOX', '#4'] ... ok
 TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', 'INBOX', '#92 ', '#4'] ... ok
 Result: 2 / 2
 
+===== "gtd#new_note() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getline(1, '$')  ==>  ['', "\t****-**-**T**:**:**", "\t\t", ''] ... ok
+Result: 2 / 2
+
+===== "gtd#new_note() - with some content - in another note"
+TEST: getline(1, '$')  ==>  ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a'] ... ok
+17 substitutions on 4 lines
+TEST: getline(1, '$')  ==>  [ '', '#* i', 'c', '#* ii', 'b', '#* iii', "\t****-**-**T**:**:**", "\t\t", '', 'a'] ... ok
+Result: 2 / 2
+
+===== "gtd#new_note() - with some content - at the header of an issue"
+TEST: getline(1, '$')  ==>  ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a'] ... ok
+17 substitutions on 4 lines
+TEST: getline(1, '$')  ==>  [ '', '#* i', 'c', '#* ii', "\t****-**-**T**:**:**", "\t\t", '', 'b', '#* iii', 'a'] ... ok
+Result: 2 / 2
+
+===== "gtd#new_note() - with some content - not in any issue"
+TEST: getline(1, '$')  ==>  ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a'] ... ok
+17 substitutions on 4 lines
+TEST: getline(1, '$')  ==>  [ '', "\t****-**-**T**:**:**", "\t\t", '', '#* i', 'c', '#* ii', 'b', '#* iii', 'a'] ... ok
+Result: 2 / 2
+
 ===== "gtd#status() - without any content"
 TEST: getline(1, '$')  ==>  [''] ... ok
 E486: Pattern not found: ^#
@@ -37,4 +60,4 @@ TEST: gtd#status()  ==>  [999, 3] ... ok
 Result: 2 / 2
 
 ===== Total
-Result: 14 / 14
+Result: 22 / 22
