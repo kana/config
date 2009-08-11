@@ -29,50 +29,46 @@ endif
 
 
 
-
-
-
-
+" Named key mappings:
+" FIXME: Should these definitions be put into plugin/gtd.vim or not?
 nnoremap <Plug>(gtd-new-issue)  :<C-u>call gtd#new_issue()<Return>
 nnoremap <Plug>(gtd-new-note)  :<C-u>call gtd#new_note()<Return>
 nnoremap <Plug>(gtd-jump-to-issue)  :<C-u>call gtd#jump_to_issue()<Return>
-nnoremap <Plug>(gtd-mark-as-inbox)  :<C-u>call gtd#mark('inbox')<Return>
-nnoremap <Plug>(gtd-mark-as-next)  :<C-u>call gtd#mark('next')<Return>
-nnoremap <Plug>(gtd-mark-as-calendar)  :<C-u>call gtd#mark('calendar')<Return>
-nnoremap <Plug>(gtd-mark-as-projects)  :<C-u>call gtd#mark('projects')<Return>
-nnoremap <Plug>(gtd-mark-as-waiting)  :<C-u>call gtd#mark('waiting')<Return>
-nnoremap <Plug>(gtd-mark-as-someday)  :<C-u>call gtd#mark('someday')<Return>
-nnoremap <Plug>(gtd-mark-as-archive)  :<C-u>call gtd#mark('archive')<Return>
-nnoremap <Plug>(gtd-mark-as-trash)  :<C-u>call gtd#mark('trash')<Return>
+nnoremap <Plug>(gtd-mark-as-inbox)  :<C-u>call gtd#mark('INBOX')<Return>
+nnoremap <Plug>(gtd-mark-as-next-actions)
+\        :<C-u>call gtd#mark('NEXT ACTIONS')<Return>
+nnoremap <Plug>(gtd-mark-as-calendar)  :<C-u>call gtd#mark('CALENDAR')<Return>
+nnoremap <Plug>(gtd-mark-as-projects)  :<C-u>call gtd#mark('PROJECTS')<Return>
+nnoremap <Plug>(gtd-mark-as-waiting-for)
+\        :<C-u>call gtd#mark('WAITING FOR')<Return>
+nnoremap <Plug>(gtd-mark-as-someday)  :<C-u>call gtd#mark('SOMEDAY')<Return>
+nnoremap <Plug>(gtd-mark-as-archive)  :<C-u>call gtd#mark('ARCHIVE')<Return>
+nnoremap <Plug>(gtd-mark-as-trash)  :<C-u>call gtd#mark('TRASH')<Return>
 
 
-
-
-
-
-
-
+" Default key mappings:
 silent! nmap <unique> <buffer> <LocalLeader>i  <Plug>(gtd-new-issue)
 silent! nmap <unique> <buffer> <LocalLeader>n  <Plug>(gtd-new-note)
 silent! nmap <unique> <buffer> <LocalLeader>g  <Plug>(gtd-jump-to-issue)
-silent! nmap <unique> <buffer> <LocalLeader>I  <Plug>(gtd-mark-inbox)
-silent! nmap <unique> <buffer> <LocalLeader><Space>  <Plug>(gtd-mark-next)
-silent! nmap <unique> <buffer> <LocalLeader>c  <Plug>(gtd-mark-calendar)
-silent! nmap <unique> <buffer> <LocalLeader>p  <Plug>(gtd-mark-projects)
-silent! nmap <unique> <buffer> <LocalLeader>w  <Plug>(gtd-mark-waiting)
-silent! nmap <unique> <buffer> <LocalLeader>s  <Plug>(gtd-mark-someday)
-silent! nmap <unique> <buffer> <LocalLeader>a  <Plug>(gtd-mark-archive)
-silent! nmap <unique> <buffer> <LocalLeader>t  <Plug>(gtd-mark-trash)
+silent! nmap <unique> <buffer> <LocalLeader>I  <Plug>(gtd-mark-as-inbox)
+silent! nmap <unique> <buffer> <LocalLeader><Space>
+\                              <Plug>(gtd-mark-as-next-actions)
+silent! nmap <unique> <buffer> <LocalLeader>c  <Plug>(gtd-mark-as-calendar)
+silent! nmap <unique> <buffer> <LocalLeader>p  <Plug>(gtd-mark-as-projects)
+silent! nmap <unique> <buffer> <LocalLeader>w  <Plug>(gtd-mark-as-waiting-for)
+silent! nmap <unique> <buffer> <LocalLeader>s  <Plug>(gtd-mark-as-someday)
+silent! nmap <unique> <buffer> <LocalLeader>a  <Plug>(gtd-mark-as-archive)
+silent! nmap <unique> <buffer> <LocalLeader>t  <Plug>(gtd-mark-as-trash)
 
 
-command -buffer GtdInitialize  call gtd#initialize()
-
-
+" Options:
 setlocal foldmethod=syntax
 
 
-
-
+" Initial setup:
+if line('$') == 1 && getline(1) == ''  " empty buffer?
+  call gtd#initialize()
+endif
 
 
 
