@@ -28,7 +28,7 @@ CONTENTS					*gtd-contents*
 
 Introduction            |gtd-introduction|
 Interface               |gtd-interface|
-  Commands                |gtd-commands|
+  Functions               |gtd-functions|
   Key Mappings            |gtd-key-mappings|
 Bugs                    |gtd-bugs|
 Changelog               |gtd-changelog|
@@ -41,6 +41,15 @@ INTRODUCTION					*gtd-introduction*
 
 *gtd* is a Vim filetype plugin to support to do Getting Things Done (*).
 It provides useful features for buffers with filetype "gtd".
+
+To use this plugin, open an empty buffer, then set 'filetype' of the buffer to
+"gtd".  For example:
+>
+	:new
+	:setfiletype gtd
+<
+After the above steps, a template to start GTD will be set up for the buffer.
+See |gtd-default-key-mappings| for available features and how to use.
 
 (*) http://en.wikipedia.org/wiki/Getting_Things_Done
 
@@ -61,10 +70,30 @@ http://kana.github.com/config/vim/gtd.html
 INTERFACE					*gtd-interface*
 
 ------------------------------------------------------------------------------
-COMMANDS					*gtd-commands*
+FUNCTIONS					*gtd-functions*
 
-:GtdInitialize					*:GtdInitialize*
-			Initialize the current buffer for GTD.
+gtd#initialize()				*gtd#initialize()*
+			Initialize the current buffer for GTD, i.e.,
+
+			- Delete the whole content of the buffer.
+			- Add sections for GTD into the buffer.
+
+			This function is automatically called buffers which
+			are empty and which 'filetype' is "gtd".
+
+gtd#jump_to_issue()				*gtd#jump_to_issue()*
+			Function version of |<Plug>(gtd-jump-to-issue)|.
+
+gtd#mark({section})				*gtd#mark()*
+			Move the issue under the cursor into the {section},
+			where {section} is a string which represents the name
+			of a section.
+
+gtd#new_issue()					*gtd#new_issue()*
+			Function version of |<Plug>(gtd-new-issue)|.
+
+gtd#new_note()					*gtd#new_note()*
+			Function version of |<Plug>(gtd-new-note)|.
 
 
 ------------------------------------------------------------------------------
@@ -77,14 +106,14 @@ Modes	{lhs}			{rhs}
 n	<LocalLeader>i		|<Plug>(gtd-new-issue)|
 n	<LocalLeader>n		|<Plug>(gtd-new-note)|
 n	<LocalLeader>g		|<Plug>(gtd-jump-to-issue)|
-n	<LocalLeader>I		|<Plug>(gtd-move-to-inbox)|
-n	<LocalLeader><Space>	|<Plug>(gtd-move-to-next)|
-n	<LocalLeader>c		|<Plug>(gtd-move-to-calendar)|
-n	<LocalLeader>p		|<Plug>(gtd-move-to-projects)|
-n	<LocalLeader>w		|<Plug>(gtd-move-to-waiting)|
-n	<LocalLeader>s		|<Plug>(gtd-move-to-someday)|
-n	<LocalLeader>a		|<Plug>(gtd-move-to-archive)|
-n	<LocalLeader>t		|<Plug>(gtd-move-to-trash)|
+n	<LocalLeader>I		|<Plug>(gtd-mark-as-inbox)|
+n	<LocalLeader><Space>	|<Plug>(gtd-mark-as-next-actions)|
+n	<LocalLeader>c		|<Plug>(gtd-mark-as-calendar)|
+n	<LocalLeader>p		|<Plug>(gtd-mark-as-projects)|
+n	<LocalLeader>w		|<Plug>(gtd-mark-as-waiting-for)|
+n	<LocalLeader>s		|<Plug>(gtd-mark-as-someday)|
+n	<LocalLeader>a		|<Plug>(gtd-mark-as-archive)|
+n	<LocalLeader>t		|<Plug>(gtd-mark-as-trash)|
 
 
 NAMED KEY MAPPINGS				*gtd-named-key-mappings*
@@ -92,7 +121,8 @@ NAMED KEY MAPPINGS				*gtd-named-key-mappings*
 The following key mappings are defined in Normal mode.
 
 <Plug>(gtd-new-issue)				*<Plug>(gtd-new-issue)*
-			Add a new issue, then start Insert mode.
+			Add a new issue in the INBOX section, then start
+			Insert mode.
 
 <Plug>(gtd-new-note)				*<Plug>(gtd-new-note)*
 			Add a new note for the nearest issue at the
@@ -102,25 +132,23 @@ The following key mappings are defined in Normal mode.
 			Move the cursor to the issue which ID is under or
 			after the cursor position.
 
-<Plug>(gtd-mark-as-inbox)			*<Plug>(gtd-mark-as-inbox)*
-<Plug>(gtd-mark-as-next)			*<Plug>(gtd-mark-as-next)*
-<Plug>(gtd-mark-as-calendar)			*<Plug>(gtd-mark-as-calendar)*
-<Plug>(gtd-mark-as-projects)			*<Plug>(gtd-mark-as-projects)*
-<Plug>(gtd-mark-as-waiting)			*<Plug>(gtd-mark-as-waiting)*
-<Plug>(gtd-mark-as-someday)			*<Plug>(gtd-mark-as-someday)*
-<Plug>(gtd-mark-as-archive)			*<Plug>(gtd-mark-as-archive)*
-<Plug>(gtd-mark-as-trash)			*<Plug>(gtd-mark-as-trash)*
-			Mark the nearest issue at the cursor position as
-			INBOX, NEXT ACTIONS, CALENDAR, PROJECTS, WAITING FOR,
-			SOMEDAY, ARCHIVE or TRASH section.
+<Plug>(gtd-mark-as-inbox)		*<Plug>(gtd-mark-as-inbox)*
+<Plug>(gtd-mark-as-next-actions)	*<Plug>(gtd-mark-as-next-actions)*
+<Plug>(gtd-mark-as-calendar)		*<Plug>(gtd-mark-as-calendar)*
+<Plug>(gtd-mark-as-projects)		*<Plug>(gtd-mark-as-projects)*
+<Plug>(gtd-mark-as-waiting-for)		*<Plug>(gtd-mark-as-waiting-for)*
+<Plug>(gtd-mark-as-someday)		*<Plug>(gtd-mark-as-someday)*
+<Plug>(gtd-mark-as-archive)		*<Plug>(gtd-mark-as-archive)*
+<Plug>(gtd-mark-as-trash)		*<Plug>(gtd-mark-as-trash)*
+			Mark the issue under the cursor as INBOX, NEXT
+			ACTIONS, CALENDAR, PROJECTS, WAITING FOR, SOMEDAY,
+			ARCHIVE or TRASH section.
 
 
 
 
 ==============================================================================
 BUGS						*gtd-bugs*
-
-- Add more user-friendly descriptions.
 
 - Currently there is no known bug.
 
