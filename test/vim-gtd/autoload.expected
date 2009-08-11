@@ -41,6 +41,83 @@ TEST: getline(1, '$')  ==>  ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def'] ...
 TEST: getpos('.')[1:2]  ==>  [2, 1] ... ok
 Result: 3 / 3
 
+===== "gtd#mark() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+gtd(E1): No issue under the cursor
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getpos('.')[1:2]  ==>  [1, 1] ... ok
+Result: 3 / 3
+
+===== "gtd#mark() - without any valid content"
+3 more lines
+TEST: getline(1, '$')  ==>  ['', 'aaa', 'bbb', 'ccc'] ... ok
+TEST: cursor_position[1:2]  ==>  [3, 2] ... ok
+gtd(E1): No issue under the cursor
+TEST: getline(1, '$')  ==>  ['', 'aaa', 'bbb', 'ccc'] ... ok
+TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - no section"
+TEST: getline(1, '$')  ==>  ['', '#1 aaa', '#2 bbb', '#3 ccc'] ... ok
+TEST: cursor_position[1:2]  ==>  [3, 2] ... ok
+gtd(E3): No such section: 'INBOX'
+TEST: getline(1, '$')  ==>  ['', '#1 aaa', '#2 bbb', '#3 ccc'] ... ok
+TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E1"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: cursor_position[1:2]  ==>  [2, 2] ... ok
+gtd(E1): No issue under the cursor
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [2, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E2 (middle)"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: cursor_position[1:2]  ==>  [6, 2] ... ok
+gtd(E2): No issue under the cursor
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [6, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E2 (end)"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [12, 2] ... ok
+gtd(E2): No issue under the cursor
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [12, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - to the head"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#2 BBB', '  bbb', '#1 AAA', '  aaa', 'PROJECTS', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [4, 1] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - to the tail"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', 'TRASH', '#2 BBB', '  bbb', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [8, 1] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - nothing has changed"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [7, 1] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E3"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+gtd(E3): No such section: 'NO SUCH SECTION'
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [7, 2] ... ok
+Result: 4 / 4
+
 ===== "gtd#new_issue() - without any content"
 TEST: getline(1, '$')  ==>  [''] ... ok
 E486: Pattern not found: ^#
@@ -93,4 +170,4 @@ TEST: gtd#status()  ==>  [999, 3] ... ok
 Result: 2 / 2
 
 ===== Total
-Result: 37 / 37
+Result: 76 / 76

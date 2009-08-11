@@ -74,7 +74,43 @@ endfunction
 
 
 function! gtd#mark(section_name)  "{{{2
-  throw 'FIXME: NIY'
+  let original_cursor_position = getpos('.')
+  let re_section = '\V\^' . escape(a:section_name, '\') . '\$'
+
+  let begin_line = search('^' . s:RE_ISSUE_ID, 'bcW')
+  if !(0 < begin_line)
+    echohl ErrorMsg
+    echo 'gtd(E1): No issue under the cursor'
+    echohl NONE
+    return
+  else
+  endif
+  let end_line = search('\n\ze\S', 'cW')
+  if !(0 < end_line)
+    let end_line = search('\%$', 'w')
+  endif
+
+  let original_line = original_cursor_position[1]
+  if original_line < begin_line || end_line < original_line
+    echohl ErrorMsg
+    echo 'gtd(E2): No issue under the cursor'
+    echohl NONE
+    call setpos('.', original_cursor_position)
+    return
+  endif
+
+  let [original_content, original_type] = [getreg('a'), getregtype('a')]
+    if 0 < search(re_section, 'cnw')
+      execute begin_line ',' end_line 'delete' 'a'
+      call search(re_section, 'cw')
+      normal! "ap
+    else
+      echohl ErrorMsg
+      echo 'gtd(E3): No such section:' string(a:section_name)
+      echohl NONE
+      call setpos('.', original_cursor_position)
+    endif
+  call setreg('a', original_content, original_type)
 endfunction
 
 
