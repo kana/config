@@ -10,21 +10,21 @@ Result: 2 / 2
 
 ===== "gtd#jump_to_issue() - without any content"
 TEST: getline(1, '$')  ==>  [''] ... ok
-There is no issue id in this buffer.
+gtd(E4): No issue ID near the cursor
 TEST: getline(1, '$')  ==>  [''] ... ok
 TEST: getpos('.')[1:2]  ==>  [1, 1] ... ok
 Result: 3 / 3
 
 ===== "gtd#jump_to_issue() - with some content - but no issue id"
 TEST: getline(1, '$')  ==>  ['', '#abc', '#def'] ... ok
-There is no issue id in this buffer.
+gtd(E4): No issue ID near the cursor
 TEST: getline(1, '$')  ==>  ['', '#abc', '#def'] ... ok
 TEST: getpos('.')[1:2]  ==>  [2, 1] ... ok
 Result: 3 / 3
 
 ===== "gtd#jump_to_issue() - with some content - no corresponding issue"
 TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def'] ... ok
-There is no issue for this id.
+gtd(E5): Issue not found: #3
 TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def'] ... ok
 TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
 Result: 3 / 3
@@ -60,7 +60,7 @@ Result: 4 / 4
 ===== "gtd#mark() - several issues - no section"
 TEST: getline(1, '$')  ==>  ['', '#1 aaa', '#2 bbb', '#3 ccc'] ... ok
 TEST: cursor_position[1:2]  ==>  [3, 2] ... ok
-gtd(E3): No such section: 'INBOX'
+gtd(E3): No such section: INBOX
 TEST: getline(1, '$')  ==>  ['', '#1 aaa', '#2 bbb', '#3 ccc'] ... ok
 TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
 Result: 4 / 4
@@ -113,7 +113,7 @@ Result: 4 / 4
 ===== "gtd#mark() - several issues - several section - E3"
 TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
 TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
-gtd(E3): No such section: 'NO SUCH SECTION'
+gtd(E3): No such section: NO SUCH SECTION
 TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
 TEST: getpos('.')[1:2]  ==>  [7, 2] ... ok
 Result: 4 / 4

@@ -55,13 +55,17 @@ endfunction
 function! gtd#jump_to_issue()  "{{{2
   let pos = getpos('.')
   if search(s:RE_ISSUE_ID, 'ceW') == 0
-    echo 'There is no issue id in this buffer.'
+    echohl ErrorMsg
+    echo 'gtd(E4): No issue ID near the cursor'
+    echohl NONE
     return 0
   endif
 
   let id_string = matchstr(getline('.'), s:RE_ISSUE_ID)
   if search('\V\^' . id_string . ' ', 'cw') == 0
-    echo 'There is no issue for this id.'
+    echohl ErrorMsg
+    echo 'gtd(E5): Issue not found:' id_string
+    echohl NONE
     call setpos('.', pos)
     return 0
   endif
@@ -106,7 +110,7 @@ function! gtd#mark(section_name)  "{{{2
       normal! "ap
     else
       echohl ErrorMsg
-      echo 'gtd(E3): No such section:' string(a:section_name)
+      echo 'gtd(E3): No such section:' a:section_name
       echohl NONE
       call setpos('.', original_cursor_position)
     endif
