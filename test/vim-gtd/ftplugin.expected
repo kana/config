@@ -98,8 +98,13 @@ Result: 11 / 11
 
 not found in 'runtimepath': "ftplugin/notsuchfiletype.vim ftplugin/notsuchfiletype_*.vim ftplugin/notsuchfiletype/*.vim"
 ===== "Default key mappings"
-TEST: maparg('<LocalLeader>i', 'n')  ==>  '' ... ok
-TEST: maparg('<LocalLeader>n', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>i', 'n')  ==>  'BUFFER-LOCAL' ... FAILED
+  Actual value: 
+  Expected value: BUFFER-LOCAL
+Error detected while processing function <SNR>39_cmd_Test..<SNR>40_test_gtd_buffer_local_configuration_5:
+line   13:
+E31: No such mapping
+TEST: maparg('<LocalLeader>n', 'n')  ==>  'GLOBAL' ... ok
 TEST: maparg('<LocalLeader>g', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>I', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '' ... ok
@@ -116,5 +121,5 @@ TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', '
 Result: 1 / 1
 
 ===== Total
-Result: 85 / 85
+Result: 84 / 85
 INBOX

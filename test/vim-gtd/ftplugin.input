@@ -175,13 +175,16 @@ function s:test_gtd_buffer_local_configuration_5()  "{{{1
   tabnew
   tabonly!
 
+  nnoremap <buffer> <LocalLeader>i  BUFFER-LOCAL
+  nnoremap <LocalLeader>n  GLOBAL
   setfiletype gtd
   setfiletype notsuchfiletype
 
   Title "Default key mappings"
-  " FIXME: Overridden default key mappings should not be "undone".
-  Assert maparg('<LocalLeader>i', 'n') ==> ''
-  Assert maparg('<LocalLeader>n', 'n') ==> ''
+  Assert maparg('<LocalLeader>i', 'n') ==> 'BUFFER-LOCAL'
+  nunmap <buffer> <LocalLeader>i
+  Assert maparg('<LocalLeader>n', 'n') ==> 'GLOBAL'
+  nunmap <LocalLeader>n
   Assert maparg('<LocalLeader>g', 'n') ==> ''
   Assert maparg('<LocalLeader>I', 'n') ==> ''
   Assert maparg('<LocalLeader><Space>', 'n') ==> ''

@@ -76,6 +76,7 @@ endif
 if !exists('b:undo_ftplugin')
   let b:undo_ftplugin = ''
 endif
+  " FIXME: Overridden default key mappings should not be "undone".
 let b:undo_ftplugin .= '
 \ | setlocal foldmethod<
 \ | execute "silent! nunmap <buffer> <LocalLeader>i"
