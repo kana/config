@@ -31,19 +31,26 @@ endif
 
 " Named key mappings:
 " FIXME: Should these definitions be put into plugin/gtd.vim or not?
-nnoremap <Plug>(gtd-new-issue)  :<C-u>call gtd#new_issue()<Return>
-nnoremap <Plug>(gtd-new-note)  :<C-u>call gtd#new_note()<Return>
-nnoremap <Plug>(gtd-jump-to-issue)  :<C-u>call gtd#jump_to_issue()<Return>
-nnoremap <Plug>(gtd-mark-as-inbox)  :<C-u>call gtd#mark('INBOX')<Return>
-nnoremap <Plug>(gtd-mark-as-next-actions)
-\        :<C-u>call gtd#mark('NEXT ACTIONS')<Return>
-nnoremap <Plug>(gtd-mark-as-calendar)  :<C-u>call gtd#mark('CALENDAR')<Return>
-nnoremap <Plug>(gtd-mark-as-projects)  :<C-u>call gtd#mark('PROJECTS')<Return>
-nnoremap <Plug>(gtd-mark-as-waiting-for)
-\        :<C-u>call gtd#mark('WAITING FOR')<Return>
-nnoremap <Plug>(gtd-mark-as-someday)  :<C-u>call gtd#mark('SOMEDAY')<Return>
-nnoremap <Plug>(gtd-mark-as-archive)  :<C-u>call gtd#mark('ARCHIVE')<Return>
-nnoremap <Plug>(gtd-mark-as-trash)  :<C-u>call gtd#mark('TRASH')<Return>
+nnoremap <silent> <Plug>(gtd-new-issue)  :<C-u>call gtd#new_issue()<Return>
+nnoremap <silent> <Plug>(gtd-new-note)  :<C-u>call gtd#new_note()<Return>
+nnoremap <silent> <Plug>(gtd-jump-to-issue)
+\                 :<C-u>call gtd#jump_to_issue()<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-inbox)
+\                 :<C-u>call gtd#mark('INBOX')<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-next-actions)
+\                 :<C-u>call gtd#mark('NEXT ACTIONS')<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-calendar)
+\                 :<C-u>call gtd#mark('CALENDAR')<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-projects)
+\                 :<C-u>call gtd#mark('PROJECTS')<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-waiting-for)
+\                 :<C-u>call gtd#mark('WAITING FOR')<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-someday)
+\                 :<C-u>call gtd#mark('SOMEDAY')<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-archive)
+\                 :<C-u>call gtd#mark('ARCHIVE')<Return>
+nnoremap <silent> <Plug>(gtd-mark-as-trash)
+\                 :<C-u>call gtd#mark('TRASH')<Return>
 
 
 " Default key mappings:

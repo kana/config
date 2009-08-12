@@ -1,53 +1,30 @@
 not found in 'runtimepath': "ftdetect/*.vim"
 ===== "DEFAULT KEY MAPPINGS"
-TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#new_issue()
-E486: Pattern not found: ^#
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... okE486: Pattern not found: ^#
 
 TEST: line('.')  ==>  2 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#new_issue()
-
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 TEST: line('.')  ==>  2 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#new_note()
-
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 TEST: line('.')  ==>  4 ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
-TEST: line('.')  ==>  11 ... ok:
-:call gtd#jump_to_issue()
-TEST: line('.')  ==>  2 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('TRASH')
-4 fewer lines4 more lines
 TEST: line('.')  ==>  11 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('ARCHIVE')
-4 fewer lines4 more lines
+TEST: line('.')  ==>  2 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  11 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
 TEST: line('.')  ==>  10 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('SOMEDAY')
-4 fewer lines4 more lines
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
 TEST: line('.')  ==>  9 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('WAITING FOR')
-4 fewer lines4 more lines
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
 TEST: line('.')  ==>  7 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('PROJECTS')
-4 fewer lines4 more lines
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
 TEST: line('.')  ==>  6 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('CALENDAR')
-4 fewer lines4 more lines
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
 TEST: line('.')  ==>  5 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('NEXT ACTIONS')
-4 fewer lines4 more lines
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
 TEST: line('.')  ==>  4 ... ok
-TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
-:call gtd#mark('INBOX')
-4 fewer lines4 more lines
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
 TEST: line('.')  ==>  2 ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 Result: 26 / 26
