@@ -12,9 +12,7 @@ TEST: line('.')  ==>  2 ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok:
 :call gtd#new_note()
 
-TEST: line('.')  ==>  4 ... FAILED
-  Actual value: 5
-  Expected value: 4
+TEST: line('.')  ==>  4 ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 TEST: line('.')  ==>  11 ... ok:
 :call gtd#jump_to_issue()
@@ -52,7 +50,7 @@ TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', '#2 ', "\t****-**-
 4 fewer lines4 more lines
 TEST: line('.')  ==>  2 ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
-Result: 25 / 26
+Result: 26 / 26
 
 ===== "LOCAL CONFIGURATION: NOT A filetype=gtd BUFFER"
 ===== "Default key mappings"
@@ -176,5 +174,5 @@ TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', '
 Result: 1 / 1
 
 ===== Total
-Result: 109 / 111
+Result: 110 / 111
 INBOX

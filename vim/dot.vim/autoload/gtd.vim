@@ -139,6 +139,7 @@ function! gtd#new_note()  "{{{2
   for line in lines
     put =line
   endfor
+  normal! k
   startinsert!
 endfunction
 
