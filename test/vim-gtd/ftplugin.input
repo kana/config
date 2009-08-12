@@ -1,0 +1,217 @@
+" Tests for vim-gtd / ftplugin
+" Initial setup  "{{{1
+
+filetype plugin on
+
+
+
+
+function s:test_gtd_buffer_local_configuration_1()  "{{{1
+  Title "LOCAL CONFIGURATION: NOT A filetype=gtd BUFFER"
+
+  tabnew
+  tabonly!
+
+  " Title "Named key mappings"
+  " Don't check - the specification on the availability of named key mappings
+  " is not determined yet.
+
+  Title "Default key mappings"
+  Assert maparg('<LocalLeader>i', 'n') ==> ''
+  Assert maparg('<LocalLeader>n', 'n') ==> ''
+  Assert maparg('<LocalLeader>g', 'n') ==> ''
+  Assert maparg('<LocalLeader>I', 'n') ==> ''
+  Assert maparg('<LocalLeader><Space>', 'n') ==> ''
+  Assert maparg('<LocalLeader>c', 'n') ==> ''
+  Assert maparg('<LocalLeader>p', 'n') ==> ''
+  Assert maparg('<LocalLeader>w', 'n') ==> ''
+  Assert maparg('<LocalLeader>s', 'n') ==> ''
+  Assert maparg('<LocalLeader>a', 'n') ==> ''
+  Assert maparg('<LocalLeader>t', 'n') ==> ''
+
+  Title "Options"
+  Assert &l:foldmethod ==> &g:foldmethod
+
+  Title "Initial setup"
+  Assert getline(1, '$') ==> ['']
+endfunction
+
+
+
+
+function s:test_gtd_buffer_local_configuration_2()  "{{{1
+  Title "LOCAL CONFIGURATION: ON EMPTY BUFFER"
+
+  tabnew
+  tabonly!
+
+  setfiletype gtd
+
+  Title "Named key mappings"
+  Assert maparg('<Plug>(gtd-new-issue)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-new-note)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-jump-to-issue)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-inbox)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-next-actions)', 'n')!='' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-calendar)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-projects)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-waiting-for)', 'n') !='' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-someday)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-archive)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-trash)', 'n') != '' ==> !0
+
+  Title "Default key mappings"
+  Assert maparg('<LocalLeader>i', 'n') ==> '<Plug>(gtd-new-issue)'
+  Assert maparg('<LocalLeader>n', 'n') ==> '<Plug>(gtd-new-note)'
+  Assert maparg('<LocalLeader>g', 'n') ==> '<Plug>(gtd-jump-to-issue)'
+  Assert maparg('<LocalLeader>I', 'n') ==> '<Plug>(gtd-mark-as-inbox)'
+  Assert maparg('<LocalLeader><Space>', 'n')
+  \ ==> '<Plug>(gtd-mark-as-next-actions)'
+  Assert maparg('<LocalLeader>c', 'n') ==> '<Plug>(gtd-mark-as-calendar)'
+  Assert maparg('<LocalLeader>p', 'n') ==> '<Plug>(gtd-mark-as-projects)'
+  Assert maparg('<LocalLeader>w', 'n') ==> '<Plug>(gtd-mark-as-waiting-for)'
+  Assert maparg('<LocalLeader>s', 'n') ==> '<Plug>(gtd-mark-as-someday)'
+  Assert maparg('<LocalLeader>a', 'n') ==> '<Plug>(gtd-mark-as-archive)'
+  Assert maparg('<LocalLeader>t', 'n') ==> '<Plug>(gtd-mark-as-trash)'
+
+  Title "Options"
+  Assert &l:foldmethod ==> 'syntax'
+
+  Title "Initial setup"
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+endfunction
+
+
+
+
+function s:test_gtd_buffer_local_configuration_3()  "{{{1
+  Title "LOCAL CONFIGURATION: ON NON-EMPTY BUFFER"
+
+  tabnew
+  tabonly!
+
+  put ='something'
+  setfiletype gtd
+
+  Title "Named key mappings"
+  Assert maparg('<Plug>(gtd-new-issue)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-new-note)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-jump-to-issue)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-inbox)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-next-actions)', 'n')!='' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-calendar)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-projects)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-waiting-for)', 'n') !='' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-someday)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-archive)', 'n') != '' ==> !0
+  Assert maparg('<Plug>(gtd-mark-as-trash)', 'n') != '' ==> !0
+
+  Title "Default key mappings"
+  Assert maparg('<LocalLeader>i', 'n') ==> '<Plug>(gtd-new-issue)'
+  Assert maparg('<LocalLeader>n', 'n') ==> '<Plug>(gtd-new-note)'
+  Assert maparg('<LocalLeader>g', 'n') ==> '<Plug>(gtd-jump-to-issue)'
+  Assert maparg('<LocalLeader>I', 'n') ==> '<Plug>(gtd-mark-as-inbox)'
+  Assert maparg('<LocalLeader><Space>', 'n')
+  \ ==> '<Plug>(gtd-mark-as-next-actions)'
+  Assert maparg('<LocalLeader>c', 'n') ==> '<Plug>(gtd-mark-as-calendar)'
+  Assert maparg('<LocalLeader>p', 'n') ==> '<Plug>(gtd-mark-as-projects)'
+  Assert maparg('<LocalLeader>w', 'n') ==> '<Plug>(gtd-mark-as-waiting-for)'
+  Assert maparg('<LocalLeader>s', 'n') ==> '<Plug>(gtd-mark-as-someday)'
+  Assert maparg('<LocalLeader>a', 'n') ==> '<Plug>(gtd-mark-as-archive)'
+  Assert maparg('<LocalLeader>t', 'n') ==> '<Plug>(gtd-mark-as-trash)'
+
+  Title "Options"
+  Assert &l:foldmethod ==> 'syntax'
+
+  Title "Initial setup"
+  Assert getline(1, '$') ==> ['', 'something']
+endfunction
+
+
+
+
+function s:test_gtd_buffer_local_configuration_4()  "{{{1
+  Title "LOCAL CONFIGURATION: CONFLICTS ON KEY MAPPINGS"
+
+  tabnew
+  tabonly!
+
+  nnoremap <buffer> <LocalLeader>i  BUFFER-LOCAL
+  nnoremap <LocalLeader>n  GLOBAL
+  setfiletype gtd
+
+  Assert maparg('<LocalLeader>i', 'n') ==> 'BUFFER-LOCAL'
+  Assert maparg('<LocalLeader>n', 'n') ==> 'GLOBAL'
+  Assert maparg('<LocalLeader>g', 'n') ==> '<Plug>(gtd-jump-to-issue)'
+  Assert maparg('<LocalLeader>I', 'n') ==> '<Plug>(gtd-mark-as-inbox)'
+  Assert maparg('<LocalLeader><Space>', 'n')
+  \ ==> '<Plug>(gtd-mark-as-next-actions)'
+  Assert maparg('<LocalLeader>c', 'n') ==> '<Plug>(gtd-mark-as-calendar)'
+  Assert maparg('<LocalLeader>p', 'n') ==> '<Plug>(gtd-mark-as-projects)'
+  Assert maparg('<LocalLeader>w', 'n') ==> '<Plug>(gtd-mark-as-waiting-for)'
+  Assert maparg('<LocalLeader>s', 'n') ==> '<Plug>(gtd-mark-as-someday)'
+  Assert maparg('<LocalLeader>a', 'n') ==> '<Plug>(gtd-mark-as-archive)'
+  Assert maparg('<LocalLeader>t', 'n') ==> '<Plug>(gtd-mark-as-trash)'
+
+  nunmap <buffer> <LocalLeader>i
+  nunmap <LocalLeader>n
+endfunction
+
+
+
+
+function s:test_gtd_buffer_local_configuration_5()  "{{{1
+  Title "LOCAL CONFIGURATION: b:undo_ftplugin"
+
+  tabnew
+  tabonly!
+
+  setfiletype gtd
+  setfiletype notsuchfiletype
+
+  Title "Default key mappings"
+  " FIXME: Overridden default key mappings should not be "undone".
+  Assert maparg('<LocalLeader>i', 'n') ==> ''
+  Assert maparg('<LocalLeader>n', 'n') ==> ''
+  Assert maparg('<LocalLeader>g', 'n') ==> ''
+  Assert maparg('<LocalLeader>I', 'n') ==> ''
+  Assert maparg('<LocalLeader><Space>', 'n') ==> ''
+  Assert maparg('<LocalLeader>c', 'n') ==> ''
+  Assert maparg('<LocalLeader>p', 'n') ==> ''
+  Assert maparg('<LocalLeader>w', 'n') ==> ''
+  Assert maparg('<LocalLeader>s', 'n') ==> ''
+  Assert maparg('<LocalLeader>a', 'n') ==> ''
+  Assert maparg('<LocalLeader>t', 'n') ==> ''
+
+  Title "Options"
+  Assert &l:foldmethod ==> &g:foldmethod
+
+  Title "Initial setup"
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker

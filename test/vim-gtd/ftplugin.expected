@@ -1,0 +1,120 @@
+not found in 'runtimepath': "ftdetect/*.vim"
+===== "LOCAL CONFIGURATION: NOT A filetype=gtd BUFFER"
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  &g:foldmethod ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  [''] ... ok
+Result: 1 / 1
+
+===== "LOCAL CONFIGURATION: ON EMPTY BUFFER"
+===== "Named key mappings"
+TEST: maparg('<Plug>(gtd-new-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-new-note)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-jump-to-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-inbox)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-next-actions)', 'n')!=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-calendar)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-projects)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-waiting-for)', 'n') !=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-someday)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-archive)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-trash)', 'n') != ''  ==>  !0 ... ok
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  '<Plug>(gtd-new-issue)' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  '<Plug>(gtd-new-note)' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '<Plug>(gtd-jump-to-issue)' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '<Plug>(gtd-mark-as-inbox)' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '<Plug>(gtd-mark-as-next-actions)' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '<Plug>(gtd-mark-as-calendar)' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '<Plug>(gtd-mark-as-projects)' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  'syntax' ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+Result: 1 / 1
+
+===== "LOCAL CONFIGURATION: ON NON-EMPTY BUFFER"
+===== "Named key mappings"
+TEST: maparg('<Plug>(gtd-new-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-new-note)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-jump-to-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-inbox)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-next-actions)', 'n')!=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-calendar)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-projects)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-waiting-for)', 'n') !=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-someday)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-archive)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-trash)', 'n') != ''  ==>  !0 ... ok
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  '<Plug>(gtd-new-issue)' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  '<Plug>(gtd-new-note)' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '<Plug>(gtd-jump-to-issue)' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '<Plug>(gtd-mark-as-inbox)' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '<Plug>(gtd-mark-as-next-actions)' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '<Plug>(gtd-mark-as-calendar)' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '<Plug>(gtd-mark-as-projects)' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  'syntax' ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  ['', 'something'] ... ok
+Result: 1 / 1
+
+===== "LOCAL CONFIGURATION: CONFLICTS ON KEY MAPPINGS"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  'BUFFER-LOCAL' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  'GLOBAL' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '<Plug>(gtd-jump-to-issue)' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '<Plug>(gtd-mark-as-inbox)' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '<Plug>(gtd-mark-as-next-actions)' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '<Plug>(gtd-mark-as-calendar)' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '<Plug>(gtd-mark-as-projects)' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+Result: 11 / 11
+
+===== "LOCAL CONFIGURATION: b:undo_ftplugin"
+
+not found in 'runtimepath': "ftplugin/notsuchfiletype.vim ftplugin/notsuchfiletype_*.vim ftplugin/notsuchfiletype/*.vim"
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  &g:foldmethod ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+Result: 1 / 1
+
+===== Total
+Result: 85 / 85
+INBOX
