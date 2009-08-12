@@ -214,6 +214,250 @@ endfunction
 
 
 
+function s:test_default_key_mappings()  "{{{1
+  Title "DEFAULT KEY MAPPINGS"
+
+  tabnew
+  tabonly!
+
+  setfiletype gtd
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  normal! 4G
+  execute 'normal' "\<Plug>(gtd-new-issue)"
+  Assert line('.') ==> 2
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-new-issue)"
+  Assert line('.') ==> 2
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#2 ',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-new-note)"
+  Assert line('.') ==> 4
+  3substitute/\d/*/g
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  10 put ='xxx #2 xxx'
+  Assert line('.') ==> 11
+  execute 'normal' "\<Plug>(gtd-jump-to-issue)"
+  Assert line('.') ==> 2
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-trash)"
+  Assert line('.') ==> 11
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-archive)"
+  Assert line('.') ==> 10
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-someday)"
+  Assert line('.') ==> 9
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-waiting-for)"
+  Assert line('.') ==> 7
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-projects)"
+  Assert line('.') ==> 6
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-calendar)"
+  Assert line('.') ==> 5
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-next-actions)"
+  Assert line('.') ==> 4
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+
+  execute 'normal' "\<Plug>(gtd-mark-as-inbox)"
+  Assert line('.') ==> 2
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ '#2 ',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ '#1 ',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'xxx #2 xxx',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+endfunction
+
+
+
+
 Test  "{{{1
 
 " __END__
