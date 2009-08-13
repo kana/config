@@ -120,7 +120,6 @@ Result: 4 / 4
 
 ===== "gtd#new_issue() - without any content"
 TEST: getline(1, '$')  ==>  [''] ... ok
-E486: Pattern not found: ^#
 TEST: getline(1, '$')  ==>  ['', '#1 '] ... ok
 Result: 2 / 2
 
@@ -159,7 +158,6 @@ Result: 2 / 2
 
 ===== "gtd#status() - without any content"
 TEST: getline(1, '$')  ==>  [''] ... ok
-E486: Pattern not found: ^#
 TEST: gtd#status()  ==>  [0, 0] ... ok
 Result: 2 / 2
 

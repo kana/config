@@ -1,7 +1,6 @@
 not found in 'runtimepath': "ftdetect/*.vim"
 ===== "DEFAULT KEY MAPPINGS"
-TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... okE486: Pattern not found: ^#
-
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 TEST: line('.')  ==>  2 ... ok
 TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
 TEST: line('.')  ==>  2 ... ok

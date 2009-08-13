@@ -151,7 +151,7 @@ function! gtd#status()  "{{{2
   let sum = 0
 
   let pos = getpos('.')
-    global/^#/
+    silent global/^#/
     \   let sum = sum + 1
     \ | let id = str2nr(matchstr(getline('.'), '^#\zs\d\+\ze'))
     \ | let max_id = max_id < id ? id : max_id
