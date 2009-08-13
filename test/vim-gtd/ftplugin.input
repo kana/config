@@ -182,9 +182,9 @@ function s:test_gtd_buffer_local_configuration_5()  "{{{1
 
   Title "Default key mappings"
   Assert maparg('<LocalLeader>i', 'n') ==> 'BUFFER-LOCAL'
-  nunmap <buffer> <LocalLeader>i
+  silent! nunmap <buffer> <LocalLeader>i
   Assert maparg('<LocalLeader>n', 'n') ==> 'GLOBAL'
-  nunmap <LocalLeader>n
+  silent! nunmap <LocalLeader>n
   Assert maparg('<LocalLeader>g', 'n') ==> ''
   Assert maparg('<LocalLeader>I', 'n') ==> ''
   Assert maparg('<LocalLeader><Space>', 'n') ==> ''

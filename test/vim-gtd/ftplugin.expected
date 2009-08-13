@@ -130,9 +130,6 @@ not found in 'runtimepath': "ftplugin/notsuchfiletype.vim ftplugin/notsuchfilety
 TEST: maparg('<LocalLeader>i', 'n')  ==>  'BUFFER-LOCAL' ... FAILED
   Actual value: 
   Expected value: BUFFER-LOCAL
-Error detected while processing function <SNR>39_cmd_Test..<SNR>40_test_gtd_buffer_local_configuration_5:
-line   13:
-E31: No such mapping
 TEST: maparg('<LocalLeader>n', 'n')  ==>  'GLOBAL' ... ok
 TEST: maparg('<LocalLeader>g', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>I', 'n')  ==>  '' ... ok
