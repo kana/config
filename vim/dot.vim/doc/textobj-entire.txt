@@ -1,6 +1,6 @@
 *textobj-entire.txt*	Text objects for entire buffer
 
-Version 0.0.0
+Version 0.0.1
 Script ID: 2610
 Copyright (C) 2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -108,6 +108,9 @@ BUGS						*textobj-entire-bugs*
 
 ==============================================================================
 CHANGELOG					*textobj-entire-changelog*
+
+0.0.1	2009-08-13T21:21:01+09:00	      *textobj-entire-changelog-0.0.1*
+	- Fix a typo on the name of a variable.
 
 0.0.0	2009-04-15T14:41:17+09:00	      *textobj-entire-changelog-0.0.0*
 	- Initial version.

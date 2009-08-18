@@ -517,7 +517,7 @@ PACKAGE_vim_textobj_diff_FILES=\
   vim/dot.vim/doc/textobj-diff.txt \
   vim/dot.vim/plugin/textobj/diff.vim
 
-PACKAGE_vim_textobj_entire_ARCHIVE=vim-textobj-entire-0.0.0
+PACKAGE_vim_textobj_entire_ARCHIVE=vim-textobj-entire-0.0.1
 PACKAGE_vim_textobj_entire_BASE=vim/dot.vim
 PACKAGE_vim_textobj_entire_FILES=\
   vim/dot.vim/doc/textobj-entire.txt \
