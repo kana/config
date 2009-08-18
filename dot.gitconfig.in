@@ -26,11 +26,27 @@
 	l = log
 	l1 = log --pretty=oneline
 	lg = log --graph --pretty=oneline
+	lr = "!$SHELL -c ' \
+	         n=10; \
+	         1=\"${1:-$n}\"; \
+	         if ! [ \"${1##[0-9]*}\" = \"\" ]; then \
+	           t=\"$1\"; \
+	           1=\"${2:-$n}\"; \
+	           2=\"$t\"; \
+	         fi; \
+	         git --no-pager l1 --reverse -\"$1\" \"${2:-HEAD}\" \
+	       ' __dummy__"
 	ls-conflicted-files = ls-files --unmerged
 	m = merge
 	m1 = merge HEAD@{1}
 	m2 = merge HEAD@{2}
 	m3 = merge HEAD@{3}
+	r1 = rebase HEAD@{1}
+	r2 = rebase HEAD@{2}
+	r3 = rebase HEAD@{3}
+	rh = reset --hard
+	ri = !git rebase -i HEAD~${1:-10}
+	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
 	s = show
 	s1 = show HEAD@{1}
@@ -40,9 +56,9 @@
 	sl = stash list
 	sp = stash pop
 	ss = stash save
-	sv = stash save
 	st = status
 	staged = diff --cached
+	sv = stash save
 	t = tag
 	unstaged = diff
 

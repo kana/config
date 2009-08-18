@@ -24,7 +24,7 @@
 
 setlocal textwidth=72
 
-let b:undo_ftplugin = '| setlocal textwidth&'
+let b:undo_ftplugin = '| setlocal textwidth<'
 
 " __END__
 " vim: foldmethod=marker

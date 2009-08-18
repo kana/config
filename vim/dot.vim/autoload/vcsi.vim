@@ -58,6 +58,17 @@ endfunction
 
 
 
+function! vcsi#amend(...)  "{{{2
+  " args = unnormalized-target*
+  return s:open_command_buffer({
+  \        'command': 'amend',
+  \        'targets': s:normalize_targets(a:000),
+  \      })
+endfunction
+
+
+
+
 function! vcsi#commit(...)  "{{{2
   " args = unnormalized-target*
   return s:open_command_buffer({
@@ -158,7 +169,9 @@ endfunction
 
 
 function! s:finish_commit()  "{{{2
-  " Assumption: the current buffer is created by s:initialize_commit_buffer().
+  " Assumption: The current buffer is created by:
+  "             - s:initialize_commit_buffer(), or
+  "             - s:initialize_amend_buffer().
   let commit_log_file = tempname()
 
   goto 1  " goto the 1st byte of the current buffer.
@@ -168,7 +181,7 @@ function! s:finish_commit()  "{{{2
   endif
 
   let succeeded_p = s:execute_vcs_command({
-  \                   'command': 'commit',
+  \                   'command': b:vcsi_command,
   \                   'commit_log_file': commit_log_file,
   \                   'targets': b:vcsi_targets,
   \                 })
@@ -189,14 +202,26 @@ endfunction
 
 
 " s:initialize_{command}_buffer()  "{{{2
+function! s:initialize_amend_buffer(args)  "{{{3
+  let _ = s:initialize_commit_buffer(a:args)
+  return _
+endfunction
+
+
 function! s:initialize_commit_buffer(args)  "{{{3
     " BUGS: Don't forget to update message filtering in s:finish_commit().
   1 put ='=== This and the following lines will be removed. ==='
   if g:vcsi_use_native_message_p
     " FIXME: Separate with pseudo vcs command "_commit-message".
     "        For git, the current method is faled to commit with merge.
-    silent execute 'read !'
-    \ 'EDITOR=cat' s:make_vcs_command_script(a:args, s:FALSE) '2>/dev/null'
+    if s:vcs_type(a:args.targets) ==# 'git'
+      let git_dir = split(system('git rev-parse --git-dir'), '\n')[0]
+      silent execute '!EDITOR=' s:make_vcs_command_script(a:args, s:FALSE)
+      silent keepalt read `=git_dir . '/COMMIT_EDITMSG'`
+    else
+      silent execute 'read !'
+      \ 'EDITOR=cat' s:make_vcs_command_script(a:args, s:FALSE) '2>/dev/null'
+    endif
   endif
   if g:vcsi_status_in_commit_buffer_p
     call s:read_vcs_command_result('$', {
@@ -215,6 +240,7 @@ function! s:initialize_commit_buffer(args)  "{{{3
   goto 1  " goto the 1st byte of the current buffer.
   setlocal buftype=acwrite filetype=diff.vcsi nomodified
   autocmd BufWriteCmd <buffer>  call s:finish_commit()
+  let b:vcsi_command = a:args.command
 
   return s:TRUE
 endfunction
@@ -305,11 +331,14 @@ function! s:make_git_command_script(args)  "{{{3
   if a:args.command ==# 'add'
     call add(_, 'add')
     call add(_, '--')
-  elseif a:args.command ==# 'commit'
+  elseif a:args.command ==# 'commit' || a:args.command ==# 'amend'
     call add(_, 'commit')
     if has_key(a:args, 'commit_log_file')
       call add(_, '--file')
       call add(_, a:args.commit_log_file)
+    endif
+    if a:args.command ==# 'amend'
+      call add(_, '--amend')
     endif
   elseif a:args.command ==# 'diff'
     call add(_, 'diff')
@@ -342,6 +371,11 @@ function! s:make_svk_command_script(args)  "{{{3
   if has(a:args, 'count')
     echomsg 'vcsi: ' . s:vcs_type(a:args.targets) . ': Count is not supported.'
   endif
+  if a:args.command ==# 'amend'
+    echoerr 'vcsi: ' . s:vcs_type(a:args.targets) . ': Amend is not supported.'
+    return ''
+  endif
+
   return join([s:vcs_type(a:args.targets),
   \            a:args.command,
   \            (a:args.command ==# 'revert'
@@ -465,8 +499,8 @@ function! s:vcs_type(targets)  "{{{2
   let prefix = fnamemodify(a:targets[0], ':p:h')
   let path = prefix . ';/'
 
-  let _ = finddir('.git', path)
-  if _ != ''
+  let _ = system('git rev-parse --git-dir')
+  if v:shell_error == 0
     return 'git'
   endif
 

@@ -1,6 +1,6 @@
-" ku - An interface for anything
-" Version: 0.2.1
-" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
+" Vim additional ftplugin: c/textobj-function
+" Version 0.1.0
+" Copyright (C) 2007-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -22,22 +22,63 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('g:loaded_ku')
-  finish
+if !exists('*g:textobj_function_c_select')
+  function! g:textobj_function_c_select(object_type)
+    return s:select_{a:object_type}()
+  endfunction
+
+  function! s:select_a()
+    if line('.') != '}'
+      normal ][
+    endif
+    let e = getpos('.')
+    normal [[
+    normal! k$%0k
+    let b = getpos('.')
+
+    if 1 < e[1] - b[1]  " is ther some code?
+      return ['V', b, e]
+    else
+      return 0
+    endif
+  endfunction
+
+  function! s:select_i()
+    if line('.') != '}'
+      normal ][
+    endif
+    let e = getpos('.')
+    normal [[
+    let b = getpos('.')
+
+    if 1 < e[1] - b[1]  " is ther some code?
+      call setpos('.', b)
+      normal! j0
+      let b = getpos('.')
+      call setpos('.', e)
+      normal! k$
+      let e = getpos('.')
+      return ['V', b, e]
+    else
+      return 0
+    endif
+  endfunction
 endif
 
 
 
 
-command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
-\ call ku#start(<q-args>)
-
-command! -bar -nargs=1 KuDoAction  call ku#do_action(<q-args>)
+let b:textobj_function_select = function('g:textobj_function_c_select')
 
 
 
 
-let g:loaded_ku = 1
+if exists('b:undo_ftplugin')
+  let b:undo_ftplugin .= '|'
+else
+  let b:undo_ftplugin = ''
+endif
+let b:undo_ftplugin .= 'unlet b:textobj_function_select'
 
 " __END__
 " vim: foldmethod=marker

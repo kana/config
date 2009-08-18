@@ -123,10 +123,10 @@ endfunction
 " Encoding  "{{{2
 
 " To deal with Japanese language.
-if $ENV_WORKING ==# 'colinux' || $ENV_WORKING ==# 'mac'
-  set encoding=utf-8
-else
+if $ENV_WORKING ==# 'summer'
   set encoding=japan
+else
+  set encoding=utf-8
 endif
 
 if has('iconv')
@@ -165,12 +165,8 @@ if has('iconv')
 endif
 
 
-if $ENV_ACCESS ==# 'cygwin'
+if $ENV_ACCESS ==# 'summer'
   set termencoding=cp932
-elseif $ENV_ACCESS ==# 'linux'
-  set termencoding=euc-jp
-elseif $ENV_ACCESS ==# 'colinux'
-  set termencoding=utf-8
 else  " fallback
   set termencoding=  " same as 'encoding'
 endif
@@ -212,7 +208,7 @@ set history=100
 set hlsearch
 nohlsearch  " To avoid (re)highlighting the last search pattern
             " whenever $MYVIMRC is (re)loaded.
-set grepprg=internal
+" set grepprg=... " See s:toggle_grepprg().
 set incsearch
 set laststatus=2  " always show status lines.
 set mouse=
@@ -914,6 +910,26 @@ endfunction
 
 
 
+" Sum numbers "{{{2
+
+command! -bang -bar -nargs=* -range Sum
+\ <line1>,<line2>call s:cmd_Sum(<bang>0, <f-args>)
+function! s:cmd_Sum(banged_p, ...) range
+  let field_number = (1 <= a:0 ? a:1 : 1)
+  let field_separator = (2 <= a:0 ? a:2 : 0)
+  execute a:firstline ',' a:lastline '!awk'
+  \ (field_separator is 0 ? '' : '-F'.field_separator)
+  \ "'"
+  \ 'BEGIN {x = 0}'
+  \ '{x = x + $'.field_number '}'
+  \ '{if (\!' a:banged_p ') print $0}'
+  \ 'END {print x}'
+  \ "'"
+endfunction
+
+
+
+
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
@@ -925,6 +941,25 @@ function! s:toggle_bell()
     echo 'bell off'
   endif
 endfunction
+
+function! s:toggle_grepprg()
+  " Toggle, more precisely, rotate the value of 'grepprg'.
+  " If 'grepprg' has a value not listed in VALUES,
+  " treat VALUES[0] as the default/fallback value,
+  " and set 'grepprg' to the value.
+  let VALUES = ['git grep -n', 'internal']
+  let i = (index(VALUES, &grepprg) + 1) % len(VALUES)
+
+  let grepprg = &grepprg
+  let &grepprg = VALUES[i]
+  echo "'grepprg' =" &grepprg '(was' grepprg.')'
+endfunction
+if !exists('s:loaded_my_vimrc')
+  " Set 'grepprg' to my default value.  In this scope, 'grepprg' has Vim's
+  " default value and it differs from what I want to use.  So that calling
+  " s:toggle_grepprg() at here does set 'grepprg' to my default value.
+  silent call s:toggle_grepprg()
+endif
 
 function! s:toggle_option(option_name)
   execute 'setlocal' a:option_name.'!'
@@ -1107,26 +1142,6 @@ endfunction
 
 
 
-" Sum numbers "{{{2
-
-command! -bang -bar -nargs=* -range Sum
-\ <line1>,<line2>call s:cmd_Sum(<bang>0, <f-args>)
-function! s:cmd_Sum(banged_p, ...) range
-  let field_number = (1 <= a:0 ? a:1 : 1)
-  let field_separator = (2 <= a:0 ? a:2 : 0)
-  execute a:firstline ',' a:lastline '!awk'
-  \ (field_separator is 0 ? '' : '-F'.field_separator)
-  \ "'"
-  \ 'BEGIN {x = 0}'
-  \ '{x = x + $'.field_number '}'
-  \ '{if (\!' a:banged_p ') print $0}'
-  \ 'END {print x}'
-  \ "'"
-endfunction
-
-
-
-
 function! s:count_sum_of_fields()  "{{{2
   '<,'>!awk 'BEGIN{c=0} {c+=$1} END{print c}'
   let _ = getline('.')
@@ -1226,9 +1241,9 @@ endfunction
 " FIXME: some mappings are not countable.
 " Physical/Logical keyboard layout declaration  "{{{2
 
-if $ENV_WORKING ==# 'mac' || $HOST !=# 'summer'
-  " Semicolon and Return are swapped by KeyRemap4MacBook or Mayu on some
-  " environments.
+if $ENV_WORKING != 'summer' && $ENV_WORKING !=# 'winter'
+  " Semicolon and Return are swapped by KeyRemap4MacBook, Mayu or Kinesis on
+  " some environments.
   KeyboardLayout ;  <Return>
   KeyboardLayout :  <S-Return>
   KeyboardLayout <Return>  ;
@@ -1417,6 +1432,7 @@ nnoremap <C-t>  <Nop>
   " Move new tabpage at the last.
 Cnmap <silent> <C-t>n  tabnew \| tabmove
 Cnmap <silent> <C-t>c  tabclose
+Cnmap <silent> <C-t>C  tabclose!
 Cnmap <silent> <C-t>o  tabonly
 Cnmap <silent> <C-t>i  tabs
 
@@ -1607,6 +1623,7 @@ Cnmap <silent> [Space]m  marks
 
 nnoremap [Space]o  <Nop>
 Fnmap <silent> [Space]ob  <SID>toggle_bell()
+Fnmap <silent> [Space]og  <SID>toggle_grepprg()
 Fnmap <silent> [Space]ow  <SID>toggle_option('wrap')
 
 Cnmap <silent> [Space]q  help quickref
@@ -1848,7 +1865,6 @@ endfunction
 Fvmap *  <SID>search_the_selected_text_literaly('n')
 Fvmap #  <SID>search_the_selected_text_literaly('N')
 
-  " FIXME: escape to search the selected text literaly.
 function! s:search_the_selected_text_literaly(search_command)
   let reg_0 = [@0, getregtype('0')]
   let reg_u = [@", getregtype('"')]
@@ -2023,6 +2039,15 @@ function! s:on_FileType_dosini()
   let &l:foldexpr = '(getline(v:lnum)[0] == "[") ? ">1" :'
   \               . '(getline(v:lnum) =~# ''^;.*\(__END__\|\*\*\*\)'' ? 0 : "=")'
 endfunction
+
+
+
+
+" issue  "{{{2
+
+autocmd MyAutoCmd FileType issue
+\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(issue-jump-to-issue)
+\ | let b:undo_ftplugin .= ' | silent! nunmap <buffer> <Plug>(physical-key-<Return>)'
 
 
 
@@ -2301,12 +2326,15 @@ let s:CONFIG_DIR = '~/working/config'
 let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
 
 function! s:available_packages()
-  return split(s:system('make -f '.s:CONFIG_MAKEFILE.' available-packages'))
+  return split(s:system('make -f '
+  \                     . shellescape(s:CONFIG_MAKEFILE)
+  \                     . ' list-available-packages'))
 endfunction
 
 function! s:package_files(name)
-  return map(split(s:system('make -f '.s:CONFIG_MAKEFILE.' '
-  \                         . 'PACKAGE_NAME='.a:name.' package-files')),
+  return map(split(s:system('make -f ' . shellescape(s:CONFIG_MAKEFILE)
+  \                         . ' PACKAGE_NAME=' . a:name
+  \                         . ' list-files-in-a-package')),
   \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
 endfunction
 
@@ -2363,7 +2391,7 @@ call ku#custom_prefix('common', '~', $HOME)
 Cnmap <silent> [Space]ka  Ku args
 Cnmap <silent> [Space]kb  Ku buffer
 Cnmap <silent> [Space]kf  Ku file
-Cnmap <silent> [Space]kg  Ku metarw-git
+Cnmap <silent> [Space]kg  Ku metarw/git
 Cnmap <silent> [Space]kh  Ku history
 Cnmap <silent> [Space]kk  call ku#restart()
   " p is for packages.

@@ -52,6 +52,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-textobj-entire
 
+Document in HTML format:
+http://kana.github.com/config/vim/textobj-entire.html
+
 
 
 
@@ -106,10 +109,10 @@ BUGS						*textobj-entire-bugs*
 ==============================================================================
 CHANGELOG					*textobj-entire-changelog*
 
-0.0.1	2009-08-13T21:21:01+09:00
+0.0.1	2009-08-13T21:21:01+09:00	      *textobj-entire-changelog-0.0.1*
 	- Fix a typo on the name of a variable.
 
-0.0.0	2009-04-15T14:41:17+09:00
+0.0.0	2009-04-15T14:41:17+09:00	      *textobj-entire-changelog-0.0.0*
 	- Initial version.
 
 

@@ -1,6 +1,6 @@
 " ku source: args
-" Version: 0.0.1
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Version: 0.1.1
+" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -33,22 +33,24 @@ let s:cached_items = []
 
 
 " Interface  "{{{1
-function! ku#args#event_handler(event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let s:cached_items = map(argv(), '{"word": v:val}')
-    if 0 < argc()
-      let s:cached_items[argidx()].menu = '*'
-    endif
-    return
-  else
-    return call('ku#default_event_handler', [a:event] + a:000)
+function! ku#args#available_sources()  "{{{2
+  return ['args']
+endfunction
+
+
+
+
+function! ku#args#on_source_enter(source_name_ext)  "{{{2
+  let s:cached_items = map(argv(), '{"word": v:val}')
+  if 0 < argc()
+    let s:cached_items[argidx()].menu = '*'
   endif
 endfunction
 
 
 
 
-function! ku#args#action_table()  "{{{2
+function! ku#args#action_table(source_name_ext)  "{{{2
   return {
   \   'argdelete': 'ku#args#action_argdelete',
   \   'default': 'ku#args#action_open',
@@ -60,7 +62,7 @@ endfunction
 
 
 
-function! ku#args#key_table()  "{{{2
+function! ku#args#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'D': 'argdelete',
@@ -72,14 +74,14 @@ endfunction
 
 
 
-function! ku#args#gather_items(pattern)  "{{{2
+function! ku#args#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#args#special_char_p(character)  "{{{2
+function! ku#args#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 
@@ -95,10 +97,10 @@ function! s:open(bang, item)  "{{{2
   let bufnr = bufnr(fnameescape(a:item.word))
   if bufnr != -1
     execute bufnr 'buffer'.a:bang
+    return 0
   else
-    echoerr 'No such buffer:' string(a:item.word)
+    return 'No such buffer: ' . string(a:item.word)
   endif
-  return
 endfunction
 
 
@@ -106,20 +108,19 @@ endfunction
 
 " Actions  "{{{2
 function! ku#args#action_open(item)  "{{{3
-  call s:open('', a:item)
-  return
+  return s:open('', a:item)
 endfunction
 
 
 function! ku#args#action_open_x(item)  "{{{3
-  call s:open('!', a:item)
-  return
+  return s:open('!', a:item)
 endfunction
 
 
 function! ku#args#action_argdelete(item)  "{{{3
-  execute 'argdelete' fnameescape(a:item.word)
-  return
+  let v:errmsg = ''
+  silent! execute 'argdelete' fnameescape(a:item.word)
+  return v:errmsg == '' ? 0 : v:errmsg
 endfunction
 
 

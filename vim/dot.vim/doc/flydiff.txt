@@ -55,6 +55,9 @@ Supported version control systems:
 Latest version:
 http://github.com/kana/config/commits/vim-flydiff
 
+Document in HTML format:
+http://kana.github.com/config/vim/flydiff.html
+
 
 
 
@@ -157,7 +160,7 @@ Normal buffer window ~
 ==============================================================================
 CHANGELOG					*flydiff-changelog*
 
-0.0.1	2008-06-28T03:46:26+09:00
+0.0.1	2008-06-28T03:46:26+09:00		*flydiff-changelog-0.0.1*
 	Fix many minor bugs:
 	- Set 'nobuflist' for diff buffers.
 	- Change naming style for diff buffers.
@@ -175,7 +178,7 @@ CHANGELOG					*flydiff-changelog*
 	- Revise some error messages.
 	- Revise internal stuffs.
 
-0.0	2008-06-25T21:07:55+09:00
+0.0	2008-06-25T21:07:55+09:00		*flydiff-changelog-0.0*
 	- Initial version.
 
 

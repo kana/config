@@ -1,6 +1,6 @@
 " ku source: history
-" Version: 0.0.0
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Version: 0.1.1
+" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -41,39 +41,41 @@ endif
 
 
 " Interface  "{{{1
-function! ku#history#event_handler(event, ...)  "{{{2
-  if a:event ==# 'SourceEnter'
-    let _ = {}
-    for i in copy(ku#input_history())
-      let sources = get(_, i.pattern, {})
-      let time = get(sources, i.source, 0)
-      let sources[i.source] = max([time, i.time])
-      let _[i.pattern] = sources
-    endfor
-
-    let s:cached_items = []
-    for [pattern, sources] in items(_)
-      for [source, time] in items(sources)
-        call add(s:cached_items, {
-        \      'word': pattern,
-        \      'menu': source,
-        \      'dup': 1,
-        \      'ku__sort_priority': (g:ku_history_sorting_style ==# 'time'
-        \                            ? -time
-        \                            : 0),
-        \    })
-      endfor
-    endfor
-    return
-  else
-    return call('ku#default_event_handler', [a:event] + a:000)
-  endif
+function! ku#history#available_sources()  "{{{2
+  return ['history']
 endfunction
 
 
 
 
-function! ku#history#action_table()  "{{{2
+function! ku#history#on_source_enter(source_name_ext)  "{{{2
+  let _ = {}
+  for i in copy(ku#input_history())
+    let sources = get(_, i.pattern, {})
+    let time = get(sources, i.source, 0)
+    let sources[i.source] = max([time, i.time])
+    let _[i.pattern] = sources
+  endfor
+
+  let s:cached_items = []
+  for [pattern, sources] in items(_)
+    for [source, time] in items(sources)
+      call add(s:cached_items, {
+      \      'word': pattern,
+      \      'menu': source,
+      \      'dup': 1,
+      \      'ku__sort_priority': (g:ku_history_sorting_style ==# 'time'
+      \                            ? -time
+      \                            : 0),
+      \    })
+    endfor
+  endfor
+endfunction
+
+
+
+
+function! ku#history#action_table(source_name_ext)  "{{{2
   return {
   \   'default': 'ku#history#action_open',
   \   'open': 'ku#history#action_open',
@@ -83,7 +85,7 @@ endfunction
 
 
 
-function! ku#history#key_table()  "{{{2
+function! ku#history#key_table(source_name_ext)  "{{{2
   return {
   \   "\<C-o>": 'open',
   \   'o': 'open',
@@ -93,14 +95,14 @@ endfunction
 
 
 
-function! ku#history#gather_items(pattern)  "{{{2
+function! ku#history#gather_items(source_name_ext, pattern)  "{{{2
   return s:cached_items
 endfunction
 
 
 
 
-function! ku#history#special_char_p(character)  "{{{2
+function! ku#history#special_char_p(source_name_ext, character)  "{{{2
   return 0
 endfunction
 
@@ -114,6 +116,10 @@ endfunction
 " Misc.  "{{{1
 " Actions  "{{{2
 function! ku#history#action_open(item)  "{{{3
+  if !a:item.ku__completed_p
+    return 'No such entry in the input history: ' . string(a:item.word)
+  endif
+
   let pattern = a:item.word
   let source = a:item.menu
 
@@ -122,7 +128,7 @@ function! ku#history#action_open(item)  "{{{3
   endif
 
   call ku#start(source, pattern)
-  return
+  return 0  " FIXME: action: How about the result of ku#start()?
 endfunction
 
 

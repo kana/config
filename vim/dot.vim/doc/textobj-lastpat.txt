@@ -51,6 +51,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-textobj-lastpat
 
+Document in HTML format:
+http://kana.github.com/config/vim/textobj-lastpat.html
+
 
 
 
@@ -108,7 +111,7 @@ BUGS						*textobj-lastpat-bugs*
 ==============================================================================
 CHANGELOG					*textobj-lastpat-changelog*
 
-0.0.0	2008-08-24T17:43:28+09:00
+0.0.0	2008-08-24T17:43:28+09:00	     *textobj-lastpat-changelog-0.0.0*
 	- Initial version.
 
 

@@ -1,5 +1,6 @@
-" Vim additional ftplugin: vim_tofunc - TOFunc settings
-" Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
+" textobj-function - Text objects for functions
+" Version: 0.1.0
+" Copyright (C) 2007-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -20,55 +21,66 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-
-if exists('g:TOFunc.vim')
+if exists('g:loaded_textobj_function')  "{{{1
   finish
 endif
 
 
 
 
-let g:TOFunc.vim = {}
-let s:BEGINNING_PATTERN = '^\s*fu\%[nction]\>'
-let s:END_PATTERN = '^\s*endf\%[unction]\>'
 
 
-function! g:TOFunc.vim.GetRangeA()
-  if line('.') !~# s:END_PATTERN
-    call searchpair(s:BEGINNING_PATTERN, '', s:END_PATTERN, 'W')
-  endif
-  normal! $
-  let e = getpos('.')
-  normal! 0
-  call searchpair(s:BEGINNING_PATTERN, '', s:END_PATTERN, 'bW')
-  let b = getpos('.')
 
-  if b != e
-    return [b, e]
-  else
-    return 0
-  endif
+
+" Interface  "{{{1
+
+call textobj#user#plugin('function', {
+\      '-': {
+\        '*sfile*': expand('<sfile>:p'),
+\        'select-a': 'af',  '*select-a-function*': 's:select_a',
+\        'select-i': 'if',  '*select-i-function*': 's:select_i'
+\      }
+\    })
+
+
+
+
+
+
+
+
+" Misc.  "{{{1
+function! s:select(object_type)
+  return exists('b:textobj_function_select')
+  \      ? b:textobj_function_select(a:object_type)
+  \      : 0
+endfunction
+
+function! s:select_a()
+  return s:select('a')
+endfunction
+
+function! s:select_i()
+  return s:select('i')
 endfunction
 
 
-function! g:TOFunc.vim.GetRangeI()
-  let range = g:TOFunc.vim.GetRangeA()
-  if type(range) == type(0)
-    return 0
-  endif
 
-  let [b, e] = range
-  if 1 < e[1] - b[1]  " is ther some code?
-    call setpos('.', b)
-    normal! j0
-    let b = getpos('.')
-    call setpos('.', e)
-    normal! k$
-    let e = getpos('.')
-    return [b, e]
-  else
-    return 0
-  endif
-endfunction
+
+
+
+
+
+" Fin.  "{{{1
+
+let g:loaded_textobj_function = 1
+
+
+
+
+
+
+
 
 " __END__
+" vim: foldmethod=marker

@@ -41,15 +41,19 @@ let s:RE_ISSUE_ID = '#\<\d\+\>'
 
 " Key mappings  "{{{1
 
-nnoremap <buffer> <Plug>(issue-show-status)  :<C-u>call <SID>ShowStatus()<Return>
-nnoremap <buffer> <Plug>(issue-new-issue)  :<C-u>call <SID>NewIssue()<Return>
-nnoremap <buffer> <Plug>(issue-new-note)  :<C-u>call <SID>NewNote()<Return>
-nnoremap <buffer> <Plug>(issue-jump-to-issue)  :<C-u>call <SID>JumpToIssue()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-show-status)
+\        :<C-u>call <SID>ShowStatus()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-new-issue)
+\        :<C-u>call <SID>NewIssue()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-new-note)
+\        :<C-u>call <SID>NewNote()<Return>
+nnoremap <buffer> <silent> <Plug>(issue-jump-to-issue)
+\        :<C-u>call <SID>JumpToIssue()<Return>
 
 silent! nmap <unique> <buffer> <LocalLeader>s  <Plug>(issue-show-status)
 silent! nmap <unique> <buffer> <LocalLeader>i  <Plug>(issue-new-issue)
 silent! nmap <unique> <buffer> <LocalLeader>n  <Plug>(issue-new-note)
-silent! nmap <unique> <buffer> <Return>  <Plug>(issue-jump-to-issue)
+silent! nmap <unique> <buffer> <LocalLeader>g  <Plug>(issue-jump-to-issue)
 
 call textobj#user#plugin('issue', {
 \      'id': {
@@ -113,27 +117,19 @@ endfunction
 
 
 function! s:JumpToIssue()
-  echo 'FIXME: Not Implemented Yet.'
-  return
-  let BAD = [0, 0]
-  let pos = [line('.'), col('.')]
-
-  let fb = textobj#user#move(s:RE_ISSUE_ID, 'n')
-  let fe = textobj#user#move(s:RE_ISSUE_ID, 'ne')
-  let fdiff = s:Distance(pos, fb, fe)
-
-  let bb = textobj#user#move(s:RE_ISSUE_ID, 'nb')
-  let be = textobj#user#move(s:RE_ISSUE_ID, 'nbe')
-  let bdiff = s:Distance(pos, bb, be)
-
-  if fdiff != BAD && bdiff != BAD
-    if s:LT(fdiff, bdiff)
-    endif
-  elseif fdiff != BAD && bdiff == BAD
-  elseif fdiff == BAD && bdiff != BAD
-  else  " if fdiff == BAD && bdiff == BAD
-    " nop
+  if search(s:RE_ISSUE_ID, 'cW') == 0
+    echo 'There is no issue id in this buffer.'
+    return 0
   endif
+
+  let id_string = matchstr(getline('.'), s:RE_ISSUE_ID)
+  if search('^' . id_string . '\>', 'cw') == 0
+    echo 'There is no issue for this id.'
+    return 0
+  endif
+
+  normal! zvzz
+  return !0
 endfunction
 
 
@@ -166,6 +162,16 @@ endfunction
 
 " Misc. finalization "{{{1
 
+let b:undo_ftplugin = 'setlocal foldmethod<
+                     \|silent! nunmap <buffer> <LocalLeader>J
+                     \|silent! nunmap <buffer> <LocalLeader>K
+                     \|silent! nunmap <buffer> <LocalLeader>g
+                     \|silent! nunmap <buffer> <LocalLeader>i
+                     \|silent! nunmap <buffer> <LocalLeader>j
+                     \|silent! nunmap <buffer> <LocalLeader>k
+                     \|silent! nunmap <buffer> <LocalLeader>n
+                     \|silent! nunmap <buffer> <LocalLeader>s
+                     \'
 let b:did_ftplugin = 1
 
 

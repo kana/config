@@ -1,0 +1,193 @@
+*textobj-function.txt*	Text object for a function
+
+Version 0.1.0
+Script ID: 2619
+Copyright (C) 2007-2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*textobj-function-contents*
+
+Introduction		|textobj-function-introduction|
+Interface		|textobj-function-interface|
+  Key Mappings		  |textobj-function-key-mappings|
+Customizing		|textobj-function-customizing|
+API			|textobj-function-api|
+Bugs			|textobj-function-bugs|
+Changelog		|textobj-function-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*textobj-function-introduction*
+
+*textobj-function* is a Vim plugin to provide universal text objects for
+various kinds of functions.  For example, you can select any function with
+|<Plug>(textobj-function-a)| / |<Plug>(textobj-function-i)| (default key
+bindings: af / if).
+
+The definition of a "function" is usually differed depending on what you are
+editing, so at first, you have to tell the definition of what kind of function
+you want to select to textobj-function.  By default, textobj-function knows
+about functions in the following languages:
+					    *textobj-function-known-languages*
+- C language		|textobj-function-c|
+- Vim script		|textobj-function-vim|
+
+If you want to tell about more functions in other languages, see
+|textobj-function-customizing| for how to tell and
+after/ftplugin/*/textobj-function.vim for the samples.
+
+Requirements:
+- Vim 7.2 or later
+- |textobj-user| 0.3.7 or later (vimscript#2100)
+
+Latest version:
+http://github.com/kana/config/commits/vim-textobj-function
+
+Document in HTML format:
+http://kana.github.com/config/vim/textobj-function.html
+
+
+
+
+==============================================================================
+INTERFACE					*textobj-function-interface*
+
+------------------------------------------------------------------------------
+KEY MAPPINGS				       *textobj-function-key-mappings*
+
+In visual mode and operator-pending mode, the following text objects are
+available.  Note that the fllowing key mappings will not be defined when its
+{lhs} is already mapped.
+
+
+<Plug>(textobj-function-a)			*<Plug>(textobj-function-a)*
+			"a function" - Select the all range of a function.
+			This text object is |linewise| by default, but it may
+			be |characterwise| or |blockwise| depending on what
+			function is being selected.
+
+			Note that unlike built-in text objects, "a function"
+			doesn't include leading or trailing blanks and/or
+			blank lines.  This problem will be fixed in the near
+			future - by adding another text object.
+
+<Plug>(textobj-function-i)			*<Plug>(textobj-function-i)*
+			"inner function" - Like |<Plug>(textobj-function-a)|,
+			but select the body of a function, other parts of
+			a function are not included e.g. its name, its
+			arguments and so forth).
+
+
+
+
+==============================================================================
+CUSTOMIZING					*textobj-function-customizing*
+
+				  *g:textobj_function_no_default_key_mappings*
+					  *:TextobjFunctionDefaultKeyMappings*
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode automatically.  If you don't want these key mappings,
+define |g:textobj_function_no_default_key_mappings| before this plugin is
+loaded (e.g. in your |vimrc|).  You can also use
+|:TextobjFunctionDefaultKeyMappings| to redefine these key mappings.  This
+command doesn't override existing {lhs}s unless [!] is given.
+
+	{lhs}	{rhs}				~
+	-----	---------------------------	~
+	af	<Plug>(textobj-function-a)
+	if	<Plug>(textobj-function-i)
+
+
+
+
+==============================================================================
+API						*textobj-function-api*
+
+textobj-function uses the following function to know the range to select
+a function which is appropriate for the current buffer.  See
+after/ftplugin/*/textobj-function.vim in the archives of textobj-function for
+examples.
+
+b:textobj_function_select({object-type})	*b:textobj_function_select()*
+		Return a list to indicate the range to select a function.  If
+		there is no function to select, return 0 instead.
+
+		{object-type} specifies the type of object to select.  This
+		can be one of the following values:
+
+			Value	Meaning		~
+			----------------------- ~
+			'a'	"a function"
+			'i'	"inner function"
+
+		The detail of a list to return is as follows:
+>
+			[{*wise}, {start-position}, {end-position}]
+<
+		- {*wise} denotes the default type of selection.  Valid values
+		  are "v", "V" or "\<C-v>".  The meaning of the values are
+		  characterwise, linewise or blockwise.
+		- {start-position} denotes the start position of the area to
+		  be selected.  The detail of this value is the same as
+		  |getpos()|.
+		- {end-position} is like {start-position}, but it denotes the
+		  end position of the area to be selected.
+
+		In this function, it is allowd to move the cursor to anywhere.
+		The cursor will be automatically adjusted or restored after
+		calling this function.
+
+
+
+
+==============================================================================
+BUGS						*textobj-function-bugs*
+
+- See |textobj-user-bugs| for further information.
+
+- Please report me if you find any bug not described above.
+
+
+
+
+==============================================================================
+CHANGELOG					*textobj-function-changelog*
+
+0.1.0	2009-04-25T14:17:41+09:00	    *textobj-function-changelog-0.1.0*
+	- Rename the name of this plugin as textobj-function.  The old name is
+	  tofunc and it's not clear to indicate what this plugin does.
+	- Change to use |textobj-user| instead of its own framework.
+	- Change the API.  See |textobj-function-api| for the details.  It is
+	  now incompatible with old versions.
+	- Add documents for sample scripts.
+	  See |textobj-function-known-languages|.
+
+0.0	2007-XX-XX			      *textobj-function-changelog-0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

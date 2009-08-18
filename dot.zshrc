@@ -14,11 +14,17 @@ bindkey -v  # vi!  vi!
 
 # Parameters  #{{{1
 
-if [ "$ENV_WORKING" = 'mac' ]; then
-  export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
-else
-  export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
-fi
+case "$ENV_WORKING" in
+  avril)
+    export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
+    ;;
+  summer)
+    export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
+    ;;
+  *)
+    export CDPATH="$(echo . ~/{working,} | tr ' ' ':')"
+    ;;
+esac
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
@@ -204,7 +210,7 @@ function prompt_setup() {
   esac
   local c_host
   case "$HOST" in
-    colinux)
+    winter)
       c_host="$c_cyan"
       ;;
     *)
@@ -262,7 +268,7 @@ alias ..='cd ..'
 
 # colinux only  #{{{2
 
-if [ "$ENV_WORKING" = 'colinux' ]; then
+if [ "$ENV_WORKING" = 'winter' ]; then
   alias shutdown-colinux='sudo halt; exit'
 
   # mount wrappers  #{{{

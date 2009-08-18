@@ -3,7 +3,24 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean package _package update vimup vimup-details vimup-script
+.PHONY: \
+  _validate-package-arguments \
+  _validate-package-name \
+  _validate-package-type \
+  _vimup \
+  all \
+  clean \
+  clean-vim \
+  list-available-packages \
+  list-files-in-a-package \
+  package \
+  test \
+  test-a-package \
+  update \
+  vimup \
+  vimup-details \
+  vimup-new \
+  vimup-script
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
@@ -18,11 +35,11 @@ ALL_GROUPS=\
   $(ALL_GROUPS_$(ENV_WORKING)) \
   $(ALL_GROUPS_$(ENV_WORKING)_$(USER))
 ALL_GROUPS_common=DOTS VIM
-ALL_GROUPS_colinux=COLINUX_external
-ALL_GROUPS_colinux_root=COLINUX_internal
-ALL_GROUPS_cygwin=CEREJA COLINUX_external DOTS_cygwin OPERA SAMURIZE
+ALL_GROUPS_winter=COLINUX_external
+ALL_GROUPS_winter_root=COLINUX_internal
+ALL_GROUPS_summer=CEREJA COLINUX_external DOTS_summer OPERA SAMURIZE
 ALL_GROUPS_linux=DOTS_linux
-ALL_GROUPS_mac=OPERA
+ALL_GROUPS_avril=OPERA
 
 GROUP_CEREJA_FILES=\
   cereja/config.lua \
@@ -78,9 +95,9 @@ GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
 dot.gitconfig: dot.gitconfig.in
 	sed -e 's!= ~/!= $(HOME)/!' <$< >$@
 
-GROUP_DOTS_cygwin_FILES=\
+GROUP_DOTS_summer_FILES=\
   dot.mayu
-GROUP_DOTS_cygwin_RULE=$(GROUP_DOTS_RULE)
+GROUP_DOTS_summer_RULE=$(GROUP_DOTS_RULE)
 
 GROUP_DOTS_linux_FILES=\
   dot.xmodmaprc \
@@ -88,7 +105,7 @@ GROUP_DOTS_linux_FILES=\
 GROUP_DOTS_linux_RULE=$(GROUP_DOTS_RULE)
 
 GROUP_OPERA_FILES=$(GROUP_OPERA_$(ENV_WORKING)_FILES)
-GROUP_OPERA_cygwin_FILES=\
+GROUP_OPERA_summer_FILES=\
   opera/keyboard/my-keyboard-9.60.ini \
   opera/keyboard/my-keyboard-revised.ini \
   opera/keyboard/my-keyboard.ini \
@@ -97,7 +114,7 @@ GROUP_OPERA_cygwin_FILES=\
   opera/skin/windows_skin3.zip \
   opera/styles/user.css \
   opera/toolbar/my-toolbar.ini
-GROUP_OPERA_mac_FILES=\
+GROUP_OPERA_avril_FILES=\
   opera/Keyboard/my-keyboard-9.60.ini \
   opera/Keyboard/my-keyboard-revised.ini \
   opera/Keyboard/my-keyboard.ini \
@@ -143,11 +160,11 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_diff_FILES) \
   $(PACKAGE_vim_textobj_entire_FILES) \
   $(PACKAGE_vim_textobj_fold_FILES) \
+  $(PACKAGE_vim_textobj_function_FILES) \
   $(PACKAGE_vim_textobj_indent_FILES) \
   $(PACKAGE_vim_textobj_jabraces_FILES) \
   $(PACKAGE_vim_textobj_lastpat_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
-  $(PACKAGE_vim_tofunc_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
@@ -224,11 +241,11 @@ ALL_PACKAGES=\
   vim-textobj-diff \
   vim-textobj-entire \
   vim-textobj-fold \
+  vim-textobj-function \
   vim-textobj-indent \
   vim-textobj-jabraces \
   vim-textobj-lastpat \
   vim-textobj-user \
-  vim-tofunc \
   vim-vcsi \
   vim-xml_autons \
   vim-xml_move
@@ -236,7 +253,7 @@ ALL_PACKAGES=\
 PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
 PACKAGE_all_FILES=./Makefile \
-                  $(foreach w, common colinux colinux_root cygwin linux, \
+                  $(foreach w, common winter winter_root summer linux, \
                     $(foreach g, $(sort $(ALL_GROUPS_$(w))), \
                       $(foreach f, $(GROUP_$(g)_FILES), \
                         ./$(f))))
@@ -275,7 +292,7 @@ PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/doc/bundle.txt \
   vim/dot.vim/plugin/bundle.vim
 
-PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.2
+PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.3
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
 PACKAGE_vim_fakeclip_FILES=\
   vim/dot.vim/autoload/fakeclip.vim \
@@ -306,7 +323,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.1.9
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.1
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
@@ -318,50 +335,49 @@ PACKAGE_vim_ku_FILES=\
   $(PACKAGE_vim_ku_history_FILES) \
   $(PACKAGE_vim_ku_source_FILES)
 
-PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.0.1
+PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
 PACKAGE_vim_ku_args_FILES=\
   vim/dot.vim/autoload/ku/args.vim \
   vim/dot.vim/doc/ku-args.txt
 
-PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-0.0.2
+PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-buffer-0.1.1
 PACKAGE_vim_ku_buffer_BASE=vim/dot.vim
 PACKAGE_vim_ku_buffer_FILES=\
   vim/dot.vim/autoload/ku/buffer.vim \
   vim/dot.vim/doc/ku-buffer.txt
 
-PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.0.2
+PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.1.1
 PACKAGE_vim_ku_bundle_BASE=vim/dot.vim
 PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
 
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.0.2
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.1
 PACKAGE_vim_ku_file_BASE=vim/dot.vim
 PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
   vim/dot.vim/doc/ku-file.txt
 
-PACKAGE_vim_ku_history_ARCHIVE=vim-ku-history-0.0.0
+PACKAGE_vim_ku_history_ARCHIVE=vim-ku-history-0.1.1
 PACKAGE_vim_ku_history_BASE=vim/dot.vim
 PACKAGE_vim_ku_history_FILES=\
   vim/dot.vim/autoload/ku/history.vim \
   vim/dot.vim/doc/ku-history.txt
 
-PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.0.1
+PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.1.1
 PACKAGE_vim_ku_metarw_BASE=vim/dot.vim
 PACKAGE_vim_ku_metarw_FILES=\
-  vim/dot.vim/autoload/ku/special/metarw.vim \
-  vim/dot.vim/autoload/ku/special/metarw_.vim \
+  vim/dot.vim/autoload/ku/metarw.vim \
   vim/dot.vim/doc/ku-metarw.txt
 
-PACKAGE_vim_ku_quickfix_ARCHIVE=vim-ku-quickfix-0.0.0
+PACKAGE_vim_ku_quickfix_ARCHIVE=vim-ku-quickfix-0.1.1
 PACKAGE_vim_ku_quickfix_BASE=vim/dot.vim
 PACKAGE_vim_ku_quickfix_FILES=\
   vim/dot.vim/autoload/ku/quickfix.vim \
   vim/dot.vim/doc/ku-quickfix.txt
 
-PACKAGE_vim_ku_source_ARCHIVE=vim-ku-source-0.0.0
+PACKAGE_vim_ku_source_ARCHIVE=vim-ku-source-0.1.1
 PACKAGE_vim_ku_source_BASE=vim/dot.vim
 PACKAGE_vim_ku_source_FILES=\
   vim/dot.vim/autoload/ku/source.vim \
@@ -375,7 +391,7 @@ PACKAGE_vim_metarw_FILES=\
   vim/dot.vim/plugin/metarw.vim \
   vim/dot.vim/syntax/metarw.vim
 
-PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.1
+PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.2
 PACKAGE_vim_metarw_git_BASE=vim/dot.vim
 PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
@@ -482,7 +498,17 @@ PACKAGE_vim_textobj_fold_FILES=\
   vim/dot.vim/doc/textobj-fold.txt \
   vim/dot.vim/plugin/textobj/fold.vim
 
-PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.1
+PACKAGE_vim_textobj_function_ARCHIVE=vim-textobj-function-0.1.0
+PACKAGE_vim_textobj_function_BASE=vim/dot.vim
+PACKAGE_vim_textobj_function_FILES=\
+  vim/dot.vim/after/ftplugin/c/textobj-function.vim \
+  vim/dot.vim/after/ftplugin/vim/textobj-function.vim \
+  vim/dot.vim/doc/textobj-function-c.txt \
+  vim/dot.vim/doc/textobj-function-vim.txt \
+  vim/dot.vim/doc/textobj-function.txt \
+  vim/dot.vim/plugin/textobj/function.vim
+
+PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.2
 PACKAGE_vim_textobj_indent_BASE=vim/dot.vim
 PACKAGE_vim_textobj_indent_FILES=\
   vim/dot.vim/doc/textobj-indent.txt \
@@ -505,14 +531,6 @@ PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
   vim/dot.vim/doc/textobj-user.txt
-
-PACKAGE_vim_tofunc_ARCHIVE=vim-tofunc-0.0
-PACKAGE_vim_tofunc_BASE=vim/dot.vim
-PACKAGE_vim_tofunc_FILES=\
-  vim/dot.vim/after/ftplugin/c_tofunc.vim \
-  vim/dot.vim/after/ftplugin/vim_tofunc.vim \
-  vim/dot.vim/doc/tofunc.txt \
-  vim/dot.vim/plugin/tofunc.vim
 
 PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.1.0
 PACKAGE_vim_vcsi_BASE=vim/dot.vim
@@ -550,17 +568,7 @@ PACKAGE_SUFFIX_tar=.tar.bz2
 PACKAGE_COMMAND_zip=zip
 PACKAGE_SUFFIX_zip=.zip
 
-package:
-	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
-	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
-	  false; \
-	fi
-	if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
-	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
-	  false; \
-	fi
-	$(MAKE) _package
-_package:
+package: _validate-package-arguments test-a-package
 	ln -s $(PACKAGE_$(_PACKAGE_NAME)_BASE) \
 	      $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 	$(PACKAGE_COMMAND_$(PACKAGE_TYPE)) \
@@ -571,14 +579,25 @@ _package:
 	                       $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)/%, \
 	                       $(file)))
 	rm $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
+_validate-package-arguments: _validate-package-name _validate-package-type
+_validate-package-name:
+	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	  false; \
+	fi
+_validate-package-type:
+	@if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
+	  false; \
+	fi
 
 
 # for vim-bundle
 
-available-packages:
+list-available-packages:
 	@echo $(ALL_PACKAGES)
 
-package-files:
+list-files-in-a-package:
 	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
@@ -643,8 +662,8 @@ $(foreach group, \
 #VIMUP_TASKS=
 _vimup:
 	./vimup-info-generator \
-	  <$(firstword $(filter vim/dot.vim/doc/%.txt, \
-	                        $(PACKAGE_$(_PACKAGE_NAME)_FILES))) \
+	  <$(filter vim/dot.vim/doc/$(patsubst vim-%,%,$(PACKAGE_NAME)).txt, \
+	            $(PACKAGE_$(_PACKAGE_NAME)_FILES)) \
 	  >$(PACKAGE_NAME).vimup
 	for i in $(VIMUP_TASKS); do \
 	  vimup $$i $(PACKAGE_NAME); \
@@ -655,7 +674,7 @@ vimup: package
 	make VIMUP_TASKS="update-script update-details" _vimup
 vimup-details:
 	make VIMUP_TASKS=update-details _vimup
-vimup-new:
+vimup-new: package
 	make VIMUP_TASKS=new-script _vimup
 vimup-script: package
 	make VIMUP_TASKS=update-script _vimup
@@ -672,6 +691,23 @@ clean-vim:
 	rm -rf `find $(HOME)/.vim \
 	        -mindepth 1 -maxdepth 1 \
 	        -not -name 'info' -not -name 'xtr'`
+
+
+
+
+# test  #{{{1
+
+test:
+	for i in $(ALL_PACKAGES); do \
+	  $(MAKE) PACKAGE_NAME=$$i test-a-package; \
+	done
+
+test-a-package: _validate-package-name  # (PACKAGE_NAME)
+	@if [ -d test/$(PACKAGE_NAME) ]; then \
+	  $(MAKE) test/$(PACKAGE_NAME).ok; \
+	else \
+	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
+	fi
 
 
 

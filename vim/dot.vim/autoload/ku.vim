@@ -1,6 +1,6 @@
-" ku - Support to do something
-" Version: 0.1.9
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" ku - An interface for anything
+" Version: 0.2.1
+" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -21,6 +21,24 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Coding Guidelines  "{{{1
+" Naming Guidelines  "{{{2
+"
+" - Use the prefix "original_" and include the namaes of options/functions for
+"   variables which hold values from options/functions to restore the states
+"   of Vim before a ku session.
+"
+"   For example, 'completeopt' is changed while a ku session, so that the
+"   original value of 'completeopt' must be saved and restored.  To keep the
+"   original value of 'completeopt', use "original_completeopt".
+
+
+
+
+
+
+
+
 " Variables  "{{{1
 " Global  "{{{2
 
@@ -129,10 +147,10 @@ let s:last_user_input_raw = ''
 
 
 " Information to restore several stuffs after a ku session.
-let s:completeopt = ''
-let s:curwinnr = 0
-let s:ignorecase = ''
-let s:winrestcmd = ''
+let s:original_completeopt = ''
+let s:original_curwinnr = 0
+let s:original_ignorecase = ''
+let s:original_winrestcmd = ''
 
 
 " User defined action tables, key tables and prefix table for sources.
@@ -189,27 +207,7 @@ function! ku#available_sources()  "{{{2
     return s:available_sources
   endif
 
-  let _ = s:FALSE
-
-  if s:normal_source_cache_expired_p()
-    call s:update_normal_source_cache()
-    let _ = s:TRUE
-  endif
-
-  if s:special_source_cache_expired_p()
-    call s:update_special_source_cache()
-    let _ = s:TRUE
-  endif
-
-  if s:source_priorities_changed_p
-    let s:source_priorities_changed_p = s:FALSE
-    let _ = s:TRUE
-  endif
-
-  if _
-    let s:available_sources = s:sort_sources(s:available_normal_sources
-    \                                        + s:available_special_sources)
-  endif
+  let s:available_sources = sort(s:calculate_available_sources())
 
   let s:_session_id_source_cache = s:session_id
   return s:available_sources
@@ -219,46 +217,15 @@ if !exists('s:available_sources')
   let s:available_sources = []  " [source-name, ...]
 endif
 let s:_session_id_source_cache = 0
-let s:source_priorities_changed_p = s:TRUE
 
 
-" cache for normal sources  "{{{3
-let s:available_normal_sources = []  " [source-name, ...]
-let s:last_normal_source_directory_timestamps = []  " [timestamp, ...]
-let s:current_normal_source_directory_timestamps = []  " [timestamp, ...]
-
-function! s:normal_source_cache_expired_p()
-  let s:current_normal_source_directory_timestamps
-  \   = map(s:runtime_files('autoload/ku/'), 'getftime(v:val)')
-
-  return s:current_normal_source_directory_timestamps
-  \      != s:last_normal_source_directory_timestamps
-endfunction
-
-function! s:update_normal_source_cache()
-  let s:available_normal_sources = map(s:runtime_files('autoload/ku/*.vim'),
-  \                                    'fnamemodify(v:val, ":t:r")')
-
-  let s:last_normal_source_directory_timestamps
-  \   = s:current_normal_source_directory_timestamps
-endfunction
-
-
-" cache for special sources  "{{{3
-" FIXME: Implement proper caching.  The following interface is just to hide
-"        the detail of caching.
-let s:available_special_sources = []  " [source-name, ...]
-
-function! s:special_source_cache_expired_p()
-  return s:TRUE
-endfunction
-
-function! s:update_special_source_cache()
-  let s:available_special_sources = []
-  for f in s:runtime_files('autoload/ku/special/*_.vim')
-    let s:available_special_sources
-    \   += ku#special#{fnamemodify(f, ':t:r')}#sources()
+function! s:calculate_available_sources()
+  let _ = []
+  for source_name_base in map(s:runtime_files('autoload/ku/*.vim'),
+  \                           'fnamemodify(v:val, ":t:r")')
+    call extend(_, s:api_available_sources(source_name_base))
   endfor
+  return _
 endfunction
 
 
@@ -293,7 +260,7 @@ endfunction
 
 function! s:ku_custom_action_4(source, action, source2, action2)  "{{{3
   let action_table = (a:source2 !=# 'common'
-  \                   ? s:api(a:source2, 'action_table')
+  \                   ? s:api_action_table(a:source2)
   \                   : s:default_action_table())
   let function2 = get(action_table, a:action2, 0)
   if function2 is 0
@@ -347,22 +314,6 @@ function! ku#custom_priority(source, priority)  "{{{2
   endif
 
   let s:priority_table[a:source] = a:priority
-
-  let s:source_priorities_changed_p = s:TRUE
-endfunction
-
-
-
-
-function! ku#default_event_handler(event, ...)  "{{{2
-  if a:event ==# 'BeforeAction'
-    return a:1
-  else
-    " a:event ==# 'SourceEnter'
-    " a:event ==# 'SourceLeave'
-    "   Nothing to do.
-    return
-  endif
 endfunction
 
 
@@ -457,10 +408,10 @@ function! ku#start(source, ...)  "{{{2
   let s:current_hisotry_index = -1
 
   " Save some values to restore the original state.
-  let s:completeopt = &completeopt
-  let s:ignorecase = &ignorecase
-  let s:curwinnr = winnr()
-  let s:winrestcmd = winrestcmd()
+  let s:original_completeopt = &completeopt
+  let s:original_ignorecase = &ignorecase
+  let s:original_curwinnr = winnr()
+  let s:original_winrestcmd = winrestcmd()
 
   " Open or create the ku buffer.
   let v:errmsg = ''
@@ -492,7 +443,7 @@ function! ku#start(source, ...)  "{{{2
   " Start Insert mode.
   call feedkeys('A', 'n')
 
-  call s:api(s:current_source, 'event_handler', 'SourceEnter')
+  call s:api_on_source_enter(s:current_source)
   return s:TRUE
 endfunction
 
@@ -548,12 +499,12 @@ function! ku#_omnifunc(findstart, base)  "{{{3
     let cache_key = s:_omnifunc_cache_key(pattern)
     let cached_value = get(s:_omnifunc_cache, cache_key, s:_OMNIFUNC_INVALID)
     if cached_value is s:_OMNIFUNC_INVALID
-      if pattern == '' || s:api(s:current_source,'special_char_p',pattern[-1:])
+      if pattern == '' || s:api_special_char_p(s:current_source, pattern[-1:])
         " Base cases.
         let _ = s:_omnifunc_core(
         \         s:current_source,
         \         pattern,
-        \         s:api(s:current_source, 'gather_items', pattern)
+        \         s:api_gather_items(s:current_source, pattern)
         \       )
       else
         " The last character (which seems to be typed by user)
@@ -583,7 +534,7 @@ function! ku#_omnifunc_profile(source, pattern, ...)  "{{{3
   let n = a:0 ? a:1 : 1
   let base_time = reltime()
 
-  let raw_items = s:api(a:source, 'gather_items', a:pattern)
+  let raw_items = s:api_gather_items(a:source, a:pattern)
   let gathering_time = reltime(base_time)
 
   let base_time = reltime()
@@ -712,7 +663,7 @@ endfunction
 function! s:_omnifunc_base_case_pattern(pattern)  "{{{3
   let i = len(a:pattern) - 1
   while (0 <= i
-  \      && !s:api(s:current_source, 'special_char_p', a:pattern[i])
+  \      && !s:api_special_char_p(s:current_source, a:pattern[i])
   \      && !has_key(s:_omnifunc_cache, s:_omnifunc_cache_key(a:pattern[:i])))
     let i -= 1
   endwhile
@@ -772,11 +723,15 @@ function! s:do(action_name)  "{{{2
       " there's no item -- user seems to take action on current_user_input_raw.
       let item = {'word':
       \             s:expand_prefix(s:remove_prompt(current_user_input_raw)),
-      \           'ku__completed_p': s:FALSE}
+      \           'ku__completed_p': s:FALSE,
+      \           'ku__source': s:current_source}
     endif
   endif
 
-  if a:action_name ==# '*choose*' || a:action_name ==# '*persistent*'
+  let nothing_to_do_p = item.word ==# '' && !(item.ku__completed_p)
+  if nothing_to_do_p
+    " Ignore.
+  elseif a:action_name ==# '*choose*' || a:action_name ==# '*persistent*'
     let action = s:choose_action(item, a:action_name ==# '*persistent*')
   else
     let action = a:action_name
@@ -786,14 +741,16 @@ function! s:do(action_name)  "{{{2
   " ku window.
   call s:end()
 
-  if action ==# 'cancel'
+  if nothing_to_do_p
+    echo 'Nothing to do, because you gave empty pattern and there is no item.'
+  elseif action ==# 'cancel' || action ==# 'nop'
     " Ignore.
   elseif action ==# 'selection'
     call ku#restart()  " Emulate to return to the previous selection.
   else
     call s:history_add(s:remove_prompt(s:last_used_input_pattern),
     \                  s:last_used_source)
-    let item = s:api(s:current_source, 'event_handler', 'BeforeAction', item)
+    let item = s:api_on_before_action(s:current_source, item)
     call s:do_action(action, item)
     if a:action_name ==# '*persistent*'
       call ku#restart()
@@ -826,13 +783,13 @@ function! s:end()  "{{{2
   let s:last_used_input_pattern = s:last_user_input_raw
   let s:last_used_source = s:current_source
 
-  call s:api(s:current_source, 'event_handler', 'SourceLeave')
+  call s:api_on_source_leave(s:current_source)
   close
 
-  let &completeopt = s:completeopt
-  let &ignorecase = s:ignorecase
-  execute s:curwinnr 'wincmd w'
-  execute s:winrestcmd
+  let &completeopt = s:original_completeopt
+  let &ignorecase = s:original_ignorecase
+  execute s:original_curwinnr 'wincmd w'
+  execute s:original_winrestcmd
 
   let s:_end_locked_p = s:FALSE
   return s:TRUE
@@ -1123,8 +1080,8 @@ function! s:switch_current_source(new_source)  "{{{2
     return s:FALSE
   endif
 
-  call s:api(_[o], 'event_handler', 'SourceLeave')
-  call s:api(_[n], 'event_handler', 'SourceEnter')
+  call s:api_on_source_leave(_[o])
+  call s:api_on_source_enter(_[n])
 
   let s:current_source = _[n]
   return s:TRUE
@@ -1252,7 +1209,7 @@ function! s:text_by_automatic_component_completion(line)  "{{{3
       " echomsg 'j' string(j)
       if 0 <= j
         let result = item.word[:-(len(t)-j+1)]
-      elseif s:api(s:current_source, "acc_valid_p", item, SEP)
+      elseif s:api_acc_valid_p(s:current_source, item, SEP)
         " echomsg 'acc_valid_p'
         let result = join(item_components[:_], SEP)
       else
@@ -1338,15 +1295,21 @@ endfunction
 function! s:do_action(action, item, ...)  "{{{3
   " Assumption: BeforeAction is already applied for a:item.
   let composite_p = 1 <= a:0 ? a:1 : s:TRUE
-  call function(s:get_action_function(a:action, composite_p))(a:item)
-  return s:TRUE
+  let _ = function(s:get_action_function(a:action, composite_p))(a:item)
+
+  if _ isnot 0
+    echohl ErrorMsg
+    echomsg _
+    echohl NONE
+  endif
+  return _
 endfunction
 
 
 function! s:get_action_function(action, composite_p)  "{{{3
   let ACTION_TABLE = (a:composite_p
   \                   ? s:composite_action_table(s:current_source)
-  \                   : s:api(s:current_source, 'action_table'))
+  \                   : s:api_action_table(s:current_source))
   if has_key(ACTION_TABLE, a:action)  " exists action?
     if ACTION_TABLE[a:action] !=# 'nop'  " enabled action?
       return ACTION_TABLE[a:action]
@@ -1457,16 +1420,30 @@ endfunction
 " Default actions  "{{{2
 " "default" variants with :split "{{{3
 function! s:with_split(direction_modifier, item)
+  let original_tabpagenr = tabpagenr()
+  let original_curwinnr = winnr()
+  let original_winrestcmd = winrestcmd()
+
   let v:errmsg = ''
-  execute a:direction_modifier 'split'
-  if v:errmsg == ''
-    " Here we have to do "default" action of the default action table for the
-    " current source instead of composite action table - because the latter
-    " may cause infinitely recursive loop if "default" action is overriden by
-    " other action which refers "default" action, such as "tab-Right".
-    call s:do_action('default', a:item, s:FALSE)
+  silent! execute a:direction_modifier 'split'
+  if v:errmsg != ''
+    return v:errmsg
   endif
-  return
+
+  " Here we have to do "default" action of the default action table for the
+  " current source instead of composite action table - because the latter
+  " may cause infinitely recursive loop if "default" action is overriden by
+  " other action which refers "default" action, such as "tab-Right".
+  let _ = s:do_action('default', a:item, s:FALSE)
+
+  if _ isnot 0
+    " Undo the last :split.
+    close
+    execute 'tabnext' original_tabpagenr
+    execute original_curwinnr 'wincmd w'
+    execute original_winrestcmd
+  endif
+  return _
 endfunction
 
 function! s:_default_action_Bottom(item)
@@ -1508,34 +1485,35 @@ endfunction
 
 
 function! s:_default_action_cd(item)  "{{{3
-  cd `=fnamemodify(a:item.word, ':p:h')`
-  return
+  let v:errmsg = ''
+  silent! cd `=fnamemodify(a:item.word, ':p:h')`
+  return v:errmsg == '' ? 0 : v:errmsg
 endfunction
 
 
 function! s:_default_action_default(item)  "{{{3
-  echoerr 'ku: Source' string(a:item.ku__source)
-  \       'does not have the "default" action'
-  return
+  return 'ku: Source ' . string(a:item.ku__source)
+  \      . ' does not have the "default" action'
 endfunction
 
 
 function! s:_default_action_ex(item)  "{{{3
   " Support to execute an Ex command on a:item.word (as path).
   call feedkeys(printf(": %s\<C-b>", fnameescape(a:item.word)), 'n')
-  return
+  return 0
 endfunction
 
 
 function! s:_default_action_lcd(item)  "{{{3
-  lcd `=fnamemodify(a:item.word, ':p:h')`
-  return
+  let v:errmsg = ''
+  silent! lcd `=fnamemodify(a:item.word, ':p:h')`
+  return v:errmsg == '' ? 0 : v:errmsg
 endfunction
 
 
 function! s:_default_action_nop(item)  "{{{3
   " NOP
-  return
+  return 0
 endfunction
 
 
@@ -1546,7 +1524,7 @@ function! s:composite_action_table(source)  "{{{3
   let action_table = {}
   for _ in [s:default_action_table(),
   \         s:custom_action_table('common'),
-  \         s:api(a:source, 'action_table'),
+  \         s:api_action_table(a:source),
   \         s:custom_action_table(a:source)]
     call extend(action_table, _)
   endfor
@@ -1591,7 +1569,7 @@ function! s:composite_key_table(source)  "{{{3
   let key_table = {}
   for _ in [s:default_key_table(),
   \         s:custom_key_table('common'),
-  \         s:api(a:source, 'key_table'),
+  \         s:api_key_table(a:source),
   \         s:custom_key_table(a:source)]
     call extend(key_table, _)
   endfor
@@ -1798,23 +1776,88 @@ endfunction
 
 
 
-function! s:api(source_name, api_name, ...)  "{{{2
-  let _ = matchstr(a:source_name, '^[a-z]\+\ze-')
+" Source API wrappers  "{{{2
+function! s:api_acc_valid_p(source_name, item, separator)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
 
-  if _ == ''  " normal source
-    let func = printf('ku#%s#%s', a:source_name, a:api_name)
-    let args = a:000
-  else  " special source
-    let func = printf('ku#special#%s#%s', _, a:api_name)
-    let args = [a:source_name] + a:000
-  endif
-
-  if a:api_name ==# 'acc_valid_p' && !exists('*' . func)
-    return s:FALSE
-  elseif a:api_name ==# 'special_char_p' && !exists('*' . func)
-    return 0 <= stridx(g:ku_component_separators, a:1)
+  let _ = 'ku#'.source_name_base.'#acc_valid_p'
+  if exists('*{_}')
+    return {_}(source_name_ext, a:item, a:separator)
   else
-    return call(func, args)
+    return s:FALSE
+  endif
+endfunction
+
+
+function! s:api_action_table(source_name)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  return ku#{source_name_base}#action_table(source_name_ext)
+endfunction
+
+
+function! s:api_available_sources(source_name_base)  "{{{3
+  " Unlike other Source API functions,
+  " - This function takes source_name_base instead of source_name.
+  " - Sources must define this API.
+  return ku#{a:source_name_base}#available_sources()
+endfunction
+
+
+function! s:api_gather_items(source_name, pattern)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  return ku#{source_name_base}#gather_items(source_name_ext, a:pattern)
+endfunction
+
+
+function! s:api_key_table(source_name)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  return ku#{source_name_base}#key_table(source_name_ext)
+endfunction
+
+
+function! s:api_on_before_action(source_name, item)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let _ = 'ku#'.source_name_base.'#on_before_action'
+  if exists('*{_}')
+    return {_}(source_name_ext, a:item)
+  else
+    return a:item
+  endif
+endfunction
+
+
+function! s:api_on_source_enter(source_name)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let _ = 'ku#'.source_name_base.'#on_source_enter'
+  if exists('*{_}')
+    call {_}(source_name_ext)
+  endif
+endfunction
+
+
+function! s:api_on_source_leave(source_name)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let _ = 'ku#'.source_name_base.'#on_source_leave'
+  if exists('*{_}')
+    call {_}(source_name_ext)
+  endif
+endfunction
+
+
+function! s:api_special_char_p(source_name, character)  "{{{3
+  let [source_name_base, source_name_ext] = s:split_source_name(a:source_name)
+
+  let _ = 'ku#'.source_name_base.'#special_char_p'
+  if exists('*{_}')
+    return {_}(source_name_ext, a:character)
+  else
+    return 0 <= stridx(g:ku_component_separators, a:character)
   endif
 endfunction
 
@@ -1960,6 +2003,14 @@ function! s:sort_sources(_)  "{{{2
   let _ = sort(_)
   let _ = map(_, 'v:val[3:]')  " Assumption: priority is 3-digit integer.
   return _
+endfunction
+
+
+
+
+function! s:split_source_name(source_name)  "{{{2
+  " ==> [source_name_base, source_name_ext]
+  return split(a:source_name.'/', '/', s:TRUE)[:1]
 endfunction
 
 

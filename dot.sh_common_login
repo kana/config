@@ -2,31 +2,27 @@
 # Environment detection  #{{{1
 
 # What machine am I working on?
-# BUGS: ad hoc conditions to determine.
+  # BUGS: ad hoc conditions to determine.
+  # FIXME: Use hostname for this variable.
+  #        Currently the name of a system is used instead.
 if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
-  export ENV_WORKING='mac'
+  export ENV_WORKING='avril'  # Home - MacBook
 elif [ "$OSTYPE" = 'cygwin' ]; then
-  export ENV_WORKING='cygwin'
+  export ENV_WORKING='summer'  # Home - Cygwin on Windows PC
 elif [ "$HOST" = 'colinux' ]; then
-  export ENV_WORKING='colinux'
+  export ENV_WORKING='winter'  # Home - coLinux on Windows PC
+elif [ "$HOST" = 'chocolate' ]; then
+  export ENV_WORKING='chocolate'  # Office - Debian on VMWare Player on Windows
 else
   export ENV_WORKING='linux'
 fi
 
 
 # What machine am I using to access $ENV_WORKING?
-if [ "$TERM" = 'xterm-256color' ] || [ "$ENV_WORKING" = 'mac' ]; then
-  # FIXME: How to determine colinux or linux?
-  export ENV_ACCESS="$ENV_WORKING"
-else
-  export ENV_ACCESS='cygwin'
-fi
-
-
-# Suitable character encoding for $ENV_WORKING
-export ENCODING_colinux='utf-8'
-export ENCODING_cygwin='cp932'
-export ENCODING_linux='euc-jp'
+  # FIXME: How to detect the right value?
+  # Currently, I don't often work with situations such as ENV_ACCESS !=
+  # ENV_WORKING.  So that it's useful to assume that both of them are the same.
+export ENV_ACCESS="$ENV_WORKING"
 
 
 
@@ -84,11 +80,11 @@ export SHELL=$(which zsh)
 export TZ=JST-9
 
 case "$ENV_ACCESS" in
-  cygwin)
+  summer)
     export TERM=rxvt-cygwin-native
     export LANG=
     ;;
-  colinux|linux|*)
+  linux|winter|*)
     # export TERM=...  # Don't touch -- use the default values.
     # export LANG=...  # Don't touch -- use the default values.
     ;;
@@ -99,7 +95,7 @@ export CYGHOME="/c/cygwin$HOME"
 
 # cvs  #{{{2
 export CVS_RSH=ssh
-if [ "$ENV_WORKING" = 'cygwin' ]; then
+if [ "$ENV_WORKING" = 'summer' ]; then
   export CVSROOT=$HOME/var/cvsroot
 fi
 
@@ -112,7 +108,7 @@ export GZIP='--best --name --verbose'
 # -P '[?eEOF:?pB%pB\%..]  .?f%f:(stdin).?m (%i of %m).?lb  %lb?L/%L..'
 export LESS='-P [?eEOF:?PB%PB\%..]'
 case "$ENV_ACCESS" in
-  cygwin)
+  summer)
     export JLESSCHARSET=japanese-sjis
     ;;
   colinux|linux|*)
@@ -122,14 +118,14 @@ esac
 
 
 # Mac OS X  #{{{2
-if [ "$ENV_WORKING" = 'mac' ]; then
+if [ "$ENV_WORKING" = 'avril' ]; then
   # To use pbcopy/pbpaste with UTF-8 encoding.
   export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
 fi
 
 
 # make  #{{{2
-if [ "$ENV_WORKING" = 'cygwin' ]; then
+if [ "$ENV_WORKING" = 'summer' ]; then
   export MAKE_MODE=unix
 fi
 

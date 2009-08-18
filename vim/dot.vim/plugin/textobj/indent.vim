@@ -1,5 +1,5 @@
 " textobj-indent - Text objects for lines with the same indentation level
-" Version: 0.0.1
+" Version: 0.0.2
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -122,7 +122,7 @@ function! s:indent_level_of(linenr)  "{{{2
   if _ == ''
     return s:EMPTY_LINE
   else
-    return len(matchstr(getline(a:linenr), '^\(\s*\)\ze\%(\S\|$\)'))
+    return indent(a:linenr)
   endif
 endfunction
 
