@@ -47,10 +47,8 @@ TEST: TestSynstack(2, 5)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdI
 TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
-TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... FAILED
-  Actual value: ['gtdSection', 'gtdIssue', 'gtdIssueTag']
-  Expected value: ['gtdSection', 'gtdIssue', 'gtdNoteDatetime']
-Result: 19 / 25
+TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
+Result: 20 / 25
 
 ===== Total
-Result: 29 / 35
+Result: 30 / 35

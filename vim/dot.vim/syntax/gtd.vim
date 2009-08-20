@@ -42,13 +42,13 @@ syntax match gtdIssueTag /[a-zA-Z0-9-_]\+:/
 syntax region gtdIssue
 \ start=/^#/
 \ end=/\n\ze\(;\|#\|[A-Z ]\+\)$/
-\ contains=ALLBUT,gtdSection,gtdIssue
+\ contains=gtdIssueTitle,gtdNoteDatetime
 \ fold
 \ transparent
 syntax region gtdSection
 \ start=/^[A-Z ]\+$/
 \ end=/\n\ze\(;\|[A-Z ]\+\)$/
-\ contains=ALLBUT,gtdSection
+\ contains=gtdSectionTitle,gtdIssue
 \ fold
 \ transparent
 
