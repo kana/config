@@ -2,28 +2,28 @@ not found in 'runtimepath': "ftdetect/*.vim"
 ===== "INITIAL STATE"
 TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd' ] ... ok
 TEST: TestSynstack(1, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(2, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(3, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(4, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... FAILED
   Actual value: []
@@ -33,79 +33,79 @@ Result: 1 / 10
 ===== "TYPICAL CONTENT"
 TEST: getline(1, '$')  ==>  texts ... ok
 TEST: TestSynstack(1, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(2, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId']
 TEST: TestSynstack(3, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue']
 TEST: TestSynstack(4, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue']
 TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId']
 TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue']
 TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
   Actual value: []
   Expected value: ['gtdSection', 'gtdIssue']
 TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(9, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(10, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId']
 TEST: TestSynstack(10, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue']
 TEST: TestSynstack(11, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
   Actual value: []
   Expected value: ['gtdSection', 'gtdIssue']
 TEST: TestSynstack(13, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(14, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(15, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(16, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(17, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdSectionTitle']
 TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... FAILED
   Actual value: []
   Expected value: ['gtdComment']
 TEST: TestSynstack(2, 3)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
 TEST: TestSynstack(2, 4)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
 TEST: TestSynstack(2, 5)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
 TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
 TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
 TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... FAILED
-  Actual value: ['gtdNoteDatetime']
+  Actual value: ['gtdSection', 'gtdNoteDatetime']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdNoteDatetime']
 Result: 1 / 26
 
