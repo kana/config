@@ -42,7 +42,7 @@ syntax match gtdIssueId /^#\d\+/
 syntax match gtdIssueTitle /^#\d\+ .*/ contains=gtdIssueId,gtdIssueTag
 syntax region gtdIssue
 \ start=/^#/
-\ end=/\n\ze\(;\|#\|[A-Z ]\+\)$/
+\ end=/\n\(;\|#\|[A-Z ]\+$\)/me=s
 \ contains=gtdIssueTitle,gtdNoteDatetime
 \ fold
 \ transparent
