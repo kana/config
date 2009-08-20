@@ -9,10 +9,8 @@ TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
-TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... FAILED
-  Actual value: []
-  Expected value: ['gtdComment']
-Result: 9 / 10
+TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... ok
+Result: 10 / 10
 
 ===== "TYPICAL CONTENT"
 TEST: getline(1, '$')  ==>  texts ... ok
@@ -51,9 +49,7 @@ TEST: TestSynstack(14, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(15, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(16, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(17, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
-TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... FAILED
-  Actual value: []
-  Expected value: ['gtdComment']
+TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... ok
 TEST: TestSynstack(2, 3)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... FAILED
   Actual value: ['gtdSection']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
@@ -75,7 +71,7 @@ TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... 
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... FAILED
   Actual value: ['gtdSection', 'gtdNoteDatetime']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdNoteDatetime']
-Result: 9 / 26
+Result: 10 / 26
 
 ===== Total
-Result: 18 / 36
+Result: 20 / 36

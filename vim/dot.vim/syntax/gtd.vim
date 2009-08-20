@@ -35,6 +35,7 @@ syntax case match
 
 syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d$/
 syntax match gtdSectionTitle /^[A-Z ]\+$/
+syntax match gtdComment /^;.*$/
 syntax region gtdSection
 \ start=/^[A-Z ]\+$/
 \ end=/\n\ze\(;\|[A-Z ]\+\)$/
