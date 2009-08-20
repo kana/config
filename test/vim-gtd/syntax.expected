@@ -44,5 +44,27 @@ TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... 
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
 Result: 23 / 25
 
+===== "FOLDING LEVELS"
+TEST: getline(1, '$')  ==>  texts ... ok
+TEST: foldlevel(1)  ==>  1 ... ok
+TEST: foldlevel(2)  ==>  2 ... ok
+TEST: foldlevel(3)  ==>  2 ... ok
+TEST: foldlevel(4)  ==>  2 ... ok
+TEST: foldlevel(5)  ==>  2 ... ok
+TEST: foldlevel(6)  ==>  2 ... ok
+TEST: foldlevel(7)  ==>  2 ... ok
+TEST: foldlevel(8)  ==>  0 ... ok
+TEST: foldlevel(9)  ==>  1 ... ok
+TEST: foldlevel(10)  ==>  2 ... ok
+TEST: foldlevel(11)  ==>  2 ... ok
+TEST: foldlevel(12)  ==>  2 ... ok
+TEST: foldlevel(13)  ==>  0 ... ok
+TEST: foldlevel(14)  ==>  0 ... ok
+TEST: foldlevel(15)  ==>  0 ... ok
+TEST: foldlevel(16)  ==>  0 ... ok
+TEST: foldlevel(17)  ==>  0 ... ok
+TEST: foldlevel(18)  ==>  0 ... ok
+Result: 19 / 19
+
 ===== Total
-Result: 33 / 35
+Result: 52 / 54
