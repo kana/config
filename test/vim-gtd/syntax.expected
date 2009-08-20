@@ -42,17 +42,15 @@ TEST: TestSynstack(16, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(17, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... ok
 TEST: TestSynstack(2, 3)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
-TEST: TestSynstack(2, 4)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... FAILED
-  Actual value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
-  Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
-TEST: TestSynstack(2, 5)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... FAILED
-  Actual value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
-  Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
+TEST: TestSynstack(2, 4)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
+TEST: TestSynstack(2, 5)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
 TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
-TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
-Result: 18 / 25
+TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... FAILED
+  Actual value: ['gtdSection', 'gtdIssue', 'gtdIssueTag']
+  Expected value: ['gtdSection', 'gtdIssue', 'gtdNoteDatetime']
+Result: 19 / 25
 
 ===== Total
-Result: 28 / 35
+Result: 29 / 35
