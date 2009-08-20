@@ -36,6 +36,12 @@ syntax case match
 syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d$/
 syntax match gtdSectionTitle /^[A-Z ]\+$/
 syntax match gtdComment /^;.*$/
+syntax region gtdIssue
+\ start=/^#/
+\ end=/\n\ze\(;\|#\|[A-Z ]\+\)$/
+\ contains=ALLBUT,gtdSection,gtdIssue
+\ fold
+\ transparent
 syntax region gtdSection
 \ start=/^[A-Z ]\+$/
 \ end=/\n\ze\(;\|[A-Z ]\+\)$/
