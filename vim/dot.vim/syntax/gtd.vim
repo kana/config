@@ -38,7 +38,7 @@ syntax match gtdSectionTitle /^[A-Z ]\+$/
 syntax match gtdComment /^;.*$/
 syntax match gtdIssueTitle /^#\d\+ .*/ contains=gtdIssueId,gtdIssueTag
 syntax match gtdIssueTag /[a-zA-Z0-9-_]\+:/
-" syntax match gtdIssueId
+syntax match gtdIssueId /^#\d\+/
 syntax region gtdIssue
 \ start=/^#/
 \ end=/\n\ze\(;\|#\|[A-Z ]\+\)$/
