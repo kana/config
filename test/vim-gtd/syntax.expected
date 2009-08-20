@@ -29,6 +29,9 @@ TEST: TestSynstack(10, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtd
 TEST: TestSynstack(11, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
   Actual value: []
   Expected value: ['gtdSection', 'gtdIssue']
+TEST: TestSynstack(12, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
+  Actual value: []
+  Expected value: ['gtdSection', 'gtdIssue']
 TEST: TestSynstack(13, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(14, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(15, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
@@ -42,7 +45,7 @@ TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... o
 TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
-Result: 23 / 25
+Result: 23 / 26
 
 ===== "FOLDING LEVELS"
 TEST: getline(1, '$')  ==>  texts ... ok
@@ -67,4 +70,4 @@ TEST: foldlevel(18)  ==>  0 ... ok
 Result: 19 / 19
 
 ===== Total
-Result: 52 / 54
+Result: 52 / 55

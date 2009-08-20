@@ -93,6 +93,7 @@ function s:test_syntax_2()  "{{{1
   Assert TestSynstack(10, 1) ==> ['gtdSection', 'gtdIssue',
   \ 'gtdIssueTitle', 'gtdIssueId']
   Assert TestSynstack(11, 1) ==> ['gtdSection', 'gtdIssue']
+  Assert TestSynstack(12, 1) ==> ['gtdSection', 'gtdIssue']
   Assert TestSynstack(13, 1) ==> ['gtdSection', 'gtdSectionTitle']
   Assert TestSynstack(14, 1) ==> ['gtdSection', 'gtdSectionTitle']
   Assert TestSynstack(15, 1) ==> ['gtdSection', 'gtdSectionTitle']
