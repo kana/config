@@ -798,7 +798,8 @@ test/vim-gtd/%.output: \
 		test/tester-vim \
 		test/libtest.vim \
 		vim/dot.vim/autoload/gtd.vim \
-		vim/dot.vim/ftplugin/gtd.vim
+		vim/dot.vim/ftplugin/gtd.vim \
+		vim/dot.vim/syntax/gtd.vim
 	@./test/tester-vim $< &>$@
 
 

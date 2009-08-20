@@ -26,18 +26,26 @@ if exists('b:current_syntax')
   finish
 endif
 
+syntax clear
+
+syntax case match
 
 
 
 
-
-
-
-" FIXME: Write the content.
+" syntax ...
 
 
 
 
+highlight def link gtdSection Normal
+highlight def link gtdSectionTitle PreProc
+highlight def link gtdComment Comment
+highlight def link gtdIssue Normal
+highlight def link gtdIssueTitle Label
+highlight def link gtdIssueTag Type
+highlight def link gtdIssueId Label
+highlight def link gtdNoteDatetime Constant
 
 
 
