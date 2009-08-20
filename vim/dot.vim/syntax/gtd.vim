@@ -34,17 +34,20 @@ syntax case match
 
 
 syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d$/
-syntax match gtdSectionTitle /^[A-Z ]\+$/
+
 syntax match gtdComment /^;.*$/
-syntax match gtdIssueTitle /^#\d\+ .*/ contains=gtdIssueId,gtdIssueTag
+
 syntax match gtdIssueTag /[a-zA-Z0-9-_]\+:/
 syntax match gtdIssueId /^#\d\+/
+syntax match gtdIssueTitle /^#\d\+ .*/ contains=gtdIssueId,gtdIssueTag
 syntax region gtdIssue
 \ start=/^#/
 \ end=/\n\ze\(;\|#\|[A-Z ]\+\)$/
 \ contains=gtdIssueTitle,gtdNoteDatetime
 \ fold
 \ transparent
+
+syntax match gtdSectionTitle /^[A-Z ]\+$/
 syntax region gtdSection
 \ start=/^[A-Z ]\+$/
 \ end=/\n\ze\(;\|[A-Z ]\+\)$/
