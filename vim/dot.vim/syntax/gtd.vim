@@ -33,7 +33,7 @@ syntax case match
 
 
 
-" syntax ...
+syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d$/
 
 
 

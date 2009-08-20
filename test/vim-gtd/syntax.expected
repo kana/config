@@ -105,7 +105,7 @@ TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... 
   Actual value: []
   Expected value: ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... FAILED
-  Actual value: []
+  Actual value: ['gtdNoteDatetime']
   Expected value: ['gtdSection', 'gtdIssue', 'gtdNoteDatetime']
 Result: 1 / 26
 
