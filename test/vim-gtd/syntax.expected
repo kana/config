@@ -1,0 +1,73 @@
+not found in 'runtimepath': "ftdetect/*.vim"
+===== "INITIAL STATE"
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd' ] ... ok
+TEST: TestSynstack(1, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(2, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(3, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(4, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... ok
+Result: 10 / 10
+
+===== "TYPICAL CONTENT"
+TEST: getline(1, '$')  ==>  texts ... ok
+TEST: TestSynstack(1, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(2, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... ok
+TEST: TestSynstack(3, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(4, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... ok
+TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(9, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(10, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(11, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(12, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... ok
+TEST: TestSynstack(13, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(14, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(15, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(16, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(17, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(18, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(19, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(20, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
+TEST: TestSynstack(21, 1)  ==>  ['gtdComment'] ... ok
+TEST: TestSynstack(2, 3)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
+TEST: TestSynstack(2, 4)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
+TEST: TestSynstack(2, 5)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
+TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
+TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
+TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
+TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
+Result: 29 / 29
+
+===== "FOLDING LEVELS"
+TEST: getline(1, '$')  ==>  texts ... ok
+TEST: foldlevel(1)  ==>  1 ... ok
+TEST: foldlevel(2)  ==>  2 ... ok
+TEST: foldlevel(3)  ==>  2 ... ok
+TEST: foldlevel(4)  ==>  2 ... ok
+TEST: foldlevel(5)  ==>  2 ... ok
+TEST: foldlevel(6)  ==>  2 ... ok
+TEST: foldlevel(7)  ==>  2 ... ok
+TEST: foldlevel(8)  ==>  2 ... ok
+TEST: foldlevel(9)  ==>  2 ... ok
+TEST: foldlevel(10)  ==>  0 ... ok
+TEST: foldlevel(11)  ==>  1 ... ok
+TEST: foldlevel(12)  ==>  2 ... ok
+TEST: foldlevel(13)  ==>  2 ... ok
+TEST: foldlevel(14)  ==>  2 ... ok
+TEST: foldlevel(15)  ==>  2 ... ok
+TEST: foldlevel(16)  ==>  0 ... ok
+TEST: foldlevel(17)  ==>  0 ... ok
+TEST: foldlevel(18)  ==>  0 ... ok
+TEST: foldlevel(19)  ==>  0 ... ok
+TEST: foldlevel(20)  ==>  0 ... ok
+TEST: foldlevel(21)  ==>  0 ... ok
+Result: 22 / 22
+
+===== Total
+Result: 61 / 61

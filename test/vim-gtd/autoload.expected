@@ -1,0 +1,171 @@
+===== "gtd#initialize() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+Result: 2 / 2
+
+===== "gtd#initialize() - with some content"
+TEST: getline(1, '$')  ==>  ['', 'a', 'b', 'c'] ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+Result: 2 / 2
+
+===== "gtd#jump_to_issue() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+gtd(E4): No issue ID near the cursor
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getpos('.')[1:2]  ==>  [1, 1] ... ok
+Result: 3 / 3
+
+===== "gtd#jump_to_issue() - with some content - but no issue id"
+TEST: getline(1, '$')  ==>  ['', '#abc', '#def'] ... ok
+gtd(E4): No issue ID near the cursor
+TEST: getline(1, '$')  ==>  ['', '#abc', '#def'] ... ok
+TEST: getpos('.')[1:2]  ==>  [2, 1] ... ok
+Result: 3 / 3
+
+===== "gtd#jump_to_issue() - with some content - no corresponding issue"
+TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def'] ... ok
+gtd(E5): Issue not found: #3
+TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def'] ... ok
+TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
+Result: 3 / 3
+
+===== "gtd#jump_to_issue() - with some content - corresponding issue - next"
+TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi'] ... ok
+TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi'] ... ok
+TEST: getpos('.')[1:2]  ==>  [5, 1] ... ok
+Result: 3 / 3
+
+===== "gtd#jump_to_issue() - with some content - corresponding issue - prev"
+TEST: getline(1, '$')  ==>  ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def'] ... ok
+TEST: getline(1, '$')  ==>  ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def'] ... ok
+TEST: getpos('.')[1:2]  ==>  [2, 1] ... ok
+Result: 3 / 3
+
+===== "gtd#mark() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+gtd(E1): No issue under the cursor
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getpos('.')[1:2]  ==>  [1, 1] ... ok
+Result: 3 / 3
+
+===== "gtd#mark() - without any valid content"
+3 more lines
+TEST: getline(1, '$')  ==>  ['', 'aaa', 'bbb', 'ccc'] ... ok
+TEST: cursor_position[1:2]  ==>  [3, 2] ... ok
+gtd(E1): No issue under the cursor
+TEST: getline(1, '$')  ==>  ['', 'aaa', 'bbb', 'ccc'] ... ok
+TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - no section"
+TEST: getline(1, '$')  ==>  ['', '#1 aaa', '#2 bbb', '#3 ccc'] ... ok
+TEST: cursor_position[1:2]  ==>  [3, 2] ... ok
+gtd(E3): No such section: INBOX
+TEST: getline(1, '$')  ==>  ['', '#1 aaa', '#2 bbb', '#3 ccc'] ... ok
+TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E1"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: cursor_position[1:2]  ==>  [2, 2] ... ok
+gtd(E1): No issue under the cursor
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [2, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E2 (middle)"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: cursor_position[1:2]  ==>  [6, 2] ... ok
+gtd(E2): No issue under the cursor
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [6, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E2 (end)"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [12, 2] ... ok
+gtd(E2): No issue under the cursor
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [12, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - to the head"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#2 BBB', '  bbb', '#1 AAA', '  aaa', 'PROJECTS', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [4, 1] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - to the tail"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', 'TRASH', '#2 BBB', '  bbb', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [8, 1] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - nothing has changed"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [7, 1] ... ok
+Result: 4 / 4
+
+===== "gtd#mark() - several issues - several section - E3"
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: cursor_position[1:2]  ==>  [7, 2] ... ok
+gtd(E3): No such section: NO SUCH SECTION
+TEST: getline(1, '$')  ==>  [ '', '; GTD', 'INBOX', '#1 AAA', '  aaa', 'PROJECTS', '#2 BBB', '  bbb', 'TRASH', '#3 CCC', '  ccc', '; __END__' ] ... ok
+TEST: getpos('.')[1:2]  ==>  [7, 2] ... ok
+Result: 4 / 4
+
+===== "gtd#new_issue() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getline(1, '$')  ==>  ['', '#1 '] ... ok
+Result: 2 / 2
+
+===== "gtd#new_issue() - with some content - without INBOX marker"
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', '#4'] ... ok
+TEST: getline(1, '$')  ==>  ['', '#92 ', '#1', 'x', '#91', '#4'] ... ok
+Result: 2 / 2
+
+===== "gtd#new_issue() - with some content - with INBOX marker"
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', 'INBOX', '#4'] ... ok
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#91', 'INBOX', '#92 ', '#4'] ... ok
+Result: 2 / 2
+
+===== "gtd#new_note() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getline(1, '$')  ==>  ['', "\t****-**-**T**:**:**", "\t\t", ''] ... ok
+Result: 2 / 2
+
+===== "gtd#new_note() - with some content - in another note"
+TEST: getline(1, '$')  ==>  ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a'] ... ok
+17 substitutions on 4 lines
+TEST: getline(1, '$')  ==>  [ '', '#* i', 'c', '#* ii', 'b', '#* iii', "\t****-**-**T**:**:**", "\t\t", '', 'a'] ... ok
+Result: 2 / 2
+
+===== "gtd#new_note() - with some content - at the header of an issue"
+TEST: getline(1, '$')  ==>  ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a'] ... ok
+17 substitutions on 4 lines
+TEST: getline(1, '$')  ==>  [ '', '#* i', 'c', '#* ii', "\t****-**-**T**:**:**", "\t\t", '', 'b', '#* iii', 'a'] ... ok
+Result: 2 / 2
+
+===== "gtd#new_note() - with some content - not in any issue"
+TEST: getline(1, '$')  ==>  ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a'] ... ok
+17 substitutions on 4 lines
+TEST: getline(1, '$')  ==>  [ '', "\t****-**-**T**:**:**", "\t\t", '', '#* i', 'c', '#* ii', 'b', '#* iii', 'a'] ... ok
+Result: 2 / 2
+
+===== "gtd#status() - without any content"
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: gtd#status()  ==>  [0, 0] ... ok
+Result: 2 / 2
+
+===== "gtd#status() - with some content"
+4 more lines
+TEST: getline(1, '$')  ==>  ['', '#1', 'x', '#3', '#999'] ... ok
+TEST: gtd#status()  ==>  [999, 3] ... ok
+Result: 2 / 2
+
+===== Total
+Result: 76 / 76

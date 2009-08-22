@@ -1,0 +1,722 @@
+" Tests for vim-gtd / autoload
+function s:test_gtd_initialize_1()  "{{{1
+  Title "gtd#initialize() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+
+  call gtd#initialize()
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+endfunction
+
+
+
+
+function s:test_gtd_initialize_2()  "{{{1
+  Title "gtd#initialize() - with some content"
+
+  % delete _
+  put =['a', 'b', 'c']
+  Assert getline(1, '$') ==> ['', 'a', 'b', 'c']
+
+  call gtd#initialize()
+  Assert getline(1, '$') ==> [
+  \ 'INBOX',
+  \ 'NEXT ACTIONS',
+  \ 'CALENDAR',
+  \ 'PROJECTS',
+  \ 'WAITING FOR',
+  \ 'SOMEDAY',
+  \ 'ARCHIVE',
+  \ 'TRASH',
+  \ '; vim: filetype=gtd']
+endfunction
+
+
+
+
+function s:test_gtd_status_1()  "{{{1
+  Title "gtd#status() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+  Assert gtd#status() ==> [0, 0]
+endfunction
+
+
+
+
+function s:test_gtd_status_2()  "{{{1
+  Title "gtd#status() - with some content"
+
+  % delete _
+  put =['#1', 'x', '#3', '#999']
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#3', '#999']
+
+  Assert gtd#status() ==> [999, 3]
+endfunction
+
+
+
+
+function s:test_gtd_new_issue_1()  "{{{1
+  Title "gtd#new_issue() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+
+  call gtd#new_issue()
+  Assert getline(1, '$') ==> ['', '#1 ']
+endfunction
+
+
+
+
+function s:test_gtd_new_issue_2()  "{{{1
+  Title "gtd#new_issue() - with some content - without INBOX marker"
+
+  % delete _
+  put =['#1', 'x', '#91', '#4']
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#91', '#4']
+
+  call gtd#new_issue()
+  Assert getline(1, '$') ==> ['', '#92 ', '#1', 'x', '#91', '#4']
+endfunction
+
+
+
+
+function s:test_gtd_new_issue_3()  "{{{1
+  Title "gtd#new_issue() - with some content - with INBOX marker"
+
+  % delete _
+  put =['#1', 'x', '#91', 'INBOX', '#4']
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#91', 'INBOX', '#4']
+
+  call gtd#new_issue()
+  Assert getline(1, '$') ==> ['', '#1', 'x', '#91', 'INBOX', '#92 ', '#4']
+endfunction
+
+
+
+
+function s:test_gtd_new_note_1()  "{{{1
+  Title "gtd#new_note() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+
+  call gtd#new_note()
+  %substitute/\d/*/g
+  Assert getline(1, '$') ==> ['', "\t****-**-**T**:**:**", "\t\t", '']
+endfunction
+
+
+
+
+function s:test_gtd_new_note_2()  "{{{1
+  Title "gtd#new_note() - with some content - in another note"
+
+  % delete _
+  put =['#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a']
+  Assert getline(1, '$') ==> ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a']
+
+  normal! G
+  call gtd#new_note()
+  %substitute/\d/*/g
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '#* i',
+  \ 'c',
+  \ '#* ii',
+  \ 'b',
+  \ '#* iii',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'a']
+endfunction
+
+
+
+
+function s:test_gtd_new_note_3()  "{{{1
+  Title "gtd#new_note() - with some content - at the header of an issue"
+
+  % delete _
+  put =['#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a']
+  Assert getline(1, '$') ==> ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a']
+
+  normal! 4G
+  call gtd#new_note()
+  %substitute/\d/*/g
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '#* i',
+  \ 'c',
+  \ '#* ii',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ 'b',
+  \ '#* iii',
+  \ 'a']
+endfunction
+
+
+
+
+function s:test_gtd_new_note_4()  "{{{1
+  Title "gtd#new_note() - with some content - not in any issue"
+
+  % delete _
+  put =['#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a']
+  Assert getline(1, '$') ==> ['', '#1 i', 'c', '#2 ii', 'b', '#3 iii', 'a']
+
+  normal! 1G
+  call gtd#new_note()
+  %substitute/\d/*/g
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ "\t****-**-**T**:**:**",
+  \ "\t\t",
+  \ '',
+  \ '#* i',
+  \ 'c',
+  \ '#* ii',
+  \ 'b',
+  \ '#* iii',
+  \ 'a']
+endfunction
+
+
+
+
+function s:test_gtd_jump_to_issue_1()  "{{{1
+  Title "gtd#jump_to_issue() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+
+  normal! 1G
+  call gtd#jump_to_issue()
+  Assert getline(1, '$') ==> ['']
+  Assert getpos('.')[1:2] ==> [1, 1]
+endfunction
+
+
+
+
+function s:test_gtd_jump_to_issue_2()  "{{{1
+  Title "gtd#jump_to_issue() - with some content - but no issue id"
+
+  % delete _
+  put =['#abc', '#def']
+  Assert getline(1, '$') ==> ['', '#abc', '#def']
+
+  normal! 2G
+  call gtd#jump_to_issue()
+  Assert getline(1, '$') ==> ['', '#abc', '#def']
+  Assert getpos('.')[1:2] ==> [2, 1]
+endfunction
+
+
+
+
+function s:test_gtd_jump_to_issue_3()  "{{{1
+  Title "gtd#jump_to_issue() - with some content - no corresponding issue"
+
+  % delete _
+  put =['#1 abc', 'def #3 abc', '#2 def']
+  Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def']
+
+  normal! 3Gl
+  call gtd#jump_to_issue()
+  Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def']
+  Assert getpos('.')[1:2] ==> [3, 2]
+endfunction
+
+
+
+
+function s:test_gtd_jump_to_issue_4()  "{{{1
+  Title "gtd#jump_to_issue() - with some content - corresponding issue - next"
+
+  % delete _
+  put =['#1 abc', 'def #3 abc', '#2 def', '#3 ghi']
+  Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi']
+
+  normal! 3Gl
+  call gtd#jump_to_issue()
+  Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi']
+  Assert getpos('.')[1:2] ==> [5, 1]
+endfunction
+
+
+
+
+function s:test_gtd_jump_to_issue_5()  "{{{1
+  Title "gtd#jump_to_issue() - with some content - corresponding issue - prev"
+
+  % delete _
+  put =['#3 ghi', '#1 abc', 'def #3 abc', '#2 def']
+  Assert getline(1, '$') ==> ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def']
+
+  normal! 4Gl
+  call gtd#jump_to_issue()
+  Assert getline(1, '$') ==> ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def']
+  Assert getpos('.')[1:2] ==> [2, 1]
+endfunction
+
+
+
+
+function s:test_gtd_mark_01()  "{{{1
+  Title "gtd#mark() - without any content"
+
+  % delete _
+  Assert getline(1, '$') ==> ['']
+
+  call gtd#mark('INBOX')
+  Assert getline(1, '$') ==> ['']
+  Assert getpos('.')[1:2] ==> [1, 1]
+endfunction
+
+
+
+
+function s:test_gtd_mark_02()  "{{{1
+  Title "gtd#mark() - without any valid content"
+
+  % delete _
+  put =['aaa', 'bbb', 'ccc']
+  normal! 3Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> ['', 'aaa', 'bbb', 'ccc']
+  Assert cursor_position[1:2] ==> [3, 2]
+
+  call gtd#mark('INBOX')
+  Assert getline(1, '$') ==> ['', 'aaa', 'bbb', 'ccc']
+  Assert getpos('.')[1:2] ==> [3, 2]
+endfunction
+
+
+
+
+function s:test_gtd_mark_03()  "{{{1
+  Title "gtd#mark() - several issues - no section"
+
+  % delete _
+  put =['#1 aaa', '#2 bbb', '#3 ccc']
+  normal! 3Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> ['', '#1 aaa', '#2 bbb', '#3 ccc']
+  Assert cursor_position[1:2] ==> [3, 2]
+
+  call gtd#mark('INBOX')
+  Assert getline(1, '$') ==> ['', '#1 aaa', '#2 bbb', '#3 ccc']
+  Assert getpos('.')[1:2] ==> [3, 2]
+endfunction
+
+
+
+
+function s:test_gtd_mark_04()  "{{{1
+  Title "gtd#mark() - several issues - several section - E1"
+
+  % delete _
+  put =[
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc'
+  \ ]
+  normal! 2Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc'
+  \ ]
+  Assert cursor_position[1:2] ==> [2, 2]
+
+  call gtd#mark('INBOX')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc'
+  \ ]
+  Assert getpos('.')[1:2] ==> [2, 2]
+endfunction
+
+
+
+
+function s:test_gtd_mark_05()  "{{{1
+  Title "gtd#mark() - several issues - several section - E2 (middle)"
+
+  % delete _
+  put =[
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc'
+  \ ]
+  normal! 6Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc'
+  \ ]
+  Assert cursor_position[1:2] ==> [6, 2]
+
+  call gtd#mark('INBOX')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc'
+  \ ]
+  Assert getpos('.')[1:2] ==> [6, 2]
+endfunction
+
+
+
+
+function s:test_gtd_mark_06()  "{{{1
+  Title "gtd#mark() - several issues - several section - E2 (end)"
+
+  % delete _
+  put =[
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  normal! 12Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert cursor_position[1:2] ==> [12, 2]
+
+  call gtd#mark('INBOX')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert getpos('.')[1:2] ==> [12, 2]
+endfunction
+
+
+
+
+function s:test_gtd_mark_07()  "{{{1
+  Title "gtd#mark() - several issues - several section - to the head"
+
+  % delete _
+  put =[
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  normal! 7Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert cursor_position[1:2] ==> [7, 2]
+
+  call gtd#mark('INBOX')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert getpos('.')[1:2] ==> [4, 1]
+endfunction
+
+
+
+
+function s:test_gtd_mark_08()  "{{{1
+  Title "gtd#mark() - several issues - several section - to the tail"
+
+  % delete _
+  put =[
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  normal! 7Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert cursor_position[1:2] ==> [7, 2]
+
+  call gtd#mark('TRASH')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ 'TRASH',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert getpos('.')[1:2] ==> [8, 1]
+endfunction
+
+
+
+
+function s:test_gtd_mark_09()  "{{{1
+  Title "gtd#mark() - several issues - several section - nothing has changed"
+
+  % delete _
+  put =[
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  normal! 7Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert cursor_position[1:2] ==> [7, 2]
+
+  call gtd#mark('PROJECTS')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert getpos('.')[1:2] ==> [7, 1]
+endfunction
+
+
+
+
+function s:test_gtd_mark_10()  "{{{1
+  Title "gtd#mark() - several issues - several section - E3"
+
+  % delete _
+  put =[
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  normal! 7Gl
+  let cursor_position = getpos('.')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert cursor_position[1:2] ==> [7, 2]
+
+  call gtd#mark('NO SUCH SECTION')
+  Assert getline(1, '$') ==> [
+  \ '',
+  \ '; GTD',
+  \ 'INBOX',
+  \ '#1 AAA',
+  \ '  aaa',
+  \ 'PROJECTS',
+  \ '#2 BBB',
+  \ '  bbb',
+  \ 'TRASH',
+  \ '#3 CCC',
+  \ '  ccc',
+  \ '; __END__'
+  \ ]
+  Assert getpos('.')[1:2] ==> [7, 2]
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker

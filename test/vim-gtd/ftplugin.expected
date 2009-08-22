@@ -1,0 +1,151 @@
+not found in 'runtimepath': "ftdetect/*.vim"
+===== "DEFAULT KEY MAPPINGS"
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+TEST: line('.')  ==>  2 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+TEST: line('.')  ==>  2 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+TEST: line('.')  ==>  4 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+TEST: line('.')  ==>  11 ... ok
+TEST: line('.')  ==>  2 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  11 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  10 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  9 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  7 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  6 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  5 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', 'CALENDAR', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  4 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#1 ', 'NEXT ACTIONS', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok4 fewer lines4 more lines
+TEST: line('.')  ==>  2 ... ok
+TEST: getline(1, '$')  ==>  [ 'INBOX', '#2 ', "\t****-**-**T**:**:**", "\t\t", '', '#1 ', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'xxx #2 xxx', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+Result: 26 / 26
+
+===== "LOCAL CONFIGURATION: NOT A filetype=gtd BUFFER"
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  &g:foldmethod ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  [''] ... ok
+Result: 1 / 1
+
+===== "LOCAL CONFIGURATION: ON EMPTY BUFFER"
+===== "Named key mappings"
+TEST: maparg('<Plug>(gtd-new-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-new-note)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-jump-to-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-inbox)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-next-actions)', 'n')!=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-calendar)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-projects)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-waiting-for)', 'n') !=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-someday)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-archive)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-trash)', 'n') != ''  ==>  !0 ... ok
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  '<Plug>(gtd-new-issue)' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  '<Plug>(gtd-new-note)' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '<Plug>(gtd-jump-to-issue)' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '<Plug>(gtd-mark-as-inbox)' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '<Plug>(gtd-mark-as-next-actions)' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '<Plug>(gtd-mark-as-calendar)' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '<Plug>(gtd-mark-as-projects)' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  'syntax' ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+Result: 1 / 1
+
+===== "LOCAL CONFIGURATION: ON NON-EMPTY BUFFER"
+===== "Named key mappings"
+TEST: maparg('<Plug>(gtd-new-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-new-note)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-jump-to-issue)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-inbox)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-next-actions)', 'n')!=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-calendar)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-projects)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-waiting-for)', 'n') !=''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-someday)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-archive)', 'n') != ''  ==>  !0 ... ok
+TEST: maparg('<Plug>(gtd-mark-as-trash)', 'n') != ''  ==>  !0 ... ok
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  '<Plug>(gtd-new-issue)' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  '<Plug>(gtd-new-note)' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '<Plug>(gtd-jump-to-issue)' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '<Plug>(gtd-mark-as-inbox)' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '<Plug>(gtd-mark-as-next-actions)' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '<Plug>(gtd-mark-as-calendar)' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '<Plug>(gtd-mark-as-projects)' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  'syntax' ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  ['', 'something'] ... ok
+Result: 1 / 1
+
+===== "LOCAL CONFIGURATION: CONFLICTS ON KEY MAPPINGS"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  'BUFFER-LOCAL' ... ok
+TEST: maparg('<LocalLeader>n', 'n')  ==>  'GLOBAL' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '<Plug>(gtd-jump-to-issue)' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '<Plug>(gtd-mark-as-inbox)' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '<Plug>(gtd-mark-as-next-actions)' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '<Plug>(gtd-mark-as-calendar)' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '<Plug>(gtd-mark-as-projects)' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+Result: 11 / 11
+
+===== "LOCAL CONFIGURATION: b:undo_ftplugin"
+
+not found in 'runtimepath': "ftplugin/notsuchfiletype.vim ftplugin/notsuchfiletype_*.vim ftplugin/notsuchfiletype/*.vim"
+===== "Default key mappings"
+TEST: maparg('<LocalLeader>i', 'n')  ==>  'BUFFER-LOCAL' ... FAILED
+  Actual value: 
+  Expected value: BUFFER-LOCAL
+TEST: maparg('<LocalLeader>n', 'n')  ==>  'GLOBAL' ... ok
+TEST: maparg('<LocalLeader>g', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>I', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader><Space>', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>c', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>p', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>w', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>s', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>a', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>t', 'n')  ==>  '' ... ok
+===== "Options"
+TEST: &l:foldmethod  ==>  &g:foldmethod ... ok
+===== "Initial setup"
+TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', 'WAITING FOR', 'SOMEDAY', 'ARCHIVE', 'TRASH', '; vim: filetype=gtd'] ... ok
+Result: 1 / 1
+
+===== Total
+Result: 110 / 111
+INBOX
