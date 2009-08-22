@@ -29,6 +29,7 @@ endif
 syntax clear
 
 syntax case match
+syntax sync fromstart
 
 
 

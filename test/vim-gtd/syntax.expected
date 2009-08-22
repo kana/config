@@ -9,8 +9,10 @@ TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
-TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... ok
-Result: 10 / 10
+TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... FAILED
+  Actual value: ['gtdSection']
+  Expected value: ['gtdComment']
+Result: 9 / 10
 
 ===== "TYPICAL CONTENT"
 TEST: getline(1, '$')  ==>  texts ... ok
@@ -20,24 +22,20 @@ TEST: TestSynstack(3, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
 TEST: TestSynstack(4, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
 TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... ok
 TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
-TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
-  Actual value: []
-  Expected value: ['gtdSection', 'gtdIssue']
+TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
 TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(9, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(10, 1)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueId'] ... ok
-TEST: TestSynstack(11, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
-  Actual value: []
-  Expected value: ['gtdSection', 'gtdIssue']
-TEST: TestSynstack(12, 1)  ==>  ['gtdSection', 'gtdIssue'] ... FAILED
-  Actual value: []
-  Expected value: ['gtdSection', 'gtdIssue']
+TEST: TestSynstack(11, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(12, 1)  ==>  ['gtdSection', 'gtdIssue'] ... ok
 TEST: TestSynstack(13, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(14, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(15, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(16, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(17, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
-TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... ok
+TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... FAILED
+  Actual value: ['gtdSection']
+  Expected value: ['gtdComment']
 TEST: TestSynstack(2, 3)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 4)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
 TEST: TestSynstack(2, 5)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
@@ -45,7 +43,7 @@ TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... o
 TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
-Result: 23 / 26
+Result: 25 / 26
 
 ===== "FOLDING LEVELS"
 TEST: getline(1, '$')  ==>  texts ... ok
@@ -66,8 +64,10 @@ TEST: foldlevel(14)  ==>  0 ... ok
 TEST: foldlevel(15)  ==>  0 ... ok
 TEST: foldlevel(16)  ==>  0 ... ok
 TEST: foldlevel(17)  ==>  0 ... ok
-TEST: foldlevel(18)  ==>  0 ... ok
-Result: 19 / 19
+TEST: foldlevel(18)  ==>  0 ... FAILED
+  Actual value: 1
+  Expected value: 0
+Result: 18 / 19
 
 ===== Total
 Result: 52 / 55
