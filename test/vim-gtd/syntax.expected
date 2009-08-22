@@ -9,10 +9,8 @@ TEST: TestSynstack(5, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(6, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(7, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(8, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
-TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... FAILED
-  Actual value: ['gtdSection']
-  Expected value: ['gtdComment']
-Result: 9 / 10
+TEST: TestSynstack(9, 1)  ==>  ['gtdComment'] ... ok
+Result: 10 / 10
 
 ===== "TYPICAL CONTENT"
 TEST: getline(1, '$')  ==>  texts ... ok
@@ -33,9 +31,7 @@ TEST: TestSynstack(14, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(15, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(16, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
 TEST: TestSynstack(17, 1)  ==>  ['gtdSection', 'gtdSectionTitle'] ... ok
-TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... FAILED
-  Actual value: ['gtdSection']
-  Expected value: ['gtdComment']
+TEST: TestSynstack(18, 1)  ==>  ['gtdComment'] ... ok
 TEST: TestSynstack(2, 3)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 4)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
 TEST: TestSynstack(2, 5)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag'] ... ok
@@ -43,7 +39,7 @@ TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... o
 TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
-Result: 25 / 26
+Result: 26 / 26
 
 ===== "FOLDING LEVELS"
 TEST: getline(1, '$')  ==>  texts ... ok
@@ -55,8 +51,12 @@ TEST: foldlevel(5)  ==>  2 ... ok
 TEST: foldlevel(6)  ==>  2 ... ok
 TEST: foldlevel(7)  ==>  2 ... ok
 TEST: foldlevel(8)  ==>  0 ... ok
-TEST: foldlevel(9)  ==>  1 ... ok
-TEST: foldlevel(10)  ==>  2 ... ok
+TEST: foldlevel(9)  ==>  1 ... FAILED
+  Actual value: 0
+  Expected value: 1
+TEST: foldlevel(10)  ==>  2 ... FAILED
+  Actual value: 1
+  Expected value: 2
 TEST: foldlevel(11)  ==>  2 ... ok
 TEST: foldlevel(12)  ==>  2 ... ok
 TEST: foldlevel(13)  ==>  0 ... ok
@@ -64,10 +64,8 @@ TEST: foldlevel(14)  ==>  0 ... ok
 TEST: foldlevel(15)  ==>  0 ... ok
 TEST: foldlevel(16)  ==>  0 ... ok
 TEST: foldlevel(17)  ==>  0 ... ok
-TEST: foldlevel(18)  ==>  0 ... FAILED
-  Actual value: 1
-  Expected value: 0
-Result: 18 / 19
+TEST: foldlevel(18)  ==>  0 ... ok
+Result: 17 / 19
 
 ===== Total
-Result: 52 / 55
+Result: 53 / 55

@@ -51,7 +51,7 @@ syntax region gtdIssue
 syntax match gtdSectionTitle /^[A-Z ]\+$/
 syntax region gtdSection
 \ start=/^[A-Z ]\+$/
-\ end=/\n\ze\(;\|[A-Z ]\+\)$/
+\ end=/\n\ze\(;\|[A-Z ]\+$\)/
 \ contains=gtdSectionTitle,gtdIssue
 \ fold
 \ transparent
