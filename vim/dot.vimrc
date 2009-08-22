@@ -2027,6 +2027,15 @@ endfunction
 
 
 
+" gtd  "{{{2
+
+autocmd MyAutoCmd FileType gtd
+\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(gtd-jump-to-issue)
+\ | let b:undo_ftplugin .= ' | silent! nunmap <buffer> <Plug>(physical-key-<Return>)'
+
+
+
+
 " help  "{{{2
 
 " Removed - not so useful.
