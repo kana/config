@@ -163,6 +163,10 @@ function s:test_syntax_3()  "{{{1
   endfor
   1 delete _
 
+    " BUGS: Refresh the synchronizatioin of syntax highlighting to avoid
+    "       unexpected syntax foldings.
+  execute 'normal!' "\<C-l>"
+
   Assert getline(1, '$') ==> texts
 
   Assert foldlevel(1) ==> 1

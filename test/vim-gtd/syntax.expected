@@ -55,23 +55,19 @@ TEST: foldlevel(6)  ==>  2 ... ok
 TEST: foldlevel(7)  ==>  2 ... ok
 TEST: foldlevel(8)  ==>  2 ... ok
 TEST: foldlevel(9)  ==>  2 ... ok
-TEST: foldlevel(10)  ==>  0 ... FAILED
-  Actual value: 1
-  Expected value: 0
+TEST: foldlevel(10)  ==>  0 ... ok
 TEST: foldlevel(11)  ==>  1 ... ok
 TEST: foldlevel(12)  ==>  2 ... ok
 TEST: foldlevel(13)  ==>  2 ... ok
 TEST: foldlevel(14)  ==>  2 ... ok
 TEST: foldlevel(15)  ==>  2 ... ok
-TEST: foldlevel(16)  ==>  0 ... FAILED
-  Actual value: 1
-  Expected value: 0
+TEST: foldlevel(16)  ==>  0 ... ok
 TEST: foldlevel(17)  ==>  0 ... ok
 TEST: foldlevel(18)  ==>  0 ... ok
 TEST: foldlevel(19)  ==>  0 ... ok
 TEST: foldlevel(20)  ==>  0 ... ok
 TEST: foldlevel(21)  ==>  0 ... ok
-Result: 20 / 22
+Result: 22 / 22
 
 ===== Total
-Result: 59 / 61
+Result: 61 / 61

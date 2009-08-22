@@ -46,14 +46,16 @@ syntax region gtdIssue
 \ end=/\n\ze\(;.*\|#.*\|[A-Z ]\+$\)/
 \ contains=gtdIssueTitle,gtdNoteDatetime
 \ fold
+\ keepend
 \ transparent
 
 syntax match gtdSectionTitle /^[A-Z ]\+$/
 syntax region gtdSection
-\ start=/^[A-Z ]\+$/
+\ start=/^[A-Z ]\+\ze$/
 \ end=/\n\ze\(;.*\|[A-Z ]\+$\)/
 \ contains=gtdSectionTitle,gtdIssue
 \ fold
+\ keepend
 \ transparent
 
 
