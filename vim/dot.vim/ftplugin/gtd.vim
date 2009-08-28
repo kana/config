@@ -82,10 +82,12 @@ endif
 
 if !exists('b:undo_ftplugin')
   let b:undo_ftplugin = ''
+else
+  let b:undo_ftplugin = ' | '
 endif
   " FIXME: Overridden default key mappings should not be "undone".
 let b:undo_ftplugin .= '
-\ | setlocal foldmethod<
+\   setlocal foldmethod<
 \ | execute "silent! nunmap <buffer> <LocalLeader>i"
 \ | execute "silent! nunmap <buffer> <LocalLeader>n"
 \ | execute "silent! nunmap <buffer> <LocalLeader>g"

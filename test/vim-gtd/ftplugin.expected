@@ -124,7 +124,6 @@ TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
 Result: 11 / 11
 
 ===== "LOCAL CONFIGURATION: b:undo_ftplugin"
-
 not found in 'runtimepath': "ftplugin/notsuchfiletype.vim ftplugin/notsuchfiletype_*.vim ftplugin/notsuchfiletype/*.vim"
 ===== "Default key mappings"
 TEST: maparg('<LocalLeader>i', 'n')  ==>  'BUFFER-LOCAL' ... FAILED
@@ -148,4 +147,3 @@ Result: 1 / 1
 
 ===== Total
 Result: 110 / 111
-INBOX
