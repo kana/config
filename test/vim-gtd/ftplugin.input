@@ -28,6 +28,7 @@ function s:test_gtd_buffer_local_configuration_1()  "{{{1
   Assert maparg('<LocalLeader>s', 'n') ==> ''
   Assert maparg('<LocalLeader>a', 'n') ==> ''
   Assert maparg('<LocalLeader>t', 'n') ==> ''
+  Assert maparg('<LocalLeader>d', 'n') ==> ''
 
   Title "Options"
   Assert &l:foldmethod ==> &g:foldmethod
@@ -73,6 +74,7 @@ function s:test_gtd_buffer_local_configuration_2()  "{{{1
   Assert maparg('<LocalLeader>s', 'n') ==> '<Plug>(gtd-mark-as-someday)'
   Assert maparg('<LocalLeader>a', 'n') ==> '<Plug>(gtd-mark-as-archive)'
   Assert maparg('<LocalLeader>t', 'n') ==> '<Plug>(gtd-mark-as-trash)'
+  Assert maparg('<LocalLeader>d', 'n') ==> '<Plug>(gtd-mark-as-trash)'
 
   Title "Options"
   Assert &l:foldmethod ==> 'syntax'
@@ -128,6 +130,7 @@ function s:test_gtd_buffer_local_configuration_3()  "{{{1
   Assert maparg('<LocalLeader>s', 'n') ==> '<Plug>(gtd-mark-as-someday)'
   Assert maparg('<LocalLeader>a', 'n') ==> '<Plug>(gtd-mark-as-archive)'
   Assert maparg('<LocalLeader>t', 'n') ==> '<Plug>(gtd-mark-as-trash)'
+  Assert maparg('<LocalLeader>d', 'n') ==> '<Plug>(gtd-mark-as-trash)'
 
   Title "Options"
   Assert &l:foldmethod ==> 'syntax'
@@ -161,6 +164,7 @@ function s:test_gtd_buffer_local_configuration_4()  "{{{1
   Assert maparg('<LocalLeader>s', 'n') ==> '<Plug>(gtd-mark-as-someday)'
   Assert maparg('<LocalLeader>a', 'n') ==> '<Plug>(gtd-mark-as-archive)'
   Assert maparg('<LocalLeader>t', 'n') ==> '<Plug>(gtd-mark-as-trash)'
+  Assert maparg('<LocalLeader>d', 'n') ==> '<Plug>(gtd-mark-as-trash)'
 
   nunmap <buffer> <LocalLeader>i
   nunmap <LocalLeader>n
@@ -194,6 +198,7 @@ function s:test_gtd_buffer_local_configuration_5()  "{{{1
   Assert maparg('<LocalLeader>s', 'n') ==> ''
   Assert maparg('<LocalLeader>a', 'n') ==> ''
   Assert maparg('<LocalLeader>t', 'n') ==> ''
+  Assert maparg('<LocalLeader>d', 'n') ==> ''
 
   Title "Options"
   Assert &l:foldmethod ==> &g:foldmethod

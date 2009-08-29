@@ -114,6 +114,7 @@ n	<LocalLeader>w		|<Plug>(gtd-mark-as-waiting-for)|
 n	<LocalLeader>s		|<Plug>(gtd-mark-as-someday)|
 n	<LocalLeader>a		|<Plug>(gtd-mark-as-archive)|
 n	<LocalLeader>t		|<Plug>(gtd-mark-as-trash)|
+n	<LocalLeader>d		|<Plug>(gtd-mark-as-trash)|
 
 
 NAMED KEY MAPPINGS				*gtd-named-key-mappings*

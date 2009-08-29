@@ -41,6 +41,7 @@ TEST: maparg('<LocalLeader>w', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>s', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>a', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>t', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>d', 'n')  ==>  '' ... ok
 ===== "Options"
 TEST: &l:foldmethod  ==>  &g:foldmethod ... ok
 ===== "Initial setup"
@@ -72,6 +73,7 @@ TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... 
 TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
 TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
 TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+TEST: maparg('<LocalLeader>d', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
 ===== "Options"
 TEST: &l:foldmethod  ==>  'syntax' ... ok
 ===== "Initial setup"
@@ -103,6 +105,7 @@ TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... 
 TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
 TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
 TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+TEST: maparg('<LocalLeader>d', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
 ===== "Options"
 TEST: &l:foldmethod  ==>  'syntax' ... ok
 ===== "Initial setup"
@@ -121,7 +124,8 @@ TEST: maparg('<LocalLeader>w', 'n')  ==>  '<Plug>(gtd-mark-as-waiting-for)' ... 
 TEST: maparg('<LocalLeader>s', 'n')  ==>  '<Plug>(gtd-mark-as-someday)' ... ok
 TEST: maparg('<LocalLeader>a', 'n')  ==>  '<Plug>(gtd-mark-as-archive)' ... ok
 TEST: maparg('<LocalLeader>t', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
-Result: 11 / 11
+TEST: maparg('<LocalLeader>d', 'n')  ==>  '<Plug>(gtd-mark-as-trash)' ... ok
+Result: 12 / 12
 
 ===== "LOCAL CONFIGURATION: b:undo_ftplugin"
 not found in 'runtimepath': "ftplugin/notsuchfiletype.vim ftplugin/notsuchfiletype_*.vim ftplugin/notsuchfiletype/*.vim"
@@ -139,6 +143,7 @@ TEST: maparg('<LocalLeader>w', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>s', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>a', 'n')  ==>  '' ... ok
 TEST: maparg('<LocalLeader>t', 'n')  ==>  '' ... ok
+TEST: maparg('<LocalLeader>d', 'n')  ==>  '' ... ok
 ===== "Options"
 TEST: &l:foldmethod  ==>  &g:foldmethod ... ok
 ===== "Initial setup"
@@ -146,4 +151,4 @@ TEST: getline(1, '$')  ==>  [ 'INBOX', 'NEXT ACTIONS', 'CALENDAR', 'PROJECTS', '
 Result: 1 / 1
 
 ===== Total
-Result: 110 / 111
+Result: 115 / 116
