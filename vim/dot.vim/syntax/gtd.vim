@@ -34,7 +34,7 @@ syntax sync fromstart
 
 
 
-syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d$/
+syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\>/
 
 syntax match gtdComment /^;.*$/
 

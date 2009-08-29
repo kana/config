@@ -66,6 +66,7 @@ silent! nmap <unique> <buffer> <LocalLeader>w  <Plug>(gtd-mark-as-waiting-for)
 silent! nmap <unique> <buffer> <LocalLeader>s  <Plug>(gtd-mark-as-someday)
 silent! nmap <unique> <buffer> <LocalLeader>a  <Plug>(gtd-mark-as-archive)
 silent! nmap <unique> <buffer> <LocalLeader>t  <Plug>(gtd-mark-as-trash)
+silent! nmap <unique> <buffer> <LocalLeader>d  <Plug>(gtd-mark-as-trash)
 
 
 " Options:
@@ -82,10 +83,12 @@ endif
 
 if !exists('b:undo_ftplugin')
   let b:undo_ftplugin = ''
+else
+  let b:undo_ftplugin = ' | '
 endif
   " FIXME: Overridden default key mappings should not be "undone".
 let b:undo_ftplugin .= '
-\ | setlocal foldmethod<
+\   setlocal foldmethod<
 \ | execute "silent! nunmap <buffer> <LocalLeader>i"
 \ | execute "silent! nunmap <buffer> <LocalLeader>n"
 \ | execute "silent! nunmap <buffer> <LocalLeader>g"
@@ -97,6 +100,7 @@ let b:undo_ftplugin .= '
 \ | execute "silent! nunmap <buffer> <LocalLeader>s"
 \ | execute "silent! nunmap <buffer> <LocalLeader>a"
 \ | execute "silent! nunmap <buffer> <LocalLeader>t"
+\ | execute "silent! nunmap <buffer> <LocalLeader>d"
 \ '
 
 let b:did_ftplugin = 1
