@@ -65,7 +65,7 @@ function s:test_syntax_2()  "{{{1
   \ 'NEXT ACTIONS',
   \ 'CALENDAR',
   \ '#3 t: e: s: t: title',
-  \ "\t2009-08-18T23:58:44",
+  \ "\t2009-08-18T23:58:44\tJump!",
   \ "\t\tJump!",
   \ '',
   \ 'PROJECTS',
@@ -122,6 +122,13 @@ function s:test_syntax_2()  "{{{1
 
   Assert TestSynstack(3, 2)
   \ ==> ['gtdSection', 'gtdIssue', 'gtdNoteDatetime']
+
+  Assert TestSynstack(13, 2)
+  \ ==> ['gtdSection', 'gtdIssue', 'gtdNoteDatetime']
+  Assert TestSynstack(13, 22)
+  \ ==> ['gtdSection', 'gtdIssue']
+  Assert TestSynstack(13, 23)
+  \ ==> ['gtdSection', 'gtdIssue']
 endfunction
 
 

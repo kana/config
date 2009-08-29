@@ -42,7 +42,10 @@ TEST: TestSynstack(2, 6)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... o
 TEST: TestSynstack(2, 15)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(2, 16)  ==>  ['gtdSection', 'gtdIssue', 'gtdIssueTitle'] ... ok
 TEST: TestSynstack(3, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
-Result: 29 / 29
+TEST: TestSynstack(13, 2)  ==>  ['gtdSection', 'gtdIssue', 'gtdNoteDatetime'] ... ok
+TEST: TestSynstack(13, 22)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+TEST: TestSynstack(13, 23)  ==>  ['gtdSection', 'gtdIssue'] ... ok
+Result: 32 / 32
 
 ===== "FOLDING LEVELS"
 TEST: getline(1, '$')  ==>  texts ... ok
@@ -70,4 +73,4 @@ TEST: foldlevel(21)  ==>  0 ... ok
 Result: 22 / 22
 
 ===== Total
-Result: 61 / 61
+Result: 64 / 64
