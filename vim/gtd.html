@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: gtd - Support to do Getting Things Done</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Type { color: #008000; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="gtd.txt">gtd.txt</span><span class="Ignore">*</span>       Support to do Getting Things Done
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="gtd-contents">gtd-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="gtd.html#gtd-introduction"><span class="Identifier">gtd-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="gtd.html#gtd-interface"><span class="Identifier">gtd-interface</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="gtd.html#gtd-functions"><span class="Identifier">gtd-functions</span></a><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><a href="gtd.html#gtd-key-mappings"><span class="Identifier">gtd-key-mappings</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="gtd.html#gtd-bugs"><span class="Identifier">gtd-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="gtd.html#gtd-changelog"><span class="Identifier">gtd-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="gtd-introduction">gtd-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="gtd">gtd</span><span class="Ignore">*</span> is a Vim filetype plugin to support to do Getting Things Done (*).
+It provides useful features for buffers with filetype &quot;gtd&quot;.
+
+To use this plugin, open an empty buffer, then set <span class="Type">'filetype'</span> of the buffer to
+&quot;gtd&quot;.  For example:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        :new</span>
+<span class="Comment">        :setfiletype gtd</span>
+<span class="Ignore">&lt;</span>
+After the above steps, a template to start GTD will be set up for the buffer.
+See <span class="Ignore">|</span><a href="gtd.html#gtd-default-key-mappings"><span class="Identifier">gtd-default-key-mappings</span></a><span class="Ignore">|</span> for available features and how to use.
+
+(*) <span class="Constant"><a href="http://en.wikipedia.org/wiki/Getting_Things_Done">http://en.wikipedia.org/wiki/Getting_Things_Done</a></span>
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-gtd">http://github.com/kana/config/commits/vim-gtd</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/gtd.html">http://kana.github.com/config/vim/gtd.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="gtd-interface">gtd-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="gtd-functions">gtd-functions</span><span class="Ignore">*</span>
+
+gtd#initialize()                                <span class="Ignore">*</span><span class="Constant" id="gtd#initialize()">gtd#initialize()</span><span class="Ignore">*</span>
+                        Initialize the current buffer for GTD, i.e.,
+
+                        - Delete the whole content of the buffer.
+                        - Add sections for GTD into the buffer.
+
+                        This function is automatically called buffers which
+                        are empty and which <span class="Type">'filetype'</span> is &quot;gtd&quot;.
+
+gtd#jump_to_issue()                             <span class="Ignore">*</span><span class="Constant" id="gtd#jump_to_issue()">gtd#jump_to_issue()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-jump-to-issue)"><span class="Identifier">&lt;Plug&gt;(gtd-jump-to-issue)</span></a><span class="Ignore">|</span>.
+
+gtd#mark(<span class="Special">{section}</span>)                             <span class="Ignore">*</span><span class="Constant" id="gtd#mark()">gtd#mark()</span><span class="Ignore">*</span>
+                        Move the issue under the cursor into the <span class="Special">{section}</span>,
+                        where <span class="Special">{section}</span> is a string which represents the name
+                        of a section.
+
+gtd#new_issue()                                 <span class="Ignore">*</span><span class="Constant" id="gtd#new_issue()">gtd#new_issue()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-new-issue)"><span class="Identifier">&lt;Plug&gt;(gtd-new-issue)</span></a><span class="Ignore">|</span>.
+
+gtd#new_note()                                  <span class="Ignore">*</span><span class="Constant" id="gtd#new_note()">gtd#new_note()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-new-note)"><span class="Identifier">&lt;Plug&gt;(gtd-new-note)</span></a><span class="Ignore">|</span>.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant" id="gtd-key-mappings">gtd-key-mappings</span><span class="Ignore">*</span>
+
+<span class="Statement">DEFAULT KEY MAPPINGS                            </span><span class="Ignore">*</span><span class="Constant" id="gtd-default-key-mappings">gtd-default-key-mappings</span><span class="Ignore">*</span>
+
+Modes   <span class="Special">{lhs}</span>                     <span class="Special">{rhs}</span>
+<span class="PreProc">------------------------------------------------</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>i                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-new-issue)"><span class="Identifier">&lt;Plug&gt;(gtd-new-issue)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>n                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-new-note)"><span class="Identifier">&lt;Plug&gt;(gtd-new-note)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>g                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-jump-to-issue)"><span class="Identifier">&lt;Plug&gt;(gtd-jump-to-issue)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>I                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-inbox)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-inbox)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;&lt;Space&gt;</span>  <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-next-actions)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-next-actions)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>c                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-calendar)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-calendar)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>p                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-projects)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-projects)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>w                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-waiting-for)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-waiting-for)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>s                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-someday)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-someday)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>a                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-archive)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-archive)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>t                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-trash)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-trash)</span></a><span class="Ignore">|</span>
+n       <span class="Special">&lt;LocalLeader&gt;</span>d                <span class="Ignore">|</span><a href="gtd.html#&lt;Plug&gt;(gtd-mark-as-trash)"><span class="Identifier">&lt;Plug&gt;(gtd-mark-as-trash)</span></a><span class="Ignore">|</span>
+
+
+<span class="Statement">NAMED KEY MAPPINGS                              </span><span class="Ignore">*</span><span class="Constant" id="gtd-named-key-mappings">gtd-named-key-mappings</span><span class="Ignore">*</span>
+
+The following key mappings are defined in Normal mode.
+
+<span class="Special">&lt;Plug&gt;</span>(gtd-new-issue)                           <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-new-issue)">&lt;Plug&gt;(gtd-new-issue)</span><span class="Ignore">*</span>
+                        Add a new issue in the INBOX section, then start
+                        Insert mode.
+
+<span class="Special">&lt;Plug&gt;</span>(gtd-new-note)                            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-new-note)">&lt;Plug&gt;(gtd-new-note)</span><span class="Ignore">*</span>
+                        Add a new note for the nearest issue at the
+                        cursor position, then start Insert mode.
+
+<span class="Special">&lt;Plug&gt;</span>(gtd-jump-to-issue)                       <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-jump-to-issue)">&lt;Plug&gt;(gtd-jump-to-issue)</span><span class="Ignore">*</span>
+                        Move the cursor to the issue which ID is under or
+                        after the cursor position.
+
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-inbox)               <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-inbox)">&lt;Plug&gt;(gtd-mark-as-inbox)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-next-actions)        <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-next-actions)">&lt;Plug&gt;(gtd-mark-as-next-actions)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-calendar)            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-calendar)">&lt;Plug&gt;(gtd-mark-as-calendar)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-projects)            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-projects)">&lt;Plug&gt;(gtd-mark-as-projects)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-waiting-for)         <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-waiting-for)">&lt;Plug&gt;(gtd-mark-as-waiting-for)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-someday)             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-someday)">&lt;Plug&gt;(gtd-mark-as-someday)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-archive)             <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-archive)">&lt;Plug&gt;(gtd-mark-as-archive)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(gtd-mark-as-trash)               <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(gtd-mark-as-trash)">&lt;Plug&gt;(gtd-mark-as-trash)</span><span class="Ignore">*</span>
+                        Mark the issue under the cursor as INBOX, NEXT
+                        ACTIONS, CALENDAR, PROJECTS, WAITING FOR, SOMEDAY,
+                        ARCHIVE or TRASH section.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="gtd-bugs">gtd-bugs</span><span class="Ignore">*</span>
+
+- Currently there is no known bug.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="gtd-changelog">gtd-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-08-08T18:49:16+09:00
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

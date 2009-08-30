@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Vim: textobj-indent - Text objects for lines with the same indentation level</title>
+<title>Vim: textobj-indent - Text objects for indented blocks of lines</title>
 <meta name="Generator" content="Vim/7.2" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <style type="text/css">
@@ -21,9 +21,9 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
-<span class="Ignore">*</span><span class="Constant" id="textobj-indent.txt">textobj-indent.txt</span><span class="Ignore">*</span>    Text objects for lines with the same indentation level
+<span class="Ignore">*</span><span class="Constant" id="textobj-indent.txt">textobj-indent.txt</span><span class="Ignore">*</span>    Text objects for indented blocks of lines
 
-Version 0.0.2
+Version 0.0.3
 Script ID: 2484
 Copyright (C) 2008 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -64,13 +64,14 @@ Changelog               <span class="Ignore">|</span><a href="textobj-indent.htm
 <span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-introduction">textobj-indent-introduction</span><span class="Ignore">*</span>
 
 <span class="Ignore">*</span><span class="Constant" id="textobj-indent">textobj-indent</span><span class="Ignore">*</span> is a Vim plugin to provide text objects to select a block of
-lines with the same indentation level.
+lines which are similarly indented to the current line.
 
 For example, if the content of a buffer as follows:
-(here &quot;|&quot; means the cursor and &quot;_&quot; means an indentation)
+(here &quot;&gt;&quot; means the current line under the cursor,
+and &quot;_&quot; means a space to indent)
 <span class="Ignore">&gt;</span>
 <span class="Comment">          if some_condition_is_satisfied</span>
-<span class="Comment">          _|if another_condition_is_satisfied</span>
+<span class="Comment">        &gt; __if another_condition_is_satisfied</span>
 <span class="Comment">          ____call s:do_x()</span>
 <span class="Comment">          __endif</span>
 
@@ -81,26 +82,25 @@ For example, if the content of a buffer as follows:
 <span class="Comment">          endif</span>
 <span class="Ignore">&lt;</span>
 <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> will select lines as follows:
-(here &quot;&gt;&quot; indicates the selected line)
+(here &quot;|&quot; indicates the selected line)
 <span class="Ignore">&gt;</span>
 <span class="Comment">          if some_condition_is_satisfied</span>
-<span class="Comment">        &gt; _|if another_condition_is_satisfied</span>
-<span class="Comment">        &gt; ____call s:do_x()</span>
-<span class="Comment">        &gt; __endif</span>
-<span class="Comment">        &gt;</span>
-<span class="Comment">        &gt; __...</span>
-<span class="Comment">        &gt; __endif</span>
+<span class="Comment">        &gt;|__if another_condition_is_satisfied</span>
+<span class="Comment">         |____call s:do_x()</span>
+<span class="Comment">         |__endif</span>
+<span class="Comment">         |</span>
+<span class="Comment">         |__...</span>
+<span class="Comment">         |__endif</span>
 <span class="Comment">          else</span>
 <span class="Comment">          __...</span>
 <span class="Comment">          endif</span>
 <span class="Ignore">&lt;</span>
 <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span> will select lines as follows:
-(here &quot;&gt;&quot; indicates the selected line)
 <span class="Ignore">&gt;</span>
 <span class="Comment">          if some_condition_is_satisfied</span>
-<span class="Comment">        &gt; _|if another_condition_is_satisfied</span>
-<span class="Comment">        &gt; ____call s:do_x()</span>
-<span class="Comment">        &gt; __endif</span>
+<span class="Comment">        &gt;|__if another_condition_is_satisfied</span>
+<span class="Comment">         |____call s:do_x()</span>
+<span class="Comment">         |__endif</span>
 
 <span class="Comment">          __...</span>
 <span class="Comment">          __endif</span>
@@ -108,11 +108,13 @@ For example, if the content of a buffer as follows:
 <span class="Comment">          __...</span>
 <span class="Comment">          endif</span>
 <span class="Ignore">&lt;</span>
+More variants are also available.  See <span class="Ignore">|</span><span class="Identifier">textobj-indnet-mapping</span><span class="Ignore">|</span> for the
+details.
 
 
 Requirements:
 - Vim 7.2 or later
-- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user"><span class="Identifier">textobj-user</span></a><span class="Ignore">|</span> 0.3.7 or later (vimscript#2100)
+- <span class="Ignore">|</span><a href="textobj-user.html#textobj-user"><span class="Identifier">textobj-user</span></a><span class="Ignore">|</span> 0.3.8 or later (vimscript#2100)
 
 Latest version:
 <span class="Constant"><a href="http://github.com/kana/config/commits/vim-textobj-indent">http://github.com/kana/config/commits/vim-textobj-indent</a></span>
@@ -132,8 +134,9 @@ Document in HTML format:
 These key mappings are defined in Visual mode and Operator-pending mode.
 
 <span class="Special">&lt;Plug&gt;</span>(textobj-indent-a)                        <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-indent-a)">&lt;Plug&gt;(textobj-indent-a)</span><span class="Ignore">*</span>
-                        Select a block of lines with the same indentation
-                        level.  More precisely, select lines which are:
+                        Select a block of lines which are similarly indented
+                        to the current line.  More precisely, it selects lines
+                        which are:
                         - adjacent to the current line, and
                         - indented the same or more amount
                           as the current line, or empty line.
@@ -143,9 +146,46 @@ These key mappings are defined in Visual mode and Operator-pending mode.
                         also ampty, the indentation of the next line of that
                         line will be used instead.  And so forth.
 
+                        See also <span class="Ignore">|</span><a href="textobj-indent.html#textobj-indent-introduction"><span class="Identifier">textobj-indent-introduction</span></a><span class="Ignore">|</span> for figures
+                        which describe what lines to be selected by this
+                        command.
+
 <span class="Special">&lt;Plug&gt;</span>(textobj-indent-i)                        <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-indent-i)">&lt;Plug&gt;(textobj-indent-i)</span><span class="Ignore">*</span>
                         Like <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span>, but it doesn't
                         include empty lines.
+
+<span class="Special">&lt;Plug&gt;</span>(textobj-indent-same-a)                  <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-indent-same-a)">&lt;Plug&gt;(textobj-indent-same-a)</span><span class="Ignore">*</span>
+<span class="Special">&lt;Plug&gt;</span>(textobj-indent-same-i)                  <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(textobj-indent-same-i)">&lt;Plug&gt;(textobj-indent-same-i)</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> or
+                        <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span>, but select a block of
+                        lines with the same indentation level, not including
+                        lines which are more indented than the current line.
+
+                        For example, suppose you edit the following text:
+                        (here &quot;&gt;&quot; denotes the cursor position and &quot;|&quot; denotes
+                        the current selection.)
+<span class="Ignore">&gt;</span>
+<span class="Comment">                                  if some_condition_is_satisfied</span>
+<span class="Comment">                                    call special_stuff()</span>
+<span class="Comment">                                &gt; endif</span>
+<span class="Comment">                                  call normal_stuff()</span>
+<span class="Ignore">&lt;</span>
+                        <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-same-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-same-a)</span></a><span class="Ignore">|</span> selects lines as
+                        follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                                  if some_condition_is_satisfied</span>
+<span class="Comment">                                    call special_stuff()</span>
+<span class="Comment">                                &gt;|endif</span>
+<span class="Comment">                                 |call normal_stuff()</span>
+<span class="Ignore">&lt;</span>
+                        While <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> selects lines as
+                        follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                                 |if some_condition_is_satisfied</span>
+<span class="Comment">                                 |  call special_stuff()</span>
+<span class="Comment">                                &gt;|endif</span>
+<span class="Comment">                                 |call normal_stuff()</span>
+<span class="Ignore">&lt;</span>
 
 
 
@@ -166,15 +206,14 @@ unless [!] is given.
         <span class="PreProc">-----  ----------------------</span><span class="Ignore">   ~</span>
         ai      <span class="Special">&lt;Plug&gt;</span>(textobj-indent-a)
         ii      <span class="Special">&lt;Plug&gt;</span>(textobj-indent-i)
+        aI      <span class="Special">&lt;Plug&gt;</span>(textobj-indent-same-a)
+        iI      <span class="Special">&lt;Plug&gt;</span>(textobj-indent-same-i)
 
 
 
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-bugs">textobj-indent-bugs</span><span class="Ignore">*</span>
-
-- <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span> count indentation
-  level by the number of leading whitespace and/or tab.
 
 - The current selection is not extended like <span class="Ignore">|</span><span class="Identifier">aw</span><span class="Ignore">|</span> nor <span class="Ignore">|</span><span class="Identifier">ip</span><span class="Ignore">|</span>
   whenever <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-a)</span></a><span class="Ignore">|</span> or <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-i)</span></a><span class="Ignore">|</span> is
@@ -189,6 +228,20 @@ unless [!] is given.
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="textobj-indent-changelog">textobj-indent-changelog</span><span class="Ignore">*</span>
+
+0.0.3   2009-08-30T12:06:37+09:00             <span class="Ignore">*</span><span class="Constant" id="textobj-indent-changelog-0.0.3">textobj-indent-changelog-0.0.3</span><span class="Ignore">*</span>
+        Incompatible changes:
+        - Requrie <span class="Ignore">|</span><a href="textobj-user.html#textobj-user"><span class="Identifier">textobj-user</span></a><span class="Ignore">|</span> 0.3.8 or later.
+
+        Major improvements:
+        - Add <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-same-a)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-same-a)</span></a><span class="Ignore">|</span> and
+          <span class="Ignore">|</span><a href="textobj-indent.html#&lt;Plug&gt;(textobj-indent-same-i)"><span class="Identifier">&lt;Plug&gt;(textobj-indent-same-i)</span></a><span class="Ignore">|</span>.
+
+        Minor improvements:
+        - Revise the document a bit.
+        - Add tests.
+        - Fix a minor bug.
+        - Revise to be autoloaded.
 
 0.0.2   2009-04-17T17:45:31+09:00             <span class="Ignore">*</span><span class="Constant" id="textobj-indent-changelog-0.0.2">textobj-indent-changelog-0.0.2</span><span class="Ignore">*</span>
         - Fix the bug to calculate indentation levels.  Now these text objects
