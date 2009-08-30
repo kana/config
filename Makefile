@@ -552,6 +552,7 @@ PACKAGE_vim_textobj_function_FILES=\
 PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.2
 PACKAGE_vim_textobj_indent_BASE=vim/dot.vim
 PACKAGE_vim_textobj_indent_FILES=\
+  vim/dot.vim/autoload/textobj/indent.vim \
   vim/dot.vim/doc/textobj-indent.txt \
   vim/dot.vim/plugin/textobj/indent.vim
 
@@ -847,6 +848,7 @@ test/vim-textobj-indent/%.output: \
 		test/vim-textobj-indent/%.input \
 		test/libtest.vim \
 		test/tester-vim \
+		vim/dot.vim/autoload/textobj/indent.vim \
 		vim/dot.vim/plugin/textobj/indent.vim
 	@./test/tester-vim $< &>$@
 
