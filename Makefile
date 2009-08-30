@@ -840,6 +840,17 @@ test/vim-operator-user/%.output: \
 	@./test/tester-vim $< &>$@
 
 
+# vim-textobj-indent  #{{{2
+TESTS_vim_textobj_indent = basic
+
+test/vim-textobj-indent/%.output: \
+		test/vim-textobj-indent/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/plugin/textobj/indent.vim
+	@./test/tester-vim $< &>$@
+
+
 # vim-textobj-syntax  #{{{2
 TESTS_vim_textobj_syntax = 0001
 
