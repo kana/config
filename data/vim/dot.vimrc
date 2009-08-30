@@ -2027,10 +2027,10 @@ endfunction
 
 
 
-" issue  "{{{2
+" gtd  "{{{2
 
-autocmd MyAutoCmd FileType issue
-\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(issue-jump-to-issue)
+autocmd MyAutoCmd FileType gtd
+\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(gtd-jump-to-issue)
 \ | let b:undo_ftplugin .= ' | silent! nunmap <buffer> <Plug>(physical-key-<Return>)'
 
 
@@ -2080,6 +2080,15 @@ function! s:on_FileType_help()
     map <buffer> K  <Plug>(textobj-help-any-p)
   endif
 endfunction
+
+
+
+
+" issue  "{{{2
+
+autocmd MyAutoCmd FileType issue
+\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(issue-jump-to-issue)
+\ | let b:undo_ftplugin .= ' | silent! nunmap <buffer> <Plug>(physical-key-<Return>)'
 
 
 

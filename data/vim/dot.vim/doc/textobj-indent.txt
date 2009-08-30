@@ -1,6 +1,6 @@
-*textobj-indent.txt*	Text objects for lines with the same indentation level
+*textobj-indent.txt*	Text objects for indented blocks of lines
 
-Version 0.0.2
+Version 0.0.3
 Script ID: 2484
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -41,13 +41,14 @@ Changelog		|textobj-indent-changelog|
 INTRODUCTION					*textobj-indent-introduction*
 
 *textobj-indent* is a Vim plugin to provide text objects to select a block of
-lines with the same indentation level.
+lines which are similarly indented to the current line.
 
 For example, if the content of a buffer as follows:
-(here "|" means the cursor and "_" means an indentation)
+(here ">" means the current line under the cursor,
+and "_" means a space to indent)
 >
 	  if some_condition_is_satisfied
-	  _|if another_condition_is_satisfied
+	> __if another_condition_is_satisfied
 	  ____call s:do_x()
 	  __endif
 
@@ -58,26 +59,25 @@ For example, if the content of a buffer as follows:
 	  endif
 <
 |<Plug>(textobj-indent-a)| will select lines as follows:
-(here ">" indicates the selected line)
+(here "|" indicates the selected line)
 >
 	  if some_condition_is_satisfied
-	> _|if another_condition_is_satisfied
-	> ____call s:do_x()
-	> __endif
-	>
-	> __...
-	> __endif
+	>|__if another_condition_is_satisfied
+	 |____call s:do_x()
+	 |__endif
+	 |
+	 |__...
+	 |__endif
 	  else
 	  __...
 	  endif
 <
 |<Plug>(textobj-indent-i)| will select lines as follows:
-(here ">" indicates the selected line)
 >
 	  if some_condition_is_satisfied
-	> _|if another_condition_is_satisfied
-	> ____call s:do_x()
-	> __endif
+	>|__if another_condition_is_satisfied
+	 |____call s:do_x()
+	 |__endif
 
 	  __...
 	  __endif
@@ -85,11 +85,13 @@ For example, if the content of a buffer as follows:
 	  __...
 	  endif
 <
+More variants are also available.  See |textobj-indnet-mapping| for the
+details.
 
 
 Requirements:
 - Vim 7.2 or later
-- |textobj-user| 0.3.7 or later (vimscript#2100)
+- |textobj-user| 0.3.8 or later (vimscript#2100)
 
 Latest version:
 http://github.com/kana/config/commits/vim-textobj-indent
@@ -109,8 +111,9 @@ MAPPINGS					*textobj-indent-mappings*
 These key mappings are defined in Visual mode and Operator-pending mode.
 
 <Plug>(textobj-indent-a)			*<Plug>(textobj-indent-a)*
-			Select a block of lines with the same indentation
-			level.  More precisely, select lines which are:
+			Select a block of lines which are similarly indented
+			to the current line.  More precisely, it selects lines
+			which are:
 			- adjacent to the current line, and
 			- indented the same or more amount
 			  as the current line, or empty line.
@@ -120,9 +123,46 @@ These key mappings are defined in Visual mode and Operator-pending mode.
 			also ampty, the indentation of the next line of that
 			line will be used instead.  And so forth.
 
+			See also |textobj-indent-introduction| for figures
+			which describe what lines to be selected by this
+			command.
+
 <Plug>(textobj-indent-i)			*<Plug>(textobj-indent-i)*
 			Like |<Plug>(textobj-indent-a)|, but it doesn't
 			include empty lines.
+
+<Plug>(textobj-indent-same-a)		       *<Plug>(textobj-indent-same-a)*
+<Plug>(textobj-indent-same-i)		       *<Plug>(textobj-indent-same-i)*
+			Like |<Plug>(textobj-indent-a)| or
+			|<Plug>(textobj-indent-i)|, but select a block of
+			lines with the same indentation level, not including
+			lines which are more indented than the current line.
+
+			For example, suppose you edit the following text:
+			(here ">" denotes the cursor position and "|" denotes
+			the current selection.)
+>
+				  if some_condition_is_satisfied
+				    call special_stuff()
+				> endif
+				  call normal_stuff()
+<
+			|<Plug>(textobj-indent-same-a)| selects lines as
+			follows:
+>
+				  if some_condition_is_satisfied
+				    call special_stuff()
+				>|endif
+				 |call normal_stuff()
+<
+			While |<Plug>(textobj-indent-a)| selects lines as
+			follows:
+>
+				 |if some_condition_is_satisfied
+				 |  call special_stuff()
+				>|endif
+				 |call normal_stuff()
+<
 
 
 
@@ -143,15 +183,14 @@ unless [!] is given.
 	-----	----------------------	~
 	ai	<Plug>(textobj-indent-a)
 	ii	<Plug>(textobj-indent-i)
+	aI	<Plug>(textobj-indent-same-a)
+	iI	<Plug>(textobj-indent-same-i)
 
 
 
 
 ==============================================================================
 BUGS						*textobj-indent-bugs*
-
-- |<Plug>(textobj-indent-a)| and |<Plug>(textobj-indent-i)| count indentation
-  level by the number of leading whitespace and/or tab.
 
 - The current selection is not extended like |aw| nor |ip|
   whenever |<Plug>(textobj-indent-a)| or |<Plug>(textobj-indent-i)| is
@@ -166,6 +205,20 @@ BUGS						*textobj-indent-bugs*
 
 ==============================================================================
 CHANGELOG					*textobj-indent-changelog*
+
+0.0.3	2009-08-30T12:06:37+09:00	      *textobj-indent-changelog-0.0.3*
+	Incompatible changes:
+	- Requrie |textobj-user| 0.3.8 or later.
+
+	Major improvements:
+	- Add |<Plug>(textobj-indent-same-a)| and
+	  |<Plug>(textobj-indent-same-i)|.
+
+	Minor improvements:
+	- Revise the document a bit.
+	- Add tests.
+	- Fix a minor bug.
+	- Revise to be autoloaded.
 
 0.0.2	2009-04-17T17:45:31+09:00	      *textobj-indent-changelog-0.0.2*
 	- Fix the bug to calculate indentation levels.  Now these text objects

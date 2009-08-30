@@ -1,6 +1,6 @@
-" textobj-indent - Text objects for indented blocks of lines
-" Version: 0.0.3
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Vim syntax: gtd - Support to do Getting Things Done
+" Version: 0.0.0
+" Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -21,49 +21,59 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-if exists('g:loaded_textobj_indent')  "{{{1
+
+if exists('b:current_syntax')
   finish
 endif
 
+syntax clear
+
+syntax case match
+syntax sync fromstart
 
 
 
 
+syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\>/
 
+syntax match gtdComment /^;.*$/
 
+syntax match gtdIssueTag /[a-zA-Z0-9-_]\+:/
+syntax match gtdIssueId /^#\d\+/
+syntax match gtdIssueTitle /^#\d\+ .*/ contains=gtdIssueId,gtdIssueTag
+syntax region gtdIssue
+\ start=/^#/
+\ end=/\n\ze\(;.*\|#.*\|[A-Z ]\+$\)/
+\ contains=gtdIssueTitle,gtdNoteDatetime
+\ fold
+\ keepend
+\ transparent
 
-" Interface  "{{{1
-
-call textobj#user#plugin('indent', {
-\      '-': {
-\        'select-a': 'ai',  '*select-a-function*': 'textobj#indent#select_a',
-\        'select-i': 'ii',  '*select-i-function*': 'textobj#indent#select_i',
-\      },
-\      'same': {
-\        'select-a': 'aI',
-\        '*select-a-function*': 'textobj#indent#select_same_a',
-\        'select-i': 'iI',
-\        '*select-i-function*': 'textobj#indent#select_same_i',
-\      }
-\    })
-
-
-
-
-
-
-
-
-" Fin.  "{{{1
-
-let g:loaded_textobj_indent = 1
+syntax match gtdSectionTitle /^[A-Z ]\+$/
+syntax region gtdSection
+\ start=/^[A-Z ]\+\ze$/
+\ end=/\n\ze\(;.*\|[A-Z ]\+$\)/
+\ contains=gtdSectionTitle,gtdIssue
+\ fold
+\ keepend
+\ transparent
 
 
 
 
+highlight def link gtdSection Normal
+highlight def link gtdSectionTitle PreProc
+highlight def link gtdComment Comment
+highlight def link gtdIssue Normal
+highlight def link gtdIssueTitle Label
+highlight def link gtdIssueTag Type
+highlight def link gtdIssueId Label
+highlight def link gtdNoteDatetime Constant
 
 
 
+
+let b:current_syntax = 'gtd'
 
 " __END__
 " vim: foldmethod=marker

@@ -142,6 +142,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_ft_gauche_FILES) \
   $(PACKAGE_vim_ft_haskell_FILES) \
+  $(PACKAGE_vim_gtd_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
   $(PACKAGE_vim_ku_args_FILES) \
@@ -223,6 +224,7 @@ ALL_PACKAGES=\
   vim-ft-gauche \
   vim-ft-haskell \
   vim-idwintab \
+  vim-gtd \
   vim-ku \
   vim-ku-args \
   vim-ku-buffer \
@@ -339,6 +341,14 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
+PACKAGE_vim_gtd_ARCHIVE=vim-gtd-0.0.0
+PACKAGE_vim_gtd_BASE=vim/dot.vim
+PACKAGE_vim_gtd_FILES=\
+  vim/dot.vim/autoload/gtd.vim \
+  vim/dot.vim/doc/gtd.txt \
+  vim/dot.vim/ftplugin/gtd.vim \
+  vim/dot.vim/syntax/gtd.vim
+
 PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.4.1
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
@@ -417,6 +427,7 @@ PACKAGE_vim_misc_ARCHIVE=vim-misc
 PACKAGE_vim_misc_BASE=.
 PACKAGE_vim_misc_FILES=\
   vim/dot.vim/after/ftplugin/scheme.vim \
+  vim/dot.vim/after/syntax/help/bugfix.vim \
   vim/dot.vim/autoload/ku/myproject.vim \
   vim/dot.vim/autoload/syntaxcomplete.vim \
   vim/dot.vim/autoload/xml/svg11.vim \
@@ -516,7 +527,7 @@ PACKAGE_vim_textobj_diff_FILES=\
   vim/dot.vim/doc/textobj-diff.txt \
   vim/dot.vim/plugin/textobj/diff.vim
 
-PACKAGE_vim_textobj_entire_ARCHIVE=vim-textobj-entire-0.0.0
+PACKAGE_vim_textobj_entire_ARCHIVE=vim-textobj-entire-0.0.1
 PACKAGE_vim_textobj_entire_BASE=vim/dot.vim
 PACKAGE_vim_textobj_entire_FILES=\
   vim/dot.vim/doc/textobj-entire.txt \
@@ -538,9 +549,10 @@ PACKAGE_vim_textobj_function_FILES=\
   vim/dot.vim/doc/textobj-function.txt \
   vim/dot.vim/plugin/textobj/function.vim
 
-PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.2
+PACKAGE_vim_textobj_indent_ARCHIVE=vim-textobj-indent-0.0.3
 PACKAGE_vim_textobj_indent_BASE=vim/dot.vim
 PACKAGE_vim_textobj_indent_FILES=\
+  vim/dot.vim/autoload/textobj/indent.vim \
   vim/dot.vim/doc/textobj-indent.txt \
   vim/dot.vim/plugin/textobj/indent.vim
 
@@ -778,6 +790,20 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	done
 
 
+# vim-gtd  #{{{2
+	# FIXME: Implement tests.
+TESTS_vim_gtd = autoload ftplugin syntax
+
+test/vim-gtd/%.output: \
+		test/vim-gtd/%.input \
+		test/tester-vim \
+		test/libtest.vim \
+		vim/dot.vim/autoload/gtd.vim \
+		vim/dot.vim/ftplugin/gtd.vim \
+		vim/dot.vim/syntax/gtd.vim
+	@./test/tester-vim $< &>$@
+
+
 # vim-ku  #{{{2
 TESTS_vim_ku = 0001 0002 0003
 
@@ -812,6 +838,18 @@ test/vim-operator-user/%.output: \
 		test/tester-vim \
 		vim/dot.vim/autoload/operator/user.vim \
 		vim/dot.vim/plugin/operator/user.vim
+	@./test/tester-vim $< &>$@
+
+
+# vim-textobj-indent  #{{{2
+TESTS_vim_textobj_indent = basic
+
+test/vim-textobj-indent/%.output: \
+		test/vim-textobj-indent/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/textobj/indent.vim \
+		vim/dot.vim/plugin/textobj/indent.vim
 	@./test/tester-vim $< &>$@
 
 

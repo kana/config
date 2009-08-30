@@ -58,7 +58,7 @@ bind -c shell ^A eval 'screen -t "another" 1'
 bind -c shell ^C eval 'screen -t "cygwin" 8 ssh cygwin' 'encoding "sjis"'
 bind -c shell ^L eval 'screen -t "linux" 7 ssh www' 'encoding "euc-jp"'
 bind -c shell ^R eval 'screen -t "root" 9 sudo -i'
-bind -c shell ^W eval 'screen -t "synergy" 21 sh -c "cd /Applications/synergy-1.3.1; ./synergys -f -n macbook -c synergy.conf"'
+bind -c shell ^W eval 'screen -t "synergy" 21 sh -c "cd /Applications/local/synergy-1.3.1; ./synergys -f -n macbook -c synergy.conf"'
 
 bind ^E eval 'echo -p "Encoding? -- Cp932 / Euc-jp / Utf-8"' 'command -c enc'
 bind -c enc ^C eval 'encoding "sjis"'    'echo "cp932"'

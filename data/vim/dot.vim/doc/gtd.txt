@@ -1,0 +1,169 @@
+*gtd.txt*	Support to do Getting Things Done
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*gtd-contents*
+
+Introduction            |gtd-introduction|
+Interface               |gtd-interface|
+  Functions               |gtd-functions|
+  Key Mappings            |gtd-key-mappings|
+Bugs                    |gtd-bugs|
+Changelog               |gtd-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*gtd-introduction*
+
+*gtd* is a Vim filetype plugin to support to do Getting Things Done (*).
+It provides useful features for buffers with filetype "gtd".
+
+To use this plugin, open an empty buffer, then set 'filetype' of the buffer to
+"gtd".  For example:
+>
+	:new
+	:setfiletype gtd
+<
+After the above steps, a template to start GTD will be set up for the buffer.
+See |gtd-default-key-mappings| for available features and how to use.
+
+(*) http://en.wikipedia.org/wiki/Getting_Things_Done
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-gtd
+
+Document in HTML format:
+http://kana.github.com/config/vim/gtd.html
+
+
+
+
+==============================================================================
+INTERFACE					*gtd-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*gtd-functions*
+
+gtd#initialize()				*gtd#initialize()*
+			Initialize the current buffer for GTD, i.e.,
+
+			- Delete the whole content of the buffer.
+			- Add sections for GTD into the buffer.
+
+			This function is automatically called buffers which
+			are empty and which 'filetype' is "gtd".
+
+gtd#jump_to_issue()				*gtd#jump_to_issue()*
+			Function version of |<Plug>(gtd-jump-to-issue)|.
+
+gtd#mark({section})				*gtd#mark()*
+			Move the issue under the cursor into the {section},
+			where {section} is a string which represents the name
+			of a section.
+
+gtd#new_issue()					*gtd#new_issue()*
+			Function version of |<Plug>(gtd-new-issue)|.
+
+gtd#new_note()					*gtd#new_note()*
+			Function version of |<Plug>(gtd-new-note)|.
+
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*gtd-key-mappings*
+
+DEFAULT KEY MAPPINGS				*gtd-default-key-mappings*
+
+Modes	{lhs}			{rhs}
+------------------------------------------------
+n	<LocalLeader>i		|<Plug>(gtd-new-issue)|
+n	<LocalLeader>n		|<Plug>(gtd-new-note)|
+n	<LocalLeader>g		|<Plug>(gtd-jump-to-issue)|
+n	<LocalLeader>I		|<Plug>(gtd-mark-as-inbox)|
+n	<LocalLeader><Space>	|<Plug>(gtd-mark-as-next-actions)|
+n	<LocalLeader>c		|<Plug>(gtd-mark-as-calendar)|
+n	<LocalLeader>p		|<Plug>(gtd-mark-as-projects)|
+n	<LocalLeader>w		|<Plug>(gtd-mark-as-waiting-for)|
+n	<LocalLeader>s		|<Plug>(gtd-mark-as-someday)|
+n	<LocalLeader>a		|<Plug>(gtd-mark-as-archive)|
+n	<LocalLeader>t		|<Plug>(gtd-mark-as-trash)|
+n	<LocalLeader>d		|<Plug>(gtd-mark-as-trash)|
+
+
+NAMED KEY MAPPINGS				*gtd-named-key-mappings*
+
+The following key mappings are defined in Normal mode.
+
+<Plug>(gtd-new-issue)				*<Plug>(gtd-new-issue)*
+			Add a new issue in the INBOX section, then start
+			Insert mode.
+
+<Plug>(gtd-new-note)				*<Plug>(gtd-new-note)*
+			Add a new note for the nearest issue at the
+			cursor position, then start Insert mode.
+
+<Plug>(gtd-jump-to-issue)			*<Plug>(gtd-jump-to-issue)*
+			Move the cursor to the issue which ID is under or
+			after the cursor position.
+
+<Plug>(gtd-mark-as-inbox)		*<Plug>(gtd-mark-as-inbox)*
+<Plug>(gtd-mark-as-next-actions)	*<Plug>(gtd-mark-as-next-actions)*
+<Plug>(gtd-mark-as-calendar)		*<Plug>(gtd-mark-as-calendar)*
+<Plug>(gtd-mark-as-projects)		*<Plug>(gtd-mark-as-projects)*
+<Plug>(gtd-mark-as-waiting-for)		*<Plug>(gtd-mark-as-waiting-for)*
+<Plug>(gtd-mark-as-someday)		*<Plug>(gtd-mark-as-someday)*
+<Plug>(gtd-mark-as-archive)		*<Plug>(gtd-mark-as-archive)*
+<Plug>(gtd-mark-as-trash)		*<Plug>(gtd-mark-as-trash)*
+			Mark the issue under the cursor as INBOX, NEXT
+			ACTIONS, CALENDAR, PROJECTS, WAITING FOR, SOMEDAY,
+			ARCHIVE or TRASH section.
+
+
+
+
+==============================================================================
+BUGS						*gtd-bugs*
+
+- Currently there is no known bug.
+
+
+
+
+==============================================================================
+CHANGELOG					*gtd-changelog*
+
+0.0.0	2009-08-08T18:49:16+09:00
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

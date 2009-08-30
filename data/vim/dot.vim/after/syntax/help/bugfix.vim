@@ -1,6 +1,6 @@
-" textobj-indent - Text objects for indented blocks of lines
-" Version: 0.0.3
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Vim additional syntax: help/bugfix - Fix some annoying highlightings
+" Version: 0.0.0
+" Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -21,49 +21,10 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-if exists('g:loaded_textobj_indent')  "{{{1
-  finish
-endif
 
-
-
-
-
-
-
-
-" Interface  "{{{1
-
-call textobj#user#plugin('indent', {
-\      '-': {
-\        'select-a': 'ai',  '*select-a-function*': 'textobj#indent#select_a',
-\        'select-i': 'ii',  '*select-i-function*': 'textobj#indent#select_i',
-\      },
-\      'same': {
-\        'select-a': 'aI',
-\        '*select-a-function*': 'textobj#indent#select_same_a',
-\        'select-i': 'iI',
-\        '*select-i-function*': 'textobj#indent#select_same_i',
-\      }
-\    })
-
-
-
-
-
-
-
-
-" Fin.  "{{{1
-
-let g:loaded_textobj_indent = 1
-
-
-
-
-
-
-
+" Remove "note" and "note:" - they are annoying.
+syntax clear helpNote
+syntax keyword  helpNote NOTE NOTE: Note Note: Notes Notes:
 
 " __END__
 " vim: foldmethod=marker
