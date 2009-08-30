@@ -8,7 +8,10 @@ SHELL=/bin/bash
 	vim-generate \
 	vim-generate-each-page
 
-all: vim-all
+all:
+	git fetch
+	git merge -s subtree origin/master
+	$(MAKE) vim-all
 	git push github gh-pages
 
 
