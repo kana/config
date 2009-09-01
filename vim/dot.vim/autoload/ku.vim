@@ -334,6 +334,8 @@ function! ku#default_key_mappings(override_p)  "{{{2
   let _ = a:override_p ? '' : '<unique>'
   call s:ni_map(_, '<buffer> <C-c>', '<Plug>(ku-cancel)')
   call s:ni_map(_, '<buffer> <Return>', '<Plug>(ku-do-the-default-action)')
+  call s:ni_map(_, '<buffer> <S-Return>', '<Plug>(ku-do-the-default-action)')
+  call s:ni_map(_, '<buffer> <C-Return>', '<Plug>(ku-do-the-default-action)')
   call s:ni_map(_, '<buffer> <C-m>', '<Plug>(ku-do-the-default-action)')
   call s:ni_map(_, '<buffer> <Tab>', '<Plug>(ku-choose-an-action)')
   call s:ni_map(_, '<buffer> <C-i>', '<Plug>(ku-choose-an-action)')
