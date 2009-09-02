@@ -185,6 +185,7 @@ function s:test_gtd_buffer_local_configuration_5()  "{{{1
   setfiletype notsuchfiletype
 
   Title "Default key mappings"
+    " FIXME: This should not be undone, but undone currently.
   Assert maparg('<LocalLeader>i', 'n') ==> 'BUFFER-LOCAL'
   silent! nunmap <buffer> <LocalLeader>i
   Assert maparg('<LocalLeader>n', 'n') ==> 'GLOBAL'
