@@ -790,7 +790,6 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 
 
 # vim-gtd  #{{{2
-	# FIXME: Implement tests.
 TESTS_vim_gtd = autoload ftplugin syntax
 
 test/vim-gtd/%.output: \
