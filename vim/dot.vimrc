@@ -1517,6 +1517,8 @@ inoremap <Esc>E  <C-o>E
 inoremap <Leader>dF  <C-r>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
 inoremap <Leader>df  <C-r>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
 inoremap <Leader>dd  <C-r>=strftime('%Y-%m-%d')<Return>
+inoremap <Leader>dm  <C-r>=strftime('%Y-%m')<Return>
+inoremap <Leader>dy  <C-r>=strftime('%Y')<Return>
 inoremap <Leader>dT  <C-r>=strftime('%H:%M:%S')<Return>
 inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 
