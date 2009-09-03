@@ -446,8 +446,7 @@ PACKAGE_vim_operator_user_ARCHIVE=vim-operator-user-0.0.1
 PACKAGE_vim_operator_user_BASE=vim/dot.vim
 PACKAGE_vim_operator_user_FILES=\
   vim/dot.vim/autoload/operator/user.vim \
-  vim/dot.vim/doc/operator-user.txt \
-  vim/dot.vim/plugin/operator/user.vim
+  vim/dot.vim/doc/operator-user.txt
 
 PACKAGE_vim_repeat_ARCHIVE=vim-repeat-0.0.0
 PACKAGE_vim_repeat_BASE=vim/dot.vim
@@ -801,8 +800,7 @@ test/vim-operator-user/%.output: \
 		test/vim-operator-user/%.input \
 		test/libtest.vim \
 		test/tester-vim \
-		vim/dot.vim/autoload/operator/user.vim \
-		vim/dot.vim/plugin/operator/user.vim
+		vim/dot.vim/autoload/operator/user.vim
 	@./test/tester-vim $< &>$@
 
 
