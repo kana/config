@@ -1,5 +1,5 @@
 " operator-user - Define your own operator easily
-" Version: 0.0.1
+" Version: 0.0.2
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -33,7 +33,7 @@ function! operator#user#define(operator_keyseq, function_name, ...)  "{{{2
   \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
   \              a:operator_keyseq, a:function_name, additional_settings)
   execute printf(('vnoremap <script> <silent> %s ' .
-  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
+  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gvg@'),
   \              a:operator_keyseq, a:function_name, additional_settings)
   execute printf('onoremap %s  g@', a:operator_keyseq)
 endfunction
@@ -41,8 +41,26 @@ endfunction
 
 
 
-function! operator#user#load()  "{{{2
-  runtime! plugin/operator/user.vim
+function! operator#user#define_ex_command(operator_keyseq, ex_command)  "{{{2
+  return operator#user#define(
+  \        a:operator_keyseq,
+  \        'operator#user#_do_ex_command',
+  \        'call operator#user#_set_ex_command(''' . a:ex_command . ''')'
+  \      )
+endfunction
+
+
+
+
+function! operator#user#_do_ex_command(motion_wiseness)  "{{{2
+  execute "'[,']" s:ex_command
+endfunction
+
+
+
+
+function! operator#user#_set_ex_command(ex_command)  "{{{2
+  let s:ex_command = a:ex_command
 endfunction
 
 
@@ -67,7 +85,13 @@ endfunction
 
 
 nnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
-vnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+
+" FIXME: It's hard for user-defined operator to handle count in Visual mode.
+" vnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+
+
+" See operator#user#_do_ex_command() and operator#user#_set_ex_command().
+" let s:ex_command = ''
 
 
 
