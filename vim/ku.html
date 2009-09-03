@@ -259,6 +259,8 @@ ku#default_key_mappings(<span class="Special">{override-p}</span>)           <sp
                         <span class="PreProc">------------------------------------------------</span><span class="Ignore">~</span>
                         <span class="Special">&lt;C-c&gt;</span>                <span class="Special">&lt;Plug&gt;</span>(ku-cancel)
                         <span class="Special">&lt;Return&gt;</span>     <span class="Special">&lt;Plug&gt;</span>(ku-do-the-default-action)
+                        <span class="Special">&lt;S-Return&gt;</span>   <span class="Special">&lt;Plug&gt;</span>(ku-do-the-default-action)
+                        <span class="Special">&lt;C-Return&gt;</span>   <span class="Special">&lt;Plug&gt;</span>(ku-do-the-default-action)
                         <span class="Special">&lt;C-m&gt;</span>                <span class="Special">&lt;Plug&gt;</span>(ku-do-the-default-action)
                         <span class="Special">&lt;Tab&gt;</span>                <span class="Special">&lt;Plug&gt;</span>(ku-choose-an-action)
                         <span class="Special">&lt;C-i&gt;</span>                <span class="Special">&lt;Plug&gt;</span>(ku-choose-an-action)
@@ -1124,6 +1126,11 @@ prefix table                                    <span class="Ignore">*</span><sp
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="ku-changelog">ku-changelog</span><span class="Ignore">*</span>
+
+0.2.5   2009-09-01T19:40:18+09:00               <span class="Ignore">*</span><span class="Constant" id="ku-changelog-0.2.5">ku-changelog-0.2.5</span><span class="Ignore">*</span>
+        Bugfixes:
+        - <span class="Ignore">|</span><a href="ku.html#ku#default_key_mappings()"><span class="Identifier">ku#default_key_mappings()</span></a><span class="Ignore">|</span>: Define <span class="Special">&lt;S-Return&gt;</span> and <span class="Special">&lt;C-Return&gt;</span> to
+          execute <span class="Ignore">|</span><a href="ku.html#&lt;Plug&gt;(ku-do-the-default-action)"><span class="Identifier">&lt;Plug&gt;(ku-do-the-default-action)</span></a><span class="Ignore">|</span>.
 
 0.2.4.1 2009-05-29T09:23:03+09:00               <span class="Ignore">*</span><span class="Constant" id="ku-changelog-0.2.4.1">ku-changelog-0.2.4.1</span><span class="Ignore">*</span>
         Bug fixes:
