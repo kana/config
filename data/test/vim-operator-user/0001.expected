@@ -3,10 +3,10 @@ TEST: maparg(_, 'c') != ''  ==>  0 ... ok
 TEST: maparg(_, 'i') != ''  ==>  0 ... ok
 TEST: maparg(_, 'n') != ''  ==>  1 ... ok
 TEST: maparg(_, 'o') != ''  ==>  0 ... ok
-TEST: maparg(_, 'v') != ''  ==>  1 ... ok
+TEST: maparg(_, 'v') != ''  ==>  0 ... ok
 Result: 5 / 5
 
-===== DefineOperator _  TestOperatorFunction1
+===== "operator#user#define(): Typical usage"
 TEST: maparg('_', 'c') != ''  ==>  0 ... ok
 TEST: maparg('_', 'i') != ''  ==>  0 ... ok
 TEST: maparg('_', 'n') != ''  ==>  1 ... ok
@@ -18,15 +18,18 @@ TEST: maparg('_', 'v') =~# '\<TestOperatorFunction1\>'  ==>  1 ... ok
 TEST: getline('.', line('.')+4)  ==>  ['a', 'a', 'e', 'm', 'n'] ... ok
 TEST: getline('.', line('.')+4)  ==>  ['a', 'i', 'l', 'r', 'v'] ... ok
 TEST: getline('.', line('.')+4)  ==>  ['a', 'e', 'g', 'n', 's'] ... ok
-Result: 11 / 11
+TEST: getline('.', line('.')+4)  ==>  ['a', 'e', 'g', 'n', 's'] ... FAILED
+  Actual value: ['a', 'g', 'n', 'e', 's']
+  Expected value: ['a', 'e', 'g', 'n', 's']
+Result: 11 / 12
 
-===== DefineOperator _  TestOperatorFunction2     call TestOperatorFunction2Set('yank')
+===== "operator#user#define(): With {extra}s"
 TEST: @0  ==>  "a\n" ... ok
 TEST: @0  ==>  "a\nz\nu\n" ... ok
 TEST: @0  ==>  "a\nz\nu\ns\na\n" ... ok
 Result: 3 / 3
 
-===== DefineOperator @ s:test_operator_function_3
+===== "operator#user#define(): With script-local function"
 TEST: maparg('@', 'c') != ''  ==>  0 ... ok
 TEST: maparg('@', 'i') != ''  ==>  0 ... ok
 TEST: maparg('@', 'n') != ''  ==>  1 ... ok
@@ -38,7 +41,26 @@ TEST: maparg('@', 'v') =~# 'test_operator_function_3\>'  ==>  1 ... ok
 TEST: getline('.', line('.')+4)  ==>  ['a', 'a', 'e', 'm', 'n'] ... ok
 TEST: getline('.', line('.')+4)  ==>  ['a', 'i', 'l', 'r', 'v'] ... ok
 TEST: getline('.', line('.')+4)  ==>  ['a', 'e', 'g', 'n', 's'] ... ok
-Result: 11 / 11
+TEST: getline('.', line('.')+4)  ==>  ['a', 'e', 'g', 'n', 's'] ... FAILED
+  Actual value: ['a', 'g', 'n', 'e', 's']
+  Expected value: ['a', 'e', 'g', 'n', 's']
+Result: 11 / 12
+
+===== "operator#user#define(): count in Visual mode"4 lines changed
+TEST: getline('.', line('.')+4)  ==>  ['A', 'G', 'N', 'E', 's'] ... ok
+TEST: getline('.', line('.')+4)  ==>  ['A', 'g', 'n', 'e', 's'] ... ok
+Result: 2 / 2
+
+===== "operator#user#define_ex_command(): Typical usage"
+TEST: getline('.', line('.')+1)  ==>  ['a m a n', 'e'] ... ok
+TEST: getline('.', line('.')+1)  ==>  ['a v r i', 'l'] ... ok
+TEST: getline('.', line('.')+2)  ==>  ['a g n', 'e', 's'] ... ok
+TEST: getline('.', line('.')+1)  ==>  ['a m a n', 'e'] ... ok
+TEST: getline('.', line('.')+1)  ==>  ['a g n e', 's'] ... FAILED
+  Actual value: ['a', 'g']
+  Expected value: ['a g n e', 's']
+TEST: getline('.', line('.')+4)  ==>  ['a', 'g', 'n', 'e', 's'] ... ok
+Result: 5 / 6
 
 ===== Total
-Result: 30 / 30
+Result: 37 / 40
