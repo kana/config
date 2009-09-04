@@ -142,6 +142,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_ft_gauche_FILES) \
   $(PACKAGE_vim_ft_haskell_FILES) \
+  $(PACKAGE_vim_grey_FILES) \
   $(PACKAGE_vim_gtd_FILES) \
   $(PACKAGE_vim_idwintab_FILES) \
   $(PACKAGE_vim_ku_FILES) \
@@ -224,6 +225,7 @@ ALL_PACKAGES=\
   vim-ft-gauche \
   vim-ft-haskell \
   vim-idwintab \
+  vim-grey \
   vim-gtd \
   vim-ku \
   vim-ku-args \
@@ -340,6 +342,13 @@ PACKAGE_vim_idwintab_BASE=vim/dot.vim
 PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
+
+PACKAGE_vim_grey_ARCHIVE=vim-grey-0.0.0
+PACKAGE_vim_grey_BASE=vim/dot.vim
+PACKAGE_vim_grey_FILES=\
+  vim/dot.vim/autoload/grey.vim \
+  vim/dot.vim/doc/grey.txt \
+  vim/dot.vim/plugin/grey.vim
 
 PACKAGE_vim_gtd_ARCHIVE=vim-gtd-0.0.0
 PACKAGE_vim_gtd_BASE=vim/dot.vim
@@ -787,6 +796,18 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	            test/$(PACKAGE_NAME)/$$i.expected; \
 	  fi; \
 	done
+
+
+# vim-grey  #{{{2
+TESTS_vim_grey = basic
+
+test/vim-grey/%.output: \
+		test/vim-grey/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/grey.vim \
+		vim/dot.vim/plugin/grey.vim
+	@./test/tester-vim $< &>$@
 
 
 # vim-gtd  #{{{2

@@ -1,0 +1,101 @@
+===== ":Grey"
+TEST: getline(1, '$')  ==>  content ... ok
+3 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+0 lines greyed
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+Result: 25 / 25
+
+===== "grey#yank()"
+TEST: getline(1, '$')  ==>  content ... ok
+3 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+0 lines greyed
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+1 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix1, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+Result: 31 / 31
+
+===== "<Plug>(operator-grey)"
+TEST: getline(1, '$')  ==>  content ... ok3 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok2 lines greyed
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok2 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok0 lines greyed
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+Result: 25 / 25
+
+===== Total
+Result: 81 / 81
