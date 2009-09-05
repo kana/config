@@ -1747,6 +1747,12 @@ DefineOperator <Plug>(my:op-sort)
 \              call <SID>set_op_command('sort')
 
 
+Arpeggio map oy  <Plug>(operator-grey)
+nmap gy  <Plug>(operator-grey)<Plug>(textobj-entire-a)
+vmap gy  <Plug>(operator-grey)
+omap gy  <Plug>(operator-grey)
+
+
 
 
 " Misc.  "{{{2
@@ -1862,21 +1868,6 @@ endfunction
 Cnmap <C-z>  SuspendWithAutomticCD
 vnoremap <C-z>  <Nop>
 onoremap <C-z>  <Nop>
-
-
-" :g/re/y - Yank the lines which match to the last search pattern.
-" Note that "<C-b>foo<C-e>bar" will be translated into "foo{range}bar".
-Cnmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
-Cvmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
-
-function! s:glogal_regexp_yank(range)
-  let original_cursor_position = getpos('.')
-    let @g = ''
-    silent execute a:range 'global//yank G'
-    let @g = @g[1:]
-  call setpos('.', original_cursor_position)
-  echo len(split(@g, '\n')) 'lines greyed'
-endfunction
 
 
 " Show the lines which match to the last search pattern.
