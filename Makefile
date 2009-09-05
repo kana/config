@@ -106,7 +106,7 @@ GROUP_OPERA_mac_FILES=\
   opera/search.ini \
   opera/Skin/windows_skin3.zip \
   opera/Styles/user.css \
-  opera/Toolbars/my-toolbar.ini
+  opera/toolbar/my-toolbar.ini
 GROUP_OPERA_RULE=$(patsubst opera/%,$(GROUP_OPERA_DIR)/%,$(1))
 GROUP_OPERA_DIR=$(abspath opera/profile-link)
 
