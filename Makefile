@@ -137,6 +137,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_altercmd_FILES) \
   $(PACKAGE_vim_altkwprg_FILES) \
   $(PACKAGE_vim_arpeggio_FILES) \
+  $(PACKAGE_vim_autosave_FILES) \
   $(PACKAGE_vim_bundle_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
@@ -219,6 +220,7 @@ ALL_PACKAGES=\
   vim-altercmd \
   vim-altkwprg \
   vim-arpeggio \
+  vim-autosave \
   vim-bundle \
   vim-fakeclip \
   vim-flydiff \
@@ -304,6 +306,13 @@ PACKAGE_vim_arpeggio_FILES=\
   vim/dot.vim/autoload/arpeggio.vim \
   vim/dot.vim/doc/arpeggio.txt \
   vim/dot.vim/plugin/arpeggio.vim
+
+PACKAGE_vim_autosave_ARCHIVE=vim-autosave-0.0.0
+PACKAGE_vim_autosave_BASE=vim/dot.vim
+PACKAGE_vim_autosave_FILES=\
+  vim/dot.vim/autoload/autosave.vim \
+  vim/dot.vim/doc/autosave.txt \
+  vim/dot.vim/plugin/autosave.vim
 
 PACKAGE_vim_bundle_ARCHIVE=vim-bundle-0.0.2
 PACKAGE_vim_bundle_BASE=vim/dot.vim

@@ -1,0 +1,124 @@
+*autosave.txt*	You still save buffers manually each time?
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*autosave-contents*
+
+Introduction            |autosave-introduction|
+Interface               |autosave-interface|
+  Commands                |autosave-commands|
+  Functions               |autosave-functions|
+Customizing             |autosave-customizing|
+Bugs                    |autosave-bugs|
+Changelog               |autosave-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*autosave-introduction*
+
+*autosave* is a Vim plugin to liberate you from one of the old traditions:
+saving buffers manuallyl each time.  Once you install this plugin, you may
+forget to :write something each time, and your fingers will be recovered from
+fatigue by typing :write for something each time.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-autosave
+
+Document in HTML format:
+http://kana.github.com/config/vim/autosave.html
+
+
+
+
+==============================================================================
+INTERFACE					*autosave-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*autosave-commands*
+
+:AutosaveEnable					*:AutosaveEnable*
+			Enable autosaving.
+			Usually, you don't have to execute this command.
+
+:AutosaveDisable				*:AutosaveDisable*
+			Disable aautosaving.
+			Usually, you don't have to execute this command.
+
+
+------------------------------------------------------------------------------
+FUNCTIONS					*autosave-functions*
+
+autosave#enable()				*autosave#enable()*
+			Function version of |:AutosaveEnable|.
+
+autosave#disable()				*autosave#disable()*
+			Function version of |:AutosaveDisable|.
+
+
+
+
+==============================================================================
+CUSTOMIZATION					*autosave-customization*
+
+b:autosave_disabled_p				*b:autosave_disabled_p*
+			If this variable exists, the corresponding buffer will
+			not be saved automatically.
+
+'updatetime'
+			This valaue is used for time to determine whether Vim
+			is idle or not.
+
+
+
+
+==============================================================================
+BUGS						*autosave-bugs*
+
+- FIXME: Write tests.
+
+- See |CursorHold| for limitations to determine whether Vim is idle or not.
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*autosave-changelog*
+
+0.0.0	2009-09-06T07:56:47+09:00		*autosave-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
