@@ -500,37 +500,6 @@ AlterCommand cd  CD
 
 
 
-" DefineOperator  "{{{2
-"
-" :DefineOperator {operator-keyseq}  {function-name} [{additional-settings}]
-"   Define a new operator
-"   which is executed via key sequence {operator-keyseq}, and
-"   which behavior is implemented by the function named {function-name}.
-"   If {additional-settings} is given, it is executed
-"   after setting 'operatorfunc' and before executing the operator.
-
-command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
-function! s:cmd_DefineOperator(operator_keyseq, function_name, ...)
-  if 0 < a:0
-    let additional_settings = '\|' . join(a:000)
-  else
-    let additional_settings = ''
-  endif
-
-  execute printf(('nnoremap <script> <silent> %s ' .
-  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
-  execute printf(('vnoremap <script> <silent> %s ' .
-  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
-endfunction
-
-Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
-Allnoremap <expr> <SID>(count1)  v:count1
-
-
-
-
 " Hecho, Hechon, Hechomsg - various :echo with highlight specification  "{{{2
 
 command! -bar -nargs=+ Hecho  call s:cmd_Hecho('echo', [<f-args>])
@@ -858,21 +827,6 @@ endfunction
 
 
 
-" Operator function to execute a specified command  "{{{2
-
-let s:op_command_command = ''
-
-function! s:set_op_command(command)
-  let s:op_command_command = a:command
-endfunction
-
-function! s:op_command(motion_wiseness)
-  execute "'[,']" s:op_command_command
-endfunction
-
-
-
-
 " Sum numbers "{{{2
 
 command! -bang -bar -nargs=* -range Sum
@@ -1184,6 +1138,14 @@ function! s:join_here(...)  "{{{2
 
   let @" = r
   call setpos('.', pos)
+endfunction
+
+
+
+
+function! s:operator_adjust_window_height(motion_wiseness)  "{{{2
+  execute (line("']") - line("'[") + 1) 'wincmd' '_'
+  normal! `[zt
 endfunction
 
 
@@ -1596,7 +1558,7 @@ Cnmap <silent> [Space]q  help quickref
 Cnmap <silent> [Space]r  registers
 
   " FIXME: ambiguous mappings - fix or not.
-Operatormap [Space]s  <Plug>(my:op-sort)
+Operatormap [Space]s  <Plug>(operator-my-sort)
 omap [Space]s  g@
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
@@ -1700,51 +1662,32 @@ map gm  gc
 " Operators  "{{{2
 
 " Adjust the height of the current window as same as the selected range.
-DefineOperator _  <SID>op_adjust_window_height
-function! s:op_adjust_window_height(motion_wiseness)
-  execute (line("']") - line("'[") + 1) 'wincmd' '_'
-  normal! `[zt
-endfunction
+call operator#user#define('my-adjust-window-height',
+\                         s:SID_PREFIX() . 'operator_adjust_window_height')
+map _  <Plug>(operator-my-adjust-window-height)
 
 
-" Operator version of :center, :left and :right.
-DefineOperator <Plug>(my:op-center)
-\              <SID>op_command
-\              call <SID>set_op_command('center')
-DefineOperator <Plug>(my:op-left)
-\              <SID>op_command
-\              call <SID>set_op_command('left')
-DefineOperator <Plug>(my:op-right)
-\              <SID>op_command
-\              call <SID>set_op_command('right')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oh  <Plug>(my:op-left)
-Arpeggio nmap ol  <Plug>(my:op-right)
-Arpeggio nmap om  <Plug>(my:op-center)
-Arpeggio vmap oh  <Plug>(my:op-left)
-Arpeggio vmap ol  <Plug>(my:op-right)
-Arpeggio vmap om  <Plug>(my:op-center)
-Arpeggio omap oh  g@
-Arpeggio omap ol  g@
-Arpeggio omap om  g@
+call operator#user#define_ex_command('my-left', 'left')
+call operator#user#define_ex_command('my-right', 'right')
+call operator#user#define_ex_command('my-center', 'center')
+Arpeggio map oh  <Plug>(operator-my-left)
+Arpeggio map ol  <Plug>(operator-my-right)
+Arpeggio map om  <Plug>(operator-my-center)
 
 
-" Operator version of :join.
-DefineOperator <Plug>(my:op-join)
-\              <SID>op_command
-\              call <SID>set_op_command('join')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oj  <Plug>(my:op-join)
-Arpeggio vmap oj  <Plug>(my:op-join)
-Arpeggio omap oj  g@
+call operator#user#define_ex_command('my-join', 'join')
+Arpeggio map oj  <Plug>(operator-my-join)
 
 
-" Operator version of :sort.
-DefineOperator <Plug>(my:op-sort)
-\              <SID>op_command
-\              call <SID>set_op_command('sort')
+call operator#user#define_ex_command('my-sort', 'sort')
+" User key mappings will be defined later - see [Space].
+
+
+" The operator will be defined by "grey" plugin.
+Arpeggio map oy  <Plug>(operator-grey)
+nmap gy  <Plug>(operator-grey)<Plug>(textobj-entire-a)
+vmap gy  <Plug>(operator-grey)
+omap gy  <Plug>(operator-grey)
 
 
 
@@ -1862,21 +1805,6 @@ endfunction
 Cnmap <C-z>  SuspendWithAutomticCD
 vnoremap <C-z>  <Nop>
 onoremap <C-z>  <Nop>
-
-
-" :g/re/y - Yank the lines which match to the last search pattern.
-" Note that "<C-b>foo<C-e>bar" will be translated into "foo{range}bar".
-Cnmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
-Cvmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
-
-function! s:glogal_regexp_yank(range)
-  let original_cursor_position = getpos('.')
-    let @g = ''
-    silent execute a:range 'global//yank G'
-    let @g = @g[1:]
-  call setpos('.', original_cursor_position)
-  echo len(split(@g, '\n')) 'lines greyed'
-endfunction
 
 
 " Show the lines which match to the last search pattern.
