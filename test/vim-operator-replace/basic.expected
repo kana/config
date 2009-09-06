@@ -27,7 +27,12 @@ Result: 1 / 1
 
 ===== "Usage: char {motion} vs char {register} content"
 TEST: getline(1, line('$'))  ==>  text ... ok
-Result: 1 / 1
+TEST: [line('.'), col('.')]  ==>  [1, 7] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed', 'v'] ... ok
+TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
+TEST: getline(2, line('$'))  ==>  text[1:] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed', 'v'] ... ok
+Result: 5 / 6
 
 ===== "Usage: char {motion} vs line {register} content"
 TEST: getline(1, line('$'))  ==>  text ... ok
@@ -46,4 +51,4 @@ TEST: getline(1, line('$'))  ==>  text ... ok
 Result: 1 / 1
 
 ===== Total
-Result: 17 / 17
+Result: 21 / 22
