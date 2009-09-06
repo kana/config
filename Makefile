@@ -153,6 +153,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_metarw_FILES) \
   $(PACKAGE_vim_metarw_git_FILES) \
   $(PACKAGE_vim_narrow_FILES) \
+  $(PACKAGE_vim_operator_replace_FILES) \
   $(PACKAGE_vim_operator_user_FILES) \
   $(PACKAGE_vim_repeat_FILES) \
   $(PACKAGE_vim_scratch_FILES) \
@@ -240,6 +241,7 @@ ALL_PACKAGES=\
   vim-metarw-git \
   vim-misc \
   vim-narrow \
+  vim-operator-replace \
   vim-operator-user \
   vim-repeat \
   vim-scratch \
@@ -463,6 +465,13 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/autoload/narrow.vim \
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
+
+PACKAGE_vim_operator_replace_ARCHIVE=vim-operator-replace-0.0.0
+PACKAGE_vim_operator_replace_BASE=vim/dot.vim
+PACKAGE_vim_operator_replace_FILES=\
+  vim/dot.vim/autoload/operator/replace.vim \
+  vim/dot.vim/doc/operator-replace.txt \
+  vim/dot.vim/plugin/operator/replace.vim
 
 PACKAGE_vim_operator_user_ARCHIVE=vim-operator-user-0.0.3
 PACKAGE_vim_operator_user_BASE=vim/dot.vim
