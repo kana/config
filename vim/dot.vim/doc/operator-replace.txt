@@ -109,7 +109,10 @@ BUGS						*operator-replace-bugs*
 - Combinations of wises of {motion} and register content are not considered
   well, especially with blockwise ones.
 
-- There are many bugs around the world.
+- Because of a bug in |operator-user|, currently it's not possible to handle
+  register designation ("x).  The unnamed register is always used instead.
+
+- See also |operator-user-bugs|.
 
 
 

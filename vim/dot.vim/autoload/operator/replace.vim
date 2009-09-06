@@ -24,6 +24,7 @@
 " Interface  "{{{1
 function! operator#replace#do(motion_wise)  "{{{2
   let visual_command = s:visual_command_from_wise_name(a:motion_wise)
+    " FIXME: BUGS: Real v:register value overwritten by operator-user.
     " v:register will be overwritten by "_d, so that the current value of
     " v:register must be saved before deletion.  Without saving, it's not
     " possible to what "{register} user gives.
