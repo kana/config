@@ -858,6 +858,18 @@ test/vim-ku-file/%.output: \
 	@./test/tester-vim $< &>$@
 
 
+# vim-operator-replace  #{{{2
+TESTS_vim_operator_replace = basic
+
+test/vim-operator-replace/%.output: \
+		test/vim-operator-replace/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/operator/replace.vim \
+		vim/dot.vim/plugin/operator/replace.vim
+	@./test/tester-vim $< &>$@
+
+
 # vim-operator-user  #{{{2
 TESTS_vim_operator_user = 0001
 
