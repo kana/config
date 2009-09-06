@@ -1,0 +1,212 @@
+" Tests for operator-replace
+function s:test_named_key_mappings()  "{{{1
+  Title "Named key mappings"
+
+  let _ = '<Plug>(operator-replace)'
+  Assert maparg(_, 'c') != '' ==> 0
+  Assert maparg(_, 'i') != '' ==> 0
+  Assert maparg(_, 'n') != '' ==> 1
+  Assert maparg(_, 'o') != '' ==> 1
+  Assert maparg(_, 'v') != '' ==> 1
+
+  Assert maparg(_, 'n') =~# 'operator#replace#' ==> 1
+  Assert maparg(_, 'o') ==> 'g@'
+  Assert maparg(_, 'v') =~# 'operator#replace#' ==> 1
+endfunction
+
+
+
+
+function s:test_usage_block_vs_block()  "{{{1
+  Title "Usage: block {motion} vs block {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_block_vs_char()  "{{{1
+  Title "Usage: block {motion} vs char {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_block_vs_line()  "{{{1
+  Title "Usage: block {motion} vs line {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_char_vs_block()  "{{{1
+  Title "Usage: char {motion} vs block {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_char_vs_char()  "{{{1
+  Title "Usage: char {motion} vs char {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY
+endfunction
+
+
+
+
+function s:test_usage_char_vs_line()  "{{{1
+  Title "Usage: char {motion} vs line {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_line_vs_block()  "{{{1
+  Title "Usage: line {motion} vs block {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_line_vs_char()  "{{{1
+  Title "Usage: line {motion} vs char {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_line_vs_line()  "{{{1
+  Title "Usage: line {motion} vs line {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
