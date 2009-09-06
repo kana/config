@@ -116,7 +116,32 @@ function s:test_usage_char_vs_char()  "{{{1
   1 delete _
   Assert getline(1, line('$')) ==> text
 
-  " FIXME: NIY
+  " Case 1: {operator}{characterwise-motion} without register designation
+  normal! 1G0W
+  Assert [line('.'), col('.')] ==> [1, 7]
+  let @" = 'unnamed'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed', 'v']
+  execute 'normal' "\<Plug>(operator-replace)e"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2, line('$')) ==> text[1:]
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed', 'v']
+
+  " Case 2: {characterwise-Visual}{operator} without register designation
+  normal! 2G0Wl
+  Assert [line('.'), col('.')] ==> [2, 8]
+  let @" = 'unnamed2'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed2', 'v']
+  execute 'normal' "vWl\<Plug>(operator-replace)"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
+  Assert getline(3) ==> 'Sasara moe!  It''s burning!'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed2', 'v']
+
+  " Case 3: {operator}{characterwise-motion} with register designation
+  " FIXME: NWY
+
+  " Case 4: {characterwise-Visual}{operator} with register designation
+  " FIXME: NWY
 endfunction
 
 
