@@ -24,7 +24,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="operator-user.txt">operator-user.txt</span><span class="Ignore">*</span>     Define your own operator easily
 
-Version 0.0.4
+Version 0.0.5
 Script ID: 2692
 Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -154,12 +154,27 @@ operator#user#define_ex_command(<span class="Special">{name}</span>, <span class
 <span class="Comment">                                        '[,']{ex-command}</span>
 <span class="Ignore">&lt;</span>
 
+                               <span class="Ignore">*</span><span class="Constant" id="operator#user#visual_command_from_wise_name()">operator#user#visual_command_from_wise_name()</span><span class="Ignore">*</span>
+operator#user#visual_command_from_wise_name(<span class="Special">{wise-name}</span>)
+                        Return a &quot;visual command&quot; corresponding to
+                        <span class="Special">{wise-name}</span>, where a &quot;visual command&quot; is a string
+                        corresponding to one of the following commands: <span class="Ignore">|</span><span class="Identifier">v</span><span class="Ignore">|</span>,
+                        <span class="Ignore">|</span><span class="Identifier">V</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">&lt;C-v&gt;</span><span class="Ignore">|</span>.
+
+                        <span class="Special">{wise-name}</span>  (string)
+                                The name of a wise of <span class="Special">{motion}</span> or <span class="Special">{Visual}</span>.
+                                It can be one of the following values:
+                                &quot;char&quot;, &quot;line&quot;, &quot;block&quot;.
+
+                        See <span class="Ignore">|</span><a href="operator-user.html#operator-user-examples-D"><span class="Identifier">operator-user-examples-D</span></a><span class="Ignore">|</span> for usage.
+
 
 
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant" id="operator-user-examples">operator-user-examples</span><span class="Ignore">*</span>
 
+                                                <span class="Ignore">*</span><span class="Constant" id="operator-user-examples-A">operator-user-examples-A</span><span class="Ignore">*</span>
 (A) The following setting defines operator-version of <span class="Ignore">|</span><span class="Identifier">:right</span><span class="Ignore">|</span>, and map &quot;L&quot; to
 execute the operator:
 <span class="Ignore">&gt;</span>
@@ -170,6 +185,7 @@ execute the operator:
 <span class="Comment">        endfunction</span>
 <span class="Ignore">&lt;</span>
 
+                                                <span class="Ignore">*</span><span class="Constant" id="operator-user-examples-B">operator-user-examples-B</span><span class="Ignore">*</span>
 (B) The following setting defines a generic version of (A).
     This is also an example to use <span class="Special">{extra}</span> for <span class="Ignore">|</span><a href="operator-user.html#operator#user#define()"><span class="Identifier">operator#user#define()</span></a><span class="Ignore">|</span>:
 <span class="Ignore">&gt;</span>
@@ -195,6 +211,7 @@ execute the operator:
 <span class="Comment">        endfunction</span>
 <span class="Ignore">&lt;</span>
 
+                                                <span class="Ignore">*</span><span class="Constant" id="operator-user-examples-C">operator-user-examples-C</span><span class="Ignore">*</span>
 (C) With <span class="Ignore">|</span><a href="operator-user.html#operator#user#define_ex_command()"><span class="Identifier">operator#user#define_ex_command()</span></a><span class="Ignore">|</span>, the example (B) can be
     simplified as follows:
 <span class="Ignore">&gt;</span>
@@ -205,6 +222,19 @@ execute the operator:
 <span class="Comment">        call operator#user#define_ex_command('align-left', 'left')</span>
 <span class="Comment">        call operator#user#define_ex_command('align-right', 'right')</span>
 <span class="Comment">        call operator#user#define_ex_command('align-center', 'center')</span>
+<span class="Ignore">&lt;</span>
+
+                                                <span class="Ignore">*</span><span class="Constant" id="operator-user-examples-D">operator-user-examples-D</span><span class="Ignore">*</span>
+(D) In <span class="Type">'operatorfunc'</span>, we usually have to convert the name of the wise of
+<span class="Special">{motion}</span> into the corresponding command to start Visual mode.
+With <span class="Ignore">|</span><span class="Identifier">operator#user#visual_command_from_wise_name</span><span class="Ignore">|</span>,
+This routine can be written as follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        call operator#user#define('void-change', 'OperatorVoidChange',</span>
+<span class="Comment">        function! OperatorVoidChange(motion_wise)</span>
+<span class="Comment">          let v = operator#user#visual_command_from_wise_name(a:motion_wise)</span>
+<span class="Comment">          execute 'normal!' '`[' . v . '`]&quot;_c' </span>
+<span class="Comment">        endfunction</span>
 <span class="Ignore">&lt;</span>
 
 
@@ -245,6 +275,10 @@ execute the operator:
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="operator-user-changelog">operator-user-changelog</span><span class="Ignore">*</span>
+
+0.0.5   2009-09-08T07:28:56+09:00              <span class="Ignore">*</span><span class="Constant" id="operator-user-changelog-0.0.5">operator-user-changelog-0.0.5</span><span class="Ignore">*</span>
+        - Add <span class="Ignore">|</span><a href="operator-user.html#operator#user#visual_command_from_wise_name()"><span class="Identifier">operator#user#visual_command_from_wise_name()</span></a><span class="Ignore">|</span>.
+        - Revise a bit of the document.
 
 0.0.4   2009-09-07T20:18:31+09:00              <span class="Ignore">*</span><span class="Constant" id="operator-user-changelog-0.0.4">operator-user-changelog-0.0.4</span><span class="Ignore">*</span>
         - Fix a bug that it rarely fails to select the same text as a given
