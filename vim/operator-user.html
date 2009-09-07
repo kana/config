@@ -24,7 +24,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="operator-user.txt">operator-user.txt</span><span class="Ignore">*</span>     Define your own operator easily
 
-Version 0.0.3
+Version 0.0.4
 Script ID: 2692
 Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -245,6 +245,13 @@ execute the operator:
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="operator-user-changelog">operator-user-changelog</span><span class="Ignore">*</span>
+
+0.0.4   2009-09-07T20:18:31+09:00              <span class="Ignore">*</span><span class="Constant" id="operator-user-changelog-0.0.4">operator-user-changelog-0.0.4</span><span class="Ignore">*</span>
+        - Fix a bug that it rarely fails to select the same text as a given
+          <span class="Special">{motion}</span> in Normal mode.  It is caused by a bug in Vim; <span class="Ignore">|</span><span class="Identifier">v:count1</span><span class="Ignore">|</span>
+          may be 0 in some cases.
+        - Fix a bug that register designation (&quot;a, &quot;b, etc) doesn't work for
+          user defiend operators.
 
 0.0.3   2009-09-04T20:11:07+09:00              <span class="Ignore">*</span><span class="Constant" id="operator-user-changelog-0.0.3">operator-user-changelog-0.0.3</span><span class="Ignore">*</span>
         Incompatible change:
