@@ -464,7 +464,7 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
 
-PACKAGE_vim_operator_user_ARCHIVE=vim-operator-user-0.0.3
+PACKAGE_vim_operator_user_ARCHIVE=vim-operator-user-0.0.4
 PACKAGE_vim_operator_user_BASE=vim/dot.vim
 PACKAGE_vim_operator_user_FILES=\
   vim/dot.vim/autoload/operator/user.vim \

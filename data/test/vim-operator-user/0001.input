@@ -1,18 +1,4 @@
 " Tests for operator-user
-" Set up  "{{{1
-
-function Call(function_name, ...)
-  return call(substitute(a:function_name,'^s:',operator#user#_sid_prefix(),''),
-  \           a:000)
-endfunction
-
-function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '\%(^\|\.\.\)\zs<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
-
-
-
-
 function s:test_internal_key_mappings_0001()  "{{{1
   Title "Check the existence of <SID>(count) in each mode"
 
@@ -195,16 +181,16 @@ function s:test_operator_user_define_0004()  "{{{1
   map _  <Plug>(operator-gU)
   call operator#user#define('gU', 'TestOperatorFunction4')
 
-  silent put =['a', 'g', 'n', 'e', 's']
-  -4
-  normal v3j_
-  Assert getline('.', line('.')+4) ==> ['A', 'G', 'N', 'E', 's']
+  silent put =['avril agnes', 'amane alice']
+  -1
+  normal e_4l
+  Assert getline('.', line('.')+1) ==> ['avriL AGnes', 'amane alice']
 
     " FIXME: count in Visual mode is not supported.
-  silent put =['a', 'g', 'n', 'e', 's']
-  -4
-  normal v3_
-  Assert getline('.', line('.')+4) ==> ['A', 'g', 'n', 'e', 's']
+  silent put =['avril agnes', 'amane alice']
+  -1
+  normal 3lv3_
+  Assert getline('.', line('.')+1) ==> ['avrIl agnes', 'amane alice']
 endfunction
 
 
@@ -249,6 +235,49 @@ function s:test_operator_user_define_0005()  "{{{1
   -4
   normal v3_
   Assert getline('.', line('.')+4) ==> ['a', 'g', 'n', 'e', 's']
+endfunction
+
+
+
+
+function s:test_operator_user_define_0006()  "{{{1
+  Title "register designation for user defined operator"
+
+  map _  <Plug>(operator-echo)
+  call operator#user#define('echo', 'TestOperatorFunction6')
+  function! TestOperatorFunction6(motion_wise)
+    put =v:register
+  endfunction
+
+  normal __
+  Assert getline('.') ==> '"'
+
+  normal ""_L
+  Assert getline('.') ==> '"'
+
+  normal "A_w
+  Assert getline('.') ==> 'A'
+
+  normal 3"x_k
+  Assert getline('.') ==> 'x'
+
+  normal "y8_G
+  Assert getline('.') ==> 'y'
+
+  normal v_
+  Assert getline('.') ==> '"'
+
+  normal V""_
+  Assert getline('.') ==> '"'
+
+  normal v"A_
+  Assert getline('.') ==> 'A'
+
+  normal V3"x_
+  Assert getline('.') ==> 'x'
+
+  normal v"y8_
+  Assert getline('.') ==> 'y'
 endfunction
 
 
