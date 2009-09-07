@@ -1,5 +1,5 @@
 " operator-user - Define your own operator easily
-" Version: 0.0.3
+" Version: 0.0.4
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -49,11 +49,21 @@ function! operator#user#_define(operator_keyseq, function_name, ...)  "{{{2
   endif
 
   execute printf(('nnoremap <script> <silent> %s ' .
-  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
+  \               ':<C-u>call operator#user#_set_up(%s)%s<Return>' .
+  \               '<SID>(count)' .
+  \               '<SID>(register)' .
+  \               'g@'),
+  \              a:operator_keyseq,
+  \              string(a:function_name),
+  \              additional_settings)
   execute printf(('vnoremap <script> <silent> %s ' .
-  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gvg@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
+  \               ':<C-u>call operator#user#_set_up(%s)%s<Return>' .
+  \               'gv' .
+  \               '<SID>(register)' .
+  \               'g@'),
+  \              a:operator_keyseq,
+  \              string(a:function_name),
+  \              additional_settings)
   execute printf('onoremap %s  g@', a:operator_keyseq)
 endfunction
 
@@ -69,6 +79,14 @@ endfunction
 
 function! operator#user#_set_ex_command(ex_command)  "{{{2
   let s:ex_command = a:ex_command
+endfunction
+
+
+
+
+function! operator#user#_set_up(operator_function_name)  "{{{2
+  let &operatorfunc = a:operator_function_name
+  let s:register_designation = v:register
 endfunction
 
 
@@ -92,14 +110,29 @@ function! s:SID_PREFIX()
 endfunction
 
 
-nnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+" BUGS: The original definition is as follows but it rarely doesn't work,
+"       because v:count1 may be 0 in some cases.  It is a bug of Vim.
+"
+"       nnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+nnoremap <expr> <SID>(count)  v:count ? v:count : ''
 
 " FIXME: It's hard for user-defined operator to handle count in Visual mode.
-" vnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
+" vnoremap <expr> <SID>(count)  v:count ? v:count : ''
+
+
+function! s:register_designation()
+  return s:register_designation == '' ? '' : '"' . s:register_designation
+endfunction
+
+nnoremap <expr> <SID>(register)  <SID>register_designation()
+vnoremap <expr> <SID>(register)  <SID>register_designation()
 
 
 " See operator#user#_do_ex_command() and operator#user#_set_ex_command().
 " let s:ex_command = ''
+
+" See operator#user#_set_up() and s:register_designation()
+" let s:register_designation = ''
 
 
 
