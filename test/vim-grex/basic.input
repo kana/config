@@ -1,4 +1,4 @@
-" Tests for grey
+" Tests for grex
 function s:test_command()  "{{{1
   Title ":Grey"
 
@@ -94,7 +94,7 @@ endfunction
 
 
 function s:test_function()  "{{{1
-  Title "grey#yank()"
+  Title "grex#yank()"
 
   let content = [
   \     '#950 bugfix: jump behavior',
@@ -136,7 +136,7 @@ function s:test_function()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  % call grey#yank()
+  % call grex#yank()
   Assert @/ ==> 'bugfix:'
   Assert @" ==> join(content_bugfix, "\n") . "\n"
   Assert @0 ==> @"
@@ -150,7 +150,7 @@ function s:test_function()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  % call grey#yank()
+  % call grex#yank()
   Assert @/ ==> 'or'
   Assert @" ==> join(content_or, "\n") . "\n"
   Assert @0 ==> @"
@@ -164,7 +164,7 @@ function s:test_function()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  1,6 call grey#yank()
+  1,6 call grex#yank()
   Assert @/ ==> 'bugfix:'
   Assert @" ==> join(content_bugfix2, "\n") . "\n"
   Assert @0 ==> @"
@@ -178,7 +178,7 @@ function s:test_function()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  % call grey#yank()
+  % call grex#yank()
   Assert @/ ==> 'Super Super Mega Kawaii'
   Assert @" ==> ''
   Assert @0 ==> @"
@@ -193,7 +193,7 @@ function s:test_function()  "{{{1
   call setreg('g', 'ggg', 'b')
   1
   let cursor_position = getpos('.')
-  call grey#yank()
+  call grex#yank()
   Assert @/ ==> 'bugfix:'
   Assert @" ==> join(content_bugfix1, "\n") . "\n"
   Assert @0 ==> @"
@@ -206,7 +206,7 @@ endfunction
 
 
 function s:test_operator()  "{{{1
-  Title "<Plug>(operator-grey)"
+  Title "<Plug>(operator-grex-yank)"
 
   let content = [
   \     '#950 bugfix: jump behavior',
@@ -245,7 +245,7 @@ function s:test_operator()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  execute 'normal' "gg\<Plug>(operator-grey)G"
+  execute 'normal' "gg\<Plug>(operator-grex-yank)G"
   Assert @/ ==> 'bugfix:'
   Assert @" ==> join(content_bugfix, "\n") . "\n"
   Assert @0 ==> @"
@@ -259,7 +259,7 @@ function s:test_operator()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  execute 'normal' "ggvG\<Plug>(operator-grey)"
+  execute 'normal' "ggvG\<Plug>(operator-grex-yank)"
   Assert @/ ==> 'or'
   Assert @" ==> join(content_or, "\n") . "\n"
   Assert @0 ==> @"
@@ -273,7 +273,7 @@ function s:test_operator()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  execute 'normal' "gg\<Plug>(operator-grey)6g@"
+  execute 'normal' "gg\<Plug>(operator-grex-yank)6g@"
   Assert @/ ==> 'bugfix:'
   Assert @" ==> join(content_bugfix2, "\n") . "\n"
   Assert @0 ==> @"
@@ -287,7 +287,7 @@ function s:test_operator()  "{{{1
   let @0 = '000'
   call setreg('g', 'ggg', 'b')
   let cursor_position = getpos('.')
-  execute 'normal' "gg\<Plug>(operator-grey)G"
+  execute 'normal' "gg\<Plug>(operator-grex-yank)G"
   Assert @/ ==> 'Super Super Mega Kawaii'
   Assert @" ==> ''
   Assert @0 ==> @"

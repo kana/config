@@ -30,7 +30,7 @@ TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
 TEST: getpos('.')  ==>  cursor_position ... ok
 Result: 25 / 25
 
-===== "grey#yank()"
+===== "grex#yank()"
 TEST: getline(1, '$')  ==>  content ... ok
 3 lines greyed
 TEST: @/  ==>  'bugfix:' ... ok
@@ -69,7 +69,7 @@ TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
 TEST: getpos('.')  ==>  cursor_position ... ok
 Result: 31 / 31
 
-===== "<Plug>(operator-grey)"
+===== "<Plug>(operator-grex-yank)"
 TEST: getline(1, '$')  ==>  content ... ok3 lines greyed
 TEST: @/  ==>  'bugfix:' ... ok
 TEST: @"  ==>  join(content_bugfix, "\n") . "\n" ... ok

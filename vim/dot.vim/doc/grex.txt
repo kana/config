@@ -1,4 +1,4 @@
-*grey.txt*	Yank lines which match to the last search pattern (:g/re/y)
+*grex.txt*	Operate on lines matched to the last search pattern (:g/re/x)
 
 Version 0.0.0
 Script ID: 2773
@@ -24,25 +24,25 @@ License: MIT license  {{{
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }}}
 
-CONTENTS					*grey-contents*
+CONTENTS					*grex-contents*
 
-Introduction            |grey-introduction|
-Interface               |grey-interface|
-  Commands                |grey-commands|
-  Functions               |grey-functions|
-  Key Mappings            |grey-key-mappings|
-Bugs                    |grey-bugs|
-Changelog               |grey-changelog|
+Introduction            |grex-introduction|
+Interface               |grex-interface|
+  Commands                |grex-commands|
+  Functions               |grex-functions|
+  Key Mappings            |grex-key-mappings|
+Bugs                    |grex-bugs|
+Changelog               |grex-changelog|
 
 
 
 
 ==============================================================================
-INTRODUCTION					*grey-introduction*
+INTRODUCTION					*grex-introduction*
 
-*grey* is a Vim plugin to provide a useful command |:Grey| which yanks lines
-which match to the last search pattern.  For example, suppose you edit the
-following content:
+*grex* is a Vim plugin to provide a useful command to operate on lines matched
+to the last search pattern.  For example, suppose you edit the following
+content:
 >
 	#950 bugfix: jump behavior
 	#923 bugfix: vs fold
@@ -53,16 +53,16 @@ following content:
 	#931 bugfix: syntax highlighting
 	#928 enhancement: key mappings
 <
-Once you search for a keyword such as "bugfix:", you can yank all lines which
-match to the search pattern with |:Grey|.  After executing |:Grey|, you can
+Once you search for a keyword such as "bugfix:", you can yank all lines
+matched to the search pattern with |:Grey|.  After executing |:Grey|, you can
 put the following text:
 >
 	#950 bugfix: jump behavior
 	#923 bugfix: vs fold
 	#931 bugfix: syntax highlighting
 <
-This plugin also provides |grey#yank()| and |<Plug>(operator-grey)| to do
-|:Grey|.
+This plugin also provides function and operator to do the same process as
+|:Grey|.  See |grex-functions| and |grex-key-mappings| for the details.
 
 
 Requirements:
@@ -72,19 +72,19 @@ Optionals:
 - |operator-user| 0.0.3 or later (vimscript#2692)
 
 Latest version:
-http://github.com/kana/config/commits/vim-grey
+http://github.com/kana/config/commits/vim-grex
 
 Document in HTML format:
-http://kana.github.com/config/vim/grey.html
+http://kana.github.com/config/vim/grex.html
 
 
 
 
 ==============================================================================
-INTERFACE					*grey-interface*
+INTERFACE					*grex-interface*
 
 ------------------------------------------------------------------------------
-COMMANDS					*grey-commands*
+COMMANDS					*grex-commands*
 
 :[range]Grey						*:Grey*
 			Yank all lines in [range] (default: whole buffer)
@@ -92,16 +92,16 @@ COMMANDS					*grey-commands*
 
 
 ------------------------------------------------------------------------------
-FUNCTIONS					*grey-functions*
+FUNCTIONS					*grex-functions*
 
-grey#yank()					*grey#yank()*
+grex#yank()					*grex#yank()*
 			Function version of |:Grey|.
 
 
 ------------------------------------------------------------------------------
-KEY MAPPINGS					*grey-key-mappings*
+KEY MAPPINGS					*grex-key-mappings*
 
-<Plug>(operator-grey)				*<Plug>(operator-grey)*
+<Plug>(operator-grex-yank)			*<Plug>(operator-grex-yank)*
 			Operator version of |:Grey|.
 
 			Note that this operator is only available if you have
@@ -111,21 +111,27 @@ KEY MAPPINGS					*grey-key-mappings*
 
 
 ==============================================================================
-BUGS						*grey-bugs*
+BUGS						*grex-bugs*
 
-- It's useful if |:Grey| and |grey#yank()| accept an argument which is
+- It's useful if |:Grey| and |grex#yank()| accept an argument which is
   a search pattern to specify what lines to yank.  But they aren't so.
 
-- See also |operator-user-bugs| on problems which are related to
-  |<Plug>(operator-grey)|.
+- See also |operator-user-bugs| on problems which are related to operators
+  described in |grex-key-mappings|.
 
 
 
 
 ==============================================================================
-CHANGELOG					*grey-changelog*
+CHANGELOG					*grex-changelog*
 
-0.0.0	2009-09-04T22:46:29+09:00		*grey-changelog-0.0.0*
+0.0.1	2009-09-08T13:06:06+09:00		*grex-changelog-0.0.1*
+	Incompatible changes:
+	- Rename the plugin as "grex".  The old name "grey" is not proper for
+	  further enhancements.
+	- Rename all commands, functions and key mappings.
+
+0.0.0	2009-09-04T22:46:29+09:00		*grex-changelog-0.0.0*
 	- Initial version.
 
 

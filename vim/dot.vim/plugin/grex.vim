@@ -1,4 +1,4 @@
-" grey - Yank lines which match to the last search pattern (:g/re/y)
+" grex - Operate on lines matched to the last search pattern (:g/re/x)
 " Version: 0.0.0
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -21,28 +21,22 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Interface  "{{{1
-function! grey#yank() range  "{{{2
-  let original_cursor_position = getpos('.')
-    let [original_g_content, original_g_type] = [@g, getregtype('g')]
-      let @g = ''
-      silent execute a:firstline  ',' a:lastline 'global//yank G'
-      let @g = @g[1:]
 
-      let @" = @g
-      let @0 = @g
-    call setreg('g', original_g_content, original_g_type)
-  call setpos('.', original_cursor_position)
-
-  echo len(split(@0, '\n')) 'lines greyed'
-endfunction
+if exists('g:loaded_grex')
+  finish
+endif
 
 
 
 
+command! -bar -nargs=0 -range=% Grey  <line1>,<line2>call grex#yank()
+
+silent! call operator#user#define_ex_command('grex-yank', 'Grey')
 
 
 
 
-" __END__  "{{{1
+let g:loaded_grex = 1
+
+" __END__
 " vim: foldmethod=marker
