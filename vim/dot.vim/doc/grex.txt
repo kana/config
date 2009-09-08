@@ -145,6 +145,10 @@ described in |grex-key-mappings|.
 (C) Delete operations don't update "0 (|quote0|), so that |:Gred| and other
 operations should not do so, but they do.
 
+						*grex-bugs-D*
+(D) |grex-commands| don't support register designation unlike |grex-functions|
+and operators described in |grex-key-mappings|.
+
 
 
 
