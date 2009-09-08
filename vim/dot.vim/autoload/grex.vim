@@ -23,15 +23,19 @@
 " }}}
 " Interface  "{{{1
 function! grex#delete() range  "{{{2
+  let register = v:register
+
   let original_cursor_position = getpos('.')
+    let [original_U_content, original_U_type] = [@", getregtype('"')]
     let [original_g_content, original_g_type] = [@g, getregtype('g')]
       let @g = ''
       silent execute a:firstline  ',' a:lastline 'global//delete G'
-      let @g = @g[1:]
-
-      let @" = @g
+      let _ = @g[1:]
     call setreg('g', original_g_content, original_g_type)
+    call setreg('"', original_U_content, original_U_type)
   call setpos('.', original_cursor_position)
+
+  call setreg(register, _)
 
   echo len(split(@", '\n')) 'lines greded'
 endfunction
@@ -40,16 +44,19 @@ endfunction
 
 
 function! grex#yank() range  "{{{2
+  let register = v:register
+
   let original_cursor_position = getpos('.')
+    let [original_U_content, original_U_type] = [@", getregtype('"')]
     let [original_g_content, original_g_type] = [@g, getregtype('g')]
       let @g = ''
       silent execute a:firstline  ',' a:lastline 'global//yank G'
-      let @g = @g[1:]
-
-      let @" = @g
-      let @0 = @g
+      let _ = @g[1:]
     call setreg('g', original_g_content, original_g_type)
+    call setreg('"', original_U_content, original_U_type)
   call setpos('.', original_cursor_position)
+
+  call setreg(register, _)
 
   echo len(split(@0, '\n')) 'lines greyed'
 endfunction

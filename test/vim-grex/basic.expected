@@ -221,5 +221,28 @@ TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
 TEST: getpos('.')  ==>  cursor_position ... ok
 Result: 25 / 25
 
+===== "Operators with register designation"
+TEST: getline(1, '$')  ==>  content ... ok1 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  @0 ... ok
+TEST: @0  ==>  '000' ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: @x  ==>  join(content_bugfix_deleted, "\n") . "\n" ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok1 lines greyed
+TEST: getline(1, '$')  ==>  content ... ok
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  @0 ... ok
+TEST: @0  ==>  '000' ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: @x  ==>  join(content_or_deleted, "\n") . "\n" ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+Result: 20 / 20
+
 ===== Total
-Result: 189 / 189
+Result: 209 / 209

@@ -72,7 +72,7 @@ Requirements:
 - Vim 7.2 or later
 
 Optionals:
-- |operator-user| 0.0.3 or later (vimscript#2692)
+- |operator-user| 0.0.5 or later (vimscript#2692)
 
 Latest version:
 http://github.com/kana/config/commits/vim-grex
@@ -116,11 +116,13 @@ KEY MAPPINGS					*grex-key-mappings*
 Note that the following operators are only available if you have installed
 |operator-user|.
 
-<Plug>(operator-grex-delete)			*<Plug>(operator-grex-delete)*
+["x]<Plug>(operator-grex-delete)		*<Plug>(operator-grex-delete)*
 			Operator version of |:Gred|.
+			Deleted lines are saved into register x.
 
-<Plug>(operator-grex-yank)			*<Plug>(operator-grex-yank)*
+["x]<Plug>(operator-grex-yank)			*<Plug>(operator-grex-yank)*
 			Operator version of |:Grey|.
+			Yanked lines are saved into register x.
 
 
 
@@ -146,6 +148,9 @@ CHANGELOG					*grex-changelog*
 0.0.1	2009-09-08T13:06:06+09:00		*grex-changelog-0.0.1*
 	Feature enhancements:
 	- Add |:Gred|, |grex#delete()| and |<Plug>(operator-grex-delete)|.
+	- Support register designation for |<Plug>(operator-grex-delete)| and
+	  |<Plug>(operator-grex-yank)|.  |operator-user| 0.0.5 or later is
+	  required to use this feature.
 
 	Incompatible changes:
 	- Rename the plugin as "grex".  The old name "grey" is not proper for

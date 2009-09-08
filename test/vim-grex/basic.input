@@ -737,6 +737,97 @@ endfunction
 
 
 
+function s:test_operator_register_designation()  "{{{1
+  Title "Operators with register designation"
+
+  let content = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_after = [
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#931 bugfix: syntax highlighting',
+  \   ]
+  let content_or_after = [
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_or_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#926 enhancement: performance',
+  \   ]
+
+  tabnew
+  tabonly!
+
+  silent put =content
+  1 delete _
+  Assert getline(1, '$') ==> content
+    " :undobreak opposite of :undojoin.
+  execute 'normal!' "i\<C-g>u\<Esc>"
+
+  " gred with register designation
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  let @x = 'xxx'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  execute 'normal' "gg\"x\<Plug>(operator-grex-delete)G"
+  Assert getline(1, '$') ==> content_bugfix_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> @0
+  Assert @0 ==> '000'
+  Assert @g ==> 'ggg'
+  Assert @x ==> join(content_bugfix_deleted, "\n") . "\n"
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " grey with register designation
+  let @/ = 'or'
+  let @" = '"""'
+  let @0 = '000'
+  let @x = 'xxx'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  execute 'normal' "ggvG\"x\<Plug>(operator-grex-yank)"
+  Assert getline(1, '$') ==> content
+  Assert @/ ==> 'or'
+  Assert @" ==> @0
+  Assert @0 ==> '000'
+  Assert @g ==> 'ggg'
+  Assert @x ==> join(content_or_deleted, "\n") . "\n"
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> ['']
+  silent redo
+  Assert getline(1, '$') ==> content
+endfunction
+
+
+
+
 Test  "{{{1
 
 " __END__
