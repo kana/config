@@ -29,8 +29,10 @@ endif
 
 
 
+command! -bar -nargs=0 -range=% Gred  <line1>,<line2>call grex#delete()
 command! -bar -nargs=0 -range=% Grey  <line1>,<line2>call grex#yank()
 
+silent! call operator#user#define_ex_command('grex-delete', 'Gred')
 silent! call operator#user#define_ex_command('grex-yank', 'Grey')
 
 

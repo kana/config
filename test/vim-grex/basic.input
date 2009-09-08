@@ -1,4 +1,442 @@
 " Tests for grex
+function s:test_gred_command()  "{{{1
+  Title ":Gred"
+
+  let content = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_after = [
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#931 bugfix: syntax highlighting',
+  \   ]
+  let content_or_after = [
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_or_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#926 enhancement: performance',
+  \   ]
+  let content_bugfix2_after = [
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix2_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \   ]
+
+  tabnew
+  tabonly!
+
+  silent put =content
+  1 delete _
+  Assert getline(1, '$') ==> content
+    " :undobreak opposite of :undojoin.
+  execute 'normal!' "i\<C-g>u\<Esc>"
+
+  " Typical usage #1
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  Gred
+  Assert getline(1, '$') ==> content_bugfix_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> join(content_bugfix_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " Typical usage #2
+  let @/ = 'or'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  Gred
+  Assert getline(1, '$') ==> content_or_after
+  Assert @/ ==> 'or'
+  Assert @" ==> join(content_or_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " With range
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  1,6 Gred
+  Assert getline(1, '$') ==> content_bugfix2_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> join(content_bugfix2_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " No match
+  let @/ = 'Super Super Mega Kawaii'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  Gred
+  Assert getline(1, '$') ==> content
+  Assert @/ ==> 'Super Super Mega Kawaii'
+  Assert @" ==> ''
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> ['']
+endfunction
+
+
+
+
+function s:test_gred_function()  "{{{1
+  Title "grex#delete()"
+
+  let content = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_after = [
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#931 bugfix: syntax highlighting',
+  \   ]
+  let content_or_after = [
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_or_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#926 enhancement: performance',
+  \   ]
+  let content_bugfix2_after = [
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix2_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \   ]
+  let content_bugfix1_after = [
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix1_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \   ]
+
+  tabnew
+  tabonly!
+
+  silent put =content
+  1 delete _
+  Assert getline(1, '$') ==> content
+    " :undobreak opposite of :undojoin.
+  execute 'normal!' "i\<C-g>u\<Esc>"
+
+  " Typical usage #1
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  % call grex#delete()
+  Assert getline(1, '$') ==> content_bugfix_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> join(content_bugfix_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " Typical usage #2
+  let @/ = 'or'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  % call grex#delete()
+  Assert getline(1, '$') ==> content_or_after
+  Assert @/ ==> 'or'
+  Assert @" ==> join(content_or_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " With a limited range
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  1,6 call grex#delete()
+  Assert getline(1, '$') ==> content_bugfix2_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> join(content_bugfix2_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " No match
+  let @/ = 'Super Super Mega Kawaii'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  % call grex#delete()
+  Assert getline(1, '$') ==> content
+  Assert @/ ==> 'Super Super Mega Kawaii'
+  Assert @" ==> ''
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> ['']
+  silent redo
+  Assert getline(1, '$') ==> content
+
+  " No range
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  1
+  let cursor_position = getpos('.')
+  call grex#delete()
+  Assert getline(1, '$') ==> content_bugfix1_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> join(content_bugfix1_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+endfunction
+
+
+
+
+function s:test_gred_operator()  "{{{1
+  Title "<Plug>(operator-grex-delete)"
+
+  let content = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_after = [
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \     '#931 bugfix: syntax highlighting',
+  \   ]
+  let content_or_after = [
+  \     '#923 bugfix: vs fold',
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_or_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#926 enhancement: performance',
+  \   ]
+  let content_bugfix2_after = [
+  \     '#930 enhancement: foldlevel adjustment',
+  \     '#927 todo: release',
+  \     '#926 enhancement: performance',
+  \     '#924 enhancement: completion',
+  \     '#931 bugfix: syntax highlighting',
+  \     '#928 enhancement: key mappings',
+  \   ]
+  let content_bugfix2_deleted = [
+  \     '#950 bugfix: jump behavior',
+  \     '#923 bugfix: vs fold',
+  \   ]
+
+  tabnew
+  tabonly!
+
+  silent put =content
+  1 delete _
+  Assert getline(1, '$') ==> content
+    " :undobreak opposite of :undojoin.
+  execute 'normal!' "i\<C-g>u\<Esc>"
+
+  " With {motion}
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  execute 'normal' "gg\<Plug>(operator-grex-delete)G"
+  Assert getline(1, '$') ==> content_bugfix_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> join(content_bugfix_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " In Visual mode
+  let @/ = 'or'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  execute 'normal' "ggvG\<Plug>(operator-grex-delete)"
+  Assert getline(1, '$') ==> content_or_after
+  Assert @/ ==> 'or'
+    " FIXME: :help grex-bugs-C
+  Assert @" ==> join(content_or_deleted, "\n") . "\n"
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " With count
+  let @/ = 'bugfix:'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  execute 'normal' "gg\<Plug>(operator-grex-delete)6g@"
+  Assert getline(1, '$') ==> content_bugfix2_after
+  Assert @/ ==> 'bugfix:'
+  Assert @" ==> join(content_bugfix2_deleted, "\n") . "\n"
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> content
+
+  " No match
+  let @/ = 'Super Super Mega Kawaii'
+  let @" = '"""'
+  let @0 = '000'
+  call setreg('g', 'ggg', 'b')
+  let cursor_position = getpos('.')
+  execute 'normal' "gg\<Plug>(operator-grex-delete)G"
+  Assert getline(1, '$') ==> content
+  Assert @/ ==> 'Super Super Mega Kawaii'
+  Assert @" ==> ''
+    " FIXME: :help grex-bugs-C
+  Assert @0 ==> @"
+  Assert @g ==> 'ggg'
+  Assert getregtype('g') ==> "\<C-v>3"
+  Assert getpos('.') ==> cursor_position
+  silent undo
+  Assert getline(1, '$') ==> ['']
+endfunction
+
+
+
+
 function s:test_grey_command()  "{{{1
   Title ":Grey"
 

@@ -22,6 +22,23 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
+function! grex#delete() range  "{{{2
+  let original_cursor_position = getpos('.')
+    let [original_g_content, original_g_type] = [@g, getregtype('g')]
+      let @g = ''
+      silent execute a:firstline  ',' a:lastline 'global//delete G'
+      let @g = @g[1:]
+
+      let @" = @g
+    call setreg('g', original_g_content, original_g_type)
+  call setpos('.', original_cursor_position)
+
+  echo len(split(@", '\n')) 'lines greded'
+endfunction
+
+
+
+
 function! grex#yank() range  "{{{2
   let original_cursor_position = getpos('.')
     let [original_g_content, original_g_type] = [@g, getregtype('g')]
