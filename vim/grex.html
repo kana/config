@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: grex - Operate on lines matched to the last search pattern (:g/re/x)</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Special { color: #c000c0; font-weight: bold; }
+.Todo { color: #000000; background-color: #00ffff; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="grex.txt">grex.txt</span><span class="Ignore">*</span>      Operate on lines matched to the last search pattern (:g/re/x)
+
+Version 0.0.1
+Script ID: 2773
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="grex-contents">grex-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="grex.html#grex-introduction"><span class="Identifier">grex-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="grex.html#grex-interface"><span class="Identifier">grex-interface</span></a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="grex.html#grex-commands"><span class="Identifier">grex-commands</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="grex.html#grex-functions"><span class="Identifier">grex-functions</span></a><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><a href="grex.html#grex-key-mappings"><span class="Identifier">grex-key-mappings</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="grex.html#grex-bugs"><span class="Identifier">grex-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="grex.html#grex-changelog"><span class="Identifier">grex-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="grex-introduction">grex-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="grex">grex</span><span class="Ignore">*</span> is a Vim plugin to provide useful commands to operate on lines matched
+to the last search pattern.  For example, suppose you edit the following
+content:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        #950 bugfix: jump behavior</span>
+<span class="Comment">        #923 bugfix: vs fold</span>
+<span class="Comment">        #930 enhancement: foldlevel adjustment</span>
+<span class="Comment">        #927 todo: release</span>
+<span class="Comment">        #926 enhancement: performance</span>
+<span class="Comment">        #924 enhancement: completion</span>
+<span class="Comment">        #931 bugfix: syntax highlighting</span>
+<span class="Comment">        #928 enhancement: key mappings</span>
+<span class="Ignore">&lt;</span>
+Once you search for a keyword such as &quot;bugfix:&quot;, you can yank all lines
+matched to the search pattern with <span class="Ignore">|</span><a href="grex.html#:Grey"><span class="Identifier">:Grey</span></a><span class="Ignore">|</span>.  After executing <span class="Ignore">|</span><a href="grex.html#:Grey"><span class="Identifier">:Grey</span></a><span class="Ignore">|</span>, you can
+put the following text:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        #950 bugfix: jump behavior</span>
+<span class="Comment">        #923 bugfix: vs fold</span>
+<span class="Comment">        #931 bugfix: syntax highlighting</span>
+<span class="Ignore">&lt;</span>
+There is another command <span class="Ignore">|</span><a href="grex.html#:Gred"><span class="Identifier">:Gred</span></a><span class="Ignore">|</span> which deletes matched lines instead.
+
+This plugin also provides functions and operators to do the same processes as
+<span class="Ignore">|</span><a href="grex.html#:Gred"><span class="Identifier">:Gred</span></a><span class="Ignore">|</span> or <span class="Ignore">|</span><a href="grex.html#:Grey"><span class="Identifier">:Grey</span></a><span class="Ignore">|</span>.  See <span class="Ignore">|</span><a href="grex.html#grex-functions"><span class="Identifier">grex-functions</span></a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="grex.html#grex-key-mappings"><span class="Identifier">grex-key-mappings</span></a><span class="Ignore">|</span> and
+<span class="Ignore">|</span><a href="grex.html#grex-commands"><span class="Identifier">grex-commands</span></a><span class="Ignore">|</span> for the details.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Optionals:
+- <span class="Ignore">|</span><a href="operator-user.html#operator-user"><span class="Identifier">operator-user</span></a><span class="Ignore">|</span> 0.0.5 or later (vimscript#2692)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-grex">http://github.com/kana/config/commits/vim-grex</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/grex.html">http://kana.github.com/config/vim/grex.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="grex-interface">grex-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant" id="grex-commands">grex-commands</span><span class="Ignore">*</span>
+
+:<span class="Special">[range]</span>Gred                                            <span class="Ignore">*</span><span class="Constant" id=":Gred">:Gred</span><span class="Ignore">*</span>
+                        Delete all lines in <span class="Special">[range]</span> (default: whole buffer)
+                        which match to the last search pattern.
+
+                        Deleted lines are copied into the unnamed register.
+
+:<span class="Special">[range]</span>Grey                                            <span class="Ignore">*</span><span class="Constant" id=":Grey">:Grey</span><span class="Ignore">*</span>
+                        Yank all lines in <span class="Special">[range]</span> (default: whole buffer)
+                        which match to the last search pattern.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="grex-functions">grex-functions</span><span class="Ignore">*</span>
+
+grex#delete([<span class="Special">{register}</span>])                       <span class="Ignore">*</span><span class="Constant" id="grex#delete()">grex#delete()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><a href="grex.html#:Gred"><span class="Identifier">:Gred</span></a><span class="Ignore">|</span>.
+                        Deleted lines are copied into <span class="Special">{register}</span>.
+
+grex#yank([<span class="Special">{register}</span>])                         <span class="Ignore">*</span><span class="Constant" id="grex#yank()">grex#yank()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><a href="grex.html#:Grey"><span class="Identifier">:Grey</span></a><span class="Ignore">|</span>.
+                        Deleted lines are copied into <span class="Special">{register}</span>.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant" id="grex-key-mappings">grex-key-mappings</span><span class="Ignore">*</span>
+
+<span class="Statement">OPERATORS                                       </span><span class="Ignore">*</span><span class="Constant" id="grex-operators">grex-operators</span><span class="Ignore">*</span>
+
+<span class="Todo">Note</span> that the following operators are only available if you have installed
+<span class="Ignore">|</span><a href="operator-user.html#operator-user"><span class="Identifier">operator-user</span></a><span class="Ignore">|</span>.
+
+[&quot;x]<span class="Special">&lt;Plug&gt;</span>(operator-grex-delete)                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(operator-grex-delete)">&lt;Plug&gt;(operator-grex-delete)</span><span class="Ignore">*</span>
+                        Operator version of <span class="Ignore">|</span><a href="grex.html#:Gred"><span class="Identifier">:Gred</span></a><span class="Ignore">|</span>.
+                        Deleted lines are saved into register x.
+
+[&quot;x]<span class="Special">&lt;Plug&gt;</span>(operator-grex-yank)                  <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(operator-grex-yank)">&lt;Plug&gt;(operator-grex-yank)</span><span class="Ignore">*</span>
+                        Operator version of <span class="Ignore">|</span><a href="grex.html#:Grey"><span class="Identifier">:Grey</span></a><span class="Ignore">|</span>.
+                        Yanked lines are saved into register x.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="grex-bugs">grex-bugs</span><span class="Ignore">*</span>
+
+                                                <span class="Ignore">*</span><span class="Constant" id="grex-bugs-A">grex-bugs-A</span><span class="Ignore">*</span>
+(A) It's useful if <span class="Ignore">|</span><a href="grex.html#grex-commands"><span class="Identifier">grex-commands</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="grex.html#grex-functions"><span class="Identifier">grex-functions</span></a><span class="Ignore">|</span> accept an argument
+which is a search pattern to specify what lines to operate.  But they aren't
+so.
+
+                                                <span class="Ignore">*</span><span class="Constant" id="grex-bugs-B">grex-bugs-B</span><span class="Ignore">*</span>
+(B) See also <span class="Ignore">|</span><a href="operator-user.html#operator-user-bugs"><span class="Identifier">operator-user-bugs</span></a><span class="Ignore">|</span> on problems which are related to
+<span class="Ignore">|</span><a href="grex.html#grex-operators"><span class="Identifier">grex-operators</span></a><span class="Ignore">|</span>.
+
+                                                <span class="Ignore">*</span><span class="Constant" id="grex-bugs-C">grex-bugs-C</span><span class="Ignore">*</span>
+(C) Delete operations don't update &quot;0 (<span class="Ignore">|</span><span class="Identifier">quote0</span><span class="Ignore">|</span>), so that <span class="Ignore">|</span><a href="grex.html#:Gred"><span class="Identifier">:Gred</span></a><span class="Ignore">|</span> and other
+operations should not do so, but they do.
+
+                                                <span class="Ignore">*</span><span class="Constant" id="grex-bugs-D">grex-bugs-D</span><span class="Ignore">*</span>
+(D) <span class="Ignore">|</span><a href="grex.html#grex-commands"><span class="Identifier">grex-commands</span></a><span class="Ignore">|</span> don't support register designation unlike <span class="Ignore">|</span><a href="grex.html#grex-functions"><span class="Identifier">grex-functions</span></a><span class="Ignore">|</span>
+and <span class="Ignore">|</span><a href="grex.html#grex-operators"><span class="Identifier">grex-operators</span></a><span class="Ignore">|</span>.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="grex-changelog">grex-changelog</span><span class="Ignore">*</span>
+
+0.0.1   2009-09-08T13:06:06+09:00               <span class="Ignore">*</span><span class="Constant" id="grex-changelog-0.0.1">grex-changelog-0.0.1</span><span class="Ignore">*</span>
+        Feature enhancements:
+        - Add <span class="Ignore">|</span><a href="grex.html#:Gred"><span class="Identifier">:Gred</span></a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="grex.html#grex#delete()"><span class="Identifier">grex#delete()</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="grex.html#&lt;Plug&gt;(operator-grex-delete)"><span class="Identifier">&lt;Plug&gt;(operator-grex-delete)</span></a><span class="Ignore">|</span>.
+        - Support register designation for <span class="Ignore">|</span><a href="grex.html#grex-operators"><span class="Identifier">grex-operators</span></a><span class="Ignore">|</span>.  <span class="Ignore">|</span><a href="operator-user.html#operator-user"><span class="Identifier">operator-user</span></a><span class="Ignore">|</span>
+          0.0.5 or later is required to use this feature.
+        - Support register designation for functions <span class="Ignore">|</span><a href="grex.html#grex-functions"><span class="Identifier">grex-functions</span></a><span class="Ignore">|</span>.
+
+        Minor improvements:
+        - Revise the document.
+
+        Incompatible changes:
+        - Rename the plugin as &quot;grex&quot;.  The old name &quot;grey&quot; is not proper for
+          further enhancements.
+        - Rename all commands, functions and key mappings.
+
+0.0.0   2009-09-04T22:46:29+09:00               <span class="Ignore">*</span><span class="Constant" id="grex-changelog-0.0.0">grex-changelog-0.0.0</span><span class="Ignore">*</span>
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>
