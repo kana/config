@@ -115,6 +115,8 @@ grex#yank([{register}])				*grex#yank()*
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*grex-key-mappings*
 
+OPERATORS					*grex-operators*
+
 Note that the following operators are only available if you have installed
 |operator-user|.
 
@@ -138,8 +140,8 @@ which is a search pattern to specify what lines to operate.  But they aren't
 so.
 
 						*grex-bugs-B*
-(B) See also |operator-user-bugs| on problems which are related to operators
-described in |grex-key-mappings|.
+(B) See also |operator-user-bugs| on problems which are related to
+|grex-operators|.
 
 						*grex-bugs-C*
 (C) Delete operations don't update "0 (|quote0|), so that |:Gred| and other
@@ -147,7 +149,7 @@ operations should not do so, but they do.
 
 						*grex-bugs-D*
 (D) |grex-commands| don't support register designation unlike |grex-functions|
-and operators described in |grex-key-mappings|.
+and |grex-operators|.
 
 
 
@@ -158,10 +160,12 @@ CHANGELOG					*grex-changelog*
 0.0.1	2009-09-08T13:06:06+09:00		*grex-changelog-0.0.1*
 	Feature enhancements:
 	- Add |:Gred|, |grex#delete()| and |<Plug>(operator-grex-delete)|.
-	- Support register designation for operators described in
-	  |grex-key-mappings|.  |operator-user| 0.0.5 or later is required to
-	  use this feature.
+	- Support register designation for |grex-operators|.  |operator-user|
+	  0.0.5 or later is required to use this feature.
 	- Support register designation for functions |grex-functions|.
+
+	Minor improvements:
+	- Revise the document.
 
 	Incompatible changes:
 	- Rename the plugin as "grex".  The old name "grey" is not proper for
