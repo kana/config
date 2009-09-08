@@ -40,7 +40,7 @@ Changelog               |grex-changelog|
 ==============================================================================
 INTRODUCTION					*grex-introduction*
 
-*grex* is a Vim plugin to provide a useful command to operate on lines matched
+*grex* is a Vim plugin to provide useful commands to operate on lines matched
 to the last search pattern.  For example, suppose you edit the following
 content:
 >
@@ -61,8 +61,11 @@ put the following text:
 	#923 bugfix: vs fold
 	#931 bugfix: syntax highlighting
 <
-This plugin also provides function and operator to do the same process as
-|:Grey|.  See |grex-functions| and |grex-key-mappings| for the details.
+There is another command |:Gred| which deletes matched lines instead.
+
+This plugin also provides functions and operators to do the same processes as
+|:Gred| or |:Grey|.  See |grex-functions|, |grex-key-mappings| and
+|grex-commands| for the details.
 
 
 Requirements:
@@ -86,6 +89,12 @@ INTERFACE					*grex-interface*
 ------------------------------------------------------------------------------
 COMMANDS					*grex-commands*
 
+:[range]Gred						*:Gred*
+			Delete all lines in [range] (default: whole buffer)
+			which match to the last search pattern.
+
+			Deleted lines are copied into the unnamed register.
+
 :[range]Grey						*:Grey*
 			Yank all lines in [range] (default: whole buffer)
 			which match to the last search pattern.
@@ -94,6 +103,9 @@ COMMANDS					*grex-commands*
 ------------------------------------------------------------------------------
 FUNCTIONS					*grex-functions*
 
+grex#delete()					*grex#delete()*
+			Function version of |:Gred|.
+
 grex#yank()					*grex#yank()*
 			Function version of |:Grey|.
 
@@ -101,11 +113,14 @@ grex#yank()					*grex#yank()*
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*grex-key-mappings*
 
+Note that the following operators are only available if you have installed
+|operator-user|.
+
+<Plug>(operator-grex-delete)			*<Plug>(operator-grex-delete)*
+			Operator version of |:Gred|.
+
 <Plug>(operator-grex-yank)			*<Plug>(operator-grex-yank)*
 			Operator version of |:Grey|.
-
-			Note that this operator is only available if you have
-			installed |operator-user|.
 
 
 
@@ -113,8 +128,8 @@ KEY MAPPINGS					*grex-key-mappings*
 ==============================================================================
 BUGS						*grex-bugs*
 
-- It's useful if |:Grey| and |grex#yank()| accept an argument which is
-  a search pattern to specify what lines to yank.  But they aren't so.
+- It's useful if |grex-commands| and |grex-functions| accept an argument which
+  is a search pattern to specify what lines to operate.  But they aren't so.
 
 - See also |operator-user-bugs| on problems which are related to operators
   described in |grex-key-mappings|.
@@ -126,6 +141,9 @@ BUGS						*grex-bugs*
 CHANGELOG					*grex-changelog*
 
 0.0.1	2009-09-08T13:06:06+09:00		*grex-changelog-0.0.1*
+	Feature enhancements:
+	- Add |:Gred|, |grex#delete()| and |<Plug>(operator-grex-delete)|.
+
 	Incompatible changes:
 	- Rename the plugin as "grex".  The old name "grey" is not proper for
 	  further enhancements.
