@@ -141,6 +141,10 @@ so.
 (B) See also |operator-user-bugs| on problems which are related to operators
 described in |grex-key-mappings|.
 
+						*grex-bugs-C*
+(C) Delete operations don't update "0 (|quote0|), so that |:Gred| and other
+operations should not do so, but they do.
+
 
 
 
