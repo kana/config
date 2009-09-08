@@ -343,7 +343,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_grex_ARCHIVE=vim-grex-0.0.0
+PACKAGE_vim_grex_ARCHIVE=vim-grex-0.0.1
 PACKAGE_vim_grex_BASE=vim/dot.vim
 PACKAGE_vim_grex_FILES=\
   vim/dot.vim/autoload/grex.vim \
