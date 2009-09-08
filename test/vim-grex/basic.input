@@ -1,5 +1,5 @@
 " Tests for grex
-function s:test_command()  "{{{1
+function s:test_grey_command()  "{{{1
   Title ":Grey"
 
   let content = [
@@ -93,7 +93,7 @@ endfunction
 
 
 
-function s:test_function()  "{{{1
+function s:test_grey_function()  "{{{1
   Title "grex#yank()"
 
   let content = [
@@ -205,7 +205,7 @@ endfunction
 
 
 
-function s:test_operator()  "{{{1
+function s:test_grey_operator()  "{{{1
   Title "<Plug>(operator-grex-yank)"
 
   let content = [
