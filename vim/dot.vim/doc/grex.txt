@@ -103,11 +103,13 @@ COMMANDS					*grex-commands*
 ------------------------------------------------------------------------------
 FUNCTIONS					*grex-functions*
 
-grex#delete()					*grex#delete()*
+grex#delete([{register}])			*grex#delete()*
 			Function version of |:Gred|.
+			Deleted lines are copied into {register}.
 
-grex#yank()					*grex#yank()*
+grex#yank([{register}])				*grex#yank()*
 			Function version of |:Grey|.
+			Deleted lines are copied into {register}.
 
 
 ------------------------------------------------------------------------------
@@ -148,9 +150,10 @@ CHANGELOG					*grex-changelog*
 0.0.1	2009-09-08T13:06:06+09:00		*grex-changelog-0.0.1*
 	Feature enhancements:
 	- Add |:Gred|, |grex#delete()| and |<Plug>(operator-grex-delete)|.
-	- Support register designation for |<Plug>(operator-grex-delete)| and
-	  |<Plug>(operator-grex-yank)|.  |operator-user| 0.0.5 or later is
-	  required to use this feature.
+	- Support register designation for operators described in
+	  |grex-key-mappings|.  |operator-user| 0.0.5 or later is required to
+	  use this feature.
+	- Support register designation for functions |grex-functions|.
 
 	Incompatible changes:
 	- Rename the plugin as "grex".  The old name "grey" is not proper for

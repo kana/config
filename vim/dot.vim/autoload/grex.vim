@@ -22,8 +22,8 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
-function! grex#delete() range  "{{{2
-  let register = v:register
+function! grex#delete(...) range  "{{{2
+  let register = 1 <= a:0 ? a:1 : '"'
 
   let original_cursor_position = getpos('.')
     let [original_U_content, original_U_type] = [@", getregtype('"')]
@@ -43,8 +43,22 @@ endfunction
 
 
 
-function! grex#yank() range  "{{{2
-  let register = v:register
+function! grex#operator_delete(motion_wise)  "{{{2
+  '[,']call grex#delete(v:register)
+endfunction
+
+
+
+
+function! grex#operator_yank(motion_wise)  "{{{2
+  '[,']call grex#yank(v:register)
+endfunction
+
+
+
+
+function! grex#yank(...) range  "{{{2
+  let register = 1 <= a:0 ? a:1 : '"'
 
   let original_cursor_position = getpos('.')
     let [original_U_content, original_U_type] = [@", getregtype('"')]
