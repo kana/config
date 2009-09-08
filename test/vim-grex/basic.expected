@@ -1,0 +1,248 @@
+===== ":Gred"
+TEST: getline(1, '$')  ==>  content ... ok3 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+2 lines greded
+TEST: getline(1, '$')  ==>  content_or_after ... ok
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+2 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix2_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+0 lines greded
+TEST: getline(1, '$')  ==>  content ... ok
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  [''] ... ok
+Result: 33 / 33
+
+===== "grex#delete()"
+TEST: getline(1, '$')  ==>  content ... ok3 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+2 lines greded
+TEST: getline(1, '$')  ==>  content_or_after ... ok
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+2 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix2_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+0 lines greded
+TEST: getline(1, '$')  ==>  content ... ok
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+1 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix1_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix1_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+Result: 42 / 42
+
+===== "<Plug>(operator-grex-delete)"
+TEST: getline(1, '$')  ==>  content ... ok3 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok2 lines greded
+TEST: getline(1, '$')  ==>  content_or_after ... ok
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok2 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix2_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2_deleted, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok0 lines greded
+TEST: getline(1, '$')  ==>  content ... ok
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  [''] ... ok
+Result: 33 / 33
+
+===== ":Grey"
+TEST: getline(1, '$')  ==>  content ... ok
+3 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+0 lines greyed
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+Result: 25 / 25
+
+===== "grex#yank()"
+TEST: getline(1, '$')  ==>  content ... ok
+3 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+2 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+0 lines greyed
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+1 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix1, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+Result: 31 / 31
+
+===== "<Plug>(operator-grex-yank)"
+TEST: getline(1, '$')  ==>  content ... ok3 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok2 lines greyed
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  join(content_or, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok2 lines greyed
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  join(content_bugfix2, "\n") . "\n" ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok0 lines greyed
+TEST: @/  ==>  'Super Super Mega Kawaii' ... ok
+TEST: @"  ==>  '' ... ok
+TEST: @0  ==>  @" ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+Result: 25 / 25
+
+===== "Operators with register designation"
+TEST: getline(1, '$')  ==>  content ... ok1 lines greded
+TEST: getline(1, '$')  ==>  content_bugfix_after ... ok
+TEST: @/  ==>  'bugfix:' ... ok
+TEST: @"  ==>  @0 ... ok
+TEST: @0  ==>  '000' ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: @x  ==>  join(content_bugfix_deleted, "\n") . "\n" ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  content ... ok1 lines greyed
+TEST: getline(1, '$')  ==>  content ... ok
+TEST: @/  ==>  'or' ... ok
+TEST: @"  ==>  @0 ... ok
+TEST: @0  ==>  '000' ... ok
+TEST: @g  ==>  'ggg' ... ok
+TEST: @x  ==>  join(content_or_deleted, "\n") . "\n" ... ok
+TEST: getregtype('g')  ==>  "\<C-v>3" ... ok
+TEST: getpos('.')  ==>  cursor_position ... ok
+TEST: getline(1, '$')  ==>  [''] ... ok
+TEST: getline(1, '$')  ==>  content ... ok
+Result: 20 / 20
+
+===== Total
+Result: 209 / 209

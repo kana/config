@@ -1,5 +1,5 @@
-" grey - Yank lines which match to the last search pattern (:g/re/y)
-" Version: 0.0.0
+" grex - Operate on lines matched to the last search pattern (:g/re/x)
+" Version: 0.0.1
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -22,21 +22,23 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if exists('g:loaded_grey')
+if exists('g:loaded_grex')
   finish
 endif
 
 
 
 
-command! -bar -nargs=0 -range=% Grey  <line1>,<line2>call grey#yank()
+command! -bar -nargs=0 -range=% Gred  <line1>,<line2>call grex#delete()
+command! -bar -nargs=0 -range=% Grey  <line1>,<line2>call grex#yank()
 
-silent! call operator#user#define_ex_command('grey', 'Grey')
+silent! call operator#user#define('grex-delete', 'grex#operator_delete')
+silent! call operator#user#define('grex-yank', 'grex#operator_yank')
 
 
 
 
-let g:loaded_grey = 1
+let g:loaded_grex = 1
 
 " __END__
 " vim: foldmethod=marker

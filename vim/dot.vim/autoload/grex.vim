@@ -1,5 +1,5 @@
-" grey - Yank lines which match to the last search pattern (:g/re/y)
-" Version: 0.0.0
+" grex - Operate on lines matched to the last search pattern (:g/re/x)
+" Version: 0.0.1
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -22,17 +22,55 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
-function! grey#yank() range  "{{{2
+function! grex#delete(...) range  "{{{2
+  let register = 1 <= a:0 ? a:1 : '"'
+
   let original_cursor_position = getpos('.')
+    let [original_U_content, original_U_type] = [@", getregtype('"')]
+    let [original_g_content, original_g_type] = [@g, getregtype('g')]
+      let @g = ''
+      silent execute a:firstline  ',' a:lastline 'global//delete G'
+      let _ = @g[1:]
+    call setreg('g', original_g_content, original_g_type)
+    call setreg('"', original_U_content, original_U_type)
+  call setpos('.', original_cursor_position)
+
+  call setreg(register, _)
+
+  echo len(split(@", '\n')) 'lines greded'
+endfunction
+
+
+
+
+function! grex#operator_delete(motion_wise)  "{{{2
+  '[,']call grex#delete(v:register)
+endfunction
+
+
+
+
+function! grex#operator_yank(motion_wise)  "{{{2
+  '[,']call grex#yank(v:register)
+endfunction
+
+
+
+
+function! grex#yank(...) range  "{{{2
+  let register = 1 <= a:0 ? a:1 : '"'
+
+  let original_cursor_position = getpos('.')
+    let [original_U_content, original_U_type] = [@", getregtype('"')]
     let [original_g_content, original_g_type] = [@g, getregtype('g')]
       let @g = ''
       silent execute a:firstline  ',' a:lastline 'global//yank G'
-      let @g = @g[1:]
-
-      let @" = @g
-      let @0 = @g
+      let _ = @g[1:]
     call setreg('g', original_g_content, original_g_type)
+    call setreg('"', original_U_content, original_U_type)
   call setpos('.', original_cursor_position)
+
+  call setreg(register, _)
 
   echo len(split(@0, '\n')) 'lines greyed'
 endfunction

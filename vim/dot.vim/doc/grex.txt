@@ -1,0 +1,182 @@
+*grex.txt*	Operate on lines matched to the last search pattern (:g/re/x)
+
+Version 0.0.1
+Script ID: 2773
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*grex-contents*
+
+Introduction            |grex-introduction|
+Interface               |grex-interface|
+  Commands                |grex-commands|
+  Functions               |grex-functions|
+  Key Mappings            |grex-key-mappings|
+Bugs                    |grex-bugs|
+Changelog               |grex-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*grex-introduction*
+
+*grex* is a Vim plugin to provide useful commands to operate on lines matched
+to the last search pattern.  For example, suppose you edit the following
+content:
+>
+	#950 bugfix: jump behavior
+	#923 bugfix: vs fold
+	#930 enhancement: foldlevel adjustment
+	#927 todo: release
+	#926 enhancement: performance
+	#924 enhancement: completion
+	#931 bugfix: syntax highlighting
+	#928 enhancement: key mappings
+<
+Once you search for a keyword such as "bugfix:", you can yank all lines
+matched to the search pattern with |:Grey|.  After executing |:Grey|, you can
+put the following text:
+>
+	#950 bugfix: jump behavior
+	#923 bugfix: vs fold
+	#931 bugfix: syntax highlighting
+<
+There is another command |:Gred| which deletes matched lines instead.
+
+This plugin also provides functions and operators to do the same processes as
+|:Gred| or |:Grey|.  See |grex-functions|, |grex-key-mappings| and
+|grex-commands| for the details.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Optionals:
+- |operator-user| 0.0.5 or later (vimscript#2692)
+
+Latest version:
+http://github.com/kana/config/commits/vim-grex
+
+Document in HTML format:
+http://kana.github.com/config/vim/grex.html
+
+
+
+
+==============================================================================
+INTERFACE					*grex-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*grex-commands*
+
+:[range]Gred						*:Gred*
+			Delete all lines in [range] (default: whole buffer)
+			which match to the last search pattern.
+
+			Deleted lines are copied into the unnamed register.
+
+:[range]Grey						*:Grey*
+			Yank all lines in [range] (default: whole buffer)
+			which match to the last search pattern.
+
+
+------------------------------------------------------------------------------
+FUNCTIONS					*grex-functions*
+
+grex#delete([{register}])			*grex#delete()*
+			Function version of |:Gred|.
+			Deleted lines are copied into {register}.
+
+grex#yank([{register}])				*grex#yank()*
+			Function version of |:Grey|.
+			Deleted lines are copied into {register}.
+
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*grex-key-mappings*
+
+OPERATORS					*grex-operators*
+
+Note that the following operators are only available if you have installed
+|operator-user|.
+
+["x]<Plug>(operator-grex-delete)		*<Plug>(operator-grex-delete)*
+			Operator version of |:Gred|.
+			Deleted lines are saved into register x.
+
+["x]<Plug>(operator-grex-yank)			*<Plug>(operator-grex-yank)*
+			Operator version of |:Grey|.
+			Yanked lines are saved into register x.
+
+
+
+
+==============================================================================
+BUGS						*grex-bugs*
+
+						*grex-bugs-A*
+(A) It's useful if |grex-commands| and |grex-functions| accept an argument
+which is a search pattern to specify what lines to operate.  But they aren't
+so.
+
+						*grex-bugs-B*
+(B) See also |operator-user-bugs| on problems which are related to
+|grex-operators|.
+
+						*grex-bugs-C*
+(C) Delete operations don't update "0 (|quote0|), so that |:Gred| and other
+operations should not do so, but they do.
+
+						*grex-bugs-D*
+(D) |grex-commands| don't support register designation unlike |grex-functions|
+and |grex-operators|.
+
+
+
+
+==============================================================================
+CHANGELOG					*grex-changelog*
+
+0.0.1	2009-09-08T13:06:06+09:00		*grex-changelog-0.0.1*
+	Feature enhancements:
+	- Add |:Gred|, |grex#delete()| and |<Plug>(operator-grex-delete)|.
+	- Support register designation for |grex-operators|.  |operator-user|
+	  0.0.5 or later is required to use this feature.
+	- Support register designation for functions |grex-functions|.
+
+	Minor improvements:
+	- Revise the document.
+
+	Incompatible changes:
+	- Rename the plugin as "grex".  The old name "grey" is not proper for
+	  further enhancements.
+	- Rename all commands, functions and key mappings.
+
+0.0.0	2009-09-04T22:46:29+09:00		*grex-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
