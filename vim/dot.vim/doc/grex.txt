@@ -128,11 +128,14 @@ Note that the following operators are only available if you have installed
 ==============================================================================
 BUGS						*grex-bugs*
 
-- It's useful if |grex-commands| and |grex-functions| accept an argument which
-  is a search pattern to specify what lines to operate.  But they aren't so.
+						*grex-bugs-A*
+(A) It's useful if |grex-commands| and |grex-functions| accept an argument
+which is a search pattern to specify what lines to operate.  But they aren't
+so.
 
-- See also |operator-user-bugs| on problems which are related to operators
-  described in |grex-key-mappings|.
+						*grex-bugs-B*
+(B) See also |operator-user-bugs| on problems which are related to operators
+described in |grex-key-mappings|.
 
 
 
