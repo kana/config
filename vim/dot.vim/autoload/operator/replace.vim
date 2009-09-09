@@ -29,8 +29,10 @@ function! operator#replace#do(motion_wise)  "{{{2
     " possible to what "{register} user gives.
   let register = v:register != '' ? v:register : '"'
 
+  let put_command = s:deletion_moves_the_cursor_p() ? 'p' : 'P'
+
   execute 'normal!' '`['.visual_command.'`]"_d'
-  execute 'normal!' '"'.register.'P'
+  execute 'normal!' '"'.register.put_command
   return
 endfunction
 
@@ -42,6 +44,17 @@ endfunction
 
 
 " Misc.  "{{{1
+function! s:deletion_moves_the_cursor_p()  "{{{2()
+  return 0  " FIXME: NIY
+endfunction
+
+
+
+
+
+
+
+
 function! s:visual_command_from_wise_name(wise_name)  "{{{2()
   if a:wise_name ==# 'char'
     return 'v'
