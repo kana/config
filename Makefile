@@ -473,7 +473,7 @@ PACKAGE_vim_operator_replace_FILES=\
   vim/dot.vim/doc/operator-replace.txt \
   vim/dot.vim/plugin/operator/replace.vim
 
-PACKAGE_vim_operator_user_ARCHIVE=vim-operator-user-0.0.3
+PACKAGE_vim_operator_user_ARCHIVE=vim-operator-user-0.0.5
 PACKAGE_vim_operator_user_BASE=vim/dot.vim
 PACKAGE_vim_operator_user_FILES=\
   vim/dot.vim/autoload/operator/user.vim \
