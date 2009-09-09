@@ -162,7 +162,7 @@ CHANGELOG					*grex-changelog*
 	- Add |:Gred|, |grex#delete()| and |<Plug>(operator-grex-delete)|.
 	- Support register designation for |grex-operators|.  |operator-user|
 	  0.0.5 or later is required to use this feature.
-	- Support register designation for functions |grex-functions|.
+	- Support register designation for |grex-functions|.
 
 	Minor improvements:
 	- Revise the document.
