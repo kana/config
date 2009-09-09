@@ -1684,6 +1684,7 @@ call operator#user#define_ex_command('my-sort', 'sort')
 
 
 " The operator will be defined by "grex" plugin.
+Arpeggio map od  <Plug>(operator-grex-delete)
 Arpeggio map oy  <Plug>(operator-grex-yank)
 nmap gy  <Plug>(operator-grex-yank)<Plug>(textobj-entire-a)
 vmap gy  <Plug>(operator-grex-yank)
