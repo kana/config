@@ -75,7 +75,43 @@ Result: 1 / 1
 
 ===== "Usage: line {motion} vs line {register} content"
 TEST: getline(1, line('$'))  ==>  text ... ok
-Result: 1 / 1
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed1\n", 'V'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral1\n", 'V'] ... ok
+TEST: getline(1)  ==>  'unnamed1' ... ok
+TEST: getline(2)  ==>  'Super Super Mega Kawaii' ... ok
+TEST: getline(3)  ==>  'Sasara moe!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed1\n", 'V'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral1\n", 'V'] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed2\n", 'V'] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed2\n", 'V'] ... ok
+TEST: getline(1)  ==>  'unnamed1' ... ok
+TEST: getline(2)  ==>  'unnamed2' ... ok
+TEST: getline(3)  ==>  'Sasara moe!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed2\n", 'V'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral2\n", 'V'] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed3\n", 'V'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral3\n", 'V'] ... ok
+TEST: getline(1)  ==>  'unnamed1' ... ok
+TEST: getline(2)  ==>  'unnamed2' ... ok
+TEST: getline(3)  ==>  'Spiral3' ... ok
+TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed3\n", 'V'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral3\n", 'V'] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed4\n", 'V'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral4\n", 'V'] ... ok
+TEST: getline(1)  ==>  'unnamed1' ... ok
+TEST: getline(2)  ==>  'unnamed2' ... ok
+TEST: getline(3)  ==>  'Spiral3' ... FAILED
+  Actual value: Spiral4
+  Expected value: Spiral3
+TEST: getline(4)  ==>  'Spiral4' ... FAILED
+  Actual value: Spiral3
+  Expected value: Spiral4
+TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed4\n", 'V'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral4\n", 'V'] ... ok
+Result: 31 / 33
 
 ===== Total
-Result: 49 / 49
+Result: 79 / 81

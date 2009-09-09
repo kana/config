@@ -247,13 +247,68 @@ function s:test_usage_line_vs_line()  "{{{1
   let text = [
   \     '(herb oil pepper) salt water',
   \     'Super Super Mega Kawaii',
-  \     'Sasara moe!  It''s burning!'
+  \     'Sasara moe!  It''s burning!',
+  \     'Alter, you are also SSMK.'
   \   ]
   silent put =text
   1 delete _
   Assert getline(1, line('$')) ==> text
 
-  " FIXME: NIY
+  " Case 1: {operator}{linewise-motion} without register designation
+  normal! 1G
+  let @" = "unnamed1\n"
+  let @s = "Spiral1\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed1\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral1\n", 'V']
+  execute 'normal' "\<Plug>(operator-replace)\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'Super Super Mega Kawaii'
+  Assert getline(3) ==> 'Sasara moe!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed1\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral1\n", 'V']
+
+  " Case 2: {linewise-Visual}{operator} without register designation
+  normal! 2G
+  let @" = "unnamed2\n"
+  let @s = "Spiral2\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed2\n", 'V']
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed2\n", 'V']
+  execute 'normal' "Vwl\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Sasara moe!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed2\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral2\n", 'V']
+
+  " Case 3: {operator}{linewise-motion} with register designation
+  normal! 3G
+  let @" = "unnamed3\n"
+  let @s = "Spiral3\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed3\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral3\n", 'V']
+  execute 'normal' "\"s\<Plug>(operator-replace)\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Spiral3'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed3\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral3\n", 'V']
+
+  " Case 4: {linewise-Visual}{operator} with register designation
+  normal! 4G
+  let @" = "unnamed4\n"
+  let @s = "Spiral4\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed4\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral4\n", 'V']
+  execute 'normal' "Veh\"s\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Spiral3'
+  Assert getline(4) ==> 'Spiral4'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed4\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral4\n", 'V']
 endfunction
 
 
