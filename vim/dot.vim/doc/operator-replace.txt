@@ -46,7 +46,7 @@ operations such as "d{motion}P" and "c{motion}<C-r>{register}".
 
 Requirements:
 - Vim 7.2 or later
-- |operator-user| 0.0.3 or later (vimscript#2692)
+- |operator-user| 0.0.5 or later (vimscript#2692)
 
 Latest version:
 http://github.com/kana/config/commits/vim-operator-replace
@@ -108,9 +108,6 @@ BUGS						*operator-replace-bugs*
 
 - Combinations of wises of {motion} and register content are not considered
   well, especially with blockwise ones.
-
-- Because of a bug in |operator-user|, currently it's not possible to handle
-  register designation ("x).  The unnamed register is always used instead.
 
 - See also |operator-user-bugs|.
 
