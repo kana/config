@@ -30,15 +30,18 @@ TEST: getline(1, line('$'))  ==>  text ... ok
 TEST: [line('.'), col('.')]  ==>  [1, 7] ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed', 'v'] ... ok
 TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
-TEST: getline(2, line('$'))  ==>  text[1:] ... ok
+TEST: getline(2)  ==>  'Super Super Mega Kawaii' ... ok
+TEST: getline(3)  ==>  'Sasara moe!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed', 'v'] ... ok
 TEST: [line('.'), col('.')]  ==>  [2, 8] ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed2', 'v'] ... ok
 TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
 TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara moe!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed2', 'v'] ... ok
-Result: 12 / 12
+Result: 15 / 15
 
 ===== "Usage: char {motion} vs line {register} content"
 TEST: getline(1, line('$'))  ==>  text ... ok
@@ -57,4 +60,4 @@ TEST: getline(1, line('$'))  ==>  text ... ok
 Result: 1 / 1
 
 ===== Total
-Result: 28 / 28
+Result: 31 / 31
