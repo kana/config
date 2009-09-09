@@ -42,19 +42,20 @@ Changelog		|arpeggio-changelog|
 INTRODUCTION					*arpeggio-introduction*
 
 *arpeggio* is a Vim plugin to define another type of |key-mapping| called as
-*arpeggio-key-mapping* which consists of 2 or more keys and it will be mapped
-to a key sequence whenever all keys are simultaneously pressed.  For example:
+*arpeggio-key-mapping* which consists of 2 or more keys.  Whenever all keys
+are simultaneously pressed, they are mapped to another key sequence.
+For example:
 >
-	Arpeggionoremap! jk  <Esc>
+	Arpeggio inoremap jk  <Esc>
 	" OR
-	call arpeggio#map('ic', '', 0, 'jk', '<Esc>')
+	call arpeggio#map('i', '', 0, 'jk', '<Esc>')
 <
-With the above definition, you can input <Esc> in Insert mode and Command-line
-mode by pressing "j" and "k" simultaneously, while solely pressed "j" are "k"
-are worked the same as the default ones.
+With the above definition, you can input <Esc> in Insert mode by pressing "j"
+and "k" simultaneously, while solely pressed "j" and "k" works the same as the
+default ones, i.e., the corresponding characters are inserted.
 
-The concept of this plugin is derived from Emacs' key-chord.el (*1), but there
-are the following differences:
+The concept of this plugin is derived from Emacs' key-chord.el (*1),
+but there are the following differences:
 
 - Number of keys to be simultaneously pressed is unlimited.
 
@@ -203,9 +204,9 @@ arpeggio#map({modes}, {options}, {remap-p}, {lhs}, {rhs})
 				  aborted.
 
 			{remap-p}
-				Number as a boolean.  True means that rhs can
-				be remapped, false means remapping is not
-				allowed.
+				Number as a boolean.  True means that {rhs}
+				can be remapped, false means {rhs} cannot be
+				remapped[
 
 			{lhs}
 				String.  This value must contain two or more
@@ -282,6 +283,7 @@ CHANGELOG					*arpeggio-changelog*
 
 0.0.6	2009-05-23T03:12:08+09:00		*arpeggio-changelog-0.0.6*
 	- Fix minor mistakes.
+	- Revise a bit of the document.
 
 0.0.5	2008-11-19T23:11:31+09:00		*arpeggio-changelog-0.0.5*
 	- Remove the assumption on 'timeout' and 'ttimeout'.  Old version
