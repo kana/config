@@ -41,7 +41,25 @@ TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara moe!  It''s burning!' ... ok
 TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed2', 'v'] ... ok
-Result: 15 / 15
+TEST: [line('.'), col('.')]  ==>  [3, 8] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed3', 'v'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ['!@#$%^&*()', 'v'] ... ok
+TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
+TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
+TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed3', 'v'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ['!@#$%^&*()', 'v'] ... ok
+TEST: [line('.'), col('.')]  ==>  [4, 21] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  [')(*&^%$#@!', 'v'] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
+TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
+TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
+TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are also )(*&^%$#@!.' ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  [')(*&^%$#@!', 'v'] ... ok
+Result: 33 / 33
 
 ===== "Usage: char {motion} vs line {register} content"
 TEST: getline(1, line('$'))  ==>  text ... ok
@@ -60,4 +78,4 @@ TEST: getline(1, line('$'))  ==>  text ... ok
 Result: 1 / 1
 
 ===== Total
-Result: 31 / 31
+Result: 49 / 49
