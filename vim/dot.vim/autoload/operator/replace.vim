@@ -27,14 +27,10 @@ function! operator#replace#do(motion_wise)  "{{{2
     " v:register will be overwritten by "_d, so that the current value of
     " v:register must be saved before deletion.  Without saving, it's not
     " possible to what "{register} user gives.
-  let register = v:register
+  let register = v:register != '' ? v:register : '"'
 
   execute 'normal!' '`['.visual_command.'`]"_d'
-  if register == ''
-    normal! P
-  else
-    execute 'normal!' '"'.register.'P'
-  endif
+  execute 'normal!' '"'.register.'P'
   return
 endfunction
 
