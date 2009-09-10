@@ -1683,11 +1683,12 @@ call operator#user#define_ex_command('my-sort', 'sort')
 " User key mappings will be defined later - see [Space].
 
 
-" The operator will be defined by "grey" plugin.
-Arpeggio map oy  <Plug>(operator-grey)
-nmap gy  <Plug>(operator-grey)<Plug>(textobj-entire-a)
-vmap gy  <Plug>(operator-grey)
-omap gy  <Plug>(operator-grey)
+" The operator will be defined by "grex" plugin.
+Arpeggio map od  <Plug>(operator-grex-delete)
+Arpeggio map oy  <Plug>(operator-grex-yank)
+nmap gy  <Plug>(operator-grex-yank)<Plug>(textobj-entire-a)
+vmap gy  <Plug>(operator-grex-yank)
+omap gy  <Plug>(operator-grex-yank)
 
 
 
