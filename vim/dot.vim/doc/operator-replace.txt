@@ -1,7 +1,7 @@
 *operator-replace.txt*	Operator to replace text with register content
 
 Version 0.0.0
-Script ID: ****
+Script ID: 2782
 Copyright (C) 2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
