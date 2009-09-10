@@ -1,0 +1,320 @@
+" Tests for operator-replace
+function s:test_named_key_mappings()  "{{{1
+  Title "Named key mappings"
+
+  let _ = '<Plug>(operator-replace)'
+  Assert maparg(_, 'c') != '' ==> 0
+  Assert maparg(_, 'i') != '' ==> 0
+  Assert maparg(_, 'n') != '' ==> 1
+  Assert maparg(_, 'o') != '' ==> 1
+  Assert maparg(_, 'v') != '' ==> 1
+
+  Assert maparg(_, 'n') =~# 'operator#replace#' ==> 1
+  Assert maparg(_, 'o') ==> 'g@'
+  Assert maparg(_, 'v') =~# 'operator#replace#' ==> 1
+endfunction
+
+
+
+
+function s:test_usage_block_vs_block()  "{{{1
+  Title "Usage: block {motion} vs block {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_block_vs_char()  "{{{1
+  Title "Usage: block {motion} vs char {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_block_vs_line()  "{{{1
+  Title "Usage: block {motion} vs line {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_char_vs_block()  "{{{1
+  Title "Usage: char {motion} vs block {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_char_vs_char()  "{{{1
+  Title "Usage: char {motion} vs char {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!',
+  \     'Alter, you are also SSMK.'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " Case 1: {operator}{characterwise-motion} without register designation
+  normal! 1G0W
+  Assert [line('.'), col('.')] ==> [1, 7]
+  let @" = 'unnamed'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed', 'v']
+  execute 'normal' "\<Plug>(operator-replace)e"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2) ==> 'Super Super Mega Kawaii'
+  Assert getline(3) ==> 'Sasara moe!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed', 'v']
+
+  " Case 2: {characterwise-Visual}{operator} without register designation
+  normal! 2G0Wl
+  Assert [line('.'), col('.')] ==> [2, 8]
+  let @" = 'unnamed2'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed2', 'v']
+  execute 'normal' "vWl\<Plug>(operator-replace)"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
+  Assert getline(3) ==> 'Sasara moe!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed2', 'v']
+
+  " Case 3: {operator}{characterwise-motion} with register designation
+  normal! 3G0W
+  Assert [line('.'), col('.')] ==> [3, 8]
+  let @" = 'unnamed3'
+  let @s = '!@#$%^&*()'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed3', 'v']
+  Assert [getreg('s'), getregtype('s')] ==> ['!@#$%^&*()', 'v']
+  execute 'normal' "\"s\<Plug>(operator-replace)e"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
+  Assert getline(3) ==> 'Sasara !@#$%^&*()!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed3', 'v']
+  Assert [getreg('s'), getregtype('s')] ==> ['!@#$%^&*()', 'v']
+
+  " Case 4: {characterwise-Visual}{operator} with register designation
+  normal! 4G$B
+  Assert [line('.'), col('.')] ==> [4, 21]
+  let @" = 'unnamed4'
+  let @s = ')(*&^%$#@!'
+  Assert [getreg('s'), getregtype('s')] ==> [')(*&^%$#@!', 'v']
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed4', 'v']
+  execute 'normal' "ve\"s\<Plug>(operator-replace)"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
+  Assert getline(3) ==> 'Sasara !@#$%^&*()!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also )(*&^%$#@!.'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed4', 'v']
+  Assert [getreg('s'), getregtype('s')] ==> [')(*&^%$#@!', 'v']
+endfunction
+
+
+
+
+function s:test_usage_char_vs_line()  "{{{1
+  Title "Usage: char {motion} vs line {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_line_vs_block()  "{{{1
+  Title "Usage: line {motion} vs block {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_line_vs_char()  "{{{1
+  Title "Usage: line {motion} vs char {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " FIXME: NIY - but what result I expect for this case?
+endfunction
+
+
+
+
+function s:test_usage_line_vs_line()  "{{{1
+  Title "Usage: line {motion} vs line {register} content"
+
+  tabnew
+  tabonly!
+
+  let text = [
+  \     '(herb oil pepper) salt water',
+  \     'Super Super Mega Kawaii',
+  \     'Sasara moe!  It''s burning!',
+  \     'Alter, you are also SSMK.'
+  \   ]
+  silent put =text
+  1 delete _
+  Assert getline(1, line('$')) ==> text
+
+  " Case 1: {operator}{linewise-motion} without register designation
+  normal! 1G
+  let @" = "unnamed1\n"
+  let @s = "Spiral1\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed1\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral1\n", 'V']
+  execute 'normal' "\<Plug>(operator-replace)\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'Super Super Mega Kawaii'
+  Assert getline(3) ==> 'Sasara moe!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed1\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral1\n", 'V']
+
+  " Case 2: {linewise-Visual}{operator} without register designation
+  normal! 2G
+  let @" = "unnamed2\n"
+  let @s = "Spiral2\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed2\n", 'V']
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed2\n", 'V']
+  execute 'normal' "Vwl\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Sasara moe!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed2\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral2\n", 'V']
+
+  " Case 3: {operator}{linewise-motion} with register designation
+  normal! 3G
+  let @" = "unnamed3\n"
+  let @s = "Spiral3\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed3\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral3\n", 'V']
+  execute 'normal' "\"s\<Plug>(operator-replace)\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Spiral3'
+  Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed3\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral3\n", 'V']
+
+  " Case 4: {linewise-Visual}{operator} with register designation
+  normal! 4G
+  let @" = "unnamed4\n"
+  let @s = "Spiral4\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed4\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral4\n", 'V']
+  execute 'normal' "Veh\"s\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Spiral3'
+  Assert getline(4) ==> 'Spiral4'
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed4\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral4\n", 'V']
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
