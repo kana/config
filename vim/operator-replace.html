@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: operator-replace - Operator to replace text with register content</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="operator-replace.txt">operator-replace.txt</span><span class="Ignore">*</span>  Operator to replace text with register content
+
+Version 0.0.0
+Script ID: 2782
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-contents">operator-replace-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="operator-replace.html#operator-replace-introduction"><span class="Identifier">operator-replace-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="operator-replace.html#operator-replace-interface"><span class="Identifier">operator-replace-interface</span></a><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><a href="operator-replace.html#operator-replace-key-mappings"><span class="Identifier">operator-replace-key-mappings</span></a><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><a href="operator-replace.html#operator-replace-examples"><span class="Identifier">operator-replace-examples</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="operator-replace.html#operator-replace-bugs"><span class="Identifier">operator-replace-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="operator-replace.html#operator-replace-changelog"><span class="Identifier">operator-replace-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                   </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-introduction">operator-replace-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="operator-replace">operator-replace</span><span class="Ignore">*</span> is a Vim plugin to provide an operator to replace
+a specified text with register content.  This is shortcut for several types of
+operations such as &quot;d<span class="Special">{motion}</span>P&quot; and &quot;c<span class="Special">{motion}&lt;C-r&gt;{register}</span>&quot;.
+
+
+Requirements:
+- Vim 7.2 or later
+- <span class="Ignore">|</span><a href="operator-user.html#operator-user"><span class="Identifier">operator-user</span></a><span class="Ignore">|</span> 0.0.5 or later (vimscript#2692)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-operator-replace">http://github.com/kana/config/commits/vim-operator-replace</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/operator-replace.html">http://kana.github.com/config/vim/operator-replace.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-interface">operator-replace-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                   </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-key-mappings">operator-replace-key-mappings</span><span class="Ignore">*</span>
+
+[&quot;x]<span class="Special">&lt;Plug&gt;</span>(operator-replace)<span class="Special">{motion}</span>            <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(operator-replace)">&lt;Plug&gt;(operator-replace)</span><span class="Ignore">*</span>
+                        Replace text that <span class="Special">{motion}</span> moves over with register x.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-examples">operator-replace-examples</span><span class="Ignore">*</span>
+
+(A) At first, you have to map arbitrary key sequences to
+    <span class="Ignore">|</span><a href="operator-replace.html#&lt;Plug&gt;(operator-replace)"><span class="Identifier">&lt;Plug&gt;(operator-replace)</span></a><span class="Ignore">|</span> like the following:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        map _  &lt;Plug&gt;(operator-replace)</span>
+<span class="Ignore">&lt;</span>
+
+(B) Suppose that you edit a buffer with the following content:
+    (note that &quot;^&quot; indicates the cursor position)
+<span class="Ignore">&gt;</span>
+<span class="Comment">        (herb oil pepper) salt water</span>
+<span class="Comment">        ^</span>
+<span class="Ignore">&lt;</span>
+    If you yank &quot;sugar&quot; into register x, now you can replace any text with the
+    yanked text.  For example:
+
+        To replace the 2nd word:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                w&quot;x_iw</span>
+<span class="Ignore">&lt;</span>
+        To replace inside the parens:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                &quot;x_ib</span>
+<span class="Ignore">&lt;</span>
+        To replace the cursor line:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                &quot;x__</span>
+<span class="Ignore">&lt;</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-bugs">operator-replace-bugs</span><span class="Ignore">*</span>
+
+- Combinations of wises of <span class="Special">{motion}</span> and register content are not considered
+  well, especially with blockwise ones.
+
+- There is an edge case bug.  Replacing at the end of buffer doesn't work as
+  you expect.  This bug will be fixed soon.
+
+- See also <span class="Ignore">|</span><a href="operator-user.html#operator-user-bugs"><span class="Identifier">operator-user-bugs</span></a><span class="Ignore">|</span>.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-changelog">operator-replace-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-09-06T10:13:20+09:00           <span class="Ignore">*</span><span class="Constant" id="operator-replace-changelog-0.0.0">operator-replace-changelog-0.0.0</span><span class="Ignore">*</span>
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>
