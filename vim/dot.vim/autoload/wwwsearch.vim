@@ -122,19 +122,19 @@ endfunction
 
 function! s:uri_escape(s)  "{{{2
   if s:safe_map is 0
-    let safe_chars_s = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    \                   . 'abcdefghijklmnopqrstuvwxyz'
-    \                   . '0123456789'
-    \                   . '_.-'
-    \                   . '/')
-    let safe_chars = map(range(len(safe_chars_s)), 'safe_chars_s[v:val]')
+    let safe_chars = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    \                 . 'abcdefghijklmnopqrstuvwxyz'
+    \                 . '0123456789'
+    \                 . '_.-'
+    \                 . '/')
+    unlet s:safe_map
     let s:safe_map = {}
     for i in range(256)
       let c = nr2char(i)
-      let s:safe_map[c] = 0 <= index(safe_chars, c) ? printf('%02X', i) : c
+      let s:safe_map[i] = 0 <= stridx(safe_chars, c) ? c : printf('%%%02X', i)
     endfor
   endif
-  return join(map(range(len(a:s)), 's:safe_map[a:s[v:val]]'), '')
+  return join(map(range(len(a:s)), 's:safe_map[char2nr(a:s[v:val])]'), '')
 endfunction
 
 let s:safe_map = 0
