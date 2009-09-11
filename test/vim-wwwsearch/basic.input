@@ -1,0 +1,64 @@
+" Tests for wwwsearch
+" Initial set up  "{{{1
+
+let s:SID_PREFIX = wwwsearch#_sid_prefix()
+function Call(function_name, ...)
+  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
+endfunction
+
+
+
+
+function s:test_default_command_to_open_uri()  "{{{1
+  Title "s:default_command_to_open_uri()"
+endfunction
+
+
+
+
+function s:test_uri_escape()  "{{{1
+  Title "s:uri_escape()"
+endfunction
+
+
+
+
+function s:test_uri_to_search()  "{{{1
+  Title "s:uri_to_search()"
+endfunction
+
+
+
+
+function s:test_wwwsearch_add()  "{{{1
+  Title "wwwsearch#add()"
+endfunction
+
+
+
+
+function s:test_wwwsearch_cmd_Wwwsearch_complete()  "{{{1
+  Title "wwwsearch#cmd_Wwwsearch_complete()"
+endfunction
+
+
+
+
+function s:test_wwwsearch_cmd_Wwwsearch()  "{{{1
+  Title "wwwsearch#cmd_Wwwsearch()"
+endfunction
+
+
+
+
+function s:test_wwwsearch_search()  "{{{1
+  Title "wwwsearch#search()"
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker

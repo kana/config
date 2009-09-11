@@ -177,6 +177,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
+  $(PACKAGE_vim_wwwsearch_FILES) \
   $(PACKAGE_vim_misc_FILES)
 GROUP_VIM_RULE=$(patsubst vim/dot.%,$(HOME)/.%,$(1))
 GROUP_VIM_POST_TARGETS=post-vim-update-local-helptags
@@ -264,7 +265,8 @@ ALL_PACKAGES=\
   vim-textobj-user \
   vim-vcsi \
   vim-xml_autons \
-  vim-xml_move
+  vim-xml_move \
+  vim-wwwsearch
 
 PACKAGE_all_ARCHIVE=all
 PACKAGE_all_BASE=.
@@ -620,6 +622,13 @@ PACKAGE_vim_xml_move_FILES=\
   vim/dot.vim/after/ftplugin/xml_move.vim \
   vim/dot.vim/doc/xml_move.txt
 
+PACKAGE_vim_wwwsearch_ARCHIVE=vim-wwwsearch-0.0.0
+PACKAGE_vim_wwwsearch_BASE=vim/dot.vim
+PACKAGE_vim_wwwsearch_FILES=\
+  vim/dot.vim/autoload/wwwsearch.vim \
+  vim/dot.vim/doc/wwwsearch.txt \
+  vim/dot.vim/plugin/wwwsearch.vim
+
 
 
 
@@ -903,6 +912,18 @@ test/vim-textobj-syntax/%.output: \
 		test/tester-vim \
 		vim/dot.vim/autoload/textobj/syntax.vim \
 		vim/dot.vim/plugin/textobj/syntax.vim
+	@./test/tester-vim $< &>$@
+
+
+# vim-wwwsearch  #{{{2
+TESTS_vim_wwwsearch = basic
+
+test/vim-wwwsearch/%.output: \
+		test/vim-wwwsearch/%.input \
+		test/libtest.vim \
+		test/tester-vim \
+		vim/dot.vim/autoload/wwwsearch.vim \
+		vim/dot.vim/plugin/wwwsearch.vim
 	@./test/tester-vim $< &>$@
 
 

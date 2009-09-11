@@ -1,0 +1,23 @@
+===== "s:default_command_to_open_uri()"
+Result: 0 / 0
+
+===== "s:uri_escape()"
+Result: 0 / 0
+
+===== "s:uri_to_search()"
+Result: 0 / 0
+
+===== "wwwsearch#add()"
+Result: 0 / 0
+
+===== "wwwsearch#cmd_Wwwsearch()"
+Result: 0 / 0
+
+===== "wwwsearch#cmd_Wwwsearch_complete()"
+Result: 0 / 0
+
+===== "wwwsearch#search()"
+Result: 0 / 0
+
+===== Total
+Result: 0 / 0
