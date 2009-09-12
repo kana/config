@@ -269,7 +269,9 @@ TEST: Call('s:uri_to_search', '{keyword}', 'google')  ==>  'http://www.google.co
 Result: 3 / 3
 
 ===== "wwwsearch#add()"
-Result: 0 / 0
+TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  'sasara is kawaii' ... ok
+TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  'sasara is super super mega kawaii' ... ok
+Result: 2 / 2
 
 ===== "wwwsearch#cmd_Wwwsearch()"
 Result: 0 / 0
@@ -281,4 +283,4 @@ Result: 0 / 0
 Result: 0 / 0
 
 ===== Total
-Result: 260 / 260
+Result: 262 / 262

@@ -59,6 +59,13 @@ endfunction
 
 function s:test_wwwsearch_add()  "{{{1
   Title "wwwsearch#add()"
+
+  call wwwsearch#add('sasara', 'sasara {keyword} kawaii')
+  Assert Call('s:uri_to_search', 'is', 'sasara') ==> 'sasara is kawaii'
+
+  call wwwsearch#add('sasara', 'sasara {keyword} super super mega kawaii')
+  Assert Call('s:uri_to_search', 'is', 'sasara')
+  \ ==> 'sasara is super super mega kawaii'
 endfunction
 
 
