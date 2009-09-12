@@ -116,7 +116,7 @@ endfunction
 
 function! wwwsearch#cmd_Wwwsearch_complete(arglead, cmdline, cursorpos)  "{{{2
   " FIXME: context-aware completion
-  return sort(keys(s:search_engines))
+  return map(sort(keys(s:search_engines)), '"-" . v:val')
 endfunction
 
 
