@@ -66,10 +66,10 @@ let s:search_engines = {}  " search-engine-name => uri-template
 
 " Default set of search engines  "{{{2
 
-" FIXME: Add search engines.
+" FIXME: Add more search engines.
 
-" call wwwsearch#add('default', 'http://www.google.com/search?q={uri}')
-" call wwwsearch#add('google', 'http://www.google.com/search?q={uri}')
+call wwwsearch#add('default', 'http://www.google.com/search?q={keyword}')
+call wwwsearch#add('google', 'http://www.google.com/search?q={keyword}')
 " call wwwsearch#add('vim', '...')
 " call wwwsearch#add('wikipedia', '...')
 " ...
