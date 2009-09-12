@@ -11,6 +11,10 @@ endfunction
 
 function s:test_default_command_to_open_uri()  "{{{1
   Title "s:default_command_to_open_uri()"
+
+  " FIXME: How do I write a portable test?
+  " Assumption: This test is run on Mac OS X.
+  Assert Call('s:default_command_to_open_uri') ==> 'open {uri}'
 endfunction
 
 
@@ -18,6 +22,20 @@ endfunction
 
 function s:test_uri_escape()  "{{{1
   Title "s:uri_escape()"
+
+  let safe_chars = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  \                 . 'abcdefghijklmnopqrstuvwxyz'
+  \                 . '0123456789'
+  \                 . '_.-'
+  \                 . '/')
+
+  " BUGS: NUL cannot be tested properly because of a restriction of Vim.
+  for i in range(256)
+    let c = nr2char(i)
+    let expected = 0 <= stridx(safe_chars, c) ? c : printf('%%%02X', i)
+    execute 'Assert' 'Call(''s:uri_escape'', '.string(c).')'
+    \ '==>' string(expected)
+  endfor
 endfunction
 
 
@@ -25,6 +43,15 @@ endfunction
 
 function s:test_uri_to_search()  "{{{1
   Title "s:uri_to_search()"
+
+  Assert Call('s:uri_to_search', 'keyword', 'default')
+  \ ==> 'http://www.google.com/search?q=keyword'
+
+  Assert Call('s:uri_to_search', 'keyword', 'google')
+  \ ==> 'http://www.google.com/search?q=keyword'
+
+  Assert Call('s:uri_to_search', '{keyword}', 'google')
+  \ ==> 'http://www.google.com/search?q=%7Bkeyword%7D'
 endfunction
 
 
