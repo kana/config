@@ -104,6 +104,14 @@ wwwsearch#search({keyword}, [{search-engine}])	*wwwsearch#search()*
 wwwsearch#add({search-engine}, {uri-template})	*wwwsearch#add()*
 			Add new search engine to use with |:Wwwsearch|.
 
+			If a search engine with the same name as
+			{search-engine} is already added before, the old one
+			is overridden by the new one.  There is no warning.
+
+			Return value is {uri-template} of the old definition.
+			If there is no old definition, null string is returned
+			instead.
+
 			{search-engine}	(string)
 				The name of a search engine.
 				This value may include any character, but it's

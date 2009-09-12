@@ -23,8 +23,9 @@
 " }}}
 " Interface  "{{{1
 function! wwwsearch#add(search_engine_name, uri_template)  "{{{2
+  let old_uri_template = get(s:search_engines, a:search_engine_name, '')
   let s:search_engines[a:search_engine_name] = a:uri_template
-  return
+  return old_uri_template
 endfunction
 
 
