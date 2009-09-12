@@ -76,19 +76,6 @@ let s:search_engines = {}  " search-engine-name => uri-template
 
 
 
-" Default set of search engines  "{{{2
-
-" FIXME: Add more search engines.
-
-call wwwsearch#add('default', 'http://www.google.com/search?q={keyword}')
-call wwwsearch#add('google', 'http://www.google.com/search?q={keyword}')
-" call wwwsearch#add('vim', '...')
-" call wwwsearch#add('wikipedia', '...')
-" ...
-
-
-
-
 function! wwwsearch#cmd_Wwwsearch(args)  "{{{2
   if args[0][:0] == '-'
     return wwwsearch#search(join(args[1:]), args[0])
@@ -166,6 +153,22 @@ function! s:uri_to_search(keyword, search_engine_name)  "{{{2
   let uri_escaped_keyword = s:uri_escape(a:keyword)
   return substitute(uri_template, '{keyword}', uri_escaped_keyword, 'g')
 endfunction
+
+
+
+
+" Default set of search engines  "{{{2
+
+" BUGS: To ensure that any other stuffs are available,
+"       this section must be written at the end of this file.
+
+" FIXME: Add more search engines.
+
+call wwwsearch#add('default', 'http://www.google.com/search?q={keyword}')
+call wwwsearch#add('google', 'http://www.google.com/search?q={keyword}')
+" call wwwsearch#add('vim', '...')
+" call wwwsearch#add('wikipedia', '...')
+" ...
 
 
 
