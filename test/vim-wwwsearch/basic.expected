@@ -291,7 +291,8 @@ Result: 6 / 6
 Result: 0 / 0
 
 ===== "wwwsearch#cmd_Wwwsearch_complete()"
-Result: 0 / 0
+TEST: wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)  ==>  ['-default', '-google'] ... ok
+Result: 1 / 1
 
 ===== "wwwsearch#remove()"
 TEST: wwwsearch#remove('wwwsearch#remove')  ==>  '' ... ok
@@ -304,4 +305,4 @@ Result: 4 / 4
 Result: 0 / 0
 
 ===== Total
-Result: 277 / 277
+Result: 278 / 278

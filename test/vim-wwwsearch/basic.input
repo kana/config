@@ -95,6 +95,11 @@ endfunction
 
 function s:test_wwwsearch_cmd_Wwwsearch_complete()  "{{{1
   Title "wwwsearch#cmd_Wwwsearch_complete()"
+
+  " FIXME: More proper arguments.
+  " FIXME: More tests.
+  Assert wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)
+  \ ==> ['-default', '-google']
 endfunction
 
 
