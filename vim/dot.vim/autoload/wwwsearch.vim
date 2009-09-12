@@ -132,6 +132,13 @@ endfunction
 
 
 
+function! s:normalize_search_engine_name(s)  "{{{2
+  return substitute(a:s, '^-', '', '')
+endfunction
+
+
+
+
 function! s:uri_escape(s)  "{{{2
   if s:safe_map is 0
     let safe_chars = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'

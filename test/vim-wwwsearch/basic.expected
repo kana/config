@@ -2,6 +2,16 @@
 TEST: Call('s:default_command_to_open_uri')  ==>  'open {uri}' ... ok
 Result: 1 / 1
 
+===== "s:normalize_search_engine_name()"
+TEST: Call('s:normalize_search_engine_name', '')  ==>  '' ... ok
+TEST: Call('s:normalize_search_engine_name', '-')  ==>  '' ... ok
+TEST: Call('s:normalize_search_engine_name', '--')  ==>  '-' ... ok
+TEST: Call('s:normalize_search_engine_name', '->')  ==>  '>' ... ok
+TEST: Call('s:normalize_search_engine_name', '>-')  ==>  '>-' ... ok
+TEST: Call('s:normalize_search_engine_name', 'sasara')  ==>  'sasara' ... ok
+TEST: Call('s:normalize_search_engine_name', '-sasara')  ==>  'sasara' ... ok
+Result: 7 / 7
+
 ===== "s:uri_escape()"
 TEST: Call('s:uri_escape', '')  ==>  '' ... ok
 TEST: Call('s:uri_escape', '^A')  ==>  '%01' ... ok
@@ -291,4 +301,4 @@ Result: 3 / 3
 Result: 0 / 0
 
 ===== Total
-Result: 267 / 267
+Result: 274 / 274

@@ -20,6 +20,22 @@ endfunction
 
 
 
+function s:test_normalize_search_engine_name()  "{{{1
+  Title "s:normalize_search_engine_name()"
+
+  Assert Call('s:normalize_search_engine_name', '') ==> ''
+  Assert Call('s:normalize_search_engine_name', '-') ==> ''
+  Assert Call('s:normalize_search_engine_name', '--') ==> '-'
+  Assert Call('s:normalize_search_engine_name', '->') ==> '>'
+  Assert Call('s:normalize_search_engine_name', '>-') ==> '>-'
+
+  Assert Call('s:normalize_search_engine_name', 'sasara') ==> 'sasara'
+  Assert Call('s:normalize_search_engine_name', '-sasara') ==> 'sasara'
+endfunction
+
+
+
+
 function s:test_uri_escape()  "{{{1
   Title "s:uri_escape()"
 
