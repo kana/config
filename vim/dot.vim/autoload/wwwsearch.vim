@@ -21,19 +21,46 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Notes  "{{{1
+"
+" Naming conventions:
+"
+" search_engine_name
+"   The name of a search engine.
+"
+" n_search_engine_name
+"   Normalized search_engine_name.
+"
+" u_search_engine_name
+"   Unnormalized search_engine_name.
+
+
+
+
+
+
+
+
 " Interface  "{{{1
-function! wwwsearch#add(search_engine_name, uri_template)  "{{{2
-  let old_uri_template = get(s:search_engines, a:search_engine_name, '')
-  let s:search_engines[a:search_engine_name] = a:uri_template
+function! wwwsearch#add(u_search_engine_name, uri_template)  "{{{2
+  let n_search_engine_name
+  \   = s:normalize_search_engine_name(a:u_search_engine_name)
+
+  let old_uri_template = get(s:search_engines, n_search_engine_name, '')
+  let s:search_engines[n_search_engine_name] = a:uri_template
+
   return old_uri_template
 endfunction
 
 
 
 
-function! wwwsearch#remove(search_engine_name)  "{{{2
-  if has_key(s:search_engines, a:search_engine_name)
-    return remove(s:search_engines, a:search_engine_name)
+function! wwwsearch#remove(u_search_engine_name)  "{{{2
+  let n_search_engine_name
+  \   = s:normalize_search_engine_name(a:u_search_engine_name)
+
+  if has_key(s:search_engines, n_search_engine_name)
+    return remove(s:search_engines, n_search_engine_name)
   else
     return ''
   endif
@@ -43,9 +70,9 @@ endfunction
 
 
 function! wwwsearch#search(keyword, ...)  "{{{2
-  let search_engine_name = s:normalize_search_engine_name(1 <= a:0
-  \                                                       ?  a:1
-  \                                                       : '-default')
+  let u_search_engine_name = 1 <= a:0 ? a:1 : '-default'
+  let n_search_engine_name
+  \ = s:normalize_search_engine_name(u_search_engine_name)
 
   if !exists('g:wwwsearch_command_to_open_uri')
     let g:wwwsearch_command_to_open_uri = s:default_command_to_open_uri()
@@ -57,7 +84,7 @@ function! wwwsearch#search(keyword, ...)  "{{{2
   endif
 
   execute '!' g:wwwsearch_command_to_open_uri
-  \           shellescape(s:uri_to_search(a:keyword, search_engine_name))
+  \           shellescape(s:uri_to_search(a:keyword, n_search_engine_name))
   return !0
 endfunction
 
@@ -148,8 +175,8 @@ let s:safe_map = 0
 
 
 
-function! s:uri_to_search(keyword, search_engine_name)  "{{{2
-  let uri_template = get(s:search_engines, a:search_engine_name, '')
+function! s:uri_to_search(keyword, n_search_engine_name)  "{{{2
+  let uri_template = get(s:search_engines, a:n_search_engine_name, '')
   let uri_escaped_keyword = s:uri_escape(a:keyword)
   return substitute(uri_template, '{keyword}', uri_escaped_keyword, 'g')
 endfunction
