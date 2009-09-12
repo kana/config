@@ -83,8 +83,12 @@ function! wwwsearch#search(keyword, ...)  "{{{2
     return 0
   endif
 
-  execute '!' g:wwwsearch_command_to_open_uri
-  \           shellescape(s:uri_to_search(a:keyword, n_search_engine_name))
+  execute '!' substitute(
+  \             g:wwwsearch_command_to_open_uri,
+  \             '{uri}'
+  \             shellescape(s:uri_to_search(a:keyword, n_search_engine_name)),
+  \             ''
+  \           )
   return !0
 endfunction
 
