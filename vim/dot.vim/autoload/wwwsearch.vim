@@ -31,6 +31,17 @@ endfunction
 
 
 
+function! wwwsearch#remove(search_engine_name)  "{{{2
+  if has_key(s:search_engines, a:search_engine_name)
+    return remove(s:search_engines, a:search_engine_name)
+  else
+    return ''
+  endif
+endfunction
+
+
+
+
 function! wwwsearch#search(keyword, ...)  "{{{2
   let search_engine_name = s:normalize_search_engine_name(1 <= a:0
   \                                                       ?  a:1

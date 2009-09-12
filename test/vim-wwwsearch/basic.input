@@ -86,6 +86,17 @@ endfunction
 
 
 
+function s:test_wwwsearch_remove()  "{{{1
+  Title "wwwsearch#remove()"
+
+  Assert wwwsearch#add('wwwsearch#remove', 'sasara {keyword} kawaii') ==> ''
+  Assert wwwsearch#remove('wwwsearch#remove') ==> 'sasara {keyword} kawaii'
+  Assert wwwsearch#remove('wwwsearch#remove') ==> ''
+endfunction
+
+
+
+
 function s:test_wwwsearch_search()  "{{{1
   Title "wwwsearch#search()"
 endfunction

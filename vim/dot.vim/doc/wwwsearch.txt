@@ -126,6 +126,12 @@ wwwsearch#add({search-engine}, {uri-template})	*wwwsearch#add()*
 				"{keyword}" is replaced with a real keyword
 				whenever |:Wwwsearch| is executed.
 
+wwwsearch#remove({search-engine})		*wwwsearch#remove()*
+			Remove a search engine added by |wwwsearch#add()|.
+
+			See also |wwwsearch#add()| for the details of
+			argument.
+
 
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*wwwsearch-key-mappings*
