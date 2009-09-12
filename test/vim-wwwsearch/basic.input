@@ -83,6 +83,11 @@ function s:test_wwwsearch_add()  "{{{1
   \ ==> 'sasara {keyword} kawaii'
   Assert Call('s:uri_to_search', 'is', 'sasara')
   \ ==> 'sasara is super super mega kawaii'
+
+  Assert wwwsearch#remove('sasara')
+  \ ==> 'sasara {keyword} super super mega kawaii'
+  Assert Call('s:uri_to_search', 'is', 'sasara')
+  \ ==> ''
 endfunction
 
 
@@ -105,6 +110,7 @@ endfunction
 function s:test_wwwsearch_remove()  "{{{1
   Title "wwwsearch#remove()"
 
+  Assert wwwsearch#remove('wwwsearch#remove') ==> ''
   Assert wwwsearch#add('wwwsearch#remove', 'sasara {keyword} kawaii') ==> ''
   Assert wwwsearch#remove('wwwsearch#remove') ==> 'sasara {keyword} kawaii'
   Assert wwwsearch#remove('wwwsearch#remove') ==> ''

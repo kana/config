@@ -283,7 +283,9 @@ TEST: wwwsearch#add('sasara', 'sasara {keyword} kawaii')  ==>  '' ... ok
 TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  'sasara is kawaii' ... ok
 TEST: wwwsearch#add('sasara', 'sasara {keyword} super super mega kawaii')  ==>  'sasara {keyword} kawaii' ... ok
 TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  'sasara is super super mega kawaii' ... ok
-Result: 4 / 4
+TEST: wwwsearch#remove('sasara')  ==>  'sasara {keyword} super super mega kawaii' ... ok
+TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  '' ... ok
+Result: 6 / 6
 
 ===== "wwwsearch#cmd_Wwwsearch()"
 Result: 0 / 0
@@ -292,13 +294,14 @@ Result: 0 / 0
 Result: 0 / 0
 
 ===== "wwwsearch#remove()"
+TEST: wwwsearch#remove('wwwsearch#remove')  ==>  '' ... ok
 TEST: wwwsearch#add('wwwsearch#remove', 'sasara {keyword} kawaii')  ==>  '' ... ok
 TEST: wwwsearch#remove('wwwsearch#remove')  ==>  'sasara {keyword} kawaii' ... ok
 TEST: wwwsearch#remove('wwwsearch#remove')  ==>  '' ... ok
-Result: 3 / 3
+Result: 4 / 4
 
 ===== "wwwsearch#search()"
 Result: 0 / 0
 
 ===== Total
-Result: 274 / 274
+Result: 277 / 277
