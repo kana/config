@@ -149,7 +149,7 @@ The following operators are only available if you have installed
 
 
 ==============================================================================
-CUSTOMIZATION					*wwwsearch-customization*
+CUSTOMIZING					*wwwsearch-customizing*
 
 ADD NEW SEARCH ENGINE			     *wwwsearch-add-new-search-engine*
 
