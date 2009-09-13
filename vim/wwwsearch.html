@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: wwwsearch - Search WWW easily from Vim</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Comment { color: #c00000; font-weight: bold; }
+.Special { color: #c000c0; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="wwwsearch.txt">wwwsearch.txt</span><span class="Ignore">*</span> Search WWW easily from Vim
+
+Version 0.0.0
+Script ID: 2785
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-contents">wwwsearch-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-introduction"><span class="Identifier">wwwsearch-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-interface"><span class="Identifier">wwwsearch-interface</span></a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-commands"><span class="Identifier">wwwsearch-commands</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-functions"><span class="Identifier">wwwsearch-functions</span></a><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-key-mappings"><span class="Identifier">wwwsearch-key-mappings</span></a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-customizing"><span class="Identifier">wwwsearch-customizing</span></a><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-examples"><span class="Identifier">wwwsearch-examples</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-bugs"><span class="Identifier">wwwsearch-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-changelog"><span class="Identifier">wwwsearch-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-introduction">wwwsearch-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="wwwsearch">wwwsearch</span><span class="Ignore">*</span> is a Vim plugin to provide various ways to search the World Wide
+Web with various web search engines.  For example,
+<span class="Ignore">&gt;</span>
+<span class="Comment">        :Wwwsearch vim</span>
+<span class="Ignore">&lt;</span>
+the above command activates your favorite Web browser then searches WWW for
+a keyword &quot;vim&quot; with a search engine (by default, Google).  You can also
+specify which search engine to use as follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        :Wwwsearch -google vim</span>
+<span class="Ignore">&lt;</span>
+See also <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-interface"><span class="Identifier">wwwsearch-interface</span></a><span class="Ignore">|</span>, <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-customizing"><span class="Identifier">wwwsearch-customizing</span></a><span class="Ignore">|</span> and
+<span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-examples"><span class="Identifier">wwwsearch-examples</span></a><span class="Ignore">|</span> for more details.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Optionals:
+- <span class="Ignore">|</span><a href="operator-user.html#operator-user"><span class="Identifier">operator-user</span></a><span class="Ignore">|</span> (vimscript#2692)
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-wwwsearch">http://github.com/kana/config/commits/vim-wwwsearch</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/wwwsearch.html">http://kana.github.com/config/vim/wwwsearch.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-interface">wwwsearch-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-commands">wwwsearch-commands</span><span class="Ignore">*</span>
+
+:Wwwsearch [<span class="Special">{search-engine}</span>] <span class="Special">{keyword}</span>          <span class="Ignore">*</span><span class="Constant" id=":Wwwsearch">:Wwwsearch</span><span class="Ignore">*</span>
+                        Search WWW for a <span class="Special">{keyword}</span> with <span class="Special">{search-engine}</span>.
+
+                        <span class="Special">{keyword}</span> is an arbitrary string.
+
+                        <span class="Special">{search-engine}</span> is a word starting with a hyphen (-).
+                        <span class="Special">{search-engine}</span> can be completed.  Let's type <span class="Special">&lt;Tab&gt;</span>.
+
+                        If <span class="Special">{search-engine}</span> is omitted,
+                        <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-default-search-engine"><span class="Identifier">wwwsearch-default-search-engine</span></a><span class="Ignore">|</span> is used.
+
+                        See <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-customizing"><span class="Identifier">wwwsearch-customizing</span></a><span class="Ignore">|</span> for what <span class="Special">{search-engine}</span>s
+                        are available and how to add new <span class="Special">{search-engine}</span>s
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-functions">wwwsearch-functions</span><span class="Ignore">*</span>
+
+wwwsearch#search(<span class="Special">{keyword}</span>, [<span class="Special">{search-engine}</span>])  <span class="Ignore">*</span><span class="Constant" id="wwwsearch#search()">wwwsearch#search()</span><span class="Ignore">*</span>
+                        Function version of <span class="Ignore">|</span><a href="wwwsearch.html#:Wwwsearch"><span class="Identifier">:Wwwsearch</span></a><span class="Ignore">|</span>.
+                        Each argument must be a string.
+                        <span class="Special">{search-engine}</span> may not be started with a hyphen (-).
+
+wwwsearch#add(<span class="Special">{search-engine}</span>, <span class="Special">{uri-template}</span>)  <span class="Ignore">*</span><span class="Constant" id="wwwsearch#add()">wwwsearch#add()</span><span class="Ignore">*</span>
+                        Add new search engine to use with <span class="Ignore">|</span><a href="wwwsearch.html#:Wwwsearch"><span class="Identifier">:Wwwsearch</span></a><span class="Ignore">|</span>.
+
+                        If a search engine with the same name as
+                        <span class="Special">{search-engine}</span> is already added before, the old one
+                        is overridden by the new one.  There is no warning.
+
+                        Return value is <span class="Special">{uri-template}</span> of the old definition.
+                        If there is no old definition, null string is returned
+                        instead.
+
+                        <span class="Special">{search-engine}</span>      (string)
+                                The name of a search engine.
+                                This value may include any character, but it's
+                                strongly recommended not to use the following
+                                characters:
+
+                                - Space
+                                - Hyphen for the first character
+
+                        <span class="Special">{uri-template}</span> (string)
+                                URI to search for a keyword.
+                                &quot;<span class="Special">{keyword}</span>&quot; is replaced with a real keyword
+                                whenever <span class="Ignore">|</span><a href="wwwsearch.html#:Wwwsearch"><span class="Identifier">:Wwwsearch</span></a><span class="Ignore">|</span> is executed.
+
+wwwsearch#remove(<span class="Special">{search-engine}</span>)               <span class="Ignore">*</span><span class="Constant" id="wwwsearch#remove()">wwwsearch#remove()</span><span class="Ignore">*</span>
+                        Remove a search engine added by <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch#add()"><span class="Identifier">wwwsearch#add()</span></a><span class="Ignore">|</span>.
+
+                        See also <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch#add()"><span class="Identifier">wwwsearch#add()</span></a><span class="Ignore">|</span> for the details of
+                        argument.
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-key-mappings">wwwsearch-key-mappings</span><span class="Ignore">*</span>
+
+<span class="Statement">OPERATORS                                       </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-operators">wwwsearch-operators</span><span class="Ignore">*</span>
+
+The following operators are only available if you have installed
+<span class="Ignore">|</span><a href="operator-user.html#operator-user"><span class="Identifier">operator-user</span></a><span class="Ignore">|</span>.   <span class="Constant"><a href="http://www.vim.org/scripts/script.php?script_id=2692">http://www.vim.org/scripts/script.php?script_id=2692</a></span>
+
+<span class="Special">&lt;Plug&gt;</span>(operator-wwwsearch)                      <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(operator-wwwsearch)">&lt;Plug&gt;(operator-wwwsearch)</span><span class="Ignore">*</span>
+                        Search a specified text with
+                        <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-default-search-engine"><span class="Identifier">wwwsearch-default-search-engine</span></a><span class="Ignore">|</span>.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZING                                     </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-customizing">wwwsearch-customizing</span><span class="Ignore">*</span>
+
+<span class="Statement">ADD NEW SEARCH ENGINE                        </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-add-new-search-engine">wwwsearch-add-new-search-engine</span><span class="Ignore">*</span>
+
+For example, you can search articles in Wikipedia with the following URI:
+
+        <span class="Constant"><a href="http://en.wikipedia.org/w/index.php?search={keyword">http://en.wikipedia.org/w/index.php?search={keyword</a></span>}
+
+To <span class="Ignore">|</span><a href="wwwsearch.html#:Wwwsearch"><span class="Identifier">:Wwwsearch</span></a><span class="Ignore">|</span> with Wikipedia, add the following lines in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        call wwwsearch#add(</span>
+<span class="Comment">        \   'wikipedia',</span>
+<span class="Comment">        \   '<a href="http://en.wikipedia.org/w/index.php?search={keyword}">http://en.wikipedia.org/w/index.php?search={keyword}</a>'</span>
+<span class="Comment">        \ )</span>
+<span class="Ignore">&lt;</span>
+Then you can search Wikipedia with the following command:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        :Wwwsearch -wikipedia vim</span>
+<span class="Ignore">&lt;</span>
+
+<span class="Statement">DEFAULT SEARCH ENGINE                        </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-default-search-engine">wwwsearch-default-search-engine</span><span class="Ignore">*</span>
+
+By default, <span class="Ignore">|</span><a href="wwwsearch.html#:Wwwsearch"><span class="Identifier">:Wwwsearch</span></a><span class="Ignore">|</span> uses Google if you don't specify which search engine
+to use.  You can customize the default search engine as follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        call wwwsearch#default(</span>
+<span class="Comment">        \   'default',</span>
+<span class="Comment">        \   '<a href="http://en.wikipedia.org/w/index.php?search={keyword}">http://en.wikipedia.org/w/index.php?search={keyword}</a>'</span>
+<span class="Comment">        \ )</span>
+<span class="Ignore">&lt;</span>
+In other words, the search engine named &quot;default&quot; is used as the default
+search engine.
+
+                                            <span class="Ignore">*</span><span class="Constant" id="wwwsearch-default-search-engines">wwwsearch-default-search-engines</span><span class="Ignore">*</span>
+By default, the following <span class="Special">{search-engine}</span>s are available:
+
+<span class="Special">{search-engine}</span> Search with?
+<span class="PreProc">--------------- -----------------------</span><span class="Ignore"> ~</span>
+-default        Same as &quot;-google&quot;
+-google         Google
+
+
+<span class="Statement">CHANGE THE WEB BROWSER TO SEARCH         </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-your-favorite-web-browser">wwwsearch-your-favorite-web-browser</span><span class="Ignore">*</span>
+
+Use <span class="Ignore">|</span><a href="wwwsearch.html#g:wwwsearch_command_to_open_uri"><span class="Identifier">g:wwwsearch_command_to_open_uri</span></a><span class="Ignore">|</span> to change the web browser to search.
+For example, add the following line in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        let g:wwwsearch_command_to_open_uri = '{path-to-web-browser} {uri}'</span>
+<span class="Ignore">&lt;</span>
+You have to replace <span class="Special">{path-to-web-browser}</span> with a real path to your favorite
+web browser.
+
+
+g:wwwsearch_command_to_open_uri              <span class="Ignore">*</span><span class="Constant" id="g:wwwsearch_command_to_open_uri">g:wwwsearch_command_to_open_uri</span><span class="Ignore">*</span>
+        A string which specifies the command to open a URI.  In this value,
+        <span class="Special">{uri}</span> is replaced with a real URI whenever the command is executed.
+
+        <span class="Special">{uri}</span> is always replaced with a quoted value.  You don't have to quote
+        it to escape meta characters.
+
+        Default value:
+        &quot;open <span class="Special">{uri}</span>&quot; for Mac OS X
+        &quot;start <span class="Special">{uri}</span>&quot; for Microsoft Windows
+        &quot;&quot; for other environments
+
+        You have to set an appropriate value if you don't use Mac OS X nor
+        Microsoft Windows.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-examples">wwwsearch-examples</span><span class="Ignore">*</span>
+
+(A) One of the most useful command of Vim is * (<span class="Ignore">|</span><span class="Identifier">star</span><span class="Ignore">|</span>).  You want a command
+like * to search WWW for a keyword under the cursor.  You can make such
+command as follows:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        nnoremap &lt;Space&gt;*  :&lt;C-u&gt;Wwwsearch -default &lt;cword&gt;&lt;Return&gt;</span>
+<span class="Ignore">&lt;</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-bugs">wwwsearch-bugs</span><span class="Ignore">*</span>
+
+- Add more useful interaface.
+
+- Completion for <span class="Ignore">|</span><a href="wwwsearch.html#:Wwwsearch"><span class="Identifier">:Wwwsearch</span></a><span class="Ignore">|</span> is not context-aware.
+
+- See also <span class="Ignore">|</span><a href="operator-user.html#operator-user-bugs"><span class="Identifier">operator-user-bugs</span></a><span class="Ignore">|</span> for known bugs repalted to
+  <span class="Ignore">|</span><a href="wwwsearch.html#wwwsearch-operators"><span class="Identifier">wwwsearch-operators</span></a><span class="Ignore">|</span>.
+
+- There is no known bug.  If you find a bug or something inconvenient, please
+  send a feedback on it.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-changelog">wwwsearch-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-09-11T19:42:10+09:00               <span class="Ignore">*</span><span class="Constant" id="wwwsearch-changelog-0.0.0">wwwsearch-changelog-0.0.0</span><span class="Ignore">*</span>
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>
