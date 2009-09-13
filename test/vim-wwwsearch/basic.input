@@ -126,6 +126,22 @@ endfunction
 
 function s:test_wwwsearch_search()  "{{{1
   Title "wwwsearch#search()"
+
+  let g:wwwsearch_command_to_open_uri = ''
+  Assert wwwsearch#search('keyword') ==> 0
+  Assert wwwsearch#search('keyword', '-default') ==> 0
+  Assert wwwsearch#search('keyword', 'iNvAlId') ==> 0
+
+  " FIXME: How do I write a portable test?
+  let g:wwwsearch_command_to_open_uri = 'echo {uri}'
+  Assert wwwsearch#search('keyword') ==> !0
+  Assert wwwsearch#search('keyword', '-default') ==> !0
+  Assert wwwsearch#search('keyword', 'iNvAlId') ==> !0
+  Assert wwwsearch#search('{keyword}') ==> !0
+  Assert wwwsearch#search('{keyword}', '-default') ==> !0
+  Assert wwwsearch#search('{keyword}', 'iNvAlId') ==> !0
+
+  let g:wwwsearch_command_to_open_uri = Call('s:default_command_to_open_uri')
 endfunction
 
 
