@@ -288,7 +288,64 @@ TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  '' ... ok
 Result: 6 / 6
 
 ===== "wwwsearch#cmd_Wwwsearch()"
-Result: 0 / 0
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#cmd_Wwwsearch(['keyword1'])  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#cmd_Wwwsearch(['-default', 'keyword2'])  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword3'])  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+:! echo 'http://www.google.com/search?q=keyword4'
+http://www.google.com/search?q=keyword4
+
+TEST: wwwsearch#cmd_Wwwsearch(['keyword4'])  ==>  !0 ... ok
+:! echo 'http://www.google.com/search?q=keyword4'
+http://www.google.com/search?q=keyword4
+
+:! echo 'http://www.google.com/search?q=keyword5'
+http://www.google.com/search?q=keyword5
+
+TEST: wwwsearch#cmd_Wwwsearch(['-default', 'keyword5'])  ==>  !0 ... ok
+:! echo 'http://www.google.com/search?q=keyword5'
+http://www.google.com/search?q=keyword5
+
+:! echo ''
+
+
+TEST: wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword6'])  ==>  !0 ... ok
+:! echo ''
+
+
+:! echo 'http://www.google.com/search?q=%7Bkeyword7%7D'
+http://www.google.com/search?q=%7Bkeyword7%7D
+
+TEST: wwwsearch#cmd_Wwwsearch(['{keyword7}'])  ==>  !0 ... ok
+:! echo 'http://www.google.com/search?q=%7Bkeyword7%7D'
+http://www.google.com/search?q=%7Bkeyword7%7D
+
+:! echo 'http://www.google.com/search?q=%7Bkeyword8%7D'
+http://www.google.com/search?q=%7Bkeyword8%7D
+
+TEST: wwwsearch#cmd_Wwwsearch(['-default', '{keyword8}'])  ==>  !0 ... ok
+:! echo 'http://www.google.com/search?q=%7Bkeyword8%7D'
+http://www.google.com/search?q=%7Bkeyword8%7D
+
+:! echo ''
+
+
+TEST: wwwsearch#cmd_Wwwsearch(['-iNvAlId', '{keyword9}'])  ==>  !0 ... ok
+:! echo ''
+
+
+Result: 9 / 9
 
 ===== "wwwsearch#cmd_Wwwsearch_complete()"
 TEST: wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)  ==>  ['-default', '-google'] ... ok
@@ -338,4 +395,4 @@ TEST: wwwsearch#search('{keyword}', 'iNvAlId')  ==>  !0 ... ok
 Result: 9 / 9
 
 ===== Total
-Result: 287 / 287
+Result: 296 / 296

@@ -106,7 +106,32 @@ endfunction
 
 
 function s:test_wwwsearch_cmd_Wwwsearch()  "{{{1
+  " FIXME: How do I write a portable test?
   Title "wwwsearch#cmd_Wwwsearch()"
+
+  let g:wwwsearch_command_to_open_uri = ''
+  Assert wwwsearch#cmd_Wwwsearch(['keyword1']) ==> 0
+  Wwwsearch keyword1
+  Assert wwwsearch#cmd_Wwwsearch(['-default', 'keyword2']) ==> 0
+  Wwwsearch -default keyword2
+  Assert wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword3']) ==> 0
+  Wwwsearch -iNvAlId keyword3
+
+  let g:wwwsearch_command_to_open_uri = 'echo {uri}'
+  Assert wwwsearch#cmd_Wwwsearch(['keyword4']) ==> !0
+  Wwwsearch keyword4
+  Assert wwwsearch#cmd_Wwwsearch(['-default', 'keyword5']) ==> !0
+  Wwwsearch -default keyword5
+  Assert wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword6']) ==> !0
+  Wwwsearch -iNvAlId keyword6
+  Assert wwwsearch#cmd_Wwwsearch(['{keyword7}']) ==> !0
+  Wwwsearch {keyword7}
+  Assert wwwsearch#cmd_Wwwsearch(['-default', '{keyword8}']) ==> !0
+  Wwwsearch -default {keyword8}
+  Assert wwwsearch#cmd_Wwwsearch(['-iNvAlId', '{keyword9}']) ==> !0
+  Wwwsearch -iNvAlId {keyword9}
+
+  let g:wwwsearch_command_to_open_uri = Call('s:default_command_to_open_uri')
 endfunction
 
 
