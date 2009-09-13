@@ -1691,6 +1691,10 @@ vmap gy  <Plug>(operator-grex-yank)
 omap gy  <Plug>(operator-grex-yank)
 
 
+" The operator will be defined by "operator-replace" plugin.
+Arpeggio map or  <Plug>(operator-replace)
+
+
 
 
 " Misc.  "{{{2
