@@ -83,7 +83,7 @@ function! wwwsearch#search(keyword, ...)  "{{{2
     return 0
   endif
 
-  execute '!' substitute(
+  execute 'silent !' substitute(
   \             g:wwwsearch_command_to_open_uri,
   \             '{uri}',
   \             escape(shellescape(s:uri_to_search(a:keyword,
@@ -92,6 +92,7 @@ function! wwwsearch#search(keyword, ...)  "{{{2
   \                    '\'),
   \             ''
   \           )
+  redraw!
   return !0
 endfunction
 
