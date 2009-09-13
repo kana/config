@@ -85,8 +85,11 @@ function! wwwsearch#search(keyword, ...)  "{{{2
 
   execute '!' substitute(
   \             g:wwwsearch_command_to_open_uri,
-  \             '{uri}'
-  \             shellescape(s:uri_to_search(a:keyword, n_search_engine_name)),
+  \             '{uri}',
+  \             escape(shellescape(s:uri_to_search(a:keyword,
+  \                                                n_search_engine_name),
+  \                                !0),
+  \                    '\'),
   \             ''
   \           )
   return !0
