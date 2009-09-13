@@ -2437,6 +2437,15 @@ let g:vcsi_use_native_message_p = 1
 
 
 
+" wwwsearch  "{{{2
+
+Arpeggio map os  <Plug>(operator-wwwsearch)
+
+Cnmap [Space]*  Wwwsearch -default <C-r><C-w>
+
+
+
+
 " xml_autons  "{{{2
 
 let g:AutoXMLns_Dict = {}
