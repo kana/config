@@ -351,6 +351,51 @@ Result: 9 / 9
 TEST: wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)  ==>  ['-default', '-google'] ... ok
 Result: 1 / 1
 
+===== "wwwsearch#operator_default()"
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#operator_default('char')  ==>  0 ... okYou have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#operator_default('line')  ==>  0 ... okYou have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#operator_default('block')  ==>  0 ... okYou have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+:! echo 'http://www.google.com/search?q=%7Bkeyword%7D'
+http://www.google.com/search?q=%7Bkeyword%7D
+
+TEST: wwwsearch#operator_default('char')  ==>  !0 ... ok:! echo 'http://www.google.com/search?q=%7Bkeyword%7D'
+http://www.google.com/search?q=%7Bkeyword%7D
+
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+:! echo 'http://www.google.com/search?q=before%20%7Bkeyword%7D%20after%0A'
+http://www.google.com/search?q=before%20%7Bkeyword%7D%20after%0A
+
+TEST: wwwsearch#operator_default('line')  ==>  !0 ... ok:! echo 'http://www.google.com/search?q=before%20%7Bkeyword%7D%20after%0A'
+http://www.google.com/search?q=before%20%7Bkeyword%7D%20after%0A
+
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+:! echo 'http://www.google.com/search?q=%7Bkeyword%7D'
+http://www.google.com/search?q=%7Bkeyword%7D
+
+TEST: wwwsearch#operator_default('block')  ==>  !0 ... ok:! echo 'http://www.google.com/search?q=%7Bkeyword%7D'
+http://www.google.com/search?q=%7Bkeyword%7D
+
+Result: 18 / 18
+
 ===== "wwwsearch#remove()"
 TEST: wwwsearch#remove('wwwsearch#remove')  ==>  '' ... ok
 TEST: wwwsearch#add('wwwsearch#remove', 'sasara {keyword} kawaii')  ==>  '' ... ok
@@ -395,4 +440,4 @@ TEST: wwwsearch#search('{keyword}', 'iNvAlId')  ==>  !0 ... ok
 Result: 9 / 9
 
 ===== Total
-Result: 296 / 296
+Result: 314 / 314

@@ -7,6 +7,9 @@ function Call(function_name, ...)
 endfunction
 
 
+setlocal buftype=nofile
+
+
 
 
 function s:test_default_command_to_open_uri()  "{{{1
@@ -130,6 +133,58 @@ function s:test_wwwsearch_cmd_Wwwsearch()  "{{{1
   Wwwsearch -default {keyword8}
   Assert wwwsearch#cmd_Wwwsearch(['-iNvAlId', '{keyword9}']) ==> !0
   Wwwsearch -iNvAlId {keyword9}
+
+  let g:wwwsearch_command_to_open_uri = Call('s:default_command_to_open_uri')
+endfunction
+
+
+
+
+function s:test_wwwsearch_operator_default()  "{{{1
+  Title "wwwsearch#operator_default()"
+
+  put ='before {keyword} after'
+
+  let g:wwwsearch_command_to_open_uri = ''
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('char') ==> 0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)E"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('line') ==> 0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<Plug>(operator-wwwsearch)"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('block') ==> 0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<C-v>E"
+
+  " FIXME: How do I write a portable test?
+  let g:wwwsearch_command_to_open_uri = 'echo {uri}'
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('char') ==> !0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)E"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('line') ==> !0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<Plug>(operator-wwwsearch)"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('block') ==> !0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<C-v>E"
 
   let g:wwwsearch_command_to_open_uri = Call('s:default_command_to_open_uri')
 endfunction

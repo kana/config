@@ -34,6 +34,9 @@ command! -bar -complete=customlist,wwwsearch#cmd_Wwwsearch_complete -nargs=+
 \ call wwwsearch#cmd_Wwwsearch([<f-args>])
 
 
+silent! call operator#user#define('wwwsearch', 'wwwsearch#operator_default')
+
+
 
 
 let g:loaded_wwwsearch = 1

@@ -129,6 +129,20 @@ endfunction
 
 
 
+function! wwwsearch#operator_default(motion_wise)  "{{{2
+  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
+
+  let [original_U_content, original_U_type] = [@", getregtype('"')]
+    execute 'normal!' '`['.v.'`]y'
+    let keyword = @"
+  call setreg('"', original_U_content, original_U_type)
+
+  return wwwsearch#search(keyword)
+endfunction
+
+
+
+
 function! wwwsearch#_sid_prefix()  "{{{2
   return s:SID_PREFIX()
 endfunction
