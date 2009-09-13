@@ -1,0 +1,10 @@
+#### My .ctags for Exuberant ctags
+
+### Better Vim script support
+
+## ctags doesn't include scope prefix as a part of a function name,
+## so that it's quite inconvenient to work with Vim script.
+## BUGS: Abbrebiated command names aren't recognized, but I never use them.
+--regex-vim=/^function\!?[ \t]*([a-zA-Z0-9_:.#]+)/\1/f,function definitions/
+
+# __END__

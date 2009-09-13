@@ -1,0 +1,382 @@
+===== "s:default_command_to_open_uri()"
+TEST: Call('s:default_command_to_open_uri')  ==>  'open {uri}' ... ok
+Result: 1 / 1
+
+===== "s:normalize_search_engine_name()"
+TEST: Call('s:normalize_search_engine_name', '')  ==>  '' ... ok
+TEST: Call('s:normalize_search_engine_name', '-')  ==>  '' ... ok
+TEST: Call('s:normalize_search_engine_name', '--')  ==>  '-' ... ok
+TEST: Call('s:normalize_search_engine_name', '->')  ==>  '>' ... ok
+TEST: Call('s:normalize_search_engine_name', '>-')  ==>  '>-' ... ok
+TEST: Call('s:normalize_search_engine_name', 'sasara')  ==>  'sasara' ... ok
+TEST: Call('s:normalize_search_engine_name', '-sasara')  ==>  'sasara' ... ok
+Result: 7 / 7
+
+===== "s:uri_escape()"
+TEST: Call('s:uri_escape', '')  ==>  '' ... ok
+TEST: Call('s:uri_escape', '^A')  ==>  '%01' ... ok
+TEST: Call('s:uri_escape', '^B')  ==>  '%02' ... ok
+TEST: Call('s:uri_escape', '^C')  ==>  '%03' ... ok
+TEST: Call('s:uri_escape', '^D')  ==>  '%04' ... ok
+TEST: Call('s:uri_escape', '^E')  ==>  '%05' ... ok
+TEST: Call('s:uri_escape', '^F')  ==>  '%06' ... ok
+TEST: Call('s:uri_escape', '^G')  ==>  '%07' ... ok
+TEST: Call('s:uri_escape', '^H')  ==>  '%08' ... ok
+TEST: Call('s:uri_escape', '	')  ==>  '%09' ... ok
+TEST: Call('s:uri_escape', '
+')  ==>  '%0A' ... ok
+TEST: Call('s:uri_escape', '^K')  ==>  '%0B' ... ok
+TEST: Call('s:uri_escape', '^L')  ==>  '%0C' ... ok
+TEST: Call('s:uri_escape', '')  ==>  '%0D' ... ok
+TEST: Call('s:uri_escape', '^N')  ==>  '%0E' ... ok
+TEST: Call('s:uri_escape', '^O')  ==>  '%0F' ... ok
+TEST: Call('s:uri_escape', '^P')  ==>  '%10' ... ok
+TEST: Call('s:uri_escape', '^Q')  ==>  '%11' ... ok
+TEST: Call('s:uri_escape', '^R')  ==>  '%12' ... ok
+TEST: Call('s:uri_escape', '^S')  ==>  '%13' ... ok
+TEST: Call('s:uri_escape', '^T')  ==>  '%14' ... ok
+TEST: Call('s:uri_escape', '^U')  ==>  '%15' ... ok
+TEST: Call('s:uri_escape', '^V')  ==>  '%16' ... ok
+TEST: Call('s:uri_escape', '^W')  ==>  '%17' ... ok
+TEST: Call('s:uri_escape', '^X')  ==>  '%18' ... ok
+TEST: Call('s:uri_escape', '^Y')  ==>  '%19' ... ok
+TEST: Call('s:uri_escape', '^Z')  ==>  '%1A' ... ok
+TEST: Call('s:uri_escape', '^[')  ==>  '%1B' ... ok
+TEST: Call('s:uri_escape', '^\')  ==>  '%1C' ... ok
+TEST: Call('s:uri_escape', '^]')  ==>  '%1D' ... ok
+TEST: Call('s:uri_escape', '^^')  ==>  '%1E' ... ok
+TEST: Call('s:uri_escape', '^_')  ==>  '%1F' ... ok
+TEST: Call('s:uri_escape', ' ')  ==>  '%20' ... ok
+TEST: Call('s:uri_escape', '!')  ==>  '%21' ... ok
+TEST: Call('s:uri_escape', '"')  ==>  '%22' ... ok
+TEST: Call('s:uri_escape', '#')  ==>  '%23' ... ok
+TEST: Call('s:uri_escape', '$')  ==>  '%24' ... ok
+TEST: Call('s:uri_escape', '%')  ==>  '%25' ... ok
+TEST: Call('s:uri_escape', '&')  ==>  '%26' ... ok
+TEST: Call('s:uri_escape', '''')  ==>  '%27' ... ok
+TEST: Call('s:uri_escape', '(')  ==>  '%28' ... ok
+TEST: Call('s:uri_escape', ')')  ==>  '%29' ... ok
+TEST: Call('s:uri_escape', '*')  ==>  '%2A' ... ok
+TEST: Call('s:uri_escape', '+')  ==>  '%2B' ... ok
+TEST: Call('s:uri_escape', ',')  ==>  '%2C' ... ok
+TEST: Call('s:uri_escape', '-')  ==>  '-' ... ok
+TEST: Call('s:uri_escape', '.')  ==>  '.' ... ok
+TEST: Call('s:uri_escape', '/')  ==>  '/' ... ok
+TEST: Call('s:uri_escape', '0')  ==>  '0' ... ok
+TEST: Call('s:uri_escape', '1')  ==>  '1' ... ok
+TEST: Call('s:uri_escape', '2')  ==>  '2' ... ok
+TEST: Call('s:uri_escape', '3')  ==>  '3' ... ok
+TEST: Call('s:uri_escape', '4')  ==>  '4' ... ok
+TEST: Call('s:uri_escape', '5')  ==>  '5' ... ok
+TEST: Call('s:uri_escape', '6')  ==>  '6' ... ok
+TEST: Call('s:uri_escape', '7')  ==>  '7' ... ok
+TEST: Call('s:uri_escape', '8')  ==>  '8' ... ok
+TEST: Call('s:uri_escape', '9')  ==>  '9' ... ok
+TEST: Call('s:uri_escape', ':')  ==>  '%3A' ... ok
+TEST: Call('s:uri_escape', ';')  ==>  '%3B' ... ok
+TEST: Call('s:uri_escape', '<')  ==>  '%3C' ... ok
+TEST: Call('s:uri_escape', '=')  ==>  '%3D' ... ok
+TEST: Call('s:uri_escape', '>')  ==>  '%3E' ... ok
+TEST: Call('s:uri_escape', '?')  ==>  '%3F' ... ok
+TEST: Call('s:uri_escape', '@')  ==>  '%40' ... ok
+TEST: Call('s:uri_escape', 'A')  ==>  'A' ... ok
+TEST: Call('s:uri_escape', 'B')  ==>  'B' ... ok
+TEST: Call('s:uri_escape', 'C')  ==>  'C' ... ok
+TEST: Call('s:uri_escape', 'D')  ==>  'D' ... ok
+TEST: Call('s:uri_escape', 'E')  ==>  'E' ... ok
+TEST: Call('s:uri_escape', 'F')  ==>  'F' ... ok
+TEST: Call('s:uri_escape', 'G')  ==>  'G' ... ok
+TEST: Call('s:uri_escape', 'H')  ==>  'H' ... ok
+TEST: Call('s:uri_escape', 'I')  ==>  'I' ... ok
+TEST: Call('s:uri_escape', 'J')  ==>  'J' ... ok
+TEST: Call('s:uri_escape', 'K')  ==>  'K' ... ok
+TEST: Call('s:uri_escape', 'L')  ==>  'L' ... ok
+TEST: Call('s:uri_escape', 'M')  ==>  'M' ... ok
+TEST: Call('s:uri_escape', 'N')  ==>  'N' ... ok
+TEST: Call('s:uri_escape', 'O')  ==>  'O' ... ok
+TEST: Call('s:uri_escape', 'P')  ==>  'P' ... ok
+TEST: Call('s:uri_escape', 'Q')  ==>  'Q' ... ok
+TEST: Call('s:uri_escape', 'R')  ==>  'R' ... ok
+TEST: Call('s:uri_escape', 'S')  ==>  'S' ... ok
+TEST: Call('s:uri_escape', 'T')  ==>  'T' ... ok
+TEST: Call('s:uri_escape', 'U')  ==>  'U' ... ok
+TEST: Call('s:uri_escape', 'V')  ==>  'V' ... ok
+TEST: Call('s:uri_escape', 'W')  ==>  'W' ... ok
+TEST: Call('s:uri_escape', 'X')  ==>  'X' ... ok
+TEST: Call('s:uri_escape', 'Y')  ==>  'Y' ... ok
+TEST: Call('s:uri_escape', 'Z')  ==>  'Z' ... ok
+TEST: Call('s:uri_escape', '[')  ==>  '%5B' ... ok
+TEST: Call('s:uri_escape', '\')  ==>  '%5C' ... ok
+TEST: Call('s:uri_escape', ']')  ==>  '%5D' ... ok
+TEST: Call('s:uri_escape', '^')  ==>  '%5E' ... ok
+TEST: Call('s:uri_escape', '_')  ==>  '_' ... ok
+TEST: Call('s:uri_escape', '`')  ==>  '%60' ... ok
+TEST: Call('s:uri_escape', 'a')  ==>  'a' ... ok
+TEST: Call('s:uri_escape', 'b')  ==>  'b' ... ok
+TEST: Call('s:uri_escape', 'c')  ==>  'c' ... ok
+TEST: Call('s:uri_escape', 'd')  ==>  'd' ... ok
+TEST: Call('s:uri_escape', 'e')  ==>  'e' ... ok
+TEST: Call('s:uri_escape', 'f')  ==>  'f' ... ok
+TEST: Call('s:uri_escape', 'g')  ==>  'g' ... ok
+TEST: Call('s:uri_escape', 'h')  ==>  'h' ... ok
+TEST: Call('s:uri_escape', 'i')  ==>  'i' ... ok
+TEST: Call('s:uri_escape', 'j')  ==>  'j' ... ok
+TEST: Call('s:uri_escape', 'k')  ==>  'k' ... ok
+TEST: Call('s:uri_escape', 'l')  ==>  'l' ... ok
+TEST: Call('s:uri_escape', 'm')  ==>  'm' ... ok
+TEST: Call('s:uri_escape', 'n')  ==>  'n' ... ok
+TEST: Call('s:uri_escape', 'o')  ==>  'o' ... ok
+TEST: Call('s:uri_escape', 'p')  ==>  'p' ... ok
+TEST: Call('s:uri_escape', 'q')  ==>  'q' ... ok
+TEST: Call('s:uri_escape', 'r')  ==>  'r' ... ok
+TEST: Call('s:uri_escape', 's')  ==>  's' ... ok
+TEST: Call('s:uri_escape', 't')  ==>  't' ... ok
+TEST: Call('s:uri_escape', 'u')  ==>  'u' ... ok
+TEST: Call('s:uri_escape', 'v')  ==>  'v' ... ok
+TEST: Call('s:uri_escape', 'w')  ==>  'w' ... ok
+TEST: Call('s:uri_escape', 'x')  ==>  'x' ... ok
+TEST: Call('s:uri_escape', 'y')  ==>  'y' ... ok
+TEST: Call('s:uri_escape', 'z')  ==>  'z' ... ok
+TEST: Call('s:uri_escape', '{')  ==>  '%7B' ... ok
+TEST: Call('s:uri_escape', '|')  ==>  '%7C' ... ok
+TEST: Call('s:uri_escape', '}')  ==>  '%7D' ... ok
+TEST: Call('s:uri_escape', '~')  ==>  '%7E' ... ok
+TEST: Call('s:uri_escape', '^?')  ==>  '%7F' ... ok
+TEST: Call('s:uri_escape', '~@')  ==>  '%80' ... ok
+TEST: Call('s:uri_escape', '~A')  ==>  '%81' ... ok
+TEST: Call('s:uri_escape', '~B')  ==>  '%82' ... ok
+TEST: Call('s:uri_escape', '~C')  ==>  '%83' ... ok
+TEST: Call('s:uri_escape', '~D')  ==>  '%84' ... ok
+TEST: Call('s:uri_escape', '~E')  ==>  '%85' ... ok
+TEST: Call('s:uri_escape', '~F')  ==>  '%86' ... ok
+TEST: Call('s:uri_escape', '~G')  ==>  '%87' ... ok
+TEST: Call('s:uri_escape', '~H')  ==>  '%88' ... ok
+TEST: Call('s:uri_escape', '~I')  ==>  '%89' ... ok
+TEST: Call('s:uri_escape', '~J')  ==>  '%8A' ... ok
+TEST: Call('s:uri_escape', '~K')  ==>  '%8B' ... ok
+TEST: Call('s:uri_escape', '~L')  ==>  '%8C' ... ok
+TEST: Call('s:uri_escape', '~M')  ==>  '%8D' ... ok
+TEST: Call('s:uri_escape', '~N')  ==>  '%8E' ... ok
+TEST: Call('s:uri_escape', '~O')  ==>  '%8F' ... ok
+TEST: Call('s:uri_escape', '~P')  ==>  '%90' ... ok
+TEST: Call('s:uri_escape', '~Q')  ==>  '%91' ... ok
+TEST: Call('s:uri_escape', '~R')  ==>  '%92' ... ok
+TEST: Call('s:uri_escape', '~S')  ==>  '%93' ... ok
+TEST: Call('s:uri_escape', '~T')  ==>  '%94' ... ok
+TEST: Call('s:uri_escape', '~U')  ==>  '%95' ... ok
+TEST: Call('s:uri_escape', '~V')  ==>  '%96' ... ok
+TEST: Call('s:uri_escape', '~W')  ==>  '%97' ... ok
+TEST: Call('s:uri_escape', '~X')  ==>  '%98' ... ok
+TEST: Call('s:uri_escape', '~Y')  ==>  '%99' ... ok
+TEST: Call('s:uri_escape', '~Z')  ==>  '%9A' ... ok
+TEST: Call('s:uri_escape', '~[')  ==>  '%9B' ... ok
+TEST: Call('s:uri_escape', '~\')  ==>  '%9C' ... ok
+TEST: Call('s:uri_escape', '~]')  ==>  '%9D' ... ok
+TEST: Call('s:uri_escape', '~^')  ==>  '%9E' ... ok
+TEST: Call('s:uri_escape', '~_')  ==>  '%9F' ... ok
+TEST: Call('s:uri_escape', '| ')  ==>  '%A0' ... ok
+TEST: Call('s:uri_escape', '¡')  ==>  '%A1' ... ok
+TEST: Call('s:uri_escape', '¢')  ==>  '%A2' ... ok
+TEST: Call('s:uri_escape', '£')  ==>  '%A3' ... ok
+TEST: Call('s:uri_escape', '¤')  ==>  '%A4' ... ok
+TEST: Call('s:uri_escape', '¥')  ==>  '%A5' ... ok
+TEST: Call('s:uri_escape', '¦')  ==>  '%A6' ... ok
+TEST: Call('s:uri_escape', '§')  ==>  '%A7' ... ok
+TEST: Call('s:uri_escape', '¨')  ==>  '%A8' ... ok
+TEST: Call('s:uri_escape', '©')  ==>  '%A9' ... ok
+TEST: Call('s:uri_escape', 'ª')  ==>  '%AA' ... ok
+TEST: Call('s:uri_escape', '«')  ==>  '%AB' ... ok
+TEST: Call('s:uri_escape', '¬')  ==>  '%AC' ... ok
+TEST: Call('s:uri_escape', '­')  ==>  '%AD' ... ok
+TEST: Call('s:uri_escape', '®')  ==>  '%AE' ... ok
+TEST: Call('s:uri_escape', '¯')  ==>  '%AF' ... ok
+TEST: Call('s:uri_escape', '°')  ==>  '%B0' ... ok
+TEST: Call('s:uri_escape', '±')  ==>  '%B1' ... ok
+TEST: Call('s:uri_escape', '²')  ==>  '%B2' ... ok
+TEST: Call('s:uri_escape', '³')  ==>  '%B3' ... ok
+TEST: Call('s:uri_escape', '´')  ==>  '%B4' ... ok
+TEST: Call('s:uri_escape', 'µ')  ==>  '%B5' ... ok
+TEST: Call('s:uri_escape', '¶')  ==>  '%B6' ... ok
+TEST: Call('s:uri_escape', '·')  ==>  '%B7' ... ok
+TEST: Call('s:uri_escape', '¸')  ==>  '%B8' ... ok
+TEST: Call('s:uri_escape', '¹')  ==>  '%B9' ... ok
+TEST: Call('s:uri_escape', 'º')  ==>  '%BA' ... ok
+TEST: Call('s:uri_escape', '»')  ==>  '%BB' ... ok
+TEST: Call('s:uri_escape', '¼')  ==>  '%BC' ... ok
+TEST: Call('s:uri_escape', '½')  ==>  '%BD' ... ok
+TEST: Call('s:uri_escape', '¾')  ==>  '%BE' ... ok
+TEST: Call('s:uri_escape', '¿')  ==>  '%BF' ... ok
+TEST: Call('s:uri_escape', 'À')  ==>  '%C0' ... ok
+TEST: Call('s:uri_escape', 'Á')  ==>  '%C1' ... ok
+TEST: Call('s:uri_escape', 'Â')  ==>  '%C2' ... ok
+TEST: Call('s:uri_escape', 'Ã')  ==>  '%C3' ... ok
+TEST: Call('s:uri_escape', 'Ä')  ==>  '%C4' ... ok
+TEST: Call('s:uri_escape', 'Å')  ==>  '%C5' ... ok
+TEST: Call('s:uri_escape', 'Æ')  ==>  '%C6' ... ok
+TEST: Call('s:uri_escape', 'Ç')  ==>  '%C7' ... ok
+TEST: Call('s:uri_escape', 'È')  ==>  '%C8' ... ok
+TEST: Call('s:uri_escape', 'É')  ==>  '%C9' ... ok
+TEST: Call('s:uri_escape', 'Ê')  ==>  '%CA' ... ok
+TEST: Call('s:uri_escape', 'Ë')  ==>  '%CB' ... ok
+TEST: Call('s:uri_escape', 'Ì')  ==>  '%CC' ... ok
+TEST: Call('s:uri_escape', 'Í')  ==>  '%CD' ... ok
+TEST: Call('s:uri_escape', 'Î')  ==>  '%CE' ... ok
+TEST: Call('s:uri_escape', 'Ï')  ==>  '%CF' ... ok
+TEST: Call('s:uri_escape', 'Ð')  ==>  '%D0' ... ok
+TEST: Call('s:uri_escape', 'Ñ')  ==>  '%D1' ... ok
+TEST: Call('s:uri_escape', 'Ò')  ==>  '%D2' ... ok
+TEST: Call('s:uri_escape', 'Ó')  ==>  '%D3' ... ok
+TEST: Call('s:uri_escape', 'Ô')  ==>  '%D4' ... ok
+TEST: Call('s:uri_escape', 'Õ')  ==>  '%D5' ... ok
+TEST: Call('s:uri_escape', 'Ö')  ==>  '%D6' ... ok
+TEST: Call('s:uri_escape', '×')  ==>  '%D7' ... ok
+TEST: Call('s:uri_escape', 'Ø')  ==>  '%D8' ... ok
+TEST: Call('s:uri_escape', 'Ù')  ==>  '%D9' ... ok
+TEST: Call('s:uri_escape', 'Ú')  ==>  '%DA' ... ok
+TEST: Call('s:uri_escape', 'Û')  ==>  '%DB' ... ok
+TEST: Call('s:uri_escape', 'Ü')  ==>  '%DC' ... ok
+TEST: Call('s:uri_escape', 'Ý')  ==>  '%DD' ... ok
+TEST: Call('s:uri_escape', 'Þ')  ==>  '%DE' ... ok
+TEST: Call('s:uri_escape', 'ß')  ==>  '%DF' ... ok
+TEST: Call('s:uri_escape', 'à')  ==>  '%E0' ... ok
+TEST: Call('s:uri_escape', 'á')  ==>  '%E1' ... ok
+TEST: Call('s:uri_escape', 'â')  ==>  '%E2' ... ok
+TEST: Call('s:uri_escape', 'ã')  ==>  '%E3' ... ok
+TEST: Call('s:uri_escape', 'ä')  ==>  '%E4' ... ok
+TEST: Call('s:uri_escape', 'å')  ==>  '%E5' ... ok
+TEST: Call('s:uri_escape', 'æ')  ==>  '%E6' ... ok
+TEST: Call('s:uri_escape', 'ç')  ==>  '%E7' ... ok
+TEST: Call('s:uri_escape', 'è')  ==>  '%E8' ... ok
+TEST: Call('s:uri_escape', 'é')  ==>  '%E9' ... ok
+TEST: Call('s:uri_escape', 'ê')  ==>  '%EA' ... ok
+TEST: Call('s:uri_escape', 'ë')  ==>  '%EB' ... ok
+TEST: Call('s:uri_escape', 'ì')  ==>  '%EC' ... ok
+TEST: Call('s:uri_escape', 'í')  ==>  '%ED' ... ok
+TEST: Call('s:uri_escape', 'î')  ==>  '%EE' ... ok
+TEST: Call('s:uri_escape', 'ï')  ==>  '%EF' ... ok
+TEST: Call('s:uri_escape', 'ð')  ==>  '%F0' ... ok
+TEST: Call('s:uri_escape', 'ñ')  ==>  '%F1' ... ok
+TEST: Call('s:uri_escape', 'ò')  ==>  '%F2' ... ok
+TEST: Call('s:uri_escape', 'ó')  ==>  '%F3' ... ok
+TEST: Call('s:uri_escape', 'ô')  ==>  '%F4' ... ok
+TEST: Call('s:uri_escape', 'õ')  ==>  '%F5' ... ok
+TEST: Call('s:uri_escape', 'ö')  ==>  '%F6' ... ok
+TEST: Call('s:uri_escape', '÷')  ==>  '%F7' ... ok
+TEST: Call('s:uri_escape', 'ø')  ==>  '%F8' ... ok
+TEST: Call('s:uri_escape', 'ù')  ==>  '%F9' ... ok
+TEST: Call('s:uri_escape', 'ú')  ==>  '%FA' ... ok
+TEST: Call('s:uri_escape', 'û')  ==>  '%FB' ... ok
+TEST: Call('s:uri_escape', 'ü')  ==>  '%FC' ... ok
+TEST: Call('s:uri_escape', 'ý')  ==>  '%FD' ... ok
+TEST: Call('s:uri_escape', 'þ')  ==>  '%FE' ... ok
+TEST: Call('s:uri_escape', 'ÿ')  ==>  '%FF' ... ok
+Result: 256 / 256
+
+===== "s:uri_to_search()"
+TEST: Call('s:uri_to_search', 'keyword', 'default')  ==>  'http://www.google.com/search?q=keyword' ... ok
+TEST: Call('s:uri_to_search', 'keyword', 'google')  ==>  'http://www.google.com/search?q=keyword' ... ok
+TEST: Call('s:uri_to_search', '{keyword}', 'google')  ==>  'http://www.google.com/search?q=%7Bkeyword%7D' ... ok
+Result: 3 / 3
+
+===== "wwwsearch#add()"
+TEST: wwwsearch#add('sasara', 'sasara {keyword} kawaii')  ==>  '' ... ok
+TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  'sasara is kawaii' ... ok
+TEST: wwwsearch#add('sasara', 'sasara {keyword} super super mega kawaii')  ==>  'sasara {keyword} kawaii' ... ok
+TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  'sasara is super super mega kawaii' ... ok
+TEST: wwwsearch#remove('sasara')  ==>  'sasara {keyword} super super mega kawaii' ... ok
+TEST: Call('s:uri_to_search', 'is', 'sasara')  ==>  '' ... ok
+Result: 6 / 6
+
+===== "wwwsearch#cmd_Wwwsearch()"
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#cmd_Wwwsearch(['keyword1'])  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#cmd_Wwwsearch(['-default', 'keyword2'])  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword3'])  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the detailshttp://www.google.com/search?q=keyword4
+TEST: wwwsearch#cmd_Wwwsearch(['keyword4'])  ==>  !0 ... okhttp://www.google.com/search?q=keyword4
+http://www.google.com/search?q=keyword5
+TEST: wwwsearch#cmd_Wwwsearch(['-default', 'keyword5'])  ==>  !0 ... okhttp://www.google.com/search?q=keyword5
+
+TEST: wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword6'])  ==>  !0 ... ok
+http://www.google.com/search?q=%7Bkeyword7%7D
+TEST: wwwsearch#cmd_Wwwsearch(['{keyword7}'])  ==>  !0 ... okhttp://www.google.com/search?q=%7Bkeyword7%7D
+http://www.google.com/search?q=%7Bkeyword8%7D
+TEST: wwwsearch#cmd_Wwwsearch(['-default', '{keyword8}'])  ==>  !0 ... okhttp://www.google.com/search?q=%7Bkeyword8%7D
+
+TEST: wwwsearch#cmd_Wwwsearch(['-iNvAlId', '{keyword9}'])  ==>  !0 ... ok
+Result: 9 / 9
+
+===== "wwwsearch#cmd_Wwwsearch_complete()"
+TEST: wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)  ==>  ['-default', '-google'] ... ok
+Result: 1 / 1
+
+===== "wwwsearch#operator_default()"
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#operator_default('char')  ==>  0 ... okYou have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#operator_default('line')  ==>  0 ... okYou have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#operator_default('block')  ==>  0 ... okYou have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... okhttp://www.google.com/search?q=%7Bkeyword%7D
+TEST: wwwsearch#operator_default('char')  ==>  !0 ... okhttp://www.google.com/search?q=%7Bkeyword%7D
+
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... okhttp://www.google.com/search?q=before%20%7Bkeyword%7D%20after%0A
+TEST: wwwsearch#operator_default('line')  ==>  !0 ... okhttp://www.google.com/search?q=before%20%7Bkeyword%7D%20after%0A
+
+TEST: [line("'["), col("'[")]  ==>  [line('.'), 8] ... ok
+TEST: [line("']"), col("']")]  ==>  [line('.'), 16] ... okhttp://www.google.com/search?q=%7Bkeyword%7D
+TEST: wwwsearch#operator_default('block')  ==>  !0 ... okhttp://www.google.com/search?q=%7Bkeyword%7D
+
+Result: 18 / 18
+
+===== "wwwsearch#remove()"
+TEST: wwwsearch#remove('wwwsearch#remove')  ==>  '' ... ok
+TEST: wwwsearch#add('wwwsearch#remove', 'sasara {keyword} kawaii')  ==>  '' ... ok
+TEST: wwwsearch#remove('wwwsearch#remove')  ==>  'sasara {keyword} kawaii' ... ok
+TEST: wwwsearch#remove('wwwsearch#remove')  ==>  '' ... ok
+Result: 4 / 4
+
+===== "wwwsearch#search()"
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#search('keyword')  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#search('keyword', '-default')  ==>  0 ... ok
+You have to set g:wwwsearch_command_to_open_uri.
+See :help g:wwwsearch_command_to_open_uri for the details
+TEST: wwwsearch#search('keyword', 'iNvAlId')  ==>  0 ... okhttp://www.google.com/search?q=keyword
+TEST: wwwsearch#search('keyword')  ==>  !0 ... okhttp://www.google.com/search?q=keyword
+TEST: wwwsearch#search('keyword', '-default')  ==>  !0 ... ok
+TEST: wwwsearch#search('keyword', 'iNvAlId')  ==>  !0 ... okhttp://www.google.com/search?q=%7Bkeyword%7D
+TEST: wwwsearch#search('{keyword}')  ==>  !0 ... okhttp://www.google.com/search?q=%7Bkeyword%7D
+TEST: wwwsearch#search('{keyword}', '-default')  ==>  !0 ... ok
+TEST: wwwsearch#search('{keyword}', 'iNvAlId')  ==>  !0 ... ok
+Result: 9 / 9
+
+===== Total
+Result: 314 / 314
