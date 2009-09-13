@@ -111,10 +111,10 @@ let s:search_engines = {}  " search-engine-name => uri-template
 
 
 function! wwwsearch#cmd_Wwwsearch(args)  "{{{2
-  if args[0][:0] == '-'
-    return wwwsearch#search(join(args[1:]), args[0])
+  if a:args[0][:0] == '-'
+    return wwwsearch#search(join(a:args[1:]), a:args[0])
   else
-    return wwwsearch#search(join(args))
+    return wwwsearch#search(join(a:args))
   endif
 endfunction
 
