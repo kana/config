@@ -1,0 +1,233 @@
+" Tests for wwwsearch
+" Initial set up  "{{{1
+
+let s:SID_PREFIX = wwwsearch#_sid_prefix()
+function Call(function_name, ...)
+  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
+endfunction
+
+
+setlocal buftype=nofile
+
+
+
+
+function s:test_default_command_to_open_uri()  "{{{1
+  Title "s:default_command_to_open_uri()"
+
+  " FIXME: How do I write a portable test?
+  " Assumption: This test is run on Mac OS X.
+  Assert Call('s:default_command_to_open_uri') ==> 'open {uri}'
+endfunction
+
+
+
+
+function s:test_normalize_search_engine_name()  "{{{1
+  Title "s:normalize_search_engine_name()"
+
+  Assert Call('s:normalize_search_engine_name', '') ==> ''
+  Assert Call('s:normalize_search_engine_name', '-') ==> ''
+  Assert Call('s:normalize_search_engine_name', '--') ==> '-'
+  Assert Call('s:normalize_search_engine_name', '->') ==> '>'
+  Assert Call('s:normalize_search_engine_name', '>-') ==> '>-'
+
+  Assert Call('s:normalize_search_engine_name', 'sasara') ==> 'sasara'
+  Assert Call('s:normalize_search_engine_name', '-sasara') ==> 'sasara'
+endfunction
+
+
+
+
+function s:test_uri_escape()  "{{{1
+  Title "s:uri_escape()"
+
+  let safe_chars = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  \                 . 'abcdefghijklmnopqrstuvwxyz'
+  \                 . '0123456789'
+  \                 . '_.-'
+  \                 . '/')
+
+  " BUGS: NUL cannot be tested properly because of a restriction of Vim.
+  for i in range(256)
+    let c = nr2char(i)
+    let expected = 0 <= stridx(safe_chars, c) ? c : printf('%%%02X', i)
+    execute 'Assert' 'Call(''s:uri_escape'', '.string(c).')'
+    \ '==>' string(expected)
+  endfor
+endfunction
+
+
+
+
+function s:test_uri_to_search()  "{{{1
+  Title "s:uri_to_search()"
+
+  Assert Call('s:uri_to_search', 'keyword', 'default')
+  \ ==> 'http://www.google.com/search?q=keyword'
+
+  Assert Call('s:uri_to_search', 'keyword', 'google')
+  \ ==> 'http://www.google.com/search?q=keyword'
+
+  Assert Call('s:uri_to_search', '{keyword}', 'google')
+  \ ==> 'http://www.google.com/search?q=%7Bkeyword%7D'
+endfunction
+
+
+
+
+function s:test_wwwsearch_add()  "{{{1
+  Title "wwwsearch#add()"
+
+  Assert wwwsearch#add('sasara', 'sasara {keyword} kawaii') ==> ''
+  Assert Call('s:uri_to_search', 'is', 'sasara') ==> 'sasara is kawaii'
+
+  Assert wwwsearch#add('sasara', 'sasara {keyword} super super mega kawaii')
+  \ ==> 'sasara {keyword} kawaii'
+  Assert Call('s:uri_to_search', 'is', 'sasara')
+  \ ==> 'sasara is super super mega kawaii'
+
+  Assert wwwsearch#remove('sasara')
+  \ ==> 'sasara {keyword} super super mega kawaii'
+  Assert Call('s:uri_to_search', 'is', 'sasara')
+  \ ==> ''
+endfunction
+
+
+
+
+function s:test_wwwsearch_cmd_Wwwsearch_complete()  "{{{1
+  Title "wwwsearch#cmd_Wwwsearch_complete()"
+
+  " FIXME: More proper arguments.
+  " FIXME: More tests.
+  Assert wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)
+  \ ==> ['-default', '-google']
+endfunction
+
+
+
+
+function s:test_wwwsearch_cmd_Wwwsearch()  "{{{1
+  " FIXME: How do I write a portable test?
+  Title "wwwsearch#cmd_Wwwsearch()"
+
+  let g:wwwsearch_command_to_open_uri = ''
+  Assert wwwsearch#cmd_Wwwsearch(['keyword1']) ==> 0
+  Wwwsearch keyword1
+  Assert wwwsearch#cmd_Wwwsearch(['-default', 'keyword2']) ==> 0
+  Wwwsearch -default keyword2
+  Assert wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword3']) ==> 0
+  Wwwsearch -iNvAlId keyword3
+
+  let g:wwwsearch_command_to_open_uri = 'echo {uri}'
+  Assert wwwsearch#cmd_Wwwsearch(['keyword4']) ==> !0
+  Wwwsearch keyword4
+  Assert wwwsearch#cmd_Wwwsearch(['-default', 'keyword5']) ==> !0
+  Wwwsearch -default keyword5
+  Assert wwwsearch#cmd_Wwwsearch(['-iNvAlId', 'keyword6']) ==> !0
+  Wwwsearch -iNvAlId keyword6
+  Assert wwwsearch#cmd_Wwwsearch(['{keyword7}']) ==> !0
+  Wwwsearch {keyword7}
+  Assert wwwsearch#cmd_Wwwsearch(['-default', '{keyword8}']) ==> !0
+  Wwwsearch -default {keyword8}
+  Assert wwwsearch#cmd_Wwwsearch(['-iNvAlId', '{keyword9}']) ==> !0
+  Wwwsearch -iNvAlId {keyword9}
+
+  let g:wwwsearch_command_to_open_uri = Call('s:default_command_to_open_uri')
+endfunction
+
+
+
+
+function s:test_wwwsearch_operator_default()  "{{{1
+  Title "wwwsearch#operator_default()"
+
+  put ='before {keyword} after'
+
+  let g:wwwsearch_command_to_open_uri = ''
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('char') ==> 0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)E"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('line') ==> 0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<Plug>(operator-wwwsearch)"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('block') ==> 0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<C-v>E"
+
+  " FIXME: How do I write a portable test?
+  let g:wwwsearch_command_to_open_uri = 'echo {uri}'
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('char') ==> !0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)E"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('line') ==> !0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<Plug>(operator-wwwsearch)"
+
+  normal! 0Wm[Em]
+  Assert [line("'["), col("'[")] ==> [line('.'), 8]
+  Assert [line("']"), col("']")] ==> [line('.'), 16]
+  Assert wwwsearch#operator_default('block') ==> !0
+  execute 'normal' "0W\<Plug>(operator-wwwsearch)\<C-v>E"
+
+  let g:wwwsearch_command_to_open_uri = Call('s:default_command_to_open_uri')
+endfunction
+
+
+
+
+function s:test_wwwsearch_remove()  "{{{1
+  Title "wwwsearch#remove()"
+
+  Assert wwwsearch#remove('wwwsearch#remove') ==> ''
+  Assert wwwsearch#add('wwwsearch#remove', 'sasara {keyword} kawaii') ==> ''
+  Assert wwwsearch#remove('wwwsearch#remove') ==> 'sasara {keyword} kawaii'
+  Assert wwwsearch#remove('wwwsearch#remove') ==> ''
+endfunction
+
+
+
+
+function s:test_wwwsearch_search()  "{{{1
+  Title "wwwsearch#search()"
+
+  let g:wwwsearch_command_to_open_uri = ''
+  Assert wwwsearch#search('keyword') ==> 0
+  Assert wwwsearch#search('keyword', '-default') ==> 0
+  Assert wwwsearch#search('keyword', 'iNvAlId') ==> 0
+
+  " FIXME: How do I write a portable test?
+  let g:wwwsearch_command_to_open_uri = 'echo {uri}'
+  Assert wwwsearch#search('keyword') ==> !0
+  Assert wwwsearch#search('keyword', '-default') ==> !0
+  Assert wwwsearch#search('keyword', 'iNvAlId') ==> !0
+  Assert wwwsearch#search('{keyword}') ==> !0
+  Assert wwwsearch#search('{keyword}', '-default') ==> !0
+  Assert wwwsearch#search('{keyword}', 'iNvAlId') ==> !0
+
+  let g:wwwsearch_command_to_open_uri = Call('s:default_command_to_open_uri')
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker

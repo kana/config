@@ -1,0 +1,262 @@
+*wwwsearch.txt*	Search WWW easily from Vim
+
+Version 0.0.0
+Script ID: 2785
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*wwwsearch-contents*
+
+Introduction            |wwwsearch-introduction|
+Interface               |wwwsearch-interface|
+  Commands                |wwwsearch-commands|
+  Functions               |wwwsearch-functions|
+  Key Mappings            |wwwsearch-key-mappings|
+Customizing             |wwwsearch-customizing|
+Examples                |wwwsearch-examples|
+Bugs                    |wwwsearch-bugs|
+Changelog               |wwwsearch-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*wwwsearch-introduction*
+
+*wwwsearch* is a Vim plugin to provide various ways to search the World Wide
+Web with various web search engines.  For example,
+>
+	:Wwwsearch vim
+<
+the above command activates your favorite Web browser then searches WWW for
+a keyword "vim" with a search engine (by default, Google).  You can also
+specify which search engine to use as follows:
+>
+	:Wwwsearch -google vim
+<
+See also |wwwsearch-interface|, |wwwsearch-customizing| and
+|wwwsearch-examples| for more details.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Optionals:
+- |operator-user| (vimscript#2692)
+
+Latest version:
+http://github.com/kana/config/commits/vim-wwwsearch
+
+Document in HTML format:
+http://kana.github.com/config/vim/wwwsearch.html
+
+
+
+
+==============================================================================
+INTERFACE					*wwwsearch-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*wwwsearch-commands*
+
+:Wwwsearch [{search-engine}] {keyword}		*:Wwwsearch*
+			Search WWW for a {keyword} with {search-engine}.
+
+			{keyword} is an arbitrary string.
+
+			{search-engine} is a word starting with a hyphen (-).
+			{search-engine} can be completed.  Let's type <Tab>.
+
+			If {search-engine} is omitted,
+			|wwwsearch-default-search-engine| is used.
+
+			See |wwwsearch-customizing| for what {search-engine}s
+			are available and how to add new {search-engine}s
+
+
+------------------------------------------------------------------------------
+FUNCTIONS					*wwwsearch-functions*
+
+wwwsearch#search({keyword}, [{search-engine}])	*wwwsearch#search()*
+			Function version of |:Wwwsearch|.
+			Each argument must be a string.
+			{search-engine} may not be started with a hyphen (-).
+
+wwwsearch#add({search-engine}, {uri-template})	*wwwsearch#add()*
+			Add new search engine to use with |:Wwwsearch|.
+
+			If a search engine with the same name as
+			{search-engine} is already added before, the old one
+			is overridden by the new one.  There is no warning.
+
+			Return value is {uri-template} of the old definition.
+			If there is no old definition, null string is returned
+			instead.
+
+			{search-engine}	(string)
+				The name of a search engine.
+				This value may include any character, but it's
+				strongly recommended not to use the following
+				characters:
+
+				- Space
+				- Hyphen for the first character
+
+			{uri-template} (string)
+				URI to search for a keyword.
+				"{keyword}" is replaced with a real keyword
+				whenever |:Wwwsearch| is executed.
+
+wwwsearch#remove({search-engine})		*wwwsearch#remove()*
+			Remove a search engine added by |wwwsearch#add()|.
+
+			See also |wwwsearch#add()| for the details of
+			argument.
+
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*wwwsearch-key-mappings*
+
+OPERATORS					*wwwsearch-operators*
+
+The following operators are only available if you have installed
+|operator-user|.   http://www.vim.org/scripts/script.php?script_id=2692
+
+<Plug>(operator-wwwsearch)			*<Plug>(operator-wwwsearch)*
+			Search a specified text with
+			|wwwsearch-default-search-engine|.
+
+
+
+
+==============================================================================
+CUSTOMIZING					*wwwsearch-customizing*
+
+ADD NEW SEARCH ENGINE			     *wwwsearch-add-new-search-engine*
+
+For example, you can search articles in Wikipedia with the following URI:
+
+	http://en.wikipedia.org/w/index.php?search={keyword}
+
+To |:Wwwsearch| with Wikipedia, add the following lines in your |vimrc|:
+>
+	call wwwsearch#add(
+	\   'wikipedia',
+	\   'http://en.wikipedia.org/w/index.php?search={keyword}'
+	\ )
+<
+Then you can search Wikipedia with the following command:
+>
+	:Wwwsearch -wikipedia vim
+<
+
+DEFAULT SEARCH ENGINE			     *wwwsearch-default-search-engine*
+
+By default, |:Wwwsearch| uses Google if you don't specify which search engine
+to use.  You can customize the default search engine as follows:
+>
+	call wwwsearch#default(
+	\   'default',
+	\   'http://en.wikipedia.org/w/index.php?search={keyword}'
+	\ )
+<
+In other words, the search engine named "default" is used as the default
+search engine.
+
+					    *wwwsearch-default-search-engines*
+By default, the following {search-engine}s are available:
+
+{search-engine}	Search with?
+---------------	-----------------------	~
+-default	Same as "-google"
+-google		Google
+
+
+CHANGE THE WEB BROWSER TO SEARCH	 *wwwsearch-your-favorite-web-browser*
+
+Use |g:wwwsearch_command_to_open_uri| to change the web browser to search.
+For example, add the following line in your |vimrc|:
+>
+	let g:wwwsearch_command_to_open_uri = '{path-to-web-browser} {uri}'
+<
+You have to replace {path-to-web-browser} with a real path to your favorite
+web browser.
+
+
+g:wwwsearch_command_to_open_uri		     *g:wwwsearch_command_to_open_uri*
+	A string which specifies the command to open a URI.  In this value,
+	{uri} is replaced with a real URI whenever the command is executed.
+
+	{uri} is always replaced with a quoted value.  You don't have to quote
+	it to escape meta characters.
+
+	Default value:
+	"open {uri}" for Mac OS X
+	"start {uri}" for Microsoft Windows
+	"" for other environments
+
+	You have to set an appropriate value if you don't use Mac OS X nor
+	Microsoft Windows.
+
+
+
+
+==============================================================================
+EXAMPLES					*wwwsearch-examples*
+
+(A) One of the most useful command of Vim is * (|star|).  You want a command
+like * to search WWW for a keyword under the cursor.  You can make such
+command as follows:
+>
+	nnoremap <Space>*  :<C-u>Wwwsearch -default <cword><Return>
+<
+
+
+
+
+==============================================================================
+BUGS						*wwwsearch-bugs*
+
+- Add more useful interaface.
+
+- Completion for |:Wwwsearch| is not context-aware.
+
+- See also |operator-user-bugs| for known bugs repalted to
+  |wwwsearch-operators|.
+
+- There is no known bug.  If you find a bug or something inconvenient, please
+  send a feedback on it.
+
+
+
+
+==============================================================================
+CHANGELOG					*wwwsearch-changelog*
+
+0.0.0	2009-09-11T19:42:10+09:00		*wwwsearch-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
