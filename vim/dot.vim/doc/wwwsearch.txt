@@ -182,6 +182,14 @@ to use.  You can customize the default search engine as follows:
 In other words, the search engine named "default" is used as the default
 search engine.
 
+					    *wwwsearch-default-search-engines*
+By default, the following {search-engine}s are available:
+
+{search-engine}	Search with?
+---------------	-----------------------	~
+-default	Same as "-google"
+-google		Google
+
 
 CHANGE THE WEB BROWSER TO SEARCH	 *wwwsearch-your-favorite-web-browser*
 
