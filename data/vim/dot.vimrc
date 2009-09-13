@@ -1683,18 +1683,6 @@ call operator#user#define_ex_command('my-sort', 'sort')
 " User key mappings will be defined later - see [Space].
 
 
-" The operator will be defined by "grex" plugin.
-Arpeggio map od  <Plug>(operator-grex-delete)
-Arpeggio map oy  <Plug>(operator-grex-yank)
-nmap gy  <Plug>(operator-grex-yank)<Plug>(textobj-entire-a)
-vmap gy  <Plug>(operator-grex-yank)
-omap gy  <Plug>(operator-grex-yank)
-
-
-" The operator will be defined by "operator-replace" plugin.
-Arpeggio map or  <Plug>(operator-replace)
-
-
 
 
 " Misc.  "{{{2
@@ -2278,6 +2266,19 @@ endfunction
 
 
 
+" grex  "{{{2
+
+Arpeggio map od  <Plug>(operator-grex-delete)
+Arpeggio map oy  <Plug>(operator-grex-yank)
+
+  " Compatibility for oldie
+nmap gy  <Plug>(operator-grex-yank)<Plug>(textobj-entire-a)
+vmap gy  <Plug>(operator-grex-yank)
+omap gy  <Plug>(operator-grex-yank)
+
+
+
+
 " ku  "{{{2
 
 autocmd MyAutoCmd FileType ku  call ku#default_key_mappings(s:TRUE)
@@ -2360,6 +2361,13 @@ Cmap [Space]xw  Widen
 
 
 
+" operator-replace  "{{{2
+
+Arpeggio map or  <Plug>(operator-replace)
+
+
+
+
 " scratch  "{{{2
 
 nmap <Leader>s  <Plug>(scratch-open)
@@ -2433,6 +2441,15 @@ nmap ss  <Plug>Yssurround
 let g:vcsi_diff_in_commit_buffer_p = 1
 let g:vcsi_open_command = 'SplitNicely | enew'
 let g:vcsi_use_native_message_p = 1
+
+
+
+
+" wwwsearch  "{{{2
+
+Arpeggio map ow  <Plug>(operator-wwwsearch)
+
+Cnmap [Space]*  Wwwsearch -default <C-r><C-w>
 
 
 
