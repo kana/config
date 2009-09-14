@@ -38,7 +38,7 @@ syntax match gtdNoteDatetime /^\t\zs\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\>/
 
 syntax match gtdComment /^;.*$/
 
-syntax match gtdIssueTag /[a-zA-Z0-9-_]\+:/
+syntax match gtdIssueTag /[a-zA-Z0-9-_]\+:\ze\s\+/
 syntax match gtdIssueId /^#\d\+/
 syntax match gtdIssueTitle /^#\d\+ .*/ contains=gtdIssueId,gtdIssueTag
 syntax region gtdIssue
