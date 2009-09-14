@@ -830,7 +830,6 @@ test/vim-grex/%.output: \
 
 
 # vim-gtd  #{{{2
-	# FIXME: Implement tests.
 TESTS_vim_gtd = autoload ftplugin syntax
 
 test/vim-gtd/%.output: \
