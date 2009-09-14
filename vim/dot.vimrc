@@ -876,6 +876,12 @@ if !exists('s:loaded_my_vimrc')
   " default value and it differs from what I want to use.  So that calling
   " s:toggle_grepprg() at here does set 'grepprg' to my default value.
   silent call s:toggle_grepprg()
+
+  if !has('unix')
+    " For non-*nix environments, git is not usually available.  To avoid error
+    " and manual toggling, set 'grepprg' to my alternative value.
+    silent call s:toggle_grepprg()
+  endif
 endif
 
 function! s:toggle_option(option_name)
