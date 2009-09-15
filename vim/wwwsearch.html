@@ -23,7 +23,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="wwwsearch.txt">wwwsearch.txt</span><span class="Ignore">*</span> Search WWW easily from Vim
 
-Version 0.0.0
+Version 0.0.1
 Script ID: 2785
 Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -233,9 +233,12 @@ g:wwwsearch_command_to_open_uri              <span class="Ignore">*</span><span 
         it to escape meta characters.
 
         Default value:
-        &quot;open <span class="Special">{uri}</span>&quot; for Mac OS X
-        &quot;start <span class="Special">{uri}</span>&quot; for Microsoft Windows
-        &quot;&quot; for other environments
+          For Mac OS X:
+            &quot;open <span class="Special">{uri}</span>&quot;
+          For Microsoft Windows:
+            &quot;start rundll32 url.dll,FileProtocolHandler <span class="Special">{uri}</span>&quot;
+          For other environments:
+            &quot;&quot;
 
         You have to set an appropriate value if you don't use Mac OS X nor
         Microsoft Windows.
@@ -274,6 +277,11 @@ command as follows:
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="wwwsearch-changelog">wwwsearch-changelog</span><span class="Ignore">*</span>
+
+0.0.1   2009-09-15T19:34:47+09:00               <span class="Ignore">*</span><span class="Constant" id="wwwsearch-changelog-0.0.1">wwwsearch-changelog-0.0.1</span><span class="Ignore">*</span>
+        - Fix the default value of <span class="Ignore">|</span><a href="wwwsearch.html#g:wwwsearch_command_to_open_uri"><span class="Identifier">g:wwwsearch_command_to_open_uri</span></a><span class="Ignore">|</span> for
+          Microsoft Windows.  The old value doesn't work.  (Thanks to
+          id:ampmmn and id:ursm for reporting).
 
 0.0.0   2009-09-11T19:42:10+09:00               <span class="Ignore">*</span><span class="Constant" id="wwwsearch-changelog-0.0.0">wwwsearch-changelog-0.0.0</span><span class="Ignore">*</span>
         - Initial version.
