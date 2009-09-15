@@ -1,6 +1,6 @@
 *wwwsearch.txt*	Search WWW easily from Vim
 
-Version 0.0.0
+Version 0.0.1
 Script ID: 2785
 Copyright (C) 2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -210,9 +210,12 @@ g:wwwsearch_command_to_open_uri		     *g:wwwsearch_command_to_open_uri*
 	it to escape meta characters.
 
 	Default value:
-	"open {uri}" for Mac OS X
-	"start {uri}" for Microsoft Windows
-	"" for other environments
+	  For Mac OS X:
+	    "open {uri}"
+	  For Microsoft Windows:
+	    "start rundll32 url.dll,FileProtocolHandler {uri}"
+	  For other environments:
+	    ""
 
 	You have to set an appropriate value if you don't use Mac OS X nor
 	Microsoft Windows.
@@ -251,6 +254,11 @@ BUGS						*wwwsearch-bugs*
 
 ==============================================================================
 CHANGELOG					*wwwsearch-changelog*
+
+0.0.1	2009-09-15T19:34:47+09:00		*wwwsearch-changelog-0.0.1*
+	- Fix the default value of |g:wwwsearch_command_to_open_uri| for
+	  Microsoft Windows.  The old value doesn't work.  (Thanks to
+	  id:ampmmn and id:ursm for reporting).
 
 0.0.0	2009-09-11T19:42:10+09:00		*wwwsearch-changelog-0.0.0*
 	- Initial version.

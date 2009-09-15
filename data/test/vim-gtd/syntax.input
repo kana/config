@@ -129,6 +129,19 @@ function s:test_syntax_2()  "{{{1
   \ ==> ['gtdSection', 'gtdIssue']
   Assert TestSynstack(13, 23)
   \ ==> ['gtdSection', 'gtdIssue']
+
+  Assert TestSynstack(2, 4)
+  \ ==> ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
+  Assert TestSynstack(2, 5)
+  \ ==> ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
+  Assert TestSynstack(2, 6)
+  \ ==> ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
+  Assert TestSynstack(2, 7)
+  \ ==> ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
+  Assert TestSynstack(2, 8)
+  \ ==> ['gtdSection', 'gtdIssue', 'gtdIssueTitle', 'gtdIssueTag']
+  Assert TestSynstack(2, 9)
+  \ ==> ['gtdSection', 'gtdIssue', 'gtdIssueTitle']
 endfunction
 
 

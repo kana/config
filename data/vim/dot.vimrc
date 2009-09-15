@@ -710,6 +710,24 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 " Utilities  "{{{1
+" :grep wrappers  "{{{2
+"
+" To edit {pattern} easily via Command-line mode history,
+" define :Grep as follows:
+"
+" :Grep {file} ... {pattern} ==> :grep /{pattern}/ {file} ...
+"
+" :Lgrep is a :lgrep wrapper like :Grep.
+
+command! -bar -complete=file -nargs=+ Grep
+\ execute 'grep' '/'.[<f-args>][-1].'/' [<f-args>][:-2]
+
+command! -bar -complete=file -nargs=+ Lgrep
+\ execute 'lgrep' '/'.[<f-args>][-1].'/' [<f-args>][:-2]
+
+
+
+
 " Help-related stuffs  "{{{2
 
 function! s:helpbufwinnr()
@@ -876,6 +894,12 @@ if !exists('s:loaded_my_vimrc')
   " default value and it differs from what I want to use.  So that calling
   " s:toggle_grepprg() at here does set 'grepprg' to my default value.
   silent call s:toggle_grepprg()
+
+  if !has('unix')
+    " For non-*nix environments, git is not usually available.  To avoid error
+    " and manual toggling, set 'grepprg' to my alternative value.
+    silent call s:toggle_grepprg()
+  endif
 endif
 
 function! s:toggle_option(option_name)
@@ -1315,7 +1339,7 @@ Cnmap <silent> qn  Qexecute cnewer [count]
 Cnmap <silent> qm  make
 Cnmap <noexec> qM  make<Space>
 Cnmap <noexec> q<Space>  make<Space>
-Cnmap <noexec> qg  grep<Space>
+Cnmap <noexec> qg  Grep<Space>
 
 
 " For location list (mnemonic: Quickfix list for the current Window)  "{{{3
@@ -1336,7 +1360,7 @@ Cnmap <silent> qwn  Qexecute lnewer [count]
 Cnmap <silent> qwm  lmake
 Cnmap <noexec> qwM  lmake<Space>
 Cnmap <noexec> qw<Space>  lmake<Space>
-Cnmap <noexec> qwg  lgrep<Space>
+Cnmap <noexec> qwg  Lgrep<Space>
 
 
 
