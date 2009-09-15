@@ -43,6 +43,7 @@ or |quoteplus|) for non-GUI version of Vim on the following platforms:
 
 - Cygwin
 - Mac OS X
+- X
 
 
 fakeclip also supports the following stuff as a pseudo register:
@@ -234,6 +235,9 @@ http://developer.apple.com/documentation/CoreFoundation/Reference/CFStringRef/
 
 ==============================================================================
 CHANGELOG					*fakeclip-changelog*
+
+0.2.5	2009-09-15T21:22:27+09:00		*fakeclip-changelog-0.2.5*
+	- Support X.  (Thanks to id:thinca for the patch)
 
 0.2.4	2009-06-13T18:22:01+09:00		*fakeclip-changelog-0.2.4*
 	- Revise on platforms where |+clipboard| is available:

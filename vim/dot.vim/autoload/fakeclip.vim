@@ -27,6 +27,8 @@ if has('macunix') || system('uname') =~? '^darwin'
   let s:PLATFORM = 'mac'
 elseif has('win32unix')
   let s:PLATFORM = 'cygwin'
+elseif $DISPLAY != '' && executable('xclip')
+  let s:PLATFORM = 'xclip'
 else
   let s:PLATFORM = 'unknown'
 endif
@@ -131,6 +133,11 @@ function! s:read_clipboard_cygwin()
 endfunction
 
 
+function! s:read_clipboard_xclip()
+  return system('xclip -o')
+endfunction
+
+
 function! s:read_clipboard_unknown()
   echoerr 'Getting the clipboard content is not supported on this platform:'
   \       s:PLATFORM
@@ -170,6 +177,12 @@ endfunction
 
 function! s:write_clipboard_cygwin(text)
   call writefile(split(a:text, "\x0A", 1), '/dev/clipboard', 'b')
+  return
+endfunction
+
+
+function! s:write_clipboard_xclip(text)
+  call system('xclip', a:text)
   return
 endfunction
 
