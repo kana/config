@@ -109,9 +109,6 @@ BUGS						*operator-replace-bugs*
 - Combinations of wises of {motion} and register content are not considered
   well, especially with blockwise ones.
 
-- There is an edge case bug.  Replacing at the end of buffer doesn't work as
-  you expect.  This bug will be fixed soon.
-
 - See also |operator-user-bugs|.
 
 
@@ -119,6 +116,10 @@ BUGS						*operator-replace-bugs*
 
 ==============================================================================
 CHANGELOG					*operator-replace-changelog*
+
+0.0.1	2009-09-16T07:59:40+09:00	    *operator-replace-changelog-0.0.1*
+	- Fix edge case bugs.  Now replaacing at the end of line or the end of
+	  buffer work as you expect.
 
 0.0.0	2009-09-06T10:13:20+09:00	    *operator-replace-changelog-0.0.0*
 	- Initial version.

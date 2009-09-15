@@ -29,7 +29,14 @@ function! operator#replace#do(motion_wise)  "{{{2
     " possible to what "{register} user gives.
   let register = v:register != '' ? v:register : '"'
 
-  let put_command = s:deletion_moves_the_cursor_p() ? 'p' : 'P'
+  let put_command = (s:deletion_moves_the_cursor_p(
+  \                    a:motion_wise,
+  \                    getpos("']")[1:2],
+  \                    len(getline("']")),
+  \                    [line('$'), len(getline('$'))]
+  \                  )
+  \                  ? 'p'
+  \                  : 'P')
 
   execute 'normal!' '`['.visual_command.'`]"_d'
   execute 'normal!' '"'.register.put_command
@@ -44,8 +51,26 @@ endfunction
 
 
 " Misc.  "{{{1
-function! s:deletion_moves_the_cursor_p()  "{{{2()
-  return 0  " FIXME: NIY
+" s:deletion_moves_the_cursor_p(motion_wise)  "{{{2
+function! s:deletion_moves_the_cursor_p(motion_wise,
+\                                       motion_end_pos,
+\                                       motion_end_last_col,
+\                                       buffer_end_pos)
+  let [buffer_end_line, buffer_end_col] = a:buffer_end_pos
+  let [motion_end_line, motion_end_col] = a:motion_end_pos
+
+  if a:motion_wise ==# 'char'
+    return ((a:motion_end_last_col == motion_end_col)
+    \       || (buffer_end_line == motion_end_line
+    \           && buffer_end_col <= motion_end_col))
+  elseif a:motion_wise ==# 'line'
+    return buffer_end_line == motion_end_line
+  elseif a:motion_wise ==# 'block'
+    return 0
+  else
+    echoerr 'E2: Invalid wise name:' string(a:wise_name)
+    return 0
+  endif
 endfunction
 
 

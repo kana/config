@@ -74,9 +74,7 @@ TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
 TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
 TEST: getline(4)  ==>  'Alter, you are )(*&^%$#@! SSMK.' ... ok
-TEST: getline(5)  ==>  'I"m-amane' ... FAILED
-  Actual value: I"mamane-
-  Expected value: I"m-amane
+TEST: getline(5)  ==>  'I"m-amane' ... ok
 TEST: getline(6)  ==>  'You"re-happy.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  ['amane', 'v'] ... ok
@@ -87,15 +85,11 @@ TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
 TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
 TEST: getline(4)  ==>  'Alter, you are )(*&^%$#@! SSMK.' ... ok
-TEST: getline(5)  ==>  'I"m-amane' ... FAILED
-  Actual value: I"mamane-
-  Expected value: I"m-amane
-TEST: getline(6)  ==>  'You"re-avril' ... FAILED
-  Actual value: You"reavril-
-  Expected value: You"re-avril
+TEST: getline(5)  ==>  'I"m-amane' ... ok
+TEST: getline(6)  ==>  'You"re-avril' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  ['avril', 'v'] ... ok
-Result: 60 / 63
+Result: 63 / 63
 
 ===== "Usage: char {motion} vs line {register} content"
 TEST: getline(1, line('$'))  ==>  text ... ok
@@ -156,12 +150,8 @@ TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral5\n", 'V'] ... ok
 TEST: getline(1)  ==>  'unnamed1' ... ok
 TEST: getline(2)  ==>  'unnamed2' ... ok
 TEST: getline(3)  ==>  'Spiral3' ... ok
-TEST: getline(4)  ==>  'Spiral4' ... FAILED
-  Actual value: unnamed5
-  Expected value: Spiral4
-TEST: getline(5)  ==>  'unnamed5' ... FAILED
-  Actual value: Spiral4
-  Expected value: unnamed5
+TEST: getline(4)  ==>  'Spiral4' ... ok
+TEST: getline(5)  ==>  'unnamed5' ... ok
 TEST: line('$')  ==>  5 ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed5\n", 'V'] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral5\n", 'V'] ... ok
@@ -169,16 +159,12 @@ TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed6\n", 'V'] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral6\n", 'V'] ... ok
 TEST: getline(1)  ==>  'unnamed1' ... ok
 TEST: getline(2)  ==>  'unnamed2' ... ok
-TEST: getline(3)  ==>  'Spiral3' ... FAILED
-  Actual value: unnamed6
-  Expected value: Spiral3
-TEST: getline(4)  ==>  'unnamed6' ... FAILED
-  Actual value: Spiral3
-  Expected value: unnamed6
+TEST: getline(3)  ==>  'Spiral3' ... ok
+TEST: getline(4)  ==>  'unnamed6' ... ok
 TEST: line('$')  ==>  4 ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ["unnamed6\n", 'V'] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral6\n", 'V'] ... ok
-Result: 56 / 60
+Result: 60 / 60
 
 ===== Total
-Result: 131 / 138
+Result: 138 / 138
