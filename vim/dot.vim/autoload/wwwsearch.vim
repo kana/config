@@ -159,7 +159,7 @@ function! s:default_command_to_open_uri()  "{{{2
   if has('mac') || has('macunix') || system('uname') =~? '^darwin'
     return 'open {uri}'
   elseif has('win32') || has('win64')
-    return 'start {uri}'
+    return 'start rundll32 url.dll,FileProtocolHandler {uri}'
   else
     return ''
   endif
