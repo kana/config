@@ -23,7 +23,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="operator-replace.txt">operator-replace.txt</span><span class="Ignore">*</span>  Operator to replace text with register content
 
-Version 0.0.0
+Version 0.0.1
 Script ID: 2782
 Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -132,9 +132,6 @@ Document in HTML format:
 - Combinations of wises of <span class="Special">{motion}</span> and register content are not considered
   well, especially with blockwise ones.
 
-- There is an edge case bug.  Replacing at the end of buffer doesn't work as
-  you expect.  This bug will be fixed soon.
-
 - See also <span class="Ignore">|</span><a href="operator-user.html#operator-user-bugs"><span class="Identifier">operator-user-bugs</span></a><span class="Ignore">|</span>.
 
 
@@ -142,6 +139,10 @@ Document in HTML format:
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="operator-replace-changelog">operator-replace-changelog</span><span class="Ignore">*</span>
+
+0.0.1   2009-09-16T07:59:40+09:00           <span class="Ignore">*</span><span class="Constant" id="operator-replace-changelog-0.0.1">operator-replace-changelog-0.0.1</span><span class="Ignore">*</span>
+        - Fix edge case bugs.  Now replaacing at the end of line or the end of
+          buffer work as you expect.
 
 0.0.0   2009-09-06T10:13:20+09:00           <span class="Ignore">*</span><span class="Constant" id="operator-replace-changelog-0.0.0">operator-replace-changelog-0.0.0</span><span class="Ignore">*</span>
         - Initial version.
