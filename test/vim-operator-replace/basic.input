@@ -111,7 +111,9 @@ function s:test_usage_char_vs_char()  "{{{1
   \     '(herb oil pepper) salt water',
   \     'Super Super Mega Kawaii',
   \     'Sasara moe!  It''s burning!',
-  \     'Alter, you are also SSMK.'
+  \     'Alter, you are also SSMK.',
+  \     'I"m-happy.',
+  \     'You"re-happy.'
   \   ]
   silent put =text
   1 delete _
@@ -127,6 +129,8 @@ function s:test_usage_char_vs_char()  "{{{1
   Assert getline(2) ==> 'Super Super Mega Kawaii'
   Assert getline(3) ==> 'Sasara moe!  It''s burning!'
   Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ['unnamed', 'v']
 
   " Case 2: {characterwise-Visual}{operator} without register designation
@@ -139,6 +143,8 @@ function s:test_usage_char_vs_char()  "{{{1
   Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
   Assert getline(3) ==> 'Sasara moe!  It''s burning!'
   Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ['unnamed2', 'v']
 
   " Case 3: {operator}{characterwise-motion} with register designation
@@ -153,12 +159,14 @@ function s:test_usage_char_vs_char()  "{{{1
   Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
   Assert getline(3) ==> 'Sasara !@#$%^&*()!  It''s burning!'
   Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ['unnamed3', 'v']
   Assert [getreg('s'), getregtype('s')] ==> ['!@#$%^&*()', 'v']
 
   " Case 4: {characterwise-Visual}{operator} with register designation
-  normal! 4G$B
-  Assert [line('.'), col('.')] ==> [4, 21]
+  normal! 4G$BB
+  Assert [line('.'), col('.')] ==> [4, 16]
   let @" = 'unnamed4'
   let @s = ')(*&^%$#@!'
   Assert [getreg('s'), getregtype('s')] ==> [')(*&^%$#@!', 'v']
@@ -167,9 +175,45 @@ function s:test_usage_char_vs_char()  "{{{1
   Assert getline(1) ==> '(herb unnamed pepper) salt water'
   Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
   Assert getline(3) ==> 'Sasara !@#$%^&*()!  It''s burning!'
-  Assert getline(4) ==> 'Alter, you are also )(*&^%$#@!.'
+  Assert getline(4) ==> 'Alter, you are )(*&^%$#@! SSMK.'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ['unnamed4', 'v']
   Assert [getreg('s'), getregtype('s')] ==> [')(*&^%$#@!', 'v']
+
+  " Case 5: {operator}{characterwise-motion} including the end of buffer
+  normal! 5G$b
+  Assert [line('.'), col('.')] ==> [5, 5]
+  let @" = 'unnamed4'
+  let @s = 'amane'
+  Assert [getreg('s'), getregtype('s')] ==> ['amane', 'v']
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed4', 'v']
+  execute 'normal' "\"s\<Plug>(operator-replace)$"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
+  Assert getline(3) ==> 'Sasara !@#$%^&*()!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are )(*&^%$#@! SSMK.'
+  Assert getline(5) ==> 'I"m-amane'
+  Assert getline(6) ==> 'You"re-happy.'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed4', 'v']
+  Assert [getreg('s'), getregtype('s')] ==> ['amane', 'v']
+
+  " Case 6: {characterwise-Visual}{operator} including the end of buffer
+  normal! 6G$b
+  Assert [line('.'), col('.')] ==> [6, 8]
+  let @" = 'unnamed4'
+  let @s = 'avril'
+  Assert [getreg('s'), getregtype('s')] ==> ['avril', 'v']
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed4', 'v']
+  execute 'normal' "v$\"s\<Plug>(operator-replace)"
+  Assert getline(1) ==> '(herb unnamed pepper) salt water'
+  Assert getline(2) ==> 'Super Sunnamed2ga Kawaii'
+  Assert getline(3) ==> 'Sasara !@#$%^&*()!  It''s burning!'
+  Assert getline(4) ==> 'Alter, you are )(*&^%$#@! SSMK.'
+  Assert getline(5) ==> 'I"m-amane'
+  Assert getline(6) ==> 'You"re-avril'
+  Assert [getreg('"'), getregtype('"')] ==> ['unnamed4', 'v']
+  Assert [getreg('s'), getregtype('s')] ==> ['avril', 'v']
 endfunction
 
 

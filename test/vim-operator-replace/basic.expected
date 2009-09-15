@@ -33,6 +33,8 @@ TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
 TEST: getline(2)  ==>  'Super Super Mega Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara moe!  It''s burning!' ... ok
 TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
+TEST: getline(5)  ==>  'I"m-happy.' ... ok
+TEST: getline(6)  ==>  'You"re-happy.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed', 'v'] ... ok
 TEST: [line('.'), col('.')]  ==>  [2, 8] ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed2', 'v'] ... ok
@@ -40,6 +42,8 @@ TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
 TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara moe!  It''s burning!' ... ok
 TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
+TEST: getline(5)  ==>  'I"m-happy.' ... ok
+TEST: getline(6)  ==>  'You"re-happy.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed2', 'v'] ... ok
 TEST: [line('.'), col('.')]  ==>  [3, 8] ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed3', 'v'] ... ok
@@ -48,18 +52,50 @@ TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
 TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
 TEST: getline(4)  ==>  'Alter, you are also SSMK.' ... ok
+TEST: getline(5)  ==>  'I"m-happy.' ... ok
+TEST: getline(6)  ==>  'You"re-happy.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed3', 'v'] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  ['!@#$%^&*()', 'v'] ... ok
-TEST: [line('.'), col('.')]  ==>  [4, 21] ... ok
+TEST: [line('.'), col('.')]  ==>  [4, 16] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  [')(*&^%$#@!', 'v'] ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
 TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
 TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
 TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
-TEST: getline(4)  ==>  'Alter, you are also )(*&^%$#@!.' ... ok
+TEST: getline(4)  ==>  'Alter, you are )(*&^%$#@! SSMK.' ... ok
+TEST: getline(5)  ==>  'I"m-happy.' ... ok
+TEST: getline(6)  ==>  'You"re-happy.' ... ok
 TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
 TEST: [getreg('s'), getregtype('s')]  ==>  [')(*&^%$#@!', 'v'] ... ok
-Result: 33 / 33
+TEST: [line('.'), col('.')]  ==>  [5, 5] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ['amane', 'v'] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
+TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
+TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
+TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are )(*&^%$#@! SSMK.' ... ok
+TEST: getline(5)  ==>  'I"m-amane' ... FAILED
+  Actual value: I"mamane-
+  Expected value: I"m-amane
+TEST: getline(6)  ==>  'You"re-happy.' ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ['amane', 'v'] ... ok
+TEST: [line('.'), col('.')]  ==>  [6, 8] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ['avril', 'v'] ... ok
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
+TEST: getline(1)  ==>  '(herb unnamed pepper) salt water' ... ok
+TEST: getline(2)  ==>  'Super Sunnamed2ga Kawaii' ... ok
+TEST: getline(3)  ==>  'Sasara !@#$%^&*()!  It''s burning!' ... ok
+TEST: getline(4)  ==>  'Alter, you are )(*&^%$#@! SSMK.' ... ok
+TEST: getline(5)  ==>  'I"m-amane' ... FAILED
+  Actual value: I"mamane-
+  Expected value: I"m-amane
+TEST: getline(6)  ==>  'You"re-avril' ... FAILED
+  Actual value: You"reavril-
+  Expected value: You"re-avril
+TEST: [getreg('"'), getregtype('"')]  ==>  ['unnamed4', 'v'] ... ok
+TEST: [getreg('s'), getregtype('s')]  ==>  ['avril', 'v'] ... ok
+Result: 60 / 63
 
 ===== "Usage: char {motion} vs line {register} content"
 TEST: getline(1, line('$'))  ==>  text ... ok
@@ -114,4 +150,4 @@ TEST: [getreg('s'), getregtype('s')]  ==>  ["Spiral4\n", 'V'] ... ok
 Result: 31 / 33
 
 ===== Total
-Result: 79 / 81
+Result: 106 / 111
