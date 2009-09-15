@@ -466,7 +466,7 @@ PACKAGE_vim_narrow_FILES=\
   vim/dot.vim/doc/narrow.txt \
   vim/dot.vim/plugin/narrow.vim
 
-PACKAGE_vim_operator_replace_ARCHIVE=vim-operator-replace-0.0.0
+PACKAGE_vim_operator_replace_ARCHIVE=vim-operator-replace-0.0.1
 PACKAGE_vim_operator_replace_BASE=vim/dot.vim
 PACKAGE_vim_operator_replace_FILES=\
   vim/dot.vim/autoload/operator/replace.vim \
