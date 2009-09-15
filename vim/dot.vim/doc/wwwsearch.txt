@@ -1,6 +1,6 @@
 *wwwsearch.txt*	Search WWW easily from Vim
 
-Version 0.0.0
+Version 0.0.1
 Script ID: 2785
 Copyright (C) 2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{

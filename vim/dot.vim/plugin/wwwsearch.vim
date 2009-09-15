@@ -1,5 +1,5 @@
 " wwwsearch - Search WWW easily from Vim
-" Version: 0.0.0
+" Version: 0.0.1
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
