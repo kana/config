@@ -292,7 +292,9 @@ function s:test_usage_line_vs_line()  "{{{1
   \     '(herb oil pepper) salt water',
   \     'Super Super Mega Kawaii',
   \     'Sasara moe!  It''s burning!',
-  \     'Alter, you are also SSMK.'
+  \     'Alter, you are also SSMK.',
+  \     'I"m-happy.',
+  \     'You"re-happy.'
   \   ]
   silent put =text
   1 delete _
@@ -309,6 +311,8 @@ function s:test_usage_line_vs_line()  "{{{1
   Assert getline(2) ==> 'Super Super Mega Kawaii'
   Assert getline(3) ==> 'Sasara moe!  It''s burning!'
   Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ["unnamed1\n", 'V']
   Assert [getreg('s'), getregtype('s')] ==> ["Spiral1\n", 'V']
 
@@ -323,6 +327,8 @@ function s:test_usage_line_vs_line()  "{{{1
   Assert getline(2) ==> 'unnamed2'
   Assert getline(3) ==> 'Sasara moe!  It''s burning!'
   Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ["unnamed2\n", 'V']
   Assert [getreg('s'), getregtype('s')] ==> ["Spiral2\n", 'V']
 
@@ -337,6 +343,8 @@ function s:test_usage_line_vs_line()  "{{{1
   Assert getline(2) ==> 'unnamed2'
   Assert getline(3) ==> 'Spiral3'
   Assert getline(4) ==> 'Alter, you are also SSMK.'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ["unnamed3\n", 'V']
   Assert [getreg('s'), getregtype('s')] ==> ["Spiral3\n", 'V']
 
@@ -351,8 +359,41 @@ function s:test_usage_line_vs_line()  "{{{1
   Assert getline(2) ==> 'unnamed2'
   Assert getline(3) ==> 'Spiral3'
   Assert getline(4) ==> 'Spiral4'
+  Assert getline(5) ==> 'I"m-happy.'
+  Assert getline(6) ==> 'You"re-happy.'
   Assert [getreg('"'), getregtype('"')] ==> ["unnamed4\n", 'V']
   Assert [getreg('s'), getregtype('s')] ==> ["Spiral4\n", 'V']
+
+  " Case 5: {operator}{linewise-motion} including the end of buffer
+  normal! 5G
+  let @" = "unnamed5\n"
+  let @s = "Spiral5\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed5\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral5\n", 'V']
+  execute 'normal' "\"\"\<Plug>(operator-replace)j"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Spiral3'
+  Assert getline(4) ==> 'Spiral4'
+  Assert getline(5) ==> 'unnamed5'
+  Assert line('$') ==> 5
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed5\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral5\n", 'V']
+
+  " Case 6: {linewise-Visual}{operator} including the end of buffer
+  normal! 5G
+  let @" = "unnamed6\n"
+  let @s = "Spiral6\n"
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed6\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral6\n", 'V']
+  execute 'normal' "Vk\"\"\<Plug>(operator-replace)"
+  Assert getline(1) ==> 'unnamed1'
+  Assert getline(2) ==> 'unnamed2'
+  Assert getline(3) ==> 'Spiral3'
+  Assert getline(4) ==> 'unnamed6'
+  Assert line('$') ==> 4
+  Assert [getreg('"'), getregtype('"')] ==> ["unnamed6\n", 'V']
+  Assert [getreg('s'), getregtype('s')] ==> ["Spiral6\n", 'V']
 endfunction
 
 
