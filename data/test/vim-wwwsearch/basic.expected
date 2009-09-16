@@ -317,7 +317,7 @@ TEST: wwwsearch#cmd_Wwwsearch(['-iNvAlId', '{keyword9}'])  ==>  !0 ... ok
 Result: 9 / 9
 
 ===== "wwwsearch#cmd_Wwwsearch_complete()"
-TEST: wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)  ==>  ['-default', '-google'] ... ok
+TEST: wwwsearch#cmd_Wwwsearch_complete('', ':Wwwsearch ', 11)  ==>  [ '-default', '-dictionary', '-google', '-twitter', '-vim.org', '-wikipedia', ] ... ok
 Result: 1 / 1
 
 ===== "wwwsearch#operator_default()"

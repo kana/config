@@ -188,7 +188,11 @@ By default, the following {search-engine}s are available:
 {search-engine}	Search with?
 ---------------	-----------------------	~
 -default	Same as "-google"
+-dictionary	Dictionary (Mac OS X only)
 -google		Google
+-twitter	Twitter
+-vim.org	Google for www.vim.org
+-wikipedia	Wikipedia
 
 
 CHANGE THE WEB BROWSER TO SEARCH	 *wwwsearch-your-favorite-web-browser*
@@ -254,6 +258,10 @@ BUGS						*wwwsearch-bugs*
 
 ==============================================================================
 CHANGELOG					*wwwsearch-changelog*
+
+0.0.2	2009-09-16T20:08:08+09:00		*wwwsearch-changelog-0.0.2*
+	- Add more |wwwsearch-default-search-engines|:
+	  Dictionary (Mac OS X only), Twitter, www.vim.org and Wikipedia.
 
 0.0.1	2009-09-15T19:34:47+09:00		*wwwsearch-changelog-0.0.1*
 	- Fix the default value of |g:wwwsearch_command_to_open_uri| for
