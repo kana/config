@@ -211,13 +211,14 @@ endfunction
 " BUGS: To ensure that any other stuffs are available,
 "       this section must be written at the end of this file.
 
-" FIXME: Add more search engines.
-
 call wwwsearch#add('default', 'http://www.google.com/search?q={keyword}')
+call wwwsearch#add('dictionary', 'dict://{keyword}')
 call wwwsearch#add('google', 'http://www.google.com/search?q={keyword}')
-" call wwwsearch#add('vim', '...')
-" call wwwsearch#add('wikipedia', '...')
-" ...
+call wwwsearch#add('twitter', 'http://search.twitter.com/search?q={keyword}')
+call wwwsearch#add('vim.org',
+\                  'http://www.google.com/search?q=site:vim.org+{keyword}')
+call wwwsearch#add('wikipedia',
+\                  'http://en.wikipedia.org/w/index.php?search={keyword}')
 
 
 
