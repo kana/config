@@ -156,13 +156,20 @@ endfunction
 
 
 function! s:default_command_to_open_uri()  "{{{2
-  if has('mac') || has('macunix') || system('uname') =~? '^darwin'
+  if s:mac_p()
     return 'open {uri}'
   elseif has('win32') || has('win64')
     return 'start rundll32 url.dll,FileProtocolHandler {uri}'
   else
     return ''
   endif
+endfunction
+
+
+
+
+function! s:mac_p()  "{{{2
+  return has('mac') || has('macunix') || system('uname') =~? '^darwin'
 endfunction
 
 
@@ -212,13 +219,16 @@ endfunction
 "       this section must be written at the end of this file.
 
 call wwwsearch#add('default', 'http://www.google.com/search?q={keyword}')
-call wwwsearch#add('dictionary', 'dict://{keyword}')
 call wwwsearch#add('google', 'http://www.google.com/search?q={keyword}')
 call wwwsearch#add('twitter', 'http://search.twitter.com/search?q={keyword}')
 call wwwsearch#add('vim.org',
 \                  'http://www.google.com/search?q=site:vim.org+{keyword}')
 call wwwsearch#add('wikipedia',
 \                  'http://en.wikipedia.org/w/index.php?search={keyword}')
+
+if s:mac_p()
+  call wwwsearch#add('dictionary', 'dict://{keyword}')
+endif
 
 
 
