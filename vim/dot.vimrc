@@ -1275,7 +1275,7 @@ Cnmap <noexec> t<Space>  tag<Space>
 nnoremap t't  <C-w>}
 vnoremap t't  <C-w>}
 Cnmap <silent> t'n  ptnext
-Cnmap <silent> t'p  ptpevious
+Cnmap <silent> t'p  ptprevious
 Cnmap <silent> t'P  ptfirst
 Cnmap <silent> t'N  ptlast
 
