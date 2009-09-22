@@ -175,6 +175,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_syntax_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
+  $(PACKAGE_vim_xire_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   $(PACKAGE_vim_wwwsearch_FILES) \
@@ -264,6 +265,7 @@ ALL_PACKAGES=\
   vim-textobj-syntax \
   vim-textobj-user \
   vim-vcsi \
+  vim-xire \
   vim-xml_autons \
   vim-xml_move \
   vim-wwwsearch
@@ -609,6 +611,12 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/autoload/vcsi.vim \
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
+
+PACKAGE_vim_xire_ARCHIVE=vim-xire-0.0.0
+PACKAGE_vim_xire_BASE=vim/dot.vim
+PACKAGE_vim_xire_FILES=\
+  vim/dot.vim/bin/xirec \
+  vim/dot.vim/doc/xire.txt
 
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
