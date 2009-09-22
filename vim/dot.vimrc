@@ -1848,8 +1848,12 @@ noremap <LocalLeader>  <Nop>
 
 
 " Make searching directions consistent
-noremap <expr> n  v:searchforward ? 'nzv' : 'Nzv'
-noremap <expr> N  v:searchforward ? 'Nzv' : 'nzv'
+noremap <expr> n  <SID>search_forward_p() ? 'nzv' : 'Nzv'
+noremap <expr> N  <SID>search_forward_p() ? 'Nzv' : 'nzv'
+
+function! s:search_forward_p()
+  return exists('v:searchforward') ? v:searchforward : s:TRUE
+endfunction
 
 
 
