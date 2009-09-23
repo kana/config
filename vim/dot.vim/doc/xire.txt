@@ -31,7 +31,7 @@ Interface               |xire-interface|
   External Commands       |xire-external-commands|
   Xire Script             |xire-script|
   Scheme API              |xire-scheme-api|
-  Vise                    |xire-vise|
+  Xire Expression         |xire-expression|
 Examples                |xire-examples|
 Bugs                    |xire-bugs|
 Changelog               |xire-changelog|
@@ -89,7 +89,9 @@ XIRE SCRIPT					*xire-script*
 Xire script is a Scheme-based DSL to write Vim script.  It is mostly same as
 Gauche script, but there are the following differences:
 
-FIXME: Details on xire script.
+- Xire script consists of |xire-expression| or ordinary Scheme expression.
+- If an expression is not a valid xire expression, then it is treated as
+  ordinary Scheme expression.
 
 
 ------------------------------------------------------------------------------
@@ -101,12 +103,12 @@ FIXME: Details on Scheme API.
 
 
 ------------------------------------------------------------------------------
-VISE						*xire-vise* *vise* *{vise}*
+XIRE EXPRESSION					*xire-expression*
 
-Vise is an S-expression notation to write Vim script.  It is an abbreviation
-for "Vim script In S-Expression".
+Xire expression is an S-expression notation to write Vim script.  The details
+of the notation are as follows:
 
-FIXME: Details on vise.
+FIXME: Details on xire expression.
 
 
 
