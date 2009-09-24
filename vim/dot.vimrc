@@ -720,10 +720,10 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 " :Lgrep is a :lgrep wrapper like :Grep.
 
 command! -bar -complete=file -nargs=+ Grep
-\ execute 'grep' '/'.[<f-args>][-1].'/' [<f-args>][:-2]
+\ execute 'grep' '/'.[<f-args>][-1].'/' join([<f-args>][:-2])
 
 command! -bar -complete=file -nargs=+ Lgrep
-\ execute 'lgrep' '/'.[<f-args>][-1].'/' [<f-args>][:-2]
+\ execute 'lgrep' '/'.[<f-args>][-1].'/' join([<f-args>][:-2])
 
 
 
