@@ -99,7 +99,109 @@ SCHEME API					*xire-scheme-api*
 
 In |xire-script|, the following API is available:
 
-FIXME: Details on Scheme API.
+(define-xire-macro {name} {proc})		*(define-xire-macro)*
+(define-xire-macro ({name} . {formals}) {body} ...)
+			Define {name} to be a new macro whose transformer is
+			{proc}.  The second form is a shorthand notation of
+			the following form:
+>
+				(define-xire-macro {name}
+				  (lambda {formals} . {body} ...))
+<
+			When a form ({name} {arg} ...) is seen by the compiler
+			it calls {proc} with {arg} ..., the compiler inserts
+			the returned form in place of the original form, and
+			compiles it again.
+
+						*(define-function)*
+(define-function ({name} . {formals}) [{option} ...] {body} ...)
+			Define {name} to be a new Vim function.
+
+			This form is corresponding to |:function|.  Its output
+			is roughly as follows:
+>
+				function! {name}({formals}) {option} ...
+				  {body}
+				endfunction
+<
+			{option} must be one of the following keyword:
+
+				:abort
+				:dict
+				:range
+				:without-!
+
+			- The meanings of :abort, :dict and :range are
+			  corresponding to [abort], [dict] and [range] for
+			  |:function|.
+			- By default, define-function appends [!] to
+			  |:function| to override an existing definition.
+			  If :without-! is given, [!] is not appended.
+
+			{name} must follow the same naming rules of Vim,
+			but there are the following exceptions:
+
+			- {name} may contain "/".  It is translated to "#".
+			- {name} may contain "-".  It is translated to "_".
+
+						*(define-ex-command)*
+(define-ex-command ({name} {formals}) {attr} ... {body} ...)
+			Define {name} to be a new Ex command.
+
+			This form is corresponding to |:command|.  Its output
+			is roughly as follows:
+>
+				command! {attr} ... {name}
+				\ call s:_cmd_{name}({arg}, ...)
+				function! s:_cmd_{name}({formals})
+				  {body}
+				endfunction
+<
+
+(define-command ...)				*(define-command)*
+			Alias of |(define-ex-command)|.
+
+(define-key-mapping {modes} {options} {lhs} {rhs})	*(define-key-mapping)*
+			Define a key mapping.
+
+			This form is corresponding to |:map| and other
+			commands.  Its output is roughly as follows:
+>
+				{modes}noremap {options} {lhs}  {rhs}
+<
+			{modes} is a list of the following symbols:
+
+				Symbol	Corresponding modes ~
+				------	------------------- ~
+				c	Command-line mode
+				i	Insert mode
+				l	|language-mapping|
+				n	Normal mode
+				o	Operator-pending mode
+				s	Select mode
+				v	Visual mode / Select mode
+				x	Visual mode
+				motion	Alias for (n o v)
+				object	Alias for (o v)
+				all	Alias for (c i n o v) = all modes
+
+			{options} is a list of the following symbols:
+
+				Symbol	Meanings ~
+				------	-------- ~
+				buffer	|:map-<buffer>|
+				expr	|:map-<expr>|
+				remap	Allow remapping of {rhs}
+				script	|:map-<script>|
+				silent	|:map-<silent>|
+				unique	|:map-<unique>|
+
+(define-map ...)				*(define-map)*
+			Alias of |(define-key-mapping)|.
+
+(:raw-vim-script {snippet} ...)			*(:raw-vim-script)*
+			Add {snippet} of raw Vim script to resulting Vim
+			script.  Use with care.
 
 
 ------------------------------------------------------------------------------
