@@ -99,19 +99,26 @@ SCHEME API					*xire-scheme-api*
 
 In |xire-script|, the following API is available:
 
-(define-xire-macro {name} {proc})		*(define-xire-macro)*
-(define-xire-macro ({name} . {formals}) {body} ...)
-			Define {name} to be a new macro whose transformer is
-			{proc}.  The second form is a shorthand notation of
-			the following form:
+(:raw-vim-script {snippet} ...)			*(:raw-vim-script)*
+			Add {snippet} of raw Vim script to resulting Vim
+			script.  Use with care.
+
+(define-command ...)				*(define-command)*
+			Alias of |(define-ex-command)|.
+
+						*(define-ex-command)*
+(define-ex-command ({name} {formals}) {attr} ... {body} ...)
+			Define {name} to be a new Ex command.
+
+			This form is corresponding to |:command|.  Its output
+			is roughly as follows:
 >
-				(define-xire-macro {name}
-				  (lambda {formals} . {body} ...))
+				command! {attr} ... {name}
+				\ call s:_cmd_{name}({arg}, ...)
+				function! s:_cmd_{name}({formals})
+				  {body}
+				endfunction
 <
-			When a form ({name} {arg} ...) is seen by the compiler
-			it calls {proc} with {arg} ..., the compiler inserts
-			the returned form in place of the original form, and
-			compiles it again.
 
 						*(define-function)*
 (define-function ({name} . {formals}) [{option} ...] {body} ...)
@@ -143,23 +150,6 @@ In |xire-script|, the following API is available:
 
 			- {name} may contain "/".  It is translated to "#".
 			- {name} may contain "-".  It is translated to "_".
-
-						*(define-ex-command)*
-(define-ex-command ({name} {formals}) {attr} ... {body} ...)
-			Define {name} to be a new Ex command.
-
-			This form is corresponding to |:command|.  Its output
-			is roughly as follows:
->
-				command! {attr} ... {name}
-				\ call s:_cmd_{name}({arg}, ...)
-				function! s:_cmd_{name}({formals})
-				  {body}
-				endfunction
-<
-
-(define-command ...)				*(define-command)*
-			Alias of |(define-ex-command)|.
 
 (define-key-mapping {modes} {options} {lhs} {rhs})	*(define-key-mapping)*
 			Define a key mapping.
@@ -199,9 +189,19 @@ In |xire-script|, the following API is available:
 (define-map ...)				*(define-map)*
 			Alias of |(define-key-mapping)|.
 
-(:raw-vim-script {snippet} ...)			*(:raw-vim-script)*
-			Add {snippet} of raw Vim script to resulting Vim
-			script.  Use with care.
+(define-xire-macro {name} {proc})		*(define-xire-macro)*
+(define-xire-macro ({name} . {formals}) {body} ...)
+			Define {name} to be a new macro whose transformer is
+			{proc}.  The second form is a shorthand notation of
+			the following form:
+>
+				(define-xire-macro {name}
+				  (lambda {formals} . {body} ...))
+<
+			When a form ({name} {arg} ...) is seen by the compiler
+			it calls {proc} with {arg} ..., the compiler inserts
+			the returned form in place of the original form, and
+			compiles it again.
 
 
 ------------------------------------------------------------------------------
