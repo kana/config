@@ -1,0 +1,136 @@
+*fix-ictrluw.txt*	Fix undoable <C-u>/<C-w> behaviors in Insert mode
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*fix-ictrluw-contents*
+
+Introduction            |fix-ictrluw-introduction|
+Interface               |fix-ictrluw-interface|
+  Key Mappings            |fix-ictrluw-key-mappings|
+Customization             |fix-ictrluw-customization|
+Bugs                    |fix-ictrluw-bugs|
+Changelog               |fix-ictrluw-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*fix-ictrluw-introduction*
+
+*fix-ictrluw* is a Vim plugin to fix the behaviors of |i_CTRL-U| and
+|i_CTRL-W| with |i_CTRL-G_u|.  It is popular to map <C-u>/<C-w> in Insert
+mode as follows:
+>
+	inoremap <C-u>  <C-g>u<C-u>
+	inoremap <C-w>  <C-g>u<C-w>
+<
+These key mappings make <C-u>/<C-w> undoable and it's useful if you delete
+a lot of text unexpectedly.  But the key mappings have the following side
+effect:
+
+- The default <C-u>/<C-w> stop deletion at the point where the latest Insert
+  mode started.  If you type <C-u>/<C-w> again, they delete text before the
+  point if 'backspace' has "start".
+- But the undoable version of <C-u>/<C-w> don't stop deletion at the point.
+  It's very annoying if you expect the default behavior because they delete
+  a lot of text.
+
+This plugin provides undoable <C-u>/<C-w> with the same behavior as the
+default one.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-fix-ictrluw
+
+Document in HTML format:
+http://kana.github.com/config/vim/fix-ictrluw.html
+
+
+
+
+==============================================================================
+INTERFACE					*fix-ictrluw-interface*
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*fix-ictrluw-key-mappings*
+
+DEFAULT KEY MAPPINGS			    *fix-ictrluw-default-key-mappings*
+
+Modes	{lhs}		{rhs}
+------------------------------------------------
+i	<C-u>		|<Plug>(fix-ictrluw-delete-line)|
+i	<C-w>		|<Plug>(fix-ictrluw-delete-word)|
+
+
+NAMED KEY MAPPINGS			      *fix-ictrluw-named-key-mappings*
+
+<Plug>(fix-ictrluw-delete-line)		   *i_<Plug>(fix-ictrluw-delete-line)*
+<Plug>(fix-ictrluw-delete-word)		   *i_<Plug>(fix-ictrluw-delete-word)*
+			Like |i_CTRL-U| and |i_CTRL-W|, but their deletions
+			are undoable and their behaviors are the same as the
+			default ones.  See also |fix-ictrluw-introduction|.
+
+
+
+
+==============================================================================
+CUSTOMIZATION					*fix-ictrluw-customization*
+
+If you use |i_CTRL-U| or |i_CTRL-W| with other key sequences, use the
+following template to use this plugin:
+>
+	let g:fix_ictrluw_no_default_key_mappipngs = !0
+
+	imap {keys-to-delete-line}  <Plug>(fix-ictrluw-delete-line)
+	imap {keys-to-delete-word}  <Plug>(fix-ictrluw-delete-word)
+<
+Replace {keys-to-delete-line}/{keys-to-delete-word} with your favorite key
+sequences, then add it your |vimrc|.
+
+
+
+
+==============================================================================
+BUGS						*fix-ictrluw-bugs*
+
+- There is no known bug at this moment.
+
+
+
+
+==============================================================================
+CHANGELOG					*fix-ictrluw-changelog*
+
+0.0.0	2009-09-25T21:03:46+09:00		*fix-ictrluw-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

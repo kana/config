@@ -140,6 +140,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_arpeggio_FILES) \
   $(PACKAGE_vim_bundle_FILES) \
   $(PACKAGE_vim_fakeclip_FILES) \
+  $(PACKAGE_vim_fix_ictrluw_FILES) \
   $(PACKAGE_vim_flydiff_FILES) \
   $(PACKAGE_vim_ft_gauche_FILES) \
   $(PACKAGE_vim_ft_haskell_FILES) \
@@ -224,6 +225,7 @@ ALL_PACKAGES=\
   vim-arpeggio \
   vim-bundle \
   vim-fakeclip \
+  vim-fix-ictrluw \
   vim-flydiff \
   vim-ft-gauche \
   vim-ft-haskell \
@@ -323,6 +325,13 @@ PACKAGE_vim_fakeclip_FILES=\
   vim/dot.vim/autoload/fakeclip.vim \
   vim/dot.vim/doc/fakeclip.txt \
   vim/dot.vim/plugin/fakeclip.vim
+
+PACKAGE_vim_fix_ictrluw_ARCHIVE=vim-fix-ictrluw-0.0.0
+PACKAGE_vim_fix_ictrluw_BASE=vim/dot.vim
+PACKAGE_vim_fix_ictrluw_FILES=\
+  vim/dot.vim/autoload/fix/ictrluw.vim \
+  vim/dot.vim/doc/fix-ictrluw.txt \
+  vim/dot.vim/plugin/fix/ictrluw.vim
 
 PACKAGE_vim_flydiff_ARCHIVE=vim-flydiff-0.0.1
 PACKAGE_vim_flydiff_BASE=vim/dot.vim
