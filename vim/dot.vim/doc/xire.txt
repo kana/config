@@ -107,18 +107,40 @@ In |xire-script|, the following API is available:
 			Alias of |(define-ex-command)|.
 
 						*(define-ex-command)*
-(define-ex-command ({name} {formals}) {attr} ... {body} ...)
+(define-ex-command ({name} {formals}) ({attr} ...) {body} ...)
 			Define {name} to be a new Ex command.
 
 			This form is corresponding to |:command|.  Its output
 			is roughly as follows:
 >
-				command! {attr} ... {name}
+				command! -bar {attr} ... {name}
 				\ call s:_cmd_{name}({arg}, ...)
 				function! s:_cmd_{name}({formals})
 				  {body}
 				endfunction
 <
+			{attr} is a list of the following values:
+
+			:bang
+				Like |:command-bang|.  In {body}, a:bang is
+				available instead of <bang>.
+			:buffer	
+				Like |:command-buffer|.
+			(:complete {method} [{function-name}])
+				Like |:command-complete|.  For example:
+>
+					; -complete=augroup
+					(:complete augroup)
+					; -complete=custom,Func
+					(:complete custom Func)
+<
+			(:count {N})
+				Like |:command-count|.  In {body}, a:count is
+				available instead of <count>.
+			(:range {range})
+				Like |:command-range|.  In {body}, a:line1 and
+				a:line2 are available instead of <line1> and
+				<line2>.
 
 						*(define-function)*
 (define-function ({name} . {formals}) [{option} ...] {body} ...)
