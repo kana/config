@@ -2140,18 +2140,15 @@ function! s:on_FileType_vim()
   call s:set_short_indent()
   let vim_indent_cont = &shiftwidth
 
+  iabbr <buffer> je  if<Return>
+                    \else<Return>
+                    \endif
+                    \<Up><Up><End>
   iabbr <buffer> jf  function!()<Return>
                     \endfunction
                     \<Up><End><Left><Left>
   iabbr <buffer> ji  if<Return>
                     \endif
-                    \<Up><End>
-  iabbr <buffer> je  if<Return>
-                    \else<Return>
-                    \endif
-                    \<Up><Up><End>
-  iabbr <buffer> jw  while<Return>
-                    \endwhile
                     \<Up><End>
   iabbr <buffer> jr  for<Return>
                     \endfor
@@ -2161,6 +2158,9 @@ function! s:on_FileType_vim()
                     \finally<Return>
                     \endtry
                     \<Up><Up><Up><End>
+  iabbr <buffer> jw  while<Return>
+                    \endwhile
+                    \<Up><End>
 
   " Fix the default syntax to properly highlight
   " autoload#function() and dictionary.function().
