@@ -776,14 +776,6 @@ function! s:keys_to_complete()
   endif
 endfunction
 
-function! s:keys_to_stop_insert_mode_completion()
-  if pumvisible()
-    return "\<C-y>"
-  else
-    return "\<Space>\<BS>"
-  endif
-endfunction
-
 
 function! s:keys_to_escape_command_line_mode_if_empty(key)
   if getcmdline() == ''
@@ -814,6 +806,15 @@ function! s:keys_to_select_the_last_changed_text()
   \                       && (col_end == length_end
   \                           || (length_end == 0 && col_end == 1)))
   return '`[' . (maybe_linewise_p ? 'V' : 'v') . '`]'
+endfunction
+
+
+function! s:keys_to_stop_insert_mode_completion()
+  if pumvisible()
+    return "\<C-y>"
+  else
+    return "\<Space>\<BS>"
+  endif
 endfunction
 
 
