@@ -2153,6 +2153,14 @@ function! s:on_FileType_vim()
   iabbr <buffer> jw  while<Return>
                     \endwhile
                     \<Up><End>
+  iabbr <buffer> jr  for<Return>
+                    \endfor
+                    \<Up><End>
+  iabbr <buffer> jt  try<Return>
+                    \catch /.../<Return>
+                    \finally<Return>
+                    \endtry
+                    \<Up><Up><Up><End>
 
   " Fix the default syntax to properly highlight
   " autoload#function() and dictionary.function().
