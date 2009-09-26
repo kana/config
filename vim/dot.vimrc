@@ -800,6 +800,23 @@ function! s:keys_to_insert_one_character()
 endfunction
 
 
+function! s:keys_to_select_the_last_changed_text()
+  " It is not possible to determine whether the last operation to change text
+  " is linewise or not, so guess the wise of the last operation from the range
+  " of '[ and '], like wise of a register content set by setreg() without
+  " {option}.
+
+  let col_begin = col("'[")
+  let col_end = col("']")
+  let length_end = len(getline("']"))
+
+  let maybe_linewise_p = (col_begin == 1
+  \                       && (col_end == length_end
+  \                           || (length_end == 0 && col_end == 1)))
+  return '`[' . (maybe_linewise_p ? 'V' : 'v') . '`]'
+endfunction
+
+
 
 
 " Jump sections  "{{{2
@@ -1674,7 +1691,7 @@ Objnoremap ir  i]
 
 " Select the last chaged text - "c" stands for "C"hanged.
   " like gv
-nnoremap gc  `[v`]
+nnoremap <expr> gc  <SID>keys_to_select_the_last_changed_text()
   " as a text object
 Objnoremap gc  :<C-u>normal gc<CR>
   " synonyms for gc - "m" stands for "M"odified.
