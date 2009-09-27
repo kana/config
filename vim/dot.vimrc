@@ -1970,6 +1970,12 @@ endfunction
 " Unset 'paste' automatically.  It's often hard to do so because of most
 " mappings are disabled in Paste mode.
 autocmd MyAutoCmd InsertLeave *  set nopaste
+  " Experimental: Turn off 'paste' if idle.  Because it's hard to manually
+  "               leave Insert mode while 'paste' is turned on - custom
+  "               {lhs}es to <Esc> aren't available.
+  "
+  " It's necessary to :redraw to update 'showmode' message.
+autocmd MyAutoCmd CursorHoldI *  set nopaste | redraw
 
 
 
