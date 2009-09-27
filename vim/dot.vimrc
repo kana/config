@@ -224,7 +224,7 @@ set mouse=
 set ruler
 set showcmd
 set showmode
-set updatetime=60000
+set updatetime=4000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
 set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
