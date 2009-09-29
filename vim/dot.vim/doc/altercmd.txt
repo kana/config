@@ -48,7 +48,7 @@ add the following in your vimrc.
 <
 With the above setting, you can use :cd as if it is :CD.  It means that :CD
 will be automatically inserted if you type :cd as an Ex command, so you don't
-have to type :CD to use :cd and you'll never encounter mistyping :cd and :CD.
+have to type :CD explicitly and you'll never encounter mistyping :cd and :CD.
 
 :AlterCommand also supports partial command names.  For example, |:help| can
 be invoked with :h, :he, :hel or :help.
@@ -124,7 +124,10 @@ BUGS						*altercmd-bugs*
 ==============================================================================
 CHANGELOG					*altercmd-changelog*
 
-0.0.0	2009-06-14T03:47:25+09:00
+0.0.1	2009-09-30T00:27:17+09:00		*altercmd-changelog-0.0.1*
+	- Revise the document a bit.
+
+0.0.0	2009-06-14T03:47:25+09:00		*altercmd-changelog-0.0.0*
 	- Initial version.
 
 
