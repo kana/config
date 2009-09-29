@@ -363,17 +363,10 @@ PACKAGE_vim_gtd_FILES=\
   vim/dot.vim/ftplugin/gtd.vim \
   vim/dot.vim/syntax/gtd.vim
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.4.1
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
-  vim/dot.vim/autoload/ku.vim \
-  vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/plugin/ku.vim \
-  vim/dot.vim/syntax/ku.vim \
-  $(PACKAGE_vim_ku_buffer_FILES) \
-  $(PACKAGE_vim_ku_file_FILES) \
-  $(PACKAGE_vim_ku_history_FILES) \
-  $(PACKAGE_vim_ku_source_FILES)
+  vim/dot.vim/doc/ku.txt
 
 PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
