@@ -1,6 +1,6 @@
-*ku.txt*	An interface for anything
+*ku.txt*	Interface for everything
 
-Version 0.2.4.1
+Version 0.3.0
 Script ID: 2337
 Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -32,9 +32,6 @@ Interface		|ku-interface|
   Functions		  |ku-functions|
   Key Mapings		  |ku-key-mappings|
   Pattern		  |ku-pattern|
-  Input History		  |ku-input-history|
-  Default Action Table	  |ku-default-action-table|
-  Default Key Table	  |ku-default-key-table|
   Default Sources	  |ku-default-sources|
 Sources			|ku-sources|
 Customizing		|ku-customizing|
@@ -48,66 +45,58 @@ Changelog		|ku-changelog|
 ==============================================================================
 INTRODUCTION					*ku-introduction*
 
-*ku* is a Vim plugin to provide new interface for Vim.  With ku,
+*ku* is a Vim plugin to provide a new interface for Vim.  With ku,
 
 - You can choose many items from various sources such as buffers, files and
-  others.  This selection is very efficient, because ku supports it by
-  automatic and elegant completion, so that you don't have to type much.
+  others.  ku suggests proper candidates for your input and completes your
+  input elegantly, so you don't have to type much and you can choose what you
+  want from many candidates very quickly.
 
-- Then you can take an action on the selected item.  Various actions are
-  available for each kind of items.
+- After choosing a candidate, you can take an action on the candidate.
+  Various actions are available for each kind of candidates, and you can
+  execute one of them with a comfortable way.
 
+  For example, if a candidate is corresponding to a buffer, you can switch to
+  the buffer, delete the buffer, change the working directory according to the
+  buffer, yank the name of the buffer, etc.  And there are many ways even to
+  switch to a buffer - use the current window, open a new window to the
+  specified direction then use it, use a new tabpage.
 
-To start a selection, execute |:Ku| or |ku#start()|.  |the-ku-window| will be
-opened at the top of the current tabpage.  The window is to select items and
-to do an action on a selected item.  In the window,
+To start a selection, call |ku#start()|.  |the-ku-window| will be opened at
+the top of the current tabpage.  The window is to choose candidates and to
+take an action on an item.  In the window,
 
-- |ins-completion-menu| is automatically appeared to show available items.
-  As you input a character, the menu is updated to show more proper items for
-  the given input.
+- |ins-completion-menu| is automatically appeared to show candidates.  As you
+  input a character, the menu will be updated to show more proper candidates
+  for the given input.  See also |ku-pattern| for how ku interpret what you
+  input.
 
-  If you want to know how ku interpret what you input,
-  see |ku-pattern|, |ku-auto-component-completion| and |ku-prefix-expansion|.
+- If you find what you want in the menu, choose it with <C-n> or <C-p>.  If
+  the first item in the menu is what you want, you don't have to choose it.
 
-- If you find what you want in the menu, select it with <C-n> or <C-p>.  If
-  the first item in the menu is what you want, you don't have to select it.
+- Then you can take an action on the candidate with <Enter> or <Tab>.
 
-- Then you can take an action on the selected item with <Enter> or <Tab>.
+  - With <Enter>, ku executes the default action for the candidate.
 
-  - With <Enter>, ku executes the default action for the item.
-
-  - With <Tab>, ku shows a list of available actions for the item.  Each
+  - With <Tab>, ku shows a list of available actions for the candidate.  Each
     action is labeled with a key to execute it.  If you type one of the keys,
     the corresponding action will be executed.
 
   <Enter> and <Tab> are just the default key bindings.  You can customize
-  them, of course.  See |ku-key-mappings| and |ku#default_key_mappings()|.
-  If you want to customize key bindings in a list of actions by <Tab>, see
-  |ku#custom_key()|, |ku-default-key-table| and |ku-key-table|.
+  them, of course.  See |ku-key-mappings| for the details.
 
 - If you don't want to take any action and stop to select, type <C-c> in any
   mode.  The window is closed and the current tabpage is restored to the
   previous state.
 
-
-In ku, a kind of items is called "source".  Some sources are available by
-default.  See |ku-default-sources| for the details.  You can write your own
-sources if you want to select and to take action on something which is not
-provided by the default sources.  To add sources, put the corresponding
-scripts into "autoload/ku/" directories in 'runtimepath'.  As scripts are put,
-ku recognizes them automatically, so that you don't have to reboot Vim.  See
-alsso |ku-sources| for the details.
-
-
-Screenshots:
-http://www.flickr.com/photos/whileimautomaton/tags/vim-ku/
-
-Demonstration movie:
-http://www.screencast.com/t/P6nJkJ0DE
+In ku, a kind of candidates is called "source".  Several sources are available
+by default.  See |ku-default-sources| for the details.  You can write your own
+sources if you want to choose and to take action on something which is not
+provided by the default sources.  See also |ku-sources| for the details.
 
 
 Requirements:
-- Vim 7.1.299 or later
+- Vim 7.2 or later
 
 Sources and related scripts:
 http://www.vim.org/scripts/script_search_results.php?keywords=ku
@@ -127,498 +116,61 @@ INTERFACE					*ku-interface*
 ------------------------------------------------------------------------------
 COMMANDS					*ku-commands*
 
-:Ku {source}					*:Ku*
-			Start a selection from the specified {source}.
-			It is an error to use this command while ku is active.
-			See also |ku#start()|.
-
-			For example:  Define several key mappings to start
-			a selection from various sources.
->
-				nnoremap <Space>kb  :<C-u>Ku buffer<Return>
-				nnoremap <Space>kf  :<C-u>Ku file<Return>
-<
-
-:KuDoAction {action}				*:KuDoAction*
-			Do the {action} for the current item.
-			This function does work only while ku is active.
-			See also |ku#do_action()|.
-
-			The main purpose of this command is to define a key
-			mapping to execute a specified action without
-			choosing, like |<Plug>(ku-do-the-default-action)|.
-			See |filetype-ku| for an example of usage.
-
-:KuReload					*:KuReload*
-			Reload the whole system of ku.  This is useful to
-			reflect the changes made to any scripts after ku is
-			loaded.
+There is no command at this moment.
 
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
 
-ku#available_source_p({source})			*ku#available_source_p()*
-			Return true if {source} is a valid one.
-			Otherwise, return false.
+ku#define_source({definition})			*ku#define_source()*
+			Define a new source.
 
-ku#available_sources()				*ku#available_sources()*
-			Return a list of strings.  This list represents the
-			names of available sources.
+			{definition} is a dictionary which describes the
+			details of the source to be defined.  See |ku-source|
+			for the details.
 
-ku#custom_action({source}, {action}, {function})	*ku#custom_action()*
-ku#custom_action({source}, {action}, {source2}, {action2})
-			Define a new {action} for items from {source}.
+ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
+			Start a ku session.
 
-			In the former case, {function} is the name of
-			a function which will be called whenever {action} is
-			executed.
-							*ku-disable-action*
-			{function} can be "nop", if so, the corresponding
-			action will be disabled.
+			{source} is a list of the names of sources to get
+			candidates for this session.  The default value is 0,
+			it means to use all available sources.
 
-			In the latter case, the function corresponding to the
-			{action2} for items from {source2} will be called as
-			{action}.  {action2} will be searched from the default
-			action table for {source2} or the default action table
-			for all sources if {source2} is "common".
-
-			{source} is the name of a source or "common".  In the
-			former case, the given {action} is only available for
-			the given {source}.  In the latter case, the given
-			{action} is available for all sources.
-
-			See also |ku-action-table| and
-			|ku-default-action-table|.
-
-ku#custom_key({source}, {key}, {action})	*ku#custom_key()*
-			Define a {key} to do the {action} for items from
-			{source}.  This definition is used by
-			|<Plug>(ku-choose-action)|.
-
-			{source} is the name of a source or "common".  In the
-			former case, the given {key} is available for the
-			given {source}.  In the latter case, the given {key}
-			is available for all sources.
-
-			See also |ku-key-table| and |ku-default-key-table|.
-
-ku#custom_prefix({source}, {prefix}, {text})	*ku#custom_prefix()*
-			Define a {prefix} to be expanded to {text} for
-			{source}.  If {text} is empty string, delete
-			a {prefix} from the prefix table for {source}.
-
-			{source} is the name of a source or "common".  In the
-			former case, the given {prefix} is available for the
-			given {source}.  In the latter case, the given
-			{prefix} is available for all sources.
-
-			See also |ku-prefix-table| and |ku-prefix-expansion|.
-
-ku#custom_priority({source}, {priority})	*ku#custom_priority()*
-			Set the priority of {source} to {priority}.
-
-			{priority} is an integer and it must be in the range
-			[100, 999], i.e, 100 <= {priority} and {priority} <=
-			999.  The default priority of each source is 500.
-
-			See also |ku-sources-list|.
-
-ku#default_key_mappings({override-p})		*ku#default_key_mappings()*
-			Define the following key mappings which are local to
-			the current buffer in Normal mode and Insert mode.
-			Existent key mappings will be override if {override-p}
-			is true.
-
-			{lhs}		{rhs}				~
-			------------------------------------------------~
-			<C-c>		<Plug>(ku-cancel)
-			<Return>	<Plug>(ku-do-the-default-action)
-			<S-Return>	<Plug>(ku-do-the-default-action)
-			<C-Return>	<Plug>(ku-do-the-default-action)
-			<C-m>		<Plug>(ku-do-the-default-action)
-			<Tab>		<Plug>(ku-choose-an-action)
-			<C-i>		<Plug>(ku-choose-an-action)
-			<Esc>i		<Plug>(ku-do-persistent-action)
-			<C-j>		<Plug>(ku-next-source)
-			<C-k>		<Plug>(ku-previous-source)
-			<C-l>		<Plug>(ku-choose-source)
-			<Esc>l		<Plug>(ku-history-source)
-			<Esc>j		<Plug>(ku-newer-history)
-			<Esc>k		<Plug>(ku-older-history)
-			<Esc>J		<Plug>(ku-newer-history-and-source)
-			<Esc>K		<Plug>(ku-older-history-and-source)
-
-ku#do_action({name})				*ku#do_action()*
-			Function version of |:KuDoAction|.
-
-ku#get_the_current_input_pattern()	  *ku#get_the_current_input_pattern()*
-			Return the current input pattern in |the-ku-buffer|.
-			Returned value doesn't contain a prompt leading the
-			pattern.
-
-			If ku is not active, return 0.
-
-ku#input_history()				*ku#input_history()*
-			Return a list of input patterns which you inputted.
-			Returned value must not be modified.  The first item
-			is corresponding to the newest input pattern.  Each
-			item is a dictionary which content is as follows:
-
-			"pattern"	String
-				What user inputed before.
-
-			"time"		Number
-				The time when user inputted the pattern.
-				See |localtime()| for the detail of value.
-
-			"source"	String
-				The name of the source for which the pattern
-				was inputted.
-
-ku#make_path({component}, ...)			*ku#make_path()*
-ku#make_path([{component}, ...])
-			Return a path which consists of given {component}s.
-			For example:
->
-				" On *nix environments
-				:echo ku#make_path('.vim', 'autoload', 'ku')
-				.vim/autoload/ku
-
-				" On Microsoft Windows
-				:echo ku#make_path(['.vim', 'autoload', 'ku'])
-				.vim\autoload\ku
-<
-ku#path_separator()				*ku#path_separator()*
-			Return the path separator for the current environment.
-			It returns "/" for most environments such as *nix or
-			"\" for some environments such as Microsoft Windows.
-
-ku#reload()					*ku#reload()*
-			Function version of |:KuReload|.
-
-ku#restart()					*ku#restart()*
-			Call |ku#start()| with the last inputted pattern and
-			the last active source.
-
-			This is useful if you cancel a selection once,
-			but you want to continue the selection later.
-
-ku#set_the_current_input_pattern({s})	  *ku#set_the_current_input_pattern()*
-			Set the current input pattern in |the-ku-buffer| to
-			{s}, then return the old one.
-
-			If ku is not active, just return 0.
-
-ku#start({source}, [{initial-pattern}])		*ku#start()*
-			Function version of |:Ku|.
-			If {initial-pattern} is given, it will be inserted
-			before your input.
-
-ku#switch_source({source})			*ku#switch_source()*
-			Change the current source to {source}.  This function
-			works only while ku is active.  Otherwise, do nothing.
+			{initial-pattern} is a string to be inserted before
+			user input.  The default value is '', so nothing will
+			be inserted.
 
 
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
 
 In |the-ku-buffer|, the following key mappings are defined.
-See also |ku#default_key_mappings()| for the default key mappings for them.
-
-<Plug>(ku-cancel)				*<Plug>(ku-cancel)*
-			Cancel the current selection,
-			then close |the-ku-window|.
 
 <Plug>(ku-choose-an-action)			*<Plug>(ku-choose-an-action)*
 			Like |<Plug>(ku-do-the-default-action)|, but you can
 			choose an action from all available actions for the
-			currently selected item.
+			currently selected candidate.
 
-			What this function does is as follows:
+			This function does:
 			(1) show a message about what actions are available,
 			(2) take an input of a single key stroke,
 			(3) then do the action corresponding to the key.
 
-			See also:
-			- |g:ku_choosing_actions_sorting_style|
-			- |ku-default-key-table|
-			- |ku-default-key-table|
-
-<Plug>(ku-do-persistent-action)      	    *<Plug>(ku-do-persistent-action)*
-			Like |<Plug>(ku-choose-an-action)|,
-			but execute an action without quitting ku.
-
 <Plug>(ku-do-the-default-action)      	    *<Plug>(ku-do-the-default-action)*
-			Do the default action on the currently selected item,
-			then close |the-ku-window|.
+			Do the default action on the currently selected
+			candidate, then quit the current session.
 
-<Plug>(ku-history-source)			*<Plug>(ku-history-source)*
-			If you recall a pattern from |ku-input-history|,
-			change the current source to the one for which the
-			currently recalled pattern was inputted.  Otherwise,
-			nothing will happen.
-
-			For example, if:
-			- you use |<Plug>(ku-older-history)| several times,
-			- the source for the recalled pattern is "file",
-			- and the current source is "buffer",
-			then the current source will be changed to "file".
-
-<Plug>(ku-next-source)				*<Plug>(ku-next-source)*
-<Plug>(ku-previous-source)			*<Plug>(ku-previous-source)*
-			Change the current source to the next one or the
-			previous one in |ku-sources-list|.
-						*ku-sources-list*
-			Ku has a list of available sources.  The list is
-			sorted by their priorities, then sorted by their
-			names.  Priorities can be configured by
-			|ku#custom_priority()|.
-
-			For example, if
-			- the list == ["buffer", "file", "metarw-git"], and
-			- the current source is "buffer",
-			the next one is "file" and
-			the previous one is "metarw-git".
-
-<Plug>(ku-older-history)			*<Plug>(ku-older-history)*
-<Plug>(ku-newer-history)			*<Plug>(ku-newer-history)*
-			Replace the current input pattern with older/newer
-			one in |ku-input-history|.
-
-<Plug>(ku-older-history-and-source)	 *<Plug>(ku-older-history-and-source)*
-<Plug>(ku-newer-history-and-source)	 *<Plug>(ku-newer-history-and-source)*
-			Like |<Plug>(ku-older-history)| or
-			|<Plug>(ku-newer-history)|, but change the current
-			source as same as the one for which the pattern was
-			inputted.
-
-			If the new source is not currently available, the
-			current source will not be changed.
+<Plug>(ku-quit-session)				*<Plug>(ku-quit-session)*
+			Quit the current session.
 
 
 ------------------------------------------------------------------------------
 PATTERN						*ku-pattern*
 
-Inserted characters in |the-ku-buffer| are treated as 3 "patterns".
+Inserted characters in |the-ku-buffer| are treated as a pattern.  ku uses this
+pattern to suggest more proper candidates.  The details are as follows:
 
-- The 1st one is "asis" pattern.  Ku tries to literally match user input to
-  each item.
-
-- The 2nd one is "word" pattern.  User input is split by spaces,
-  and each space is treated as a wild card, so it is matched to any
-  0 or more characters.  Ku tries to match this pattern for each item.
-
-- The last one is "skip" pattern.  Ku treats user input have a wild card
-  between each character and another character.  Ku tries to match this
-  pattern for each item.
-
-Ku uses the matched positions of the above patterns for each item.  In the
-completion list, items are sorted by matched positions.  Matched position of
-"asis" pattern have higher priority than "word" pattern, and "word" pattern
-have higher priority than "skip" pattern.
-
-Ku also tries to match in case-sensitive way and case-insensitive way.  The
-matched positions of case-sensitive way have higher priority than the ones of
-case-insensitive way.
-
-See also |g:ku_common_junk_pattern|.
-
-						*ku-pattern-prefix-assumption*
-Ku assumes that the "prefix" of a pattern is always matched to the head of
-each item, so that skips the "prefix" for pattern matching described in the
-above.
-
-Here the "prefix" of a pattern is defined as follows:
-1. Split the pattern with any character in |g:ku_component_separators|.
-2. Exclude the tail one from the pattern.  This is the "prefix".
-For example, the "prefix" of a pattern "/foo/bar/baz" is "/foo/bar/"
-(if g:ku_component_separators contains "/").
-
-
-AUTO COMPONENT COMPLETION			*ku-auto-component-completion*
-						*ku-auto-directory-completion*
-
-Whenever a special character (*1) is typed,
-the names of appropriate components (*2) will be automatically inserted.
-For example, if the 1st item in the completion menu is 'usr/share/man/man1',
-the current input pattern will be replaced (i.e., completed) as follows:
-
-User Input		Replacement ~
--------------		--------------
-u/			usr/
-usr//			usr/share/
-usr/share//		usr/share/man/
-sh/			usr/share/		(*3)
-m/			usr/share/man/		(*3)
-
-This feature is derived from bluewind, command-based application launcher for
-Microsoft Windows <http://cspace.s2.xrea.com/software/bluewind/>.
-
-See also:
-- |g:ku_acc_style|
-- |g:ku_component_separators|
-
-(*1) In the above example, '/' is a special character to activate this
-completion.  This character is configurable with |g:ku_component_separators|.
-
-(*2) In the above example, components are directories.  More precisely,
-components are just strings separated by a special character.  So in the above
-example, components are directory-like stuffs and they may not be directories.
-
-(*3) In these cases, ku completes more than 1 directories.  Because user seems
-to want to complete several directories rather than just 1 directory.  This
-behavior is not in bluewind, but it's useful.
-
-
-PREFIX EXPANSION				*ku-prefix-expansion*
-
-If the head of an input pattern is matched to one of the prefixes in
-|ku-prefix-table|, the matched part will be expanded.  For example, if you
-configure ku with the following setting:
->
-	call ku#custom_prefix('common', '~', $HOME)
-	call ku#custom_prefix('common', '.vim', $HOME.'/.vim')
-<
-Input pattern will be treated as follows
-(in the following examples, $HOME == '/home/kana'):
-
-Input pattern		Treated as ~
--------------		----------
-~			/home/kana
-~/working/meta		/home/kana/working/meta
-.vim/autoload/ku.vim	/home/kana/.vim/autoload/ku.vim
-junk-file~		junk-file~	(not expanded, because "~" is not
-					 appeared at the head of user input)
-
-This expansion is not recursive.
-
-See also |ku-prefix-table| and |ku#custom_prefix()|.
-
-
-------------------------------------------------------------------------------
-INPUT HISTORY					*ku-input-history*
-
-Input patterns are automatically saved and they will be automatically loaded
-the next Vim session.  You can recall an old input pattern in the ku window.
-
-- Input history is saved as "info/ku/history" under the directory which is
-  specified by |g:ku_personal_runtime|.  For example, the default path to the
-  file is "$HOME/.vim/info/ku/history" on *nix environments.
-
-- Maximum size of input history is configured by |g:ku_history_size|.
-  Whenever the number of inputted patterns exceeds the limit, the oldest
-  patterns will be removed.
-
-- In the ku window, |<Plug>(ku-older-history)| and |<Plug>(ku-newer-history)|
-  can be used to recall an old input pattern.
-
-- Input pattern will be added to the input history
-  if some action is executed on it.
-
-
-------------------------------------------------------------------------------
-DEFAULT ACTION TABLE				*ku-default-action-table*
-
-The following actions are available as the default ones:
-
-cancel						*ku-action-cancel*
-			Cancel to take an action.
-			This is a pseudo action - it cannot be overridden.
-
-cd						*ku-action-cd*
-			|:cd| to the selected item.  If the item is the name
-			of a directory, change to that one.  If the item is
-			the name of a file, change to the directory which
-			contains the file.
-
-default						*ku-action-default*
-			Do the default action for the selected item.  This
-			action is just a placeholder and it is overridden by
-			each source.  So what this action does is varied for
-			each source.  See the document of each source for the
-			details of its "default" action.
-
-ex						*ku-action-ex*
-			Shift to Command-line mode, insert the selected item
-			as a file or a directory, then move the cursor to the
-			beginning of the command-line.  This action is useful
-			to execute an Ex command on the selected item.
-
-lcd						*ku-action-lcd*
-			Like "cd", but do |:lcd| on the selected item.
-
-nop						*ku-action-nop*
-			Do nothing.  Only the name of this action matters.
-			This is a pseudo action - it cannot be overridden.
-
-			Use this action to remove an entry from a key table.
-
-selection					*ku-action-selection*
-			Return to the previous selection.
-			This action does nothing on the selected item.
-			This is a pseudo action - it cannot be overridden.
-
-Bottom						*ku-action-Bottom*
-Left						*ku-action-Left*
-Right						*ku-action-Right*
-Top						*ku-action-Top*
-above						*ku-action-above*
-below						*ku-action-below*
-left						*ku-action-left*
-right						*ku-action-right*
-			Open a new window in the direction specified by the
-			name of each action, then do |ku-action-default|.
-			NB: "default" action will be searched from the default
-			action table of the current source.
-
-			For example, "left" opens a window at the left side of
-			the current window, then do |ku-action-default| in the
-			new window.
-
-			Actions of which names start with upper case are
-			similar to the ones of which names start with lower
-			case.  But they open a window at the most outside of
-			Vim screen.  See also |:topleft|.
-
-tab-left					*ku-action-tab-left*
-tab-right					*ku-action-tab-right*
-tab-Left					*ku-action-tab-Left*
-tab-Right					*ku-action-tab-Right*
-			Like "left", "right", "Left" or "Right",
-			but open a new tab page instead of a window,
-			then do |ku-action-default|.
-
-
-------------------------------------------------------------------------------
-DEFAULT KEY TABLE				*ku-default-key-table*
-
-The following keys are used by |<Plug>(ku-choose-an-action)|.
-
-Key		Action ~
---------	--------
-/		cd		|ku-action-cd|
-:		ex		|ku-action-ex|
-;		ex		|ku-action-ex|
-<C-c>		cancel		|ku-action-cancel|
-<C-h>		left		|ku-action-left|
-<C-j>		below		|ku-action-below|
-<C-k>		above		|ku-action-above|
-<C-l>		right		|ku-action-right|
-<C-r>		selection	|ku-action-selection|
-<C-t>		tab-Right	|ku-action-tab-Right|
-<Esc>		cancel		|ku-action-cancel|
-<Return>	default		|ku-action-default|
-?		lcd		|ku-action-lcd|
-H		Left		|ku-action-Left|
-J		Bottom		|ku-action-Bottom|
-K		Top		|ku-action-Top|
-L		Right		|ku-action-Right|
-h		left		|ku-action-left|
-j		below		|ku-action-below|
-k		above		|ku-action-above|
-l		right		|ku-action-right|
-t		tab-Right	|ku-action-tab-Right|
+FIXME: Details of pattern.
 
 
 ------------------------------------------------------------------------------
@@ -626,10 +178,7 @@ DEFAULT SOURCES					*ku-default-sources*
 
 The following sources are included with packages of ku:
 
-- buffer	(|ku-buffer.txt|)
-- file		(|ku-file.txt|)
-- history	(|ku-history.txt|)
-- source	(|ku-source.txt|)
+FIXME: Links to the documents of the default sources.
 
 
 
@@ -637,198 +186,57 @@ The following sources are included with packages of ku:
 ==============================================================================
 SOURCES						*ku-sources*
 
-Sources are like kinds of items.  For example, "buffer" source gathers all
-buffers as items to be completed.  You can choose and take an action on
-a buffer with this source.  The same can be said for other sources.
-
-						*ku-source-action-tables*
-Sources have their own action table.  These action tables have higher priority
-than common action tables, but these have lower priority than custom action
-table for each source.  See also |ku-action-table|.
-
-						*ku-source-key-tables*
-Sources have their own key table.  These key tables have higher priority than
-common key tables, but these have lower priority than custom key table for
-each source.  See also |ku-key-table|.
+Sources are like kinds of information.  For example, "buffer" source gathers
+all buffers as candidates.  You can choose and take an action on a buffer with
+this source.  The same can be said for other sources.
 
 						*ku-source-name*
-Sources must be named as one of the following formats:
+The name of a source can be arbitrary string, but it should consist of a-z,
+0-9, "/", "_" and "-".  For example:
 
-- {source}
-- {source}/{ext}
+- "buffer", "history" and "metarw/git" are good.
+- "BadOne", "$omething-wrong" and "" are bad.
 
-Where {source} and {ext} should consist of lower cases only.
-For example:
+						*ku-source-script-convention*
+If you want to write a source, you should follow the following convention:
 
-- "buffer", "history" and "metarw/git" are valid.
-- "BadOne", "hy-phen" and "too/o/many" are not valid.
+autoload/ku/{source}.vim	To delay loading the details of a source.
+doc/ku-{source}.txt		The document of a source.
+plugin/ku/{source}.vim		To define a source with |ku#define_source()|.
 
-						*ku-source-scripts*
-Sources are written as autoload scripts called as "source scripts" which are
-placed in "autoload/ku/" directory in 'runtimepath'.  Source scripts must be
-named as "{source}.vim", where {source} is the name of a source.  For sources
-named as "{source}/{ext}", corresponding source scripts are named as
-"{source}.vim", not "{source}/{ext}.vim".
+Here {source} is the name of a source.
 
-						*ku-source-api*
-Sources must provide the following functions.  In the following descriptions,
+FIXME: Details for "/", "_", "-" in the name of a source.
 
-	{source}
-		means the name of a source.  For sources named as
-		"{source}/{ext}", "/{ext}" is not included.
+						*ku-source-definition*
+A source can be defined by |ku#define_source()|.  It takes the definition of
+a source which is expressed as a dictionary.  The details of the dictionary
+are as follows:
 
-	{ext}
-		means the tail of the name of a source namaed as
-		"{source}/{ext}".  For sources without {ext} in their names,
-		{ext} is an empty string.
+Key	Value		Meaning ~
 
-ku#{source}#acc_valid_p({ext}, {item}, {sep})	*ku#{source}#acc_valid_p()*
-			Return true if {item} can be used for ACC,
-			|ku-auto-component-completion|, or return false
-			otherwise.
+name	string		The name of a source.
 
-			{sep} is the separator inputted by user.
-
-			This function is optional; if it is not defined,
-			all {item}s can not be used for ACC.
-
-ku#{source}#action_table({ext})			*ku#{source}#action_table()*
-			Return the default action table for {souce}.
-			See also |ku-action-table|.
-
-			This function is requried.
-
-ku#{source}#available_sources()		     *ku#{source}#available_sources()*
-			Return a list of strings.  Each string represents the
-			name of a source which this source script provides.
-
-			Normally, a source script provides just one source, so
-			that all you have to do is to define one like the
-			following:
->
-				function! ku#{source}#available_sources()
-				  return ['{source}']
-				endfunction
-<
-			This function is requried.
-
-ku#{source}#gather_items({ext}, {pattern})	*ku#{source}#gather_items()*
-			Return a list of items which are matched to the given
-			{pattern}.  Each item is a dictionary.
-			See |complete-items| for the details.
+gather	function({pattern})
+			Return a list of candidates which are matched to the
+			given {pattern}.  Each item is a dictionary.  See
+			|complete-items| for the details of the dictionary.
 
 			Sources may add additional entries for each item.
 			Keys of such entries must be prefixed with
 			"ku_{source}_", where {source} is the name of
-			a source.  Also sources may add the following items:
-
-						*ku__sort_priority*
-			ku__sort_priority	(integer)
-				This value is used to sort items,
-				and it is prior to user input.
-
-				The default value is 0
-				if this item is omitted.
-
-			Also, ku adds additional entries for each item.
-			Keys of such entries are prefixed with "ku__".
-			The following keys are officially provided:
-
-						*ku__completed_p*
-			ku__completed_p		(boolean)
-				Normally true.
-				If the item is not completed one,
-				it is set to false.
-
-						*ku__source*
-			ku__source		(string)
-				The name of the source
-				to which an item belongs.
+			a source.
 
 			There are the following rules on return values:
 			- During a |ku-session|, ku assumes that
 			  a return value is determined only by {pattern}.
 			  This means: >
-				let a = ku#{source}#gather_items("foo")
-				let b = ku#{source}#gather_items("foo")
+				let a = ku#{source}#gather("foo")
+				let b = ku#{source}#gather("foo")
 				echo a == b  "==> true
 <			- During a ku session, return values are cached by ku,
 			  so that sources don't have to do caching unless they
 			  want to do caching over ku sessions.
-			- ku may modify any item in return lists.  If so,
-			  ku adds/modifies entries named "ku__..." in items.
-			  But ku doesn't modify return lists themselves.
-			- See also |ku#{source}#special_char_p()|.
-
-			This function is requried.
-
-ku#{source}#key_table({ext})			*ku#{source}#key_table()*
-			Return the default key table for {souce}.
-			See also |ku-key-table|.
-
-			This function is requried.
-
-					      *ku#{source}#on_before_action()*
-ku#{source}#on_before_action({ext}, {item})
-			Event handler - this function is called:
-			- Before executing an action.
-
-			{item} is a dictionary which represents the item to be
-			primarily passed to the action.
-
-			Return value is dictionary which represents an item.
-			This item will be passed to the action instead of the
-			item given to the event handler.  Note that if you
-			want to pass a modified item based on the given item,
-			you must not modify the given item in-place.  Because
-			items may be cached by {source}.
-
-			This function is optional; if this function is not
-			defined, nothing will happen for the above event.
-
-					       *ku#{source}#on_source_enter()*
-ku#{source}#on_source_enter({ext})
-			Event handler - this function is called:
-			- Before switching the current source from another
-			  source to {source}.
-			- After opening |the-ku-window|, and the current
-			  source is {source}.
-
-			Return value is ignored.
-
-			This function is optional; if this function is not
-			defined, nothing will happen for the above events.
-
-					       *ku#{source}#on_source_leave()*
-ku#{source}#on_source_leave({ext})
-			Event handler - this function is called:
-			- Before switching the current source from {source} to
-			  another source.
-			- Before closing |the-ku-window| and the current
-			  source is {source}.
-
-			Return value is ignored.
-
-			This function is optional; if this function is not
-			defined, nothing will happen for the above events.
-
-ku#{source}#special_char_p({ext}, {character})	*ku#{source}#special_char_p()*
-			Return true if a given {character} is a special one,
-			otherwise return false.
-
-			Here "a special character" is defined as follows:
-			|ku#{source}#gather_items()| returns a different list
-			before whenever user types that character.
-
-			For example, return lists from |ku-file| are different
-			whenever user types "/" or "\".
-			So that ku#file#special_char_p() returns true for '/'
-			and '\', while returns false for other values.
-
-			This function is optional; if it is not defined,
-			it returns true if {character} is in
-			|g:ku_component_separators|
-			or it returns false otherwise.
 
 
 
@@ -836,121 +244,7 @@ ku#{source}#special_char_p({ext}, {character})	*ku#{source}#special_char_p()*
 ==============================================================================
 CUSTOMIZING					*ku-customizing*
 
-FileType ku					*filetype-ku*
-	This event is published whenever the ku buffer is created then being
-	initialized.  Use this event to do your initialization, for example,
-	customize key mappings for the ku buffer.
-
-	Note that if there is no |:autocmd| nor filetype plugin for this
-	event, ku will call ku#default_key_mappings(!0) to define the default
-	key mappings.  Otherwise, this initialization will not be done.  See
-	|ku#default_key_mappings()| for the details of key mappings.
-
-	Example: Define a key mapping to execute "left" action with a single
-	key stroke.
->
-		autocmd FileType ku
-		\   execute 'nnoremap <M-[>  :<C-u>KuDoAction left<CR>'
-		\ | execute 'inoremap <M-[>  <Esc>:<C-u>KuDoAction left<CR>'
-<
-
-g:ku_acc_style					*g:ku_acc_style*
-	A string which specifies the behavior
-	about |ku-auto-component-completion| (ACC).
-	This value is a comma-separated list of words.  The valid words and
-	their meanings are as follows:
-
-	rejection
-		Whenever ACC is failed,
-		the last inserted component separator is deleted.
-
-	The default value is "".
-
-g:ku_buffer_name				*g:ku_buffer_name*
-	A string which represents the name of the ku buffer.  This value
-	should be unique one which cannot be a name of a usual file to avoid
-	unexpected behavior.
-
-	Default value is '*ku*' or '[ku]'.  The latter is used for Microsoft
-	Windows.  Because '*' cannot be used for buffer name on Microsoft
-	Windows.
-
-g:ku_choosing_actions_sorting_style	 *g:ku_choosing_actions_sorting_style*
-	A string which specifies how to sort actions
-	when |<Plug>(ku-choose-an-action)| shows available actions.
-	This variable can be one of the following values:
-
-	'by-action'
-		Sort by the name of each action.
-
-	'by-key'
-		Sort by the name of each key to choose an action.
-
-	Default value is 'by-action'.
-
-g:ku_common_junk_pattern			*g:ku_common_junk_pattern*
-g:ku_{source}_junk_pattern			*g:ku_{source}_junk_pattern*
-	Variables to hold regular expressions to determine "junk" items.  Junk
-	items are listed at the bottom of the completion menu.
-	g:ku_common_junk_pattern is used for items from any sources, while
-	g:ku_{source}_junk_pattern is used for items from a specific {source}.
-
-g:ku_component_separators			*g:ku_component_separators*
-	A string which represents special characters to activate
-	|ku-auto-component-completion|.
-	The default value is '/\:', so if you type '/', '\' or ':',
-	|ku-auto-component-completion| will be activated.
-
-g:ku_history_added_p				*g:ku_history_added_p*
-	A string which represents the name of a function.  This function is
-	used to determine whether an input pattern can be added to
-	|ku-input-history| or not.
-
-	This function must take 2 arguments: the 1st argument is an input
-	pattern, and the 2nd argument is the source for which the input
-	pattern was inputted.  If it returns true, the input pattern will be
-	added to the input history.  Otherwise, the input pattern will not be
-	added.
-
-	The default value will not add the following patterns:
-	- Any patterns which were inputted for source |ku-history|, or
-	- Any patterns which were inputted for source |ku-source|, or
-	- Empty patterns.
-
-g:ku_history_reloading_style			*g:ku_history_reloading_style*
-	A string which specifies timings to reload and to save
-	|ku-input-history|.  This variable can be one of the following values:
-
-	"each"
-		- Whenever input history is required.
-		- The same timings as "once" and "idle".
-
-	"idle"
-		- Whenever Vim becomes idle or ku is activated after idle.
-		  See also |CursorHold|.
-		- The same timings as "once".
-
-	"once"
-		- Loading: After first activating ku for each Vim process.
-		- Saving: Before exiting Vim.
-
-	Default value is "idle".
-
-g:ku_history_size				*g:ku_history_size*
-	A number which is the maximum size of input history.
-	Default value is 1000.
-
-g:ku_personal_runtime				*g:ku_personal_runtime*
-	A string which is the path to the directory to store personal settings
-	and information.  Whenever ku saves information such as
-	|ku-input-history|, this directory is used.
-
-	Default value is the same as the first directory in the default value
-	of 'runtimepath'.  For example:
-	- "$HOME/.vim/info/ku/history" on *nix environments,
-	- "$HOME/vimfiles/info/ku/history" on Microsoft Windows,
-	- etc.
-	See 'runtimepath' for the details of which directory is used.
+FIXME: Description on customization.
 
 
 
@@ -958,105 +252,17 @@ g:ku_personal_runtime				*g:ku_personal_runtime*
 ==============================================================================
 TERMS						*ku-terms*
 
-action						*ku-action*
-			An action is a function which is called by
-			|<Plug>(ku-do-the-default-action)|,
-			|<Plug>(ku-choose-an-action)|,
-			|:KuDoAction| and other commands.
-
-			Every action is registered in |ku-action-table| by
-			|ku#custom_action()|.  The above commands look into
-			the tables for available actions.
-
-			An action consists of the following elements:
-			- The "name" of the action.
-			  It should consist of only alphabets and hyphens.
-			- The name of the "function"
-			  which is called whenever the action is executed.
-			  - This function must take 1 argument which is
-			    a dictionary as an item.
-			  - This function must return 0 if it succeeds, or
-			    a string which represents an error message if it
-			    fails.
-			- The list of the names of "sources"
-			  to which the action can be applied.
-
-action table					*ku-action-table*
-			Action table is a dictionary, where each key is the
-			name of an action, and each value is the name of
-			a function that implements the action.
-
-			There are 4 action tables for each source:
-
-			(1) custom action table for a source
-			(2) default action table for a source
-			(3) custom action table for all sources
-			(4) default action table for all sources
-
-			If there is the same name action in two or more
-			tables, the one in the most above table is used.
-			For example, if action "default" is found in (2) and
-			(4), the one in (2) is used.
-
-			Custom action tables ((1) and (3)) can be configured
-			with |ku#custom_action()|.
-			See also |ku-default-action-table| for (4),
-			and |ku-buffer-action-table| for an example of (2).
-
-key table					*ku-key-table*
-			Key table is a dictionary, where each key is a string
-			that represents a single key stroke to choose an
-			action by |<Plug>(ku-choose-an-action)|, and each
-			value is the name of an action to be executed by the
-			key.
-
-			There are 4 key tables for each source:
-
-			(1) custom key table for a source
-			(2) default key table for a source
-			(3) custom key table for all sources
-			(4) default key table for all sources
-
-			If there is the same key in two or more table,
-			the entry in the most above table is used.
-			For example, if key "K" is found in (2) and (4),
-			the entry in (2) is used.
-
-			Custom key tables ((1) and (3)) can be configured with
-			|ku#custom_key()|.
-			See also |ku-default-key-table| for (4),
-			and |ku-buffer-key-table| for an example of (2).
-
 ku session					*ku-session*
-			Ku session is a period of time while |the-ku-window|
+			A ku session is a period of time while |the-ku-window|
 			is opened and it is visible.
 
 ku window				       *the-ku-window* *the-ku-buffer*
-			The window which is opened by |:Ku| or |ku#start()|.
+			The window which is opened by |ku#start()|.
+
 			This window will be automatically closed when:
-			- An action is taken for an item.
-			- Selection is canceled.
+			- An action is taken for a candidate.
 			- Another window or another tab page becomes active.
-
-prefix table					*ku-prefix-table*
-			Prefix table is a dictionary, where each key is
-			a string that represents a prefix, and each value is
-			a string that represents the expanded text for the
-			corresponding prefix.
-
-			There are 2 prefix tables for each source:
-
-			(1) custom prefix table for a source
-			(2) custom prefix table for all sources
-
-			If there is the same prefix in the both tables,
-			the prefix in (1) is used.
-
-			Custom prefix tables can be configured with
-			|ku#custom_prefix()|.
-			There is no default entry in any prefix tables.
-
-			See also |ku-prefix-expansion|.
+			- |<Plug>(ku-quit-session)| is executed.
 
 
 
@@ -1064,43 +270,18 @@ prefix table					*ku-prefix-table*
 ==============================================================================
 BUGS						*ku-bugs*
 
-						*ku-assumptions*
-- Ku assumes that any configuration is not changed during a |ku-session|.  For
-  example, |ku#custom_action()| or other customization must not be done during
-  a ku session.  If you do, ku will not properly work.
+- |<Plug>(ku-choose-an-action)| is not available at this moment.
 
-- Ku assumes that available sources are not changed during a |ku-session|.
-
-- Ku assumes interactive use,
-  so that it may not work with |recording| and/or |key-mapping|.
-
-- Ku assumes that 'shellslash' is never changed after any script of ku is
-  loaded.
-
-- Many bugs must be around the world.
-
-						*ku-planned-features*
-- Inline completion in a buffer other than the ku buffer.
-
-- Pluggable architecture to sort items.
-
-- Pluggable architecture to filter items.
-
-- A key mapping to delete a component in the ku buffer.
-
-- Mark multiple items then take an action on the marked items.
-
-- Source "all" to gather items for all sources.  No need to choose a source.
-
-- More sources: "tag", "mark", "action", etc.
-
-- More actions.
+- There is no known bug at this moment.
 
 
 
 
 ==============================================================================
 CHANGELOG					*ku-changelog*
+
+0.3.0	2009-09-29T23:46:19+09:00		*ku-changelog-0.3.0*
+	Redesigned.  It's not compatible with any previous version.
 
 0.2.5	2009-09-01T19:40:18+09:00		*ku-changelog-0.2.5*
 	Bugfixes:
