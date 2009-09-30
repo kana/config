@@ -50,6 +50,8 @@ let s:PROMPT = '>'
 
 let s:available_sources = {}  " source-name => source-definition
 
+let s:bufnr = -2357  " buffer number of the ku buffer
+
 let s:session = {}  " contains the information of a ku session
 
 
@@ -181,7 +183,7 @@ endfunction
 
 
 function! s:ku_active_p()  "{{{2
-  " FIXME: NIY
+  return bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
 endfunction
 
 

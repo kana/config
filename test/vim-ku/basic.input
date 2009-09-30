@@ -177,6 +177,17 @@ endfunction
 
 
 
+function s:test_s_ku_active_p()  "{{{1
+  Title "s:ku_active_p()"
+
+  " FIXME: Write proper tests
+
+  Assert Call('s:ku_active_p') ==> 0
+endfunction
+
+
+
+
 function s:test_s_get_key()  "{{{1
   Title "s:get_key()"
 
