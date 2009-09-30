@@ -229,11 +229,13 @@ function! s:initialize_ku_buffer()  "{{{2
   silent file `=s:KU_BUFFER_NAME`
 
   " Autocommands.
-  autocmd InsertEnter <buffer>  call feedkeys(s:on_InsertEnter(), 'n')
-  autocmd CursorMovedI <buffer>  call feedkeys(s:on_CursorMovedI(), 'n')
-  autocmd BufLeave <buffer>  call s:quit_session()
-  autocmd WinLeave <buffer>  call s:quit_session()
-  " autocmd TabLeave <buffer>  call s:quit_session()  " not necessary
+  augroup plugin-ku
+    autocmd InsertEnter <buffer>  call feedkeys(s:on_InsertEnter(), 'n')
+    autocmd CursorMovedI <buffer>  call feedkeys(s:on_CursorMovedI(), 'n')
+    autocmd BufLeave <buffer>  call s:quit_session()
+    autocmd WinLeave <buffer>  call s:quit_session()
+    " autocmd TabLeave <buffer>  call s:quit_session()  " not necessary
+  augroup END
 
   " Key mappings.
   nnoremap <buffer> <silent> <SID>(choose-an-action)
