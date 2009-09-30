@@ -366,7 +366,9 @@ PACKAGE_vim_gtd_FILES=\
 PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
-  vim/dot.vim/doc/ku.txt
+  vim/dot.vim/autoload/ku.vim \
+  vim/dot.vim/doc/ku.txt \
+  vim/dot.vim/plugin/ku.vim
 
 PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
@@ -836,7 +838,7 @@ test/vim-gtd/%.output: \
 
 
 # vim-ku  #{{{2
-TESTS_vim_ku = 0001 0002 0003
+TESTS_vim_ku = basic
 
 test/vim-ku/%.output: \
 		test/vim-ku/%.input \

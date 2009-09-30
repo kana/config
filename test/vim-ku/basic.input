@@ -1,0 +1,72 @@
+" Test: vim-ku basic
+" Set up  "{{{1
+
+let s:SID_PREFIX = ku#_sid_prefix()
+
+function Call(function_name, ...)
+  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
+endfunction
+
+
+let s:VARS = ku#_local_variables()
+
+function! Ref(variable_name)
+  return s:VARS[a:variable_name]
+endfunction
+
+function! Set(variable_name, value)
+  let s:VARS[a:variable_name] = a:value
+endfunction
+
+
+
+
+function s:test_ku_define_source()  "{{{1
+  Title "ku#define_source()"
+
+  let F = function('function')
+  let G = function('type')
+  call Set('available_sources', {})
+
+  " Initial state.
+  Assert Ref('available_sources') ==> {}
+
+  " Define a source (bad cases).
+  Assert ku#define_source({}) ==> 0
+  Assert ku#define_source({'gather-items': 0, 'name': 0}) ==> 0
+  Assert ku#define_source({'gather-items': 0, 'name': 'test'}) ==> 0
+  Assert ku#define_source({'gather-items': F, 'name': 0}) ==> 0
+  Assert Ref('available_sources') ==> {}
+
+  " Define a source (ordinary case).
+  Assert ku#define_source({'gather-items': F, 'name': 'test'}) ==> 1
+  Assert Ref('available_sources')['test']
+  \ ==> {'gather-items': F, 'name': 'test'}
+
+  " Override an existing source.
+  Assert ku#define_source({'gather-items': G, 'name': 'test'}) ==> 1
+  Assert Ref('available_sources')['test']
+  \ ==> {'gather-items': G, 'name': 'test'}
+
+  " Reset side effect for further tests.
+  call Set('available_sources', {})
+endfunction
+
+
+
+
+function s:test_s_valid_key_p()  "{{{1
+  Title "s:valid_key_p()"
+
+  Assert Call('s:valid_key_p', {}, '8bit', 0) ==> 0
+  Assert Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string') ==> 0
+  Assert Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string') ==> 1
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
