@@ -85,6 +85,30 @@ Result: 10 / 10
 ===== "s:get_key()"
 Result: 0 / 0
 
+===== "s:new_session()"
+TEST: ku#define_source({'gather-items': F, 'name': 'abc'})  ==>  1 ... ok
+TEST: ku#define_source({'gather-items': G, 'name': 'test'})  ==>  1 ... ok
+TEST: ku#available_sources()['abc']  ==>  {'gather-items': F, 'name': 'abc'} ... ok
+TEST: ku#available_sources()['test']  ==>  {'gather-items': G, 'name': 'test'} ... ok
+TEST: ku#available_source_names()  ==>  ['abc', 'test'] ... ok
+TEST: has_key(session_a, 'id')  ==>  1 ... ok
+TEST: session_a.original_completeopt  ==>  original_completeopt ... ok
+TEST: session_a.original_curwinnr  ==>  original_curwinnr ... ok
+TEST: session_a.original_winrestcmd  ==>  original_winrestcmd ... ok
+TEST: session_a.sources  ==>  [] ... ok
+TEST: has_key(session_b, 'id')  ==>  1 ... ok
+TEST: session_b.original_completeopt  ==>  original_completeopt ... ok
+TEST: session_b.original_curwinnr  ==>  original_curwinnr ... ok
+TEST: session_b.original_winrestcmd  ==>  original_winrestcmd ... ok
+TEST: session_b.sources  ==>  [] ... ok
+TEST: session_b.id isnot session_a.id  ==>  1 ... ok
+TEST: has_key(session, 'id')  ==>  1 ... ok
+TEST: session.original_completeopt  ==>  original_completeopt ... ok
+TEST: session.original_curwinnr  ==>  original_curwinnr ... ok
+TEST: session.original_winrestcmd  ==>  original_winrestcmd ... ok
+TEST: session.sources  ==>  [   ku#available_sources()['test'],   ku#available_sources()['abc'] ] ... ok
+Result: 21 / 21
+
 ===== "s:valid_key_p()"
 Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_s_valid_key_p..Call..<SNR>44_valid_key_p:
 line    2:
@@ -96,4 +120,4 @@ TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 Result: 3 / 3
 
 ===== Total
-Result: 61 / 61
+Result: 82 / 82
