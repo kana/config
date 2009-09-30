@@ -62,6 +62,15 @@ let s:session = {}  " contains the information of a ku session
 
 
 " Interface  "{{{1
+function! ku#define_default_key_mappings(override_p)  "{{{2
+  " Define key mappings for the current buffer.
+
+  " FIXME: NIY
+endfunction
+
+
+
+
 function! ku#define_source(definition)  "{{{2
   let new_source = extend(copy(s:NULL_SOURCE), a:definition, 'keep')
   let _ = s:TRUE
@@ -280,6 +289,30 @@ function! s:new_session(source_names)  "{{{2
   let session.sources = map(a:source_names, 's:available_sources[v:val]')
 
   return session
+endfunction
+
+
+
+
+function! s:on_CursorMovedI()  "{{{2
+  " FIXME: NIY
+  return ''
+endfunction
+
+
+
+
+function! s:on_InsertEnter()  "{{{2
+  " FIXME: NIY
+  return ''
+endfunction
+
+
+
+
+function! s:quit_session()  "{{{2
+  " FIXME: NIY
+  return
 endfunction
 
 
