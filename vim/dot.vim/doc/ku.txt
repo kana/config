@@ -145,9 +145,10 @@ ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
 
-In |the-ku-buffer|, the following key mappings are defined.
+In |the-ku-buffer|, the following key mappings are defined in Normal mode and
+Insert mode.
 
-<Plug>(ku-choose-an-action)			*<Plug>(ku-choose-an-action)*
+<Plug>(ku-choose-and-do-an-action)	  *<Plug>(ku-choose-and-do-an-action)*
 			Like |<Plug>(ku-do-the-default-action)|, but you can
 			choose an action from all available actions for the
 			currently selected candidate.
