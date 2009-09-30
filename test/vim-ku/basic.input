@@ -143,6 +143,15 @@ endfunction
 
 
 
+function s:test_ku_define_default_key_mappings()  "{{{1
+  Title "ku#define_default_key_mappings()"
+
+  " FIXME: NTY
+endfunction
+
+
+
+
 function s:test_ku_define_source()  "{{{1
   Title "ku#define_source()"
 
@@ -258,6 +267,33 @@ function s:test_s_new_session()  "{{{1
 
   " Reset side effect for further tests.
   call Set('available_sources', {})
+endfunction
+
+
+
+
+function s:test_s_on_CursorMovedI()  "{{{1
+  Title "s:on_CursorMovedI()"
+
+  " FIXME: NTY
+endfunction
+
+
+
+
+function s:test_s_on_InsertEnter()  "{{{1
+  Title "s:on_InsertEnter()"
+
+  " FIXME: NTY
+endfunction
+
+
+
+
+function s:test_s_quit_session()  "{{{1
+  Title "s:quit_session()"
+
+  " FIXME: NTY
 endfunction
 
 

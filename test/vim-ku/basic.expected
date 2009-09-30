@@ -62,6 +62,9 @@ TEST: ku#available_sources()['test']  ==>  {'gather-items': G, 'name': 'test'} .
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Result: 14 / 14
 
+===== "ku#define_default_key_mappings()"
+Result: 0 / 0
+
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
 Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_ku_define_source..ku#define_source..<SNR>44_valid_key_p:
@@ -112,6 +115,15 @@ TEST: session.original_curwinnr  ==>  original_curwinnr ... ok
 TEST: session.original_winrestcmd  ==>  original_winrestcmd ... ok
 TEST: session.sources  ==>  [   ku#available_sources()['test'],   ku#available_sources()['abc'] ] ... ok
 Result: 21 / 21
+
+===== "s:on_CursorMovedI()"
+Result: 0 / 0
+
+===== "s:on_InsertEnter()"
+Result: 0 / 0
+
+===== "s:quit_session()"
+Result: 0 / 0
 
 ===== "s:valid_key_p()"
 Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_s_valid_key_p..Call..<SNR>44_valid_key_p:
