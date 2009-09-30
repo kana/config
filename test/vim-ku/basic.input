@@ -200,7 +200,7 @@ endfunction
 function s:test_s_get_key()  "{{{1
   Title "s:get_key()"
 
-  " FIXME: NIY
+  " FIXME: NTY
 
   " " Drop all typeahead buffer.
   " while getchar(0) isnot 0
