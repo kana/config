@@ -177,7 +177,7 @@ endfunction
 
 
 function! ku#available_sources()  "{{{2
-  " FIXME: NIY
+  return s:available_sources
 endfunction
 
 

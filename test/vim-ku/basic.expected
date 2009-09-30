@@ -1,3 +1,27 @@
+===== "ku#available_sources()"
+TEST: ku#available_sources()  ==>  {} ... ok
+TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
+Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_ku_available_sources..ku#define_source..<SNR>44_valid_key_p:
+line    2:
+Invalild source: Without key 'gather-items'
+TEST: ku#define_source({})  ==>  0 ... ok
+line   12:
+Invalild source: Key 'gather-items' must be function but given value is 0
+TEST: ku#define_source({'gather-items': 0, 'name': 0})  ==>  0 ... ok
+Invalild source: Key 'gather-items' must be function but given value is 0
+TEST: ku#define_source({'gather-items': 0, 'name': 'test'})  ==>  0 ... ok
+Invalild source: Key 'name' must be string but given value is 0
+TEST: ku#define_source({'gather-items': F, 'name': 0})  ==>  0 ... ok
+TEST: ku#available_sources()  ==>  {} ... ok
+TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
+TEST: ku#define_source({'gather-items': F, 'name': 'test'})  ==>  1 ... ok
+TEST: ku#available_sources()['test']  ==>  {'gather-items': F, 'name': 'test'} ... ok
+TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
+TEST: ku#define_source({'gather-items': G, 'name': 'test'})  ==>  1 ... ok
+TEST: ku#available_sources()['test']  ==>  {'gather-items': G, 'name': 'test'} ... ok
+TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
+Result: 14 / 14
+
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
 Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_ku_define_source..ku#define_source..<SNR>44_valid_key_p:
@@ -32,4 +56,4 @@ TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 Result: 3 / 3
 
 ===== Total
-Result: 13 / 13
+Result: 27 / 27

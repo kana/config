@@ -21,6 +21,44 @@ endfunction
 
 
 
+function s:test_ku_available_sources()  "{{{1
+  Title "ku#available_sources()"
+
+  let F = function('function')
+  let G = function('type')
+  call Set('available_sources', {})
+
+  " Initial state.
+  Assert ku#available_sources() ==> {}
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Define a source (bad cases).
+  Assert ku#define_source({}) ==> 0
+  Assert ku#define_source({'gather-items': 0, 'name': 0}) ==> 0
+  Assert ku#define_source({'gather-items': 0, 'name': 'test'}) ==> 0
+  Assert ku#define_source({'gather-items': F, 'name': 0}) ==> 0
+  Assert ku#available_sources() ==> {}
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Define a source (ordinary case).
+  Assert ku#define_source({'gather-items': F, 'name': 'test'}) ==> 1
+  Assert ku#available_sources()['test']
+  \ ==> {'gather-items': F, 'name': 'test'}
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Override an existing source.
+  Assert ku#define_source({'gather-items': G, 'name': 'test'}) ==> 1
+  Assert ku#available_sources()['test']
+  \ ==> {'gather-items': G, 'name': 'test'}
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Reset side effect for further tests.
+  call Set('available_sources', {})
+endfunction
+
+
+
+
 function s:test_ku_define_source()  "{{{1
   Title "ku#define_source()"
 
