@@ -272,6 +272,44 @@ endfunction
 
 
 
+function s:test_s_initialize_ku_buffer()  "{{{1
+  Title "s:initialize_ku_buffer()"
+
+  enew!
+  call Call('s:initialize_ku_buffer')
+
+  " Basic settings.
+  Assert &l:bufhidden ==> 'hide'
+  Assert &l:buflisted ==> 0
+  Assert &l:buftype ==> 'nofile'
+  Assert &l:omnifunc ==> 'ku#omnifunc'
+  Assert &l:swapfile ==> 0
+  Assert bufname('') ==> Ref('KU_BUFFER_NAME')
+
+  " Autocommands.
+  Assert exists('#plugin-ku#BufLeave#<buffer>') ==> 1
+  Assert exists('#plugin-ku#CursorMovedI#<buffer>') ==> 1
+  Assert exists('#plugin-ku#InsertEnter#<buffer>') ==> 1
+  Assert exists('#plugin-ku#TabLeave#<buffer>') ==> 0
+  Assert exists('#plugin-ku#WinLeave#<buffer>') ==> 1
+
+  " Key mappings.
+  Assert maparg('<BS>', 'i') != '' ==> 1
+  Assert maparg('<C-h>', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-choose-and-do-an-action)', 'n') != '' ==> 1
+  Assert maparg('<Plug>(ku-do-the-default-action)', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-do-the-default-action)', 'n') != '' ==> 1
+  Assert maparg('<Plug>(ku-quit-session)', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-quit-session)', 'n') != '' ==> 1
+
+  " User's initialization.
+  " FIXME: NTY - default ui key mappings
+endfunction
+
+
+
+
 function s:test_s_on_CursorMovedI()  "{{{1
   Title "s:on_CursorMovedI()"
 

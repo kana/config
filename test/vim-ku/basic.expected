@@ -88,6 +88,28 @@ Result: 10 / 10
 ===== "s:get_key()"
 Result: 0 / 0
 
+===== "s:initialize_ku_buffer()"
+TEST: &l:bufhidden  ==>  'hide' ... ok
+TEST: &l:buflisted  ==>  0 ... ok
+TEST: &l:buftype  ==>  'nofile' ... ok
+TEST: &l:omnifunc  ==>  'ku#omnifunc' ... ok
+TEST: &l:swapfile  ==>  0 ... ok
+TEST: bufname('')  ==>  Ref('KU_BUFFER_NAME') ... ok
+TEST: exists('#plugin-ku#BufLeave#<buffer>')  ==>  1 ... ok
+TEST: exists('#plugin-ku#CursorMovedI#<buffer>')  ==>  1 ... ok
+TEST: exists('#plugin-ku#InsertEnter#<buffer>')  ==>  1 ... ok
+TEST: exists('#plugin-ku#TabLeave#<buffer>')  ==>  0 ... ok
+TEST: exists('#plugin-ku#WinLeave#<buffer>')  ==>  1 ... ok
+TEST: maparg('<BS>', 'i') != ''  ==>  1 ... ok
+TEST: maparg('<C-h>', 'i') != ''  ==>  1 ... ok
+TEST: maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != ''  ==>  1 ... ok
+TEST: maparg('<Plug>(ku-choose-and-do-an-action)', 'n') != ''  ==>  1 ... ok
+TEST: maparg('<Plug>(ku-do-the-default-action)', 'i') != ''  ==>  1 ... ok
+TEST: maparg('<Plug>(ku-do-the-default-action)', 'n') != ''  ==>  1 ... ok
+TEST: maparg('<Plug>(ku-quit-session)', 'i') != ''  ==>  1 ... ok
+TEST: maparg('<Plug>(ku-quit-session)', 'n') != ''  ==>  1 ... ok
+Result: 19 / 19
+
 ===== "s:ku_active_p()"
 TEST: Call('s:ku_active_p')  ==>  0 ... ok
 Result: 1 / 1
@@ -136,4 +158,4 @@ TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 Result: 3 / 3
 
 ===== Total
-Result: 83 / 83
+Result: 102 / 102
