@@ -21,6 +21,54 @@ endfunction
 
 
 
+function s:test_ku_available_source_p()  "{{{1
+  Title "ku#available_source_p()"
+
+  let F = function('function')
+  let G = function('type')
+  call Set('available_sources', {})
+
+  " Initial state.
+  Assert ku#available_sources() ==> {}
+  Assert ku#available_source_names() ==> []
+  Assert ku#available_source_p('test') ==> 0
+  Assert ku#available_source_p('abc') ==> 0
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Define a source (ordinary case).
+  Assert ku#define_source({'gather-items': F, 'name': 'test'}) ==> 1
+  Assert ku#available_sources()['test']
+  \ ==> {'gather-items': F, 'name': 'test'}
+  Assert ku#available_source_names() ==> ['test']
+  Assert ku#available_source_p('test') ==> 1
+  Assert ku#available_source_p('abc') ==> 0
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Override an existing source.
+  Assert ku#define_source({'gather-items': G, 'name': 'test'}) ==> 1
+  Assert ku#available_sources()['test']
+  \ ==> {'gather-items': G, 'name': 'test'}
+  Assert ku#available_source_names() ==> ['test']
+  Assert ku#available_source_p('test') ==> 1
+  Assert ku#available_source_p('abc') ==> 0
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Define more source.
+  Assert ku#define_source({'gather-items': F, 'name': 'abc'}) ==> 1
+  Assert ku#available_sources()['abc']
+  \ ==> {'gather-items': F, 'name': 'abc'}
+  Assert ku#available_source_names() ==> ['abc', 'test']
+  Assert ku#available_source_p('test') ==> 1
+  Assert ku#available_source_p('abc') ==> 1
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Reset side effect for further tests.
+  call Set('available_sources', {})
+endfunction
+
+
+
+
 function s:test_ku_available_source_names()  "{{{1
   Title "ku#available_source_names()"
 

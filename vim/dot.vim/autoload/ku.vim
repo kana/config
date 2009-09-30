@@ -81,7 +81,7 @@ function! ku#start(...)  "{{{2
   let initial_pattern = 2 <= a:0 ? a:2 : ''
 
   for source_name in source_names
-    if !ku#available_source_name_p(source_name)
+    if !ku#available_source_p(source_name)
       echoerr 'Invalid source name:' string(a:source_name)
       return s:FALSE
     endif
@@ -162,8 +162,8 @@ nnoremap <SID>  <SID>
 
 
 
-function! ku#available_source_name_p()  "{{{2
-  " FIXME: NIY
+function! ku#available_source_p(source_name)  "{{{2
+  return has_key(s:available_sources, a:source_name)
 endfunction
 
 

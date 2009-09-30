@@ -12,6 +12,32 @@ TEST: ku#available_sources()['abc']  ==>  {'gather-items': F, 'name': 'abc'} ...
 TEST: ku#available_source_names()  ==>  ['abc', 'test'] ... ok
 Result: 11 / 11
 
+===== "ku#available_source_p()"
+TEST: ku#available_sources()  ==>  {} ... ok
+TEST: ku#available_source_names()  ==>  [] ... ok
+TEST: ku#available_source_p('test')  ==>  0 ... ok
+TEST: ku#available_source_p('abc')  ==>  0 ... ok
+TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
+TEST: ku#define_source({'gather-items': F, 'name': 'test'})  ==>  1 ... ok
+TEST: ku#available_sources()['test']  ==>  {'gather-items': F, 'name': 'test'} ... ok
+TEST: ku#available_source_names()  ==>  ['test'] ... ok
+TEST: ku#available_source_p('test')  ==>  1 ... ok
+TEST: ku#available_source_p('abc')  ==>  0 ... ok
+TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
+TEST: ku#define_source({'gather-items': G, 'name': 'test'})  ==>  1 ... ok
+TEST: ku#available_sources()['test']  ==>  {'gather-items': G, 'name': 'test'} ... ok
+TEST: ku#available_source_names()  ==>  ['test'] ... ok
+TEST: ku#available_source_p('test')  ==>  1 ... ok
+TEST: ku#available_source_p('abc')  ==>  0 ... ok
+TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
+TEST: ku#define_source({'gather-items': F, 'name': 'abc'})  ==>  1 ... ok
+TEST: ku#available_sources()['abc']  ==>  {'gather-items': F, 'name': 'abc'} ... ok
+TEST: ku#available_source_names()  ==>  ['abc', 'test'] ... ok
+TEST: ku#available_source_p('test')  ==>  1 ... ok
+TEST: ku#available_source_p('abc')  ==>  1 ... ok
+TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
+Result: 23 / 23
+
 ===== "ku#available_sources()"
 TEST: ku#available_sources()  ==>  {} ... ok
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
@@ -70,4 +96,4 @@ TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 Result: 3 / 3
 
 ===== Total
-Result: 38 / 38
+Result: 61 / 61
