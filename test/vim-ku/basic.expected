@@ -18,6 +18,9 @@ TEST: ku#define_source({'gather-items': G, 'name': 'test'})  ==>  1 ... ok
 TEST: Ref('available_sources')['test']  ==>  {'gather-items': G, 'name': 'test'} ... ok
 Result: 10 / 10
 
+===== "s:get_key()"
+Result: 0 / 0
+
 ===== "s:valid_key_p()"
 Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_s_valid_key_p..Call..<SNR>44_valid_key_p:
 line    2:

@@ -55,6 +55,27 @@ endfunction
 
 
 
+function s:test_s_get_key()  "{{{1
+  Title "s:get_key()"
+
+  " FIXME: NIY
+
+  " " Drop all typeahead buffer.
+  " while getchar(0) isnot 0
+  " endwhile
+
+  " Assert Call('get_key') ==> ''
+
+  " call feedkeys('abc')
+  " Assert Call('get_key') ==> 'abc'
+  " Assert Call('get_key') ==> ''
+
+  " return
+endfunction
+
+
+
+
 function s:test_s_valid_key_p()  "{{{1
   Title "s:valid_key_p()"
 
