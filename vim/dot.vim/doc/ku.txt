@@ -64,7 +64,7 @@ INTRODUCTION					*ku-introduction*
 
 To start a selection, call |ku#start()|.  |the-ku-window| will be opened at
 the top of the current tabpage.  The window is to choose candidates and to
-take an action on an item.  In the window,
+take an action on a candidate.  In the window,
 
 - |ins-completion-menu| is automatically appeared to show candidates.  As you
   input a character, the menu will be updated to show more proper candidates
@@ -72,7 +72,8 @@ take an action on an item.  In the window,
   input.
 
 - If you find what you want in the menu, choose it with <C-n> or <C-p>.  If
-  the first item in the menu is what you want, you don't have to choose it.
+  the first candidate in the menu is what you want, you don't have to choose
+  it.
 
 - Then you can take an action on the candidate with <Enter> or <Tab>.
 
@@ -190,19 +191,15 @@ Sources are like kinds of information.  For example, "buffer" source gathers
 all buffers as candidates.  You can choose and take an action on a buffer with
 this source.  The same can be said for other sources.
 
-						*ku-source-name*
-The name of a source can be arbitrary string, but it should consist of a-z,
-0-9, "/", "_" and "-".  For example:
-
-- "buffer", "history" and "metarw/git" are good.
-- "BadOne", "$omething-wrong" and "" are bad.
-
 						*ku-source-script-convention*
-If you want to write a source, you should follow the following convention:
+Shouces should consist of the following scripts:
 
-autoload/ku/{source}.vim	To delay loading the details of a source.
-doc/ku-{source}.txt		The document of a source.
-plugin/ku/{source}.vim		To define a source with |ku#define_source()|.
+autoload/ku/source/{name}.vim
+	Delay to load the details of sources.
+doc/ku-source-{name}.txt
+	The document of sources.
+plugin/ku/source/{name}.vim
+	Define sources.
 
 Here {source} is the name of a source.
 
@@ -213,30 +210,37 @@ A source can be defined by |ku#define_source()|.  It takes the definition of
 a source which is expressed as a dictionary.  The details of the dictionary
 are as follows:
 
-Key	Value		Meaning ~
-
-name	string		The name of a source.
-
-gather	function({pattern})
+						*ku-source-gather-candidates*
+gather-candidates	function({pattern})	(required)
 			Return a list of candidates which are matched to the
-			given {pattern}.  Each item is a dictionary.  See
-			|complete-items| for the details of the dictionary.
+			given {pattern}.  A candidate is represented as
+			a dictionary.  See |complete-items| for the details.
 
-			Sources may add additional entries for each item.
+			Sources may add additional entries for each candidate.
 			Keys of such entries must be prefixed with
-			"ku_{source}_", where {source} is the name of
+			"ku-{source}-", where {source} is the name of
 			a source.
 
-			There are the following rules on return values:
-			- During a |ku-session|, ku assumes that
-			  a return value is determined only by {pattern}.
-			  This means: >
-				let a = ku#{source}#gather("foo")
-				let b = ku#{source}#gather("foo")
-				echo a == b  "==> true
-<			- During a ku session, return values are cached by ku,
-			  so that sources don't have to do caching unless they
-			  want to do caching over ku sessions.
+			Also, ku may add additional entries for each
+			candidate.  Keys of such entries are prefixed with
+			"ku--".
+
+			Return value is cached by ku.  Don't reuse the same
+			list for each time whenver this function is called.
+
+						*ku-source-name*
+name			string			(requried)
+			The name of a source.  It must consist of the
+			following characters:
+			- a-z
+			- 0-9
+			- /
+			- _
+			- -
+
+			For example:
+			- "buffer", "history" and "metarw/git" are valid.
+			- "BadOne", "!@#$%^&*()_[]{}-|" and "" are not valid.
 
 
 
