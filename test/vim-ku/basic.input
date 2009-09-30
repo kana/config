@@ -293,7 +293,7 @@ function s:test_s_initialize_ku_buffer()  "{{{1
   Assert exists('#plugin-ku#TabLeave#<buffer>') ==> 0
   Assert exists('#plugin-ku#WinLeave#<buffer>') ==> 1
 
-  " Key mappings.
+  " Key mappings - fundamentals.
   Assert maparg('<BS>', 'i') != '' ==> 1
   Assert maparg('<C-h>', 'i') != '' ==> 1
   Assert maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != '' ==> 1
@@ -303,8 +303,9 @@ function s:test_s_initialize_ku_buffer()  "{{{1
   Assert maparg('<Plug>(ku-quit-session)', 'i') != '' ==> 1
   Assert maparg('<Plug>(ku-quit-session)', 'n') != '' ==> 1
 
-  " User's initialization.
-  " FIXME: NTY - default ui key mappings
+  " Key mappings - user interaface.
+  " FIXME: NTY - existences of default ui key mappings,
+  "              depending on existence of user's initialization
 endfunction
 
 

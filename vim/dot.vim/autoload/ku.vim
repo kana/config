@@ -237,7 +237,7 @@ function! s:initialize_ku_buffer()  "{{{2
     " autocmd TabLeave <buffer>  call s:quit_session()  " not necessary
   augroup END
 
-  " Key mappings.
+  " Key mappings - fundamentals.
   nnoremap <buffer> <silent> <SID>(choose-an-action)
   \        :<C-u>call <SID>chose_and_do_an_action()<Return>
   nnoremap <buffer> <silent> <SID>(ku-do-the-default-action)
@@ -269,6 +269,8 @@ function! s:initialize_ku_buffer()  "{{{2
 
   " User's initialization.
   setfiletype ku
+
+  " Key mappings - user interface.
   if !(exists('#FileType#ku') || exists('b:did_ftplugin'))
     call ku#define_default_key_mappings(s:TRUE)
   endif
