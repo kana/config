@@ -209,7 +209,60 @@ endfunction
 
 
 function! s:initialize_ku_buffer()  "{{{2
-  " FIXME: NIY
+  " The current buffer is initialized.
+
+  " Basic settings.
+  setlocal bufhidden=hide
+  setlocal buftype=nofile
+  setlocal nobuflisted
+  setlocal noswapfile
+  setlocal omnifunc=ku#omnifunc
+  silent file `=s:KU_BUFFER_NAME`
+
+  " Autocommands.
+  autocmd InsertEnter <buffer>  call feedkeys(s:on_InsertEnter(), 'n')
+  autocmd CursorMovedI <buffer>  call feedkeys(s:on_CursorMovedI(), 'n')
+  autocmd BufLeave <buffer>  call s:quit_session()
+  autocmd WinLeave <buffer>  call s:quit_session()
+  " autocmd TabLeave <buffer>  call s:quit_session()  " not necessary
+
+  " Key mappings.
+  nnoremap <buffer> <silent> <SID>(choose-an-action)
+  \        :<C-u>call <SID>chose_and_do_an_action()<Return>
+  nnoremap <buffer> <silent> <SID>(ku-do-the-default-action)
+  \        :<C-u>call <SID>do_the_default_action()<Return>
+  nnoremap <buffer> <silent> <SID>(ku-quit-session)
+  \        :<C-u>call <SID>quit_session()<Return>
+  inoremap <buffer> <expr> <SID>(accept-completion)
+  \        pumvisible() ? '<C-y>' : ''
+  inoremap <buffer> <expr> <SID>(cancel-completion)
+  \        pumvisible() ? '<C-e>' : ''
+
+  nnoremap <buffer> <script> <Plug>(ku-choose-and-do-an-action)
+  \        <SID>(choose-and-do-an-action)
+  nnoremap <buffer> <script> <Plug>(ku-do-the-default-action)
+  \        <SID>(do-the-default-action)
+  nnoremap <buffer> <script> <Plug>(ku-quit-session)
+  \        <SID>(quit-session)
+
+  inoremap <buffer> <script> <Plug>(ku-choose-and-do-an-action)
+  \        <SID>(accept-completion)<Esc><SID>(choose-and-do-an-action)
+  inoremap <buffer> <script> <Plug>(ku-do-the-default-action)
+  \        <SID>(accept-completion)<Esc><SID>(do-the-default-action)
+  inoremap <buffer> <script> <Plug>(ku-quit-session)
+  \        <Esc><SID>(quit-session)
+
+  inoremap <buffer> <expr> <BS>  pumvisible() ? '<C-e><BS>' : '<BS>'
+  imap <buffer> <C-h>  <BS>
+  " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
+
+  " User's initialization.
+  setfiletype ku
+  if !(exists('#FileType#ku') || exists('b:did_ftplugin'))
+    call ku#define_default_key_mappings(s:TRUE)
+  endif
+
+  return
 endfunction
 
 
