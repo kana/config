@@ -170,7 +170,7 @@ endfunction
 
 
 function! ku#available_source_names()  "{{{2
-  " FIXME: NIY
+  return sort(keys(s:available_sources))
 endfunction
 
 
