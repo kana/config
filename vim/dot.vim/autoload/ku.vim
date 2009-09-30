@@ -50,6 +50,8 @@ let s:PROMPT = '>'
 
 let s:available_sources = {}  " source-name => source-definition
 
+let s:session = {}  " contains the information of a ku session
+
 
 
 
@@ -93,12 +95,7 @@ function! ku#start(...)  "{{{2
   endif
 
   " Initialze session.
-  let s:session = {}
-  let s:session.id = localtime()
-  let s:session.original_completeopt = &completeopt
-  let s:session.original_curwinnr = winnr()
-  let s:session.original_winrestcmd = winrestcmd()
-  let s:session.sources = map(source_names, 's:source_from_source_name(v:val)')
+  let s:session = s:new_session(source_names)
 
   " Open or create the ku buffer.
   let v:errmsg = ''
@@ -211,6 +208,23 @@ endfunction
 
 function! s:initialize_ku_buffer()  "{{{2
   " FIXME: NIY
+endfunction
+
+
+
+
+function! s:new_session(source_names)  "{{{2
+  " Assumption: All sources in a:source_names are available.
+  let session = {}
+
+    " Use list to ensure returning different value for each time.
+  let session.id = [localtime()]
+  let session.original_completeopt = &completeopt
+  let session.original_curwinnr = winnr()
+  let session.original_winrestcmd = winrestcmd()
+  let session.sources = map(a:source_names, 's:available_sources[v:val]')
+
+  return session
 endfunction
 
 
