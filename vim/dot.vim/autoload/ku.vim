@@ -112,7 +112,7 @@ function! ku#start(...)  "{{{2
 
   for source_name in source_names
     if !ku#available_source_p(source_name)
-      echoerr 'Invalid source name:' string(a:source_name)
+      echoerr 'Invalid source name:' string(source_name)
       return s:FALSE
     endif
   endfor
