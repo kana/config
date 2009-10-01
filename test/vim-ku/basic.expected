@@ -121,6 +121,61 @@ TEST: ku#define_source({'gather-items': G, 'name': 'test'})  ==>  1 ... ok
 TEST: Ref('available_sources')['test']  ==>  {'gather-items': G, 'name': 'test'} ... ok
 Result: 10 / 10
 
+===== "ku#start()"
+TEST: &l:buftype  ==>  '' ... ok
+TEST: winnr('$')  ==>  1 ... ok
+TEST: winnr()  ==>  1 ... ok
+TEST: ku#start()  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  'a' ... ok
+TEST: nr2char(getchar(0))  ==>  'b' ... ok
+TEST: nr2char(getchar(0))  ==>  'c' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: &g:completeopt  ==>  'menu,menuone' ... ok
+TEST: &l:filetype  ==>  'ku' ... ok
+TEST: [line('.'), col('.')]  ==>  [2, 1] ... ok
+TEST: bufnr('') != first_bufnr  ==>  1 ... ok
+TEST: getline(1, line('$'))  ==>  ['', '>'] ... ok
+TEST: winnr('$')  ==>  2 ... ok
+TEST: winnr()  ==>  1 ... ok
+TEST: ku#start()  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: bufnr('')  ==>  second_bufnr ... ok
+TEST: winnr('$')  ==>  2 ... ok
+TEST: winnr()  ==>  1 ... ok
+TEST: ku#start()  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: bufnr('') != first_bufnr  ==>  1 ... ok
+TEST: bufnr('') != second_bufnr  ==>  1 ... ok
+TEST: winnr('$')  ==>  2 ... ok
+TEST: winnr()  ==>  1 ... ok
+TEST: ku#start()  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: winnr()  ==>  1 ... ok
+TEST: winnr('$')  ==>  2 ... ok
+Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_start..ku#start:
+line    6:
+Invalid source name: 'invalid'
+TEST: ku#start(['invalid'])  ==>  0 ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: bufnr('')  ==>  first_bufnr ... ok
+TEST: winnr('$')  ==>  1 ... ok
+TEST: winnr()  ==>  1 ... ok
+TEST: ku#start(0, 'def')  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: bufnr('') != first_bufnr  ==>  1 ... ok
+TEST: getline(1, line('$'))  ==>  ['', '>def'] ... ok
+TEST: winnr('$')  ==>  2 ... ok
+TEST: winnr()  ==>  1 ... ok
+line   12:
+Already active
+TEST: ku#start()  ==>  0 ... ok
+Result: 47 / 47
+
 ===== "s:get_key()"
 Result: 0 / 0
 
@@ -198,4 +253,4 @@ TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 Result: 3 / 3
 
 ===== Total
-Result: 141 / 141
+Result: 188 / 188

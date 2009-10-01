@@ -235,6 +235,102 @@ endfunction
 
 
 
+function s:test_ku_start()  "{{{1
+  Title "ku#start()"
+
+  " Initial state.
+  NewBuffer
+  let first_bufnr = bufnr('')
+
+  Assert &l:buftype ==> ''
+  Assert winnr('$') ==> 1
+  Assert winnr() ==> 1
+
+  " Case 1: The ku buffer is not created.
+  call feedkeys('abc', 't')
+  Assert ku#start() ==> 1
+  let second_bufnr = bufnr('')
+
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> 'a'
+  Assert nr2char(getchar(0)) ==> 'b'
+  Assert nr2char(getchar(0)) ==> 'c'
+  Assert nr2char(getchar(0)) ==> ''
+
+  Assert &g:completeopt ==> 'menu,menuone'
+  Assert &l:filetype ==> 'ku'
+  Assert [line('.'), col('.')] ==> [2, 1]
+  Assert bufnr('') != first_bufnr ==> 1
+  Assert getline(1, line('$')) ==> ['', '>']
+  Assert winnr('$') ==> 2
+  Assert winnr() ==> 1
+
+  " Case 2: The ku buffer is already created.
+  close
+  Assert ku#start() ==> 1
+
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+
+  Assert bufnr('') ==> second_bufnr
+  Assert winnr('$') ==> 2
+  Assert winnr() ==> 1
+
+  " Case 3: The ku buffer has been deleted.
+  bwipeout!
+  Assert ku#start() ==> 1
+
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+
+  Assert bufnr('') != first_bufnr ==> 1
+  Assert bufnr('') != second_bufnr ==> 1
+  Assert winnr('$') ==> 2
+  Assert winnr() ==> 1
+
+  " Case 4: With {sources}.
+  close
+  Assert ku#start() ==> 1
+
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+  Assert winnr() ==> 1
+  Assert winnr('$') ==> 2
+
+  " Case 5: With {sources} including invalid values.
+  close
+  Assert ku#start(['invalid']) ==> 0
+
+  Assert nr2char(getchar(0)) ==> ''
+
+  Assert bufnr('') ==> first_bufnr
+  Assert winnr('$') ==> 1
+  Assert winnr() ==> 1
+
+  " Case 6: With {initial-pattern}.
+  Assert ku#start(0, 'def') ==> 1
+
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+
+  Assert bufnr('') != first_bufnr ==> 1
+  Assert getline(1, line('$')) ==> ['', '>def']
+  Assert winnr('$') ==> 2
+  Assert winnr() ==> 1
+
+  " Case 7: Calling ku#start() while the ku buffer is active.
+  Assert ku#start() ==> 0
+
+  " FIXME: Test: If there is some text in the ku buffer.
+  " FIXME: Test: If there is no room to create a new window.
+
+  " Reset side effect.
+  bwipeout!
+endfunction
+
+
+
+
 function s:test_s_ku_active_p()  "{{{1
   Title "s:ku_active_p()"
 
