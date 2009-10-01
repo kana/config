@@ -1,11 +1,17 @@
 #!/bin/bash
 
-vim -u NONE -N -e -s <<END 2>&1 | sed "s|$(pwd)||g"
+driver_vim=",,$$.vim"
+
+cat <<END >"$driver_vim"
   let &runtimepath = fnamemodify('vim/dot.vim', ':p') . ',' . \$VIMRUNTIME
   runtime! plugin/**/*.vim
   source test/libtest.vim
   1 verbose source $1
   qall!
 END
+
+vim -u NONE -N -e -s -c "source $driver_vim" 2>&1 | sed "s|$(pwd)||g"
+
+rm -f "$driver_vim"
 
 # __END__
