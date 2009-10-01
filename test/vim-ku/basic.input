@@ -143,10 +143,56 @@ endfunction
 
 
 
-function s:test_ku_define_default_key_mappings()  "{{{1
-  Title "ku#define_default_key_mappings()"
+function s:test_ku_define_default_ui_key_mappings()  "{{{1
+  Title "ku#define_default_ui_key_mappings()"
 
-  " FIXME: NTY
+  enew!
+
+  " Initial state.
+  nnoremap <buffer> <C-c>  QUIT-NORMAL
+  inoremap <buffer> <C-c>  QUIT-INSERT
+  Assert maparg('<C-c>', 'i') ==> 'QUIT-INSERT'
+  Assert maparg('<C-c>', 'n') ==> 'QUIT-NORMAL'
+  Assert maparg('<C-i>', 'i') ==> ''
+  Assert maparg('<C-i>', 'n') ==> ''
+  Assert maparg('<C-m>', 'i') ==> ''
+  Assert maparg('<C-m>', 'n') ==> ''
+  Assert maparg('<Enter>', 'i') ==> ''
+  Assert maparg('<Enter>', 'n') ==> ''
+  Assert maparg('<Return>', 'i') ==> ''
+  Assert maparg('<Return>', 'n') ==> ''
+  Assert maparg('<Tab>', 'i') ==> ''
+  Assert maparg('<Tab>', 'n') ==> ''
+
+  " Define - don't override.
+  call ku#define_default_ui_key_mappings(0)
+  Assert maparg('<C-c>', 'i') ==> 'QUIT-INSERT'
+  Assert maparg('<C-c>', 'n') ==> 'QUIT-NORMAL'
+  Assert maparg('<C-i>', 'i') ==> '<Plug>(ku-choose-and-do-an-action)'
+  Assert maparg('<C-i>', 'n') ==> '<Plug>(ku-choose-and-do-an-action)'
+  Assert maparg('<C-m>', 'i') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<C-m>', 'n') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Enter>', 'i') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Enter>', 'n') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Return>', 'i') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Return>', 'n') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Tab>', 'i') ==> '<Plug>(ku-choose-and-do-an-action)'
+  Assert maparg('<Tab>', 'n') ==> '<Plug>(ku-choose-and-do-an-action)'
+
+  " Define - may override.
+  call ku#define_default_ui_key_mappings(1)
+  Assert maparg('<C-c>', 'i') ==> '<Plug>(ku-quit-session)'
+  Assert maparg('<C-c>', 'n') ==> '<Plug>(ku-quit-session)'
+  Assert maparg('<C-i>', 'i') ==> '<Plug>(ku-choose-and-do-an-action)'
+  Assert maparg('<C-i>', 'n') ==> '<Plug>(ku-choose-and-do-an-action)'
+  Assert maparg('<C-m>', 'i') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<C-m>', 'n') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Enter>', 'i') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Enter>', 'n') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Return>', 'i') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Return>', 'n') ==> '<Plug>(ku-do-the-default-action)'
+  Assert maparg('<Tab>', 'i') ==> '<Plug>(ku-choose-and-do-an-action)'
+  Assert maparg('<Tab>', 'n') ==> '<Plug>(ku-choose-and-do-an-action)'
 endfunction
 
 

@@ -62,10 +62,24 @@ let s:session = {}  " contains the information of a ku session
 
 
 " Interface  "{{{1
-function! ku#define_default_key_mappings(override_p)  "{{{2
+function! ku#define_default_ui_key_mappings(override_p)  "{{{2
   " Define key mappings for the current buffer.
+  let f = {}
+  let f.unique = a:override_p ? '' : '<unique>'
+  function! f.map(lhs, rhs)
+    execute 'silent!' 'nmap' '<buffer>' self.unique a:lhs  a:rhs
+    execute 'silent!' 'imap' '<buffer>' self.unique a:lhs  a:rhs
+  endfunction
 
-  " FIXME: NIY
+  call f.map('<C-c>', '<Plug>(ku-quit-session)')
+  call f.map('<C-c>', '<Plug>(ku-quit-session)')
+  call f.map('<C-i>', '<Plug>(ku-choose-and-do-an-action)')
+  call f.map('<C-m>', '<Plug>(ku-do-the-default-action)')
+  call f.map('<Enter>', '<Plug>(ku-do-the-default-action)')
+  call f.map('<Return>', '<Plug>(ku-do-the-default-action)')
+  call f.map('<Tab>', '<Plug>(ku-choose-and-do-an-action)')
+
+  return
 endfunction
 
 
@@ -272,7 +286,7 @@ function! s:initialize_ku_buffer()  "{{{2
 
   " Key mappings - user interface.
   if !(exists('#FileType#ku') || exists('b:did_ftplugin'))
-    call ku#define_default_key_mappings(s:TRUE)
+    call ku#define_default_ui_key_mappings(s:TRUE)
   endif
 
   return

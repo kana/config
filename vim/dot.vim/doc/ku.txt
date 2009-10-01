@@ -123,6 +123,18 @@ There is no command at this moment.
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
 
+					 *ku#define_default_ui_key_mappings()*
+ku#define_default_ui_key_mappings({override-p})
+			Define default ui key mappings to use ku in the
+			current buffer.
+
+			If {override-p} is true, existing key mappings which
+			have the same {lhs}es are overridden.  Otherwise,
+			existing key mappings are not overridden.
+
+			See |ku-default-ui-key-mappings| for the details of
+			key bindings.
+
 ku#define_source({definition})			*ku#define_source()*
 			Define a new source.
 
@@ -147,6 +159,21 @@ KEY MAPPINGS					*ku-key-mappings*
 
 In |the-ku-buffer|, the following key mappings are defined in Normal mode and
 Insert mode.
+
+DEFAULT UI KEY MAPPINGS				*ku-default-ui-key-mappings*
+
+See also |ku#define_default_ui_key_mappings()|.
+
+Key sequence	Meaning ~
+------------	----------------------------------- ~
+<C-c>		|<Plug>(ku-quit-session)|
+<C-i>		|<Plug>(ku-choose-and-do-an-action)|
+<C-m>		|<Plug>(ku-do-the-default-action)|
+<Enter>		|<Plug>(ku-do-the-default-action)|
+<Return>	|<Plug>(ku-do-the-default-action)|
+<Tab>		|<Plug>(ku-choose-and-do-an-action)|
+
+NAMED KEY MAPPINGS				*ku-named-key-mappings*
 
 <Plug>(ku-choose-and-do-an-action)	  *<Plug>(ku-choose-and-do-an-action)*
 			Like |<Plug>(ku-do-the-default-action)|, but you can

@@ -62,8 +62,44 @@ TEST: ku#available_sources()['test']  ==>  {'gather-items': G, 'name': 'test'} .
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Result: 14 / 14
 
-===== "ku#define_default_key_mappings()"
-Result: 0 / 0
+===== "ku#define_default_ui_key_mappings()"
+TEST: maparg('<C-c>', 'i')  ==>  'QUIT-INSERT' ... ok
+TEST: maparg('<C-c>', 'n')  ==>  'QUIT-NORMAL' ... ok
+TEST: maparg('<C-i>', 'i')  ==>  '' ... ok
+TEST: maparg('<C-i>', 'n')  ==>  '' ... ok
+TEST: maparg('<C-m>', 'i')  ==>  '' ... ok
+TEST: maparg('<C-m>', 'n')  ==>  '' ... ok
+TEST: maparg('<Enter>', 'i')  ==>  '' ... ok
+TEST: maparg('<Enter>', 'n')  ==>  '' ... ok
+TEST: maparg('<Return>', 'i')  ==>  '' ... ok
+TEST: maparg('<Return>', 'n')  ==>  '' ... ok
+TEST: maparg('<Tab>', 'i')  ==>  '' ... ok
+TEST: maparg('<Tab>', 'n')  ==>  '' ... ok
+TEST: maparg('<C-c>', 'i')  ==>  'QUIT-INSERT' ... ok
+TEST: maparg('<C-c>', 'n')  ==>  'QUIT-NORMAL' ... ok
+TEST: maparg('<C-i>', 'i')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+TEST: maparg('<C-i>', 'n')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+TEST: maparg('<C-m>', 'i')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<C-m>', 'n')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Enter>', 'i')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Enter>', 'n')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Return>', 'i')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Return>', 'n')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Tab>', 'i')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+TEST: maparg('<Tab>', 'n')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+TEST: maparg('<C-c>', 'i')  ==>  '<Plug>(ku-quit-session)' ... ok
+TEST: maparg('<C-c>', 'n')  ==>  '<Plug>(ku-quit-session)' ... ok
+TEST: maparg('<C-i>', 'i')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+TEST: maparg('<C-i>', 'n')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+TEST: maparg('<C-m>', 'i')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<C-m>', 'n')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Enter>', 'i')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Enter>', 'n')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Return>', 'i')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Return>', 'n')  ==>  '<Plug>(ku-do-the-default-action)' ... ok
+TEST: maparg('<Tab>', 'i')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+TEST: maparg('<Tab>', 'n')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
+Result: 36 / 36
 
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
@@ -158,4 +194,4 @@ TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 Result: 3 / 3
 
 ===== Total
-Result: 102 / 102
+Result: 138 / 138
