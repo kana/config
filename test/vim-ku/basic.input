@@ -493,7 +493,8 @@ endfunction
 function s:test_s_on_CursorMovedI()  "{{{1
   Title "s:on_CursorMovedI()"
 
-  " FIXME: NTY
+  " FIXME: NIY
+  Assert Call('s:on_CursorMovedI') ==> ''
 endfunction
 
 
@@ -502,7 +503,8 @@ endfunction
 function s:test_s_on_InsertEnter()  "{{{1
   Title "s:on_InsertEnter()"
 
-  " FIXME: NTY
+  " FIXME: NIY
+  Assert Call('s:on_InsertEnter') ==> ''
 endfunction
 
 
