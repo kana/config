@@ -27,6 +27,9 @@ let s:FALSE = 0
 let s:TRUE = !s:FALSE
 
 
+let s:INVALID_BUFNR = -2357
+
+
 if has('win16') || has('win32') || has('win64')  " on Microsoft Windows
   let s:KU_BUFFER_NAME = '[ku]'
 else
@@ -50,7 +53,7 @@ let s:PROMPT = '>'
 
 let s:available_sources = {}  " source-name => source-definition
 
-let s:bufnr = -2357  " buffer number of the ku buffer
+let s:bufnr = s:INVALID_BUFNR  " buffer number of the ku buffer
 
 let s:session = {}  " contains the information of a ku session
 
