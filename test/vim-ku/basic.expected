@@ -41,7 +41,7 @@ Result: 23 / 23
 ===== "ku#available_sources()"
 TEST: ku#available_sources()  ==>  {} ... ok
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
-Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_ku_available_sources..ku#define_source..<SNR>44_valid_key_p:
+Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_available_sources..ku#define_source..<SNR>45_valid_key_p:
 line    2:
 Invalild source: Without key 'gather-items'
 TEST: ku#define_source({})  ==>  0 ... ok
@@ -103,7 +103,7 @@ Result: 36 / 36
 
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
-Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_ku_define_source..ku#define_source..<SNR>44_valid_key_p:
+Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_define_source..ku#define_source..<SNR>45_valid_key_p:
 line    2:
 Invalild source: Without key 'gather-items'
 TEST: ku#define_source({})  ==>  0 ... ok
@@ -188,7 +188,7 @@ Result: 0 / 0
 Result: 0 / 0
 
 ===== "s:valid_key_p()"
-Error detected while processing function <SNR>42_cmd_Test..<SNR>43_test_s_valid_key_p..Call..<SNR>44_valid_key_p:
+Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_s_valid_key_p..Call..<SNR>45_valid_key_p:
 line    2:
 Invalild source: Without key '8bit'
 TEST: Call('s:valid_key_p', {}, '8bit', 0)  ==>  0 ... ok
