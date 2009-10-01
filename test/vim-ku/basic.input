@@ -19,6 +19,9 @@ function! Set(variable_name, value)
 endfunction
 
 
+command! NewBuffer  bwipeout! | enew!
+
+
 
 
 function s:test_ku_available_source_p()  "{{{1
@@ -146,7 +149,7 @@ endfunction
 function s:test_ku_define_default_ui_key_mappings()  "{{{1
   Title "ku#define_default_ui_key_mappings()"
 
-  enew!
+  NewBuffer
 
   " Initial state.
   nnoremap <buffer> <C-c>  QUIT-NORMAL
@@ -322,8 +325,7 @@ function s:test_s_initialize_ku_buffer()  "{{{1
   Title "s:initialize_ku_buffer()"
 
   "" Case 1: Without user's initialization.
-  bwipeout!
-  enew!
+  NewBuffer
   call Call('s:initialize_ku_buffer')
 
   " Basic settings.
@@ -355,8 +357,7 @@ function s:test_s_initialize_ku_buffer()  "{{{1
   Assert maparg('<C-c>', 'n') ==> '<Plug>(ku-quit-session)'
 
   "" Case 2: With user's initialization - by :autocmd
-  bwipeout!
-  enew!
+  NewBuffer
   augroup test
     autocmd FileType ku  echo '" autocmd FileType ku'
   augroup END
@@ -369,8 +370,7 @@ function s:test_s_initialize_ku_buffer()  "{{{1
   augroup END
 
   "" Case 3: With user's initialization - by ftplugin
-  bwipeout!
-  enew!
+  NewBuffer
   let b:did_ftplugin = 'ku'
 
   call Call('s:initialize_ku_buffer')
