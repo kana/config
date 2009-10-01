@@ -406,6 +406,9 @@ function s:test_s_initialize_ku_buffer()  "{{{1
 
   call Call('s:initialize_ku_buffer')
   Assert maparg('<C-c>', 'n') ==> ''
+
+  "" Reset side effect.
+  bwipeout!
 endfunction
 
 
@@ -414,9 +417,20 @@ endfunction
 function s:test_s_ku_active_p()  "{{{1
   Title "s:ku_active_p()"
 
-  " FIXME: Write proper tests
-
+  " Initial state.
   Assert Call('s:ku_active_p') ==> 0
+
+  " After starting a ku session.
+  Assert ku#start() ==> 1
+  Assert Call('s:ku_active_p') ==> 1
+
+  " After quitting a ku session.
+  close
+  Assert Call('s:ku_active_p') ==> 0
+
+  " Reset side effect.
+  call ku#start()
+  bwipeout!
 endfunction
 
 
