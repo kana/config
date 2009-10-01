@@ -124,14 +124,13 @@ function! ku#start(...)  "{{{2
 
   " Open or create the ku buffer.
   let v:errmsg = ''
-  topleft split
+  execute 'topleft' (bufexists(s:bufnr) ? 'split' : 'new')
   if v:errmsg != ''
     return s:FALSE
   endif
   if bufexists(s:bufnr)
     silent execute s:bufnr 'buffer'
   else
-    enew
     let s:bufnr = bufnr('')
     call s:initialize_ku_buffer()
   endif
