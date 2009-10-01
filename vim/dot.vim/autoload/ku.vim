@@ -53,7 +53,7 @@ let s:PROMPT = '>'
 
 let s:available_sources = {}  " source-name => source-definition
 
-let s:bufnr = s:INVALID_BUFNR  " buffer number of the ku buffer
+let s:ku_bufnr = s:INVALID_BUFNR  " buffer number of the ku buffer
 
 let s:session = {}  " contains the information of a ku session
 
@@ -127,14 +127,14 @@ function! ku#start(...)  "{{{2
 
   " Open or create the ku buffer.
   let v:errmsg = ''
-  execute 'topleft' (bufexists(s:bufnr) ? 'split' : 'new')
+  execute 'topleft' (bufexists(s:ku_bufnr) ? 'split' : 'new')
   if v:errmsg != ''
     return s:FALSE
   endif
-  if bufexists(s:bufnr)
-    silent execute s:bufnr 'buffer'
+  if bufexists(s:ku_bufnr)
+    silent execute s:ku_bufnr 'buffer'
   else
-    let s:bufnr = bufnr('')
+    let s:ku_bufnr = bufnr('')
     call s:initialize_ku_buffer()
   endif
   2 wincmd _
@@ -208,7 +208,7 @@ endfunction
 
 
 function! s:ku_active_p()  "{{{2
-  return bufexists(s:bufnr) && bufwinnr(s:bufnr) != -1
+  return bufexists(s:ku_bufnr) && bufwinnr(s:ku_bufnr) != -1
 endfunction
 
 
