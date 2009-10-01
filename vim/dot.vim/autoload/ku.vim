@@ -315,7 +315,7 @@ endfunction
 
 
 function! s:on_CursorMovedI()  "{{{2
-  " FIXME: NIY
+  " FIXME: NIY: Until automatic completion is implemented.
   return ''
 endfunction
 
@@ -323,7 +323,7 @@ endfunction
 
 
 function! s:on_InsertEnter()  "{{{2
-  " FIXME: NIY
+  " FIXME: NIY: Until automatic completion is implemented.
   return ''
 endfunction
 

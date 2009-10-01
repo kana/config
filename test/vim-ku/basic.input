@@ -321,8 +321,8 @@ function s:test_ku_start()  "{{{1
   " Case 7: Calling ku#start() while the ku buffer is active.
   Assert ku#start() ==> 0
 
-  " FIXME: Test: If there is some text in the ku buffer.
-  " FIXME: Test: If there is no room to create a new window.
+  " FIXME: NTY: If there is some text in the ku buffer.
+  " FIXME: NTY: If there is no room to create a new window.
 
   " Reset side effect.
   bwipeout!
