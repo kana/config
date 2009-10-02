@@ -321,6 +321,8 @@ function s:test_ku_start()  "{{{1
   " Case 7: Calling ku#start() while the ku buffer is active.
   Assert ku#start() ==> 0
 
+  Assert nr2char(getchar(0)) ==> ''
+
   " FIXME: NTY: If there is some text in the ku buffer.
   " FIXME: NTY: If there is no room to create a new window.
 
@@ -428,6 +430,8 @@ function s:test_s_ku_active_p()  "{{{1
 
   " After starting a ku session.
   Assert ku#start() ==> 1
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
   Assert Call('s:ku_active_p') ==> 1
 
   " After quitting a ku session.
@@ -436,6 +440,8 @@ function s:test_s_ku_active_p()  "{{{1
 
   " Reset side effect.
   call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
   noautocmd bwipeout!  " :noautocmd to avoid calling event handlers.
 endfunction
 
@@ -533,6 +539,8 @@ function s:test_s_quit_session()  "{{{1
 
   " After starting a ku session.
   Assert ku#start() ==> 1
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
   Assert bufnr('') != bufnr ==> 1
   Assert winnr() != winnr ==> 1
   Assert winrestcmd() != winrestcmd ==> 1
@@ -548,6 +556,8 @@ function s:test_s_quit_session()  "{{{1
 
   " Reset side effect.
   call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
   bwipeout!
   only
 endfunction
