@@ -238,11 +238,11 @@ endfunction
 function s:test_ku_omnifunc()  "{{{1
   Title "ku#omnifunc()"
 
+  "" a:findstart == 1
+
   call ku#start()
   Assert nr2char(getchar(0)) ==> 'A'
   Assert nr2char(getchar(0)) ==> ''
-
-  "" a:findstart == 1
 
   " Case 1: Default state - there is only the prompt.
   " ku#start() has reset the content of the ku buffer.
@@ -261,14 +261,39 @@ function s:test_ku_omnifunc()  "{{{1
   normal! Amane
   Assert ku#omnifunc(1, '') ==> 0
 
+  close
+
   "" a:findstart == 0
 
   " Case 1: No source.
+  call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+
   Assert ku#omnifunc(0, 'pattern') ==> []
 
-  " FIXME: Case 2: With a source - to check use of the current sources.
+  close
+
+  " Case 2: With a source - to check use of the current sources.
+  let source = {}
+  let source.name = 'test'
+  function! source.gather_candidates(args)
+    return [{'word': a:args.pattern, 'abbr': a:args.pattern[:2-1]}]
+  endfunction
+  Assert ku#define_source(source) ==> 1
+  call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+
+  Assert ku#omnifunc(0, 'pattern') ==> [{'word': 'pattern', 'abbr': 'pa'}]
+
+  close
+  call Set('available_sources', {})
 
   " Reset side effect.
+  call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
   bwipeout!
 endfunction
 
