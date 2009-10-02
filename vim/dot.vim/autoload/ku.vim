@@ -96,7 +96,7 @@ function! ku#define_source(definition)  "{{{2
   let new_source = extend(copy(s:NULL_SOURCE), a:definition, 'keep')
   let _ = s:TRUE
 
-  let _ = _ && s:valid_key_p(new_source, 'gather-items', 'function')
+  let _ = _ && s:valid_key_p(new_source, 'gather_candidates', 'function')
   let _ = _ && s:valid_key_p(new_source, 'name', 'string')
   if !_
     return s:FALSE
