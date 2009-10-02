@@ -239,19 +239,19 @@ a source which is expressed as a dictionary.  The details of the dictionary
 are as follows:
 
 						*ku-source-gather-candidates*
-gather-candidates	function({pattern})	(required)
+gather_candidates	function({pattern})	(required)
 			Return a list of candidates which are matched to the
 			given {pattern}.  A candidate is represented as
 			a dictionary.  See |complete-items| for the details.
 
 			Sources may add additional entries for each candidate.
 			Keys of such entries must be prefixed with
-			"ku-{source}-", where {source} is the name of
+			"ku_{source}_", where {source} is the name of
 			a source.
 
 			Also, ku may add additional entries for each
 			candidate.  Keys of such entries are prefixed with
-			"ku--".
+			"ku__".
 
 			Return value is cached by ku.  Don't reuse the same
 			list for each time whenver this function is called.
