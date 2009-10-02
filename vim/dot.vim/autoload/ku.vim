@@ -51,11 +51,15 @@ let s:PROMPT = '>'
 
 " Variables  "{{{1
 
-let s:available_sources = {}  " source-name => source-definition
+" source-name => source-definition
+let s:available_sources = {}
 
-let s:ku_bufnr = s:INVALID_BUFNR  " buffer number of the ku buffer
+" buffer number of the ku buffer
+let s:ku_bufnr = s:INVALID_BUFNR
 
-let s:session = {}  " contains the information of a ku session
+" Contains the information of a ku session.
+" See s:new_session() for the details of content.
+let s:session = {}
 
 
 
