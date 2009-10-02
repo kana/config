@@ -456,6 +456,7 @@ function s:test_s_new_session()  "{{{1
   " Create a session.
   let session_a = Call('s:new_session', [])
   Assert has_key(session_a, 'id') ==> 1
+  Assert session_a.now_quitting_p ==> 0
   Assert session_a.original_completeopt ==> original_completeopt
   Assert session_a.original_curwinnr ==> original_curwinnr
   Assert session_a.original_winrestcmd ==> original_winrestcmd
@@ -464,6 +465,7 @@ function s:test_s_new_session()  "{{{1
   " Create another session.
   let session_b = Call('s:new_session', [])
   Assert has_key(session_b, 'id') ==> 1
+  Assert session_b.now_quitting_p ==> 0
   Assert session_b.original_completeopt ==> original_completeopt
   Assert session_b.original_curwinnr ==> original_curwinnr
   Assert session_b.original_winrestcmd ==> original_winrestcmd
@@ -475,6 +477,7 @@ function s:test_s_new_session()  "{{{1
   " Create a session with some sources.
   let session = Call('s:new_session', ['test', 'abc'])
   Assert has_key(session, 'id') ==> 1
+  Assert session.now_quitting_p ==> 0
   Assert session.original_completeopt ==> original_completeopt
   Assert session.original_curwinnr ==> original_curwinnr
   Assert session.original_winrestcmd ==> original_winrestcmd
