@@ -263,7 +263,10 @@ function s:test_ku_omnifunc()  "{{{1
 
   "" a:findstart == 0
 
-  Assert ku#omnifunc(0, 'pattern') ==> ['pattern']
+  " Case 1: No source.
+  Assert ku#omnifunc(0, 'pattern') ==> []
+
+  " FIXME: Case 2: With a source - to check use of the current sources.
 
   " Reset side effect.
   bwipeout!
@@ -373,7 +376,11 @@ endfunction
 function s:test_s_candidates_from_pattern()  "{{{1
   Title "s:candidates_from_pattern()"
 
-  Assert Call('s:candidates_from_pattern', '2330', []) ==> ['2330']
+  " Case 1: No source.
+  Assert Call('s:candidates_from_pattern', '2330', []) ==> []
+
+  " FIXME: Case 2: A source.
+  " FIXME: Case 3: Multiple sources.
 endfunction
 
 

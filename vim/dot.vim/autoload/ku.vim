@@ -372,12 +372,17 @@ endfunction
 
 
 function! s:candidates_from_pattern(pattern, sources)  "{{{2
-  " FIXME: NIY - dummy
-  " FIXME: Get candidates from a:sources.
   " FIXME: Sort (and filter) candidates.
   " FIXME: Cache a result. / Use cache if available.
 
-  return [a:pattern]
+  let args = {'pattern': a:pattern}
+  let candidates = []
+
+  for source in a:sources
+    call extend(candidates, source.gather_candidates(args))
+  endfor
+
+  return candidates
 endfunction
 
 

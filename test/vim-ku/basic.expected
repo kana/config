@@ -128,7 +128,7 @@ TEST: ku#omnifunc(1, '')  ==>  1 ... ok
 TEST: ku#omnifunc(1, '')  ==>  1 ... ok
 TEST: ku#omnifunc(1, '')  ==>  0 ... ok
 TEST: ku#omnifunc(1, '')  ==>  0 ... ok
-TEST: ku#omnifunc(0, 'pattern')  ==>  ['pattern'] ... ok
+TEST: ku#omnifunc(0, 'pattern')  ==>  [] ... ok
 Result: 7 / 7
 
 ===== "ku#start()"
@@ -188,7 +188,7 @@ TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 48 / 48
 
 ===== "s:candidates_from_pattern()"
-TEST: Call('s:candidates_from_pattern', '2330', [])  ==>  ['2330'] ... ok
+TEST: Call('s:candidates_from_pattern', '2330', [])  ==>  [] ... ok
 Result: 1 / 1
 
 ===== "s:get_key()"
