@@ -376,11 +376,32 @@ endfunction
 function s:test_s_candidates_from_pattern()  "{{{1
   Title "s:candidates_from_pattern()"
 
+  let source_a = {}
+  let source_a.name = 'source_a'
+  function! source_a.gather_candidates(args)
+    return [{'word': a:args.pattern}]
+  endfunction
+
+  let source_b = {}
+  let source_b.name = 'source_b'
+  function! source_b.gather_candidates(args)
+    return [{'word': 'b'}, {'word': 'B'}]
+  endfunction
+
   " Case 1: No source.
   Assert Call('s:candidates_from_pattern', '2330', []) ==> []
 
-  " FIXME: Case 2: A source.
-  " FIXME: Case 3: Multiple sources.
+  " Case 2: A source.
+  Assert Call('s:candidates_from_pattern', '2330', [source_a])
+  \ ==> [{'word': '2330'}]
+
+  " Case 3: Multiple sources.
+  Assert Call('s:candidates_from_pattern', '2330', [source_a, source_b])
+  \ ==> [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}]
+
+  " Case 4: Multiple sources - duplicate sources.
+  Assert Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])
+  \ ==> [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
 endfunction
 
 
