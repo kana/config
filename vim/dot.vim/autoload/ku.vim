@@ -211,6 +211,19 @@ endfunction
 
 
 
+function! ku#omnifunc(findstart, base)  "{{{2
+  if a:findstart
+    return getline('.')[:0] ==# s:PROMPT ? len(s:PROMPT) : 0
+  else
+    let pattern = a:base  " Assumes that a:base doesn't conntain the prompt.
+    let candidates = s:candidates_from_pattern(pattern, s:session.sources)
+    return candidates
+  endif
+endfunction
+
+
+
+
 function! s:ku_active_p()  "{{{2
   return bufexists(s:ku_bufnr) && bufwinnr(s:ku_bufnr) != -1
 endfunction
@@ -353,6 +366,18 @@ function! s:quit_session()  "{{{2
   let s:session.now_quitting_p = s:FALSE
 
   return s:TRUE
+endfunction
+
+
+
+
+function! s:candidates_from_pattern(pattern, sources)  "{{{2
+  " FIXME: NIY - dummy
+  " FIXME: Get candidates from a:sources.
+  " FIXME: Sort (and filter) candidates.
+  " FIXME: Cache a result. / Use cache if available.
+
+  return [a:pattern]
 endfunction
 
 

@@ -121,6 +121,16 @@ TEST: ku#define_source({'gather-items': G, 'name': 'test'})  ==>  1 ... ok
 TEST: Ref('available_sources')['test']  ==>  {'gather-items': G, 'name': 'test'} ... ok
 Result: 10 / 10
 
+===== "ku#omnifunc()"
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: ku#omnifunc(1, '')  ==>  1 ... ok
+TEST: ku#omnifunc(1, '')  ==>  1 ... ok
+TEST: ku#omnifunc(1, '')  ==>  0 ... ok
+TEST: ku#omnifunc(1, '')  ==>  0 ... ok
+TEST: ku#omnifunc(0, 'pattern')  ==>  ['pattern'] ... ok
+Result: 7 / 7
+
 ===== "ku#start()"
 TEST: &l:buftype  ==>  '' ... ok
 TEST: winnr('$')  ==>  1 ... ok
@@ -176,6 +186,10 @@ Already active
 TEST: ku#start()  ==>  0 ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 48 / 48
+
+===== "s:candidates_from_pattern()"
+TEST: Call('s:candidates_from_pattern', '2330', [])  ==>  ['2330'] ... ok
+Result: 1 / 1
 
 ===== "s:get_key()"
 TEST: typeahead  ==>  '' ... ok
@@ -284,4 +298,4 @@ TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 Result: 3 / 3
 
 ===== Total
-Result: 219 / 219
+Result: 227 / 227

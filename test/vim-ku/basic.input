@@ -235,6 +235,43 @@ endfunction
 
 
 
+function s:test_ku_omnifunc()  "{{{1
+  Title "ku#omnifunc()"
+
+  call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+
+  "" a:findstart == 1
+
+  " Case 1: Default state - there is only the prompt.
+  " ku#start() has reset the content of the ku buffer.
+  " So that the prompt must be in the ku buffer.
+  Assert ku#omnifunc(1, '') ==> 1
+
+  " Case 2: The prompt and some characters.
+  normal! Amane
+  Assert ku#omnifunc(1, '') ==> 1
+
+  " Case 3: No character.
+  normal! 0d$
+  Assert ku#omnifunc(1, '') ==> 0
+
+  " Case 4: No prompt, some characters.
+  normal! Amane
+  Assert ku#omnifunc(1, '') ==> 0
+
+  "" a:findstart == 0
+
+  Assert ku#omnifunc(0, 'pattern') ==> ['pattern']
+
+  " Reset side effect.
+  bwipeout!
+endfunction
+
+
+
+
 function s:test_ku_start()  "{{{1
   Title "ku#start()"
 
@@ -328,6 +365,15 @@ function s:test_ku_start()  "{{{1
 
   " Reset side effect.
   noautocmd bwipeout!  " :noautocmd to avoid calling event handlers.
+endfunction
+
+
+
+
+function s:test_s_candidates_from_pattern()  "{{{1
+  Title "s:candidates_from_pattern()"
+
+  Assert Call('s:candidates_from_pattern', '2330', []) ==> ['2330']
 endfunction
 
 
