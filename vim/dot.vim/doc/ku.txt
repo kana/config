@@ -239,10 +239,16 @@ a source which is expressed as a dictionary.  The details of the dictionary
 are as follows:
 
 						*ku-source-gather-candidates*
-gather_candidates	function({pattern})	(required)
-			Return a list of candidates which are matched to the
-			given {pattern}.  A candidate is represented as
-			a dictionary.  See |complete-items| for the details.
+gather_candidates	function({args})	(required)
+			Return a list of candidates according to {args}.
+			A candidate is represented as a dictionary.  See
+			|complete-items| for the details.
+
+			The details of {args} are as follows:
+
+			pattern		string
+				The currrent pattern which user inputs in the
+				ku buffer.
 
 			Sources may add additional entries for each candidate.
 			Keys of such entries must be prefixed with
