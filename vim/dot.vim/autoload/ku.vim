@@ -303,6 +303,7 @@ function! s:new_session(source_names)  "{{{2
 
     " Use list to ensure returning different value for each time.
   let session.id = [localtime()]
+  let session.now_quitting_p = s:FALSE
   let session.original_completeopt = &completeopt
   let session.original_curwinnr = winnr()
   let session.original_winrestcmd = winrestcmd()
@@ -331,8 +332,23 @@ endfunction
 
 
 function! s:quit_session()  "{{{2
-  " FIXME: NIY
-  return
+  " Assumption: The current buffer is the ku buffer.
+
+  " We have to check s:session.now_quitting_p to avoid unnecessary
+  " :close'ing, because s:quit_session() may be called recursively.
+  if s:session.now_quitting_p
+    return s:FALSE
+  endif
+
+  let s:session.now_quitting_p = s:TRUE
+    close
+
+    let &completeopt = s:session.original_completeopt
+    execute s:session.original_curwinnr 'wincmd w'
+    execute s:session.original_winrestcmd
+  let s:session.now_quitting_p = s:FALSE
+
+  return s:TRUE
 endfunction
 
 
