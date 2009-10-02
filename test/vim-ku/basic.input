@@ -334,19 +334,25 @@ endfunction
 function s:test_s_get_key()  "{{{1
   Title "s:get_key()"
 
-  " FIXME: NTY
+  " Drop all characters in the typeahead buffer.
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= getchar()
+  endwhile
+    " Assumption: There is no character in the typeahead buffer.
+  Assert typeahead ==> ''
 
-  " " Drop all typeahead buffer.
-  " while getchar(0) isnot 0
-  " endwhile
+  " Case 1: Ordinary key.
+  call feedkeys('a')
+  Assert Call('s:get_key') ==> 'a'
 
-  " Assert Call('get_key') ==> ''
+  " Case 2: Special key.
+  call feedkeys("\<F1>")
+  Assert Call('s:get_key') ==> "\<F1>"
 
-  " call feedkeys('abc')
-  " Assert Call('get_key') ==> 'abc'
-  " Assert Call('get_key') ==> ''
-
-  " return
+  " Case 3: But its internal...
+  call feedkeys('Sasara')
+  Assert Call('s:get_key') ==> 'Sasara'
 endfunction
 
 
