@@ -516,7 +516,34 @@ endfunction
 function s:test_s_quit_session()  "{{{1
   Title "s:quit_session()"
 
-  " FIXME: NTY
+  " Initial state.
+  topleft new
+  botright new
+  set completeopt=preview
+  let bufnr = bufnr('')
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+  let completeopt = &completeopt
+
+  " After starting a ku session.
+  Assert ku#start() ==> 1
+  Assert bufnr('') != bufnr ==> 1
+  Assert winnr() != winnr ==> 1
+  Assert winrestcmd() != winrestcmd ==> 1
+  Assert &completeopt != completeopt ==> 1
+
+  " After quitting a ku session.
+  Assert Call('s:quit_session') ==> 1
+  let session = Ref('session')
+  Assert bufnr('') ==> bufnr
+  Assert winnr() ==> winnr
+  Assert winrestcmd() ==> winrestcmd
+  Assert &completeopt ==> completeopt
+
+  " Reset side effect.
+  call ku#start()
+  bwipeout!
+  only
 endfunction
 
 
