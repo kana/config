@@ -31,6 +31,7 @@ Interface		|ku-interface|
   Commands		  |ku-commands|
   Functions		  |ku-functions|
     Core		    |ku-functions-core|
+    Sorters		    |ku-functions-sorters|
   Key Mapings		  |ku-key-mappings|
   Pattern		  |ku-pattern|
   Default Sources	  |ku-default-sources|
@@ -155,6 +156,23 @@ ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
 			{initial-pattern} is a string to be inserted before
 			user input.  The default value is '', so nothing will
 			be inserted.
+
+SORTERS						*ku-functions-sorters*
+
+ku#sorter#default#sort({candidates}, {args})	*ku#sorter#default#sort()*
+			Sort {candidates} by the method which is specified by
+			|ku#sorter#default#use()|.  The default method is
+			|ku#sorter#simple#sort()|.
+
+ku#sorter#default#use({sorters})		*ku#sorter#default#use()*
+			Use {sorters} as the default methods to sort
+			candidats.  {sorters} is a lislt of funcrefs.
+			See also |ku-source-sorters| for the details.
+
+			Return value is a list of funcrefs of the old sorters.
+
+ku#sorter#simple#sort({candidates}, {args})	*ku#sorter#simple#sort()*
+			Sort {candidates} by |sort()|.
 
 
 ------------------------------------------------------------------------------
@@ -283,6 +301,20 @@ name			string			(requried)
 			For example:
 			- "buffer", "history" and "metarw/git" are valid.
 			- "BadOne", "!@#$%^&*()_[]{}-|" and "" are not valid.
+
+						*ku-source-sorters*
+sorters			list of funcrefs	(optional)
+			Functions to sort candidates.
+
+			Each function in the list:
+			- Takes {candidates} and {args}, where {candidates} is
+			  a list of candidates.
+			- Returns a sorted version of {candidates}.
+			- May modify a given {candidates} in-place.
+
+			This key is optional; if it is not given,
+			[|ku#sorter#default#sort()|] is used as the default
+			value.
 
 
 
