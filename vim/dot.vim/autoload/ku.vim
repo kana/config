@@ -37,7 +37,9 @@ else
 endif
 
 
-let s:NULL_SOURCE = {}
+let s:NULL_SOURCE = {
+\   'sorters': [function('ku#sorter#default#sort')],
+\ }
 
 
 let s:PROMPT = '>'
@@ -98,6 +100,8 @@ function! ku#define_source(definition)  "{{{2
 
   let _ = _ && s:valid_key_p(new_source, 'gather_candidates', 'function')
   let _ = _ && s:valid_key_p(new_source, 'name', 'string')
+  let _ = _ && ((!has_key(new_source, 'sorters'))
+  \             || s:valid_key_p(new_source, 'sorters', 'list of functions'))
   if !_
     return s:FALSE
   endif
