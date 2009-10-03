@@ -671,8 +671,13 @@ endfunction
 function s:test_s_valid_key_p()  "{{{1
   Title "s:valid_key_p()"
 
+  " Case 1: Invalid type.
   Assert Call('s:valid_key_p', {}, '8bit', 0) ==> 0
+
+  " Case 2: Key not exists.
   Assert Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string') ==> 0
+
+  " Case 3: string
   Assert Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string') ==> 1
 endfunction
 
