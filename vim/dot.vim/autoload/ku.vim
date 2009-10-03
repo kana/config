@@ -411,11 +411,11 @@ function! s:valid_key_p(source, key, type)  "{{{2
   endif
 
   if item_type != ''
-    for item in a:source[a:key]
-      if type(item) != get(TYPES, item_type, -2009)
+    for Item in a:source[a:key]
+      if type(Item) != get(TYPES, item_type, -2009)
         echoerr 'Invalild source: Key' string(a:key) 'must be' a:type
         \       'but given value is' string(a:source[a:key])
-        \       'and it contains' string(item)
+        \       'and it contains' string(Item)
         return s:FALSE
       endif
     endfor

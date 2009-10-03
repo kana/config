@@ -687,6 +687,11 @@ function s:test_s_valid_key_p()  "{{{1
   " Case 4: List with valid values.
   Assert Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of numbers') ==> 1
   Assert Call('s:valid_key_p', {'A': []}, 'A', 'list of functions') ==> 1
+  Assert Call('s:valid_key_p',
+  \ {'A': [function('len')]},
+  \ 'A',
+  \ 'list of functions')
+  \ ==> 1
 
   " Case 5: List with invalid values.
   Assert Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of strings') ==> 0

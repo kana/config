@@ -312,12 +312,13 @@ TEST: Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'number')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of numbers')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'A': []}, 'A', 'list of functions')  ==>  1 ... ok
+TEST: Call('s:valid_key_p', {'A': [function('len')]}, 'A', 'list of functions')  ==>  1 ... ok
 line   25:
 Invalild source: Key 'A' must be list of strings but given value is [1, 2, 3] and it contains 1
 TEST: Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of strings')  ==>  0 ... ok
 Invalild source: Key 'A' must be list of numbers but given value is [1, '2', 3] and it contains '2'
 TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ... ok
-Result: 11 / 11
+Result: 12 / 12
 
 ===== Total
-Result: 246 / 246
+Result: 247 / 247
