@@ -683,6 +683,14 @@ function s:test_s_valid_key_p()  "{{{1
   Assert Call('s:valid_key_p', {'8bit': []}, '8bit', 'list') ==> 1
   Assert Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'number') ==> 1
   Assert Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string') ==> 1
+
+  " Case 4: List with valid values.
+  Assert Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of numbers') ==> 1
+  Assert Call('s:valid_key_p', {'A': []}, 'A', 'list of functions') ==> 1
+
+  " Case 5: List with invalid values.
+  Assert Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of strings') ==> 0
+  Assert Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers') ==> 0
 endfunction
 
 

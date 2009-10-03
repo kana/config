@@ -42,10 +42,10 @@ Result: 23 / 23
 TEST: ku#available_sources()  ==>  {} ... ok
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_available_sources..ku#define_source..<SNR>45_valid_key_p:
-line    2:
+line    5:
 Invalild source: Without key 'gather_candidates'
 TEST: ku#define_source({})  ==>  0 ... ok
-line   14:
+line   17:
 Invalild source: Key 'gather_candidates' must be function but given value is 0
 TEST: ku#define_source({'gather_candidates': 0, 'name': 0})  ==>  0 ... ok
 Invalild source: Key 'gather_candidates' must be function but given value is 0
@@ -104,10 +104,10 @@ Result: 36 / 36
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
 Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_define_source..ku#define_source..<SNR>45_valid_key_p:
-line    2:
+line    5:
 Invalild source: Without key 'gather_candidates'
 TEST: ku#define_source({})  ==>  0 ... ok
-line   14:
+line   17:
 Invalild source: Key 'gather_candidates' must be function but given value is 0
 TEST: ku#define_source({'gather_candidates': 0, 'name': 0})  ==>  0 ... ok
 Invalild source: Key 'gather_candidates' must be function but given value is 0
@@ -300,7 +300,7 @@ Result: 14 / 14
 
 ===== "s:valid_key_p()"
 Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_s_valid_key_p..Call..<SNR>45_valid_key_p:
-line    2:
+line    5:
 Invalild source: Without key '8bit'
 TEST: Call('s:valid_key_p', {}, '8bit', 0)  ==>  0 ... ok
 Invalild source: Without key 0
@@ -310,7 +310,14 @@ TEST: Call('s:valid_key_p', {'8': function('len')}, '8', 'function')  ==>  1 ...
 TEST: Call('s:valid_key_p', {'8bit': []}, '8bit', 'list')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'number')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
-Result: 7 / 7
+TEST: Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of numbers')  ==>  1 ... ok
+TEST: Call('s:valid_key_p', {'A': []}, 'A', 'list of functions')  ==>  1 ... ok
+line   25:
+Invalild source: Key 'A' must be list of strings but given value is [1, 2, 3] and it contains 1
+TEST: Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of strings')  ==>  0 ... ok
+Invalild source: Key 'A' must be list of numbers but given value is [1, '2', 3] and it contains '2'
+TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ... ok
+Result: 11 / 11
 
 ===== Total
-Result: 242 / 242
+Result: 246 / 246

@@ -389,6 +389,9 @@ endfunction
 
 
 function! s:valid_key_p(source, key, type)  "{{{2
+  let [basic_type, item_type]
+  \ = matchlist(a:type, '^\(\S\+\)\%( of \(\S\+\)s\)\?$')[1:2]
+
   if !has_key(a:source, a:key)
     echoerr 'Invalild source: Without key' string(a:key)
     return s:FALSE
@@ -401,10 +404,21 @@ function! s:valid_key_p(source, key, type)  "{{{2
   \     'number': type(0),
   \     'string': type(''),
   \   }
-  if type(a:source[a:key]) != get(TYPES, a:type, -2009)
-    echoerr 'Invalild source: Key' string(a:key) 'must be' a:type
+  if type(a:source[a:key]) != get(TYPES, basic_type, -2009)
+    echoerr 'Invalild source: Key' string(a:key) 'must be' basic_type
     \       'but given value is' type(a:source[a:key])
     return s:FALSE
+  endif
+
+  if item_type != ''
+    for item in a:source[a:key]
+      if type(item) != get(TYPES, item_type, -2009)
+        echoerr 'Invalild source: Key' string(a:key) 'must be' a:type
+        \       'but given value is' string(a:source[a:key])
+        \       'and it contains' string(item)
+        return s:FALSE
+      endif
+    endfor
   endif
 
   return s:TRUE
