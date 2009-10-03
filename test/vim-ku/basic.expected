@@ -45,7 +45,7 @@ Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_avail
 line    2:
 Invalild source: Without key 'gather_candidates'
 TEST: ku#define_source({})  ==>  0 ... ok
-line   12:
+line   14:
 Invalild source: Key 'gather_candidates' must be function but given value is 0
 TEST: ku#define_source({'gather_candidates': 0, 'name': 0})  ==>  0 ... ok
 Invalild source: Key 'gather_candidates' must be function but given value is 0
@@ -107,7 +107,7 @@ Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_defin
 line    2:
 Invalild source: Without key 'gather_candidates'
 TEST: ku#define_source({})  ==>  0 ... ok
-line   12:
+line   14:
 Invalild source: Key 'gather_candidates' must be function but given value is 0
 TEST: ku#define_source({'gather_candidates': 0, 'name': 0})  ==>  0 ... ok
 Invalild source: Key 'gather_candidates' must be function but given value is 0
@@ -307,8 +307,10 @@ Invalild source: Without key 0
 TEST: Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string')  ==>  0 ... ok
 TEST: Call('s:valid_key_p', {'8bit': {}}, '8bit', 'dictionary')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'8': function('len')}, '8', 'function')  ==>  1 ... ok
+TEST: Call('s:valid_key_p', {'8bit': []}, '8bit', 'list')  ==>  1 ... ok
+TEST: Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'number')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
-Result: 5 / 5
+Result: 7 / 7
 
 ===== Total
-Result: 240 / 240
+Result: 242 / 242

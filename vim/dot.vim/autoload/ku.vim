@@ -397,6 +397,8 @@ function! s:valid_key_p(source, key, type)  "{{{2
   let TYPES = {
   \     'dictionary': type({}),
   \     'function': type(function('function')),
+  \     'list': type([]),
+  \     'number': type(0),
   \     'string': type(''),
   \   }
   if type(a:source[a:key]) != get(TYPES, a:type, -2009)
