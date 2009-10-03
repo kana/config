@@ -166,7 +166,7 @@ ku#sorter#default#sort({candidates}, {args})	*ku#sorter#default#sort()*
 
 ku#sorter#default#use({sorters})		*ku#sorter#default#use()*
 			Use {sorters} as the default methods to sort
-			candidats.  {sorters} is a lislt of funcrefs.
+			candidats.  {sorters} is a list of funcrefs.
 			See also |ku-source-sorters| for the details.
 
 			Return value is a list of funcrefs of the old sorters.
