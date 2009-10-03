@@ -30,6 +30,7 @@ Introduction		|ku-introduction|
 Interface		|ku-interface|
   Commands		  |ku-commands|
   Functions		  |ku-functions|
+    Core		    |ku-functions-core|
   Key Mapings		  |ku-key-mappings|
   Pattern		  |ku-pattern|
   Default Sources	  |ku-default-sources|
@@ -122,6 +123,8 @@ There is no command at this moment.
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*ku-functions*
+
+CORE						*ku-functions-core*
 
 					 *ku#define_default_ui_key_mappings()*
 ku#define_default_ui_key_mappings({override-p})
