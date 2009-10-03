@@ -1,0 +1,12 @@
+===== "ku#sorter#default#sort()"
+TEST: ku#sorter#default#sort(candidates, args)  ==>  [{'word': 'j'}, {'word': 'u'}, {'word': 'n'}, {'word': 'i'}] ... ok
+TEST: ku#sorter#default#sort(candidates, args)  ==>  [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}] ... ok
+Result: 2 / 2
+
+===== "ku#sorter#default#use()"
+TEST: default_sorters  ==>  [function('ku#sorter#simple#sort')] ... ok
+TEST: new_sorters  ==>  [] ... ok
+Result: 2 / 2
+
+===== Total
+Result: 4 / 4

@@ -1,0 +1,42 @@
+" Test: vim-ku-sorter-default
+function s:test_ku_sorter_default_sort()  "{{{1
+  Title "ku#sorter#default#sort()"
+
+  let args = {}
+  let candidates = [
+  \     {'word': 'j'},
+  \     {'word': 'u'},
+  \     {'word': 'n'},
+  \     {'word': 'i'},
+  \   ]
+
+  " With custom sorters
+  let default_sorters = ku#sorter#default#use([])
+  Assert ku#sorter#default#sort(candidates, args)
+  \ ==> [{'word': 'j'}, {'word': 'u'}, {'word': 'n'}, {'word': 'i'}]
+
+  " With the default sorters
+  call ku#sorter#default#use(default_sorters)
+  Assert ku#sorter#default#sort(candidates, args)
+  \ ==> [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
+endfunction
+
+
+
+
+function s:test_ku_sorter_default_use()  "{{{1
+  Title "ku#sorter#default#use()"
+
+  let default_sorters = ku#sorter#default#use([])
+  let new_sorters = ku#sorter#default#use(default_sorters)
+  Assert default_sorters ==> [function('ku#sorter#simple#sort')]
+  Assert new_sorters ==> []
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
