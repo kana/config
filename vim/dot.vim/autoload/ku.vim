@@ -405,8 +405,8 @@ function! s:valid_key_p(source, key, type)  "{{{2
   \     'string': type(''),
   \   }
   if type(a:source[a:key]) != get(TYPES, basic_type, -2009)
-    echoerr 'Invalild source: Key' string(a:key) 'must be' basic_type
-    \       'but given value is' type(a:source[a:key])
+    echoerr 'Invalild source: Key' string(a:key) 'must be' a:type
+    \       'but given value is' string(a:source[a:key])
     return s:FALSE
   endif
 
