@@ -219,6 +219,7 @@ Sources are like kinds of information.  For example, "buffer" source gathers
 all buffers as candidates.  You can choose and take an action on a buffer with
 this source.  The same can be said for other sources.
 
+
 						*ku-source-script-convention*
 Shouces should consist of the following scripts:
 
@@ -233,6 +234,16 @@ Here {source} is the name of a source.
 
 FIXME: Details for "/", "_", "-" in the name of a source.
 
+
+						*ku-source-{args}*
+In the following descriptions on |ku-source-definition|, {args} means
+a dictionary which has the following content:
+
+pattern			string
+			The currrent pattern which user inputs in the ku
+			buffer.
+
+
 						*ku-source-definition*
 A source can be defined by |ku#define_source()|.  It takes the definition of
 a source which is expressed as a dictionary.  The details of the dictionary
@@ -243,12 +254,6 @@ gather_candidates	function({args})	(required)
 			Return a list of candidates according to {args}.
 			A candidate is represented as a dictionary.  See
 			|complete-items| for the details.
-
-			The details of {args} are as follows:
-
-			pattern		string
-				The currrent pattern which user inputs in the
-				ku buffer.
 
 			Sources may add additional entries for each candidate.
 			Keys of such entries must be prefixed with
