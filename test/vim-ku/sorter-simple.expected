@@ -1,0 +1,6 @@
+===== "ku#sorter#simple#sort()"
+TEST: ku#sorter#simple#sort(candidates, args)  ==>  [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}] ... ok
+Result: 1 / 1
+
+===== Total
+Result: 1 / 1

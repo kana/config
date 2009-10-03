@@ -1,0 +1,23 @@
+" Test: vim-ku-sorter-simple
+function s:test_ku_sorter_simple_sort()  "{{{1
+  Title "ku#sorter#simple#sort()"
+
+  let args = {}
+  let candidates = [
+  \     {'word': 'j'},
+  \     {'word': 'u'},
+  \     {'word': 'n'},
+  \     {'word': 'i'},
+  \   ]
+
+  Assert ku#sorter#simple#sort(candidates, args)
+  \ ==> [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
