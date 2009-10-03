@@ -379,7 +379,7 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
   let candidates = []
 
   for source in a:sources
-    call extend(candidates, source.gather_candidates(args))
+    call extend(candidates, copy(source.gather_candidates(args)))
   endfor
 
   return candidates
