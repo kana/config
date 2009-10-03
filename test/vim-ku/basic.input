@@ -677,7 +677,9 @@ function s:test_s_valid_key_p()  "{{{1
   " Case 2: Key not exists.
   Assert Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string') ==> 0
 
-  " Case 3: string
+  " Case 3: Valid values.
+  Assert Call('s:valid_key_p', {'8bit': {}}, '8bit', 'dictionary') ==> 1
+  Assert Call('s:valid_key_p', {'8': function('len')}, '8', 'function') ==> 1
   Assert Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string') ==> 1
 endfunction
 

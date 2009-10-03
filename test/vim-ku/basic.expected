@@ -305,8 +305,10 @@ Invalild source: Without key '8bit'
 TEST: Call('s:valid_key_p', {}, '8bit', 0)  ==>  0 ... ok
 Invalild source: Without key 0
 TEST: Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string')  ==>  0 ... ok
+TEST: Call('s:valid_key_p', {'8bit': {}}, '8bit', 'dictionary')  ==>  1 ... ok
+TEST: Call('s:valid_key_p', {'8': function('len')}, '8', 'function')  ==>  1 ... ok
 TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
-Result: 3 / 3
+Result: 5 / 5
 
 ===== Total
-Result: 238 / 238
+Result: 240 / 240
