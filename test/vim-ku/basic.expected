@@ -119,7 +119,9 @@ TEST: ku#define_source({'gather_candidates': F, 'name': 'test'})  ==>  1 ... ok
 TEST: Ref('available_sources')['test']  ==>  {'gather_candidates': F, 'name': 'test', 'sorters': sorters} ... ok
 TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
 TEST: Ref('available_sources')['test']  ==>  {'gather_candidates': G, 'name': 'test', 'sorters': sorters} ... ok
-Result: 10 / 10
+TEST: ku#define_source({'gather_candidates': F, 'name': 'test', 'sorters': [F]})  ==>  1 ... ok
+TEST: Ref('available_sources')['test']  ==>  {'gather_candidates': F, 'name': 'test', 'sorters': [F]} ... ok
+Result: 12 / 12
 
 ===== "ku#omnifunc()"
 TEST: nr2char(getchar(0))  ==>  'A' ... ok
@@ -321,4 +323,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 247 / 247
+Result: 249 / 249

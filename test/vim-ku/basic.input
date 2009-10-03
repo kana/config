@@ -232,6 +232,14 @@ function s:test_ku_define_source()  "{{{1
   Assert Ref('available_sources')['test']
   \ ==> {'gather_candidates': G, 'name': 'test', 'sorters': sorters}
 
+  " With "sorters".
+  Assert ku#define_source({'gather_candidates': F,
+  \ 'name': 'test',
+  \ 'sorters': [F]})
+  \ ==> 1
+  Assert Ref('available_sources')['test']
+  \ ==> {'gather_candidates': F, 'name': 'test', 'sorters': [F]}
+
   " Reset side effect for further tests.
   call Set('available_sources', {})
 endfunction
