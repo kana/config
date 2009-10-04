@@ -210,6 +210,7 @@ function s:test_ku_define_source()  "{{{1
   Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
   Assert Ref('available_sources')['test']
   \ ==> {
+  \ 'filters': [],
   \ 'gather_candidates': F,
   \ 'matchers': matchers,
   \ 'name': 'test',
@@ -220,20 +221,24 @@ function s:test_ku_define_source()  "{{{1
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
   Assert Ref('available_sources')['test']
   \ ==> {
+  \ 'filters': [],
   \ 'gather_candidates': G,
   \ 'matchers': matchers,
   \ 'name': 'test',
   \ 'sorters': sorters,
   \ }
 
-  " With "matchers" and "sorters".
-  Assert ku#define_source({'gather_candidates': F,
+  " With "filters", "matchers" and "sorters".
+  Assert ku#define_source({
+  \ 'filters': [G],
+  \ 'gather_candidates': F,
   \ 'matchers': [G],
   \ 'name': 'test',
   \ 'sorters': [F]})
   \ ==> 1
   Assert Ref('available_sources')['test']
   \ ==> {
+  \ 'filters': [G],
   \ 'gather_candidates': F,
   \ 'matchers': [G],
   \ 'name': 'test',
