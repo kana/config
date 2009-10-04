@@ -284,9 +284,6 @@ gather_candidates	function({args})	(required)
 			candidate.  Keys of such entries are prefixed with
 			"ku__".
 
-			Return value is cached by ku.  Don't reuse the same
-			list for each time whenver this function is called.
-
 						*ku-source-name*
 name			string			(requried)
 			The name of a source.  It must consist of the
