@@ -196,7 +196,9 @@ TEST: Call('s:candidates_from_pattern', '2330', [])  ==>  [] ... ok
 TEST: Call('s:candidates_from_pattern', '2330', [source_a])  ==>  [{'word': '2330'}] ... ok
 TEST: Call('s:candidates_from_pattern', '2330', [source_a, source_b])  ==>  [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}] ... ok
 TEST: Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])  ==>  [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}] ... ok
-Result: 4 / 4
+TEST: Call('s:candidates_from_pattern', '2330', [source_c])  ==>  [{'word': 'p'}, {'word': 'u'}] ... ok
+TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}] ... ok
+Result: 6 / 6
 
 ===== "s:get_key()"
 TEST: typeahead  ==>  '' ... ok
@@ -323,4 +325,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 246 / 246
+Result: 248 / 248

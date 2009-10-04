@@ -238,9 +238,7 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
   for source in a:sources
     let raw_candidates = copy(source.gather_candidates(args))
 
-    " FIXME: Enable the following:
-    " let sorted_candidates = s:sort_candidates(raw_candidates, args, source)
-    let sorted_candidates = raw_candidates
+    let sorted_candidates = s:sort_candidates(raw_candidates, args, source)
 
     call extend(all_candidates, sorted_candidates)
   endfor

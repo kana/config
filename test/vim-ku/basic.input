@@ -401,12 +401,21 @@ function s:test_s_candidates_from_pattern()  "{{{1
   function! source_a.gather_candidates(args)
     return [{'word': a:args.pattern}]
   endfunction
+  let source_a.sorters = []
 
   let source_b = {}
   let source_b.name = 'source_b'
   function! source_b.gather_candidates(args)
     return [{'word': 'b'}, {'word': 'B'}]
   endfunction
+  let source_b.sorters = []
+
+  let source_c = {}
+  let source_c.name = 'source_c'
+  function! source_c.gather_candidates(args)
+    return [{'word': 'u'}, {'word': 'p'}]
+  endfunction
+  let source_c.sorters = [function('ku#sorter#simple#sort')]
 
   " Case 1: No source.
   Assert Call('s:candidates_from_pattern', '2330', []) ==> []
@@ -423,6 +432,14 @@ function s:test_s_candidates_from_pattern()  "{{{1
   " (although this case is not a valid usage)
   Assert Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])
   \ ==> [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
+
+  " Case 5: A source with sorters.
+  Assert Call('s:candidates_from_pattern', '2330', [source_c])
+  \ ==> [{'word': 'p'}, {'word': 'u'}]
+
+  " Case 6: A source with sorters and a source without sorters.
+  Assert Call('s:candidates_from_pattern', '2330', [source_c, source_b])
+  \ ==> [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}]
 endfunction
 
 
