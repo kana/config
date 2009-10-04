@@ -26,16 +26,16 @@
 	l = log
 	l1 = log --pretty=oneline
 	lg = log --graph --pretty=oneline
-	lr = "!$SHELL -c ' \
-	         n=10; \
-	         1=\"${1:-$n}\"; \
-	         if ! [ \"${1##[0-9]*}\" = \"\" ]; then \
-	           t=\"$1\"; \
-	           1=\"${2:-$n}\"; \
-	           2=\"$t\"; \
-	         fi; \
-	         git --no-pager l1 --reverse -\"$1\" \"${2:-HEAD}\" \
-	       ' __dummy__"
+	lr = <<<
+		n=10;
+		1="${1:-$n}";
+		if ! [ "${1##[0-9]*}" = "" ]; then
+		  t="$1";
+		  1="${2:-$n}";
+		  2="$t";
+		fi;
+		git --no-pager l1 --reverse -"$1" "${2:-HEAD}";
+	>>>
 	ls-conflicted-files = ls-files --unmerged
 	m = merge --log
 	m1 = merge --log HEAD@{1}
@@ -47,7 +47,9 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	rh = reset --hard
-	ri = "!$SHELL -c 'git rebase -i \"HEAD~${1:-10}\"' __dummy__"
+	ri = <<<
+		git rebase -i "HEAD~${1:-10}";
+	>>>
 	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
 	s = show
