@@ -277,6 +277,25 @@ SOURCE ATTRIBUTES				*ku-source-attributes*
 
 See also |ku-notation| for {args} and others.
 
+						*ku-source-filters*
+filters			list of funcrefs	(optional)
+			Functions to filter given candidates.  Each function:
+			- Takes {candidates} and {args}.
+			- Returns a filtered version of {candidates}.
+			- May modify a given {candidates} in-place, but must
+			  not modify any value in {candidates}.
+
+			This attribute looks like |ku-source-matchers| but
+			both are different as follows:
+			- "matchers" filter candidates according to a given
+			  pattern.
+			- "filters" filter candidates according to other
+			  information, not a pattern.
+
+			This key is optional; if it is not given, [] is used
+			as the default value.  This means that there is no
+			filtering.
+
 						*ku-source-gather_candidates*
 gather_candidates	function		(required)
 			A function to gather candidates.  It takes one
