@@ -297,7 +297,8 @@ sorters			list of funcrefs	(optional)
 			- Takes {candidates} and {args}, where {candidates} is
 			  a list of candidates.
 			- Returns a sorted version of {candidates}.
-			- May modify a given {candidates} in-place.
+			- May modify a given {candidates} in-place, but must
+			  not modify any value in {candidates}.
 
 			This key is optional; if it is not given,
 			[|ku#sorter#default#sort()|] is used as the default
