@@ -43,10 +43,10 @@ endfunction
 
 
 function! ku#myproject#on_source_enter(source_name_ext)  "{{{2
-  let s:cached_items = map(split(glob('~/working/*/'), '\n'), '{
-  \                      "word": fnamemodify(v:val, ":h:t"),
-  \                      "ku_myproject_path": fnamemodify(v:val, ":p:h")
-  \                    }')
+  let s:cached_items = map(split(glob(ku#make_path('~', 'working', '*', '')),
+  \                              '\n'),
+  \                        '{"word": fnamemodify(v:val, ":h:t"),
+  \                          "ku_myproject_path": fnamemodify(v:val, ":p:h")}')
 endfunction
 
 

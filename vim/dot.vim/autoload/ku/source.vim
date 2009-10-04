@@ -1,5 +1,5 @@
 " ku source: source
-" Version: 0.1.1
+" Version: 0.1.2
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -24,7 +24,8 @@
 " Variables  "{{{1
 
 let s:cached_items = []
-let s:the_old_input_pattern = ''
+let s:original_input_pattern = ''
+let s:original_cursor_position = []
 
 
 
@@ -43,14 +44,16 @@ endfunction
 
 function! ku#source#on_source_enter(source_name_ext)  "{{{2
   let s:cached_items = map(copy(ku#available_sources()), '{"word": v:val}')
-  let s:the_old_input_pattern = ku#set_the_current_input_pattern('')
+  let s:original_cursor_position = getpos('.')
+  let s:original_input_pattern = ku#set_the_current_input_pattern('')
 endfunction
 
 
 
 
 function! ku#source#on_source_leave(source_name_ext)  "{{{2
-  call ku#set_the_current_input_pattern(s:the_old_input_pattern)
+  call ku#set_the_current_input_pattern(s:original_input_pattern)
+  call setpos('.', s:original_cursor_position)
 endfunction
 
 
@@ -99,7 +102,7 @@ endfunction
 function! ku#source#action_open(item)  "{{{3
   if a:item.ku__completed_p
     let source = a:item.word  " FIXME: How about if this source is unavailable?
-    call ku#start(source, s:the_old_input_pattern)
+    call ku#start(source, s:original_input_pattern)
     return 0  " FIXME: action: How about the results of the previous commands?
   else
     return 'Not a valid source: ' . string(a:item.word)

@@ -1,0 +1,6 @@
+foo
+  1 %a   "[No Name]"                    line 1
+Error detected while processing /test/vim-ku/0001.input:
+line    5:
+E492: Not an editor command: cho 'bar'
+baz

@@ -49,6 +49,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-idwintab
 
+Document in HTML format:
+http://kana.github.com/config/vim/idwintab.html
+
 
 
 
@@ -78,12 +81,12 @@ BUGS						*idwintab-bugs*
 ==============================================================================
 CHANGELOG					*idwintab-changelog*
 
-0.0.1	2008-05-22T11:02:37+09:00
+0.0.1	2008-05-22T11:02:37+09:00		*idwintab-changelog-0.0.1*
 	- Fix the bug that IDs are't assigned when |idwintab#load()| is first
 	  called and there is only one tab page or only one window in a tab
 	  page.
 
-0.0.0	2008-04-27T11:02:21+09:00
+0.0.0	2008-04-27T11:02:21+09:00		*idwintab-changelog-0.0.0*
 	- Initial version.
 
 

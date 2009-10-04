@@ -1,8 +1,8 @@
 *fakeclip.txt*	pseudo clipboard register for non-GUI version of Vim
 
-Version 0.2.2
+Version 0.2.3
 Script ID: 2098
-Copyright (C) 2007-2008 kana <http://whileimautomaton.net/>
+Copyright (C) 2007-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -44,9 +44,14 @@ or |quoteplus|) for non-GUI version of Vim on the following platforms:
 - Cygwin
 - Mac OS X
 
+
 fakeclip also supports the following stuff as a pseudo register:
 
 - GNU screen (the paste buffer)
+
+
+FAQ: If you can't copy/paste multibyte characters with the clipboard
+     on Mac OS X, see |fakeclip-multibyte-on-mac|.
 
 
 Requirements:
@@ -54,6 +59,9 @@ Requirements:
 
 Latest version:
 http://github.com/kana/config/commits/vim-fakeclip
+
+Document in HTML format:
+http://kana.github.com/config/vim/fakeclip.html
 
 
 
@@ -198,15 +206,31 @@ different from the ordinary one.
 
 (d) <Plug>(fakeclip-y) in Normal mode doesn't accept "y" as a linewise
 {motion} like the built-in |y|.
-
+						*fakeclip-multibyte-on-mac*
 (e) On Mac OS X, you have to set a proper value to the environment variable
-__CF_USER_TEXT_ENCODING.  It caontins :-separated values and the 2nd value
-means the character encoding which is used to translate string data between
-GUI and Terminal.  For example, if you work on Terminal with UTF-8,
-the 2nd value of __CF_USER_TEXT_ENCODING must be set to "0x08000100".  See the
-following URI for the magic values to specify character encodings:
+__CF_USER_TEXT_ENCODING.  It contins :-separated values:
+
+    - The 1st value means a user id.  It must be the same as the result of the
+      following command:
+>
+          printf '0x%X\n' `id -u`
+<
+    - The 2nd value means the character encoding which is used to translate
+      string data between GUI and Terminal.  For example, if you work on
+      Terminal with UTF-8, the 2nd value of __CF_USER_TEXT_ENCODING must be
+      set to "0x08000100".  See the following URI for the magic values to
+      specify character encodings:
 
 http://developer.apple.com/documentation/CoreFoundation/Reference/CFStringRef/
+
+    For example, the valaue of __CF_USER_TEXT_ENCODING on the author's
+    environment is as follows:
+>
+        0x1F5:0x08000100:0
+<
+(f) On Mac OS X, if you use Vim on GNU screen and you can't copy/paste text
+    with the clipboard, try installing GNU screen from MacPorts with "+darwin"
+    variants.
 
 
 
@@ -214,7 +238,14 @@ http://developer.apple.com/documentation/CoreFoundation/Reference/CFStringRef/
 ==============================================================================
 CHANGELOG					*fakeclip-changelog*
 
-0.2.2	2008-10-24T19:54:35+09:00/2009-03-25T21:17:25+09:00
+0.2.3	2009-05-06T03:03:25+09:00		*fakeclip-changelog-0.2.3*
+	- Revise the documents on Mac OS X specific problems.  See
+	  |fakeclip-multibyte-on-mac| if you can't copy/paste with the
+	  clipboard on Mac OS X.
+	- Fix a bug that fakeclip uses wrong function to escape file-like
+	  arguments to shells.  Thanks @thinca for reporting this.
+
+0.2.2	2009-03-25T21:17:25+09:00		*fakeclip-changelog-0.2.2*
 	- Add equivalents for the following commands:
 	  |]p|, |]P|, |[p|, |[P|, |i_CTRL-R_CTRL-R|, |i_CTRL-R_CTRL-O|,
 	  |i_CTRL-R_CTRL-P|, |c_CTRL-R_CTRL-R|, |c_CTRL-R_CTRL-O|.
@@ -222,21 +253,21 @@ CHANGELOG					*fakeclip-changelog*
 	  depended on some assumptions.  Thanks for someone who wrote about
 	  this bug at the Vim Tips Wiki.
 
-0.2.1	2008-10-24T16:18:32+09:00
+0.2.1	2008-10-24T16:18:32+09:00		*fakeclip-changelog-0.2.1*
 	- Refactor.
 	- Support the paste buffer of GNU screen as a pseudo register.
 
-0.2.0	2008-07-14T14:09:49+09:00
+0.2.0	2008-07-14T14:09:49+09:00		*fakeclip-changelog-0.2.0*
 	- Rename as "fakeclip" (the old name is "cygclip").
 	- Support Mac OS X.
 	- Autoloaded.
 
-0.1	2007-12-27T22:47:34+09:00
+0.1	2007-12-27T22:47:34+09:00		*fakeclip-changelog-0.1*
 	- Modify to automatically define the default key mappings as this
 	  plugin is loaded.  See |g:fakeclip_no_default_key_mappings| for how
 	  to suppress this behavior.
 
-0.0	2007-08-13
+0.0	2007-08-13				*fakeclip-changelog-0.0*
 	- First release.
 
 

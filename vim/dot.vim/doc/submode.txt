@@ -74,6 +74,9 @@ Requirements:
 Latest version:
 http://github.com/kana/config/commits/vim-submode
 
+Document in HTML format:
+http://kana.github.com/config/vim/submode.html
+
 
 
 
@@ -238,7 +241,7 @@ PROBLEMS ~
 ==============================================================================
 CHANGELOG					*submode-changelog*
 
-0.0.0	2008-11-27T01:58:43+09:00
+0.0.0	2008-11-27T01:58:43+09:00		*submode-changelog-0.0.0*
 	- Initial version.
 
 
