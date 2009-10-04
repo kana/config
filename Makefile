@@ -75,8 +75,8 @@ GROUP_DOTS_FILES=\
   dot.zprofile \
   dot.zshrc
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
-dot.gitconfig: dot.gitconfig.in
-	sed -e 's!= ~/!= $(HOME)/!' <$< >$@
+dot.gitconfig: dot.gitconfig.in gitconfig-compiler.rb
+	ruby gitconfig-compiler.rb <$< >$@
 
 GROUP_DOTS_summer_FILES=\
   dot.mayu
