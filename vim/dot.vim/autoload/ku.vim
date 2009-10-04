@@ -380,13 +380,14 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
   " FIXME: Cache a result. / Use cache if available.
 
   let args = {'pattern': a:pattern}
-  let candidates = []
+  let all_candidates = []
 
   for source in a:sources
-    call extend(candidates, copy(source.gather_candidates(args)))
+    let raw_candidates = copy(source.gather_candidates(args))
+    call extend(all_candidates, raw_candidates)
   endfor
 
-  return candidates
+  return all_candidates
 endfunction
 
 
