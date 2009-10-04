@@ -100,14 +100,14 @@ function! ku#define_source(definition)  "{{{2
   let new_source = extend(copy(s:NULL_SOURCE), a:definition, 'force')
   let _ = s:TRUE
 
+  let _ = _ && ((!has_key(new_source, 'filters'))
+  \             || s:valid_key_p(new_source, 'filters', 'list of functions'))
   let _ = _ && s:valid_key_p(new_source, 'gather_candidates', 'function')
+  let _ = _ && ((!has_key(new_source, 'matchers'))
+  \             || s:valid_key_p(new_source, 'matchers', 'list of functions'))
   let _ = _ && s:valid_key_p(new_source, 'name', 'string')
   let _ = _ && ((!has_key(new_source, 'sorters'))
   \             || s:valid_key_p(new_source, 'sorters', 'list of functions'))
-  let _ = _ && ((!has_key(new_source, 'matchers'))
-  \             || s:valid_key_p(new_source, 'matchers', 'list of functions'))
-  let _ = _ && ((!has_key(new_source, 'filters'))
-  \             || s:valid_key_p(new_source, 'filters', 'list of functions'))
   if !_
     return s:FALSE
   endif
