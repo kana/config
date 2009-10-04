@@ -243,7 +243,7 @@ this source.  The same can be said for other sources.
 
 SOURCE SCRIPT CONVENTION			*ku-source-script-convention*
 
-Shouces should consist of the following scripts:
+A source should consist of the following scripts:
 
 autoload/ku/source/{name}.vim
 	Delay to load the details of sources.
@@ -254,7 +254,7 @@ plugin/ku/source/{name}.vim
 
 Here {source} is the name of a source.
 
-FIXME: Details for "/", "_", "-" in the name of a source.
+FIXME: Details if the name of a source contains "/", "_" and/or "-".
 
 
 						*ku-source-{args}*
