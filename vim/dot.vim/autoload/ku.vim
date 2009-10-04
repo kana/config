@@ -237,9 +237,13 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
   for source in a:sources
     let raw_candidates = copy(source.gather_candidates(args))
 
-    " FIXME: Filter candidates.
-    " let filtered_candidates = s:filter_candidates(raw_candidates,args,source)
-    let filtered_candidates = raw_candidates
+    " FIXME: Filter candidates with mathers.
+    " let matched_candidates = ...
+    let matched_candidates = raw_candidates
+
+    " FIXME: Filter candidates with filters.
+    " let filtered_candidates = ...
+    let filtered_candidates = matched_candidates
 
     let sorted_candidates = s:sort_candidates(filtered_candidates,args,source)
 
