@@ -429,6 +429,7 @@ function s:test_s_candidates_from_pattern()  "{{{1
   endfunction
   let source_a.sorters = []
   let source_a.matchers = [function('Test_matcher_always')]
+  let source_a.filters = []
 
   let source_b = {}
   let source_b.name = 'source_b'
@@ -437,6 +438,7 @@ function s:test_s_candidates_from_pattern()  "{{{1
   endfunction
   let source_b.sorters = []
   let source_b.matchers = [function('Test_matcher_always')]
+  let source_b.filters = []
 
   let source_c = {}
   let source_c.name = 'source_c'
@@ -445,6 +447,7 @@ function s:test_s_candidates_from_pattern()  "{{{1
   endfunction
   let source_c.sorters = [function('ku#sorter#simple#sort')]
   let source_c.matchers = [function('Test_matcher_always')]
+  let source_c.filters = []
 
   " Case 1: No source.
   Assert Call('s:candidates_from_pattern', '2330', []) ==> []

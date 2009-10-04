@@ -245,9 +245,8 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
 
     let matched_candidates = s:matched_candidates(raw_candidates, args, source)
 
-    " FIXME: Filter candidates with filters.
-    " let filtered_candidates = ...
-    let filtered_candidates = matched_candidates
+    let filtered_candidates
+    \ = s:filter_candidates(matched_candidates, args, source)
 
     let sorted_candidates = s:sort_candidates(filtered_candidates,args,source)
 
