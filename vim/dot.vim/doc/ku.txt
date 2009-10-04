@@ -257,15 +257,6 @@ Here {source} is the name of a source.
 FIXME: Details if the name of a source contains "/", "_" and/or "-".
 
 
-						*ku-source-{args}*
-In the following descriptions on |ku-source-definition|, {args} means
-a dictionary which has the following content:
-
-pattern			string
-			The currrent pattern which user inputs in the ku
-			buffer.
-
-
 SOURCE DEFINITION				*ku-source-definition*
 
 A source can be defined by |ku#define_source()|.  It takes the definition of
@@ -275,6 +266,8 @@ details of available attributes.
 
 
 SOURCE ATTRIBUTES				*ku-source-attributes*
+
+See also |ku-notation| for {args} and others.
 
 						*ku-source-gather_candidates*
 gather_candidates	function({args})	(required)
@@ -321,6 +314,18 @@ sorters			list of funcrefs	(optional)
 			This key is optional; if it is not given,
 			[|ku#sorter#default#sort()|] is used as the default
 			value.
+
+
+NOTATION					*ku-notation*
+
+{args}						*ku-notation-{args}*
+			A dictionary to contains various information to deal
+			with candidates.  The details of this dictionary are
+			as follows:
+
+			"pattern"	(string)
+				The currrent pattern which user inputs in
+				|the-ku-buffer|.
 
 
 
