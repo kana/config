@@ -360,6 +360,32 @@ PLANNED FEATURES ~
 
 - Add more useful |ku-functions-sorters|.
 
+- Smart chaching.
+
+- Component completion like bluewind
+  <http://cspace.s2.xrea.com/software/bluewind/>.
+
+- In-line completion in any buffer, not only in |the-ku-buffer|.
+
+- More source attributes:
+  
+  - maximum_number_of_candidates
+
+  - maximum_time_to_gather_candidates
+
+  - required_pattern_length
+
+- |ku#start()|: Accept a list of source definitions instead of the names of
+  sources which must be defined by |ku#define_source()| beforehand.
+
+- Accept various types of values for attributes of |ku-source-definition| for
+  convenience:
+
+  - Accept a |Funncref| as "[a_funcref]", instead a list of |Funcref|s.
+
+  - Accept a string which represents the name of the function,
+    instead of a |Funcref| to the function.
+
 
 ETC ~
 
