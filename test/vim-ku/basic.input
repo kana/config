@@ -480,15 +480,15 @@ endfunction
 function s:test_s_filter_candidates()  "{{{1
   Title "s:filter_candidates()"
 
-  function! Test_filter_odd(candidates, args)
-    return filter(a:candidates, 'len(v:val.word) % 2')
+  function! Test_filter_odd(lcandidates, args)
+    return filter(a:lcandidates, 'len(v:val.word) % 2')
   endfunction
 
-  function! Test_filter_m(candidates, args)
-    return filter(a:candidates, 'v:val.word =~# "m"')
+  function! Test_filter_m(lcandidates, args)
+    return filter(a:lcandidates, 'v:val.word =~# "m"')
   endfunction
 
-  let RAW_CANDIDATES = [
+  let RAW_LCANDIDATES = [
   \     {'word': 'a'},
   \     {'word': 'lm'},
   \     {'word': 'bcd'},
@@ -518,7 +518,7 @@ function s:test_s_filter_candidates()  "{{{1
   \   }
 
   " With no filter.
-  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)
+  Assert Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)
   \ ==> [
   \ {'word': 'a'},
   \ {'word': 'lm'},
@@ -528,14 +528,14 @@ function s:test_s_filter_candidates()  "{{{1
   \ ]
 
   " With filter M
-  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M)
+  Assert Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M)
   \ ==> [
   \ {'word': 'lm'},
   \ {'word': 'mnopq'},
   \ ]
 
   " With filter ODD
-  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)
+  Assert Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)
   \ ==> [
   \ {'word': 'a'},
   \ {'word': 'bcd'},
@@ -543,12 +543,12 @@ function s:test_s_filter_candidates()  "{{{1
   \ ]
 
   " With filter M-ODD and ODD-M
-  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD)
+  Assert Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)
   \ ==> [
   \ {'word': 'mnopq'},
   \ ]
-  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD_M)
-  \ ==> Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD)
+  Assert Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD_M)
+  \ ==> Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)
 endfunction
 
 
@@ -676,7 +676,7 @@ function s:test_s_matched_candidates()  "{{{1
     return len(a:candidate.word) % 2
   endfunction
 
-  let RAW_CANDIDATES = [
+  let RAW_LCANDIDATES = [
   \     {'word': 'mk'},
   \     {'word': 'iue'},
   \     {'word': 'kr'},
@@ -703,26 +703,26 @@ function s:test_s_matched_candidates()  "{{{1
   \   }
 
   " With no matcher.
-  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)
+  Assert Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS,SOURCE_EMPTY)
   \ ==> [
   \ ]
 
   " With the default matcher.
-  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES),ARGS,SOURCE_DEFAULT)
+  Assert Call('s:matched_candidates',copy(RAW_LCANDIDATES),ARGS,SOURCE_DEFAULT)
   \ ==> [
   \ {'word': 'mk'},
   \ {'word': 'oom'},
   \ ]
 
   " With odd matcher.
-  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)
+  Assert Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)
   \ ==> [
   \ {'word': 'iue'},
   \ {'word': 'oom'},
   \ ]
 
   " With the default matcher + odd matcher.
-  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_D_O)
+  Assert Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)
   \ ==> [
   \ {'word': 'mk'},
   \ {'word': 'oom'},
@@ -855,11 +855,11 @@ endfunction
 function s:test_s_sort_candidates()  "{{{1
   Title "s:sort_candidates()"
 
-  function! Test_sorter_reverse(candidates, args)
-    return reverse(a:candidates)
+  function! Test_sorter_reverse(lcandidates, args)
+    return reverse(a:lcandidates)
   endfunction
 
-  let RAW_CANDIDATES = [
+  let RAW_LCANDIDATES = [
   \     {'word': 'a'},
   \     {'word': 'l'},
   \     {'word': 'b'},
@@ -885,7 +885,7 @@ function s:test_s_sort_candidates()  "{{{1
   \   }
 
   " Sort with no sorter.
-  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)
+  Assert Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)
   \ ==> [
   \ {'word': 'a'},
   \ {'word': 'l'},
@@ -895,7 +895,7 @@ function s:test_s_sort_candidates()  "{{{1
   \ ]
 
   " Sort with simple sorter.
-  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_SIMPLE)
+  Assert Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_SIMPLE)
   \ ==> [
   \ {'word': 'a'},
   \ {'word': 'b'},
@@ -905,7 +905,7 @@ function s:test_s_sort_candidates()  "{{{1
   \ ]
 
   " Sort with reverse.
-  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_REVERSE)
+  Assert Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_REVERSE)
   \ ==> [
   \ {'word': 'm'},
   \ {'word': 'u'},
@@ -915,7 +915,7 @@ function s:test_s_sort_candidates()  "{{{1
   \ ]
 
   " Sort with simple sorter, then sort with reverse
-  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_S_R)
+  Assert Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_R)
   \ ==> [
   \ {'word': 'u'},
   \ {'word': 'm'},

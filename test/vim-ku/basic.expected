@@ -201,11 +201,11 @@ TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'w
 Result: 6 / 6
 
 ===== "s:filter_candidates()"
-TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M)  ==>  [ {'word': 'lm'}, {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'a'}, {'word': 'bcd'}, {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD)  ==>  [ {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD_M)  ==>  Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD) ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M)  ==>  [ {'word': 'lm'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'a'}, {'word': 'bcd'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)  ==>  [ {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD_M)  ==>  Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD) ... ok
 Result: 5 / 5
 
 ===== "s:get_key()"
@@ -253,10 +253,10 @@ TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 8 / 8
 
 ===== "s:matched_candidates()"
-TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ ] ... ok
-TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES),ARGS,SOURCE_DEFAULT)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, ] ... ok
-TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'iue'}, {'word': 'oom'}, ] ... ok
-TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_D_O)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, {'word': 'iue'}, {'word': 'oom'}, ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS,SOURCE_EMPTY)  ==>  [ ] ... ok
+TEST: Call('s:matched_candidates',copy(RAW_LCANDIDATES),ARGS,SOURCE_DEFAULT)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'iue'}, {'word': 'oom'}, ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, {'word': 'iue'}, {'word': 'oom'}, ] ... ok
 Result: 4 / 4
 
 ===== "s:new_session()"
@@ -311,10 +311,10 @@ TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 14 / 14
 
 ===== "s:sort_candidates()"
-TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'l'}, {'word': 'b'}, {'word': 'u'}, {'word': 'm'}, ] ... ok
-TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_SIMPLE)  ==>  [ {'word': 'a'}, {'word': 'b'}, {'word': 'l'}, {'word': 'm'}, {'word': 'u'}, ] ... ok
-TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_REVERSE)  ==>  [ {'word': 'm'}, {'word': 'u'}, {'word': 'b'}, {'word': 'l'}, {'word': 'a'}, ] ... ok
-TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_S_R)  ==>  [ {'word': 'u'}, {'word': 'm'}, {'word': 'l'}, {'word': 'b'}, {'word': 'a'}, ] ... ok
+TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'l'}, {'word': 'b'}, {'word': 'u'}, {'word': 'm'}, ] ... ok
+TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_SIMPLE)  ==>  [ {'word': 'a'}, {'word': 'b'}, {'word': 'l'}, {'word': 'm'}, {'word': 'u'}, ] ... ok
+TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_REVERSE)  ==>  [ {'word': 'm'}, {'word': 'u'}, {'word': 'b'}, {'word': 'l'}, {'word': 'a'}, ] ... ok
+TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_R)  ==>  [ {'word': 'u'}, {'word': 'm'}, {'word': 'l'}, {'word': 'b'}, {'word': 'a'}, ] ... ok
 Result: 4 / 4
 
 ===== "s:valid_key_p()"

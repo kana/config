@@ -224,8 +224,8 @@ function! ku#omnifunc(findstart, base)  "{{{2
     return getline('.')[:0] ==# s:PROMPT ? len(s:PROMPT) : 0
   else
     let pattern = a:base  " Assumes that a:base doesn't conntain the prompt.
-    let candidates = s:candidates_from_pattern(pattern, s:session.sources)
-    return candidates
+    let lcandidates = s:candidates_from_pattern(pattern, s:session.sources)
+    return lcandidates
   endif
 endfunction
 
@@ -257,8 +257,8 @@ endfunction
 
 
 
-function! s:filter_candidates(candidates, args, source)  "{{{2
-  let filtered_candidates = a:candidates
+function! s:filter_candidates(lcandidates, args, source)  "{{{2
+  let filtered_candidates = a:lcandidates
 
   for Filter in a:source.filters
     let filtered_candidates = Filter(filtered_candidates, a:args)
@@ -361,12 +361,12 @@ endfunction
 
 
 
-function! s:matched_candidates(candidates, args, source)  "{{{2
+function! s:matched_candidates(lcandidates, args, source)  "{{{2
   let matched_candidates = []
 
   for Matches_p in a:source.matchers
     call extend(matched_candidates,
-    \           filter(copy(a:candidates), 'Matches_p(v:val, a:args)'))
+    \           filter(copy(a:lcandidates), 'Matches_p(v:val, a:args)'))
     unlet Matches_p  " To avoid E705.
   endfor
 
@@ -433,8 +433,8 @@ endfunction
 
 
 
-function! s:sort_candidates(candidates, args, source)  "{{{2
-  let sorted_candidates = a:candidates
+function! s:sort_candidates(lcandidates, args, source)  "{{{2
+  let sorted_candidates = a:lcandidates
 
   for Sort in a:source.sorters
     let sorted_candidates = Sort(sorted_candidates, a:args)
