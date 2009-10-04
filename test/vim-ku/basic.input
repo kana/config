@@ -420,6 +420,7 @@ function s:test_s_candidates_from_pattern()  "{{{1
   \ ==> [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}]
 
   " Case 4: Multiple sources - duplicate sources.
+  " (although this case is not a valid usage)
   Assert Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])
   \ ==> [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
 endfunction
