@@ -241,7 +241,8 @@ all buffers as candidates.  You can choose and take an action on a buffer with
 this source.  The same can be said for other sources.
 
 
-						*ku-source-script-convention*
+SOURCE SCRIPT CONVENTION			*ku-source-script-convention*
+
 Shouces should consist of the following scripts:
 
 autoload/ku/source/{name}.vim
@@ -265,11 +266,13 @@ pattern			string
 			buffer.
 
 
-						*ku-source-definition*
+SOURCE DEFINITION				*ku-source-definition*
+
 A source can be defined by |ku#define_source()|.  It takes the definition of
 a source which is expressed as a dictionary.  In the dictionary, each key is
 called "attribute" of the source.  See also |ku-source-attributes| for the
 details of available attributes.
+
 
 SOURCE ATTRIBUTES				*ku-source-attributes*
 
