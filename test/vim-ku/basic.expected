@@ -293,6 +293,13 @@ TEST: nr2char(getchar(0))  ==>  'A' ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 14 / 14
 
+===== "s:sort_candidates()"
+TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'l'}, {'word': 'b'}, {'word': 'u'}, {'word': 'm'}, ] ... ok
+TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_SIMPLE)  ==>  [ {'word': 'a'}, {'word': 'b'}, {'word': 'l'}, {'word': 'm'}, {'word': 'u'}, ] ... ok
+TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_REVERSE)  ==>  [ {'word': 'm'}, {'word': 'u'}, {'word': 'b'}, {'word': 'l'}, {'word': 'a'}, ] ... ok
+TEST: Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_S_R)  ==>  [ {'word': 'u'}, {'word': 'm'}, {'word': 'l'}, {'word': 'b'}, {'word': 'a'}, ] ... ok
+Result: 4 / 4
+
 ===== "s:valid_key_p()"
 Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_s_valid_key_p..Call..<SNR>45_valid_key_p:
 line    5:
@@ -316,4 +323,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 242 / 242
+Result: 246 / 246

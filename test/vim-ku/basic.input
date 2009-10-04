@@ -660,6 +660,82 @@ endfunction
 
 
 
+function s:test_s_sort_candidates()  "{{{1
+  Title "s:sort_candidates()"
+
+  function! Test_sorter_reverse(candidates, args)
+    return reverse(a:candidates)
+  endfunction
+
+  let RAW_CANDIDATES = [
+  \     {'word': 'a'},
+  \     {'word': 'l'},
+  \     {'word': 'b'},
+  \     {'word': 'u'},
+  \     {'word': 'm'},
+  \   ]
+  let ARGS = {
+  \     'pattern': '',
+  \   }
+    " The following sources are actually invalid, but it's enough to test.
+  let SOURCE_EMPTY = {
+  \     'sorters': [],
+  \   }
+  let SOURCE_REVERSE = {
+  \     'sorters': [function('Test_sorter_reverse')],
+  \   }
+  let SOURCE_S_R = {
+  \     'sorters': [function('ku#sorter#simple#sort'),
+  \                 function('Test_sorter_reverse')],
+  \   }
+  let SOURCE_SIMPLE = {
+  \     'sorters': [function('ku#sorter#simple#sort')],
+  \   }
+
+  " Sort with no sorter.
+  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)
+  \ ==> [
+  \ {'word': 'a'},
+  \ {'word': 'l'},
+  \ {'word': 'b'},
+  \ {'word': 'u'},
+  \ {'word': 'm'},
+  \ ]
+
+  " Sort with simple sorter.
+  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_SIMPLE)
+  \ ==> [
+  \ {'word': 'a'},
+  \ {'word': 'b'},
+  \ {'word': 'l'},
+  \ {'word': 'm'},
+  \ {'word': 'u'},
+  \ ]
+
+  " Sort with reverse.
+  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_REVERSE)
+  \ ==> [
+  \ {'word': 'm'},
+  \ {'word': 'u'},
+  \ {'word': 'b'},
+  \ {'word': 'l'},
+  \ {'word': 'a'},
+  \ ]
+
+  " Sort with simple sorter, then sort with reverse
+  Assert Call('s:sort_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_S_R)
+  \ ==> [
+  \ {'word': 'u'},
+  \ {'word': 'm'},
+  \ {'word': 'l'},
+  \ {'word': 'b'},
+  \ {'word': 'a'},
+  \ ]
+endfunction
+
+
+
+
 function s:test_s_valid_key_p()  "{{{1
   Title "s:valid_key_p()"
 

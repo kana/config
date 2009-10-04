@@ -229,7 +229,7 @@ endfunction
 
 
 function! s:candidates_from_pattern(pattern, sources)  "{{{2
-  " FIXME: Sort (and filter) candidates.
+  " FIXME: Filter candidates.
   " FIXME: Cache a result. / Use cache if available.
 
   let args = {'pattern': a:pattern}
@@ -237,7 +237,12 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
 
   for source in a:sources
     let raw_candidates = copy(source.gather_candidates(args))
-    call extend(all_candidates, raw_candidates)
+
+    " FIXME: Enable the following:
+    " let sorted_candidates = s:sort_candidates(raw_candidates, args, source)
+    let sorted_candidates = raw_candidates
+
+    call extend(all_candidates, sorted_candidates)
   endfor
 
   return all_candidates
@@ -388,6 +393,20 @@ function! s:quit_session()  "{{{2
   let s:session.now_quitting_p = s:FALSE
 
   return s:TRUE
+endfunction
+
+
+
+
+function! s:sort_candidates(raw_candidates, args, source)  "{{{2
+  let sorted_candidates = a:raw_candidates
+
+  for Sort in a:source.sorters
+    let sorted_candidates = Sort(sorted_candidates, a:args)
+    unlet Sort  " To avoid E705.
+  endfor
+
+  return sorted_candidates
 endfunction
 
 
