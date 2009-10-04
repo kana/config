@@ -94,8 +94,8 @@ GROUP_DOTS_FILES=\
   dot.zprofile \
   dot.zshrc
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
-dot.gitconfig: dot.gitconfig.in
-	sed -e 's!= ~/!= $(HOME)/!' <$< >$@
+dot.gitconfig: dot.gitconfig.in gitconfig-compiler.rb
+	ruby gitconfig-compiler.rb <$< >$@
 
 GROUP_DOTS_summer_FILES=\
   dot.mayu
@@ -217,6 +217,7 @@ vim/dot.vim/syntax/scheme.vim: gauche-generate-syntax-vim.scm \
 ALL_PACKAGES=\
   all \
   cereja-all \
+  gitconfig-compiler \
   opera-all \
   vim-all \
   vim-altercmd \
@@ -279,6 +280,10 @@ PACKAGE_all_FILES=./Makefile \
 PACKAGE_cereja_all_ARCHIVE=cereja-all
 PACKAGE_cereja_all_BASE=cereja
 PACKAGE_cereja_all_FILES=$(GROUP_CEREJA_FILES)
+
+PACKAGE_gitconfig_compiler_ARCHIVE=gitconfig-compiler
+PACKAGE_gitconfig_compiler_BASE=.
+PACKAGE_gitconfig_compiler_FILES=gitconfig-compiler.rb
 
 PACKAGE_opera_all_ARCHIVE=opera-all
 PACKAGE_opera_all_BASE=opera
@@ -840,6 +845,15 @@ test/vim-gtd/%.output: \
 		vim/dot.vim/ftplugin/gtd.vim \
 		vim/dot.vim/syntax/gtd.vim
 	@./test/tester-vim $< &>$@
+
+
+# gitconfig-compiler  #{{{2
+TESTS_gitconfig_compiler = basic
+
+test/gitconfig-compiler/%.output: \
+		test/gitconfig-compiler/%.input \
+		gitconfig-compiler.rb
+	@ruby gitconfig-compiler.rb <$< 2>&1 | sed "s|$$HOME|HOME|" >$@
 
 
 # vim-ku  #{{{2
