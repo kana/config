@@ -29,7 +29,6 @@ function s:test_ku_available_source_p()  "{{{1
 
   let F = function('function')
   let G = function('type')
-  let sorters = [function('ku#sorter#default#sort')]
   call Set('available_sources', {})
 
   " Initial state.
@@ -41,8 +40,6 @@ function s:test_ku_available_source_p()  "{{{1
 
   " Define a source (ordinary case).
   Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
-  Assert ku#available_sources()['test']
-  \ ==> {'gather_candidates': F, 'name': 'test', 'sorters': sorters}
   Assert ku#available_source_names() ==> ['test']
   Assert ku#available_source_p('test') ==> 1
   Assert ku#available_source_p('abc') ==> 0
@@ -50,8 +47,6 @@ function s:test_ku_available_source_p()  "{{{1
 
   " Override an existing source.
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
-  Assert ku#available_sources()['test']
-  \ ==> {'gather_candidates': G, 'name': 'test', 'sorters': sorters}
   Assert ku#available_source_names() ==> ['test']
   Assert ku#available_source_p('test') ==> 1
   Assert ku#available_source_p('abc') ==> 0
@@ -59,8 +54,6 @@ function s:test_ku_available_source_p()  "{{{1
 
   " Define more source.
   Assert ku#define_source({'gather_candidates': F, 'name': 'abc'}) ==> 1
-  Assert ku#available_sources()['abc']
-  \ ==> {'gather_candidates': F, 'name': 'abc', 'sorters': sorters}
   Assert ku#available_source_names() ==> ['abc', 'test']
   Assert ku#available_source_p('test') ==> 1
   Assert ku#available_source_p('abc') ==> 1
@@ -78,7 +71,6 @@ function s:test_ku_available_source_names()  "{{{1
 
   let F = function('function')
   let G = function('type')
-  let sorters = [function('ku#sorter#default#sort')]
   call Set('available_sources', {})
 
   " Initial state.
@@ -87,20 +79,14 @@ function s:test_ku_available_source_names()  "{{{1
 
   " Define a source (ordinary case).
   Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
-  Assert ku#available_sources()['test']
-  \ ==> {'gather_candidates': F, 'name': 'test', 'sorters': sorters}
   Assert ku#available_source_names() ==> ['test']
 
   " Override an existing source.
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
-  Assert ku#available_sources()['test']
-  \ ==> {'gather_candidates': G, 'name': 'test', 'sorters': sorters}
   Assert ku#available_source_names() ==> ['test']
 
   " Define more source.
   Assert ku#define_source({'gather_candidates': F, 'name': 'abc'}) ==> 1
-  Assert ku#available_sources()['abc']
-  \ ==> {'gather_candidates': F, 'name': 'abc', 'sorters': sorters}
   Assert ku#available_source_names() ==> ['abc', 'test']
 
   " Reset side effect for further tests.
@@ -115,7 +101,6 @@ function s:test_ku_available_sources()  "{{{1
 
   let F = function('function')
   let G = function('type')
-  let sorters = [function('ku#sorter#default#sort')]
   call Set('available_sources', {})
 
   " Initial state.
@@ -127,19 +112,17 @@ function s:test_ku_available_sources()  "{{{1
   Assert ku#define_source({'gather_candidates': 0, 'name': 0}) ==> 0
   Assert ku#define_source({'gather_candidates': 0, 'name': 'test'}) ==> 0
   Assert ku#define_source({'gather_candidates': F, 'name': 0}) ==> 0
-  Assert ku#available_sources() ==> {}
+  Assert sort(keys(ku#available_sources())) ==> []
   Assert ku#available_sources() ==> Ref('available_sources')
 
   " Define a source (ordinary case).
   Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
-  Assert ku#available_sources()['test']
-  \ ==> {'gather_candidates': F, 'name': 'test', 'sorters': sorters}
+  Assert sort(keys(ku#available_sources())) ==> ['test']
   Assert ku#available_sources() ==> Ref('available_sources')
 
   " Override an existing source.
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
-  Assert ku#available_sources()['test']
-  \ ==> {'gather_candidates': G, 'name': 'test', 'sorters': sorters}
+  Assert sort(keys(ku#available_sources())) ==> ['test']
   Assert ku#available_sources() ==> Ref('available_sources')
 
   " Reset side effect for further tests.
@@ -564,7 +547,6 @@ function s:test_s_new_session()  "{{{1
 
   let F = function('function')
   let G = function('type')
-  let sorters = [function('ku#sorter#default#sort')]
   call Set('available_sources', {})
   let original_completeopt = &completeopt
   let original_curwinnr = winnr()
@@ -573,11 +555,8 @@ function s:test_s_new_session()  "{{{1
   " Define sources.
   Assert ku#define_source({'gather_candidates': F, 'name': 'abc'}) ==> 1
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
-  Assert ku#available_sources()['abc']
-  \ ==> {'gather_candidates': F, 'name': 'abc', 'sorters': sorters}
-  Assert ku#available_sources()['test']
-  \ ==> {'gather_candidates': G, 'name': 'test', 'sorters': sorters}
-  Assert ku#available_source_names() ==> ['abc', 'test']
+  Assert ku#available_source_p('abc') ==> 1
+  Assert ku#available_source_p('test') ==> 1
 
   " Create a session.
   let session_a = Call('s:new_session', [])
