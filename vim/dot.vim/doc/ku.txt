@@ -319,8 +319,7 @@ sorters			list of funcrefs	(optional)
 			Functions to sort candidates.
 
 			Each function in the list:
-			- Takes {candidates} and {args}, where {candidates} is
-			  a list of candidates.
+			- Takes {candidates} and {args}.
 			- Returns a sorted version of {candidates}.
 			- May modify a given {candidates} in-place, but must
 			  not modify any value in {candidates}.
