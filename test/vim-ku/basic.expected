@@ -244,6 +244,13 @@ TEST: nr2char(getchar(0))  ==>  'A' ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 8 / 8
 
+===== "s:matched_candidates()"
+TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES),ARGS,SOURCE_DEFAULT)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'iue'}, {'word': 'oom'}, ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_D_O)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, {'word': 'iue'}, {'word': 'oom'}, ] ... ok
+Result: 4 / 4
+
 ===== "s:new_session()"
 TEST: ku#define_source({'gather_candidates': F, 'name': 'abc'})  ==>  1 ... ok
 TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
@@ -325,4 +332,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 248 / 248
+Result: 252 / 252

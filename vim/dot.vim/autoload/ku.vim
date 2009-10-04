@@ -349,6 +349,21 @@ endfunction
 
 
 
+function! s:matched_candidates(candidates, args, source)  "{{{2
+  let matched_candidates = []
+
+  for Matches_p in a:source.matchers
+    call extend(matched_candidates,
+    \           filter(copy(a:candidates), 'Matches_p(v:val, a:args)'))
+    unlet Matches_p  " To avoid E705.
+  endfor
+
+  return matched_candidates
+endfunction
+
+
+
+
 function! s:new_session(source_names)  "{{{2
   " Assumption: All sources in a:source_names are available.
   let session = {}

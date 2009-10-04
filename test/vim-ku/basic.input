@@ -577,6 +577,71 @@ endfunction
 
 
 
+function s:test_s_matched_candidates()  "{{{1
+  Title "s:matched_candidates()"
+
+  function! Test_matcher_odd(candidate, args)
+    return len(a:candidate.word) % 2
+  endfunction
+
+  let RAW_CANDIDATES = [
+  \     {'word': 'mk'},
+  \     {'word': 'iue'},
+  \     {'word': 'kr'},
+  \     {'word': 'oom'},
+  \     {'word': 'tk'},
+  \     {'word': 'oo'},
+  \   ]
+  let ARGS = {
+  \     'pattern': 'm',
+  \   }
+    " The following sources are actually invalid, but it's enough to test.
+  let SOURCE_D_O = {
+  \     'matchers': [function('ku#matcher#default#matches_p'),
+  \                  function('Test_matcher_odd')],
+  \   }
+  let SOURCE_DEFAULT = {
+  \     'matchers': [function('ku#matcher#default#matches_p')],
+  \   }
+  let SOURCE_EMPTY = {
+  \     'matchers': [],
+  \   }
+  let SOURCE_ODD = {
+  \     'matchers': [function('Test_matcher_odd')],
+  \   }
+
+  " With no matcher.
+  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)
+  \ ==> [
+  \ ]
+
+  " With the default matcher.
+  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES),ARGS,SOURCE_DEFAULT)
+  \ ==> [
+  \ {'word': 'mk'},
+  \ {'word': 'oom'},
+  \ ]
+
+  " With odd matcher.
+  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)
+  \ ==> [
+  \ {'word': 'iue'},
+  \ {'word': 'oom'},
+  \ ]
+
+  " With the default matcher + odd matcher.
+  Assert Call('s:matched_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_D_O)
+  \ ==> [
+  \ {'word': 'mk'},
+  \ {'word': 'oom'},
+  \ {'word': 'iue'},
+  \ {'word': 'oom'},
+  \ ]
+endfunction
+
+
+
+
 function s:test_s_new_session()  "{{{1
   Title "s:new_session()"
 
