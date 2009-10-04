@@ -192,6 +192,7 @@ function s:test_ku_define_source()  "{{{1
 
   let F = function('function')
   let G = function('type')
+  let matchers = [function('ku#matcher#default#matches_p')]
   let sorters = [function('ku#sorter#default#sort')]
   call Set('available_sources', {})
 
@@ -208,20 +209,36 @@ function s:test_ku_define_source()  "{{{1
   " Define a source (ordinary case).
   Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
   Assert Ref('available_sources')['test']
-  \ ==> {'gather_candidates': F, 'name': 'test', 'sorters': sorters}
+  \ ==> {
+  \ 'gather_candidates': F,
+  \ 'matchers': matchers,
+  \ 'name': 'test',
+  \ 'sorters': sorters,
+  \ }
 
   " Override an existing source.
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
   Assert Ref('available_sources')['test']
-  \ ==> {'gather_candidates': G, 'name': 'test', 'sorters': sorters}
+  \ ==> {
+  \ 'gather_candidates': G,
+  \ 'matchers': matchers,
+  \ 'name': 'test',
+  \ 'sorters': sorters,
+  \ }
 
-  " With "sorters".
+  " With "matchers" and "sorters".
   Assert ku#define_source({'gather_candidates': F,
+  \ 'matchers': [G],
   \ 'name': 'test',
   \ 'sorters': [F]})
   \ ==> 1
   Assert Ref('available_sources')['test']
-  \ ==> {'gather_candidates': F, 'name': 'test', 'sorters': [F]}
+  \ ==> {
+  \ 'gather_candidates': F,
+  \ 'matchers': [G],
+  \ 'name': 'test',
+  \ 'sorters': [F],
+  \ }
 
   " Reset side effect for further tests.
   call Set('available_sources', {})

@@ -38,6 +38,7 @@ endif
 
 
 let s:NULL_SOURCE = {
+\   'matchers': [function('ku#matcher#default#matches_p')],
 \   'sorters': [function('ku#sorter#default#sort')],
 \ }
 
@@ -102,6 +103,8 @@ function! ku#define_source(definition)  "{{{2
   let _ = _ && s:valid_key_p(new_source, 'name', 'string')
   let _ = _ && ((!has_key(new_source, 'sorters'))
   \             || s:valid_key_p(new_source, 'sorters', 'list of functions'))
+  let _ = _ && ((!has_key(new_source, 'matchers'))
+  \             || s:valid_key_p(new_source, 'matchers', 'list of functions'))
   if !_
     return s:FALSE
   endif

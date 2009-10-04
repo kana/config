@@ -110,11 +110,11 @@ Invalild source: Key 'name' must be string but given value is 0
 TEST: ku#define_source({'gather_candidates': F, 'name': 0})  ==>  0 ... ok
 TEST: Ref('available_sources')  ==>  {} ... ok
 TEST: ku#define_source({'gather_candidates': F, 'name': 'test'})  ==>  1 ... ok
-TEST: Ref('available_sources')['test']  ==>  {'gather_candidates': F, 'name': 'test', 'sorters': sorters} ... ok
+TEST: Ref('available_sources')['test']  ==>  { 'gather_candidates': F, 'matchers': matchers, 'name': 'test', 'sorters': sorters, } ... ok
 TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
-TEST: Ref('available_sources')['test']  ==>  {'gather_candidates': G, 'name': 'test', 'sorters': sorters} ... ok
-TEST: ku#define_source({'gather_candidates': F, 'name': 'test', 'sorters': [F]})  ==>  1 ... ok
-TEST: Ref('available_sources')['test']  ==>  {'gather_candidates': F, 'name': 'test', 'sorters': [F]} ... ok
+TEST: Ref('available_sources')['test']  ==>  { 'gather_candidates': G, 'matchers': matchers, 'name': 'test', 'sorters': sorters, } ... ok
+TEST: ku#define_source({'gather_candidates': F, 'matchers': [G], 'name': 'test', 'sorters': [F]})  ==>  1 ... ok
+TEST: Ref('available_sources')['test']  ==>  { 'gather_candidates': F, 'matchers': [G], 'name': 'test', 'sorters': [F], } ... ok
 Result: 12 / 12
 
 ===== "ku#omnifunc()"
