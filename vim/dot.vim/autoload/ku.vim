@@ -228,8 +228,19 @@ endfunction
 
 
 
-function! s:ku_active_p()  "{{{2
-  return bufexists(s:ku_bufnr) && bufwinnr(s:ku_bufnr) != -1
+function! s:candidates_from_pattern(pattern, sources)  "{{{2
+  " FIXME: Sort (and filter) candidates.
+  " FIXME: Cache a result. / Use cache if available.
+
+  let args = {'pattern': a:pattern}
+  let all_candidates = []
+
+  for source in a:sources
+    let raw_candidates = copy(source.gather_candidates(args))
+    call extend(all_candidates, raw_candidates)
+  endfor
+
+  return all_candidates
 endfunction
 
 
@@ -318,6 +329,13 @@ endfunction
 
 
 
+function! s:ku_active_p()  "{{{2
+  return bufexists(s:ku_bufnr) && bufwinnr(s:ku_bufnr) != -1
+endfunction
+
+
+
+
 function! s:new_session(source_names)  "{{{2
   " Assumption: All sources in a:source_names are available.
   let session = {}
@@ -370,24 +388,6 @@ function! s:quit_session()  "{{{2
   let s:session.now_quitting_p = s:FALSE
 
   return s:TRUE
-endfunction
-
-
-
-
-function! s:candidates_from_pattern(pattern, sources)  "{{{2
-  " FIXME: Sort (and filter) candidates.
-  " FIXME: Cache a result. / Use cache if available.
-
-  let args = {'pattern': a:pattern}
-  let all_candidates = []
-
-  for source in a:sources
-    let raw_candidates = copy(source.gather_candidates(args))
-    call extend(all_candidates, raw_candidates)
-  endfor
-
-  return all_candidates
 endfunction
 
 
