@@ -275,6 +275,24 @@ gather_candidates	function		(required)
 			argument {args} and it must return {candidates}
 			according to {args}.
 
+						*ku-source-matchers*
+matchers		list of funcrefs	(optional)
+			Functions to determine whether a given candidate
+			matches with a given pattern.  Each function:
+			- Takes {candidate} and {args}.
+			- Returns true if {candidate} matches with {args},
+			  returns false otherwise.
+
+			A {candidate} is treated as matched one 
+			if any function returns true for the {candidate}.
+
+			Only matched {candidate}s will be displayed
+			|ins-completion-menu|.
+
+			This key is optional; if it is not given, {candidate}
+			is treated as matched one if {candidate}.word contains
+			{args}.pattern.
+
 						*ku-source-name*
 name			string			(requried)
 			The name of a source.  It must consist of the
