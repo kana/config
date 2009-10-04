@@ -200,6 +200,14 @@ TEST: Call('s:candidates_from_pattern', '2330', [source_c])  ==>  [{'word': 'p'}
 TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}] ... ok
 Result: 6 / 6
 
+===== "s:filter_candidates()"
+TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M)  ==>  [ {'word': 'lm'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'a'}, {'word': 'bcd'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD)  ==>  [ {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD_M)  ==>  Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD) ... ok
+Result: 5 / 5
+
 ===== "s:get_key()"
 TEST: typeahead  ==>  '' ... ok
 TEST: Call('s:get_key')  ==>  'a' ... ok
@@ -332,4 +340,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 252 / 252
+Result: 257 / 257

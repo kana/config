@@ -257,6 +257,20 @@ endfunction
 
 
 
+function! s:filter_candidates(candidates, args, source)  "{{{2
+  let filtered_candidates = a:candidates
+
+  for Filter in a:source.filters
+    let filtered_candidates = Filter(filtered_candidates, a:args)
+    unlet Filter  " To avoid E705.
+  endfor
+
+  return filtered_candidates
+endfunction
+
+
+
+
 function! s:get_key()  "{{{2
   " Alternative getchar() to get a logical key such as <F1> and <M-{x}>.
   let k = ''

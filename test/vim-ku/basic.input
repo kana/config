@@ -469,6 +469,83 @@ endfunction
 
 
 
+function s:test_s_filter_candidates()  "{{{1
+  Title "s:filter_candidates()"
+
+  function! Test_filter_odd(candidates, args)
+    return filter(a:candidates, 'len(v:val.word) % 2')
+  endfunction
+
+  function! Test_filter_m(candidates, args)
+    return filter(a:candidates, 'v:val.word =~# "m"')
+  endfunction
+
+  let RAW_CANDIDATES = [
+  \     {'word': 'a'},
+  \     {'word': 'lm'},
+  \     {'word': 'bcd'},
+  \     {'word': 'uvwx'},
+  \     {'word': 'mnopq'},
+  \   ]
+  let ARGS = {
+  \     'pattern': '',
+  \   }
+    " The following sources are actually invalid, but it's enough to test.
+  let SOURCE_EMPTY = {
+  \     'filters': [],
+  \   }
+  let SOURCE_M = {
+  \     'filters': [function('Test_filter_m')],
+  \   }
+  let SOURCE_M_ODD = {
+  \     'filters': [function('Test_filter_m'),
+  \                 function('Test_filter_odd')],
+  \   }
+  let SOURCE_ODD = {
+  \     'filters': [function('Test_filter_odd')],
+  \   }
+  let SOURCE_ODD_M = {
+  \     'filters': [function('Test_filter_odd'),
+  \                 function('Test_filter_m')],
+  \   }
+
+  " With no filter.
+  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_EMPTY)
+  \ ==> [
+  \ {'word': 'a'},
+  \ {'word': 'lm'},
+  \ {'word': 'bcd'},
+  \ {'word': 'uvwx'},
+  \ {'word': 'mnopq'},
+  \ ]
+
+  " With filter M
+  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M)
+  \ ==> [
+  \ {'word': 'lm'},
+  \ {'word': 'mnopq'},
+  \ ]
+
+  " With filter ODD
+  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD)
+  \ ==> [
+  \ {'word': 'a'},
+  \ {'word': 'bcd'},
+  \ {'word': 'mnopq'},
+  \ ]
+
+  " With filter M-ODD and ODD-M
+  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD)
+  \ ==> [
+  \ {'word': 'mnopq'},
+  \ ]
+  Assert Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_ODD_M)
+  \ ==> Call('s:filter_candidates', copy(RAW_CANDIDATES), ARGS, SOURCE_M_ODD)
+endfunction
+
+
+
+
 function s:test_s_get_key()  "{{{1
   Title "s:get_key()"
 
