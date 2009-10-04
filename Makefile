@@ -367,6 +367,7 @@ PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
+  vim/dot.vim/autoload/ku/matcher/default.vim \
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim \
   vim/dot.vim/doc/ku.txt \
@@ -840,13 +841,14 @@ test/vim-gtd/%.output: \
 
 
 # vim-ku  #{{{2
-TESTS_vim_ku = sorter-simple sorter-default basic
+TESTS_vim_ku = sorter-simple sorter-default matcher-default basic
 
 test/vim-ku/%.output: \
 		test/vim-ku/%.input \
 		test/tester-vim \
 		test/libtest.vim \
 		vim/dot.vim/autoload/ku.vim \
+		vim/dot.vim/autoload/ku/matcher/default.vim \
 		vim/dot.vim/autoload/ku/sorter/default.vim \
 		vim/dot.vim/autoload/ku/sorter/simple.vim \
 		vim/dot.vim/plugin/ku.vim

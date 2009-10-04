@@ -1,0 +1,13 @@
+===== "ku#matcher#default#matches_p()"
+TEST: !!ku#matcher#default#matches_p({'word': 'rail'}, args)  ==>  1 ... ok
+TEST: !!ku#matcher#default#matches_p({'word': 'a rail'}, args)  ==>  1 ... ok
+TEST: !!ku#matcher#default#matches_p({'word': 'rail gun'}, args)  ==>  1 ... ok
+TEST: !!ku#matcher#default#matches_p({'word': 'a rail gun'}, args)  ==>  1 ... ok
+TEST: !!ku#matcher#default#matches_p({'word': 'arailgun'}, args)  ==>  1 ... ok
+TEST: !!ku#matcher#default#matches_p({'word': ''}, args)  ==>  0 ... ok
+TEST: !!ku#matcher#default#matches_p({'word': 'reil gan'}, args)  ==>  0 ... ok
+TEST: !!ku#matcher#default#matches_p({'word': 'RAILgun'}, args)  ==>  0 ... ok
+Result: 8 / 8
+
+===== Total
+Result: 8 / 8
