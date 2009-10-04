@@ -270,8 +270,11 @@ SOURCE ATTRIBUTES				*ku-source-attributes*
 See also |ku-notation| for {args} and others.
 
 						*ku-source-gather_candidates*
-gather_candidates	function({args})	(required)
-			Return a list of candidates according to {args}.
+gather_candidates	function		(required)
+			A function to gather candidates.  It takes one
+			argument {args} and it must return a list of
+			candidates according to {args}.
+
 			A candidate is represented as a dictionary.  See
 			|complete-items| for the details.
 
