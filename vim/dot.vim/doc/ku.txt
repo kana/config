@@ -157,6 +157,13 @@ ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
 			user input.  The default value is '', so nothing will
 			be inserted.
 
+MATCHERS					*ku-functions-matchers*
+
+					      *ku#matcher#default#matches_p()*
+ku#matcher#default#matches_p({candidate}, {args})
+			Return true if {candidate}.word contains
+			{args}.patatern.  Otherwise return false.
+
 SORTERS						*ku-functions-sorters*
 
 ku#sorter#default#sort({candidates}, {args})	*ku#sorter#default#sort()*
@@ -289,9 +296,9 @@ matchers		list of funcrefs	(optional)
 			Only matched {candidate}s will be displayed
 			|ins-completion-menu|.
 
-			This key is optional; if it is not given, {candidate}
-			is treated as matched one if {candidate}.word contains
-			{args}.pattern.
+			This key is optional; if it is not given,
+			[|ku#matcher#default#matches_()|] is used as the
+			default value.
 
 						*ku-source-name*
 name			string			(requried)
