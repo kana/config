@@ -31,6 +31,7 @@ Interface		|ku-interface|
   Commands		  |ku-commands|
   Functions		  |ku-functions|
     Core		    |ku-functions-core|
+    Matchers		    |ku-functions-matchers|
     Sorters		    |ku-functions-sorters|
   Key Mapings		  |ku-key-mappings|
   Pattern		  |ku-pattern|
