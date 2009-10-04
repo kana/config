@@ -433,8 +433,8 @@ endfunction
 
 
 
-function! s:sort_candidates(raw_candidates, args, source)  "{{{2
-  let sorted_candidates = a:raw_candidates
+function! s:sort_candidates(candidates, args, source)  "{{{2
+  let sorted_candidates = a:candidates
 
   for Sort in a:source.sorters
     let sorted_candidates = Sort(sorted_candidates, a:args)
