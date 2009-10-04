@@ -267,8 +267,11 @@ pattern			string
 
 						*ku-source-definition*
 A source can be defined by |ku#define_source()|.  It takes the definition of
-a source which is expressed as a dictionary.  The details of the dictionary
-are as follows:
+a source which is expressed as a dictionary.  In the dictionary, each key is
+called "attribute" of the source.  See also |ku-source-attributes| for the
+details of available attributes.
+
+SOURCE ATTRIBUTES				*ku-source-attributes*
 
 						*ku-source-gather_candidates*
 gather_candidates	function({args})	(required)
