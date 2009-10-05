@@ -35,6 +35,7 @@ def main()
         puts %Q[' __dummy__"]
       else
         puts line.
+          gsub("\\") {"\\\\"}.
           gsub('"') {'\"'}.
           gsub("'") {"'\\\\''"}.
           sub("\n") {" \\\n"}

@@ -3,7 +3,7 @@ home-directory-notation = HOME/...
 strange-home-directory-notation = HOME = ~
 inline-shell-script = "!$SHELL -c ' \
 	\" \
-	\ \
+	\\ \
 	'\\'' \
 ' __dummy__"
 not-an-inline-shell-script = <<< white album >>>
