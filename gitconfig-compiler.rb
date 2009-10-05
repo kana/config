@@ -38,7 +38,7 @@ def main()
           gsub("\\") {"\\\\"}.
           gsub('"') {'\"'}.
           gsub("'") {"'\\\\''"}.
-          sub("\n") {" \\\n"}
+          sub("\n") {"\\n\\\n"}
       end
     else
       raise RuntimeError, "Invalid context #{context.inspect}"
