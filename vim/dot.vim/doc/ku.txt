@@ -260,7 +260,7 @@ doc/ku-source-{name}.txt
 plugin/ku/source/{name}.vim
 	Define sources.
 
-Here {source} is the name of a source.
+Here {name} is the name of a source.
 
 FIXME: Details if the name of a source contains "/", "_" and/or "-".
 
