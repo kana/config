@@ -244,6 +244,9 @@ NAMED KEY MAPPINGS				*ku-named-key-mappings*
 			(2) take an input of a single key stroke,
 			(3) then do the action corresponding to the key.
 
+			See also |ku#custom_key()| to customize key bindings
+			to choose an action.
+
 <Plug>(ku-do-the-default-action)      	    *<Plug>(ku-do-the-default-action)*
 			Do the default action on the currently selected
 			candidate, then quit the current session.
