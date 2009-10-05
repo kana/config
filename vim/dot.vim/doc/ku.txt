@@ -198,7 +198,7 @@ ku#sorter#default#sort({lcandidates}, {args})	*ku#sorter#default#sort()*
 ku#sorter#default#use({sorters})		*ku#sorter#default#use()*
 			Use {sorters} as the default methods to sort
 			candidats.  {sorters} is a list of funcrefs.
-			See also |ku-source-sorters| for the details.
+			See also |ku-attribute-sorters| for the details.
 
 			Return value is a list of funcrefs of the old sorters.
 
@@ -300,7 +300,7 @@ SOURCE ATTRIBUTES				*ku-source-attributes*
 
 See also |ku-notation| for {args} and others.
 
-						*ku-source-filters*
+						*ku-attribute-filters*
 filters			list of funcrefs	(optional)
 			Functions to filter given candidates.  Each function:
 			- Takes {lcandidates} and {args}.
@@ -308,7 +308,7 @@ filters			list of funcrefs	(optional)
 			- May modify a given {lcandidates} in-place, but must
 			  not modify any value in {lcandidates}.
 
-			This attribute looks like |ku-source-matchers| but
+			This attribute looks like |ku-attribute-matchers| but
 			both are different as follows:
 			- "matchers" filter candidates according to a given
 			  pattern.
@@ -319,13 +319,13 @@ filters			list of funcrefs	(optional)
 			as the default value.  This means that there is no
 			filtering.
 
-						*ku-source-gather_candidates*
+					      *ku-attribute-gather_candidates*
 gather_candidates	function		(required)
 			A function to gather candidates.  It takes one
 			argument {args} and it must return {lcandidates}
 			according to {args}.
 
-						*ku-source-kinds*
+						*ku-attribute-kinds*
 kinds			list of strings		(required)
 			A list of the names of |ku-kind|s.  Each kind is used
 			to calculate |ku-action-table| and |ku-key-table| for
@@ -337,7 +337,7 @@ kinds			list of strings		(required)
 			action "open" is defined in action tables of both
 			kinds, the one defined for "git" is used.
 
-						*ku-source-matchers*
+						*ku-attribute-matchers*
 matchers		list of funcrefs	(optional)
 			Functions to determine whether a given candidate
 			matches with a given pattern.  Each function:
@@ -355,7 +355,7 @@ matchers		list of funcrefs	(optional)
 			[|ku#matcher#default#matches_()|] is used as the
 			default value.
 
-						*ku-source-name*
+						*ku-attribute-name*
 name			string			(requried)
 			The name of a source.  It must consist of the
 			following characters:
@@ -369,7 +369,7 @@ name			string			(requried)
 			- "buffer", "history" and "metarw/git" are valid.
 			- "BadOne", "!@#$%^&*()_[]{}-|" and "" are not valid.
 
-						*ku-source-sorters*
+						*ku-attribute-sorters*
 sorters			list of funcrefs	(optional)
 			Functions to sort candidates.
 
@@ -440,8 +440,8 @@ kind						*ku-kind*
 			See also:
 			- |ku#define_kind()|
 			- |ku-action-table|
+			- |ku-attribute-kinds|
 			- |ku-key-table|
-			- |ku-source-kinds|
 
 ku session					*ku-session*
 			A ku session is a period of time while |the-ku-window|
