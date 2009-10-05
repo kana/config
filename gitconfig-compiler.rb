@@ -34,7 +34,7 @@ def main()
         context = :normal
         puts %Q[' __dummy__"]
       else
-        puts line.gsub('"', '\"').sub("\n", " \\\n")
+        puts line.gsub('"', '\"').gsub("'") {"'\\\\''"}.sub("\n", " \\\n")
       end
     else
       raise RuntimeError, "Invalid context #{context.inspect}"
