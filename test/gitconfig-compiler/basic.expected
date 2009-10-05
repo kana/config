@@ -2,11 +2,11 @@ ordinary-alias = foo bar baz
 home-directory-notation = HOME/...
 strange-home-directory-notation = HOME = ~
 inline-shell-script = "!$SHELL -c ' \
-	\" \
-	\ \
-	' \
+	\"\n\
+	\\\n\
+	'\\''\n\
 ' __dummy__"
 not-an-inline-shell-script = <<< white album >>>
 home-directory-notation-not-expanded-in-inline-shell-script = "!$SHELL -c ' \
-	= ~ \
+	= ~\n\
 ' __dummy__"
