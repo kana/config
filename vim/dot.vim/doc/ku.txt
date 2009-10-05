@@ -128,6 +128,13 @@ FUNCTIONS					*ku-functions*
 
 CORE						*ku-functions-core*
 
+ku#custom_action({kind}, {name}, {func})	*ku#custom_action()*
+ku#custom_action({kind}, {name}, {kind2}, {name2})
+			FIXME: Not written yet.
+
+ku#custom_key({kind}, {key}, {action-name})	*ku#custom_key()*
+			FIXME: Not written yet.
+
 					 *ku#define_default_ui_key_mappings()*
 ku#define_default_ui_key_mappings({override-p})
 			Define default ui key mappings to use ku in the
@@ -427,6 +434,15 @@ FIXME: Description on customization.
 
 ==============================================================================
 TERMS						*ku-terms*
+
+action						*ku-action*
+			FIXME: Not written yet.
+
+action table					*ku-action-table*
+			FIXME: Not written yet.
+
+key table					*ku-key-table*
+			FIXME: Not written yet.
 
 kind						*ku-kind*
 			A "kind" is a kind of candidates.  For example, source
