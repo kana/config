@@ -140,6 +140,29 @@ ku#define_default_ui_key_mappings({override-p})
 			See |ku-default-ui-key-mappings| for the details of
 			key bindings.
 
+ku#define_kind({definition})			*ku#define_kind()*
+			Define a new kind (|ku-kind|).
+
+			{definition} is a dictionary which describes the
+			details of the kind to be defined.  Valid keys and
+			their meanings are as follows:
+
+			default_action_table	dictionary	(required)
+				The default action table for candidates of
+				a kind.  See |ku-action-table| for the
+				details.
+
+			default_key_table	dictionary	(required)
+				The default key table for candidates of
+				a kind.  See |ku-key-table| for the details.
+
+			name			string		(required)
+				The name of a kind.  The following characters
+				can be used in a name:
+				- a-z
+				- 0-9
+				- _
+
 ku#define_source({definition})			*ku#define_source()*
 			Define a new source.
 
@@ -302,6 +325,18 @@ gather_candidates	function		(required)
 			argument {args} and it must return {lcandidates}
 			according to {args}.
 
+						*ku-source-kinds*
+kinds			list of strings		(required)
+			A list of the names of |ku-kind|s.  Each kind is used
+			to calculate |ku-action-table| and |ku-key-table| for
+			a candidate.
+
+			If there is a conflict of actions or keys, a value for
+			the kind which is prior to all other kinds in the list
+			is used.  For example, if kinds == ["git", "file"] and
+			action "open" is defined in action tables of both
+			kinds, the one defined for "git" is used.
+
 						*ku-source-matchers*
 matchers		list of funcrefs	(optional)
 			Functions to determine whether a given candidate
@@ -392,6 +427,21 @@ FIXME: Description on customization.
 
 ==============================================================================
 TERMS						*ku-terms*
+
+kind						*ku-kind*
+			A "kind" is a kind of candidates.  For example, source
+			"buffer" gathers candidates corresponding to buffers
+			in Vim, so the "kind" of the candidates is "buffer".
+
+			A "kind" is used to calculate available actions and
+			key bindings to |<Plug>(ku-choose-and-do-an-action)|
+			for a candidate.
+
+			See also:
+			- |ku#define_kind()|
+			- |ku-action-table|
+			- |ku-key-table|
+			- |ku-source-kinds|
 
 ku session					*ku-session*
 			A ku session is a period of time while |the-ku-window|
