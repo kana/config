@@ -37,6 +37,7 @@ Interface		|ku-interface|
   Pattern		  |ku-pattern|
   Default Sources	  |ku-default-sources|
   Common Action Table	  |ku-common-action-table|
+  Common Key Table	  |ku-common-key-table|
 Sources			|ku-sources|
 Customizing		|ku-customizing|
 Terms			|ku-terms|
@@ -390,6 +391,39 @@ tab-right					*ku-common-action-tab-right*
 			the current tab page, while "tab-Left" and "tab-Right"
 			open a new tab page at the most left or at the most
 			right.
+
+
+------------------------------------------------------------------------------
+COMMON KEY TABLE				*ku-common-key-table*
+
+For |<Plug>(ku-choose-and-do-an-action)|, the following key bindings are used
+for all candidates by default.  See also |ku-key-table|.
+
+Key		Action ~
+--------	--------
+/		cd		|ku-common-action-cd|
+:		ex		|ku-common-action-ex|
+;		ex		|ku-common-action-ex|
+<C-c>		cancel		|ku-common-action-cancel|
+<C-h>		left		|ku-common-action-left|
+<C-j>		below		|ku-common-action-below|
+<C-k>		above		|ku-common-action-above|
+<C-l>		right		|ku-common-action-right|
+<C-m>		default		|ku-common-action-default|
+<C-r>		select		|ku-common-action-select|
+<C-t>		tab-Right	|ku-common-action-tab-Right|
+<Esc>		cancel		|ku-common-action-cancel|
+<Return>	default		|ku-common-action-default|
+?		lcd		|ku-common-action-lcd|
+H		Left		|ku-common-action-Left|
+J		Bottom		|ku-common-action-Bottom|
+K		Top		|ku-common-action-Top|
+L		Right		|ku-common-action-Right|
+h		left		|ku-common-action-left|
+j		below		|ku-common-action-below|
+k		above		|ku-common-action-above|
+l		right		|ku-common-action-right|
+t		tab-Right	|ku-common-action-tab-Right|
 
 
 
