@@ -484,7 +484,25 @@ action table					*ku-action-table*
 			- |ku-common-action-table|
 
 key table					*ku-key-table*
-			FIXME: Not written yet.
+			A key table is a dictionary which contains key
+			bindings to choose an action for
+			|<Plug>(ku-choose-and-do-an-action)|.
+
+			Each key is a string which represents a key to type,
+			and each value is a string which is the name of an
+			action.
+
+			Like |ku-action-table|, there are 4 key tables for
+			each kind of candidates:
+
+			(1) Custom {kind} key table
+			(2) Default {kind} key table
+			(3) Custom common key table
+			(4) Default common key table
+
+			See also:
+			- |ku#custom_key()|
+			- |ku-common-key-table|
 
 kind						*ku-kind*
 			A "kind" is a kind of candidates.  For example, source
