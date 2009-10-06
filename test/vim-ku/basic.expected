@@ -56,6 +56,9 @@ TEST: sort(keys(ku#available_sources()))  ==>  ['test'] ... ok
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Result: 14 / 14
 
+===== "ku#custom_key()"
+Result: 0 / 0
+
 ===== "ku#define_default_ui_key_mappings()"
 TEST: maparg('<C-c>', 'i')  ==>  'QUIT-INSERT' ... ok
 TEST: maparg('<C-c>', 'n')  ==>  'QUIT-NORMAL' ... ok
@@ -199,6 +202,9 @@ TEST: Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])  ==>
 TEST: Call('s:candidates_from_pattern', '2330', [source_c])  ==>  [{'word': 'p'}, {'word': 'u'}] ... ok
 TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}] ... ok
 Result: 6 / 6
+
+===== "s:custom_key_table()"
+Result: 0 / 0
 
 ===== "s:filter_candidates()"
 TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok

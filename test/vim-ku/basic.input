@@ -132,6 +132,15 @@ endfunction
 
 
 
+function s:test_ku_custom_key()  "{{{1
+  Title "ku#custom_key()"
+
+  " FIXME: NTY
+endfunction
+
+
+
+
 function s:test_ku_define_default_ui_key_mappings()  "{{{1
   Title "ku#define_default_ui_key_mappings()"
 
@@ -472,6 +481,15 @@ function s:test_s_candidates_from_pattern()  "{{{1
   " Case 6: A source with sorters and a source without sorters.
   Assert Call('s:candidates_from_pattern', '2330', [source_c, source_b])
   \ ==> [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}]
+endfunction
+
+
+
+
+function s:test_s_custom_key_table()  "{{{1
+  Title "s:custom_key_table()"
+
+  " FIXME: NTY
 endfunction
 
 

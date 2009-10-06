@@ -58,6 +58,10 @@ let s:PROMPT = '>'
 " source-name => source-definition
 let s:available_sources = {}
 
+" kind-name => custom-key-table
+" custom-key-table = key-table = {key => action-name}
+let s:custom_kind_key_tables = {}
+
 " buffer number of the ku buffer
 let s:ku_bufnr = s:INVALID_BUFNR
 
@@ -73,6 +77,19 @@ let s:session = {}
 
 
 " Interface  "{{{1
+function! ku#custom_key(kind_name, key, action_name)  "{{{2
+  let custom_kind_key_table = s:custom_kind_key_table(a:kind_name)
+  let old_action_name = get(custom_kind_key_table, a:key, 0)
+
+  " FIXME: How about checking availability of a:action_name?
+  let custom_kind_key_table[a:key] = a:action_name
+
+  return old_action_name
+endfunction
+
+
+
+
 function! ku#define_default_ui_key_mappings(override_p)  "{{{2
   " Define key mappings for the current buffer.
   let f = {}
@@ -252,6 +269,17 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
   endfor
 
   return all_candidates
+endfunction
+
+
+
+
+function! s:custom_kind_key_table(kind_name)  "{{{2
+  if !has_key(s:custom_kind_key_tables, a:kind_name)
+    let s:custom_kind_key_tables[a:kind_name] = {}
+  endif
+
+  return s:custom_kind_key_tables[a:kind_name]
 endfunction
 
 
