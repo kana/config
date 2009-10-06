@@ -25,7 +25,7 @@ def main()
     if context == :normal
       if script_begin? line
         context = :script
-        puts without_script_begin_marker(line) + %q["!$SHELL -c ' \\]
+        puts without_script_begin_marker(line) + %q["!$SHELL -c '\\]
       else
         puts line.sub('= ~', "= #{ENV['HOME']}")
       end
