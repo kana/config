@@ -36,6 +36,7 @@ Interface		|ku-interface|
   Key Mapings		  |ku-key-mappings|
   Pattern		  |ku-pattern|
   Default Sources	  |ku-default-sources|
+  Common Action Table	  |ku-common-action-table|
 Sources			|ku-sources|
 Customizing		|ku-customizing|
 Terms			|ku-terms|
@@ -290,6 +291,105 @@ DEFAULT SOURCES					*ku-default-sources*
 The following sources are included with packages of ku:
 
 FIXME: Links to the documents of the default sources.
+
+
+------------------------------------------------------------------------------
+COMMON ACTION TABLE				*ku-common-action-table*
+
+The following actions are available for all candidates by default.
+See also |ku-action-table|.
+
+cancel						*ku-common-action-cancel*
+			Do nothing for a given candidate.
+			In other words, cancel to take an action.
+
+cd						*ku-common-action-cd*
+			Do |:cd| to a directory which is corresponding to
+			a given candidate.
+
+			If a candidate seems to be a directory,
+			do :cd to that one.
+
+			If a candidate seems to be a file,
+			do :cd to the directory which contains the file.
+
+			Otherwise, does nothing and show a warning message.
+
+default						*ku-common-action-default*
+			Do the default action on a given candidate.  This
+			action is executed via
+			|<Plug>(ku-do-the-default-action)|.
+
+			By default, this action is just an alias of
+			|ku-common-action-open|.
+
+ex						*ku-common-action-ex*
+			Enter Command-line mode, insert a whitespace and
+			a given candidate, then move the cursor to the
+			beginning of the command line.  This action is useful
+			to execute an Ex command on a candidate.
+
+			For example, if a candidate is "src/main.c", this
+			action sets up the following state (here "|" means the
+			cursor position):
+>
+				:| src/main.c
+<
+
+lcd						*ku-common-action-lcd*
+			Like |ku-common-action-cd|,
+			but do |:lcd| instead of |:cd|.
+
+nop						*ku-common-action-nop*
+			Do nothing.  This is a special action to delete a key
+			binding in |ku-key-table|.  If a key is bound to this
+			action by |ku#custom_key()|, the key does nothing and
+			it is not listed by
+			|<Plug>(ku-choose-and-do-an-action)|.
+
+			This is a pseudo action; it cannot be overriden.
+
+open						*ku-common-action-open*
+			Do "open" a given candidate.  This action is just
+			a placeholder and it is overridden by each kind of
+			candidates.  So what this action does is varied for
+			each kind.  See the document of each kind for what its
+			"open" action does.
+
+select						*ku-common-action-select*
+			Cancel to choose an actioin by
+			|<Plug>(ku-choose-and-do-an-action)| and return to the
+			previous state of |the-ku-buffer| to select a given
+			candidate.
+
+Bottom						*ku-common-action-Bottom*
+Left						*ku-common-action-Left*
+Right						*ku-common-action-Right*
+Top						*ku-common-action-Top*
+above						*ku-common-action-above*
+below						*ku-common-action-below*
+left						*ku-common-action-left*
+right						*ku-common-action-right*
+			Open a new window, then do |ku-common-action-open|.
+
+			"above", "below", "left" and "right" open a new window
+			next to the current window (like |:leftabove| split).
+
+			"Bottom", "Left", "Right" and "Top" open a new window
+			at the outermost side (like |:topleft| split).
+
+tab-Left					*ku-common-action-tab-Left*
+tab-Right					*ku-common-action-tab-Right*
+tab-left					*ku-common-action-tab-left*
+tab-right					*ku-common-action-tab-right*
+			Like "left", "right", "Left" or "Right",
+			but open a new tab page instead of a window,
+			then do |ku-action-open|.
+
+			"tab-left" and "tab-right" open a new tab page next to
+			the current tab page, while "tab-Left" and "tab-Right"
+			open a new tab page at the most left or at the most
+			right.
 
 
 
