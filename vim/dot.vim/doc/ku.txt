@@ -693,8 +693,6 @@ BUGS						*ku-bugs*
 
 KNOWN ISSUES ~
 
-- |<Plug>(ku-choose-an-action)| is not available at this moment.
-
 - |the-ku-buffer| doesn't work well if a preview window exists in the current
   tabpage.  |ins-completion-menu| is not properly displayed.
 
