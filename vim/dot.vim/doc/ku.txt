@@ -148,7 +148,12 @@ ku#custom_action({kind}, {name}, {kind2}, {name2})
 			See also |ku-action-table|.
 
 ku#custom_key({kind}, {key}, {action-name})	*ku#custom_key()*
-			FIXME: Not written yet.
+			Define a key binding in custom {kind} key table.
+			{key} is a string which represents a key to type, and
+			{action-name} is a string which represents the name of
+			an action.
+
+			See also |ku-key-table|.
 
 					 *ku#define_default_ui_key_mappings()*
 ku#define_default_ui_key_mappings({override-p})
