@@ -439,10 +439,49 @@ FIXME: Description on customization.
 TERMS						*ku-terms*
 
 action						*ku-action*
-			FIXME: Not written yet.
+			An action is a pair of the name of the actiton and
+			a function which is executed for a currently selected
+			candidate in |the-ku-buffer|.
+
+			See also:
+			- |ku-action-table|
+			- |<Plug>(ku-do-the-default-action)|
+			- |<Plug>(ku-choose-and-do-an-action)|
 
 action table					*ku-action-table*
-			FIXME: Not written yet.
+			An action table is a dictionary which contains
+			available actions for a kind (|ku-kind|) of
+			candidates.
+
+			Each key is a string which is the name of an action,
+			and each value is a |Funcref| to the function which is
+			executed whenever the corresponding action is taken on
+			a candidate.
+
+			There are 4 action tables for each kind:
+
+			(1) Custom {kind} action table
+			(2) Default {kind} action table
+			(3) Custom common action table
+			(4) Default common action table
+
+			Default action tables ((2) and (4)) contain the
+			available actions by default, while custom action
+			tables ((1) and (3)) contain user's own actions.
+
+			{kind} action tables ((1) and (2)) contain available
+			actions for {kind} candidates, while common action
+			tables contain available actions for all candidates.
+
+			If there is the same name action in two or more
+			tables, the one in the table which is prior to all
+			other tables in the above list is used.  For example,
+			if "default" action is found in (2) and (4), the one
+			in (2) is used, not the one in (4).
+
+			See also:
+			- |ku#custom_action()|
+			- |ku-common-action-table|
 
 key table					*ku-key-table*
 			FIXME: Not written yet.
