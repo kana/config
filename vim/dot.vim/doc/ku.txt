@@ -130,7 +130,22 @@ CORE						*ku-functions-core*
 
 ku#custom_action({kind}, {name}, {func})	*ku#custom_action()*
 ku#custom_action({kind}, {name}, {kind2}, {name2})
-			FIXME: Not written yet.
+			The first form adds new action into custom {kind}
+			action table.  {name} is the name of the action, and
+			{func} is a funcref to the function which is called
+			whenever the action is executed.
+
+			The second form is like the first form, but adds the
+			action which is defined in the default {kind2} action
+			table and whose name is {name2}.
+
+			For example, the following changes the default action
+			for kind "buffer":
+>
+				call ku#custom_action('buffer', 'default',
+				\                     'buffer', 'left')
+<
+			See also |ku-action-table|.
 
 ku#custom_key({kind}, {key}, {action-name})	*ku#custom_key()*
 			FIXME: Not written yet.
