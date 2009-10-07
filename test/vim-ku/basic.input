@@ -650,6 +650,38 @@ endfunction
 
 
 
+function s:test_s_default_kind_action_table()  "{{{1
+  Title "s:default_kind_action_table()"
+
+  " Initialize.
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+
+  " If not defined.
+  Assert Call('s:default_kind_action_table', 'buffer') ==> 0
+
+  " If defined.
+  let kind_a = {
+  \ 'default_action_table': {'close': function('type')},
+  \ 'default_key_table': {'c': 'close'},
+  \ 'name': 'buffer',
+  \ }
+  Assert ku#define_kind(kind_a) ==> 1
+
+  Assert Call('s:default_kind_action_table', 'buffer')
+  \ ==> {'close': function('type')}
+  Assert Call('s:default_kind_action_table', 'buffer')
+  \ is kind_a.default_action_table
+  \ ==> 1
+
+  " Reset side effect.
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+endfunction
+
+
+
+
 function s:test_s_filter_candidates()  "{{{1
   Title "s:filter_candidates()"
 

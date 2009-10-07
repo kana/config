@@ -263,6 +263,15 @@ TEST: custom_buffer_key_table isnot custom_xxxxx_key_table  ==>  1 ... ok
 TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
 Result: 11 / 11
 
+===== "s:default_kind_action_table()"
+TEST: Ref('available_kinds')  ==>  {} ... ok
+TEST: Call('s:default_kind_action_table', 'buffer')  ==>  0 ... ok
+TEST: ku#define_kind(kind_a)  ==>  1 ... ok
+TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {'close': function('type')} ... ok
+TEST: Call('s:default_kind_action_table', 'buffer') is kind_a.default_action_table  ==>  1 ... ok
+TEST: Ref('available_kinds')  ==>  {} ... ok
+Result: 6 / 6
+
 ===== "s:filter_candidates()"
 TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok
 TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M)  ==>  [ {'word': 'lm'}, {'word': 'mnopq'}, ] ... ok
@@ -403,4 +412,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 301 / 301
+Result: 307 / 307
