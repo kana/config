@@ -68,19 +68,19 @@ function! s:cmd_Assert(pair_exprs, pair_vals)  "{{{2
   " expr_{variable} -- A string which represents an expression of Vim script.
   " val_{variable} -- A value which is evaluated from expr_{variable}.
   let [expr_actual, expr_expected] = a:pair_exprs
-  let [val_actual, val_expected] = a:pair_vals
+  let [Val_actual, Val_expected] = a:pair_vals  " must be capital to avoid E704
   let s:count_group_tests += 1
   let s:count_total_tests += 1
 
   echo 'TEST:' expr_actual '==>' expr_expected '... '
-  let succeeded_p = val_actual ==# val_expected
+  let succeeded_p = Val_actual ==# Val_expected
   if succeeded_p
     echon 'ok'
     echo
   else
     echon 'FAILED'
-    echo '  Actual value:' val_actual
-    echo '  Expected value:' val_expected
+    echo '  Actual value:' Val_actual
+    echo '  Expected value:' Val_expected
     let s:count_group_failures += 1
     let s:count_total_failures += 1
   endif
