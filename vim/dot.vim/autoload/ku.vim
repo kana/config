@@ -319,11 +319,11 @@ endfunction
 
 function! s:custom_action_1(kind, name, func)  "{{{2
   let custom_kind_action_table = s:custom_kind_action_table(a:kind)
-  let old_func = get(custom_kind_action_table, a:name, 0)
+  let Old_func = get(custom_kind_action_table, a:name, 0)  " Captal for E704.
 
   let custom_kind_action_table[a:name] = a:func
 
-  return old_func
+  return Old_func
 endfunction
 
 
