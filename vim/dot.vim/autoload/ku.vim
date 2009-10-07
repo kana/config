@@ -331,22 +331,22 @@ endfunction
 
 function! s:custom_action_2(kind, name, kind2, name2)  "{{{2
   let custom_kind_action_table = s:custom_kind_action_table(a:kind)
-  let old_func = get(custom_kind_action_table, a:name, 0)
+  let Old_func = get(custom_kind_action_table, a:name, 0)  " Caps to avoid E704
 
   let default_kind2_action_table = s:default_kind_action_table(a:kind2)
   if default_kind2_action_table is 0
     echoerr 'Kind' string(a:kind2) 'is not defined.'
     return 0
   endif
-  let func2 = get(default_kind2_action_table, a:name2, 0)
-  if func2 is 0
+  let Func2 = get(default_kind2_action_table, a:name2, 0)  " Caps to avoid E704
+  if Func2 is 0
     echoerr 'Action' string(a:name2) 'is not defined for' string(a:kind2).'.'
     return 0
   endif
 
-  let custom_kind_action_table[a:name] = func2
+  let custom_kind_action_table[a:name] = Func2
 
-  return old_func
+  return Old_func
 endfunction
 
 
