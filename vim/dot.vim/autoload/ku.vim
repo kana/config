@@ -65,6 +65,10 @@ let s:available_kinds = {}
 " source-name => source-definition
 let s:available_sources = {}
 
+" kind-name => custom-action-table
+" custom-action-table = action-table = {action-name => action-function}
+let s:custom_kind_action_tables = {}
+
 " kind-name => custom-key-table
 " custom-key-table = key-table = {key => action-name}
 let s:custom_kind_key_tables = {}
@@ -84,6 +88,20 @@ let s:session = {}
 
 
 " Interface  "{{{1
+function! ku#custom_action(kind, name, func_or_kind2, ...)  "{{{2
+  if a:0 == 0
+    let func = a:func_or_kind2
+    return s:custom_action_1(a:kind, a:name, func)
+  else
+    let kind2 = a:func_or_kind2
+    let name2 = a:1
+    return s:custom_action_2(a:kind, a:name, kind2, name2)
+  endif
+endfunction
+
+
+
+
 function! ku#custom_key(kind_name, key, action_name)  "{{{2
   let custom_kind_key_table = s:custom_kind_key_table(a:kind_name)
   let old_action_name = get(custom_kind_key_table, a:key, 0)
@@ -299,12 +317,69 @@ endfunction
 
 
 
+function! s:custom_action_1(kind, name, func)  "{{{2
+  let custom_kind_action_table = s:custom_kind_action_table(a:kind)
+  let old_func = get(custom_kind_action_table, a:name, 0)
+
+  let custom_kind_action_table[a:name] = a:func
+
+  return old_func
+endfunction
+
+
+
+
+function! s:custom_action_2(kind, name, kind2, name2)  "{{{2
+  let custom_kind_action_table = s:custom_kind_action_table(a:kind)
+  let old_func = get(custom_kind_action_table, a:name, 0)
+
+  let default_kind2_action_table = s:default_kind_action_table(a:kind2)
+  if default_kind2_action_table is 0
+    echoerr 'Kind' string(a:kind2) 'is not defined.'
+    return 0
+  endif
+  let func2 = get(default_kind2_action_table, a:name2, 0)
+  if func2 is 0
+    echoerr 'Action' string(a:name2) 'is not defined for' string(a:kind2).'.'
+    return 0
+  endif
+
+  let custom_kind_action_table[a:name] = func2
+
+  return old_func
+endfunction
+
+
+
+
+function! s:custom_kind_action_table(kind_name)  "{{{2
+  if !has_key(s:custom_kind_action_tables, a:kind_name)
+    let s:custom_kind_action_tables[a:kind_name] = {}
+  endif
+
+  return s:custom_kind_action_tables[a:kind_name]
+endfunction
+
+
+
+
 function! s:custom_kind_key_table(kind_name)  "{{{2
   if !has_key(s:custom_kind_key_tables, a:kind_name)
     let s:custom_kind_key_tables[a:kind_name] = {}
   endif
 
   return s:custom_kind_key_tables[a:kind_name]
+endfunction
+
+
+
+
+function! s:default_kind_action_table(kind_name)  "{{{2
+  if !has_key(s:available_kinds, a:kind_name)
+    return 0
+  endif
+
+  return s:available_kinds[a:kind_name].default_action_table
 endfunction
 
 
