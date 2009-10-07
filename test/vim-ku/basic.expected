@@ -57,7 +57,27 @@ TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Result: 14 / 14
 
 ===== "ku#custom_key()"
-Result: 0 / 0
+===== "s:custom_key_table()"
+TEST: Ref('custom_key_tables')  ==>  {} ... ok
+TEST: ku#custom_key('buffer', '<', 'lt')  ==>  0 ... ok
+TEST: Call('s:custom_kind_key_table', 'buffer')  ==>  {'<': 'lt'} ... ok
+TEST: ku#custom_key('buffer', '>', 'gt')  ==>  0 ... ok
+TEST: Call('s:custom_kind_key_table', 'buffer')  ==>  {'<': 'lt', '>': 'gt'} ... ok
+TEST: ku#custom_key('buffer', '<', 'LT')  ==>  'lt' ... ok
+TEST: Call('s:custom_kind_key_table', 'buffer')  ==>  {'<': 'LT', '>': 'gt'} ... ok
+TEST: ku#custom_key('buffer', '>', 'GT')  ==>  'gt' ... ok
+TEST: Call('s:custom_kind_key_table', 'buffer')  ==>  {'<': 'LT', '>': 'GT'} ... ok
+TEST: ku#custom_key('!@#$%', '(', 'lb')  ==>  0 ... ok
+TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'lb'} ... ok
+TEST: ku#custom_key('!@#$%', ')', 'rb')  ==>  0 ... ok
+TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'lb', ')': 'rb'} ... ok
+TEST: ku#custom_key('!@#$%', '(', 'LB')  ==>  'lb' ... ok
+TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'LB', ')': 'rb'} ... ok
+TEST: ku#custom_key('!@#$%', ')', 'RB')  ==>  'rb' ... ok
+TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'LB', ')': 'RB'} ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  { 'buffer': {'<': 'LT', '>': 'GT'}, '!@#$%': {'(': 'LB', ')': 'RB'}, } ... ok
+TEST: Ref('custom_key_tables')  ==>  {} ... ok
+Result: 19 / 19
 
 ===== "ku#define_default_ui_key_mappings()"
 TEST: maparg('<C-c>', 'i')  ==>  'QUIT-INSERT' ... ok
@@ -203,8 +223,19 @@ TEST: Call('s:candidates_from_pattern', '2330', [source_c])  ==>  [{'word': 'p'}
 TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}] ... ok
 Result: 6 / 6
 
-===== "s:custom_key_table()"
-Result: 0 / 0
+===== "s:custom_kind_key_table()"
+TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
+TEST: custom_buffer_key_table  ==>  {} ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}} ... ok
+TEST: custom_buffer_key_table is custom_buffer_key_table_2  ==>  1 ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}} ... ok
+TEST: custom_xxxxx_key_table  ==>  {} ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
+TEST: custom_xxxxx_key_table is custom_xxxxx_key_table_2  ==>  1 ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
+TEST: custom_buffer_key_table isnot custom_xxxxx_key_table  ==>  1 ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
+Result: 11 / 11
 
 ===== "s:filter_candidates()"
 TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok
@@ -346,4 +377,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 257 / 257
+Result: 287 / 287
