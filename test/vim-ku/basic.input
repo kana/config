@@ -234,6 +234,98 @@ endfunction
 
 
 
+function s:test_ku_define_kind()  "{{{1
+  Title "ku#define_kind()"
+
+  " Initialize
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+
+  " Define a kind - error cases.
+  Assert ku#define_kind({
+  \ 'default_key_table': {},
+  \ 'name': 'file',
+  \ }) ==> 0
+  Assert ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'name': 'file',
+  \ }) ==> 0
+  Assert ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'default_key_table': {},
+  \ }) ==> 0
+
+  Assert ku#define_kind({
+  \ 'default_action_table': 0,
+  \ 'default_key_table': {},
+  \ 'name': 'file',
+  \ }) ==> 0
+  Assert ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'default_key_table': 0,
+  \ 'name': 'file',
+  \ }) ==> 0
+  Assert ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'default_key_table': {},
+  \ 'name': 0,
+  \ }) ==> 0
+
+  Assert Ref('available_kinds') ==> {}
+
+  " Define a few kinds - valid cases.
+  Assert ku#define_kind({
+  \ 'default_action_table': {'close': function('type')},
+  \ 'default_key_table': {'c': 'close'},
+  \ 'name': 'buffer',
+  \ }) ==> 1
+  Assert ku#define_kind({
+  \ 'default_action_table': {'open': function('type')},
+  \ 'default_key_table': {'o': 'open'},
+  \ 'name': 'file',
+  \ }) ==> 1
+
+  Assert Ref('available_kinds') ==> {
+  \ 'buffer': {
+  \ 'default_action_table': {'close': function('type')},
+  \ 'default_key_table': {'c': 'close'},
+  \ 'name': 'buffer'
+  \ },
+  \ 'file': {
+  \ 'default_action_table': {'open': function('type')},
+  \ 'default_key_table': {'o': 'open'},
+  \ 'name': 'file'
+  \ },
+  \ }
+
+  " Override a kind.
+  Assert ku#define_kind({
+  \ 'default_action_table': {'despair': function('type')},
+  \ 'default_key_table': {'d': 'despair'},
+  \ 'name': 'file',
+  \ }) ==> 1
+
+  Assert Ref('available_kinds') ==> {
+  \ 'buffer': {
+  \ 'default_action_table': {'close': function('type')},
+  \ 'default_key_table': {'c': 'close'},
+  \ 'name': 'buffer'
+  \ },
+  \ 'file': {
+  \ 'default_action_table': {'despair': function('type')},
+  \ 'default_key_table': {'d': 'despair'},
+  \ 'name': 'file'
+  \ },
+  \ }
+
+  " Reset side effect.
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+endfunction
+
+
+
+
 function s:test_ku_define_source()  "{{{1
   Title "ku#define_source()"
 

@@ -118,6 +118,32 @@ TEST: maparg('<Tab>', 'i')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
 TEST: maparg('<Tab>', 'n')  ==>  '<Plug>(ku-choose-and-do-an-action)' ... ok
 Result: 36 / 36
 
+===== "ku#define_kind()"
+TEST: Ref('available_kinds')  ==>  {} ... ok
+Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_define_kind..ku#define_kind..<SNR>45_valid_key_p:
+line    5:
+Invalild definition: Without key 'default_action_table'
+TEST: ku#define_kind({ 'default_key_table': {}, 'name': 'file', })  ==>  0 ... ok
+Invalild definition: Without key 'default_key_table'
+TEST: ku#define_kind({ 'default_action_table': {}, 'name': 'file', })  ==>  0 ... ok
+Invalild definition: Without key 'name'
+TEST: ku#define_kind({ 'default_action_table': {}, 'default_key_table': {}, })  ==>  0 ... ok
+line   17:
+Invalild definition: Key 'default_action_table' must be dictionary but given value is 0
+TEST: ku#define_kind({ 'default_action_table': 0, 'default_key_table': {}, 'name': 'file', })  ==>  0 ... ok
+Invalild definition: Key 'default_key_table' must be dictionary but given value is 0
+TEST: ku#define_kind({ 'default_action_table': {}, 'default_key_table': 0, 'name': 'file', })  ==>  0 ... ok
+Invalild definition: Key 'name' must be string but given value is 0
+TEST: ku#define_kind({ 'default_action_table': {}, 'default_key_table': {}, 'name': 0, })  ==>  0 ... ok
+TEST: Ref('available_kinds')  ==>  {} ... ok
+TEST: ku#define_kind({ 'default_action_table': {'close': function('type')}, 'default_key_table': {'c': 'close'}, 'name': 'buffer', })  ==>  1 ... ok
+TEST: ku#define_kind({ 'default_action_table': {'open': function('type')}, 'default_key_table': {'o': 'open'}, 'name': 'file', })  ==>  1 ... ok
+TEST: Ref('available_kinds')  ==>  { 'buffer': { 'default_action_table': {'close': function('type')}, 'default_key_table': {'c': 'close'}, 'name': 'buffer' }, 'file': { 'default_action_table': {'open': function('type')}, 'default_key_table': {'o': 'open'}, 'name': 'file' }, } ... ok
+TEST: ku#define_kind({ 'default_action_table': {'despair': function('type')}, 'default_key_table': {'d': 'despair'}, 'name': 'file', })  ==>  1 ... ok
+TEST: Ref('available_kinds')  ==>  { 'buffer': { 'default_action_table': {'close': function('type')}, 'default_key_table': {'c': 'close'}, 'name': 'buffer' }, 'file': { 'default_action_table': {'despair': function('type')}, 'default_key_table': {'d': 'despair'}, 'name': 'file' }, } ... ok
+TEST: Ref('available_kinds')  ==>  {} ... ok
+Result: 14 / 14
+
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
 Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_define_source..ku#define_source..<SNR>45_valid_key_p:
@@ -377,4 +403,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 287 / 287
+Result: 301 / 301

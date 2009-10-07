@@ -37,6 +37,10 @@ else
 endif
 
 
+let s:NULL_KIND = {
+\ }
+
+
 let s:NULL_SOURCE = {
 \   'filters': [],
 \   'matchers': [function('ku#matcher#default#matches_p')],
@@ -54,6 +58,9 @@ let s:PROMPT = '>'
 
 
 " Variables  "{{{1
+
+" kind-name => kind-definition
+let s:available_kinds = {}
 
 " source-name => source-definition
 let s:available_sources = {}
@@ -108,6 +115,25 @@ function! ku#define_default_ui_key_mappings(override_p)  "{{{2
   call f.map('<Tab>', '<Plug>(ku-choose-and-do-an-action)')
 
   return
+endfunction
+
+
+
+
+function! ku#define_kind(kind_definition)  "{{{2
+  let new_kind = extend(copy(s:NULL_KIND), a:kind_definition, 'force')
+
+  if !(s:TRUE
+  \    && s:valid_key_p(new_kind, 'default_action_table', 'dictionary')
+  \    && s:valid_key_p(new_kind, 'default_key_table', 'dictionary')
+  \    && s:valid_key_p(new_kind, 'name', 'string')
+  \  )
+    return s:FALSE
+  endif
+
+  let s:available_kinds[new_kind['name']] = new_kind
+
+  return s:TRUE
 endfunction
 
 
