@@ -616,6 +616,40 @@ endfunction
 
 
 
+function s:test_s_custom_kind_action_table()  "{{{1
+  Title "s:custom_kind_action_table()"
+
+  " Initialize.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+
+  " Refer the custom action table for "file" - valid name.
+  let custom_file_action_table = Call('s:custom_kind_action_table', 'file')
+  Assert custom_file_action_table ==> {}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}}
+  let custom_file_action_table_2 = Call('s:custom_kind_action_table', 'file')
+  Assert custom_file_action_table is custom_file_action_table_2 ==> 1
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}}
+
+  " Refer the custom action table for "!@#$%" - invalid name but not checked.
+  let custom_xxxxx_action_table = Call('s:custom_kind_action_table', '!@#$%')
+  Assert custom_xxxxx_action_table ==> {}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}, '!@#$%': {}}
+  let custom_xxxxx_action_table_2 = Call('s:custom_kind_action_table', '!@#$%')
+  Assert custom_xxxxx_action_table is custom_xxxxx_action_table_2 ==> 1
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}, '!@#$%': {}}
+
+  " Both custom kind action tables are not the same one.
+  Assert custom_file_action_table isnot custom_xxxxx_action_table ==> 1
+
+  " Reset side effect.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+endfunction
+
+
+
+
 function s:test_s_custom_kind_key_table()  "{{{1
   Title "s:custom_kind_key_table()"
 

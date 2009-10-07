@@ -249,6 +249,20 @@ TEST: Call('s:candidates_from_pattern', '2330', [source_c])  ==>  [{'word': 'p'}
 TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}] ... ok
 Result: 6 / 6
 
+===== "s:custom_kind_action_table()"
+TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
+TEST: custom_file_action_table  ==>  {} ... ok
+TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}} ... ok
+TEST: custom_file_action_table is custom_file_action_table_2  ==>  1 ... ok
+TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}} ... ok
+TEST: custom_xxxxx_action_table  ==>  {} ... ok
+TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
+TEST: custom_xxxxx_action_table is custom_xxxxx_action_table_2  ==>  1 ... ok
+TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
+TEST: custom_file_action_table isnot custom_xxxxx_action_table  ==>  1 ... ok
+TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
+Result: 11 / 11
+
 ===== "s:custom_kind_key_table()"
 TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
 TEST: custom_buffer_key_table  ==>  {} ... ok
@@ -412,4 +426,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 307 / 307
+Result: 318 / 318
