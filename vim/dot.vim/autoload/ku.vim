@@ -474,12 +474,12 @@ endfunction
 
 
 
-function! s:valid_key_p(source, key, type)  "{{{2
+function! s:valid_key_p(definition, key, type)  "{{{2
   let [basic_type, item_type]
   \ = matchlist(a:type, '^\(\S\+\)\%( of \(\S\+\)s\)\?$')[1:2]
 
-  if !has_key(a:source, a:key)
-    echoerr 'Invalild source: Without key' string(a:key)
+  if !has_key(a:definition, a:key)
+    echoerr 'Invalild definition: Without key' string(a:key)
     return s:FALSE
   endif
 
@@ -490,17 +490,17 @@ function! s:valid_key_p(source, key, type)  "{{{2
   \     'number': type(0),
   \     'string': type(''),
   \   }
-  if type(a:source[a:key]) != get(TYPES, basic_type, -2009)
-    echoerr 'Invalild source: Key' string(a:key) 'must be' a:type
-    \       'but given value is' string(a:source[a:key])
+  if type(a:definition[a:key]) != get(TYPES, basic_type, -2009)
+    echoerr 'Invalild definition: Key' string(a:key) 'must be' a:type
+    \       'but given value is' string(a:definition[a:key])
     return s:FALSE
   endif
 
   if item_type != ''
-    for Item in a:source[a:key]
+    for Item in a:definition[a:key]
       if type(Item) != get(TYPES, item_type, -2009)
-        echoerr 'Invalild source: Key' string(a:key) 'must be' a:type
-        \       'but given value is' string(a:source[a:key])
+        echoerr 'Invalild definition: Key' string(a:key) 'must be' a:type
+        \       'but given value is' string(a:definition[a:key])
         \       'and it contains' string(Item)
         return s:FALSE
       endif
