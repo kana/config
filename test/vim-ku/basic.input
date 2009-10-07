@@ -616,6 +616,33 @@ endfunction
 
 
 
+function s:test_s_custom_action_1()  "{{{1
+  Title "s:custom_action_1()"
+
+  " Initialize.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+
+  " Define an action.
+  Assert Call('s:custom_kind_action_table', 'file') ==> {}
+  Assert Call('s:custom_action_1', 'file', 'ai', function('len')) ==> 0
+  Assert Call('s:custom_kind_action_table', 'file') ==> {'ai': function('len')}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {'ai': function('len')}}
+
+  " Override an existing action.
+  Assert Call('s:custom_action_1', 'file', 'ai', function('get'))
+  \ ==> function('len')
+  Assert Call('s:custom_kind_action_table', 'file') ==> {'ai': function('get')}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {'ai': function('get')}}
+
+  " Reset side effect.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+endfunction
+
+
+
+
 function s:test_s_custom_kind_action_table()  "{{{1
   Title "s:custom_kind_action_table()"
 
