@@ -135,11 +135,9 @@ endfunction
 function s:test_ku_custom_key()  "{{{1
   Title "ku#custom_key()"
 
-  Title "s:custom_key_table()"
-
   " Initialize.
-  call Set('custom_key_tables', {})
-  Assert Ref('custom_key_tables') ==> {}
+  call Set('custom_kind_key_tables', {})
+  Assert Ref('custom_kind_key_tables') ==> {}
 
   " Define a few key bindings for kind "buffer" - valid name.
   Assert ku#custom_key('buffer', '<', 'lt') ==> 0
@@ -172,8 +170,8 @@ function s:test_ku_custom_key()  "{{{1
   \ }
 
   " Reset side effect.
-  call Set('custom_key_tables', {})
-  Assert Ref('custom_key_tables') ==> {}
+  call Set('custom_kind_key_tables', {})
+  Assert Ref('custom_kind_key_tables') ==> {}
 endfunction
 
 

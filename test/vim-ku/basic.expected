@@ -57,8 +57,7 @@ TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Result: 14 / 14
 
 ===== "ku#custom_key()"
-===== "s:custom_key_table()"
-TEST: Ref('custom_key_tables')  ==>  {} ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
 TEST: ku#custom_key('buffer', '<', 'lt')  ==>  0 ... ok
 TEST: Call('s:custom_kind_key_table', 'buffer')  ==>  {'<': 'lt'} ... ok
 TEST: ku#custom_key('buffer', '>', 'gt')  ==>  0 ... ok
@@ -76,7 +75,7 @@ TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'LB', ')': 'rb'} ... 
 TEST: ku#custom_key('!@#$%', ')', 'RB')  ==>  'rb' ... ok
 TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'LB', ')': 'RB'} ... ok
 TEST: Ref('custom_kind_key_tables')  ==>  { 'buffer': {'<': 'LT', '>': 'GT'}, '!@#$%': {'(': 'LB', ')': 'RB'}, } ... ok
-TEST: Ref('custom_key_tables')  ==>  {} ... ok
+TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
 Result: 19 / 19
 
 ===== "ku#define_default_ui_key_mappings()"
