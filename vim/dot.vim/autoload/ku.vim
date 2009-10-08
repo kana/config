@@ -90,8 +90,8 @@ let s:session = {}
 " Interface  "{{{1
 function! ku#custom_action(kind, name, func_or_kind2, ...)  "{{{2
   if a:0 == 0
-    let func = a:func_or_kind2
-    return s:custom_action_1(a:kind, a:name, func)
+    let Func = a:func_or_kind2  " E704
+    return s:custom_action_1(a:kind, a:name, Func)
   else
     let kind2 = a:func_or_kind2
     let name2 = a:1
