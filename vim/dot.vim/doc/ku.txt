@@ -454,6 +454,28 @@ SOURCE ATTRIBUTES				*ku-source-attributes*
 
 See also |ku-notation| for {args} and others.
 
+				    *ku-source-attribute-default_action_table*
+default_action_table	dictionary		(optional)
+			The default action table for candidates of a source.
+			See |ku-action-table| for the details.
+
+			Technically, this is treated as the default action
+			table for the implicit kind for a source.  See also
+			|ku-implicit-kind-for-a-source|.
+
+			This key is optional; if it is not given, {} is used.
+
+				       *ku-source-attribute-default_key_table*
+default_key_table	dictionary		(optional)
+			The default key table for candidates of a source.
+			See |ku-key-table| for the details.
+
+			Technically, this is treated as the default key table
+			for the implicit kind for a source.  See also
+			|ku-implicit-kind-for-a-source|.
+
+			This key is optional; if it is not given, {} is used.
+
 						*ku-source-attribute-filters*
 filters			list of funcrefs	(optional)
 			Functions to filter given candidates.  Each function:
