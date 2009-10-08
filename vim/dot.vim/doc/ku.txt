@@ -155,6 +155,11 @@ ku#custom_key({kind}, {key}, {action-name})	*ku#custom_key()*
 			{action-name} is a string which represents the name of
 			an action.
 
+			For example, the following defines a key binding for
+			kind "buffer" - ">" to take action "right":
+>
+				call ku#custom_key('buffer', '>', 'right')
+<
 			See also |ku-key-table|.
 
 					 *ku#define_default_ui_key_mappings()*
@@ -196,8 +201,8 @@ ku#define_source({definition})			*ku#define_source()*
 			Define a new source.
 
 			{definition} is a dictionary which describes the
-			details of the source to be defined.  See |ku-source|
-			for the details.
+			details of the source to be defined.  See
+			|ku-source-definition| for the details.
 
 ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
 			Start a ku session.
@@ -431,7 +436,7 @@ t		tab-Right	|ku-common-action-tab-Right|
 ==============================================================================
 SOURCES						*ku-sources*
 
-Sources are like kinds of information.  For example, "buffer" source gathers
+Sources are like kinds of information.  For example, source "buffer" gathers
 all buffers as candidates.  You can choose and take an action on a buffer with
 this source.  The same can be said for other sources.
 
