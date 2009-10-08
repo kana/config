@@ -39,6 +39,7 @@ Interface		|ku-interface|
   Common Action Table	  |ku-common-action-table|
   Common Key Table	  |ku-common-key-table|
 Sources			|ku-sources|
+Kind			|ku-kind|
 Customizing		|ku-customizing|
 Terms			|ku-terms|
 Bugs			|ku-bugs|
@@ -175,27 +176,11 @@ ku#define_default_ui_key_mappings({override-p})
 			key bindings.
 
 ku#define_kind({definition})			*ku#define_kind()*
-			Define a new kind (|ku-kind|).
+			Define a new |ku-kind|.
 
 			{definition} is a dictionary which describes the
-			details of the kind to be defined.  Valid keys and
-			their meanings are as follows:
-
-			default_action_table	dictionary	(required)
-				The default action table for candidates of
-				a kind.  See |ku-action-table| for the
-				details.
-
-			default_key_table	dictionary	(required)
-				The default key table for candidates of
-				a kind.  See |ku-key-table| for the details.
-
-			name			string		(required)
-				The name of a kind.  The following characters
-				can be used in a name:
-				- a-z
-				- 0-9
-				- _
+			details of the kind to be defined.  See
+			|ku-kind-definition| for the details.
 
 ku#define_source({definition})			*ku#define_source()*
 			Define a new source.
@@ -496,16 +481,16 @@ gather_candidates	function		(required)
 			according to {args}.
 
 						*ku-source-attribute-kinds*
-kinds			list of strings		(required)
+kinds			list of strings		(optional)
 			A list of the names of |ku-kind|s.  Each kind is used
 			to calculate |ku-action-table| and |ku-key-table| for
 			a candidate.
 
-			If there is a conflict of actions or keys, a value for
-			the kind which is prior to all other kinds in the list
-			is used.  For example, if kinds == ["git", "file"] and
-			action "open" is defined in action tables of both
-			kinds, the one defined for "git" is used.
+			This key is optional; if it is not given, [] is used.
+
+			See also:
+			- |ku-kind|
+			- |ku-implicit-kind-for-a-source|
 
 						*ku-source-attribute-matchers*
 matchers		list of funcrefs	(optional)
@@ -588,6 +573,95 @@ NOTATION					*ku-notation*
 
 
 ==============================================================================
+KIND						*ku-kind*
+
+A "kind" is a kind of candidates.  For example, source "file"
+(|ku-source-file|) gathers candidates corresponding to files, so the "kind" of
+such candidates are "file".
+
+However, not only source "file" but also other sources gather candidates
+corresponding to files.  You expect that actions and key bindings to choose
+action for such candidates should be the same ones regardless of what sources
+gather them.
+
+"kind" is a mechanism to provide the same actions and the same key bindings to
+choose action for a specific kind of candidates.  See also
+|ku-action-resolution-order| and |ku-key-resolution-order|.
+
+
+KIND DEFINITION					*ku-kind-definition*
+
+A kind can be defined by |ku#define_kind()|.  It takes the definition of
+a kind which is expressed as a dictionary.  In the dictionary, each key is
+a string called "attribute" of the kind.  See |ku-kind-attributes| for the
+details of available attributes.
+
+
+KIND ATTRIBUTES					*ku-kind-attributes*
+
+				      *ku-kind-attribute-default_action_table*
+default_action_table	dictionary		(required)
+			The default action table for candidates of a kind.
+			See |ku-action-table| for the details.
+
+					 *ku-kind-attribute-default_key_table*
+default_key_table	dictionary		(required)
+			The default key table for candidates of a kind.
+			See |ku-key-table| for the details.
+
+name			string		(required)
+			The name of a kind.
+			It should consist of the following characters:
+
+			- a-z
+
+			Exceptions:
+			- "common" is a reserved name.  It cannot be used.
+			- "/" is a special character.  It cannot be used.
+
+
+IMPLICIT KIND FOR A SOURCE		   *ku-implicit-kind-for-a-source*
+
+A source has attribute "kinds" (|ku-source-attribute-kinds|).  It specifies
+the kinds of candidates which are gathered by the source.
+
+And ku treats as if there is an implicit kind as the first item in attribute
+"kinds".  The implicit kind is "source/{name}", where {name} is the name of
+a source.
+
+The purpose of implicit kind is to customize actions and key bindings to
+choose action for a specific source.  For example, the following code defines
+action "delete" only for source "file":
+>
+	call ku#custom_action('source/file', 'delete', function('...'))
+<
+
+ACTION RESOLUTION ORDER				*ku-action-resolution-order*
+
+For example, suppose that a source "example" has ["git", "file"] as
+|ku-source-attribute-kinds|, ku looks up action in the following order:
+
+(1) Custom action table for kind "source/example".
+(2) Default action table for kind "source/example".
+(3) Custom action table for kind "git".
+(4) Default action table for kind "git".
+(5) Custom action table for kind "file".
+(6) Default action table for kind "file".
+(7) Custom common action table.
+(8) Default common action table.
+
+See also |ku-action-table|.
+
+
+KEY RESOLUTION ORDER				*ku-key-resolution-order*
+
+Same as |ku-action-resolution-order|.  The difference is that ku looks up
+|ku-key-table| instead of |ku-action-table|.
+
+
+
+
+==============================================================================
 CUSTOMIZING					*ku-customizing*
 
 FIXME: Description on customization.
@@ -610,8 +684,7 @@ action						*ku-action*
 
 action table					*ku-action-table*
 			An action table is a dictionary which contains
-			available actions for a kind (|ku-kind|) of
-			candidates.
+			available actions for a |ku-kind| of candidates.
 
 			Each key is a string which is the name of an action,
 			and each value is a |Funcref| to the function which is
@@ -620,27 +693,30 @@ action table					*ku-action-table*
 
 			There are 4 action tables for each kind:
 
+						*ku-custom-kind-action-table*
 			(1) Custom {kind} action table
+					       *ku-custom-common-action-table*
 			(2) Default {kind} action table
+						*ku-default-kind-action-table*
 			(3) Custom common action table
+					      *ku-default-common-action-table*
 			(4) Default common action table
 
+						*ku-custom-action-table*
+						*ku-default-action-table*
 			Default action tables ((2) and (4)) contain the
 			available actions by default, while custom action
 			tables ((1) and (3)) contain user's own actions.
 
+						*ku-kind-action-table*
+						*ku-common-action-table*
 			{kind} action tables ((1) and (2)) contain available
 			actions for {kind} candidates, while common action
 			tables contain available actions for all candidates.
 
-			If there is the same name action in two or more
-			tables, the one in the table which is prior to all
-			other tables in the above list is used.  For example,
-			if "default" action is found in (2) and (4), the one
-			in (2) is used, not the one in (4).
-
 			See also:
 			- |ku#custom_action()|
+			- |ku-action-resolution-order|
 			- |ku-common-action-table|
 
 key table					*ku-key-table*
@@ -655,29 +731,19 @@ key table					*ku-key-table*
 			Like |ku-action-table|, there are 4 key tables for
 			each kind of candidates:
 
+						*ku-custom-kind-key-table*
 			(1) Custom {kind} key table
+					       *ku-custom-common-key-table*
 			(2) Default {kind} key table
+						*ku-default-kind-key-table*
 			(3) Custom common key table
+					      *ku-default-common-key-table*
 			(4) Default common key table
 
 			See also:
 			- |ku#custom_key()|
 			- |ku-common-key-table|
-
-kind						*ku-kind*
-			A "kind" is a kind of candidates.  For example, source
-			"buffer" gathers candidates corresponding to buffers
-			in Vim, so the "kind" of the candidates is "buffer".
-
-			A "kind" is used to calculate available actions and
-			key bindings to |<Plug>(ku-choose-and-do-an-action)|
-			for a candidate.
-
-			See also:
-			- |ku#define_kind()|
-			- |ku-action-table|
-			- |ku-key-table|
-			- |ku-source-attribute-kinds|
+			- |ku-key-resolution-order|
 
 ku session					*ku-session*
 			A ku session is a period of time while |the-ku-window|
