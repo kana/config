@@ -132,6 +132,65 @@ endfunction
 
 
 
+function s:test_ku_custom_actioin()  "{{{1
+  Title "ku#custom_action()"
+
+  " Initialize.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+
+  call Set('available_kinds', {})
+  Assert ku#define_kind({
+  \ 'default_action_table': {'get': function('get'), 'len': function('len')},
+  \ 'default_key_table': {'g': 'get'},
+  \ 'name': 'file',
+  \ }) ==> 1
+  Assert Ref('available_kinds') ==> {
+  \ 'file': {
+  \ 'default_action_table': {'get': function('get'), 'len': function('len')},
+  \ 'default_key_table': {'g': 'get'},
+  \ 'name': 'file',
+  \ },
+  \ }
+
+  " Normal case: Using s:custom_action_1()
+  Assert ku#custom_action('file', 'ai', function('len')) ==> 0
+  Assert ku#custom_action('file', 'ai', function('get')) ==> function('len')
+
+  " Normal case: Using s:custom_action_2()
+  Assert ku#custom_action('file', 'default', 'file', 'get') ==> 0
+  Assert ku#custom_action('file', 'default', 'file', 'get') ==> function('get')
+
+  " Strange case: Using s:custom_action_2() with many extra arguments
+  Assert ku#custom_action('file', 'new', 'file', 'get', '') ==> 0
+  Assert ku#custom_action('file', 'new', 'file', 'get', '') ==> function('get')
+
+  " So the internal is:
+  Assert Ref('custom_kind_action_tables') ==> {
+  \ 'file': {
+  \ 'ai': function('get'),
+  \ 'default': function('get'),
+  \ 'new': function('get'),
+  \ },
+  \ }
+  Assert Ref('available_kinds') ==> {
+  \ 'file': {
+  \ 'default_action_table': {'get': function('get'), 'len': function('len')},
+  \ 'default_key_table': {'g': 'get'},
+  \ 'name': 'file',
+  \ },
+  \ }
+
+  " Reset side effect.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+endfunction
+
+
+
+
 function s:test_ku_custom_key()  "{{{1
   Title "ku#custom_key()"
 

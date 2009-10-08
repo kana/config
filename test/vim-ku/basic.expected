@@ -56,6 +56,22 @@ TEST: sort(keys(ku#available_sources()))  ==>  ['test'] ... ok
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Result: 14 / 14
 
+===== "ku#custom_action()"
+TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
+TEST: ku#define_kind({ 'default_action_table': {'get': function('get'), 'len': function('len')}, 'default_key_table': {'g': 'get'}, 'name': 'file', })  ==>  1 ... ok
+TEST: Ref('available_kinds')  ==>  { 'file': { 'default_action_table': {'get': function('get'), 'len': function('len')}, 'default_key_table': {'g': 'get'}, 'name': 'file', }, } ... ok
+TEST: ku#custom_action('file', 'ai', function('len'))  ==>  0 ... ok
+TEST: ku#custom_action('file', 'ai', function('get'))  ==>  function('len') ... ok
+TEST: ku#custom_action('file', 'default', 'file', 'get')  ==>  0 ... ok
+TEST: ku#custom_action('file', 'default', 'file', 'get')  ==>  function('get') ... ok
+TEST: ku#custom_action('file', 'new', 'file', 'get', '')  ==>  0 ... ok
+TEST: ku#custom_action('file', 'new', 'file', 'get', '')  ==>  function('get') ... ok
+TEST: Ref('custom_kind_action_tables')  ==>  { 'file': { 'ai': function('get'), 'default': function('get'), 'new': function('get'), }, } ... ok
+TEST: Ref('available_kinds')  ==>  { 'file': { 'default_action_table': {'get': function('get'), 'len': function('len')}, 'default_key_table': {'g': 'get'}, 'name': 'file', }, } ... ok
+TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
+TEST: Ref('available_kinds')  ==>  {} ... ok
+Result: 13 / 13
+
 ===== "ku#custom_key()"
 TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
 TEST: ku#custom_key('buffer', '<', 'lt')  ==>  0 ... ok
@@ -459,4 +475,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 341 / 341
+Result: 354 / 354
