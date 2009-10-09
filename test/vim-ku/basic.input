@@ -1365,6 +1365,40 @@ endfunction
 
 
 
+function s:test_ui_named_key_mappings()  "{{{1
+  Title "UI: Named Key Mappings"
+
+  " Initial state.
+  NewBuffer
+  let original_bufnr = bufnr('')
+  let original_window_layout = winrestcmd()
+
+  Assert ku#start() ==> 1
+  let ku_bufnr = bufnr('')
+  let ku_window_layout = winrestcmd()
+
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+
+  " Check the effect of named key mappings.
+  " FIXME: NIY: <Plug>(ku-choose-and-do-an-action)
+  " FIXME: NIY: <Plug>(ku-do-the-default-action)
+
+  " <Plug>(ku-quit-session)
+  execute 'normal' "\<Plug>(ku-quit-session)"
+  Assert bufnr('') != ku_bufnr ==> 1
+  Assert bufnr('') ==> original_bufnr
+  Assert winrestcmd() != ku_window_layout ==> 1
+  Assert winrestcmd() ==> original_window_layout
+
+  " Reset side effect.
+  Assert ku#start() ==> 1
+  noautocmd bwipeout!  " :noautocmd to avoid calling event handlers.
+endfunction
+
+
+
+
 Test  "{{{1
 
 " __END__

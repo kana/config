@@ -479,5 +479,29 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ... ok
 Result: 12 / 12
 
+===== "UI: Named Key Mappings"
+TEST: ku#start()  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: bufnr('') != ku_bufnr  ==>  1 ... FAILED
+  Actual value: 0
+  Expected value: 1
+TEST: bufnr('')  ==>  original_bufnr ... FAILED
+  Actual value: 12
+  Expected value: 10
+TEST: winrestcmd() != ku_window_layout  ==>  1 ... FAILED
+  Actual value: 0
+  Expected value: 1
+TEST: winrestcmd()  ==>  original_window_layout ... FAILED
+  Actual value: 1resize 2|vert 1resize 159|2resize 42|vert 2resize 159|
+  Expected value: 1resize 46|vert 1resize 159|
+Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ui_named_key_mappings..ku#start:
+line   12:
+Already active
+TEST: ku#start()  ==>  1 ... FAILED
+  Actual value: 0
+  Expected value: 1
+Result: 3 / 8
+
 ===== Total
-Result: 359 / 359
+Result: 362 / 367
