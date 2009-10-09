@@ -682,27 +682,30 @@ function! s:take_action(action_name, ...)  "{{{2
 
   if candidate is 0
     echo 'Nothing to do, because there is no candidate.'
-    return s:FALLSE
+    return s:FALSE
   elseif action_name ==# 'nop'
     " Do nothing.
     "
     " 'nop' is a pseudo action and it cannot be overriden.
     " To express this property, bypass the usual process.
+    return s:TRUE
   else
     let Action_function = s:find_action(action_name, selected_candidate.kinds)
     if Action_function is 0
       echoerr 'There is no such action:' string(action_name)
       return s:FALSE
-    else
-      let _ = Action_function(selected_candidate)
-      if _ isnot 0
-        echohl ErrorMsg
-        echomsg _
-        echohl NONE
-      endif
     endif
+
+    let _ = Action_function(selected_candidate)
+    if _ isnot 0
+      echohl ErrorMsg
+      echomsg _
+      echohl NONE
+      return s:FALSE
+    endif
+
+    return s:TRUE
   endif
-  return s:TRUE
 endfunction
 
 
