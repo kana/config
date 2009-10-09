@@ -420,6 +420,28 @@ endfunction
 
 
 
+function! s:find_action(action_name, kinds)  "{{{2
+  let l_action_tables = []
+
+  for kind in a:kinds
+    call add(l_action_tables, s:custom_kind_action_table(kind.name))
+    call add(l_action_tables, s:default_action_table(kind.name))
+  endfor
+  call add(l_action_tables, s:custom_kind_action_table('common'))
+  call add(l_action_tables, s:default_kind_action_table('common'))
+
+  for action_table in l_action_tables
+    if has_key(action_table, a:action_name)
+      return action_table[a:action_name]
+    endif
+  endfor
+
+  return 0
+endfunction
+
+
+
+
 function! s:get_key()  "{{{2
   " Alternative getchar() to get a logical key such as <F1> and <M-{x}>.
   let k = ''
