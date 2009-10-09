@@ -823,6 +823,9 @@ PLANNED FEATURES ~
 
 
 ETC ~
+								       *ku-E1*
+- This is an internal error.  If you encounter this error, please report it
+  with steps to reproduce the error.
 
 - Welcome your feedback.
 

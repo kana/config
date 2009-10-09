@@ -37,6 +37,10 @@ else
 endif
 
 
+let s:LNUM_STATUS = 1
+let s:LNUM_INPUT = 2
+
+
 let s:NULL_KIND = {
 \ }
 
@@ -457,9 +461,9 @@ function! s:initialize_ku_buffer()  "{{{2
 
   " Key mappings - fundamentals.
   nnoremap <buffer> <silent> <SID>(choose-and-do-an-action)
-  \        :<C-u>call <SID>chose_and_do_an_action()<Return>
+  \        :<C-u>call <SID>take_action('*choose*')<Return>
   nnoremap <buffer> <silent> <SID>(do-the-default-action)
-  \        :<C-u>call <SID>do_the_default_action()<Return>
+  \        :<C-u>call <SID>take_action('default')<Return>
   nnoremap <buffer> <silent> <SID>(quit-session)
   \        :<C-u>call <SID>quit_session()<Return>
   inoremap <buffer> <expr> <SID>(accept-completion)
@@ -527,6 +531,8 @@ function! s:new_session(source_names)  "{{{2
 
     " Use list to ensure returning different value for each time.
   let session.id = [localtime()]
+  let session.last_completed_candidates = []
+  let session.last_pattern = ''
   let session.now_quitting_p = s:FALSE
   let session.original_completeopt = &completeopt
   let session.original_curwinnr = winnr()
@@ -587,6 +593,77 @@ function! s:sort_candidates(lcandidates, args, source)  "{{{2
   endfor
 
   return sorted_candidates
+endfunction
+
+
+
+
+function! s:take_action(action_name)  "{{{2
+  "" Preparation
+  let current_pattern = getline(s:LNUM_INPUT)
+  if current_pattern !=# s:session.last_pattern
+    " current_pattern seems to be inserted by completion.
+    for _ in s:session.last_completed_candidates
+      if current_pattern ==# _.word
+        let selected_candidate = _
+        break
+      endif
+    endfor
+    if !exists('selected_candidate')
+      echoerr 'Internal error: No match found in the last completed candidates'
+      echoerr 'current_pattern' string(current_pattern)
+      echoerr 's:session.last_pattern' string(s:session.last_pattern)
+      echoerr 's:session.last_completed_candidates'
+      \       string(s:session.last_completed_candidates)
+      throw 'ku-E1'
+    endif
+  else
+    " current_pattern seems NOT to be inserted by completion, but ...
+    if 0 < len(s:session.last_completed_candidates)
+      " There are 1 or more candidates:
+      " -- User seems to take an action on the 1st one.
+      let selected_candidate = s:session.last_completed_candidates[0]
+    else
+      " There is no candidate:
+      " -- User seems to take an action on current_pattern.
+      " FIXME: NIY
+      let nothing_to_do_p = s:TRUE
+    endif
+  endif
+
+  if nothing_to_do_p
+    " Ignore.
+  elseif a:action_name ==# '*choose*'
+    let action_name = s:choose_an_action(selected_candidate)
+  else
+    let action_name = a:action_name
+  endif
+
+  " Close the ku window, because some kind of actions does something on the
+  " current buffer/window and user expects that such actions do something on
+  " the buffer/window which was the current one until the ku buffer became
+  " active.
+  call s:quit_session()
+
+  "" Do action.
+  if nothing_to_do_p
+    echo 'Nothing to do, because there is no candidate.'
+    return s:FALLSE
+  elseif action_name ==# 'nop'
+    " Do nothing.
+    "
+    " 'nop' is a pseudo action and it cannot be overriden.
+    " To express this property, bypass the usual process.
+  else
+    let Action_function = s:find_action(action_name, selected_candidate.kinds)
+    if Action_function is 0
+      echoerr 'There is no such action:' string(action_name)
+      return s:FALSE
+    else
+    endif
+    call Action_function(selected_candidate)
+  endif
+  return s:TRUE
 endfunction
 
 
