@@ -161,6 +161,7 @@ Result: 14 / 14
 
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
+TEST: Ref('available_kinds')  ==>  {} ... ok
 Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_define_source..ku#define_source..<SNR>45_valid_key_p:
 line    5:
 Invalild definition: Without key 'gather_candidates'
@@ -173,13 +174,17 @@ TEST: ku#define_source({'gather_candidates': 0, 'name': 'test'})  ==>  0 ... ok
 Invalild definition: Key 'name' must be string but given value is 0
 TEST: ku#define_source({'gather_candidates': F, 'name': 0})  ==>  0 ... ok
 TEST: Ref('available_sources')  ==>  {} ... ok
+TEST: Ref('available_kinds')  ==>  {} ... ok
 TEST: ku#define_source({'gather_candidates': F, 'name': 'test'})  ==>  1 ... ok
-TEST: Ref('available_sources')['test']  ==>  { 'filters': [], 'gather_candidates': F, 'matchers': matchers, 'name': 'test', 'sorters': sorters, } ... ok
+TEST: Ref('available_sources')['test']  ==>  { 'default_action_table': {}, 'default_key_table': {}, 'filters': [], 'gather_candidates': F, 'kinds': ['source/test'], 'matchers': matchers, 'name': 'test', 'sorters': sorters, } ... ok
+TEST: Ref('available_kinds')['source/test']  ==>  { 'default_action_table': {}, 'default_key_table': {}, 'name': 'source/test', } ... ok
 TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
-TEST: Ref('available_sources')['test']  ==>  { 'filters': [], 'gather_candidates': G, 'matchers': matchers, 'name': 'test', 'sorters': sorters, } ... ok
-TEST: ku#define_source({ 'filters': [G], 'gather_candidates': F, 'matchers': [G], 'name': 'test', 'sorters': [F]})  ==>  1 ... ok
-TEST: Ref('available_sources')['test']  ==>  { 'filters': [G], 'gather_candidates': F, 'matchers': [G], 'name': 'test', 'sorters': [F], } ... ok
-Result: 12 / 12
+TEST: Ref('available_sources')['test']  ==>  { 'default_action_table': {}, 'default_key_table': {}, 'filters': [], 'gather_candidates': G, 'kinds': ['source/test'], 'matchers': matchers, 'name': 'test', 'sorters': sorters, } ... ok
+TEST: Ref('available_kinds')['source/test']  ==>  { 'default_action_table': {}, 'default_key_table': {}, 'name': 'source/test', } ... ok
+TEST: ku#define_source({ 'default_action_table': {'checkout': function('function')}, 'default_key_table': {'/': 'checkout'}, 'filters': [G], 'gather_candidates': F, 'kinds': ['git', 'file'], 'matchers': [G], 'name': 'test', 'sorters': [F]})  ==>  1 ... ok
+TEST: Ref('available_sources')['test']  ==>  { 'default_action_table': {'checkout': function('function')}, 'default_key_table': {'/': 'checkout'}, 'filters': [G], 'gather_candidates': F, 'kinds': ['source/test', 'git', 'file'], 'matchers': [G], 'name': 'test', 'sorters': [F], } ... ok
+TEST: Ref('available_kinds')['source/test']  ==>  { 'default_action_table': {'checkout': function('function')}, 'default_key_table': {'/': 'checkout'}, 'name': 'source/test', } ... ok
+Result: 17 / 17
 
 ===== "ku#omnifunc()"
 TEST: nr2char(getchar(0))  ==>  'A' ... ok
@@ -475,4 +480,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 354 / 354
+Result: 359 / 359

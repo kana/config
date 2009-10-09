@@ -391,9 +391,11 @@ function s:test_ku_define_source()  "{{{1
   let matchers = [function('ku#matcher#default#matches_p')]
   let sorters = [function('ku#sorter#default#sort')]
   call Set('available_sources', {})
+  call Set('available_kinds', {})
 
   " Initial state.
   Assert Ref('available_sources') ==> {}
+  Assert Ref('available_kinds') ==> {}
 
   " Define a source (bad cases).
   Assert ku#define_source({}) ==> 0
@@ -401,48 +403,80 @@ function s:test_ku_define_source()  "{{{1
   Assert ku#define_source({'gather_candidates': 0, 'name': 'test'}) ==> 0
   Assert ku#define_source({'gather_candidates': F, 'name': 0}) ==> 0
   Assert Ref('available_sources') ==> {}
+  Assert Ref('available_kinds') ==> {}
 
   " Define a source (ordinary case).
   Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
   Assert Ref('available_sources')['test']
   \ ==> {
+  \ 'default_action_table': {},
+  \ 'default_key_table': {},
   \ 'filters': [],
   \ 'gather_candidates': F,
+  \ 'kinds': ['source/test'],
   \ 'matchers': matchers,
   \ 'name': 'test',
   \ 'sorters': sorters,
+  \ }
+  Assert Ref('available_kinds')['source/test']
+  \ ==> {
+  \ 'default_action_table': {},
+  \ 'default_key_table': {},
+  \ 'name': 'source/test',
   \ }
 
   " Override an existing source.
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
   Assert Ref('available_sources')['test']
   \ ==> {
+  \ 'default_action_table': {},
+  \ 'default_key_table': {},
   \ 'filters': [],
   \ 'gather_candidates': G,
+  \ 'kinds': ['source/test'],
   \ 'matchers': matchers,
   \ 'name': 'test',
   \ 'sorters': sorters,
   \ }
+  Assert Ref('available_kinds')['source/test']
+  \ ==> {
+  \ 'default_action_table': {},
+  \ 'default_key_table': {},
+  \ 'name': 'source/test',
+  \ }
 
-  " With "filters", "matchers" and "sorters".
+  " With optional attributes.
   Assert ku#define_source({
+  \ 'default_action_table': {'checkout': function('function')},
+  \ 'default_key_table': {'/': 'checkout'},
   \ 'filters': [G],
   \ 'gather_candidates': F,
+  \ 'kinds': ['git', 'file'],
   \ 'matchers': [G],
   \ 'name': 'test',
   \ 'sorters': [F]})
   \ ==> 1
   Assert Ref('available_sources')['test']
   \ ==> {
+  \ 'default_action_table': {'checkout': function('function')},
+  \ 'default_key_table': {'/': 'checkout'},
   \ 'filters': [G],
   \ 'gather_candidates': F,
+  \ 'kinds': ['source/test', 'git', 'file'],
   \ 'matchers': [G],
   \ 'name': 'test',
   \ 'sorters': [F],
   \ }
+  Assert Ref('available_kinds')['source/test']
+  \ ==> {
+  \ 'default_action_table': {'checkout': function('function')},
+  \ 'default_key_table': {'/': 'checkout'},
+  \ 'name': 'source/test',
+  \ }
 
   " Reset side effect for further tests.
   call Set('available_sources', {})
+  call Set('available_kinds', {})
 endfunction
 
 

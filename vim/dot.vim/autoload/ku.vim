@@ -41,8 +41,14 @@ let s:NULL_KIND = {
 \ }
 
 
+" Note that:
+" - Values of all attributes but 'kinds' are used as immutable ones.
+" - The value of 'kinds' is just a placeholder and it's not used as is.
 let s:NULL_SOURCE = {
+\   'default_action_table': {},
+\   'default_key_table': {},
 \   'filters': [],
+\   'kinds': [],
 \   'matchers': [function('ku#matcher#default#matches_p')],
 \   'sorters': [function('ku#sorter#default#sort')],
 \ }
@@ -161,14 +167,25 @@ function! ku#define_source(definition)  "{{{2
   let new_source = extend(copy(s:NULL_SOURCE), a:definition, 'force')
 
   if !(s:TRUE
+  \    && s:valid_key_p(new_source, 'default_action_table', 'dictionary')
+  \    && s:valid_key_p(new_source, 'default_key_table', 'dictionary')
   \    && s:valid_key_p(new_source, 'filters', 'list of functions')
   \    && s:valid_key_p(new_source, 'gather_candidates', 'function')
+  \    && s:valid_key_p(new_source, 'kinds', 'list of strings')
   \    && s:valid_key_p(new_source, 'matchers', 'list of functions')
   \    && s:valid_key_p(new_source, 'name', 'string')
   \    && s:valid_key_p(new_source, 'sorters', 'list of functions')
   \  )
     return s:FALSE
   endif
+
+  let new_source.kinds = ([printf('source/%s', new_source.name)]
+  \                       + new_source.kinds)
+  call ku#define_kind({
+  \      'default_action_table': new_source.default_action_table,
+  \      'default_key_table': new_source.default_key_table,
+  \      'name': new_source.kinds[0],
+  \    })
 
   let s:available_sources[new_source['name']] = new_source
 
