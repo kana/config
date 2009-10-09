@@ -694,7 +694,12 @@ function! s:take_action(action_name, ...)  "{{{2
       echoerr 'There is no such action:' string(action_name)
       return s:FALSE
     else
-      call Action_function(selected_candidate)
+      let _ = Action_function(selected_candidate)
+      if _ isnot 0
+        echohl ErrorMsg
+        echomsg _
+        echohl NONE
+      endif
     endif
   endif
   return s:TRUE
