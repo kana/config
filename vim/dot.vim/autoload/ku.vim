@@ -461,6 +461,45 @@ endfunction
 
 
 
+function! s:guess_candidate()  "{{{2
+  let current_pattern = getline(s:LNUM_INPUT)
+  if current_pattern !=# s:session.last_pattern
+    " current_pattern seems to be inserted by completion.
+    for _ in s:session.last_completed_candidates
+      if current_pattern ==# _.word
+        let selected_candidate = _
+        break
+      endif
+    endfor
+    if !exists('selected_candidate')
+      echoerr 'ku-E1: No match found in the last completed candidates'
+      echoerr 'current_pattern' string(current_pattern)
+      echoerr 's:session.last_pattern' string(s:session.last_pattern)
+      echoerr 's:session.last_completed_candidates'
+      \       string(s:session.last_completed_candidates)
+      let selected_candidate = 0
+    endif
+  else
+    " current_pattern seems NOT to be inserted by completion, but ...
+    if 0 < len(s:session.last_completed_candidates)
+      " There are 1 or more candidates:
+      " -- User seems to take an action on the 1st one.
+      let selected_candidate = s:session.last_completed_candidates[0]
+    else
+      " There is no candidate:
+      " -- User seems to take an action on current_pattern.
+      " FIXME: NIY
+      echoerr 'There is no candidate; nothing to do.'
+      let selected_candidate = 0
+    endif
+  endif
+
+  return selected_candidate
+endfunction
+
+
+
+
 function! s:initialize_ku_buffer()  "{{{2
   " The current buffer is initialized.
 
@@ -620,40 +659,14 @@ endfunction
 
 
 
-function! s:take_action(action_name)  "{{{2
-  "" Preparation
-  let current_pattern = getline(s:LNUM_INPUT)
-  if current_pattern !=# s:session.last_pattern
-    " current_pattern seems to be inserted by completion.
-    for _ in s:session.last_completed_candidates
-      if current_pattern ==# _.word
-        let selected_candidate = _
-        break
-      endif
-    endfor
-    if !exists('selected_candidate')
-      echoerr 'Internal error: No match found in the last completed candidates'
-      echoerr 'current_pattern' string(current_pattern)
-      echoerr 's:session.last_pattern' string(s:session.last_pattern)
-      echoerr 's:session.last_completed_candidates'
-      \       string(s:session.last_completed_candidates)
-      throw 'ku-E1'
-    endif
+function! s:take_action(action_name, ...)  "{{{2
+  if a:0 == 0
+    let candidate = s:guess_candidate()
   else
-    " current_pattern seems NOT to be inserted by completion, but ...
-    if 0 < len(s:session.last_completed_candidates)
-      " There are 1 or more candidates:
-      " -- User seems to take an action on the 1st one.
-      let selected_candidate = s:session.last_completed_candidates[0]
-    else
-      " There is no candidate:
-      " -- User seems to take an action on current_pattern.
-      " FIXME: NIY
-      let nothing_to_do_p = s:TRUE
-    endif
+    let candidate = a:1
   endif
 
-  if nothing_to_do_p
+  if candidate is 0
     " Ignore.
   elseif a:action_name ==# '*choose*'
     let action_name = s:choose_an_action(selected_candidate)
@@ -667,8 +680,7 @@ function! s:take_action(action_name)  "{{{2
   " active.
   call s:quit_session()
 
-  "" Do action.
-  if nothing_to_do_p
+  if candidate is 0
     echo 'Nothing to do, because there is no candidate.'
     return s:FALLSE
   elseif action_name ==# 'nop'
