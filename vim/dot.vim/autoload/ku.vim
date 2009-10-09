@@ -456,11 +456,11 @@ function! s:initialize_ku_buffer()  "{{{2
   augroup END
 
   " Key mappings - fundamentals.
-  nnoremap <buffer> <silent> <SID>(choose-an-action)
+  nnoremap <buffer> <silent> <SID>(choose-and-do-an-action)
   \        :<C-u>call <SID>chose_and_do_an_action()<Return>
-  nnoremap <buffer> <silent> <SID>(ku-do-the-default-action)
+  nnoremap <buffer> <silent> <SID>(do-the-default-action)
   \        :<C-u>call <SID>do_the_default_action()<Return>
-  nnoremap <buffer> <silent> <SID>(ku-quit-session)
+  nnoremap <buffer> <silent> <SID>(quit-session)
   \        :<C-u>call <SID>quit_session()<Return>
   inoremap <buffer> <expr> <SID>(accept-completion)
   \        pumvisible() ? '<C-y>' : ''
