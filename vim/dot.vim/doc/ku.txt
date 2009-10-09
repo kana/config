@@ -699,6 +699,11 @@ action						*ku-action*
 			a function which is executed for a currently selected
 			candidate in |the-ku-buffer|.
 
+			This function must take an argument which is
+			a candidate, and it must return 0 for success or
+			string for failure.  The string is displayed as an
+			error message.
+
 			See also:
 			- |ku-action-table|
 			- |<Plug>(ku-do-the-default-action)|
