@@ -22,6 +22,12 @@ endfunction
 command! NewBuffer  bwipeout! | enew!
 
 
+let s:INITIAL_CONTEXT = deepcopy(s:VARS)
+function! ResetContext()
+  call extend(s:VARS, deepcopy(s:INITIAL_CONTEXT), 'force')
+endfunction
+
+
 
 
 function s:test_s_custom_action_1()  "{{{1
@@ -159,6 +165,60 @@ function s:test_s_default_kind_action_table()  "{{{1
   " Reset side effect.
   call Set('available_kinds', {})
   Assert Ref('available_kinds') ==> {}
+endfunction
+
+
+
+
+function s:test_s_find_action()  "{{{1
+  Title "s:find_action()"
+
+    " The followings kinds-s are invalid but it's enough to test.
+  let kinds_empty = []
+  let kinds_test = [{'name': 'test'}]
+  let kinds_practical = [{'name': 'source/test'},
+  \                      {'name': 'test'},
+  \                      {'name': 'common'}]
+
+  " Initialize.
+  call ResetContext()
+
+  " Case 1: 'kinds' with no kind definition
+  " -- Although such case is not occured in practical use.
+  Assert Call('s:find_action', 'default', kinds_empty) ==> 0
+  Assert Call('s:find_action', 'open', kinds_empty) ==> 0
+  Assert Call('s:find_action', 'nop', kinds_empty) ==> 0
+  Assert Call('s:find_action', 'nothing', kinds_empty) ==> 0
+
+  " Case 2: 'kinds' with a usual kind definition
+  " -- Although such case is not occured in practical use.
+  Assert Call('s:find_action', 'default', kinds_test) ==> 0
+  Assert Call('s:find_action', 'open', kinds_test) ==> 0
+  Assert Call('s:find_action', 'nop', kinds_test) ==> 0
+  Assert Call('s:find_action', 'nothing', kinds_test) ==> 0
+
+  " Case 3: 'kinds' with practical kind definitions
+  Assert Call('s:find_action', 'default', kinds_practical)
+  \ ==> function('ku#action#common#default')
+  Assert Call('s:find_action', 'open', kinds_practical)
+  \ ==> function('ku#action#common#open')
+  Assert Call('s:find_action', 'nop', kinds_practical) ==> 0
+  Assert Call('s:find_action', 'nothing', kinds_practical) ==> 0
+
+  " Case 4: With custom actions
+  Assert ku#custom_action('common', 'default', 'common', 'above') ==> 0
+  Assert ku#custom_action('test', 'default', 'common', 'left') ==> 0
+  Assert ku#custom_action('test', 'nop', 'common', 'below') ==> 0
+  Assert ku#custom_action('test', 'nothing', 'common', 'right') ==> 0
+
+  Assert Call('s:find_action', 'default', kinds_practical)
+  \ ==> function('ku#action#common#left')
+  Assert Call('s:find_action', 'open', kinds_practical)
+  \ ==> function('ku#action#common#open')
+  Assert Call('s:find_action', 'nop', kinds_practical)
+  \ ==> function('ku#action#common#below')
+  Assert Call('s:find_action', 'nothing', kinds_practical)
+  \ ==> function('ku#action#common#right')
 endfunction
 
 

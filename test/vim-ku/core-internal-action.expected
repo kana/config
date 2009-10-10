@@ -54,5 +54,28 @@ TEST: Call('s:default_kind_action_table', 'buffer') is kind_a.default_action_tab
 TEST: Ref('available_kinds')  ==>  {} ... ok
 Result: 6 / 6
 
+===== "s:find_action()"
+TEST: Call('s:find_action', 'default', kinds_empty)  ==>  0 ... ok
+TEST: Call('s:find_action', 'open', kinds_empty)  ==>  0 ... ok
+TEST: Call('s:find_action', 'nop', kinds_empty)  ==>  0 ... ok
+TEST: Call('s:find_action', 'nothing', kinds_empty)  ==>  0 ... ok
+TEST: Call('s:find_action', 'default', kinds_test)  ==>  0 ... ok
+TEST: Call('s:find_action', 'open', kinds_test)  ==>  0 ... ok
+TEST: Call('s:find_action', 'nop', kinds_test)  ==>  0 ... ok
+TEST: Call('s:find_action', 'nothing', kinds_test)  ==>  0 ... ok
+TEST: Call('s:find_action', 'default', kinds_practical)  ==>  function('ku#action#common#default') ... ok
+TEST: Call('s:find_action', 'open', kinds_practical)  ==>  function('ku#action#common#open') ... ok
+TEST: Call('s:find_action', 'nop', kinds_practical)  ==>  0 ... ok
+TEST: Call('s:find_action', 'nothing', kinds_practical)  ==>  0 ... ok
+TEST: ku#custom_action('common', 'default', 'common', 'above')  ==>  0 ... ok
+TEST: ku#custom_action('test', 'default', 'common', 'left')  ==>  0 ... ok
+TEST: ku#custom_action('test', 'nop', 'common', 'below')  ==>  0 ... ok
+TEST: ku#custom_action('test', 'nothing', 'common', 'right')  ==>  0 ... ok
+TEST: Call('s:find_action', 'default', kinds_practical)  ==>  function('ku#action#common#left') ... ok
+TEST: Call('s:find_action', 'open', kinds_practical)  ==>  function('ku#action#common#open') ... ok
+TEST: Call('s:find_action', 'nop', kinds_practical)  ==>  function('ku#action#common#below') ... ok
+TEST: Call('s:find_action', 'nothing', kinds_practical)  ==>  function('ku#action#common#right') ... ok
+Result: 20 / 20
+
 ===== Total
-Result: 40 / 40
+Result: 60 / 60
