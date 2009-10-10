@@ -38,11 +38,36 @@ command! -complete=expression -nargs=* Assert
 \ call s:cmd_Assert(s:split_expressions(<q-args>),
 \                   map(s:split_expressions(<q-args>), 'eval(v:val)'))
 
+command! -complete=expression -nargs=* Initialize
+\ call call('s:cmd_Initialize', map([<f-args>], 'eval(v:val)'))
+
+command! ResetContext
+\ call s:cmd_ResetContext()
+
 command! -nargs=0 Test
 \ call s:cmd_Test()
 
 command! -complete=command -nargs=* Title
 \ call s:cmd_Title(<q-args>) | execute <q-args>
+
+
+
+
+function! Call(function_name, ...)
+  return call(substitute(a:function_name,
+  \                      '^s:',
+  \                      s:TESTED_SCRIPT_SID_PREFIX,
+  \                      ''),
+  \           a:000)
+endfunction
+
+function! Ref(variable_name)
+  return s:TESTED_SCRIPT_VARIABLE_SCOPE[a:variable_name]
+endfunction
+
+function! Set(variable_name, value)
+  let s:TESTED_SCRIPT_VARIABLE_SCOPE[a:variable_name] = a:value
+endfunction
 
 
 
@@ -55,6 +80,8 @@ command! -complete=command -nargs=* Title
 " Variables  "{{{2
 
 let s:INVALID_COUNT = -13
+
+" See also s:cmd_Initialize().
 
 let s:count_group_failures = s:INVALID_COUNT
 let s:count_group_tests = s:INVALID_COUNT
@@ -87,6 +114,24 @@ function! s:cmd_Assert(pair_exprs, pair_vals)  "{{{2
   endif
 
   return
+endfunction
+
+
+
+
+function! s:cmd_Initialize(sid_prefix, local_variables)  "{{{2
+  let s:TESTED_SCRIPT_SID_PREFIX = a:sid_prefix
+  let s:TESTED_SCRIPT_VARIABLE_SCOPE = a:local_variables
+  let s:TESTED_SCRIPT_INITIAL_CONTEXT = deepcopy(a:local_variables)
+endfunction
+
+
+
+
+function! s:cmd_ResetContext()  "{{{2
+  call extend(s:TESTED_SCRIPT_VARIABLE_SCOPE,
+  \           deepcopy(s:TESTED_SCRIPT_INITIAL_CONTEXT),
+  \           'force')
 endfunction
 
 
