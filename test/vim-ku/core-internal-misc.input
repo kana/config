@@ -1,29 +1,6 @@
 " Test: vim-ku core-internal-misc
-" Set up  "{{{1
-
-let s:SID_PREFIX = ku#_sid_prefix()
-
-function Call(function_name, ...)
-  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
-endfunction
-
-
-let s:VARS = ku#_local_variables()
-
-function! Ref(variable_name)
-  return s:VARS[a:variable_name]
-endfunction
-
-function! Set(variable_name, value)
-  let s:VARS[a:variable_name] = a:value
-endfunction
-
-
+Initialize ku#_sid_prefix() ku#_local_variables()
 command! NewBuffer  bwipeout! | enew!
-
-
-
-
 function s:test_ku_available_source_p()  "{{{1
   Title "ku#available_source_p()"
 

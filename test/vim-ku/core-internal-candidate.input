@@ -1,29 +1,5 @@
 " Test: vim-ku core-internal-candidate
-" Set up  "{{{1
-
-let s:SID_PREFIX = ku#_sid_prefix()
-
-function Call(function_name, ...)
-  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
-endfunction
-
-
-let s:VARS = ku#_local_variables()
-
-function! Ref(variable_name)
-  return s:VARS[a:variable_name]
-endfunction
-
-function! Set(variable_name, value)
-  let s:VARS[a:variable_name] = a:value
-endfunction
-
-
-command! NewBuffer  bwipeout! | enew!
-
-
-
-
+Initialize ku#_sid_prefix() ku#_local_variables()
 function s:test_ku_omnifunc()  "{{{1
   Title "ku#omnifunc()"
 
