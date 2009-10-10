@@ -855,14 +855,16 @@ test/vim-gtd/%.output: \
 
 # vim-ku  #{{{2
 TESTS_vim_ku = \
-		sorter-simple sorter-default \
-		matcher-default \
 		action-common \
 		core-internal-action \
 		core-internal-candidate \
 		core-internal-key \
 		core-internal-misc \
-		core-public core-ui
+		core-public \
+		core-ui \
+		matcher-default \
+		sorter-default \
+		sorter-simple
 TESTS_vim_ku_LIBRARY_FILES = \
 		test/libtest.vim \
 		test/tester-vim
