@@ -73,7 +73,8 @@ function! s:cmd_Assert(pair_exprs, pair_vals)  "{{{2
   let s:count_total_tests += 1
 
   echo 'TEST:' expr_actual '==>' expr_expected '... '
-  let succeeded_p = Val_actual ==# Val_expected
+  let succeeded_p = ((type(Val_actual) == type(Val_expected))
+  \                  && (Val_actual ==# Val_expected))
   if succeeded_p
     echon 'ok'
     echo
