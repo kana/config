@@ -1,16 +1,6 @@
 " Tests for misc. utilities
-" Set up  "{{{1
-
-let s:SID_PREFIX = ku#_sid_prefix()
-function Call(function_name, ...)
-  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
-endfunction
-
+Initialize ku#_sid_prefix() {}
 let g:ku_personal_runtime = split(&runtimepath, ',')[0]
-
-
-
-
 function s:test_calculate_available_sources_0001()  "{{{1
   let expected_sources = [
   \     'args',
