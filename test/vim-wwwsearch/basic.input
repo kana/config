@@ -1,10 +1,7 @@
 " Tests for wwwsearch
 " Initial set up  "{{{1
 
-let s:SID_PREFIX = wwwsearch#_sid_prefix()
-function Call(function_name, ...)
-  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
-endfunction
+Initialize wwwsearch#_sid_prefix() {}
 
 
 setlocal buftype=nofile
