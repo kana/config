@@ -114,7 +114,8 @@ endfunction
 
 
 function! ku#action#common#open(candidate)  "{{{2
-  return 'Action "open" is not defined for this candidate:' string(candidate)
+  return ('Action "open" is not defined for this candidate: '
+  \       . string(a:candidate))
 endfunction
 
 
