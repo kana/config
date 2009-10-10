@@ -857,6 +857,7 @@ test/vim-gtd/%.output: \
 TESTS_vim_ku = \
 		sorter-simple sorter-default \
 		matcher-default \
+		action-common \
 		core-internal-action \
 		core-internal-candidate \
 		core-internal-key \
@@ -865,6 +866,13 @@ TESTS_vim_ku = \
 TESTS_vim_ku_LIBRARY_FILES = \
 		test/libtest.vim \
 		test/tester-vim
+
+test/vim-ku/action-%.output: \
+		test/vim-ku/action-%.input \
+		$(TESTS_vim_ku_LIBRARY_FILES) \
+		$(PACKAGE_vim_ku_FILES_core) \
+		$(PACKAGE_vim_ku_FILES_actions)
+	@./test/tester-vim $< &>$@
 
 test/vim-ku/core-%.output: \
 		test/vim-ku/core-%.input \

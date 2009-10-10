@@ -1,0 +1,192 @@
+" Test: vim-ku action-common
+" Set up  "{{{1
+
+function! Test_action_open(candidate)
+  edit `=a:candidate.word`
+endfunction
+
+
+call ku#define_source({
+\   'default_action_table': {'open': function('Test_action_open')},
+\   'gather_candidates': function('get'),
+\   'name': 'action-common',
+\ })
+
+
+
+
+function s:test_ku_action_common_Bottom()  "{{{1
+  Title "ku#action#common#Bottom()"
+
+" " The following is a template to test 'open-with-split' actions.
+" " But it's not functional until ku#take_action() is implemented.
+" " So that it's disabled at this moment.
+
+" let candidate = {
+" \ 'ku__source': ku#available_sources()['action-common'],
+" \ 'word': 'something',
+" \ }
+
+" " Ordinary case
+" "
+" " Before:
+" " ---------------------
+" " |         |         |
+" " |    1    |    2    |
+" " |(current)|         |
+" " |         |         |
+" " ---------------------
+" "
+" " After:
+" " ---------------------
+" " |    1    |    2    |
+" " |-------------------|
+" " |         3         |
+" " |     (current)     |
+" " ---------------------
+" silent only
+" vsplit
+" let original_bufnr = bufnr('')
+" Assert winnr('$') ==> 2
+
+" Assert ku#action#common#Bottom(candidate) ==> 0
+
+" Assert winnr('$') ==> 3
+" Assert bufnr('') != original_bufnr ==> 1
+" Assert bufname('') ==> candidate.word
+endfunction
+
+
+
+
+function s:test_ku_action_common_Left()  "{{{1
+  Title "ku#action#common#Left()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_Right()  "{{{1
+  Title "ku#action#common#Right()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_Top()  "{{{1
+  Title "ku#action#common#Top()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_above()  "{{{1
+  Title "ku#action#common#above()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_below()  "{{{1
+  Title "ku#action#common#below()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_cancel()  "{{{1
+  Title "ku#action#common#cancel()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_cd()  "{{{1
+  Title "ku#action#common#cd()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_default()  "{{{1
+  Title "ku#action#common#default()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_ex()  "{{{1
+  Title "ku#action#common#ex()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_lcd()  "{{{1
+  Title "ku#action#common#lcd()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_left()  "{{{1
+  Title "ku#action#common#left()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_open()  "{{{1
+  Title "ku#action#common#open()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_right()  "{{{1
+  Title "ku#action#common#right()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_select()  "{{{1
+  Title "ku#action#common#select()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_tab_Left()  "{{{1
+  Title "ku#action#common#tab#Left()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_tab_Right()  "{{{1
+  Title "ku#action#common#tab#Right()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_tab_left()  "{{{1
+  Title "ku#action#common#tab#left()"
+endfunction
+
+
+
+
+function s:test_ku_action_common_tab_right()  "{{{1
+  Title "ku#action#common#tab#right()"
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
+
