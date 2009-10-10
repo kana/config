@@ -56,119 +56,6 @@ TEST: sort(keys(ku#available_sources()))  ==>  ['test'] ... ok
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
 Result: 14 / 14
 
-===== "ku#omnifunc()"
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-TEST: ku#omnifunc(1, '')  ==>  1 ... ok
-TEST: ku#omnifunc(1, '')  ==>  1 ... ok
-TEST: ku#omnifunc(1, '')  ==>  0 ... ok
-TEST: ku#omnifunc(1, '')  ==>  0 ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-TEST: ku#omnifunc(0, 'pattern')  ==>  [] ... ok
-TEST: ku#define_source(source)  ==>  1 ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-TEST: ku#omnifunc(0, 'pattern')  ==>  [{'word': 'pattern', 'abbr': 'pa'}] ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-Result: 15 / 15
-
-===== "s:candidates_from_pattern()"
-TEST: Call('s:candidates_from_pattern', '2330', [])  ==>  [] ... ok
-TEST: Call('s:candidates_from_pattern', '2330', [source_a])  ==>  [{'word': '2330'}] ... ok
-TEST: Call('s:candidates_from_pattern', '2330', [source_a, source_b])  ==>  [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}] ... ok
-TEST: Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])  ==>  [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}] ... ok
-TEST: Call('s:candidates_from_pattern', '2330', [source_c])  ==>  [{'word': 'p'}, {'word': 'u'}] ... ok
-TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}] ... ok
-Result: 6 / 6
-
-===== "s:custom_action_1()"
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {} ... ok
-TEST: Call('s:custom_action_1', 'file', 'ai', function('len'))  ==>  0 ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'ai': function('len')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'ai': function('len')}} ... ok
-TEST: Call('s:custom_action_1', 'file', 'ai', function('get'))  ==>  function('len') ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'ai': function('get')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'ai': function('get')}} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-Result: 9 / 9
-
-===== "s:custom_action_2()"
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
-Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_s_custom_action_2..Call..<SNR>45_custom_action_2:
-line    6:
-Kind 'kind2' is not defined.
-TEST: Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2')  ==>  0 ... ok
-TEST: ku#define_kind({ 'default_action_table': {'get': function('get'), 'len': function('len')}, 'default_key_table': {'g': 'get'}, 'name': 'file', })  ==>  1 ... ok
-line   11:
-Action 'name2' is not defined for 'file'.
-TEST: Call('s:custom_action_2', 'file', 'name1', 'file', 'name2')  ==>  0 ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {} ... ok
-TEST: Call('s:custom_action_2', 'file', 'default', 'file', 'get')  ==>  0 ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'default': function('get')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'default': function('get')}} ... ok
-TEST: Call('s:custom_action_2', 'file', 'default', 'file', 'len')  ==>  function('get') ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'default': function('len')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'default': function('len')}} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
-Result: 14 / 14
-
-===== "s:custom_kind_action_table()"
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-TEST: custom_file_action_table  ==>  {} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}} ... ok
-TEST: custom_file_action_table is custom_file_action_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}} ... ok
-TEST: custom_xxxxx_action_table  ==>  {} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
-TEST: custom_xxxxx_action_table is custom_xxxxx_action_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
-TEST: custom_file_action_table isnot custom_xxxxx_action_table  ==>  1 ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-Result: 11 / 11
-
-===== "s:custom_kind_key_table()"
-TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
-TEST: custom_buffer_key_table  ==>  {} ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}} ... ok
-TEST: custom_buffer_key_table is custom_buffer_key_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}} ... ok
-TEST: custom_xxxxx_key_table  ==>  {} ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
-TEST: custom_xxxxx_key_table is custom_xxxxx_key_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
-TEST: custom_buffer_key_table isnot custom_xxxxx_key_table  ==>  1 ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
-Result: 11 / 11
-
-===== "s:default_kind_action_table()"
-TEST: Ref('available_kinds')  ==>  {} ... ok
-TEST: Call('s:default_kind_action_table', 'buffer')  ==>  0 ... ok
-TEST: ku#define_kind(kind_a)  ==>  1 ... ok
-TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {'close': function('type')} ... ok
-TEST: Call('s:default_kind_action_table', 'buffer') is kind_a.default_action_table  ==>  1 ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
-Result: 6 / 6
-
-===== "s:filter_candidates()"
-TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M)  ==>  [ {'word': 'lm'}, {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'a'}, {'word': 'bcd'}, {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)  ==>  [ {'word': 'mnopq'}, ] ... ok
-TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD_M)  ==>  Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD) ... ok
-Result: 5 / 5
-
-===== "s:get_key()"
-TEST: typeahead  ==>  '' ... ok
-TEST: Call('s:get_key')  ==>  'a' ... ok
-TEST: Call('s:get_key')  ==>  "\<F1>" ... ok
-TEST: Call('s:get_key')  ==>  'Sasara' ... ok
-Result: 4 / 4
-
 ===== "s:initialize_ku_buffer()"
 TEST: &l:bufhidden  ==>  'hide' ... ok
 TEST: &l:buflisted  ==>  0 ... ok
@@ -205,13 +92,6 @@ TEST: Call('s:ku_active_p')  ==>  0 ... ok
 TEST: nr2char(getchar(0))  ==>  'A' ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 8 / 8
-
-===== "s:matched_candidates()"
-TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS,SOURCE_EMPTY)  ==>  [ ] ... ok
-TEST: Call('s:matched_candidates',copy(RAW_LCANDIDATES),ARGS,SOURCE_DEFAULT)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, ] ... ok
-TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'iue'}, {'word': 'oom'}, ] ... ok
-TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, {'word': 'iue'}, {'word': 'oom'}, ] ... ok
-Result: 4 / 4
 
 ===== "s:new_session()"
 TEST: ku#define_source({'gather_candidates': F, 'name': 'abc'})  ==>  1 ... ok
@@ -264,13 +144,6 @@ TEST: nr2char(getchar(0))  ==>  'A' ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 14 / 14
 
-===== "s:sort_candidates()"
-TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'l'}, {'word': 'b'}, {'word': 'u'}, {'word': 'm'}, ] ... ok
-TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_SIMPLE)  ==>  [ {'word': 'a'}, {'word': 'b'}, {'word': 'l'}, {'word': 'm'}, {'word': 'u'}, ] ... ok
-TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_REVERSE)  ==>  [ {'word': 'm'}, {'word': 'u'}, {'word': 'b'}, {'word': 'l'}, {'word': 'a'}, ] ... ok
-TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_R)  ==>  [ {'word': 'u'}, {'word': 'm'}, {'word': 'l'}, {'word': 'b'}, {'word': 'a'}, ] ... ok
-Result: 4 / 4
-
 ===== "s:valid_key_p()"
 Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_s_valid_key_p..Call..<SNR>45_valid_key_p:
 line    5:
@@ -294,4 +167,4 @@ TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ..
 Result: 12 / 12
 
 ===== Total
-Result: 212 / 212
+Result: 123 / 123

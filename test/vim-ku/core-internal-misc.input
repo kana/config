@@ -1,0 +1,377 @@
+" Test: vim-ku core-internal-misc
+" Set up  "{{{1
+
+let s:SID_PREFIX = ku#_sid_prefix()
+
+function Call(function_name, ...)
+  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
+endfunction
+
+
+let s:VARS = ku#_local_variables()
+
+function! Ref(variable_name)
+  return s:VARS[a:variable_name]
+endfunction
+
+function! Set(variable_name, value)
+  let s:VARS[a:variable_name] = a:value
+endfunction
+
+
+command! NewBuffer  bwipeout! | enew!
+
+
+
+
+function s:test_ku_available_source_p()  "{{{1
+  Title "ku#available_source_p()"
+
+  let F = function('function')
+  let G = function('type')
+  call Set('available_sources', {})
+
+  " Initial state.
+  Assert ku#available_sources() ==> {}
+  Assert ku#available_source_names() ==> []
+  Assert ku#available_source_p('test') ==> 0
+  Assert ku#available_source_p('abc') ==> 0
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Define a source (ordinary case).
+  Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
+  Assert ku#available_source_names() ==> ['test']
+  Assert ku#available_source_p('test') ==> 1
+  Assert ku#available_source_p('abc') ==> 0
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Override an existing source.
+  Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
+  Assert ku#available_source_names() ==> ['test']
+  Assert ku#available_source_p('test') ==> 1
+  Assert ku#available_source_p('abc') ==> 0
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Define more source.
+  Assert ku#define_source({'gather_candidates': F, 'name': 'abc'}) ==> 1
+  Assert ku#available_source_names() ==> ['abc', 'test']
+  Assert ku#available_source_p('test') ==> 1
+  Assert ku#available_source_p('abc') ==> 1
+  Assert ku#available_source_p('NoSuchSource') ==> 0
+
+  " Reset side effect for further tests.
+  call Set('available_sources', {})
+endfunction
+
+
+
+
+function s:test_ku_available_source_names()  "{{{1
+  Title "ku#available_source_names()"
+
+  let F = function('function')
+  let G = function('type')
+  call Set('available_sources', {})
+
+  " Initial state.
+  Assert ku#available_sources() ==> {}
+  Assert ku#available_source_names() ==> []
+
+  " Define a source (ordinary case).
+  Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
+  Assert ku#available_source_names() ==> ['test']
+
+  " Override an existing source.
+  Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
+  Assert ku#available_source_names() ==> ['test']
+
+  " Define more source.
+  Assert ku#define_source({'gather_candidates': F, 'name': 'abc'}) ==> 1
+  Assert ku#available_source_names() ==> ['abc', 'test']
+
+  " Reset side effect for further tests.
+  call Set('available_sources', {})
+endfunction
+
+
+
+
+function s:test_ku_available_sources()  "{{{1
+  Title "ku#available_sources()"
+
+  let F = function('function')
+  let G = function('type')
+  call Set('available_sources', {})
+
+  " Initial state.
+  Assert ku#available_sources() ==> {}
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Define a source (bad cases).
+  Assert ku#define_source({}) ==> 0
+  Assert ku#define_source({'gather_candidates': 0, 'name': 0}) ==> 0
+  Assert ku#define_source({'gather_candidates': 0, 'name': 'test'}) ==> 0
+  Assert ku#define_source({'gather_candidates': F, 'name': 0}) ==> 0
+  Assert sort(keys(ku#available_sources())) ==> []
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Define a source (ordinary case).
+  Assert ku#define_source({'gather_candidates': F, 'name': 'test'}) ==> 1
+  Assert sort(keys(ku#available_sources())) ==> ['test']
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Override an existing source.
+  Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
+  Assert sort(keys(ku#available_sources())) ==> ['test']
+  Assert ku#available_sources() ==> Ref('available_sources')
+
+  " Reset side effect for further tests.
+  call Set('available_sources', {})
+endfunction
+
+
+
+
+function s:test_s_initialize_ku_buffer()  "{{{1
+  Title "s:initialize_ku_buffer()"
+
+  "" Case 1: Without user's initialization.
+  NewBuffer
+  call Call('s:initialize_ku_buffer')
+
+  " Basic settings.
+  Assert &l:bufhidden ==> 'hide'
+  Assert &l:buflisted ==> 0
+  Assert &l:buftype ==> 'nofile'
+  Assert &l:omnifunc ==> 'ku#omnifunc'
+  Assert &l:swapfile ==> 0
+  Assert bufname('') ==> Ref('KU_BUFFER_NAME')
+
+  " Autocommands.
+  Assert exists('#plugin-ku#BufLeave#<buffer>') ==> 1
+  Assert exists('#plugin-ku#CursorMovedI#<buffer>') ==> 1
+  Assert exists('#plugin-ku#InsertEnter#<buffer>') ==> 1
+  Assert exists('#plugin-ku#TabLeave#<buffer>') ==> 0
+  Assert exists('#plugin-ku#WinLeave#<buffer>') ==> 1
+
+  " Key mappings - fundamentals.
+  Assert maparg('<BS>', 'i') != '' ==> 1
+  Assert maparg('<C-h>', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-choose-and-do-an-action)', 'n') != '' ==> 1
+  Assert maparg('<Plug>(ku-do-the-default-action)', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-do-the-default-action)', 'n') != '' ==> 1
+  Assert maparg('<Plug>(ku-quit-session)', 'i') != '' ==> 1
+  Assert maparg('<Plug>(ku-quit-session)', 'n') != '' ==> 1
+
+  " Key mappings - user interaface.
+  Assert maparg('<C-c>', 'n') ==> '<Plug>(ku-quit-session)'
+
+  "" Case 2: With user's initialization - by :autocmd
+  noautocmd NewBuffer  " :noautocmd to avoid calling event handlers.
+  augroup test
+    autocmd FileType ku  echo '" autocmd FileType ku'
+  augroup END
+
+  call Call('s:initialize_ku_buffer')
+  Assert maparg('<C-c>', 'n') ==> ''
+
+  augroup test
+    autocmd! FileType ku
+  augroup END
+
+  "" Case 3: With user's initialization - by ftplugin
+  noautocmd NewBuffer  " :noautocmd to avoid calling event handlers.
+  let b:did_ftplugin = 'ku'
+
+  call Call('s:initialize_ku_buffer')
+  Assert maparg('<C-c>', 'n') ==> ''
+
+  "" Reset side effect.
+  noautocmd bwipeout!  " :noautocmd to avoid calling event handlers.
+endfunction
+
+
+
+
+function s:test_s_ku_active_p()  "{{{1
+  Title "s:ku_active_p()"
+
+  " Initial state.
+  Assert Call('s:ku_active_p') ==> 0
+
+  " After starting a ku session.
+  Assert ku#start() ==> 1
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+  Assert Call('s:ku_active_p') ==> 1
+
+  " After quitting a ku session.
+  close
+  Assert Call('s:ku_active_p') ==> 0
+
+  " Reset side effect.
+  call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+  noautocmd bwipeout!  " :noautocmd to avoid calling event handlers.
+endfunction
+
+
+
+
+function s:test_s_new_session()  "{{{1
+  Title "s:new_session()"
+
+  let F = function('function')
+  let G = function('type')
+  call Set('available_sources', {})
+  let original_completeopt = &completeopt
+  let original_curwinnr = winnr()
+  let original_winrestcmd = winrestcmd()
+
+  " Define sources.
+  Assert ku#define_source({'gather_candidates': F, 'name': 'abc'}) ==> 1
+  Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
+  Assert ku#available_source_p('abc') ==> 1
+  Assert ku#available_source_p('test') ==> 1
+
+  " Create a session.
+  let session_a = Call('s:new_session', [])
+  Assert has_key(session_a, 'id') ==> 1
+  Assert session_a.now_quitting_p ==> 0
+  Assert session_a.original_completeopt ==> original_completeopt
+  Assert session_a.original_curwinnr ==> original_curwinnr
+  Assert session_a.original_winrestcmd ==> original_winrestcmd
+  Assert session_a.sources ==> []
+
+  " Create another session.
+  let session_b = Call('s:new_session', [])
+  Assert has_key(session_b, 'id') ==> 1
+  Assert session_b.now_quitting_p ==> 0
+  Assert session_b.original_completeopt ==> original_completeopt
+  Assert session_b.original_curwinnr ==> original_curwinnr
+  Assert session_b.original_winrestcmd ==> original_winrestcmd
+  Assert session_b.sources ==> []
+
+  " Different session has different id.
+  Assert session_b.id isnot session_a.id ==> 1
+
+  " Create a session with some sources.
+  let session = Call('s:new_session', ['test', 'abc'])
+  Assert has_key(session, 'id') ==> 1
+  Assert session.now_quitting_p ==> 0
+  Assert session.original_completeopt ==> original_completeopt
+  Assert session.original_curwinnr ==> original_curwinnr
+  Assert session.original_winrestcmd ==> original_winrestcmd
+  Assert session.sources ==> [
+  \   ku#available_sources()['test'],
+  \   ku#available_sources()['abc']
+  \ ]
+
+  " Reset side effect for further tests.
+  call Set('available_sources', {})
+endfunction
+
+
+
+
+function s:test_s_on_CursorMovedI()  "{{{1
+  Title "s:on_CursorMovedI()"
+
+  " FIXME: NIY
+  Assert Call('s:on_CursorMovedI') ==> ''
+endfunction
+
+
+
+
+function s:test_s_on_InsertEnter()  "{{{1
+  Title "s:on_InsertEnter()"
+
+  " FIXME: NIY
+  Assert Call('s:on_InsertEnter') ==> ''
+endfunction
+
+
+
+
+function s:test_s_quit_session()  "{{{1
+  Title "s:quit_session()"
+
+  " Initial state.
+  topleft new
+  botright new
+  set completeopt=preview
+  let bufnr = bufnr('')
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+  let completeopt = &completeopt
+
+  " After starting a ku session.
+  Assert ku#start() ==> 1
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+  Assert bufnr('') != bufnr ==> 1
+  Assert winnr() != winnr ==> 1
+  Assert winrestcmd() != winrestcmd ==> 1
+  Assert &completeopt != completeopt ==> 1
+
+  " After quitting a ku session.
+  Assert Call('s:quit_session') ==> 1
+  let session = Ref('session')
+  Assert bufnr('') ==> bufnr
+  Assert winnr() ==> winnr
+  Assert winrestcmd() ==> winrestcmd
+  Assert &completeopt ==> completeopt
+
+  " NTY: recursively called s:quit_session() - but how to test it?
+
+  " Reset side effect.
+  call ku#start()
+  Assert nr2char(getchar(0)) ==> 'A'
+  Assert nr2char(getchar(0)) ==> ''
+  bwipeout!
+  only
+endfunction
+
+
+
+
+function s:test_s_valid_key_p()  "{{{1
+  Title "s:valid_key_p()"
+
+  " Case 1: Invalid type.
+  Assert Call('s:valid_key_p', {}, '8bit', 0) ==> 0
+
+  " Case 2: Key not exists.
+  Assert Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string') ==> 0
+
+  " Case 3: Valid values.
+  Assert Call('s:valid_key_p', {'8bit': {}}, '8bit', 'dictionary') ==> 1
+  Assert Call('s:valid_key_p', {'8': function('len')}, '8', 'function') ==> 1
+  Assert Call('s:valid_key_p', {'8bit': []}, '8bit', 'list') ==> 1
+  Assert Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'number') ==> 1
+  Assert Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string') ==> 1
+
+  " Case 4: List with valid values.
+  Assert Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of numbers') ==> 1
+  Assert Call('s:valid_key_p', {'A': []}, 'A', 'list of functions') ==> 1
+  Assert Call('s:valid_key_p',
+  \ {'A': [function('len')]},
+  \ 'A',
+  \ 'list of functions')
+  \ ==> 1
+
+  " Case 5: List with invalid values.
+  Assert Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of strings') ==> 0
+  Assert Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers') ==> 0
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker

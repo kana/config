@@ -1,0 +1,170 @@
+" Test: vim-ku core-internal-action
+" Set up  "{{{1
+
+let s:SID_PREFIX = ku#_sid_prefix()
+
+function Call(function_name, ...)
+  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
+endfunction
+
+
+let s:VARS = ku#_local_variables()
+
+function! Ref(variable_name)
+  return s:VARS[a:variable_name]
+endfunction
+
+function! Set(variable_name, value)
+  let s:VARS[a:variable_name] = a:value
+endfunction
+
+
+command! NewBuffer  bwipeout! | enew!
+
+
+
+
+function s:test_s_custom_action_1()  "{{{1
+  Title "s:custom_action_1()"
+
+  " Initialize.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+
+  " Define an action.
+  Assert Call('s:custom_kind_action_table', 'file') ==> {}
+  Assert Call('s:custom_action_1', 'file', 'ai', function('len')) ==> 0
+  Assert Call('s:custom_kind_action_table', 'file') ==> {'ai': function('len')}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {'ai': function('len')}}
+
+  " Override an existing action.
+  Assert Call('s:custom_action_1', 'file', 'ai', function('get'))
+  \ ==> function('len')
+  Assert Call('s:custom_kind_action_table', 'file') ==> {'ai': function('get')}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {'ai': function('get')}}
+
+  " Reset side effect.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+endfunction
+
+
+
+
+function s:test_s_custom_action_2()  "{{{1
+  Title "s:custom_action_2()"
+
+  " Initialize.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+
+  " Error cases.
+  Assert Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2') ==> 0
+  Assert ku#define_kind({
+  \ 'default_action_table': {'get': function('get'), 'len': function('len')},
+  \ 'default_key_table': {'g': 'get'},
+  \ 'name': 'file',
+  \ }) ==> 1
+  Assert Call('s:custom_action_2', 'file', 'name1', 'file', 'name2') ==> 0
+
+  " Define an action.
+  Assert Call('s:custom_kind_action_table', 'file') ==> {}
+
+  Assert Call('s:custom_action_2', 'file', 'default', 'file', 'get') ==> 0
+
+  Assert Call('s:custom_kind_action_table', 'file')
+  \ ==> {'default': function('get')}
+  Assert Ref('custom_kind_action_tables')
+  \ ==> {'file': {'default': function('get')}}
+
+  " Override an existing action.
+  Assert Call('s:custom_action_2', 'file', 'default', 'file', 'len')
+  \ ==> function('get')
+
+  Assert Call('s:custom_kind_action_table', 'file')
+  \ ==> {'default': function('len')}
+  Assert Ref('custom_kind_action_tables')
+  \ ==> {'file': {'default': function('len')}}
+
+  " Reset side effect.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+endfunction
+
+
+
+
+function s:test_s_custom_kind_action_table()  "{{{1
+  Title "s:custom_kind_action_table()"
+
+  " Initialize.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+
+  " Refer the custom action table for "file" - valid name.
+  let custom_file_action_table = Call('s:custom_kind_action_table', 'file')
+  Assert custom_file_action_table ==> {}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}}
+  let custom_file_action_table_2 = Call('s:custom_kind_action_table', 'file')
+  Assert custom_file_action_table is custom_file_action_table_2 ==> 1
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}}
+
+  " Refer the custom action table for "!@#$%" - invalid name but not checked.
+  let custom_xxxxx_action_table = Call('s:custom_kind_action_table', '!@#$%')
+  Assert custom_xxxxx_action_table ==> {}
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}, '!@#$%': {}}
+  let custom_xxxxx_action_table_2 = Call('s:custom_kind_action_table', '!@#$%')
+  Assert custom_xxxxx_action_table is custom_xxxxx_action_table_2 ==> 1
+  Assert Ref('custom_kind_action_tables') ==> {'file': {}, '!@#$%': {}}
+
+  " Both custom kind action tables are not the same one.
+  Assert custom_file_action_table isnot custom_xxxxx_action_table ==> 1
+
+  " Reset side effect.
+  call Set('custom_kind_action_tables', {})
+  Assert Ref('custom_kind_action_tables') ==> {}
+endfunction
+
+
+
+
+function s:test_s_default_kind_action_table()  "{{{1
+  Title "s:default_kind_action_table()"
+
+  " Initialize.
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+
+  " If not defined.
+  Assert Call('s:default_kind_action_table', 'buffer') ==> 0
+
+  " If defined.
+  let kind_a = {
+  \ 'default_action_table': {'close': function('type')},
+  \ 'default_key_table': {'c': 'close'},
+  \ 'name': 'buffer',
+  \ }
+  Assert ku#define_kind(kind_a) ==> 1
+
+  Assert Call('s:default_kind_action_table', 'buffer')
+  \ ==> {'close': function('type')}
+  Assert Call('s:default_kind_action_table', 'buffer')
+  \ is kind_a.default_action_table
+  \ ==> 1
+
+  " Reset side effect.
+  call Set('available_kinds', {})
+  Assert Ref('available_kinds') ==> {}
+endfunction
+
+
+
+
+Test  "{{{1
+
+" __END__
+" vim: filetype=vim foldmethod=marker
