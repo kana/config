@@ -844,7 +844,7 @@ test/vim-gtd/%.output: \
 TESTS_vim_ku = \
 		sorter-simple sorter-default \
 		matcher-default \
-		basic
+		core-internal core-public core-ui
 
 _TESTS_vim_ku_matcher_scripts = \
 		vim/dot.vim/autoload/ku/matcher/default.vim
