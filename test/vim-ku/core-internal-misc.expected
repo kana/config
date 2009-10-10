@@ -35,7 +35,7 @@ Result: 20 / 20
 ===== "ku#available_sources()"
 TEST: ku#available_sources()  ==>  {} ... ok
 TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
-Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_available_sources..ku#define_source..<SNR>45_valid_key_p:
+Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_ku_available_sources..ku#define_source..<SNR>11_valid_key_p:
 line    5:
 Invalild definition: Without key 'gather_candidates'
 TEST: ku#define_source({})  ==>  0 ... ok
@@ -145,7 +145,7 @@ TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 14 / 14
 
 ===== "s:valid_key_p()"
-Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_s_valid_key_p..Call..<SNR>45_valid_key_p:
+Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_s_valid_key_p..Call..<SNR>11_valid_key_p:
 line    5:
 Invalild definition: Without key '8bit'
 TEST: Call('s:valid_key_p', {}, '8bit', 0)  ==>  0 ... ok

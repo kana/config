@@ -13,7 +13,7 @@ Result: 9 / 9
 ===== "s:custom_action_2()"
 TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
 TEST: Ref('available_kinds')  ==>  {} ... ok
-Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_s_custom_action_2..Call..<SNR>45_custom_action_2:
+Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_s_custom_action_2..Call..<SNR>11_custom_action_2:
 line    6:
 Kind 'kind2' is not defined.
 TEST: Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2')  ==>  0 ... ok

@@ -77,7 +77,7 @@ Result: 36 / 36
 
 ===== "ku#define_kind()"
 TEST: Ref('available_kinds')  ==>  {} ... ok
-Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_define_kind..ku#define_kind..<SNR>45_valid_key_p:
+Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_ku_define_kind..ku#define_kind..<SNR>11_valid_key_p:
 line    5:
 Invalild definition: Without key 'default_action_table'
 TEST: ku#define_kind({ 'default_key_table': {}, 'name': 'file', })  ==>  0 ... ok
@@ -104,7 +104,7 @@ Result: 14 / 14
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
 TEST: Ref('available_kinds')  ==>  {} ... ok
-Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_define_source..ku#define_source..<SNR>45_valid_key_p:
+Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_ku_define_source..ku#define_source..<SNR>11_valid_key_p:
 line    5:
 Invalild definition: Without key 'gather_candidates'
 TEST: ku#define_source({})  ==>  0 ... ok
@@ -163,7 +163,7 @@ TEST: nr2char(getchar(0))  ==>  'A' ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
 TEST: winnr()  ==>  1 ... ok
 TEST: winnr('$')  ==>  2 ... ok
-Error detected while processing function <SNR>43_cmd_Test..<SNR>44_test_ku_start..ku#start:
+Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_ku_start..ku#start:
 line    6:
 Invalid source name: 'invalid'
 TEST: ku#start(['invalid'])  ==>  0 ... ok

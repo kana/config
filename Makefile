@@ -367,11 +367,13 @@ PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
+  vim/dot.vim/autoload/ku/action/common.vim \
   vim/dot.vim/autoload/ku/matcher/default.vim \
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim \
   vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/plugin/ku.vim
+  vim/dot.vim/plugin/ku.vim \
+  vim/dot.vim/plugin/ku/kind/common.vim
 
 PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
