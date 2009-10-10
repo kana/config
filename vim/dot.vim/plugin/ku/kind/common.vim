@@ -43,7 +43,6 @@ call ku#define_kind({
 \     'ex': function('ku#action#common#ex'),
 \     'lcd': function('ku#action#common#lcd'),
 \     'left': function('ku#action#common#left'),
-\     'nop': function('ku#action#common#nop'),
 \     'open': function('ku#action#common#open'),
 \     'right': function('ku#action#common#right'),
 \     'select': function('ku#action#common#select'),
