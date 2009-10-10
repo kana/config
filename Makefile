@@ -863,34 +863,25 @@ TESTS_vim_ku = \
 		core-internal-misc \
 		core-public core-ui
 
-_TESTS_vim_ku_matcher_scripts = \
-		vim/dot.vim/autoload/ku/matcher/default.vim
-_TESTS_vim_ku_sorter_scripts = \
-		vim/dot.vim/autoload/ku/sorter/default.vim \
-		vim/dot.vim/autoload/ku/sorter/simple.vim
+test/vim-ku/core-%.output: \
+		test/vim-ku/core-%.input \
+		test/tester-vim \
+		test/libtest.vim \
+		$(PACKAGE_vim_ku_FILES)
+	@./test/tester-vim $< &>$@
 
 test/vim-ku/matcher-%.output: \
 		test/vim-ku/matcher-%.input \
 		test/tester-vim \
 		test/libtest.vim \
-		$(_TESTS_vim_ku_matcher_scripts)
+		$(PACKAGE_vim_ku_FILES_matchers)
 	@./test/tester-vim $< &>$@
 
 test/vim-ku/sorter-%.output: \
 		test/vim-ku/sorter-%.input \
 		test/tester-vim \
 		test/libtest.vim \
-		$(_TESTS_vim_ku_sorter_scripts)
-	@./test/tester-vim $< &>$@
-
-test/vim-ku/%.output: \
-		test/vim-ku/%.input \
-		test/tester-vim \
-		test/libtest.vim \
-		vim/dot.vim/autoload/ku.vim \
-		vim/dot.vim/plugin/ku.vim \
-		$(_TESTS_vim_ku_matcher_scripts) \
-		$(_TESTS_vim_ku_sorter_scripts)
+		$(PACKAGE_vim_ku_FILES_sorters)
 	@./test/tester-vim $< &>$@
 
 
