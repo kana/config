@@ -751,7 +751,7 @@ test/vim-ku/%.output: \
 		test/libtest.vim \
 		vim/dot.vim/autoload/ku.vim \
 		vim/dot.vim/plugin/ku.vim
-	@./test/tester-vim $< 'plugin/ku.vim' &>$@
+	@./test/tester-vim $< &>$@
 
 
 # vim-ku-file  #{{{2
