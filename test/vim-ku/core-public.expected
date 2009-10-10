@@ -10,12 +10,9 @@ TEST: ku#custom_action('file', 'new', 'file', 'get', '')  ==>  0 ... ok
 TEST: ku#custom_action('file', 'new', 'file', 'get', '')  ==>  function('get') ... ok
 TEST: Ref('custom_kind_action_tables')  ==>  { 'file': { 'ai': function('get'), 'default': function('get'), 'new': function('get'), }, } ... ok
 TEST: Ref('available_kinds')  ==>  { 'file': { 'default_action_table': {'get': function('get'), 'len': function('len')}, 'default_key_table': {'g': 'get'}, 'name': 'file', }, } ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
-Result: 13 / 13
+Result: 11 / 11
 
 ===== "ku#custom_key()"
-TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
 TEST: ku#custom_key('buffer', '<', 'lt')  ==>  0 ... ok
 TEST: Call('s:custom_kind_key_table', 'buffer')  ==>  {'<': 'lt'} ... ok
 TEST: ku#custom_key('buffer', '>', 'gt')  ==>  0 ... ok
@@ -33,8 +30,7 @@ TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'LB', ')': 'rb'} ... 
 TEST: ku#custom_key('!@#$%', ')', 'RB')  ==>  'rb' ... ok
 TEST: Call('s:custom_kind_key_table', '!@#$%')  ==>  {'(': 'LB', ')': 'RB'} ... ok
 TEST: Ref('custom_kind_key_tables')  ==>  { 'buffer': {'<': 'LT', '>': 'GT'}, '!@#$%': {'(': 'LB', ')': 'RB'}, } ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
-Result: 19 / 19
+Result: 17 / 17
 
 ===== "ku#define_default_ui_key_mappings()"
 TEST: maparg('<C-c>', 'i')  ==>  'QUIT-INSERT' ... ok
@@ -98,8 +94,7 @@ TEST: ku#define_kind({ 'default_action_table': {'open': function('type')}, 'defa
 TEST: Ref('available_kinds')  ==>  { 'buffer': { 'default_action_table': {'close': function('type')}, 'default_key_table': {'c': 'close'}, 'name': 'buffer' }, 'file': { 'default_action_table': {'open': function('type')}, 'default_key_table': {'o': 'open'}, 'name': 'file' }, } ... ok
 TEST: ku#define_kind({ 'default_action_table': {'despair': function('type')}, 'default_key_table': {'d': 'despair'}, 'name': 'file', })  ==>  1 ... ok
 TEST: Ref('available_kinds')  ==>  { 'buffer': { 'default_action_table': {'close': function('type')}, 'default_key_table': {'c': 'close'}, 'name': 'buffer' }, 'file': { 'default_action_table': {'despair': function('type')}, 'default_key_table': {'d': 'despair'}, 'name': 'file' }, } ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
-Result: 14 / 14
+Result: 13 / 13
 
 ===== "ku#define_source()"
 TEST: Ref('available_sources')  ==>  {} ... ok
@@ -185,4 +180,4 @@ TEST: nr2char(getchar(0))  ==>  '' ... ok
 Result: 48 / 48
 
 ===== Total
-Result: 147 / 147
+Result: 142 / 142

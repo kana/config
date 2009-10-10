@@ -4,9 +4,10 @@ command! NewBuffer  bwipeout! | enew!
 function s:test_ku_available_source_p()  "{{{1
   Title "ku#available_source_p()"
 
+  ResetContext
+
   let F = function('function')
   let G = function('type')
-  call Set('available_sources', {})
 
   " Initial state.
   Assert ku#available_sources() ==> {}
@@ -35,9 +36,6 @@ function s:test_ku_available_source_p()  "{{{1
   Assert ku#available_source_p('test') ==> 1
   Assert ku#available_source_p('abc') ==> 1
   Assert ku#available_source_p('NoSuchSource') ==> 0
-
-  " Reset side effect for further tests.
-  call Set('available_sources', {})
 endfunction
 
 
@@ -46,9 +44,10 @@ endfunction
 function s:test_ku_available_source_names()  "{{{1
   Title "ku#available_source_names()"
 
+  ResetContext
+
   let F = function('function')
   let G = function('type')
-  call Set('available_sources', {})
 
   " Initial state.
   Assert ku#available_sources() ==> {}
@@ -65,9 +64,6 @@ function s:test_ku_available_source_names()  "{{{1
   " Define more source.
   Assert ku#define_source({'gather_candidates': F, 'name': 'abc'}) ==> 1
   Assert ku#available_source_names() ==> ['abc', 'test']
-
-  " Reset side effect for further tests.
-  call Set('available_sources', {})
 endfunction
 
 
@@ -76,9 +72,10 @@ endfunction
 function s:test_ku_available_sources()  "{{{1
   Title "ku#available_sources()"
 
+  ResetContext
+
   let F = function('function')
   let G = function('type')
-  call Set('available_sources', {})
 
   " Initial state.
   Assert ku#available_sources() ==> {}
@@ -101,9 +98,6 @@ function s:test_ku_available_sources()  "{{{1
   Assert ku#define_source({'gather_candidates': G, 'name': 'test'}) ==> 1
   Assert sort(keys(ku#available_sources())) ==> ['test']
   Assert ku#available_sources() ==> Ref('available_sources')
-
-  " Reset side effect for further tests.
-  call Set('available_sources', {})
 endfunction
 
 
@@ -200,9 +194,10 @@ endfunction
 function s:test_s_new_session()  "{{{1
   Title "s:new_session()"
 
+  ResetContext
+
   let F = function('function')
   let G = function('type')
-  call Set('available_sources', {})
   let original_completeopt = &completeopt
   let original_curwinnr = winnr()
   let original_winrestcmd = winrestcmd()
@@ -245,9 +240,6 @@ function s:test_s_new_session()  "{{{1
   \   ku#available_sources()['test'],
   \   ku#available_sources()['abc']
   \ ]
-
-  " Reset side effect for further tests.
-  call Set('available_sources', {})
 endfunction
 
 

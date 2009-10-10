@@ -4,10 +4,11 @@ command! NewBuffer  bwipeout! | enew!
 function s:test_ku_custom_actioin()  "{{{1
   Title "ku#custom_action()"
 
+  ResetContext
+
   " Initialize.
   call Set('custom_kind_action_tables', {})
   Assert Ref('custom_kind_action_tables') ==> {}
-
   call Set('available_kinds', {})
   Assert ku#define_kind({
   \ 'default_action_table': {'get': function('get'), 'len': function('len')},
@@ -49,12 +50,6 @@ function s:test_ku_custom_actioin()  "{{{1
   \ 'name': 'file',
   \ },
   \ }
-
-  " Reset side effect.
-  call Set('custom_kind_action_tables', {})
-  Assert Ref('custom_kind_action_tables') ==> {}
-  call Set('available_kinds', {})
-  Assert Ref('available_kinds') ==> {}
 endfunction
 
 
@@ -63,9 +58,7 @@ endfunction
 function s:test_ku_custom_key()  "{{{1
   Title "ku#custom_key()"
 
-  " Initialize.
-  call Set('custom_kind_key_tables', {})
-  Assert Ref('custom_kind_key_tables') ==> {}
+  ResetContext
 
   " Define a few key bindings for kind "buffer" - valid name.
   Assert ku#custom_key('buffer', '<', 'lt') ==> 0
@@ -96,10 +89,6 @@ function s:test_ku_custom_key()  "{{{1
   \ 'buffer': {'<': 'LT', '>': 'GT'},
   \ '!@#$%': {'(': 'LB', ')': 'RB'},
   \ }
-
-  " Reset side effect.
-  call Set('custom_kind_key_tables', {})
-  Assert Ref('custom_kind_key_tables') ==> {}
 endfunction
 
 
@@ -162,6 +151,8 @@ endfunction
 
 function s:test_ku_define_kind()  "{{{1
   Title "ku#define_kind()"
+
+  ResetContext
 
   " Initialize
   call Set('available_kinds', {})
@@ -243,10 +234,6 @@ function s:test_ku_define_kind()  "{{{1
   \ 'name': 'file'
   \ },
   \ }
-
-  " Reset side effect.
-  call Set('available_kinds', {})
-  Assert Ref('available_kinds') ==> {}
 endfunction
 
 
@@ -255,15 +242,17 @@ endfunction
 function s:test_ku_define_source()  "{{{1
   Title "ku#define_source()"
 
+  ResetContext
+
   let F = function('function')
   let G = function('type')
   let matchers = [function('ku#matcher#default#matches_p')]
   let sorters = [function('ku#sorter#default#sort')]
-  call Set('available_sources', {})
-  call Set('available_kinds', {})
 
   " Initial state.
+  call Set('available_sources', {})
   Assert Ref('available_sources') ==> {}
+  call Set('available_kinds', {})
   Assert Ref('available_kinds') ==> {}
 
   " Define a source (bad cases).
@@ -342,10 +331,6 @@ function s:test_ku_define_source()  "{{{1
   \ 'default_key_table': {'/': 'checkout'},
   \ 'name': 'source/test',
   \ }
-
-  " Reset side effect for further tests.
-  call Set('available_sources', {})
-  call Set('available_kinds', {})
 endfunction
 
 

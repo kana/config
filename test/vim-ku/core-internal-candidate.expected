@@ -12,9 +12,10 @@ TEST: ku#define_source(source)  ==>  1 ... ok
 TEST: nr2char(getchar(0))  ==>  'A' ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
 TEST: ku#omnifunc(0, 'pattern')  ==>  [{'word': 'pattern', 'abbr': 'pa'}] ... ok
+TEST: ku#start()  ==>  1 ... ok
 TEST: nr2char(getchar(0))  ==>  'A' ... ok
 TEST: nr2char(getchar(0))  ==>  '' ... ok
-Result: 15 / 15
+Result: 16 / 16
 
 ===== "s:candidates_from_pattern()"
 TEST: Call('s:candidates_from_pattern', '2330', [])  ==>  [] ... ok
@@ -48,4 +49,4 @@ TEST: Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_R)  ==>  [
 Result: 4 / 4
 
 ===== Total
-Result: 34 / 34
+Result: 35 / 35

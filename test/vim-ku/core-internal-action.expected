@@ -1,5 +1,4 @@
 ===== "s:custom_action_1()"
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
 TEST: Call('s:custom_kind_action_table', 'file')  ==>  {} ... ok
 TEST: Call('s:custom_action_1', 'file', 'ai', function('len'))  ==>  0 ... ok
 TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'ai': function('len')} ... ok
@@ -7,12 +6,9 @@ TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'ai': function('len')}} .
 TEST: Call('s:custom_action_1', 'file', 'ai', function('get'))  ==>  function('len') ... ok
 TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'ai': function('get')} ... ok
 TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'ai': function('get')}} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-Result: 9 / 9
+Result: 7 / 7
 
 ===== "s:custom_action_2()"
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
 Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_s_custom_action_2..Call..<SNR>11_custom_action_2:
 line    7:
 Action 'name2' is not defined for 'kind2'.
@@ -27,12 +23,9 @@ TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'default': function('get'
 TEST: Call('s:custom_action_2', 'file', 'default', 'file', 'len')  ==>  function('get') ... ok
 TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'default': function('len')} ... ok
 TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'default': function('len')}} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
-Result: 14 / 14
+Result: 10 / 10
 
 ===== "s:custom_kind_action_table()"
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
 TEST: custom_file_action_table  ==>  {} ... ok
 TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}} ... ok
 TEST: custom_file_action_table is custom_file_action_table_2  ==>  1 ... ok
@@ -42,17 +35,14 @@ TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
 TEST: custom_xxxxx_action_table is custom_xxxxx_action_table_2  ==>  1 ... ok
 TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
 TEST: custom_file_action_table isnot custom_xxxxx_action_table  ==>  1 ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
-Result: 11 / 11
+Result: 9 / 9
 
 ===== "s:default_kind_action_table()"
-TEST: Ref('available_kinds')  ==>  {} ... ok
 TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {} ... ok
 TEST: ku#define_kind(kind_a)  ==>  1 ... ok
 TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {'close': function('type')} ... ok
 TEST: Call('s:default_kind_action_table', 'buffer') is kind_a.default_action_table  ==>  1 ... ok
-TEST: Ref('available_kinds')  ==>  {} ... ok
-Result: 6 / 6
+Result: 4 / 4
 
 ===== "s:find_action()"
 TEST: Call('s:find_action', 'default', kinds_empty)  ==>  0 ... ok
@@ -78,4 +68,4 @@ TEST: Call('s:find_action', 'nothing', kinds_practical)  ==>  function('ku#actio
 Result: 20 / 20
 
 ===== Total
-Result: 60 / 60
+Result: 50 / 50

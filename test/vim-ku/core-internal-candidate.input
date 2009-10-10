@@ -3,6 +3,8 @@ Initialize ku#_sid_prefix() ku#_local_variables()
 function s:test_ku_omnifunc()  "{{{1
   Title "ku#omnifunc()"
 
+  ResetContext
+
   "" a:findstart == 1
 
   call ku#start()
@@ -53,10 +55,9 @@ function s:test_ku_omnifunc()  "{{{1
   Assert ku#omnifunc(0, 'pattern') ==> [{'word': 'pattern', 'abbr': 'pa'}]
 
   close
-  call Set('available_sources', {})
 
   " Reset side effect.
-  call ku#start()
+  Assert ku#start() ==> 1
   Assert nr2char(getchar(0)) ==> 'A'
   Assert nr2char(getchar(0)) ==> ''
   bwipeout!
@@ -67,6 +68,8 @@ endfunction
 
 function s:test_s_candidates_from_pattern()  "{{{1
   Title "s:candidates_from_pattern()"
+
+  ResetContext
 
   function! Test_matcher_always(...)
     return 1
@@ -129,6 +132,8 @@ endfunction
 
 function s:test_s_filter_candidates()  "{{{1
   Title "s:filter_candidates()"
+
+  ResetContext
 
   function! Test_filter_odd(lcandidates, args)
     return filter(a:lcandidates, 'len(v:val.word) % 2')
@@ -207,6 +212,8 @@ endfunction
 function s:test_s_matched_candidates()  "{{{1
   Title "s:matched_candidates()"
 
+  ResetContext
+
   function! Test_matcher_odd(candidate, args)
     return len(a:candidate.word) % 2
   endfunction
@@ -271,6 +278,8 @@ endfunction
 
 function s:test_s_sort_candidates()  "{{{1
   Title "s:sort_candidates()"
+
+  ResetContext
 
   function! Test_sorter_reverse(lcandidates, args)
     return reverse(a:lcandidates)

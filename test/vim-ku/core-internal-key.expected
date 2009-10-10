@@ -1,5 +1,4 @@
 ===== "s:custom_kind_key_table()"
-TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
 TEST: custom_buffer_key_table  ==>  {} ... ok
 TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}} ... ok
 TEST: custom_buffer_key_table is custom_buffer_key_table_2  ==>  1 ... ok
@@ -9,8 +8,7 @@ TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
 TEST: custom_xxxxx_key_table is custom_xxxxx_key_table_2  ==>  1 ... ok
 TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
 TEST: custom_buffer_key_table isnot custom_xxxxx_key_table  ==>  1 ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {} ... ok
-Result: 11 / 11
+Result: 9 / 9
 
 ===== "s:get_key()"
 TEST: typeahead  ==>  '' ... ok
@@ -20,4 +18,4 @@ TEST: Call('s:get_key')  ==>  'Sasara' ... ok
 Result: 4 / 4
 
 ===== Total
-Result: 15 / 15
+Result: 13 / 13

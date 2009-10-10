@@ -3,9 +3,7 @@ Initialize ku#_sid_prefix() ku#_local_variables()
 function s:test_s_custom_kind_key_table()  "{{{1
   Title "s:custom_kind_key_table()"
 
-  " Initialize.
-  call Set('custom_kind_key_tables', {})
-  Assert Ref('custom_kind_key_tables') ==> {}
+  ResetContext
 
   " Refer the custom key table for "buffer" - valid name.
   let custom_buffer_key_table = Call('s:custom_kind_key_table', 'buffer')
@@ -25,10 +23,6 @@ function s:test_s_custom_kind_key_table()  "{{{1
 
   " Both custom kind key tables are not the same one.
   Assert custom_buffer_key_table isnot custom_xxxxx_key_table ==> 1
-
-  " Reset side effect.
-  call Set('custom_kind_key_tables', {})
-  Assert Ref('custom_kind_key_tables') ==> {}
 endfunction
 
 
@@ -36,6 +30,8 @@ endfunction
 
 function s:test_s_get_key()  "{{{1
   Title "s:get_key()"
+
+  ResetContext
 
   " Drop all characters in the typeahead buffer.
   let typeahead = ''

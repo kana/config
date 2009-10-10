@@ -3,9 +3,7 @@ Initialize ku#_sid_prefix() ku#_local_variables()
 function s:test_s_custom_action_1()  "{{{1
   Title "s:custom_action_1()"
 
-  " Initialize.
-  call Set('custom_kind_action_tables', {})
-  Assert Ref('custom_kind_action_tables') ==> {}
+  ResetContext
 
   " Define an action.
   Assert Call('s:custom_kind_action_table', 'file') ==> {}
@@ -18,10 +16,6 @@ function s:test_s_custom_action_1()  "{{{1
   \ ==> function('len')
   Assert Call('s:custom_kind_action_table', 'file') ==> {'ai': function('get')}
   Assert Ref('custom_kind_action_tables') ==> {'file': {'ai': function('get')}}
-
-  " Reset side effect.
-  call Set('custom_kind_action_tables', {})
-  Assert Ref('custom_kind_action_tables') ==> {}
 endfunction
 
 
@@ -30,11 +24,7 @@ endfunction
 function s:test_s_custom_action_2()  "{{{1
   Title "s:custom_action_2()"
 
-  " Initialize.
-  call Set('custom_kind_action_tables', {})
-  Assert Ref('custom_kind_action_tables') ==> {}
-  call Set('available_kinds', {})
-  Assert Ref('available_kinds') ==> {}
+  ResetContext
 
   " Error cases.
   Assert Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2') ==> 0
@@ -63,12 +53,6 @@ function s:test_s_custom_action_2()  "{{{1
   \ ==> {'default': function('len')}
   Assert Ref('custom_kind_action_tables')
   \ ==> {'file': {'default': function('len')}}
-
-  " Reset side effect.
-  call Set('custom_kind_action_tables', {})
-  Assert Ref('custom_kind_action_tables') ==> {}
-  call Set('available_kinds', {})
-  Assert Ref('available_kinds') ==> {}
 endfunction
 
 
@@ -77,9 +61,7 @@ endfunction
 function s:test_s_custom_kind_action_table()  "{{{1
   Title "s:custom_kind_action_table()"
 
-  " Initialize.
-  call Set('custom_kind_action_tables', {})
-  Assert Ref('custom_kind_action_tables') ==> {}
+  ResetContext
 
   " Refer the custom action table for "file" - valid name.
   let custom_file_action_table = Call('s:custom_kind_action_table', 'file')
@@ -99,10 +81,6 @@ function s:test_s_custom_kind_action_table()  "{{{1
 
   " Both custom kind action tables are not the same one.
   Assert custom_file_action_table isnot custom_xxxxx_action_table ==> 1
-
-  " Reset side effect.
-  call Set('custom_kind_action_tables', {})
-  Assert Ref('custom_kind_action_tables') ==> {}
 endfunction
 
 
@@ -111,9 +89,7 @@ endfunction
 function s:test_s_default_kind_action_table()  "{{{1
   Title "s:default_kind_action_table()"
 
-  " Initialize.
-  call Set('available_kinds', {})
-  Assert Ref('available_kinds') ==> {}
+  ResetContext
 
   " If not defined.
   Assert Call('s:default_kind_action_table', 'buffer') ==> {}
@@ -131,10 +107,6 @@ function s:test_s_default_kind_action_table()  "{{{1
   Assert Call('s:default_kind_action_table', 'buffer')
   \ is kind_a.default_action_table
   \ ==> 1
-
-  " Reset side effect.
-  call Set('available_kinds', {})
-  Assert Ref('available_kinds') ==> {}
 endfunction
 
 
@@ -143,15 +115,14 @@ endfunction
 function s:test_s_find_action()  "{{{1
   Title "s:find_action()"
 
+  ResetContext
+
     " The followings kinds-s are invalid but it's enough to test.
   let kinds_empty = []
   let kinds_test = [{'name': 'test'}]
   let kinds_practical = [{'name': 'source/test'},
   \                      {'name': 'test'},
   \                      {'name': 'common'}]
-
-  " Initialize.
-  ResetContext
 
   " Case 1: 'kinds' with no kind definition
   " -- Although such case is not occured in practical use.
