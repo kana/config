@@ -17,6 +17,7 @@
 	ci = commit
 	co = checkout
 	cob = checkout -b
+	cp = cherry-pick
 	d = diff HEAD
 	dl = diff HEAD^
 	ds = diff --cached
