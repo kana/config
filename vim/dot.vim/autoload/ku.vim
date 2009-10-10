@@ -406,10 +406,6 @@ function! s:custom_action_2(kind, name, kind2, name2)  "{{{2
   let Old_func = get(custom_kind_action_table, a:name, 0)  " Caps to avoid E704
 
   let default_kind2_action_table = s:default_kind_action_table(a:kind2)
-  if default_kind2_action_table is 0
-    echoerr 'Kind' string(a:kind2) 'is not defined.'
-    return 0
-  endif
   let Func2 = get(default_kind2_action_table, a:name2, 0)  " Caps to avoid E704
   if Func2 is 0
     echoerr 'Action' string(a:name2) 'is not defined for' string(a:kind2).'.'
@@ -448,7 +444,7 @@ endfunction
 
 function! s:default_kind_action_table(kind_name)  "{{{2
   if !has_key(s:available_kinds, a:kind_name)
-    return 0
+    return {}
   endif
 
   return s:available_kinds[a:kind_name].default_action_table

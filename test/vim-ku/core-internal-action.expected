@@ -14,11 +14,10 @@ Result: 9 / 9
 TEST: Ref('custom_kind_action_tables')  ==>  {} ... ok
 TEST: Ref('available_kinds')  ==>  {} ... ok
 Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_s_custom_action_2..Call..<SNR>11_custom_action_2:
-line    6:
-Kind 'kind2' is not defined.
+line    7:
+Action 'name2' is not defined for 'kind2'.
 TEST: Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2')  ==>  0 ... ok
 TEST: ku#define_kind({ 'default_action_table': {'get': function('get'), 'len': function('len')}, 'default_key_table': {'g': 'get'}, 'name': 'file', })  ==>  1 ... ok
-line   11:
 Action 'name2' is not defined for 'file'.
 TEST: Call('s:custom_action_2', 'file', 'name1', 'file', 'name2')  ==>  0 ... ok
 TEST: Call('s:custom_kind_action_table', 'file')  ==>  {} ... ok
@@ -48,7 +47,7 @@ Result: 11 / 11
 
 ===== "s:default_kind_action_table()"
 TEST: Ref('available_kinds')  ==>  {} ... ok
-TEST: Call('s:default_kind_action_table', 'buffer')  ==>  0 ... ok
+TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {} ... ok
 TEST: ku#define_kind(kind_a)  ==>  1 ... ok
 TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {'close': function('type')} ... ok
 TEST: Call('s:default_kind_action_table', 'buffer') is kind_a.default_action_table  ==>  1 ... ok

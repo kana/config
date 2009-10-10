@@ -140,7 +140,7 @@ function s:test_s_default_kind_action_table()  "{{{1
   Assert Ref('available_kinds') ==> {}
 
   " If not defined.
-  Assert Call('s:default_kind_action_table', 'buffer') ==> 0
+  Assert Call('s:default_kind_action_table', 'buffer') ==> {}
 
   " If defined.
   let kind_a = {
