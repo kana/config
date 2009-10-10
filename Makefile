@@ -366,14 +366,25 @@ PACKAGE_vim_gtd_FILES=\
 PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
+  $(PACKAGE_vim_ku_FILES_core) \
+  \
+  $(PACKAGE_vim_ku_FILES_actions) \
+  $(PACKAGE_vim_ku_FILES_kinds) \
+  $(PACKAGE_vim_ku_FILES_matchers) \
+  $(PACKAGE_vim_ku_FILES_sorters)
+PACKAGE_vim_ku_FILES_actions=\
+  vim/dot.vim/autoload/ku/action/common.vim
+PACKAGE_vim_ku_FILES_core=\
   vim/dot.vim/autoload/ku.vim \
-  vim/dot.vim/autoload/ku/action/common.vim \
-  vim/dot.vim/autoload/ku/matcher/default.vim \
-  vim/dot.vim/autoload/ku/sorter/default.vim \
-  vim/dot.vim/autoload/ku/sorter/simple.vim \
   vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/plugin/ku.vim \
+  vim/dot.vim/plugin/ku.vim
+PACKAGE_vim_ku_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/common.vim
+PACKAGE_vim_ku_FILES_matchers=\
+  vim/dot.vim/autoload/ku/matcher/default.vim
+PACKAGE_vim_ku_FILES_sorters=\
+  vim/dot.vim/autoload/ku/sorter/default.vim \
+  vim/dot.vim/autoload/ku/sorter/simple.vim
 
 PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.1
 PACKAGE_vim_ku_args_BASE=vim/dot.vim
