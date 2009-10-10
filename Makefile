@@ -841,7 +841,10 @@ test/vim-gtd/%.output: \
 
 
 # vim-ku  #{{{2
-TESTS_vim_ku = sorter-simple sorter-default matcher-default basic
+TESTS_vim_ku = \
+		sorter-simple sorter-default \
+		matcher-default \
+		basic
 
 _TESTS_vim_ku_matcher_scripts = \
 		vim/dot.vim/autoload/ku/matcher/default.vim
