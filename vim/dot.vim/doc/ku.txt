@@ -512,6 +512,7 @@ kinds			list of strings		(optional)
 
 			See also:
 			- |ku-kind|
+			- |ku-kind-common|
 			- |ku-implicit-kind-for-a-source|
 
 						*ku-source-attribute-matchers*
@@ -658,6 +659,19 @@ action "delete" only for source "file":
 	call ku#custom_action('source/file', 'delete', function('...'))
 <
 
+THE COMMON KIND FOR ALL SOURCES			*ku-kind-common*
+
+Like |ku-implicit-kind-for-a-source|, ku treats as if there is another
+implicit kind as the last item in |ku-source-attribute-kinds|.  The kind is
+"common" and it is available for all sources.
+
+The purpose of kind "common" is to provide and to customize actions and key
+bindings to choose action for all kinds of candidates.  For example, the
+following code customizes action "default" for all sources:
+>
+	call ku#custom_action('common', 'default', 'common', 'above')
+<
+
 ACTION RESOLUTION ORDER				*ku-action-resolution-order*
 
 For example, suppose that a source "example" has ["git", "file"] as
@@ -669,8 +683,8 @@ For example, suppose that a source "example" has ["git", "file"] as
 (4) Default action table for kind "git".
 (5) Custom action table for kind "file".
 (6) Default action table for kind "file".
-(7) Custom common action table.
-(8) Default common action table.
+(7) Custom action table for kind "common".
+(8) Default action table for kind "common".
 
 See also |ku-action-table|.
 
@@ -718,28 +732,16 @@ action table					*ku-action-table*
 			executed whenever the corresponding action is taken on
 			a candidate.
 
-			There are 4 action tables for each kind:
+			There are 2 action tables for each kind:
 
 						*ku-custom-kind-action-table*
-			(1) Custom {kind} action table
-					       *ku-custom-common-action-table*
-			(2) Default {kind} action table
+			Custom {kind} action table
+				It is an action table to customize user's own
+				actions for a {kind} of candidates.
 						*ku-default-kind-action-table*
-			(3) Custom common action table
-					      *ku-default-common-action-table*
-			(4) Default common action table
-
-						*ku-custom-action-table*
-						*ku-default-action-table*
-			Default action tables ((2) and (4)) contain the
-			available actions by default, while custom action
-			tables ((1) and (3)) contain user's own actions.
-
-						*ku-kind-action-table*
-						*ku-common-action-table*
-			{kind} action tables ((1) and (2)) contain available
-			actions for {kind} candidates, while common action
-			tables contain available actions for all candidates.
+			Default {kind} action table
+				It is an action table to provide default
+				actions for a {kind} of candidates.
 
 			See also:
 			- |ku#custom_action()|
@@ -755,17 +757,19 @@ key table					*ku-key-table*
 			and each value is a string which is the name of an
 			action.
 
-			Like |ku-action-table|, there are 4 key tables for
+			Like |ku-action-table|, there are 2 key tables for
 			each kind of candidates:
 
 						*ku-custom-kind-key-table*
-			(1) Custom {kind} key table
-					       *ku-custom-common-key-table*
-			(2) Default {kind} key table
+			Custom {kind} key table
+				It is an key table to customize user's own
+				key bindings to choose action for a {kind} of
+				candidates.
 						*ku-default-kind-key-table*
-			(3) Custom common key table
-					      *ku-default-common-key-table*
-			(4) Default common key table
+			Default {kind} key table
+				It is an key table to provide default key
+				bindings to choose action for a {kind} of
+				candidates.
 
 			See also:
 			- |ku#custom_key()|
