@@ -255,6 +255,53 @@ endfunction
 
 
 
+function! ku#take_action(action_name, ...)  "{{{2
+  let candidate = a:0 == 0 ? s:guess_candidate() : a:1
+
+  if candidate is 0
+    " Ignore.  Assumes that error message is already displayed by caller.
+  elseif a:action_name ==# '*choose*'
+    let action_name = s:choose_action(candidate)
+  else
+    let action_name = a:action_name
+  endif
+
+  " Close the ku window, because some kind of actions does something on the
+  " current buffer/window and user expects that such actions do something on
+  " the buffer/window which was the current one until the ku buffer became
+  " active.
+  call s:quit_session()
+
+  if candidate is 0
+    return s:FALSE
+  elseif action_name ==# 'nop'
+    " Do nothing.
+    "
+    " 'nop' is a pseudo action and it cannot be overriden.
+    " To express this property, bypass the usual process.
+    return s:TRUE
+  else
+    let A = s:find_action(action_name, candidate.ku__source.kinds)
+    if A is 0
+      echoerr 'There is no such action:' string(action_name)
+      return s:FALSE
+    endif
+
+    let _ = A(candidate)
+    if _ isnot 0
+      echohl ErrorMsg
+      echomsg _
+      echohl NONE
+      return s:FALSE
+    endif
+
+    return s:TRUE
+  endif
+endfunction
+
+
+
+
 
 
 
@@ -329,6 +376,14 @@ function! s:candidates_from_pattern(pattern, sources)  "{{{2
   endfor
 
   return all_candidates
+endfunction
+
+
+
+
+function! s:choose_action(candidate)  "{{{2
+  " FIXME: NIY
+  return 'default'
 endfunction
 
 
@@ -416,6 +471,14 @@ endfunction
 
 
 
+function! s:find_action(action_name, kinds)  "{{{2
+  " FIXME: NIY
+  return 0
+endfunction
+
+
+
+
 function! s:get_key()  "{{{2
   " Alternative getchar() to get a logical key such as <F1> and <M-{x}>.
   let k = ''
@@ -430,6 +493,14 @@ function! s:get_key()  "{{{2
   endwhile
 
   return k
+endfunction
+
+
+
+
+function! s:guess_candidate()  "{{{2
+  " FIXME: NIY
+  return 0
 endfunction
 
 
@@ -457,9 +528,9 @@ function! s:initialize_ku_buffer()  "{{{2
 
   " Key mappings - fundamentals.
   nnoremap <buffer> <silent> <SID>(choose-and-do-an-action)
-  \        :<C-u>call <SID>chose_and_do_an_action()<Return>
+  \        :<C-u>call ku#take_action('*choose*')<Return>
   nnoremap <buffer> <silent> <SID>(do-the-default-action)
-  \        :<C-u>call <SID>do_the_default_action()<Return>
+  \        :<C-u>call ku#take_action('default')<Return>
   nnoremap <buffer> <silent> <SID>(quit-session)
   \        :<C-u>call <SID>quit_session()<Return>
   inoremap <buffer> <expr> <SID>(accept-completion)

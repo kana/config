@@ -200,6 +200,15 @@ ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
 			user input.  The default value is '', so nothing will
 			be inserted.
 
+ku#take_action({action-name}, [{candidate}])	*ku#take_action()*
+			Take an action for a given {candidate}.
+
+			{action-name} is a string which represents the name of
+			an action to execute.
+
+			If {candidate} is not given, the most relevant
+			candidate in the ku buffer is used.
+
 MATCHERS					*ku-functions-matchers*
 
 					      *ku#matcher#default#matches_p()*
