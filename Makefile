@@ -862,25 +862,25 @@ TESTS_vim_ku = \
 		core-internal-key \
 		core-internal-misc \
 		core-public core-ui
+TESTS_vim_ku_LIBRARY_FILES = \
+		test/libtest.vim \
+		test/tester-vim
 
 test/vim-ku/core-%.output: \
 		test/vim-ku/core-%.input \
-		test/tester-vim \
-		test/libtest.vim \
+		$(TESTS_vim_ku_LIBRARY_FILES) \
 		$(PACKAGE_vim_ku_FILES)
 	@./test/tester-vim $< &>$@
 
 test/vim-ku/matcher-%.output: \
 		test/vim-ku/matcher-%.input \
-		test/tester-vim \
-		test/libtest.vim \
+		$(TESTS_vim_ku_LIBRARY_FILES) \
 		$(PACKAGE_vim_ku_FILES_matchers)
 	@./test/tester-vim $< &>$@
 
 test/vim-ku/sorter-%.output: \
 		test/vim-ku/sorter-%.input \
-		test/tester-vim \
-		test/libtest.vim \
+		$(TESTS_vim_ku_LIBRARY_FILES) \
 		$(PACKAGE_vim_ku_FILES_sorters)
 	@./test/tester-vim $< &>$@
 
