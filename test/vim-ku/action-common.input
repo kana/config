@@ -18,6 +18,8 @@ call ku#define_source({
 function s:test_ku_action_common_Bottom()  "{{{1
   Title "ku#action#common#Bottom()"
 
+  " FIXME: NIY - until ku#take_action() becomes functional.
+
 " " The following is a template to test 'open-with-split' actions.
 " " But it's not functional until ku#take_action() is implemented.
 " " So that it's disabled at this moment.
@@ -61,6 +63,7 @@ endfunction
 
 function s:test_ku_action_common_Left()  "{{{1
   Title "ku#action#common#Left()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -68,6 +71,7 @@ endfunction
 
 function s:test_ku_action_common_Right()  "{{{1
   Title "ku#action#common#Right()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -75,6 +79,7 @@ endfunction
 
 function s:test_ku_action_common_Top()  "{{{1
   Title "ku#action#common#Top()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -82,6 +87,7 @@ endfunction
 
 function s:test_ku_action_common_above()  "{{{1
   Title "ku#action#common#above()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -89,6 +95,7 @@ endfunction
 
 function s:test_ku_action_common_below()  "{{{1
   Title "ku#action#common#below()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -96,6 +103,9 @@ endfunction
 
 function s:test_ku_action_common_cancel()  "{{{1
   Title "ku#action#common#cancel()"
+
+  " It always succeeds.
+  Assert ku#action#common#cancel({}) ==> 0
 endfunction
 
 
@@ -103,6 +113,29 @@ endfunction
 
 function s:test_ku_action_common_cd()  "{{{1
   Title "ku#action#common#cd()"
+
+  let cwd_before = getcwd()
+
+  " Ordinary case: cd to a directory.
+  Assert ku#action#common#cd({'word': 'vim'}) ==> 0
+  Assert getcwd() ==> cwd_before . '/vim'
+
+  " Ordinary case: cd to a file.
+  Assert ku#action#common#cd({'word': 'dot.vim/autoload/ku.vim'}) ==> 0
+  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+
+  " Error case: No such directory.
+  Assert ku#action#common#cd({'word': 'project/rail-gun'}) isnot 0 ==> 1
+  echo v:errmsg
+  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+
+  " ? case: No such file, but a directory exists.
+  Assert ku#action#common#cd({'word': 'ku/rail-gun'}) ==> 0
+  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload/ku'
+
+  " Reset side effect.
+  cd `=cwd_before`
+  Assert getcwd() ==> cwd_before
 endfunction
 
 
@@ -110,6 +143,7 @@ endfunction
 
 function s:test_ku_action_common_default()  "{{{1
   Title "ku#action#common#default()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -117,6 +151,27 @@ endfunction
 
 function s:test_ku_action_common_ex()  "{{{1
   Title "ku#action#common#ex()"
+
+  " Case 1: fnameescape(x) ==# x
+  Assert ku#action#common#ex({'word': 'vim'}) ==> 0
+  Assert nr2char(getchar(0)) ==> ':'
+  Assert nr2char(getchar(0)) ==> ' '
+  Assert nr2char(getchar(0)) ==> 'v'
+  Assert nr2char(getchar(0)) ==> 'i'
+  Assert nr2char(getchar(0)) ==> 'm'
+  Assert nr2char(getchar(0)) ==> "\<C-b>"
+  Assert nr2char(getchar(0)) ==> ''
+
+  " Case 1: fnameescape(x) !=# x
+  Assert ku#action#common#ex({'word': 'v i'}) ==> 0
+  Assert nr2char(getchar(0)) ==> ':'
+  Assert nr2char(getchar(0)) ==> ' '
+  Assert nr2char(getchar(0)) ==> 'v'
+  Assert nr2char(getchar(0)) ==> "\\"
+  Assert nr2char(getchar(0)) ==> ' '
+  Assert nr2char(getchar(0)) ==> 'i'
+  Assert nr2char(getchar(0)) ==> "\<C-b>"
+  Assert nr2char(getchar(0)) ==> ''
 endfunction
 
 
@@ -124,6 +179,43 @@ endfunction
 
 function s:test_ku_action_common_lcd()  "{{{1
   Title "ku#action#common#lcd()"
+
+  let cwd_before = getcwd()
+  split
+
+  " Ordinary case: lcd to a directory.
+  Assert ku#action#common#lcd({'word': 'vim'}) ==> 0
+  Assert getcwd() ==> cwd_before . '/vim'
+  wincmd w
+  Assert getcwd() ==> cwd_before
+  wincmd w
+
+  " Ordinary case: lcd to a file.
+  Assert ku#action#common#lcd({'word': 'dot.vim/autoload/ku.vim'}) ==> 0
+  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+  wincmd w
+  Assert getcwd() ==> cwd_before
+  wincmd w
+
+  " Error case: No such directory.
+  Assert ku#action#common#lcd({'word': 'project/rail-gun'}) isnot 0 ==> 1
+  echo v:errmsg
+  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+  wincmd w
+  Assert getcwd() ==> cwd_before
+  wincmd w
+
+  " ? case: No such file, but a directory exists.
+  Assert ku#action#common#lcd({'word': 'ku/rail-gun'}) ==> 0
+  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload/ku'
+  wincmd w
+  Assert getcwd() ==> cwd_before
+  wincmd w
+
+  " Reset side effect.
+  only
+  cd `=cwd_before`
+  Assert getcwd() ==> cwd_before
 endfunction
 
 
@@ -131,6 +223,7 @@ endfunction
 
 function s:test_ku_action_common_left()  "{{{1
   Title "ku#action#common#left()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -138,6 +231,11 @@ endfunction
 
 function s:test_ku_action_common_open()  "{{{1
   Title "ku#action#common#open()"
+
+  " This action is a fallback to notice the action 'default' for a kind is not
+  " defined (though the action must be defined), so that it always fails.
+  Assert ku#action#common#open({}) isnot 0 ==> 1
+  echo v:errmsg
 endfunction
 
 
@@ -145,6 +243,7 @@ endfunction
 
 function s:test_ku_action_common_right()  "{{{1
   Title "ku#action#common#right()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -152,6 +251,7 @@ endfunction
 
 function s:test_ku_action_common_select()  "{{{1
   Title "ku#action#common#select()"
+  " FIXME: NIY - until ku#restart() becomes functional.
 endfunction
 
 
@@ -159,6 +259,7 @@ endfunction
 
 function s:test_ku_action_common_tab_Left()  "{{{1
   Title "ku#action#common#tab#Left()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -166,6 +267,7 @@ endfunction
 
 function s:test_ku_action_common_tab_Right()  "{{{1
   Title "ku#action#common#tab#Right()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -173,6 +275,7 @@ endfunction
 
 function s:test_ku_action_common_tab_left()  "{{{1
   Title "ku#action#common#tab#left()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
@@ -180,6 +283,7 @@ endfunction
 
 function s:test_ku_action_common_tab_right()  "{{{1
   Title "ku#action#common#tab#right()"
+  " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
