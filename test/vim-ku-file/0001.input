@@ -1,10 +1,7 @@
 " Tests for misc. utilities
 " Set up  "{{{1
 
-let s:SID_PREFIX = ku#file#_sid_prefix()
-function Call(function_name, ...)
-  return call(substitute(a:function_name, '^s:', s:SID_PREFIX, ''), a:000)
-endfunction
+Initialize ku#file#_sid_prefix() {}
 
 function! s:rm(path)
   " FIXME: This is not portable.
