@@ -47,7 +47,7 @@
 	pushall = <<<
 		for i in $(git remote)
 		do
-		  echo "git push $i"
+		  echo "# git push $i $@"
 		  git push "$i" "$@"
 		done
 	>>>
