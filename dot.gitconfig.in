@@ -10,6 +10,7 @@
 	pager = less -r
 	excludesfile = ~/.gitignore
 [alias]
+	amend = !git fix
 	b = branch
 	ba = branch -a
 	br = branch -r
@@ -24,6 +25,7 @@
 	du = diff
 	edit-conflicted-files = !$EDITOR $(git ls-conflicted-files)
 	f = fetch
+	fix = commit --amend
 	l = log
 	l1 = log --pretty=oneline
 	lg = log --graph --pretty=oneline
