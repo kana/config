@@ -10,6 +10,7 @@
 	pager = less -r
 	excludesfile = ~/.gitignore
 [alias]
+	amend = !git fix
 	b = branch
 	ba = branch -a
 	br = branch -r
@@ -24,6 +25,7 @@
 	du = diff
 	edit-conflicted-files = !$EDITOR $(git ls-conflicted-files)
 	f = fetch
+	fix = commit --amend
 	l = log
 	l1 = log --pretty=oneline
 	lg = log --graph --pretty=oneline
@@ -43,6 +45,14 @@
 	m1 = merge --log HEAD@{1}
 	m2 = merge --log HEAD@{2}
 	m3 = merge --log HEAD@{3}
+	pa = !git pushall
+	pushall = <<<
+		for i in $(git remote)
+		do
+		  echo "# git push $i $@"
+		  git push "$i" "$@"
+		done
+	>>>
 	r1 = rebase HEAD@{1}
 	r2 = rebase HEAD@{2}
 	r3 = rebase HEAD@{3}
@@ -59,6 +69,7 @@
 	s2 = show HEAD@{2}
 	s3 = show HEAD@{3}
 	sa = stash apply
+	sd = stash drop
 	sl = stash list
 	sp = stash pop
 	ss = stash save
