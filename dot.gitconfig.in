@@ -67,6 +67,7 @@
 	s2 = show HEAD@{2}
 	s3 = show HEAD@{3}
 	sa = stash apply
+	sd = stash drop
 	sl = stash list
 	sp = stash pop
 	ss = stash save
