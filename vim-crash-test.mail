@@ -1,0 +1,29 @@
+BUG: Vim always crashes with some steps
+
+Hello there.
+
+I encountered a problem that Vim always crashes whenever I did some steps.
+To reproduce the problem, please try the following command (see the
+attached file "vim-crash-test.sh" for the details of the step I did):
+
+    /bin/bash vim-crash-test.sh
+
+The crash is caused by a memory access violation while calling extend()
+in Vim script.  The first argument to extend() is the dictionary
+corresponding to the value of s:TESTED_SCRIPT_VARIABLE_SCOPE (A) in
+./vim-crash-test/config/test/libtest.vim, and the value of
+s:TESTED_SCRIPT_VARIABLE_SCOPE is corresponding to s: (B) for
+./vim-crash-test/config/test/vim-ku/core-internal-candidate.input.
+
+At first of :source'ing
+./vim-crash-test/config/test/vim-ku/core-internal-candidate.input,
+(A) is initialized with the value of (B), so that (A) and (B) point to
+the same dictionary, and (A) will never be changed after the
+initialization.
+
+But when Vim crashed, the content of (A) has been altered by somewhere
+before calling extend(), while the content of (B) is not altered.  The
+content of (A) is mostly filled with 0, so that NULL pointer reference
+is occured in calling extend().
+
+See also vim-crash-test-gdb-session.log for what I tried to find out where.

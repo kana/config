@@ -1,0 +1,141 @@
+$ uname -a
+Darwin avril 9.8.0 Darwin Kernel Version 9.8.0: Wed Jul 15 16:55:01 PDT 2009; root:xnu-1228.15.4~1/RELEASE_I386 i386 i386 MacBook5,2 Darwin
+
+$ ../vim/src/vim --version
+VIM - Vi IMproved 7.2 (2008 Aug 9, compiled Oct 11 2009 23:46:37)
+Included patches: 1-267
+Compiled by kana@avril
+Huge version without GUI.  Features included (+) or not (-):
++arabic +autocmd -balloon_eval -browse ++builtin_terms +byte_offset +cindent 
+-clientserver -clipboard +cmdline_compl +cmdline_hist +cmdline_info +comments 
++cryptv +cscope +cursorshape +dialog_con +diff +digraphs -dnd -ebcdic 
++emacs_tags +eval +ex_extra +extra_search +farsi +file_in_path +find_in_path 
++float +folding -footer +fork() -gettext -hangul_input +iconv +insert_expand 
++jumplist +keymap +langmap +libcall +linebreak +lispindent +listcmds +localmap 
++menu +mksession +modify_fname +mouse -mouseshape +mouse_dec -mouse_gpm 
+-mouse_jsbterm +mouse_netterm -mouse_sysmouse +mouse_xterm +multi_byte 
++multi_lang -mzscheme -netbeans_intg -osfiletype +path_extra -perl +postscript 
++printer +profile -python +quickfix +reltime +rightleft -ruby +scrollbind 
++signs +smartindent -sniff +statusline -sun_workshop +syntax +tag_binary 
++tag_old_static -tag_any_white -tcl +terminfo +termresponse +textobjects +title
+ -toolbar +user_commands +vertsplit +virtualedit +visual +visualextra +viminfo 
++vreplace +wildignore +wildmenu +windows +writebackup -X11 -xfontset -xim -xsmp
+ -xterm_clipboard -xterm_save 
+   system vimrc file: "$VIM/vimrc"
+     user vimrc file: "$HOME/.vimrc"
+      user exrc file: "$HOME/.exrc"
+  fall-back for $VIM: "/usr/local/apps/vim/share/vim"
+Compilation: 
+gcc -c -I. -Iproto -DHAVE_CONFIG_H     -g -O0 -D_FORTIFY_SOURCE=1        
+Linking: gcc   -L/usr/local/lib -o vim       -lm -lncurses  -liconv        
+
+$ cd vim-crash-test/config
+
+$ gdb ../vim/src/vim
+GNU gdb 6.3.50-20050815 (Apple version gdb-962) (Sat Jul 26 08:14:40 UTC 2008)
+Copyright 2004 Free Software Foundation, Inc.
+GDB is free software, covered by the GNU General Public License, and you are
+welcome to change it and/or distribute copies of it under certain conditions.
+Type "show copying" to see the conditions.
+There is absolutely no warranty for GDB.  Type "show warranty" for details.
+This GDB was configured as "i386-apple-darwin"...Reading symbols for shared libraries ..... done
+
+(gdb) run -u NONE -N -e -s -c "source test/vim-crash-test.vim"
+Starting program: /Users/kana/tmp/vim-crash-test/vim/src/vim -u NONE -N -e -s -c "source test/vim-crash-test.vim"
+Reading symbols for shared libraries ++++. done
+===== "ku#omnifunc()"
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: ku#omnifunc(1, '')  ==>  1 ... ok
+TEST: ku#omnifunc(1, '')  ==>  1 ... ok
+TEST: ku#omnifunc(1, '')  ==>  0 ... ok
+TEST: ku#omnifunc(1, '')  ==>  0 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: ku#omnifunc(0, 'pattern')  ==>  [] ... ok
+TEST: ku#define_source(source)  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+TEST: ku#omnifunc(0, 'pattern')  ==>  [{'word': 'pattern', 'abbr': 'pa'}] ... ok
+TEST: ku#start()  ==>  1 ... ok
+TEST: nr2char(getchar(0))  ==>  'A' ... ok
+TEST: nr2char(getchar(0))  ==>  '' ... ok
+Result: 16 / 16
+
+===== "s:candidates_from_pattern()"
+TEST: Call('s:candidates_from_pattern', '2330', [])  ==>  [] ... ok
+TEST: Call('s:candidates_from_pattern', '2330', [source_a])  ==>  [{'word': '2330'}] ... ok
+TEST: Call('s:candidates_from_pattern', '2330', [source_a, source_b])  ==>  [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}] ... ok
+TEST: Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])  ==>  [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}] ... ok
+TEST: Call('s:candidates_from_pattern', '2330', [source_c])  ==>  [{'word': 'p'}, {'word': 'u'}] ... ok
+TEST: Call('s:candidates_from_pattern', '2330', [source_c, source_b])  ==>  [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}] ... ok
+Result: 6 / 6
+
+===== "s:filter_candidates()"
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)  ==>  [ {'word': 'a'}, {'word': 'lm'}, {'word': 'bcd'}, {'word': 'uvwx'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M)  ==>  [ {'word': 'lm'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'a'}, {'word': 'bcd'}, {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)  ==>  [ {'word': 'mnopq'}, ] ... ok
+TEST: Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD_M)  ==>  Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD) ... ok
+Result: 5 / 5
+
+===== "s:matched_candidates()"
+TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS,SOURCE_EMPTY)  ==>  [ ] ... ok
+TEST: Call('s:matched_candidates',copy(RAW_LCANDIDATES),ARGS,SOURCE_DEFAULT)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)  ==>  [ {'word': 'iue'}, {'word': 'oom'}, ] ... ok
+TEST: Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)  ==>  [ {'word': 'mk'}, {'word': 'oom'}, {'word': 'iue'}, {'word': 'oom'}, ] ... ok
+Result: 4 / 4
+
+===== "s:sort_candidates()"
+Program received signal EXC_BAD_ACCESS, Could not access memory.
+Reason: KERN_PROTECTION_FAILURE at address: 0x00000004
+0x000a052a in hash_lookup (ht=0x80e194, key=0x30c4dd "NULL_KIND", hash=1109196512) at hashtab.c:156
+156         if (hi->hi_key == NULL)
+(gdb) where
+#0  0x000a052a in hash_lookup (ht=0x80e194, key=0x30c4dd "NULL_KIND", hash=1109196512) at hashtab.c:156
+#1  0x000a04fb in hash_find (ht=0x80e194, key=0x30c4dd "NULL_KIND") at hashtab.c:126
+#2  0x0002f902 in dict_find (d=0x80e190, key=0x30c4dd "NULL_KIND", len=-1) at eval.c:7030
+#3  0x000334f7 in f_extend (argvars=0xbfffa858, rettv=0xbfffa9d8) at eval.c:9710
+#4  0x00030ffb in call_func (name=0x30d000 "extend", len=6, rettv=0xbfffa9d8, argcount=3, argvars=0xbfffa858, firstline=1, lastline=1, doesrange=0xbfffa9d4, evaluate=1, selfdict=0x0) at eval.c:8144
+#5  0x00030a71 in get_func_tv (name=0x30d000 "extend", len=6, rettv=0xbfffa9d8, arg=0xbfffa9e8, firstline=1, lastline=1, doesrange=0xbfffa9d4, evaluate=1, selfdict=0x0) at eval.c:7961
+#6  0x00029d38 in ex_call (eap=0xbfffaaa4) at eval.c:3337
+#7  0x0005f5d5 in do_one_cmd (cmdlinep=0xbfffaf04, sourcing=1, cstack=0xbfffac00, fgetline=0x4646b <get_func_line>, cookie=0x80ba00) at ex_docmd.c:2627
+#8  0x0005c173 in do_cmdline (cmdline=0x0, getline=0x4646b <get_func_line>, cookie=0x80ba00, flags=7) at ex_docmd.c:1096
+#9  0x0004595e in call_user_func (fp=0x33adc0, argcount=0, argvars=0xbfffb358, rettv=0xbfffb4d8, firstline=1, lastline=1, selfdict=0x0) at eval.c:21284
+#10 0x00030efc in call_func (name=0x3458b0 "��P35_cmd_ResetContext", len=22, rettv=0xbfffb4d8, argcount=0, argvars=0xbfffb358, firstline=1, lastline=1, doesrange=0xbfffb4d4, evaluate=1, selfdict=0x0) at eval.c:8115
+#11 0x00030a71 in get_func_tv (name=0x3458b0 "��P35_cmd_ResetContext", len=22, rettv=0xbfffb4d8, arg=0xbfffb4e8, firstline=1, lastline=1, doesrange=0xbfffb4d4, evaluate=1, selfdict=0x0) at eval.c:7961
+#12 0x00029d38 in ex_call (eap=0xbfffb5a4) at eval.c:3337
+#13 0x0005f5d5 in do_one_cmd (cmdlinep=0xbfffba04, sourcing=1, cstack=0xbfffb700, fgetline=0x4646b <get_func_line>, cookie=0x80c200) at ex_docmd.c:2627
+#14 0x0005c173 in do_cmdline (cmdline=0x30d2a0 "call s:cmd_ResetContext()", getline=0x4646b <get_func_line>, cookie=0x80c200, flags=11) at ex_docmd.c:1096
+#15 0x00066415 in do_ucmd (eap=0xbfffbb74) at ex_docmd.c:6057
+#16 0x0005f5a8 in do_one_cmd (cmdlinep=0xbfffbfd4, sourcing=1, cstack=0xbfffbcd0, fgetline=0x4646b <get_func_line>, cookie=0x80c200) at ex_docmd.c:2618
+#17 0x0005c173 in do_cmdline (cmdline=0x0, getline=0x4646b <get_func_line>, cookie=0x80c200, flags=7) at ex_docmd.c:1096
+#18 0x0004595e in call_user_func (fp=0x33f9f0, argcount=0, argvars=0xbfffc428, rettv=0xbfffc5a8, firstline=1, lastline=1, selfdict=0x0) at eval.c:21284
+#19 0x00030efc in call_func (name=0x33f6f0 "��P36_test_s_sort_candidates", len=28, rettv=0xbfffc5a8, argcount=0, argvars=0xbfffc428, firstline=1, lastline=1, doesrange=0xbfffc5a4, evaluate=1, selfdict=0x0) at eval.c:8115
+#20 0x00030a71 in get_func_tv (name=0x33f6f0 "��P36_test_s_sort_candidates", len=28, rettv=0xbfffc5a8, arg=0xbfffc5b8, firstline=1, lastline=1, doesrange=0xbfffc5a4, evaluate=1, selfdict=0x0) at eval.c:7961
+#21 0x00029d38 in ex_call (eap=0xbfffc674) at eval.c:3337
+#22 0x0005f5d5 in do_one_cmd (cmdlinep=0xbfffcad4, sourcing=1, cstack=0xbfffc7d0, fgetline=0x5ce38 <get_loop_line>, cookie=0xbfffc778) at ex_docmd.c:2627
+#23 0x0005c173 in do_cmdline (cmdline=0x0, getline=0x4646b <get_func_line>, cookie=0x80d400, flags=7) at ex_docmd.c:1096
+#24 0x0004595e in call_user_func (fp=0x33af70, argcount=0, argvars=0xbfffcf28, rettv=0xbfffd0a8, firstline=1, lastline=1, selfdict=0x0) at eval.c:21284
+#25 0x00030efc in call_func (name=0x33fcc0 "��P35_cmd_Test", len=14, rettv=0xbfffd0a8, argcount=0, argvars=0xbfffcf28, firstline=1, lastline=1, doesrange=0xbfffd0a4, evaluate=1, selfdict=0x0) at eval.c:8115
+#26 0x00030a71 in get_func_tv (name=0x33fcc0 "��P35_cmd_Test", len=14, rettv=0xbfffd0a8, arg=0xbfffd0b8, firstline=1, lastline=1, doesrange=0xbfffd0a4, evaluate=1, selfdict=0x0) at eval.c:7961
+#27 0x00029d38 in ex_call (eap=0xbfffd174) at eval.c:3337
+#28 0x0005f5d5 in do_one_cmd (cmdlinep=0xbfffd5d4, sourcing=1, cstack=0xbfffd2d0, fgetline=0x5a4c3 <getsourceline>, cookie=0xbfffdcc8) at ex_docmd.c:2627
+#29 0x0005c173 in do_cmdline (cmdline=0x33e260 "call s:cmd_Test()", getline=0x5a4c3 <getsourceline>, cookie=0xbfffdcc8, flags=11) at ex_docmd.c:1096
+#30 0x00066415 in do_ucmd (eap=0xbfffd744) at ex_docmd.c:6057
+#31 0x0005f5a8 in do_one_cmd (cmdlinep=0xbfffdba4, sourcing=1, cstack=0xbfffd8a0, fgetline=0x5a4c3 <getsourceline>, cookie=0xbfffdcc8) at ex_docmd.c:2618
+#32 0x0005c173 in do_cmdline (cmdline=0x33b560 "\" Test: vim-ku core-internal-candidate", getline=0x5a4c3 <getsourceline>, cookie=0xbfffdcc8, flags=7) at ex_docmd.c:1096
+#33 0x0005a176 in do_source (fname=0x305de1 "test/vim-ku/core-internal-candidate.input", check_other=0, is_vimrc=0) at ex_cmds2.c:3116
+#34 0x0005995f in cmd_source (fname=0x305de1 "test/vim-ku/core-internal-candidate.input", eap=0xbfffde04) at ex_cmds2.c:2737
+#35 0x000598ac in ex_source (eap=0xbfffde04) at ex_cmds2.c:2710
+#36 0x0005f5d5 in do_one_cmd (cmdlinep=0xbfffe264, sourcing=1, cstack=0xbfffdf60, fgetline=0x5a4c3 <getsourceline>, cookie=0xbfffe388) at ex_docmd.c:2627
+#37 0x0005c173 in do_cmdline (cmdline=0x305fd0 "let &runtimepath = join(['./vim/dot.vim',", ' ' <repeats 23 times>, "'../vim-debug/runtime',", ' ' <repeats 23 times>, "'../vim-debug/runtime/after',", ' ' <repeats 23 times>, "'./vim/dot.vim/after'],", ' ' <repeats 15 times>..., getline=0x5a4c3 <getsourceline>, cookie=0xbfffe388, flags=7) at ex_docmd.c:1096
+#38 0x0005a176 in do_source (fname=0x305d37 "test/vim-crash-test.vim", check_other=0, is_vimrc=0) at ex_cmds2.c:3116
+#39 0x0005995f in cmd_source (fname=0x305d37 "test/vim-crash-test.vim", eap=0xbfffe4c4) at ex_cmds2.c:2737
+#40 0x000598ac in ex_source (eap=0xbfffe4c4) at ex_cmds2.c:2710
+#41 0x0005f5d5 in do_one_cmd (cmdlinep=0xbfffe924, sourcing=1, cstack=0xbfffe620, fgetline=0, cookie=0x0) at ex_docmd.c:2627
+#42 0x0005c173 in do_cmdline (cmdline=0xbfffec1b "source test/vim-crash-test.vim", getline=0, cookie=0x0, flags=11) at ex_docmd.c:1096
+#43 0x0005b882 in do_cmdline_cmd (cmd=0xbfffec1b "source test/vim-crash-test.vim") at ex_docmd.c:702
+#44 0x000a8593 in exe_commands (parmp=0xbfffea14) at main.c:2697
+#45 0x000a5d0d in main (argc=8, argv=0xbfffeaf4) at main.c:874
+(gdb)
