@@ -43,6 +43,14 @@
 	m1 = merge --log HEAD@{1}
 	m2 = merge --log HEAD@{2}
 	m3 = merge --log HEAD@{3}
+	pa = !git pushall
+	pushall = <<<
+		for i in $(git remote)
+		do
+		  echo "git push $i"
+		  git push "$i" "$@"
+		done
+	>>>
 	r1 = rebase HEAD@{1}
 	r2 = rebase HEAD@{2}
 	r3 = rebase HEAD@{3}
