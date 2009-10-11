@@ -64,7 +64,6 @@ call ku#define_kind({
 \     '<C-r>': 'select',
 \     '<C-t>': 'tab-Right',
 \     '<Esc>': 'cancel',
-\     '<Return>': 'default',
 \     '?': 'lcd',
 \     'H': 'Left',
 \     'J': 'Bottom',
