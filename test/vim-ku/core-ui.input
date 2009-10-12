@@ -1,41 +1,48 @@
 " Test: vim-ku core-ui
-Initialize ku#_sid_prefix() ku#_local_variables()
-command! NewBuffer  bwipeout! | enew!
-function s:test_ui_named_key_mappings()  "{{{1
-  Title "UI: Named Key Mappings"
+runtime! plugin/ku.vim plugin/ku/**/*.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ui_named_key_mappings()  "{{{1
+  It requires the following initialization to test its effect
 
-  " Initial state.
-  NewBuffer
   let original_bufnr = bufnr('')
   let original_window_layout = winrestcmd()
 
-  Assert ku#start() ==> 1
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) == 'A'
+  Should nr2char(getchar(0)) == ''
+
   let ku_bufnr = bufnr('')
   let ku_window_layout = winrestcmd()
 
-  Assert nr2char(getchar(0)) ==> 'A'
-  Assert nr2char(getchar(0)) ==> ''
+  close
 
-  " Check the effect of named key mappings.
+  It should define <Plug>(ku-quit-session) and it works
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) == 'A'
+  Should nr2char(getchar(0)) == ''
+
+  execute 'normal' "\<Plug>(ku-quit-session)"
+  Should bufnr('') != ku_bufnr
+  Should bufnr('') == original_bufnr
+  Should winrestcmd() != ku_window_layout
+  Should winrestcmd() == original_window_layout
+
+  silent! close
+
   " FIXME: NIY: <Plug>(ku-choose-and-do-an-action)
   " FIXME: NIY: <Plug>(ku-do-the-default-action)
 
-  " <Plug>(ku-quit-session)
-  execute 'normal' "\<Plug>(ku-quit-session)"
-  Assert bufnr('') != ku_bufnr ==> 1
-  Assert bufnr('') ==> original_bufnr
-  Assert winrestcmd() != ku_window_layout ==> 1
-  Assert winrestcmd() ==> original_window_layout
+  " Reset side effect
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) == 'A'
+  Should nr2char(getchar(0)) == ''
 
-  " Reset side effect.
-  Assert ku#start() ==> 1
-  noautocmd bwipeout!  " :noautocmd to avoid calling event handlers.
+  bwipeout!
 endfunction
 
 
 
 
-Test  "{{{1
-
-" __END__
+" __END__  "{{{1
 " vim: filetype=vim foldmethod=marker

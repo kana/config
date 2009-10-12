@@ -1,13 +1,12 @@
-===== "UI: Named Key Mappings"
-TEST: ku#start()  ==>  1 ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-TEST: bufnr('') != ku_bufnr  ==>  1 ... ok
-TEST: bufnr('')  ==>  original_bufnr ... ok
-TEST: winrestcmd() != ku_window_layout  ==>  1 ... ok
-TEST: winrestcmd()  ==>  original_window_layout ... ok
-TEST: ku#start()  ==>  1 ... ok
-Result: 8 / 8
+==== ui_named_key_mappings 
+---- It requires the following initialization to test its effect 
+...
+---- It should define <Plug>(ku-quit-session) and it works 
+..........
 
-===== Total
-Result: 8 / 8
+
+
+**** Result ****
+
+
+13 examples, 0 failures
