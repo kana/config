@@ -873,9 +873,6 @@ TESTS_vim_ku = \
 		matcher-default \
 		sorter-default \
 		sorter-simple
-TESTS_vim_ku_LIBRARY_FILES = \
-		test/libtest.vim \
-		test/tester-vim
 
 test/vim-ku/action-%.output: \
 		test/vim-ku/action-%.input \
@@ -897,9 +894,8 @@ test/vim-ku/matcher-%.output: \
 
 test/vim-ku/sorter-%.output: \
 		test/vim-ku/sorter-%.input \
-		$(TESTS_vim_ku_LIBRARY_FILES) \
 		$(PACKAGE_vim_ku_FILES_sorters)
-	@./test/tester-vim $< &>$@
+	@./test/vspec $< &>$@
 
 
 # vim-ku-file  #{{{2

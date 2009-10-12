@@ -1,7 +1,5 @@
-" Test: vim-ku-sorter-simple
-function s:test_ku_sorter_simple_sort()  "{{{1
-  Title "ku#sorter#simple#sort()"
-
+" Test: vim-ku sorter-simple
+function s:describe__ku_sorter_simple_sort()  "{{{1
   let args = {}
   let candidates = [
   \     {'word': 'j'},
@@ -10,14 +8,14 @@ function s:test_ku_sorter_simple_sort()  "{{{1
   \     {'word': 'i'},
   \   ]
 
-  Assert ku#sorter#simple#sort(candidates, args)
-  \ ==> [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
+  It sort candidates by dictionary order
+
+  Should ku#sorter#simple#sort(copy(candidates), args)
+  \ ==# [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
 endfunction
 
 
 
 
-Test  "{{{1
-
-" __END__
+" __END__  "{{{1
 " vim: filetype=vim foldmethod=marker

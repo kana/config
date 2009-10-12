@@ -1,6 +1,10 @@
-===== "ku#sorter#simple#sort()"
-TEST: ku#sorter#simple#sort(candidates, args)  ==>  [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}] ... ok
-Result: 1 / 1
+==== ku_sorter_simple_sort 
+---- It sort candidates by dictionary order 
+.
 
-===== Total
-Result: 1 / 1
+
+
+**** Result ****
+
+
+1 examples, 0 failures

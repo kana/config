@@ -1,7 +1,5 @@
-" Test: vim-ku-sorter-default
-function s:test_ku_sorter_default_sort()  "{{{1
-  Title "ku#sorter#default#sort()"
-
+" Test: vim-ku sorter-default
+function s:describe__ku_sorter_default_sort()  "{{{1
   let args = {}
   let candidates = [
   \     {'word': 'j'},
@@ -10,33 +8,36 @@ function s:test_ku_sorter_default_sort()  "{{{1
   \     {'word': 'i'},
   \   ]
 
-  " With custom sorters
-  let default_sorters = ku#sorter#default#use([])
-  Assert ku#sorter#default#sort(candidates, args)
-  \ ==> [{'word': 'j'}, {'word': 'u'}, {'word': 'n'}, {'word': 'i'}]
+  It should not sort if default sorters is []
 
-  " With the default sorters
+  let default_sorters = ku#sorter#default#use([])
+  Should ku#sorter#default#sort(copy(candidates), args)
+  \ ==# [{'word': 'j'}, {'word': 'u'}, {'word': 'n'}, {'word': 'i'}]
+
+  It should sort candidates by dictionaryr order with the default sorter
+
   call ku#sorter#default#use(default_sorters)
-  Assert ku#sorter#default#sort(candidates, args)
-  \ ==> [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
+  Should ku#sorter#default#sort(copy(candidates), args)
+  \ ==# [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
 endfunction
 
 
 
 
-function s:test_ku_sorter_default_use()  "{{{1
-  Title "ku#sorter#default#use()"
+function s:describe__ku_sorter_default_use()  "{{{1
+  It should return the defult sorters at first
 
   let default_sorters = ku#sorter#default#use([])
+  Should default_sorters ==# [function('ku#sorter#simple#sort')]
+
+  It should return the previously used sorters
+
   let new_sorters = ku#sorter#default#use(default_sorters)
-  Assert default_sorters ==> [function('ku#sorter#simple#sort')]
-  Assert new_sorters ==> []
+  Should new_sorters ==# []
 endfunction
 
 
 
 
-Test  "{{{1
-
-" __END__
+" __END__  "{{{1
 " vim: filetype=vim foldmethod=marker

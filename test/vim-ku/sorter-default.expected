@@ -1,12 +1,18 @@
-===== "ku#sorter#default#sort()"
-TEST: ku#sorter#default#sort(candidates, args)  ==>  [{'word': 'j'}, {'word': 'u'}, {'word': 'n'}, {'word': 'i'}] ... ok
-TEST: ku#sorter#default#sort(candidates, args)  ==>  [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}] ... ok
-Result: 2 / 2
+==== ku_sorter_default_sort 
+---- It should not sort if default sorters is [] 
+.
+---- It should sort candidates by dictionaryr order with the default sorter 
+.
 
-===== "ku#sorter#default#use()"
-TEST: default_sorters  ==>  [function('ku#sorter#simple#sort')] ... ok
-TEST: new_sorters  ==>  [] ... ok
-Result: 2 / 2
+==== ku_sorter_default_use 
+---- It should return the defult sorters at first 
+.
+---- It should return the previously used sorters 
+.
 
-===== Total
-Result: 4 / 4
+
+
+**** Result ****
+
+
+4 examples, 0 failures
