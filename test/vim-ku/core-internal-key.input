@@ -1,63 +1,65 @@
 " Test: vim-ku core-internal-key
-Initialize ku#_sid_prefix() ku#_local_variables()
-function s:test_s_custom_kind_key_table()  "{{{1
-  Title "s:custom_kind_key_table()"
+runtime! plugin/ku.vim plugin/ku/**/*.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__s_custom_kind_key_table()  "{{{1
+  It should succeed with valid name "buffer"
+
+  let custom_buffer_key_table = Call('s:custom_kind_key_table', 'buffer')
+  Should custom_buffer_key_table == {}
+  Should Ref('s:custom_kind_key_tables') == {'buffer': {}}
+  let custom_buffer_key_table_2 = Call('s:custom_kind_key_table', 'buffer')
+  Should custom_buffer_key_table is custom_buffer_key_table_2
+  Should Ref('s:custom_kind_key_tables') == {'buffer': {}}
+
+  It currently accept invalid name "!@#$%"
+
+  let custom_xxxxx_key_table = Call('s:custom_kind_key_table', '!@#$%')
+  Should custom_xxxxx_key_table == {}
+  Should Ref('s:custom_kind_key_tables') == {'buffer': {}, '!@#$%': {}}
+  let custom_xxxxx_key_table_2 = Call('s:custom_kind_key_table', '!@#$%')
+  Should custom_xxxxx_key_table is custom_xxxxx_key_table_2
+  Should Ref('s:custom_kind_key_tables') == {'buffer': {}, '!@#$%': {}}
+
+  It should create different tables for different kinds
+
+  Should custom_buffer_key_table isnot custom_xxxxx_key_table
 
   ResetContext
-
-  " Refer the custom key table for "buffer" - valid name.
-  let custom_buffer_key_table = Call('s:custom_kind_key_table', 'buffer')
-  Assert custom_buffer_key_table ==> {}
-  Assert Ref('custom_kind_key_tables') ==> {'buffer': {}}
-  let custom_buffer_key_table_2 = Call('s:custom_kind_key_table', 'buffer')
-  Assert custom_buffer_key_table is custom_buffer_key_table_2 ==> 1
-  Assert Ref('custom_kind_key_tables') ==> {'buffer': {}}
-
-  " Refer the custom key table for "!@#$%" - invalid name but not checked.
-  let custom_xxxxx_key_table = Call('s:custom_kind_key_table', '!@#$%')
-  Assert custom_xxxxx_key_table ==> {}
-  Assert Ref('custom_kind_key_tables') ==> {'buffer': {}, '!@#$%': {}}
-  let custom_xxxxx_key_table_2 = Call('s:custom_kind_key_table', '!@#$%')
-  Assert custom_xxxxx_key_table is custom_xxxxx_key_table_2 ==> 1
-  Assert Ref('custom_kind_key_tables') ==> {'buffer': {}, '!@#$%': {}}
-
-  " Both custom kind key tables are not the same one.
-  Assert custom_buffer_key_table isnot custom_xxxxx_key_table ==> 1
 endfunction
 
 
 
 
-function s:test_s_get_key()  "{{{1
-  Title "s:get_key()"
+function s:describe__s_get_key()  "{{{1
+  It requires that there is no character in the typeahead buffer
 
-  ResetContext
-
-  " Drop all characters in the typeahead buffer.
   let typeahead = ''
   while getchar(1) isnot 0
     let typeahead .= getchar()
   endwhile
-    " Assumption: There is no character in the typeahead buffer.
-  Assert typeahead ==> ''
 
-  " Case 1: Ordinary key.
+  Should typeahead == ''
+
+  It should return an ordinary key in the typeahead buffer
+
   call feedkeys('a')
-  Assert Call('s:get_key') ==> 'a'
+  Should Call('s:get_key') == 'a'
 
-  " Case 2: Special key.
+  It should return a special key in the typeahead buffer
+
   call feedkeys("\<F1>")
-  Assert Call('s:get_key') ==> "\<F1>"
+  Should Call('s:get_key') == "\<F1>"
 
-  " Case 3: But its internal...
+  It actually returns all content in the typeahead buffer
+
   call feedkeys('Sasara')
-  Assert Call('s:get_key') ==> 'Sasara'
+  Should Call('s:get_key') == 'Sasara'
+
+  ResetContext
 endfunction
 
 
 
 
-Test  "{{{1
-
-" __END__
+" __END__  "{{{1
 " vim: filetype=vim foldmethod=marker

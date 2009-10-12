@@ -1,21 +1,24 @@
-===== "s:custom_kind_key_table()"
-TEST: custom_buffer_key_table  ==>  {} ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}} ... ok
-TEST: custom_buffer_key_table is custom_buffer_key_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}} ... ok
-TEST: custom_xxxxx_key_table  ==>  {} ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
-TEST: custom_xxxxx_key_table is custom_xxxxx_key_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_key_tables')  ==>  {'buffer': {}, '!@#$%': {}} ... ok
-TEST: custom_buffer_key_table isnot custom_xxxxx_key_table  ==>  1 ... ok
-Result: 9 / 9
+==== s_custom_kind_key_table 
+---- It should succeed with valid name "buffer" 
+....
+---- It currently accept invalid name "!@#$%" 
+....
+---- It should create different tables for different kinds 
+.
 
-===== "s:get_key()"
-TEST: typeahead  ==>  '' ... ok
-TEST: Call('s:get_key')  ==>  'a' ... ok
-TEST: Call('s:get_key')  ==>  "\<F1>" ... ok
-TEST: Call('s:get_key')  ==>  'Sasara' ... ok
-Result: 4 / 4
+==== s_get_key 
+---- It requires that there is no character in the typeahead buffer 
+.
+---- It should return an ordinary key in the typeahead buffer 
+.
+---- It should return a special key in the typeahead buffer 
+.
+---- It actually returns all content in the typeahead buffer 
+.
 
-===== Total
-Result: 13 / 13
+
+
+**** Result ****
+
+
+13 examples, 0 failures

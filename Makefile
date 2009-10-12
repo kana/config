@@ -902,6 +902,12 @@ test/vim-ku/core-internal-action.output: \
 		$(PACKAGE_vim_ku_FILES)
 	@./test/vspec $< &>$@
 
+test/vim-ku/core-internal-key.output: \
+		test/vim-ku/core-internal-key.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_FILES)
+	@./test/vspec $< &>$@
+
 test/vim-ku/matcher-%.output: \
 		test/vim-ku/matcher-%.input \
 		$(TESTS_vim_ku_LIBRARY_FILES) \
