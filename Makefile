@@ -175,6 +175,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_syntax_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
+  $(PACKAGE_vim_vspec_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   $(PACKAGE_vim_wwwsearch_FILES) \
@@ -264,6 +265,7 @@ ALL_PACKAGES=\
   vim-textobj-syntax \
   vim-textobj-user \
   vim-vcsi \
+  vim-vspec \
   vim-xml_autons \
   vim-xml_move \
   vim-wwwsearch
@@ -621,6 +623,12 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
 
+PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.1.0
+PACKAGE_vim_vspec_BASE=vim/dot.vim
+PACKAGE_vim_vspec_FILES=\
+  vim/dot.vim/autoload/vspec.vim \
+  vim/dot.vim/doc/vspec.txt
+
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
 PACKAGE_vim_xml_autons_FILES=\
@@ -953,6 +961,16 @@ test/vim-textobj-syntax/%.output: \
 		vim/dot.vim/autoload/textobj/syntax.vim \
 		vim/dot.vim/plugin/textobj/syntax.vim
 	@./test/tester-vim $< &>$@
+
+
+# vim-vspec  #{{{2
+TESTS_vim_vspec = no-test typical-content tools
+
+test/vim-vspec/%.output: \
+		test/vim-vspec/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim
+	@./test/vspec $< >$@
 
 
 # vim-wwwsearch  #{{{2
