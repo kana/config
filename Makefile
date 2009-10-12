@@ -763,7 +763,7 @@ test/vim-ku/%.output: \
 
 
 # vim-vspec  #{{{2
-TESTS_vim_vspec = no-test typical-content
+TESTS_vim_vspec = no-test typical-content tools
 
 test/vim-vspec/%.output: \
 		test/vim-vspec/%.input \
