@@ -892,9 +892,8 @@ test/vim-ku/core-%.output: \
 
 test/vim-ku/matcher-%.output: \
 		test/vim-ku/matcher-%.input \
-		$(TESTS_vim_ku_LIBRARY_FILES) \
 		$(PACKAGE_vim_ku_FILES_matchers)
-	@./test/tester-vim $< &>$@
+	@./test/vspec $< &>$@
 
 test/vim-ku/sorter-%.output: \
 		test/vim-ku/sorter-%.input \

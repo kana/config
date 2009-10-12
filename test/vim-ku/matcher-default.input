@@ -1,24 +1,24 @@
-" Test: vim-ku-matcher-default
-function s:test_ku_matcher_default_matches_p()  "{{{1
-  Title "ku#matcher#default#matches_p()"
-
+" Test: vim-ku matcher-default
+function s:describe__ku_matcher_default_matches_p()  "{{{1
   let args = {'pattern': 'rail'}
 
-  Assert !!ku#matcher#default#matches_p({'word': 'rail'}, args) ==> 1
-  Assert !!ku#matcher#default#matches_p({'word': 'a rail'}, args) ==> 1
-  Assert !!ku#matcher#default#matches_p({'word': 'rail gun'}, args) ==> 1
-  Assert !!ku#matcher#default#matches_p({'word': 'a rail gun'}, args) ==> 1
-  Assert !!ku#matcher#default#matches_p({'word': 'arailgun'}, args) ==> 1
+  It should return true for matched candidate
 
-  Assert !!ku#matcher#default#matches_p({'word': ''}, args) ==> 0
-  Assert !!ku#matcher#default#matches_p({'word': 'reil gan'}, args) ==> 0
-  Assert !!ku#matcher#default#matches_p({'word': 'RAILgun'}, args) ==> 0
+  Should !!ku#matcher#default#matches_p({'word': 'rail'}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'a rail'}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'rail gun'}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'a rail gun'}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'arailgun'}, args) == 1
+
+  It should return false for unmatched candidate
+
+  Should !!ku#matcher#default#matches_p({'word': ''}, args) == 0
+  Should !!ku#matcher#default#matches_p({'word': 'reil gan'}, args) == 0
+  Should !!ku#matcher#default#matches_p({'word': 'RAILgun'}, args) == 0
 endfunction
 
 
 
 
-Test  "{{{1
-
-" __END__
+" __END__  "{{{1
 " vim: filetype=vim foldmethod=marker
