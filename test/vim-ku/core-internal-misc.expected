@@ -1,170 +1,123 @@
-===== "ku#available_source_names()"
-TEST: ku#available_sources()  ==>  {} ... ok
-TEST: ku#available_source_names()  ==>  [] ... ok
-TEST: ku#define_source({'gather_candidates': F, 'name': 'test'})  ==>  1 ... ok
-TEST: ku#available_source_names()  ==>  ['test'] ... ok
-TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
-TEST: ku#available_source_names()  ==>  ['test'] ... ok
-TEST: ku#define_source({'gather_candidates': F, 'name': 'abc'})  ==>  1 ... ok
-TEST: ku#available_source_names()  ==>  ['abc', 'test'] ... ok
-Result: 8 / 8
+==== ku_available_source_names 
+---- It should return [] if there is no source 
+..
+---- It should return ['test'] if there is a source 'test' 
+..
+---- It should return ['test'] if source 'test' is overrdden 
+..
+---- It should return multiple names if there are multiple sources 
+..
 
-===== "ku#available_source_p()"
-TEST: ku#available_sources()  ==>  {} ... ok
-TEST: ku#available_source_names()  ==>  [] ... ok
-TEST: ku#available_source_p('test')  ==>  0 ... ok
-TEST: ku#available_source_p('abc')  ==>  0 ... ok
-TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
-TEST: ku#define_source({'gather_candidates': F, 'name': 'test'})  ==>  1 ... ok
-TEST: ku#available_source_names()  ==>  ['test'] ... ok
-TEST: ku#available_source_p('test')  ==>  1 ... ok
-TEST: ku#available_source_p('abc')  ==>  0 ... ok
-TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
-TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
-TEST: ku#available_source_names()  ==>  ['test'] ... ok
-TEST: ku#available_source_p('test')  ==>  1 ... ok
-TEST: ku#available_source_p('abc')  ==>  0 ... ok
-TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
-TEST: ku#define_source({'gather_candidates': F, 'name': 'abc'})  ==>  1 ... ok
-TEST: ku#available_source_names()  ==>  ['abc', 'test'] ... ok
-TEST: ku#available_source_p('test')  ==>  1 ... ok
-TEST: ku#available_source_p('abc')  ==>  1 ... ok
-TEST: ku#available_source_p('NoSuchSource')  ==>  0 ... ok
-Result: 20 / 20
+==== ku_available_source_p 
+---- It should return false for non existing source 
+.....
+---- It should return true for an existing source 
+.....
+---- It should return true for an existing source which is overridden 
+.....
+---- It should return true for another existing source 
+.....
 
-===== "ku#available_sources()"
-TEST: ku#available_sources()  ==>  {} ... ok
-TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
-Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_ku_available_sources..ku#define_source..<SNR>11_valid_key_p:
+==== ku_available_sources 
+---- It should return {} if there is no source 
+..
+---- It should return {} after failed ku#define_source() 
+
+Error detected while processing function vspec#test..<SNR>3_describe__ku_available_sources..ku#define_source..<SNR>6_valid_key_p:
 line    5:
-Invalild definition: Without key 'gather_candidates'
-TEST: ku#define_source({})  ==>  0 ... ok
+Invalild definition: Without key 'gather_candidates'.
 line   17:
-Invalild definition: Key 'gather_candidates' must be function but given value is 0
-TEST: ku#define_source({'gather_candidates': 0, 'name': 0})  ==>  0 ... ok
-Invalild definition: Key 'gather_candidates' must be function but given value is 0
-TEST: ku#define_source({'gather_candidates': 0, 'name': 'test'})  ==>  0 ... ok
-Invalild definition: Key 'name' must be string but given value is 0
-TEST: ku#define_source({'gather_candidates': F, 'name': 0})  ==>  0 ... ok
-TEST: sort(keys(ku#available_sources()))  ==>  [] ... ok
-TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
-TEST: ku#define_source({'gather_candidates': F, 'name': 'test'})  ==>  1 ... ok
-TEST: sort(keys(ku#available_sources()))  ==>  ['test'] ... ok
-TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
-TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
-TEST: sort(keys(ku#available_sources()))  ==>  ['test'] ... ok
-TEST: ku#available_sources()  ==>  Ref('available_sources') ... ok
-Result: 14 / 14
+Invalild definition: Key 'gather_candidates' must be function but given value is 0.
+Invalild definition: Key 'gather_candidates' must be function but given value is 0.
+Invalild definition: Key 'name' must be string but given value is 0...
+---- It should return some content after successful ku#define_source() 
+...
+---- It should return some content after overriding a source 
+...
 
-===== "s:initialize_ku_buffer()"
-TEST: &l:bufhidden  ==>  'hide' ... ok
-TEST: &l:buflisted  ==>  0 ... ok
-TEST: &l:buftype  ==>  'nofile' ... ok
-TEST: &l:omnifunc  ==>  'ku#omnifunc' ... ok
-TEST: &l:swapfile  ==>  0 ... ok
-TEST: bufname('')  ==>  Ref('KU_BUFFER_NAME') ... ok
-TEST: exists('#plugin-ku#BufLeave#<buffer>')  ==>  1 ... ok
-TEST: exists('#plugin-ku#CursorMovedI#<buffer>')  ==>  1 ... ok
-TEST: exists('#plugin-ku#InsertEnter#<buffer>')  ==>  1 ... ok
-TEST: exists('#plugin-ku#TabLeave#<buffer>')  ==>  0 ... ok
-TEST: exists('#plugin-ku#WinLeave#<buffer>')  ==>  1 ... ok
-TEST: maparg('<BS>', 'i') != ''  ==>  1 ... ok
-TEST: maparg('<C-h>', 'i') != ''  ==>  1 ... ok
-TEST: maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != ''  ==>  1 ... ok
-TEST: maparg('<Plug>(ku-choose-and-do-an-action)', 'n') != ''  ==>  1 ... ok
-TEST: maparg('<Plug>(ku-do-the-default-action)', 'i') != ''  ==>  1 ... ok
-TEST: maparg('<Plug>(ku-do-the-default-action)', 'n') != ''  ==>  1 ... ok
-TEST: maparg('<Plug>(ku-quit-session)', 'i') != ''  ==>  1 ... ok
-TEST: maparg('<Plug>(ku-quit-session)', 'n') != ''  ==>  1 ... ok
-TEST: maparg('<C-c>', 'n')  ==>  '<Plug>(ku-quit-session)' ... ok
+==== s_initialize_ku_buffer with users init autocmd
 " autocmd FileType ku
-TEST: maparg('<C-c>', 'n')  ==>  '' ... ok
-TEST: maparg('<C-c>', 'n')  ==>  '' ... ok
-Result: 22 / 22
+---- It should set basic optoins 
+......
+---- It should define several autocommands for the current buffer 
+.....
+---- It should define several named key mappings for the current buffer 
+........
+---- It should not define any ui key mapping for the current buffer 
+.
 
-===== "s:ku_active_p()"
-TEST: Call('s:ku_active_p')  ==>  0 ... ok
-TEST: ku#start()  ==>  1 ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-TEST: Call('s:ku_active_p')  ==>  1 ... ok
-TEST: Call('s:ku_active_p')  ==>  0 ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-Result: 8 / 8
+==== s_initialize_ku_buffer with users init ftplugin
+---- It should set basic optoins 
+......
+---- It should define several autocommands for the current buffer 
+.....
+---- It should define several named key mappings for the current buffer 
+........
+---- It should not define any ui key mapping for the current buffer 
+.
 
-===== "s:new_session()"
-TEST: ku#define_source({'gather_candidates': F, 'name': 'abc'})  ==>  1 ... ok
-TEST: ku#define_source({'gather_candidates': G, 'name': 'test'})  ==>  1 ... ok
-TEST: ku#available_source_p('abc')  ==>  1 ... ok
-TEST: ku#available_source_p('test')  ==>  1 ... ok
-TEST: has_key(session_a, 'id')  ==>  1 ... ok
-TEST: session_a.now_quitting_p  ==>  0 ... ok
-TEST: session_a.original_completeopt  ==>  original_completeopt ... ok
-TEST: session_a.original_curwinnr  ==>  original_curwinnr ... ok
-TEST: session_a.original_winrestcmd  ==>  original_winrestcmd ... ok
-TEST: session_a.sources  ==>  [] ... ok
-TEST: has_key(session_b, 'id')  ==>  1 ... ok
-TEST: session_b.now_quitting_p  ==>  0 ... ok
-TEST: session_b.original_completeopt  ==>  original_completeopt ... ok
-TEST: session_b.original_curwinnr  ==>  original_curwinnr ... ok
-TEST: session_b.original_winrestcmd  ==>  original_winrestcmd ... ok
-TEST: session_b.sources  ==>  [] ... ok
-TEST: session_b.id isnot session_a.id  ==>  1 ... ok
-TEST: has_key(session, 'id')  ==>  1 ... ok
-TEST: session.now_quitting_p  ==>  0 ... ok
-TEST: session.original_completeopt  ==>  original_completeopt ... ok
-TEST: session.original_curwinnr  ==>  original_curwinnr ... ok
-TEST: session.original_winrestcmd  ==>  original_winrestcmd ... ok
-TEST: session.sources  ==>  [   ku#available_sources()['test'],   ku#available_sources()['abc'] ] ... ok
-Result: 23 / 23
+==== s_initialize_ku_buffer without users settings
+---- It should set basic optoins 
+......
+---- It should define several autocommands for the current buffer 
+.....
+---- It should define several named key mappings for the current buffer 
+........
+---- It should define several ui key mappings for the current buffer 
+.
 
-===== "s:on_CursorMovedI()"
-TEST: Call('s:on_CursorMovedI')  ==>  '' ... ok
-Result: 1 / 1
+==== s_ku_active_p 
+---- It should return false for the initial state 
+.
+---- It should return true after starting a ku session 
+....
+---- It should return false after quitting a ku session 
+...
 
-===== "s:on_InsertEnter()"
-TEST: Call('s:on_InsertEnter')  ==>  '' ... ok
-Result: 1 / 1
+==== s_new_session ....
+---- It should return a valid object without source (A) 
+......
+---- It should return a valid objec without source (B) 
+......
+---- It should return sessions with different session ids 
+.
+---- It should return a valid object with some sources 
+......
 
-===== "s:quit_session()"
-TEST: ku#start()  ==>  1 ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-TEST: bufnr('') != bufnr  ==>  1 ... ok
-TEST: winnr() != winnr  ==>  1 ... ok
-TEST: winrestcmd() != winrestcmd  ==>  1 ... ok
-TEST: &completeopt != completeopt  ==>  1 ... ok
-TEST: Call('s:quit_session')  ==>  1 ... ok
-TEST: bufnr('')  ==>  bufnr ... ok
-TEST: winnr()  ==>  winnr ... ok
-TEST: winrestcmd()  ==>  winrestcmd ... ok
-TEST: &completeopt  ==>  completeopt ... ok
-TEST: nr2char(getchar(0))  ==>  'A' ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-Result: 14 / 14
+==== s_on_CursorMovedI 
+---- It is not implemented and currently return '' 
+.
 
-===== "s:valid_key_p()"
-Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_s_valid_key_p..Call..<SNR>11_valid_key_p:
+==== s_on_InsertEnter 
+---- It is not implemented and currently return '' 
+.
+
+==== s_quit_session .......
+---- It should reset side effect by ku#start() 
+.......
+
+==== s_valid_key_p 
+---- It should return false for invalid argument 
+
+Error detected while processing function vspec#test..<SNR>3_describe__s_valid_key_p..Call..vspec#call..<SNR>6_valid_key_p:
 line    5:
-Invalild definition: Without key '8bit'
-TEST: Call('s:valid_key_p', {}, '8bit', 0)  ==>  0 ... ok
-Invalild definition: Without key 0
-TEST: Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string')  ==>  0 ... ok
-TEST: Call('s:valid_key_p', {'8bit': {}}, '8bit', 'dictionary')  ==>  1 ... ok
-TEST: Call('s:valid_key_p', {'8': function('len')}, '8', 'function')  ==>  1 ... ok
-TEST: Call('s:valid_key_p', {'8bit': []}, '8bit', 'list')  ==>  1 ... ok
-TEST: Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'number')  ==>  1 ... ok
-TEST: Call('s:valid_key_p', {'8bit': 'rave'}, '8bit', 'string')  ==>  1 ... ok
-TEST: Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of numbers')  ==>  1 ... ok
-TEST: Call('s:valid_key_p', {'A': []}, 'A', 'list of functions')  ==>  1 ... ok
-TEST: Call('s:valid_key_p', {'A': [function('len')]}, 'A', 'list of functions')  ==>  1 ... ok
-line   25:
-Invalild definition: Key 'A' must be list of strings but given value is [1, 2, 3] and it contains 1
-TEST: Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of strings')  ==>  0 ... ok
-Invalild definition: Key 'A' must be list of numbers but given value is [1, '2', 3] and it contains '2'
-TEST: Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers')  ==>  0 ... ok
-Result: 12 / 12
+Invalild definition: Without key '8bit'.
+---- It should return false if key doesn't exist 
 
-===== Total
-Result: 123 / 123
+Invalild definition: Without key 0.
+---- It should return true for valid values 
+.....
+---- It should return true for list with valid values 
+...
+---- It should return false for list with invalid values 
+
+line   25:
+Invalild definition: Key 'A' must be list of strings but given value is [1, 2, 3] and it contains 1.
+Invalild definition: Key 'A' must be list of numbers but given value is [1, '2', 3] and it contains '2'.
+
+
+
+**** Result ****
+
+
+161 examples, 0 failures
