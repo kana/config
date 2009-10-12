@@ -1,102 +1,98 @@
-===== "ku#action#common#Bottom()"
-Result: 0 / 0
+==== ku_action_common_Bottom 
+---- It should succeed if there is enough room 
 
-===== "ku#action#common#Left()"
-Result: 0 / 0
+---- It should fail if there is not enough room 
 
-===== "ku#action#common#Right()"
-Result: 0 / 0
 
-===== "ku#action#common#Top()"
-Result: 0 / 0
+==== ku_action_common_Left 
+---- It should succeed if there is enough room 
 
-===== "ku#action#common#above()"
-Result: 0 / 0
 
-===== "ku#action#common#below()"
-Result: 0 / 0
+==== ku_action_common_Right 
+---- It should succeed if there is enough room 
 
-===== "ku#action#common#cancel()"
-TEST: ku#action#common#cancel({})  ==>  0 ... ok
-Result: 1 / 1
 
-===== "ku#action#common#cd()"
-TEST: ku#action#common#cd({'word': 'vim'})  ==>  0 ... ok
-TEST: getcwd()  ==>  cwd_before . '/vim' ... ok
-TEST: ku#action#common#cd({'word': 'dot.vim/autoload/ku.vim'})  ==>  0 ... ok
-TEST: getcwd()  ==>  cwd_before . '/vim/dot.vim/autoload' ... ok
-TEST: ku#action#common#cd({'word': 'project/rail-gun'}) isnot 0  ==>  1 ... ok
-E472: Command failed
-TEST: getcwd()  ==>  cwd_before . '/vim/dot.vim/autoload' ... ok
-TEST: ku#action#common#cd({'word': 'ku/rail-gun'})  ==>  0 ... ok
-TEST: getcwd()  ==>  cwd_before . '/vim/dot.vim/autoload/ku' ... ok
-TEST: getcwd()  ==>  cwd_before ... ok
-Result: 9 / 9
+==== ku_action_common_Top 
+---- It should succeed if there is enough room 
 
-===== "ku#action#common#default()"
-Result: 0 / 0
 
-===== "ku#action#common#ex()"
-TEST: ku#action#common#ex({'word': 'vim'})  ==>  0 ... ok
-TEST: nr2char(getchar(0))  ==>  ':' ... ok
-TEST: nr2char(getchar(0))  ==>  ' ' ... ok
-TEST: nr2char(getchar(0))  ==>  'v' ... ok
-TEST: nr2char(getchar(0))  ==>  'i' ... ok
-TEST: nr2char(getchar(0))  ==>  'm' ... ok
-TEST: nr2char(getchar(0))  ==>  "\<C-b>" ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-TEST: ku#action#common#ex({'word': 'v i'})  ==>  0 ... ok
-TEST: nr2char(getchar(0))  ==>  ':' ... ok
-TEST: nr2char(getchar(0))  ==>  ' ' ... ok
-TEST: nr2char(getchar(0))  ==>  'v' ... ok
-TEST: nr2char(getchar(0))  ==>  "\\" ... ok
-TEST: nr2char(getchar(0))  ==>  ' ' ... ok
-TEST: nr2char(getchar(0))  ==>  'i' ... ok
-TEST: nr2char(getchar(0))  ==>  "\<C-b>" ... ok
-TEST: nr2char(getchar(0))  ==>  '' ... ok
-Result: 17 / 17
+==== ku_action_common_above 
+---- It should succeed if there is enough room 
 
-===== "ku#action#common#lcd()"
-TEST: ku#action#common#lcd({'word': 'vim'})  ==>  0 ... ok
-TEST: getcwd()  ==>  cwd_before . '/vim' ... ok
-TEST: getcwd()  ==>  cwd_before ... ok
-TEST: ku#action#common#lcd({'word': 'dot.vim/autoload/ku.vim'})  ==>  0 ... ok
-TEST: getcwd()  ==>  cwd_before . '/vim/dot.vim/autoload' ... ok
-TEST: getcwd()  ==>  cwd_before ... ok
-TEST: ku#action#common#lcd({'word': 'project/rail-gun'}) isnot 0  ==>  1 ... ok
-E472: Command failed
-TEST: getcwd()  ==>  cwd_before . '/vim/dot.vim/autoload' ... ok
-TEST: getcwd()  ==>  cwd_before ... ok
-TEST: ku#action#common#lcd({'word': 'ku/rail-gun'})  ==>  0 ... ok
-TEST: getcwd()  ==>  cwd_before . '/vim/dot.vim/autoload/ku' ... ok
-TEST: getcwd()  ==>  cwd_before ... ok
-TEST: getcwd()  ==>  cwd_before ... ok
-Result: 13 / 13
 
-===== "ku#action#common#left()"
-Result: 0 / 0
+==== ku_action_common_below 
+---- It should succeed if there is enough room 
 
-===== "ku#action#common#open()"
-TEST: ku#action#common#open({}) isnot 0  ==>  1 ... ok
-Result: 1 / 1
 
-===== "ku#action#common#right()"
-Result: 0 / 0
+==== ku_action_common_cancel 
+---- It should always succeed 
+.
 
-===== "ku#action#common#select()"
-Result: 0 / 0
+==== ku_action_common_cd 
+---- It should succeed to :cd to a directory 
+..
+---- It should succeed to :cd to the directory which contains a file 
+..
+---- It should fail if there is no such directory 
+..
+---- It currently succeed if there is a directory but there is no such file 
+...
 
-===== "ku#action#common#tab#Left()"
-Result: 0 / 0
+==== ku_action_common_default 
+---- It should behave as same as action 'open' 
 
-===== "ku#action#common#tab#Right()"
-Result: 0 / 0
 
-===== "ku#action#common#tab#left()"
-Result: 0 / 0
+==== ku_action_common_ex 
+---- It should succeed with fnameescape(x) ==# x 
+........
+---- It should succeed with fnameescape(x) !=# x 
+.........
 
-===== "ku#action#common#tab#right()"
-Result: 0 / 0
+==== ku_action_common_lcd 
+---- It should succeed :lcd to a directory 
+...
+---- It should succeed to :lcd to the directory which contains a file 
+...
+---- It should fail if there is no such directory 
+...
+---- It currently succeed if there is a directory but there is no such file 
+....
 
-===== Total
-Result: 41 / 41
+==== ku_action_common_left 
+---- It should succeed if there is enough room 
+
+
+==== ku_action_common_open 
+---- It should always fail 
+.
+
+==== ku_action_common_right 
+---- It should succeed if there is enough room 
+
+
+==== ku_action_common_select 
+---- It should always succeed 
+
+
+==== ku_action_common_tab_Left 
+---- It should succeed if there is enough room 
+
+
+==== ku_action_common_tab_Right 
+---- It should succeed if there is enough room 
+
+
+==== ku_action_common_tab_left 
+---- It should succeed if there is enough room 
+
+
+==== ku_action_common_tab_right 
+---- It should succeed if there is enough room 
+
+
+
+
+**** Result ****
+
+
+41 examples, 0 failures

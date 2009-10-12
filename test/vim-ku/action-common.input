@@ -15,8 +15,9 @@ call ku#define_source({
 
 
 
-function s:test_ku_action_common_Bottom()  "{{{1
-  Title "ku#action#common#Bottom()"
+function s:describe__ku_action_common_Bottom()  "{{{1
+  It should succeed if there is enough room
+  It should fail if there is not enough room
 
   " FIXME: NIY - until ku#take_action() becomes functional.
 
@@ -49,248 +50,243 @@ function s:test_ku_action_common_Bottom()  "{{{1
 " silent only
 " vsplit
 " let original_bufnr = bufnr('')
-" Assert winnr('$') ==> 2
+" Should winnr('$') == 2
 
-" Assert ku#action#common#Bottom(candidate) ==> 0
+" Should ku#action#common#Bottom(candidate) == 0
 
-" Assert winnr('$') ==> 3
-" Assert bufnr('') != original_bufnr ==> 1
-" Assert bufname('') ==> candidate.word
+" Should winnr('$') == 3
+" Should bufnr('') != original_bufnr == 1
+" Should bufname('') == candidate.word
 endfunction
 
 
 
 
-function s:test_ku_action_common_Left()  "{{{1
-  Title "ku#action#common#Left()"
+function s:describe__ku_action_common_Left()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_Right()  "{{{1
-  Title "ku#action#common#Right()"
+function s:describe__ku_action_common_Right()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_Top()  "{{{1
-  Title "ku#action#common#Top()"
+function s:describe__ku_action_common_Top()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_above()  "{{{1
-  Title "ku#action#common#above()"
+function s:describe__ku_action_common_above()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_below()  "{{{1
-  Title "ku#action#common#below()"
+function s:describe__ku_action_common_below()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_cancel()  "{{{1
-  Title "ku#action#common#cancel()"
+function s:describe__ku_action_common_cancel()  "{{{1
+  It should always succeed
 
-  " It always succeeds.
-  Assert ku#action#common#cancel({}) ==> 0
+  Should ku#action#common#cancel({}) == 0
 endfunction
 
 
 
 
-function s:test_ku_action_common_cd()  "{{{1
-  Title "ku#action#common#cd()"
-
+function s:describe__ku_action_common_cd()  "{{{1
   let cwd_before = getcwd()
 
-  " Ordinary case: cd to a directory.
-  Assert ku#action#common#cd({'word': 'vim'}) ==> 0
-  Assert getcwd() ==> cwd_before . '/vim'
+  It should succeed to :cd to a directory
+  Should ku#action#common#cd({'word': 'vim'}) == 0
+  Should getcwd() == cwd_before . '/vim'
 
-  " Ordinary case: cd to a file.
-  Assert ku#action#common#cd({'word': 'dot.vim/autoload/ku.vim'}) ==> 0
-  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+  It should succeed to :cd to the directory which contains a file
+  Should ku#action#common#cd({'word': 'dot.vim/autoload/ku.vim'}) == 0
+  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
 
-  " Error case: No such directory.
-  Assert ku#action#common#cd({'word': 'project/rail-gun'}) isnot 0 ==> 1
-  echo v:errmsg
-  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+  It should fail if there is no such directory
+  Should ku#action#common#cd({'word': 'project/rail-gun'}) != 0
+  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
 
-  " ? case: No such file, but a directory exists.
-  Assert ku#action#common#cd({'word': 'ku/rail-gun'}) ==> 0
-  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload/ku'
+  It currently succeed if there is a directory but there is no such file
+  Should ku#action#common#cd({'word': 'ku/rail-gun'}) == 0
+  Should getcwd() == cwd_before . '/vim/dot.vim/autoload/ku'
 
   " Reset side effect.
   cd `=cwd_before`
-  Assert getcwd() ==> cwd_before
+  Should getcwd() == cwd_before
 endfunction
 
 
 
 
-function s:test_ku_action_common_default()  "{{{1
-  Title "ku#action#common#default()"
+function s:describe__ku_action_common_default()  "{{{1
+  It should behave as same as action 'open'
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_ex()  "{{{1
-  Title "ku#action#common#ex()"
+function s:describe__ku_action_common_ex()  "{{{1
+  It should succeed with fnameescape(x) ==# x
 
-  " Case 1: fnameescape(x) ==# x
-  Assert ku#action#common#ex({'word': 'vim'}) ==> 0
-  Assert nr2char(getchar(0)) ==> ':'
-  Assert nr2char(getchar(0)) ==> ' '
-  Assert nr2char(getchar(0)) ==> 'v'
-  Assert nr2char(getchar(0)) ==> 'i'
-  Assert nr2char(getchar(0)) ==> 'm'
-  Assert nr2char(getchar(0)) ==> "\<C-b>"
-  Assert nr2char(getchar(0)) ==> ''
+  Should ku#action#common#ex({'word': 'vim'}) == 0
+  Should nr2char(getchar(0)) == ':'
+  Should nr2char(getchar(0)) == ' '
+  Should nr2char(getchar(0)) == 'v'
+  Should nr2char(getchar(0)) == 'i'
+  Should nr2char(getchar(0)) == 'm'
+  Should nr2char(getchar(0)) == "\<C-b>"
+  Should nr2char(getchar(0)) == ''
 
-  " Case 1: fnameescape(x) !=# x
-  Assert ku#action#common#ex({'word': 'v i'}) ==> 0
-  Assert nr2char(getchar(0)) ==> ':'
-  Assert nr2char(getchar(0)) ==> ' '
-  Assert nr2char(getchar(0)) ==> 'v'
-  Assert nr2char(getchar(0)) ==> "\\"
-  Assert nr2char(getchar(0)) ==> ' '
-  Assert nr2char(getchar(0)) ==> 'i'
-  Assert nr2char(getchar(0)) ==> "\<C-b>"
-  Assert nr2char(getchar(0)) ==> ''
+  It should succeed with fnameescape(x) !=# x
+
+  Should ku#action#common#ex({'word': 'v i'}) == 0
+  Should nr2char(getchar(0)) == ':'
+  Should nr2char(getchar(0)) == ' '
+  Should nr2char(getchar(0)) == 'v'
+  Should nr2char(getchar(0)) == "\\"
+  Should nr2char(getchar(0)) == ' '
+  Should nr2char(getchar(0)) == 'i'
+  Should nr2char(getchar(0)) == "\<C-b>"
+  Should nr2char(getchar(0)) == ''
 endfunction
 
 
 
 
-function s:test_ku_action_common_lcd()  "{{{1
-  Title "ku#action#common#lcd()"
+function s:describe__ku_action_common_lcd()  "{{{1
 
   let cwd_before = getcwd()
   split
 
-  " Ordinary case: lcd to a directory.
-  Assert ku#action#common#lcd({'word': 'vim'}) ==> 0
-  Assert getcwd() ==> cwd_before . '/vim'
+  It should succeed :lcd to a directory
+
+  Should ku#action#common#lcd({'word': 'vim'}) == 0
+  Should getcwd() == cwd_before . '/vim'
   wincmd w
-  Assert getcwd() ==> cwd_before
+  Should getcwd() == cwd_before
   wincmd w
 
-  " Ordinary case: lcd to a file.
-  Assert ku#action#common#lcd({'word': 'dot.vim/autoload/ku.vim'}) ==> 0
-  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+  It should succeed to :lcd to the directory which contains a file
+
+  Should ku#action#common#lcd({'word': 'dot.vim/autoload/ku.vim'}) == 0
+  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
   wincmd w
-  Assert getcwd() ==> cwd_before
+  Should getcwd() == cwd_before
   wincmd w
 
-  " Error case: No such directory.
-  Assert ku#action#common#lcd({'word': 'project/rail-gun'}) isnot 0 ==> 1
-  echo v:errmsg
-  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload'
+  It should fail if there is no such directory
+
+  Should ku#action#common#lcd({'word': 'project/rail-gun'}) != 0
+  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
   wincmd w
-  Assert getcwd() ==> cwd_before
+  Should getcwd() == cwd_before
   wincmd w
 
-  " ? case: No such file, but a directory exists.
-  Assert ku#action#common#lcd({'word': 'ku/rail-gun'}) ==> 0
-  Assert getcwd() ==> cwd_before . '/vim/dot.vim/autoload/ku'
+  It currently succeed if there is a directory but there is no such file
+
+  Should ku#action#common#lcd({'word': 'ku/rail-gun'}) == 0
+  Should getcwd() == cwd_before . '/vim/dot.vim/autoload/ku'
   wincmd w
-  Assert getcwd() ==> cwd_before
+  Should getcwd() == cwd_before
   wincmd w
 
   " Reset side effect.
   only
   cd `=cwd_before`
-  Assert getcwd() ==> cwd_before
+  Should getcwd() == cwd_before
 endfunction
 
 
 
 
-function s:test_ku_action_common_left()  "{{{1
-  Title "ku#action#common#left()"
+function s:describe__ku_action_common_left()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_open()  "{{{1
-  Title "ku#action#common#open()"
+function s:describe__ku_action_common_open()  "{{{1
+  It should always fail
 
   " This action is a fallback to notice the action 'default' for a kind is not
-  " defined (though the action must be defined), so that it always fails.
-  Assert ku#action#common#open({}) isnot 0 ==> 1
-  echo v:errmsg
+  " defined (because the action must be defined), so that it always fails.
+  Should ku#action#common#open({}) != 0
 endfunction
 
 
 
 
-function s:test_ku_action_common_right()  "{{{1
-  Title "ku#action#common#right()"
+function s:describe__ku_action_common_right()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_select()  "{{{1
-  Title "ku#action#common#select()"
+function s:describe__ku_action_common_select()  "{{{1
+  It should always succeed
   " FIXME: NIY - until ku#restart() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_tab_Left()  "{{{1
-  Title "ku#action#common#tab#Left()"
+function s:describe__ku_action_common_tab_Left()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_tab_Right()  "{{{1
-  Title "ku#action#common#tab#Right()"
+function s:describe__ku_action_common_tab_Right()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_tab_left()  "{{{1
-  Title "ku#action#common#tab#left()"
+function s:describe__ku_action_common_tab_left()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-function s:test_ku_action_common_tab_right()  "{{{1
-  Title "ku#action#common#tab#right()"
+function s:describe__ku_action_common_tab_right()  "{{{1
+  It should succeed if there is enough room
   " FIXME: NIY - until ku#take_action() becomes functional.
 endfunction
 
 
 
 
-Test  "{{{1
-
-" __END__
+" __END__  "{{{1
 " vim: filetype=vim foldmethod=marker
 

@@ -879,10 +879,10 @@ TESTS_vim_ku_LIBRARY_FILES = \
 
 test/vim-ku/action-%.output: \
 		test/vim-ku/action-%.input \
-		$(TESTS_vim_ku_LIBRARY_FILES) \
+		test/vspec \
 		$(PACKAGE_vim_ku_FILES_core) \
 		$(PACKAGE_vim_ku_FILES_actions)
-	@./test/tester-vim $< &>$@
+	@./test/vspec $< &>$@
 
 test/vim-ku/core-%.output: \
 		test/vim-ku/core-%.input \
