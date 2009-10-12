@@ -767,6 +767,7 @@ TESTS_vim_vspec = no-test typical-content tools
 
 test/vim-vspec/%.output: \
 		test/vim-vspec/%.input \
+		test/vspec \
 		vim/dot.vim/autoload/vspec.vim
 	@./test/vspec $< >$@
 
