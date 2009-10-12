@@ -890,6 +890,12 @@ test/vim-ku/core-%.output: \
 		$(PACKAGE_vim_ku_FILES)
 	@./test/tester-vim $< &>$@
 
+test/vim-ku/core-internal-action.output: \
+		test/vim-ku/core-internal-action.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_FILES)
+	@./test/vspec $< &>$@
+
 test/vim-ku/matcher-%.output: \
 		test/vim-ku/matcher-%.input \
 		$(TESTS_vim_ku_LIBRARY_FILES) \

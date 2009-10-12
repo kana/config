@@ -1,71 +1,48 @@
-===== "s:custom_action_1()"
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {} ... ok
-TEST: Call('s:custom_action_1', 'file', 'ai', function('len'))  ==>  0 ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'ai': function('len')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'ai': function('len')}} ... ok
-TEST: Call('s:custom_action_1', 'file', 'ai', function('get'))  ==>  function('len') ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'ai': function('get')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'ai': function('get')}} ... ok
-Result: 7 / 7
+==== s_custom_action_1 
+---- It should succeed to define an action 
+....
+---- It should succeed to override an existing action 
+...
 
-===== "s:custom_action_2()"
-Error detected while processing function <SNR>45_cmd_Test..<SNR>46_test_s_custom_action_2..Call..<SNR>11_custom_action_2:
+==== s_custom_action_2 
+---- It should fail for error cases 
+
+Error detected while processing function vspec#test..<SNR>3_describe__s_custom_action_2..Call..vspec#call..<SNR>6_custom_action_2:
 line    7:
-Action 'name2' is not defined for 'kind2'.
-TEST: Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2')  ==>  0 ... ok
-TEST: ku#define_kind({ 'default_action_table': {'get': function('get'), 'len': function('len')}, 'default_key_table': {'g': 'get'}, 'name': 'file', })  ==>  1 ... ok
-Action 'name2' is not defined for 'file'.
-TEST: Call('s:custom_action_2', 'file', 'name1', 'file', 'name2')  ==>  0 ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {} ... ok
-TEST: Call('s:custom_action_2', 'file', 'default', 'file', 'get')  ==>  0 ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'default': function('get')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'default': function('get')}} ... ok
-TEST: Call('s:custom_action_2', 'file', 'default', 'file', 'len')  ==>  function('get') ... ok
-TEST: Call('s:custom_kind_action_table', 'file')  ==>  {'default': function('len')} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {'default': function('len')}} ... ok
-Result: 10 / 10
+Action 'name2' is not defined for 'kind2'...
+Action 'name2' is not defined for 'file'..
+---- It should succeed to define an action 
+....
+---- It should succeed to override an existing action 
+...
 
-===== "s:custom_kind_action_table()"
-TEST: custom_file_action_table  ==>  {} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}} ... ok
-TEST: custom_file_action_table is custom_file_action_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}} ... ok
-TEST: custom_xxxxx_action_table  ==>  {} ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
-TEST: custom_xxxxx_action_table is custom_xxxxx_action_table_2  ==>  1 ... ok
-TEST: Ref('custom_kind_action_tables')  ==>  {'file': {}, '!@#$%': {}} ... ok
-TEST: custom_file_action_table isnot custom_xxxxx_action_table  ==>  1 ... ok
-Result: 9 / 9
+==== s_custom_kind_action_table 
+---- It should succeed with valid name "file" 
+....
+---- It currently accepts invalid name "!@#$%" 
+....
+---- It should create different custom kind action tables 
+.
 
-===== "s:default_kind_action_table()"
-TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {} ... ok
-TEST: ku#define_kind(kind_a)  ==>  1 ... ok
-TEST: Call('s:default_kind_action_table', 'buffer')  ==>  {'close': function('type')} ... ok
-TEST: Call('s:default_kind_action_table', 'buffer') is kind_a.default_action_table  ==>  1 ... ok
-Result: 4 / 4
+==== s_default_kind_action_table 
+---- It should return {} for a kind which is not defined 
+.
+---- It should return the default action table 
+...
 
-===== "s:find_action()"
-TEST: Call('s:find_action', 'default', kinds_empty)  ==>  0 ... ok
-TEST: Call('s:find_action', 'open', kinds_empty)  ==>  0 ... ok
-TEST: Call('s:find_action', 'nop', kinds_empty)  ==>  0 ... ok
-TEST: Call('s:find_action', 'nothing', kinds_empty)  ==>  0 ... ok
-TEST: Call('s:find_action', 'default', kinds_test)  ==>  0 ... ok
-TEST: Call('s:find_action', 'open', kinds_test)  ==>  0 ... ok
-TEST: Call('s:find_action', 'nop', kinds_test)  ==>  0 ... ok
-TEST: Call('s:find_action', 'nothing', kinds_test)  ==>  0 ... ok
-TEST: Call('s:find_action', 'default', kinds_practical)  ==>  function('ku#action#common#default') ... ok
-TEST: Call('s:find_action', 'open', kinds_practical)  ==>  function('ku#action#common#open') ... ok
-TEST: Call('s:find_action', 'nop', kinds_practical)  ==>  0 ... ok
-TEST: Call('s:find_action', 'nothing', kinds_practical)  ==>  0 ... ok
-TEST: ku#custom_action('common', 'default', 'common', 'above')  ==>  0 ... ok
-TEST: ku#custom_action('test', 'default', 'common', 'left')  ==>  0 ... ok
-TEST: ku#custom_action('test', 'nop', 'common', 'below')  ==>  0 ... ok
-TEST: ku#custom_action('test', 'nothing', 'common', 'right')  ==>  0 ... ok
-TEST: Call('s:find_action', 'default', kinds_practical)  ==>  function('ku#action#common#left') ... ok
-TEST: Call('s:find_action', 'open', kinds_practical)  ==>  function('ku#action#common#open') ... ok
-TEST: Call('s:find_action', 'nop', kinds_practical)  ==>  function('ku#action#common#below') ... ok
-TEST: Call('s:find_action', 'nothing', kinds_practical)  ==>  function('ku#action#common#right') ... ok
-Result: 20 / 20
+==== s_find_action 
+---- It should always return 0 for 'kinds' with no kind definition 
+....
+---- It should succeed for 'kinds' with a usual kind definition 
+....
+---- It should succeed for 'kinds' with practical kind definitions 
+....
+---- It should return custom actions rather than default actions 
+........
 
-===== Total
-Result: 50 / 50
+
+
+**** Result ****
+
+
+50 examples, 0 failures

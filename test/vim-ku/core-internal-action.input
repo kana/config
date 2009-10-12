@@ -1,171 +1,173 @@
 " Test: vim-ku core-internal-action
-Initialize ku#_sid_prefix() ku#_local_variables()
-function s:test_s_custom_action_1()  "{{{1
-  Title "s:custom_action_1()"
+runtime! plugin/ku.vim plugin/ku/**/*.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__s_custom_action_1()  "{{{1
+  It should succeed to define an action
+
+  Should Call('s:custom_kind_action_table', 'file') == {}
+  Should Call('s:custom_action_1', 'file', 'ai', function('len')) == 0
+  Should Call('s:custom_kind_action_table', 'file') == {'ai': function('len')}
+  Should Ref('s:custom_kind_action_tables') == {'file': {'ai':function('len')}}
+
+  It should succeed to override an existing action
+
+  Should Call('s:custom_action_1', 'file', 'ai', function('get'))
+  \ == function('len')
+  Should Call('s:custom_kind_action_table', 'file') == {'ai': function('get')}
+  Should Ref('s:custom_kind_action_tables') == {'file': {'ai':function('get')}}
 
   ResetContext
-
-  " Define an action.
-  Assert Call('s:custom_kind_action_table', 'file') ==> {}
-  Assert Call('s:custom_action_1', 'file', 'ai', function('len')) ==> 0
-  Assert Call('s:custom_kind_action_table', 'file') ==> {'ai': function('len')}
-  Assert Ref('custom_kind_action_tables') ==> {'file': {'ai': function('len')}}
-
-  " Override an existing action.
-  Assert Call('s:custom_action_1', 'file', 'ai', function('get'))
-  \ ==> function('len')
-  Assert Call('s:custom_kind_action_table', 'file') ==> {'ai': function('get')}
-  Assert Ref('custom_kind_action_tables') ==> {'file': {'ai': function('get')}}
 endfunction
 
 
 
 
-function s:test_s_custom_action_2()  "{{{1
-  Title "s:custom_action_2()"
+function s:describe__s_custom_action_2()  "{{{1
+  It should fail for error cases
 
-  ResetContext
-
-  " Error cases.
-  Assert Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2') ==> 0
-  Assert ku#define_kind({
+  Should Call('s:custom_action_2', 'file', 'name1', 'kind2', 'name2') == 0
+  Should ku#define_kind({
   \ 'default_action_table': {'get': function('get'), 'len': function('len')},
   \ 'default_key_table': {'g': 'get'},
   \ 'name': 'file',
-  \ }) ==> 1
-  Assert Call('s:custom_action_2', 'file', 'name1', 'file', 'name2') ==> 0
+  \ }) == 1
+  Should Call('s:custom_action_2', 'file', 'name1', 'file', 'name2') == 0
 
-  " Define an action.
-  Assert Call('s:custom_kind_action_table', 'file') ==> {}
+  It should succeed to define an action
 
-  Assert Call('s:custom_action_2', 'file', 'default', 'file', 'get') ==> 0
+  Should Call('s:custom_kind_action_table', 'file') == {}
 
-  Assert Call('s:custom_kind_action_table', 'file')
-  \ ==> {'default': function('get')}
-  Assert Ref('custom_kind_action_tables')
-  \ ==> {'file': {'default': function('get')}}
+  Should Call('s:custom_action_2', 'file', 'default', 'file', 'get') == 0
 
-  " Override an existing action.
-  Assert Call('s:custom_action_2', 'file', 'default', 'file', 'len')
-  \ ==> function('get')
+  Should Call('s:custom_kind_action_table', 'file')
+  \ == {'default': function('get')}
+  Should Ref('s:custom_kind_action_tables')
+  \ == {'file': {'default': function('get')}}
 
-  Assert Call('s:custom_kind_action_table', 'file')
-  \ ==> {'default': function('len')}
-  Assert Ref('custom_kind_action_tables')
-  \ ==> {'file': {'default': function('len')}}
+  It should succeed to override an existing action
+
+  Should Call('s:custom_action_2', 'file', 'default', 'file', 'len')
+  \ == function('get')
+
+  Should Call('s:custom_kind_action_table', 'file')
+  \ == {'default': function('len')}
+  Should Ref('s:custom_kind_action_tables')
+  \ == {'file': {'default': function('len')}}
+
+  ResetContext
 endfunction
 
 
 
 
-function s:test_s_custom_kind_action_table()  "{{{1
-  Title "s:custom_kind_action_table()"
+function s:describe__s_custom_kind_action_table()  "{{{1
+  It should succeed with valid name "file"
 
-  ResetContext
-
-  " Refer the custom action table for "file" - valid name.
   let custom_file_action_table = Call('s:custom_kind_action_table', 'file')
-  Assert custom_file_action_table ==> {}
-  Assert Ref('custom_kind_action_tables') ==> {'file': {}}
+  Should custom_file_action_table == {}
+  Should Ref('s:custom_kind_action_tables') == {'file': {}}
   let custom_file_action_table_2 = Call('s:custom_kind_action_table', 'file')
-  Assert custom_file_action_table is custom_file_action_table_2 ==> 1
-  Assert Ref('custom_kind_action_tables') ==> {'file': {}}
+  Should custom_file_action_table is custom_file_action_table_2
+  Should Ref('s:custom_kind_action_tables') == {'file': {}}
 
-  " Refer the custom action table for "!@#$%" - invalid name but not checked.
+  It currently accepts invalid name "!@#$%"
+
   let custom_xxxxx_action_table = Call('s:custom_kind_action_table', '!@#$%')
-  Assert custom_xxxxx_action_table ==> {}
-  Assert Ref('custom_kind_action_tables') ==> {'file': {}, '!@#$%': {}}
+  Should custom_xxxxx_action_table == {}
+  Should Ref('s:custom_kind_action_tables') == {'file': {}, '!@#$%': {}}
   let custom_xxxxx_action_table_2 = Call('s:custom_kind_action_table', '!@#$%')
-  Assert custom_xxxxx_action_table is custom_xxxxx_action_table_2 ==> 1
-  Assert Ref('custom_kind_action_tables') ==> {'file': {}, '!@#$%': {}}
+  Should custom_xxxxx_action_table is custom_xxxxx_action_table_2
+  Should Ref('s:custom_kind_action_tables') == {'file': {}, '!@#$%': {}}
 
-  " Both custom kind action tables are not the same one.
-  Assert custom_file_action_table isnot custom_xxxxx_action_table ==> 1
+  It should create different custom kind action tables
+
+  Should custom_file_action_table isnot custom_xxxxx_action_table
+
+  ResetContext
 endfunction
 
 
 
 
-function s:test_s_default_kind_action_table()  "{{{1
-  Title "s:default_kind_action_table()"
+function s:describe__s_default_kind_action_table()  "{{{1
+  It should return {} for a kind which is not defined
 
-  ResetContext
+  Should Call('s:default_kind_action_table', 'buffer') == {}
 
-  " If not defined.
-  Assert Call('s:default_kind_action_table', 'buffer') ==> {}
+  It should return the default action table
 
-  " If defined.
   let kind_a = {
   \ 'default_action_table': {'close': function('type')},
   \ 'default_key_table': {'c': 'close'},
   \ 'name': 'buffer',
   \ }
-  Assert ku#define_kind(kind_a) ==> 1
+  Should ku#define_kind(kind_a) == 1
 
-  Assert Call('s:default_kind_action_table', 'buffer')
-  \ ==> {'close': function('type')}
-  Assert Call('s:default_kind_action_table', 'buffer')
+  Should Call('s:default_kind_action_table', 'buffer')
+  \ == {'close': function('type')}
+  Should Call('s:default_kind_action_table', 'buffer')
   \ is kind_a.default_action_table
-  \ ==> 1
+
+  ResetContext
 endfunction
 
 
 
 
-function s:test_s_find_action()  "{{{1
-  Title "s:find_action()"
-
-  ResetContext
-
-    " The followings kinds-s are invalid but it's enough to test.
+function s:describe__s_find_action()  "{{{1
+  " The followings kinds-s are invalid but it's enough to test.
   let kinds_empty = []
   let kinds_test = [{'name': 'test'}]
   let kinds_practical = [{'name': 'source/test'},
   \                      {'name': 'test'},
   \                      {'name': 'common'}]
 
-  " Case 1: 'kinds' with no kind definition
+  It should always return 0 for 'kinds' with no kind definition
   " -- Although such case is not occured in practical use.
-  Assert Call('s:find_action', 'default', kinds_empty) ==> 0
-  Assert Call('s:find_action', 'open', kinds_empty) ==> 0
-  Assert Call('s:find_action', 'nop', kinds_empty) ==> 0
-  Assert Call('s:find_action', 'nothing', kinds_empty) ==> 0
 
-  " Case 2: 'kinds' with a usual kind definition
+  Should Call('s:find_action', 'default', kinds_empty) == 0
+  Should Call('s:find_action', 'open', kinds_empty) == 0
+  Should Call('s:find_action', 'nop', kinds_empty) == 0
+  Should Call('s:find_action', 'nothing', kinds_empty) == 0
+
+  It should succeed for 'kinds' with a usual kind definition
   " -- Although such case is not occured in practical use.
-  Assert Call('s:find_action', 'default', kinds_test) ==> 0
-  Assert Call('s:find_action', 'open', kinds_test) ==> 0
-  Assert Call('s:find_action', 'nop', kinds_test) ==> 0
-  Assert Call('s:find_action', 'nothing', kinds_test) ==> 0
 
-  " Case 3: 'kinds' with practical kind definitions
-  Assert Call('s:find_action', 'default', kinds_practical)
-  \ ==> function('ku#action#common#default')
-  Assert Call('s:find_action', 'open', kinds_practical)
-  \ ==> function('ku#action#common#open')
-  Assert Call('s:find_action', 'nop', kinds_practical) ==> 0
-  Assert Call('s:find_action', 'nothing', kinds_practical) ==> 0
+  Should Call('s:find_action', 'default', kinds_test) == 0
+  Should Call('s:find_action', 'open', kinds_test) == 0
+  Should Call('s:find_action', 'nop', kinds_test) == 0
+  Should Call('s:find_action', 'nothing', kinds_test) == 0
 
-  " Case 4: With custom actions
-  Assert ku#custom_action('common', 'default', 'common', 'above') ==> 0
-  Assert ku#custom_action('test', 'default', 'common', 'left') ==> 0
-  Assert ku#custom_action('test', 'nop', 'common', 'below') ==> 0
-  Assert ku#custom_action('test', 'nothing', 'common', 'right') ==> 0
+  It should succeed for 'kinds' with practical kind definitions
 
-  Assert Call('s:find_action', 'default', kinds_practical)
-  \ ==> function('ku#action#common#left')
-  Assert Call('s:find_action', 'open', kinds_practical)
-  \ ==> function('ku#action#common#open')
-  Assert Call('s:find_action', 'nop', kinds_practical)
-  \ ==> function('ku#action#common#below')
-  Assert Call('s:find_action', 'nothing', kinds_practical)
-  \ ==> function('ku#action#common#right')
+  Should Call('s:find_action', 'default', kinds_practical)
+  \ == function('ku#action#common#default')
+  Should Call('s:find_action', 'open', kinds_practical)
+  \ == function('ku#action#common#open')
+  Should Call('s:find_action', 'nop', kinds_practical) == 0
+  Should Call('s:find_action', 'nothing', kinds_practical) == 0
+
+  It should return custom actions rather than default actions
+
+  Should ku#custom_action('common', 'default', 'common', 'above') == 0
+  Should ku#custom_action('test', 'default', 'common', 'left') == 0
+  Should ku#custom_action('test', 'nop', 'common', 'below') == 0
+  Should ku#custom_action('test', 'nothing', 'common', 'right') == 0
+
+  Should Call('s:find_action', 'default', kinds_practical)
+  \ == function('ku#action#common#left')
+  Should Call('s:find_action', 'open', kinds_practical)
+  \ == function('ku#action#common#open')
+  Should Call('s:find_action', 'nop', kinds_practical)
+  \ == function('ku#action#common#below')
+  Should Call('s:find_action', 'nothing', kinds_practical)
+  \ == function('ku#action#common#right')
+
+  ResetContext
 endfunction
 
 
 
 
-Test  "{{{1
-
-" __END__
+" __END__  "{{{1
 " vim: filetype=vim foldmethod=marker
