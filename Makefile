@@ -762,6 +762,15 @@ test/vim-ku/%.output: \
 	@./test/tester-vim $< &>$@
 
 
+# vim-vspec  #{{{2
+TESTS_vim_vspec = no-test
+
+test/vim-vspec/%.output: \
+		test/vim-vspec/%.input \
+		vim/dot.vim/autoload/vspec.vim
+	@./test/vspec $< >$@
+
+
 # Misc.  #{{{2
 
 define GENERATE_DEPENDENCY_RULES_TO_TEST_1
