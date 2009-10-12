@@ -167,6 +167,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_lastpat_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
+  $(PACKAGE_vim_vspec_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   $(PACKAGE_vim_misc_FILES)
@@ -248,6 +249,7 @@ ALL_PACKAGES=\
   vim-textobj-lastpat \
   vim-textobj-user \
   vim-vcsi \
+  vim-vspec \
   vim-xml_autons \
   vim-xml_move
 
@@ -541,6 +543,12 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/autoload/vcsi.vim \
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
+
+PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.1.0
+PACKAGE_vim_vspec_BASE=vim/dot.vim
+PACKAGE_vim_vspec_FILES=\
+  vim/dot.vim/autoload/vspec.vim \
+  vim/dot.vim/doc/vspec.txt
 
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
