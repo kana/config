@@ -151,8 +151,35 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
 
   Should maparg('<C-c>', 'n') == ''
 
+  It should affect only the current buffer when it is called
+
+  noautocmd bwipeout!  " s:quit_session() is harmful for this test
+
+  Should &l:bufhidden ==# ''
+  Should &l:buflisted == 1
+  Should &l:buftype ==# ''
+  Should &l:omnifunc ==# ''
+  Should &l:swapfile == 1
+  Should bufname('') ==# ''
+
+  Should exists('#plugin-ku#BufLeave#<buffer>') == 0
+  Should exists('#plugin-ku#CursorMovedI#<buffer>') == 0
+  Should exists('#plugin-ku#InsertEnter#<buffer>') == 0
+  Should exists('#plugin-ku#TabLeave#<buffer>') == 0
+  Should exists('#plugin-ku#WinLeave#<buffer>') == 0
+
+  Should maparg('<BS>', 'i') == ''
+  Should maparg('<C-h>', 'i') == ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') == ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') == ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') == ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') == ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') == ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') == ''
+
+  Should maparg('<C-c>', 'n') == ''
+
   " Reset side effect.
-  noautocmd bwipeout!
   augroup test
     autocmd! FileType ku
   augroup END
@@ -198,8 +225,35 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
 
   Should maparg('<C-c>', 'n') == ''
 
-  " Reset side effect.
-  noautocmd bwipeout!
+  It should affect only the current buffer when it is called
+
+  noautocmd bwipeout!  " s:quit_session() is harmful for this test
+
+  Should &l:bufhidden ==# ''
+  Should &l:buflisted == 1
+  Should &l:buftype ==# ''
+  Should &l:omnifunc ==# ''
+  Should &l:swapfile == 1
+  Should bufname('') ==# ''
+
+  Should exists('#plugin-ku#BufLeave#<buffer>') == 0
+  Should exists('#plugin-ku#CursorMovedI#<buffer>') == 0
+  Should exists('#plugin-ku#InsertEnter#<buffer>') == 0
+  Should exists('#plugin-ku#TabLeave#<buffer>') == 0
+  Should exists('#plugin-ku#WinLeave#<buffer>') == 0
+
+  Should maparg('<BS>', 'i') == ''
+  Should maparg('<C-h>', 'i') == ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') == ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') == ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') == ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') == ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') == ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') == ''
+
+  Should maparg('<C-c>', 'n') == ''
+
+  " No side effect to reset.
 endfunction
 
 
@@ -240,8 +294,35 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
 
   Should maparg('<C-c>', 'n') == '<Plug>(ku-quit-session)'
 
-  " Reset side effect.
-  noautocmd bwipeout!
+  It should affect only the current buffer when it is called
+
+  noautocmd bwipeout!  " s:quit_session() is harmful for this test
+
+  Should &l:bufhidden ==# ''
+  Should &l:buflisted == 1
+  Should &l:buftype ==# ''
+  Should &l:omnifunc ==# ''
+  Should &l:swapfile == 1
+  Should bufname('') ==# ''
+
+  Should exists('#plugin-ku#BufLeave#<buffer>') == 0
+  Should exists('#plugin-ku#CursorMovedI#<buffer>') == 0
+  Should exists('#plugin-ku#InsertEnter#<buffer>') == 0
+  Should exists('#plugin-ku#TabLeave#<buffer>') == 0
+  Should exists('#plugin-ku#WinLeave#<buffer>') == 0
+
+  Should maparg('<BS>', 'i') == ''
+  Should maparg('<C-h>', 'i') == ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') == ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') == ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') == ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') == ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') == ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') == ''
+
+  Should maparg('<C-c>', 'n') == ''
+
+  " No side effect to reset.
 endfunction
 
 
@@ -270,7 +351,7 @@ function s:describe__s_ku_active_p()  "{{{1
   call ku#start()
   Should nr2char(getchar(0)) == 'A'
   Should nr2char(getchar(0)) == ''
-  noautocmd bwipeout!  " :noautocmd to avoid calling event handlers.
+  bwipeout!
 endfunction
 
 
