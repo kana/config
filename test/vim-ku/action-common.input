@@ -116,23 +116,23 @@ function s:describe__ku_action_common_cd()  "{{{1
 
   It should succeed to :cd to a directory
   Should ku#action#common#cd({'word': 'vim'}) == 0
-  Should getcwd() == cwd_before . '/vim'
+  Should getcwd() ==# cwd_before . '/vim'
 
   It should succeed to :cd to the directory which contains a file
   Should ku#action#common#cd({'word': 'dot.vim/autoload/ku.vim'}) == 0
-  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
+  Should getcwd() ==# cwd_before . '/vim/dot.vim/autoload'
 
   It should fail if there is no such directory
   Should ku#action#common#cd({'word': 'project/rail-gun'}) != 0
-  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
+  Should getcwd() ==# cwd_before . '/vim/dot.vim/autoload'
 
   It currently succeed if there is a directory but there is no such file
   Should ku#action#common#cd({'word': 'ku/rail-gun'}) == 0
-  Should getcwd() == cwd_before . '/vim/dot.vim/autoload/ku'
+  Should getcwd() ==# cwd_before . '/vim/dot.vim/autoload/ku'
 
   " Reset side effect.
   cd `=cwd_before`
-  Should getcwd() == cwd_before
+  Should getcwd() ==# cwd_before
 endfunction
 
 
@@ -150,25 +150,25 @@ function s:describe__ku_action_common_ex()  "{{{1
   It should succeed with fnameescape(x) ==# x
 
   Should ku#action#common#ex({'word': 'vim'}) == 0
-  Should nr2char(getchar(0)) == ':'
-  Should nr2char(getchar(0)) == ' '
-  Should nr2char(getchar(0)) == 'v'
-  Should nr2char(getchar(0)) == 'i'
-  Should nr2char(getchar(0)) == 'm'
-  Should nr2char(getchar(0)) == "\<C-b>"
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# ':'
+  Should nr2char(getchar(0)) ==# ' '
+  Should nr2char(getchar(0)) ==# 'v'
+  Should nr2char(getchar(0)) ==# 'i'
+  Should nr2char(getchar(0)) ==# 'm'
+  Should nr2char(getchar(0)) ==# "\<C-b>"
+  Should nr2char(getchar(0)) ==# ''
 
   It should succeed with fnameescape(x) !=# x
 
   Should ku#action#common#ex({'word': 'v i'}) == 0
-  Should nr2char(getchar(0)) == ':'
-  Should nr2char(getchar(0)) == ' '
-  Should nr2char(getchar(0)) == 'v'
-  Should nr2char(getchar(0)) == "\\"
-  Should nr2char(getchar(0)) == ' '
-  Should nr2char(getchar(0)) == 'i'
-  Should nr2char(getchar(0)) == "\<C-b>"
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# ':'
+  Should nr2char(getchar(0)) ==# ' '
+  Should nr2char(getchar(0)) ==# 'v'
+  Should nr2char(getchar(0)) ==# "\\"
+  Should nr2char(getchar(0)) ==# ' '
+  Should nr2char(getchar(0)) ==# 'i'
+  Should nr2char(getchar(0)) ==# "\<C-b>"
+  Should nr2char(getchar(0)) ==# ''
 endfunction
 
 
@@ -182,39 +182,39 @@ function s:describe__ku_action_common_lcd()  "{{{1
   It should succeed :lcd to a directory
 
   Should ku#action#common#lcd({'word': 'vim'}) == 0
-  Should getcwd() == cwd_before . '/vim'
+  Should getcwd() ==# cwd_before . '/vim'
   wincmd w
-  Should getcwd() == cwd_before
+  Should getcwd() ==# cwd_before
   wincmd w
 
   It should succeed to :lcd to the directory which contains a file
 
   Should ku#action#common#lcd({'word': 'dot.vim/autoload/ku.vim'}) == 0
-  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
+  Should getcwd() ==# cwd_before . '/vim/dot.vim/autoload'
   wincmd w
-  Should getcwd() == cwd_before
+  Should getcwd() ==# cwd_before
   wincmd w
 
   It should fail if there is no such directory
 
   Should ku#action#common#lcd({'word': 'project/rail-gun'}) != 0
-  Should getcwd() == cwd_before . '/vim/dot.vim/autoload'
+  Should getcwd() ==# cwd_before . '/vim/dot.vim/autoload'
   wincmd w
-  Should getcwd() == cwd_before
+  Should getcwd() ==# cwd_before
   wincmd w
 
   It currently succeed if there is a directory but there is no such file
 
   Should ku#action#common#lcd({'word': 'ku/rail-gun'}) == 0
-  Should getcwd() == cwd_before . '/vim/dot.vim/autoload/ku'
+  Should getcwd() ==# cwd_before . '/vim/dot.vim/autoload/ku'
   wincmd w
-  Should getcwd() == cwd_before
+  Should getcwd() ==# cwd_before
   wincmd w
 
   " Reset side effect.
   only
   cd `=cwd_before`
-  Should getcwd() == cwd_before
+  Should getcwd() ==# cwd_before
 endfunction
 
 

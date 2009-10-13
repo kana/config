@@ -8,8 +8,8 @@ function s:describe__ui_named_key_mappings()  "{{{1
   let original_window_layout = winrestcmd()
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   let ku_bufnr = bufnr('')
   let ku_window_layout = winrestcmd()
@@ -19,14 +19,14 @@ function s:describe__ui_named_key_mappings()  "{{{1
   It should define <Plug>(ku-quit-session) and it works
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   execute 'normal' "\<Plug>(ku-quit-session)"
   Should bufnr('') != ku_bufnr
   Should bufnr('') == original_bufnr
-  Should winrestcmd() != ku_window_layout
-  Should winrestcmd() == original_window_layout
+  Should winrestcmd() !=# ku_window_layout
+  Should winrestcmd() ==# original_window_layout
 
   silent! close
 
@@ -35,8 +35,8 @@ function s:describe__ui_named_key_mappings()  "{{{1
 
   " Reset side effect
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   bwipeout!
 endfunction

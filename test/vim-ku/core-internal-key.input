@@ -5,20 +5,20 @@ function s:describe__s_custom_kind_key_table()  "{{{1
   It should succeed with valid name "buffer"
 
   let custom_buffer_key_table = Call('s:custom_kind_key_table', 'buffer')
-  Should custom_buffer_key_table == {}
-  Should Ref('s:custom_kind_key_tables') == {'buffer': {}}
+  Should custom_buffer_key_table ==# {}
+  Should Ref('s:custom_kind_key_tables') ==# {'buffer': {}}
   let custom_buffer_key_table_2 = Call('s:custom_kind_key_table', 'buffer')
   Should custom_buffer_key_table is custom_buffer_key_table_2
-  Should Ref('s:custom_kind_key_tables') == {'buffer': {}}
+  Should Ref('s:custom_kind_key_tables') ==# {'buffer': {}}
 
   It currently accept invalid name "!@#$%"
 
   let custom_xxxxx_key_table = Call('s:custom_kind_key_table', '!@#$%')
-  Should custom_xxxxx_key_table == {}
-  Should Ref('s:custom_kind_key_tables') == {'buffer': {}, '!@#$%': {}}
+  Should custom_xxxxx_key_table ==# {}
+  Should Ref('s:custom_kind_key_tables') ==# {'buffer': {}, '!@#$%': {}}
   let custom_xxxxx_key_table_2 = Call('s:custom_kind_key_table', '!@#$%')
   Should custom_xxxxx_key_table is custom_xxxxx_key_table_2
-  Should Ref('s:custom_kind_key_tables') == {'buffer': {}, '!@#$%': {}}
+  Should Ref('s:custom_kind_key_tables') ==# {'buffer': {}, '!@#$%': {}}
 
   It should create different tables for different kinds
 
@@ -38,22 +38,22 @@ function s:describe__s_get_key()  "{{{1
     let typeahead .= getchar()
   endwhile
 
-  Should typeahead == ''
+  Should typeahead ==# ''
 
   It should return an ordinary key in the typeahead buffer
 
   call feedkeys('a')
-  Should Call('s:get_key') == 'a'
+  Should Call('s:get_key') ==# 'a'
 
   It should return a special key in the typeahead buffer
 
   call feedkeys("\<F1>")
-  Should Call('s:get_key') == "\<F1>"
+  Should Call('s:get_key') ==# "\<F1>"
 
   It actually returns all content in the typeahead buffer
 
   call feedkeys('Sasara')
-  Should Call('s:get_key') == 'Sasara'
+  Should Call('s:get_key') ==# 'Sasara'
 
   ResetContext
 endfunction

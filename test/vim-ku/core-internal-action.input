@@ -4,17 +4,17 @@ call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__s_custom_action_1()  "{{{1
   It should succeed to define an action
 
-  Should Call('s:custom_kind_action_table', 'file') == {}
+  Should Call('s:custom_kind_action_table', 'file') ==# {}
   Should Call('s:custom_action_1', 'file', 'ai', function('len')) == 0
-  Should Call('s:custom_kind_action_table', 'file') == {'ai': function('len')}
-  Should Ref('s:custom_kind_action_tables') == {'file': {'ai':function('len')}}
+  Should Call('s:custom_kind_action_table', 'file') ==# {'ai': function('len')}
+  Should Ref('s:custom_kind_action_tables') ==# {'file':{'ai':function('len')}}
 
   It should succeed to override an existing action
 
   Should Call('s:custom_action_1', 'file', 'ai', function('get'))
   \ == function('len')
-  Should Call('s:custom_kind_action_table', 'file') == {'ai': function('get')}
-  Should Ref('s:custom_kind_action_tables') == {'file': {'ai':function('get')}}
+  Should Call('s:custom_kind_action_table', 'file') ==# {'ai': function('get')}
+  Should Ref('s:custom_kind_action_tables') ==# {'file':{'ai':function('get')}}
 
   ResetContext
 endfunction
@@ -35,14 +35,14 @@ function s:describe__s_custom_action_2()  "{{{1
 
   It should succeed to define an action
 
-  Should Call('s:custom_kind_action_table', 'file') == {}
+  Should Call('s:custom_kind_action_table', 'file') ==# {}
 
   Should Call('s:custom_action_2', 'file', 'default', 'file', 'get') == 0
 
   Should Call('s:custom_kind_action_table', 'file')
-  \ == {'default': function('get')}
+  \ ==# {'default': function('get')}
   Should Ref('s:custom_kind_action_tables')
-  \ == {'file': {'default': function('get')}}
+  \ ==# {'file': {'default': function('get')}}
 
   It should succeed to override an existing action
 
@@ -50,9 +50,9 @@ function s:describe__s_custom_action_2()  "{{{1
   \ == function('get')
 
   Should Call('s:custom_kind_action_table', 'file')
-  \ == {'default': function('len')}
+  \ ==# {'default': function('len')}
   Should Ref('s:custom_kind_action_tables')
-  \ == {'file': {'default': function('len')}}
+  \ ==# {'file': {'default': function('len')}}
 
   ResetContext
 endfunction
@@ -64,20 +64,20 @@ function s:describe__s_custom_kind_action_table()  "{{{1
   It should succeed with valid name "file"
 
   let custom_file_action_table = Call('s:custom_kind_action_table', 'file')
-  Should custom_file_action_table == {}
-  Should Ref('s:custom_kind_action_tables') == {'file': {}}
+  Should custom_file_action_table ==# {}
+  Should Ref('s:custom_kind_action_tables') ==# {'file': {}}
   let custom_file_action_table_2 = Call('s:custom_kind_action_table', 'file')
   Should custom_file_action_table is custom_file_action_table_2
-  Should Ref('s:custom_kind_action_tables') == {'file': {}}
+  Should Ref('s:custom_kind_action_tables') ==# {'file': {}}
 
   It currently accepts invalid name "!@#$%"
 
   let custom_xxxxx_action_table = Call('s:custom_kind_action_table', '!@#$%')
-  Should custom_xxxxx_action_table == {}
-  Should Ref('s:custom_kind_action_tables') == {'file': {}, '!@#$%': {}}
+  Should custom_xxxxx_action_table ==# {}
+  Should Ref('s:custom_kind_action_tables') ==# {'file': {}, '!@#$%': {}}
   let custom_xxxxx_action_table_2 = Call('s:custom_kind_action_table', '!@#$%')
   Should custom_xxxxx_action_table is custom_xxxxx_action_table_2
-  Should Ref('s:custom_kind_action_tables') == {'file': {}, '!@#$%': {}}
+  Should Ref('s:custom_kind_action_tables') ==# {'file': {}, '!@#$%': {}}
 
   It should create different custom kind action tables
 
@@ -92,7 +92,7 @@ endfunction
 function s:describe__s_default_kind_action_table()  "{{{1
   It should return {} for a kind which is not defined
 
-  Should Call('s:default_kind_action_table', 'buffer') == {}
+  Should Call('s:default_kind_action_table', 'buffer') ==# {}
 
   It should return the default action table
 
@@ -104,7 +104,7 @@ function s:describe__s_default_kind_action_table()  "{{{1
   Should ku#define_kind(kind_a) == 1
 
   Should Call('s:default_kind_action_table', 'buffer')
-  \ == {'close': function('type')}
+  \ ==# {'close': function('type')}
   Should Call('s:default_kind_action_table', 'buffer')
   \ is kind_a.default_action_table
 

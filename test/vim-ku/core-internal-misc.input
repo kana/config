@@ -7,8 +7,8 @@ function s:describe__ku_available_source_p()  "{{{1
 
   It should return false for non existing source
 
-  Should ku#available_sources() == {}
-  Should ku#available_source_names() == []
+  Should ku#available_sources() ==# {}
+  Should ku#available_source_names() ==# []
   Should ku#available_source_p('test') == 0
   Should ku#available_source_p('abc') == 0
   Should ku#available_source_p('NoSuchSource') == 0
@@ -16,7 +16,7 @@ function s:describe__ku_available_source_p()  "{{{1
   It should return true for an existing source
 
   Should ku#define_source({'gather_candidates': F, 'name': 'test'}) == 1
-  Should ku#available_source_names() == ['test']
+  Should ku#available_source_names() ==# ['test']
   Should ku#available_source_p('test') == 1
   Should ku#available_source_p('abc') == 0
   Should ku#available_source_p('NoSuchSource') == 0
@@ -24,7 +24,7 @@ function s:describe__ku_available_source_p()  "{{{1
   It should return true for an existing source which is overridden
 
   Should ku#define_source({'gather_candidates': G, 'name': 'test'}) == 1
-  Should ku#available_source_names() == ['test']
+  Should ku#available_source_names() ==# ['test']
   Should ku#available_source_p('test') == 1
   Should ku#available_source_p('abc') == 0
   Should ku#available_source_p('NoSuchSource') == 0
@@ -32,7 +32,7 @@ function s:describe__ku_available_source_p()  "{{{1
   It should return true for another existing source
 
   Should ku#define_source({'gather_candidates': F, 'name': 'abc'}) == 1
-  Should ku#available_source_names() == ['abc', 'test']
+  Should ku#available_source_names() ==# ['abc', 'test']
   Should ku#available_source_p('test') == 1
   Should ku#available_source_p('abc') == 1
   Should ku#available_source_p('NoSuchSource') == 0
@@ -50,23 +50,23 @@ function s:describe__ku_available_source_names()  "{{{1
 
   It should return [] if there is no source
 
-  Should ku#available_sources() == {}
-  Should ku#available_source_names() == []
+  Should ku#available_sources() ==# {}
+  Should ku#available_source_names() ==# []
 
   It should return ['test'] if there is a source 'test'
 
   Should ku#define_source({'gather_candidates': F, 'name': 'test'}) == 1
-  Should ku#available_source_names() == ['test']
+  Should ku#available_source_names() ==# ['test']
 
   It should return ['test'] if source 'test' is overrdden
 
   Should ku#define_source({'gather_candidates': G, 'name': 'test'}) == 1
-  Should ku#available_source_names() == ['test']
+  Should ku#available_source_names() ==# ['test']
 
   It should return multiple names if there are multiple sources
 
   Should ku#define_source({'gather_candidates': F, 'name': 'abc'}) == 1
-  Should ku#available_source_names() == ['abc', 'test']
+  Should ku#available_source_names() ==# ['abc', 'test']
 
   " Reset side effect.
   ResetContext
@@ -81,8 +81,8 @@ function s:describe__ku_available_sources()  "{{{1
 
   It should return {} if there is no source
 
-  Should ku#available_sources() == {}
-  Should ku#available_sources() == Ref('s:available_sources')
+  Should ku#available_sources() ==# {}
+  Should ku#available_sources() ==# Ref('s:available_sources')
 
   It should return {} after failed ku#define_source()
 
@@ -90,20 +90,20 @@ function s:describe__ku_available_sources()  "{{{1
   Should ku#define_source({'gather_candidates': 0, 'name': 0}) == 0
   Should ku#define_source({'gather_candidates': 0, 'name': 'test'}) == 0
   Should ku#define_source({'gather_candidates': F, 'name': 0}) == 0
-  Should sort(keys(ku#available_sources())) == []
-  Should ku#available_sources() == Ref('s:available_sources')
+  Should sort(keys(ku#available_sources())) ==# []
+  Should ku#available_sources() ==# Ref('s:available_sources')
 
   It should return some content after successful ku#define_source()
 
   Should ku#define_source({'gather_candidates': F, 'name': 'test'}) == 1
-  Should sort(keys(ku#available_sources())) == ['test']
-  Should ku#available_sources() == Ref('s:available_sources')
+  Should sort(keys(ku#available_sources())) ==# ['test']
+  Should ku#available_sources() ==# Ref('s:available_sources')
 
   It should return some content after overriding a source
 
   Should ku#define_source({'gather_candidates': G, 'name': 'test'}) == 1
-  Should sort(keys(ku#available_sources())) == ['test']
-  Should ku#available_sources() == Ref('s:available_sources')
+  Should sort(keys(ku#available_sources())) ==# ['test']
+  Should ku#available_sources() ==# Ref('s:available_sources')
 
   " Reset side effect.
   ResetContext
@@ -149,7 +149,7 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
 
   It should not define any ui key mapping for the current buffer
 
-  Should maparg('<C-c>', 'n') == ''
+  Should maparg('<C-c>', 'n') ==# ''
 
   It should affect only the current buffer when it is called
 
@@ -168,16 +168,16 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
   Should exists('#plugin-ku#TabLeave#<buffer>') == 0
   Should exists('#plugin-ku#WinLeave#<buffer>') == 0
 
-  Should maparg('<BS>', 'i') == ''
-  Should maparg('<C-h>', 'i') == ''
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') == ''
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') == ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') == ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') == ''
-  Should maparg('<Plug>(ku-quit-session)', 'i') == ''
-  Should maparg('<Plug>(ku-quit-session)', 'n') == ''
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
-  Should maparg('<C-c>', 'n') == ''
+  Should maparg('<C-c>', 'n') ==# ''
 
   " Reset side effect.
   augroup test
@@ -212,18 +212,18 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
 
   It should define several named key mappings for the current buffer
 
-  Should maparg('<BS>', 'i') != '' == 1
-  Should maparg('<C-h>', 'i') != '' == 1
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') != '' == 1
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') != '' == 1
-  Should maparg('<Plug>(ku-quit-session)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-quit-session)', 'n') != '' == 1
+  Should maparg('<BS>', 'i') !=# ''
+  Should maparg('<C-h>', 'i') !=# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') !=# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') !=# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') !=# ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') !=# ''
 
   It should not define any ui key mapping for the current buffer
 
-  Should maparg('<C-c>', 'n') == ''
+  Should maparg('<C-c>', 'n') ==# ''
 
   It should affect only the current buffer when it is called
 
@@ -242,16 +242,16 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
   Should exists('#plugin-ku#TabLeave#<buffer>') == 0
   Should exists('#plugin-ku#WinLeave#<buffer>') == 0
 
-  Should maparg('<BS>', 'i') == ''
-  Should maparg('<C-h>', 'i') == ''
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') == ''
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') == ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') == ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') == ''
-  Should maparg('<Plug>(ku-quit-session)', 'i') == ''
-  Should maparg('<Plug>(ku-quit-session)', 'n') == ''
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
-  Should maparg('<C-c>', 'n') == ''
+  Should maparg('<C-c>', 'n') ==# ''
 
   " No side effect to reset.
 endfunction
@@ -281,18 +281,18 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
 
   It should define several named key mappings for the current buffer
 
-  Should maparg('<BS>', 'i') != '' == 1
-  Should maparg('<C-h>', 'i') != '' == 1
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') != '' == 1
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') != '' == 1
-  Should maparg('<Plug>(ku-quit-session)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-quit-session)', 'n') != '' == 1
+  Should maparg('<BS>', 'i') !=# ''
+  Should maparg('<C-h>', 'i') !=# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') !=# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') !=# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') !=# ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') !=# ''
 
   It should define several ui key mappings for the current buffer
 
-  Should maparg('<C-c>', 'n') == '<Plug>(ku-quit-session)'
+  Should maparg('<C-c>', 'n') ==# '<Plug>(ku-quit-session)'
 
   It should affect only the current buffer when it is called
 
@@ -311,16 +311,16 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
   Should exists('#plugin-ku#TabLeave#<buffer>') == 0
   Should exists('#plugin-ku#WinLeave#<buffer>') == 0
 
-  Should maparg('<BS>', 'i') == ''
-  Should maparg('<C-h>', 'i') == ''
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') == ''
-  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') == ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') == ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') == ''
-  Should maparg('<Plug>(ku-quit-session)', 'i') == ''
-  Should maparg('<Plug>(ku-quit-session)', 'n') == ''
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-do-the-default-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
-  Should maparg('<C-c>', 'n') == ''
+  Should maparg('<C-c>', 'n') ==# ''
 
   " No side effect to reset.
 endfunction
@@ -336,8 +336,8 @@ function s:describe__s_ku_active_p()  "{{{1
   It should return true after starting a ku session
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   Should Call('s:ku_active_p') == 1
 
@@ -349,8 +349,8 @@ function s:describe__s_ku_active_p()  "{{{1
 
   " Reset side effect.
   call ku#start()
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
   bwipeout!
 endfunction
 
@@ -374,20 +374,20 @@ function s:describe__s_new_session()  "{{{1
   let session_a = Call('s:new_session', [])
   Should has_key(session_a, 'id') == 1
   Should session_a.now_quitting_p == 0
-  Should session_a.original_completeopt == original_completeopt
+  Should session_a.original_completeopt ==# original_completeopt
   Should session_a.original_curwinnr == original_curwinnr
-  Should session_a.original_winrestcmd == original_winrestcmd
-  Should session_a.sources == []
+  Should session_a.original_winrestcmd ==# original_winrestcmd
+  Should session_a.sources ==# []
 
   It should return a valid objec without source (B)
 
   let session_b = Call('s:new_session', [])
   Should has_key(session_b, 'id') == 1
   Should session_b.now_quitting_p == 0
-  Should session_b.original_completeopt == original_completeopt
+  Should session_b.original_completeopt ==# original_completeopt
   Should session_b.original_curwinnr == original_curwinnr
-  Should session_b.original_winrestcmd == original_winrestcmd
-  Should session_b.sources == []
+  Should session_b.original_winrestcmd ==# original_winrestcmd
+  Should session_b.sources ==# []
 
   It should return sessions with different session ids
 
@@ -398,10 +398,10 @@ function s:describe__s_new_session()  "{{{1
   let session = Call('s:new_session', ['test', 'abc'])
   Should has_key(session, 'id') == 1
   Should session.now_quitting_p == 0
-  Should session.original_completeopt == original_completeopt
+  Should session.original_completeopt ==# original_completeopt
   Should session.original_curwinnr == original_curwinnr
-  Should session.original_winrestcmd == original_winrestcmd
-  Should session.sources == [
+  Should session.original_winrestcmd ==# original_winrestcmd
+  Should session.sources ==# [
   \   ku#available_sources()['test'],
   \   ku#available_sources()['abc']
   \ ]
@@ -417,7 +417,7 @@ function s:describe__s_on_CursorMovedI()  "{{{1
   It is not implemented and currently return ''
 
   " FIXME: NIY
-  Should Call('s:on_CursorMovedI') == ''
+  Should Call('s:on_CursorMovedI') ==# ''
 endfunction
 
 
@@ -427,7 +427,7 @@ function s:describe__s_on_InsertEnter()  "{{{1
   It is not implemented and currently return ''
 
   " FIXME: NIY
-  Should Call('s:on_InsertEnter') == ''
+  Should Call('s:on_InsertEnter') ==# ''
 endfunction
 
 
@@ -443,13 +443,13 @@ function s:describe__s_quit_session()  "{{{1
   let completeopt = &completeopt
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
-  Should bufnr('') != bufnr == 1
-  Should winnr() != winnr == 1
-  Should winrestcmd() != winrestcmd == 1
-  Should &completeopt != completeopt == 1
+  Should bufnr('') != bufnr
+  Should winnr() != winnr
+  Should winrestcmd() !=# winrestcmd
+  Should &completeopt !=# completeopt
 
   It should reset side effect by ku#start()
 
@@ -457,15 +457,15 @@ function s:describe__s_quit_session()  "{{{1
   let session = Ref('s:session')
   Should bufnr('') == bufnr
   Should winnr() == winnr
-  Should winrestcmd() == winrestcmd
-  Should &completeopt == completeopt
+  Should winrestcmd() ==# winrestcmd
+  Should &completeopt ==# completeopt
 
   " NTY: recursively called s:quit_session() - but how to test it?
 
   " Reset side effect.
   call ku#start()
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
   bwipeout!
   only
 endfunction

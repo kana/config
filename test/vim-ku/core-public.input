@@ -5,14 +5,14 @@ function s:describe__ku_custom_actioin()  "{{{1
   It requires the following initialization
 
   call Set('s:custom_kind_action_tables', {})
-  Should Ref('s:custom_kind_action_tables') == {}
+  Should Ref('s:custom_kind_action_tables') ==# {}
   call Set('s:available_kinds', {})
   Should ku#define_kind({
   \ 'default_action_table': {'get': function('get'), 'len': function('len')},
   \ 'default_key_table': {'g': 'get'},
   \ 'name': 'file',
   \ }) == 1
-  Should Ref('s:available_kinds') == {
+  Should Ref('s:available_kinds') ==# {
   \ 'file': {
   \ 'default_action_table': {'get': function('get'), 'len': function('len')},
   \ 'default_key_table': {'g': 'get'},
@@ -37,14 +37,14 @@ function s:describe__ku_custom_actioin()  "{{{1
 
   It should alter the script context as follows
 
-  Should Ref('s:custom_kind_action_tables') == {
+  Should Ref('s:custom_kind_action_tables') ==# {
   \ 'file': {
   \ 'ai': function('get'),
   \ 'default': function('get'),
   \ 'new': function('get'),
   \ },
   \ }
-  Should Ref('s:available_kinds') == {
+  Should Ref('s:available_kinds') ==# {
   \ 'file': {
   \ 'default_action_table': {'get': function('get'), 'len': function('len')},
   \ 'default_key_table': {'g': 'get'},
@@ -63,34 +63,34 @@ function s:describe__ku_custom_key()  "{{{1
   It should succeed for kind "buffer" - valid name
 
   Should ku#custom_key('buffer', '<', 'lt') == 0
-  Should Call('s:custom_kind_key_table', 'buffer') == {'<': 'lt'}
+  Should Call('s:custom_kind_key_table', 'buffer') ==# {'<': 'lt'}
   Should ku#custom_key('buffer', '>', 'gt') == 0
-  Should Call('s:custom_kind_key_table', 'buffer') == {'<': 'lt', '>': 'gt'}
+  Should Call('s:custom_kind_key_table', 'buffer') ==# {'<': 'lt', '>': 'gt'}
 
   It should succeed to override existing key bindings for kind "buffer"
 
-  Should ku#custom_key('buffer', '<', 'LT') == 'lt'
-  Should Call('s:custom_kind_key_table', 'buffer') == {'<': 'LT', '>': 'gt'}
-  Should ku#custom_key('buffer', '>', 'GT') == 'gt'
-  Should Call('s:custom_kind_key_table', 'buffer') == {'<': 'LT', '>': 'GT'}
+  Should ku#custom_key('buffer', '<', 'LT') ==# 'lt'
+  Should Call('s:custom_kind_key_table', 'buffer') ==# {'<': 'LT', '>': 'gt'}
+  Should ku#custom_key('buffer', '>', 'GT') ==# 'gt'
+  Should Call('s:custom_kind_key_table', 'buffer') ==# {'<': 'LT', '>': 'GT'}
 
   It currently accepts invalid name kind "!@#$%"
 
   Should ku#custom_key('!@#$%', '(', 'lb') == 0
-  Should Call('s:custom_kind_key_table', '!@#$%') == {'(': 'lb'}
+  Should Call('s:custom_kind_key_table', '!@#$%') ==# {'(': 'lb'}
   Should ku#custom_key('!@#$%', ')', 'rb') == 0
-  Should Call('s:custom_kind_key_table', '!@#$%') == {'(': 'lb', ')': 'rb'}
+  Should Call('s:custom_kind_key_table', '!@#$%') ==# {'(': 'lb', ')': 'rb'}
 
   It currently overrides existing key bindings for kind "!@#$%"
 
-  Should ku#custom_key('!@#$%', '(', 'LB') == 'lb'
-  Should Call('s:custom_kind_key_table', '!@#$%') == {'(': 'LB', ')': 'rb'}
-  Should ku#custom_key('!@#$%', ')', 'RB') == 'rb'
-  Should Call('s:custom_kind_key_table', '!@#$%') == {'(': 'LB', ')': 'RB'}
+  Should ku#custom_key('!@#$%', '(', 'LB') ==# 'lb'
+  Should Call('s:custom_kind_key_table', '!@#$%') ==# {'(': 'LB', ')': 'rb'}
+  Should ku#custom_key('!@#$%', ')', 'RB') ==# 'rb'
+  Should Call('s:custom_kind_key_table', '!@#$%') ==# {'(': 'LB', ')': 'RB'}
 
   It should alter the script context as follows
 
-  Should Ref('s:custom_kind_key_tables') == {
+  Should Ref('s:custom_kind_key_tables') ==# {
   \ 'buffer': {'<': 'LT', '>': 'GT'},
   \ '!@#$%': {'(': 'LB', ')': 'RB'},
   \ }
@@ -108,70 +108,70 @@ function s:describe__ku_define_default_ui_key_mappings()  "{{{1
   nnoremap <buffer> <C-c>  QUIT-NORMAL
   inoremap <buffer> <C-c>  QUIT-INSERT
 
-  Should maparg('<C-c>', 'i') == 'QUIT-INSERT'
-  Should maparg('<C-c>', 'n') == 'QUIT-NORMAL'
-  Should maparg('<C-i>', 'i') == ''
-  Should maparg('<C-i>', 'n') == ''
-  Should maparg('<C-m>', 'i') == ''
-  Should maparg('<C-m>', 'n') == ''
-  Should maparg('<Enter>', 'i') == ''
-  Should maparg('<Enter>', 'n') == ''
-  Should maparg('<Return>', 'i') == ''
-  Should maparg('<Return>', 'n') == ''
-  Should maparg('<Tab>', 'i') == ''
-  Should maparg('<Tab>', 'n') == ''
+  Should maparg('<C-c>', 'i') ==# 'QUIT-INSERT'
+  Should maparg('<C-c>', 'n') ==# 'QUIT-NORMAL'
+  Should maparg('<C-i>', 'i') ==# ''
+  Should maparg('<C-i>', 'n') ==# ''
+  Should maparg('<C-m>', 'i') ==# ''
+  Should maparg('<C-m>', 'n') ==# ''
+  Should maparg('<Enter>', 'i') ==# ''
+  Should maparg('<Enter>', 'n') ==# ''
+  Should maparg('<Return>', 'i') ==# ''
+  Should maparg('<Return>', 'n') ==# ''
+  Should maparg('<Tab>', 'i') ==# ''
+  Should maparg('<Tab>', 'n') ==# ''
 
   It should not override existing key mappings with false
 
   call ku#define_default_ui_key_mappings(0)
 
-  Should maparg('<C-c>', 'i') == 'QUIT-INSERT'
-  Should maparg('<C-c>', 'n') == 'QUIT-NORMAL'
-  Should maparg('<C-i>', 'i') == '<Plug>(ku-choose-and-do-an-action)'
-  Should maparg('<C-i>', 'n') == '<Plug>(ku-choose-and-do-an-action)'
-  Should maparg('<C-m>', 'i') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<C-m>', 'n') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Enter>', 'i') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Enter>', 'n') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Return>', 'i') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Return>', 'n') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Tab>', 'i') == '<Plug>(ku-choose-and-do-an-action)'
-  Should maparg('<Tab>', 'n') == '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<C-c>', 'i') ==# 'QUIT-INSERT'
+  Should maparg('<C-c>', 'n') ==# 'QUIT-NORMAL'
+  Should maparg('<C-i>', 'i') ==# '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<C-i>', 'n') ==# '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<C-m>', 'i') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<C-m>', 'n') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Enter>', 'i') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Enter>', 'n') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Return>', 'i') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Return>', 'n') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Tab>', 'i') ==# '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<Tab>', 'n') ==# '<Plug>(ku-choose-and-do-an-action)'
 
   It should override existing key mappings with true
 
   call ku#define_default_ui_key_mappings(1)
 
-  Should maparg('<C-c>', 'i') == '<Plug>(ku-quit-session)'
-  Should maparg('<C-c>', 'n') == '<Plug>(ku-quit-session)'
-  Should maparg('<C-i>', 'i') == '<Plug>(ku-choose-and-do-an-action)'
-  Should maparg('<C-i>', 'n') == '<Plug>(ku-choose-and-do-an-action)'
-  Should maparg('<C-m>', 'i') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<C-m>', 'n') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Enter>', 'i') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Enter>', 'n') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Return>', 'i') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Return>', 'n') == '<Plug>(ku-do-the-default-action)'
-  Should maparg('<Tab>', 'i') == '<Plug>(ku-choose-and-do-an-action)'
-  Should maparg('<Tab>', 'n') == '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<C-c>', 'i') ==# '<Plug>(ku-quit-session)'
+  Should maparg('<C-c>', 'n') ==# '<Plug>(ku-quit-session)'
+  Should maparg('<C-i>', 'i') ==# '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<C-i>', 'n') ==# '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<C-m>', 'i') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<C-m>', 'n') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Enter>', 'i') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Enter>', 'n') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Return>', 'i') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Return>', 'n') ==# '<Plug>(ku-do-the-default-action)'
+  Should maparg('<Tab>', 'i') ==# '<Plug>(ku-choose-and-do-an-action)'
+  Should maparg('<Tab>', 'n') ==# '<Plug>(ku-choose-and-do-an-action)'
 
   It should affect only the current buffer when it is called
 
   new
   only
 
-  Should maparg('<C-c>', 'i') == ''
-  Should maparg('<C-c>', 'n') == ''
-  Should maparg('<C-i>', 'i') == ''
-  Should maparg('<C-i>', 'n') == ''
-  Should maparg('<C-m>', 'i') == ''
-  Should maparg('<C-m>', 'n') == ''
-  Should maparg('<Enter>', 'i') == ''
-  Should maparg('<Enter>', 'n') == ''
-  Should maparg('<Return>', 'i') == ''
-  Should maparg('<Return>', 'n') == ''
-  Should maparg('<Tab>', 'i') == ''
-  Should maparg('<Tab>', 'n') == ''
+  Should maparg('<C-c>', 'i') ==# ''
+  Should maparg('<C-c>', 'n') ==# ''
+  Should maparg('<C-i>', 'i') ==# ''
+  Should maparg('<C-i>', 'n') ==# ''
+  Should maparg('<C-m>', 'i') ==# ''
+  Should maparg('<C-m>', 'n') ==# ''
+  Should maparg('<Enter>', 'i') ==# ''
+  Should maparg('<Enter>', 'n') ==# ''
+  Should maparg('<Return>', 'i') ==# ''
+  Should maparg('<Return>', 'n') ==# ''
+  Should maparg('<Tab>', 'i') ==# ''
+  Should maparg('<Tab>', 'n') ==# ''
 
   " Reset side effect
   " -- :new | only does this, nothing to do here.
@@ -184,7 +184,7 @@ function s:describe__ku_define_kind()  "{{{1
   It requires the following initialization to test its effect
 
   call Set('s:available_kinds', {})
-  Should Ref('s:available_kinds') == {}
+  Should Ref('s:available_kinds') ==# {}
 
   It should fail for invalid kind definition
 
@@ -217,7 +217,7 @@ function s:describe__ku_define_kind()  "{{{1
   \ 'name': 0,
   \ }) == 0
 
-  Should Ref('s:available_kinds') == {}
+  Should Ref('s:available_kinds') ==# {}
 
   It should succeed for valid kind definition
 
@@ -232,7 +232,7 @@ function s:describe__ku_define_kind()  "{{{1
   \ 'name': 'file',
   \ }) == 1
 
-  Should Ref('s:available_kinds') == {
+  Should Ref('s:available_kinds') ==# {
   \ 'buffer': {
   \ 'default_action_table': {'close': function('type')},
   \ 'default_key_table': {'c': 'close'},
@@ -253,7 +253,7 @@ function s:describe__ku_define_kind()  "{{{1
   \ 'name': 'file',
   \ }) == 1
 
-  Should Ref('s:available_kinds') == {
+  Should Ref('s:available_kinds') ==# {
   \ 'buffer': {
   \ 'default_action_table': {'close': function('type')},
   \ 'default_key_table': {'c': 'close'},
@@ -282,9 +282,9 @@ function s:describe__ku_define_source()  "{{{1
   It requires the following initialization to test its effect
 
   call Set('s:available_sources', {})
-  Should Ref('s:available_sources') == {}
+  Should Ref('s:available_sources') ==# {}
   call Set('s:available_kinds', {})
-  Should Ref('s:available_kinds') == {}
+  Should Ref('s:available_kinds') ==# {}
 
   It should fail for invalid source definition
 
@@ -292,14 +292,14 @@ function s:describe__ku_define_source()  "{{{1
   Should ku#define_source({'gather_candidates': 0, 'name': 0}) == 0
   Should ku#define_source({'gather_candidates': 0, 'name': 'test'}) == 0
   Should ku#define_source({'gather_candidates': F, 'name': 0}) == 0
-  Should Ref('s:available_sources') == {}
-  Should Ref('s:available_kinds') == {}
+  Should Ref('s:available_sources') ==# {}
+  Should Ref('s:available_kinds') ==# {}
 
   It should succeed for valid source definition
 
   Should ku#define_source({'gather_candidates': F, 'name': 'test'}) == 1
   Should Ref('s:available_sources')['test']
-  \ == {
+  \ ==# {
   \ 'default_action_table': {},
   \ 'default_key_table': {},
   \ 'filters': [],
@@ -310,7 +310,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'sorters': sorters,
   \ }
   Should Ref('s:available_kinds')['source/test']
-  \ == {
+  \ ==# {
   \ 'default_action_table': {},
   \ 'default_key_table': {},
   \ 'name': 'source/test',
@@ -320,7 +320,7 @@ function s:describe__ku_define_source()  "{{{1
 
   Should ku#define_source({'gather_candidates': G, 'name': 'test'}) == 1
   Should Ref('s:available_sources')['test']
-  \ == {
+  \ ==# {
   \ 'default_action_table': {},
   \ 'default_key_table': {},
   \ 'filters': [],
@@ -331,7 +331,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'sorters': sorters,
   \ }
   Should Ref('s:available_kinds')['source/test']
-  \ == {
+  \ ==# {
   \ 'default_action_table': {},
   \ 'default_key_table': {},
   \ 'name': 'source/test',
@@ -350,7 +350,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'sorters': [F]})
   \ == 1
   Should Ref('s:available_sources')['test']
-  \ == {
+  \ ==# {
   \ 'default_action_table': {'checkout': function('function')},
   \ 'default_key_table': {'/': 'checkout'},
   \ 'filters': [G],
@@ -361,7 +361,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'sorters': [F],
   \ }
   Should Ref('s:available_kinds')['source/test']
-  \ == {
+  \ ==# {
   \ 'default_action_table': {'checkout': function('function')},
   \ 'default_key_table': {'/': 'checkout'},
   \ 'name': 'source/test',
@@ -379,7 +379,7 @@ function s:describe__ku_start()  "{{{1
 
   let first_bufnr = bufnr('')
   let first_completeopt = &g:completeopt
-  Should &l:buftype == ''
+  Should &l:buftype ==# ''
   Should winnr('$') == 1
   Should winnr() == 1
 
@@ -389,17 +389,17 @@ function s:describe__ku_start()  "{{{1
   Should ku#start() == 1
   let second_bufnr = bufnr('')
 
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == 'a'
-  Should nr2char(getchar(0)) == 'b'
-  Should nr2char(getchar(0)) == 'c'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# 'a'
+  Should nr2char(getchar(0)) ==# 'b'
+  Should nr2char(getchar(0)) ==# 'c'
+  Should nr2char(getchar(0)) ==# ''
 
   Should &g:completeopt !=# first_completeopt
   Should &l:filetype ==# 'ku'
   Should [line('.'), col('.')] == [2, 1]
   Should bufnr('') != first_bufnr
-  Should getline(1, line('$')) == ['', '>']
+  Should getline(1, line('$')) ==# ['', '>']
   Should winnr('$') == 2
   Should winnr() == 1
 
@@ -415,8 +415,8 @@ function s:describe__ku_start()  "{{{1
 
   Should ku#start() == 1
 
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   Should bufnr('') == second_bufnr
 
@@ -425,14 +425,14 @@ function s:describe__ku_start()  "{{{1
   It should recreate the ku buffer if it has been deleted
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   bwipeout!
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   Should bufnr('') != first_bufnr
   Should bufnr('') != second_bufnr
@@ -442,8 +442,8 @@ function s:describe__ku_start()  "{{{1
   It should succeed with {sources}
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   Should winnr() == 1
   Should winnr('$') == 2
@@ -454,7 +454,7 @@ function s:describe__ku_start()  "{{{1
 
   Should ku#start(['invalid']) == 0
 
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# ''
 
   Should bufnr('') == first_bufnr
   Should winnr('$') == 1
@@ -463,11 +463,11 @@ function s:describe__ku_start()  "{{{1
   It should succeed with {initial-pattern}
 
   Should ku#start(0, 'def') == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   Should bufnr('') != first_bufnr
-  Should getline(1, line('$')) == ['', '>def']
+  Should getline(1, line('$')) ==# ['', '>def']
   Should winnr('$') == 2
   Should winnr() == 1
 
@@ -476,11 +476,11 @@ function s:describe__ku_start()  "{{{1
   It should fail while the ku buffer is active
 
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   Should ku#start() == 0
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# ''
 
   close
 
@@ -489,8 +489,8 @@ function s:describe__ku_start()  "{{{1
 
   " Reset side effect
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
   bwipeout!
 endfunction
 

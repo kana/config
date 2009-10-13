@@ -5,10 +5,10 @@ function s:describe__ku_omnifunc__findstart_0()  "{{{1
   It should return [] with no source
 
   call ku#start()
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
-  Should ku#omnifunc(0, 'pattern') == []
+  Should ku#omnifunc(0, 'pattern') ==# []
 
   close
 
@@ -22,17 +22,17 @@ function s:describe__ku_omnifunc__findstart_0()  "{{{1
   Should ku#define_source(source) == 1
 
   call ku#start()
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
-  Should ku#omnifunc(0, 'pattern') == [{'word': 'pattern', 'abbr': 'pa'}]
+  Should ku#omnifunc(0, 'pattern') ==# [{'word': 'pattern', 'abbr': 'pa'}]
 
   close
 
   " Reset side effect.
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
   bwipeout!
 
   ResetContext
@@ -43,8 +43,8 @@ endfunction
 
 function s:describe__ku_omnifunc__findstart_1()  "{{{1
   call ku#start()
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
   It should succeed with the default state (there is only the prompt)
 
@@ -71,8 +71,8 @@ function s:describe__ku_omnifunc__findstart_1()  "{{{1
 
   " Reset side effect.
   Should ku#start() == 1
-  Should nr2char(getchar(0)) == 'A'
-  Should nr2char(getchar(0)) == ''
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
   bwipeout!
 
   ResetContext
@@ -115,33 +115,33 @@ function s:describe__s_candidates_from_pattern()  "{{{1
 
   It should return [] with no source
 
-  Should Call('s:candidates_from_pattern', '2330', []) == []
+  Should Call('s:candidates_from_pattern', '2330', []) ==# []
 
   It should return some candidates with a source
 
   Should Call('s:candidates_from_pattern', '2330', [source_a])
-  \ == [{'word': '2330'}]
+  \ ==# [{'word': '2330'}]
 
   It should return some candidates with multiple sources
 
   Should Call('s:candidates_from_pattern', '2330', [source_a, source_b])
-  \ == [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}]
+  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}]
 
   It should return some candidates with multiple sources - duplicate sources
   " (although this case is not a valid usage)
 
   Should Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])
-  \ == [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
+  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
 
   It should return sorted candidates for a source with sorters
 
   Should Call('s:candidates_from_pattern', '2330', [source_c])
-  \ == [{'word': 'p'}, {'word': 'u'}]
+  \ ==# [{'word': 'p'}, {'word': 'u'}]
 
   It should return partially sorted candidates for sources with/without sorters
 
   Should Call('s:candidates_from_pattern', '2330', [source_c, source_b])
-  \ == [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}]
+  \ ==# [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}]
 
   ResetContext
 endfunction
@@ -190,7 +190,7 @@ function s:describe__s_filter_candidates()  "{{{1
   It should return candidates as-is with no filter
 
   Should Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)
-  \ == [
+  \ ==# [
   \ {'word': 'a'},
   \ {'word': 'lm'},
   \ {'word': 'bcd'},
@@ -201,7 +201,7 @@ function s:describe__s_filter_candidates()  "{{{1
   It should return candidates filtered by M
 
   Should Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M)
-  \ == [
+  \ ==# [
   \ {'word': 'lm'},
   \ {'word': 'mnopq'},
   \ ]
@@ -209,7 +209,7 @@ function s:describe__s_filter_candidates()  "{{{1
   It should return candidates filtered by ODD
 
   Should Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)
-  \ == [
+  \ ==# [
   \ {'word': 'a'},
   \ {'word': 'bcd'},
   \ {'word': 'mnopq'},
@@ -218,14 +218,14 @@ function s:describe__s_filter_candidates()  "{{{1
   It should return candidates filtered by M and ODD
 
   Should Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)
-  \ == [
+  \ ==# [
   \ {'word': 'mnopq'},
   \ ]
 
   It should return the same candidates regardless of order of filters
 
   Should Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD_M)
-  \ == Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)
+  \ ==# Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)
 
   ResetContext
 endfunction
@@ -267,13 +267,13 @@ function s:describe__s_matched_candidates()  "{{{1
   It should return nothing with no matcher
 
   Should Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS,SOURCE_EMPTY)
-  \ == [
+  \ ==# [
   \ ]
 
   It should return some candidates with the default matcher
 
   Should Call('s:matched_candidates',copy(RAW_LCANDIDATES),ARGS,SOURCE_DEFAULT)
-  \ == [
+  \ ==# [
   \ {'word': 'mk'},
   \ {'word': 'oom'},
   \ ]
@@ -281,7 +281,7 @@ function s:describe__s_matched_candidates()  "{{{1
   It should return some candidates with a custom matcher
 
   Should Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)
-  \ == [
+  \ ==# [
   \ {'word': 'iue'},
   \ {'word': 'oom'},
   \ ]
@@ -289,7 +289,7 @@ function s:describe__s_matched_candidates()  "{{{1
   It should return some candidates matched with "default" or "odd"
 
   Should Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)
-  \ == [
+  \ ==# [
   \ {'word': 'mk'},
   \ {'word': 'oom'},
   \ {'word': 'iue'},
@@ -335,7 +335,7 @@ function s:describe__s_sort_candidates()  "{{{1
   It should return unsorted candidates with no sorter
 
   Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)
-  \ == [
+  \ ==# [
   \ {'word': 'a'},
   \ {'word': 'l'},
   \ {'word': 'b'},
@@ -346,7 +346,7 @@ function s:describe__s_sort_candidates()  "{{{1
   It should return sorted candidates with a sorter
 
   Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_SIMPLE)
-  \ == [
+  \ ==# [
   \ {'word': 'a'},
   \ {'word': 'b'},
   \ {'word': 'l'},
@@ -357,7 +357,7 @@ function s:describe__s_sort_candidates()  "{{{1
   It should return sorted candidates with a custom sorter
 
   Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_REVERSE)
-  \ == [
+  \ ==# [
   \ {'word': 'm'},
   \ {'word': 'u'},
   \ {'word': 'b'},
@@ -368,7 +368,7 @@ function s:describe__s_sort_candidates()  "{{{1
   It should return candidates sorted by "simple" then sorted by "reverse"
 
   Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_R)
-  \ == [
+  \ ==# [
   \ {'word': 'u'},
   \ {'word': 'm'},
   \ {'word': 'l'},
