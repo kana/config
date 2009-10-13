@@ -870,6 +870,7 @@ TESTS_vim_ku = \
 		core-internal-misc \
 		core-public \
 		core-ui \
+		kind-common \
 		matcher-default \
 		sorter-default \
 		sorter-simple
@@ -885,6 +886,12 @@ test/vim-ku/core-%.output: \
 		test/vim-ku/core-%.input \
 		test/vspec \
 		$(PACKAGE_vim_ku_FILES)
+	@./test/vspec $< &>$@
+
+test/vim-ku/kind-%.output: \
+		test/vim-ku/kind-%.input \
+		$(PACKAGE_vim_ku_FILES_core) \
+		$(PACKAGE_vim_ku_FILES_kinds)
 	@./test/vspec $< &>$@
 
 test/vim-ku/matcher-%.output: \
