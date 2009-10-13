@@ -1,6 +1,13 @@
 " Test: vim-ku core-internal-action
 runtime! plugin/ku.vim plugin/ku/**/*.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__s_choose_action()  "{{{1
+  " FIXME: NIY
+endfunction
+
+
+
+
 function s:describe__s_custom_action_1()  "{{{1
   It should succeed to define an action
 
@@ -164,6 +171,13 @@ function s:describe__s_find_action()  "{{{1
   \ == function('ku#action#common#right')
 
   ResetContext
+endfunction
+
+
+
+
+function s:describe__s_guess_candidate()  "{{{1
+  " FIXME: NIY
 endfunction
 
 

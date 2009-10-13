@@ -374,6 +374,13 @@ endfunction
 
 
 
+function s:describe__ku_restart()  "{{{1
+  " FIXME: NIY
+endfunction
+
+
+
+
 function s:describe__ku_start()  "{{{1
   It requires the following information to test its effect
 
@@ -492,6 +499,13 @@ function s:describe__ku_start()  "{{{1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
   bwipeout!
+endfunction
+
+
+
+
+function s:describe__ku_take_action()  "{{{1
+  " FIXME: NIY
 endfunction
 
 

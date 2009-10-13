@@ -1,3 +1,5 @@
+==== s_choose_action 
+
 ==== s_custom_action_1 
 ---- It should succeed to define an action 
 ....
@@ -39,6 +41,8 @@ Action 'name2' is not defined for 'file'..
 ....
 ---- It should return custom actions rather than default actions 
 ........
+
+==== s_guess_candidate 
 
 
 
