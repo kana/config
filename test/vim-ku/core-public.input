@@ -504,8 +504,37 @@ endfunction
 
 
 
-function s:describe__ku_take_action()  "{{{1
+function s:describe__ku_take_action__with_candidate()  "{{{1
   " FIXME: NIY
+
+  It should fail with error case
+
+  It should do nothing with 'nop'
+
+  It should take a given action
+
+  It should choose action with '*choose*'
+
+  " Reset side effect.
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__ku_take_action__without_candidate()  "{{{1
+  " FIXME: NIY
+
+  It should fail with error case
+
+  It should do nothing with 'nop'
+
+  It should take a given action
+
+  It should choose action with '*choose*'
+
+  " Reset side effect.
+  ResetContext
 endfunction
 
 

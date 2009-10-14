@@ -95,7 +95,25 @@ Invalid source name: 'invalid'.....
 line   12:
 Already active.....
 
-==== ku_take_action 
+==== ku_take_action with candidate
+---- It should fail with error case 
+
+---- It should do nothing with 'nop' 
+
+---- It should take a given action 
+
+---- It should choose action with '*choose*' 
+
+
+==== ku_take_action without candidate
+---- It should fail with error case 
+
+---- It should do nothing with 'nop' 
+
+---- It should take a given action 
+
+---- It should choose action with '*choose*' 
+
 
 
 
