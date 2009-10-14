@@ -460,7 +460,7 @@ function! s:list_key_bindings_sorted_by_action_name(key_table)  "{{{3
   "  ^H  left  
   " -----------
   "   cell
-  let ACTION_NAMES = sort(keys(ACTIONS))
+  let ACTION_NAMES = sort(keys(ACTIONS), 's:compare_ignorecase')
   let MAX_ACTION_NAME_WIDTH = max(map(keys(ACTIONS), 'len(v:val)'))
   let MAX_LABEL_WIDTH = max(map(values(ACTIONS), 'len(v:val.label)'))
   let MAX_CELL_WIDTH = MAX_ACTION_NAME_WIDTH + 1 + MAX_LABEL_WIDTH
@@ -495,6 +495,27 @@ function! s:list_key_bindings_sorted_by_action_name(key_table)  "{{{3
   endfor
 
   return
+endfunction
+
+
+
+
+function! s:compare_ignorecase(x, y)  "{{{2
+  " Comparing function for sort() to do consistently case-insensitive sort.
+  "
+  " sort(list, 1) does case-insensitive sort,
+  " but its result may not be in a consistent order.
+  " For example,
+  " sort(['b', 'a', 'B', 'A'], 1) may return ['a', 'A', 'b', 'B'],
+  " sort(['b', 'A', 'B', 'a'], 1) may return ['A', 'a', 'b', 'B'],
+  " and so forth.
+  "
+  " With this function, sort() always return ['A', 'a', 'B', 'b'].
+  return a:x <? a:y ? -1
+  \    : (a:x >? a:y ? 1
+  \    : (a:x <# a:y ? -1
+  \    : (a:x ># a:y ? 1
+  \    : 0)))
 endfunction
 
 
