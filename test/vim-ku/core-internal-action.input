@@ -34,12 +34,15 @@ function s:describe__s_choose_action()  "{{{1
   Should Call('s:choose_action', candidate) == 0
   Should nr2char(getchar(0)) ==# ''
 
-  " Reset side effect - ensure empty typeahead buffer.
+  " Reset side effect.
+    " Ensure empty typeahead buffer.
   let typeahead = ''
   while getchar(1) isnot 0
     let typeahead .= nr2char(getchar())
   endwhile
   Should typeahead == ''
+    " Implicit changes in the script context.
+  ResetContext
 endfunction
 
 
