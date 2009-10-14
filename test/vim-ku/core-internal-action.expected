@@ -4,15 +4,12 @@
 ---- It should return the name of an action corresponding to a typed key 
 
 Candidate: close your eyes (dummy)
-FIXME: NIY
 What action? The key '/' is not associated with any action -- nothing happened...
 Candidate: close your eyes (dummy)
-FIXME: NIY
 What action? The key 'H' is not associated with any action -- nothing happened...
 ---- It should return 0 if there is no suitable action for a typed key 
 
 Candidate: close your eyes (dummy)
-FIXME: NIY
 What action? The key '???' is not associated with any action -- nothing happened....
 
 ==== s_custom_action_1 
@@ -59,9 +56,13 @@ Action 'name2' is not defined for 'file'..
 
 ==== s_guess_candidate 
 
+==== s_list_key_bindings_sorted_by_action_name 
+---- It should output key bindings in a given a:key_table 
+....
+
 
 
 **** Result ****
 
 
-58 examples, 0 failures
+62 examples, 0 failures

@@ -438,7 +438,62 @@ endfunction
 
 
 function! s:list_key_bindings_sorted_by_action_name(key_table)  "{{{3
-  echo 'FIXME: NIY'
+  " ACTIONS => {
+  "   'keys': [[key_value, key_repr], ...],
+  "   'label': label
+  " }
+  let ACTIONS = {}
+  for [key, action] in items(a:key_table)
+    if !has_key(ACTIONS, action)
+      let ACTIONS[action] = {'keys': []}
+    endif
+    call add(ACTIONS[action].keys, [key, strtrans(key)])
+  endfor
+  for _ in values(ACTIONS)
+    call sort(_.keys)
+    let _.label = join(map(copy(_.keys), 'v:val[1]'), ' ')
+  endfor
+  silent! unlet _
+
+  " key  action
+  " ---  ------
+  "  ^H  left  
+  " -----------
+  "   cell
+  let ACTION_NAMES = sort(keys(ACTIONS))
+  let MAX_ACTION_NAME_WIDTH = max(map(keys(ACTIONS), 'len(v:val)'))
+  let MAX_LABEL_WIDTH = max(map(values(ACTIONS), 'len(v:val.label)'))
+  let MAX_CELL_WIDTH = MAX_ACTION_NAME_WIDTH + 1 + MAX_LABEL_WIDTH
+  let SPACER = '   '
+  let COLUMNS = (&columns + len(SPACER) - 1) / (MAX_CELL_WIDTH + len(SPACER))
+  let COLUMNS = max([COLUMNS, 1])
+  let N = len(ACTIONS)
+  let ROWS = N / COLUMNS + (N % COLUMNS != 0)
+
+  for row in range(ROWS)
+    for column in range(COLUMNS)
+      let i = column * ROWS + row
+      if !(i < N)
+        continue
+      endif
+
+      echon column == 0 ? "\n" : SPACER
+
+      echohl kuChooseAction
+      let _ = ACTION_NAMES[i]
+      echon _
+      echohl NONE
+      echon repeat(' ', MAX_ACTION_NAME_WIDTH - len(_))
+
+      echohl kuChooseKey
+      echon ' '
+      let _ = ACTIONS[ACTION_NAMES[i]].label
+      echon _
+      echohl NONE
+      echon repeat(' ', MAX_LABEL_WIDTH - len(_))
+    endfor
+  endfor
+
   return
 endfunction
 

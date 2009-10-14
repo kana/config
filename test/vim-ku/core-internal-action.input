@@ -213,6 +213,28 @@ endfunction
 
 
 
+function s:describe__s_list_key_bindings_sorted_by_action_name()  "{{{1
+  " BUGS: ad hoc checking
+  It should output key bindings in a given a:key_table
+
+  let key_table = {
+  \   '4': 'teleporter',
+  \   '5': 'railgun',
+  \ }
+
+  redir => message
+  silent call Call('s:list_key_bindings_sorted_by_action_name', key_table)
+  redir END
+
+  Should message =~# '\<4\>'
+  Should message =~# '\<teleporter\>'
+  Should message =~# '\<5\>'
+  Should message =~# '\<railgun\>'
+endfunction
+
+
+
+
 function s:describe__s_guess_candidate()  "{{{1
   " FIXME: NIY
 endfunction
