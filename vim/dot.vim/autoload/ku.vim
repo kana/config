@@ -625,17 +625,7 @@ endfunction
 
 
 function! s:find_action(action_name, kinds)  "{{{2
-  " NB: perf-dyn
-  let l_action_tables = []
-
-  for kind in a:kinds
-    call add(l_action_tables, s:custom_kind_action_table(kind.name))
-    call add(l_action_tables, s:default_kind_action_table(kind.name))
-  endfor
-  " source.kinds is normalized by ku#define_source(),
-  " so that it's not necessary to check tables for implicit kinds.
-
-  for action_table in l_action_tables
+  for action_table in s:list_action_tables(a:kinds)
     if has_key(action_table, a:action_name)
       return action_table[a:action_name]
     endif
