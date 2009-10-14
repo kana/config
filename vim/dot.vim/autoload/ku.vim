@@ -382,8 +382,78 @@ endfunction
 
 
 function! s:choose_action(candidate)  "{{{2
-  " FIXME: NIY
-  return 'default'
+  " Prompt      Candidate Source
+  "    |          |         |
+  "   _^_______  _^______  _^__
+  "   Candidate: Makefile (file)
+  "   ^C cancel      ^O open        ...
+  "   What action?   ~~ ~~~~
+  "   ~~~~~~~~~~~~    |   |
+  "         |         |   |
+  "      Message     Key  Action
+  "
+  " Here "Prompt" is highlighted with kuChoosePrompt,
+  " "Candidate" is highlighted with kuChooseCandidate, and so forth.
+  let KEY_TABLE
+  \ = s:composite_key_table_from_kinds(a:candidate.ku__source.kinds)
+  call filter(KEY_TABLE, 'v:val !=# "nop"')
+  let ACTION_TABLE
+  \ = s:composite_action_table_from_kinds(a:candidate.ku__source.kinds)
+  call filter(KEY_TABLE, 'get(ACTION_TABLE, v:val, "") !=# "nop"')
+
+  " "Candidate: {candidate} ({source})"
+  echohl NONE
+  echo ''
+  echohl kuChoosePrompt
+  echon 'Candidate'
+  echohl NONE
+  echon ': '
+  echohl kuChooseCandidate
+  echon a:candidate.word
+  echohl NONE
+  echon ' ('
+  echohl kuChooseSource
+  echon a:candidate.ku__source.name
+  echohl NONE
+  echon ')'
+  call s:list_key_bindings_sorted_by_action_name(KEY_TABLE)
+  echohl kuChooseMessage
+  echo 'What action? '
+  echohl NONE
+
+  " Take user input.
+  let k = s:get_key()
+  redraw  " clear the menu message lines to avoid hit-enter prompt.
+
+  " Return the action bound to the key k.
+  if has_key(KEY_TABLE, k)
+    return KEY_TABLE[k]
+  else
+    " FIXME: loop to rechoose?
+    echo 'The key' string(k) 'is not associated with any action'
+    \    '-- nothing happened.'
+    return 0
+  endif
+endfunction
+
+
+function! s:list_key_bindings_sorted_by_action_name(key_table)  "{{{3
+  echo 'FIXME: NIY'
+  return
+endfunction
+
+
+
+
+function! s:composite_action_table_from_kinds(kinds)  "{{{2
+  return {}  " FIXME: NIY
+endfunction
+
+
+
+
+function! s:composite_key_table_from_kinds(kinds)  "{{{2
+  return {}  " FIXME: NIY
 endfunction
 
 

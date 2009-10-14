@@ -2,9 +2,18 @@
 ---- It requires that there is no character in the typeahead buffer 
 .
 ---- It should return the name of an action corresponding to a typed key 
-xxxx
+
+Candidate: close your eyes (dummy)
+FIXME: NIY
+What action? The key '/' is not associated with any action -- nothing happened...
+Candidate: close your eyes (dummy)
+FIXME: NIY
+What action? The key 'H' is not associated with any action -- nothing happened...
 ---- It should return 0 if there is no suitable action for a typed key 
-.xx
+
+Candidate: close your eyes (dummy)
+FIXME: NIY
+What action? The key '???' is not associated with any action -- nothing happened....
 
 ==== s_custom_action_1 
 ---- It should succeed to define an action 
@@ -55,37 +64,4 @@ Action 'name2' is not defined for 'file'..
 **** Result ****
 
 
-In s_choose_action 
-
-It should return the name of an action corresponding to a typed key
-FAILED: Call('s:choose_action', candidate) ==# 'cd'
-  expected: 'cd'
-       got: 'default'
-
-It should return the name of an action corresponding to a typed key
-FAILED: nr2char(getchar(0)) ==# ''
-  expected: ''
-       got: '/'
-
-It should return the name of an action corresponding to a typed key
-FAILED: Call('s:choose_action', candidate) ==# 'Left'
-  expected: 'Left'
-       got: 'default'
-
-It should return the name of an action corresponding to a typed key
-FAILED: nr2char(getchar(0)) ==# ''
-  expected: ''
-       got: 'H'
-
-It should return 0 if there is no suitable action for a typed key
-FAILED: nr2char(getchar(0)) ==# ''
-  expected: ''
-       got: '?'
-
-It should return 0 if there is no suitable action for a typed key
-FAILED: typeahead == ''
-  expected: ''
-       got: '??'
-
-
-58 examples, 6 failures
+58 examples, 0 failures

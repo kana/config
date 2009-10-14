@@ -12,7 +12,13 @@ function s:describe__s_choose_action()  "{{{1
 
   It should return the name of an action corresponding to a typed key
 
-  let candidate = {'ku__kinds': [Ref('s:available_kinds')['common']]}
+  let candidate = {
+  \   'ku__source': {
+  \     'name': 'dummy',
+  \     'kinds': [Ref('s:available_kinds')['common']],
+  \   },
+  \   'word': 'close your eyes',
+  \ }
 
   call feedkeys('/')
   Should Call('s:choose_action', candidate) ==# 'cd'
