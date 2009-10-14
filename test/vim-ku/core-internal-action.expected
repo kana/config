@@ -2,15 +2,9 @@
 ---- It requires that there is no character in the typeahead buffer 
 .
 ---- It should return the name of an action corresponding to a typed key 
-
-Candidate: close your eyes (dummy)
-What action? The key '/' is not associated with any action -- nothing happened...
-Candidate: close your eyes (dummy)
-What action? The key 'H' is not associated with any action -- nothing happened...
+....
 ---- It should return 0 if there is no suitable action for a typed key 
-
-Candidate: close your eyes (dummy)
-What action? The key '???' is not associated with any action -- nothing happened....
+...
 
 ==== s_composite_action_table_from_kinds 
 ---- It requires the following initialization 

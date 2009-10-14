@@ -21,17 +21,20 @@ function s:describe__s_choose_action()  "{{{1
   \ }
 
   call feedkeys('/')
-  Should Call('s:choose_action', candidate) ==# 'cd'
+  silent let action_name = Call('s:choose_action', candidate)
+  Should action_name ==# 'cd'
   Should nr2char(getchar(0)) ==# ''
 
   call feedkeys('H')
-  Should Call('s:choose_action', candidate) ==# 'Left'
+  silent let action_name = Call('s:choose_action', candidate)
+  Should action_name ==# 'Left'
   Should nr2char(getchar(0)) ==# ''
 
   It should return 0 if there is no suitable action for a typed key
 
   call feedkeys('???')
-  Should Call('s:choose_action', candidate) == 0
+  silent let action_name = Call('s:choose_action', candidate)
+  Should action_name == 0
   Should nr2char(getchar(0)) ==# ''
 
   " Reset side effect.
