@@ -762,6 +762,23 @@ endfunction
 
 
 
+function! s:list_key_tables(kinds)  "{{{2
+  " NB: perf-dyn
+  let l_key_tables = []
+
+  for kind in a:kinds
+    call add(l_key_tables, s:custom_kind_key_table(kind.name))
+    call add(l_key_tables, s:default_kind_key_table(kind.name))
+  endfor
+  " source.kinds is normalized by ku#define_source(),
+  " so that it's not necessary to check tables for implicit kinds.
+
+  return l_key_tables
+endfunction
+
+
+
+
 function! s:matched_candidates(lcandidates, args, source)  "{{{2
   let matched_candidates = []
 

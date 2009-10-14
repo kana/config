@@ -22,9 +22,15 @@
 ---- It actually returns all content in the typeahead buffer 
 .
 
+==== s_list_key_tables 
+---- It requires the following initialization 
+...
+---- It should return key tables for given kinds in proper order 
+.
+
 
 
 **** Result ****
 
 
-17 examples, 0 failures
+21 examples, 0 failures
