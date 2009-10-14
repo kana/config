@@ -734,6 +734,23 @@ endfunction
 
 
 
+function! s:list_action_tables(kinds)  "{{{2
+  " NB: perf-dyn
+  let l_action_tables = []
+
+  for kind in a:kinds
+    call add(l_action_tables, s:custom_kind_action_table(kind.name))
+    call add(l_action_tables, s:default_kind_action_table(kind.name))
+  endfor
+  " source.kinds is normalized by ku#define_source(),
+  " so that it's not necessary to check tables for implicit kinds.
+
+  return l_action_tables
+endfunction
+
+
+
+
 function! s:matched_candidates(lcandidates, args, source)  "{{{2
   let matched_candidates = []
 

@@ -56,6 +56,12 @@ Action 'name2' is not defined for 'file'..
 
 ==== s_guess_candidate 
 
+==== s_list_action_tables 
+---- It requires the following initialization 
+...
+---- It should return action tables for given kinds in proper order 
+.
+
 ==== s_list_key_bindings_sorted_by_action_name 
 ---- It should output key bindings in a given a:key_table 
 ....
@@ -65,4 +71,4 @@ Action 'name2' is not defined for 'file'..
 **** Result ****
 
 
-62 examples, 0 failures
+66 examples, 0 failures
