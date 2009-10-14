@@ -399,7 +399,6 @@ function! s:choose_action(candidate)  "{{{2
   call filter(KEY_TABLE, 'v:val !=# "nop"')
   let ACTION_TABLE
   \ = s:composite_action_table_from_kinds(a:candidate.ku__source.kinds)
-  call filter(KEY_TABLE, 'get(ACTION_TABLE, v:val, "") !=# "nop"')
 
   " "Candidate: {candidate} ({source})"
   echohl NONE
