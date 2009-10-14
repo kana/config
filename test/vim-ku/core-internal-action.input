@@ -48,6 +48,90 @@ endfunction
 
 
 
+function s:describe__s_composite_action_table_from_kinds()  "{{{1
+  It requires the following initialization
+
+  " (composite) A a A B A a A b A a A B A a A
+  " kind_a cus  1   3   5   7   9   b   d   f
+  " kind_a def    2 3     6 7     a b     e f
+  " kind_b cus        4 5 6 7         c d e f
+  " kind_b def                8 9 a b c d e f
+
+  let kind_a = {
+  \   'default_action_table': {
+  \     '2': function('add'),
+  \     '3': function('add'),
+  \     '6': function('add'),
+  \     '7': function('add'),
+  \     'a': function('add'),
+  \     'b': function('add'),
+  \     'e': function('add'),
+  \     'f': function('add'),
+  \   },
+  \   'default_key_table': {},
+  \   'name': 'A',
+  \ }
+  let kind_b = {
+  \   'default_action_table': {
+  \     '8': function('bufnr'),
+  \     '9': function('bufnr'),
+  \     'a': function('bufnr'),
+  \     'b': function('bufnr'),
+  \     'c': function('bufnr'),
+  \     'd': function('bufnr'),
+  \     'e': function('bufnr'),
+  \     'f': function('bufnr'),
+  \   },
+  \   'default_key_table': {},
+  \   'name': 'B',
+  \ }
+  Should ku#define_kind(kind_a) == 1
+  Should ku#define_kind(kind_b) == 1
+  Should ku#custom_action(kind_a.name, '1', function('call')) == 0
+  Should ku#custom_action(kind_a.name, '3', function('call')) == 0
+  Should ku#custom_action(kind_a.name, '5', function('call')) == 0
+  Should ku#custom_action(kind_a.name, '7', function('call')) == 0
+  Should ku#custom_action(kind_a.name, '9', function('call')) == 0
+  Should ku#custom_action(kind_a.name, 'b', function('call')) == 0
+  Should ku#custom_action(kind_a.name, 'd', function('call')) == 0
+  Should ku#custom_action(kind_a.name, 'f', function('call')) == 0
+  Should ku#custom_action(kind_b.name, '4', function('delete')) == 0
+  Should ku#custom_action(kind_b.name, '5', function('delete')) == 0
+  Should ku#custom_action(kind_b.name, '6', function('delete')) == 0
+  Should ku#custom_action(kind_b.name, '7', function('delete')) == 0
+  Should ku#custom_action(kind_b.name, 'c', function('delete')) == 0
+  Should ku#custom_action(kind_b.name, 'd', function('delete')) == 0
+  Should ku#custom_action(kind_b.name, 'e', function('delete')) == 0
+  Should ku#custom_action(kind_b.name, 'f', function('delete')) == 0
+
+  It should return properly composite action tables for given kinds
+
+  Should Call('s:composite_action_table_from_kinds', [kind_a, kind_b])
+  \ == {
+  \   '1': function('call'),
+  \   '2': function('add'),
+  \   '3': function('call'),
+  \   '4': function('delete'),
+  \   '5': function('call'),
+  \   '6': function('add'),
+  \   '7': function('call'),
+  \   '8': function('bufnr'),
+  \   '9': function('call'),
+  \   'a': function('add'),
+  \   'b': function('call'),
+  \   'c': function('delete'),
+  \   'd': function('call'),
+  \   'e': function('add'),
+  \   'f': function('call'),
+  \ }
+
+  " Reset side effect.
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__s_custom_action_1()  "{{{1
   It should succeed to define an action
 

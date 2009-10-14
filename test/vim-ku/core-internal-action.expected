@@ -12,6 +12,12 @@ What action? The key 'H' is not associated with any action -- nothing happened..
 Candidate: close your eyes (dummy)
 What action? The key '???' is not associated with any action -- nothing happened....
 
+==== s_composite_action_table_from_kinds 
+---- It requires the following initialization 
+..................
+---- It should return properly composite action tables for given kinds 
+.
+
 ==== s_custom_action_1 
 ---- It should succeed to define an action 
 ....
@@ -71,4 +77,4 @@ Action 'name2' is not defined for 'file'..
 **** Result ****
 
 
-66 examples, 0 failures
+85 examples, 0 failures

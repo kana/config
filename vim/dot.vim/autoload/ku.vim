@@ -522,7 +522,13 @@ endfunction
 
 
 function! s:composite_action_table_from_kinds(kinds)  "{{{2
-  return {}  " FIXME: NIY
+  let composite_action_table = {}
+
+  for action_table in s:list_action_tables(a:kinds)
+    call extend(composite_action_table, action_table, 'keep')
+  endfor
+
+  return composite_action_table
 endfunction
 
 
