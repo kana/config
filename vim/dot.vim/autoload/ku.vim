@@ -534,7 +534,13 @@ endfunction
 
 
 function! s:composite_key_table_from_kinds(kinds)  "{{{2
-  return {}  " FIXME: NIY
+  let composite_key_table = {}
+
+  for key_table in s:list_key_tables(a:kinds)
+    call extend(composite_key_table, key_table, 'keep')
+  endfor
+
+  return composite_key_table
 endfunction
 
 

@@ -1,6 +1,90 @@
 " Test: vim-ku core-internal-key
 runtime! plugin/ku.vim plugin/ku/**/*.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__s_composite_key_table_from_kinds()  "{{{1
+  It requires the following initialization
+
+  " (composite) A a A B A a A b A a A B A a A
+  " kind_a cus  1   3   5   7   9   b   d   f
+  " kind_a def    2 3     6 7     a b     e f
+  " kind_b cus        4 5 6 7         c d e f
+  " kind_b def                8 9 a b c d e f
+
+  let kind_a = {
+  \   'default_action_table': {},
+  \   'default_key_table': {
+  \     '2': 'Ad',
+  \     '3': 'Ad',
+  \     '6': 'Ad',
+  \     '7': 'Ad',
+  \     'a': 'Ad',
+  \     'b': 'Ad',
+  \     'e': 'Ad',
+  \     'f': 'Ad',
+  \   },
+  \   'name': 'A',
+  \ }
+  let kind_b = {
+  \   'default_action_table': {},
+  \   'default_key_table': {
+  \     '8': 'Bd',
+  \     '9': 'Bd',
+  \     'a': 'Bd',
+  \     'b': 'Bd',
+  \     'c': 'Bd',
+  \     'd': 'Bd',
+  \     'e': 'Bd',
+  \     'f': 'Bd',
+  \   },
+  \   'name': 'B',
+  \ }
+  Should ku#define_kind(kind_a) == 1
+  Should ku#define_kind(kind_b) == 1
+  Should ku#custom_key(kind_a.name, '1', 'Ac') == 0
+  Should ku#custom_key(kind_a.name, '3', 'Ac') == 0
+  Should ku#custom_key(kind_a.name, '5', 'Ac') == 0
+  Should ku#custom_key(kind_a.name, '7', 'Ac') == 0
+  Should ku#custom_key(kind_a.name, '9', 'Ac') == 0
+  Should ku#custom_key(kind_a.name, 'b', 'Ac') == 0
+  Should ku#custom_key(kind_a.name, 'd', 'Ac') == 0
+  Should ku#custom_key(kind_a.name, 'f', 'Ac') == 0
+  Should ku#custom_key(kind_b.name, '4', 'Bc') == 0
+  Should ku#custom_key(kind_b.name, '5', 'Bc') == 0
+  Should ku#custom_key(kind_b.name, '6', 'Bc') == 0
+  Should ku#custom_key(kind_b.name, '7', 'Bc') == 0
+  Should ku#custom_key(kind_b.name, 'c', 'Bc') == 0
+  Should ku#custom_key(kind_b.name, 'd', 'Bc') == 0
+  Should ku#custom_key(kind_b.name, 'e', 'Bc') == 0
+  Should ku#custom_key(kind_b.name, 'f', 'Bc') == 0
+
+  It should return properly composite key tables for given kinds
+
+  Should Call('s:composite_key_table_from_kinds', [kind_a, kind_b])
+  \ == {
+  \   '1': 'Ac',
+  \   '2': 'Ad',
+  \   '3': 'Ac',
+  \   '4': 'Bc',
+  \   '5': 'Ac',
+  \   '6': 'Ad',
+  \   '7': 'Ac',
+  \   '8': 'Bd',
+  \   '9': 'Ac',
+  \   'a': 'Ad',
+  \   'b': 'Ac',
+  \   'c': 'Bc',
+  \   'd': 'Ac',
+  \   'e': 'Ad',
+  \   'f': 'Ac',
+  \ }
+
+  " Reset side effect.
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__s_custom_kind_key_table()  "{{{1
   It should succeed with valid name "buffer"
 

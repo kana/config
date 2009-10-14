@@ -1,3 +1,9 @@
+==== s_composite_key_table_from_kinds 
+---- It requires the following initialization 
+..................
+---- It should return properly composite key tables for given kinds 
+.
+
 ==== s_custom_kind_key_table 
 ---- It should succeed with valid name "buffer" 
 ....
@@ -33,4 +39,4 @@
 **** Result ****
 
 
-21 examples, 0 failures
+40 examples, 0 failures
