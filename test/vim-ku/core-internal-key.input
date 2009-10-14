@@ -30,6 +30,30 @@ endfunction
 
 
 
+function s:describe__s_default_kind_key_table()  "{{{1
+  It should return {} for a kind which is not defined
+
+  Should Call('s:default_kind_key_table', 'buffer') ==# {}
+
+  It should return the default key table
+
+  let kind_a = {
+  \ 'default_action_table': {'close': function('type')},
+  \ 'default_key_table': {'c': 'close'},
+  \ 'name': 'buffer',
+  \ }
+  Should ku#define_kind(kind_a) == 1
+
+  Should Call('s:default_kind_key_table', 'buffer') ==# {'c': 'close'}
+  Should Call('s:default_kind_key_table', 'buffer') is kind_a.default_key_table
+
+  " Reset side effect.
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__s_get_key()  "{{{1
   It requires that there is no character in the typeahead buffer
 

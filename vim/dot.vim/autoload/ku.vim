@@ -599,6 +599,17 @@ endfunction
 
 
 
+function! s:default_kind_key_table(kind_name)  "{{{2
+  if !has_key(s:available_kinds, a:kind_name)
+    return {}
+  endif
+
+  return s:available_kinds[a:kind_name].default_key_table
+endfunction
+
+
+
+
 function! s:filter_candidates(lcandidates, args, source)  "{{{2
   let filtered_candidates = a:lcandidates
 

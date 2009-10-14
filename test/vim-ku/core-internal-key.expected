@@ -6,6 +6,12 @@
 ---- It should create different tables for different kinds 
 .
 
+==== s_default_kind_key_table 
+---- It should return {} for a kind which is not defined 
+.
+---- It should return the default key table 
+...
+
 ==== s_get_key 
 ---- It requires that there is no character in the typeahead buffer 
 .
@@ -21,4 +27,4 @@
 **** Result ****
 
 
-13 examples, 0 failures
+17 examples, 0 failures
