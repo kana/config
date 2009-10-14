@@ -94,14 +94,14 @@ let s:session = {}
 
 
 " Interface  "{{{1
-function! ku#custom_action(kind, name, func_or_kind2, ...)  "{{{2
+function! ku#custom_action(kind_name,action_name,func_or_kind2_name,...)  "{{{2
   if a:0 == 0
-    let Func = a:func_or_kind2  " E704
-    return s:custom_action_1(a:kind, a:name, Func)
+    let Func = a:func_or_kind2_name  " E704
+    return s:custom_action_1(a:kind_name, a:action_name, Func)
   else
-    let kind2 = a:func_or_kind2
-    let name2 = a:1
-    return s:custom_action_2(a:kind, a:name, kind2, name2)
+    let kind2_name = a:func_or_kind2_name
+    let action2_name = a:1
+    return s:custom_action_2(a:kind_name,a:action_name,kind2_name,action2_name)
   endif
 endfunction
 
@@ -535,11 +535,11 @@ endfunction
 
 
 
-function! s:custom_action_1(kind, name, func)  "{{{2
-  let custom_kind_action_table = s:custom_kind_action_table(a:kind)
-  let Old_func = get(custom_kind_action_table, a:name, 0)  " Captal for E704.
+function! s:custom_action_1(kind_name, action_name, func)  "{{{2
+  let custom_kind_action_table = s:custom_kind_action_table(a:kind_name)
+  let Old_func = get(custom_kind_action_table, a:action_name, 0)  " E704
 
-  let custom_kind_action_table[a:name] = a:func
+  let custom_kind_action_table[a:action_name] = a:func
 
   return Old_func
 endfunction
@@ -547,18 +547,19 @@ endfunction
 
 
 
-function! s:custom_action_2(kind, name, kind2, name2)  "{{{2
-  let custom_kind_action_table = s:custom_kind_action_table(a:kind)
-  let Old_func = get(custom_kind_action_table, a:name, 0)  " Caps to avoid E704
+function! s:custom_action_2(kind_name,action_name,kind2_name,action2_name)"{{{2
+  let custom_kind_action_table = s:custom_kind_action_table(a:kind_name)
+  let Old_func = get(custom_kind_action_table, a:action_name, 0)  " E704
 
-  let default_kind2_action_table = s:default_kind_action_table(a:kind2)
-  let Func2 = get(default_kind2_action_table, a:name2, 0)  " Caps to avoid E704
+  let default_kind2_action_table = s:default_kind_action_table(a:kind2_name)
+  let Func2 = get(default_kind2_action_table, a:action2_name, 0)  " E704
   if Func2 is 0
-    echoerr 'Action' string(a:name2) 'is not defined for' string(a:kind2).'.'
+    echoerr 'Action' string(a:action2_name) 'is not defined'
+    \       'for' string(a:kind2_name).'.'
     return 0
   endif
 
-  let custom_kind_action_table[a:name] = Func2
+  let custom_kind_action_table[a:action_name] = Func2
 
   return Old_func
 endfunction
