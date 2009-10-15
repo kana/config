@@ -179,13 +179,13 @@ function! ku#define_source(definition)  "{{{2
     return s:FALSE
   endif
 
-  let new_source.kinds = ([printf('source/%s', new_source.name)]
-  \                       + new_source.kinds)
+  let new_kind_name = printf('source/%s', new_source.name)
   call ku#define_kind({
   \      'default_action_table': new_source.default_action_table,
   \      'default_key_table': new_source.default_key_table,
-  \      'name': new_source.kinds[0],
+  \      'name': new_kind_name,
   \    })
+  let new_source.kinds = [new_kind_name] + new_source.kinds + ['common']
 
   let s:available_sources[new_source['name']] = new_source
 
