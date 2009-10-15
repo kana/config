@@ -505,17 +505,88 @@ endfunction
 
 
 function s:describe__ku_take_action__with_candidate()  "{{{1
-  " FIXME: NIY
-
-  It should fail with error case
+  let candidate = {
+  \   'ku__source': {
+  \     'kinds': [Ref('s:available_kinds')['common']],
+  \     'name': 'test',
+  \   },
+  \   'word': 'EMPRESS',
+  \ }
 
   It should do nothing with 'nop'
 
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('nop', {}) == 1
+  Should Call('s:ku_active_p') == 0
+
   It should take a given action
 
-  It should choose action with '*choose*'
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
-  " Reset side effect.
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('ex', candidate) == 1
+  Should Call('s:ku_active_p') == 0
+
+  Should Call('s:get_key') ==# ": EMPRESS\<C-b>"
+
+  It should choose action with '*choose*' - action found
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  call feedkeys(':', 't')
+  silent let _ = ku#take_action('*choose*', candidate)
+  Should _ == 1
+  Should Call('s:ku_active_p') == 0
+
+  Should Call('s:get_key') ==# ": EMPRESS\<C-b>"
+
+  It should choose action with '*choose*' - action not found
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  call feedkeys('teleporter', 't')
+  silent let _ = ku#take_action('*choose*', candidate)
+  Should _ == 0
+  Should Call('s:ku_active_p') == 0
+
+  It should fail if proper candidate is not found
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('default', 0) == 0
+  Should Call('s:ku_active_p') == 0
+
+  It should fail if a given action is not found
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  silent! let _ = ku#take_action('railgun', candidate)
+  Should _ == 0
+  Should Call('s:ku_active_p') == 0
+
+  It requires to reset side effect
+
+  Should ku#start() == 1
+  Should Call('s:get_key') ==# 'A'
+  bwipeout!
   ResetContext
 endfunction
 
