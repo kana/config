@@ -272,7 +272,8 @@ function! ku#take_action(action_name, ...)  "{{{2
   " active.
   call s:quit_session()
 
-  if candidate is 0
+  if candidate is 0 || action_name is 0
+    " In these cases, error messages are already noticed by other functions.
     return s:FALSE
   elseif action_name ==# 'nop'
     " Do nothing.
