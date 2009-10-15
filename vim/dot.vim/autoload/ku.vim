@@ -185,7 +185,11 @@ function! ku#define_source(definition)  "{{{2
   \      'default_key_table': new_source.default_key_table,
   \      'name': new_kind_name,
   \    })
-  let new_source.kinds = [new_kind_name] + new_source.kinds + ['common']
+  let new_source.kind_names = [new_kind_name] + new_source.kinds + ['common']
+  unlet new_source.kinds
+  " function! new_source.kinds()
+  "   return map(copy(self.kind_names), 's:available_kinds[v:val]')
+  " endfunction
 
   let s:available_sources[new_source['name']] = new_source
 
