@@ -180,9 +180,9 @@ function! s:open_with_split(candidate, direction)  "{{{2
     return v:errmsg
   endif
 
-  let _ = s:take_action_on_this_candidate('open', a:candidate)
+  let _ = ku#_take_action('open', a:candidate)
 
-  if _ isnot 0
+  if !_
     " Undo the last :split.
     close
     execute 'tabnext' original_tabpagenr
