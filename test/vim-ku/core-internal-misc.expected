@@ -35,6 +35,14 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It should return some content after overriding a source 
 ...
 
+==== ku_x_kinds_from_kind_names 
+---- It requires the following initialization 
+...
+---- It should succeed 
+....
+---- It requires to reset side effect 
+
+
 ==== s_compare_ignorecase 
 ---- It should return 0 for same characters with the same case 
 ..
@@ -136,4 +144,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-231 examples, 0 failures
+238 examples, 0 failures
