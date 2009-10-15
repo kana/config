@@ -187,9 +187,7 @@ function! ku#define_source(definition)  "{{{2
   \    })
   let new_source.kind_names = [new_kind_name] + new_source.kinds + ['common']
   unlet new_source.kinds
-  " function! new_source.kinds()
-  "   return map(copy(self.kind_names), 's:available_kinds[v:val]')
-  " endfunction
+  let new_source.kinds = function('ku#_kinds_from_kind_names')
 
   let s:available_sources[new_source['name']] = new_source
 
@@ -336,6 +334,13 @@ function! ku#omnifunc(findstart, base)  "{{{2
     let lcandidates = s:candidates_from_pattern(pattern, s:session.sources)
     return lcandidates
   endif
+endfunction
+
+
+
+
+function! ku#_kinds_from_kind_names() dict  "{{{2
+  return map(copy(self.kind_names), 's:available_kinds[v:val]')
 endfunction
 
 
