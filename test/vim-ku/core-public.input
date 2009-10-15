@@ -279,12 +279,8 @@ function s:describe__ku_define_source()  "{{{1
   let matchers = [function('ku#matcher#default#matches_p')]
   let sorters = [function('ku#sorter#default#sort')]
 
-  It requires the following initialization to test its effect
-
-  call Set('s:available_sources', {})
-  Should Ref('s:available_sources') ==# {}
-  call Set('s:available_kinds', {})
-  Should Ref('s:available_kinds') ==# {}
+  let available_sources = copy(Ref('s:available_sources'))
+  let available_kinds = copy(Ref('s:available_kinds'))
 
   It should fail for invalid source definition
 
@@ -292,8 +288,8 @@ function s:describe__ku_define_source()  "{{{1
   Should ku#define_source({'gather_candidates': 0, 'name': 0}) == 0
   Should ku#define_source({'gather_candidates': 0, 'name': 'test'}) == 0
   Should ku#define_source({'gather_candidates': F, 'name': 0}) == 0
-  Should Ref('s:available_sources') ==# {}
-  Should Ref('s:available_kinds') ==# {}
+  Should Ref('s:available_sources') ==# available_sources
+  Should Ref('s:available_kinds') ==# available_kinds
 
   It should succeed for valid source definition
 
@@ -316,6 +312,11 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {},
   \ 'name': 'source/test',
   \ }
+  Should Ref('s:available_sources')['test'].kinds()
+  \ ==# [
+  \  Ref('s:available_kinds')['source/test'],
+  \  Ref('s:available_kinds')['common'],
+  \]
 
   It should succeed to override existing source definition
 
@@ -338,6 +339,11 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {},
   \ 'name': 'source/test',
   \ }
+  Should Ref('s:available_sources')['test'].kinds()
+  \ ==# [
+  \  Ref('s:available_kinds')['source/test'],
+  \  Ref('s:available_kinds')['common'],
+  \]
 
   It should succeed for valid source definition with optional attributes
 
@@ -346,7 +352,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {'/': 'checkout'},
   \ 'filters': [G],
   \ 'gather_candidates': F,
-  \ 'kinds': ['git', 'file'],
+  \ 'kinds': ['common', 'source/test'],
   \ 'matchers': [G],
   \ 'name': 'test',
   \ 'sorters': [F]})
@@ -357,7 +363,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {'/': 'checkout'},
   \ 'filters': [G],
   \ 'gather_candidates': F,
-  \ 'kind_names': ['source/test', 'git', 'file', 'common'],
+  \ 'kind_names': ['source/test', 'common', 'source/test', 'common'],
   \ 'kinds': function('ku#_kinds_from_kind_names'),
   \ 'matchers': [G],
   \ 'name': 'test',
@@ -369,6 +375,13 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {'/': 'checkout'},
   \ 'name': 'source/test',
   \ }
+  Should Ref('s:available_sources')['test'].kinds()
+  \ ==# [
+  \  Ref('s:available_kinds')['source/test'],
+  \  Ref('s:available_kinds')['common'],
+  \  Ref('s:available_kinds')['source/test'],
+  \  Ref('s:available_kinds')['common'],
+  \]
 
   " Reset side effect
   ResetContext

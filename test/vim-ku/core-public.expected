@@ -52,8 +52,6 @@ Invalild definition: Key 'name' must be string but given value is 0..
 ..
 
 ==== ku_define_source 
----- It requires the following initialization to test its effect 
-..
 ---- It should fail for invalid source definition 
 
 Error detected while processing function vspec#test..<SNR>3_describe__ku_define_source..ku#define_source..<SNR>6_valid_key_p:
@@ -64,11 +62,11 @@ Invalild definition: Key 'gather_candidates' must be function but given value is
 Invalild definition: Key 'gather_candidates' must be function but given value is 0.
 Invalild definition: Key 'name' must be string but given value is 0...
 ---- It should succeed for valid source definition 
-...
+....
 ---- It should succeed to override existing source definition 
-...
+....
 ---- It should succeed for valid source definition with optional attributes 
-...
+....
 
 ==== ku_restart 
 
@@ -126,4 +124,4 @@ Already active.....
 **** Result ****
 
 
-204 examples, 0 failures
+205 examples, 0 failures
