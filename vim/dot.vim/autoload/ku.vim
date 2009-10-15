@@ -275,28 +275,8 @@ function! ku#take_action(action_name, ...)  "{{{2
   if candidate is 0 || action_name is 0
     " In these cases, error messages are already noticed by other functions.
     return s:FALSE
-  elseif action_name ==# 'nop'
-    " Do nothing.
-    "
-    " 'nop' is a pseudo action and it cannot be overriden.
-    " To express this property, bypass the usual process.
-    return s:TRUE
   else
-    let A = s:find_action(action_name, candidate.ku__source.kinds)
-    if A is 0
-      echoerr 'There is no such action:' string(action_name)
-      return s:FALSE
-    endif
-
-    let _ = A(candidate)
-    if _ isnot 0
-      echohl ErrorMsg
-      echomsg _
-      echohl NONE
-      return s:FALSE
-    endif
-
-    return s:TRUE
+    return ku#_take_action(action_name, candidate)
   endif
 endfunction
 
@@ -351,6 +331,35 @@ function! ku#omnifunc(findstart, base)  "{{{2
     let pattern = a:base  " Assumes that a:base doesn't conntain the prompt.
     let lcandidates = s:candidates_from_pattern(pattern, s:session.sources)
     return lcandidates
+  endif
+endfunction
+
+
+
+
+function! ku#_take_action(action_name, candidate)  "{{{2
+  if a:action_name ==# 'nop'
+    " Do nothing.
+    "
+    " 'nop' is a pseudo action and it cannot be overriden.
+    " To express this property, bypass the usual process.
+    return s:TRUE
+  else
+    let A = s:find_action(a:action_name, a:candidate.ku__source.kinds)
+    if A is 0
+      echoerr 'There is no such action:' string(a:action_name)
+      return s:FALSE
+    endif
+
+    let _ = A(a:candidate)
+    if _ isnot 0
+      echohl ErrorMsg
+      echomsg _
+      echohl NONE
+      return s:FALSE
+    endif
+
+    return s:TRUE
   endif
 endfunction
 
