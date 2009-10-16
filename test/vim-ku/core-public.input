@@ -521,11 +521,12 @@ endfunction
 
 
 function s:describe__ku_take_action__with_candidate()  "{{{1
+  call ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'name': 'test',
+  \ })
   let candidate = {
-  \   'ku__source': {
-  \     'kinds': [Ref('s:available_kinds')['common']],
-  \     'name': 'test',
-  \   },
+  \   'ku__source': Ref('s:available_sources')['test'],
   \   'word': 'EMPRESS',
   \ }
 

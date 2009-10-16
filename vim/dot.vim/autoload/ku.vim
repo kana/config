@@ -354,7 +354,7 @@ function! ku#_take_action(action_name, candidate)  "{{{2
     " To express this property, bypass the usual process.
     return s:TRUE
   else
-    let A = s:find_action(a:action_name, a:candidate.ku__source.kinds)
+    let A = s:find_action(a:action_name, a:candidate.ku__source.kinds())
     if A is 0
       echoerr 'There is no such action:' string(a:action_name)
       return s:FALSE
@@ -414,10 +414,10 @@ function! s:choose_action(candidate)  "{{{2
   " Here "Prompt" is highlighted with kuChoosePrompt,
   " "Candidate" is highlighted with kuChooseCandidate, and so forth.
   let KEY_TABLE
-  \ = s:composite_key_table_from_kinds(a:candidate.ku__source.kinds)
+  \ = s:composite_key_table_from_kinds(a:candidate.ku__source.kinds())
   call filter(KEY_TABLE, 'v:val !=# "nop"')
   let ACTION_TABLE
-  \ = s:composite_action_table_from_kinds(a:candidate.ku__source.kinds)
+  \ = s:composite_action_table_from_kinds(a:candidate.ku__source.kinds())
 
   " "Candidate: {candidate} ({source})"
   echohl NONE

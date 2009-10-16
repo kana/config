@@ -10,15 +10,16 @@ function s:describe__s_choose_action()  "{{{1
   endwhile
   Should typeahead ==# ''
 
-  It should return the name of an action corresponding to a typed key
-
+  call ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'name': 'test',
+  \ })
   let candidate = {
-  \   'ku__source': {
-  \     'name': 'dummy',
-  \     'kinds': [Ref('s:available_kinds')['common']],
-  \   },
+  \   'ku__source': Ref('s:available_sources')['test'],
   \   'word': 'close your eyes',
   \ }
+
+  It should return the name of an action corresponding to a typed key
 
   call feedkeys('/')
   silent let action_name = Call('s:choose_action', candidate)
