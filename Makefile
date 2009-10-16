@@ -879,7 +879,8 @@ test/vim-ku/action-%.output: \
 		test/vim-ku/action-%.input \
 		test/vspec \
 		$(PACKAGE_vim_ku_FILES_core) \
-		$(PACKAGE_vim_ku_FILES_actions)
+		$(PACKAGE_vim_ku_FILES_actions) \
+		$(PACKAGE_vim_ku_FILES_kinds)
 	@./test/vspec $< &>$@
 
 test/vim-ku/core-%.output: \

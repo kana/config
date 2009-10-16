@@ -1,6 +1,10 @@
 " Test: vim-ku action-common
 " Set up  "{{{1
 
+runtime! plugin/ku.vim plugin/ku/kind/common.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+
+
 function! Test_action_open(candidate)
   edit `=a:candidate.word`
 endfunction
@@ -9,54 +13,80 @@ endfunction
 call ku#define_source({
 \   'default_action_table': {'open': function('Test_action_open')},
 \   'gather_candidates': function('get'),
-\   'name': 'action-common',
+\   'kinds': ['common'],
+\   'name': 'test',
 \ })
 
 
+SaveContext
 
 
-function s:describe__ku_action_common_Bottom()  "{{{1
-  It should succeed if there is enough room
-  It should fail if there is not enough room
 
-  " FIXME: NIY - until ku#take_action() becomes functional.
 
-" " The following is a template to test 'open-with-split' actions.
-" " But it's not functional until ku#take_action() is implemented.
-" " So that it's disabled at this moment.
+function s:describe__ku_action_common_Bottom__with_enough_room()  "{{{1
+  It should succeed
 
-" let candidate = {
-" \ 'ku__source': ku#available_sources()['action-common'],
-" \ 'word': 'something',
-" \ }
+  " Before action:
+  " ---------------------
+  " |         |         |
+  " |    3    |    2    |
+  " |(current)|         |
+  " |-------------------|
+  " |                   |
+  " |         1         |
+  " |                   |
+  " ---------------------
+  "
+  " After action:
+  " ---------------------
+  " |         |         |
+  " |    3    |    2    |
+  " |-------------------|
+  " |         1         |
+  " |-------------------|
+  " |         4         |
+  " |     (current)     |
+  " ---------------------
 
-" " Ordinary case
-" "
-" " Before:
-" " ---------------------
-" " |         |         |
-" " |    1    |    2    |
-" " |(current)|         |
-" " |         |         |
-" " ---------------------
-" "
-" " After:
-" " ---------------------
-" " |    1    |    2    |
-" " |-------------------|
-" " |         3         |
-" " |     (current)     |
-" " ---------------------
-" silent only
-" vsplit
-" let original_bufnr = bufnr('')
-" Should winnr('$') == 2
+  new
+  vnew
+  let original_bufnr = bufnr('')
+  let original_winrestcmd = winrestcmd()
+  Should winnr('$') == 3
+  Should bufwinnr('') == 1
 
-" Should ku#action#common#Bottom(candidate) == 0
+  let candidate = {
+  \ 'ku__source': ku#available_sources()['test'],
+  \ 'word': 'something',
+  \ }
+  silent let _ = ku#action#common#Bottom(candidate)
+  Should _ is 0
 
-" Should winnr('$') == 3
-" Should bufnr('') != original_bufnr == 1
-" Should bufname('') == candidate.word
+  Should winnr('$') == 4
+  Should bufnr('') != original_bufnr
+  Should bufname('') ==# candidate.word
+  Should bufwinnr('') == 4
+  Should winrestcmd() !=# original_winrestcmd
+
+  It requires to reset side effect
+
+  only
+  bwipeout!
+
+  Should winnr('$') == 1
+  Should bufnr('') != original_bufnr
+  Should bufname('') ==# ''
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__ku_action_common_Bottom__without_enough_room()  "{{{1
+  It should fail
+
+  " FIXME: NIY
 endfunction
 
 
