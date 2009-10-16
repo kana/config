@@ -169,7 +169,7 @@ endfunction
 
 
 " Misc.  "{{{1
-function! s:open_with_split(candidate, direction)  "{{{2
+function! s:open_with_split(direction, candidate)  "{{{2
   let original_tabpagenr = tabpagenr()
   let original_curwinnr = winnr()
   let original_winrestcmd = winrestcmd()
@@ -182,14 +182,16 @@ function! s:open_with_split(candidate, direction)  "{{{2
 
   let _ = ku#_take_action('open', a:candidate)
 
-  if !_
+  if _
+    return 0
+  else
     " Undo the last :split.
     close
     execute 'tabnext' original_tabpagenr
     execute original_curwinnr 'wincmd w'
     execute original_winrestcmd
+    return v:errmsg
   endif
-  return _
 endfunction
 
 
