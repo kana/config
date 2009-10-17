@@ -696,6 +696,7 @@ endfunction
 
 function! s:guess_candidate()  "{{{2
   " FIXME: NIY
+  echoerr 'There is no proper candidate'
   return 0
 endfunction
 
