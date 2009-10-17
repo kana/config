@@ -258,6 +258,9 @@ endfunction
 
 
 function! ku#take_action(action_name, ...)  "{{{2
+  " Return TRUE for success.
+  " Return FALSE for failure.
+
   let candidate = a:0 == 0 ? s:guess_candidate() : a:1
 
   if candidate is 0
@@ -278,7 +281,7 @@ function! ku#take_action(action_name, ...)  "{{{2
     " In these cases, error messages are already noticed by other functions.
     return s:FALSE
   else
-    return ku#_take_action(action_name, candidate)
+    return ku#_take_action(action_name, candidate) is 0
   endif
 endfunction
 
@@ -347,17 +350,21 @@ endfunction
 
 
 function! ku#_take_action(action_name, candidate)  "{{{2
+  " Return 0 for success.
+  " Return a string (= error message) for failure.
+
   if a:action_name ==# 'nop'
     " Do nothing.
     "
     " 'nop' is a pseudo action and it cannot be overriden.
     " To express this property, bypass the usual process.
-    return s:TRUE
+    return 0
   else
     let A = s:find_action(a:action_name, a:candidate.ku__source.kinds())
     if A is 0
-      echoerr 'There is no such action:' string(a:action_name)
-      return s:FALSE
+      let _ = printf('There is no such action: %s', string(a:action_name))
+      echoerr _
+      return _
     endif
 
     let _ = A(a:candidate)
@@ -365,10 +372,10 @@ function! ku#_take_action(action_name, candidate)  "{{{2
       echohl ErrorMsg
       echomsg _
       echohl NONE
-      return s:FALSE
+      return _
     endif
 
-    return s:TRUE
+    return 0
   endif
 endfunction
 

@@ -182,7 +182,7 @@ function! s:open_with_split(direction, candidate)  "{{{2
 
   let _ = ku#_take_action('open', a:candidate)
 
-  if _
+  if _ is 0
     return 0
   else
     " Undo the last :split.
@@ -190,7 +190,7 @@ function! s:open_with_split(direction, candidate)  "{{{2
     execute 'tabnext' original_tabpagenr
     execute original_curwinnr 'wincmd w'
     execute original_winrestcmd
-    return v:errmsg
+    return _
   endif
 endfunction
 
