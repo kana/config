@@ -337,13 +337,16 @@ function! ku#omnifunc(findstart, base)  "{{{2
   if a:findstart
     " FIXME: For in-line completion.
 
+    let s:session.last_lcandidates = []
+
     " To determine whether the content of the current line is inserted by
     " Vim's completion or not, return 0 to remove the prompt by completion.
     return 0
   else
     let pattern = a:base  " Assumes that a:base doesn't conntain the prompt.
-    let lcandidates = s:candidates_from_pattern(pattern, s:session.sources)
-    return lcandidates
+    let s:session.last_lcandidates
+    \   = s:candidates_from_pattern(pattern, s:session.sources)
+    return s:session.last_lcandidates
   endif
 endfunction
 
@@ -853,6 +856,7 @@ function! s:new_session(source_names)  "{{{2
     " Use list to ensure returning different value for each time.
   let session.id = [localtime()]
   let session.last_column = s:INVALID_COLUMN
+  let session.last_lcandidates = []
   let session.last_pattern_raw = ''
   let session.now_quitting_p = s:FALSE
   let session.original_completeopt = &completeopt

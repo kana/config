@@ -479,6 +479,7 @@ function s:describe__s_new_session()  "{{{1
   let session_a = Call('s:new_session', [])
   Should has_key(session_a, 'id') == 1
   Should session_a.last_column == Ref('s:INVALID_COLUMN')
+  Should session_a.last_lcandidates ==# []
   Should session_a.last_pattern_raw == ''
   Should session_a.now_quitting_p == 0
   Should session_a.original_completeopt ==# original_completeopt
@@ -491,6 +492,7 @@ function s:describe__s_new_session()  "{{{1
   let session_b = Call('s:new_session', [])
   Should has_key(session_b, 'id') == 1
   Should session_b.last_column == Ref('s:INVALID_COLUMN')
+  Should session_b.last_lcandidates ==# []
   Should session_b.last_pattern_raw == ''
   Should session_b.now_quitting_p == 0
   Should session_b.original_completeopt ==# original_completeopt
@@ -507,6 +509,7 @@ function s:describe__s_new_session()  "{{{1
   let session = Call('s:new_session', ['test', 'abc'])
   Should has_key(session, 'id') == 1
   Should session.last_column == Ref('s:INVALID_COLUMN')
+  Should session.last_lcandidates ==# []
   Should session.last_pattern_raw == ''
   Should session.now_quitting_p == 0
   Should session.original_completeopt ==# original_completeopt
