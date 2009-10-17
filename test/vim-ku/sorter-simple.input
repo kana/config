@@ -1,7 +1,7 @@
 " Test: vim-ku sorter-simple
 function s:describe__ku_sorter_simple_sort()  "{{{1
   let args = {}
-  let candidates = [
+  let lcandidates = [
   \     {'word': 'j'},
   \     {'word': 'u'},
   \     {'word': 'n'},
@@ -10,7 +10,7 @@ function s:describe__ku_sorter_simple_sort()  "{{{1
 
   It sort candidates by dictionary order
 
-  Should ku#sorter#simple#sort(copy(candidates), args)
+  Should ku#sorter#simple#sort(copy(lcandidates), args)
   \ ==# [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
 endfunction
 

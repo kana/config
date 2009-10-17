@@ -1,7 +1,7 @@
 " Test: vim-ku sorter-default
 function s:describe__ku_sorter_default_sort()  "{{{1
   let args = {}
-  let candidates = [
+  let lcandidates = [
   \     {'word': 'j'},
   \     {'word': 'u'},
   \     {'word': 'n'},
@@ -11,13 +11,13 @@ function s:describe__ku_sorter_default_sort()  "{{{1
   It should not sort if default sorters is []
 
   let default_sorters = ku#sorter#default#use([])
-  Should ku#sorter#default#sort(copy(candidates), args)
+  Should ku#sorter#default#sort(copy(lcandidates), args)
   \ ==# [{'word': 'j'}, {'word': 'u'}, {'word': 'n'}, {'word': 'i'}]
 
   It should sort candidates by dictionaryr order with the default sorter
 
   call ku#sorter#default#use(default_sorters)
-  Should ku#sorter#default#sort(copy(candidates), args)
+  Should ku#sorter#default#sort(copy(lcandidates), args)
   \ ==# [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
 endfunction
 
