@@ -335,7 +335,11 @@ endfunction
 
 function! ku#omnifunc(findstart, base)  "{{{2
   if a:findstart
-    return getline('.')[:0] ==# s:PROMPT ? len(s:PROMPT) : 0
+    " FIXME: For in-line completion.
+
+    " To determine whether the content of the current line is inserted by
+    " Vim's completion or not, return 0 to remove the prompt by completion.
+    return 0
   else
     let pattern = a:base  " Assumes that a:base doesn't conntain the prompt.
     let lcandidates = s:candidates_from_pattern(pattern, s:session.sources)
