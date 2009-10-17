@@ -350,7 +350,7 @@ function! ku#omnifunc(findstart, base)  "{{{2
   else
     let pattern = a:base  " Assumes that a:base doesn't conntain the prompt.
     let s:session.last_lcandidates
-    \   = s:candidates_from_pattern(pattern, s:session.sources)
+    \   = s:lcandidates_from_pattern(pattern, s:session.sources)
     return s:session.last_lcandidates
   endif
 endfunction
@@ -393,31 +393,6 @@ function! ku#_take_action(action_name, candidate)  "{{{2
 
     return 0
   endif
-endfunction
-
-
-
-
-function! s:candidates_from_pattern(pattern, sources)  "{{{2
-  " FIXME: Cache a result. / Use cache if available.
-
-  let args = {'pattern': a:pattern}
-  let all_candidates = []
-
-  for source in a:sources
-    let raw_candidates = copy(source.gather_candidates(args))
-
-    let matched_candidates = s:matched_candidates(raw_candidates, args, source)
-
-    let filtered_candidates
-    \ = s:filter_candidates(matched_candidates, args, source)
-
-    let sorted_candidates = s:sort_candidates(filtered_candidates,args,source)
-
-    call extend(all_candidates, sorted_candidates)
-  endfor
-
-  return all_candidates
 endfunction
 
 
@@ -832,6 +807,33 @@ endfunction
 
 function! s:ku_active_p()  "{{{2
   return bufexists(s:ku_bufnr) && bufwinnr(s:ku_bufnr) != -1
+endfunction
+
+
+
+
+function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
+  " FIXME: Cache a result. / Use cache if available.
+
+  let args = {'pattern': a:pattern}
+  let all_lcandidates = []
+
+  for source in a:sources
+    let raw_lcandidates = copy(source.gather_candidates(args))
+
+    let matched_lcandidates
+    \   = s:matched_candidates(raw_lcandidates, args, source)
+
+    let filtered_lcandidates
+    \   = s:filter_candidates(matched_lcandidates, args, source)
+
+    let sorted_lcandidates
+    \   = s:sort_candidates(filtered_lcandidates, args, source)
+
+    call extend(all_lcandidates, sorted_lcandidates)
+  endfor
+
+  return all_lcandidates
 endfunction
 
 

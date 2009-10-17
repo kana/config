@@ -18,7 +18,19 @@
 ---- It requires to reset side effect 
 ...
 
-==== s_candidates_from_pattern 
+==== s_filter_candidates 
+---- It should return candidates as-is with no filter 
+.
+---- It should return candidates filtered by M 
+.
+---- It should return candidates filtered by ODD 
+.
+---- It should return candidates filtered by M and ODD 
+.
+---- It should return the same candidates regardless of order of filters 
+.
+
+==== s_lcandidates_from_pattern 
 ---- It should return [] with no source 
 .
 ---- It should return some candidates with a source 
@@ -30,18 +42,6 @@
 ---- It should return sorted candidates for a source with sorters 
 .
 ---- It should return partially sorted candidates for sources with/without sorters 
-.
-
-==== s_filter_candidates 
----- It should return candidates as-is with no filter 
-.
----- It should return candidates filtered by M 
-.
----- It should return candidates filtered by ODD 
-.
----- It should return candidates filtered by M and ODD 
-.
----- It should return the same candidates regardless of order of filters 
 .
 
 ==== s_matched_candidates 

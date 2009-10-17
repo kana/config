@@ -89,74 +89,6 @@ endfunction
 
 
 
-function s:describe__s_candidates_from_pattern()  "{{{1
-  function! Test_matcher_always(...)
-    return 1
-  endfunction
-
-  let source_a = {}
-  let source_a.name = 'source_a'
-  function! source_a.gather_candidates(args)
-    return [{'word': a:args.pattern}]
-  endfunction
-  let source_a.sorters = []
-  let source_a.matchers = [function('Test_matcher_always')]
-  let source_a.filters = []
-
-  let source_b = {}
-  let source_b.name = 'source_b'
-  function! source_b.gather_candidates(args)
-    return [{'word': 'b'}, {'word': 'B'}]
-  endfunction
-  let source_b.sorters = []
-  let source_b.matchers = [function('Test_matcher_always')]
-  let source_b.filters = []
-
-  let source_c = {}
-  let source_c.name = 'source_c'
-  function! source_c.gather_candidates(args)
-    return [{'word': 'u'}, {'word': 'p'}]
-  endfunction
-  let source_c.sorters = [function('ku#sorter#simple#sort')]
-  let source_c.matchers = [function('Test_matcher_always')]
-  let source_c.filters = []
-
-  It should return [] with no source
-
-  Should Call('s:candidates_from_pattern', '2330', []) ==# []
-
-  It should return some candidates with a source
-
-  Should Call('s:candidates_from_pattern', '2330', [source_a])
-  \ ==# [{'word': '2330'}]
-
-  It should return some candidates with multiple sources
-
-  Should Call('s:candidates_from_pattern', '2330', [source_a, source_b])
-  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}]
-
-  It should return some candidates with multiple sources - duplicate sources
-  " (although this case is not a valid usage)
-
-  Should Call('s:candidates_from_pattern','2330',[source_a,source_b,source_a])
-  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
-
-  It should return sorted candidates for a source with sorters
-
-  Should Call('s:candidates_from_pattern', '2330', [source_c])
-  \ ==# [{'word': 'p'}, {'word': 'u'}]
-
-  It should return partially sorted candidates for sources with/without sorters
-
-  Should Call('s:candidates_from_pattern', '2330', [source_c, source_b])
-  \ ==# [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}]
-
-  ResetContext
-endfunction
-
-
-
-
 function s:describe__s_filter_candidates()  "{{{1
   function! Test_filter_odd(lcandidates, args)
     return filter(a:lcandidates, 'len(v:val.word) % 2')
@@ -234,6 +166,74 @@ function s:describe__s_filter_candidates()  "{{{1
 
   Should Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD_M)
   \ ==# Call('s:filter_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_M_ODD)
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__s_lcandidates_from_pattern()  "{{{1
+  function! Test_matcher_always(...)
+    return 1
+  endfunction
+
+  let source_a = {}
+  let source_a.name = 'source_a'
+  function! source_a.gather_candidates(args)
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_a.sorters = []
+  let source_a.matchers = [function('Test_matcher_always')]
+  let source_a.filters = []
+
+  let source_b = {}
+  let source_b.name = 'source_b'
+  function! source_b.gather_candidates(args)
+    return [{'word': 'b'}, {'word': 'B'}]
+  endfunction
+  let source_b.sorters = []
+  let source_b.matchers = [function('Test_matcher_always')]
+  let source_b.filters = []
+
+  let source_c = {}
+  let source_c.name = 'source_c'
+  function! source_c.gather_candidates(args)
+    return [{'word': 'u'}, {'word': 'p'}]
+  endfunction
+  let source_c.sorters = [function('ku#sorter#simple#sort')]
+  let source_c.matchers = [function('Test_matcher_always')]
+  let source_c.filters = []
+
+  It should return [] with no source
+
+  Should Call('s:lcandidates_from_pattern', '2330', []) ==# []
+
+  It should return some candidates with a source
+
+  Should Call('s:lcandidates_from_pattern', '2330', [source_a])
+  \ ==# [{'word': '2330'}]
+
+  It should return some candidates with multiple sources
+
+  Should Call('s:lcandidates_from_pattern', '2330', [source_a, source_b])
+  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}]
+
+  It should return some candidates with multiple sources - duplicate sources
+  " (although this case is not a valid usage)
+
+  Should Call('s:lcandidates_from_pattern','2330',[source_a,source_b,source_a])
+  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
+
+  It should return sorted candidates for a source with sorters
+
+  Should Call('s:lcandidates_from_pattern', '2330', [source_c])
+  \ ==# [{'word': 'p'}, {'word': 'u'}]
+
+  It should return partially sorted candidates for sources with/without sorters
+
+  Should Call('s:lcandidates_from_pattern', '2330', [source_c, source_b])
+  \ ==# [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}]
 
   ResetContext
 endfunction
