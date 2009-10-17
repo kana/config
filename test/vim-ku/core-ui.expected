@@ -1,12 +1,30 @@
-==== ui_named_key_mappings 
----- It requires the following initialization to test its effect 
+==== ui_named_key_mappings choose and do an action
+---- It requires the following initialization 
 ...
----- It should define <Plug>(ku-quit-session) and it works 
-..........
+---- It should work 
+
+---- It requires to reset side effect 
+...
+
+==== ui_named_key_mappings do the default action
+---- It requires the following initialization 
+...
+---- It should work 
+
+---- It requires to reset side effect 
+...
+
+==== ui_named_key_mappings quit session
+---- It requires the following initialization 
+...
+---- It should work 
+......
+---- It requires to reset side effect 
+...
 
 
 
 **** Result ****
 
 
-13 examples, 0 failures
+24 examples, 0 failures

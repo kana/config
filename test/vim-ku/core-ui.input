@@ -1,8 +1,8 @@
 " Test: vim-ku core-ui
 runtime! plugin/ku.vim plugin/ku/**/*.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
-function s:describe__ui_named_key_mappings()  "{{{1
-  It requires the following initialization to test its effect
+function s:describe__ui_named_key_mappings__choose_and_do_an_action()  "{{{1
+  It requires the following initialization
 
   let original_bufnr = bufnr('')
   let original_window_layout = winrestcmd()
@@ -14,30 +14,91 @@ function s:describe__ui_named_key_mappings()  "{{{1
   let ku_bufnr = bufnr('')
   let ku_window_layout = winrestcmd()
 
-  close
+  It should work
 
-  It should define <Plug>(ku-quit-session) and it works
+  close
+  " Should Call('s:ku_active_p') == 1
+  "
+  " execute 'normal' "\<Plug>(ku-choose-and-do-an-action)"
+  "
+  " Should Call('s:ku_active_p') == 0
+  " ...
+
+  It requires to reset side effect
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+  bwipeout!
+endfunction
+
+
+
+
+function s:describe__ui_named_key_mappings__do_the_default_action()  "{{{1
+  It requires the following initialization
+
+  let original_bufnr = bufnr('')
+  let original_window_layout = winrestcmd()
 
   Should ku#start() == 1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
 
+  let ku_bufnr = bufnr('')
+  let ku_window_layout = winrestcmd()
+
+  It should work
+
+  close
+  " Should Call('s:ku_active_p') == 1
+  "
+  " execute 'normal' "\<Plug>(ku-do-the-default-action)"
+  "
+  " Should Call('s:ku_active_p') == 0
+  " ...
+
+  It requires to reset side effect
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+  bwipeout!
+endfunction
+
+
+
+
+function s:describe__ui_named_key_mappings__quit_session()  "{{{1
+  It requires the following initialization
+
+  let original_bufnr = bufnr('')
+  let original_window_layout = winrestcmd()
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  let ku_bufnr = bufnr('')
+  let ku_window_layout = winrestcmd()
+
+  It should work
+
+  Should Call('s:ku_active_p') == 1
+
   execute 'normal' "\<Plug>(ku-quit-session)"
+
+  Should Call('s:ku_active_p') == 0
   Should bufnr('') != ku_bufnr
   Should bufnr('') == original_bufnr
   Should winrestcmd() !=# ku_window_layout
   Should winrestcmd() ==# original_window_layout
 
-  silent! close
+  It requires to reset side effect
 
-  " FIXME: NIY: <Plug>(ku-choose-and-do-an-action)
-  " FIXME: NIY: <Plug>(ku-do-the-default-action)
-
-  " Reset side effect
   Should ku#start() == 1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
-
   bwipeout!
 endfunction
 
