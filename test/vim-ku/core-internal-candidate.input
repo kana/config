@@ -42,6 +42,8 @@ endfunction
 
 
 function s:describe__ku_omnifunc__findstart_1()  "{{{1
+  It requires the following initialization
+
   call ku#start()
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
@@ -69,7 +71,8 @@ function s:describe__ku_omnifunc__findstart_1()  "{{{1
 
   close
 
-  " Reset side effect.
+  It requires to reset side effect
+
   Should ku#start() == 1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''

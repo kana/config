@@ -4,7 +4,9 @@
 ---- It should return some candidate with a source 
 .......
 
-==== ku_omnifunc findstart 1..
+==== ku_omnifunc findstart 1
+---- It requires the following initialization 
+..
 ---- It should succeed with the default state (there is only the prompt) 
 .
 ---- It should succeed with the prompt and some characters 
@@ -12,7 +14,9 @@
 ---- It should succeed with no character 
 .
 ---- It should succeed with some characters but no prompt 
-....
+.
+---- It requires to reset side effect 
+...
 
 ==== s_candidates_from_pattern 
 ---- It should return [] with no source 
