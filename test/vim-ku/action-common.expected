@@ -55,8 +55,10 @@
 ...
 
 ==== ku_action_common_default 
----- It should behave as same as action 'open' 
-
+---- It should succeed 
+...........
+---- It requires to reset side effect 
+......
 
 ==== ku_action_common_ex 
 ---- It should succeed with fnameescape(x) ==# x 
@@ -123,4 +125,4 @@
 **** Result ****
 
 
-68 examples, 0 failures
+85 examples, 0 failures

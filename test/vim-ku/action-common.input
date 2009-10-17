@@ -7,6 +7,7 @@ call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 
 function! Test_action_open(candidate)
   edit `=a:candidate.word`
+  return 0
 endfunction
 
 
@@ -234,8 +235,54 @@ endfunction
 
 
 function s:describe__ku_action_common_default()  "{{{1
-  It should behave as same as action 'open'
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should succeed
+
+  " Before action:
+  " ---------------------
+  " |    '' (unnamed)   |
+  " |     (current)     |
+  " ---------------------
+  "
+  " After action:
+  " ---------------------
+  " |    'something'    |
+  " |     (current)     |
+  " ---------------------
+
+  Should bufname('') ==# ''
+  Should bufwinnr('') == 1
+  Should tabpagenr() == 1
+  Should winnr('$') == 1
+  let original_bufnr = bufnr('')
+  let original_winrestcmd = winrestcmd()
+
+  let candidate = {
+  \ 'ku__source': ku#available_sources()['test'],
+  \ 'word': 'something',
+  \ }
+  silent let _ = ku#_take_action('default', candidate)
+  Should _ is 0
+
+  Should bufname('') ==# candidate.word
+  Should bufnr('') == original_bufnr
+  Should bufwinnr('') == 1
+  Should tabpagenr() == 1
+  Should winnr('$') == 1
+  Should winrestcmd() ==# original_winrestcmd
+
+  It requires to reset side effect
+
+  silent! only
+  bwipeout!
+
+  Should bufname('') ==# ''
+  Should bufnr('') != original_bufnr
+  Should bufwinnr('') == 1
+  Should tabpagenr() == 1
+  Should winnr('$') == 1
+  Should winrestcmd() ==# original_winrestcmd
+
+  ResetContext
 endfunction
 
 
