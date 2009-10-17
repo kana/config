@@ -721,9 +721,40 @@ endfunction
 
 
 function! s:guess_candidate()  "{{{2
-  " FIXME: NIY
-  echoerr 'There is no proper candidate'
-  return 0
+  let current_pattern_raw = getline('.')  " Use a named constant line number.
+
+  if current_pattern_raw !=# s:session.last_user_input_raw
+    " current_pattern_raw seems to be inserted by Vim's completion.
+    for _ in s:session.last_lcandidates
+      if current_pattern_raw ==# _.word
+        let candidate = _
+        break
+      endif
+    endfor
+    if !exists('candidate')
+      echoerr 'ku:e1: No match found in s:session.last_lcandidates'
+      echoerr '  current_pattern_raw' string(current_pattern_raw)
+      echoerr '  s:session.last_user_input_raw'
+      \          string(s:session.last_user_input_raw)
+      echoerr '  s:session.last_lcandidates'
+      \          string(s:session.last_lcandidates)
+      let candidate = 0
+    endif
+  else
+    " current_pattern_raw seems NOT to be inserted by Vim's completion, but ...
+    if 0 < len(s:session.last_lcandidates)
+      " There are 1 or more candidates -- user seems to want to take action on
+      " the first one.
+      let candidate = s:session.last_lcandidates[0]
+    else
+      " There is no candidate -- user seems to want to take action on
+      " current_pattern_raw with fake sources.
+      " FIXME: Specification of fake sources is not written yet.
+      let candidate = 0
+    endif
+  endif
+
+  return candidate
 endfunction
 
 
