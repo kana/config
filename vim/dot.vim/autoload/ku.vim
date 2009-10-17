@@ -729,7 +729,8 @@ function! s:guess_candidate()  "{{{2
   let current_pattern_raw = getline(s:LNUM_PATTERN)
 
   if current_pattern_raw !=# s:session.last_user_input_raw
-    " current_pattern_raw seems to be inserted by Vim's completion.
+    " current_pattern_raw seems to be inserted by Vim's completion,
+    " so user seemed to select a candidate by Vim's completion.
     for _ in s:session.last_lcandidates
       if current_pattern_raw ==# _.word
         let candidate = _
