@@ -147,40 +147,45 @@ endfunction
 
 
 function s:describe__ku_action_common_Left()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
 
 
 function s:describe__ku_action_common_Right()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
 
 
 function s:describe__ku_action_common_Top()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
 
 
 function s:describe__ku_action_common_above()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
 
 
 function s:describe__ku_action_common_below()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
@@ -305,8 +310,9 @@ endfunction
 
 
 function s:describe__ku_action_common_left()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
@@ -324,8 +330,9 @@ endfunction
 
 
 function s:describe__ku_action_common_right()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
@@ -340,32 +347,36 @@ endfunction
 
 
 function s:describe__ku_action_common_tab_Left()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
 
 
 function s:describe__ku_action_common_tab_Right()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
 
 
 function s:describe__ku_action_common_tab_left()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 
 
 
 function s:describe__ku_action_common_tab_right()  "{{{1
+  " FIXME: NIY
   It should succeed if there is enough room
-  " FIXME: NIY - until ku#take_action() becomes functional.
+  It should fail if there is not enough room
 endfunction
 
 

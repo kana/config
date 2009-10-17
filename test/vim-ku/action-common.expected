@@ -13,21 +13,31 @@
 ==== ku_action_common_Left 
 ---- It should succeed if there is enough room 
 
+---- It should fail if there is not enough room 
+
 
 ==== ku_action_common_Right 
 ---- It should succeed if there is enough room 
+
+---- It should fail if there is not enough room 
 
 
 ==== ku_action_common_Top 
 ---- It should succeed if there is enough room 
 
+---- It should fail if there is not enough room 
+
 
 ==== ku_action_common_above 
 ---- It should succeed if there is enough room 
 
+---- It should fail if there is not enough room 
+
 
 ==== ku_action_common_below 
 ---- It should succeed if there is enough room 
+
+---- It should fail if there is not enough room 
 
 
 ==== ku_action_common_cancel 
@@ -67,6 +77,8 @@
 ==== ku_action_common_left 
 ---- It should succeed if there is enough room 
 
+---- It should fail if there is not enough room 
+
 
 ==== ku_action_common_open 
 ---- It should always fail 
@@ -74,6 +86,8 @@
 
 ==== ku_action_common_right 
 ---- It should succeed if there is enough room 
+
+---- It should fail if there is not enough room 
 
 
 ==== ku_action_common_select 
@@ -83,17 +97,25 @@
 ==== ku_action_common_tab_Left 
 ---- It should succeed if there is enough room 
 
+---- It should fail if there is not enough room 
+
 
 ==== ku_action_common_tab_Right 
 ---- It should succeed if there is enough room 
+
+---- It should fail if there is not enough room 
 
 
 ==== ku_action_common_tab_left 
 ---- It should succeed if there is enough room 
 
+---- It should fail if there is not enough room 
+
 
 ==== ku_action_common_tab_right 
 ---- It should succeed if there is enough room 
+
+---- It should fail if there is not enough room 
 
 
 
