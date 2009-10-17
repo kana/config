@@ -28,6 +28,7 @@ let s:TRUE = !s:FALSE
 
 
 let s:INVALID_BUFNR = -2357
+let s:INVALID_COLUMN = -20091017
 
 
 if has('win16') || has('win32') || has('win64')  " on Microsoft Windows
@@ -829,6 +830,8 @@ function! s:new_session(source_names)  "{{{2
 
     " Use list to ensure returning different value for each time.
   let session.id = [localtime()]
+  let session.last_column = s:INVALID_COLUMN
+  let session.last_pattern_raw = ''
   let session.now_quitting_p = s:FALSE
   let session.original_completeopt = &completeopt
   let session.original_curwinnr = winnr()
