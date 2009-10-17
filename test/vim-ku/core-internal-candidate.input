@@ -311,7 +311,7 @@ endfunction
 
 
 
-function s:describe__s_sort_candidates()  "{{{1
+function s:describe__s_sort_lcandidates()  "{{{1
   function! Test_sorter_reverse(lcandidates, args)
     return reverse(a:lcandidates)
   endfunction
@@ -343,7 +343,7 @@ function s:describe__s_sort_candidates()  "{{{1
 
   It should return unsorted candidates with no sorter
 
-  Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)
+  Should Call('s:sort_lcandidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_EMPTY)
   \ ==# [
   \ {'word': 'a'},
   \ {'word': 'l'},
@@ -354,7 +354,7 @@ function s:describe__s_sort_candidates()  "{{{1
 
   It should return sorted candidates with a sorter
 
-  Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_SIMPLE)
+  Should Call('s:sort_lcandidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_SIMPLE)
   \ ==# [
   \ {'word': 'a'},
   \ {'word': 'b'},
@@ -365,7 +365,7 @@ function s:describe__s_sort_candidates()  "{{{1
 
   It should return sorted candidates with a custom sorter
 
-  Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_REVERSE)
+  Should Call('s:sort_lcandidates', copy(RAW_LCANDIDATES), ARGS,SOURCE_REVERSE)
   \ ==# [
   \ {'word': 'm'},
   \ {'word': 'u'},
@@ -376,7 +376,7 @@ function s:describe__s_sort_candidates()  "{{{1
 
   It should return candidates sorted by "simple" then sorted by "reverse"
 
-  Should Call('s:sort_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_R)
+  Should Call('s:sort_lcandidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_R)
   \ ==# [
   \ {'word': 'u'},
   \ {'word': 'm'},

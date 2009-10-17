@@ -54,7 +54,7 @@
 ---- It should return some candidates matched with "default" or "odd" 
 .
 
-==== s_sort_candidates 
+==== s_sort_lcandidates 
 ---- It should return unsorted candidates with no sorter 
 .
 ---- It should return sorted candidates with a sorter 

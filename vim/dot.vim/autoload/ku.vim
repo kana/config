@@ -828,7 +828,7 @@ function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
     \   = s:filter_lcandidates(matched_lcandidates, args, source)
 
     let sorted_lcandidates
-    \   = s:sort_candidates(filtered_lcandidates, args, source)
+    \   = s:sort_lcandidates(filtered_lcandidates, args, source)
 
     call extend(all_lcandidates, sorted_lcandidates)
   endfor
@@ -968,15 +968,15 @@ endfunction
 
 
 
-function! s:sort_candidates(lcandidates, args, source)  "{{{2
-  let sorted_candidates = a:lcandidates
+function! s:sort_lcandidates(lcandidates, args, source)  "{{{2
+  let sorted_lcandidates = a:lcandidates
 
   for Sort in a:source.sorters
-    let sorted_candidates = Sort(sorted_candidates, a:args)
+    let sorted_lcandidates = Sort(sorted_lcandidates, a:args)
     unlet Sort  " To avoid E705.
   endfor
 
-  return sorted_candidates
+  return sorted_lcandidates
 endfunction
 
 
