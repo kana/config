@@ -82,7 +82,7 @@ endfunction
 
 
 function! ku#action#common#default(candidate)  "{{{2
-  return ku#action#common#open(a:candidate)
+  return ku#_take_action('open', a:candidate)
 endfunction
 
 
