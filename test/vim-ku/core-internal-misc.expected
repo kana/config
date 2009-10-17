@@ -59,6 +59,12 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It requires to reset side effect 
 .
 
+==== s_contains_the_prompt_p 
+---- It should return true if the current line contains the prompt 
+..
+---- It should false true if the current line doesn't contain the prompt 
+..
+
 ==== s_initialize_ku_buffer with users init autocmd
 " autocmd FileType ku
 ---- It should set basic optoins 
@@ -158,4 +164,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-264 examples, 0 failures
+268 examples, 0 failures
