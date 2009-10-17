@@ -538,6 +538,8 @@ function s:describe__s_on_CursorMovedI()  "{{{1
   Should Call('s:on_CursorMovedI') ==# repeat("\<Right>", len(Ref('s:PROMPT')))
 
   Should getline('.') ==# Ref('s:PROMPT')
+  Should Ref('s:session').last_column == 1
+  Should Ref('s:session').last_pattern_raw ==# ''
 
   It should move the cursor outside the prompt if it points inside
 
@@ -552,6 +554,8 @@ function s:describe__s_on_CursorMovedI()  "{{{1
 
   Should getline('.') ==# Ref('s:PROMPT')
   Should col('.') == 1
+  Should Ref('s:session').last_column == 1
+  Should Ref('s:session').last_pattern_raw ==# Ref('s:PROMPT')
 
   It should start completion if new character is inserted
   " BUGS: The situation to test is that the cursor position is beyond the end
@@ -569,6 +573,8 @@ function s:describe__s_on_CursorMovedI()  "{{{1
 
   Should getline('.') ==# _
   Should col('.') == len(_) + 1
+  Should Ref('s:session').last_column == len(_) + 1
+  Should Ref('s:session').last_pattern_raw ==# _
 
   It should return '' otherwise
 
@@ -583,6 +589,8 @@ function s:describe__s_on_CursorMovedI()  "{{{1
 
   Should getline('.') ==# _
   Should col('.') == len(_)
+  Should Ref('s:session').last_column == len(_)
+  Should Ref('s:session').last_pattern_raw ==# _
 
   It requires to reset side effect
 
