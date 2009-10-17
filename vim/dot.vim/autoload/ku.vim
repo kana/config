@@ -31,6 +31,10 @@ let s:INVALID_BUFNR = -2357
 let s:INVALID_COLUMN = -20091017
 
 
+let s:LNUM_STATUS = 1
+let s:LNUM_PATTERN = 2
+
+
 let s:KEYS_TO_START_COMPLETION = "\<C-x>\<C-o>\<C-p>"
 
 
@@ -244,8 +248,9 @@ function! ku#start(...)  "{{{2
   "       Insert mode is also implemented by feedkeys().  These feedings must
   "       be done carefully.
   silent % delete _
-  call append(1, s:PROMPT . initial_pattern)
-  normal! 2G
+  normal! o
+  call setline(s:LNUM_PATTERN, s:PROMPT . initial_pattern)
+  execute 'normal!' s:LNUM_PATTERN . 'G'
 
   " Start Insert mode.
   " BUGS: :startinsert! may not work with append()/setline()/:put.
@@ -721,7 +726,7 @@ endfunction
 
 
 function! s:guess_candidate()  "{{{2
-  let current_pattern_raw = getline('.')  " Use a named constant line number.
+  let current_pattern_raw = getline(s:LNUM_PATTERN)
 
   if current_pattern_raw !=# s:session.last_user_input_raw
     " current_pattern_raw seems to be inserted by Vim's completion.
