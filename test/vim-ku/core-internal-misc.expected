@@ -135,6 +135,18 @@ Invalild definition: Key 'name' must be string but given value is 0...
 
 
 ==== s_on_InsertEnter 
+---- It requires the following initialization 
+
+---- It should complete the prompt if it doesn't exist in the current line 
+.....
+---- It should move the cursor outside the prompt if it points inside 
+.......
+---- It should start completion if new character is inserted 
+.......
+---- It should return '' otherwise 
+.......
+---- It requires to reset side effect 
+
 
 ==== s_quit_session .......
 ---- It should reset side effect by ku#start() 
@@ -164,4 +176,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-276 examples, 0 failures
+302 examples, 0 failures
