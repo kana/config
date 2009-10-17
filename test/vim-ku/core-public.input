@@ -611,17 +611,72 @@ endfunction
 
 
 function s:describe__ku_take_action__without_candidate()  "{{{1
-  " FIXME: NIY
+  " BUGS: Not all cases are tested because of many combinations.
+  " Here only 2 cases are tested based on result of s:gather_candidates().
 
-  It should fail with error case
+  It requires the following initialization
 
-  It should do nothing with 'nop'
+  call ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'name': 'test',
+  \ })
+  let source = Ref('s:available_sources')['test']
 
-  It should take a given action
+  It should succeed if there is a proper candidate
 
-  It should choose action with '*choose*'
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
 
-  " Reset side effect.
+  call setline(Ref('s:LNUM_PATTERN'), 'EMPRESS')
+  let session = Ref('s:session')
+  let session.last_user_input_raw = 'EM'
+  let session.last_lcandidates = [
+  \   {'ku__source': source, 'word': 'DJ TROOPERS', 'menu': 'IIDX'},
+  \   {'ku__source': source, 'word': 'EMPRESS', 'menu': 'IIDX'},
+  \   {'ku__source': source, 'word': 'EMPRESS', 'menu': 'MAJOR ARCANA'},
+  \ ]
+
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('ex') == 1
+  Should Call('s:ku_active_p') == 0
+
+  Should nr2char(getchar(0)) ==# ':'
+  Should nr2char(getchar(0)) ==# ' '
+  Should nr2char(getchar(0)) ==# 'E'
+  Should nr2char(getchar(0)) ==# 'M'
+  Should nr2char(getchar(0)) ==# 'P'
+  Should nr2char(getchar(0)) ==# 'R'
+  Should nr2char(getchar(0)) ==# 'E'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# "\<C-b>"
+
+  It should fail if there is no proper candidate
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  call setline(Ref('s:LNUM_PATTERN'), Ref('s:PROMPT') . 'emp')
+  let session = Ref('s:session')
+  let session.last_user_input_raw = Ref('s:PROMPT') . 'emp'
+  let session.last_lcandidates = [
+  \ ]
+
+  Should Call('s:ku_active_p') == 1
+  silent! let _ = ku#take_action('ex')
+  Should _ == 0
+  Should Call('s:ku_active_p') == 0
+
+  Should nr2char(getchar(0)) ==# ''
+
+  It requires to reset side effect
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+  bwipeout!
   ResetContext
 endfunction
 
