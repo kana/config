@@ -31,6 +31,9 @@ let s:INVALID_BUFNR = -2357
 let s:INVALID_COLUMN = -20091017
 
 
+let s:KEYS_TO_START_COMPLETION = "\<C-x>\<C-o>\<C-p>"
+
+
 if has('win16') || has('win32') || has('win64')  " on Microsoft Windows
   let s:KU_BUFFER_NAME = '[ku]'
 else
@@ -547,6 +550,14 @@ endfunction
 
 
 
+function! s:complete_the_prompt()  "{{{2
+  call setline('.', s:PROMPT . getline('.'))
+  return
+endfunction
+
+
+
+
 function! s:composite_action_table_from_kinds(kinds)  "{{{2
   let composite_action_table = {}
 
@@ -568,6 +579,13 @@ function! s:composite_key_table_from_kinds(kinds)  "{{{2
   endfor
 
   return composite_key_table
+endfunction
+
+
+
+
+function! s:contains_the_prompt_p(s)  "{{{2
+  return len(s:PROMPT) <= len(a:s) && a:s[:len(s:PROMPT) - 1] ==# s:PROMPT
 endfunction
 
 
@@ -845,16 +863,36 @@ endfunction
 
 
 function! s:on_CursorMovedI()  "{{{2
-  " FIXME: NIY: Until automatic completion is implemented.
-  return ''
+  let cursor_column = col('.')
+  let line = getline('.')
+
+  " The order of the following conditions are important.
+  if !s:contains_the_prompt_p(line)
+    " Complete the prompt if it doesn't exist for some reasons.
+    let keys = repeat("\<Right>", len(s:PROMPT))
+    call s:complete_the_prompt()
+  elseif cursor_column <= len(s:PROMPT)
+    " Move the cursor out of the prompt if it is in the prompt.
+    let keys = repeat("\<Right>", len(s:PROMPT) - cursor_column + 1)
+  elseif len(line) < cursor_column && cursor_column != s:session.last_column
+    " New character is inserted.  Let's complete automatically.
+    let keys = s:KEYS_TO_START_COMPLETION
+  else
+    let keys = ''
+  endif
+
+  let s:session.last_column = cursor_column
+  let s:session.last_pattern_raw = line
+  return keys
 endfunction
 
 
 
 
 function! s:on_InsertEnter()  "{{{2
-  " FIXME: NIY: Until automatic completion is implemented.
-  return ''
+  let s:session.last_column = s:INVALID_COLUMN
+  let s:session.last_pattern_raw = ''
+  return s:on_CursorMovedI()
 endfunction
 
 
