@@ -86,7 +86,61 @@ endfunction
 function s:describe__ku_action_common_Bottom__without_enough_room()  "{{{1
   It should fail
 
-  " FIXME: NIY
+  " Before action:
+  " ---------------------
+  " |         n         |
+  " |-------------------|
+  " |         :         |
+  " |-------------------|
+  " |         2         |
+  " |-------------------|
+  " |         1         |
+  " ---------------------
+  "
+  " After action:
+  " ---------------------
+  " |         n         |
+  " |-------------------|
+  " |         :         |
+  " |-------------------|
+  " |         2         |
+  " |-------------------|
+  " |         1         |
+  " ---------------------
+
+  let v:errmsg = ''
+  while v:errmsg == ''
+    silent! new
+    wincmd _
+  endwhile
+  let original_bufnr = bufnr('')
+  let original_winrestcmd = winrestcmd()
+  let original_winnr = winnr('$')
+  Should bufwinnr('') == 1
+
+  let candidate = {
+  \ 'ku__source': ku#available_sources()['test'],
+  \ 'word': 'something',
+  \ }
+  silent let _ = ku#action#common#Bottom(candidate)
+  Should _ =~# 'E36: Not enough room'
+
+  Should winnr('$') == original_winnr
+  Should bufnr('') == original_bufnr
+  Should bufname('') == ''
+  Should bufwinnr('') == 1
+  Should winrestcmd() ==# original_winrestcmd
+
+  It requires to reset side effect
+
+  only
+  bwipeout!
+
+  Should winnr('$') == 1
+  Should bufnr('') == original_bufnr
+  Should bufname('') ==# ''
+
+  ResetContext
 endfunction
 
 

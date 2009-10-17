@@ -6,7 +6,9 @@
 
 ==== ku_action_common_Bottom without enough room
 ---- It should fail 
-
+.......
+---- It requires to reset side effect 
+...
 
 ==== ku_action_common_Left 
 ---- It should succeed if there is enough room 
@@ -99,4 +101,4 @@
 **** Result ****
 
 
-52 examples, 0 failures
+62 examples, 0 failures
