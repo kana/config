@@ -18,7 +18,7 @@
 ---- It requires to reset side effect 
 ...
 
-==== s_filter_candidates 
+==== s_filter_lcandidates 
 ---- It should return candidates as-is with no filter 
 .
 ---- It should return candidates filtered by M 

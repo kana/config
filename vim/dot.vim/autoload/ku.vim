@@ -654,15 +654,15 @@ endfunction
 
 
 
-function! s:filter_candidates(lcandidates, args, source)  "{{{2
-  let filtered_candidates = a:lcandidates
+function! s:filter_lcandidates(lcandidates, args, source)  "{{{2
+  let filtered_lcandidates = a:lcandidates
 
   for Filter in a:source.filters
-    let filtered_candidates = Filter(filtered_candidates, a:args)
+    let filtered_lcandidates = Filter(filtered_lcandidates, a:args)
     unlet Filter  " To avoid E705.
   endfor
 
-  return filtered_candidates
+  return filtered_lcandidates
 endfunction
 
 
@@ -825,7 +825,7 @@ function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
     \   = s:matched_candidates(raw_lcandidates, args, source)
 
     let filtered_lcandidates
-    \   = s:filter_candidates(matched_lcandidates, args, source)
+    \   = s:filter_lcandidates(matched_lcandidates, args, source)
 
     let sorted_lcandidates
     \   = s:sort_candidates(filtered_lcandidates, args, source)
