@@ -26,6 +26,7 @@ function s:describe__ku_omnifunc__findstart_0()  "{{{1
   Should nr2char(getchar(0)) ==# ''
 
   Should ku#omnifunc(0, 'pattern') ==# [{'word': 'pattern', 'abbr': 'pa'}]
+  Should ku#omnifunc(0, 'pattern') ==# Ref('s:session').last_lcandidates
 
   close
 
@@ -53,21 +54,25 @@ function s:describe__ku_omnifunc__findstart_1()  "{{{1
   " ku#start() has reset the content of the ku buffer.
   " So that the prompt must be in the ku buffer.
   Should ku#omnifunc(1, '') == 0
+  Should Ref('s:session').last_lcandidates ==# []
 
   It should succeed with the prompt and some characters
 
   normal! Amane
   Should ku#omnifunc(1, '') == 0
+  Should Ref('s:session').last_lcandidates ==# []
 
   It should succeed with no character
 
   normal! 0d$
   Should ku#omnifunc(1, '') == 0
+  Should Ref('s:session').last_lcandidates ==# []
 
   It should succeed with some characters but no prompt
 
   normal! Amane
   Should ku#omnifunc(1, '') == 0
+  Should Ref('s:session').last_lcandidates ==# []
 
   close
 
