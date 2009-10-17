@@ -311,6 +311,17 @@ endfunction
 
 
 
+function s:describe__s_normalize_candidate()  "{{{1
+  It should normalize a given candidate with a given source
+
+  let candidate = {'word': 'smooooch'}
+  Should Call('s:normalize_candidate', candidate, 'CANDY RAVE') is candidate
+  Should candidate ==# {'word': 'smooooch', 'ku__source': 'CANDY RAVE'}
+endfunction
+
+
+
+
 function s:describe__s_sort_lcandidates()  "{{{1
   function! Test_sorter_reverse(lcandidates, args)
     return reverse(a:lcandidates)

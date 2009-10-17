@@ -909,6 +909,14 @@ endfunction
 
 
 
+function! s:normalize_candidate(candidate, source)  "{{{2
+  let a:candidate.ku__source = a:source
+  return a:candidate
+endfunction
+
+
+
+
 function! s:on_CursorMovedI()  "{{{2
   let cursor_column = col('.')
   let line = getline('.')
