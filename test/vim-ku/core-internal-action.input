@@ -368,7 +368,66 @@ endfunction
 
 
 function s:describe__s_guess_candidate()  "{{{1
-  " FIXME: NIY
+  It requires the following initialization
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  let session = Ref('s:session')
+
+  It should succeed if user seems to select a candidate by Vim's completion
+
+  call setline(Ref('s:LNUM_PATTERN'), 'EMPRESS')
+  let session.last_user_input_raw = 'EM'
+  let session.last_lcandidates = [
+  \   {'word': 'DJ TROOPERS', 'menu': 'IIDX'},
+  \   {'word': 'EMPRESS', 'menu': 'IIDX'},
+  \   {'word': 'EMPRESS', 'menu': 'MAJOR ARCANA'},
+  \ ]
+
+  Should Call('s:guess_candidate') ==# {'word': 'EMPRESS', 'menu': 'IIDX'}
+
+  It should fail if there is no proper candidate for the current pattern
+
+  call setline(Ref('s:LNUM_PATTERN'), 'empress')
+  let session.last_user_input_raw = 'EM'
+  let session.last_lcandidates = [
+  \   {'word': 'DJ TROOPERS', 'menu': 'IIDX'},
+  \   {'word': 'EMPRESS', 'menu': 'IIDX'},
+  \   {'word': 'EMPRESS', 'menu': 'MAJOR ARCANA'},
+  \ ]
+
+  silent! let _ = Call('s:guess_candidate')
+  Should _ == 0
+
+  It should succeed if user seems to want to select the first candidate
+
+  call setline(Ref('s:LNUM_PATTERN'), Ref('s:PROMPT') . 'emp')
+  let session.last_user_input_raw = Ref('s:PROMPT') . 'emp'
+  let session.last_lcandidates = [
+  \   {'word': 'DJ TROOPERS', 'menu': 'IIDX'},
+  \   {'word': 'EMPRESS', 'menu': 'IIDX'},
+  \   {'word': 'EMPRESS', 'menu': 'MAJOR ARCANA'},
+  \ ]
+
+  Should Call('s:guess_candidate') ==# {'word': 'DJ TROOPERS', 'menu': 'IIDX'}
+
+  It should fail if there is no candidate but user seems to want the 1st one
+  " FIXME: It should succeed after fake sources are implemented.
+
+  call setline(Ref('s:LNUM_PATTERN'), Ref('s:PROMPT') . 'emp')
+  let session.last_user_input_raw = Ref('s:PROMPT') . 'emp'
+  let session.last_lcandidates = [
+  \ ]
+
+  silent! let _ = Call('s:guess_candidate')
+  Should _ == 0
+
+  It requires to reset side effect
+
+  bwipeout!
+  ResetContext
 endfunction
 
 

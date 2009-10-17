@@ -55,6 +55,18 @@ Action 'name2' is not defined for 'file'..
 ........
 
 ==== s_guess_candidate 
+---- It requires the following initialization 
+...
+---- It should succeed if user seems to select a candidate by Vim's completion 
+.
+---- It should fail if there is no proper candidate for the current pattern 
+.
+---- It should succeed if user seems to want to select the first candidate 
+.
+---- It should fail if there is no candidate but user seems to want the 1st one 
+.
+---- It requires to reset side effect 
+
 
 ==== s_list_action_tables 
 ---- It requires the following initialization 
@@ -71,4 +83,4 @@ Action 'name2' is not defined for 'file'..
 **** Result ****
 
 
-85 examples, 0 failures
+92 examples, 0 failures
