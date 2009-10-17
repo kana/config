@@ -25,7 +25,11 @@ function s:describe__ku_omnifunc__findstart_0()  "{{{1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
 
-  Should ku#omnifunc(0, 'pattern') ==# [{'word': 'pattern', 'abbr': 'pa'}]
+  Should ku#omnifunc(0, 'pattern') ==# [
+  \ {'word': 'pattern',
+  \  'abbr': 'pa',
+  \  'ku__source': Ref('s:available_sources')['test']},
+  \ ]
   Should ku#omnifunc(0, 'pattern') ==# Ref('s:session').last_lcandidates
 
   close
@@ -212,28 +216,47 @@ function s:describe__s_lcandidates_from_pattern()  "{{{1
   It should return some candidates with a source
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_a])
-  \ ==# [{'word': '2330'}]
+  \ ==# [
+  \   {'ku__source': source_a, 'word': '2330'},
+  \ ]
 
   It should return some candidates with multiple sources
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_a, source_b])
-  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}]
+  \ ==# [
+  \   {'ku__source': source_a, 'word': '2330'},
+  \   {'ku__source': source_b, 'word': 'b'},
+  \   {'ku__source': source_b, 'word': 'B'},
+  \ ]
 
   It should return some candidates with multiple sources - duplicate sources
   " (although this case is not a valid usage)
 
   Should Call('s:lcandidates_from_pattern','2330',[source_a,source_b,source_a])
-  \ ==# [{'word': '2330'}, {'word': 'b'}, {'word': 'B'}, {'word': '2330'}]
+  \ ==# [
+  \   {'ku__source': source_a, 'word': '2330'},
+  \   {'ku__source': source_b, 'word': 'b'},
+  \   {'ku__source': source_b, 'word': 'B'},
+  \   {'ku__source': source_a, 'word': '2330'},
+  \ ]
 
   It should return sorted candidates for a source with sorters
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_c])
-  \ ==# [{'word': 'p'}, {'word': 'u'}]
+  \ ==# [
+  \   {'ku__source': source_c, 'word': 'p'},
+  \   {'ku__source': source_c, 'word': 'u'},
+  \ ]
 
   It should return partially sorted candidates for sources with/without sorters
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_c, source_b])
-  \ ==# [{'word': 'p'}, {'word': 'u'}, {'word': 'b'}, {'word': 'B'}]
+  \ ==# [
+  \   {'ku__source': source_c, 'word': 'p'},
+  \   {'ku__source': source_c, 'word': 'u'},
+  \   {'ku__source': source_b, 'word': 'b'},
+  \   {'ku__source': source_b, 'word': 'B'},
+  \ ]
 
   ResetContext
 endfunction

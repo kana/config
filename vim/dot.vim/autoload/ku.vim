@@ -830,7 +830,10 @@ function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
     let sorted_lcandidates
     \   = s:sort_lcandidates(filtered_lcandidates, args, source)
 
-    call extend(all_lcandidates, sorted_lcandidates)
+    let normalized_lcandidates
+    \   = map(sorted_lcandidates, 's:normalize_candidate(v:val, source)')
+
+    call extend(all_lcandidates, normalized_lcandidates)
   endfor
 
   return all_lcandidates
