@@ -822,7 +822,7 @@ function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
     let raw_lcandidates = copy(source.gather_candidates(args))
 
     let matched_lcandidates
-    \   = s:matched_candidates(raw_lcandidates, args, source)
+    \   = s:matched_lcandidates(raw_lcandidates, args, source)
 
     let filtered_lcandidates
     \   = s:filter_lcandidates(matched_lcandidates, args, source)
@@ -873,16 +873,16 @@ endfunction
 
 
 
-function! s:matched_candidates(lcandidates, args, source)  "{{{2
-  let matched_candidates = []
+function! s:matched_lcandidates(lcandidates, args, source)  "{{{2
+  let matched_lcandidates = []
 
   for Matches_p in a:source.matchers
-    call extend(matched_candidates,
+    call extend(matched_lcandidates,
     \           filter(copy(a:lcandidates), 'Matches_p(v:val, a:args)'))
     unlet Matches_p  " To avoid E705.
   endfor
 
-  return matched_candidates
+  return matched_lcandidates
 endfunction
 
 

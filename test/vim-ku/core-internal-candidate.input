@@ -241,7 +241,7 @@ endfunction
 
 
 
-function s:describe__s_matched_candidates()  "{{{1
+function s:describe__s_matched_lcandidates()  "{{{1
   function! Test_matcher_odd(candidate, args)
     return len(a:candidate.word) % 2
   endfunction
@@ -274,13 +274,14 @@ function s:describe__s_matched_candidates()  "{{{1
 
   It should return nothing with no matcher
 
-  Should Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS,SOURCE_EMPTY)
+  Should Call('s:matched_lcandidates', copy(RAW_LCANDIDATES),ARGS,SOURCE_EMPTY)
   \ ==# [
   \ ]
 
   It should return some candidates with the default matcher
 
-  Should Call('s:matched_candidates',copy(RAW_LCANDIDATES),ARGS,SOURCE_DEFAULT)
+  Should Call('s:matched_lcandidates',
+  \           copy(RAW_LCANDIDATES), ARGS, SOURCE_DEFAULT)
   \ ==# [
   \ {'word': 'mk'},
   \ {'word': 'oom'},
@@ -288,7 +289,7 @@ function s:describe__s_matched_candidates()  "{{{1
 
   It should return some candidates with a custom matcher
 
-  Should Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)
+  Should Call('s:matched_lcandidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_ODD)
   \ ==# [
   \ {'word': 'iue'},
   \ {'word': 'oom'},
@@ -296,7 +297,7 @@ function s:describe__s_matched_candidates()  "{{{1
 
   It should return some candidates matched with "default" or "odd"
 
-  Should Call('s:matched_candidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)
+  Should Call('s:matched_lcandidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)
   \ ==# [
   \ {'word': 'mk'},
   \ {'word': 'oom'},

@@ -44,7 +44,7 @@
 ---- It should return partially sorted candidates for sources with/without sorters 
 .
 
-==== s_matched_candidates 
+==== s_matched_lcandidates 
 ---- It should return nothing with no matcher 
 .
 ---- It should return some candidates with the default matcher 
