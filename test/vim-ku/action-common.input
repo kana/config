@@ -52,6 +52,7 @@ function s:describe__ku_action_common_Bottom__with_enough_room()  "{{{1
   vnew
   let original_bufnr = bufnr('')
   let original_winrestcmd = winrestcmd()
+  Should tabpagenr() == 1
   Should winnr('$') == 3
   Should bufwinnr('') == 1
 
@@ -62,6 +63,7 @@ function s:describe__ku_action_common_Bottom__with_enough_room()  "{{{1
   silent let _ = ku#action#common#Bottom(candidate)
   Should _ is 0
 
+  Should tabpagenr() == 1
   Should winnr('$') == 4
   Should bufnr('') != original_bufnr
   Should bufname('') ==# candidate.word
@@ -73,6 +75,7 @@ function s:describe__ku_action_common_Bottom__with_enough_room()  "{{{1
   only
   bwipeout!
 
+  Should tabpagenr() == 1
   Should winnr('$') == 1
   Should bufnr('') != original_bufnr
   Should bufname('') ==# ''
@@ -116,6 +119,7 @@ function s:describe__ku_action_common_Bottom__without_enough_room()  "{{{1
   let original_bufnr = bufnr('')
   let original_winrestcmd = winrestcmd()
   let original_winnr = winnr('$')
+  Should tabpagenr() == 1
   Should bufwinnr('') == 1
 
   let candidate = {
@@ -125,6 +129,7 @@ function s:describe__ku_action_common_Bottom__without_enough_room()  "{{{1
   silent let _ = ku#action#common#Bottom(candidate)
   Should _ =~# 'E36: Not enough room'
 
+  Should tabpagenr() == 1
   Should winnr('$') == original_winnr
   Should bufnr('') == original_bufnr
   Should bufname('') == ''
@@ -136,6 +141,7 @@ function s:describe__ku_action_common_Bottom__without_enough_room()  "{{{1
   only
   bwipeout!
 
+  Should tabpagenr() == 1
   Should winnr('$') == 1
   Should bufnr('') == original_bufnr
   Should bufname('') ==# ''
