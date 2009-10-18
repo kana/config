@@ -630,7 +630,7 @@ function s:describe__ku_take_action__without_candidate()  "{{{1
 
   call setline(Ref('s:LNUM_PATTERN'), 'EMPRESS')
   let session = Ref('s:session')
-  let session.last_user_input_raw = 'EM'
+  let session.last_pattern_raw = 'EM'
   let session.last_lcandidates = [
   \   {'ku__source': source, 'word': 'DJ TROOPERS', 'menu': 'IIDX'},
   \   {'ku__source': source, 'word': 'EMPRESS', 'menu': 'IIDX'},
@@ -660,7 +660,7 @@ function s:describe__ku_take_action__without_candidate()  "{{{1
 
   call setline(Ref('s:LNUM_PATTERN'), Ref('s:PROMPT') . 'emp')
   let session = Ref('s:session')
-  let session.last_user_input_raw = Ref('s:PROMPT') . 'emp'
+  let session.last_pattern_raw = Ref('s:PROMPT') . 'emp'
   let session.last_lcandidates = [
   \ ]
 

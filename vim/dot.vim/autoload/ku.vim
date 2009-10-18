@@ -703,7 +703,7 @@ endfunction
 function! s:guess_candidate()  "{{{2
   let current_pattern_raw = getline(s:LNUM_PATTERN)
 
-  if current_pattern_raw !=# s:session.last_user_input_raw
+  if current_pattern_raw !=# s:session.last_pattern_raw
     " current_pattern_raw seems to be inserted by Vim's completion,
     " so user seemed to select a candidate by Vim's completion.
     for _ in s:session.last_lcandidates
@@ -715,8 +715,8 @@ function! s:guess_candidate()  "{{{2
     if !exists('candidate')
       echoerr 'ku:e1: No match found in s:session.last_lcandidates'
       echoerr '  current_pattern_raw' string(current_pattern_raw)
-      echoerr '  s:session.last_user_input_raw'
-      \          string(s:session.last_user_input_raw)
+      echoerr '  s:session.last_pattern_raw'
+      \          string(s:session.last_pattern_raw)
       echoerr '  s:session.last_lcandidates'
       \          string(s:session.last_lcandidates)
       let candidate = 0
