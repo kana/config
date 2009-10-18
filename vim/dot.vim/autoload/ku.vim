@@ -257,7 +257,11 @@ function! ku#start(...)  "{{{2
   "       If the typeahead buffer is empty, ther is no problem.
   "       Otherwise, :startinsert! behaves as '$i', not 'A',
   "       so it is inconvenient.
-  let typeahead_buffer = getchar(1) ? s:get_key() : ''
+  " BUGS: It's not possible to emulate the same input by
+  "       s:consume_typeahead_buffer() and feedkeys().  Because there is no
+  "       way to get information on the source of an input character, for
+  "       example, typed character, mapped character, etc.
+  let typeahead_buffer = s:consume_typeahead_buffer()
   call feedkeys('A' . typeahead_buffer, 'n')
 
   return s:TRUE
