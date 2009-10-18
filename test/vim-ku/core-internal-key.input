@@ -138,6 +138,122 @@ endfunction
 
 
 
+function s:describe__s_get_char__with_0()  "{{{1
+  It requires that there is no character in the typeahead buffer
+
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= getchar()
+  endwhile
+
+  Should typeahead ==# ''
+
+  It should return empty values if there is no character
+
+  let _ = Call('s:get_char', 0)
+  Should _.s ==# ''
+  Should _.cs ==# []
+  Should _.bs ==# []
+  Should getchar(0) ==# 0
+
+  It should consume a character if there is a character
+
+  call feedkeys('a')
+  let _ = Call('s:get_char', 0)
+  Should _.s ==# 'a'
+  Should _.cs ==# ['a']
+  Should _.bs ==# [char2nr('a')]
+  Should getchar(0) ==# 0
+endfunction
+
+
+
+
+function s:describe__s_get_char__with_1()  "{{{1
+  It requires that there is no character in the typeahead buffer
+
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= getchar()
+  endwhile
+
+  Should typeahead ==# ''
+
+  It should return empty values if there is no character
+
+  let _ = Call('s:get_char', 1)
+  Should _.s ==# ''
+  Should _.cs ==# []
+  Should _.bs ==# []
+  Should getchar(0) ==# 0
+
+  It should not consume a character if there is a character
+
+  call feedkeys('a')
+  let _ = Call('s:get_char', 1)
+  Should _.s ==# 'a'
+  Should _.cs ==# ['a']
+  Should _.bs ==# [char2nr('a')]
+  Should getchar(0) ==# char2nr('a')
+  Should getchar(0) ==# 0
+endfunction
+
+
+
+
+function s:describe__s_get_char__without_argument()  "{{{1
+  It requires that there is no character in the typeahead buffer
+
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= getchar()
+  endwhile
+
+  Should typeahead ==# ''
+
+  It should return valid result for an ordinary character
+
+  call feedkeys('a')
+  let _ = Call('s:get_char')
+  Should _.s ==# 'a'
+  Should _.cs ==# ['a']
+  Should _.bs ==# [char2nr('a')]
+  Should getchar(0) ==# 0
+
+  It should return valid result for a special character such as <F1>
+
+  call feedkeys("\<F1>")
+  let _ = Call('s:get_char')
+  Should _.s ==# "\<F1>"
+  Should _.cs ==# map(range(len("\<F1>")), '"\<F1>"[v:val]')
+  Should _.bs ==# map(range(len("\<F1>")), 'char2nr("\<F1>"[v:val])')
+  Should getchar(0) ==# 0
+
+  It should return valid result for <Esc> which is part of <Esc>{x}
+
+  call feedkeys("\<Esc>x")
+  let _ = Call('s:get_char')
+  Should _.s ==# "\<Esc>"
+  Should _.cs ==# ["\<Esc>"]
+  Should _.bs ==# [char2nr("\<Esc>")]
+  Should nr2char(getchar(0)) ==# 'x'
+  Should nr2char(getchar(0)) ==# ''
+
+  It should return valid result for a multibyte character
+
+  set encoding=utf-8
+  call feedkeys("\u3042")  " = Japanese Hiragana 'A'
+  let _ = Call('s:get_char')
+  Should _.s ==# "\xE3\x81\x82"
+  Should _.cs ==# ["\xE3", "\x81", "\x82"]
+  Should _.bs ==# [0xE3, 0x81, 0x82]
+  Should getchar(0) ==# 0
+  set encoding&
+endfunction
+
+
+
+
 function s:describe__s_get_key()  "{{{1
   It requires that there is no character in the typeahead buffer
 

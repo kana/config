@@ -702,6 +702,27 @@ endfunction
 
 
 
+function! s:get_char(...)  "{{{2
+  " Rich version of getchar()
+
+  let n = call('getchar', a:000)
+  let _ = {}
+
+  " Normalized result of getchar()
+  let _.s = type(n) == type(0) ? nr2char(n) : n
+
+  " Characters in s
+  let _.cs = map(range(len(_.s)), '_.s[v:val]')
+
+  " Bytes corresponding to cs
+  let _.bs = map(copy(_.cs), 'char2nr(v:val)')
+
+  return _
+endfunction
+
+
+
+
 function! s:get_key()  "{{{2
   " Alternative getchar() to get a logical key such as <F1> and <M-{x}>.
   let k = ''

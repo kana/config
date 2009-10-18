@@ -18,6 +18,34 @@
 ---- It should return the default key table 
 ...
 
+==== s_get_char with 0
+---- It requires that there is no character in the typeahead buffer 
+.
+---- It should return empty values if there is no character 
+....
+---- It should consume a character if there is a character 
+....
+
+==== s_get_char with 1
+---- It requires that there is no character in the typeahead buffer 
+.
+---- It should return empty values if there is no character 
+....
+---- It should not consume a character if there is a character 
+.....
+
+==== s_get_char without argument
+---- It requires that there is no character in the typeahead buffer 
+.
+---- It should return valid result for an ordinary character 
+....
+---- It should return valid result for a special character such as <F1> 
+....
+---- It should return valid result for <Esc> which is part of <Esc>{x} 
+.....
+---- It should return valid result for a multibyte character 
+....
+
 ==== s_get_key 
 ---- It requires that there is no character in the typeahead buffer 
 .
@@ -39,4 +67,4 @@
 **** Result ****
 
 
-40 examples, 0 failures
+77 examples, 0 failures
