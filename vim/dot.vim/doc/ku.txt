@@ -247,15 +247,15 @@ See also |ku#define_default_ui_key_mappings()|.
 Key sequence	Meaning ~
 ------------	----------------------------------- ~
 <C-c>		|<Plug>(ku-quit-session)|
-<C-i>		|<Plug>(ku-choose-and-do-an-action)|
+<C-i>		|<Plug>(ku-choose-action)|
 <C-m>		|<Plug>(ku-do-default-action)|
 <Enter>		|<Plug>(ku-do-default-action)|
 <Return>	|<Plug>(ku-do-default-action)|
-<Tab>		|<Plug>(ku-choose-and-do-an-action)|
+<Tab>		|<Plug>(ku-choose-action)|
 
 NAMED KEY MAPPINGS				*ku-named-key-mappings*
 
-<Plug>(ku-choose-and-do-an-action)	  *<Plug>(ku-choose-and-do-an-action)*
+<Plug>(ku-choose-action)			*<Plug>(ku-choose-action)*
 			Like |<Plug>(ku-do-default-action)|, but you can
 			choose an action from all available actions for the
 			currently selected candidate.
@@ -343,8 +343,7 @@ nop						*ku-common-action-nop*
 			Do nothing.  This is a special action to delete a key
 			binding in |ku-key-table|.  If a key is bound to this
 			action by |ku#custom_key()|, the key does nothing and
-			it is not listed by
-			|<Plug>(ku-choose-and-do-an-action)|.
+			it is not listed by |<Plug>(ku-choose-action)|.
 
 			This is a pseudo action; it cannot be overriden.
 
@@ -357,9 +356,8 @@ open						*ku-common-action-open*
 
 select						*ku-common-action-select*
 			Cancel to choose an actioin by
-			|<Plug>(ku-choose-and-do-an-action)| and return to the
-			previous state of |the-ku-buffer| to select a given
-			candidate.
+			|<Plug>(ku-choose-action)| and return to the previous
+			state of |the-ku-buffer| to select a given candidate.
 
 Bottom						*ku-common-action-Bottom*
 Left						*ku-common-action-Left*
@@ -394,8 +392,8 @@ tab-right					*ku-common-action-tab-right*
 ------------------------------------------------------------------------------
 COMMON KEY TABLE				*ku-common-key-table*
 
-For |<Plug>(ku-choose-and-do-an-action)|, the following key bindings are used
-for all candidates by default.  See also |ku-key-table|.
+For |<Plug>(ku-choose-action)|, the following key bindings are used for all
+candidates by default.  See also |ku-key-table|.
 
 Key		Action ~
 --------	--------
@@ -729,7 +727,7 @@ action						*ku-action*
 			See also:
 			- |ku-action-table|
 			- |<Plug>(ku-do-default-action)|
-			- |<Plug>(ku-choose-and-do-an-action)|
+			- |<Plug>(ku-choose-action)|
 
 action table					*ku-action-table*
 			An action table is a dictionary which contains
@@ -759,7 +757,7 @@ action table					*ku-action-table*
 key table					*ku-key-table*
 			A key table is a dictionary which contains key
 			bindings to choose an action for
-			|<Plug>(ku-choose-and-do-an-action)|.
+			|<Plug>(ku-choose-action)|.
 
 			Each key is a string which represents a key to type,
 			and each value is a string which is the name of an

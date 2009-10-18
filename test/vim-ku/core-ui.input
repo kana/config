@@ -1,7 +1,7 @@
 " Test: vim-ku core-ui
 runtime! plugin/ku.vim plugin/ku/**/*.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
-function s:describe__ui_named_key_mappings__choose_and_do_an_action()  "{{{1
+function s:describe__ui_named_key_mappings__choose_action()  "{{{1
   It requires the following initialization
 
   function! Test_action_default(candidate)
@@ -41,7 +41,7 @@ function s:describe__ui_named_key_mappings__choose_and_do_an_action()  "{{{1
   Should Call('s:ku_active_p') == 1
 
   " FIXME: The following code is dummy.  It should be replaced with
-  " :execute 'normal' "\<Plug>(ku-choose-and-do-an-action):"
+  " :execute 'normal' "\<Plug>(ku-choose-action):"
   " But it causes infinite loop even it works well in interactive session.
   call feedkeys(':', 't')
   silent call ku#take_action('*choose*')
