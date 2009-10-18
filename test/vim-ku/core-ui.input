@@ -74,6 +74,8 @@ function s:describe__ui_named_key_mappings__choose_and_do_an_action()  "{{{1
 
   bwipeout!
   Should bufname('') ==# ''
+
+  ResetContext
 endfunction
 
 
@@ -137,6 +139,8 @@ function s:describe__ui_named_key_mappings__do_the_default_action()  "{{{1
 
   bwipeout!
   Should bufname('') ==# ''
+
+  ResetContext
 endfunction
 
 
@@ -173,6 +177,8 @@ function s:describe__ui_named_key_mappings__quit_session()  "{{{1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
   bwipeout!
+
+  ResetContext
 endfunction
 
 
