@@ -247,8 +247,8 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
   Should maparg('<C-h>', 'i') != '' == 1
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') != '' == 1
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') != '' == 1
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') != '' == 1
+  Should maparg('<Plug>(ku-do-default-action)', 'i') != '' == 1
+  Should maparg('<Plug>(ku-do-default-action)', 'n') != '' == 1
   Should maparg('<Plug>(ku-quit-session)', 'i') != '' == 1
   Should maparg('<Plug>(ku-quit-session)', 'n') != '' == 1
 
@@ -277,8 +277,8 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
   Should maparg('<C-h>', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') ==# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') ==# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'n') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
@@ -321,8 +321,8 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
   Should maparg('<C-h>', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') !=# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') !=# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'i') !=# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'n') !=# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') !=# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') !=# ''
 
@@ -351,8 +351,8 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
   Should maparg('<C-h>', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') ==# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') ==# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'n') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
@@ -390,8 +390,8 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
   Should maparg('<C-h>', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') !=# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') !=# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'i') !=# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'n') !=# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') !=# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') !=# ''
 
@@ -420,8 +420,8 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
   Should maparg('<C-h>', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-and-do-an-action)', 'n') ==# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'i') ==# ''
-  Should maparg('<Plug>(ku-do-the-default-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'i') ==# ''
+  Should maparg('<Plug>(ku-do-default-action)', 'n') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 

@@ -248,15 +248,15 @@ Key sequence	Meaning ~
 ------------	----------------------------------- ~
 <C-c>		|<Plug>(ku-quit-session)|
 <C-i>		|<Plug>(ku-choose-and-do-an-action)|
-<C-m>		|<Plug>(ku-do-the-default-action)|
-<Enter>		|<Plug>(ku-do-the-default-action)|
-<Return>	|<Plug>(ku-do-the-default-action)|
+<C-m>		|<Plug>(ku-do-default-action)|
+<Enter>		|<Plug>(ku-do-default-action)|
+<Return>	|<Plug>(ku-do-default-action)|
 <Tab>		|<Plug>(ku-choose-and-do-an-action)|
 
 NAMED KEY MAPPINGS				*ku-named-key-mappings*
 
 <Plug>(ku-choose-and-do-an-action)	  *<Plug>(ku-choose-and-do-an-action)*
-			Like |<Plug>(ku-do-the-default-action)|, but you can
+			Like |<Plug>(ku-do-default-action)|, but you can
 			choose an action from all available actions for the
 			currently selected candidate.
 
@@ -268,7 +268,7 @@ NAMED KEY MAPPINGS				*ku-named-key-mappings*
 			See also |ku#custom_key()| to customize key bindings
 			to choose an action.
 
-<Plug>(ku-do-the-default-action)      	    *<Plug>(ku-do-the-default-action)*
+<Plug>(ku-do-default-action)     		*<Plug>(ku-do-default-action)*
 			Do the default action on the currently selected
 			candidate, then quit the current session.
 
@@ -317,8 +317,7 @@ cd						*ku-common-action-cd*
 
 default						*ku-common-action-default*
 			Do the default action on a given candidate.  This
-			action is executed via
-			|<Plug>(ku-do-the-default-action)|.
+			action is executed via |<Plug>(ku-do-default-action)|.
 
 			By default, this action is just an alias of
 			|ku-common-action-open|.
@@ -729,7 +728,7 @@ action						*ku-action*
 
 			See also:
 			- |ku-action-table|
-			- |<Plug>(ku-do-the-default-action)|
+			- |<Plug>(ku-do-default-action)|
 			- |<Plug>(ku-choose-and-do-an-action)|
 
 action table					*ku-action-table*

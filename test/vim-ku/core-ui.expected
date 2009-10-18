@@ -6,7 +6,7 @@
 ---- It requires to reset side effect 
 ....
 
-==== ui_named_key_mappings do the default action
+==== ui_named_key_mappings do default action
 ---- It requires the following initialization 
 .....
 ---- It should work 

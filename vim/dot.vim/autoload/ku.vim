@@ -141,9 +141,9 @@ function! ku#define_default_ui_key_mappings(override_p)  "{{{2
   call f.map('<C-c>', '<Plug>(ku-quit-session)')
   call f.map('<C-c>', '<Plug>(ku-quit-session)')
   call f.map('<C-i>', '<Plug>(ku-choose-and-do-an-action)')
-  call f.map('<C-m>', '<Plug>(ku-do-the-default-action)')
-  call f.map('<Enter>', '<Plug>(ku-do-the-default-action)')
-  call f.map('<Return>', '<Plug>(ku-do-the-default-action)')
+  call f.map('<C-m>', '<Plug>(ku-do-default-action)')
+  call f.map('<Enter>', '<Plug>(ku-do-default-action)')
+  call f.map('<Return>', '<Plug>(ku-do-default-action)')
   call f.map('<Tab>', '<Plug>(ku-choose-and-do-an-action)')
 
   return
@@ -765,7 +765,7 @@ function! s:initialize_ku_buffer()  "{{{2
   " Key mappings - fundamentals.
   nnoremap <buffer> <silent> <SID>(choose-and-do-an-action)
   \        :<C-u>call ku#take_action('*choose*')<Return>
-  nnoremap <buffer> <silent> <SID>(do-the-default-action)
+  nnoremap <buffer> <silent> <SID>(do-default-action)
   \        :<C-u>call ku#take_action('default')<Return>
   nnoremap <buffer> <silent> <SID>(quit-session)
   \        :<C-u>call <SID>quit_session()<Return>
@@ -776,15 +776,15 @@ function! s:initialize_ku_buffer()  "{{{2
 
   nnoremap <buffer> <script> <Plug>(ku-choose-and-do-an-action)
   \        <SID>(choose-and-do-an-action)
-  nnoremap <buffer> <script> <Plug>(ku-do-the-default-action)
-  \        <SID>(do-the-default-action)
+  nnoremap <buffer> <script> <Plug>(ku-do-default-action)
+  \        <SID>(do-default-action)
   nnoremap <buffer> <script> <Plug>(ku-quit-session)
   \        <SID>(quit-session)
 
   inoremap <buffer> <script> <Plug>(ku-choose-and-do-an-action)
   \        <SID>(accept-completion)<Esc><SID>(choose-and-do-an-action)
-  inoremap <buffer> <script> <Plug>(ku-do-the-default-action)
-  \        <SID>(accept-completion)<Esc><SID>(do-the-default-action)
+  inoremap <buffer> <script> <Plug>(ku-do-default-action)
+  \        <SID>(accept-completion)<Esc><SID>(do-default-action)
   inoremap <buffer> <script> <Plug>(ku-quit-session)
   \        <Esc><SID>(quit-session)
 

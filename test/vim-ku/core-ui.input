@@ -81,7 +81,7 @@ endfunction
 
 
 
-function s:describe__ui_named_key_mappings__do_the_default_action()  "{{{1
+function s:describe__ui_named_key_mappings__do_default_action()  "{{{1
   It requires the following initialization
 
   function! Test_action_default(candidate)
@@ -120,7 +120,7 @@ function s:describe__ui_named_key_mappings__do_the_default_action()  "{{{1
 
   Should Call('s:ku_active_p') == 1
 
-  execute 'normal' "\<Plug>(ku-do-the-default-action)"
+  execute 'normal' "\<Plug>(ku-do-default-action)"
 
   Should Call('s:ku_active_p') == 0
   Should Call('s:ku_active_p') == 0
