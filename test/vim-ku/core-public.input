@@ -596,6 +596,17 @@ function s:describe__ku_take_action__with_candidate()  "{{{1
   Should _ == 0
   Should Call('s:ku_active_p') == 0
 
+  Should nr2char(getchar(0)) ==# 'e'
+  Should nr2char(getchar(0)) ==# 'l'
+  Should nr2char(getchar(0)) ==# 'e'
+  Should nr2char(getchar(0)) ==# 'p'
+  Should nr2char(getchar(0)) ==# 'o'
+  Should nr2char(getchar(0)) ==# 'r'
+  Should nr2char(getchar(0)) ==# 't'
+  Should nr2char(getchar(0)) ==# 'e'
+  Should nr2char(getchar(0)) ==# 'r'
+  Should nr2char(getchar(0)) ==# ''
+
   It should fail if proper candidate is not found
 
   Should ku#start() == 1

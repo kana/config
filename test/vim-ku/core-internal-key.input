@@ -269,17 +269,47 @@ function s:describe__s_get_key()  "{{{1
   call feedkeys('a')
   Should Call('s:get_key') ==# 'a'
 
+  It should return one character in the typeahead buffer
+
+  call feedkeys('Sasara')
+  Should Call('s:get_key') ==# 'S'
+  Should nr2char(getchar(0)) ==# 'a'
+  Should nr2char(getchar(0)) ==# 's'
+  Should nr2char(getchar(0)) ==# 'a'
+  Should nr2char(getchar(0)) ==# 'r'
+  Should nr2char(getchar(0)) ==# 'a'
+  Should nr2char(getchar(0)) ==# ''
+
   It should return a special key in the typeahead buffer
 
   call feedkeys("\<F1>")
   Should Call('s:get_key') ==# "\<F1>"
 
-  It actually returns all content in the typeahead buffer
+  It should return <Esc> if it is solely typed
 
-  call feedkeys('Sasara')
-  Should Call('s:get_key') ==# 'Sasara'
+  call feedkeys("\<Esc>")
+  Should Call('s:get_key') ==# "\<Esc>"
+  Should nr2char(getchar(0)) ==# ''
 
-  ResetContext
+  It should return <Esc>{x} as a single key stroke
+
+  call feedkeys("\<Esc>Alter")
+  Should Call('s:get_key') ==# "\<Esc>A"
+  Should nr2char(getchar(0)) ==# 'l'
+  Should nr2char(getchar(0)) ==# 't'
+  Should nr2char(getchar(0)) ==# 'e'
+  Should nr2char(getchar(0)) ==# 'r'
+  Should nr2char(getchar(0)) ==# ''
+
+  It should return a multibyte character as a single key stroke
+
+  set encoding=utf-8
+  call feedkeys("\u3055\u3055\u3089")  " = Japanese Hiraganas: Sa Sa Ra
+  Should Call('s:get_key') ==# "\xE3\x81\x95"
+  Should nr2char(getchar(0)) ==# "\xE3\x81\x95"
+  Should nr2char(getchar(0)) ==# "\xE3\x82\x89"
+  Should nr2char(getchar(0)) ==# ''
+  set encoding&
 endfunction
 
 

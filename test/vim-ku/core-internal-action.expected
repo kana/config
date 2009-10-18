@@ -4,7 +4,9 @@
 ---- It should return the name of an action corresponding to a typed key 
 ....
 ---- It should return 0 if there is no suitable action for a typed key 
-...
+..
+---- It requires to reset side effect 
+.
 
 ==== s_composite_action_table_from_kinds 
 ---- It requires the following initialization 

@@ -51,10 +51,16 @@
 .
 ---- It should return an ordinary key in the typeahead buffer 
 .
+---- It should return one character in the typeahead buffer 
+.......
 ---- It should return a special key in the typeahead buffer 
 .
----- It actually returns all content in the typeahead buffer 
-.
+---- It should return <Esc> if it is solely typed 
+..
+---- It should return <Esc>{x} as a single key stroke 
+......
+---- It should return a multibyte character as a single key stroke 
+....
 
 ==== s_list_key_tables 
 ---- It requires the following initialization 
@@ -67,4 +73,4 @@
 **** Result ****
 
 
-77 examples, 0 failures
+95 examples, 0 failures

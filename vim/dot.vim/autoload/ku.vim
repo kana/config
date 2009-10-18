@@ -725,18 +725,15 @@ endfunction
 
 function! s:get_key()  "{{{2
   " Alternative getchar() to get a logical key such as <F1> and <M-{x}>.
-  let k = ''
 
-  let c = getchar()
-  while s:TRUE
-    let k .= type(c) == type(0) ? nr2char(c) : c
-    let c = getchar(0)
-    if c is 0
-      break
-    endif
-  endwhile
+  let k1 = s:get_char()
 
-  return k
+  if k1.s ==# "\<Esc>"
+    let k2 = s:get_char(0)
+    return k1.s . k2.s
+  else
+    return k1.s
+  endif
 endfunction
 
 

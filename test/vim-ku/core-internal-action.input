@@ -33,12 +33,13 @@ function s:describe__s_choose_action()  "{{{1
 
   It should return 0 if there is no suitable action for a typed key
 
-  call feedkeys('???')
+  call feedkeys("\<S-F12>")
   silent let action_name = Call('s:choose_action', candidate)
   Should action_name == 0
   Should nr2char(getchar(0)) ==# ''
 
-  " Reset side effect.
+  It requires to reset side effect
+
     " Ensure empty typeahead buffer.
   let typeahead = ''
   while getchar(1) isnot 0
