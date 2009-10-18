@@ -550,7 +550,16 @@ function s:describe__ku_take_action__with_candidate()  "{{{1
   Should ku#take_action('ex', candidate) == 1
   Should Call('s:ku_active_p') == 0
 
-  Should Call('s:get_key') ==# ": EMPRESS\<C-b>"
+  Should nr2char(getchar(0)) ==# ':'
+  Should nr2char(getchar(0)) ==# ' '
+  Should nr2char(getchar(0)) ==# 'E'
+  Should nr2char(getchar(0)) ==# 'M'
+  Should nr2char(getchar(0)) ==# 'P'
+  Should nr2char(getchar(0)) ==# 'R'
+  Should nr2char(getchar(0)) ==# 'E'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# "\<C-b>"
 
   It should choose action with '*choose*' - action found
 
@@ -564,7 +573,16 @@ function s:describe__ku_take_action__with_candidate()  "{{{1
   Should _ == 1
   Should Call('s:ku_active_p') == 0
 
-  Should Call('s:get_key') ==# ": EMPRESS\<C-b>"
+  Should nr2char(getchar(0)) ==# ':'
+  Should nr2char(getchar(0)) ==# ' '
+  Should nr2char(getchar(0)) ==# 'E'
+  Should nr2char(getchar(0)) ==# 'M'
+  Should nr2char(getchar(0)) ==# 'P'
+  Should nr2char(getchar(0)) ==# 'R'
+  Should nr2char(getchar(0)) ==# 'E'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# "\<C-b>"
 
   It should choose action with '*choose*' - action not found
 
@@ -602,7 +620,8 @@ function s:describe__ku_take_action__with_candidate()  "{{{1
   It requires to reset side effect
 
   Should ku#start() == 1
-  Should Call('s:get_key') ==# 'A'
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
   bwipeout!
   ResetContext
 endfunction
