@@ -59,6 +59,12 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It requires to reset side effect 
 .
 
+==== s_consume_typeahead_buffer 
+---- It requires that there is no character in the typeahead buffer 
+.
+---- It should consume all characters in the typeahead buffer 
+..
+
 ==== s_contains_the_prompt_p 
 ---- It should return true if the current line contains the prompt 
 ..
@@ -176,4 +182,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-305 examples, 0 failures
+308 examples, 0 failures

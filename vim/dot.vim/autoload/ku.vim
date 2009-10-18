@@ -571,6 +571,23 @@ endfunction
 
 
 
+function! s:consume_typeahead_buffer()  "{{{2
+  let buffer = ''
+
+  while s:TRUE
+    let c = getchar(0)
+    if c is 0
+      break
+    endif
+    let buffer .= type(c) == type(0) ? nr2char(c) : c
+  endwhile
+
+  return buffer
+endfunction
+
+
+
+
 function! s:contains_the_prompt_p(s)  "{{{2
   return len(s:PROMPT) <= len(a:s) && a:s[:len(s:PROMPT) - 1] ==# s:PROMPT
 endfunction

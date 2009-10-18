@@ -202,6 +202,22 @@ endfunction
 
 
 
+function s:describe__s_consume_typeahead_buffer()  "{{{1
+  It requires that there is no character in the typeahead buffer
+
+  Should getchar(0) is 0
+
+  It should consume all characters in the typeahead buffer
+
+  Should Call('s:consume_typeahead_buffer') ==# ''
+
+  call feedkeys('So Fabulous!!', 't')
+  Should Call('s:consume_typeahead_buffer') ==# 'So Fabulous!!'
+endfunction
+
+
+
+
 function s:describe__s_contains_the_prompt_p()  "{{{1
   It should return true if the current line contains the prompt
 
