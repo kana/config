@@ -4,6 +4,20 @@ call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__ui_named_key_mappings__choose_and_do_an_action()  "{{{1
   It requires the following initialization
 
+  function! Test_action_default(candidate)
+    silent edit `=a:candidate.word`
+    return 0
+  endfunction
+  let source_definition = {}
+  let source_definition.name = 'test'
+  function! source_definition.gather_candidates(args)
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_definition.default_action_table
+  \   = {'default': function('Test_action_default')}
+  Should ku#define_source(source_definition) == 1
+  let source = Ref('s:available_sources')['test']
+
   let original_bufnr = bufnr('')
   let original_window_layout = winrestcmd()
 
@@ -13,16 +27,43 @@ function s:describe__ui_named_key_mappings__choose_and_do_an_action()  "{{{1
 
   let ku_bufnr = bufnr('')
   let ku_window_layout = winrestcmd()
+  let session = Ref('s:session')
+
+  let session.last_pattern_raw = Ref('s:PROMPT') . 'Hishimiya'
+  call setline(Ref('s:LNUM_PATTERN'), 'Tsugaru')
+
+  Should ku#omnifunc(0, 'Tsugaru') ==# [
+  \   {'word': 'Tsugaru', 'ku__source': source},
+  \ ]
 
   It should work
 
-  close
-  " Should Call('s:ku_active_p') == 1
-  "
-  " execute 'normal' "\<Plug>(ku-choose-and-do-an-action)"
-  "
-  " Should Call('s:ku_active_p') == 0
-  " ...
+  Should Call('s:ku_active_p') == 1
+
+  " FIXME: The following code is dummy.  It should be replaced with
+  " :execute 'normal' "\<Plug>(ku-choose-and-do-an-action):"
+  " But it causes infinite loop even it works well in interactive session.
+  call feedkeys(':', 't')
+  silent call ku#take_action('*choose*')
+
+  Should Call('s:ku_active_p') == 0
+  Should bufnr('') != ku_bufnr
+  Should bufnr('') == original_bufnr
+  Should bufname('') ==# ''
+  Should winrestcmd() !=# ku_window_layout
+  Should winrestcmd() ==# original_window_layout
+
+  Should nr2char(getchar(0)) ==# ':'
+  Should nr2char(getchar(0)) ==# ' '
+  Should nr2char(getchar(0)) ==# 'T'
+  Should nr2char(getchar(0)) ==# 's'
+  Should nr2char(getchar(0)) ==# 'u'
+  Should nr2char(getchar(0)) ==# 'g'
+  Should nr2char(getchar(0)) ==# 'a'
+  Should nr2char(getchar(0)) ==# 'r'
+  Should nr2char(getchar(0)) ==# 'u'
+  Should nr2char(getchar(0)) ==# "\<C-b>"
+  Should nr2char(getchar(0)) ==# ''
 
   It requires to reset side effect
 
@@ -30,6 +71,9 @@ function s:describe__ui_named_key_mappings__choose_and_do_an_action()  "{{{1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
   bwipeout!
+
+  bwipeout!
+  Should bufname('') ==# ''
 endfunction
 
 
@@ -38,6 +82,20 @@ endfunction
 function s:describe__ui_named_key_mappings__do_the_default_action()  "{{{1
   It requires the following initialization
 
+  function! Test_action_default(candidate)
+    silent edit `=a:candidate.word`
+    return 0
+  endfunction
+  let source_definition = {}
+  let source_definition.name = 'test'
+  function! source_definition.gather_candidates(args)
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_definition.default_action_table
+  \   = {'default': function('Test_action_default')}
+  Should ku#define_source(source_definition) == 1
+  let source = Ref('s:available_sources')['test']
+
   let original_bufnr = bufnr('')
   let original_window_layout = winrestcmd()
 
@@ -47,16 +105,28 @@ function s:describe__ui_named_key_mappings__do_the_default_action()  "{{{1
 
   let ku_bufnr = bufnr('')
   let ku_window_layout = winrestcmd()
+  let session = Ref('s:session')
+
+  let session.last_pattern_raw = Ref('s:PROMPT') . 'Hishimiya'
+  call setline(Ref('s:LNUM_PATTERN'), 'Tsugaru')
+
+  Should ku#omnifunc(0, 'Tsugaru') ==# [
+  \   {'word': 'Tsugaru', 'ku__source': source},
+  \ ]
 
   It should work
 
-  close
-  " Should Call('s:ku_active_p') == 1
-  "
-  " execute 'normal' "\<Plug>(ku-do-the-default-action)"
-  "
-  " Should Call('s:ku_active_p') == 0
-  " ...
+  Should Call('s:ku_active_p') == 1
+
+  execute 'normal' "\<Plug>(ku-do-the-default-action)"
+
+  Should Call('s:ku_active_p') == 0
+  Should Call('s:ku_active_p') == 0
+  Should bufnr('') != ku_bufnr
+  Should bufnr('') == original_bufnr
+  Should bufname('') ==# 'Tsugaru'
+  Should winrestcmd() !=# ku_window_layout
+  Should winrestcmd() ==# original_window_layout
 
   It requires to reset side effect
 
@@ -64,6 +134,9 @@ function s:describe__ui_named_key_mappings__do_the_default_action()  "{{{1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
   bwipeout!
+
+  bwipeout!
+  Should bufname('') ==# ''
 endfunction
 
 
