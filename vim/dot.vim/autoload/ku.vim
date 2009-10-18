@@ -732,6 +732,7 @@ function! s:guess_candidate()  "{{{2
       " current_pattern_raw with fake sources.
       " FIXME: Specification of fake sources is not written yet.
       let candidate = 0
+      echoerr 'There is no candidate to choose'
     endif
   endif
 
