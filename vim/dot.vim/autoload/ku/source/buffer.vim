@@ -22,10 +22,16 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
-function! ku#source#buffer#gather_candidates(args)
-  " FIXME: NIY
-  return []
+function! ku#source#buffer#gather_candidates(args)  "{{{2
+  let candidates = []
+
+  let candidates = range(1, bufnr('$'))
+  call filter(candidates, 'bufexists(v:val) && buflisted(v:val)')
+  call map(candidates, '{"word":  bufname(v:val), "ku_buffer_nr": v:val}')
+
+  return candidates
 endfunction
+
 
 
 
