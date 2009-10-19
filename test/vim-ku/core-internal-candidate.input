@@ -34,7 +34,23 @@ function s:describe__ku_omnifunc__findstart_0()  "{{{1
 
   close
 
-  " Reset side effect.
+  It should return some candidate with a source and a:base contains a prompt
+
+  call ku#start()
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should ku#omnifunc(0, Ref('s:PROMPT').'pattern') ==# [
+  \ {'word': 'pattern',
+  \  'abbr': 'pa',
+  \  'ku__source': Ref('s:available_sources')['test']},
+  \ ]
+  Should ku#omnifunc(0, 'pattern') ==# Ref('s:session').last_lcandidates
+
+  close
+
+  It requires to reset side effect
+
   Should ku#start() == 1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''

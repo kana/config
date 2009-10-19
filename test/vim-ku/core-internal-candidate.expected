@@ -2,7 +2,11 @@
 ---- It should return [] with no source 
 ...
 ---- It should return some candidate with a source 
-........
+.....
+---- It should return some candidate with a source and a:base contains a prompt 
+....
+---- It requires to reset side effect 
+...
 
 ==== ku_omnifunc findstart 1
 ---- It requires the following initialization 
@@ -73,4 +77,4 @@
 **** Result ****
 
 
-45 examples, 0 failures
+49 examples, 0 failures
