@@ -30,14 +30,14 @@ endfunction
 
 
 function! ku#action#buffer#open(candidate)  "{{{2
-  return s:open('', a:item)
+  return s:open('', a:candidate)
 endfunction
 
 
 
 
 function! ku#action#buffer#open_x(candidate)  "{{{2
-  return s:open('!', a:item)
+  return s:open('!', a:candidate)
 endfunction
 
 
