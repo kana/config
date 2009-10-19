@@ -232,14 +232,6 @@ ALL_PACKAGES=\
   vim-grex \
   vim-gtd \
   vim-ku \
-  vim-ku-args \
-  vim-ku-buffer \
-  vim-ku-bundle \
-  vim-ku-file \
-  vim-ku-history \
-  vim-ku-metarw \
-  vim-ku-quickfix \
-  vim-ku-source \
   vim-metarw \
   vim-metarw-git \
   vim-misc \
@@ -387,54 +379,6 @@ PACKAGE_vim_ku_FILES_matchers=\
 PACKAGE_vim_ku_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim
-
-PACKAGE_vim_ku_args_ARCHIVE=vim-ku-args-0.1.1
-PACKAGE_vim_ku_args_BASE=vim/dot.vim
-PACKAGE_vim_ku_args_FILES=\
-  vim/dot.vim/autoload/ku/args.vim \
-  vim/dot.vim/doc/ku-args.txt
-
-PACKAGE_vim_ku_buffer_ARCHIVE=vim-ku-buffer-0.1.1
-PACKAGE_vim_ku_buffer_BASE=vim/dot.vim
-PACKAGE_vim_ku_buffer_FILES=\
-  vim/dot.vim/autoload/ku/buffer.vim \
-  vim/dot.vim/doc/ku-buffer.txt
-
-PACKAGE_vim_ku_bundle_ARCHIVE=vim-ku-bundle-0.1.1
-PACKAGE_vim_ku_bundle_BASE=vim/dot.vim
-PACKAGE_vim_ku_bundle_FILES=\
-  vim/dot.vim/autoload/ku/bundle.vim \
-  vim/dot.vim/doc/ku-bundle.txt
-
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.4
-PACKAGE_vim_ku_file_BASE=vim/dot.vim
-PACKAGE_vim_ku_file_FILES=\
-  vim/dot.vim/autoload/ku/file.vim \
-  vim/dot.vim/doc/ku-file.txt
-
-PACKAGE_vim_ku_history_ARCHIVE=vim-ku-history-0.1.1
-PACKAGE_vim_ku_history_BASE=vim/dot.vim
-PACKAGE_vim_ku_history_FILES=\
-  vim/dot.vim/autoload/ku/history.vim \
-  vim/dot.vim/doc/ku-history.txt
-
-PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.1.2
-PACKAGE_vim_ku_metarw_BASE=vim/dot.vim
-PACKAGE_vim_ku_metarw_FILES=\
-  vim/dot.vim/autoload/ku/metarw.vim \
-  vim/dot.vim/doc/ku-metarw.txt
-
-PACKAGE_vim_ku_quickfix_ARCHIVE=vim-ku-quickfix-0.1.1
-PACKAGE_vim_ku_quickfix_BASE=vim/dot.vim
-PACKAGE_vim_ku_quickfix_FILES=\
-  vim/dot.vim/autoload/ku/quickfix.vim \
-  vim/dot.vim/doc/ku-quickfix.txt
-
-PACKAGE_vim_ku_source_ARCHIVE=vim-ku-source-0.1.2
-PACKAGE_vim_ku_source_BASE=vim/dot.vim
-PACKAGE_vim_ku_source_FILES=\
-  vim/dot.vim/autoload/ku/source.vim \
-  vim/dot.vim/doc/ku-source.txt
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.4
 PACKAGE_vim_metarw_BASE=vim/dot.vim
@@ -904,19 +848,6 @@ test/vim-ku/sorter-%.output: \
 		test/vim-ku/sorter-%.input \
 		$(PACKAGE_vim_ku_FILES_sorters)
 	@./test/vspec $< &>$@
-
-
-# vim-ku-file  #{{{2
-TESTS_vim_ku_file = 0001
-
-test/vim-ku-file/%.output: \
-		test/vim-ku-file/%.input \
-		test/libtest.vim \
-		test/tester-vim \
-		vim/dot.vim/autoload/ku.vim \
-		vim/dot.vim/autoload/ku/file.vim \
-		vim/dot.vim/plugin/ku.vim
-	@./test/tester-vim $< &>$@
 
 
 # vim-operator-replace  #{{{2
