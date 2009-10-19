@@ -1,0 +1,134 @@
+*ku-source-buffer.txt*	ku source: buffer
+
+Version 0.2.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-source-buffer-contents*
+
+Introduction            |ku-source-buffer-introduction|
+Interface               |ku-source-buffer-interface|
+  Action Table            |ku-source-buffer-action-table|
+  Key Table               |ku-source-buffer-key-table|
+Bugs                    |ku-source-buffer-bugs|
+Changelog               |ku-source-buffer-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION				       *ku-source-buffer-introduction*
+
+*ku-source-buffer* is a source for Vim plugin |ku| to deal with buffers.  You
+can choose one from many buffers and do some action on it.
+
+
+Requirements:
+- Vim 7.2 or later
+- |ku| 0.3.0 or later (vimscript#2337)
+
+Latest version:
+http://github.com/kana/config/commits/vim-ku-source-buffer
+
+Document in HTML format:
+http://kana.github.com/config/vim/ku-source-buffer.html
+
+
+
+
+==============================================================================
+INTERFACE					*ku-source-buffer-interface*
+
+------------------------------------------------------------------------------
+ACTION TABLLE				       *ku-source-buffer-action-table*
+
+
+default					     *ku-source-buffer-action-default*
+			Alias of "open".
+
+open						*ku-source-buffer-action-open*
+			Open the buffer, corresponding to a candidate, in the
+			current window.
+
+open!					       *ku-source-buffer-action-open!*
+			Like "open", but use :buffer! instead of |:buffer|.
+
+unload					      *ku-source-buffer-action-unload*
+delete					      *ku-source-buffer-action-delete*
+wipeout					     *ku-source-buffer-action-wipeout*
+			Do |:bunload|, |:bdelete| or |:bwipeout| on the buffer
+			corresponding to a candidate.
+
+
+------------------------------------------------------------------------------
+KEY TABLE					*ku-source-buffer-key-table*
+
+Key		Action ~
+--------	--------
+<C-o>		open		|ku-source-buffer-action-open|
+D		delete		|ku-source-buffer-action-delete|
+O		open!		|ku-source-buffer-action-open!|
+U		unload		|ku-source-buffer-action-unload|
+W		wipeout		|ku-source-buffer-action-wipeout|
+o		open		|ku-source-buffer-action-open|
+
+
+
+
+==============================================================================
+BUGS						*ku-source-buffer-bugs*
+
+- There are many bugs around the world.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-buffer-changelog*
+
+0.2.0	2009-10-20T00:40:31+09:00	    *ku-source-buffer-changelog-0.2.0*
+	- Update for ku 0.3.0.
+
+0.1.1	2009-05-04T01:31:43+09:00	    *ku-source-buffer-changelog-0.1.1*
+	- Update for ku 0.2.1.
+
+0.1.0	2009-04-28T01:56:23+09:00	    *ku-source-buffer-changelog-0.1.0*
+	- Update for ku 0.2.0.
+	- Fix a bug in the sorting order.
+
+0.0.2	2008-12-24T14:04:21+09:00	    *ku-source-buffer-changelog-0.0.2*
+	- Fix the bug that a file or a directory which path contains a space
+	  cannot be correctly opened.
+
+0.0.1	2008-09-29T03:28:09+09:00	    *ku-source-buffer-changelog-0.0.1*
+	- Add sort priority to sort buffers which names are showed as
+	  a relative path first.
+
+0.0.0	2008-07-20T01:10:37+09:00	    *ku-source-buffer-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

@@ -232,6 +232,7 @@ ALL_PACKAGES=\
   vim-grex \
   vim-gtd \
   vim-ku \
+  vim-ku-source-buffer \
   vim-metarw \
   vim-metarw-git \
   vim-misc \
@@ -379,6 +380,21 @@ PACKAGE_vim_ku_FILES_matchers=\
 PACKAGE_vim_ku_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim
+
+PACKAGE_vim_ku_source_buffer_ARCHIVE=vim-ku-source-buffer-0.2
+PACKAGE_vim_ku_source_buffer_BASE=vim/dot.vim
+PACKAGE_vim_ku_source_buffer_FILES=\
+  $(PACKAGE_vim_ku_source_buffer_FILES_actions) \
+  $(PACKAGE_vim_ku_source_buffer_FILES_core) \
+  $(PACKAGE_vim_ku_source_buffer_FILES_kinds)
+PACKAGE_vim_ku_source_buffer_FILES_actions=\
+  vim/dot.vim/autoload/ku/action/buffer.vim
+PACKAGE_vim_ku_source_buffer_FILES_core=\
+  vim/dot.vim/autoload/ku/source/buffer.vim \
+  vim/dot.vim/doc/ku-source-buffer.txt \
+  vim/dot.vim/plugin/ku/source/buffer.vim
+PACKAGE_vim_ku_source_buffer_FILES_kinds=\
+  vim/dot.vim/plugin/ku/kind/buffer.vim
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.4
 PACKAGE_vim_metarw_BASE=vim/dot.vim
