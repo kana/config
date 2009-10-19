@@ -1,3 +1,19 @@
+==== ku_action_buffer_delete with modified buffer
+---- It requires the following initialization 
+
+---- It should fail 
+........
+---- It requires to reset side effect 
+
+
+==== ku_action_buffer_delete with unmodified buffer
+---- It requires the following initialization 
+
+---- It should succeed 
+..........
+---- It requires to reset side effect 
+
+
 ==== ku_action_buffer_unload with modified buffer
 ---- It requires the following initialization 
 
@@ -19,4 +35,4 @@
 **** Result ****
 
 
-18 examples, 0 failures
+36 examples, 0 failures

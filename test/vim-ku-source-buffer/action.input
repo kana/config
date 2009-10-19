@@ -6,6 +6,94 @@
 "   buffer-local information if a deleted buffer is unnamed.
 runtime! plugin/ku.vim plugin/ku/kind/buffer.vim plugin/ku/source/buffer.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_action_buffer_delete__with_modified_buffer()  "{{{1
+  It requires the following initialization
+
+  " -------------
+  " | 3         |
+  " |-----------|
+  " | 2 target  |
+  " |-----------|
+  " | 1 current |
+  " -------------
+  let bufnr_1 = bufnr('')
+  let winrestcmd_a = winrestcmd()
+  silent new `=tempname()`
+  let bufnr_2 = bufnr('')
+  let winrestcmd_b = winrestcmd()
+  let b:test = 'Quartett!'
+  normal! Automata are automata.
+  silent new `=tempname()`
+  wincmd b
+  let winrestcmd_c = winrestcmd()
+
+  It should fail
+
+  let candidate = {'word': 'xxx', 'ku_buffer_nr': bufnr_2}
+  silent! let _ = ku#action#buffer#delete(candidate)
+  Should _ isnot 0
+  Should _ =~# '\<E516:'
+
+  Should winrestcmd() ==# winrestcmd_c
+  Should bufnr('') == bufnr_1
+  Should bufexists(bufnr_2) == 1
+  Should buflisted(bufnr_2) == 1
+  Should bufloaded(bufnr_2) == 1
+  Should getbufvar(bufnr_2, 'test') ==# 'Quartett!'
+
+  It requires to reset side effect
+
+  only!
+  enew!
+endfunction
+
+
+
+
+function s:describe__ku_action_buffer_delete__with_unmodified_buffer()  "{{{1
+  It requires the following initialization
+
+  " -------------
+  " | 3         |
+  " |-----------|
+  " | 2 target  |
+  " |-----------|
+  " | 1 current |
+  " -------------
+  let bufnr_1 = bufnr('')
+  let winrestcmd_a = winrestcmd()
+  silent new `=tempname()`
+  let bufnr_2 = bufnr('')
+  let winrestcmd_b = winrestcmd()
+  let b:test = 'Quartett!'
+  silent new `=tempname()`
+  wincmd b
+  let winrestcmd_c = winrestcmd()
+
+  It should succeed
+
+  Should ku#action#buffer#delete({'word': 'xxx', 'ku_buffer_nr': bufnr_2})
+  \ is 0
+
+  Should winrestcmd() !=# winrestcmd_a
+  Should winrestcmd() !=# winrestcmd_c
+  Should winnr('$') == 2
+  Should winnr() == 2
+  Should bufnr('') == bufnr_1
+  Should bufexists(bufnr_2) == 1
+  Should buflisted(bufnr_2) == 0
+  Should bufloaded(bufnr_2) == 0
+  Should getbufvar(bufnr_2, 'test') ==# ''
+
+  It requires to reset side effect
+
+  only!
+  enew!
+endfunction
+
+
+
+
 function s:describe__ku_action_buffer_unload__with_modified_buffer()  "{{{1
   It requires the following initialization
 
