@@ -23,7 +23,7 @@
 " }}}
 " Interface  "{{{1
 function! ku#action#buffer#delete(candidate)  "{{{2
-  return s:delete('delete', a:candidate)
+  return s:delete('bdelete', a:candidate)
 endfunction
 
 
@@ -44,14 +44,14 @@ endfunction
 
 
 function! ku#action#buffer#unload(candidate)  "{{{2
-  return s:delete('unload', a:candidate)
+  return s:delete('bunload', a:candidate)
 endfunction
 
 
 
 
 function! ku#action#buffer#wipeout(candidate)  "{{{2
-  return s:delete('wipeout', a:candidate)
+  return s:delete('bwipeout', a:candidate)
 endfunction
 
 
