@@ -23,35 +23,62 @@
 " }}}
 " Interface  "{{{1
 function! ku#action#buffer#delete(candidate)  "{{{2
-  return 'FIXME: NIY'
+  return s:delete('delete', a:candidate)
 endfunction
 
 
 
 
 function! ku#action#buffer#open(candidate)  "{{{2
-  return 'FIXME: NIY'
+  return s:open('', a:item)
 endfunction
 
 
 
 
 function! ku#action#buffer#open_x(candidate)  "{{{2
-  return 'FIXME: NIY'
+  return s:open('!', a:item)
 endfunction
 
 
 
 
 function! ku#action#buffer#unload(candidate)  "{{{2
-  return 'FIXME: NIY'
+  return s:delete('unload', a:candidate)
 endfunction
 
 
 
 
 function! ku#action#buffer#wipeout(candidate)  "{{{2
-  return 'FIXME: NIY'
+  return s:delete('wipeout', a:candidate)
+endfunction
+
+
+
+
+
+
+
+
+" Misc.  "{{{1
+function! s:delete(delete_command, candidate)  "{{{2
+  let v:errmsg = ''
+
+  execute a:candidate.ku_buffer_nr a:delete_command
+
+  return v:errmsg == '' ? 0 : v:errmsg
+endfunction
+
+
+
+
+function! s:open(bang, candidate)  "{{{2
+  let v:errmsg = ''
+
+  execute a:candidate.ku_buffer_nr 'buffer'.a:bang
+
+  return v:errmsg == '' ? 0 : v:errmsg
 endfunction
 
 
