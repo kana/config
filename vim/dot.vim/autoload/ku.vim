@@ -1019,6 +1019,13 @@ endfunction
 
 
 
+function! s:remove_prompt(s)  "{{{2
+  return s:contains_the_prompt_p(a:s) ? a:s[len(s:PROMPT):] : a:s
+endfunction
+
+
+
+
 function! s:sort_lcandidates(lcandidates, args, source)  "{{{2
   let sorted_lcandidates = a:lcandidates
 

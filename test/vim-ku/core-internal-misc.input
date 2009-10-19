@@ -738,6 +738,21 @@ endfunction
 
 
 
+function s:describe__s_remove_prompt()  "{{{1
+  It should remove a prompt in a:s
+
+  Should Call('s:remove_prompt', Ref('s:PROMPT').'abc') ==# 'abc'
+  Should Call('s:remove_prompt', repeat(Ref('s:PROMPT'),2)) ==# Ref('s:PROMPT')
+
+  It should the same string as a:s if a:s doesn't contain a prompt
+
+  Should Call('s:remove_prompt', 'abc') ==# 'abc'
+  Should Call('s:remove_prompt', '!@#') ==# '!@#'
+endfunction
+
+
+
+
 function s:describe__s_valid_key_p()  "{{{1
   It should return false for invalid argument
 

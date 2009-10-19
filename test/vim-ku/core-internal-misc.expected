@@ -158,6 +158,12 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It should reset side effect by ku#start() 
 .......
 
+==== s_remove_prompt 
+---- It should remove a prompt in a:s 
+..
+---- It should the same string as a:s if a:s doesn't contain a prompt 
+..
+
 ==== s_valid_key_p 
 ---- It should return false for invalid argument 
 
@@ -182,4 +188,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-308 examples, 0 failures
+312 examples, 0 failures
