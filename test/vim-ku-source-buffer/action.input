@@ -94,6 +94,93 @@ endfunction
 
 
 
+function s:describe__ku_action_buffer_open__with_modified_buffer()  "{{{1
+  It requires the following initialization
+
+  " --------------------
+  " | 3                |
+  " |------------------|
+  " | 2 target current |
+  " |------------------|
+  " | 1                |
+  " --------------------
+  let bufnr_1 = bufnr('')
+  let winrestcmd_a = winrestcmd()
+  silent new `=tempname()`
+  let bufnr_2 = bufnr('')
+  let winrestcmd_b = winrestcmd()
+  let b:test = 'Quartett!'
+  normal! Automata are automata.
+  silent new `=tempname()`
+  2 wincmd w
+  let winrestcmd_c = winrestcmd()
+
+  It should fail
+
+  let candidate = {'word': 'xxx', 'ku_buffer_nr': bufnr_1}
+  silent! let _ = ku#action#buffer#open(candidate)
+  Should _ isnot 0
+  Should _ =~# '\<E37:'
+
+  Should winrestcmd() ==# winrestcmd_c
+  Should bufnr('') == bufnr_2
+  Should bufexists(bufnr_2) == 1
+  Should buflisted(bufnr_2) == 1
+  Should bufloaded(bufnr_2) == 1
+  Should getbufvar(bufnr_2, 'test') ==# 'Quartett!'
+
+  It requires to reset side effect
+
+  only!
+  enew!
+endfunction
+
+
+
+
+function s:describe__ku_action_buffer_open__with_unmodified_buffer()  "{{{1
+  It requires the following initialization
+
+  " --------------------
+  " | 3                |
+  " |------------------|
+  " | 2 target current |
+  " |------------------|
+  " | 1                |
+  " --------------------
+  let bufnr_1 = bufnr('')
+  let winrestcmd_a = winrestcmd()
+  silent new `=tempname()`
+  let bufnr_2 = bufnr('')
+  let winrestcmd_b = winrestcmd()
+  let b:test = 'Quartett!'
+  silent new `=tempname()`
+  2 wincmd w
+  let winrestcmd_c = winrestcmd()
+
+  It should succeed
+
+  Should ku#action#buffer#open({'word': 'xxx', 'ku_buffer_nr': bufnr_1})
+  \ is 0
+
+  Should winrestcmd() ==# winrestcmd_c
+  Should winnr('$') == 3
+  Should winnr() == 2
+  Should bufnr('') == bufnr_1
+  Should bufexists(bufnr_2) == 1
+  Should buflisted(bufnr_2) == 1
+  Should bufloaded(bufnr_2) == 0
+  Should getbufvar(bufnr_2, 'test') ==# 'Quartett!'
+
+  It requires to reset side effect
+
+  only!
+  enew!
+endfunction
+
+
+
+
 function s:describe__ku_action_buffer_unload__with_modified_buffer()  "{{{1
   It requires the following initialization
 
