@@ -1,5 +1,5 @@
 " Test: vim-ku core-internal-key
-runtime! plugin/ku.vim plugin/ku/**/*.vim
+runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__s_composite_key_table_from_kinds()  "{{{1
   It requires the following initialization

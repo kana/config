@@ -1,5 +1,5 @@
 " Test: vim-ku core-internal-misc
-runtime! plugin/ku.vim plugin/ku/**/*.vim
+runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__ku_available_source_p()  "{{{1
   let F = function('function')
@@ -733,6 +733,21 @@ function s:describe__s_quit_session()  "{{{1
   Should nr2char(getchar(0)) ==# ''
   bwipeout!
   only
+endfunction
+
+
+
+
+function s:describe__s_remove_prompt()  "{{{1
+  It should remove a prompt in a:s
+
+  Should Call('s:remove_prompt', Ref('s:PROMPT').'abc') ==# 'abc'
+  Should Call('s:remove_prompt', repeat(Ref('s:PROMPT'),2)) ==# Ref('s:PROMPT')
+
+  It should the same string as a:s if a:s doesn't contain a prompt
+
+  Should Call('s:remove_prompt', 'abc') ==# 'abc'
+  Should Call('s:remove_prompt', '!@#') ==# '!@#'
 endfunction
 
 

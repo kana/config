@@ -352,7 +352,7 @@ function! ku#omnifunc(findstart, base)  "{{{2
     " Vim's completion or not, return 0 to remove the prompt by completion.
     return 0
   else
-    let pattern = a:base  " Assumes that a:base doesn't conntain the prompt.
+    let pattern = s:remove_prompt(a:base)
     let s:session.last_lcandidates
     \   = s:lcandidates_from_pattern(pattern, s:session.sources)
     return s:session.last_lcandidates
@@ -1014,6 +1014,13 @@ function! s:quit_session()  "{{{2
   let s:session.now_quitting_p = s:FALSE
 
   return s:TRUE
+endfunction
+
+
+
+
+function! s:remove_prompt(s)  "{{{2
+  return s:contains_the_prompt_p(a:s) ? a:s[len(s:PROMPT):] : a:s
 endfunction
 
 
