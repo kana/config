@@ -1,5 +1,5 @@
 " Test: vim-ku core-internal-misc
-runtime! plugin/ku.vim plugin/ku/**/*.vim
+runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__ku_available_source_p()  "{{{1
   let F = function('function')
