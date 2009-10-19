@@ -866,6 +866,19 @@ test/vim-ku/sorter-%.output: \
 	@./test/vspec $< &>$@
 
 
+# vim-ku-source-buffer  #{{{2
+TESTS_vim_ku_source_buffer = \
+		action \
+		kind \
+		source
+
+test/vim-ku-source-buffer/%.output: \
+		test/vim-ku-source-buffer/%.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_source_buffer_FILES)
+	@./test/vspec $< &>$@
+
+
 # vim-operator-replace  #{{{2
 TESTS_vim_operator_replace = basic
 
