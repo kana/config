@@ -30,9 +30,25 @@
 ---- It requires to reset side effect 
 
 
+==== ku_action_buffer_wipeout with modified buffer
+---- It requires the following initialization 
+
+---- It should fail 
+........
+---- It requires to reset side effect 
+
+
+==== ku_action_buffer_wipeout with unmodified buffer
+---- It requires the following initialization 
+
+---- It should succeed 
+..........
+---- It requires to reset side effect 
+
+
 
 
 **** Result ****
 
 
-36 examples, 0 failures
+54 examples, 0 failures
