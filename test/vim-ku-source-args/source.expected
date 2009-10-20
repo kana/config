@@ -1,0 +1,18 @@
+==== ku_source_args_gather_candidates empty list
+---- It should return buffers in argument list regardless of a:args.pattern 
+.
+
+==== ku_source_args_gather_candidates filled list
+---- It requires the following initialization 
+..
+---- It should return buffers in argument list regardless of a:args.pattern 
+.
+---- It requires to reset side effect 
+.
+
+
+
+**** Result ****
+
+
+5 examples, 0 failures

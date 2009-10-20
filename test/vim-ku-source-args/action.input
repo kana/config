@@ -1,0 +1,31 @@
+" Test: vim-ku-source-args action
+runtime! plugin/ku.vim plugin/ku/source/args.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_args_action_argdelete()  "{{{1
+  It requires the following initialization
+
+  argadd Alter Sasara Yuzuki
+  Should argc() == 3
+  Should argv() ==# ['Alter', 'Sasara', 'Yuzuki']
+
+  It should succeed
+
+  let candidate = {'word': 'Sasara'}
+  Should ku#source#args#action_argdelete(candidate) is 0
+
+  Should argc() == 2
+  Should argv() ==# ['Alter', 'Yuzuki']
+
+  It requires to reset side effect
+
+  enew!
+
+  argdelete *
+  Should argc() == 0
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

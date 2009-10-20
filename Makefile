@@ -876,6 +876,19 @@ test/vim-ku/sorter-%.output: \
 	@./test/vspec $< &>$@
 
 
+# vim-ku-source-args  #{{{2
+TESTS_vim_ku_source_args = \
+		action \
+		kind \
+		source
+
+test/vim-ku-source-args/%.output: \
+		test/vim-ku-source-args/%.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_source_args_FILES)
+	@./test/vspec $< &>$@
+
+
 # vim-ku-source-buffer  #{{{2
 TESTS_vim_ku_source_buffer = \
 		action \
