@@ -30,6 +30,7 @@ Introduction            |ku-source-buffer-introduction|
 Interface               |ku-source-buffer-interface|
   Action Table            |ku-source-buffer-action-table|
   Key Table               |ku-source-buffer-key-table|
+  Kind                    |ku-source-buffer-kind|
 Bugs                    |ku-source-buffer-bugs|
 Changelog               |ku-source-buffer-changelog|
 
@@ -91,6 +92,22 @@ O		open!		|ku-source-buffer-action-open!|
 U		unload		|ku-source-buffer-action-unload|
 W		wipeout		|ku-source-buffer-action-wipeout|
 o		open		|ku-source-buffer-action-open|
+
+
+------------------------------------------------------------------------------
+KIND						*ku-source-buffer-kind*
+						*ku-kind-buffer*
+
+Source "buffer" also provides |ku-kind| "buffer" which represents
+a buffer-like candidate.
+
+To use various actions for kind "buffer", sources have to add the following
+values for each candidates:
+
+						*ku_buffer_nr*
+ku_buffer_nr		number			(required)
+			The buffer number (|bufnr()|) of the buffer
+			corresponding to a candidate.  
 
 
 
