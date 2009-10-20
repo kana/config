@@ -30,6 +30,22 @@
 ---- It requires to reset side effect 
 
 
+==== ku_action_buffer_open_x with modified buffer
+---- It requires the following initialization 
+
+---- It should succeed 
+..........
+---- It requires to reset side effect 
+
+
+==== ku_action_buffer_open_x with unmodified buffer
+---- It requires the following initialization 
+
+---- It should succeed 
+.........
+---- It requires to reset side effect 
+
+
 ==== ku_action_buffer_unload with modified buffer
 ---- It requires the following initialization 
 
@@ -67,4 +83,4 @@
 **** Result ****
 
 
-71 examples, 0 failures
+90 examples, 0 failures

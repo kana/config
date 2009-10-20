@@ -181,6 +181,94 @@ endfunction
 
 
 
+function s:describe__ku_action_buffer_open_x__with_modified_buffer()  "{{{1
+  It requires the following initialization
+
+  " --------------------
+  " | 3                |
+  " |------------------|
+  " | 2 target current |
+  " |------------------|
+  " | 1                |
+  " --------------------
+  let bufnr_1 = bufnr('')
+  let winrestcmd_a = winrestcmd()
+  silent new `=tempname()`
+  let bufnr_2 = bufnr('')
+  let winrestcmd_b = winrestcmd()
+  let b:test = 'Quartett!'
+  normal! Automata are automata.
+  silent new `=tempname()`
+  2 wincmd w
+  let winrestcmd_c = winrestcmd()
+
+  It should succeed
+
+  let candidate = {'word': 'xxx', 'ku_buffer_nr': bufnr_1}
+  Should ku#action#buffer#open_x(candidate) is 0
+
+  Should winrestcmd() ==# winrestcmd_c
+  Should winnr('$') == 3
+  Should winnr() == 2
+  Should bufnr('') == bufnr_1
+  Should bufexists(bufnr_2) == 1
+  Should buflisted(bufnr_2) == 1
+  Should bufloaded(bufnr_2) == 1
+  Should getbufvar(bufnr_2, 'test') ==# 'Quartett!'
+  Should getbufline(bufnr_2, 1, '$') ==# ['utomata are automata.']
+
+  It requires to reset side effect
+
+  only!
+  enew!
+endfunction
+
+
+
+
+function s:describe__ku_action_buffer_open_x__with_unmodified_buffer()  "{{{1
+  It requires the following initialization
+
+  " --------------------
+  " | 3                |
+  " |------------------|
+  " | 2 target current |
+  " |------------------|
+  " | 1                |
+  " --------------------
+  let bufnr_1 = bufnr('')
+  let winrestcmd_a = winrestcmd()
+  silent new `=tempname()`
+  let bufnr_2 = bufnr('')
+  let winrestcmd_b = winrestcmd()
+  let b:test = 'Quartett!'
+  silent new `=tempname()`
+  2 wincmd w
+  let winrestcmd_c = winrestcmd()
+
+  It should succeed
+
+  Should ku#action#buffer#open_x({'word': 'xxx', 'ku_buffer_nr': bufnr_1})
+  \ is 0
+
+  Should winrestcmd() ==# winrestcmd_c
+  Should winnr('$') == 3
+  Should winnr() == 2
+  Should bufnr('') == bufnr_1
+  Should bufexists(bufnr_2) == 1
+  Should buflisted(bufnr_2) == 1
+  Should bufloaded(bufnr_2) == 0
+  Should getbufvar(bufnr_2, 'test') ==# 'Quartett!'
+
+  It requires to reset side effect
+
+  only!
+  enew!
+endfunction
+
+
+
+
 function s:describe__ku_action_buffer_unload__with_modified_buffer()  "{{{1
   It requires the following initialization
 
