@@ -381,7 +381,7 @@ PACKAGE_vim_ku_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim
 
-PACKAGE_vim_ku_source_buffer_ARCHIVE=vim-ku-source-buffer-0.2
+PACKAGE_vim_ku_source_buffer_ARCHIVE=vim-ku-source-buffer-0.2.0
 PACKAGE_vim_ku_source_buffer_BASE=vim/dot.vim
 PACKAGE_vim_ku_source_buffer_FILES=\
   $(PACKAGE_vim_ku_source_buffer_FILES_actions) \
