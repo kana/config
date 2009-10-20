@@ -1,0 +1,36 @@
+" Test: vim-ku-source-buffer kind
+runtime! plugin/ku.vim plugin/ku/kind/buffer.vim plugin/ku/source/buffer.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_kind_buffer()  "{{{1
+  It should be available
+
+  Should ku#available_source_p('buffer') == 1
+
+  It should have the following actions
+
+  Should sort(keys(Call('s:default_kind_action_table', 'buffer'))) ==# [
+  \ 'default',
+  \ 'delete',
+  \ 'open!',
+  \ 'open',
+  \ 'unload',
+  \ 'wipeout',
+  \ ]
+
+  It should have the following key bindings
+
+  Should sort(keys(Call('s:default_kind_key_table', 'buffer'))) ==# [
+  \ "\<C-o>",
+  \ 'D',
+  \ 'O',
+  \ 'U',
+  \ 'W',
+  \ 'o',
+  \ ]
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
