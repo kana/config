@@ -98,7 +98,14 @@ o		open		|ku-source-buffer-action-open|
 ==============================================================================
 BUGS						*ku-source-buffer-bugs*
 
-- There are many bugs around the world.
+KNOWN ISSUES ~
+
+- Currently there is no known issue.
+
+
+PLANNED FEATURES ~
+
+- More actions: "delete!", "unload!", "wipeout!".
 
 
 
