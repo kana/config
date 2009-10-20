@@ -1,0 +1,21 @@
+" Test: vim-ku-source-buffer source
+runtime! plugin/ku.vim plugin/ku/kind/buffer.vim plugin/ku/source/buffer.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_buffer_gather_candidates()  "{{{1
+  It should return listed buffers regardless of a:args.pattern
+
+  let args = {'pattern': 'Time to Empress'}
+  let lcandidates = copy(ku#source#buffer#gather_candidates(args))
+  call map(lcandidates, 'v:val.ku_buffer_nr')
+
+  let lbufnr = range(1, bufnr('$'))
+  call filter(lbufnr, 'bufexists(v:val) && buflisted(v:val)')
+
+  Should lcandidates ==# lbufnr
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

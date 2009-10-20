@@ -1,7 +1,10 @@
+==== ku_source_buffer_gather_candidates 
+---- It should return listed buffers regardless of a:args.pattern 
+.
 
 
 
 **** Result ****
 
 
-0 examples, 0 failures
+1 examples, 0 failures
