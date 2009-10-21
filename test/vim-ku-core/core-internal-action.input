@@ -1,4 +1,4 @@
-" Test: vim-ku core-internal-action
+" Test: vim-ku-core core-internal-action
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__s_choose_action()  "{{{1

@@ -1,4 +1,4 @@
-" Test: vim-ku core-internal-misc
+" Test: vim-ku-core core-internal-misc
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__ku_x_kinds_from_kind_names()  "{{{1

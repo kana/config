@@ -1,4 +1,4 @@
-" Test: vim-ku core-internal-candidate
+" Test: vim-ku-core core-internal-candidate
 runtime! plugin/ku.vim plugin/ku/**/*.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__ku_omnifunc__findstart_0()  "{{{1

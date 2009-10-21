@@ -1,4 +1,4 @@
-" Test: vim-ku sorter-default
+" Test: vim-ku-core sorter-default
 function s:describe__ku_sorter_default_sort()  "{{{1
   let args = {}
   let lcandidates = [

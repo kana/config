@@ -1,4 +1,4 @@
-" Test: vim-ku action-common
+" Test: vim-ku-core action-common
 " Set up  "{{{1
 
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
