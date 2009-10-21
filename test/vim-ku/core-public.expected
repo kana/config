@@ -1,3 +1,45 @@
+==== ku_available_kind_names 
+---- It requires the following initialization 
+
+---- It should return [] if there is no kind 
+.
+---- It should return ['test'] if there is a kind 'test' 
+..
+---- It should return ['test'] if kind 'test' is overrdden 
+..
+---- It should return multiple names if there are multiple kinds 
+..
+---- It requires to reset side effect 
+
+
+==== ku_available_kind_p 
+---- It requires the following initialization 
+
+---- It should return false for non existing kind 
+.....
+---- It should return true for an existing kind 
+.....
+---- It should return true for an existing kind which is overridden 
+.....
+---- It should return true for another existing kind 
+.....
+---- It requires to reset side effect 
+
+
+==== ku_available_kinds 
+---- It requires the following initialization 
+
+---- It should return {} if there is no kind 
+..
+---- It should return {} after failed ku#define_kind() 
+.....
+---- It should return some content after successful ku#define_kind() 
+...
+---- It should return some content after overriding a kind 
+...
+---- It requires to reset side effect 
+
+
 ==== ku_available_source_names 
 ---- It should return [] if there is no source 
 ..
@@ -161,4 +203,4 @@ Already active.....
 **** Result ****
 
 
-302 examples, 0 failures
+342 examples, 0 failures

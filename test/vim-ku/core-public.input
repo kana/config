@@ -1,6 +1,165 @@
 " Test: vim-ku core-public
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_available_kind_names()  "{{{1
+  It requires the following initialization
+
+  call Set('s:available_kinds', {})
+
+  It should return [] if there is no kind
+
+  Should ku#available_kind_names() ==# []
+
+  It should return ['test'] if there is a kind 'test'
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'test',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should ku#available_kind_names() ==# ['test']
+
+  It should return ['test'] if kind 'test' is overrdden
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'test',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should ku#available_kind_names() ==# ['test']
+
+  It should return multiple names if there are multiple kinds
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'abc',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should ku#available_kind_names() ==# ['abc', 'test']
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__ku_available_kind_p()  "{{{1
+  It requires the following initialization
+
+  call Set('s:available_kinds', {})
+
+  It should return false for non existing kind
+
+  Should ku#available_kinds() ==# {}
+  Should ku#available_kind_names() ==# []
+  Should ku#available_kind_p('test') == 0
+  Should ku#available_kind_p('abc') == 0
+  Should ku#available_kind_p('NoSuchSource') == 0
+
+  It should return true for an existing kind
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'test',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should ku#available_kind_names() ==# ['test']
+  Should ku#available_kind_p('test') == 1
+  Should ku#available_kind_p('abc') == 0
+  Should ku#available_kind_p('NoSuchSource') == 0
+
+  It should return true for an existing kind which is overridden
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'test',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should ku#available_kind_names() ==# ['test']
+  Should ku#available_kind_p('test') == 1
+  Should ku#available_kind_p('abc') == 0
+  Should ku#available_kind_p('NoSuchSource') == 0
+
+  It should return true for another existing kind
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'abc',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should ku#available_kind_names() ==# ['abc', 'test']
+  Should ku#available_kind_p('test') == 1
+  Should ku#available_kind_p('abc') == 1
+  Should ku#available_kind_p('NoSuchSource') == 0
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__ku_available_kinds()  "{{{1
+  It requires the following initialization
+
+  call Set('s:available_kinds', {})
+
+  It should return {} if there is no kind
+
+  Should ku#available_kinds() ==# {}
+  Should ku#available_kinds() ==# Ref('s:available_kinds')
+
+  It should return {} after failed ku#define_kind()
+
+  silent! let _
+  \ = ku#define_kind({'default_action_table': {}, 'default_key_table': {}})
+  Should _ == 0
+  silent! let _ = ku#define_kind({'default_action_table': {}, 'name': ''})
+  Should _ == 0
+  silent! let _ = ku#define_kind({'default_key_table': {}, 'name': ''})
+  Should _ == 0
+  Should sort(keys(ku#available_kinds())) ==# []
+  Should ku#available_kinds() ==# Ref('s:available_kinds')
+
+  It should return some content after successful ku#define_kind()
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'test',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should sort(keys(ku#available_kinds())) ==# ['test']
+  Should ku#available_kinds() ==# Ref('s:available_kinds')
+
+  It should return some content after overriding a kind
+
+  let kind = {
+  \   'default_action_table': {},
+  \   'default_key_table': {},
+  \   'name': 'test',
+  \ }
+  Should ku#define_kind(kind) == 1
+  Should sort(keys(ku#available_kinds())) ==# ['test']
+  Should ku#available_kinds() ==# Ref('s:available_kinds')
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__ku_available_source_names()  "{{{1
   let F = function('function')
   let G = function('type')

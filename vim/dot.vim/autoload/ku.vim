@@ -102,6 +102,27 @@ let s:session = {}
 
 
 " Interface  "{{{1
+function! ku#available_kind_names()  "{{{2
+  return sort(keys(s:available_kinds))
+endfunction
+
+
+
+
+function! ku#available_kind_p(kind_name)  "{{{2
+  return has_key(s:available_kinds, a:kind_name)
+endfunction
+
+
+
+
+function! ku#available_kinds()  "{{{2
+  return s:available_kinds
+endfunction
+
+
+
+
 function! ku#available_source_names()  "{{{2
   return sort(keys(s:available_sources))
 endfunction
