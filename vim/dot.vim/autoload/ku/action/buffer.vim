@@ -62,10 +62,40 @@ endfunction
 
 
 " Misc.  "{{{1
+function! ku#action#buffer#_sid_prefix()  "{{{2
+  nnoremap <SID>  <SID>
+  return maparg('<SID>',  'n')
+endfunction
+
+
+
+
+function! s:bufnr_from_candidate(candidate)  "{{{2
+  if has_key(a:candidate, 'ku_buffer_nr')
+    return a:candidate.ku_buffer_nr
+  else
+    let _ = bufnr(fnameescape(a:candidate.word))
+    if 1 <= _
+      return _
+    else
+      return ('There is no corresponding buffer to candidate: '
+      \       . string(a:candidate.word))
+    endif
+  endif
+endfunction
+
+
+
+
 function! s:delete(delete_command, candidate)  "{{{2
   let v:errmsg = ''
 
-  execute a:candidate.ku_buffer_nr a:delete_command
+  let _ = s:bufnr_from_candidate(a:candidate)
+  if type(_) == type(0)
+    execute s:bufnr_from_candidate(a:candidate) a:delete_command
+  else
+    let v:errmsg = _
+  endif
 
   return v:errmsg == '' ? 0 : v:errmsg
 endfunction
@@ -76,7 +106,13 @@ endfunction
 function! s:open(bang, candidate)  "{{{2
   let v:errmsg = ''
 
-  execute a:candidate.ku_buffer_nr 'buffer'.a:bang
+  let _ = s:bufnr_from_candidate(a:candidate)
+  if type(_) == type(0)
+    execute s:bufnr_from_candidate(a:candidate) 'buffer'.a:bang
+  else
+    let v:errmsg = _
+  endif
+
 
   return v:errmsg == '' ? 0 : v:errmsg
 endfunction
