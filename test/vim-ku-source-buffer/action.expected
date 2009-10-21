@@ -6,6 +6,16 @@
 ---- It requires to reset side effect 
 
 
+==== ku_action_buffer_delete no ku buffer nr
+---- It requires the following initialization 
+...
+---- It should succeed if there is a corresponding buffer 
+.......
+---- It should fail if there is not any corresponding buffer 
+...
+---- It requires to reset side effect 
+...
+
 ==== ku_action_buffer_delete unmodified buffer
 ---- It requires the following initialization 
 
@@ -21,6 +31,16 @@
 ........
 ---- It requires to reset side effect 
 
+
+==== ku_action_buffer_open no ku buffer nr
+---- It requires the following initialization 
+...
+---- It should succeed if there is a corresponding buffer 
+.......
+---- It should fail if there is not any corresponding buffer 
+.......
+---- It requires to reset side effect 
+...
 
 ==== ku_action_buffer_open unmodified buffer
 ---- It requires the following initialization 
@@ -78,9 +98,21 @@
 ---- It requires to reset side effect 
 
 
+==== s_bufnr_from_candidate ku buffer nr
+---- It should return a:candidate.ku_buffer_nr as is 
+.
+
+==== s_bufnr_from_candidate no ku buffer nr
+---- It requires the following initialization 
+...
+---- It should return the bufnr of a buffer corresponding to a:candidate.word 
+...
+---- It requires to reset side effect 
+...
+
 
 
 **** Result ****
 
 
-90 examples, 0 failures
+136 examples, 0 failures

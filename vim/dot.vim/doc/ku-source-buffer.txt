@@ -105,9 +105,12 @@ To use various actions for kind "buffer", sources have to add the following
 values for each candidates:
 
 						*ku_buffer_nr*
-ku_buffer_nr		number			(required)
+ku_buffer_nr		number			(optional)
 			The buffer number (|bufnr()|) of the buffer
-			corresponding to a candidate.  
+			corresponding to a candidate.
+
+			If this key is not given, buffer number is calculated
+			from a:candidate.word.
 
 
 
