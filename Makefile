@@ -232,6 +232,7 @@ ALL_PACKAGES=\
   vim-grex \
   vim-gtd \
   vim-ku \
+  vim-ku-core \
   vim-ku-source-buffer \
   vim-metarw \
   vim-metarw-git \
@@ -361,23 +362,29 @@ PACKAGE_vim_gtd_FILES=\
 PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
-  $(PACKAGE_vim_ku_FILES_core) \
+  $(PACKAGE_vim_ku_core_FILES) \
+  $(PACKAGE_vim_ku_source_buffer_FILES)
+
+PACKAGE_vim_ku_core_ARCHIVE=vim-ku-core-0.3
+PACKAGE_vim_ku_core_BASE=vim/dot.vim
+PACKAGE_vim_ku_core_FILES=\
+  $(PACKAGE_vim_ku_core_FILES_core) \
   \
-  $(PACKAGE_vim_ku_FILES_actions) \
-  $(PACKAGE_vim_ku_FILES_kinds) \
-  $(PACKAGE_vim_ku_FILES_matchers) \
-  $(PACKAGE_vim_ku_FILES_sorters)
-PACKAGE_vim_ku_FILES_actions=\
+  $(PACKAGE_vim_ku_core_FILES_actions) \
+  $(PACKAGE_vim_ku_core_FILES_kinds) \
+  $(PACKAGE_vim_ku_core_FILES_matchers) \
+  $(PACKAGE_vim_ku_core_FILES_sorters)
+PACKAGE_vim_ku_core_FILES_actions=\
   vim/dot.vim/autoload/ku/action/common.vim
-PACKAGE_vim_ku_FILES_core=\
+PACKAGE_vim_ku_core_FILES_core=\
   vim/dot.vim/autoload/ku.vim \
   vim/dot.vim/doc/ku.txt \
   vim/dot.vim/plugin/ku.vim
-PACKAGE_vim_ku_FILES_kinds=\
+PACKAGE_vim_ku_core_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/common.vim
-PACKAGE_vim_ku_FILES_matchers=\
+PACKAGE_vim_ku_core_FILES_matchers=\
   vim/dot.vim/autoload/ku/matcher/default.vim
-PACKAGE_vim_ku_FILES_sorters=\
+PACKAGE_vim_ku_core_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim
 
