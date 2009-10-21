@@ -828,8 +828,8 @@ test/vim-gtd/%.output: \
 	@./test/tester-vim $< &>$@
 
 
-# vim-ku  #{{{2
-TESTS_vim_ku = \
+# vim-ku-core  #{{{2
+TESTS_vim_ku_core = \
 		action-common \
 		core-internal-action \
 		core-internal-candidate \
@@ -842,33 +842,33 @@ TESTS_vim_ku = \
 		sorter-default \
 		sorter-simple
 
-test/vim-ku/action-%.output: \
-		test/vim-ku/action-%.input \
+test/vim-ku-core/action-%.output: \
+		test/vim-ku-core/action-%.input \
 		test/vspec \
 		$(PACKAGE_vim_ku_FILES_core) \
 		$(PACKAGE_vim_ku_FILES_actions) \
 		$(PACKAGE_vim_ku_FILES_kinds)
 	@./test/vspec $< &>$@
 
-test/vim-ku/core-%.output: \
-		test/vim-ku/core-%.input \
+test/vim-ku-core/core-%.output: \
+		test/vim-ku-core/core-%.input \
 		test/vspec \
 		$(PACKAGE_vim_ku_FILES)
 	@./test/vspec $< &>$@
 
-test/vim-ku/kind-%.output: \
-		test/vim-ku/kind-%.input \
+test/vim-ku-core/kind-%.output: \
+		test/vim-ku-core/kind-%.input \
 		$(PACKAGE_vim_ku_FILES_core) \
 		$(PACKAGE_vim_ku_FILES_kinds)
 	@./test/vspec $< &>$@
 
-test/vim-ku/matcher-%.output: \
-		test/vim-ku/matcher-%.input \
+test/vim-ku-core/matcher-%.output: \
+		test/vim-ku-core/matcher-%.input \
 		$(PACKAGE_vim_ku_FILES_matchers)
 	@./test/vspec $< &>$@
 
-test/vim-ku/sorter-%.output: \
-		test/vim-ku/sorter-%.input \
+test/vim-ku-core/sorter-%.output: \
+		test/vim-ku-core/sorter-%.input \
 		$(PACKAGE_vim_ku_FILES_sorters)
 	@./test/vspec $< &>$@
 
