@@ -6,7 +6,7 @@
 "   buffer-local information if a deleted buffer is unnamed.
 runtime! plugin/ku.vim plugin/ku/kind/buffer.vim plugin/ku/source/buffer.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
-function s:describe__ku_action_buffer_delete__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_delete__modified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -50,7 +50,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_delete__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_delete__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -94,7 +94,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open__modified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -138,7 +138,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -181,7 +181,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open_x__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open_x__modified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -226,7 +226,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open_x__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open_x__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -269,7 +269,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_unload__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_unload__modified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -313,7 +313,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_unload__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_unload__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -357,7 +357,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_wipeout__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_wipeout__modified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -401,7 +401,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_wipeout__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_wipeout__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------

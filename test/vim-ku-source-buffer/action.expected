@@ -1,4 +1,4 @@
-==== ku_action_buffer_delete with modified buffer
+==== ku_action_buffer_delete modified buffer
 ---- It requires the following initialization 
 
 ---- It should fail 
@@ -6,7 +6,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_delete with unmodified buffer
+==== ku_action_buffer_delete unmodified buffer
 ---- It requires the following initialization 
 
 ---- It should succeed 
@@ -14,7 +14,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_open with modified buffer
+==== ku_action_buffer_open modified buffer
 ---- It requires the following initialization 
 
 ---- It should fail 
@@ -22,7 +22,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_open with unmodified buffer
+==== ku_action_buffer_open unmodified buffer
 ---- It requires the following initialization 
 
 ---- It should succeed 
@@ -30,7 +30,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_open_x with modified buffer
+==== ku_action_buffer_open_x modified buffer
 ---- It requires the following initialization 
 
 ---- It should succeed 
@@ -38,7 +38,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_open_x with unmodified buffer
+==== ku_action_buffer_open_x unmodified buffer
 ---- It requires the following initialization 
 
 ---- It should succeed 
@@ -46,7 +46,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_unload with modified buffer
+==== ku_action_buffer_unload modified buffer
 ---- It requires the following initialization 
 
 ---- It should fail 
@@ -54,7 +54,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_unload with unmodified buffer
+==== ku_action_buffer_unload unmodified buffer
 ---- It requires the following initialization 
 
 ---- It should succeed 
@@ -62,7 +62,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_wipeout with modified buffer
+==== ku_action_buffer_wipeout modified buffer
 ---- It requires the following initialization 
 
 ---- It should fail 
@@ -70,7 +70,7 @@
 ---- It requires to reset side effect 
 
 
-==== ku_action_buffer_wipeout with unmodified buffer
+==== ku_action_buffer_wipeout unmodified buffer
 ---- It requires the following initialization 
 
 ---- It should succeed 
