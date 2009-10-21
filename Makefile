@@ -359,13 +359,13 @@ PACKAGE_vim_gtd_FILES=\
   vim/dot.vim/ftplugin/gtd.vim \
   vim/dot.vim/syntax/gtd.vim
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3.0
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   $(PACKAGE_vim_ku_core_FILES) \
   $(PACKAGE_vim_ku_source_buffer_FILES)
 
-PACKAGE_vim_ku_core_ARCHIVE=vim-ku-core-0.3
+PACKAGE_vim_ku_core_ARCHIVE=vim-ku-core-0.3.0
 PACKAGE_vim_ku_core_BASE=vim/dot.vim
 PACKAGE_vim_ku_core_FILES=\
   $(PACKAGE_vim_ku_core_FILES_core) \
