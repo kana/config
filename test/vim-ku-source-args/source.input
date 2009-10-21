@@ -1,0 +1,48 @@
+" Test: vim-ku-source-args source
+runtime! plugin/ku.vim plugin/ku/source/args.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_args_gather_candidates__empty_list()  "{{{1
+  It should return buffers in argument list regardless of a:args.pattern
+
+  let args = {'pattern': 'Why are my daughters so lovely!'}
+  let lcandidates = copy(ku#source#args#gather_candidates(args))
+
+  let argv = argv()
+  call map(argv, '{"word": v:val, "ku_buffer_nr": bufnr(fnameescape(v:val))}')
+
+  Should lcandidates ==# argv
+endfunction
+
+
+
+
+function s:describe__ku_source_args_gather_candidates__filled_list()  "{{{1
+  It requires the following initialization
+
+  argadd Alter Sasara Yuzuki
+  Should argc() == 3
+  Should argv() ==# ['Alter', 'Sasara', 'Yuzuki']
+
+  It should return buffers in argument list regardless of a:args.pattern
+
+  let args = {'pattern': 'Why are my daughters so lovely!'}
+  let lcandidates = copy(ku#source#args#gather_candidates(args))
+
+  let argv = argv()
+  call map(argv, '{"word": v:val, "ku_buffer_nr": bufnr(fnameescape(v:val))}')
+
+  Should lcandidates ==# argv
+
+  It requires to reset side effect
+
+  enew!
+
+  argdelete *
+  Should argc() == 0
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

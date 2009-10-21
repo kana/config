@@ -233,6 +233,7 @@ ALL_PACKAGES=\
   vim-gtd \
   vim-ku \
   vim-ku-core \
+  vim-ku-source-args \
   vim-ku-source-buffer \
   vim-metarw \
   vim-metarw-git \
@@ -388,6 +389,16 @@ PACKAGE_vim_ku_core_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim
 
+PACKAGE_vim_ku_source_args_ARCHIVE=vim-ku-source-args-0.2.0
+PACKAGE_vim_ku_source_args_BASE=vim/dot.vim
+PACKAGE_vim_ku_source_args_FILES=\
+  $(PACKAGE_vim_ku_source_args_FILES_core)
+PACKAGE_vim_ku_source_args_FILES_core=\
+  vim/dot.vim/autoload/ku/source/args.vim \
+  vim/dot.vim/doc/ku-source-args.txt \
+  vim/dot.vim/plugin/ku/source/args.vim
+
+PACKAGE_vim_ku_source_buffer_ARCHIVE=vim-ku-source-buffer-0.2
 PACKAGE_vim_ku_source_buffer_ARCHIVE=vim-ku-source-buffer-0.2.0
 PACKAGE_vim_ku_source_buffer_BASE=vim/dot.vim
 PACKAGE_vim_ku_source_buffer_FILES=\
@@ -870,6 +881,19 @@ test/vim-ku-core/matcher-%.output: \
 test/vim-ku-core/sorter-%.output: \
 		test/vim-ku-core/sorter-%.input \
 		$(PACKAGE_vim_ku_FILES_sorters)
+	@./test/vspec $< &>$@
+
+
+# vim-ku-source-args  #{{{2
+TESTS_vim_ku_source_args = \
+		action \
+		kind \
+		source
+
+test/vim-ku-source-args/%.output: \
+		test/vim-ku-source-args/%.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_source_args_FILES)
 	@./test/vspec $< &>$@
 
 
