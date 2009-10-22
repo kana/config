@@ -120,9 +120,13 @@
 ---- It should fail if there is not enough room 
 
 
+==== ku_action_common_yank 
+---- It always succeed 
+..
+
 
 
 **** Result ****
 
 
-85 examples, 0 failures
+87 examples, 0 failures

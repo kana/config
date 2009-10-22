@@ -868,17 +868,20 @@ test/vim-ku-core/core-%.output: \
 
 test/vim-ku-core/kind-%.output: \
 		test/vim-ku-core/kind-%.input \
+		test/vspec \
 		$(PACKAGE_vim_ku_FILES_core) \
 		$(PACKAGE_vim_ku_FILES_kinds)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/matcher-%.output: \
 		test/vim-ku-core/matcher-%.input \
+		test/vspec \
 		$(PACKAGE_vim_ku_FILES_matchers)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/sorter-%.output: \
 		test/vim-ku-core/sorter-%.input \
+		test/vspec \
 		$(PACKAGE_vim_ku_FILES_sorters)
 	@./test/vspec $< &>$@
 
