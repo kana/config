@@ -39,12 +39,10 @@ call ku#define_kind({
 \     'wipeout': function('ku#action#buffer#wipeout'),
 \    },
 \   'default_key_table': {
-\     "\<C-o>": 'open',
 \     'D': 'delete',
 \     'O': 'open!',
 \     'U': 'unload',
 \     'W': 'wipeout',
-\     'o': 'open',
 \    },
 \   'name': 'buffer',
 \ })
