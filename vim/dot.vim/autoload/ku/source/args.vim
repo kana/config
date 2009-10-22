@@ -34,8 +34,7 @@ endfunction
 function! ku#source#args#gather_candidates(args)  "{{{2
   let lcandidates = []
 
-  let lcandidates = map(argv(), '{"word": v:val,
-  \                               "ku_buffer_nr": bufnr(fnameescape(v:val))}')
+  let lcandidates = map(argv(), '{"word": v:val}')
 
   return lcandidates
 endfunction

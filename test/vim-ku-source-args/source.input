@@ -8,7 +8,7 @@ function s:describe__ku_source_args_gather_candidates__empty_list()  "{{{1
   let lcandidates = copy(ku#source#args#gather_candidates(args))
 
   let argv = argv()
-  call map(argv, '{"word": v:val, "ku_buffer_nr": bufnr(fnameescape(v:val))}')
+  call map(argv, '{"word": v:val}')
 
   Should lcandidates ==# argv
 endfunction
@@ -29,7 +29,7 @@ function s:describe__ku_source_args_gather_candidates__filled_list()  "{{{1
   let lcandidates = copy(ku#source#args#gather_candidates(args))
 
   let argv = argv()
-  call map(argv, '{"word": v:val, "ku_buffer_nr": bufnr(fnameescape(v:val))}')
+  call map(argv, '{"word": v:val}')
 
   Should lcandidates ==# argv
 
