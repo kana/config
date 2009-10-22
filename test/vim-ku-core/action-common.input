@@ -1,4 +1,4 @@
-" Test: vim-ku action-common
+" Test: vim-ku-core action-common
 " Set up  "{{{1
 
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
@@ -430,6 +430,17 @@ function s:describe__ku_action_common_tab_right()  "{{{1
   " FIXME: NIY
   It should succeed if there is enough room
   It should fail if there is not enough room
+endfunction
+
+
+
+
+function s:describe__ku_action_common_yank()  "{{{1
+  It always succeed
+
+  let @0 = 'Samba'
+  Should ku#action#common#yank({'word': 'Somebody'}) == 0
+  Should @0 ==# 'Somebody'
 endfunction
 
 

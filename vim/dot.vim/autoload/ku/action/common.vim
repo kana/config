@@ -164,6 +164,14 @@ endfunction
 
 
 
+function! ku#action#common#yank(candidate)  "{{{2
+  let @0 = a:candidate.word
+  return 0
+endfunction
+
+
+
+
 
 
 

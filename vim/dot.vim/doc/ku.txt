@@ -131,6 +131,34 @@ FUNCTIONS					*ku-functions*
 
 CORE						*ku-functions-core*
 
+ku#available_kind_names()			*ku#available_kind_names()*
+			Return the list of the names of available kinds.
+
+ku#available_kind_p({kind-name})		*ku#available_kind_p()*
+			Return true if a kind with {kind-name} is available,
+			or return false otherwise.
+
+ku#available_kinds()				*ku#available_kinds()*
+			Return the dictionary of available kinds.  Each key is
+			the name of a kind, and each value is an internal
+			representation of a kind.
+
+			Return value must not be modified.
+
+ku#available_source_names()			*ku#available_source_names()*
+			Return the list of the names of available sources.
+
+ku#available_source_p({source-name})		*ku#available_source_p()*
+			Return true if a source with {source-name} is
+			available, or return false otherwise.
+
+ku#available_sources()				*ku#available_sources()*
+			Return the dictionary of available sources.  Each key
+			is the name of a source, and each value is an internal
+			representation of a source.
+
+			Return value must not be modified.
+
 ku#custom_action({kind}, {name}, {func})	*ku#custom_action()*
 ku#custom_action({kind}, {name}, {kind2}, {name2})
 			The first form adds new action into custom {kind}
@@ -359,6 +387,9 @@ select						*ku-common-action-select*
 			|<Plug>(ku-choose-action)| and return to the previous
 			state of |the-ku-buffer| to select a given candidate.
 
+yank						*ku-common-action-yank*
+			Yank a given candidate.
+
 Bottom						*ku-common-action-Bottom*
 Left						*ku-common-action-Left*
 Right						*ku-common-action-Right*
@@ -406,6 +437,7 @@ Key		Action ~
 <C-k>		above		|ku-common-action-above|
 <C-l>		right		|ku-common-action-right|
 <C-m>		default		|ku-common-action-default|
+<C-o>		open		|ku-common-action-open|
 <C-r>		select		|ku-common-action-select|
 <C-t>		tab-Right	|ku-common-action-tab-Right|
 <Esc>		cancel		|ku-common-action-cancel|
@@ -419,7 +451,9 @@ h		left		|ku-common-action-left|
 j		below		|ku-common-action-below|
 k		above		|ku-common-action-above|
 l		right		|ku-common-action-right|
+o		open		|ku-common-action-open|
 t		tab-Right	|ku-common-action-tab-Right|
+y		yank		|ku-common-action-yank|
 
 
 

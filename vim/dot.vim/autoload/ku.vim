@@ -102,6 +102,48 @@ let s:session = {}
 
 
 " Interface  "{{{1
+function! ku#available_kind_names()  "{{{2
+  return sort(keys(s:available_kinds))
+endfunction
+
+
+
+
+function! ku#available_kind_p(kind_name)  "{{{2
+  return has_key(s:available_kinds, a:kind_name)
+endfunction
+
+
+
+
+function! ku#available_kinds()  "{{{2
+  return s:available_kinds
+endfunction
+
+
+
+
+function! ku#available_source_names()  "{{{2
+  return sort(keys(s:available_sources))
+endfunction
+
+
+
+
+function! ku#available_source_p(source_name)  "{{{2
+  return has_key(s:available_sources, a:source_name)
+endfunction
+
+
+
+
+function! ku#available_sources()  "{{{2
+  return s:available_sources
+endfunction
+
+
+
+
 function! ku#custom_action(kind_name,action_name,func_or_kind2_name,...)  "{{{2
   if a:0 == 0
     let Func = a:func_or_kind2_name  " E704
@@ -317,27 +359,6 @@ function! ku#_sid_prefix()
 endfunction
 
 nnoremap <SID>  <SID>
-
-
-
-
-function! ku#available_source_p(source_name)  "{{{2
-  return has_key(s:available_sources, a:source_name)
-endfunction
-
-
-
-
-function! ku#available_source_names()  "{{{2
-  return sort(keys(s:available_sources))
-endfunction
-
-
-
-
-function! ku#available_sources()  "{{{2
-  return s:available_sources
-endfunction
 
 
 
