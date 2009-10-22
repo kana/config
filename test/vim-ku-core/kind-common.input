@@ -39,6 +39,7 @@ function s:describe__kind_common()  "{{{1
   \ "\<C-k>",
   \ "\<C-l>",
   \ "\<C-m>",
+  \ "\<C-o>",
   \ "\<C-r>",
   \ "\<C-t>",
   \ "\<Esc>",
@@ -54,6 +55,7 @@ function s:describe__kind_common()  "{{{1
   \ 'j',
   \ 'k',
   \ 'l',
+  \ 'o',
   \ 't',
   \ ]
 endfunction

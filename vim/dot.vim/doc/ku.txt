@@ -434,6 +434,7 @@ Key		Action ~
 <C-k>		above		|ku-common-action-above|
 <C-l>		right		|ku-common-action-right|
 <C-m>		default		|ku-common-action-default|
+<C-o>		open		|ku-common-action-open|
 <C-r>		select		|ku-common-action-select|
 <C-t>		tab-Right	|ku-common-action-tab-Right|
 <Esc>		cancel		|ku-common-action-cancel|
@@ -447,6 +448,7 @@ h		left		|ku-common-action-left|
 j		below		|ku-common-action-below|
 k		above		|ku-common-action-above|
 l		right		|ku-common-action-right|
+o		open		|ku-common-action-open|
 t		tab-Right	|ku-common-action-tab-Right|
 
 
