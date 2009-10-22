@@ -84,14 +84,14 @@ wipeout					     *ku-source-buffer-action-wipeout*
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-buffer-key-table*
 
+See also |ku-common-key-table|.
+
 Key		Action ~
 --------	--------
-<C-o>		open		|ku-source-buffer-action-open|
 D		delete		|ku-source-buffer-action-delete|
 O		open!		|ku-source-buffer-action-open!|
 U		unload		|ku-source-buffer-action-unload|
 W		wipeout		|ku-source-buffer-action-wipeout|
-o		open		|ku-source-buffer-action-open|
 
 
 ------------------------------------------------------------------------------
