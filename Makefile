@@ -235,6 +235,7 @@ ALL_PACKAGES=\
   vim-ku-core \
   vim-ku-source-args \
   vim-ku-source-buffer \
+  vim-ku-source-source \
   vim-metarw \
   vim-metarw-git \
   vim-misc \
@@ -412,6 +413,15 @@ PACKAGE_vim_ku_source_buffer_FILES_core=\
   vim/dot.vim/plugin/ku/source/buffer.vim
 PACKAGE_vim_ku_source_buffer_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/buffer.vim
+
+PACKAGE_vim_ku_source_source_ARCHIVE=vim-ku-source-source-0.2.0
+PACKAGE_vim_ku_source_source_BASE=vim/dot.vim
+PACKAGE_vim_ku_source_source_FILES=\
+  $(PACKAGE_vim_ku_source_source_FILES_core)
+PACKAGE_vim_ku_source_source_FILES_core=\
+  vim/dot.vim/autoload/ku/source/source.vim \
+  vim/dot.vim/doc/ku-source-source.txt \
+  vim/dot.vim/plugin/ku/source/source.vim
 
 PACKAGE_vim_metarw_ARCHIVE=vim-metarw-0.0.4
 PACKAGE_vim_metarw_BASE=vim/dot.vim

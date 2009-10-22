@@ -1,0 +1,113 @@
+*ku-source-source.txt*	ku source: source
+
+Version 0.2.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-source-source-contents*
+
+Introduction            |ku-source-source-introduction|
+Interface               |ku-source-source-interface|
+  Action Table            |ku-source-source-action-table|
+  Key Table               |ku-source-source-key-table|
+Bugs                    |ku-source-source-bugs|
+Changelog               |ku-source-source-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION				       *ku-source-source-introduction*
+
+*ku-source-source* is a source for Vim plugin |ku| to deal with |ku-sources|.
+You can choose a source from many ones and do some action on it.
+
+
+Requirements:
+- Vim 7.2 or later
+- |ku| 0.3.0 or later (vimscript#2337)
+
+Latest version:
+http://github.com/kana/config/commits/vim-ku-source-source
+
+Document in HTML format:
+http://kana.github.com/config/vim/ku-source-source.html
+
+
+
+
+==============================================================================
+INTERFACE					*ku-source-source-interface*
+
+------------------------------------------------------------------------------
+ACTION TABLLE				       *ku-source-source-action-table*
+
+
+open						*ku-source-source-action-open*
+			Do |ku#start()| with a source which is corresponding
+			to a given candidate.
+
+
+------------------------------------------------------------------------------
+KEY TABLE					*ku-source-source-key-table*
+
+Nothing is defined.  See also |ku-common-key-table|.
+
+
+
+
+==============================================================================
+BUGS						*ku-source-source-bugs*
+
+KNOWN ISSUES ~
+
+- Currently there is no known issue.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-source-source-changelog*
+
+0.2.0	2009-10-22T21:36:54+09:00	    *ku-source-source-changelog-0.2.0*
+	- Update for ku 0.3.0.
+
+0.1.2	2009-05-21T01:53:41+09:00		*ku-source-changelog-0.1.2*
+	- Fix a bug that the cursor position is altered unexpectedly after
+	  entering to other source from this source.
+
+0.1.1	2009-05-04T02:51:26+09:00		*ku-source-changelog-0.1.1*
+	- Update for ku 0.2.1.
+	- Fix a bug that there was no consideration on non-completed items.
+
+0.1.0	2009-04-27T02:50:59+09:00		*ku-source-changelog-0.1.0*
+	- Update for ku 0.2.0.
+
+0.0.0	2008-12-09T16:54:28+09:00		*ku-source-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
