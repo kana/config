@@ -69,7 +69,7 @@ See |ku-source-buffer-action-table| for the details.
 
 Additionally, the following actions are available:
 
-argdelete				     *ku-source-args-action-default*
+argdelete				     *ku-source-args-action-argdelete*
 			Do |:argdelete| on a given candidate.
 
 
