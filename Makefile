@@ -391,7 +391,7 @@ PACKAGE_vim_ku_source_args_FILES_core=\
   vim/dot.vim/doc/ku-source-args.txt \
   vim/dot.vim/plugin/ku/source/args.vim
 
-PACKAGE_vim_ku_source_buffer_ARCHIVE=vim-ku-source-buffer-0.2
+PACKAGE_vim_ku_source_buffer_ARCHIVE=vim-ku-source-buffer-0.2.0
 PACKAGE_vim_ku_source_buffer_BASE=vim/dot.vim
 PACKAGE_vim_ku_source_buffer_FILES=\
   $(PACKAGE_vim_ku_source_buffer_FILES_actions) \

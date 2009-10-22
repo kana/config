@@ -5,8 +5,8 @@
 "   unexpected behavior.  Because Vim maybe reuse deleted buffer or remove
 "   buffer-local information if a deleted buffer is unnamed.
 runtime! plugin/ku.vim plugin/ku/kind/buffer.vim plugin/ku/source/buffer.vim
-call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
-function s:describe__ku_action_buffer_delete__with_modified_buffer()  "{{{1
+call vspec#hint({'sid': 'ku#action#buffer#_sid_prefix()'})
+function s:describe__ku_action_buffer_delete__modified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -50,7 +50,55 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_delete__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_delete__no_ku_buffer_nr()  "{{{1
+  It requires the following initialization
+
+  silent new `='Railgun'`
+  let bufnr_1 = bufnr('')
+  Should bufname(bufnr_1) ==# 'Railgun'
+  only
+  silent new `='Mikoto Misaka'`
+  let bufnr_2 = bufnr('')
+  Should bufname(bufnr_2) ==# 'Mikoto Misaka'
+  silent new `='*bbbbb*'`
+  let bufnr_3 = bufnr('')
+  Should bufname(bufnr_3) ==# '*bbbbb*'
+  new
+  let bufnr_4 = bufnr('')
+
+  It should succeed if there is a corresponding buffer
+
+  Should bufnr('') == bufnr_4
+  Should ku#action#buffer#delete({'word': 'Railgun'}) == 0
+  Should buflisted(bufnr_1) == 0
+  Should ku#action#buffer#delete({'word': 'Mikoto Misaka'}) == 0
+  Should buflisted(bufnr_2) == 0
+  Should ku#action#buffer#delete({'word': '*bbbbb*'}) == 0
+  Should buflisted(bufnr_3) == 0
+
+  It should fail if there is not any corresponding buffer
+
+  silent! let _ = ku#action#buffer#delete({'word': 'Teleporter'})
+  Should _ =~# 'There is no corresponding buffer to candidate'
+  silent! let _ = ku#action#buffer#delete({'word': 'Kuroko Shirai'})
+  Should _ =~# 'There is no corresponding buffer to candidate'
+  silent! let _ = ku#action#buffer#delete({'word': '*sssss*'})
+  Should _ =~# 'There is no corresponding buffer to candidate'
+
+  It requires to reset side effect
+
+  execute bufnr_1 'bwipeout'
+  execute bufnr_2 'bwipeout'
+  execute bufnr_3 'bwipeout'
+  Should bufexists(bufnr_1) == 0
+  Should bufexists(bufnr_2) == 0
+  Should bufexists(bufnr_3) == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_buffer_delete__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -94,7 +142,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open__modified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -138,7 +186,59 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open__no_ku_buffer_nr()  "{{{1
+  It requires the following initialization
+
+  silent new `='Railgun'`
+  let bufnr_1 = bufnr('')
+  Should bufname(bufnr_1) ==# 'Railgun'
+  only
+  silent new `='Mikoto Misaka'`
+  let bufnr_2 = bufnr('')
+  Should bufname(bufnr_2) ==# 'Mikoto Misaka'
+  silent new `='*bbbbb*'`
+  let bufnr_3 = bufnr('')
+  Should bufname(bufnr_3) ==# '*bbbbb*'
+  new
+  let bufnr_4 = bufnr('')
+
+  It should succeed if there is a corresponding buffer
+
+  Should bufnr('') == bufnr_4
+  Should ku#action#buffer#open({'word': 'Railgun'}) == 0
+  Should bufnr('') == bufnr_1
+  Should ku#action#buffer#open({'word': 'Mikoto Misaka'}) == 0
+  Should bufnr('') == bufnr_2
+  Should ku#action#buffer#open({'word': '*bbbbb*'}) == 0
+  Should bufnr('') == bufnr_3
+
+  It should fail if there is not any corresponding buffer
+
+  Should bufnr('') == bufnr_3
+  silent! let _ = ku#action#buffer#open({'word': 'Teleporter'})
+  Should _ =~# 'There is no corresponding buffer to candidate'
+  Should bufnr('') == bufnr_3
+  silent! let _ = ku#action#buffer#open({'word': 'Kuroko Shirai'})
+  Should _ =~# 'There is no corresponding buffer to candidate'
+  Should bufnr('') == bufnr_3
+  silent! let _ = ku#action#buffer#open({'word': '*sssss*'})
+  Should _ =~# 'There is no corresponding buffer to candidate'
+  Should bufnr('') == bufnr_3
+
+  It requires to reset side effect
+
+  execute bufnr_1 'bwipeout'
+  execute bufnr_2 'bwipeout'
+  execute bufnr_3 'bwipeout'
+  Should bufexists(bufnr_1) == 0
+  Should bufexists(bufnr_2) == 0
+  Should bufexists(bufnr_3) == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_buffer_open__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -181,7 +281,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open_x__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open_x__modified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -226,7 +326,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_open_x__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_open_x__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " --------------------
@@ -269,7 +369,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_unload__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_unload__modified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -313,7 +413,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_unload__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_unload__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -357,7 +457,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_wipeout__with_modified_buffer()  "{{{1
+function s:describe__ku_action_buffer_wipeout__modified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -401,7 +501,7 @@ endfunction
 
 
 
-function s:describe__ku_action_buffer_wipeout__with_unmodified_buffer()  "{{{1
+function s:describe__ku_action_buffer_wipeout__unmodified_buffer()  "{{{1
   It requires the following initialization
 
   " -------------
@@ -440,6 +540,48 @@ function s:describe__ku_action_buffer_wipeout__with_unmodified_buffer()  "{{{1
 
   only!
   enew!
+endfunction
+
+
+
+
+function s:describe__s_bufnr_from_candidate__ku_buffer_nr()  "{{{1
+  It should return a:candidate.ku_buffer_nr as is
+
+  Should Call('s:bufnr_from_candidate', {'ku_buffer_nr': 20091022}) == 20091022
+endfunction
+
+
+
+
+function s:describe__s_bufnr_from_candidate__no_ku_buffer_nr()  "{{{1
+  It requires the following initialization
+
+  silent new `='Railgun'`
+  let bufnr_1 = bufnr('')
+  Should bufname(bufnr_1) ==# 'Railgun'
+  only
+  silent new `='Mikoto Misaka'`
+  let bufnr_2 = bufnr('')
+  Should bufname(bufnr_2) ==# 'Mikoto Misaka'
+  silent new `='*bbbbb*'`
+  let bufnr_3 = bufnr('')
+  Should bufname(bufnr_3) ==# '*bbbbb*'
+
+  It should return the bufnr of a buffer corresponding to a:candidate.word
+
+  Should Call('s:bufnr_from_candidate', {'word': 'Railgun'}) == bufnr_1
+  Should Call('s:bufnr_from_candidate', {'word': 'Mikoto Misaka'}) == bufnr_2
+  Should Call('s:bufnr_from_candidate', {'word': '*bbbbb*'}) == bufnr_3
+
+  It requires to reset side effect
+
+  execute bufnr_1 'bwipeout'
+  execute bufnr_2 'bwipeout'
+  execute bufnr_3 'bwipeout'
+  Should bufexists(bufnr_1) == 0
+  Should bufexists(bufnr_2) == 0
+  Should bufexists(bufnr_3) == 0
 endfunction
 
 

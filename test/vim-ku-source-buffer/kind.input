@@ -4,7 +4,7 @@ call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__ku_kind_buffer()  "{{{1
   It should be available
 
-  Should ku#available_source_p('buffer') == 1
+  Should has_key(Ref('s:available_kinds'), 'buffer') ==# 1
 
   It should have the following actions
 
