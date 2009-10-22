@@ -28,6 +28,7 @@ function s:describe__kind_common()  "{{{1
   \ 'tab-Right',
   \ 'tab-left',
   \ 'tab-right',
+  \ 'yank',
   \ ]
 
   It should have the following key bindings
@@ -57,6 +58,7 @@ function s:describe__kind_common()  "{{{1
   \ 'l',
   \ 'o',
   \ 't',
+  \ 'y',
   \ ]
 endfunction
 

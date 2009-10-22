@@ -50,6 +50,7 @@ call ku#define_kind({
 \     'tab-Right': function('ku#action#common#tab_Right'),
 \     'tab-left': function('ku#action#common#tab_left'),
 \     'tab-right': function('ku#action#common#tab_right'),
+\     'yank': function('ku#action#common#yank'),
 \   },
 \   'default_key_table': {
 \     "\<C-c>": 'cancel',
@@ -76,6 +77,7 @@ call ku#define_kind({
 \     'l': 'right',
 \     'o': 'open',
 \     't': 'tab-Right',
+\     'y': 'yank',
 \   },
 \   'name': 'common',
 \ })

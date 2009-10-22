@@ -387,6 +387,9 @@ select						*ku-common-action-select*
 			|<Plug>(ku-choose-action)| and return to the previous
 			state of |the-ku-buffer| to select a given candidate.
 
+yank						*ku-common-action-yank*
+			Yank a given candidate.
+
 Bottom						*ku-common-action-Bottom*
 Left						*ku-common-action-Left*
 Right						*ku-common-action-Right*
@@ -450,6 +453,7 @@ k		above		|ku-common-action-above|
 l		right		|ku-common-action-right|
 o		open		|ku-common-action-open|
 t		tab-Right	|ku-common-action-tab-Right|
+y		yank		|ku-common-action-yank|
 
 
 
