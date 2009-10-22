@@ -435,6 +435,17 @@ endfunction
 
 
 
+function s:describe__ku_action_common_yank()  "{{{1
+  It always succeed
+
+  let @0 = 'Samba'
+  Should ku#action#common#yank({'word': 'Somebody'}) == 0
+  Should @0 ==# 'Somebody'
+endfunction
+
+
+
+
 " __END__  "{{{1
 " vim: filetype=vim foldmethod=marker
 
