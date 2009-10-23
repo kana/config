@@ -1,0 +1,30 @@
+" Test: vim-ku-source-source action
+runtime! plugin/ku.vim plugin/ku/source/source.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_source_action_argdelete()  "{{{1
+  It requires the following initialization
+
+  Should Call('s:ku_active_p') == 0
+
+  It should succeed
+
+  let source_name_a = 'source'
+
+  Should ku#source#source#action_open({'word': source_name_a}) is 0
+
+  Should Call('s:ku_active_p') == 1
+  Should Ref('s:session').sources ==# [ku#available_sources()[source_name_a]]
+
+  It requires to reset side effect
+
+  silent! call ku#start()
+  Should Call('s:ku_active_p') == 1
+  bwipeout!
+  ResetContext
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

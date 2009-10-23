@@ -1,0 +1,25 @@
+" Test: vim-ku-source-source kind
+runtime! plugin/ku.vim plugin/ku/source/source.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_kind_source_source()  "{{{1
+  It should be available
+
+  Should has_key(Ref('s:available_kinds'), 'source/source') == 1
+
+  It should have the following actions
+
+  Should sort(keys(Call('s:default_kind_action_table', 'source/source'))) ==# [
+  \ 'open',
+  \ ]
+
+  It should have the following key bindings
+
+  Should sort(keys(Call('s:default_kind_key_table', 'source/source'))) ==# [
+  \ ]
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
