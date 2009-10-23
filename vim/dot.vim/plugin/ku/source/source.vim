@@ -31,7 +31,7 @@ endif
 
 call ku#define_source({
 \   'default_action_table': {
-\     'open': function('ku#source#action_open'),
+\     'open': function('ku#source#source#action_open'),
 \   },
 \   'default_key_table': {
 \   },

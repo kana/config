@@ -33,10 +33,10 @@ endfunction
 
 
 
-function! ku#source#source#gather_candidates(source)  "{{{2
+function! ku#source#source#gather_candidates(args)  "{{{2
   let lcandidates = []
 
-  let lcandidates map(copy(ku#available_source_names()), '{"word": v:val}')
+  let lcandidates = map(copy(ku#available_source_names()), '{"word": v:val}')
 
   return lcandidates
 endfunction
