@@ -1,0 +1,15 @@
+" Test: vim-ku-source-source source
+runtime! plugin/ku.vim plugin/ku/source/source.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_source_gather_candidates()  "{{{1
+  It should return the names of available sources regardless of args
+
+  Should ku#source#source#gather_candidates({'pattern': 'litil'})
+  \ ==# map(copy(ku#available_source_names()), '{"word": v:val}')
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

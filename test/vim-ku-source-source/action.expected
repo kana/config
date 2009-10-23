@@ -1,0 +1,14 @@
+==== ku_source_source_action_argdelete 
+---- It requires the following initialization 
+.
+---- It should succeed 
+...
+---- It requires to reset side effect 
+.
+
+
+
+**** Result ****
+
+
+5 examples, 0 failures

@@ -922,6 +922,19 @@ test/vim-ku-source-buffer/%.output: \
 	@./test/vspec $< &>$@
 
 
+# vim-ku-source-source  #{{{2
+TESTS_vim_ku_source_source = \
+		action \
+		kind \
+		source
+
+test/vim-ku-source-source/%.output: \
+		test/vim-ku-source-source/%.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_source_source_FILES)
+	@./test/vspec $< &>$@
+
+
 # vim-operator-replace  #{{{2
 TESTS_vim_operator_replace = basic
 

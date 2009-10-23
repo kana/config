@@ -1,0 +1,10 @@
+==== ku_source_source_gather_candidates 
+---- It should return the names of available sources regardless of args 
+.
+
+
+
+**** Result ****
+
+
+1 examples, 0 failures
