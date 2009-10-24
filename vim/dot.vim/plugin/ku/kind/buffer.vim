@@ -1,6 +1,6 @@
 " ku kind: buffer
 " Version: 0.2.0
-" Copyright (C) 2009 kana <http://whileimautomaton.net/>
+" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -31,7 +31,6 @@ endif
 
 call ku#define_kind({
 \   'default_action_table': {
-\     'default': function('ku#action#buffer#open'),
 \     'delete': function('ku#action#buffer#delete'),
 \     'open!': function('ku#action#buffer#open_x'),
 \     'open': function('ku#action#buffer#open'),
@@ -40,7 +39,6 @@ call ku#define_kind({
 \    },
 \   'default_key_table': {
 \     'D': 'delete',
-\     'O': 'open!',
 \     'U': 'unload',
 \     'W': 'wipeout',
 \    },

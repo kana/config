@@ -2,7 +2,7 @@
 
 Version 0.2.0
 Script ID: ****
-Copyright (C) 2009 kana <http://whileimautomaton.net/>
+Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -64,9 +64,6 @@ INTERFACE					*ku-source-buffer-interface*
 ACTION TABLLE				       *ku-source-buffer-action-table*
 
 
-default					     *ku-source-buffer-action-default*
-			Alias of "open".
-
 open						*ku-source-buffer-action-open*
 			Open the buffer, corresponding to a candidate, in the
 			current window.
@@ -89,7 +86,6 @@ See also |ku-common-key-table|.
 Key		Action ~
 --------	--------
 D		delete		|ku-source-buffer-action-delete|
-O		open!		|ku-source-buffer-action-open!|
 U		unload		|ku-source-buffer-action-unload|
 W		wipeout		|ku-source-buffer-action-wipeout|
 
