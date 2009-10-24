@@ -31,7 +31,7 @@ endif
 
 call ku#define_source({
 \   'default_action_table': {
-\     'argdelete': function('ku#source#action_argdelete'),
+\     'argdelete': function('ku#source#args#action_argdelete'),
 \   },
 \   'default_key_table': {
 \     'R': 'argdelete',
