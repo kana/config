@@ -62,7 +62,6 @@ INTERFACE					*ku-source-source-interface*
 ------------------------------------------------------------------------------
 ACTION TABLLE				       *ku-source-source-action-table*
 
-
 open						*ku-source-source-action-open*
 			Do |ku#start()| with a source which is corresponding
 			to a given candidate.
