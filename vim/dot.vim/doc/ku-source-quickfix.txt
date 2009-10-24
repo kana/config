@@ -82,10 +82,6 @@ See also:
 - |ku-common-key-table|
 - |ku-source-buffer-key-table|
 
-Key		Action ~
---------	--------
-O		open!		|ku-source-buffer-action-open!|
-
 
 ------------------------------------------------------------------------------
 SOURCES						*ku-source-quickfix-source*

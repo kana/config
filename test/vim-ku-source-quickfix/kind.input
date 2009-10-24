@@ -18,7 +18,6 @@ function s:describe__ku_kind_source_quickfix_buffer()  "{{{1
   It should have the following key bindings
 
   Should Call('s:default_kind_key_table', source_name) ==# {
-  \ 'O': 'open!',
   \ }
 endfunction
 

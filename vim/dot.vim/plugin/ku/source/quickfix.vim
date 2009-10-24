@@ -35,7 +35,6 @@ call ku#define_source({
 \     'open!': function('ku#source#quickfix#action_open_x'),
 \   },
 \   'default_key_table': {
-\     'O': 'open!',
 \   },
 \   'gather_candidates': function('ku#source#quickfix#gather_candidates'),
 \   'kinds': ['buffer'],
