@@ -232,6 +232,7 @@ ALL_PACKAGES=\
   vim-grex \
   vim-gtd \
   vim-ku \
+  vim-ku-core \
   vim-ku-source-args \
   vim-ku-source-buffer \
   vim-metarw \
@@ -359,26 +360,32 @@ PACKAGE_vim_gtd_FILES=\
   vim/dot.vim/ftplugin/gtd.vim \
   vim/dot.vim/syntax/gtd.vim
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.3.0
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
-  $(PACKAGE_vim_ku_FILES_core) \
+  $(PACKAGE_vim_ku_core_FILES) \
+  $(PACKAGE_vim_ku_source_buffer_FILES)
+
+PACKAGE_vim_ku_core_ARCHIVE=vim-ku-core-0.3.0
+PACKAGE_vim_ku_core_BASE=vim/dot.vim
+PACKAGE_vim_ku_core_FILES=\
+  $(PACKAGE_vim_ku_core_FILES_core) \
   \
-  $(PACKAGE_vim_ku_FILES_actions) \
-  $(PACKAGE_vim_ku_FILES_kinds) \
-  $(PACKAGE_vim_ku_FILES_matchers) \
-  $(PACKAGE_vim_ku_FILES_sorters)
-PACKAGE_vim_ku_FILES_actions=\
+  $(PACKAGE_vim_ku_core_FILES_actions) \
+  $(PACKAGE_vim_ku_core_FILES_kinds) \
+  $(PACKAGE_vim_ku_core_FILES_matchers) \
+  $(PACKAGE_vim_ku_core_FILES_sorters)
+PACKAGE_vim_ku_core_FILES_actions=\
   vim/dot.vim/autoload/ku/action/common.vim
-PACKAGE_vim_ku_FILES_core=\
+PACKAGE_vim_ku_core_FILES_core=\
   vim/dot.vim/autoload/ku.vim \
   vim/dot.vim/doc/ku.txt \
   vim/dot.vim/plugin/ku.vim
-PACKAGE_vim_ku_FILES_kinds=\
+PACKAGE_vim_ku_core_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/common.vim
-PACKAGE_vim_ku_FILES_matchers=\
+PACKAGE_vim_ku_core_FILES_matchers=\
   vim/dot.vim/autoload/ku/matcher/default.vim
-PACKAGE_vim_ku_FILES_sorters=\
+PACKAGE_vim_ku_core_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim
 
@@ -831,8 +838,8 @@ test/vim-gtd/%.output: \
 	@./test/tester-vim $< &>$@
 
 
-# vim-ku  #{{{2
-TESTS_vim_ku = \
+# vim-ku-core  #{{{2
+TESTS_vim_ku_core = \
 		action-common \
 		core-internal-action \
 		core-internal-candidate \
@@ -845,33 +852,36 @@ TESTS_vim_ku = \
 		sorter-default \
 		sorter-simple
 
-test/vim-ku/action-%.output: \
-		test/vim-ku/action-%.input \
+test/vim-ku-core/action-%.output: \
+		test/vim-ku-core/action-%.input \
 		test/vspec \
 		$(PACKAGE_vim_ku_FILES_core) \
 		$(PACKAGE_vim_ku_FILES_actions) \
 		$(PACKAGE_vim_ku_FILES_kinds)
 	@./test/vspec $< &>$@
 
-test/vim-ku/core-%.output: \
-		test/vim-ku/core-%.input \
+test/vim-ku-core/core-%.output: \
+		test/vim-ku-core/core-%.input \
 		test/vspec \
 		$(PACKAGE_vim_ku_FILES)
 	@./test/vspec $< &>$@
 
-test/vim-ku/kind-%.output: \
-		test/vim-ku/kind-%.input \
+test/vim-ku-core/kind-%.output: \
+		test/vim-ku-core/kind-%.input \
+		test/vspec \
 		$(PACKAGE_vim_ku_FILES_core) \
 		$(PACKAGE_vim_ku_FILES_kinds)
 	@./test/vspec $< &>$@
 
-test/vim-ku/matcher-%.output: \
-		test/vim-ku/matcher-%.input \
+test/vim-ku-core/matcher-%.output: \
+		test/vim-ku-core/matcher-%.input \
+		test/vspec \
 		$(PACKAGE_vim_ku_FILES_matchers)
 	@./test/vspec $< &>$@
 
-test/vim-ku/sorter-%.output: \
-		test/vim-ku/sorter-%.input \
+test/vim-ku-core/sorter-%.output: \
+		test/vim-ku-core/sorter-%.input \
+		test/vspec \
 		$(PACKAGE_vim_ku_FILES_sorters)
 	@./test/vspec $< &>$@
 

@@ -1,4 +1,4 @@
-" Test: vim-ku core-ui
+" Test: vim-ku-core core-ui
 runtime! plugin/ku.vim plugin/ku/**/*.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 function s:describe__ui_named_key_mappings__choose_action()  "{{{1

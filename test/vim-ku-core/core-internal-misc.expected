@@ -1,40 +1,3 @@
-==== ku_available_source_names 
----- It should return [] if there is no source 
-..
----- It should return ['test'] if there is a source 'test' 
-..
----- It should return ['test'] if source 'test' is overrdden 
-..
----- It should return multiple names if there are multiple sources 
-..
-
-==== ku_available_source_p 
----- It should return false for non existing source 
-.....
----- It should return true for an existing source 
-.....
----- It should return true for an existing source which is overridden 
-.....
----- It should return true for another existing source 
-.....
-
-==== ku_available_sources 
----- It should return {} if there is no source 
-..
----- It should return {} after failed ku#define_source() 
-
-Error detected while processing function vspec#test..<SNR>3_describe__ku_available_sources..ku#define_source..<SNR>6_valid_key_p:
-line    5:
-Invalild definition: Without key 'gather_candidates'.
-line   17:
-Invalild definition: Key 'gather_candidates' must be function but given value is 0.
-Invalild definition: Key 'gather_candidates' must be function but given value is 0.
-Invalild definition: Key 'name' must be string but given value is 0...
----- It should return some content after successful ku#define_source() 
-...
----- It should return some content after overriding a source 
-...
-
 ==== ku_x_kinds_from_kind_names 
 ---- It requires the following initialization 
 ...
@@ -188,4 +151,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-312 examples, 0 failures
+270 examples, 0 failures

@@ -1,4 +1,4 @@
-" Test: vim-ku matcher-default
+" Test: vim-ku-core matcher-default
 function s:describe__ku_matcher_default_matches_p()  "{{{1
   let args = {'pattern': 'rail'}
 

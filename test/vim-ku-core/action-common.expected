@@ -86,6 +86,14 @@
 ---- It should always fail 
 .
 
+==== ku_action_common_open_x 
+---- It should acts as same as "open" if "open!" is not defined 
+...
+---- It should use a kind's own "open!" if it is defined 
+....
+---- It requires to reset side effect 
+
+
 ==== ku_action_common_right 
 ---- It should succeed if there is enough room 
 
@@ -120,9 +128,13 @@
 ---- It should fail if there is not enough room 
 
 
+==== ku_action_common_yank 
+---- It always succeed 
+..
+
 
 
 **** Result ****
 
 
-85 examples, 0 failures
+94 examples, 0 failures

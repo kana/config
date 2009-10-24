@@ -1,4 +1,4 @@
-" Test: vim-ku action-common
+" Test: vim-ku-core action-common
 " Set up  "{{{1
 
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
@@ -7,6 +7,12 @@ call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
 
 function! Test_action_open(candidate)
   edit `=a:candidate.word`
+  return 0
+endfunction
+
+
+function! Test_action_open_x(candidate)
+  edit `=a:candidate.word . '000'`
   return 0
 endfunction
 
@@ -382,6 +388,38 @@ endfunction
 
 
 
+function s:describe__ku_action_common_open_x()  "{{{1
+  let source = deepcopy(ku#available_sources()['test'])
+  let candidate = {
+  \   'ku__source': source,
+  \   'word': 'x',
+  \ }
+
+  It should acts as same as "open" if "open!" is not defined
+
+  Should bufname('') ==# ''
+  silent let _ = ku#_take_action('open!', candidate)
+  Should _ is 0
+  Should bufname('') ==# 'x'
+  enew!
+
+  It should use a kind's own "open!" if it is defined
+
+  Should ku#custom_action('source/test','open!',function('Test_action_open_x'))
+  \ == 0
+  Should bufname('') ==# ''
+  silent let _ = ku#_take_action('open!', candidate)
+  Should _ is 0
+  Should bufname('') ==# 'x000'
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__ku_action_common_right()  "{{{1
   " FIXME: NIY
   It should succeed if there is enough room
@@ -430,6 +468,17 @@ function s:describe__ku_action_common_tab_right()  "{{{1
   " FIXME: NIY
   It should succeed if there is enough room
   It should fail if there is not enough room
+endfunction
+
+
+
+
+function s:describe__ku_action_common_yank()  "{{{1
+  It always succeed
+
+  let @0 = 'Samba'
+  Should ku#action#common#yank({'word': 'Somebody'}) == 0
+  Should @0 ==# 'Somebody'
 endfunction
 
 

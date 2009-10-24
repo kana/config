@@ -1,4 +1,4 @@
-" Test: vim-ku sorter-simple
+" Test: vim-ku-core sorter-simple
 function s:describe__ku_sorter_simple_sort()  "{{{1
   let args = {}
   let lcandidates = [
