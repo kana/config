@@ -1,6 +1,6 @@
 " ku source: args
 " Version: 0.2.0
-" Copyright (C) 2009 kana <http://whileimautomaton.net/>
+" Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -31,7 +31,7 @@ endif
 
 call ku#define_source({
 \   'default_action_table': {
-\     'argdelete': function('ku#source#action_argdelete'),
+\     'argdelete': function('ku#source#args#action_argdelete'),
 \   },
 \   'default_key_table': {
 \     'R': 'argdelete',

@@ -2,7 +2,7 @@
 
 Version 0.2.0
 Script ID: ****
-Copyright (C) 2009 kana <http://whileimautomaton.net/>
+Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -30,6 +30,7 @@ Introduction            |ku-source-args-introduction|
 Interface               |ku-source-args-interface|
   Action Table            |ku-source-args-action-table|
   Key Table               |ku-source-args-key-table|
+  Kinds                   |ku-source-args-kinds|
 Bugs                    |ku-source-args-bugs|
 Changelog               |ku-source-args-changelog|
 
@@ -40,8 +41,8 @@ Changelog               |ku-source-args-changelog|
 INTRODUCTION				       *ku-source-args-introduction*
 
 *ku-source-args* is a source for Vim plugin |ku| to deal with files in
-|argument-list|.  You can choose one from many files from argument list and do
-some action on it.
+|argument-list|.  You can choose one from argument list and do some action on
+it.
 
 
 Requirements:
@@ -65,7 +66,9 @@ INTERFACE					*ku-source-args-interface*
 ACTION TABLLE				       *ku-source-args-action-table*
 
 
-See |ku-source-buffer-action-table| for the details.
+See also:
+- |ku-common-action-table|
+- |ku-source-buffer-action-table|
 
 Additionally, the following actions are available:
 
@@ -76,12 +79,20 @@ argdelete				     *ku-source-args-action-argdelete*
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-args-key-table*
 
+See also:
+- |ku-common-key-table|
+- |ku-source-buffer-key-table|
+
 Key		Action ~
 --------	--------
-<C-o>		open		|ku-source-args-action-open|
 R		argdelete	|ku-source-args-action-argdelete|
-O		open!		|ku-source-args-action-open!|
-o		open		|ku-source-args-action-open|
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-args-kinds*
+
+Each candidate from source args can be treated as a buffer.
+See also |ku-source-buffer|.
 
 
 

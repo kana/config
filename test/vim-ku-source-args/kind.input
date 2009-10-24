@@ -8,15 +8,15 @@ function s:describe__ku_kind_source_args()  "{{{1
 
   It should have the following actions
 
-  Should sort(keys(Call('s:default_kind_action_table', 'source/args'))) ==# [
-  \ 'argdelete',
-  \ ]
+  Should Call('s:default_kind_action_table', 'source/args') ==# {
+  \ 'argdelete': function('ku#source#args#action_argdelete'),
+  \ }
 
   It should have the following key bindings
 
-  Should sort(keys(Call('s:default_kind_key_table', 'source/args'))) ==# [
-  \ 'R',
-  \ ]
+  Should Call('s:default_kind_key_table', 'source/args') ==# {
+  \ 'R': 'argdelete',
+  \ }
 endfunction
 
 
