@@ -63,7 +63,6 @@ INTERFACE					*ku-source-buffer-interface*
 ------------------------------------------------------------------------------
 ACTION TABLLE				       *ku-source-buffer-action-table*
 
-
 open						*ku-source-buffer-action-open*
 			Open the buffer, corresponding to a candidate, in the
 			current window.
