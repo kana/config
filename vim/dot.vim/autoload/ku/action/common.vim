@@ -121,6 +121,13 @@ endfunction
 
 
 
+function! ku#action#common#open_x(candidate)  "{{{2
+  return ku#_take_action('open', a:candidate)
+endfunction
+
+
+
+
 function! ku#action#common#right(candidate)  "{{{2
   return s:open_with_split('belowright vertical', a:candidate)
 endfunction

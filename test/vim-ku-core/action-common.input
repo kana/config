@@ -11,6 +11,12 @@ function! Test_action_open(candidate)
 endfunction
 
 
+function! Test_action_open_x(candidate)
+  edit `=a:candidate.word . '000'`
+  return 0
+endfunction
+
+
 call ku#define_source({
 \   'default_action_table': {'open': function('Test_action_open')},
 \   'gather_candidates': function('get'),
@@ -377,6 +383,38 @@ function s:describe__ku_action_common_open()  "{{{1
   " This action is a fallback to notice the action 'default' for a kind is not
   " defined (because the action must be defined), so that it always fails.
   Should ku#action#common#open({}) != 0
+endfunction
+
+
+
+
+function s:describe__ku_action_common_open_x()  "{{{1
+  let source = deepcopy(ku#available_sources()['test'])
+  let candidate = {
+  \   'ku__source': source,
+  \   'word': 'x',
+  \ }
+
+  It should acts as same as "open" if "open!" is not defined
+
+  Should bufname('') ==# ''
+  silent let _ = ku#_take_action('open!', candidate)
+  Should _ is 0
+  Should bufname('') ==# 'x'
+  enew!
+
+  It should use a kind's own "open!" if it is defined
+
+  Should ku#custom_action('source/test','open!',function('Test_action_open_x'))
+  \ == 0
+  Should bufname('') ==# ''
+  silent let _ = ku#_take_action('open!', candidate)
+  Should _ is 0
+  Should bufname('') ==# 'x000'
+
+  It requires to reset side effect
+
+  ResetContext
 endfunction
 
 
