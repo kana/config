@@ -8,23 +8,23 @@ function s:describe__ku_kind_buffer()  "{{{1
 
   It should have the following actions
 
-  Should sort(keys(Call('s:default_kind_action_table', 'buffer'))) ==# [
-  \ 'default',
-  \ 'delete',
-  \ 'open!',
-  \ 'open',
-  \ 'unload',
-  \ 'wipeout',
-  \ ]
+  Should Call('s:default_kind_action_table', 'buffer') ==# {
+  \ 'default': function('ku#action#buffer#open'),
+  \ 'delete': function('ku#action#buffer#delete'),
+  \ 'open!': function('ku#action#buffer#open_x'),
+  \ 'open': function('ku#action#buffer#open'),
+  \ 'unload': function('ku#action#buffer#unload'),
+  \ 'wipeout': function('ku#action#buffer#wipeout'),
+  \ }
 
   It should have the following key bindings
 
-  Should sort(keys(Call('s:default_kind_key_table', 'buffer'))) ==# [
-  \ 'D',
-  \ 'O',
-  \ 'U',
-  \ 'W',
-  \ ]
+  Should Call('s:default_kind_key_table', 'buffer') ==# {
+  \ 'D': 'delete',
+  \ 'O': 'open!',
+  \ 'U': 'unload',
+  \ 'W': 'wipeout',
+  \ }
 endfunction
 
 
