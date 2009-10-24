@@ -1,0 +1,366 @@
+" Test: vim-ku-source-file action
+runtime! plugin/ku.vim plugin/ku/kind/file.vim "plugin/ku/source/file.vim
+call vspec#hint({'sid': 'ku#action#file#_sid_prefix()'})
+function s:describe__ku_action_file_extract_asis()  "{{{1
+  It is not implemented yet
+endfunction
+
+
+
+
+function s:describe__ku_action_file_extract_smartly()  "{{{1
+  It is not implemented yet
+endfunction
+
+
+
+
+function s:describe__ku_action_file_extract_solely()  "{{{1
+  It is not implemented yet
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open__buffer_and_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+  normal! Always Sasara
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') != 0
+
+  It should succeed
+
+  silent! let _ = ku#action#file#open({'word': 'Alter'})
+  Should _ isnot 0
+  Should _ =~# '\<E37:'
+  Should bufnr('') == bufnr_s
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open__buffer_and_no_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') == 0
+
+  It should succeed
+
+  silent let _ = ku#action#file#open({'word': 'Alter'})
+  Should _ is 0
+  Should bufnr('') == bufnr_a
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open__no_buffer_and_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+  normal! Always Sasara
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') != 0
+
+  It should succeed
+
+  silent! let _ = ku#action#file#open({'word': 'Yuzuki'})
+  Should _ isnot 0
+  Should _ =~# '\<E37:'
+  Should bufnr('') == bufnr_s
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open__no_buffer_and_no_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') == 0
+
+  It should succeed
+
+  silent let _ = ku#action#file#open({'word': 'Yuzuki'})
+  Should _ is 0
+  Should bufnr('') != bufnr_a
+  Should bufnr('') != bufnr_s
+  Should bufname('') ==# 'Yuzuki'
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open_x__buffer_and_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+  normal! Always Sasara
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') != 0
+
+  It should succeed
+
+  silent! let _ = ku#action#file#open_x({'word': 'Alter'})
+  Should _ is 0
+  Should bufnr('') == bufnr_a
+  Should getbufline(bufnr_s, 1, '$') ==# ['lways Sasara']
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open_x__buffer_and_no_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') == 0
+
+  It should succeed
+
+  silent let _ = ku#action#file#open_x({'word': 'Alter'})
+  Should _ is 0
+  Should bufnr('') == bufnr_a
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open_x__no_buffer_and_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+  normal! Always Sasara
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') != 0
+
+  It should succeed
+
+  silent! let _ = ku#action#file#open_x({'word': 'Yuzuki'})
+  Should _ is 0
+  Should bufnr('') != bufnr_a
+  Should bufnr('') != bufnr_s
+  Should bufname('') ==# 'Yuzuki'
+  Should getbufline(bufnr_s, 1, '$') ==# []
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__ku_action_file_open_x__no_buffer_and_no_change()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') == 0
+
+  It should succeed
+
+  silent let _ = ku#action#file#open_x({'word': 'Yuzuki'})
+  Should _ is 0
+  Should bufnr('') != bufnr_a
+  Should bufnr('') != bufnr_s
+  Should bufname('') ==# 'Yuzuki'
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
+function s:describe__s_bufnr_from_candidate()  "{{{1
+  It requires the following initialization
+
+  silent edit! 'Alter'
+  silent! bwipeout! 'Sasara'
+
+  It should return a buffer number if a corresponding buffer exists 
+
+  Should Call('s:bufnr_from_candidate', {'word': 'Alter'}) == bufnr('Alter')
+
+  It should return error message if any corresponding buffer doesn't exist
+
+  Should type(Call('s:bufnr_from_candidate', {'word': 'Sasara'})) == type('')
+
+  It requires to reset side effect
+
+  bwipeout! Alter
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

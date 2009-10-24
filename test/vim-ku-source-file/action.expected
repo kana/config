@@ -1,0 +1,92 @@
+==== ku_action_file_extract_asis 
+---- It is not implemented yet 
+
+
+==== ku_action_file_extract_smartly 
+---- It is not implemented yet 
+
+
+==== ku_action_file_extract_solely 
+---- It is not implemented yet 
+
+
+==== ku_action_file_open buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open no buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open no buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+......
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x no buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.......
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x no buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+......
+---- It requires to reset side effect 
+...
+
+==== s_bufnr_from_candidate 
+---- It requires the following initialization 
+
+---- It should return a buffer number if a corresponding buffer exists  
+.
+---- It should return error message if any corresponding buffer doesn't exist 
+.
+---- It requires to reset side effect 
+
+
+
+
+**** Result ****
+
+
+100 examples, 0 failures

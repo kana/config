@@ -949,6 +949,18 @@ test/vim-ku-source-buffer/%.output: \
 	@./test/vspec $< &>$@
 
 
+# vim-ku-source-file  #{{{2
+TESTS_vim_ku_source_file = \
+		action \
+		kind
+
+test/vim-ku-source-file/%.output: \
+		test/vim-ku-source-file/%.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_source_file_FILES)
+	@./test/vspec $< &>$@
+
+
 # vim-ku-source-quickfix  #{{{2
 TESTS_vim_ku_source_quickfix = \
 		action \
