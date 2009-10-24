@@ -1,0 +1,14 @@
+==== ku_source_quickfix_gather_candidates_buffer 
+---- It requires the following initialization 
+..
+---- It should return buffers in argument list regardless of a:args.pattern 
+.
+---- It requires to reset side effect 
+....
+
+
+
+**** Result ****
+
+
+7 examples, 0 failures
