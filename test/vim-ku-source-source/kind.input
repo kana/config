@@ -8,14 +8,14 @@ function s:describe__ku_kind_source_source()  "{{{1
 
   It should have the following actions
 
-  Should sort(keys(Call('s:default_kind_action_table', 'source/source'))) ==# [
-  \ 'open',
-  \ ]
+  Should Call('s:default_kind_action_table', 'source/source') ==# {
+  \ 'open': function('ku#source#source#action_open'),
+  \ }
 
   It should have the following key bindings
 
-  Should sort(keys(Call('s:default_kind_key_table', 'source/source'))) ==# [
-  \ ]
+  Should Call('s:default_kind_key_table', 'source/source') ==# {
+  \ }
 endfunction
 
 
