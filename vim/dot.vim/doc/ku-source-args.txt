@@ -65,7 +65,6 @@ INTERFACE					*ku-source-args-interface*
 ------------------------------------------------------------------------------
 ACTION TABLLE				       *ku-source-args-action-table*
 
-
 See also:
 - |ku-common-action-table|
 - |ku-source-buffer-action-table|
