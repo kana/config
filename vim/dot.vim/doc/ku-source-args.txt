@@ -30,6 +30,7 @@ Introduction            |ku-source-args-introduction|
 Interface               |ku-source-args-interface|
   Action Table            |ku-source-args-action-table|
   Key Table               |ku-source-args-key-table|
+  Kinds                   |ku-source-args-kinds|
 Bugs                    |ku-source-args-bugs|
 Changelog               |ku-source-args-changelog|
 
@@ -85,6 +86,13 @@ See also:
 Key		Action ~
 --------	--------
 R		argdelete	|ku-source-args-action-argdelete|
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-args-kinds*
+
+Each candidate from source args can be treated as a buffer.
+See also |ku-source-buffer|.
 
 
 
