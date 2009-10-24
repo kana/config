@@ -65,7 +65,9 @@ INTERFACE					*ku-source-args-interface*
 ACTION TABLLE				       *ku-source-args-action-table*
 
 
-See |ku-source-buffer-action-table| for the details.
+See also:
+- |ku-common-action-table|
+- |ku-source-buffer-action-table|
 
 Additionally, the following actions are available:
 
@@ -76,12 +78,13 @@ argdelete				     *ku-source-args-action-argdelete*
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-args-key-table*
 
+See also:
+- |ku-common-key-table|
+- |ku-source-buffer-key-table|
+
 Key		Action ~
 --------	--------
-<C-o>		open		|ku-source-args-action-open|
 R		argdelete	|ku-source-args-action-argdelete|
-O		open!		|ku-source-args-action-open!|
-o		open		|ku-source-args-action-open|
 
 
 
