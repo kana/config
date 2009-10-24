@@ -64,9 +64,6 @@ INTERFACE					*ku-source-buffer-interface*
 ACTION TABLLE				       *ku-source-buffer-action-table*
 
 
-default					     *ku-source-buffer-action-default*
-			Alias of "open".
-
 open						*ku-source-buffer-action-open*
 			Open the buffer, corresponding to a candidate, in the
 			current window.
@@ -89,7 +86,6 @@ See also |ku-common-key-table|.
 Key		Action ~
 --------	--------
 D		delete		|ku-source-buffer-action-delete|
-O		open!		|ku-source-buffer-action-open!|
 U		unload		|ku-source-buffer-action-unload|
 W		wipeout		|ku-source-buffer-action-wipeout|
 

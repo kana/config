@@ -31,7 +31,6 @@ endif
 
 call ku#define_kind({
 \   'default_action_table': {
-\     'default': function('ku#action#buffer#open'),
 \     'delete': function('ku#action#buffer#delete'),
 \     'open!': function('ku#action#buffer#open_x'),
 \     'open': function('ku#action#buffer#open'),
@@ -40,7 +39,6 @@ call ku#define_kind({
 \    },
 \   'default_key_table': {
 \     'D': 'delete',
-\     'O': 'open!',
 \     'U': 'unload',
 \     'W': 'wipeout',
 \    },
