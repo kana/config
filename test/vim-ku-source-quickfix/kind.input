@@ -10,16 +10,16 @@ function s:describe__ku_kind_source_quickfix_buffer()  "{{{1
 
   It should have the following actions
 
-  Should sort(keys(Call('s:default_kind_action_table', source_name))) ==# [
-  \ 'open!',
-  \ 'open',
-  \ ]
+  Should Call('s:default_kind_action_table', source_name) ==# {
+  \ 'open!': function('ku#source#quickfix#action_open_x'),
+  \ 'open': function('ku#source#quickfix#action_open'),
+  \ }
 
   It should have the following key bindings
 
-  Should sort(keys(Call('s:default_kind_key_table', source_name))) ==# [
-  \ 'O',
-  \ ]
+  Should Call('s:default_kind_key_table', source_name) ==# {
+  \ 'O': 'open!',
+  \ }
 endfunction
 
 
