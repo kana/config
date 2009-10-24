@@ -382,6 +382,15 @@ open						*ku-common-action-open*
 			each kind.  See the document of each kind for what its
 			"open" action does.
 
+open!						*ku-common-action-open!*
+			Like "open", but its meaning is usually similar to
+			:edit!, corresponding to |:edit|, so that "open!"
+			discards changes in the current buffer before opening
+			a given candidate in the current window.
+
+			If this action is not overridden, it acts as same as
+			"open".
+
 select						*ku-common-action-select*
 			Cancel to choose an actioin by
 			|<Plug>(ku-choose-action)| and return to the previous
@@ -447,6 +456,7 @@ H		Left		|ku-common-action-Left|
 J		Bottom		|ku-common-action-Bottom|
 K		Top		|ku-common-action-Top|
 L		Right		|ku-common-action-Right|
+O		open!		|ku-common-action-open!|
 h		left		|ku-common-action-left|
 j		below		|ku-common-action-below|
 k		above		|ku-common-action-above|
