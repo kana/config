@@ -1,0 +1,135 @@
+*ku-source-quickfix.txt*	ku source: quickfix
+
+Version 0.2.0
+Script ID: ****
+Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-source-quickfix-contents*
+
+Introduction            |ku-source-quickfix-introduction|
+Interface               |ku-source-quickfix-interface|
+  Action Table            |ku-source-quickfix-action-table|
+  Key Table               |ku-source-quickfix-key-table|
+  Sources                 |ku-source-quickfix-sources|
+Bugs                    |ku-source-quickfix-bugs|
+Changelog               |ku-source-quickfix-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION				     *ku-source-quickfix-introduction*
+
+*ku-source-quickfix* is a source for Vim plugin |ku| to deal with |quickfix|.
+You can choose an error from quickfix list and do some action on it.
+
+
+Requirements:
+- Vim 7.2 or later
+- |ku| 0.3.0 or later (vimscript#2337)
+
+Latest version:
+http://github.com/kana/config/commits/vim-ku-source-quickfix
+
+Document in HTML format:
+http://kana.github.com/config/vim/ku-source-quickfix.html
+
+
+
+
+==============================================================================
+INTERFACE					*ku-source-quickfix-interface*
+
+------------------------------------------------------------------------------
+ACTION TABLLE				     *ku-source-quickfix-action-table*
+
+See also:
+- |ku-common-action-table|
+- |ku-source-buffer-action-table|
+
+open					      *ku-source-quickfix-action-open*
+			Jump on the error corresponding to a given candidate
+			by |:cc|.
+
+open!					     *ku-source-quickfix-action-open!*
+			Like "open", but use :cc! to jump.
+
+
+------------------------------------------------------------------------------
+KEY TABLE					*ku-source-quickfix-key-table*
+
+See also:
+- |ku-common-key-table|
+- |ku-source-buffer-key-table|
+
+Key		Action ~
+--------	--------
+O		open!		|ku-source-buffer-action-open!|
+
+
+------------------------------------------------------------------------------
+SOURCES						*ku-source-quickfix-source*
+
+The following sources are provided:
+
+quickfix/buffer
+	Each candidate is corresponding to a buffer which contain any error.
+
+quickfix/error
+	Each candidate is corresponding to an error in quickfix list.
+	(Not implemented yet)
+
+
+
+
+==============================================================================
+BUGS						*ku-source-quickfix-bugs*
+
+KNOWN ISSUES ~
+
+- |location-list| is not supported.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-source-quickfix-changelog*
+
+0.2.0	2009-10-24T03:19:27+09:00	  *ku-source-quickfix-changelog-0.2.0*
+	- Update for ku 0.3.0.
+
+0.1.1	2009-05-04T02:43:38+09:00	  *ku-source-quickfix-changelog-0.1.1*
+	- Update for ku 0.2.1.
+	- Refactor a bit.
+
+0.1.0	2009-04-28T02:03:52+09:00	  *ku-source-quickfix-changelog-0.1.0*
+	- Update for ku 0.2.0.
+
+0.0.0	2008-10-28T01:50:35+09:00	  *ku-source-quickfix-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

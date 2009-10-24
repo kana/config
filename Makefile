@@ -235,6 +235,7 @@ ALL_PACKAGES=\
   vim-ku-core \
   vim-ku-source-args \
   vim-ku-source-buffer \
+  vim-ku-source-quickfix \
   vim-ku-source-source \
   vim-metarw \
   vim-metarw-git \
@@ -413,6 +414,15 @@ PACKAGE_vim_ku_source_buffer_FILES_core=\
   vim/dot.vim/plugin/ku/source/buffer.vim
 PACKAGE_vim_ku_source_buffer_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/buffer.vim
+
+PACKAGE_vim_ku_source_quickfix_ARCHIVE=vim-ku-source-quickfix-0.2.0
+PACKAGE_vim_ku_source_quickfix_BASE=vim/dot.vim
+PACKAGE_vim_ku_source_quickfix_FILES=\
+  $(PACKAGE_vim_ku_source_quickfix_FILES_core)
+PACKAGE_vim_ku_source_quickfix_FILES_core=\
+  vim/dot.vim/autoload/ku/source/quickfix.vim \
+  vim/dot.vim/doc/ku-source-quickfix.txt \
+  vim/dot.vim/plugin/ku/source/quickfix.vim
 
 PACKAGE_vim_ku_source_source_ARCHIVE=vim-ku-source-source-0.2.0
 PACKAGE_vim_ku_source_source_BASE=vim/dot.vim
