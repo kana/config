@@ -40,8 +40,8 @@ Changelog               |ku-source-args-changelog|
 INTRODUCTION				       *ku-source-args-introduction*
 
 *ku-source-args* is a source for Vim plugin |ku| to deal with files in
-|argument-list|.  You can choose one from many files from argument list and do
-some action on it.
+|argument-list|.  You can choose one from argument list and do some action on
+it.
 
 
 Requirements:
