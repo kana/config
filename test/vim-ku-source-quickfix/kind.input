@@ -1,0 +1,29 @@
+" Test: vim-ku-source-quickfix kind
+runtime! plugin/ku.vim plugin/ku/source/quickfix.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_kind_source_quickfix_buffer()  "{{{1
+  let source_name = 'source/quickfix/buffer'
+
+  It should be available
+
+  Should has_key(Ref('s:available_kinds'), source_name) == 1
+
+  It should have the following actions
+
+  Should sort(keys(Call('s:default_kind_action_table', source_name))) ==# [
+  \ 'open!',
+  \ 'open',
+  \ ]
+
+  It should have the following key bindings
+
+  Should sort(keys(Call('s:default_kind_key_table', source_name))) ==# [
+  \ 'O',
+  \ ]
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

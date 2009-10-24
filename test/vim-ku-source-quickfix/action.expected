@@ -1,0 +1,26 @@
+==== ku_source_quickfix_action_open 
+---- It requires the following initialization 
+..
+---- It should succeed if the current buffer is not modified 
+..
+---- It should fail if the current buffer is modified 
+..
+---- It requires to reset side effect 
+....
+
+==== ku_source_quickfix_action_open_x 
+---- It requires the following initialization 
+..
+---- It should succeed if the current buffer is not modified 
+..
+---- It should fail if the current buffer is modified 
+.....
+---- It requires to reset side effect 
+....
+
+
+
+**** Result ****
+
+
+23 examples, 0 failures

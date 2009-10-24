@@ -1,0 +1,42 @@
+" Test: vim-ku-source-quickfix source
+runtime! plugin/ku.vim plugin/ku/source/quickfix.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_quickfix_gather_candidates_buffer()  "{{{1
+  It requires the following initialization
+
+  let candidate = {
+  \   'ku_buffer_nr': bufnr('A'),
+  \   'ku_quickfix_nr': 1,
+  \   'word': 'xxx',
+  \ }
+
+  cgetexpr ['A:13:Alter', 'S:26:Sasara', 'Y:Yuzuki']
+  Should map(getqflist(), 'v:val.valid') ==# [1, 1, 0]
+  Should map(getqflist(), 'v:val.bufnr') ==# [bufnr('A'), bufnr('S'), 0]
+
+  It should return buffers in argument list regardless of a:args.pattern
+
+  let args = {'pattern': 'Why are my daughters so lovely!'}
+  let lcandidates = copy(ku#source#quickfix#gather_candidates(args))
+
+  Should lcandidates ==# [
+  \   {'word': 'A', 'ku_buffer_nr': bufnr('A'), 'ku_quickfix_nr': 1},
+  \   {'word': 'S', 'ku_buffer_nr': bufnr('S'), 'ku_quickfix_nr': 2},
+  \ ]
+
+  It requires to reset side effect
+
+  cgetexpr []
+  Should getqflist() ==# []
+
+  enew!
+  Should bufnr('') != bufnr('A')
+  Should bufnr('') != bufnr('S')
+  Should bufname('') ==# ''
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

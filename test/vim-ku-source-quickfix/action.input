@@ -1,0 +1,102 @@
+" Test: vim-ku-source-quickfix action
+runtime! plugin/ku.vim plugin/ku/source/quickfix.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_quickfix_action_open()  "{{{1
+  It requires the following initialization
+
+  let candidate = {
+  \   'ku_buffer_nr': bufnr('A'),
+  \   'ku_quickfix_nr': 1,
+  \   'word': 'xxx',
+  \ }
+
+  cgetexpr ['A:13:Alter', 'S:26:Sasara', 'Y:Yuzuki']
+  Should map(getqflist(), 'v:val.valid') ==# [1, 1, 0]
+  Should map(getqflist(), 'v:val.bufnr') ==# [bufnr('A'), bufnr('S'), 0]
+
+  It should succeed if the current buffer is not modified
+
+  enew!
+  let bufnr = bufnr('')
+
+  silent let _ = ku#source#quickfix#action_open(candidate)
+  Should _ is 0
+  Should bufnr('') == bufnr('A')
+
+  It should fail if the current buffer is modified
+
+  enew!
+  let bufnr = bufnr('')
+  normal! AI / Ryu*
+
+  silent! let _ = ku#source#quickfix#action_open(candidate)
+  Should _ =~# '\<E37:'
+  Should bufnr('') == bufnr
+
+  It requires to reset side effect
+
+  cgetexpr []
+  Should getqflist() ==# []
+
+  enew!
+  Should bufnr('') != bufnr('A')
+  Should bufnr('') != bufnr('S')
+  Should bufname('') ==# ''
+endfunction
+
+
+
+
+function s:describe__ku_source_quickfix_action_open_x()  "{{{1
+  It requires the following initialization
+
+  let candidate = {
+  \   'ku_buffer_nr': bufnr('A'),
+  \   'ku_quickfix_nr': 1,
+  \   'word': 'xxx',
+  \ }
+
+  cgetexpr ['A:13:Alter', 'S:26:Sasara', 'Y:Yuzuki']
+  Should map(getqflist(), 'v:val.valid') ==# [1, 1, 0]
+  Should map(getqflist(), 'v:val.bufnr') ==# [bufnr('A'), bufnr('S'), 0]
+
+  It should succeed if the current buffer is not modified
+
+  enew!
+  let bufnr = bufnr('')
+
+  silent let _ = ku#source#quickfix#action_open_x(candidate)
+  Should _ is 0
+  Should bufnr('') == bufnr('A')
+
+  It should fail if the current buffer is modified
+
+  enew!
+  let bufnr = bufnr('')
+  normal! AI / Ryu*
+  Should &l:modified == 1
+
+  silent let _ = ku#source#quickfix#action_open_x(candidate)
+  Should _ is 0
+  Should bufnr('') == bufnr('A')
+
+  execute bufnr 'buffer'
+  Should bufnr('') == bufnr
+  Should &l:modified == 0
+
+  It requires to reset side effect
+
+  cgetexpr []
+  Should getqflist() ==# []
+
+  enew!
+  Should bufnr('') != bufnr('A')
+  Should bufnr('') != bufnr('S')
+  Should bufname('') ==# ''
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
