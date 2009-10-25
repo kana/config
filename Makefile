@@ -952,7 +952,8 @@ test/vim-ku-source-buffer/%.output: \
 # vim-ku-source-file  #{{{2
 TESTS_vim_ku_source_file = \
 		action \
-		kind
+		kind \
+		source
 
 test/vim-ku-source-file/%.output: \
 		test/vim-ku-source-file/%.input \

@@ -1,0 +1,66 @@
+==== ku_source_file_gather_candidates archive
+
+==== ku_source_file_gather_candidates directory
+---- It requires the following initialization 
+.
+---- It should list ordinary files/directories in a directory 
+...
+---- It should list dotfiles in a directory 
+..
+---- It should list ordinary files/directories in a dot-directory 
+.
+---- It should list dotfiles in a dot-directory 
+.
+---- It requires to reset side effect 
+.
+
+==== s_candidates_from_archive 
+---- It is not implemented yet 
+.
+
+==== s_candidates_from_directory 
+---- It requires the following initialization 
+.
+---- It should list ordinary files/directories in a directory 
+.....
+---- It should list dotfiles in a directory 
+....
+---- It should list ordinary files/directories in a dot-directory 
+.
+---- It should list dotfiles in a dot-directory 
+.
+---- It requires to reset side effect 
+.
+
+==== s_make_path 
+---- It should join items in a given list 
+...
+---- It should join given arguments 
+...
+
+==== s_parse_pattern archive pattern
+---- It is not implemented yet 
+.
+
+==== s_parse_pattern directory pattern
+---- It should return valid value for empty 
+.
+---- It should return valid value for ordinary directory pattern 
+....
+---- It should return valid value for root directory pattern 
+....
+---- It should return valid value for ordinary directory + dotfile pattern 
+......
+---- It should return valid value for root directory + dotfile pattern 
+....
+
+==== s_path_separator 
+---- It should return a valid value according to the current environment  
+.
+
+
+
+**** Result ****
+
+
+50 examples, 0 failures

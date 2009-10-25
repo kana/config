@@ -1,0 +1,423 @@
+" Test: vim-ku-source-file source
+
+" test/vim-ku-source-file/data contains:
+"   file1
+"   dir1/
+"     file2
+"     dir2/
+"     .file2
+"     .dir2/
+"   .file1
+"   .dir1/
+"     file2
+"     dir2/
+"     .file2
+"     .dir2/
+
+runtime! plugin/ku.vim plugin/ku/kind/file.vim plugin/ku/source/file.vim
+runtime! autoload/ku/source/file.vim
+call vspec#hint({'sid': 'ku#source#file#_sid_prefix()'})
+function s:describe__ku_source_file_gather_candidates__archive()  "{{{1
+  " FIXME: NIY
+endfunction
+
+
+
+
+function s:describe__ku_source_file_gather_candidates__directory()  "{{{1
+  " FIXME: path separator assumption
+
+  It requires the following initialization
+
+  let last_dir = getcwd()
+  let new_dir = last_dir . '/test/vim-ku-source-file/data'
+  cd `=new_dir`
+  Should getcwd() ==# new_dir
+
+  It should list ordinary files/directories in a directory
+
+  Should ku#source#file#gather_candidates({'pattern': ''}) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \ ]
+
+  Should ku#source#file#gather_candidates({'pattern': 'dir1'}) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \ ]
+
+  Should ku#source#file#gather_candidates({'pattern': 'dir1/'}) ==# [
+  \   {'word':  'dir1/dir2', 'abbr': 'dir1/dir2/'},
+  \   {'word':  'dir1/file2', 'abbr': 'dir1/file2'},
+  \ ]
+
+  It should list dotfiles in a directory
+
+  Should ku#source#file#gather_candidates({'pattern': '.'}) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \   {'word':  '..', 'abbr': '../'},
+  \   {'word':  '.dir1', 'abbr': '.dir1/'},
+  \   {'word':  '.file1', 'abbr': '.file1'},
+  \ ]
+
+  Should ku#source#file#gather_candidates({'pattern': '.dir1'}) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \   {'word':  '..', 'abbr': '../'},
+  \   {'word':  '.dir1', 'abbr': '.dir1/'},
+  \   {'word':  '.file1', 'abbr': '.file1'},
+  \ ]
+
+  It should list ordinary files/directories in a dot-directory
+
+  Should ku#source#file#gather_candidates({'pattern': '.dir1/'}) ==# [
+  \   {'word':  '.dir1/dir2', 'abbr': '.dir1/dir2/'},
+  \   {'word':  '.dir1/file2', 'abbr': '.dir1/file2'},
+  \ ]
+
+  It should list dotfiles in a dot-directory
+
+  Should ku#source#file#gather_candidates({'pattern': '.dir1/.'}) ==# [
+  \   {'word':  '.dir1/dir2', 'abbr': '.dir1/dir2/'},
+  \   {'word':  '.dir1/file2', 'abbr': '.dir1/file2'},
+  \   {'word':  '.dir1/..', 'abbr': '.dir1/../'},
+  \   {'word':  '.dir1/.dir2', 'abbr': '.dir1/.dir2/'},
+  \   {'word':  '.dir1/.file2', 'abbr': '.dir1/.file2'},
+  \ ]
+
+  It requires to reset side effect
+
+  cd -
+  Should getcwd() ==# last_dir
+endfunction
+
+
+
+
+function s:describe__s_candidates_from_archive()  "{{{1
+  It is not implemented yet
+
+  Should Call('s:candidates_from_archive', {}) ==# []
+endfunction
+
+
+
+
+function s:describe__s_candidates_from_directory()  "{{{1
+  " FIXME: path separator assumption
+
+  It requires the following initialization
+
+  let last_dir = getcwd()
+  let new_dir = last_dir . '/test/vim-ku-source-file/data'
+  cd `=new_dir`
+  Should getcwd() ==# new_dir
+
+  It should list ordinary files/directories in a directory
+
+  let _ = Call('s:parse_pattern', '')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \ ]
+
+  let _ = Call('s:parse_pattern', 'f')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \ ]
+
+  let _ = Call('s:parse_pattern', 'd')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \ ]
+
+  let _ = Call('s:parse_pattern', 'dir1')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \ ]
+
+  let _ = Call('s:parse_pattern', 'dir1/')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1/dir2', 'abbr': 'dir1/dir2/'},
+  \   {'word':  'dir1/file2', 'abbr': 'dir1/file2'},
+  \ ]
+
+  It should list dotfiles in a directory
+
+  let _ = Call('s:parse_pattern', '.')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \   {'word':  '..', 'abbr': '../'},
+  \   {'word':  '.dir1', 'abbr': '.dir1/'},
+  \   {'word':  '.file1', 'abbr': '.file1'},
+  \ ]
+
+  let _ = Call('s:parse_pattern', '.f')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \   {'word':  '..', 'abbr': '../'},
+  \   {'word':  '.dir1', 'abbr': '.dir1/'},
+  \   {'word':  '.file1', 'abbr': '.file1'},
+  \ ]
+
+  let _ = Call('s:parse_pattern', '.d')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \   {'word':  '..', 'abbr': '../'},
+  \   {'word':  '.dir1', 'abbr': '.dir1/'},
+  \   {'word':  '.file1', 'abbr': '.file1'},
+  \ ]
+
+  let _ = Call('s:parse_pattern', '.dir1')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  'dir1', 'abbr': 'dir1/'},
+  \   {'word':  'file1', 'abbr': 'file1'},
+  \   {'word':  '..', 'abbr': '../'},
+  \   {'word':  '.dir1', 'abbr': '.dir1/'},
+  \   {'word':  '.file1', 'abbr': '.file1'},
+  \ ]
+
+  It should list ordinary files/directories in a dot-directory
+
+  let _ = Call('s:parse_pattern', '.dir1/')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  '.dir1/dir2', 'abbr': '.dir1/dir2/'},
+  \   {'word':  '.dir1/file2', 'abbr': '.dir1/file2'},
+  \ ]
+
+  It should list dotfiles in a dot-directory
+
+  let _ = Call('s:parse_pattern', '.dir1/.')
+  Should Call('s:candidates_from_directory', _) ==# [
+  \   {'word':  '.dir1/dir2', 'abbr': '.dir1/dir2/'},
+  \   {'word':  '.dir1/file2', 'abbr': '.dir1/file2'},
+  \   {'word':  '.dir1/..', 'abbr': '.dir1/../'},
+  \   {'word':  '.dir1/.dir2', 'abbr': '.dir1/.dir2/'},
+  \   {'word':  '.dir1/.file2', 'abbr': '.dir1/.file2'},
+  \ ]
+
+  It requires to reset side effect
+
+  cd -
+  Should getcwd() ==# last_dir
+endfunction
+
+
+
+
+function s:describe__s_path_separator()  "{{{1
+  if has('win16') || has('win32') || has('win64')
+    let path_separator = '\'
+  else
+    let path_separator = '/'
+  endif
+
+  It should return a valid value according to the current environment 
+
+  Should Call('s:path_separator') ==# path_separator
+endfunction
+
+
+
+
+function s:describe__s_make_path()  "{{{1
+  if has('win16') || has('win32') || has('win64')
+    let path_separator = '\'
+  else
+    let path_separator = '/'
+  endif
+
+  It should join items in a given list
+
+  Should Call('s:make_path', ['a', 'b']) ==# 'a' . path_separator . 'b'
+  Should Call('s:make_path', ['a']) ==# 'a'
+  Should Call('s:make_path', []) ==# ''
+
+  It should join given arguments
+
+  Should Call('s:make_path', 'a', 'b') ==# 'a' . path_separator . 'b'
+  Should Call('s:make_path', 'a') ==# 'a'
+  Should Call('s:make_path') ==# ''
+endfunction
+
+
+
+
+function s:describe__s_parse_pattern__archive_pattern()  "{{{1
+  " FIXME: NIY
+  " FIXME: path separator assumption
+  It is not implemented yet
+
+  Should Call('s:parse_pattern', 'lock.zip') ==# {
+  \   'components': ['lock.zip'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+endfunction
+
+
+
+
+function s:describe__s_parse_pattern__directory_pattern()  "{{{1
+  " FIXME: path separator assumption
+
+  It should return valid value for empty
+
+  Should Call('s:parse_pattern', '') ==# {
+  \   'components': [''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  It should return valid value for ordinary directory pattern
+
+  Should Call('s:parse_pattern', 'foo') ==# {
+  \   'components': ['foo'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', 'foo/') ==# {
+  \   'components': ['foo', ''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', 'foo/bar') ==# {
+  \   'components': ['foo', 'bar'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+
+  Should Call('s:parse_pattern', 'foo/bar/') ==# {
+  \   'components': ['foo', 'bar', ''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+
+  It should return valid value for root directory pattern
+
+  Should Call('s:parse_pattern', '/') ==# {
+  \   'components': ['', ''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': !0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', '/bin') ==# {
+  \   'components': ['', 'bin'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': !0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', '/bin/') ==# {
+  \   'components': ['', 'bin', ''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', '/bin/x') ==# {
+  \   'components': ['', 'bin', 'x'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  It should return valid value for ordinary directory + dotfile pattern
+
+  Should Call('s:parse_pattern', '.') ==# {
+  \   'components': ['.'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': !0,
+  \ }
+
+  Should Call('s:parse_pattern', './') ==# {
+  \   'components': ['.', ''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', '.foo') ==# {
+  \   'components': ['.foo'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': !0,
+  \ }
+
+  Should Call('s:parse_pattern', '.foo/') ==# {
+  \   'components': ['.foo', ''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', 'foo/.') ==# {
+  \   'components': ['foo', '.'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': !0,
+  \ }
+
+
+  Should Call('s:parse_pattern', 'foo/.bar') ==# {
+  \   'components': ['foo', '.bar'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': !0,
+  \ }
+
+  It should return valid value for root directory + dotfile pattern
+
+  Should Call('s:parse_pattern', '/.') ==# {
+  \   'components': ['', '.'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': !0,
+  \   'user_seems_want_dotfiles_p': !0,
+  \ }
+
+  Should Call('s:parse_pattern', '/.bin') ==# {
+  \   'components': ['', '.bin'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': !0,
+  \   'user_seems_want_dotfiles_p': !0,
+  \ }
+
+  Should Call('s:parse_pattern', '/.bin/') ==# {
+  \   'components': ['', '.bin', ''],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': 0,
+  \ }
+
+  Should Call('s:parse_pattern', '/.bin/.') ==# {
+  \   'components': ['', '.bin', '.'],
+  \   'type': 'directory',
+  \   'root_directory_pattern_p': 0,
+  \   'user_seems_want_dotfiles_p': !0,
+  \ }
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
