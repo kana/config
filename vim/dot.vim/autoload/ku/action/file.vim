@@ -73,11 +73,11 @@ endfunction
 function! s:open(bang, candidate)  "{{{2
   let v:errmsg = ''
 
-  let bufnr = bufnr(fnameescape(a:candidate.word))
+  let bufnr = bufnr(fnameescape(s:path_from_candidate(a:candidate)))
   if 1 <= bufnr
     execute bufnr 'buffer'.a:bang
   else
-    execute 'edit'.a:bang '`=a:candidate.word`'
+    execute 'edit'.a:bang '`=s:path_from_candidate(a:candidate)`'
   endif
 
   return v:errmsg == '' ? 0 : v:errmsg
