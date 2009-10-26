@@ -84,9 +84,15 @@
 ---- It requires to reset side effect 
 
 
+==== s_path_from_candidate 
+---- It should return a:candidate.word if it doesn't have ku_file_path 
+.
+---- It should return a:candidate.ku_file_path if it has ku_file_path 
+.
+
 
 
 **** Result ****
 
 
-100 examples, 0 failures
+102 examples, 0 failures

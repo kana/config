@@ -99,6 +99,15 @@ endfunction
 
 
 
+function! s:path_from_candidate(candidate)  "{{{2
+  return (has_key(a:candidate, 'ku_file_path')
+  \       ? a:candidate.ku_file_path
+  \       : a:candidate.word)
+endfunction
+
+
+
+
 
 
 

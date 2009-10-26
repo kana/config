@@ -362,5 +362,20 @@ endfunction
 
 
 
+function s:describe__s_path_from_candidate()  "{{{1
+  It should return a:candidate.word if it doesn't have ku_file_path
+
+  Should Call('s:path_from_candidate', {'word': 'Alter'}) ==# 'Alter'
+
+  It should return a:candidate.ku_file_path if it has ku_file_path
+
+  Should Call('s:path_from_candidate',
+  \           {'word': 'Lovely', 'ku_file_path': 'Alter'})
+  \      ==# 'Alter'
+endfunction
+
+
+
+
 " __END__  "{{{1
 " vim: filetype=vim foldmethod=marker
