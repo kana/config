@@ -340,28 +340,6 @@ endfunction
 
 
 
-function s:describe__s_bufnr_from_candidate()  "{{{1
-  It requires the following initialization
-
-  silent edit! 'Alter'
-  silent! bwipeout! 'Sasara'
-
-  It should return a buffer number if a corresponding buffer exists 
-
-  Should Call('s:bufnr_from_candidate', {'word': 'Alter'}) == bufnr('Alter')
-
-  It should return error message if any corresponding buffer doesn't exist
-
-  Should type(Call('s:bufnr_from_candidate', {'word': 'Sasara'})) == type('')
-
-  It requires to reset side effect
-
-  bwipeout! Alter
-endfunction
-
-
-
-
 function s:describe__s_path_from_candidate()  "{{{1
   It should return a:candidate.word if it doesn't have ku_file_path
 

@@ -70,19 +70,6 @@ endfunction
 
 
 
-function! s:bufnr_from_candidate(candidate)  "{{{2
-  let _ = bufnr(fnameescape(a:candidate.word))
-  if 1 <= _
-    return _
-  else
-    return ('There is no corresponding file to candidate: '
-    \       . string(a:candidate.word))
-  endif
-endfunction
-
-
-
-
 function! s:open(bang, candidate)  "{{{2
   let v:errmsg = ''
 
