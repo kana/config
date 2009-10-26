@@ -74,6 +74,14 @@
 ---- It requires to reset side effect 
 ...
 
+==== s_open ku file path
+---- It requires the following initialization 
+....
+---- It should succeed 
+......
+---- It requires to reset side effect 
+...
+
 ==== s_path_from_candidate 
 ---- It should return a:candidate.word if it doesn't have ku_file_path 
 .
@@ -85,4 +93,4 @@
 **** Result ****
 
 
-100 examples, 0 failures
+113 examples, 0 failures

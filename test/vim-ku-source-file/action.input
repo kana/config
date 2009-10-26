@@ -340,6 +340,46 @@ endfunction
 
 
 
+function s:describe__s_open__ku_file_path()  "{{{1
+  It requires the following initialization
+
+  silent edit! `='Alter'`
+  let bufnr_a = bufnr('')
+  silent new `='Sasara'`
+  let bufnr_s = bufnr('')
+
+  let winnr = winnr()
+  let winrestcmd = winrestcmd()
+
+  Should bufexists('Alter') != 0
+  Should bufexists('Sasara') != 0
+  Should bufexists('Yuzuki') == 0
+  Should getbufvar('Sasara', '&modified') == 0
+
+  It should succeed
+
+  silent let _ = Call('s:open', '', {'word': '****', 'ku_file_path': 'Yuzuki'})
+  Should _ is 0
+  Should bufnr('') != bufnr_a
+  Should bufnr('') != bufnr_s
+  Should bufname('') ==# 'Yuzuki'
+  Should winnr() == winnr
+  Should winrestcmd() ==# winrestcmd
+
+  It requires to reset side effect
+
+  silent! bwipeout! Alter
+  silent! bwipeout! Sasara
+  silent! bwipeout! Yuzuki
+
+  Should bufexists('Alter') == 0
+  Should bufexists('Sasara') == 0
+  Should bufexists('Yuzuki') == 0
+endfunction
+
+
+
+
 function s:describe__s_path_from_candidate()  "{{{1
   It should return a:candidate.word if it doesn't have ku_file_path
 
