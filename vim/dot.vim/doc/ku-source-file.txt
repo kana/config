@@ -216,6 +216,10 @@ PLANNED FEATURES ~
 - "Learn" correspondence of archive formats and extensions.
   For example: ".zip and .jar are zip archives", etc.
 
+- Accept multiple kinds of path separators.  For example, '/' can be used as
+  '\' on Microsoft Windows and other environments that use '\' as a path
+  separator.
+
 
 
 
