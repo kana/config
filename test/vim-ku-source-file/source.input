@@ -213,11 +213,7 @@ endfunction
 
 
 function s:describe__s_make_path()  "{{{1
-  if has('win16') || has('win32') || has('win64')
-    let path_separator = '\'
-  else
-    let path_separator = '/'
-  endif
+  let path_separator = Call('s:path_separator')
 
   It should join items in a given list
 
