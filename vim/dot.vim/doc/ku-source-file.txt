@@ -136,6 +136,21 @@ KINDS						*ku-source-file-kinds*
 Each candidate from |ku-source-file| can be treated as a buffer if such buffer
 already exists.  See also |ku-source-buffer|.
 
+KIND FILE					*ku-kind-file*
+
+Source "file" also provides |ku-kind| "file" which represents a file-like
+candidate.
+
+To use various actions for kind "buffer", sources have to add the following
+values for each candidates:
+
+						*ku_file_path*
+ku_file_path		string			(optional)
+			A path to the file corresponding to a candidate.
+
+			If this key is not given, a:candidate.word is used as
+			a path.
+
 
 ------------------------------------------------------------------------------
 ARCHIVES					*ku-source-file-archives*
