@@ -233,7 +233,7 @@ endfunction
 
 function s:describe__s_parse_pattern__archive_pattern()  "{{{1
   " FIXME: NIY
-  " FIXME: path separator assumption
+
   It is not implemented yet
 
   Should Call('s:parse_pattern', 'lock.zip') ==# {
