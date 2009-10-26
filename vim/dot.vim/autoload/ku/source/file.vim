@@ -131,8 +131,7 @@ endfunction
 
 
 function! s:path_separator()  "{{{2
-  " FIXME: path separator assumption
-  return '/'
+  return (exists('+shellslash') && !&shellslash) ? '\' : '/'
 endfunction
 
 
