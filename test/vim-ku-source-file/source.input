@@ -405,7 +405,7 @@ endfunction
 
 
 function s:describe__s_path_separator()  "{{{1
-  if has('win16') || has('win32') || has('win64')
+  if exists('+shellslash') && !&shellslash
     let path_separator = '\'
   else
     let path_separator = '/'
