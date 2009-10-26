@@ -86,9 +86,9 @@ endfunction
 function! s:open(bang, candidate)  "{{{2
   let v:errmsg = ''
 
-  let _ = s:bufnr_from_candidate(a:candidate)
-  if type(_) == type(0)
-    execute _ 'buffer'.a:bang
+  let bufnr = bufnr(fnameescape(a:candidate.word))
+  if 1 <= bufnr
+    execute bufnr 'buffer'.a:bang
   else
     execute 'edit'.a:bang '`=a:candidate.word`'
   endif
