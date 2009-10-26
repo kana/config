@@ -63,7 +63,6 @@ endfunction
 
 function! s:candidates_from_directory(pattern_info)  "{{{2
   " Assumption: pattern_info.components[:-2] don't contain any wildcard.
-  " FIXME: path separator assumption
   " FIXME: path separator normalization
   let _ = a:pattern_info
 
@@ -105,7 +104,6 @@ endfunction
 
 
 function! s:make_path(...)  "{{{2
-  " FIXME: path separator assumption
   if a:0 == 1 && type(a:1) is type([])
     return join(a:1, s:path_separator())
   else
