@@ -212,21 +212,6 @@ endfunction
 
 
 
-function s:describe__s_path_separator()  "{{{1
-  if has('win16') || has('win32') || has('win64')
-    let path_separator = '\'
-  else
-    let path_separator = '/'
-  endif
-
-  It should return a valid value according to the current environment 
-
-  Should Call('s:path_separator') ==# path_separator
-endfunction
-
-
-
-
 function s:describe__s_make_path()  "{{{1
   if has('win16') || has('win32') || has('win64')
     let path_separator = '\'
@@ -414,6 +399,21 @@ function s:describe__s_parse_pattern__directory_pattern()  "{{{1
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': !0,
   \ }
+endfunction
+
+
+
+
+function s:describe__s_path_separator()  "{{{1
+  if has('win16') || has('win32') || has('win64')
+    let path_separator = '\'
+  else
+    let path_separator = '/'
+  endif
+
+  It should return a valid value according to the current environment 
+
+  Should Call('s:path_separator') ==# path_separator
 endfunction
 
 
