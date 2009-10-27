@@ -19,20 +19,22 @@ endfunction
 
 
 function s:describe__ku_source_bundle_gather_candidates__files()  "{{{1
+  let kinds = ['file', 'buffer', 'common']
+
   It should return files in a bundle regardless of a:args.pattern
 
   let args = {'pattern': 'a/'}
   let lcandidates = sort(copy(ku#source#bundle#gather_candidates(args)))
   Should lcandidates ==# [
-  \ {'word': 'a/alice', 'ku_file_path': 'alice'},
-  \ {'word': 'a/alpha', 'ku_file_path': 'alpha'},
+  \ {'word': 'a/alice', 'ku_file_path': 'alice', 'ku__kinds': kinds},
+  \ {'word': 'a/alpha', 'ku_file_path': 'alpha', 'ku__kinds': kinds},
   \ ]
 
   let args = {'pattern': 'b\Time to Empress'}
   let lcandidates = sort(copy(ku#source#bundle#gather_candidates(args)))
   Should lcandidates ==# [
-  \ {'word': 'b\beni', 'ku_file_path': 'beni'},
-  \ {'word': 'b\beta', 'ku_file_path': 'beta'},
+  \ {'word': 'b\beni', 'ku_file_path': 'beni', 'ku__kinds': kinds},
+  \ {'word': 'b\beta', 'ku_file_path': 'beta', 'ku__kinds': kinds},
   \ ]
 endfunction
 

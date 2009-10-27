@@ -23,6 +23,7 @@
 " }}}
 " Variables  "{{{1
 
+let s:KINDS_FOR_A_FILE_IN_A_BUNDLE = ['file', 'buffer', 'common']
 let s:REGEXP_BUNDLE_PATH_SEPARATOR = '[/\\]'
 
 
@@ -70,6 +71,7 @@ function! ku#source#bundle#gather_candidates(args)  "{{{2
     let j = index(bundle#available_bundles(), bundle_name)
     return map((0 <= j ? copy(bundle#files(bundle_name)) : []),
     \          '{"word": bundle_name . a:args.pattern[i] . v:val,
+    \            "ku__kinds": s:KINDS_FOR_A_FILE_IN_A_BUNDLE,
     \            "ku_file_path": v:val}')
   else  " args.pattern is '{bundle}' - list bundles
     return map(copy(bundle#available_bundles()), '{"word": v:val}')
