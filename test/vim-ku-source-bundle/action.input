@@ -1,0 +1,382 @@
+" Test: vim-ku-source-bundle action
+runtime! plugin/ku.vim
+runtime! plugin/ku/kind/buffer.vim plugin/ku/kind/file.vim
+runtime! plugin/ku/source/bundle.vim
+runtime! plugin/bundle.vim
+call vspec#hint({})
+function s:describe__ku_action_bundle_args__changed_and_defined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  normal! Alice
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified != 0
+
+  It should fail
+
+  silent let _ = ku#source#bundle#action_args({'word': 'test'})
+  Should _ == 0
+  Should argv() ==# []
+  Should bufnr('') == bufnr
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_args__changed_and_undefined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  normal! Alice
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified != 0
+
+  It should fail
+
+  silent let _ = ku#source#bundle#action_args({'word': 'test??'})
+  Should type(_) == type('')
+  Should argv() ==# []
+  Should bufnr('') == bufnr
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_args__unchanged_and_defined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified == 0
+
+  It should succeed
+
+  silent let _ = ku#source#bundle#action_args({'word': 'test'})
+  Should _ == 0
+  Should argv() ==# ['a', 'b', 'c']
+  Should argidx() == 0
+  Should bufnr('') != bufnr
+  Should bufname('') ==# 'a'
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_args__unchanged_and_undefined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified == 0
+
+  It should fail
+
+  silent let _ = ku#source#bundle#action_args({'word': 'test??'})
+  Should type(_) == type('')
+  Should argv() ==# []
+  Should bufnr('') == bufnr
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_args_x__changed_and_defined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  normal! Alice
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified != 0
+
+  It should succeed
+
+  silent let _ = ku#source#bundle#action_args_x({'word': 'test'})
+  Should _ == 0
+  Should argv() ==# ['a', 'b', 'c']
+  Should argidx() == 0
+  Should bufnr('') != bufnr
+  Should bufname('') ==# 'a'
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_args_x__changed_and_undefined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  normal! Alice
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified != 0
+
+  It should fail
+
+  silent let _ = ku#source#bundle#action_args_x({'word': 'test??'})
+  Should type(_) == type('')
+  Should argv() ==# []
+  Should bufnr('') == bufnr
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_args_x__unchanged_and_defined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified == 0
+
+  It should succeed
+
+  silent let _ = ku#source#bundle#action_args_x({'word': 'test'})
+  Should _ == 0
+  Should argv() ==# ['a', 'b', 'c']
+  Should argidx() == 0
+  Should bufnr('') != bufnr
+  Should bufname('') ==# 'a'
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_args_x__unchanged_and_undefined()  "{{{1
+  It requires the following initialization
+
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {'test': ['a', 'b', 'c']}
+  Should bundle#available_bundles() ==# ['test']
+  Should bundle#files('test') ==# ['a', 'b', 'c']
+
+  silent edit foo
+  let bufnr = bufnr('')
+  Should bufname('') ==# 'foo'
+  Should &l:modified == 0
+
+  It should fail
+
+  silent let _ = ku#source#bundle#action_args_x({'word': 'test??'})
+  Should type(_) == type('')
+  Should argv() ==# []
+  Should bufnr('') == bufnr
+
+  It requires to reset side effect
+
+  bwipeout! foo
+  silent! argdo bwipeout
+  silent! argdelete *
+  Should argv() ==# []
+  Should bufexists('a') == 0
+  Should bufexists('b') == 0
+  Should bufexists('c') == 0
+  Should bufexists('foo') == 0
+
+  let g:bundle_dictionary = {}
+  Should bundle#available_bundles() ==# []
+  Should bundle#files('test') ==# []
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_load()  "{{{1
+endfunction
+
+
+
+
+function s:describe__ku_action_bundle_load_x()  "{{{1
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

@@ -1,0 +1,43 @@
+" Test: vim-ku-source-bundle source
+runtime! plugin/ku.vim
+runtime! plugin/ku/source/bundle.vim
+runtime! plugin/bundle.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+let g:bundle_dictionary = {'a': ['alpha', 'alice'], 'b': ['beta', 'beni']}
+function s:describe__ku_source_bundle_gather_candidates__bundles()  "{{{1
+  It should return bundles regardless of a:args.pattern
+
+  let args = {'pattern': 'Time to Empress'}
+  let lcandidates = sort(copy(ku#source#bundle#gather_candidates(args)))
+  Should lcandidates ==# [
+  \ {'word': 'a'},
+  \ {'word': 'b'},
+  \ ]
+endfunction
+
+
+
+
+function s:describe__ku_source_bundle_gather_candidates__files()  "{{{1
+  It should return files in a bundle regardless of a:args.pattern
+
+  let args = {'pattern': 'a/'}
+  let lcandidates = sort(copy(ku#source#bundle#gather_candidates(args)))
+  Should lcandidates ==# [
+  \ {'word': 'a/alice', 'ku_file_path': 'alice'},
+  \ {'word': 'a/alpha', 'ku_file_path': 'alpha'},
+  \ ]
+
+  let args = {'pattern': 'b\Time to Empress'}
+  let lcandidates = sort(copy(ku#source#bundle#gather_candidates(args)))
+  Should lcandidates ==# [
+  \ {'word': 'b\beni', 'ku_file_path': 'beni'},
+  \ {'word': 'b\beta', 'ku_file_path': 'beta'},
+  \ ]
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

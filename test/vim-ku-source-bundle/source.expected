@@ -1,0 +1,14 @@
+==== ku_source_bundle_gather_candidates bundles
+---- It should return bundles regardless of a:args.pattern 
+.
+
+==== ku_source_bundle_gather_candidates files
+---- It should return files in a bundle regardless of a:args.pattern 
+..
+
+
+
+**** Result ****
+
+
+3 examples, 0 failures

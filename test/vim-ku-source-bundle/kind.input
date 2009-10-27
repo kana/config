@@ -1,0 +1,31 @@
+" Test: vim-ku-source-bundle kind
+runtime! plugin/ku.vim
+runtime! plugin/ku/source/bundle.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_kind_source_bundle()  "{{{1
+  It should be available
+
+  Should has_key(Ref('s:available_kinds'), 'source/bundle') ==# 1
+
+  It should have the following actions
+
+  Should Call('s:default_kind_action_table', 'source/bundle') ==# {
+  \ 'args!': function('ku#source#bundle#action_args_x'),
+  \ 'args': function('ku#source#bundle#action_args'),
+  \ 'load!': function('ku#source#bundle#action_load_x'),
+  \ 'load': function('ku#source#bundle#action_load'),
+  \ 'open!': function('ku#source#bundle#action_args_x'),
+  \ 'open': function('ku#source#bundle#action_args'),
+  \ }
+
+  It should have the following key bindings
+
+  Should Call('s:default_kind_key_table', 'source/bundle') ==# {
+  \ }
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

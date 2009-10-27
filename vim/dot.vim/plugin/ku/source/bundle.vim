@@ -31,12 +31,12 @@ endif
 
 call ku#define_source({
 \   'default_action_table': {
+\     'args!': function('ku#source#bundle#action_args_x'),
 \     'args': function('ku#source#bundle#action_args'),
-\     'args_x': function('ku#source#bundle#action_args_x'),
+\     'load!': function('ku#source#bundle#action_load_x'),
 \     'load': function('ku#source#bundle#action_load'),
-\     'load_x': function('ku#source#bundle#action_load_x'),
+\     'open!': function('ku#source#bundle#action_args_x'),
 \     'open': function('ku#source#bundle#action_args'),
-\     'open_x': function('ku#source#bundle#action_args_x'),
 \   },
 \   'default_key_table': {
 \   },
