@@ -1,0 +1,96 @@
+==== ku_action_file_extract_asis 
+---- It is not implemented yet 
+
+
+==== ku_action_file_extract_smartly 
+---- It is not implemented yet 
+
+
+==== ku_action_file_extract_solely 
+---- It is not implemented yet 
+
+
+==== ku_action_file_open buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open no buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open no buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+......
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+....
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x no buffer and change
+---- It requires the following initialization 
+....
+---- It should succeed 
+.......
+---- It requires to reset side effect 
+...
+
+==== ku_action_file_open_x no buffer and no change
+---- It requires the following initialization 
+....
+---- It should succeed 
+......
+---- It requires to reset side effect 
+...
+
+==== s_open ku file path
+---- It requires the following initialization 
+....
+---- It should succeed 
+......
+---- It requires to reset side effect 
+...
+
+==== s_path_from_candidate 
+---- It should return a:candidate.word if it doesn't have ku_file_path 
+.
+---- It should return a:candidate.ku_file_path if it has ku_file_path 
+.
+
+
+
+**** Result ****
+
+
+113 examples, 0 failures

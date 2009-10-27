@@ -1,0 +1,33 @@
+" Test: vim-ku-source-file kind
+runtime! plugin/ku.vim plugin/ku/kind/file.vim "plugin/ku/source/file.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_kind_file()  "{{{1
+  It should be available
+
+  Should has_key(Ref('s:available_kinds'), 'file') ==# 1
+
+  It should have the following actions
+
+  Should Call('s:default_kind_action_table', 'file') ==# {
+  \ 'extract-asis': function('ku#action#file#extract_asis'),
+  \ 'extract-smartly': function('ku#action#file#extract_smartly'),
+  \ 'extract-solely': function('ku#action#file#extract_solely'),
+  \ 'open!': function('ku#action#file#open_x'),
+  \ 'open': function('ku#action#file#open'),
+  \ }
+
+  It should have the following key bindings
+
+  Should Call('s:default_kind_key_table', 'file') ==# {
+  \ "\<C-e>": 'extract-smartly',
+  \ "\<Esc>e": 'extract-solely',
+  \ 'E': 'extract-asis',
+  \ 'e': 'extract-smartly',
+  \ }
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
