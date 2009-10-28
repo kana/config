@@ -639,7 +639,7 @@ NOTATION					*ku-notation*
 			with candidates.  The details of this dictionary are
 			as follows:
 
-			"pattern"	(string)
+			pattern		(string)
 				The currrent pattern which user inputs in
 				|the-ku-buffer|.
 
