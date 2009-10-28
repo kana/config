@@ -1,3 +1,19 @@
+==== ku_x_take_action choose
+---- It requires the following initialization 
+..
+---- It should fail - *choose* is handled by ku#take_action(), not by this one 
+.
+---- It requires to reset side effect 
+
+
+==== ku_x_take_action valid action
+---- It requires the following initialization 
+...
+---- It should succeed 
+....
+---- It requires to reset side effect 
+
+
 ==== s_choose_action 
 ---- It requires that there is no character in the typeahead buffer 
 .
@@ -95,4 +111,4 @@ Action 'name2' is not defined for 'file'..
 **** Result ****
 
 
-101 examples, 0 failures
+111 examples, 0 failures
