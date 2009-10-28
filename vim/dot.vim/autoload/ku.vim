@@ -402,7 +402,7 @@ endfunction
 
 
 function! ku#_kinds_from_kind_names() dict  "{{{2
-  return map(copy(self.kind_names), 's:available_kinds[v:val]')
+  return s:kinds_from_kind_names(self.kind_names)
 endfunction
 
 
@@ -879,6 +879,13 @@ function! s:initialize_ku_buffer()  "{{{2
   endif
 
   return
+endfunction
+
+
+
+
+function! s:kinds_from_kind_names(kind_names)  "{{{2
+  return map(copy(a:kind_names), 's:available_kinds[v:val]')
 endfunction
 
 
