@@ -193,6 +193,41 @@ endfunction
 
 
 
+function s:describe__s_kinds_from_candidate()  "{{{1
+  It requires the following initialization
+
+  let _ = ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'name': 'test',
+  \ })
+  Should _ != 0
+  Should ku#available_source_p('test') != 0
+  let source = ku#available_sources()['test']
+  Should ku#available_kind_p('common') != 0
+  let kind_common = ku#available_kinds()['common']
+  Should ku#available_kind_p('source/test') != 0
+  let kind_source_test = ku#available_kinds()['source/test']
+
+  It should return kinds defined by a source
+
+  Should Call('s:kinds_from_candidate', {'ku__source': source})
+  \ ==# [kind_source_test, kind_common]
+
+  It should return kinds defined by a candidate
+
+  Should Call('s:kinds_from_candidate',
+  \           {'ku__source': source, 'ku__kinds': ['common', 'source/test']})
+  \ ==# [kind_common, kind_source_test]
+
+  It requires to reset side effect
+
+  ResetContext
+  Should ku#available_source_p('test') == 0
+endfunction
+
+
+
+
 function s:describe__s_lcandidates_from_pattern()  "{{{1
   function! Test_matcher_always(...)
     return 1

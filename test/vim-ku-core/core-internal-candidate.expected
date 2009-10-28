@@ -34,6 +34,16 @@
 ---- It should return the same candidates regardless of order of filters 
 .
 
+==== s_kinds_from_candidate 
+---- It requires the following initialization 
+....
+---- It should return kinds defined by a source 
+.
+---- It should return kinds defined by a candidate 
+.
+---- It requires to reset side effect 
+.
+
 ==== s_lcandidates_from_pattern 
 ---- It should return [] with no source 
 .
@@ -85,4 +95,4 @@
 **** Result ****
 
 
-50 examples, 0 failures
+57 examples, 0 failures

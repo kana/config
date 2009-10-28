@@ -884,6 +884,17 @@ endfunction
 
 
 
+function! s:kinds_from_candidate(candidate)  "{{{2
+  if has_key(a:candidate, 'ku__kinds')
+    return s:kinds_from_kind_names(a:candidate.ku__kinds)
+  else
+    return a:candidate.ku__source.kinds()
+  endif
+endfunction
+
+
+
+
 function! s:kinds_from_kind_names(kind_names)  "{{{2
   return map(copy(a:kind_names), 's:available_kinds[v:val]')
 endfunction
