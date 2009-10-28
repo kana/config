@@ -668,6 +668,19 @@ NOTATION					*ku-notation*
 			ku__source	(dictionary)
 				The source which gathered a candidate.
 
+			Also sources may add the following entries for this
+			dictionary:
+
+			ku__kinds	(list of strings)	(optional)
+				The kinds of a candidate.  Each value is the
+				name of a |ku-kind|.
+
+				If this entry does not exist, the value of
+				|ku-source-attribute-kinds| is used.
+
+				This entry is useful if a source gathers
+				candidates with different kinds.
+
 {lcandidates}					*ku-notation-{lcandidates}*
 			A list of {candidate}s.  The prefix letter "l" means
 			list and it is to distinguish {lcandidates} and
