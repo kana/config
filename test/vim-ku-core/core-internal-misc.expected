@@ -1,11 +1,3 @@
-==== ku_x_kinds_from_kind_names 
----- It requires the following initialization 
-...
----- It should succeed 
-....
----- It requires to reset side effect 
-
-
 ==== s_compare_ignorecase 
 ---- It should return 0 for same characters with the same case 
 ..
@@ -161,4 +153,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-279 examples, 0 failures
+272 examples, 0 failures

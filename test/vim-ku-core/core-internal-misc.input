@@ -1,48 +1,6 @@
 " Test: vim-ku-core core-internal-misc
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
-function s:describe__ku_x_kinds_from_kind_names()  "{{{1
-  It requires the following initialization
-
-  let kind_a = {
-  \   'default_action_table': {},
-  \   'default_key_table': {},
-  \   'name': 'a',
-  \ }
-  let kind_b = {
-  \   'default_action_table': {},
-  \   'default_key_table': {},
-  \   'name': 'b',
-  \ }
-  let kind_c = {
-  \   'default_action_table': {},
-  \   'default_key_table': {},
-  \   'name': 'c',
-  \ }
-
-  Should ku#define_kind(kind_a) == 1
-  Should ku#define_kind(kind_b) == 1
-  Should ku#define_kind(kind_c) == 1
-
-  It should succeed
-
-  Should call('ku#_kinds_from_kind_names', [], {'kind_names': []})
-  \ == []
-  Should call('ku#_kinds_from_kind_names', [], {'kind_names': ['a']})
-  \ == [kind_a]
-  Should call('ku#_kinds_from_kind_names', [], {'kind_names': ['a', 'b']})
-  \ == [kind_a, kind_b]
-  Should call('ku#_kinds_from_kind_names', [], {'kind_names': ['a', 'b', 'c']})
-  \ == [kind_a, kind_b, kind_c]
-
-  It requires to reset side effect
-
-  ResetContext
-endfunction
-
-
-
-
 function s:describe__s_compare_ignorecase()  "{{{1
   It should return 0 for same characters with the same case
 

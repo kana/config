@@ -571,7 +571,6 @@ function s:describe__ku_define_source()  "{{{1
   \ 'filters': [],
   \ 'gather_candidates': F,
   \ 'kind_names': ['source/test', 'common'],
-  \ 'kinds': function('ku#_kinds_from_kind_names'),
   \ 'matchers': matchers,
   \ 'name': 'test',
   \ 'sorters': sorters,
@@ -582,7 +581,8 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {},
   \ 'name': 'source/test',
   \ }
-  Should Ref('s:available_sources')['test'].kinds()
+  Should Call('s:kinds_from_kind_names',
+  \           Ref('s:available_sources')['test'].kind_names)
   \ ==# [
   \  Ref('s:available_kinds')['source/test'],
   \  Ref('s:available_kinds')['common'],
@@ -598,7 +598,6 @@ function s:describe__ku_define_source()  "{{{1
   \ 'filters': [],
   \ 'gather_candidates': G,
   \ 'kind_names': ['source/test', 'common'],
-  \ 'kinds': function('ku#_kinds_from_kind_names'),
   \ 'matchers': matchers,
   \ 'name': 'test',
   \ 'sorters': sorters,
@@ -609,7 +608,8 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {},
   \ 'name': 'source/test',
   \ }
-  Should Ref('s:available_sources')['test'].kinds()
+  Should Call('s:kinds_from_kind_names',
+  \           Ref('s:available_sources')['test'].kind_names)
   \ ==# [
   \  Ref('s:available_kinds')['source/test'],
   \  Ref('s:available_kinds')['common'],
@@ -634,7 +634,6 @@ function s:describe__ku_define_source()  "{{{1
   \ 'filters': [G],
   \ 'gather_candidates': F,
   \ 'kind_names': ['source/test', 'common', 'source/test', 'common'],
-  \ 'kinds': function('ku#_kinds_from_kind_names'),
   \ 'matchers': [G],
   \ 'name': 'test',
   \ 'sorters': [F],
@@ -645,7 +644,8 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {'/': 'checkout'},
   \ 'name': 'source/test',
   \ }
-  Should Ref('s:available_sources')['test'].kinds()
+  Should Call('s:kinds_from_kind_names',
+  \           Ref('s:available_sources')['test'].kind_names)
   \ ==# [
   \  Ref('s:available_kinds')['source/test'],
   \  Ref('s:available_kinds')['common'],
