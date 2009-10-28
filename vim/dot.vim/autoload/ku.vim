@@ -885,11 +885,9 @@ endfunction
 
 
 function! s:kinds_from_candidate(candidate)  "{{{2
-  if has_key(a:candidate, 'ku__kinds')
-    return s:kinds_from_kind_names(a:candidate.ku__kinds)
-  else
-    return a:candidate.ku__source.kinds()
-  endif
+  return s:kinds_from_kind_names(has_key(a:candidate, 'ku__kinds')
+  \                              ? a:candidate.ku__kinds
+  \                              : a:candidate.ku__source.kind_names)
 endfunction
 
 
