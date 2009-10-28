@@ -217,6 +217,20 @@ ku#define_source({definition})			*ku#define_source()*
 			details of the source to be defined.  See
 			|ku-source-definition| for the details.
 
+ku#make_path({component}, ...)			*ku#make_path()*
+ku#make_path({list})
+			Make a path from given {component}s or a given {list}
+			of components.  A {component} is a string
+			corresponding to the name of a file or a directory.
+
+			For example:
+>
+			:echo ku#make_path('dir', 'file')
+			dir/file
+			:echo ku#make_path(['dir', 'file'])
+			dir/file
+<
+
 ku#path_separator()				*ku#path_separator()*
 			Return a string which is a path separator for the
 			current environment.  It returns '/' for most

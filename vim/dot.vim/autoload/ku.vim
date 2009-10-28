@@ -247,6 +247,17 @@ endfunction
 
 
 
+function! ku#make_path(...)  "{{{2
+  if a:0 == 1 && type(a:1) is type([])
+    return join(a:1, ku#path_separator())
+  else
+    return join(a:000, ku#path_separator())
+  endif
+endfunction
+
+
+
+
 function! ku#path_separator()  "{{{2
   return (exists('+shellslash') && !&shellslash) ? '\' : '/'
 endfunction

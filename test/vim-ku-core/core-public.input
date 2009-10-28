@@ -660,6 +660,25 @@ endfunction
 
 
 
+function s:describe__ku_make_path()  "{{{1
+  let path_separator = ku#path_separator()
+
+  It should join items in a given list
+
+  Should ku#make_path(['a', 'b']) ==# 'a' . path_separator . 'b'
+  Should ku#make_path(['a']) ==# 'a'
+  Should ku#make_path([]) ==# ''
+
+  It should join given arguments
+
+  Should ku#make_path('a', 'b') ==# 'a' . path_separator . 'b'
+  Should ku#make_path('a') ==# 'a'
+  Should ku#make_path() ==# ''
+endfunction
+
+
+
+
 function s:describe__ku_path_separator()  "{{{1
   if exists('+shellslash') && !&shellslash
     let path_separator = '\'

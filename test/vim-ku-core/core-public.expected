@@ -147,6 +147,12 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It should succeed for valid source definition with optional attributes 
 ....
 
+==== ku_make_path 
+---- It should join items in a given list 
+...
+---- It should join given arguments 
+...
+
 ==== ku_path_separator 
 ---- It should return a valid value according to the current environment  
 .
@@ -207,4 +213,4 @@ Already active.....
 **** Result ****
 
 
-343 examples, 0 failures
+349 examples, 0 failures
