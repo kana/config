@@ -53,6 +53,71 @@ endfunction
 
 
 
+function s:describe__s_choose_action__ku__kinds()  "{{{1
+  It requires the following initialization
+
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= nr2char(getchar())
+  endwhile
+  Should typeahead ==# ''
+
+  Should ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'default_key_table': {'o': 'Mio'},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'default_key_table': {'o': 'Lio'},
+  \ 'name': 'b',
+  \ }) != 0
+
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a', 'b'],
+  \   'name': 'test',
+  \ }) != 0
+
+  let candidate_without_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+  let candidate_with_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'ku__kinds': ['b', 'a'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should return an action name based on typed key and kinds in a source
+
+  call feedkeys('o')
+  silent let action_name = Call('s:choose_action', candidate_without_kinds)
+  Should action_name ==# 'Mio'
+  Should nr2char(getchar(0)) ==# ''
+
+  It should return an action name based on typed key and kinds in a candidate
+
+  call feedkeys('o')
+  silent let action_name = Call('s:choose_action', candidate_with_kinds)
+  Should action_name ==# 'Lio'
+  Should nr2char(getchar(0)) ==# ''
+
+  It requires to reset side effect
+
+    " Ensure empty typeahead buffer.
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= nr2char(getchar())
+  endwhile
+  Should typeahead == ''
+    " Implicit changes in the script context.
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__s_composite_action_table_from_kinds()  "{{{1
   It requires the following initialization
 

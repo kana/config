@@ -824,6 +824,77 @@ endfunction
 
 
 
+function s:describe__ku_take_action__candidate_ku__kinds()  "{{{1
+  It requires the following initialization
+
+  function! Test_action_a_open(candidate)
+    let a:candidate.flag = 'a'
+  endfunction
+  function! Test_action_b_open(candidate)
+    let a:candidate.flag = 'b'
+  endfunction
+
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_a_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_b_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'b',
+  \ }) != 0
+
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a', 'b'],
+  \   'name': 'test',
+  \ }) != 0
+
+  let candidate_without_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+  let candidate_with_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'ku__kinds': ['b', 'a'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should take an action based on kinds defined by a source
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('open', candidate_without_kinds) == 1
+  Should Call('s:ku_active_p') == 0
+  Should candidate_without_kinds.flag ==# 'a'
+
+  It should take an action based on kinds defined by a candidate
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('open', candidate_with_kinds) == 1
+  Should Call('s:ku_active_p') == 0
+  Should candidate_with_kinds.flag ==# 'b'
+
+  It requires to reset side effect
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+  bwipeout!
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__ku_take_action__with_candidate()  "{{{1
   call ku#define_source({
   \   'gather_candidates': function('type'),

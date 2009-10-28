@@ -8,6 +8,16 @@
 ---- It requires to reset side effect 
 .
 
+==== s_choose_action ku  kinds
+---- It requires the following initialization 
+....
+---- It should return an action name based on typed key and kinds in a source 
+..
+---- It should return an action name based on typed key and kinds in a candidate 
+..
+---- It requires to reset side effect 
+.
+
 ==== s_composite_action_table_from_kinds 
 ---- It requires the following initialization 
 ..................
@@ -85,4 +95,4 @@ Action 'name2' is not defined for 'file'..
 **** Result ****
 
 
-92 examples, 0 failures
+101 examples, 0 failures
