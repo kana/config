@@ -652,14 +652,15 @@ NOTATION					*ku-notation*
 			details of this dictionary are mostly same as
 			|complete-items|.
 
+			Ku adds several additional entries for this
+			dictionary.  Keys of such entries are prefixed with
+			"ku__".  Don't use such keys unless ku explicitly
+			allows.
+
 			Sources may add additional entries for this
 			dictionary.  Keys of such entries must be prefixed
 			with "ku_{source}_", where {source} is the name of
 			a source.
-
-			Also, ku may add additional entries for this
-			dictionary.  Keys of such entries are prefixed with
-			"ku__".
 
 {lcandidates}					*ku-notation-{lcandidates}*
 			A list of {candidate}s.  The prefix letter "l" means
