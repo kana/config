@@ -662,6 +662,12 @@ NOTATION					*ku-notation*
 			with "ku_{source}_", where {source} is the name of
 			a source.
 
+			Also sources may refer the following entries in this
+			dictionary:
+
+			ku__source	(dictionary)
+				The source which gathered a candidate.
+
 {lcandidates}					*ku-notation-{lcandidates}*
 			A list of {candidate}s.  The prefix letter "l" means
 			list and it is to distinguish {lcandidates} and
