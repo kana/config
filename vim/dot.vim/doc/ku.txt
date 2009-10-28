@@ -643,6 +643,10 @@ NOTATION					*ku-notation*
 				The currrent pattern which user inputs in
 				|the-ku-buffer|.
 
+			source		(dictionary)
+				The source which are gathering or gathered
+				candidates.
+
 {candidate}					*ku-notation-{candidate}*
 			A dictionary which represents a candidate.  The
 			details of this dictionary are mostly same as

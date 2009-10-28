@@ -280,6 +280,47 @@ endfunction
 
 
 
+function s:describe__s_lcandidates_from_pattern__args_source()  "{{{1
+  It requires the following initialization
+
+  function! Test_matcher_always(...)
+    return 1
+  endfunction
+
+  let source_a = {}
+  let source_a.name = 'source_a'
+  function! source_a.gather_candidates(args)
+    return [{'word': a:args.source.name}]
+  endfunction
+  let source_a.sorters = []
+  let source_a.matchers = [function('Test_matcher_always')]
+  let source_a.filters = []
+
+  let source_b = {}
+  let source_b.name = 'source_b'
+  function! source_b.gather_candidates(args)
+    return [{'word': a:args.source.name}]
+  endfunction
+  let source_b.sorters = []
+  let source_b.matchers = [function('Test_matcher_always')]
+  let source_b.filters = []
+
+  It should pass a valid args.source
+
+  Should Call('s:lcandidates_from_pattern', 'juni', [source_a, source_b])
+  \ ==# [
+  \   {'ku__source': source_a, 'word': 'source_a'},
+  \   {'ku__source': source_b, 'word': 'source_b'},
+  \ ]
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__s_matched_lcandidates()  "{{{1
   function! Test_matcher_odd(candidate, args)
     return len(a:candidate.word) % 2

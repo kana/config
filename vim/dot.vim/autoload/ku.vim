@@ -898,6 +898,8 @@ function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
   let all_lcandidates = []
 
   for source in a:sources
+    let args.source = source
+
     let raw_lcandidates = copy(source.gather_candidates(args))
 
     let matched_lcandidates
