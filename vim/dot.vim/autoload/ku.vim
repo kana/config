@@ -247,6 +247,13 @@ endfunction
 
 
 
+function! ku#path_separator()  "{{{2
+  return (exists('+shellslash') && !&shellslash) ? '\' : '/'
+endfunction
+
+
+
+
 function! ku#start(...)  "{{{2
   let source_names = 1<=a:0 && a:1 isnot 0 ? a:1 : ku#available_source_names()
   let initial_pattern = 2 <= a:0 ? a:2 : ''

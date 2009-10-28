@@ -217,6 +217,12 @@ ku#define_source({definition})			*ku#define_source()*
 			details of the source to be defined.  See
 			|ku-source-definition| for the details.
 
+ku#path_separator()				*ku#path_separator()*
+			Return a string which is a path separator for the
+			current environment.  It returns '/' for most
+			environments, or it returns '\' for some environments
+			such as Microsoft Windows.
+
 ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
 			Start a ku session.
 

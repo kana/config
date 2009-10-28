@@ -147,6 +147,10 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It should succeed for valid source definition with optional attributes 
 ....
 
+==== ku_path_separator 
+---- It should return a valid value according to the current environment  
+.
+
 ==== ku_restart 
 
 ==== ku_start 
@@ -203,4 +207,4 @@ Already active.....
 **** Result ****
 
 
-342 examples, 0 failures
+343 examples, 0 failures

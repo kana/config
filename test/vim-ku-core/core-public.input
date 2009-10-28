@@ -660,6 +660,21 @@ endfunction
 
 
 
+function s:describe__ku_path_separator()  "{{{1
+  if exists('+shellslash') && !&shellslash
+    let path_separator = '\'
+  else
+    let path_separator = '/'
+  endif
+
+  It should return a valid value according to the current environment 
+
+  Should ku#path_separator() ==# path_separator
+endfunction
+
+
+
+
 function s:describe__ku_restart()  "{{{1
   " FIXME: NIY
 endfunction
