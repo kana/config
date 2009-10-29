@@ -533,7 +533,8 @@ default_action_table	dictionary		(optional)
 			table for the implicit kind for a source.  See also
 			|ku-implicit-kind-for-a-source|.
 
-			This key is optional; if it is not given, {} is used.
+			This attribute is optional; if it is not given, {} is
+			used.
 
 				       *ku-source-attribute-default_key_table*
 default_key_table	dictionary		(optional)
@@ -544,7 +545,8 @@ default_key_table	dictionary		(optional)
 			for the implicit kind for a source.  See also
 			|ku-implicit-kind-for-a-source|.
 
-			This key is optional; if it is not given, {} is used.
+			This attribute is optional; if it is not given, {} is
+			used.
 
 						*ku-source-attribute-filters*
 filters			list of funcrefs	(optional)
@@ -562,9 +564,9 @@ filters			list of funcrefs	(optional)
 			- "filters" filter candidates according to other
 			  information, not a pattern.
 
-			This key is optional; if it is not given, [] is used
-			as the default value.  This means that there is no
-			filtering.
+			This attribute is optional; if it is not given, [] is
+			used as the default value.  This means that there is
+			no filtering.
 
 				       *ku-source-attribute-gather_candidates*
 gather_candidates	function		(required)
@@ -578,7 +580,8 @@ kinds			list of strings		(optional)
 			to calculate |ku-action-table| and |ku-key-table| for
 			a candidate.
 
-			This key is optional; if it is not given, [] is used.
+			This attribute is optional; if it is not given, [] is
+			used.
 
 			See also:
 			- |ku-kind|
@@ -599,7 +602,7 @@ matchers		list of funcrefs	(optional)
 			Only matched {candidate}s will be displayed
 			|ins-completion-menu|.
 
-			This key is optional; if it is not given,
+			This attribute is optional; if it is not given,
 			[|ku#matcher#default#matches_()|] is used as the
 			default value.
 
@@ -627,7 +630,7 @@ sorters			list of funcrefs	(optional)
 			- May modify a given {lcandidates} in-place, but must
 			  not modify any value in {lcandidates}.
 
-			This key is optional; if it is not given,
+			This attribute is optional; if it is not given,
 			[|ku#sorter#default#sort()|] is used as the default
 			value.
 
