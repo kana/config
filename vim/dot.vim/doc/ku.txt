@@ -623,6 +623,39 @@ name			string			(requried)
 			- "buffer", "history" and "metarw/git" are valid.
 			- "BadOne", "!@#$%^&*()_[]{}-|" and "" are not valid.
 
+					       *ku-source-attribute-on_action*
+on_action		funcref			(optional)
+			Event handler - it is called before doing an action.
+			The purpose of this attribute is to translate, to
+			convert and/or to normalize {candidate} before doing
+			an action.
+
+			It takes single argument {candidate} which is the
+			target of the action.  It must return given
+			{candidate} as-is, or modified version of {candidate}.
+
+			If you want to modify a given {candidate}, don't
+			modify it in-place.  Make a copy of the given one,
+			modify it, then return the modified one.  Because
+			given {candidate} may be cached by ku, so that
+			in-place modification is harmful.
+
+			This attribute is optional; if it is not given,
+			nothing will be performed before doing an action.
+
+			Example:
+>
+			function! Sample_on_action(candidate)
+			  if It_should_be_normalized_p(a:candidate)
+			    let normalized_candidate = copy(a:candidate)
+			    let normalized_candidate.word = ...
+			    return normalized_candidate
+			  else
+			    return a:candidate
+			  endif
+			endfunction
+<
+
 						*ku-source-attribute-sorters*
 sorters			list of funcrefs	(optional)
 			Functions to sort candidates.

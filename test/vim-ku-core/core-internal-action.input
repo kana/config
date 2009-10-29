@@ -37,6 +37,66 @@ endfunction
 
 
 
+function s:describe__ku_x_take_action__on_action()  "{{{1
+  It requires the following initialization
+
+  function! Test_action_a_open(candidate)
+    let a:candidate.flag = 'a'
+  endfunction
+  function! Test_on_action(candidate)
+    let _ = copy(a:candidate)
+    let _.word = 'SIRIUS'
+    call feedkeys(_.word)
+    return _
+  endfunction
+
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_a_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a'],
+  \   'name': 'test',
+  \   'on_action': function('Test_on_action'),
+  \ }) != 0
+
+  let candidate = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should not be called for action 'nop'
+
+  let original_candidate = copy(candidate)
+  let _ = ku#_take_action('nop', candidate)
+  Should _ == 0
+  Should candidate ==# original_candidate
+
+  It should be called for all actions but 'nop'
+
+  let original_candidate = copy(candidate)
+  let _ = ku#_take_action('open', candidate)
+  Should _ == 0
+  Should candidate ==# original_candidate
+
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# 'I'
+  Should nr2char(getchar(0)) ==# 'R'
+  Should nr2char(getchar(0)) ==# 'I'
+  Should nr2char(getchar(0)) ==# 'U'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# ''
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__ku_x_take_action__valid_action()  "{{{1
   It requires the following initialization
 

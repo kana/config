@@ -573,6 +573,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'kind_names': ['source/test', 'common'],
   \ 'matchers': matchers,
   \ 'name': 'test',
+  \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
   \ }
   Should Ref('s:available_kinds')['source/test']
@@ -600,6 +601,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'kind_names': ['source/test', 'common'],
   \ 'matchers': matchers,
   \ 'name': 'test',
+  \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
   \ }
   Should Ref('s:available_kinds')['source/test']
@@ -636,6 +638,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'kind_names': ['source/test', 'common', 'source/test', 'common'],
   \ 'matchers': [G],
   \ 'name': 'test',
+  \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': [F],
   \ }
   Should Ref('s:available_kinds')['source/test']

@@ -61,6 +61,7 @@ let s:NULL_SOURCE = {
 \   'filters': [],
 \   'kinds': [],
 \   'matchers': [function('ku#matcher#default#matches_p')],
+\   'on_action': function('ku#default_on_action'),
 \   'sorters': [function('ku#sorter#default#sort')],
 \ }
 
@@ -383,6 +384,13 @@ nnoremap <SID>  <SID>
 
 
 
+function! ku#default_on_action(candidate)  "{{{2
+  return a:candidate
+endfunction
+
+
+
+
 function! ku#omnifunc(findstart, base)  "{{{2
   if a:findstart
     " FIXME: For in-line completion.
@@ -421,7 +429,8 @@ function! ku#_take_action(action_name, candidate)  "{{{2
       return _
     endif
 
-    let _ = A(a:candidate)
+    let processed_candidate = a:candidate.ku__source.on_action(a:candidate)
+    let _ = A(processed_candidate)
     if _ isnot 0
       echohl ErrorMsg
       echomsg _
