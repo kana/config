@@ -606,7 +606,7 @@ matchers		list of funcrefs	(optional)
 			|ins-completion-menu|.
 
 			This attribute is optional; if it is not given,
-			[|ku#matcher#default#matches_()|] is used as the
+			[|ku#matcher#default#matches_p()|] is used as the
 			default value.
 
 						*ku-source-attribute-name*
