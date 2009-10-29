@@ -534,7 +534,8 @@ default_action_table	dictionary		(optional)
 			|ku-implicit-kind-for-a-source|.
 
 			This attribute is optional; if it is not given, {} is
-			used.
+			used as the default value.  This means that there is
+			no specific action for this source.
 
 				       *ku-source-attribute-default_key_table*
 default_key_table	dictionary		(optional)
@@ -546,7 +547,8 @@ default_key_table	dictionary		(optional)
 			|ku-implicit-kind-for-a-source|.
 
 			This attribute is optional; if it is not given, {} is
-			used.
+			used as the default value.  This means that there is
+			no specific key binding for this source.
 
 						*ku-source-attribute-filters*
 filters			list of funcrefs	(optional)
@@ -581,7 +583,8 @@ kinds			list of strings		(optional)
 			a candidate.
 
 			This attribute is optional; if it is not given, [] is
-			used.
+			used as the default value.  This means that there is
+			no specific kind for this source.
 
 			See also:
 			- |ku-kind|
