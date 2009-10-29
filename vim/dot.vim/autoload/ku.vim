@@ -49,9 +49,12 @@ let s:NULL_KIND = {
 \ }
 
 
-" Note that:
+" Default values of optional attributes of source.  Note that:
+" - Attributes in s:NULL_SOURCE are treated as optional ones,
+"   so don't include required attributes in s:NULL_SOURCE.
 " - Values of all attributes but 'kinds' are used as immutable ones.
 " - The value of 'kinds' is just a placeholder and it's not used as is.
+"   See also ku#define_source().
 let s:NULL_SOURCE = {
 \   'default_action_table': {},
 \   'default_key_table': {},
