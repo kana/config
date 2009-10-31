@@ -28,9 +28,10 @@ CONTENTS					*ku-source-args-contents*
 
 Introduction            |ku-source-args-introduction|
 Interface               |ku-source-args-interface|
+  Sources                 |ku-source-args-sources|
+  Kinds                   |ku-source-args-kinds|
   Action Table            |ku-source-args-action-table|
   Key Table               |ku-source-args-key-table|
-  Kinds                   |ku-source-args-kinds|
 Bugs                    |ku-source-args-bugs|
 Changelog               |ku-source-args-changelog|
 
@@ -40,9 +41,8 @@ Changelog               |ku-source-args-changelog|
 ==============================================================================
 INTRODUCTION				       *ku-source-args-introduction*
 
-*ku-source-args* is a source for Vim plugin |ku| to deal with files in
-|argument-list|.  You can choose one from argument list and do some action on
-it.
+*ku-source-args* is a Vim plugin to provide |ku-sources| to deal with:
+|argument-list|.  You can choose one from many and do some action on it.
 
 
 Requirements:
@@ -63,35 +63,49 @@ http://kana.github.com/config/vim/ku-source-args.html
 INTERFACE					*ku-source-args-interface*
 
 ------------------------------------------------------------------------------
-ACTION TABLLE				       *ku-source-args-action-table*
+SOURCES						*ku-source-args-sources*
 
-See also:
-- |ku-common-action-table|
-- |ku-source-buffer-action-table|
+This plugin provides the following sources:
 
-Additionally, the following actions are available:
-
-argdelete				     *ku-source-args-action-argdelete*
-			Do |:argdelete| on a given candidate.
-
-
-------------------------------------------------------------------------------
-KEY TABLE					*ku-source-args-key-table*
-
-See also:
-- |ku-common-key-table|
-- |ku-source-buffer-key-table|
-
-Key		Action ~
---------	--------
-R		argdelete	|ku-source-args-action-argdelete|
+args
+	Gathers candidates from |argument-list|.
+	Each candidate is treated as a buffer,
+	so that its kind is ["buffer"].
 
 
 ------------------------------------------------------------------------------
 KINDS						*ku-source-args-kinds*
 
-Each candidate from source args can be treated as a buffer.
-See also |ku-source-buffer|.
+This plugin doesn't provide general purpose kinds.
+
+
+------------------------------------------------------------------------------
+ACTION TABLLE				       *ku-source-args-action-table*
+
+					    *ku-kind-source/args-action-table*
+For candidates from source "args", the following actions are available:
+
+argdelete				*ku-kind-source/args-action-argdelete*
+			Do |:argdelete| on a given candidate.
+
+See also:
+- |ku-common-action-table|
+- |ku-source-buffer-action-table|
+
+
+------------------------------------------------------------------------------
+KEY TABLE					*ku-source-args-key-table*
+
+					       *ku-kind-source/args-key-table*
+For candidates from source "args", the following keys are available:
+
+Key		Action ~
+--------	--------
+R		argdelete	|ku-kind-source/args-action-argdelete|
+
+See also:
+- |ku-common-key-table|
+- |ku-source-buffer-key-table|
 
 
 
@@ -107,6 +121,11 @@ KNOWN ISSUES ~
 PLANNED FEATURES ~
 
 - action "open": Use |:argument| to open.
+
+
+ETC ~
+
+- Welcome your feedback.
 
 
 
