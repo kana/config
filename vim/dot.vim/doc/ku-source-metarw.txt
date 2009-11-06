@@ -41,9 +41,8 @@ Changelog               |ku-source-metarw-changelog|
 ==============================================================================
 INTRODUCTION				       *ku-source-metarw-introduction*
 
-*ku-source-metarw* is a source for Vim plugin |ku| to deal with
-|metarw-fakepath|.  You can choose one from many fakepaths and do some action
-on it.
+*ku-source-metarw* is a Vim plugin to provide |ku-sources| to deal with:
+|metarw-fakepath|.  You can choose one from many and do some action on it.
 
 
 Requirements:
@@ -71,25 +70,29 @@ INTERFACE					*ku-source-metarw-interface*
 ------------------------------------------------------------------------------
 SOURCES						*ku-source-metarw-sources*
 
-For example, if |metarw-git| is installed, this plugin provides source
-"metarw/git" which lists branches and files in a git repository.
+This plugin provides the following sources:
 
-Like the above, this plugin provides sources "metarw/{scheme}" which are
-corresponding to available |metarw-schemes|.
+metarw/{scheme}
+	Gathers candidates from |metarw-fakepath|s with {scheme}.
+	Each candidate is treated as a file and a buffer,
+	so that its kind is ["file", "buffer"].
+
+	For example, if |metarw-git| is installed, this plugin provides source
+	"metarw/git" which gathers branches and files in a git repository as
+	candidates.
 
 
 ------------------------------------------------------------------------------
 KINDS						*ku-source-metarw-kinds*
 
-Each candidate from souce "metarw" is corresponding to a file, so that its
-kind is ["file", "buffer"].    See also |ku-source-buffer| and
-|ku-source-file|.
+This plugin doesn't provide general purpose kinds.
 
 
 ------------------------------------------------------------------------------
 ACTION TABLLE				     *ku-source-metarw-action-table*
 
-There is no action specific to candidates from source "metarw".
+				 *ku-kind-source/metarw/{scheme}-action-table*
+There is no action specific to candidates from source "metarw/{scheme}".
 
 See also:
 - |ku-common-action-table|
@@ -100,7 +103,8 @@ See also:
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-metarw-key-table*
 
-There is no key binding specific to candidates from source "metarw".
+				    *ku-kind-source/metarw/{scheme}-key-table*
+There is no key binding specific to candidates from source "metarw/{scheme}".
 
 See also:
 - |ku-common-key-table|
@@ -113,7 +117,19 @@ See also:
 ==============================================================================
 BUGS						*ku-source-metarw-bugs*
 
+KNOWN ISSUES ~
+
 - Currently there is no known issue.
+
+
+PLANNED FEATURES ~
+
+- Currently there is no planned feature.
+
+
+ETC ~
+
+- Welcome your feedback.
 
 
 
