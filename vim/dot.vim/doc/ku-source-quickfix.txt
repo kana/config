@@ -28,9 +28,10 @@ CONTENTS					*ku-source-quickfix-contents*
 
 Introduction            |ku-source-quickfix-introduction|
 Interface               |ku-source-quickfix-interface|
+  Sources                 |ku-source-quickfix-sources|
+  Kinds                   |ku-source-quickfix-kinds|
   Action Table            |ku-source-quickfix-action-table|
   Key Table               |ku-source-quickfix-key-table|
-  Sources                 |ku-source-quickfix-sources|
 Bugs                    |ku-source-quickfix-bugs|
 Changelog               |ku-source-quickfix-changelog|
 
@@ -40,13 +41,15 @@ Changelog               |ku-source-quickfix-changelog|
 ==============================================================================
 INTRODUCTION				     *ku-source-quickfix-introduction*
 
-*ku-source-quickfix* is a source for Vim plugin |ku| to deal with |quickfix|.
-You can choose an error from quickfix list and do some action on it.
+*ku-source-quickfix* is a Vim plugin to provide |ku-sources| to deal with:
+|quickfix|.  You can choose an error from quickfix list and do some action on
+it.
 
 
 Requirements:
 - Vim 7.2 or later
 - |ku| 0.3.0 or later (vimscript#2337)
+- |ku-source-buffer| 0.2.0 or later (included in |ku|)
 
 Latest version:
 http://github.com/kana/config/commits/vim-ku-source-quickfix
@@ -61,39 +64,56 @@ http://kana.github.com/config/vim/ku-source-quickfix.html
 INTERFACE					*ku-source-quickfix-interface*
 
 ------------------------------------------------------------------------------
+SOURCES						*ku-source-quickfix-source*
+
+This plugin provides the following sources:
+
+quickfix/buffer					*ku-source-quickfix/buffer*
+	Gathers candidates from quickfix list.
+	Each candidate is corresponding to a buffer which contain any error,
+	so that its kind is ["buffer"].
+
+quickfix/error					*ku-source-quickfix/error*
+	Like |ku-source-quickfix/buffer|, but each candidate is corresponding
+	to an error in quickfix list.  Kind of each candidate is ["buffer"].
+	(Not implemented yet)
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-quickfix-kinds*
+
+This plugin doesn't provide general purpose kinds.
+
+
+------------------------------------------------------------------------------
 ACTION TABLLE				     *ku-source-quickfix-action-table*
+
+					*ku-kind-source/quickfix-action-table*
+For candidates from source "quickfix/buffer" or "quickfix/error", the
+following actions are available: 
+
+open					 *ku-kind-source/quickfix-action-open*
+			Jump on the error corresponding to a given candidate
+			by |:cc|.
+
+open!					*ku-kind-source/quickfix-action-open!*
+			Like "open", but use :cc! to jump.
 
 See also:
 - |ku-common-action-table|
 - |ku-source-buffer-action-table|
 
-open					      *ku-source-quickfix-action-open*
-			Jump on the error corresponding to a given candidate
-			by |:cc|.
-
-open!					     *ku-source-quickfix-action-open!*
-			Like "open", but use :cc! to jump.
-
 
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-quickfix-key-table*
 
+					   *ku-kind-source/quickfix-key-table*
+There is no key binding specific to candidates from source "'quickfix/buffer"
+nor "quickfix/error".
+
 See also:
 - |ku-common-key-table|
 - |ku-source-buffer-key-table|
-
-
-------------------------------------------------------------------------------
-SOURCES						*ku-source-quickfix-source*
-
-The following sources are provided:
-
-quickfix/buffer
-	Each candidate is corresponding to a buffer which contain any error.
-
-quickfix/error
-	Each candidate is corresponding to an error in quickfix list.
-	(Not implemented yet)
 
 
 
@@ -103,7 +123,17 @@ BUGS						*ku-source-quickfix-bugs*
 
 KNOWN ISSUES ~
 
-- |location-list| is not supported.
+- |ku-source-quickfix/error| is not implemented yet.
+
+
+PLANNED FEATURES ~
+
+- Source for |location-list|.
+
+
+ETC ~
+
+- Welcome your feedback.
 
 
 
