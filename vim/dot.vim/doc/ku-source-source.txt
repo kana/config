@@ -28,6 +28,8 @@ CONTENTS					*ku-source-source-contents*
 
 Introduction            |ku-source-source-introduction|
 Interface               |ku-source-source-interface|
+  Sources                 |ku-source-source-sources|
+  Kinds                   |ku-source-source-kinds|
   Action Table            |ku-source-source-action-table|
   Key Table               |ku-source-source-key-table|
 Bugs                    |ku-source-source-bugs|
@@ -39,8 +41,8 @@ Changelog               |ku-source-source-changelog|
 ==============================================================================
 INTRODUCTION				       *ku-source-source-introduction*
 
-*ku-source-source* is a source for Vim plugin |ku| to deal with |ku-sources|.
-You can choose a source from many ones and do some action on it.
+*ku-source-source* is a Vim plugin to provide |ku-sources| to deal with:
+|ku-sources|.  You can choose one from many and do some action on it.
 
 
 Requirements:
@@ -60,17 +62,43 @@ http://kana.github.com/config/vim/ku-source-source.html
 INTERFACE					*ku-source-source-interface*
 
 ------------------------------------------------------------------------------
+SOURCES						*ku-source-source-sources*
+
+This plugin provides the following sources:
+
+source
+	Gathers candidates from available |ku-sources|.
+	Each candidate is corresponding to a source.
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-source-kinds*
+
+This plugin doesn't provide general purpose kinds.
+
+
+------------------------------------------------------------------------------
 ACTION TABLLE				       *ku-source-source-action-table*
 
-open						*ku-source-source-action-open*
+					  *ku-kind-source/source-action-table*
+For candidates from source "source", the following actions are available: 
+
+open					   *ku-kind-source/source-action-open*
 			Do |ku#start()| with a source which is corresponding
 			to a given candidate.
+
+See also:
+- |ku-common-action-table|
 
 
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-source-key-table*
 
-Nothing is defined.  See also |ku-common-key-table|.
+					     *ku-kind-source/source-key-table*
+There is no key binding specific to candidates from source "source".
+
+See also:
+- |ku-common-key-table|
 
 
 
@@ -81,6 +109,16 @@ BUGS						*ku-source-source-bugs*
 KNOWN ISSUES ~
 
 - Currently there is no known issue.
+
+
+PLANNED FEATURES ~
+
+- Currently there is no planned feature.
+
+
+ETC ~
+
+- Welcome your feedback.
 
 
 
