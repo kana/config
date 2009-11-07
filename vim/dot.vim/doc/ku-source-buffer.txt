@@ -28,9 +28,10 @@ CONTENTS					*ku-source-buffer-contents*
 
 Introduction            |ku-source-buffer-introduction|
 Interface               |ku-source-buffer-interface|
+  Sources                 |ku-source-buffer-sources|
+  Kinds                   |ku-source-buffer-kinds|
   Action Table            |ku-source-buffer-action-table|
   Key Table               |ku-source-buffer-key-table|
-  Kind                    |ku-source-buffer-kind|
 Bugs                    |ku-source-buffer-bugs|
 Changelog               |ku-source-buffer-changelog|
 
@@ -40,8 +41,8 @@ Changelog               |ku-source-buffer-changelog|
 ==============================================================================
 INTRODUCTION				       *ku-source-buffer-introduction*
 
-*ku-source-buffer* is a source for Vim plugin |ku| to deal with buffers.  You
-can choose one from many buffers and do some action on it.
+*ku-source-buffer* is a Vim plugin to provide |ku-sources| to deal with:
+|buffers|.  You can choose one from many and do some action on it.
 
 
 Requirements:
@@ -61,51 +62,72 @@ http://kana.github.com/config/vim/ku-source-buffer.html
 INTERFACE					*ku-source-buffer-interface*
 
 ------------------------------------------------------------------------------
+SOURCES						*ku-source-buffer-sources*
+
+This plugin provides the following sources:
+
+buffer
+	Gathers candidates from |buffers|.
+	Each candidate is treated as a buffer,
+	so that its kind is ["buffer"].
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-buffer-kinds*
+
+This plugin provides the following kinds:
+
+buffer						*ku-kind-buffer*
+	Represents a buffer-like candidate.
+
+	a:candidate may or must have the following items:
+
+						*ku_buffer_nr*
+	ku_buffer_nr		number		(optional)
+		The buffer number (|bufnr()|) of the buffer corresponding to
+		a candidate.
+
+		If this key is not given, buffer number is calculated from
+		a:candidate.word.
+
+
+------------------------------------------------------------------------------
 ACTION TABLLE				       *ku-source-buffer-action-table*
 
-open						*ku-source-buffer-action-open*
+						*ku-kind-buffer-action-table*
+For candidates with kind "buffer", the following actions are available: 
+
+open						*ku-kind-buffer-action-open*
 			Open the buffer, corresponding to a candidate, in the
 			current window.
 
-open!					       *ku-source-buffer-action-open!*
+open!						*ku-kind-buffer-action-open!*
 			Like "open", but use :buffer! instead of |:buffer|.
 
-unload					      *ku-source-buffer-action-unload*
-delete					      *ku-source-buffer-action-delete*
-wipeout					     *ku-source-buffer-action-wipeout*
+unload						*ku-kind-buffer-action-unload*
+delete						*ku-kind-buffer-action-delete*
+wipeout					       *ku-kind-buffer-action-wipeout*
 			Do |:bunload|, |:bdelete| or |:bwipeout| on the buffer
 			corresponding to a candidate.
+
+See also:
+- |ku-common-action-table|
 
 
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-buffer-key-table*
 
-See also |ku-common-key-table|.
+						*ku-kind-buffer-key-table*
+For candidates with kind "buffer", the following keys are available: 
 
 Key		Action ~
 --------	--------
-D		delete		|ku-source-buffer-action-delete|
-U		unload		|ku-source-buffer-action-unload|
-W		wipeout		|ku-source-buffer-action-wipeout|
+D		delete		|ku-kind-buffer-action-delete|
+U		unload		|ku-kind-buffer-action-unload|
+W		wipeout		|ku-kind-buffer-action-wipeout|
 
-
-------------------------------------------------------------------------------
-KIND						*ku-source-buffer-kind*
-						*ku-kind-buffer*
-
-Source "buffer" also provides |ku-kind| "buffer" which represents
-a buffer-like candidate.
-
-To use various actions for kind "buffer", sources have to add the following
-values for each candidates:
-
-						*ku_buffer_nr*
-ku_buffer_nr		number			(optional)
-			The buffer number (|bufnr()|) of the buffer
-			corresponding to a candidate.
-
-			If this key is not given, buffer number is calculated
-			from a:candidate.word.
+See also:
+- |ku-common-key-table|
 
 
 
@@ -121,6 +143,11 @@ KNOWN ISSUES ~
 PLANNED FEATURES ~
 
 - More actions: "delete!", "unload!", "wipeout!".
+
+
+ETC ~
+
+- Welcome your feedback.
 
 
 
