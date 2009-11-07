@@ -28,9 +28,10 @@ CONTENTS					*ku-source-bundle-contents*
 
 Introduction            |ku-source-bundle-introduction|
 Interface               |ku-source-bundle-interface|
+  Sources                 |ku-source-bundle-sources|
+  Kinds                   |ku-source-bundle-kinds|
   Action Table            |ku-source-bundle-action-table|
   Key Table               |ku-source-bundle-key-table|
-  Kinds                   |ku-source-bundle-kinds|
 Bugs                    |ku-source-bundle-bugs|
 Changelog               |ku-source-bundle-changelog|
 
@@ -40,9 +41,9 @@ Changelog               |ku-source-bundle-changelog|
 ==============================================================================
 INTRODUCTION				       *ku-source-bundle-introduction*
 
-*ku-source-bundle* is a source for Vim plugin |ku| to deal with bundles of
-files provided by Vim plugin |bundle|.  You can choose one from many and do
-some action on it.
+*ku-source-bundle* is a Vim plugin to provide |ku-sources| to deal with:
+bundles of files provided by Vim plugin |bundle|.  You can choose one from
+many and do some action on it.
 
 
 Requirements:
@@ -65,41 +66,52 @@ http://kana.github.com/config/vim/ku-source-bundle.html
 INTERFACE					*ku-source-bundle-interface*
 
 ------------------------------------------------------------------------------
+SOURCES						*ku-source-bundle-sources*
+
+This plugin provides the following sources:
+
+bundle
+	Gathers candidates from available bundles or files in a bundle.
+
+	Usually, this source lists the names of bundles, so each candidate is
+	corresponding to a bundle.
+
+	If a pattern contains a path separator ("/" or "\"), this source lists
+	the names of files in a bundle instead of the names of bundle. so each
+	candidate is corresponding to a file.  Its kind is ["file", "buffer"].
+
+	For example, if a pattern is "{bundle}/", this source lists the names
+	of files in a bundle which name is "{bundle}".
+
+
+------------------------------------------------------------------------------
 KINDS						*ku-source-bundle-kinds*
 
-Usually, this source lists the names of bundles, so each candidate is
-corresponding to a bundle.  Its kind is "bundle".
-
-If a pattern contains "/" or "\", this source lists the names of files in
-a bundle instead of the names of bundle, so each candidate is corresponding to
-a file.  Its kind is ["file", "buffer"].  See also |ku-source-buffer| and
-|ku-source-file|.
-
-For example, if a pattern is "{bundle}/", this source lists the names of files
-in a bundle which name is "{bundle}".
+This plugin doesn't provide general purpose kinds.
 
 
 ------------------------------------------------------------------------------
 ACTION TABLLE				       *ku-source-bundle-action-table*
 
-The following actions are available for candidates with kind "bundle":
+					  *ku-kind-source/bundle-action-table*
+For candidates corresponding to bundles, the following actions are available: 
 
-args						*ku-source-bundle-action-args*
+args					   *ku-kind-source/bundle-action-args*
 			Do |:ArgsBundle| for a given candidate.
 
-args!					       *ku-source-bundle-action-args!*
+args!					  *ku-kind-source/bundle-action-args!*
 			Do |:ArgsBundle!| for a given candidate.
 
-load						*ku-source-bundle-action-load*
+load					   *ku-kind-source/bundle-action-load*
 			Do |:LoadBundle| for a given candidate.
 
-load!					       *ku-source-bundle-action-load!*
+load!					  *ku-kind-source/bundle-action-load!*
 			Do |:LoadBundle!| for a given candidate.
 
-open						*ku-source-bundle-action-open*
+open					   *ku-kind-source/bundle-action-open*
 			Alias of "args".
 
-open!					       *ku-source-bundle-action-open!*
+open!					  *ku-kind-source/bundle-action-open!*
 			Alias of "args!".
 
 See also:
@@ -111,7 +123,8 @@ See also:
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-bundle-key-table*
 
-There is no key binding specific to kind "bundle".
+					     *ku-kind-source/bundle-key-table*
+There is no key binding specific to candidates corresponding to bundles.
 
 See also:
 - |ku-common-key-table|
@@ -124,7 +137,19 @@ See also:
 ==============================================================================
 BUGS						*ku-source-bundle-bugs*
 
+KNOWN ISSUES ~
+
 - Currently there is no known issue.
+
+
+PLANNED FEATURES ~
+
+- Currently there is no planned feature.
+
+
+ETC ~
+
+- Welcome your feedback.
 
 
 
