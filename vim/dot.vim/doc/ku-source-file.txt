@@ -28,9 +28,10 @@ CONTENTS					*ku-source-file-contents*
 
 Introduction            |ku-source-file-introduction|
 Interface               |ku-source-file-interface|
+  Sources                 |ku-source-file-sources|
+  Kinds                   |ku-source-file-kinds|
   Action Table            |ku-source-file-action-table|
   Key Table               |ku-source-file-key-table|
-  Kinds                   |ku-source-file-kinds|
   Archives                |ku-source-file-archives|
 Bugs                    |ku-source-file-bugs|
 Changelog               |ku-source-file-changelog|
@@ -41,14 +42,15 @@ Changelog               |ku-source-file-changelog|
 ==============================================================================
 INTRODUCTION				       *ku-source-file-introduction*
 
-*ku-source-file* is a source for Vim plugin |ku| to deal with files and
-directories.  You can choose one from many files, directories and contents in
-archive files, then do some action on it.
+*ku-source-file* is a Vim plugin to provide |ku-sources| to deal with:
+files, directories and contents in archive files.  You can choose one from
+many and do some action on it.
 
 
 Requirements:
 - Vim 7.2 or later
 - |ku| 0.3.0 or later (vimscript#2337)
+- |ku-source-buffer| 0.2.0 or later (included in |ku|)
 - Zip archive explorer v17 or later (|pi_zip.txt|, included with Vim)
 
 Latest version:
@@ -64,36 +66,61 @@ http://kana.github.com/config/vim/ku-source-file.html
 INTERFACE					*ku-source-file-interface*
 
 ------------------------------------------------------------------------------
+SOURCES						*ku-source-file-sources*
+
+This plugin provides the following sources:
+
+file
+	Gather candidates from a directory or an archive file.  Each candidate
+	is treated as a file or a directory, and it can be also treated as
+	a buffer, so that its kind is ["file", "buffer"].
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-file-kinds*
+
+This plugin provides the following kinds:
+
+file						*ku-kind-file*
+	Represents a file-like candidate.
+
+	a:candidate may or must have the following items:
+
+						*ku_file_path*
+	ku_file_path		string		(optional)
+		A path to the file corresponding to a candidate.
+
+		If this key is not given, a:candidate.word is used as a path.
+
+
+------------------------------------------------------------------------------
 ACTION TABLLE				       *ku-source-file-action-table*
 
-See also:
-- |ku-common-action-table|
-- |ku-source-buffer-action-table|
+						*ku-kind-file-action-table*
+For candidates with kind "file", the following actions are available: 
 
-Additionally, the following actions are available:
-
-open						*ku-source-file-action-open*
+open						*ku-kind-file-action-open*
 			Do |:edit| the file/directory corresponding to a given
 			candidate.  If a buffer corresponding to the
 			file/directory exists, |:buffer| is used instead.
 
-open!						*ku-source-file-action-open!*
+open!						*ku-kind-file-action-open!*
 			Like "open", but use :edit! or :buffer! instead.
 
-ACTIONS FOR ARCHIVE CONTENT		 *ku-source-file-action-table-archive*
+ACTIONS FOR ARCHIVE CONTENT		   *ku-kind-file-action-table-archive*
 
-extract-asis				  *ku-source-file-aciton-extract-asis*
+extract-asis				    *ku-kind-file-aciton-extract-asis*
 			Extract the archive or the file an archive
 			corresponding to a given candidate, with the same
 			directory structure in the archive.
 
-extract-smartly			       *ku-source-file-aciton-extract-smartly*
+extract-smartly				 *ku-kind-file-aciton-extract-smartly*
 			Like "extract-asis", but create a directory which name
 			is the same as the basename of an archive if the
 			archive doesn't contain such directory for all of its
 			content, then extract some content into the directory.
 
-extract-solely				*ku-source-file-aciton-extract-solely*
+extract-solely				  *ku-kind-file-aciton-extract-solely*
 			Like "extract-asis", but extract content without any
 			directory structure in the archive.  This action is
 			only available for candidates which are corresponding
@@ -114,42 +141,27 @@ a.zip       a/foo.txt        a/foo.txt       foo.txt
 b.zip       bar.txt          b/bar.txt       bar.txt
 c.zip       d/baz.txt        c/d/baz.txt     baz.txt
 
+See also:
+- |ku-common-action-table|
+- |ku-source-buffer-action-table|
+
 
 ------------------------------------------------------------------------------
 KEY TABLE					*ku-source-file-key-table*
 
-See also:
-- |ku-common-key-table|
-- |ku-source-buffer-key-table|
+						*ku-kind-file-key-table*
+For candidates with kind "file", the following keys are available: 
 
 Key		Action ~
 --------	--------
-<C-e>		extract-smartly	|ku-source-file-action-extract-smartly|
-<Esc>e		extract-solely	|ku-source-file-action-extract-solely|
-E		extract-asis	|ku-source-file-action-extract-asis|
-e		extract-smartly	|ku-source-file-action-extract-smartly|
+<C-e>		extract-smartly	|ku-kind-file-action-extract-smartly|
+<Esc>e		extract-solely	|ku-kind-file-action-extract-solely|
+E		extract-asis	|ku-kind-file-action-extract-asis|
+e		extract-smartly	|ku-kind-file-action-extract-smartly|
 
-
-------------------------------------------------------------------------------
-KINDS						*ku-source-file-kinds*
-
-Each candidate from |ku-source-file| can be treated as a buffer if such buffer
-already exists.  See also |ku-source-buffer|.
-
-KIND FILE					*ku-kind-file*
-
-Source "file" also provides |ku-kind| "file" which represents a file-like
-candidate.
-
-To use various actions for kind "buffer", sources have to add the following
-values for each candidates:
-
-						*ku_file_path*
-ku_file_path		string			(optional)
-			A path to the file corresponding to a candidate.
-
-			If this key is not given, a:candidate.word is used as
-			a path.
+See also:
+- |ku-common-key-table|
+- |ku-source-buffer-key-table|
 
 
 ------------------------------------------------------------------------------
@@ -234,6 +246,11 @@ PLANNED FEATURES ~
 - Accept multiple kinds of path separators.  For example, '/' can be used as
   '\' on Microsoft Windows and other environments that use '\' as a path
   separator.
+
+
+ETC ~
+
+- Welcome your feedback.
 
 
 
