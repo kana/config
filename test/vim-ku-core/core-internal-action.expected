@@ -1,9 +1,45 @@
+==== ku_x_take_action choose
+---- It requires the following initialization 
+..
+---- It should fail - *choose* is handled by ku#take_action(), not by this one 
+.
+---- It requires to reset side effect 
+
+
+==== ku_x_take_action on action
+---- It requires the following initialization 
+..
+---- It should not be called for action 'nop' 
+..
+---- It should be called for all actions but 'nop' 
+.........
+---- It requires to reset side effect 
+
+
+==== ku_x_take_action valid action
+---- It requires the following initialization 
+...
+---- It should succeed 
+....
+---- It requires to reset side effect 
+
+
 ==== s_choose_action 
 ---- It requires that there is no character in the typeahead buffer 
 .
 ---- It should return the name of an action corresponding to a typed key 
 ....
 ---- It should return 0 if there is no suitable action for a typed key 
+..
+---- It requires to reset side effect 
+.
+
+==== s_choose_action ku  kinds
+---- It requires the following initialization 
+....
+---- It should return an action name based on typed key and kinds in a source 
+..
+---- It should return an action name based on typed key and kinds in a candidate 
 ..
 ---- It requires to reset side effect 
 .
@@ -85,4 +121,4 @@ Action 'name2' is not defined for 'file'..
 **** Result ****
 
 
-92 examples, 0 failures
+124 examples, 0 failures

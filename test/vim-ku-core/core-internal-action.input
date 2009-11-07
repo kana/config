@@ -1,6 +1,157 @@
 " Test: vim-ku-core core-internal-action
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_x_take_action__choose()  "{{{1
+  It requires the following initialization
+
+  function! Test_action_a_open(candidate)
+    let a:candidate.flag = 'a'
+  endfunction
+
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_a_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a'],
+  \   'name': 'test',
+  \ }) != 0
+
+  let candidate = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should fail - *choose* is handled by ku#take_action(), not by this one
+
+  silent! let _ = ku#_take_action('*choose*', candidate)
+  Should _ =~# 'no such action'
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__ku_x_take_action__on_action()  "{{{1
+  It requires the following initialization
+
+  function! Test_action_a_open(candidate)
+    let a:candidate.flag = 'a'
+  endfunction
+  function! Test_on_action(candidate)
+    let _ = copy(a:candidate)
+    let _.word = 'SIRIUS'
+    call feedkeys(_.word)
+    return _
+  endfunction
+
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_a_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a'],
+  \   'name': 'test',
+  \   'on_action': function('Test_on_action'),
+  \ }) != 0
+
+  let candidate = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should not be called for action 'nop'
+
+  let original_candidate = copy(candidate)
+  let _ = ku#_take_action('nop', candidate)
+  Should _ == 0
+  Should candidate ==# original_candidate
+
+  It should be called for all actions but 'nop'
+
+  let original_candidate = copy(candidate)
+  let _ = ku#_take_action('open', candidate)
+  Should _ == 0
+  Should candidate ==# original_candidate
+
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# 'I'
+  Should nr2char(getchar(0)) ==# 'R'
+  Should nr2char(getchar(0)) ==# 'I'
+  Should nr2char(getchar(0)) ==# 'U'
+  Should nr2char(getchar(0)) ==# 'S'
+  Should nr2char(getchar(0)) ==# ''
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__ku_x_take_action__valid_action()  "{{{1
+  It requires the following initialization
+
+  function! Test_action_a_open(candidate)
+    let a:candidate.flag = 'a'
+  endfunction
+  function! Test_action_b_open(candidate)
+    let a:candidate.flag = 'b'
+  endfunction
+
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_a_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_b_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'b',
+  \ }) != 0
+
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a', 'b'],
+  \   'name': 'test',
+  \ }) != 0
+
+  let candidate_without_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+  let candidate_with_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'ku__kinds': ['b', 'a'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should succeed
+
+  silent! let _ = ku#_take_action('open', candidate_without_kinds)
+  Should _ is 0
+  Should candidate_without_kinds.flag ==# 'a'
+
+  silent! let _ = ku#_take_action('open', candidate_with_kinds)
+  Should _ is 0
+  Should candidate_with_kinds.flag ==# 'b'
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__s_choose_action()  "{{{1
   It requires that there is no character in the typeahead buffer
 
@@ -36,6 +187,71 @@ function s:describe__s_choose_action()  "{{{1
   call feedkeys("\<S-F12>")
   silent let action_name = Call('s:choose_action', candidate)
   Should action_name == 0
+  Should nr2char(getchar(0)) ==# ''
+
+  It requires to reset side effect
+
+    " Ensure empty typeahead buffer.
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= nr2char(getchar())
+  endwhile
+  Should typeahead == ''
+    " Implicit changes in the script context.
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__s_choose_action__ku__kinds()  "{{{1
+  It requires the following initialization
+
+  let typeahead = ''
+  while getchar(1) isnot 0
+    let typeahead .= nr2char(getchar())
+  endwhile
+  Should typeahead ==# ''
+
+  Should ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'default_key_table': {'o': 'Mio'},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_kind({
+  \ 'default_action_table': {},
+  \ 'default_key_table': {'o': 'Lio'},
+  \ 'name': 'b',
+  \ }) != 0
+
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a', 'b'],
+  \   'name': 'test',
+  \ }) != 0
+
+  let candidate_without_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+  let candidate_with_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'ku__kinds': ['b', 'a'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should return an action name based on typed key and kinds in a source
+
+  call feedkeys('o')
+  silent let action_name = Call('s:choose_action', candidate_without_kinds)
+  Should action_name ==# 'Mio'
+  Should nr2char(getchar(0)) ==# ''
+
+  It should return an action name based on typed key and kinds in a candidate
+
+  call feedkeys('o')
+  silent let action_name = Call('s:choose_action', candidate_with_kinds)
+  Should action_name ==# 'Lio'
   Should nr2char(getchar(0)) ==# ''
 
   It requires to reset side effect
