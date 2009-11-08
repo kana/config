@@ -51,6 +51,14 @@ endfunction
 
 
 " Misc.  "{{{1
+function! ku#source#metarw#_sid_prefix()  "{{{2
+  nnoremap <SID>  <SID>
+  return maparg('<SID>', 'n')
+endfunction
+
+
+
+
 function! s:scheme_name_from_source_name(source_name)  "{{{2
   return matchstr(a:source_name, '^metarw/\zs[a-z]\+\ze$')
 endfunction

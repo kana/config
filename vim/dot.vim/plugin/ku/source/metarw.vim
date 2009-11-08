@@ -46,6 +46,7 @@ function! s:_()
     \   'gather_candidates': function('ku#source#metarw#gather_candidates'),
     \   'kinds': ['file', 'buffer'],
     \   'name': 'metarw/' . scheme_name,
+    \   'on_action': function('ku#source#metarw#on_action'),
     \ })
   endfor
 endfunction
