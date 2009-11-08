@@ -1,0 +1,157 @@
+*ku-source-{name}.txt*	ku source: {abstract}
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*{name}-contents*
+
+Introduction            |ku-source-{name}-introduction|
+Interface               |ku-source-{name}-interface|
+  Sources                 |ku-source-{name}-sources|
+  Kinds                   |ku-source-{name}-kinds|
+  Action Table            |ku-source-{name}-action-table|
+  Key Table               |ku-source-{name}-key-table|
+Bugs                    |ku-source-{name}-bugs|
+Changelog               |ku-source-{name}-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*ku-source-{name}-introduction*
+
+*ku-source-{name}* is a Vim plugin to provide |ku-sources| to deal with:
+{kinds}.  You can choose one from many and do some action on it.
+
+
+Requirements:
+- Vim 7.2 or later
+- |ku| 0.3.0 or later (vimscript#2337)
+
+Latest version:
+http://github.com/kana/config/commits/vim-ku-source-{name}
+
+Document in HTML format:
+http://kana.github.com/config/vim/ku-source-{name}.html
+
+
+
+
+==============================================================================
+INTERFACE					*ku-source-{name}-interface*
+
+------------------------------------------------------------------------------
+SOURCES						*ku-source-{name}-sources*
+
+This plugin provides the following sources:
+
+{source-name}
+	Gathers candidates from XXXs.
+	Each candidate is treated as a XXX,
+	so that its kind is ["XXX"].
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-{name}-kinds*
+
+This plugin provides the following kinds:
+# This plugin doesn't provide general purpose kinds.
+
+{kind-name}					*ku-kind-{kind}*
+	{kind-description}
+
+						*ku_{kind}_{key}*
+	ku_{kind}_{key}		{type}		({requirement})
+		{description}
+
+
+------------------------------------------------------------------------------
+ACTION TABLE				       *ku-source-{name}-action-table*
+
+# There is no action specific to candidates from source "{source-name}".
+
+						*ku-kind-{kind}-action-table*
+For candidates with kind {kind-name}, the following actions are available: 
+
+{action}				      *ku-kind-{name}-action-{action}*
+			{action-description}
+
+See also:
+- |ku-common-action-table|
+- |ku-kind-{name2}-action-table|
+- ...
+
+
+------------------------------------------------------------------------------
+KEY TABLE					*ku-source-{name}-key-table*
+
+# There is no key binding specific to candidates from source "{source-name}".
+
+						*ku-kind-{kind}-key-table*
+For candidates with kind {kind-name}, the following keys are available: 
+
+Key		Action ~
+--------	--------
+{key}		{action}	|ku-kind-{name}-action-{action}|
+...
+
+See also:
+- |ku-common-key-table|
+- |ku-kind-{name2}-key-table|
+- ...
+
+
+
+
+==============================================================================
+BUGS						*ku-source-{name}-bugs*
+
+KNOWN ISSUES ~
+
+- Currently there is no known issue.
+
+
+PLANNED FEATURES ~
+
+- Currently there is no planned feature.
+
+
+ETC ~
+
+- Welcome your feedback.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-source-{name}-changelog*
+
+0.0.0	2009-10-31T23:14:43+09:00	    *ku-source-{name}-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

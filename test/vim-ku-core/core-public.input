@@ -571,9 +571,9 @@ function s:describe__ku_define_source()  "{{{1
   \ 'filters': [],
   \ 'gather_candidates': F,
   \ 'kind_names': ['source/test', 'common'],
-  \ 'kinds': function('ku#_kinds_from_kind_names'),
   \ 'matchers': matchers,
   \ 'name': 'test',
+  \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
   \ }
   Should Ref('s:available_kinds')['source/test']
@@ -582,7 +582,8 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {},
   \ 'name': 'source/test',
   \ }
-  Should Ref('s:available_sources')['test'].kinds()
+  Should Call('s:kinds_from_kind_names',
+  \           Ref('s:available_sources')['test'].kind_names)
   \ ==# [
   \  Ref('s:available_kinds')['source/test'],
   \  Ref('s:available_kinds')['common'],
@@ -598,9 +599,9 @@ function s:describe__ku_define_source()  "{{{1
   \ 'filters': [],
   \ 'gather_candidates': G,
   \ 'kind_names': ['source/test', 'common'],
-  \ 'kinds': function('ku#_kinds_from_kind_names'),
   \ 'matchers': matchers,
   \ 'name': 'test',
+  \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
   \ }
   Should Ref('s:available_kinds')['source/test']
@@ -609,7 +610,8 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {},
   \ 'name': 'source/test',
   \ }
-  Should Ref('s:available_sources')['test'].kinds()
+  Should Call('s:kinds_from_kind_names',
+  \           Ref('s:available_sources')['test'].kind_names)
   \ ==# [
   \  Ref('s:available_kinds')['source/test'],
   \  Ref('s:available_kinds')['common'],
@@ -634,9 +636,9 @@ function s:describe__ku_define_source()  "{{{1
   \ 'filters': [G],
   \ 'gather_candidates': F,
   \ 'kind_names': ['source/test', 'common', 'source/test', 'common'],
-  \ 'kinds': function('ku#_kinds_from_kind_names'),
   \ 'matchers': [G],
   \ 'name': 'test',
+  \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': [F],
   \ }
   Should Ref('s:available_kinds')['source/test']
@@ -645,7 +647,8 @@ function s:describe__ku_define_source()  "{{{1
   \ 'default_key_table': {'/': 'checkout'},
   \ 'name': 'source/test',
   \ }
-  Should Ref('s:available_sources')['test'].kinds()
+  Should Call('s:kinds_from_kind_names',
+  \           Ref('s:available_sources')['test'].kind_names)
   \ ==# [
   \  Ref('s:available_kinds')['source/test'],
   \  Ref('s:available_kinds')['common'],
@@ -655,6 +658,40 @@ function s:describe__ku_define_source()  "{{{1
 
   " Reset side effect
   ResetContext
+endfunction
+
+
+
+
+function s:describe__ku_make_path()  "{{{1
+  let path_separator = ku#path_separator()
+
+  It should join items in a given list
+
+  Should ku#make_path(['a', 'b']) ==# 'a' . path_separator . 'b'
+  Should ku#make_path(['a']) ==# 'a'
+  Should ku#make_path([]) ==# ''
+
+  It should join given arguments
+
+  Should ku#make_path('a', 'b') ==# 'a' . path_separator . 'b'
+  Should ku#make_path('a') ==# 'a'
+  Should ku#make_path() ==# ''
+endfunction
+
+
+
+
+function s:describe__ku_path_separator()  "{{{1
+  if exists('+shellslash') && !&shellslash
+    let path_separator = '\'
+  else
+    let path_separator = '/'
+  endif
+
+  It should return a valid value according to the current environment 
+
+  Should ku#path_separator() ==# path_separator
 endfunction
 
 
@@ -785,6 +822,77 @@ function s:describe__ku_start()  "{{{1
   Should nr2char(getchar(0)) ==# 'A'
   Should nr2char(getchar(0)) ==# ''
   bwipeout!
+endfunction
+
+
+
+
+function s:describe__ku_take_action__candidate_ku__kinds()  "{{{1
+  It requires the following initialization
+
+  function! Test_action_a_open(candidate)
+    let a:candidate.flag = 'a'
+  endfunction
+  function! Test_action_b_open(candidate)
+    let a:candidate.flag = 'b'
+  endfunction
+
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_a_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'a',
+  \ }) != 0
+  Should ku#define_kind({
+  \ 'default_action_table': {'open': function('Test_action_b_open')},
+  \ 'default_key_table': {},
+  \ 'name': 'b',
+  \ }) != 0
+
+  Should ku#define_source({
+  \   'gather_candidates': function('type'),
+  \   'kinds': ['a', 'b'],
+  \   'name': 'test',
+  \ }) != 0
+
+  let candidate_without_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'word': 'EMPRESS',
+  \ }
+  let candidate_with_kinds = {
+  \   'ku__source': Ref('s:available_sources')['test'],
+  \   'ku__kinds': ['b', 'a'],
+  \   'word': 'EMPRESS',
+  \ }
+
+  It should take an action based on kinds defined by a source
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('open', candidate_without_kinds) == 1
+  Should Call('s:ku_active_p') == 0
+  Should candidate_without_kinds.flag ==# 'a'
+
+  It should take an action based on kinds defined by a candidate
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should Call('s:ku_active_p') == 1
+  Should ku#take_action('open', candidate_with_kinds) == 1
+  Should Call('s:ku_active_p') == 0
+  Should candidate_with_kinds.flag ==# 'b'
+
+  It requires to reset side effect
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+  bwipeout!
+  ResetContext
 endfunction
 
 

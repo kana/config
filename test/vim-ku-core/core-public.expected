@@ -147,6 +147,16 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It should succeed for valid source definition with optional attributes 
 ....
 
+==== ku_make_path 
+---- It should join items in a given list 
+...
+---- It should join given arguments 
+...
+
+==== ku_path_separator 
+---- It should return a valid value according to the current environment  
+.
+
 ==== ku_restart 
 
 ==== ku_start 
@@ -171,6 +181,16 @@ Invalid source name: 'invalid'.....
 ...
 line   12:
 Already active.....
+
+==== ku_take_action candidate ku  kinds
+---- It requires the following initialization 
+...
+---- It should take an action based on kinds defined by a source 
+.......
+---- It should take an action based on kinds defined by a candidate 
+.......
+---- It requires to reset side effect 
+...
 
 ==== ku_take_action with candidate
 ---- It should do nothing with 'nop' 
@@ -203,4 +223,4 @@ Already active.....
 **** Result ****
 
 
-342 examples, 0 failures
+369 examples, 0 failures
