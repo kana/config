@@ -54,13 +54,9 @@
 ---- It should return valid value for root directory + dotfile pattern 
 ....
 
-==== s_path_separator 
----- It should return a valid value according to the current environment  
-.
-
 
 
 **** Result ****
 
 
-50 examples, 0 failures
+49 examples, 0 failures

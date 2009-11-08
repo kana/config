@@ -69,14 +69,14 @@ function! s:candidates_from_directory(pattern_info)  "{{{2
     " On Microsoft Windows, glob('{,.}*') doesn't list dotfiles,
     " so that here we have to list dotfiles and other items separately.
   let wildcards = _.user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
-    " glob_prefix must be followed by s:path_separator()
+    " glob_prefix must be followed by ku#path_separator()
     " to list content of a directory.
   if len(_.components) == 1  " no path separator
     let glob_prefix = ''
   elseif _.root_directory_pattern_p
-    let glob_prefix = s:path_separator()
+    let glob_prefix = ku#path_separator()
   else  " more than one path separators
-    let glob_prefix = s:make_path(_.components[:-2]) . s:path_separator()
+    let glob_prefix = s:make_path(_.components[:-2]) . ku#path_separator()
   endif
 
   let candidates = []
@@ -84,7 +84,7 @@ function! s:candidates_from_directory(pattern_info)  "{{{2
     for entry in split(glob(glob_prefix . wildcard), "\n")
       call add(candidates, {
       \      'word': entry,
-      \      'abbr': entry . (isdirectory(entry) ? s:path_separator() : ''),
+      \      'abbr': entry . (isdirectory(entry) ? ku#path_separator() : ''),
       \    })
     endfor
   endfor
@@ -92,7 +92,7 @@ function! s:candidates_from_directory(pattern_info)  "{{{2
     " Remove the '..' item if user seems to find files under the root
     " directory, because it is strange for such situation.
     " FIXME: Drive letter and other cases on Microsoft Windows.  E.g. 'C:\'.
-  if fnamemodify(glob_prefix, ':p') == s:path_separator()  " root directory?
+  if fnamemodify(glob_prefix, ':p') == ku#path_separator()  " root directory?
     let parent_directory_name = glob_prefix . '..'
     call filter(candidates, 'v:val.word !=# parent_directory_name')
   endif
@@ -105,9 +105,9 @@ endfunction
 
 function! s:make_path(...)  "{{{2
   if a:0 == 1 && type(a:1) is type([])
-    return join(a:1, s:path_separator())
+    return join(a:1, ku#path_separator())
   else
-    return join(a:000, s:path_separator())
+    return join(a:000, ku#path_separator())
   endif
 endfunction
 
@@ -117,19 +117,12 @@ endfunction
 function! s:parse_pattern(pattern)  "{{{2
   " FIXME: Support "recursive archives".
   let _ = {}
-  let _.components = split(a:pattern, s:path_separator(), !0)
+  let _.components = split(a:pattern, ku#path_separator(), !0)
 
   let _.type = 'directory'
-  let _.root_directory_pattern_p = strridx(a:pattern, s:path_separator()) == 0
+  let _.root_directory_pattern_p = strridx(a:pattern, ku#path_separator()) == 0
   let _.user_seems_want_dotfiles_p = _.components[-1][:0] == '.'
   return _
-endfunction
-
-
-
-
-function! s:path_separator()  "{{{2
-  return (exists('+shellslash') && !&shellslash) ? '\' : '/'
 endfunction
 
 
