@@ -76,7 +76,7 @@ function! s:candidates_from_directory(pattern_info)  "{{{2
   elseif _.root_directory_pattern_p
     let glob_prefix = ku#path_separator()
   else  " more than one path separators
-    let glob_prefix = s:make_path(_.components[:-2]) . ku#path_separator()
+    let glob_prefix = ku#make_path(_.components[:-2]) . ku#path_separator()
   endif
 
   let candidates = []
@@ -98,17 +98,6 @@ function! s:candidates_from_directory(pattern_info)  "{{{2
   endif
 
   return candidates
-endfunction
-
-
-
-
-function! s:make_path(...)  "{{{2
-  if a:0 == 1 && type(a:1) is type([])
-    return join(a:1, ku#path_separator())
-  else
-    return join(a:000, ku#path_separator())
-  endif
 endfunction
 
 

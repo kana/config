@@ -32,12 +32,6 @@
 ---- It requires to reset side effect 
 .
 
-==== s_make_path 
----- It should join items in a given list 
-...
----- It should join given arguments 
-...
-
 ==== s_parse_pattern archive pattern
 ---- It is not implemented yet 
 .
@@ -59,4 +53,4 @@
 **** Result ****
 
 
-49 examples, 0 failures
+43 examples, 0 failures

@@ -212,25 +212,6 @@ endfunction
 
 
 
-function s:describe__s_make_path()  "{{{1
-  let path_separator = Call('ku#path_separator')
-
-  It should join items in a given list
-
-  Should Call('s:make_path', ['a', 'b']) ==# 'a' . path_separator . 'b'
-  Should Call('s:make_path', ['a']) ==# 'a'
-  Should Call('s:make_path', []) ==# ''
-
-  It should join given arguments
-
-  Should Call('s:make_path', 'a', 'b') ==# 'a' . path_separator . 'b'
-  Should Call('s:make_path', 'a') ==# 'a'
-  Should Call('s:make_path') ==# ''
-endfunction
-
-
-
-
 function s:describe__s_parse_pattern__archive_pattern()  "{{{1
   " FIXME: NIY
 
@@ -266,14 +247,14 @@ function s:describe__s_parse_pattern__directory_pattern()  "{{{1
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', 'foo', '')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('foo', '')) ==# {
   \   'components': ['foo', ''],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', 'foo', 'bar')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('foo', 'bar')) ==# {
   \   'components': ['foo', 'bar'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
@@ -281,7 +262,7 @@ function s:describe__s_parse_pattern__directory_pattern()  "{{{1
   \ }
 
 
-  Should Call('s:parse_pattern', Call('s:make_path', 'foo', 'bar', '')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('foo', 'bar', '')) ==# {
   \   'components': ['foo', 'bar', ''],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
@@ -291,28 +272,28 @@ function s:describe__s_parse_pattern__directory_pattern()  "{{{1
 
   It should return valid value for root directory pattern
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', '')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', '')) ==# {
   \   'components': ['', ''],
   \   'type': 'directory',
   \   'root_directory_pattern_p': !0,
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', 'bin')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', 'bin')) ==# {
   \   'components': ['', 'bin'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': !0,
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', 'bin', '')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', 'bin', '')) ==# {
   \   'components': ['', 'bin', ''],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', 'bin', 'x')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', 'bin', 'x')) ==# {
   \   'components': ['', 'bin', 'x'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
@@ -321,35 +302,35 @@ function s:describe__s_parse_pattern__directory_pattern()  "{{{1
 
   It should return valid value for ordinary directory + dotfile pattern
 
-  Should Call('s:parse_pattern', Call('s:make_path', '.')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('.')) ==# {
   \   'components': ['.'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': !0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '.', '')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('.', '')) ==# {
   \   'components': ['.', ''],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '.foo')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('.foo')) ==# {
   \   'components': ['.foo'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': !0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '.foo', '')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('.foo', '')) ==# {
   \   'components': ['.foo', ''],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', 'foo', '.')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('foo', '.')) ==# {
   \   'components': ['foo', '.'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
@@ -357,7 +338,7 @@ function s:describe__s_parse_pattern__directory_pattern()  "{{{1
   \ }
 
 
-  Should Call('s:parse_pattern', Call('s:make_path', 'foo', '.bar')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('foo', '.bar')) ==# {
   \   'components': ['foo', '.bar'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
@@ -366,28 +347,28 @@ function s:describe__s_parse_pattern__directory_pattern()  "{{{1
 
   It should return valid value for root directory + dotfile pattern
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', '.')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', '.')) ==# {
   \   'components': ['', '.'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': !0,
   \   'user_seems_want_dotfiles_p': !0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', '.bin')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', '.bin')) ==# {
   \   'components': ['', '.bin'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': !0,
   \   'user_seems_want_dotfiles_p': !0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', '.bin', '')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', '.bin', '')) ==# {
   \   'components': ['', '.bin', ''],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
   \   'user_seems_want_dotfiles_p': 0,
   \ }
 
-  Should Call('s:parse_pattern', Call('s:make_path', '', '.bin', '.')) ==# {
+  Should Call('s:parse_pattern', ku#make_path('', '.bin', '.')) ==# {
   \   'components': ['', '.bin', '.'],
   \   'type': 'directory',
   \   'root_directory_pattern_p': 0,
