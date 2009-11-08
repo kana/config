@@ -1,0 +1,22 @@
+==== ku_source_metarw_gather_candidates 
+---- It requires the following initialization 
+
+---- It should return branch names regardless of a:args.pattern 
+.
+
+==== ku_source_metarw_on_action 
+---- It should succeed 
+...
+
+==== s_scheme_name_from_source_name 
+---- It should succeed 
+.
+---- It should fail 
+.....
+
+
+
+**** Result ****
+
+
+10 examples, 0 failures

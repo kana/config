@@ -994,6 +994,19 @@ test/vim-ku-source-file/%.output: \
 	@./test/vspec $< &>$@
 
 
+# vim-ku-source-metarw  #{{{2
+TESTS_vim_ku_source_metarw = \
+		action \
+		kind \
+		source
+
+test/vim-ku-source-metarw/%.output: \
+		test/vim-ku-source-metarw/%.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_source_metarw_FILES)
+	@./test/vspec $< &>$@
+
+
 # vim-ku-source-quickfix  #{{{2
 TESTS_vim_ku_source_quickfix = \
 		action \
