@@ -1,0 +1,168 @@
+*ku-source-metarw.txt*	ku source: metarw
+
+Version 0.2.0
+Script ID: ****
+Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*ku-source-metarw-contents*
+
+Introduction            |ku-source-metarw-introduction|
+Interface               |ku-source-metarw-interface|
+  Sources                 |ku-source-metarw-sources|
+  Kinds                   |ku-source-metarw-kinds|
+  Action Table            |ku-source-metarw-action-table|
+  Key Table               |ku-source-metarw-key-table|
+Bugs                    |ku-source-metarw-bugs|
+Changelog               |ku-source-metarw-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION				       *ku-source-metarw-introduction*
+
+*ku-source-metarw* is a Vim plugin to provide |ku-sources| to deal with:
+|metarw-fakepath|.  You can choose one from many and do some action on it.
+
+
+Requirements:
+- Vim 7.2 or later
+- |ku| 0.3.0 or later (vimscript#2337)
+- |ku-source-buffer| 0.2.0 or later (included in |ku|)
+- |ku-source-file| 0.2.0 or later (included in |ku|)
+- |metarw| 0.0.4 or later (vimscript#2335)
+
+Optionals:
+- |metarw-scheme-script| such as |metarw-git| (vimscript#2336)
+
+Latest version:
+http://github.com/kana/config/commits/vim-ku-source-metarw
+
+Document in HTML format:
+http://kana.github.com/config/vim/ku-source-metarw.html
+
+
+
+
+==============================================================================
+INTERFACE					*ku-source-metarw-interface*
+
+------------------------------------------------------------------------------
+SOURCES						*ku-source-metarw-sources*
+
+This plugin provides the following sources:
+
+metarw/{scheme}
+	Gathers candidates from |metarw-fakepath|s with {scheme}.
+	Each candidate is treated as a file and a buffer,
+	so that its kind is ["file", "buffer"].
+
+	For example, if |metarw-git| is installed, this plugin provides source
+	"metarw/git" which gathers branches and files in a git repository as
+	candidates.
+
+
+------------------------------------------------------------------------------
+KINDS						*ku-source-metarw-kinds*
+
+This plugin doesn't provide general purpose kinds.
+
+
+------------------------------------------------------------------------------
+ACTION TABLLE				     *ku-source-metarw-action-table*
+
+				 *ku-kind-source/metarw/{scheme}-action-table*
+There is no action specific to candidates from source "metarw/{scheme}".
+
+See also:
+- |ku-common-action-table|
+- |ku-source-buffer-action-table|
+- |ku-source-file-action-table|
+
+
+------------------------------------------------------------------------------
+KEY TABLE					*ku-source-metarw-key-table*
+
+				    *ku-kind-source/metarw/{scheme}-key-table*
+There is no key binding specific to candidates from source "metarw/{scheme}".
+
+See also:
+- |ku-common-key-table|
+- |ku-source-buffer-key-table|
+- |ku-source-file-key-table|
+
+
+
+
+==============================================================================
+BUGS						*ku-source-metarw-bugs*
+
+KNOWN ISSUES ~
+
+- Currently there is no known issue.
+
+
+PLANNED FEATURES ~
+
+- Currently there is no planned feature.
+
+
+ETC ~
+
+- Welcome your feedback.
+
+
+
+
+==============================================================================
+CHANGELOG					*ku-source-metarw-changelog*
+
+0.2.0	2009-10-28T07:12:13+09:00	    *ku-source-metarw-changelog-0.1.2*
+	- Update for ku 0.3.0.
+
+0.1.2	2009-05-13T22:49:03+09:00	    *ku-source-metarw-changelog-0.1.2*
+	Bug fixes:
+	- Fix an assumption that the separator for pathes is "/".  This
+	  assumption causes unexpected behavior on some environments such as
+	  Microsoft Windows.
+
+	Incompatible changes:
+	- Require ku 0.2.2.
+
+0.1.1	2009-05-04T01:53:09+09:00	    *ku-source-metarw-changelog-0.1.1*
+	- Update for ku 0.2.1.
+
+0.1.0	2009-04-28T00:28:46+09:00	    *ku-source-metarw-changelog-0.1.0*
+	- Update for ku 0.2.0.
+
+0.0.1	2008-09-28T03:45:31+09:00	    *ku-source-metarw-changelog-0.0.1*
+	- Update for ku 0.1.3.
+
+0.0.0	2008-08-10T23:46:03+09:00	    *ku-source-metarw-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

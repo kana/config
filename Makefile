@@ -237,6 +237,7 @@ ALL_PACKAGES=\
   vim-ku-source-bundle \
   vim-ku-source-buffer \
   vim-ku-source-file \
+  vim-ku-source-metarw \
   vim-ku-source-quickfix \
   vim-ku-source-source \
   vim-metarw \
@@ -441,6 +442,14 @@ PACKAGE_vim_ku_source_file_FILES_core=\
 PACKAGE_vim_ku_source_file_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/file.vim
 
+PACKAGE_vim_ku_source_metarw_ARCHIVE=vim-ku-source-metarw-0.2.0
+PACKAGE_vim_ku_source_metarw_BASE=vim/dot.vim
+PACKAGE_vim_ku_source_metarw_FILES=\
+  $(PACKAGE_vim_ku_source_metarw_FILES_core)
+PACKAGE_vim_ku_source_metarw_FILES_core=\
+  vim/dot.vim/autoload/ku/source/metarw.vim \
+  vim/dot.vim/doc/ku-source-metarw.txt \
+  vim/dot.vim/plugin/ku/source/metarw.vim
 
 PACKAGE_vim_ku_source_quickfix_ARCHIVE=vim-ku-source-quickfix-0.2.0
 PACKAGE_vim_ku_source_quickfix_BASE=vim/dot.vim
@@ -982,6 +991,19 @@ test/vim-ku-source-file/%.output: \
 		test/vim-ku-source-file/%.input \
 		test/vspec \
 		$(PACKAGE_vim_ku_source_file_FILES)
+	@./test/vspec $< &>$@
+
+
+# vim-ku-source-metarw  #{{{2
+TESTS_vim_ku_source_metarw = \
+		action \
+		kind \
+		source
+
+test/vim-ku-source-metarw/%.output: \
+		test/vim-ku-source-metarw/%.input \
+		test/vspec \
+		$(PACKAGE_vim_ku_source_metarw_FILES)
 	@./test/vspec $< &>$@
 
 

@@ -1,0 +1,14 @@
+==== ku_source_metarw_on_action 
+---- It requires the following initialization 
+.
+---- It should normalize a:candidate.word 
+...
+---- It requires to reset side effect 
+
+
+
+
+**** Result ****
+
+
+4 examples, 0 failures

@@ -1,0 +1,65 @@
+" Test: vim-ku-source-metarw source
+runtime! plugin/ku.vim
+runtime! plugin/ku/source/metarw.vim
+call vspec#hint({'sid': 'ku#source#metarw#_sid_prefix()'})
+function s:describe__ku_source_metarw_gather_candidates()  "{{{1
+  It requires the following initialization
+
+  let _ = split(system('git branch -a'), '\n')
+  let _ = map(_, 'substitute(v:val, "^..", "", "")')
+  let _ = map(_, 'substitute(v:val, "^remotes/", "", "")')
+  let _ = map(_, '{"word": v:val . ":"}')
+
+  It should return branch names regardless of a:args.pattern
+
+  let args = {
+  \   'pattern': 'Why are my daughters so lovely!',
+  \   'source': ku#available_sources()['metarw/git']
+  \ }
+  let lcandidates = copy(ku#source#metarw#gather_candidates(args))
+
+  Should lcandidates ==# _
+endfunction
+
+
+
+
+function s:describe__ku_source_metarw_on_action()  "{{{1
+  It should succeed
+
+  let candidate = {
+  \   'ku__source': ku#available_sources()['metarw/git'],
+  \   'word': 'foo',
+  \ }
+
+  let translated_candidate = ku#source#metarw#on_action(candidate)
+  Should translated_candidate !=# candidate
+  Should translated_candidate isnot candidate
+  Should translated_candidate ==# {
+  \   'ku__source': ku#available_sources()['metarw/git'],
+  \   'word': 'git:foo',
+  \ }
+endfunction
+
+
+
+
+function s:describe__s_scheme_name_from_source_name()  "{{{1
+  It should succeed
+
+  Should Call('s:scheme_name_from_source_name', 'metarw/git') ==# 'git'
+
+  It should fail
+
+  Should Call('s:scheme_name_from_source_name', '') ==# ''
+  Should Call('s:scheme_name_from_source_name', 'foo/bar') ==# ''
+  Should Call('s:scheme_name_from_source_name', 'metarw') ==# ''
+  Should Call('s:scheme_name_from_source_name', 'metarw/') ==# ''
+  Should Call('s:scheme_name_from_source_name', 'metarw/git/x') ==# ''
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

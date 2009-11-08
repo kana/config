@@ -1,0 +1,45 @@
+" Test: vim-ku-source-metarw action
+runtime! plugin/ku.vim
+runtime! plugin/ku/kind/buffer.vim
+runtime! plugin/ku/kind/common.vim 
+runtime! plugin/ku/kind/file.vim
+runtime! plugin/ku/source/metarw.vim
+call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_source_metarw_on_action()  "{{{1
+  It requires the following initialization
+
+  function! Test_action_open(candidate)
+    let g:_ = a:candidate
+    return 0
+  endfunction
+
+  let candidate = {
+  \   'ku__source': ku#available_sources()['metarw/git'],
+  \   'word': 'alter/sasara',
+  \ }
+
+  Should ku#custom_action(
+  \   'source/metarw/git',
+  \   'open',
+  \   function('Test_action_open')
+  \ ) == 0
+
+  It should normalize a:candidate.word
+
+  Should ku#_take_action('open', candidate) == 0
+  Should g:_ isnot candidate
+  Should g:_ ==# {
+  \   'ku__source': ku#available_sources()['metarw/git'],
+  \   'word': 'git:alter/sasara',
+  \ }
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
