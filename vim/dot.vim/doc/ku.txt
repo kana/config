@@ -217,6 +217,26 @@ ku#define_source({definition})			*ku#define_source()*
 			details of the source to be defined.  See
 			|ku-source-definition| for the details.
 
+ku#make_path({component}, ...)			*ku#make_path()*
+ku#make_path({list})
+			Make a path from given {component}s or a given {list}
+			of components.  A {component} is a string
+			corresponding to the name of a file or a directory.
+
+			For example:
+>
+			:echo ku#make_path('dir', 'file')
+			dir/file
+			:echo ku#make_path(['dir', 'file'])
+			dir/file
+<
+
+ku#path_separator()				*ku#path_separator()*
+			Return a string which is a path separator for the
+			current environment.  It returns '/' for most
+			environments, or it returns '\' for some environments
+			such as Microsoft Windows.
+
 ku#start({sources}=0, {initial-pattern}='')	*ku#start()*
 			Start a ku session.
 
@@ -513,7 +533,9 @@ default_action_table	dictionary		(optional)
 			table for the implicit kind for a source.  See also
 			|ku-implicit-kind-for-a-source|.
 
-			This key is optional; if it is not given, {} is used.
+			This attribute is optional; if it is not given, {} is
+			used as the default value.  This means that there is
+			no specific action for this source.
 
 				       *ku-source-attribute-default_key_table*
 default_key_table	dictionary		(optional)
@@ -524,7 +546,9 @@ default_key_table	dictionary		(optional)
 			for the implicit kind for a source.  See also
 			|ku-implicit-kind-for-a-source|.
 
-			This key is optional; if it is not given, {} is used.
+			This attribute is optional; if it is not given, {} is
+			used as the default value.  This means that there is
+			no specific key binding for this source.
 
 						*ku-source-attribute-filters*
 filters			list of funcrefs	(optional)
@@ -542,9 +566,9 @@ filters			list of funcrefs	(optional)
 			- "filters" filter candidates according to other
 			  information, not a pattern.
 
-			This key is optional; if it is not given, [] is used
-			as the default value.  This means that there is no
-			filtering.
+			This attribute is optional; if it is not given, [] is
+			used as the default value.  This means that there is
+			no filtering.
 
 				       *ku-source-attribute-gather_candidates*
 gather_candidates	function		(required)
@@ -558,7 +582,9 @@ kinds			list of strings		(optional)
 			to calculate |ku-action-table| and |ku-key-table| for
 			a candidate.
 
-			This key is optional; if it is not given, [] is used.
+			This attribute is optional; if it is not given, [] is
+			used as the default value.  This means that there is
+			no specific kind for this source.
 
 			See also:
 			- |ku-kind|
@@ -579,8 +605,8 @@ matchers		list of funcrefs	(optional)
 			Only matched {candidate}s will be displayed
 			|ins-completion-menu|.
 
-			This key is optional; if it is not given,
-			[|ku#matcher#default#matches_()|] is used as the
+			This attribute is optional; if it is not given,
+			[|ku#matcher#default#matches_p()|] is used as the
 			default value.
 
 						*ku-source-attribute-name*
@@ -597,6 +623,39 @@ name			string			(requried)
 			- "buffer", "history" and "metarw/git" are valid.
 			- "BadOne", "!@#$%^&*()_[]{}-|" and "" are not valid.
 
+					       *ku-source-attribute-on_action*
+on_action		funcref			(optional)
+			Event handler - it is called before doing an action.
+			The purpose of this attribute is to translate, to
+			convert and/or to normalize {candidate} before doing
+			an action.
+
+			It takes single argument {candidate} which is the
+			target of the action.  It must return given
+			{candidate} as-is, or modified version of {candidate}.
+
+			If you want to modify a given {candidate}, don't
+			modify it in-place.  Make a copy of the given one,
+			modify it, then return the modified one.  Because
+			given {candidate} may be cached by ku, so that
+			in-place modification is harmful.
+
+			This attribute is optional; if it is not given,
+			nothing will be performed before doing an action.
+
+			Example:
+>
+			function! Sample_on_action(candidate)
+			  if It_should_be_normalized_p(a:candidate)
+			    let normalized_candidate = copy(a:candidate)
+			    let normalized_candidate.word = ...
+			    return normalized_candidate
+			  else
+			    return a:candidate
+			  endif
+			endfunction
+<
+
 						*ku-source-attribute-sorters*
 sorters			list of funcrefs	(optional)
 			Functions to sort candidates.
@@ -607,7 +666,7 @@ sorters			list of funcrefs	(optional)
 			- May modify a given {lcandidates} in-place, but must
 			  not modify any value in {lcandidates}.
 
-			This key is optional; if it is not given,
+			This attribute is optional; if it is not given,
 			[|ku#sorter#default#sort()|] is used as the default
 			value.
 
@@ -619,23 +678,47 @@ NOTATION					*ku-notation*
 			with candidates.  The details of this dictionary are
 			as follows:
 
-			"pattern"	(string)
+			pattern		(string)
 				The currrent pattern which user inputs in
 				|the-ku-buffer|.
+
+			source		(dictionary)
+				The source which are gathering or gathered
+				candidates.
 
 {candidate}					*ku-notation-{candidate}*
 			A dictionary which represents a candidate.  The
 			details of this dictionary are mostly same as
 			|complete-items|.
 
+			Ku adds several additional entries for this
+			dictionary.  Keys of such entries are prefixed with
+			"ku__".  Don't use such keys unless ku explicitly
+			allows.
+
 			Sources may add additional entries for this
 			dictionary.  Keys of such entries must be prefixed
 			with "ku_{source}_", where {source} is the name of
 			a source.
 
-			Also, ku may add additional entries for this
-			dictionary.  Keys of such entries are prefixed with
-			"ku__".
+			Also sources may refer the following entries in this
+			dictionary:
+
+			ku__source	(dictionary)
+				The source which gathered a candidate.
+
+			Also sources may add the following entries for this
+			dictionary:
+
+			ku__kinds	(list of strings)	(optional)
+				The kinds of a candidate.  Each value is the
+				name of a |ku-kind|.
+
+				If this entry does not exist, the value of
+				|ku-source-attribute-kinds| is used.
+
+				This entry is useful if a source gathers
+				candidates with different kinds.
 
 {lcandidates}					*ku-notation-{lcandidates}*
 			A list of {candidate}s.  The prefix letter "l" means

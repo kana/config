@@ -49,15 +49,19 @@ let s:NULL_KIND = {
 \ }
 
 
-" Note that:
+" Default values of optional attributes of source.  Note that:
+" - Attributes in s:NULL_SOURCE are treated as optional ones,
+"   so don't include required attributes in s:NULL_SOURCE.
 " - Values of all attributes but 'kinds' are used as immutable ones.
 " - The value of 'kinds' is just a placeholder and it's not used as is.
+"   See also ku#define_source().
 let s:NULL_SOURCE = {
 \   'default_action_table': {},
 \   'default_key_table': {},
 \   'filters': [],
 \   'kinds': [],
 \   'matchers': [function('ku#matcher#default#matches_p')],
+\   'on_action': function('ku#default_on_action'),
 \   'sorters': [function('ku#sorter#default#sort')],
 \ }
 
@@ -237,11 +241,28 @@ function! ku#define_source(definition)  "{{{2
   \    })
   let new_source.kind_names = [new_kind_name] + new_source.kinds + ['common']
   unlet new_source.kinds
-  let new_source.kinds = function('ku#_kinds_from_kind_names')
 
   let s:available_sources[new_source['name']] = new_source
 
   return s:TRUE
+endfunction
+
+
+
+
+function! ku#make_path(...)  "{{{2
+  if a:0 == 1 && type(a:1) is type([])
+    return join(a:1, ku#path_separator())
+  else
+    return join(a:000, ku#path_separator())
+  endif
+endfunction
+
+
+
+
+function! ku#path_separator()  "{{{2
+  return (exists('+shellslash') && !&shellslash) ? '\' : '/'
 endfunction
 
 
@@ -363,6 +384,13 @@ nnoremap <SID>  <SID>
 
 
 
+function! ku#default_on_action(candidate)  "{{{2
+  return a:candidate
+endfunction
+
+
+
+
 function! ku#omnifunc(findstart, base)  "{{{2
   if a:findstart
     " FIXME: For in-line completion.
@@ -383,13 +411,6 @@ endfunction
 
 
 
-function! ku#_kinds_from_kind_names() dict  "{{{2
-  return map(copy(self.kind_names), 's:available_kinds[v:val]')
-endfunction
-
-
-
-
 function! ku#_take_action(action_name, candidate)  "{{{2
   " Return 0 for success.
   " Return a string (= error message) for failure.
@@ -401,14 +422,15 @@ function! ku#_take_action(action_name, candidate)  "{{{2
     " To express this property, bypass the usual process.
     return 0
   else
-    let A = s:find_action(a:action_name, a:candidate.ku__source.kinds())
+    let A = s:find_action(a:action_name, s:kinds_from_candidate(a:candidate))
     if A is 0
       let _ = printf('There is no such action: %s', string(a:action_name))
       echoerr _
       return _
     endif
 
-    let _ = A(a:candidate)
+    let processed_candidate = a:candidate.ku__source.on_action(a:candidate)
+    let _ = A(processed_candidate)
     if _ isnot 0
       echohl ErrorMsg
       echomsg _
@@ -437,10 +459,10 @@ function! s:choose_action(candidate)  "{{{2
   " Here "Prompt" is highlighted with kuChoosePrompt,
   " "Candidate" is highlighted with kuChooseCandidate, and so forth.
   let KEY_TABLE
-  \ = s:composite_key_table_from_kinds(a:candidate.ku__source.kinds())
+  \ = s:composite_key_table_from_kinds(s:kinds_from_candidate(a:candidate))
   call filter(KEY_TABLE, 'v:val !=# "nop"')
   let ACTION_TABLE
-  \ = s:composite_action_table_from_kinds(a:candidate.ku__source.kinds())
+  \ = s:composite_action_table_from_kinds(s:kinds_from_candidate(a:candidate))
 
   " "Candidate: {candidate} ({source})"
   echohl NONE
@@ -866,6 +888,22 @@ endfunction
 
 
 
+function! s:kinds_from_candidate(candidate)  "{{{2
+  return s:kinds_from_kind_names(has_key(a:candidate, 'ku__kinds')
+  \                              ? a:candidate.ku__kinds
+  \                              : a:candidate.ku__source.kind_names)
+endfunction
+
+
+
+
+function! s:kinds_from_kind_names(kind_names)  "{{{2
+  return map(copy(a:kind_names), 's:available_kinds[v:val]')
+endfunction
+
+
+
+
 function! s:ku_active_p()  "{{{2
   return bufexists(s:ku_bufnr) && bufwinnr(s:ku_bufnr) != -1
 endfunction
@@ -880,6 +918,8 @@ function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
   let all_lcandidates = []
 
   for source in a:sources
+    let args.source = source
+
     let raw_lcandidates = copy(source.gather_candidates(args))
 
     let matched_lcandidates
