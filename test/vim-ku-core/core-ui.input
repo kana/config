@@ -33,7 +33,7 @@ function s:describe__ui_named_key_mappings__choose_action()  "{{{1
   call setline(Ref('s:LNUM_PATTERN'), 'Tsugaru')
 
   Should ku#omnifunc(0, 'Tsugaru') ==# [
-  \   {'word': 'Tsugaru', 'ku__source': source},
+  \   {'word': 'Tsugaru', 'ku__source': source, 'menu': source.name},
   \ ]
 
   It should work
@@ -113,7 +113,7 @@ function s:describe__ui_named_key_mappings__do_default_action()  "{{{1
   call setline(Ref('s:LNUM_PATTERN'), 'Tsugaru')
 
   Should ku#omnifunc(0, 'Tsugaru') ==# [
-  \   {'word': 'Tsugaru', 'ku__source': source},
+  \   {'word': 'Tsugaru', 'ku__source': source, 'menu': source.name},
   \ ]
 
   It should work
