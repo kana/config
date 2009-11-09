@@ -91,8 +91,17 @@ let s:custom_kind_action_tables = {}
 " custom-key-table = key-table = {key => action-name}
 let s:custom_kind_key_tables = {}
 
+" Is the last inserted character given by ACC or not?
+" (ACC = Automatic Component Completion)
+let s:inserted_by_acc_p = s:FALSE
+
 " buffer number of the ku buffer
 let s:ku_bufnr = s:INVALID_BUFNR
+
+" Special characters to activate automatic component completion.
+if !exists('g:ku_component_separators')
+  let g:ku_component_separators = '/\:'
+endif
 
 " Contains the information of a ku session.
 " See s:new_session() for the details of content.
@@ -440,6 +449,13 @@ function! ku#_take_action(action_name, candidate)  "{{{2
 
     return 0
   endif
+endfunction
+
+
+
+
+function! s:aac_text(line, lcandidates)  "{{{2
+  return ''
 endfunction
 
 
@@ -1037,7 +1053,44 @@ function! s:on_CursorMovedI()  "{{{2
     let keys = repeat("\<Right>", len(s:PROMPT) - cursor_column + 1)
   elseif len(line) < cursor_column && cursor_column != s:session.last_column
     " New character is inserted.  Let's complete automatically.
-    let keys = s:KEYS_TO_START_COMPLETION
+    if (!s:inserted_by_acc_p)
+    \  && 0 <= stridx(g:ku_component_separators, line[-1:])
+    \  && len(s:PROMPT) + 2 <= len(line)
+      " (1) The last inserted character is not inserted by ACC.
+      " (2) It is a special character in g:ku_component_separators.
+      " (3) It seems not to be the 1st one in line.
+      "
+      " The (3) is necessary to input a special character as the 1st character
+      " in line.  For example, without this condition, user cannot input the
+      " 1st '/' of an absolute path like '/usr/local/bin' if '/' is a special
+      " character.
+      "
+      " FIXME: Is s:session.last_lcandidates reliable?  If user types several
+      "        characters quickely, Vim doesn't call 'omnifunc' for all but
+      "        the last character.  So here we have to ensure that
+      "        s:session.last_lcandidates contains reliable value,
+      "        by calling 'omnifunc' appropriately.
+      "
+      " FIXME: But what should we do if user quickely types two or more
+      "        special character?  It's hard to make
+      "        s:session.last_lcandidates reliable, isn't it?
+      "        At this moment, we simply ignore such case.
+      let text = s:aac_text(line, s:session.last_lcandidates)
+      let s:inserted_by_acc_p = s:TRUE
+      if text != ''
+        " The last special character must be inserted in this way to forcedly
+        " show the completion menu.
+        call setline('.', text)
+        let keys = "\<End>" . line[-1:]
+        let s:inserted_by_acc_p = s:TRUE
+      else
+        let keys = s:KEYS_TO_START_COMPLETION
+        let s:inserted_by_acc_p = s:FALSE
+      endif
+    else
+      let keys = s:KEYS_TO_START_COMPLETION
+      let s:inserted_by_acc_p = s:FALSE
+    endif
   else
     let keys = ''
   endif
@@ -1051,6 +1104,7 @@ endfunction
 
 
 function! s:on_InsertEnter()  "{{{2
+  let s:session.inserted_by_acc_p = s:FALSE
   let s:session.last_column = s:INVALID_COLUMN
   let s:session.last_pattern_raw = ''
   return s:on_CursorMovedI()
