@@ -719,7 +719,7 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 "
 " :Lgrep is a :lgrep wrapper like :Grep.
 
-command! -bar -complete=file -nargs=+ Grepp  call s:grep('grep', [<f-args>])
+command! -bar -complete=file -nargs=+ Grep  call s:grep('grep', [<f-args>])
 command! -bar -complete=file -nargs=+ Lgrep  call s:grep('lgrep', [<f-args>])
 
 function! s:grep(command, args)
