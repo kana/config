@@ -2299,25 +2299,26 @@ endfunction
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
-\ call bundle#return(s:available_packages())
+\ call bundle#return(s:available_bundles())
 
 autocmd MyAutoCmd User BundleUndefined!:*
-\ call bundle#return(s:package_files(bundle#name()))
+\ call bundle#return(s:files_in_a_bundle(bundle#name()))
 
 
 let s:CONFIG_DIR = '~/working/config'
 let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
 
-function! s:available_packages()
-  return split(s:system('make -f '
-  \                     . shellescape(s:CONFIG_MAKEFILE)
-  \                     . ' list-available-packages'))
+function! s:available_bundles()
+  return split(s:system('make'
+  \                     . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
+  \                     . ' list-available-bundles'))
 endfunction
 
-function! s:package_files(name)
-  return map(split(s:system('make -f ' . shellescape(s:CONFIG_MAKEFILE)
+function! s:files_in_a_bundle(name)
+  return map(split(s:system('make'
+  \                         . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
   \                         . ' PACKAGE_NAME=' . a:name
-  \                         . ' list-files-in-a-package')),
+  \                         . ' list-files-in-a-bundle')),
   \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
 endfunction
 
