@@ -594,12 +594,21 @@ _validate-package-type:
 
 # for vim-bundle
 
+ALL_TESTS=$(foreach package_name, \
+            $(ALL_PACKAGES), \
+            $(if $(TESTS_$(subst -,_,$(package_name))),test-$(package_name),))
+
 list-available-bundles:
 	@echo $(ALL_PACKAGES)
+	@echo $(ALL_TESTS)
 
 list-files-in-a-bundle:
 	@if $(if $(filter $(PACKAGE_NAME),$(ALL_PACKAGES)),true,false); then \
 	  echo $(PACKAGE_$(_PACKAGE_NAME)_FILES); \
+	elif $(if $(filter $(PACKAGE_NAME),$(ALL_TESTS)),true,false); then \
+	  echo $(foreach test_case, \
+	         $($(subst -,_,$(patsubst test-%,TESTS_%,$(PACKAGE_NAME)))), \
+	         test/$(subst test-,,$(PACKAGE_NAME))/$(test_case).input); \
 	else \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
