@@ -598,11 +598,12 @@ list-available-packages:
 	@echo $(ALL_PACKAGES)
 
 list-files-in-a-package:
-	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	@if $(if $(filter $(PACKAGE_NAME),$(ALL_PACKAGES)),true,false); then \
+	  echo $(PACKAGE_$(_PACKAGE_NAME)_FILES); \
+	else \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
-	@echo $(PACKAGE_$(_PACKAGE_NAME)_FILES)
 
 
 
