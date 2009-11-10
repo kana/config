@@ -1,5 +1,5 @@
 " ku source: file
-" Version: 0.1.1
+" Version: 0.1.2
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -73,34 +73,46 @@ endfunction
 
 
 function! ku#file#gather_items(source_name_ext, pattern)  "{{{2
-  " FIXME: path separator assumption
+  " NB: Here we call items which names start with a dot as 'dotfile'.
   let cache_key = (a:pattern != '' ? a:pattern : "\<Plug>(ku)")
   if has_key(s:cached_items, cache_key)
     return s:cached_items[cache_key]
   endif
 
-  let i = strridx(a:pattern, '/')
-  let components = split(a:pattern, '/', !0)
+  let i = strridx(a:pattern, ku#path_separator())
+  let components = split(a:pattern, ku#path_separator(), !0)
   let root_directory_pattern_p = i == 0
   let user_seems_want_dotfiles_p = components[-1][:0] == '.'
-  let wildcard = (user_seems_want_dotfiles_p
-  \               ? ('{*,.*' . (root_directory_pattern_p ? '' : ',..') . '}')
-  \               : '*')
+    " On Microsoft Windows, glob('{,.}*') doesn't list dotfiles,
+    " so that here we have to list dotfiles and other items separately.
+  let wildcards = user_seems_want_dotfiles_p ? ['*', '.?*'] : ['*']
+
+    " glob_prefix must be followed by ku#separator() if it is not empty.
   if i < 0  " no path separator
-    let glob_pattern = wildcard
+    let glob_prefix = ''
   elseif root_directory_pattern_p
-    let glob_pattern = '/' . wildcard
+    let glob_prefix = ku#path_separator()
   else  " more than one path separators
-    let glob_pattern = join(components[:-2], '/') . '/' . wildcard
+    let glob_prefix = ku#make_path(components[:-2]) . ku#path_separator()
   endif
 
   let _ = []
-  for entry in split(glob(glob_pattern), "\n")
-    call add(_, {
-    \      'word': entry,
-    \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
-    \    })
+  for wildcard in wildcards
+    for entry in split(glob(glob_prefix . wildcard), "\n")
+      call add(_, {
+      \      'word': entry,
+      \      'abbr': entry . (isdirectory(entry) ? ku#path_separator() : ''),
+      \      'menu': (isdirectory(entry) ? 'dir' : 'file'),
+      \    })
+    endfor
   endfor
+    " Remove the '..' item if user seems to find files under the root
+    " directory, because it is strange for such situation.
+    " FIXME: Drive letter and other cases on Microsoft Windows.  E.g. 'C:\'.
+  if fnamemodify(glob_prefix, ':p') == ku#path_separator()  " root directory?
+    let parent_directory_name = glob_prefix . '..'
+    call filter(_, 'v:val.word !=# parent_directory_name')
+  endif
 
   let s:cached_items[cache_key] = _
   return _
@@ -110,7 +122,7 @@ endfunction
 
 
 function! ku#file#acc_valid_p(source_name_ext, item, sep)  "{{{2
-  return a:sep ==# '/' && isdirectory(a:item.word)
+  return a:sep ==# ku#path_separator() && isdirectory(a:item.word)
 endfunction
 
 
@@ -132,7 +144,7 @@ function! s:open(bang, item)  "{{{2
   " BUGS: ":silent! edit {file with swp owned by another Vim process}" causes
   " some strange behavior - there is no message but Vim waits for a key input.
   " It makes users confusing, so here :silent!/v:errmsg are not used.
-  execute 'edit'.a:bang fnameescape(a:item.word)
+  execute 'edit'.a:bang '`=a:item.word`'
   return 0
 endfunction
 

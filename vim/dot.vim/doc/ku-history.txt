@@ -47,7 +47,10 @@ Requirements:
 - |ku| 0.2.0 or later (vimscript#2337)
 
 Latest version:
-http://github.com/kana/config/commits/vim-ku-history
+http://github.com/kana/config/commits/vim-ku-source-history
+
+Document in HTML format:
+http://kana.github.com/config/vim/ku-history.html
 
 
 
@@ -112,14 +115,14 @@ BUGS						*ku-history-bugs*
 ==============================================================================
 CHANGELOG					*ku-history-changelog*
 
-0.1.1	2009-05-04T01:49:29+09:00
+0.1.1	2009-05-04T01:49:29+09:00		*ku-history-changelog-0.1.1*
 	- Update for ku 0.2.1.
 	- Fix a bug that there was no consideration on non-completed items.
 
-0.1.0	2009-01-10T15:08:10+09:00/2009-04-28T02:01:24+09:00
+0.1.0	2009-04-28T02:01:24+09:00		*ku-history-changelog-0.1.0*
 	- Update for ku 0.2.0.
 
-0.0.0	2008-12-08T21:01:58+09:00
+0.0.0	2008-12-08T21:01:58+09:00		*ku-history-changelog-0.0.0*
 	- Initial version.
 
 

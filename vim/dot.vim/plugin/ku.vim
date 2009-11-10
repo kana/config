@@ -1,5 +1,5 @@
 " ku - An interface for anything
-" Version: 0.2.1
+" Version: 0.2.3
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -33,6 +33,8 @@ command! -bang -bar -complete=custom,ku#command_complete -nargs=1 Ku
 \ call ku#start(<q-args>)
 
 command! -bar -nargs=1 KuDoAction  call ku#do_action(<q-args>)
+
+command! -bar -nargs=0 KuReload  call ku#reload()
 
 
 

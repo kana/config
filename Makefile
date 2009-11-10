@@ -3,7 +3,25 @@
 ID=$$Id$$#{{{1
 
 all: update
-.PHONY: all clean package _package update vimup vimup-details vimup-script
+.PHONY: \
+  _validate-package-arguments \
+  _validate-package-name \
+  _validate-package-type \
+  _vimup \
+  all \
+  clean \
+  clean-vim \
+  list-available-packages \
+  list-files-in-a-package \
+  package \
+  test \
+  test-a-package \
+  generate-missing-files-to-test \
+  update \
+  vimup \
+  vimup-details \
+  vimup-new \
+  vimup-script
 
 SHELL=/bin/sh
 # For testing `update', use like DESTDIR=./test
@@ -149,6 +167,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_lastpat_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
+  $(PACKAGE_vim_vspec_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   $(PACKAGE_vim_misc_FILES)
@@ -230,6 +249,7 @@ ALL_PACKAGES=\
   vim-textobj-lastpat \
   vim-textobj-user \
   vim-vcsi \
+  vim-vspec \
   vim-xml_autons \
   vim-xml_move
 
@@ -306,7 +326,7 @@ PACKAGE_vim_idwintab_FILES=\
   vim/dot.vim/autoload/idwintab.vim \
   vim/dot.vim/doc/idwintab.txt
 
-PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.1
+PACKAGE_vim_ku_ARCHIVE=vim-ku-0.2.3
 PACKAGE_vim_ku_BASE=vim/dot.vim
 PACKAGE_vim_ku_FILES=\
   vim/dot.vim/autoload/ku.vim \
@@ -336,7 +356,7 @@ PACKAGE_vim_ku_bundle_FILES=\
   vim/dot.vim/autoload/ku/bundle.vim \
   vim/dot.vim/doc/ku-bundle.txt
 
-PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.1
+PACKAGE_vim_ku_file_ARCHIVE=vim-ku-file-0.1.2
 PACKAGE_vim_ku_file_BASE=vim/dot.vim
 PACKAGE_vim_ku_file_FILES=\
   vim/dot.vim/autoload/ku/file.vim \
@@ -348,7 +368,7 @@ PACKAGE_vim_ku_history_FILES=\
   vim/dot.vim/autoload/ku/history.vim \
   vim/dot.vim/doc/ku-history.txt
 
-PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.1.1
+PACKAGE_vim_ku_metarw_ARCHIVE=vim-ku-metarw-0.1.2
 PACKAGE_vim_ku_metarw_BASE=vim/dot.vim
 PACKAGE_vim_ku_metarw_FILES=\
   vim/dot.vim/autoload/ku/metarw.vim \
@@ -360,7 +380,7 @@ PACKAGE_vim_ku_quickfix_FILES=\
   vim/dot.vim/autoload/ku/quickfix.vim \
   vim/dot.vim/doc/ku-quickfix.txt
 
-PACKAGE_vim_ku_source_ARCHIVE=vim-ku-source-0.1.1
+PACKAGE_vim_ku_source_ARCHIVE=vim-ku-source-0.1.2
 PACKAGE_vim_ku_source_BASE=vim/dot.vim
 PACKAGE_vim_ku_source_FILES=\
   vim/dot.vim/autoload/ku/source.vim \
@@ -374,7 +394,7 @@ PACKAGE_vim_metarw_FILES=\
   vim/dot.vim/plugin/metarw.vim \
   vim/dot.vim/syntax/metarw.vim
 
-PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.1
+PACKAGE_vim_metarw_git_ARCHIVE=vim-metarw-git-0.0.3
 PACKAGE_vim_metarw_git_BASE=vim/dot.vim
 PACKAGE_vim_metarw_git_FILES=\
   vim/dot.vim/autoload/metarw/git.vim \
@@ -524,6 +544,12 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
 
+PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.1.0
+PACKAGE_vim_vspec_BASE=vim/dot.vim
+PACKAGE_vim_vspec_FILES=\
+  vim/dot.vim/autoload/vspec.vim \
+  vim/dot.vim/doc/vspec.txt
+
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
 PACKAGE_vim_xml_autons_FILES=\
@@ -551,17 +577,7 @@ PACKAGE_SUFFIX_tar=.tar.bz2
 PACKAGE_COMMAND_zip=zip
 PACKAGE_SUFFIX_zip=.zip
 
-package:
-	if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
-	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
-	  false; \
-	fi
-	if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
-	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
-	  false; \
-	fi
-	$(MAKE) _package
-_package:
+package: _validate-package-arguments test-a-package
 	ln -s $(PACKAGE_$(_PACKAGE_NAME)_BASE) \
 	      $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
 	$(PACKAGE_COMMAND_$(PACKAGE_TYPE)) \
@@ -572,14 +588,25 @@ _package:
 	                       $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)/%, \
 	                       $(file)))
 	rm $(PACKAGE_$(_PACKAGE_NAME)_ARCHIVE)
+_validate-package-arguments: _validate-package-name _validate-package-type
+_validate-package-name:
+	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
+	  false; \
+	fi
+_validate-package-type:
+	@if [ -z '$(filter $(PACKAGE_TYPE),$(ALL_PACKAGE_TYPES))' ]; then \
+	  echo 'Error: Invalid PACKAGE_TYPE "$(PACKAGE_TYPE)".'; \
+	  false; \
+	fi
 
 
 # for vim-bundle
 
-available-packages:
+list-available-packages:
 	@echo $(ALL_PACKAGES)
 
-package-files:
+list-files-in-a-package:
 	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
@@ -667,12 +694,100 @@ vimup-script: package
 # clean  #{{{1
 
 clean:
-	rm -rf `find -name '*~' -or -name ',*'`
+	rm -rf `find -name '*~' \
+	         -or -name ',*' \
+	         -or -name '*.ok' \
+	         -or -name '*.output'`
 
 clean-vim:
 	rm -rf `find $(HOME)/.vim \
 	        -mindepth 1 -maxdepth 1 \
 	        -not -name 'info' -not -name 'xtr'`
+
+
+
+
+# test  #{{{1
+# Core  #{{{2
+test:
+	for i in $(ALL_PACKAGES); do \
+	  $(MAKE) PACKAGE_NAME=$$i test-a-package || exit 1; \
+	done
+
+test-a-package: _validate-package-name  # (PACKAGE_NAME)
+	@if [ -d test/$(PACKAGE_NAME) ]; then \
+	  $(MAKE) test/$(PACKAGE_NAME).ok; \
+	else \
+	  echo 'test-a-package: Nothing to do for $(PACKAGE_NAME)'; \
+	fi
+
+test/%.ok: test/%.expected test/%.output
+	@echo -n 'TEST: $(<:.expected=) ... '
+	@diff -u $^ >,,test-$$$$; \
+	 result=$$?; \
+	 if [ "$$result" = '0' ]; then \
+	   echo 'ok'; \
+	 else \
+	   echo 'FAILED'; \
+	   cat ,,test-$$$$; \
+	   echo 'END'; \
+	   false; \
+	 fi; \
+	 rm ,,test-$$$$; \
+	 exit $$result
+	@touch $@
+
+generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
+	for i in $(TESTS_$(_PACKAGE_NAME)); do \
+	  if ! [ -f test/$(PACKAGE_NAME)/$$i.input ]; then \
+	    echo "# Add files for $$i"; \
+	    mkdir -p test/$(PACKAGE_NAME); \
+	    touch test/$(PACKAGE_NAME)/$$i.input \
+	          test/$(PACKAGE_NAME)/$$i.expected; \
+	    git add test/$(PACKAGE_NAME)/$$i.input \
+	            test/$(PACKAGE_NAME)/$$i.expected; \
+	  fi; \
+	done
+
+
+# vim-ku  #{{{2
+TESTS_vim_ku = 0001 0002 0003
+
+test/vim-ku/%.output: \
+		test/vim-ku/%.input \
+		test/tester-vim \
+		test/libtest.vim \
+		vim/dot.vim/autoload/ku.vim \
+		vim/dot.vim/plugin/ku.vim
+	@./test/tester-vim $< &>$@
+
+
+# vim-vspec  #{{{2
+TESTS_vim_vspec = no-test typical-content tools context
+
+test/vim-vspec/%.output: \
+		test/vim-vspec/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim
+	@./test/vspec $< >$@
+
+
+# Misc.  #{{{2
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_1
+test/$(1).ok: $(foreach n,$(TESTS_$(subst -,_,$(1))),test/$(1)/$(n).ok)
+	touch test/$(1).ok
+endef
+
+define GENERATE_DEPENDENCY_RULES_TO_TEST_2
+test/$(1)/$(2).ok: test/$(1)/$(2).expected test/$(1)/$(2).output
+test/$(1)/$(2).output: test/$(1)/$(2).input
+endef
+
+$(foreach package, $(ALL_PACKAGES), \
+  $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_1,$(package))) \
+  $(foreach case, $(TESTS_$(subst -,_,$(package))), \
+    $(eval $(call GENERATE_DEPENDENCY_RULES_TO_TEST_2,$(package),$(case)))))
 
 
 

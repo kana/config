@@ -1,5 +1,5 @@
 " ku - An interface for anything
-" Version: 0.2.1
+" Version: 0.2.3
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -87,6 +87,16 @@ if !exists('g:ku_history_reloading_style')
 endif
 
 
+" The directory to store personal settings and information.
+if !exists('g:ku_personal_runtime')
+  let s:original_runtimepath = &runtimepath
+    set runtimepath&
+    let g:ku_personal_runtime = split(&runtimepath, ',')[0]
+  let &runtimepath = s:original_runtimepath
+  unlet s:original_runtimepath
+endif
+
+
 
 
 " Script-local  "{{{2
@@ -100,7 +110,7 @@ let s:LNUM_STATUS = 1
 let s:LNUM_INPUT = 2
 
   " Path separator.
-let s:PATH_SEP = exists('+shellslash') && &shellslash ? '\' : '/'
+let s:PATH_SEP = (exists('+shellslash') && !&shellslash) ? '\' : '/'
 
 
 " The buffer number of the ku buffer.
@@ -221,11 +231,12 @@ let s:_session_id_source_cache = 0
 
 function! s:calculate_available_sources()
   let _ = []
-  for source_name_base in map(s:runtime_files('autoload/ku/*.vim'),
-  \                           'fnamemodify(v:val, ":t:r")')
+  for source_name_base
+  \ in map(s:runtime_files(ku#make_path('autoload', 'ku', '*.vim')),
+  \                        'fnamemodify(v:val, ":t:r")')
     call extend(_, s:api_available_sources(source_name_base))
   endfor
-  return _
+  return s:uniq(sort(_))
 endfunction
 
 
@@ -371,6 +382,40 @@ endfunction
 
 
 
+function! ku#make_path(...)  "{{{2
+  if a:0 == 1 && type(a:1) is type([])
+    return join(a:1, s:PATH_SEP)
+  else
+    return join(a:000, s:PATH_SEP)
+  endif
+endfunction
+
+
+
+
+function! ku#path_separator()  "{{{2
+  return s:PATH_SEP
+endfunction
+
+
+
+
+function! ku#reload()  "{{{2
+  " BUGS: ku#reload() cannot be redefined, because it is in use at this timing.
+  echo 'Reloading the whole system of ku ... '
+
+  silent! runtime autoload/ku.vim
+  for source_name_base in map(s:calculate_available_sources(),
+  \                           's:split_source_name(v:val)[0]')
+    execute 'runtime autoload/ku/'.source_name_base.'.vim'
+  endfor
+
+  echon 'done.'
+endfunction
+
+
+
+
 function! ku#restart()  "{{{2
   return ku#start(s:last_used_source, s:last_used_input_pattern)
 endfunction
@@ -380,8 +425,16 @@ endfunction
 
 function! ku#set_the_current_input_pattern(s)  "{{{2
   if s:ku_active_p()
+    " BUGS: To avoid unexpected behavior caused by automatic completion of
+    "       the prompt, put also the prompt with a:s at this timing.
+    "
+    "       Even if there is no problem as described the above, the prompt
+    "       must be put at this timing.  Without putting, it's not easy to set
+    "       a string which starts with the same character as the prompt,
+    "       because the first character will be treated as the prompt and not
+    "       a part of the given string.
     let old_one = s:remove_prompt(getline(s:LNUM_INPUT))
-    call setline(s:LNUM_INPUT, a:s)
+    call setline(s:LNUM_INPUT, s:PROMPT . a:s)
     return old_one
   else
     return 0
@@ -436,12 +489,22 @@ function! ku#start(source, ...)  "{{{2
   set ignorecase
 
   " Reset the content of the ku buffer
+  " BUGS: To avoid unexpected behavior caused by automatic completion of the
+  "       prompt, append the prompt and {initial-pattern} at this timing.
+  "       Automatic completion is implemented by feedkeys() and starting
+  "       Insert mode is also implemented by feedkeys().  These feedings must
+  "       be done carefully.
   silent % delete _
-  call append(1, (a:0 == 0 ? '' : a:1))
+  call append(1, s:PROMPT . (a:0 == 0 ? '' : a:1))
   normal! 2G
 
   " Start Insert mode.
-  call feedkeys('A', 'n')
+  " BUGS: :startinsert! may not work with append()/setline():put.
+  "       If the typeahead buffer is empty, ther is no problem.
+  "       Otherwise, :startinsert! behaves as '$i', not 'A',
+  "       so it is inconvenient.
+  let typeahead_buffer = getchar(1) ? s:getkey() : ''
+  call feedkeys('A' . typeahead_buffer, 'n')
 
   call s:api_on_source_enter(s:current_source)
   return s:TRUE
@@ -712,6 +775,7 @@ function! s:do(action_name)  "{{{2
       echoerr 'Internal error: No match found in s:last_completed_items'
       echoerr 'current_user_input_raw' string(current_user_input_raw)
       echoerr 's:last_user_input_raw' string(s:last_user_input_raw)
+      echoerr 's:last_completed_items' string(s:last_completed_items)
       throw 'ku:e1'
     endif
   else
@@ -1663,7 +1727,7 @@ let s:after_idle_p = s:FALSE  " to reload the history file after idle.
 " s:history_changed_p = s:FALSE
 " s:history_file_mtime = 0  " the last modified time of the history file.
 " s:inputted_patterns = []  " the first item is the newest inputted pattern.
-let s:HISTORY_FILE = 'info/ku/history'
+let s:HISTORY_FILE = ku#make_path('info', 'ku', 'history')
 
 " The format of history file is:
 " - Each line is corresponding to an inputted pattern.
@@ -1700,7 +1764,7 @@ endfunction
 
 
 function! s:history_file()  "{{{3
-  return split(&runtimepath, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
+  return split(g:ku_personal_runtime, ',')[0] . s:PATH_SEP . s:HISTORY_FILE
 endfunction
 
 
@@ -1864,6 +1928,23 @@ endfunction
 
 
 
+" For tests  "{{{2
+function! ku#_local_variables()
+  return s:
+endfunction
+
+
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '\%(^\|\.\.\)\zs<SNR>\d\+_')
+endfunction
+
+function! ku#_sid_prefix()
+  return s:SID_PREFIX()
+endfunction
+
+
+
+
 function! s:compare_ignorecase(x, y)  "{{{2
   " Comparing function for sort() to do consistently case-insensitive sort.
   "
@@ -2011,6 +2092,25 @@ endfunction
 function! s:split_source_name(source_name)  "{{{2
   " ==> [source_name_base, source_name_ext]
   return split(a:source_name.'/', '/', s:TRUE)[:1]
+endfunction
+
+
+
+
+function! s:uniq(sorted_list)  "{{{2
+  if len(a:sorted_list) <= 1
+    return copy(a:sorted_list)
+  endif
+
+  let _ = [a:sorted_list[0]]
+  let i = 1
+  while i < len(a:sorted_list)
+    if a:sorted_list[i-1] !=# a:sorted_list[i]
+      call add(_, a:sorted_list[i])
+    endif
+    let i += 1
+  endwhile
+  return _
 endfunction
 
 

@@ -1,6 +1,7 @@
 *textobj-diff.txt*	Text objects for ouputs of diff(1)
 
 Version 0.0.0
+Script ID: 2415
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -51,6 +52,9 @@ Requirements:
 
 Latest version:
 http://github.com/kana/config/commits/vim-textobj-diff
+
+Document in HTML format:
+http://kana.github.com/config/vim/textobj-diff.html
 
 
 
@@ -127,7 +131,7 @@ BUGS						*textobj-diff-bugs*
 ==============================================================================
 CHANGELOG					*textobj-diff-changelog*
 
-0.0.0	2008-10-23T14:19:46+09:00
+0.0.0	2008-10-23T14:19:46+09:00		*textobj-diff-changelog-0.0.0*
 	- Initial version.
 
 

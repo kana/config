@@ -1,5 +1,5 @@
 " ku source: metarw
-" Version: 0.1.1
+" Version: 0.1.2
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,7 +23,9 @@
 " }}}
 " Interface  "{{{1
 function! ku#metarw#available_sources()  "{{{2
-  return map(split(globpath(&runtimepath, 'autoload/metarw/*.vim'), '\n'),
+  return map(split(globpath(&runtimepath,
+  \                         ku#make_path('autoload', 'metarw', '*.vim')),
+  \                '\n'),
   \          '"metarw/" . fnamemodify(v:val, ":t:r")')
 endfunction
 
