@@ -761,6 +761,23 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 	done
 
 
+# vim-fakeclip  #{{{2
+TESTS_vim_fakeclip = \
+		clipboard-cygwin \
+		clipboard-mac \
+		misc \
+		pseudo-screen \
+		ui
+
+test/vim-fakeclip/%.output: \
+		test/vim-fakeclip/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim \
+		vim/dot.vim/autoload/fakeclip.vim \
+		vim/dot.vim/plugin/fakeclip.vim
+	@./test/vspec $< &>$@
+
+
 # vim-ku  #{{{2
 TESTS_vim_ku = 0001 0002 0003
 
