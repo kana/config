@@ -11,8 +11,8 @@ all: update
   all \
   clean \
   clean-vim \
-  list-available-packages \
-  list-files-in-a-package \
+  list-available-bundles \
+  list-files-in-a-bundle \
   package \
   test-a-package \
   update \
@@ -594,10 +594,10 @@ _validate-package-type:
 
 # for vim-bundle
 
-list-available-packages:
+list-available-bundles:
 	@echo $(ALL_PACKAGES)
 
-list-files-in-a-package:
+list-files-in-a-bundle:
 	@if $(if $(filter $(PACKAGE_NAME),$(ALL_PACKAGES)),true,false); then \
 	  echo $(PACKAGE_$(_PACKAGE_NAME)_FILES); \
 	else \
