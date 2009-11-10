@@ -26,24 +26,24 @@ License: MIT license  {{{
 
 CONTENTS					*ku-contents*
 
-Introduction		|ku-introduction|
-Interface		|ku-interface|
-  Commands		  |ku-commands|
-  Functions		  |ku-functions|
-    Core		    |ku-functions-core|
-    Matchers		    |ku-functions-matchers|
-    Sorters		    |ku-functions-sorters|
-  Key Mapings		  |ku-key-mappings|
-  Pattern		  |ku-pattern|
-  Default Sources	  |ku-default-sources|
-  Common Action Table	  |ku-common-action-table|
-  Common Key Table	  |ku-common-key-table|
-Sources			|ku-sources|
-Kind			|ku-kind|
-Customizing		|ku-customizing|
-Terms			|ku-terms|
-Bugs			|ku-bugs|
-Changelog		|ku-changelog|
+Introduction				|ku-introduction|
+Interface				|ku-interface|
+  Commands				  |ku-commands|
+  Functions				  |ku-functions|
+    Core				    |ku-functions-core|
+    Matchers				    |ku-functions-matchers|
+    Sorters				    |ku-functions-sorters|
+  Key Mapings				  |ku-key-mappings|
+  Pattern				  |ku-pattern|
+  Default Sources			  |ku-default-sources|
+  Common Action Table			  |ku-common-action-table|
+  Common Key Table			  |ku-common-key-table|
+Sources					|ku-sources|
+Kind					|ku-kind|
+Customizing				|ku-customizing|
+Terms					|ku-terms|
+Bugs					|ku-bugs|
+Changelog				|ku-changelog|
 
 
 
