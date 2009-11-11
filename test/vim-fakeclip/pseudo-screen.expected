@@ -1,10 +1,22 @@
 ==== s_read_screen 
+---- It should read the paste buffer which contains empty string 
+..
+---- It should read the paste buffer which contains string without newline 
+..
+---- It should read the paste buffer which contains single-line string 
+..
+---- It should read the paste buffer which contains multi-line string 
+..
+---- It should read the paste buffer which contains multi-line string w/o last LF 
+..
 
 ==== s_write_screen 
+---- It should succeed 
+.....
 
 
 
 **** Result ****
 
 
-0 examples, 0 failures
+15 examples, 0 failures
