@@ -768,6 +768,7 @@ TESTS_vim_fakeclip = \
 		clipboard-x \
 		misc \
 		pastebuffer-gnuscreen \
+		pastebuffer-tmux \
 		ui
 
 test/vim-fakeclip/%.output: \
