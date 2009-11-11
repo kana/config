@@ -185,7 +185,7 @@ endif
 
 " Options  "{{{2
 
-if 1 < &t_Co && has('syntax')
+if (1 < &t_Co || has('gui')) && has('syntax')
   if &term ==# 'rxvt-cygwin-native'
     set t_Co=256
   endif
@@ -224,7 +224,7 @@ set mouse=
 set ruler
 set showcmd
 set showmode
-set updatetime=60000
+set updatetime=4000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
 set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
@@ -295,6 +295,7 @@ augroup MyAutoCmd
 augroup END
 
 
+call altercmd#load()
 call arpeggio#load()
 call idwintab#load()
 
@@ -485,59 +486,6 @@ command! -nargs=+ Operatorunmap
 
 
 
-" AlternateCommand - support to input alternative command  "{{{2
-"
-" :AlternateCommand {original-name} {alternate-name}
-"
-"   This is wrapper of :cnoreabbrev to support to input the name of a command
-"   which is alternative one to another command.  For example, with
-"   ":AlternateCommand cd CD", whenever you type "cd" as a command name in the
-"   Command-line, it will be replaced with "CD".
-"
-"   {original-name}
-"     The name of a command to type.  To denote the tail part of the name
-"     which may be omitted, enclose it with square brackets.  For example:
-"     "cd", "h[elp]", "quita[ll]".
-"
-"     Note that <buffer> is available, but <expr> is not available.
-"
-"   {alternate-name}
-"     The name of an alternative command to {original-name} command.
-"
-" FIXME: Abbreviations defined by :AlternateCommand aren't expanded if range
-"        is specified.  It should be expanded if {original-name} is appeared
-"        as the name of a command.
-"
-" FIXME: Write :AlternateCommandClear to easily delete unnecessary
-"        abbreviations defined by :AlternateCommand.
-
-command! -nargs=* AlternateCommand  call s:cmd_AlternateCommand([<f-args>])
-function! s:cmd_AlternateCommand(args)
-  let buffer_p = (a:args[0] ==? '<buffer>')
-  let original_name = a:args[buffer_p ? 1 : 0]
-  let alternate_name = a:args[buffer_p ? 2 : 1]
-
-  if original_name =~ '\['
-    let [original_name_head, original_name_tail] = split(original_name, '[')
-    let original_name_tail = substitute(original_name_tail, '\]', '', '')
-  else
-    let original_name_head = original_name
-    let original_name_tail = ''
-  endif
-  let original_name_tail = ' ' . original_name_tail
-
-  for i in range(len(original_name_tail))
-    let lhs = original_name_head . original_name_tail[1:i]
-    execute 'cnoreabbrev <expr>' lhs
-    \ '(getcmdtype() == ":" && getcmdline() ==# "' . lhs  . '")'
-    \ '?' ('"' . alternate_name . '"')
-    \ ':' ('"' . lhs . '"')
-  endfor
-endfunction
-
-
-
-
 " CD - alternative :cd with more user-friendly completion  "{{{2
 
 command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabpageCD <args>
@@ -547,38 +495,7 @@ function! s:complete_cdpath(arglead, cmdline, cursorpos)
   \            "\n")
 endfunction
 
-AlternateCommand cd  CD
-
-
-
-
-" DefineOperator  "{{{2
-"
-" :DefineOperator {operator-keyseq}  {function-name} [{additional-settings}]
-"   Define a new operator
-"   which is executed via key sequence {operator-keyseq}, and
-"   which behavior is implemented by the function named {function-name}.
-"   If {additional-settings} is given, it is executed
-"   after setting 'operatorfunc' and before executing the operator.
-
-command! -nargs=+ DefineOperator  call s:cmd_DefineOperator(<f-args>)
-function! s:cmd_DefineOperator(operator_keyseq, function_name, ...)
-  if 0 < a:0
-    let additional_settings = '\|' . join(a:000)
-  else
-    let additional_settings = ''
-  endif
-
-  execute printf(('nnoremap <script> <silent> %s ' .
-  \               ':<C-u>set operatorfunc=%s%s<Return><SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
-  execute printf(('vnoremap <script> <silent> %s ' .
-  \               '<Esc>:<C-u>set operatorfunc=%s%s<Return>gv<SID>(count)g@'),
-  \              a:operator_keyseq, a:function_name, additional_settings)
-endfunction
-
-Allnoremap <expr> <SID>(count)  v:count == v:count1 ? v:count : ''
-Allnoremap <expr> <SID>(count1)  v:count1
+AlterCommand cd  CD
 
 
 
@@ -793,6 +710,25 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 " Utilities  "{{{1
+" :grep wrappers  "{{{2
+"
+" To edit {pattern} easily via Command-line mode history,
+" define :Grep as follows:
+"
+" :Grep {file} ... {pattern} ==> :grep /{pattern}/ {file} ...
+"
+" :Lgrep is a :lgrep wrapper like :Grep.
+
+command! -bar -complete=file -nargs=+ Grep  call s:grep('grep', [<f-args>])
+command! -bar -complete=file -nargs=+ Lgrep  call s:grep('lgrep', [<f-args>])
+
+function! s:grep(command, args)
+  execute a:command '/'.a:args[-1].'/' join(a:args[:-2])
+endfunction
+
+
+
+
 " Help-related stuffs  "{{{2
 
 function! s:helpbufwinnr()
@@ -840,14 +776,6 @@ function! s:keys_to_complete()
   endif
 endfunction
 
-function! s:keys_to_stop_insert_mode_completion()
-  if pumvisible()
-    return "\<C-y>"
-  else
-    return "\<Space>\<BS>"
-  endif
-endfunction
-
 
 function! s:keys_to_escape_command_line_mode_if_empty(key)
   if getcmdline() == ''
@@ -861,6 +789,32 @@ endfunction
 function! s:keys_to_insert_one_character()
   Hecho ModeMsg '-- INSERT (one char) --'
   return nr2char(getchar()) . "\<Esc>"
+endfunction
+
+
+function! s:keys_to_select_the_last_changed_text()
+  " It is not possible to determine whether the last operation to change text
+  " is linewise or not, so guess the wise of the last operation from the range
+  " of '[ and '], like wise of a register content set by setreg() without
+  " {option}.
+
+  let col_begin = col("'[")
+  let col_end = col("']")
+  let length_end = len(getline("']"))
+
+  let maybe_linewise_p = (col_begin == 1
+  \                       && (col_end == length_end
+  \                           || (length_end == 0 && col_end == 1)))
+  return '`[' . (maybe_linewise_p ? 'V' : 'v') . '`]'
+endfunction
+
+
+function! s:keys_to_stop_insert_mode_completion()
+  if pumvisible()
+    return "\<C-y>"
+  else
+    return "\<Space>\<BS>"
+  endif
 endfunction
 
 
@@ -905,21 +859,6 @@ endfunction
 " for operator-pending mode.  a:motion is '[[', '[]', ']]' or ']['.
 function! s:jump_section_o(motion)
   execute 'normal' v:count1 . a:motion
-endfunction
-
-
-
-
-" Operator function to execute a specified command  "{{{2
-
-let s:op_command_command = ''
-
-function! s:set_op_command(command)
-  let s:op_command_command = a:command
-endfunction
-
-function! s:op_command(motion_wiseness)
-  execute "'[,']" s:op_command_command
 endfunction
 
 
@@ -974,6 +913,12 @@ if !exists('s:loaded_my_vimrc')
   " default value and it differs from what I want to use.  So that calling
   " s:toggle_grepprg() at here does set 'grepprg' to my default value.
   silent call s:toggle_grepprg()
+
+  if !has('unix')
+    " For non-*nix environments, git is not usually available.  To avoid error
+    " and manual toggling, set 'grepprg' to my alternative value.
+    silent call s:toggle_grepprg()
+  endif
 endif
 
 function! s:toggle_option(option_name)
@@ -1241,6 +1186,14 @@ endfunction
 
 
 
+function! s:operator_adjust_window_height(motion_wiseness)  "{{{2
+  execute (line("']") - line("'[") + 1) 'wincmd' '_'
+  normal! `[zt
+endfunction
+
+
+
+
 function! s:set_short_indent()  "{{{2
   setlocal expandtab softtabstop=2 shiftwidth=2
 endfunction
@@ -1341,7 +1294,7 @@ Cnmap <noexec> t<Space>  tag<Space>
 nnoremap t't  <C-w>}
 vnoremap t't  <C-w>}
 Cnmap <silent> t'n  ptnext
-Cnmap <silent> t'p  ptpevious
+Cnmap <silent> t'p  ptprevious
 Cnmap <silent> t'P  ptfirst
 Cnmap <silent> t'N  ptlast
 
@@ -1405,7 +1358,7 @@ Cnmap <silent> qn  Qexecute cnewer [count]
 Cnmap <silent> qm  make
 Cnmap <noexec> qM  make<Space>
 Cnmap <noexec> q<Space>  make<Space>
-Cnmap <noexec> qg  grep<Space>
+Cnmap <noexec> qg  Grep<Space>
 
 
 " For location list (mnemonic: Quickfix list for the current Window)  "{{{3
@@ -1426,7 +1379,7 @@ Cnmap <silent> qwn  Qexecute lnewer [count]
 Cnmap <silent> qwm  lmake
 Cnmap <noexec> qwM  lmake<Space>
 Cnmap <noexec> qw<Space>  lmake<Space>
-Cnmap <noexec> qwg  lgrep<Space>
+Cnmap <noexec> qwg  Lgrep<Space>
 
 
 
@@ -1569,6 +1522,8 @@ inoremap <Esc>E  <C-o>E
 inoremap <Leader>dF  <C-r>=strftime('%Y-%m-%dT%H:%M:%S+09:00')<Return>
 inoremap <Leader>df  <C-r>=strftime('%Y-%m-%dT%H:%M:%S')<Return>
 inoremap <Leader>dd  <C-r>=strftime('%Y-%m-%d')<Return>
+inoremap <Leader>dm  <C-r>=strftime('%Y-%m')<Return>
+inoremap <Leader>dy  <C-r>=strftime('%Y')<Return>
 inoremap <Leader>dT  <C-r>=strftime('%H:%M:%S')<Return>
 inoremap <Leader>dt  <C-r>=strftime('%H:%M')<Return>
 
@@ -1646,7 +1601,7 @@ Cnmap <silent> [Space]q  help quickref
 Cnmap <silent> [Space]r  registers
 
   " FIXME: ambiguous mappings - fix or not.
-Operatormap [Space]s  <Plug>(my:op-sort)
+Operatormap [Space]s  <Plug>(operator-my-sort)
 omap [Space]s  g@
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
@@ -1737,7 +1692,7 @@ Objnoremap ir  i]
 
 " Select the last chaged text - "c" stands for "C"hanged.
   " like gv
-nnoremap gc  `[v`]
+nnoremap <expr> gc  <SID>keys_to_select_the_last_changed_text()
   " as a text object
 Objnoremap gc  :<C-u>normal gc<CR>
   " synonyms for gc - "m" stands for "M"odified.
@@ -1750,61 +1705,25 @@ map gm  gc
 " Operators  "{{{2
 
 " Adjust the height of the current window as same as the selected range.
-DefineOperator _  <SID>op_adjust_window_height
-function! s:op_adjust_window_height(motion_wiseness)
-  execute (line("']") - line("'[") + 1) 'wincmd' '_'
-  normal! `[zt
-endfunction
+call operator#user#define('my-adjust-window-height',
+\                         s:SID_PREFIX() . 'operator_adjust_window_height')
+map _  <Plug>(operator-my-adjust-window-height)
 
 
-" Operator version of :center, :left and :right.
-DefineOperator <Plug>(my:op-center)
-\              <SID>op_command
-\              call <SID>set_op_command('center')
-DefineOperator <Plug>(my:op-left)
-\              <SID>op_command
-\              call <SID>set_op_command('left')
-DefineOperator <Plug>(my:op-right)
-\              <SID>op_command
-\              call <SID>set_op_command('right')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oh  <Plug>(my:op-left)
-Arpeggio nmap ol  <Plug>(my:op-right)
-Arpeggio nmap om  <Plug>(my:op-center)
-Arpeggio vmap oh  <Plug>(my:op-left)
-Arpeggio vmap ol  <Plug>(my:op-right)
-Arpeggio vmap om  <Plug>(my:op-center)
-Arpeggio omap oh  g@
-Arpeggio omap ol  g@
-Arpeggio omap om  g@
+call operator#user#define_ex_command('my-left', 'left')
+call operator#user#define_ex_command('my-right', 'right')
+call operator#user#define_ex_command('my-center', 'center')
+Arpeggio map oh  <Plug>(operator-my-left)
+Arpeggio map ol  <Plug>(operator-my-right)
+Arpeggio map om  <Plug>(operator-my-center)
 
 
-" Operator version of :join.
-DefineOperator <Plug>(my:op-join)
-\              <SID>op_command
-\              call <SID>set_op_command('join')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oj  <Plug>(my:op-join)
-Arpeggio vmap oj  <Plug>(my:op-join)
-Arpeggio omap oj  g@
+call operator#user#define_ex_command('my-join', 'join')
+Arpeggio map oj  <Plug>(operator-my-join)
 
 
-" Operator version of :join.
-DefineOperator <Plug>(my:op-join)
-\              <SID>op_command
-\              call <SID>set_op_command('join')
-
-  " FIXME: Use :Operatormap, but how?
-Arpeggio nmap oj  <Plug>(my:op-join)
-Arpeggio vmap oj  <Plug>(my:op-join)
-
-
-" Operator version of :sort.
-DefineOperator <Plug>(my:op-sort)
-\              <SID>op_command
-\              call <SID>set_op_command('sort')
+call operator#user#define_ex_command('my-sort', 'sort')
+" User key mappings will be defined later - see [Space].
 
 
 
@@ -1924,21 +1843,6 @@ vnoremap <C-z>  <Nop>
 onoremap <C-z>  <Nop>
 
 
-" :g/re/y - Yank the lines which match to the last search pattern.
-" Note that "<C-b>foo<C-e>bar" will be translated into "foo{range}bar".
-Cnmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
-Cvmap <count> gy  <C-b>call <SID>glogal_regexp_yank("<C-e>")
-
-function! s:glogal_regexp_yank(range)
-  let original_cursor_position = getpos('.')
-    let @g = ''
-    silent execute a:range 'global//yank G'
-    let @g = @g[1:]
-  call setpos('.', original_cursor_position)
-  echo len(split(@g, '\n')) 'lines greyed'
-endfunction
-
-
 " Show the lines which match to the last search pattern.
 Cnmap <count> g/  global//print
 Cvmap <count> g/  global//print
@@ -1963,16 +1867,18 @@ noremap <LocalLeader>  <Nop>
 
 
 " Make searching directions consistent
-noremap <expr> n  v:searchforward ? 'nzv' : 'Nzv'
-noremap <expr> N  v:searchforward ? 'Nzv' : 'nzv'
+  " 'zv' is harmful for Operator-pending mode and it should not be included.
+  " For example, 'cn' is expanded into 'cnzv' so 'zv' will be inserted.
+nnoremap <expr> n  <SID>search_forward_p() ? 'nzv' : 'Nzv'
+nnoremap <expr> N  <SID>search_forward_p() ? 'Nzv' : 'nzv'
+vnoremap <expr> n  <SID>search_forward_p() ? 'nzv' : 'Nzv'
+vnoremap <expr> N  <SID>search_forward_p() ? 'Nzv' : 'nzv'
+onoremap <expr> n  <SID>search_forward_p() ? 'n' : 'N'
+onoremap <expr> N  <SID>search_forward_p() ? 'N' : 'n'
 
-
-" Till before non keyword and non space character.
-" This is a generalized synonym to t(, t}, t& and so forth.
-Comap <silent> q
-\       for i in range(v:count1)
-\ <Bar>   call search('.\&\(\k\<Bar>\_s\)\@!', 'W')
-\ <Bar> endfor
+function! s:search_forward_p()
+  return exists('v:searchforward') ? v:searchforward : s:TRUE
+endfunction
 
 
 
@@ -2064,6 +1970,12 @@ endfunction
 " Unset 'paste' automatically.  It's often hard to do so because of most
 " mappings are disabled in Paste mode.
 autocmd MyAutoCmd InsertLeave *  set nopaste
+  " Experimental: Turn off 'paste' if idle.  Because it's hard to manually
+  "               leave Insert mode while 'paste' is turned on - custom
+  "               {lhs}es to <Esc> aren't available.
+  "
+  " It's necessary to :redraw to update 'showmode' message.
+autocmd MyAutoCmd CursorHoldI *  set nopaste | redraw
 
 
 
@@ -2097,10 +2009,10 @@ endfunction
 
 
 
-" issue  "{{{2
+" gtd  "{{{2
 
-autocmd MyAutoCmd FileType issue
-\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(issue-jump-to-issue)
+autocmd MyAutoCmd FileType gtd
+\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(gtd-jump-to-issue)
 \ | let b:undo_ftplugin .= ' | silent! nunmap <buffer> <Plug>(physical-key-<Return>)'
 
 
@@ -2150,6 +2062,15 @@ function! s:on_FileType_help()
     map <buffer> K  <Plug>(textobj-help-any-p)
   endif
 endfunction
+
+
+
+
+" issue  "{{{2
+
+autocmd MyAutoCmd FileType issue
+\   nmap <buffer> <Plug>(physical-key-<Return>)  <Plug>(issue-jump-to-issue)
+\ | let b:undo_ftplugin .= ' | silent! nunmap <buffer> <Plug>(physical-key-<Return>)'
 
 
 
@@ -2226,19 +2147,27 @@ function! s:on_FileType_vim()
   call s:set_short_indent()
   let vim_indent_cont = &shiftwidth
 
-  iabbr <buffer> jf  function!()<Return>
-                    \endfunction<Return>
-                    \<Up><Up><End><Left><Left>
-  iabbr <buffer> ji  if<Return>
-                    \endif<Return>
-                    \<Up><Up><End>
   iabbr <buffer> je  if<Return>
                     \else<Return>
-                    \endif<Return>
+                    \endif
+                    \<Up><Up><End>
+  iabbr <buffer> jf  function!()<Return>
+                    \endfunction
+                    \<Up><End><Left><Left>
+  iabbr <buffer> ji  if<Return>
+                    \endif
+                    \<Up><End>
+  iabbr <buffer> jr  for<Return>
+                    \endfor
+                    \<Up><End>
+  iabbr <buffer> jt  try<Return>
+                    \catch /.../<Return>
+                    \finally<Return>
+                    \endtry
                     \<Up><Up><Up><End>
   iabbr <buffer> jw  while<Return>
-                    \endwhile<Return>
-                    \<Up><Up><End>
+                    \endwhile
+                    \<Up><End>
 
   " Fix the default syntax to properly highlight
   " autoload#function() and dictionary.function().
@@ -2370,25 +2299,26 @@ endfunction
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
-\ call bundle#return(s:available_packages())
+\ call bundle#return(s:available_bundles())
 
 autocmd MyAutoCmd User BundleUndefined!:*
-\ call bundle#return(s:package_files(bundle#name()))
+\ call bundle#return(s:files_in_a_bundle(bundle#name()))
 
 
 let s:CONFIG_DIR = '~/working/config'
 let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
 
-function! s:available_packages()
-  return split(s:system('make -f '
-  \                     . shellescape(s:CONFIG_MAKEFILE)
-  \                     . ' list-available-packages'))
+function! s:available_bundles()
+  return split(s:system('make'
+  \                     . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
+  \                     . ' list-available-bundles'))
 endfunction
 
-function! s:package_files(name)
-  return map(split(s:system('make -f ' . shellescape(s:CONFIG_MAKEFILE)
+function! s:files_in_a_bundle(name)
+  return map(split(s:system('make'
+  \                         . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
   \                         . ' PACKAGE_NAME=' . a:name
-  \                         . ' list-files-in-a-package')),
+  \                         . ' list-files-in-a-bundle')),
   \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
 endfunction
 
@@ -2400,6 +2330,19 @@ function! s:system(command)
   endif
   return _
 endfunction
+
+
+
+
+" grex  "{{{2
+
+Arpeggio map od  <Plug>(operator-grex-delete)
+Arpeggio map oy  <Plug>(operator-grex-yank)
+
+  " Compatibility for oldie
+nmap gy  <Plug>(operator-grex-yank)<Plug>(textobj-entire-a)
+vmap gy  <Plug>(operator-grex-yank)
+omap gy  <Plug>(operator-grex-yank)
 
 
 
@@ -2486,6 +2429,13 @@ Cmap [Space]xw  Widen
 
 
 
+" operator-replace  "{{{2
+
+Arpeggio map or  <Plug>(operator-replace)
+
+
+
+
 " scratch  "{{{2
 
 nmap <Leader>s  <Plug>(scratch-open)
@@ -2513,13 +2463,16 @@ function! s:on_User_plugin_skeleton_detect()
   if len(_) == 0
     return
   endif
+  let after_p = _[1] != ''
+  let type = _[2]
+  let extension = _[3]
 
-  if _[2] ==# 'doc' && _[3] ==# 'txt'
+  if type ==# 'doc' && extension ==# 'txt'
     SkeletonLoad help-doc
   endif
 
-  if _[2] !=# 'doc' && _[3] ==# 'vim'
-    if _[1] != ''
+  if type !=# 'doc' && extension ==# 'vim'
+    if after_p != ''
       execute 'SkeletonLoad' 'vim-additional-'._[2]
     endif
     execute 'SkeletonLoad' 'vim-'._[2]
@@ -2527,6 +2480,14 @@ function! s:on_User_plugin_skeleton_detect()
 
   return
 endfunction
+
+
+
+
+" smarttill  "{{{2
+
+Objmap q  <Plug>(smarttill-t)
+Objmap Q  <Plug>(smarttill-T)
 
 
 
@@ -2548,6 +2509,15 @@ nmap ss  <Plug>Yssurround
 let g:vcsi_diff_in_commit_buffer_p = 1
 let g:vcsi_open_command = 'SplitNicely | enew'
 let g:vcsi_use_native_message_p = 1
+
+
+
+
+" wwwsearch  "{{{2
+
+Arpeggio map ow  <Plug>(operator-wwwsearch)
+
+Cnmap [Space]*  Wwwsearch -default <C-r><C-w>
 
 
 

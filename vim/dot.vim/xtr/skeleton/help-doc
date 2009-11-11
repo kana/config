@@ -26,14 +26,15 @@ License: MIT license  {{{
 
 CONTENTS					*{name}-contents*
 
-Introduction		|{name}-introduction|
-Interface		|{name}-interface|
-  Commands		  |{name}-commands|
-  Functions		  |{name}-functions|
-  Mappings		  |{name}-mappings|
-Examples		|{name}-examples|
-Bugs			|{name}-bugs|
-Changelog		|{name}-changelog|
+Introduction            |{name}-introduction|
+Interface               |{name}-interface|
+  Commands                |{name}-commands|
+  Functions               |{name}-functions|
+  Key Mappings            |{name}-key-mappings|
+Customizing             |{name}-customizing|
+Examples                |{name}-examples|
+Bugs                    |{name}-bugs|
+Changelog               |{name}-changelog|
 
 
 
@@ -49,6 +50,9 @@ Requirements:
 
 Latest version:
 http://github.com/kana/config/commits/vim-{name}
+
+Document in HTML format:
+http://kana.github.com/config/vim/{name}.html
 
 
 
@@ -71,7 +75,16 @@ FUNCTIONS					*{name}-functions*
 
 
 ------------------------------------------------------------------------------
-MAPPINGS					*{name}-mappings*
+KEY MAPPINGS					*{name}-key-mappings*
+
+DEFAULT KEY MAPPINGS				*{name}-default-key-mappings*
+
+Modes	{lhs}		{rhs}
+------------------------------------------------
+nvo	feature		|<Plug>({name}-feature)|	*feature*
+
+
+NAMED KEY MAPPINGS				*{name}-named-key-mappings*
 
 <Plug>({name}-feature)				*<Plug>({name}-feature)*
 			...
@@ -80,9 +93,17 @@ MAPPINGS					*{name}-mappings*
 
 
 ==============================================================================
+CUSTOMIZATION					*{name}-customization*
+
+(A) To ...
+
+
+
+
+==============================================================================
 EXAMPLES					*{name}-examples*
 
-(A) To realize ...
+(A) To ...
 
 
 
@@ -98,7 +119,7 @@ BUGS						*{name}-bugs*
 ==============================================================================
 CHANGELOG					*{name}-changelog*
 
-0.0.0	2008-07-11T16:51:59+09:00
+0.0.0	2008-07-11T16:51:59+09:00		*{name}-changelog-0.0.0*
 	- Initial version.
 
 
