@@ -1,4 +1,4 @@
-==== s_read_screen 
+==== s_read_pastebuffer 
 ---- It should read the paste buffer which contains empty string 
 ..
 ---- It should read the paste buffer which contains string without newline 
@@ -10,7 +10,7 @@
 ---- It should read the paste buffer which contains multi-line string w/o last LF 
 ..
 
-==== s_write_screen 
+==== s_write_pastebuffer 
 ---- It should succeed 
 .....
 

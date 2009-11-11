@@ -767,7 +767,7 @@ TESTS_vim_fakeclip = \
 		clipboard-mac \
 		clipboard-x \
 		misc \
-		pseudo-screen \
+		pastebuffer-gnuscreen \
 		ui
 
 test/vim-fakeclip/%.output: \
