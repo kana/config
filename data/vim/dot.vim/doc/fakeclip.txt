@@ -1,6 +1,6 @@
 *fakeclip.txt*	pseudo clipboard register for non-GUI version of Vim
 
-Version 0.2.4
+Version 0.2.5
 Script ID: 2098
 Copyright (C) 2007-2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -43,11 +43,14 @@ or |quoteplus|) for non-GUI version of Vim on the following platforms:
 
 - Cygwin
 - Mac OS X
+- X Window System (by xclip <http://sourceforge.net/projects/xclip/>)
 
 
-fakeclip also supports the following stuff as a pseudo register:
+fakeclip also provides a pseudo register for "paste buffer" if one of the
+following applications is available:
 
-- GNU screen (the paste buffer)
+- GNU screen
+- tmux
 
 
 FAQ: If you can't copy/paste multibyte characters with the clipboard
@@ -105,8 +108,7 @@ KEY MAPPINGS					*fakeclip-key-mappings*
 [count]<Plug>(fakeclip-screen-Y)		*<Plug>(fakeclip-screen-Y)*
 {Visual}<Plug>(fakeclip-screen-y)		*v_<Plug>(fakeclip-screen-y)*
 {Visual}<Plug>(fakeclip-screen-Y)		*v_<Plug>(fakeclip-screen-Y)*
-			Like as |y| or |Y|, but yank into the paste buffer of
-			GNU screen.
+			Like as |y| or |Y|, but yank into the paste buffer.
 
 [count]<Plug>(fakeclip-screen-p)		*<Plug>(fakeclip-screen-p)*
 [count]<Plug>(fakeclip-screen-P)		*<Plug>(fakeclip-screen-P)*
@@ -117,7 +119,7 @@ KEY MAPPINGS					*fakeclip-key-mappings*
 [count]<Plug>(fakeclip-screen-[p)		*<Plug>(fakeclip-screen-[p)*
 [count]<Plug>(fakeclip-screen-[P)		*<Plug>(fakeclip-screen-[P)*
 			Like as |p|, |P|, |gp|, |gP|, |]p|, |]P|, |[p| or
-			|[P|, but put from the paste buffer of GNU screen.
+			|[P|, but put from the paste buffer.
 					*c_<Plug>(fakeclip-screen-insert)*
 <Plug>(fakeclip-screen-insert)		*i_<Plug>(fakeclip-screen-insert)*
 					*c_<Plug>(fakeclip-screen-insert-r)*
@@ -128,7 +130,7 @@ KEY MAPPINGS					*fakeclip-key-mappings*
 			Like |i_CTRL-R|, |i_CTRL-R_CTRL-R|, |i_CTRL-R_CTRL-O|,
 			|i_CTRL-R_CTRL-P|, |c_CTRL-R|, |c_CTRL-R_CTRL-R| or
 			|c_CTRL-R_CTRL-O|, but insert the content of the
-			paste buffer of GNU screen.
+			paste buffer.
 	
 
 					  *g:fakeclip_no_default_key_mappings*
@@ -232,14 +234,20 @@ http://developer.apple.com/documentation/CoreFoundation/Reference/CFStringRef/
     with the clipboard, try installing GNU screen from MacPorts with "+darwin"
     variants.
 
+(g) There is a race condition problem to read the paste buffer of GNU screen.
+
 
 
 
 ==============================================================================
 CHANGELOG					*fakeclip-changelog*
 
-0.2.5	2009-09-15T21:26:06+09:00		*fakeclip-changelog-0.2.5*
+0.2.5	2009-11-11T21:51:50+09:00		*fakeclip-changelog-0.2.5*
 	- Revise the way to detect whether GNU screen is available or not.
+	- Fix a bug to yank to string with newline character into paste buffer
+	  register.
+	- Support X Window System by xclip.  (Thanks for @thinca)
+	- Support tmux.  (Thanks for @thinca)
 
 0.2.4	2009-06-13T18:22:01+09:00		*fakeclip-changelog-0.2.4*
 	- Revise on platforms where |+clipboard| is available:

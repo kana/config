@@ -224,7 +224,7 @@ set mouse=
 set ruler
 set showcmd
 set showmode
-set updatetime=60000
+set updatetime=4000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
 set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
@@ -719,11 +719,12 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 "
 " :Lgrep is a :lgrep wrapper like :Grep.
 
-command! -bar -complete=file -nargs=+ Grep
-\ execute 'grep' '/'.[<f-args>][-1].'/' [<f-args>][:-2]
+command! -bar -complete=file -nargs=+ Grep  call s:grep('grep', [<f-args>])
+command! -bar -complete=file -nargs=+ Lgrep  call s:grep('lgrep', [<f-args>])
 
-command! -bar -complete=file -nargs=+ Lgrep
-\ execute 'lgrep' '/'.[<f-args>][-1].'/' [<f-args>][:-2]
+function! s:grep(command, args)
+  execute a:command '/'.a:args[-1].'/' join(a:args[:-2])
+endfunction
 
 
 
@@ -775,14 +776,6 @@ function! s:keys_to_complete()
   endif
 endfunction
 
-function! s:keys_to_stop_insert_mode_completion()
-  if pumvisible()
-    return "\<C-y>"
-  else
-    return "\<Space>\<BS>"
-  endif
-endfunction
-
 
 function! s:keys_to_escape_command_line_mode_if_empty(key)
   if getcmdline() == ''
@@ -796,6 +789,32 @@ endfunction
 function! s:keys_to_insert_one_character()
   Hecho ModeMsg '-- INSERT (one char) --'
   return nr2char(getchar()) . "\<Esc>"
+endfunction
+
+
+function! s:keys_to_select_the_last_changed_text()
+  " It is not possible to determine whether the last operation to change text
+  " is linewise or not, so guess the wise of the last operation from the range
+  " of '[ and '], like wise of a register content set by setreg() without
+  " {option}.
+
+  let col_begin = col("'[")
+  let col_end = col("']")
+  let length_end = len(getline("']"))
+
+  let maybe_linewise_p = (col_begin == 1
+  \                       && (col_end == length_end
+  \                           || (length_end == 0 && col_end == 1)))
+  return '`[' . (maybe_linewise_p ? 'V' : 'v') . '`]'
+endfunction
+
+
+function! s:keys_to_stop_insert_mode_completion()
+  if pumvisible()
+    return "\<C-y>"
+  else
+    return "\<Space>\<BS>"
+  endif
 endfunction
 
 
@@ -1673,7 +1692,7 @@ Objnoremap ir  i]
 
 " Select the last chaged text - "c" stands for "C"hanged.
   " like gv
-nnoremap gc  `[v`]
+nnoremap <expr> gc  <SID>keys_to_select_the_last_changed_text()
   " as a text object
 Objnoremap gc  :<C-u>normal gc<CR>
   " synonyms for gc - "m" stands for "M"odified.
@@ -1848,8 +1867,18 @@ noremap <LocalLeader>  <Nop>
 
 
 " Make searching directions consistent
-noremap <expr> n  v:searchforward ? 'nzv' : 'Nzv'
-noremap <expr> N  v:searchforward ? 'Nzv' : 'nzv'
+  " 'zv' is harmful for Operator-pending mode and it should not be included.
+  " For example, 'cn' is expanded into 'cnzv' so 'zv' will be inserted.
+nnoremap <expr> n  <SID>search_forward_p() ? 'nzv' : 'Nzv'
+nnoremap <expr> N  <SID>search_forward_p() ? 'Nzv' : 'nzv'
+vnoremap <expr> n  <SID>search_forward_p() ? 'nzv' : 'Nzv'
+vnoremap <expr> N  <SID>search_forward_p() ? 'Nzv' : 'nzv'
+onoremap <expr> n  <SID>search_forward_p() ? 'n' : 'N'
+onoremap <expr> N  <SID>search_forward_p() ? 'N' : 'n'
+
+function! s:search_forward_p()
+  return exists('v:searchforward') ? v:searchforward : s:TRUE
+endfunction
 
 
 
@@ -1941,6 +1970,12 @@ endfunction
 " Unset 'paste' automatically.  It's often hard to do so because of most
 " mappings are disabled in Paste mode.
 autocmd MyAutoCmd InsertLeave *  set nopaste
+  " Experimental: Turn off 'paste' if idle.  Because it's hard to manually
+  "               leave Insert mode while 'paste' is turned on - custom
+  "               {lhs}es to <Esc> aren't available.
+  "
+  " It's necessary to :redraw to update 'showmode' message.
+autocmd MyAutoCmd CursorHoldI *  set nopaste | redraw
 
 
 
@@ -2112,19 +2147,27 @@ function! s:on_FileType_vim()
   call s:set_short_indent()
   let vim_indent_cont = &shiftwidth
 
-  iabbr <buffer> jf  function!()<Return>
-                    \endfunction<Return>
-                    \<Up><Up><End><Left><Left>
-  iabbr <buffer> ji  if<Return>
-                    \endif<Return>
-                    \<Up><Up><End>
   iabbr <buffer> je  if<Return>
                     \else<Return>
-                    \endif<Return>
+                    \endif
+                    \<Up><Up><End>
+  iabbr <buffer> jf  function!()<Return>
+                    \endfunction
+                    \<Up><End><Left><Left>
+  iabbr <buffer> ji  if<Return>
+                    \endif
+                    \<Up><End>
+  iabbr <buffer> jr  for<Return>
+                    \endfor
+                    \<Up><End>
+  iabbr <buffer> jt  try<Return>
+                    \catch /.../<Return>
+                    \finally<Return>
+                    \endtry
                     \<Up><Up><Up><End>
   iabbr <buffer> jw  while<Return>
-                    \endwhile<Return>
-                    \<Up><Up><End>
+                    \endwhile
+                    \<Up><End>
 
   " Fix the default syntax to properly highlight
   " autoload#function() and dictionary.function().
@@ -2256,25 +2299,26 @@ endfunction
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
-\ call bundle#return(s:available_packages())
+\ call bundle#return(s:available_bundles())
 
 autocmd MyAutoCmd User BundleUndefined!:*
-\ call bundle#return(s:package_files(bundle#name()))
+\ call bundle#return(s:files_in_a_bundle(bundle#name()))
 
 
 let s:CONFIG_DIR = '~/working/config'
 let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
 
-function! s:available_packages()
-  return split(s:system('make -f '
-  \                     . shellescape(s:CONFIG_MAKEFILE)
-  \                     . ' list-available-packages'))
+function! s:available_bundles()
+  return split(s:system('make'
+  \                     . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
+  \                     . ' list-available-bundles'))
 endfunction
 
-function! s:package_files(name)
-  return map(split(s:system('make -f ' . shellescape(s:CONFIG_MAKEFILE)
+function! s:files_in_a_bundle(name)
+  return map(split(s:system('make'
+  \                         . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
   \                         . ' PACKAGE_NAME=' . a:name
-  \                         . ' list-files-in-a-package')),
+  \                         . ' list-files-in-a-bundle')),
   \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
 endfunction
 

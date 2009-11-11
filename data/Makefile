@@ -11,8 +11,8 @@ all: update
   all \
   clean \
   clean-vim \
-  list-available-packages \
-  list-files-in-a-package \
+  list-available-bundles \
+  list-files-in-a-bundle \
   package \
   test \
   test-a-package \
@@ -94,8 +94,8 @@ GROUP_DOTS_FILES=\
   dot.zprofile \
   dot.zshrc
 GROUP_DOTS_RULE=$(patsubst dot.%,$(HOME)/.%,$(1))
-dot.gitconfig: dot.gitconfig.in
-	sed -e 's!= ~/!= $(HOME)/!' <$< >$@
+dot.gitconfig: dot.gitconfig.in gitconfig-compiler.rb
+	ruby gitconfig-compiler.rb <$< >$@
 
 GROUP_DOTS_summer_FILES=\
   dot.mayu
@@ -175,6 +175,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_syntax_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
+  $(PACKAGE_vim_vspec_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   $(PACKAGE_vim_wwwsearch_FILES) \
@@ -217,6 +218,7 @@ vim/dot.vim/syntax/scheme.vim: gauche-generate-syntax-vim.scm \
 ALL_PACKAGES=\
   all \
   cereja-all \
+  gitconfig-compiler \
   opera-all \
   vim-all \
   vim-altercmd \
@@ -264,6 +266,7 @@ ALL_PACKAGES=\
   vim-textobj-syntax \
   vim-textobj-user \
   vim-vcsi \
+  vim-vspec \
   vim-xml_autons \
   vim-xml_move \
   vim-wwwsearch
@@ -279,6 +282,10 @@ PACKAGE_all_FILES=./Makefile \
 PACKAGE_cereja_all_ARCHIVE=cereja-all
 PACKAGE_cereja_all_BASE=cereja
 PACKAGE_cereja_all_FILES=$(GROUP_CEREJA_FILES)
+
+PACKAGE_gitconfig_compiler_ARCHIVE=gitconfig-compiler
+PACKAGE_gitconfig_compiler_BASE=.
+PACKAGE_gitconfig_compiler_FILES=gitconfig-compiler.rb
 
 PACKAGE_opera_all_ARCHIVE=opera-all
 PACKAGE_opera_all_BASE=opera
@@ -317,7 +324,7 @@ PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/doc/bundle.txt \
   vim/dot.vim/plugin/bundle.vim
 
-PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.4
+PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.5
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
 PACKAGE_vim_fakeclip_FILES=\
   vim/dot.vim/autoload/fakeclip.vim \
@@ -610,6 +617,12 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
 
+PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.1.0
+PACKAGE_vim_vspec_BASE=vim/dot.vim
+PACKAGE_vim_vspec_FILES=\
+  vim/dot.vim/autoload/vspec.vim \
+  vim/dot.vim/doc/vspec.txt
+
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
 PACKAGE_vim_xml_autons_FILES=\
@@ -670,15 +683,25 @@ _validate-package-type:
 
 # for vim-bundle
 
-list-available-packages:
-	@echo $(ALL_PACKAGES)
+ALL_TESTS=$(foreach package_name, \
+            $(ALL_PACKAGES), \
+            $(if $(TESTS_$(subst -,_,$(package_name))),test-$(package_name),))
 
-list-files-in-a-package:
-	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+list-available-bundles:
+	@echo $(ALL_PACKAGES)
+	@echo $(ALL_TESTS)
+
+list-files-in-a-bundle:
+	@if $(if $(filter $(PACKAGE_NAME),$(ALL_PACKAGES)),true,false); then \
+	  echo $(PACKAGE_$(_PACKAGE_NAME)_FILES); \
+	elif $(if $(filter $(PACKAGE_NAME),$(ALL_TESTS)),true,false); then \
+	  echo $(foreach test_case, \
+	         $($(subst -,_,$(patsubst test-%,TESTS_%,$(PACKAGE_NAME)))), \
+	         test/$(subst test-,,$(PACKAGE_NAME))/$(test_case).input); \
+	else \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
-	@echo $(PACKAGE_$(_PACKAGE_NAME)_FILES)
 
 
 
@@ -842,6 +865,34 @@ test/vim-gtd/%.output: \
 	@./test/tester-vim $< &>$@
 
 
+# gitconfig-compiler  #{{{2
+TESTS_gitconfig_compiler = basic
+
+test/gitconfig-compiler/%.output: \
+		test/gitconfig-compiler/%.input \
+		gitconfig-compiler.rb
+	@ruby gitconfig-compiler.rb <$< 2>&1 | sed "s|$$HOME|HOME|" >$@
+
+
+# vim-fakeclip  #{{{2
+TESTS_vim_fakeclip = \
+		clipboard-cygwin \
+		clipboard-mac \
+		clipboard-x \
+		misc \
+		pastebuffer-gnuscreen \
+		pastebuffer-tmux \
+		ui
+
+test/vim-fakeclip/%.output: \
+		test/vim-fakeclip/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim \
+		vim/dot.vim/autoload/fakeclip.vim \
+		vim/dot.vim/plugin/fakeclip.vim
+	@./test/vspec $< &>$@
+
+
 # vim-ku  #{{{2
 TESTS_vim_ku = 0001 0002 0003
 
@@ -924,6 +975,16 @@ test/vim-wwwsearch/%.output: \
 		vim/dot.vim/autoload/wwwsearch.vim \
 		vim/dot.vim/plugin/wwwsearch.vim
 	@./test/tester-vim $< &>$@
+
+
+# vim-vspec  #{{{2
+TESTS_vim_vspec = no-test typical-content tools context
+
+test/vim-vspec/%.output: \
+		test/vim-vspec/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim
+	@./test/vspec $< >$@
 
 
 # Misc.  #{{{2

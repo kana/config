@@ -1,0 +1,12 @@
+ordinary-alias = foo bar baz
+home-directory-notation = ~/...
+strange-home-directory-notation = ~ = ~
+inline-shell-script = <<<
+	"
+	\
+	'
+>>>
+not-an-inline-shell-script = <<< white album >>>
+home-directory-notation-not-expanded-in-inline-shell-script = <<<
+	= ~
+>>>
