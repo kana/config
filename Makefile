@@ -175,6 +175,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_syntax_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
+  $(PACKAGE_vim_vspec_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   $(PACKAGE_vim_wwwsearch_FILES) \
@@ -265,6 +266,7 @@ ALL_PACKAGES=\
   vim-textobj-syntax \
   vim-textobj-user \
   vim-vcsi \
+  vim-vspec \
   vim-xml_autons \
   vim-xml_move \
   vim-wwwsearch
@@ -322,7 +324,7 @@ PACKAGE_vim_bundle_FILES=\
   vim/dot.vim/doc/bundle.txt \
   vim/dot.vim/plugin/bundle.vim
 
-PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.4
+PACKAGE_vim_fakeclip_ARCHIVE=vim-fakeclip-0.2.5
 PACKAGE_vim_fakeclip_BASE=vim/dot.vim
 PACKAGE_vim_fakeclip_FILES=\
   vim/dot.vim/autoload/fakeclip.vim \
@@ -615,6 +617,12 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
 
+PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.1.0
+PACKAGE_vim_vspec_BASE=vim/dot.vim
+PACKAGE_vim_vspec_FILES=\
+  vim/dot.vim/autoload/vspec.vim \
+  vim/dot.vim/doc/vspec.txt
+
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
 PACKAGE_vim_xml_autons_FILES=\
@@ -866,6 +874,25 @@ test/gitconfig-compiler/%.output: \
 	@ruby gitconfig-compiler.rb <$< 2>&1 | sed "s|$$HOME|HOME|" >$@
 
 
+# vim-fakeclip  #{{{2
+TESTS_vim_fakeclip = \
+		clipboard-cygwin \
+		clipboard-mac \
+		clipboard-x \
+		misc \
+		pastebuffer-gnuscreen \
+		pastebuffer-tmux \
+		ui
+
+test/vim-fakeclip/%.output: \
+		test/vim-fakeclip/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim \
+		vim/dot.vim/autoload/fakeclip.vim \
+		vim/dot.vim/plugin/fakeclip.vim
+	@./test/vspec $< &>$@
+
+
 # vim-ku  #{{{2
 TESTS_vim_ku = 0001 0002 0003
 
@@ -948,6 +975,16 @@ test/vim-wwwsearch/%.output: \
 		vim/dot.vim/autoload/wwwsearch.vim \
 		vim/dot.vim/plugin/wwwsearch.vim
 	@./test/tester-vim $< &>$@
+
+
+# vim-vspec  #{{{2
+TESTS_vim_vspec = no-test typical-content tools context
+
+test/vim-vspec/%.output: \
+		test/vim-vspec/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim
+	@./test/vspec $< >$@
 
 
 # Misc.  #{{{2
