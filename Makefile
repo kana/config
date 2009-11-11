@@ -765,6 +765,7 @@ generate-missing-files-to-test: _validate-package-name  # (PACKAGE_NAME)
 TESTS_vim_fakeclip = \
 		clipboard-cygwin \
 		clipboard-mac \
+		clipboard-x \
 		misc \
 		pseudo-screen \
 		ui
