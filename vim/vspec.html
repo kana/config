@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: vspec - Test framework for Vim script</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="vspec.txt">vspec.txt</span><span class="Ignore">*</span>     Test framework for Vim script
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="vspec-contents">vspec-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="vspec.html#vspec-introduction"><span class="Identifier">vspec-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="vspec.html#vspec-interface"><span class="Identifier">vspec-interface</span></a><span class="Ignore">|</span>
+  Commands                <span class="Ignore">|</span><a href="vspec.html#vspec-commands"><span class="Identifier">vspec-commands</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="vspec.html#vspec-functions"><span class="Identifier">vspec-functions</span></a><span class="Ignore">|</span>
+Examples                <span class="Ignore">|</span><a href="vspec.html#vspec-examples"><span class="Identifier">vspec-examples</span></a><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="vspec.html#vspec-bugs"><span class="Identifier">vspec-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="vspec.html#vspec-changelog"><span class="Identifier">vspec-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="vspec-introduction">vspec-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="vspec">vspec</span><span class="Ignore">*</span> is a Vim library plugin to test Vim script.
+
+FIXME: More description.
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-vspec">http://github.com/kana/config/commits/vim-vspec</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/vspec.html">http://kana.github.com/config/vim/vspec.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="vspec-interface">vspec-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">COMMANDS                                        </span><span class="Ignore">*</span><span class="Constant" id="vspec-commands">vspec-commands</span><span class="Ignore">*</span>
+
+:It <span class="Special">{message}</span>                                   <span class="Ignore">*</span><span class="Constant" id=":It">:It</span><span class="Ignore">*</span>
+                        Describe a group of expectations (which are described
+                        by <span class="Ignore">|</span><a href="vspec.html#:Should"><span class="Identifier">:Should</span></a><span class="Ignore">|</span>).
+
+                        <span class="Special">{message}</span> is a string which represents a description
+                        of expectations after :It.  This message is just used
+                        for output.
+
+                        Examples:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                                :It &quot;should match case-sensitively&quot;</span>
+<span class="Comment">                                :Should 'abc' =~ 'a'</span>
+<span class="Comment">                                :Should 'abc' !~ 'A'</span>
+<span class="Ignore">&lt;</span>
+
+:ResetContext                                   <span class="Ignore">*</span><span class="Constant" id=":ResetContext">:ResetContext</span><span class="Ignore">*</span>
+                        Reset the current context of a script with one saved
+                        by <span class="Ignore">|</span><a href="vspec.html#:SaveContext"><span class="Identifier">:SaveContext</span></a><span class="Ignore">|</span>.
+
+                        To use this feature, you have to tell &quot;scope&quot; hint to
+                        vspec with <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+
+:SaveContext                                    <span class="Ignore">*</span><span class="Constant" id=":SaveContext">:SaveContext</span><span class="Ignore">*</span>
+                        Save the current context of a script, i.e., an
+                        snapshot of script-local variables defined in the
+                        script.  See also <span class="Ignore">|</span><a href="vspec.html#:ResetContext"><span class="Identifier">:ResetContext</span></a><span class="Ignore">|</span>.
+
+                        :SaveContext is automatically executed whenever
+                        <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span> is called with &quot;scope&quot; hint.
+
+                        To use this feature, you have to tell &quot;scope&quot; hint to
+                        vspec with <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+
+:Should <span class="Special">{actual}</span> <span class="Special">{matcher}</span> <span class="Special">{expected}</span>           <span class="Ignore">*</span><span class="Constant" id=":Should">:Should</span><span class="Ignore">*</span>
+                        Describe an expectation - test whether <span class="Special">{actual}</span> value
+                        matches with <span class="Special">{expected}</span> value, in a sense of
+                        <span class="Special">{matcher}</span>.
+
+                        <span class="Special">{actual}</span> and <span class="Special">{expected}</span> is an arbitrary Vim script
+                        <span class="Ignore">|</span><span class="Identifier">expression</span><span class="Ignore">|</span> with the following limitation:
+
+                        - Comparing operators, such as ==, !~, etc, cannot be
+                          used in <span class="Special">{actual}</span> and <span class="Special">{expected}</span>.  See <span class="Ignore">|</span><span class="Identifier">expr4</span><span class="Ignore">|</span> for
+                          the list of comparing operators in Vim script.
+
+                        <span class="Special">{matcher}</span> is a comparing operator, such as ==, !~,
+                        etc, which is described in <span class="Ignore">|</span><span class="Identifier">expr4</span><span class="Ignore">|</span>.
+
+                        You have to insert one or more spaces between
+                        <span class="Special">{actual}</span>, <span class="Special">{matcher}</span> and <span class="Special">{expected}</span>.
+
+                        Examples:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                                :Should 'abc' =~# 'A'</span>
+<span class="Comment">                                &quot; ==&gt; good</span>
+<span class="Comment">                                :Should 'abc' =~? 'A'</span>
+<span class="Comment">                                &quot; ==&gt; bad</span>
+
+<span class="Comment">                                :Should {} == {}</span>
+<span class="Comment">                                &quot; ==&gt; good</span>
+<span class="Comment">                                :Should {} isnot {}</span>
+<span class="Comment">                                &quot; ==&gt; bad</span>
+<span class="Ignore">&lt;</span>
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="vspec-functions">vspec-functions</span><span class="Ignore">*</span>
+
+Call(...)                                       <span class="Ignore">*</span><span class="Constant" id="Call()">Call()</span><span class="Ignore">*</span>
+                        Alias of <span class="Ignore">|</span><span class="Identifier">vspec#call()</span><span class="Ignore">|</span>.
+
+Ref(...)                                        <span class="Ignore">*</span><span class="Constant" id="Ref()">Ref()</span><span class="Ignore">*</span>
+                        Alias of <span class="Ignore">|</span><a href="vspec.html#vspec#ref()"><span class="Identifier">vspec#ref()</span></a><span class="Ignore">|</span>.
+
+Set(...)                                        <span class="Ignore">*</span><span class="Constant" id="Set()">Set()</span><span class="Ignore">*</span>
+                        Alias of <span class="Ignore">|</span><a href="vspec.html#vspec#set()"><span class="Identifier">vspec#set()</span></a><span class="Ignore">|</span>.
+
+vspec#call(<span class="Special">{funcname}</span>, [<span class="Special">{arg}</span>, ...])            <span class="Ignore">*</span><span class="Constant" id="vspec##call()">vspec##call()</span><span class="Ignore">*</span>
+                        Like <span class="Ignore">|</span><span class="Identifier">call()</span><span class="Ignore">|</span>, but vspec#call() can call
+                        a script-local function defined in a script to be
+                        tested.
+
+                        <span class="Special">{funcname}</span> is a string which represents the name of
+                        a function.  If <span class="Special">{funcname}</span> starts with 's:', it calls
+                        a script-local function defined in a script to be
+                        tested.  To use this feature, you have to tell
+                        &quot;sid&quot; hint to vspec with <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+
+
+                        <span class="Special">{arg}</span> is an arbitrary value which is given to the
+                        function corresponding to o<span class="Special">{funcname}</span>.
+
+vspec#hint(<span class="Special">{info}</span>)                              <span class="Ignore">*</span><span class="Constant" id="vspec#init()">vspec#init()</span><span class="Ignore">*</span>
+                        Tell vspec &quot;hint&quot; information to use useful API to
+                        test a Vim script.
+
+                        <span class="Special">{info}</span> is a dictionary.  Each key is a string.  The
+                        detail of this dictionary is as follows:
+
+                        &quot;sid&quot;           (optional)
+                                A string which is evaluated to <span class="Special">&lt;SID&gt;</span> of
+                                a script to be tested.
+
+                                If this value is given, you can use
+                                <span class="Ignore">|</span><span class="Identifier">vspec#call()</span><span class="Ignore">|</span>.
+
+                        &quot;scope&quot;         (optional)
+                                A string which is evaluated to the dictionary
+                                corresponding to s: (= the scope of
+                                script-local variables) for a script.
+
+                                If this value is given, you can use
+                                <span class="Ignore">|</span><a href="vspec.html#vspec#ref()"><span class="Identifier">vspec#ref()</span></a><span class="Ignore">|</span> and <span class="Ignore">|</span><a href="vspec.html#vspec#set()"><span class="Identifier">vspec#set()</span></a><span class="Ignore">|</span>.
+
+vspec#ref(<span class="Special">{varname}</span>)                            <span class="Ignore">*</span><span class="Constant" id="vspec#ref()">vspec#ref()</span><span class="Ignore">*</span>
+                        Return the value of a variable.
+
+                        <span class="Special">{varname}</span> is a string which represents the name of
+                        a script-local variable defined in a script to be
+                        tested.  The name must start with 's:'.  To use this
+                        feature, you have to tell vspec to &quot;scope&quot; hint with
+                        <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+
+vspec#set(<span class="Special">{varname}</span>, <span class="Special">{value}</span>)                   <span class="Ignore">*</span><span class="Constant" id="vspec#set()">vspec#set()</span><span class="Ignore">*</span>
+                        Assign <span class="Special">{value}</span> to a variable.  See <span class="Ignore">|</span><a href="vspec.html#vspec#ref()"><span class="Identifier">vspec#ref()</span></a><span class="Ignore">|</span> for
+                        the details of <span class="Special">{varname}</span>.
+
+vspec#test(<span class="Special">{specfile}</span>)                          <span class="Ignore">*</span><span class="Constant" id="vspec#test()">vspec#test()</span><span class="Ignore">*</span>
+                        <span class="Ignore">|</span><span class="Identifier">:source</span><span class="Ignore">|</span> <span class="Special">{specfile}</span>, test expectations described in
+                        <span class="Special">{specfile}</span>, then output a result of the test.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">EXAMPLES                                        </span><span class="Ignore">*</span><span class="Constant" id="vspec-examples">vspec-examples</span><span class="Ignore">*</span>
+
+FIXME: More description.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="vspec-bugs">vspec-bugs</span><span class="Ignore">*</span>
+
+<span class="PreProc">PLANNED FEATURES</span><span class="Ignore"> ~</span>
+
+- Custom <span class="Special">{matcher}</span> for <span class="Ignore">|</span><a href="vspec.html#:Should"><span class="Identifier">:Should</span></a><span class="Ignore">|</span>, for example:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        function! EmptyP(value)</span>
+<span class="Comment">          return empty(a:value)</span>
+<span class="Comment">        endfunction</span>
+
+<span class="Comment">        Should [] be Empty</span>
+<span class="Comment">        &quot; ==&gt; good</span>
+<span class="Comment">        Should ['a', 'b', 'c'] be Empty</span>
+<span class="Comment">        &quot; ==&gt; bad</span>
+<span class="Ignore">&lt;</span>
+
+
+<span class="PreProc">ETC</span><span class="Ignore"> ~</span>
+
+- Welcome your feedback.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="vspec-changelog">vspec-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-10-12T10:51:26+09:00               <span class="Ignore">*</span><span class="Constant" id="vspec-changelog-0.0.0">vspec-changelog-0.0.0</span><span class="Ignore">*</span>
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>

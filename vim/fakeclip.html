@@ -24,7 +24,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="fakeclip.txt">fakeclip.txt</span><span class="Ignore">*</span>  pseudo clipboard register for non-GUI version of Vim
 
-Version 0.2.4
+Version 0.2.5
 Script ID: 2098
 Copyright (C) 2007-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -67,11 +67,14 @@ or <span class="Ignore">|</span><span class="Identifier">quoteplus</span><span c
 
 - Cygwin
 - Mac OS X
+- X Window System (by xclip &lt;<span class="Constant"><a href="http://sourceforge.net/projects/xclip/">http://sourceforge.net/projects/xclip/</a></span>&gt;)
 
 
-fakeclip also supports the following stuff as a pseudo register:
+fakeclip also provides a pseudo register for &quot;paste buffer&quot; if one of the
+following applications is available:
 
-- GNU screen (the paste buffer)
+- GNU screen
+- tmux
 
 
 FAQ: If you can't copy/paste multibyte characters with the clipboard
@@ -129,8 +132,7 @@ Document in HTML format:
 <span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-Y)                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(fakeclip-screen-Y)">&lt;Plug&gt;(fakeclip-screen-Y)</span><span class="Ignore">*</span>
 <span class="Special">{Visual}&lt;Plug&gt;</span>(fakeclip-screen-y)               <span class="Ignore">*</span><span class="Constant" id="v_&lt;Plug&gt;(fakeclip-screen-y)">v_&lt;Plug&gt;(fakeclip-screen-y)</span><span class="Ignore">*</span>
 <span class="Special">{Visual}&lt;Plug&gt;</span>(fakeclip-screen-Y)               <span class="Ignore">*</span><span class="Constant" id="v_&lt;Plug&gt;(fakeclip-screen-Y)">v_&lt;Plug&gt;(fakeclip-screen-Y)</span><span class="Ignore">*</span>
-                        Like as <span class="Ignore">|</span><span class="Identifier">y</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">Y</span><span class="Ignore">|</span>, but yank into the paste buffer of
-                        GNU screen.
+                        Like as <span class="Ignore">|</span><span class="Identifier">y</span><span class="Ignore">|</span> or <span class="Ignore">|</span><span class="Identifier">Y</span><span class="Ignore">|</span>, but yank into the paste buffer.
 
 <span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-p)                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(fakeclip-screen-p)">&lt;Plug&gt;(fakeclip-screen-p)</span><span class="Ignore">*</span>
 <span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-P)                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(fakeclip-screen-P)">&lt;Plug&gt;(fakeclip-screen-P)</span><span class="Ignore">*</span>
@@ -141,7 +143,7 @@ Document in HTML format:
 <span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-[p)               <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(fakeclip-screen-[p)">&lt;Plug&gt;(fakeclip-screen-[p)</span><span class="Ignore">*</span>
 <span class="Special">[count]&lt;Plug&gt;</span>(fakeclip-screen-[P)               <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(fakeclip-screen-[P)">&lt;Plug&gt;(fakeclip-screen-[P)</span><span class="Ignore">*</span>
                         Like as <span class="Ignore">|</span><span class="Identifier">p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">gp</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">gP</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">]p</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">]P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">[p</span><span class="Ignore">|</span> or
-                        <span class="Ignore">|</span><span class="Identifier">[P</span><span class="Ignore">|</span>, but put from the paste buffer of GNU screen.
+                        <span class="Ignore">|</span><span class="Identifier">[P</span><span class="Ignore">|</span>, but put from the paste buffer.
                                         <span class="Ignore">*</span><span class="Constant" id="c_&lt;Plug&gt;(fakeclip-screen-insert)">c_&lt;Plug&gt;(fakeclip-screen-insert)</span><span class="Ignore">*</span>
 <span class="Special">&lt;Plug&gt;</span>(fakeclip-screen-insert)          <span class="Ignore">*</span><span class="Constant" id="i_&lt;Plug&gt;(fakeclip-screen-insert)">i_&lt;Plug&gt;(fakeclip-screen-insert)</span><span class="Ignore">*</span>
                                         <span class="Ignore">*</span><span class="Constant" id="c_&lt;Plug&gt;(fakeclip-screen-insert-r)">c_&lt;Plug&gt;(fakeclip-screen-insert-r)</span><span class="Ignore">*</span>
@@ -152,7 +154,7 @@ Document in HTML format:
                         Like <span class="Ignore">|</span><span class="Identifier">i_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-O</span><span class="Ignore">|</span>,
                         <span class="Ignore">|</span><span class="Identifier">i_CTRL-R_CTRL-P</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R</span><span class="Ignore">|</span>, <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-R</span><span class="Ignore">|</span> or
                         <span class="Ignore">|</span><span class="Identifier">c_CTRL-R_CTRL-O</span><span class="Ignore">|</span>, but insert the content of the
-                        paste buffer of GNU screen.
+                        paste buffer.
 
 
                                           <span class="Ignore">*</span><span class="Constant" id="g:fakeclip_no_default_key_mappings">g:fakeclip_no_default_key_mappings</span><span class="Ignore">*</span>
@@ -256,14 +258,20 @@ __CF_USER_TEXT_ENCODING.  It contins :-separated values:
     with the clipboard, try installing GNU screen from MacPorts with &quot;+darwin&quot;
     variants.
 
+(g) There is a race condition problem to read the paste buffer of GNU screen.
+
 
 
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog">fakeclip-changelog</span><span class="Ignore">*</span>
 
-0.2.5   2009-09-15T21:26:06+09:00               <span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog-0.2.5">fakeclip-changelog-0.2.5</span><span class="Ignore">*</span>
+0.2.5   2009-11-11T21:51:50+09:00               <span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog-0.2.5">fakeclip-changelog-0.2.5</span><span class="Ignore">*</span>
         - Revise the way to detect whether GNU screen is available or not.
+        - Fix a bug to yank to string with newline character into paste buffer
+          register.
+        - Support X Window System by xclip.  (Thanks for @thinca)
+        - Support tmux.  (Thanks for @thinca)
 
 0.2.4   2009-06-13T18:22:01+09:00               <span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog-0.2.4">fakeclip-changelog-0.2.4</span><span class="Ignore">*</span>
         - Revise on platforms where <span class="Ignore">|</span><span class="Identifier">+clipboard</span><span class="Ignore">|</span> is available:
