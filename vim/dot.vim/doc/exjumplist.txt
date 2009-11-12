@@ -1,0 +1,142 @@
+*exjumplist.txt*	Extra commands for jumplist
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*exjumplist-contents*
+
+Introduction            |exjumplist-introduction|
+Interface               |exjumplist-interface|
+  Functions               |exjumplist-functions|
+  Key Mappings            |exjumplist-key-mappings|
+Customizing             |exjumplist-customizing|
+Bugs                    |exjumplist-bugs|
+Changelog               |exjumplist-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*exjumplist-introduction*
+
+*exjumplist* is a Vim plugin to provide extra commands for |jumplist|:
+
+- Go to the next/previous position in different buffer.
+- Go to the first/last position in jumplist
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-exjumplist
+
+Document in HTML format:
+http://kana.github.com/config/vim/exjumplist.html
+
+
+
+
+==============================================================================
+INTERFACE					*exjumplist-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*exjumplist-functions*
+
+exjumplist#go_first()				*exjumplist#go_first()*
+exjumplist#go_last()				*exjumplist#go_last()*
+exjumplist#next_buffer()			*exjumplist#next_buffer()*
+exjumplist#previous_buffer()			*exjumplist#previous_buffer()*
+			Function versions of the following key mappings:
+			- |<Plug>(exjumplist-go-first)|
+			- |<Plug>(exjumplist-go-first)|
+			- |<Plug>(exjumplist-next-buffer)|
+			- |<Plug>(exjumplist-previous-buffer)|
+
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*exjumplist-key-mappings*
+
+DEFAULT KEY MAPPINGS			     *exjumplist-default-key-mappings*
+
+There is no default key mapping.
+
+
+NAMED KEY MAPPINGS			       *exjumplist-named-key-mappings*
+
+The following key mappings are defined in Normal mode.
+
+<Plug>(exjumplist-go-first)			*<Plug>(exjumplist-go-first)*
+			Go to the first (oldest) position in jumplist.
+
+<Plug>(exjumplist-go-last)			*<Plug>(exjumplist-go-last)*
+			Go to the last (newest) position in jumplist.
+
+<Plug>(exjumplist-next-buffer)		      *<Plug>(exjumplist-next-buffer)*
+			Go to the next position in a buffer which is different
+			to the current buffer.
+
+<Plug>(exjumplist-previous-buffer)	  *<Plug>(exjumplist-previous-buffer)*
+			Go to the previous position in a buffer which is
+			different to the current buffer.
+
+
+
+
+==============================================================================
+CUSTOMIZATION					*exjumplist-customization*
+
+To use commands provided by this plugin, add the following in your |vimrc|:
+>
+	nmap <C-M-i>  <Plug>(exjumplist-go-last)
+	nmap <C-M-o>  <Plug>(exjumplist-go-first)
+	nmap <M-)>  <Plug>(exjumplist-next-buffer)
+	nmap <M-(>  <Plug>(exjumplist-previous-buffer)
+<
+The above configuration is just an example.  Modify it for your taste.
+
+
+
+
+==============================================================================
+BUGS						*exjumplist-bugs*
+
+- There is no known issue.
+
+- Welcome your feedback.
+
+
+
+
+==============================================================================
+CHANGELOG					*exjumplist-changelog*
+
+0.0.0	2009-11-12T22:50:06+09:00		*exjumplist-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
