@@ -24,7 +24,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="fakeclip.txt">fakeclip.txt</span><span class="Ignore">*</span>  pseudo clipboard register for non-GUI version of Vim
 
-Version 0.2.5
+Version 0.2.6
 Script ID: 2098
 Copyright (C) 2007-2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -265,6 +265,15 @@ __CF_USER_TEXT_ENCODING.  It contins :-separated values:
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog">fakeclip-changelog</span><span class="Ignore">*</span>
+
+0.2.6   2009-11-16T20:49:35+09:00               <span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog-0.2.6">fakeclip-changelog-0.2.6</span><span class="Ignore">*</span>
+        - Fix improper error message on putting to paste buffer.  (Thanks
+          to @thinca for reporting)
+        - Fix a bug that there is a possibility to fail to read the paste
+          buffer of GNU screen if it is emptied by &quot;register . ''&quot;.  (Thanks
+          to @thinca for reporting)
+        - Revise for race condition problem to read the paste buffer of GNU
+          screen, though it's not perfect yet.
 
 0.2.5   2009-11-11T21:51:50+09:00               <span class="Ignore">*</span><span class="Constant" id="fakeclip-changelog-0.2.5">fakeclip-changelog-0.2.5</span><span class="Ignore">*</span>
         - Revise the way to detect whether GNU screen is available or not.
