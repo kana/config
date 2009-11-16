@@ -1,5 +1,5 @@
 " fakeclip - pseude clipboard register for non-GUI version of Vim
-" Version: 0.2.5
+" Version: 0.2.6
 " Copyright (C) 2008-2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -165,7 +165,12 @@ function! s:read_pastebuffer_gnuscreen()
     "        flushed yet -- but, how to wait?
     " call system(printf('while ! test -f %s; do true; done',
     " \                  shellescape(_)))
-  let content = join(readfile(_, 'b'), "\n")
+    "
+    " NB: "writebuf" creates an empty file if the paste buffer is emptied by
+    "     "readbuf /dev/null", but it doesn't create any file is the paste
+    "     buffer is emptied by "register . ''".  So here we have to check the
+    "     existence of the temporary file.
+  let content = filereadable(_) ? join(readfile(_, 'b'), "\n") : ''
   call delete(_)
   return content
 endfunction
@@ -242,7 +247,7 @@ endfunction
 
 
 function! s:write_pastebuffer_unknown(lines)
-  echoerr 'GNU screen is not available'
+  echoerr 'Paste buffer is not available'
   return
 endfunction
 
