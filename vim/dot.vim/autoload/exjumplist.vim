@@ -55,6 +55,17 @@ endfunction
 
 
 " Misc.  "{{{1
+function! exjumplist#_scope()  "{{{2
+  return s:
+endfunction
+
+
+
+
+function! exjumplist#_sid()  "{{{2
+  nnoremap <SID>  <SID>
+  return maparg('<SID>', 'n')
+endfunction
 
 
 
