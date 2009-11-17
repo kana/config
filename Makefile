@@ -883,6 +883,18 @@ test/gitconfig-compiler/%.output: \
 	@ruby gitconfig-compiler.rb <$< 2>&1 | sed "s|$$HOME|HOME|" >$@
 
 
+# vim-exjumplist  #{{{2
+TESTS_vim_exjumplist = misc ui
+
+test/vim-exjumplist/%.output: \
+		test/vim-exjumplist/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim \
+		vim/dot.vim/autoload/exjumplist.vim \
+		vim/dot.vim/plugin/exjumplist.vim
+	@./test/vspec $< &>$@
+
+
 # vim-fakeclip  #{{{2
 TESTS_vim_fakeclip = \
 		clipboard-cygwin \
