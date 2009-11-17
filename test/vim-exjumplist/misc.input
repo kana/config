@@ -5,9 +5,6 @@
 
   " Ensure that jumplist is not empty.
 silent help | normal! 1G10G100G
-  " Ensure that <C-i> can be executed from Vim script.
-  " Because :execute 'normal!' "\<C-i>" raises E471.
-nnoremap <LT>C-i>  <C-i>
 
 runtime! plugin/exjumplist.vim
 call vspec#hint({'scope': 'exjumplist#_scope()', 'sid': 'exjumplist#_sid()'})
@@ -28,7 +25,7 @@ function s:describe__jumplist_info()  "{{{1
 
   It should return valid values after <C-i>
 
-  execute 'normal' '<C-i>'
+  execute 'normal' "\<Plug>(exjumplist-%-next-position)"
   let [o3, n3] = Call('s:jumplist_info')
   Should o3 - 1 == o2
   Should n3 + 1 == n2
