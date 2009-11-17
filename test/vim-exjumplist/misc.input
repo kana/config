@@ -1,0 +1,46 @@
+" Test: vim-exjumplist misc
+"
+" NB: There is no way to reset jumplist easily,
+"     so that all tests in this file may have side effects.
+
+  " Ensure that jumplist is not empty.
+silent help | normal! 1G10G100G
+  " Ensure that <C-i> can be executed from Vim script.
+  " Because :execute 'normal!' "\<C-i>" raises E471.
+nnoremap <LT>C-i>  <C-i>
+
+runtime! plugin/exjumplist.vim
+call vspec#hint({'scope': 'exjumplist#_scope()', 'sid': 'exjumplist#_sid()'})
+function s:describe__jumplist_info()  "{{{1
+  It should return valid values
+
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 >= 0
+  Should n1 >= 0
+  Should o1 + n1 > 0
+
+  It should return valid values after <C-o>
+
+  execute 'normal!' "\<C-o>"
+  let [o2, n2] = Call('s:jumplist_info')
+  Should o2 + 1 == o1
+  Should n2 - 1 == n1
+
+  It should return valid values after <C-i>
+
+  execute 'normal' '<C-i>'
+  let [o3, n3] = Call('s:jumplist_info')
+  Should o3 - 1 == o2
+  Should n3 + 1 == n2
+  Should o3 == o1
+  Should n3 == n1
+
+  " FIXME: Test for older_count == 0
+  " FIXME: Test for newer_count == 0
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

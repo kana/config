@@ -70,6 +70,58 @@ endfunction
 
 
 
+function! s:jumplist_info()  "{{{2
+  redir => jumplist
+  silent jumps
+  redir END
+
+  " ids = [..., 3, 2, 1, 1, 2, 3, ...]
+  "    or [..., 3, 2, 1]
+  "    or [1, 2, 3, ...]
+  let ids = split(jumplist, '\n')
+  call map(ids, 'matchstr(v:val, ''^\s*\zs\d\+\ze\s\+\d\+\s\+\d\+\s\+.*$'')')
+  call filter(ids, 'v:val != ""')
+
+  " ids = [..., 3, 2, 1, 1, 2, 3, ...]
+  "          ... +1 +1  0 -1 -1 ...
+  "        |           ||           |
+  "        `-----------'`-----------'
+  "         older_count  newer_count
+  "    or [..., 3, 2, 1]
+  "          ... +1 +1
+  "        |          |
+  "        `----------'
+  "       older_count - 1
+  "    or [1, 2, 3, ...]
+  "         -1 -1 ...
+  "        |          |
+  "        `----------'
+  "       newer_count - 1
+  let older_count = 0
+  let newer_count = 0
+  for i in range(1, len(ids) - 1)
+    let diff = ids[i - 1] - ids[i]
+    if 0 <= diff
+      let older_count += 1
+    endif
+    if diff <= 0
+      let newer_count += 1
+    endif
+  endfor
+
+  if older_count == 0
+    let newer_count += 1
+  endif
+  if newer_count == 0
+    let older_count += 1
+  endif
+
+  return [older_count, newer_count]
+endfunction
+
+
+
+
 
 
 

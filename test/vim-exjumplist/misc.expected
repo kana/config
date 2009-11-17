@@ -1,7 +1,14 @@
+==== jumplist_info 
+---- It should return valid values 
+...
+---- It should return valid values after <C-o> 
+..
+---- It should return valid values after <C-i> 
+....
 
 
 
 **** Result ****
 
 
-0 examples, 0 failures
+9 examples, 0 failures
