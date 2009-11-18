@@ -10,6 +10,20 @@
 ---- It should go to the last position in jumplist 
 ...
 
+==== exjumplist_next_buffer at last buffer
+---- It requires the following initialization 
+...
+---- It should does nothing at the last buffer 
+...
+
+==== exjumplist_next_buffer at middle
+---- It requires the following initialization 
+....
+---- It should go to the next buffer - usr_06.txt 
+...
+---- It should go to the next buffer - usr_07.txt 
+...
+
 ==== s_jumplist_info at first
 ---- It should return valid values 
 ...
@@ -41,4 +55,4 @@
 **** Result ****
 
 
-41 examples, 0 failures
+57 examples, 0 failures

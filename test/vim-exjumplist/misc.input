@@ -54,6 +54,74 @@ endfunction
 
 
 
+function s:describe__exjumplist_next_buffer__at_last_buffer()  "{{{1
+  It requires the following initialization
+
+  silent help usr_05.txt
+  silent help usr_06.txt
+  silent help usr_07.txt
+  normal! 10G
+  execute 'normal!' "\<C-o>"
+
+  let [o0, n0] = Call('s:jumplist_info')
+  let bufnr0 = bufnr('')
+  Should o0 >= 3
+  Should n0 == 1
+  Should o0 + n0 >= 4
+
+  It should does nothing at the last buffer
+
+  silent call exjumplist#next_buffer()
+  let [o1, n1] = Call('s:jumplist_info')
+  let bufnr1 = bufnr('')
+  Should o1 == o0
+  Should n1 == n0
+  Should bufnr1 == bufnr0
+endfunction
+
+
+
+
+function s:describe__exjumplist_next_buffer__at_middle()  "{{{1
+  It requires the following initialization
+
+  silent help usr_05.txt
+  let bufnr5 = bufnr('')
+  normal! 5G
+  silent help usr_06.txt
+  let bufnr6 = bufnr('')
+  normal! 6G
+  silent help usr_07.txt
+  let bufnr7 = bufnr('')
+  normal! 7G
+  silent execute 'normal!' "4\<C-o>"
+
+  let [o0, n0] = Call('s:jumplist_info')
+  Should o0 >= 1
+  Should n0 == 4
+  Should o0 + n0 >= 5
+  Should bufnr('') == bufnr5
+
+  It should go to the next buffer - usr_06.txt
+
+  silent call exjumplist#next_buffer()
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 == o0 + 1
+  Should n1 == n0 - 1
+  Should bufnr('') == bufnr6
+
+  It should go to the next buffer - usr_07.txt
+
+  silent call exjumplist#next_buffer()
+  let [o2, n2] = Call('s:jumplist_info')
+  Should o2 == o1 + 2
+  Should n2 == n1 - 2
+  Should bufnr('') == bufnr7
+endfunction
+
+
+
+
 function s:describe__s_jumplist_info__at_first()  "{{{1
   " Set up jumplist - 0 / 3+
   silent help usr_01.txt
