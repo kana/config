@@ -1,0 +1,208 @@
+" Test: vim-exjumplist ui
+"
+" NB: There is no way to reset jumplist easily,
+"     so that all tests in this file may have side effects.
+
+runtime! plugin/exjumplist.vim
+call vspec#hint({'scope': 'exjumplist#_scope()', 'sid': 'exjumplist#_sid()'})
+function s:describe__exjumplist_go_first()  "{{{1
+  It requires the following initialization
+
+  silent help usr_03.txt
+  normal! 10G
+  normal! 100G
+
+  let [o0, n0] = Call('s:jumplist_info')
+  Should o0 >= 3
+  Should n0 == 0
+  Should o0 + n0 >= 3
+
+  It should go to the first position in jumplist
+
+  silent execute 'normal' "\<Plug>(exjumplist-go-first)"
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 == 0
+  Should n1 >= 3
+  Should n1 == o0
+endfunction
+
+
+
+
+function s:describe__exjumplist_go_last()  "{{{1
+  It requires the following initialization
+
+  silent help usr_04.txt
+  normal! 10G
+  normal! 100G
+  silent call exjumplist#go_first()
+
+  let [o0, n0] = Call('s:jumplist_info')
+  Should o0 == 0
+  Should n0 >= 3
+  Should o0 + n0 >= 3
+
+  It should go to the last position in jumplist
+
+  silent execute 'normal' "\<Plug>(exjumplist-go-last)"
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 >= 3
+  Should n1 == 0
+  Should o1 == n0
+endfunction
+
+
+
+
+function s:describe__exjumplist_next_buffer__at_last_buffer()  "{{{1
+  It requires the following initialization
+
+  silent help usr_05.txt
+  silent help usr_06.txt
+  silent help usr_07.txt
+  normal! 10G
+  execute 'normal!' "\<C-o>"
+
+  let [o0, n0] = Call('s:jumplist_info')
+  let bufnr0 = bufnr('')
+  Should o0 >= 3
+  Should n0 == 1
+  Should o0 + n0 >= 4
+
+  It should does nothing at the last buffer
+
+  silent execute 'normal' "\<Plug>(exjumplist-next-buffer)"
+  let [o1, n1] = Call('s:jumplist_info')
+  let bufnr1 = bufnr('')
+  Should o1 == o0
+  Should n1 == n0
+  Should bufnr1 == bufnr0
+endfunction
+
+
+
+
+function s:describe__exjumplist_next_buffer__at_middle()  "{{{1
+  It requires the following initialization
+
+  silent help usr_05.txt
+  let bufnr5 = bufnr('')
+  normal! 5G
+  silent help usr_06.txt
+  let bufnr6 = bufnr('')
+  normal! 6G
+  silent help usr_07.txt
+  let bufnr7 = bufnr('')
+  normal! 7G
+  silent execute 'normal!' "4\<C-o>"
+
+  let [o0, n0] = Call('s:jumplist_info')
+  Should o0 >= 1
+  Should n0 == 4
+  Should o0 + n0 >= 5
+  Should bufnr('') == bufnr5
+
+  It should go to the next buffer - usr_06.txt
+
+  silent execute 'normal' "\<Plug>(exjumplist-next-buffer)"
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 == o0 + 1
+  Should n1 == n0 - 1
+  Should bufnr('') == bufnr6
+
+  It should go to the next buffer - usr_07.txt
+
+  silent execute 'normal' "\<Plug>(exjumplist-next-buffer)"
+  let [o2, n2] = Call('s:jumplist_info')
+  Should o2 == o1 + 2
+  Should n2 == n1 - 2
+  Should bufnr('') == bufnr7
+endfunction
+
+
+
+
+function s:describe__exjumplist_previous_buffer__at_first_buffer()  "{{{1
+  It requires the following initialization
+
+  silent help usr_25.txt
+  silent help usr_26.txt
+  silent help usr_27.txt
+  silent call exjumplist#go_first()
+
+  let [o0, n0] = Call('s:jumplist_info')
+  let bufnr0 = bufnr('')
+  Should o0 == 0
+  Should n0 >= 3
+  Should o0 + n0 >= 3
+
+  It should does nothing at the first buffer
+
+  silent execute 'normal' "\<Plug>(exjumplist-previous-buffer)"
+  let [o1, n1] = Call('s:jumplist_info')
+  let bufnr1 = bufnr('')
+  Should o1 == o0
+  Should n1 == n0
+  Should bufnr1 == bufnr0
+endfunction
+
+
+
+
+function s:describe__exjumplist_previous_buffer__at_middle()  "{{{1
+  It requires the following initialization
+
+  silent help usr_25.txt
+  silent help usr_26.txt
+  silent help usr_27.txt
+  silent call exjumplist#go_first()
+  silent call exjumplist#next_buffer()
+  silent call exjumplist#next_buffer()
+
+  let [o0, n0] = Call('s:jumplist_info')
+  let bufnr0 = bufnr('')
+  Should o0 >= 2
+  Should n0 >= 1
+  Should o0 + n0 >= 3
+
+  It should go to the previous buffer
+
+  silent execute 'normal' "\<Plug>(exjumplist-previous-buffer)"
+  let [o1, n1] = Call('s:jumplist_info')
+  let bufnr1 = bufnr('')
+  Should o1 < o0
+  Should n1 > n0
+  Should bufnr1 != bufnr0
+
+  It should go to the previous buffer - 2nd time
+
+  silent execute 'normal' "\<Plug>(exjumplist-previous-buffer)"
+  let [o2, n2] = Call('s:jumplist_info')
+  let bufnr2 = bufnr('')
+  Should o2 < o1
+  Should n2 > n1
+  Should bufnr2 != bufnr1
+  Should bufnr1 != bufnr0
+endfunction
+
+
+
+
+function s:describe__named_key_mappings()  "{{{1
+  It should be defined in Normal mode only
+
+  Should maparg('<Plug>(exjumplist-go-first)', 'n')
+  \ =~# 'exjumplist#go_first()'
+  Should maparg('<Plug>(exjumplist-go-last)', 'n')
+  \ =~# 'exjumplist#go_last()'
+  Should maparg('<Plug>(exjumplist-next-buffer)', 'n')
+  \ =~# 'exjumplist#next_buffer()'
+  Should maparg('<Plug>(exjumplist-previous-buffer)', 'n')
+  \ =~# 'exjumplist#previous_buffer()'
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
