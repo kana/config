@@ -1,4 +1,8 @@
-==== jumplist_info 
+==== s_jumplist_info at first
+
+==== s_jumplist_info at last
+
+==== s_jumplist_info at middle
 ---- It should return valid values 
 ...
 ---- It should return valid values after <C-o> 

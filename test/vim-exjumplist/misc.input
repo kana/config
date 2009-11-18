@@ -3,18 +3,35 @@
 " NB: There is no way to reset jumplist easily,
 "     so that all tests in this file may have side effects.
 
-  " Ensure that jumplist is not empty.
-silent help | normal! 1G10G100G
-
 runtime! plugin/exjumplist.vim
 call vspec#hint({'scope': 'exjumplist#_scope()', 'sid': 'exjumplist#_sid()'})
-function s:describe__jumplist_info()  "{{{1
+function s:describe__s_jumplist_info__at_first()  "{{{1
+  " FIXME: NIY
+endfunction
+
+
+
+
+function s:describe__s_jumplist_info__at_last()  "{{{1
+  " FIXME: NIY
+endfunction
+
+
+
+
+function s:describe__s_jumplist_info__at_middle()  "{{{1
+  " Set up jumplist - 2+ / 1
+  silent help
+  normal! 10G
+  normal! 100G
+  execute 'normal!' "\<C-o>"
+
   It should return valid values
 
   let [o1, n1] = Call('s:jumplist_info')
-  Should o1 >= 0
-  Should n1 >= 0
-  Should o1 + n1 > 0
+  Should o1 >= 2
+  Should n1 >= 1
+  Should o1 + n1 >= 3
 
   It should return valid values after <C-o>
 
@@ -31,9 +48,6 @@ function s:describe__jumplist_info()  "{{{1
   Should n3 + 1 == n2
   Should o3 == o1
   Should n3 == n1
-
-  " FIXME: Test for older_count == 0
-  " FIXME: Test for newer_count == 0
 endfunction
 
 
