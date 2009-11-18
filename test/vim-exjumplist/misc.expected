@@ -1,3 +1,9 @@
+==== exjumplist_go_first 
+---- It requires the following initialization 
+...
+---- It should go to the first position in jumplist 
+...
+
 ==== s_jumplist_info at first
 ---- It should return valid values 
 ...
@@ -29,4 +35,4 @@
 **** Result ****
 
 
-29 examples, 0 failures
+35 examples, 0 failures

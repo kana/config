@@ -5,6 +5,30 @@
 
 runtime! plugin/exjumplist.vim
 call vspec#hint({'scope': 'exjumplist#_scope()', 'sid': 'exjumplist#_sid()'})
+function s:describe__exjumplist_go_first()  "{{{1
+  It requires the following initialization
+
+  silent help usr_03.txt
+  normal! 10G
+  normal! 100G
+
+  let [o0, n0] = Call('s:jumplist_info')
+  Should o0 >= 3
+  Should n0 == 0
+  Should o0 + n0 >= 3
+
+  It should go to the first position in jumplist
+
+  silent call exjumplist#go_first()
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 == 0
+  Should n1 >= 3
+  Should n1 == o0
+endfunction
+
+
+
+
 function s:describe__s_jumplist_info__at_first()  "{{{1
   " Set up jumplist - 0 / 3+
   silent help usr_01.txt

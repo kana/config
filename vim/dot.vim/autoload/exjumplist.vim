@@ -23,7 +23,11 @@
 " }}}
 " Interface  "{{{1
 function! exjumplist#go_first()  "{{{2
-  " FIXME: NIY
+  let [older_count, newer_count] = Call('s:jumplist_info')
+
+  for _ in range(older_count)
+    execute 'normal!' "\<C-o>"
+  endfor
 endfunction
 
 
