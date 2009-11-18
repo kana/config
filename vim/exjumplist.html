@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vim: exjumplist - Extra commands for jumplist</title>
+<meta name="Generator" content="Vim/7.2" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+<!--
+.Statement { color: #008080; font-weight: bold; }
+.Identifier { color: #804000; text-decoration: underline; }
+.PreProc { color: #c000c0; text-decoration: underline; }
+.Special { color: #c000c0; font-weight: bold; }
+.Comment { color: #c00000; font-weight: bold; }
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Ignore { color: #ffffff; }
+.Constant { color: #0000c0; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Ignore">*</span><span class="Constant" id="exjumplist.txt">exjumplist.txt</span><span class="Ignore">*</span>        Extra commands for jumplist
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    &quot;Software&quot;), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+<span class="Statement">CONTENTS                                        </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-contents">exjumplist-contents</span><span class="Ignore">*</span>
+
+Introduction            <span class="Ignore">|</span><a href="exjumplist.html#exjumplist-introduction"><span class="Identifier">exjumplist-introduction</span></a><span class="Ignore">|</span>
+Interface               <span class="Ignore">|</span><a href="exjumplist.html#exjumplist-interface"><span class="Identifier">exjumplist-interface</span></a><span class="Ignore">|</span>
+  Functions               <span class="Ignore">|</span><a href="exjumplist.html#exjumplist-functions"><span class="Identifier">exjumplist-functions</span></a><span class="Ignore">|</span>
+  Key Mappings            <span class="Ignore">|</span><a href="exjumplist.html#exjumplist-key-mappings"><span class="Identifier">exjumplist-key-mappings</span></a><span class="Ignore">|</span>
+Customizing             <span class="Ignore">|</span><span class="Identifier">exjumplist-customizing</span><span class="Ignore">|</span>
+Bugs                    <span class="Ignore">|</span><a href="exjumplist.html#exjumplist-bugs"><span class="Identifier">exjumplist-bugs</span></a><span class="Ignore">|</span>
+Changelog               <span class="Ignore">|</span><a href="exjumplist.html#exjumplist-changelog"><span class="Identifier">exjumplist-changelog</span></a><span class="Ignore">|</span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTRODUCTION                                    </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-introduction">exjumplist-introduction</span><span class="Ignore">*</span>
+
+<span class="Ignore">*</span><span class="Constant" id="exjumplist">exjumplist</span><span class="Ignore">*</span> is a Vim plugin to provide extra commands for <span class="Ignore">|</span><span class="Identifier">jumplist</span><span class="Ignore">|</span>:
+
+- Go to the next/previous position in different buffer.
+- Go to the first/last position in jumplist
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+<span class="Constant"><a href="http://github.com/kana/config/commits/vim-exjumplist">http://github.com/kana/config/commits/vim-exjumplist</a></span>
+
+Document in HTML format:
+<span class="Constant"><a href="http://kana.github.com/config/vim/exjumplist.html">http://kana.github.com/config/vim/exjumplist.html</a></span>
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">INTERFACE                                       </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-interface">exjumplist-interface</span><span class="Ignore">*</span>
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-functions">exjumplist-functions</span><span class="Ignore">*</span>
+
+exjumplist#go_first()                           <span class="Ignore">*</span><span class="Constant" id="exjumplist#go_first()">exjumplist#go_first()</span><span class="Ignore">*</span>
+exjumplist#go_last()                            <span class="Ignore">*</span><span class="Constant" id="exjumplist#go_last()">exjumplist#go_last()</span><span class="Ignore">*</span>
+exjumplist#next_buffer()                        <span class="Ignore">*</span><span class="Constant" id="exjumplist#next_buffer()">exjumplist#next_buffer()</span><span class="Ignore">*</span>
+exjumplist#previous_buffer()                    <span class="Ignore">*</span><span class="Constant" id="exjumplist#previous_buffer()">exjumplist#previous_buffer()</span><span class="Ignore">*</span>
+                        Function versions of the following key mappings:
+                        - <span class="Ignore">|</span><a href="exjumplist.html#&lt;Plug&gt;(exjumplist-go-first)"><span class="Identifier">&lt;Plug&gt;(exjumplist-go-first)</span></a><span class="Ignore">|</span>
+                        - <span class="Ignore">|</span><a href="exjumplist.html#&lt;Plug&gt;(exjumplist-go-first)"><span class="Identifier">&lt;Plug&gt;(exjumplist-go-first)</span></a><span class="Ignore">|</span>
+                        - <span class="Ignore">|</span><a href="exjumplist.html#&lt;Plug&gt;(exjumplist-next-buffer)"><span class="Identifier">&lt;Plug&gt;(exjumplist-next-buffer)</span></a><span class="Ignore">|</span>
+                        - <span class="Ignore">|</span><a href="exjumplist.html#&lt;Plug&gt;(exjumplist-previous-buffer)"><span class="Identifier">&lt;Plug&gt;(exjumplist-previous-buffer)</span></a><span class="Ignore">|</span>
+
+
+<span class="PreProc">------------------------------------------------------------------------------</span>
+<span class="Statement">KEY MAPPINGS                                    </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-key-mappings">exjumplist-key-mappings</span><span class="Ignore">*</span>
+
+<span class="Statement">DEFAULT KEY MAPPINGS                         </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-default-key-mappings">exjumplist-default-key-mappings</span><span class="Ignore">*</span>
+
+There is no default key mapping.
+
+
+<span class="Statement">NAMED KEY MAPPINGS                             </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-named-key-mappings">exjumplist-named-key-mappings</span><span class="Ignore">*</span>
+
+The following key mappings are defined in Normal mode.
+
+<span class="Special">&lt;Plug&gt;</span>(exjumplist-go-first)                     <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(exjumplist-go-first)">&lt;Plug&gt;(exjumplist-go-first)</span><span class="Ignore">*</span>
+                        Go to the first (oldest) position in jumplist.
+
+<span class="Special">&lt;Plug&gt;</span>(exjumplist-go-last)                      <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(exjumplist-go-last)">&lt;Plug&gt;(exjumplist-go-last)</span><span class="Ignore">*</span>
+                        Go to the last (newest) position in jumplist.
+
+<span class="Special">&lt;Plug&gt;</span>(exjumplist-next-buffer)                <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(exjumplist-next-buffer)">&lt;Plug&gt;(exjumplist-next-buffer)</span><span class="Ignore">*</span>
+                        Go to the next position in a buffer which is different
+                        to the current buffer.
+
+<span class="Special">&lt;Plug&gt;</span>(exjumplist-previous-buffer)        <span class="Ignore">*</span><span class="Constant" id="&lt;Plug&gt;(exjumplist-previous-buffer)">&lt;Plug&gt;(exjumplist-previous-buffer)</span><span class="Ignore">*</span>
+                        Go to the previous position in a buffer which is
+                        different to the current buffer.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CUSTOMIZATION                                   </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-customization">exjumplist-customization</span><span class="Ignore">*</span>
+
+To use commands provided by this plugin, add the following in your <span class="Ignore">|</span><span class="Identifier">vimrc</span><span class="Ignore">|</span>:
+<span class="Ignore">&gt;</span>
+<span class="Comment">        nmap &lt;C-M-i&gt;  &lt;Plug&gt;(exjumplist-go-last)</span>
+<span class="Comment">        nmap &lt;C-M-o&gt;  &lt;Plug&gt;(exjumplist-go-first)</span>
+<span class="Comment">        nmap &lt;M-)&gt;  &lt;Plug&gt;(exjumplist-next-buffer)</span>
+<span class="Comment">        nmap &lt;M-(&gt;  &lt;Plug&gt;(exjumplist-previous-buffer)</span>
+<span class="Ignore">&lt;</span>
+The above configuration is just an example.  Modify it for your taste.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">BUGS                                            </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-bugs">exjumplist-bugs</span><span class="Ignore">*</span>
+
+- There is no known issue.
+
+- Welcome your feedback.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+<span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="exjumplist-changelog">exjumplist-changelog</span><span class="Ignore">*</span>
+
+0.0.0   2009-11-12T22:50:06+09:00               <span class="Ignore">*</span><span class="Constant" id="exjumplist-changelog-0.0.0">exjumplist-changelog-0.0.0</span><span class="Ignore">*</span>
+        - Initial version.
+
+
+
+
+<span class="PreProc">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
+</pre>
+</body>
+</html>
