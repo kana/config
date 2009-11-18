@@ -302,5 +302,22 @@ endfunction
 
 
 
+function s:describe__s_portable_count()  "{{{1
+  let SID = substitute(exjumplist#_sid(), '<SNR>', "\<SNR>", '')
+
+  It should empty string for count <= 0
+
+  Should Call('s:portable_count', 0) == ''
+  Should Call('s:portable_count', -100) == ''
+
+  It should portable count mappings for 1 <= count
+
+  Should Call('s:portable_count', 1) ==# SID . '1'
+  Should Call('s:portable_count', 123) ==# SID . '1' . SID . '2' . SID . '3'
+endfunction
+
+
+
+
 " __END__  "{{{1
 " vim: filetype=vim foldmethod=marker

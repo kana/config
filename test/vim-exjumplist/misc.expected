@@ -32,7 +32,7 @@
 
 ==== exjumplist_previous_buffer at middle
 ---- It requires the following initialization 
-...
+...
 ---- It should go to the previous buffer 
 ...
 ---- It should go to the previous buffer - 2nd time 
@@ -64,9 +64,15 @@
 ---- It should return valid values after <C-i> 
 ....
 
+==== s_portable_count 
+---- It should empty string for count <= 0 
+..
+---- It should portable count mappings for 1 <= count 
+..
+
 
 
 **** Result ****
 
 
-73 examples, 0 failures
+77 examples, 0 failures

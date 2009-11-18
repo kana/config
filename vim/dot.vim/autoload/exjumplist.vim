@@ -25,20 +25,18 @@
 function! exjumplist#go_first()  "{{{2
   let [older_count, newer_count] = s:jumplist_info()
 
-  for _ in range(older_count)
-    execute 'normal!' "\<C-o>"
-  endfor
+  execute 'normal!' older_count."\<C-o>"
 endfunction
 
 
 
 
-function! exjumplist#go_last()  "{{{2
+function! exjumplist#go_last()  
   let [older_count, newer_count] = s:jumplist_info()
 
-  for _ in range(newer_count)
-    execute 'normal' "\<Plug>(exjumplist-%-next-position)"
-  endfor
+  execute 'normal'
+  \       (s:portable_count(newer_count)
+  \        . "\<Plug>(exjumplist-%-next-position)")
 endfunction
 
 
@@ -107,6 +105,18 @@ endfunction
 " Because :execute 'normal!' "\<C-i>" raises E471.
 nnoremap <silent> <Plug>(exjumplist-%-next-position)  <C-i>
 
+" For portability on count.
+nnoremap <SID>0  0
+nnoremap <SID>1  1
+nnoremap <SID>2  2
+nnoremap <SID>3  3
+nnoremap <SID>4  4
+nnoremap <SID>5  5
+nnoremap <SID>6  6
+nnoremap <SID>7  7
+nnoremap <SID>8  8
+nnoremap <SID>9  9
+
 
 
 
@@ -172,6 +182,18 @@ function! s:jumplist_info()  "{{{2
   endif
 
   return [older_count, newer_count]
+endfunction
+
+
+
+
+function! s:portable_count(count)  "{{{2
+  if 1 <= a:count
+    let SID = substitute(exjumplist#_sid(), '<SNR>', "\<SNR>", '')
+    return join(map(split(string(a:count), '\zs\ze'), 'SID . v:val'), '')
+  else
+    return ''
+  endif
 endfunction
 
 
