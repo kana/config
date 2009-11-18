@@ -23,7 +23,7 @@
 " }}}
 " Interface  "{{{1
 function! exjumplist#go_first()  "{{{2
-  let [older_count, newer_count] = Call('s:jumplist_info')
+  let [older_count, newer_count] = s:jumplist_info()
 
   for _ in range(older_count)
     execute 'normal!' "\<C-o>"
@@ -34,7 +34,7 @@ endfunction
 
 
 function! exjumplist#go_last()  "{{{2
-  let [older_count, newer_count] = Call('s:jumplist_info')
+  let [older_count, newer_count] = s:jumplist_info()
 
   for _ in range(newer_count)
     execute 'normal' "\<Plug>(exjumplist-%-next-position)"
@@ -45,7 +45,7 @@ endfunction
 
 
 function! exjumplist#next_buffer()  "{{{2
-  let [older_count, newer_count] = Call('s:jumplist_info')
+  let [older_count, newer_count] = s:jumplist_info()
   let current_bufnr = bufnr('')
 
   for _ in range(newer_count)
@@ -71,7 +71,7 @@ endfunction
 
 
 function! exjumplist#previous_buffer()  "{{{2
-  let [older_count, newer_count] = Call('s:jumplist_info')
+  let [older_count, newer_count] = s:jumplist_info()
   let current_bufnr = bufnr('')
 
   for _ in range(older_count)
