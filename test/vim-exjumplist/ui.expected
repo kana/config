@@ -1,7 +1,50 @@
+==== exjumplist_go_first 
+---- It requires the following initialization 
+...
+---- It should go to the first position in jumplist 
+...
+
+==== exjumplist_go_last 
+---- It requires the following initialization 
+...
+---- It should go to the last position in jumplist 
+...
+
+==== exjumplist_next_buffer at last buffer
+---- It requires the following initialization 
+...
+---- It should does nothing at the last buffer 
+...
+
+==== exjumplist_next_buffer at middle
+---- It requires the following initialization 
+....
+---- It should go to the next buffer - usr_06.txt 
+...
+---- It should go to the next buffer - usr_07.txt 
+...
+
+==== exjumplist_previous_buffer at first buffer
+---- It requires the following initialization 
+...
+---- It should does nothing at the first buffer 
+...
+
+==== exjumplist_previous_buffer at middle
+---- It requires the following initialization 
+...
+---- It should go to the previous buffer 
+...
+---- It should go to the previous buffer - 2nd time 
+....
+
+==== named_key_mappings 
+---- It should be defined in Normal mode only 
+....
 
 
 
 **** Result ****
 
 
-0 examples, 0 failures
+48 examples, 0 failures
