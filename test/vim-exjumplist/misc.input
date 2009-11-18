@@ -6,14 +6,79 @@
 runtime! plugin/exjumplist.vim
 call vspec#hint({'scope': 'exjumplist#_scope()', 'sid': 'exjumplist#_sid()'})
 function s:describe__s_jumplist_info__at_first()  "{{{1
-  " FIXME: NIY
+  " Set up jumplist - 0 / 3+
+  silent help usr_01.txt
+  normal! 10G
+  normal! 100G
+  let [o0, n0] = Call('s:jumplist_info')
+  for i in range(o0)
+    silent execute 'normal!' "\<C-o>"
+  endfor
+
+  It should return valid values
+
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 == 0
+  Should n1 >= 3
+  Should o1 + n1 >= 3
+
+  It should return valid values after <C-o>
+
+    " No older position in jumplist - <C-o> does nothing.
+  execute 'normal!' "\<C-o>"
+  let [o2, n2] = Call('s:jumplist_info')
+  Should o2 == o1
+  Should n2 == n1
+
+  It should return valid values after <C-i>
+
+  silent execute 'normal' "\<Plug>(exjumplist-%-next-position)"
+  let [o3, n3] = Call('s:jumplist_info')
+  Should o3 - 1 == o2
+  Should n3 + 1 == n2
 endfunction
 
 
 
 
 function s:describe__s_jumplist_info__at_last()  "{{{1
-  " FIXME: NIY
+  " Set up jumplist - 3+ / 0
+  silent help usr_02.txt
+  normal! 10G
+  normal! 100G
+
+  It should return valid values
+
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 >= 3
+  Should n1 == 0
+  Should o1 + n1 >= 3
+
+  It should return valid values after <C-o>
+
+  execute 'normal!' "\<C-o>"
+  let [o2, n2] = Call('s:jumplist_info')
+  Should o2 + 1 == o1
+  Should n2 - 1 == n1
+
+  It should return valid values after <C-i>
+
+  execute 'normal' "\<Plug>(exjumplist-%-next-position)"
+  let [o3, n3] = Call('s:jumplist_info')
+  Should o3 - 1 == o2
+  Should n3 + 1 == n2
+  Should o3 == o1
+  Should n3 == n1
+
+  It should return valid values after one more <C-i>
+
+    " No newer position in jumplist - <C-i> does nothing.
+  execute 'normal' "\<Plug>(exjumplist-%-next-position)"
+  let [o4, n4] = Call('s:jumplist_info')
+  Should o4 == o3
+  Should n4 == n3
+  Should o4 == o1
+  Should n4 == n1
 endfunction
 
 

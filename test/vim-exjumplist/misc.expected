@@ -1,6 +1,20 @@
 ==== s_jumplist_info at first
+---- It should return valid values 
+...
+---- It should return valid values after <C-o> 
+..
+---- It should return valid values after <C-i> 
+..
 
 ==== s_jumplist_info at last
+---- It should return valid values 
+...
+---- It should return valid values after <C-o> 
+..
+---- It should return valid values after <C-i> 
+....
+---- It should return valid values after one more <C-i> 
+....
 
 ==== s_jumplist_info at middle
 ---- It should return valid values 
@@ -15,4 +29,4 @@
 **** Result ****
 
 
-9 examples, 0 failures
+29 examples, 0 failures
