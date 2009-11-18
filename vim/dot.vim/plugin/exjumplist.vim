@@ -38,10 +38,6 @@ nnoremap <silent> <Plug>(exjumplist-next-buffer)
 nnoremap <silent> <Plug>(exjumplist-previous-buffer)
 \                 :<C-u>call exjumplist#previous_buffer()<Return>
 
-  " Ensure that <C-i> can be executed from Vim script.
-  " Because :execute 'normal!' "\<C-i>" raises E471.
-nnoremap <silent> <Plug>(exjumplist-%-next-position)  <C-i>
-
 
 
 

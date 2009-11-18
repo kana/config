@@ -101,6 +101,15 @@ endfunction
 
 
 " Misc.  "{{{1
+" Key mappings  "{{{2
+
+" Ensure that <C-i> can be executed from Vim script.
+" Because :execute 'normal!' "\<C-i>" raises E471.
+nnoremap <silent> <Plug>(exjumplist-%-next-position)  <C-i>
+
+
+
+
 function! exjumplist#_scope()  "{{{2
   return s:
 endfunction
