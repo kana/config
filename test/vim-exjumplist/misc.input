@@ -4,6 +4,7 @@
 "     so that all tests in this file may have side effects.
 
 runtime! plugin/exjumplist.vim
+runtime! autoload/exjumplist.vim
 call vspec#hint({'scope': 'exjumplist#_scope()', 'sid': 'exjumplist#_sid()'})
 function s:describe__exjumplist_go_first()  "{{{1
   It requires the following initialization
