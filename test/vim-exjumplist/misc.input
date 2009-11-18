@@ -122,6 +122,72 @@ endfunction
 
 
 
+function s:describe__exjumplist_previous_buffer__at_first_buffer()  "{{{1
+  It requires the following initialization
+
+  silent help usr_25.txt
+  silent help usr_26.txt
+  silent help usr_27.txt
+  silent call exjumplist#go_first()
+
+  let [o0, n0] = Call('s:jumplist_info')
+  let bufnr0 = bufnr('')
+  Should o0 == 0
+  Should n0 >= 3
+  Should o0 + n0 >= 3
+
+  It should does nothing at the first buffer
+
+  silent call exjumplist#previous_buffer()
+  let [o1, n1] = Call('s:jumplist_info')
+  let bufnr1 = bufnr('')
+  Should o1 == o0
+  Should n1 == n0
+  Should bufnr1 == bufnr0
+endfunction
+
+
+
+
+function s:describe__exjumplist_previous_buffer__at_middle()  "{{{1
+  It requires the following initialization
+
+  silent help usr_25.txt
+  silent help usr_26.txt
+  silent help usr_27.txt
+  silent call exjumplist#go_first()
+  silent call exjumplist#next_buffer()
+  silent call exjumplist#next_buffer()
+
+  let [o0, n0] = Call('s:jumplist_info')
+  let bufnr0 = bufnr('')
+  Should o0 >= 2
+  Should n0 >= 1
+  Should o0 + n0 >= 3
+
+  It should go to the previous buffer
+
+  silent call exjumplist#previous_buffer()
+  let [o1, n1] = Call('s:jumplist_info')
+  let bufnr1 = bufnr('')
+  Should o1 < o0
+  Should n1 > n0
+  Should bufnr1 != bufnr0
+
+  It should go to the previous buffer - 2nd time
+
+  silent call exjumplist#previous_buffer()
+  let [o2, n2] = Call('s:jumplist_info')
+  let bufnr2 = bufnr('')
+  Should o2 < o1
+  Should n2 > n1
+  Should bufnr2 != bufnr1
+  Should bufnr1 != bufnr0
+endfunction
+
+
+
+
 function s:describe__s_jumplist_info__at_first()  "{{{1
   " Set up jumplist - 0 / 3+
   silent help usr_01.txt

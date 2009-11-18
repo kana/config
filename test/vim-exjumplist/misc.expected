@@ -24,6 +24,20 @@
 ---- It should go to the next buffer - usr_07.txt 
 ...
 
+==== exjumplist_previous_buffer at first buffer
+---- It requires the following initialization 
+...
+---- It should does nothing at the first buffer 
+...
+
+==== exjumplist_previous_buffer at middle
+---- It requires the following initialization 
+...
+---- It should go to the previous buffer 
+...
+---- It should go to the previous buffer - 2nd time 
+....
+
 ==== s_jumplist_info at first
 ---- It should return valid values 
 ...
@@ -55,4 +69,4 @@
 **** Result ****
 
 
-57 examples, 0 failures
+73 examples, 0 failures

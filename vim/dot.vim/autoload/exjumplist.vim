@@ -71,7 +71,26 @@ endfunction
 
 
 function! exjumplist#previous_buffer()  "{{{2
-  " FIXME: NIY
+  let [older_count, newer_count] = Call('s:jumplist_info')
+  let current_bufnr = bufnr('')
+
+  for _ in range(older_count)
+    execute 'normal!' "\<C-o>"
+
+    if bufnr('') != current_bufnr
+      break
+    endif
+  endfor
+
+  " The current buffer is not changed - restore jumplist state.
+  if bufnr('') == current_bufnr
+    for _ in range(older_count)
+      execute 'normal' "\<Plug>(exjumplist-%-next-position)"
+    endfor
+    echo 'Cannot go before the first buffer'
+  endif
+
+  return
 endfunction
 
 
