@@ -29,6 +29,31 @@ endfunction
 
 
 
+function s:describe__exjumplist_go_last()  "{{{1
+  It requires the following initialization
+
+  silent help usr_04.txt
+  normal! 10G
+  normal! 100G
+  silent call exjumplist#go_first()
+
+  let [o0, n0] = Call('s:jumplist_info')
+  Should o0 == 0
+  Should n0 >= 3
+  Should o0 + n0 >= 3
+
+  It should go to the last position in jumplist
+
+  silent call exjumplist#go_last()
+  let [o1, n1] = Call('s:jumplist_info')
+  Should o1 >= 3
+  Should n1 == 0
+  Should o1 == n0
+endfunction
+
+
+
+
 function s:describe__s_jumplist_info__at_first()  "{{{1
   " Set up jumplist - 0 / 3+
   silent help usr_01.txt

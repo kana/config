@@ -4,6 +4,12 @@
 ---- It should go to the first position in jumplist 
 ...
 
+==== exjumplist_go_last 
+---- It requires the following initialization 
+...
+---- It should go to the last position in jumplist 
+...
+
 ==== s_jumplist_info at first
 ---- It should return valid values 
 ...
@@ -35,4 +41,4 @@
 **** Result ****
 
 
-35 examples, 0 failures
+41 examples, 0 failures

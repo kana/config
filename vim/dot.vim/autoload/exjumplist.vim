@@ -34,7 +34,11 @@ endfunction
 
 
 function! exjumplist#go_last()  "{{{2
-  " FIXME: NIY
+  let [older_count, newer_count] = Call('s:jumplist_info')
+
+  for _ in range(newer_count)
+    execute 'normal' "\<Plug>(exjumplist-%-next-position)"
+  endfor
 endfunction
 
 
