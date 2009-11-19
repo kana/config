@@ -994,6 +994,19 @@ endfunction
 
 
 
+function! s:make_skip_regexp(s)  "{{{2
+  " 'abc' ==> '\Va*b*c'
+  " '\!/' ==> '\V\\*!*/'
+  " Here '*' means '\.\{-}'
+  let [xs, last] = [a:s[:-2], a:s[-1:]]
+  return ('\V'
+  \       . substitute(escape(xs, '\'), '\%(\\\\\|[^\\]\)\zs', '\\.\\{-}', 'g')
+  \       . escape(last, '\'))
+endfunction
+
+
+
+
 function! s:matched_lcandidates(lcandidates, args, source)  "{{{2
   let matched_lcandidates = []
 

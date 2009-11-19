@@ -375,6 +375,58 @@ endfunction
 
 
 
+function s:describe__s_make_skip_regexp()  "{{{1
+  It should return a valid value for normal text
+
+  Should Call('s:make_skip_regexp', '') ==# '\V'
+  Should Call('s:make_skip_regexp', 'a') ==# '\Va'
+  Should Call('s:make_skip_regexp', 'ab') ==# '\Va\.\{-}b'
+  Should Call('s:make_skip_regexp', 'abc') ==# '\Va\.\{-}b\.\{-}c'
+
+  Should match('a', Call('s:make_skip_regexp', 'abc')) == -1
+
+  Should match('abc', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('__abc', Call('s:make_skip_regexp', 'abc')) == 2
+  Should match('a__bc', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('ab__c', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('abc__', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('__a__b__c__', Call('s:make_skip_regexp', 'abc')) == 2
+
+  It should return a valid value for text with backslashes
+
+  Should Call('s:make_skip_regexp', '\') ==# '\V\\'
+  Should Call('s:make_skip_regexp', '\a') ==# '\V\\\.\{-}a'
+  Should Call('s:make_skip_regexp', 'a\b') ==# '\Va\.\{-}\\\.\{-}b'
+  Should Call('s:make_skip_regexp', 'abc\') ==# '\Va\.\{-}b\.\{-}c\.\{-}\\'
+
+  Should match('a', Call('s:make_skip_regexp', 'ab\')) == -1
+
+  Should match('ab\', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('__ab\', Call('s:make_skip_regexp', 'ab\')) == 2
+  Should match('a__b\', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('ab__\', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('ab\__', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('__a__b__\__', Call('s:make_skip_regexp', 'ab\')) == 2
+
+  It should return a valid value for text with wired charcters
+
+  Should Call('s:make_skip_regexp', '\!/') ==# '\V\\\.\{-}!\.\{-}/'
+  Should Call('s:make_skip_regexp', '/i\') ==# '\V/\.\{-}i\.\{-}\\'
+  Should Call('s:make_skip_regexp', '!@#$') ==# '\V!\.\{-}@\.\{-}#\.\{-}$'
+
+  Should match('a', Call('s:make_skip_regexp', '/i\')) == -1
+
+  Should match('/i\', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('__/i\', Call('s:make_skip_regexp', '/i\')) == 2
+  Should match('/__i\', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('/i__\', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('/i\__', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('__/__i__\__', Call('s:make_skip_regexp', '/i\')) == 2
+endfunction
+
+
+
+
 function s:describe__s_new_session()  "{{{1
   let F = function('function')
   let G = function('type')
