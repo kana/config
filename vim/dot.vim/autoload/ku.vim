@@ -454,7 +454,8 @@ endfunction
 
 
 
-function! s:aac_text(line, lcandidates)  "{{{2
+function! s:acc_text(line, lcandidates)  "{{{2
+  " ACC = Automatic Component Completion
   return ''
 endfunction
 
@@ -1075,7 +1076,7 @@ function! s:on_CursorMovedI()  "{{{2
       "        special character?  It's hard to make
       "        s:session.last_lcandidates reliable, isn't it?
       "        At this moment, we simply ignore such case.
-      let text = s:aac_text(line, s:session.last_lcandidates)
+      let text = s:acc_text(line, s:session.last_lcandidates)
       let s:inserted_by_acc_p = s:TRUE
       if text != ''
         " The last special character must be inserted in this way to forcedly
