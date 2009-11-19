@@ -260,6 +260,7 @@ ALL_PACKAGES=\
   vim-textobj-datetime \
   vim-textobj-diff \
   vim-textobj-entire \
+  vim-textobj-fatpack \
   vim-textobj-fold \
   vim-textobj-function \
   vim-textobj-indent \
@@ -568,6 +569,21 @@ PACKAGE_vim_textobj_entire_BASE=vim/dot.vim
 PACKAGE_vim_textobj_entire_FILES=\
   vim/dot.vim/doc/textobj-entire.txt \
   vim/dot.vim/plugin/textobj/entire.vim
+
+PACKAGE_vim_textobj_fatpack_ARCHIVE=vim-textobj-fatpack-0.0.0
+PACKAGE_vim_textobj_fatpack_BASE=vim/dot.vim
+PACKAGE_vim_textobj_fatpack_FILES=\
+  vim/dot.vim/doc/textobj-fatpack.txt \
+  $(PACKAGE_vim_textobj_datetime_FILES) \
+  $(PACKAGE_vim_textobj_diff_FILES) \
+  $(PACKAGE_vim_textobj_entire_FILES) \
+  $(PACKAGE_vim_textobj_fold_FILES) \
+  $(PACKAGE_vim_textobj_function_FILES) \
+  $(PACKAGE_vim_textobj_indent_FILES) \
+  $(PACKAGE_vim_textobj_jabraces_FILES) \
+  $(PACKAGE_vim_textobj_lastpat_FILES) \
+  $(PACKAGE_vim_textobj_syntax_FILES) \
+  $(PACKAGE_vim_textobj_user_FILES)
 
 PACKAGE_vim_textobj_fold_ARCHIVE=vim-textobj-fold-0.1.2
 PACKAGE_vim_textobj_fold_BASE=vim/dot.vim
