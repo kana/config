@@ -1,7 +1,7 @@
 *exjumplist.txt*	Extra commands for jumplist
 
 Version 0.0.0
-Script ID: ****
+Script ID: 2857
 Copyright (C) 2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining

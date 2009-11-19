@@ -1,0 +1,76 @@
+*textobj-fatpack.txt*	Various text objects in single package
+
+Version 0.0.0
+Script ID: 2858
+Copyright (C) 2009 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*textobj-fatpack-contents*
+
+Introduction            |textobj-fatpack-introduction|
+Changelog               |textobj-fatpack-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*textobj-fatpack-introduction*
+
+*textobj-fatpack* is a Vim plugin to provide many kinds of |text-objects|.  In
+other words, this is a meta package which includes the following plugins to
+provide various text objects:
+
+|textobj-datetime| 0.3.1 (vimscript#2101)    Date and time
+|textobj-diff|     0.0.0 (vimscript#2415)    Diff hunk
+|textobj-entire|   0.0.1 (vimscript#2610)    Entire buffer
+|textobj-fold|     0.1.2 (vimscript#2275)    Folding
+|textobj-function| 0.1.0 (vimscript#2619)    Function
+|textobj-indent|   0.0.3 (vimscript#2484)    Indented block
+|textobj-jabraces| 0.1.1 (vimscript#2276)    Japanese braces
+|textobj-lastpat|  0.0.0 (vimscript#2355)    Last search pattern
+|textobj-syntax|   0.0.0 (vimscript#2716)    Syntax highlighted item
+|textobj-user|     0.3.8 (vimscript#2100)    For your own one
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-textobj-fatpack
+
+Document in HTML format:
+http://kana.github.com/config/vim/textobj-fatpack.html
+
+
+
+
+==============================================================================
+CHANGELOG					*textobj-fatpack-changelog*
+
+0.0.0	2009-11-19T21:10:12+09:00	     *textobj-fatpack-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
