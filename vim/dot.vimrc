@@ -2334,6 +2334,16 @@ endfunction
 
 
 
+" exjumplist  "{{{2
+
+" <C-j>/<C-k> for consistency with my UI key mappings on jumplist.
+" BUGS: Inconsistency - <Esc>{x} is usually used for window-related operation.
+nmap <Esc><C-j>  <Plug>(exjumplist-next-buffer)
+nmap <Esc><C-k>  <Plug>(exjumplist-previous-buffer)
+
+
+
+
 " grex  "{{{2
 
 Arpeggio map od  <Plug>(operator-grex-delete)
