@@ -719,11 +719,11 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 "
 " :Lgrep is a :lgrep wrapper like :Grep.
 
-command! -bar -complete=file -nargs=+ Grepp  call s:grep('grep', [<f-args>])
+command! -bar -complete=file -nargs=+ Grep  call s:grep('grep', [<f-args>])
 command! -bar -complete=file -nargs=+ Lgrep  call s:grep('lgrep', [<f-args>])
 
 function! s:grep(command, args)
-  execute a:command '/'.[a:args][-1].'/' join([a:args][:-2])
+  execute a:command '/'.a:args[-1].'/' join(a:args[:-2])
 endfunction
 
 
@@ -2299,25 +2299,26 @@ endfunction
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
-\ call bundle#return(s:available_packages())
+\ call bundle#return(s:available_bundles())
 
 autocmd MyAutoCmd User BundleUndefined!:*
-\ call bundle#return(s:package_files(bundle#name()))
+\ call bundle#return(s:files_in_a_bundle(bundle#name()))
 
 
 let s:CONFIG_DIR = '~/working/config'
 let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
 
-function! s:available_packages()
-  return split(s:system('make -f '
-  \                     . shellescape(s:CONFIG_MAKEFILE)
-  \                     . ' list-available-packages'))
+function! s:available_bundles()
+  return split(s:system('make'
+  \                     . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
+  \                     . ' list-available-bundles'))
 endfunction
 
-function! s:package_files(name)
-  return map(split(s:system('make -f ' . shellescape(s:CONFIG_MAKEFILE)
+function! s:files_in_a_bundle(name)
+  return map(split(s:system('make'
+  \                         . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
   \                         . ' PACKAGE_NAME=' . a:name
-  \                         . ' list-files-in-a-package')),
+  \                         . ' list-files-in-a-bundle')),
   \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
 endfunction
 
@@ -2329,6 +2330,16 @@ function! s:system(command)
   endif
   return _
 endfunction
+
+
+
+
+" exjumplist  "{{{2
+
+" <C-j>/<C-k> for consistency with my UI key mappings on jumplist.
+" BUGS: Inconsistency - <Esc>{x} is usually used for window-related operation.
+nmap <Esc><C-j>  <Plug>(exjumplist-next-buffer)
+nmap <Esc><C-k>  <Plug>(exjumplist-previous-buffer)
 
 
 
