@@ -27,8 +27,10 @@
 	f = fetch
 	fix = commit --amend
 	l = log
-	l1 = log --pretty=oneline
-	lg = log --graph --pretty=oneline
+	l1 = log --pretty=oneline --abbrev-commit
+	l1f = log --pretty=oneline
+	lg = log --graph --pretty=oneline --abbrev-commit
+	lgf = log --graph --pretty=oneline
 	lr = <<<
 		n=10
 		1="${1:-$n}"
