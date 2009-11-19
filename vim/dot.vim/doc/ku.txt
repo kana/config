@@ -990,9 +990,6 @@ PLANNED FEATURES ~
 
 - Smart chaching.
 
-- Component completion like bluewind
-  <http://cspace.s2.xrea.com/software/bluewind/>.
-
 - In-line completion in any buffer, not only in |the-ku-buffer|.
 
 - More source attributes:
