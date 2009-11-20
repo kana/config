@@ -1,6 +1,87 @@
 " Test: vim-ku-core core-internal-misc
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__s_acc_text()  "{{{1
+  let cs1 = [{'word': 'usr/share/man/man1'}]
+  let cs2 = [
+  \   {'word': 'usr/share/w y 1'},
+  \   {'word': 'usr/share/ x z2'},
+  \   {'word': 'usr/share/w y 3'},
+  \   {'word': 'usr/share/ x z4'},
+  \ ]
+  let cs3 = [
+  \   {'word': 'bin/1/1'},
+  \   {'word': 'etc/2/2'},
+  \   {'word': 'usr/3/3'},
+  \   {'word': 'var/4/4'},
+  \ ]
+
+  It should complete valid text with len(line_components) == 2
+
+  Should Call('s:acc_text', Ref('s:PROMPT').'u/', cs1) ==# 'usr'
+
+  Should Call('s:acc_text', '/', cs1) ==# 'usr'
+  Should Call('s:acc_text', 'u/', cs1) ==# 'usr'
+  Should Call('s:acc_text', 's/', cs1) ==# 'usr'
+  Should Call('s:acc_text', 'sh/', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'm/', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', '1/', cs1) ==# 'usr/share/man/man1'
+
+  It should complete valid text with 3 <= len(line_components)
+
+  Should Call('s:acc_text', 'usr//', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'usr/s/', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'usr/sh/', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'usr/m/', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', 'usr/1/', cs1) ==# 'usr/share/man/man1'
+  Should Call('s:acc_text', 'usr/share/', cs1) ==# 'usr/share'
+
+  Should Call('s:acc_text', 'usr/share//', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', 'usr/share/m/', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', 'usr/share/1/', cs1) ==# 'usr/share/man/man1'
+
+  It should complete the candidate with minimum index if many candidates match
+
+  Should Call('s:acc_text', 'w/', cs2) ==# 'usr/share/w y 1'
+  Should Call('s:acc_text', 'x/', cs2) ==# 'usr/share/ x z2'
+  Should Call('s:acc_text', 'y/', cs2) ==# 'usr/share/w y 1'
+  Should Call('s:acc_text', 'z/', cs2) ==# 'usr/share/ x z2'
+
+  It should return '' if there is no proper candidate for a:line
+
+  Should Call('s:acc_text', 'x/', []) ==# ''
+  Should Call('s:acc_text', 'x/', cs1) ==# ''
+  Should Call('s:acc_text', '2/', cs1) ==# ''
+  Should Call('s:acc_text', 'u/s/m/', cs1) ==# ''
+
+  Should Call('s:acc_text', 'USR//', cs1) ==# ''
+
+  It should fail if a:line doesn't have two or more components
+
+  Should Call('s:acc_text', '', []) == ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:acc_text', '', cs1)
+  Should v:errmsg =~# '^ku:e2:'
+  Should _ == ''
+
+  It should ignore candidates which doesn't match to the prefix components
+
+  Should Call('s:acc_text', 'etc//', cs3) == 'etc/2'
+  Should Call('s:acc_text', 'var//', cs3) == 'var/4'
+
+  It should ignore candidates which doesn't match to the incomplete component
+
+  Should Call('s:acc_text', 'b/', cs3) == 'bin'
+  Should Call('s:acc_text', 'e/', cs3) == 'etc'
+  Should Call('s:acc_text', 'r/', cs3) == 'usr'
+  Should Call('s:acc_text', 'u/', cs3) == 'usr'
+  Should Call('s:acc_text', 'v/', cs3) == 'var'
+endfunction
+
+
+
+
 function s:describe__s_compare_ignorecase()  "{{{1
   It should return 0 for same characters with the same case
 

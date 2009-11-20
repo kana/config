@@ -456,7 +456,110 @@ endfunction
 
 function! s:acc_text(line, lcandidates)  "{{{2
   " ACC = Automatic Component Completion
-  return ''
+
+  " Note that a:line always ends with a special character which is one of
+  " g:ku_component_separators,  because this function is always called by
+  " typing a special character.  So there are at least 2 components in a:line.
+  let SEP = a:line[-1:]
+
+  let user_input_raw = s:remove_prompt(a:line)
+  let line_components = split(user_input_raw, SEP, s:TRUE)
+
+  " Find a candidate which has the same components but the last 2 ones of
+  " line_components.  Because line_components[-1] is always empty and
+  " line_components[-2] is almost imperfect name of a component.
+  "
+  " Example:
+  "
+  " (a) a:line ==# 'usr/share/m/',
+  "     line_components ==# ['usr', 'share', 'm', '']
+  "
+  "     The 1st candidate prefixed with 'usr/share/' will be used for ACC.
+  "     If 'usr/share/man/man1/' is found in this way,
+  "     the completed text will be 'usr/share/man'.
+  "
+  " (b) a:line ==# 'u/'
+  "     line_components ==# ['u', '']
+  "
+  "     The 1st candidate is alaways used for ACC.
+  "     If 'usr/share/man/man1/' is found in this way,
+  "     the completion text will be 'usr'.
+  "
+  " (c) a:line ==# 'm/'
+  "     line_components ==# ['m', '']
+  "
+  "     The 1st candidate is alaways used for ACC.
+  "     If 'usr/share/man/man1/' is found in this way,
+  "     the completion text will be 'usr/share/man'.
+  "     Because user seems to want to complete till the component which
+  "     matches to 'm'.
+  for candidate in a:lcandidates
+    let candidate_components = split(candidate.word, SEP, s:TRUE)
+
+    if len(line_components) < 2
+      echoerr 'ku:e2: Assumption on ACC is failed: ' . string(line_components)
+      continue
+    elseif len(line_components) == 2
+      " OK - the case (b) or (c)
+    elseif len(line_components) - 2 <= len(candidate_components)
+      for i in range(len(line_components) - 2)
+        if line_components[i] != candidate_components[i]
+          break
+        endif
+      endfor
+      if line_components[i] != candidate_components[i]
+        continue
+      endif
+      " OK - the case (a)
+    else
+      continue
+    endif
+
+    " Find the index of the last component to be completed.
+    "
+    " For example, with candidate ==# 'usr/share/man/man1':
+    "   If line_components ==# ['u', '']:
+    "     c == 2 - 2
+    "     i == 0
+    "     t ==# 'usr/share/man/man1'
+    "            ^
+    "   If line_components ==# ['m', '']:
+    "     c == 2 - 2
+    "     i == 10
+    "     t ==# 'usr/share/man/man1'
+    "                      ^
+    "   If line_components ==# ['usr', 'share', 'm', '']:
+    "     c == 4 - 2
+    "     i == 0
+    "     t ==# 'man/man1'
+    "            ^
+      " Count of 'prefix' components in line_components.
+      " 'prefix' components are all of line_components but the last two ones.
+    let c = len(line_components) - 2
+      " Pattern for the partially typed component = line_components[-2].
+    let p = '\c' . s:make_skip_regexp(line_components[-2])
+      " Tail of candidate.word without 'prefix' component in line_components.
+    let t = join(candidate_components[(c):], SEP)
+
+    let i = matchend(t, p)
+    if i < 0  " Partially typed component doesn't match for this candidate.
+      continue  " Try next one.
+    endif
+    let j = stridx(t, SEP, i)
+    if 0 <= j
+      " Several candidate_components are matched for ACC.
+      let index_to_preceding_char_to_SEP = -(len(t) - j + 1)
+      let index_to_the_tail_of_completed_text = index_to_preceding_char_to_SEP
+      let result = candidate.word[:index_to_the_tail_of_completed_text]
+    else
+      " All of candidate_components are matched for ACC.
+      let result = join(candidate_components, SEP)
+    endif
+
+    return result
+  endfor
+
+  return ''  " No proper candidate found
 endfunction
 
 

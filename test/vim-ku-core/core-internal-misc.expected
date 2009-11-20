@@ -1,3 +1,19 @@
+==== s_acc_text 
+---- It should complete valid text with len(line_components) == 2 
+.......
+---- It should complete valid text with 3 <= len(line_components) 
+.........
+---- It should complete the candidate with minimum index if many candidates match 
+....
+---- It should return '' if there is no proper candidate for a:line 
+.....
+---- It should fail if a:line doesn't have two or more components 
+...
+---- It should ignore candidates which doesn't match to the prefix components 
+..
+---- It should ignore candidates which doesn't match to the incomplete component 
+.....
+
 ==== s_compare_ignorecase 
 ---- It should return 0 for same characters with the same case 
 ..
@@ -161,4 +177,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-304 examples, 0 failures
+339 examples, 0 failures
