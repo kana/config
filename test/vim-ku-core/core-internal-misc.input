@@ -23,18 +23,30 @@ endfunction
 
 
 function s:describe__s_acc_text()  "{{{1
-  let cs1 = [{'word': 'usr/share/man/man1'}]
+  function! False(...)
+    return 0
+  endfunction
+  let source = {'valid_for_acc_p': function('ku#default_valid_for_acc_p')}
+  let source_f = {'valid_for_acc_p': function('False')}
+
+  let cs1 = [{'word': 'usr/share/man/man1', 'ku__source': source}]
   let cs2 = [
-  \   {'word': 'usr/share/w y 1'},
-  \   {'word': 'usr/share/ x z2'},
-  \   {'word': 'usr/share/w y 3'},
-  \   {'word': 'usr/share/ x z4'},
+  \   {'word': 'usr/share/w y 1', 'ku__source': source},
+  \   {'word': 'usr/share/ x z2', 'ku__source': source},
+  \   {'word': 'usr/share/w y 3', 'ku__source': source},
+  \   {'word': 'usr/share/ x z4', 'ku__source': source},
   \ ]
   let cs3 = [
-  \   {'word': 'bin/1/1'},
-  \   {'word': 'etc/2/2'},
-  \   {'word': 'usr/3/3'},
-  \   {'word': 'var/4/4'},
+  \   {'word': 'bin/1/1', 'ku__source': source},
+  \   {'word': 'etc/2/2', 'ku__source': source},
+  \   {'word': 'usr/3/3', 'ku__source': source},
+  \   {'word': 'var/4/4', 'ku__source': source},
+  \ ]
+  let cs4 = [
+  \   {'word': '1/X', 'ku__source': source_f},
+  \   {'word': '2/X', 'ku__source': source_f},
+  \   {'word': '3/X', 'ku__source': source},
+  \   {'word': '4/X', 'ku__source': source_f},
   \ ]
 
   It should complete valid text with len(line_components) == 2
@@ -67,6 +79,10 @@ function s:describe__s_acc_text()  "{{{1
   Should Call('s:acc_text', 'x/', cs2) ==# 'usr/share/ x z2'
   Should Call('s:acc_text', 'y/', cs2) ==# 'usr/share/w y 1'
   Should Call('s:acc_text', 'z/', cs2) ==# 'usr/share/ x z2'
+
+  It should complete a candidate which is valid_for_acc_p
+
+  Should Call('s:acc_text', 'X/', cs4) == '3/X'
 
   It should return '' if there is no proper candidate for a:line
 
@@ -683,6 +699,7 @@ function s:describe__s_on_CursorMovedI__on_ACC()  "{{{1
   It requires the following initialization
 
   set virtualedit=onemore
+  let source = {'valid_for_acc_p': function('ku#default_valid_for_acc_p')}
 
   It should not do ACC if a separator is s:inserted_by_acc_p
 
@@ -748,7 +765,9 @@ function s:describe__s_on_CursorMovedI__on_ACC()  "{{{1
   It should do ACC - there is a proper candidate
 
   let session = Call('s:new_session', [])
-  let session.last_lcandidates = [{'word': '/usr/share/man/man1/ls.1.gz'}]
+  let session.last_lcandidates = [
+  \ {'word': '/usr/share/man/man1/ls.1.gz', 'ku__source': source},
+  \ ]
   call Set('s:session', session)
   normal! o
   let _ = Ref('s:PROMPT') . '1' . g:ku_component_separators[0]
@@ -768,7 +787,9 @@ function s:describe__s_on_CursorMovedI__on_ACC()  "{{{1
   It should do ACC - there is no proper candidate
 
   let session = Call('s:new_session', [])
-  let session.last_lcandidates = [{'word': '/usr/share/man/man2/_exit.2.gz'}]
+  let session.last_lcandidates = [
+  \ {'word': '/usr/share/man/man2/_exit.2.gz', 'ku__source': source},
+  \ ]
   call Set('s:session', session)
   normal! o
   let _ = Ref('s:PROMPT') . '1' . g:ku_component_separators[0]

@@ -521,6 +521,10 @@ function! s:acc_text(line, lcandidates)  "{{{2
       continue
     endif
 
+    if !candidate.ku__source.valid_for_acc_p(candidate)
+      continue
+    endif
+
     " Find the index of the last component to be completed.
     "
     " For example, with candidate ==# 'usr/share/man/man1':

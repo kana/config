@@ -13,6 +13,8 @@
 .........
 ---- It should complete the candidate with minimum index if many candidates match 
 ....
+---- It should complete a candidate which is valid_for_acc_p 
+.
 ---- It should return '' if there is no proper candidate for a:line 
 .....
 ---- It should fail if a:line doesn't have two or more components 
@@ -201,4 +203,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-386 examples, 0 failures
+387 examples, 0 failures
