@@ -25,9 +25,9 @@
 
 
 
-function! ku#sorter#smart#sort(candidates, args)
+function! ku#sorter#smart#sort(lcandidates, args)
   " FIXME: NIY - use copy of sorter simple for a while
-  return sort(a:candidates, 's:compare')
+  return sort(a:lcandidates, 's:compare')
 endfunction
 
 
