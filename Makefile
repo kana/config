@@ -857,34 +857,34 @@ TESTS_vim_ku_core = \
 test/vim-ku-core/action-%.output: \
 		test/vim-ku-core/action-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_core) \
-		$(PACKAGE_vim_ku_FILES_actions) \
-		$(PACKAGE_vim_ku_FILES_kinds)
+		$(PACKAGE_vim_ku_core_FILES_core) \
+		$(PACKAGE_vim_ku_core_FILES_actions) \
+		$(PACKAGE_vim_ku_core_FILES_kinds)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/core-%.output: \
 		test/vim-ku-core/core-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES)
+		$(PACKAGE_vim_ku_core_FILES)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/kind-%.output: \
 		test/vim-ku-core/kind-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_core) \
-		$(PACKAGE_vim_ku_FILES_kinds)
+		$(PACKAGE_vim_ku_core_FILES_core) \
+		$(PACKAGE_vim_ku_core_FILES_kinds)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/matcher-%.output: \
 		test/vim-ku-core/matcher-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_matchers)
+		$(PACKAGE_vim_ku_core_FILES_matchers)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/sorter-%.output: \
 		test/vim-ku-core/sorter-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_sorters)
+		$(PACKAGE_vim_ku_core_FILES_sorters)
 	@./test/vspec $< &>$@
 
 
