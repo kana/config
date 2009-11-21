@@ -26,24 +26,25 @@ License: MIT license  {{{
 
 CONTENTS					*ku-contents*
 
-Introduction		|ku-introduction|
-Interface		|ku-interface|
-  Commands		  |ku-commands|
-  Functions		  |ku-functions|
-    Core		    |ku-functions-core|
-    Matchers		    |ku-functions-matchers|
-    Sorters		    |ku-functions-sorters|
-  Key Mapings		  |ku-key-mappings|
-  Pattern		  |ku-pattern|
-  Default Sources	  |ku-default-sources|
-  Common Action Table	  |ku-common-action-table|
-  Common Key Table	  |ku-common-key-table|
-Sources			|ku-sources|
-Kind			|ku-kind|
-Customizing		|ku-customizing|
-Terms			|ku-terms|
-Bugs			|ku-bugs|
-Changelog		|ku-changelog|
+Introduction				|ku-introduction|
+Interface				|ku-interface|
+  Commands				  |ku-commands|
+  Functions				  |ku-functions|
+    Core				    |ku-functions-core|
+    Matchers				    |ku-functions-matchers|
+    Sorters				    |ku-functions-sorters|
+  Key Mapings				  |ku-key-mappings|
+  Pattern				  |ku-pattern|
+  Automatic Component Completion	  |ku-automatic-component-completion|
+  Default Sources			  |ku-default-sources|
+  Common Action Table			  |ku-common-action-table|
+  Common Key Table			  |ku-common-key-table|
+Sources					|ku-sources|
+Kind					|ku-kind|
+Customizing				|ku-customizing|
+Terms					|ku-terms|
+Bugs					|ku-bugs|
+Changelog				|ku-changelog|
 
 
 
@@ -331,6 +332,46 @@ Inserted characters in |the-ku-buffer| are treated as a pattern.  ku uses this
 pattern to suggest more proper candidates.  The details are as follows:
 
 FIXME: Details of pattern.
+
+
+------------------------------------------------------------------------------
+AUTOMATIC COMPONENT COMPLETION		   *ku-automatic-component-completion*
+
+For example, when you use |ku-source-file| to explore files and directories,
+you will often want to list the content of a directory.  If the first
+candidate in the completion menu is 'usr/share/man/man1', you might want to
+replace (= complete) the current pattern in |the-ku-buffer| as follows:
+
+Input Pattern		Completed Pattern ~
+-------------		-----------------
+u/			usr/
+usr//			usr/share/
+usr/share//		usr/share/man/
+sh/			usr/share/		(*3)
+m/			usr/share/man/		(*3)
+
+And ku provides the above completion named "automatic completion completion".
+Whenever a special character (*1) is typed as a part of |ku-pattern|,
+appropriate components (*2) of the most proper candidate will be automatically
+inserted (= completed).
+
+This feature is derived from bluewind, a command-based application launcher
+for Microsoft Windows <http://cspace.s2.xrea.com/software/bluewind/>.
+
+See also:
+- |g:ku_component_separators|
+
+
+(*1) In the above example, '/' is a special character to activate this
+completion.  See also |g:ku_component_separators| for the details.
+
+(*2) In the above example, components are directories.  More precisely,
+components are just strings separated by a special character.  So in the above
+example, components are directory-like stuffs and they may not be directories.
+
+(*3) In these cases, ku completes more than 1 directories.  Because user seems
+to want to complete several directories rather than just 1 directory.  This
+behavior is not in bluewind, but it's useful.
 
 
 ------------------------------------------------------------------------------
@@ -836,6 +877,16 @@ CUSTOMIZING					*ku-customizing*
 FIXME: Description on customization.
 
 
+VARIABLES					*ku-variables*
+
+g:ku_component_separators			*g:ku_component_separators*
+	A string which represents special characters to activate
+	|ku-automatic-component-completion|.
+
+	The default value is '/\:', so if you insert '/', '\' or ':' in
+	|ku-pattern|, |ku-automatic-component-completion| will be activated.
+
+
 
 
 ==============================================================================
@@ -938,9 +989,6 @@ PLANNED FEATURES ~
 - Add more useful |ku-functions-sorters|.
 
 - Smart chaching.
-
-- Component completion like bluewind
-  <http://cspace.s2.xrea.com/software/bluewind/>.
 
 - In-line completion in any buffer, not only in |the-ku-buffer|.
 
