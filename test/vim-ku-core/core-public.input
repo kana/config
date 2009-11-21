@@ -827,6 +827,47 @@ endfunction
 
 
 
+function s:describe__ku_start__on_status_line()  "{{{1
+  It requires the following information to test its effect
+
+  let F = function('function')
+  Should ku#define_source({'gather_candidates': F, 'name': 'source_a'}) == 1
+  Should ku#define_source({'gather_candidates': F, 'name': 'source_b'}) == 1
+
+  It should show the name of a given source on the status line
+
+  Should ku#start(['source_a']) == 1
+
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should getline(1, line('$')) ==# ['Sources: source_a', '>']
+
+  close
+
+  It should show the names of given sources on the status line
+
+  Should ku#start(['source_a', 'source_b']) == 1
+
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+
+  Should getline(1, line('$')) ==# ['Sources: source_a, source_b', '>']
+
+  close
+
+  It requires to reset side effect
+
+  Should ku#start() == 1
+  Should nr2char(getchar(0)) ==# 'A'
+  Should nr2char(getchar(0)) ==# ''
+  bwipeout!
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__ku_take_action__candidate_ku__kinds()  "{{{1
   It requires the following initialization
 
