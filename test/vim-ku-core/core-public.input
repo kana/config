@@ -729,7 +729,7 @@ function s:describe__ku_start()  "{{{1
   Should &l:filetype ==# 'ku'
   Should [line('.'), col('.')] == [2, 1]
   Should bufnr('') != first_bufnr
-  Should getline(1, line('$')) ==# ['', '>']
+  Should getline(1, line('$')) ==# ['Sources: ', '>']
   Should winnr('$') == 2
   Should winnr() == 1
 
@@ -797,7 +797,7 @@ function s:describe__ku_start()  "{{{1
   Should nr2char(getchar(0)) ==# ''
 
   Should bufnr('') != first_bufnr
-  Should getline(1, line('$')) ==# ['', '>def']
+  Should getline(1, line('$')) ==# ['Sources: ', '>def']
   Should winnr('$') == 2
   Should winnr() == 1
 

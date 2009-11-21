@@ -317,6 +317,7 @@ function! ku#start(...)  "{{{2
   "       be done carefully.
   silent % delete _
   normal! o
+  call setline(s:LNUM_STATUS, 'Sources: ' . join(source_names, ', '))
   call setline(s:LNUM_PATTERN, s:PROMPT . initial_pattern)
   execute 'normal!' s:LNUM_PATTERN . 'G'
 
