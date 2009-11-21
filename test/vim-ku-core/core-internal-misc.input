@@ -1,6 +1,17 @@
 " Test: vim-ku-core core-internal-misc
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_default_valid_for_acc_p()  "{{{1
+  It should true for anything
+
+  Should ku#default_valid_for_acc_p(0) != 0
+  Should ku#default_valid_for_acc_p('') != 0
+  Should ku#default_valid_for_acc_p({'word': 'Quartett!'}) != 0
+endfunction
+
+
+
+
 function s:describe__s_acc_text()  "{{{1
   let cs1 = [{'word': 'usr/share/man/man1'}]
   let cs2 = [

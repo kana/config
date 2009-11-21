@@ -63,6 +63,7 @@ let s:NULL_SOURCE = {
 \   'matchers': [function('ku#matcher#default#matches_p')],
 \   'on_action': function('ku#default_on_action'),
 \   'sorters': [function('ku#sorter#default#sort')],
+\   'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
 \ }
 
 
@@ -234,6 +235,7 @@ function! ku#define_source(definition)  "{{{2
   \    && s:valid_key_p(new_source, 'matchers', 'list of functions')
   \    && s:valid_key_p(new_source, 'name', 'string')
   \    && s:valid_key_p(new_source, 'sorters', 'list of functions')
+  \    && s:valid_key_p(new_source, 'valid_for_acc_p', 'function')
   \  )
     return s:FALSE
   endif
@@ -392,6 +394,13 @@ nnoremap <SID>  <SID>
 
 function! ku#default_on_action(candidate)  "{{{2
   return a:candidate
+endfunction
+
+
+
+
+function! ku#default_valid_for_acc_p(candidate)  "{{{2
+  return s:TRUE  " Treat any candidate is valid for ACC.
 endfunction
 
 
