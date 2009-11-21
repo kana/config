@@ -174,7 +174,7 @@ ku buffer, ku will list files and directories in the archive file "foo.zip".
 If "foo.zip" contains "README.txt", "Makefile" and "bar.c", ku will list them
 as follows:
 >
-	Source: file
+	Sources: file
 	>foo.zip/
 	foo.zip/Makefile
 	foo.zip/README.txt
