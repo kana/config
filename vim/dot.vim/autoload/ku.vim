@@ -1194,6 +1194,7 @@ function! s:on_CursorMovedI()  "{{{2
       if text != ''
         " The last special character must be inserted in this way to forcedly
         " show the completion menu.
+          " FIXME: Should we update l:line for s:session.last_pattern_raw?
         call setline('.', text)
         let keys = "\<End>" . line[-1:]
         let s:session.inserted_by_acc_p = s:TRUE
