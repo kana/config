@@ -91,10 +91,6 @@ let s:custom_kind_action_tables = {}
 " custom-key-table = key-table = {key => action-name}
 let s:custom_kind_key_tables = {}
 
-" Is the last inserted character given by ACC or not?
-" (ACC = Automatic Component Completion)
-let s:inserted_by_acc_p = s:FALSE
-
 " buffer number of the ku buffer
 let s:ku_bufnr = s:INVALID_BUFNR
 
@@ -1131,6 +1127,7 @@ function! s:new_session(source_names)  "{{{2
 
     " Use list to ensure returning different value for each time.
   let session.id = [localtime()]
+  let session.inserted_by_acc_p = s:FALSE
   let session.last_column = s:INVALID_COLUMN
   let session.last_lcandidates = []
   let session.last_pattern_raw = ''
@@ -1170,7 +1167,7 @@ function! s:on_CursorMovedI()  "{{{2
     let keys = repeat("\<Right>", len(s:PROMPT) - cursor_column + 1)
   elseif len(line) < cursor_column && cursor_column != s:session.last_column
     " New character is inserted.  Let's complete automatically.
-    if (!s:inserted_by_acc_p)
+    if (!s:session.inserted_by_acc_p)
     \  && 0 <= stridx(g:ku_component_separators, line[-1:])
     \  && len(s:PROMPT) + 2 <= len(line)
       " (1) The last inserted character is not inserted by ACC.
@@ -1193,20 +1190,20 @@ function! s:on_CursorMovedI()  "{{{2
       "        s:session.last_lcandidates reliable, isn't it?
       "        At this moment, we simply ignore such case.
       let text = s:acc_text(line, s:session.last_lcandidates)
-      let s:inserted_by_acc_p = s:TRUE
+      let s:session.inserted_by_acc_p = s:TRUE
       if text != ''
         " The last special character must be inserted in this way to forcedly
         " show the completion menu.
         call setline('.', text)
         let keys = "\<End>" . line[-1:]
-        let s:inserted_by_acc_p = s:TRUE
+        let s:session.inserted_by_acc_p = s:TRUE
       else
         let keys = s:KEYS_TO_START_COMPLETION
-        let s:inserted_by_acc_p = s:FALSE
+        let s:session.inserted_by_acc_p = s:FALSE
       endif
     else
       let keys = s:KEYS_TO_START_COMPLETION
-      let s:inserted_by_acc_p = s:FALSE
+      let s:session.inserted_by_acc_p = s:FALSE
     endif
   else
     let keys = ''
