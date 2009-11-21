@@ -129,6 +129,22 @@
 ---- It requires to reset side effect 
 
 
+==== s_on_CursorMovedI on ACC
+---- It requires the following initialization 
+
+---- It should not do ACC if a separator is s:inserted_by_acc_p 
+........
+---- It should not do ACC if the last inserted character is not a separator 
+........
+---- It should not do ACC if the length of pattern is too short 
+........
+---- It should do ACC - there is a proper candidate 
+........
+---- It should do ACC - there is no proper candidate 
+........
+---- It requires to reset side effect 
+
+
 ==== s_on_InsertEnter 
 ---- It requires the following initialization 
 
@@ -177,4 +193,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-342 examples, 0 failures
+382 examples, 0 failures
