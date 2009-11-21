@@ -1136,7 +1136,7 @@ function! s:new_session(source_names)  "{{{2
   let session.original_completeopt = &completeopt
   let session.original_curwinnr = winnr()
   let session.original_winrestcmd = winrestcmd()
-  let session.sources = map(a:source_names, 's:available_sources[v:val]')
+  let session.sources = map(copy(a:source_names), 's:available_sources[v:val]')
 
   return session
 endfunction
