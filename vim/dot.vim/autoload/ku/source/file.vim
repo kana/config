@@ -41,6 +41,17 @@ endfunction
 
 
 
+function! ku#source#file#valid_for_acc_p(candidate)  "{{{2
+  " ACC should be disabled for the following case:
+  " - User try to explore the content of a directory which is listed by ku.
+
+  let candidate_from_directory_p = !has_key(a:candidate, 'ku_file_path')
+  return !(candidate_from_directory_p && !isdirectory(a:candidate.word))
+endfunction
+
+
+
+
 
 
 

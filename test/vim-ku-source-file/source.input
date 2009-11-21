@@ -17,6 +17,42 @@
 runtime! plugin/ku.vim plugin/ku/kind/file.vim plugin/ku/source/file.vim
 runtime! autoload/ku/source/file.vim
 call vspec#hint({'sid': 'ku#source#file#_sid_prefix()'})
+function s:describe__ku_source_file_valid_for_acc_p()  "{{{1
+  It requires the following initialization
+
+  let last_dir = getcwd()
+  let new_dir = last_dir . '/test/vim-ku-source-file/data'
+  cd `=new_dir`
+  Should getcwd() ==# new_dir
+
+  It should return false for any file candidate from a directory
+
+  Should ku#source#file#valid_for_acc_p({'word': 'file1'}) == 0
+  Should ku#source#file#valid_for_acc_p({'word': 'dir1/file2'}) == 0
+  Should ku#source#file#valid_for_acc_p({'word': 'no such file'}) == 0
+  Should ku#source#file#valid_for_acc_p({'word': 'no such dir/file'}) == 0
+
+  It should return true for any directory candidate from a directory
+
+  Should ku#source#file#valid_for_acc_p({'word': 'dir1'}) != 0
+  Should ku#source#file#valid_for_acc_p({'word': 'dir1/.dir2'}) != 0
+
+  It should return true for any candidate from somewhere except a directory
+
+  Should ku#source#file#valid_for_acc_p({'word': 'x', 'ku_file_path':'dir1'})
+  \ != 0
+  Should ku#source#file#valid_for_acc_p({'word': 'dir1','ku_file_path':'dir1'})
+  \ != 0
+
+  It requires to reset side effect
+
+  cd -
+  Should getcwd() ==# last_dir
+endfunction
+
+
+
+
 function s:describe__ku_source_file_gather_candidates__archive()  "{{{1
   " FIXME: NIY
 endfunction
