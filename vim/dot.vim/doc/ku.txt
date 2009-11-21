@@ -270,7 +270,7 @@ SORTERS						*ku-functions-sorters*
 ku#sorter#default#sort({lcandidates}, {args})	*ku#sorter#default#sort()*
 			Sort {lcandidates} by the method which is specified by
 			|ku#sorter#default#use()|.  The default method is
-			|ku#sorter#simple#sort()|.
+			|ku#sorter#smart#sort()|.
 
 ku#sorter#default#use({sorters})		*ku#sorter#default#use()*
 			Use {sorters} as the default methods to sort
@@ -281,6 +281,9 @@ ku#sorter#default#use({sorters})		*ku#sorter#default#use()*
 
 ku#sorter#simple#sort({lcandidates}, {args})	*ku#sorter#simple#sort()*
 			Sort {lcandidates} by |sort()|.
+
+ku#sorter#smart#sort({lcandidates}, {args})	*ku#sorter#smart#sort()*
+			Sort {lcandidates} smartly.
 
 
 ------------------------------------------------------------------------------

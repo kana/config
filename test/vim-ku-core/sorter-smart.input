@@ -1,0 +1,21 @@
+" Test: vim-ku-core sorter-smart
+function s:describe__ku_sorter_smart_sort()  "{{{1
+  let args = {}
+  let lcandidates = [
+  \     {'word': 'j'},
+  \     {'word': 'u'},
+  \     {'word': 'n'},
+  \     {'word': 'i'},
+  \   ]
+
+  It sort candidates by dictionary order
+
+  Should ku#sorter#smart#sort(copy(lcandidates), args)
+  \ ==# [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

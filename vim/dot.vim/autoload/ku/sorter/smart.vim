@@ -1,4 +1,4 @@
-" ku-sorter-default - The default sorter
+" ku-sorter-smart - Smart sorter
 " Version: 0.0.0
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -21,42 +21,25 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Interface  "{{{1
-function! ku#sorter#default#sort(candidates, args)  "{{{2
-  let sorted_candidates = a:candidates
 
-  for Sort in s:sorters
-    let sorted_candidates = Sort(sorted_candidates, a:args)
-    unlet Sort  " To avoid E705.
-  endfor
 
-  return sorted_candidates
+
+
+function! ku#sorter#smart#sort(candidates, args)
+  " FIXME: NIY - use copy of sorter simple for a while
+  return sort(a:candidates, 's:compare')
 endfunction
 
 
-
-
-function! ku#sorter#default#use(sorters)  "{{{2
-  " FIXME: Validate a:sorters.
-  let old_sorters = s:sorters
-  let s:sorters = a:sorters
-  return old_sorters
+function! s:compare(candidate_a, candidate_b)
+  if a:candidate_a.word < a:candidate_b.word
+    return -1
+  elseif a:candidate_b.word < a:candidate_a.word
+    return 1
+  else
+    return 0
+  endif
 endfunction
-
-
-
-
-
-
-
-
-" Misc.  "{{{1
-
-let s:sorters = [function('ku#sorter#smart#sort')]
-
-
-
-
 
 
 

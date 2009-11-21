@@ -28,7 +28,7 @@ function s:describe__ku_sorter_default_use()  "{{{1
   It should return the defult sorters at first
 
   let default_sorters = ku#sorter#default#use([])
-  Should default_sorters ==# [function('ku#sorter#simple#sort')]
+  Should default_sorters ==# [function('ku#sorter#smart#sort')]
 
   It should return the previously used sorters
 
