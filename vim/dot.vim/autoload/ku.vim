@@ -63,6 +63,7 @@ let s:NULL_SOURCE = {
 \   'matchers': [function('ku#matcher#default#matches_p')],
 \   'on_action': function('ku#default_on_action'),
 \   'sorters': [function('ku#sorter#default#sort')],
+\   'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
 \ }
 
 
@@ -93,6 +94,11 @@ let s:custom_kind_key_tables = {}
 
 " buffer number of the ku buffer
 let s:ku_bufnr = s:INVALID_BUFNR
+
+" Special characters to activate automatic component completion.
+if !exists('g:ku_component_separators')
+  let g:ku_component_separators = '/\:'
+endif
 
 " Contains the information of a ku session.
 " See s:new_session() for the details of content.
@@ -229,6 +235,7 @@ function! ku#define_source(definition)  "{{{2
   \    && s:valid_key_p(new_source, 'matchers', 'list of functions')
   \    && s:valid_key_p(new_source, 'name', 'string')
   \    && s:valid_key_p(new_source, 'sorters', 'list of functions')
+  \    && s:valid_key_p(new_source, 'valid_for_acc_p', 'function')
   \  )
     return s:FALSE
   endif
@@ -312,6 +319,7 @@ function! ku#start(...)  "{{{2
   "       be done carefully.
   silent % delete _
   normal! o
+  call setline(s:LNUM_STATUS, 'Sources: ' . join(source_names, ', '))
   call setline(s:LNUM_PATTERN, s:PROMPT . initial_pattern)
   execute 'normal!' s:LNUM_PATTERN . 'G'
 
@@ -391,6 +399,13 @@ endfunction
 
 
 
+function! ku#default_valid_for_acc_p(candidate)  "{{{2
+  return s:TRUE  " Treat any candidate is valid for ACC.
+endfunction
+
+
+
+
 function! ku#omnifunc(findstart, base)  "{{{2
   if a:findstart
     " FIXME: For in-line completion.
@@ -440,6 +455,121 @@ function! ku#_take_action(action_name, candidate)  "{{{2
 
     return 0
   endif
+endfunction
+
+
+
+
+function! s:acc_text(line, lcandidates)  "{{{2
+  " ACC = Automatic Component Completion
+
+  " Note that a:line always ends with a special character which is one of
+  " g:ku_component_separators,  because this function is always called by
+  " typing a special character.  So there are at least 2 components in a:line.
+  let SEP = a:line[-1:]
+
+  let user_input_raw = s:remove_prompt(a:line)
+  let line_components = split(user_input_raw, SEP, s:TRUE)
+
+  " Find a candidate which has the same components but the last 2 ones of
+  " line_components.  Because line_components[-1] is always empty and
+  " line_components[-2] is almost imperfect name of a component.
+  "
+  " Example:
+  "
+  " (a) a:line ==# 'usr/share/m/',
+  "     line_components ==# ['usr', 'share', 'm', '']
+  "
+  "     The 1st candidate prefixed with 'usr/share/' will be used for ACC.
+  "     If 'usr/share/man/man1/' is found in this way,
+  "     the completed text will be 'usr/share/man'.
+  "
+  " (b) a:line ==# 'u/'
+  "     line_components ==# ['u', '']
+  "
+  "     The 1st candidate is alaways used for ACC.
+  "     If 'usr/share/man/man1/' is found in this way,
+  "     the completion text will be 'usr'.
+  "
+  " (c) a:line ==# 'm/'
+  "     line_components ==# ['m', '']
+  "
+  "     The 1st candidate is alaways used for ACC.
+  "     If 'usr/share/man/man1/' is found in this way,
+  "     the completion text will be 'usr/share/man'.
+  "     Because user seems to want to complete till the component which
+  "     matches to 'm'.
+  for candidate in a:lcandidates
+    let candidate_components = split(candidate.word, SEP, s:TRUE)
+
+    if len(line_components) < 2
+      echoerr 'ku:e2: Assumption on ACC is failed: ' . string(line_components)
+      continue
+    elseif len(line_components) == 2
+      " OK - the case (b) or (c)
+    elseif len(line_components) - 2 <= len(candidate_components)
+      for i in range(len(line_components) - 2)
+        if line_components[i] != candidate_components[i]
+          break
+        endif
+      endfor
+      if line_components[i] != candidate_components[i]
+        continue
+      endif
+      " OK - the case (a)
+    else
+      continue
+    endif
+
+    if !candidate.ku__source.valid_for_acc_p(candidate)
+      continue
+    endif
+
+    " Find the index of the last component to be completed.
+    "
+    " For example, with candidate ==# 'usr/share/man/man1':
+    "   If line_components ==# ['u', '']:
+    "     c == 2 - 2
+    "     i == 0
+    "     t ==# 'usr/share/man/man1'
+    "            ^
+    "   If line_components ==# ['m', '']:
+    "     c == 2 - 2
+    "     i == 10
+    "     t ==# 'usr/share/man/man1'
+    "                      ^
+    "   If line_components ==# ['usr', 'share', 'm', '']:
+    "     c == 4 - 2
+    "     i == 0
+    "     t ==# 'man/man1'
+    "            ^
+      " Count of 'prefix' components in line_components.
+      " 'prefix' components are all of line_components but the last two ones.
+    let c = len(line_components) - 2
+      " Pattern for the partially typed component = line_components[-2].
+    let p = '\c' . s:make_skip_regexp(line_components[-2])
+      " Tail of candidate.word without 'prefix' component in line_components.
+    let t = join(candidate_components[(c):], SEP)
+
+    let i = matchend(t, p)
+    if i < 0  " Partially typed component doesn't match for this candidate.
+      continue  " Try next one.
+    endif
+    let j = stridx(t, SEP, i)
+    if 0 <= j
+      " Several candidate_components are matched for ACC.
+      let index_to_preceding_char_to_SEP = -(len(t) - j + 1)
+      let index_to_the_tail_of_completed_text = index_to_preceding_char_to_SEP
+      let result = candidate.word[:index_to_the_tail_of_completed_text]
+    else
+      " All of candidate_components are matched for ACC.
+      let result = join(candidate_components, SEP)
+    endif
+
+    return result
+  endfor
+
+  return ''  " No proper candidate found
 endfunction
 
 
@@ -977,6 +1107,19 @@ endfunction
 
 
 
+function! s:make_skip_regexp(s)  "{{{2
+  " 'abc' ==> '\Va*b*c'
+  " '\!/' ==> '\V\\*!*/'
+  " Here '*' means '\.\{-}'
+  let [xs, last] = [a:s[:-2], a:s[-1:]]
+  return ('\V'
+  \       . substitute(escape(xs, '\'), '\%(\\\\\|[^\\]\)\zs', '\\.\\{-}', 'g')
+  \       . escape(last, '\'))
+endfunction
+
+
+
+
 function! s:matched_lcandidates(lcandidates, args, source)  "{{{2
   let matched_lcandidates = []
 
@@ -998,6 +1141,7 @@ function! s:new_session(source_names)  "{{{2
 
     " Use list to ensure returning different value for each time.
   let session.id = [localtime()]
+  let session.inserted_by_acc_p = s:FALSE
   let session.last_column = s:INVALID_COLUMN
   let session.last_lcandidates = []
   let session.last_pattern_raw = ''
@@ -1005,7 +1149,7 @@ function! s:new_session(source_names)  "{{{2
   let session.original_completeopt = &completeopt
   let session.original_curwinnr = winnr()
   let session.original_winrestcmd = winrestcmd()
-  let session.sources = map(a:source_names, 's:available_sources[v:val]')
+  let session.sources = map(copy(a:source_names), 's:available_sources[v:val]')
 
   return session
 endfunction
@@ -1015,6 +1159,8 @@ endfunction
 
 function! s:normalize_candidate(candidate, source)  "{{{2
   let a:candidate.ku__source = a:source
+  let a:candidate.menu = a:source.name
+
   return a:candidate
 endfunction
 
@@ -1035,7 +1181,45 @@ function! s:on_CursorMovedI()  "{{{2
     let keys = repeat("\<Right>", len(s:PROMPT) - cursor_column + 1)
   elseif len(line) < cursor_column && cursor_column != s:session.last_column
     " New character is inserted.  Let's complete automatically.
-    let keys = s:KEYS_TO_START_COMPLETION
+    if (!s:session.inserted_by_acc_p)
+    \  && 0 <= stridx(g:ku_component_separators, line[-1:])
+    \  && len(s:PROMPT) + 2 <= len(line)
+      " (1) The last inserted character is not inserted by ACC.
+      " (2) It is a special character in g:ku_component_separators.
+      " (3) It seems not to be the 1st one in line.
+      "
+      " The (3) is necessary to input a special character as the 1st character
+      " in line.  For example, without this condition, user cannot input the
+      " 1st '/' of an absolute path like '/usr/local/bin' if '/' is a special
+      " character.
+      "
+      " FIXME: Is s:session.last_lcandidates reliable?  If user types several
+      "        characters quickely, Vim doesn't call 'omnifunc' for all but
+      "        the last character.  So here we have to ensure that
+      "        s:session.last_lcandidates contains reliable value,
+      "        by calling 'omnifunc' appropriately.
+      "
+      " FIXME: But what should we do if user quickely types two or more
+      "        special character?  It's hard to make
+      "        s:session.last_lcandidates reliable, isn't it?
+      "        At this moment, we simply ignore such case.
+      let text = s:acc_text(line, s:session.last_lcandidates)
+      let s:session.inserted_by_acc_p = s:TRUE
+      if text != ''
+        " The last special character must be inserted in this way to forcedly
+        " show the completion menu.
+          " FIXME: Should we update l:line for s:session.last_pattern_raw?
+        call setline('.', text)
+        let keys = "\<End>" . line[-1:]
+        let s:session.inserted_by_acc_p = s:TRUE
+      else
+        let keys = s:KEYS_TO_START_COMPLETION
+        let s:session.inserted_by_acc_p = s:FALSE
+      endif
+    else
+      let keys = s:KEYS_TO_START_COMPLETION
+      let s:session.inserted_by_acc_p = s:FALSE
+    endif
   else
     let keys = ''
   endif
@@ -1049,6 +1233,7 @@ endfunction
 
 
 function! s:on_InsertEnter()  "{{{2
+  let s:session.inserted_by_acc_p = s:FALSE
   let s:session.last_column = s:INVALID_COLUMN
   let s:session.last_pattern_raw = ''
   return s:on_CursorMovedI()

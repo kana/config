@@ -1,6 +1,124 @@
 " Test: vim-ku-core core-internal-misc
 runtime! plugin/ku.vim plugin/ku/kind/common.vim
 call vspec#hint({'scope': 'ku#_local_variables()', 'sid': 'ku#_sid_prefix()'})
+function s:describe__ku_default_on_action()  "{{{1
+  It should return a given argument as-is
+
+  let candidate = {'word': 'MAKINA'}
+  Should ku#default_on_action(candidate) is candidate
+endfunction
+
+
+
+
+function s:describe__ku_default_valid_for_acc_p()  "{{{1
+  It should true for anything
+
+  Should ku#default_valid_for_acc_p(0) != 0
+  Should ku#default_valid_for_acc_p('') != 0
+  Should ku#default_valid_for_acc_p({'word': 'Quartett!'}) != 0
+endfunction
+
+
+
+
+function s:describe__s_acc_text()  "{{{1
+  function! False(...)
+    return 0
+  endfunction
+  let source = {'valid_for_acc_p': function('ku#default_valid_for_acc_p')}
+  let source_f = {'valid_for_acc_p': function('False')}
+
+  let cs1 = [{'word': 'usr/share/man/man1', 'ku__source': source}]
+  let cs2 = [
+  \   {'word': 'usr/share/w y 1', 'ku__source': source},
+  \   {'word': 'usr/share/ x z2', 'ku__source': source},
+  \   {'word': 'usr/share/w y 3', 'ku__source': source},
+  \   {'word': 'usr/share/ x z4', 'ku__source': source},
+  \ ]
+  let cs3 = [
+  \   {'word': 'bin/1/1', 'ku__source': source},
+  \   {'word': 'etc/2/2', 'ku__source': source},
+  \   {'word': 'usr/3/3', 'ku__source': source},
+  \   {'word': 'var/4/4', 'ku__source': source},
+  \ ]
+  let cs4 = [
+  \   {'word': '1/X', 'ku__source': source_f},
+  \   {'word': '2/X', 'ku__source': source_f},
+  \   {'word': '3/X', 'ku__source': source},
+  \   {'word': '4/X', 'ku__source': source_f},
+  \ ]
+
+  It should complete valid text with len(line_components) == 2
+
+  Should Call('s:acc_text', Ref('s:PROMPT').'u/', cs1) ==# 'usr'
+
+  Should Call('s:acc_text', '/', cs1) ==# 'usr'
+  Should Call('s:acc_text', 'u/', cs1) ==# 'usr'
+  Should Call('s:acc_text', 's/', cs1) ==# 'usr'
+  Should Call('s:acc_text', 'sh/', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'm/', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', '1/', cs1) ==# 'usr/share/man/man1'
+
+  It should complete valid text with 3 <= len(line_components)
+
+  Should Call('s:acc_text', 'usr//', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'usr/s/', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'usr/sh/', cs1) ==# 'usr/share'
+  Should Call('s:acc_text', 'usr/m/', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', 'usr/1/', cs1) ==# 'usr/share/man/man1'
+  Should Call('s:acc_text', 'usr/share/', cs1) ==# 'usr/share'
+
+  Should Call('s:acc_text', 'usr/share//', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', 'usr/share/m/', cs1) ==# 'usr/share/man'
+  Should Call('s:acc_text', 'usr/share/1/', cs1) ==# 'usr/share/man/man1'
+
+  It should complete the candidate with minimum index if many candidates match
+
+  Should Call('s:acc_text', 'w/', cs2) ==# 'usr/share/w y 1'
+  Should Call('s:acc_text', 'x/', cs2) ==# 'usr/share/ x z2'
+  Should Call('s:acc_text', 'y/', cs2) ==# 'usr/share/w y 1'
+  Should Call('s:acc_text', 'z/', cs2) ==# 'usr/share/ x z2'
+
+  It should complete a candidate which is valid_for_acc_p
+
+  Should Call('s:acc_text', 'X/', cs4) == '3/X'
+
+  It should return '' if there is no proper candidate for a:line
+
+  Should Call('s:acc_text', 'x/', []) ==# ''
+  Should Call('s:acc_text', 'x/', cs1) ==# ''
+  Should Call('s:acc_text', '2/', cs1) ==# ''
+  Should Call('s:acc_text', 'u/s/m/', cs1) ==# ''
+
+  Should Call('s:acc_text', 'USR//', cs1) ==# ''
+
+  It should fail if a:line doesn't have two or more components
+
+  Should Call('s:acc_text', '', []) == ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:acc_text', '', cs1)
+  Should v:errmsg =~# '^ku:e2:'
+  Should _ == ''
+
+  It should ignore candidates which doesn't match to the prefix components
+
+  Should Call('s:acc_text', 'etc//', cs3) == 'etc/2'
+  Should Call('s:acc_text', 'var//', cs3) == 'var/4'
+
+  It should ignore candidates which doesn't match to the incomplete component
+
+  Should Call('s:acc_text', 'b/', cs3) == 'bin'
+  Should Call('s:acc_text', 'e/', cs3) == 'etc'
+  Should Call('s:acc_text', 'r/', cs3) == 'usr'
+  Should Call('s:acc_text', 'u/', cs3) == 'usr'
+  Should Call('s:acc_text', 'v/', cs3) == 'var'
+endfunction
+
+
+
+
 function s:describe__s_compare_ignorecase()  "{{{1
   It should return 0 for same characters with the same case
 
@@ -375,6 +493,58 @@ endfunction
 
 
 
+function s:describe__s_make_skip_regexp()  "{{{1
+  It should return a valid value for normal text
+
+  Should Call('s:make_skip_regexp', '') ==# '\V'
+  Should Call('s:make_skip_regexp', 'a') ==# '\Va'
+  Should Call('s:make_skip_regexp', 'ab') ==# '\Va\.\{-}b'
+  Should Call('s:make_skip_regexp', 'abc') ==# '\Va\.\{-}b\.\{-}c'
+
+  Should match('a', Call('s:make_skip_regexp', 'abc')) == -1
+
+  Should match('abc', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('__abc', Call('s:make_skip_regexp', 'abc')) == 2
+  Should match('a__bc', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('ab__c', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('abc__', Call('s:make_skip_regexp', 'abc')) == 0
+  Should match('__a__b__c__', Call('s:make_skip_regexp', 'abc')) == 2
+
+  It should return a valid value for text with backslashes
+
+  Should Call('s:make_skip_regexp', '\') ==# '\V\\'
+  Should Call('s:make_skip_regexp', '\a') ==# '\V\\\.\{-}a'
+  Should Call('s:make_skip_regexp', 'a\b') ==# '\Va\.\{-}\\\.\{-}b'
+  Should Call('s:make_skip_regexp', 'abc\') ==# '\Va\.\{-}b\.\{-}c\.\{-}\\'
+
+  Should match('a', Call('s:make_skip_regexp', 'ab\')) == -1
+
+  Should match('ab\', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('__ab\', Call('s:make_skip_regexp', 'ab\')) == 2
+  Should match('a__b\', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('ab__\', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('ab\__', Call('s:make_skip_regexp', 'ab\')) == 0
+  Should match('__a__b__\__', Call('s:make_skip_regexp', 'ab\')) == 2
+
+  It should return a valid value for text with wired charcters
+
+  Should Call('s:make_skip_regexp', '\!/') ==# '\V\\\.\{-}!\.\{-}/'
+  Should Call('s:make_skip_regexp', '/i\') ==# '\V/\.\{-}i\.\{-}\\'
+  Should Call('s:make_skip_regexp', '!@#$') ==# '\V!\.\{-}@\.\{-}#\.\{-}$'
+
+  Should match('a', Call('s:make_skip_regexp', '/i\')) == -1
+
+  Should match('/i\', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('__/i\', Call('s:make_skip_regexp', '/i\')) == 2
+  Should match('/__i\', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('/i__\', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('/i\__', Call('s:make_skip_regexp', '/i\')) == 0
+  Should match('__/__i__\__', Call('s:make_skip_regexp', '/i\')) == 2
+endfunction
+
+
+
+
 function s:describe__s_new_session()  "{{{1
   let F = function('function')
   let G = function('type')
@@ -391,6 +561,7 @@ function s:describe__s_new_session()  "{{{1
 
   let session_a = Call('s:new_session', [])
   Should has_key(session_a, 'id') == 1
+  Should session_a.inserted_by_acc_p == 0
   Should session_a.last_column == Ref('s:INVALID_COLUMN')
   Should session_a.last_lcandidates ==# []
   Should session_a.last_pattern_raw == ''
@@ -404,6 +575,7 @@ function s:describe__s_new_session()  "{{{1
 
   let session_b = Call('s:new_session', [])
   Should has_key(session_b, 'id') == 1
+  Should session_b.inserted_by_acc_p == 0
   Should session_b.last_column == Ref('s:INVALID_COLUMN')
   Should session_b.last_lcandidates ==# []
   Should session_b.last_pattern_raw == ''
@@ -421,6 +593,7 @@ function s:describe__s_new_session()  "{{{1
 
   let session = Call('s:new_session', ['test', 'abc'])
   Should has_key(session, 'id') == 1
+  Should session.inserted_by_acc_p == 0
   Should session.last_column == Ref('s:INVALID_COLUMN')
   Should session.last_lcandidates ==# []
   Should session.last_pattern_raw == ''
@@ -507,6 +680,131 @@ function s:describe__s_on_CursorMovedI()  "{{{1
   Should col('.') == len(_)
   Should Ref('s:session').last_column == len(_)
   Should Ref('s:session').last_pattern_raw ==# _
+
+  It requires to reset side effect
+
+  bwipeout!
+  set virtualedit&
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__s_on_CursorMovedI__on_ACC()  "{{{1
+  " BUGS: The situation to test is that the cursor position is beyond the end
+  " of the current line in Insert mode.  But it's hard to perfectly emulate
+  " this situation by script.
+
+  It requires the following initialization
+
+  set virtualedit=onemore
+  let source = {'valid_for_acc_p': function('ku#default_valid_for_acc_p')}
+
+  It should not do ACC if a separator is s:inserted_by_acc_p
+
+  let session = Call('s:new_session', [])
+  let session.inserted_by_acc_p = !0
+  let session.last_lcandidates = ['DUMMY TO CHECK THAT ACC IS NOT INVOKED']
+  call Set('s:session', session)
+  normal! o
+  let _ = Ref('s:PROMPT') . 'Estel' . g:ku_component_separators[0]
+  call setline('.', _)
+  normal! $l
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+
+  Should Call('s:on_CursorMovedI') ==# Ref('s:KEYS_TO_START_COMPLETION')
+
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+  Should Ref('s:session').last_column == len(_) + 1
+  Should Ref('s:session').last_pattern_raw ==# _
+  Should Ref('s:session').inserted_by_acc_p == 0
+
+  It should not do ACC if the last inserted character is not a separator
+
+  let session = Call('s:new_session', [])
+  let session.last_lcandidates = ['DUMMY TO CHECK THAT ACC IS NOT INVOKED']
+  call Set('s:session', session)
+  normal! o
+  let _ = Ref('s:PROMPT') . 'Estel'
+  call setline('.', _)
+  normal! $l
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+
+  Should Call('s:on_CursorMovedI') ==# Ref('s:KEYS_TO_START_COMPLETION')
+
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+  Should Ref('s:session').last_column == len(_) + 1
+  Should Ref('s:session').last_pattern_raw ==# _
+  Should Ref('s:session').inserted_by_acc_p == 0
+
+  It should not do ACC if the length of pattern is too short
+
+  let session = Call('s:new_session', [])
+  let session.last_lcandidates = ['DUMMY TO CHECK THAT ACC IS NOT INVOKED']
+  call Set('s:session', session)
+  normal! o
+  let _ = Ref('s:PROMPT') . '' . g:ku_component_separators[0]
+  call setline('.', _)
+  normal! $l
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+
+  Should Call('s:on_CursorMovedI') ==# Ref('s:KEYS_TO_START_COMPLETION')
+
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+  Should Ref('s:session').last_column == len(_) + 1
+  Should Ref('s:session').last_pattern_raw ==# _
+  Should Ref('s:session').inserted_by_acc_p == 0
+
+  It should do ACC - there is a proper candidate
+
+  let session = Call('s:new_session', [])
+  let session.last_lcandidates = [
+  \ {'word': '/usr/share/man/man1/ls.1.gz', 'ku__source': source},
+  \ ]
+  call Set('s:session', session)
+  normal! o
+  let _ = Ref('s:PROMPT') . '1' . g:ku_component_separators[0]
+  call setline('.', _)
+  normal! $l
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+
+  Should Call('s:on_CursorMovedI') ==# "\<End>" . _[-1:]
+
+  Should getline('.') ==# '/usr/share/man/man1'
+  Should col('.') == len(_) + 1
+  Should Ref('s:session').last_column == len(_) + 1
+  Should Ref('s:session').last_pattern_raw ==# _
+  Should Ref('s:session').inserted_by_acc_p != 0
+
+  It should do ACC - there is no proper candidate
+
+  let session = Call('s:new_session', [])
+  let session.last_lcandidates = [
+  \ {'word': '/usr/share/man/man2/_exit.2.gz', 'ku__source': source},
+  \ ]
+  call Set('s:session', session)
+  normal! o
+  let _ = Ref('s:PROMPT') . '1' . g:ku_component_separators[0]
+  call setline('.', _)
+  normal! $l
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+
+  Should Call('s:on_CursorMovedI') ==# Ref('s:KEYS_TO_START_COMPLETION')
+
+  Should getline('.') ==# _
+  Should col('.') == len(_) + 1
+  Should Ref('s:session').last_column == len(_) + 1
+  Should Ref('s:session').last_pattern_raw ==# _
+  Should Ref('s:session').inserted_by_acc_p == 0
 
   It requires to reset side effect
 
