@@ -711,6 +711,28 @@ sorters			list of funcrefs	(optional)
 			[|ku#sorter#default#sort()|] is used as the default
 			value.
 
+					 *ku-source-attribute-valid_for_acc_p*
+valid_for_acc_p		funcref			(optional)
+			Function to determine whether a given candidate is
+			valid one for |ku-automatic-component-completion|
+			(ACC).
+
+			It takes single argument {candidate}.  It must return
+			true if the given candidate can be used for ACC,
+			otherwise it must return false.
+
+			For example, if you explore files and directories with
+			|ku-source-file|, you want to activate ACC only for
+			directories.  So a function for valid_for_acc_p should
+			be as followos:
+>
+			function! ku#source#file#valid_for_acc_p(candidate)
+			  return isdirectory(a:candidate.word)
+			endfunction
+<
+			This attribute is optional; if it is not given,
+			any candidate is treated as valid one for ACC.
+
 
 NOTATION					*ku-notation*
 

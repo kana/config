@@ -575,6 +575,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'name': 'test',
   \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
+  \ 'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
   \ }
   Should Ref('s:available_kinds')['source/test']
   \ ==# {
@@ -603,6 +604,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'name': 'test',
   \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
+  \ 'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
   \ }
   Should Ref('s:available_kinds')['source/test']
   \ ==# {
@@ -627,7 +629,9 @@ function s:describe__ku_define_source()  "{{{1
   \ 'kinds': ['common', 'source/test'],
   \ 'matchers': [G],
   \ 'name': 'test',
-  \ 'sorters': [F]})
+  \ 'sorters': [F],
+  \ 'valid_for_acc_p': F,
+  \ })
   \ == 1
   Should Ref('s:available_sources')['test']
   \ ==# {
@@ -640,6 +644,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'name': 'test',
   \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': [F],
+  \ 'valid_for_acc_p': F,
   \ }
   Should Ref('s:available_kinds')['source/test']
   \ ==# {

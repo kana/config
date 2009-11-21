@@ -63,6 +63,7 @@ let s:NULL_SOURCE = {
 \   'matchers': [function('ku#matcher#default#matches_p')],
 \   'on_action': function('ku#default_on_action'),
 \   'sorters': [function('ku#sorter#default#sort')],
+\   'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
 \ }
 
 
@@ -234,6 +235,7 @@ function! ku#define_source(definition)  "{{{2
   \    && s:valid_key_p(new_source, 'matchers', 'list of functions')
   \    && s:valid_key_p(new_source, 'name', 'string')
   \    && s:valid_key_p(new_source, 'sorters', 'list of functions')
+  \    && s:valid_key_p(new_source, 'valid_for_acc_p', 'function')
   \  )
     return s:FALSE
   endif
@@ -397,6 +399,13 @@ endfunction
 
 
 
+function! ku#default_valid_for_acc_p(candidate)  "{{{2
+  return s:TRUE  " Treat any candidate is valid for ACC.
+endfunction
+
+
+
+
 function! ku#omnifunc(findstart, base)  "{{{2
   if a:findstart
     " FIXME: For in-line completion.
@@ -509,6 +518,10 @@ function! s:acc_text(line, lcandidates)  "{{{2
       endif
       " OK - the case (a)
     else
+      continue
+    endif
+
+    if !candidate.ku__source.valid_for_acc_p(candidate)
       continue
     endif
 
