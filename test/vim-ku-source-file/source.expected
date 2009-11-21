@@ -14,6 +14,18 @@
 ---- It requires to reset side effect 
 .
 
+==== ku_source_file_valid_for_acc_p 
+---- It requires the following initialization 
+.
+---- It should return false for any file candidate from a directory 
+....
+---- It should return true for any directory candidate from a directory 
+..
+---- It should return true for any candidate from somewhere except a directory 
+..
+---- It requires to reset side effect 
+.
+
 ==== s_candidates_from_archive 
 ---- It is not implemented yet 
 .
@@ -53,4 +65,4 @@
 **** Result ****
 
 
-43 examples, 0 failures
+53 examples, 0 failures
