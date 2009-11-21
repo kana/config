@@ -21,25 +21,95 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Interface  "{{{1
+function! ku#sorter#smart#sort(lcandidates, args)  "{{{2
+  let _ = copy(a:lcandidates)
 
+  call map(_, '[s:score(v:val.word, a:args.pattern), v:val]')
+  call sort(_, 's:compare')
+  call map(_, 'v:val[1]')
 
-
-
-function! ku#sorter#smart#sort(lcandidates, args)
-  " FIXME: NIY - use copy of sorter simple for a while
-  return sort(a:lcandidates, 's:compare')
+  return _
 endfunction
 
 
-function! s:compare(candidate_a, candidate_b)
-  if a:candidate_a.word < a:candidate_b.word
-    return -1
-  elseif a:candidate_b.word < a:candidate_a.word
-    return 1
-  else
-    return 0
+
+
+
+
+
+
+" Misc.  "{{{1
+function! ku#sorter#smart#_scope()  "{{{2
+  return s:
+endfunction
+
+
+
+
+function! ku#sorter#smart#_sid()  "{{{2
+  nnoremap <SID>  <SID>
+  return maparg('<SID>', 'n')
+endfunction
+
+
+
+
+function! s:compare(...)  "{{{2
+  return a:2[0] - a:1[0]
+endfunction
+
+
+
+
+function! s:score(word, pattern)  "{{{2
+  " Return value is an N-digit integer corresponding to an (3+M)-digit real
+  " number, where 3+M-1 is the number of decimal places of the real number.
+  " For example, if M = 2, 9876 means 0.9876 = 098.76%.
+  "
+  " Notation: l{x} = Length of {x}
+  " FIXME: Scoring on case-sensitivity
+  " FIXME: Scoring on tokens
+  let PCT = 1  " To denote 97% as '97*PCT'
+  let w = toupper(a:word)  " w = Word
+  let p = toupper(a:pattern)  " p = Pattern
+  let lw = len(w)
+  let lp = len(p)
+
+  if lw < lp  " p never matches to w
+    return 0*PCT * s:BASE
   endif
+  if lp == 0  " Base cases
+    return 90*PCT * s:BASE
+  endif
+
+  " Calculate score.
+  for lhp in range(lp, 1, -1)
+    let hp = p[:lhp-1]  " hp = Head of Pattern
+    let lit = stridx(w, hp)  " it = Ignored Text
+    if 0 <= lit
+      let rest_word = w[(lhp+lit):]
+      let rest_pattern = p[(lhp):]
+      let rest_score = s:score(rest_word, rest_pattern)
+      if 0 < rest_score
+        return (((lit * 0*PCT * s:BASE)
+        \        + (lhp * 100*PCT * s:BASE)
+        \        + (len(rest_word) * rest_score))
+        \       / lw)
+      endif
+    endif
+  endfor
+
+  " p doesn't match to w
+  return 0*PCT * s:BASE
 endfunction
+
+let s:M = 2
+let s:BASE = ('1' . repeat('0', s:M)) + 0
+
+
+
+
 
 
 

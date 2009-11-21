@@ -1,5 +1,21 @@
 ==== ku_sorter_smart_sort 
----- It sort candidates by dictionary order 
+---- It should sort candidates by their scores 
+.
+
+==== score 
+---- It should return 90% for base case 
+..
+---- It should return 0% if pattern doesn't match to word (length) 
+.
+---- It should return 0% if pattern doesn't match to word (content) 
+..
+---- It should return 100% for perfect matching 
+....
+---- It should return higher score if pattern matches at lower index 
+....
+---- It should return lower score if pattern matches sparsely 
+.....
+---- It should return the same score for some sparse matching 
 .
 
 
@@ -7,4 +23,4 @@
 **** Result ****
 
 
-1 examples, 0 failures
+20 examples, 0 failures

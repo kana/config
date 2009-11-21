@@ -1,17 +1,100 @@
 " Test: vim-ku-core sorter-smart
+call vspec#hint({
+\   'scope': 'ku#sorter#smart#_scope()',
+\   'sid': 'ku#sorter#smart#_sid()',
+\ })
 function s:describe__ku_sorter_smart_sort()  "{{{1
-  let args = {}
+  It should sort candidates by their scores
+
   let lcandidates = [
-  \     {'word': 'j'},
-  \     {'word': 'u'},
-  \     {'word': 'n'},
-  \     {'word': 'i'},
-  \   ]
+  \   {'word': '.vimrc'},
+  \   {'word': 'autoload.vim'},
+  \   {'word': 'dot.vimrc'},
+  \   {'word': 'vim'},
+  \ ]
+  let args = {'pattern': 'vim'}
 
-  It sort candidates by dictionary order
+  Should ku#sorter#smart#sort(lcandidates, args) == [
+  \   {'word': 'vim'},
+  \   {'word': '.vimrc'},
+  \   {'word': 'dot.vimrc'},
+  \   {'word': 'autoload.vim'},
+  \ ]
+endfunction
 
-  Should ku#sorter#smart#sort(copy(lcandidates), args)
-  \ ==# [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
+
+
+
+function s:describe__score()  "{{{1
+  let BASE = Ref('s:BASE')
+  let PCT = 1
+
+  It should return 90% for base case
+
+  Should Call('s:score', 'word', '') == 90*PCT * BASE
+  Should Call('s:score', '', '') == 90*PCT * BASE
+
+  It should return 0% if pattern doesn't match to word (length)
+
+  Should Call('s:score', 'word', 'pattern longer than word') == 0*PCT * BASE
+
+  It should return 0% if pattern doesn't match to word (content)
+
+  Should Call('s:score', 'abc', 'xyz') == 0*PCT * BASE
+  Should Call('s:score', 'abc', 'az') == 0*PCT * BASE
+
+  It should return 100% for perfect matching
+
+  Should Call('s:score', 'abc', 'abc') == 100*PCT * BASE
+  Should Call('s:score', 'abc', 'ABC') == 100*PCT * BASE
+  Should Call('s:score', 'ABC', 'abc') == 100*PCT * BASE
+  Should Call('s:score', 'Xy', 'xY') == 100*PCT * BASE
+
+  It should return higher score if pattern matches at lower index
+
+  let s1 = Call('s:score', 'X..', 'X')
+  let s2 = Call('s:score', '.X.', 'X')
+  let s3 = Call('s:score', '..X', 'X')
+
+  Should 0*PCT * BASE < s3
+  Should s3 < s2
+  Should s2 < s1
+  Should s1 < 100*PCT * BASE
+
+  It should return lower score if pattern matches sparsely
+
+  let s1 = Call('s:score', 'XYZ...', 'XYZ')
+  let s2 = Call('s:score', 'XY.Z..', 'XYZ')
+  let s3 = Call('s:score', 'XY..Z.', 'XYZ')
+  let s4 = Call('s:score', 'X.Y.Z.', 'XYZ')
+
+  Should 0*PCT * BASE < s4
+  Should s4 < s3
+  Should s3 < s2
+  Should s2 < s1
+  Should s1 < 100*PCT * BASE
+
+  It should return the same score for some sparse matching
+
+  let s1 = Call('s:score', 'XY.Z..', 'XYZ')
+  let s2 = Call('s:score', 'X.YZ..', 'XYZ')
+
+  Should s1 == s2
+
+  " FIXME: Ignore temporarily - this doesn't work as I expect.
+  "
+  " It should return shorter-word-to-higher-score for same matches
+  "
+  " let s1 = Call('s:score', 'XY.Z.', 'XYZ')
+  " let s2 = Call('s:score', 'XY.Z..', 'XYZ')
+  " let s3 = Call('s:score', 'XY.Z...', 'XYZ')
+  "
+  " Should 0*PCT * BASE < s3
+  " Should s3 < s2
+  " Should s2 < s1
+  " Should s1 < 100*PCT * BASE
+
+  " FIXME: More cases?
 endfunction
 
 
