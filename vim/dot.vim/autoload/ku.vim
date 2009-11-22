@@ -185,18 +185,19 @@ function! ku#define_default_ui_key_mappings(override_p)  "{{{2
   " Define key mappings for the current buffer.
   let f = {}
   let f.unique = a:override_p ? '' : '<unique>'
-  function! f.map(lhs, rhs)
-    execute 'silent!' 'nmap' '<buffer>' self.unique a:lhs  a:rhs
-    execute 'silent!' 'imap' '<buffer>' self.unique a:lhs  a:rhs
+  function! f.map(modes, lhs, rhs)
+    for i in range(len(a:modes))
+      execute 'silent!' a:modes[i].'map' '<buffer>' self.unique a:lhs  a:rhs
+    endfor
   endfunction
 
-  call f.map('<C-c>', '<Plug>(ku-quit-session)')
-  call f.map('<C-c>', '<Plug>(ku-quit-session)')
-  call f.map('<C-i>', '<Plug>(ku-choose-action)')
-  call f.map('<C-m>', '<Plug>(ku-do-default-action)')
-  call f.map('<Enter>', '<Plug>(ku-do-default-action)')
-  call f.map('<Return>', '<Plug>(ku-do-default-action)')
-  call f.map('<Tab>', '<Plug>(ku-choose-action)')
+  call f.map('ni', '<C-c>', '<Plug>(ku-quit-session)')
+  call f.map('ni', '<C-c>', '<Plug>(ku-quit-session)')
+  call f.map('ni', '<C-i>', '<Plug>(ku-choose-action)')
+  call f.map('ni', '<C-m>', '<Plug>(ku-do-default-action)')
+  call f.map('ni', '<Enter>', '<Plug>(ku-do-default-action)')
+  call f.map('ni', '<Return>', '<Plug>(ku-do-default-action)')
+  call f.map('ni', '<Tab>', '<Plug>(ku-choose-action)')
 
   return
 endfunction
