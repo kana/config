@@ -379,7 +379,8 @@ PACKAGE_vim_ku_core_FILES_actions=\
 PACKAGE_vim_ku_core_FILES_core=\
   vim/dot.vim/autoload/ku.vim \
   vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/plugin/ku.vim
+  vim/dot.vim/plugin/ku.vim \
+  vim/dot.vim/syntax/ku.vim
 PACKAGE_vim_ku_core_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/common.vim
 PACKAGE_vim_ku_core_FILES_matchers=\
