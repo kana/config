@@ -234,7 +234,20 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
 
   It should not define any ui key mapping for the current buffer
 
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-c>', 'i') ==# ''
   Should maparg('<C-c>', 'n') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<C-i>', 'i') ==# ''
+  Should maparg('<C-i>', 'n') ==# ''
+  Should maparg('<C-m>', 'i') ==# ''
+  Should maparg('<C-m>', 'n') ==# ''
+  Should maparg('<Enter>', 'i') ==# ''
+  Should maparg('<Enter>', 'n') ==# ''
+  Should maparg('<Return>', 'i') ==# ''
+  Should maparg('<Return>', 'n') ==# ''
+  Should maparg('<Tab>', 'i') ==# ''
+  Should maparg('<Tab>', 'n') ==# ''
 
   It should affect only the current buffer when it is called
 
@@ -261,7 +274,20 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-c>', 'i') ==# ''
   Should maparg('<C-c>', 'n') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<C-i>', 'i') ==# ''
+  Should maparg('<C-i>', 'n') ==# ''
+  Should maparg('<C-m>', 'i') ==# ''
+  Should maparg('<C-m>', 'n') ==# ''
+  Should maparg('<Enter>', 'i') ==# ''
+  Should maparg('<Enter>', 'n') ==# ''
+  Should maparg('<Return>', 'i') ==# ''
+  Should maparg('<Return>', 'n') ==# ''
+  Should maparg('<Tab>', 'i') ==# ''
+  Should maparg('<Tab>', 'n') ==# ''
 
   " Reset side effect.
   augroup test
@@ -306,7 +332,20 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
 
   It should not define any ui key mapping for the current buffer
 
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-c>', 'i') ==# ''
   Should maparg('<C-c>', 'n') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<C-i>', 'i') ==# ''
+  Should maparg('<C-i>', 'n') ==# ''
+  Should maparg('<C-m>', 'i') ==# ''
+  Should maparg('<C-m>', 'n') ==# ''
+  Should maparg('<Enter>', 'i') ==# ''
+  Should maparg('<Enter>', 'n') ==# ''
+  Should maparg('<Return>', 'i') ==# ''
+  Should maparg('<Return>', 'n') ==# ''
+  Should maparg('<Tab>', 'i') ==# ''
+  Should maparg('<Tab>', 'n') ==# ''
 
   It should affect only the current buffer when it is called
 
@@ -333,7 +372,20 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-c>', 'i') ==# ''
   Should maparg('<C-c>', 'n') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<C-i>', 'i') ==# ''
+  Should maparg('<C-i>', 'n') ==# ''
+  Should maparg('<C-m>', 'i') ==# ''
+  Should maparg('<C-m>', 'n') ==# ''
+  Should maparg('<Enter>', 'i') ==# ''
+  Should maparg('<Enter>', 'n') ==# ''
+  Should maparg('<Return>', 'i') ==# ''
+  Should maparg('<Return>', 'n') ==# ''
+  Should maparg('<Tab>', 'i') ==# ''
+  Should maparg('<Tab>', 'n') ==# ''
 
   " No side effect to reset.
 endfunction
@@ -373,7 +425,20 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
 
   It should define several ui key mappings for the current buffer
 
+  Should maparg('<BS>', 'i') ==# '<Plug>(ku-delete-backward-char)'
+  Should maparg('<C-c>', 'i') ==# '<Plug>(ku-quit-session)'
   Should maparg('<C-c>', 'n') ==# '<Plug>(ku-quit-session)'
+  Should maparg('<C-h>', 'i') ==# '<Plug>(ku-delete-backward-char)'
+  Should maparg('<C-i>', 'i') ==# '<Plug>(ku-choose-action)'
+  Should maparg('<C-i>', 'n') ==# '<Plug>(ku-choose-action)'
+  Should maparg('<C-m>', 'i') ==# '<Plug>(ku-do-default-action)'
+  Should maparg('<C-m>', 'n') ==# '<Plug>(ku-do-default-action)'
+  Should maparg('<Enter>', 'i') ==# '<Plug>(ku-do-default-action)'
+  Should maparg('<Enter>', 'n') ==# '<Plug>(ku-do-default-action)'
+  Should maparg('<Return>', 'i') ==# '<Plug>(ku-do-default-action)'
+  Should maparg('<Return>', 'n') ==# '<Plug>(ku-do-default-action)'
+  Should maparg('<Tab>', 'i') ==# '<Plug>(ku-choose-action)'
+  Should maparg('<Tab>', 'n') ==# '<Plug>(ku-choose-action)'
 
   It should affect only the current buffer when it is called
 
@@ -400,7 +465,20 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'n') ==# ''
 
+  Should maparg('<BS>', 'i') ==# ''
+  Should maparg('<C-c>', 'i') ==# ''
   Should maparg('<C-c>', 'n') ==# ''
+  Should maparg('<C-h>', 'i') ==# ''
+  Should maparg('<C-i>', 'i') ==# ''
+  Should maparg('<C-i>', 'n') ==# ''
+  Should maparg('<C-m>', 'i') ==# ''
+  Should maparg('<C-m>', 'n') ==# ''
+  Should maparg('<Enter>', 'i') ==# ''
+  Should maparg('<Enter>', 'n') ==# ''
+  Should maparg('<Return>', 'i') ==# ''
+  Should maparg('<Return>', 'n') ==# ''
+  Should maparg('<Tab>', 'i') ==# ''
+  Should maparg('<Tab>', 'n') ==# ''
 
   " No side effect to reset.
 endfunction
