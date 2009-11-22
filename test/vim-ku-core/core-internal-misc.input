@@ -224,10 +224,9 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
 
   It should define several named key mappings for the current buffer
 
-  Should maparg('<BS>', 'i') != ''
-  Should maparg('<C-h>', 'i') != ''
   Should maparg('<Plug>(ku-choose-action)', 'i') != ''
   Should maparg('<Plug>(ku-choose-action)', 'n') != ''
+  Should maparg('<Plug>(ku-delete-backward-char)', 'i') != ''
   Should maparg('<Plug>(ku-do-default-action)', 'i') != ''
   Should maparg('<Plug>(ku-do-default-action)', 'n') != ''
   Should maparg('<Plug>(ku-quit-session)', 'i') != ''
@@ -254,10 +253,9 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
   Should exists('#plugin-ku#TabLeave#<buffer>') == 0
   Should exists('#plugin-ku#WinLeave#<buffer>') == 0
 
-  Should maparg('<BS>', 'i') ==# ''
-  Should maparg('<C-h>', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-delete-backward-char)', 'i') ==# ''
   Should maparg('<Plug>(ku-do-default-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-do-default-action)', 'n') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
@@ -298,10 +296,9 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
 
   It should define several named key mappings for the current buffer
 
-  Should maparg('<BS>', 'i') !=# ''
-  Should maparg('<C-h>', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-action)', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-delete-backward-char)', 'i') !=# ''
   Should maparg('<Plug>(ku-do-default-action)', 'i') !=# ''
   Should maparg('<Plug>(ku-do-default-action)', 'n') !=# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') !=# ''
@@ -328,10 +325,9 @@ function s:describe__s_initialize_ku_buffer__with_users_init_ftplugin() "{{{1
   Should exists('#plugin-ku#TabLeave#<buffer>') == 0
   Should exists('#plugin-ku#WinLeave#<buffer>') == 0
 
-  Should maparg('<BS>', 'i') ==# ''
-  Should maparg('<C-h>', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-delete-backward-char)', 'i') ==# ''
   Should maparg('<Plug>(ku-do-default-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-do-default-action)', 'n') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''
@@ -367,10 +363,9 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
 
   It should define several named key mappings for the current buffer
 
-  Should maparg('<BS>', 'i') !=# ''
-  Should maparg('<C-h>', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-action)', 'i') !=# ''
   Should maparg('<Plug>(ku-choose-action)', 'n') !=# ''
+  Should maparg('<Plug>(ku-delete-backward-char)', 'i') !=# ''
   Should maparg('<Plug>(ku-do-default-action)', 'i') !=# ''
   Should maparg('<Plug>(ku-do-default-action)', 'n') !=# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') !=# ''
@@ -397,10 +392,9 @@ function s:describe__s_initialize_ku_buffer__without_users_settings()  "{{{1
   Should exists('#plugin-ku#TabLeave#<buffer>') == 0
   Should exists('#plugin-ku#WinLeave#<buffer>') == 0
 
-  Should maparg('<BS>', 'i') ==# ''
-  Should maparg('<C-h>', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-choose-action)', 'n') ==# ''
+  Should maparg('<Plug>(ku-delete-backward-char)', 'i') ==# ''
   Should maparg('<Plug>(ku-do-default-action)', 'i') ==# ''
   Should maparg('<Plug>(ku-do-default-action)', 'n') ==# ''
   Should maparg('<Plug>(ku-quit-session)', 'i') ==# ''

@@ -329,7 +329,9 @@ See also |ku#define_default_ui_key_mappings()|.
 
 Modes	Key sequence	Meaning ~
 -----	------------	----------------------------------- ~
+i	<BS>		|<Plug>(ku-delete-backward-char)|
 ni	<C-c>		|<Plug>(ku-quit-session)|
+i	<C-h>		|<Plug>(ku-delete-backward-char)|
 ni	<C-i>		|<Plug>(ku-choose-action)|
 ni	<C-m>		|<Plug>(ku-do-default-action)|
 ni	<Enter>		|<Plug>(ku-do-default-action)|
@@ -351,6 +353,10 @@ NAMED KEY MAPPINGS				*ku-named-key-mappings*
 
 			See also |ku#custom_key()| to customize key bindings
 			to choose an action.
+
+<Plug>(ku-delete-backward-char)		   *i_<Plug>(ku-delete-backward-char)*
+			Delete backward character like |i_<BS>|, with special
+			treatment for ku.
 
 				     		*<Plug>(ku-do-default-action)*
 <Plug>(ku-do-default-action)     	      *i_<Plug>(ku-do-default-action)*

@@ -199,6 +199,9 @@ function! ku#define_default_ui_key_mappings(override_p)  "{{{2
   call f.map('ni', '<Return>', '<Plug>(ku-do-default-action)')
   call f.map('ni', '<Tab>', '<Plug>(ku-choose-action)')
 
+  call f.map('i', '<BS>', '<Plug>(ku-delete-backward-char)')
+  call f.map('i', '<C-h>', '<Plug>(ku-delete-backward-char)')
+
   return
 endfunction
 
@@ -1009,8 +1012,8 @@ function! s:initialize_ku_buffer()  "{{{2
   inoremap <buffer> <script> <Plug>(ku-quit-session)
   \        <Esc><SID>(quit-session)
 
-  imap <buffer> <BS>  <SID>(delete-backward-char)
-  imap <buffer> <C-h>  <SID>(delete-backward-char)
+  inoremap <buffer> <script> <Plug>(ku-delete-backward-char)
+  \        <SID>(delete-backward-char)
   " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
 
   " User's initialization.
