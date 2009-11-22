@@ -1000,8 +1000,9 @@ function! s:initialize_ku_buffer()  "{{{2
   inoremap <buffer> <script> <Plug>(ku-quit-session)
   \        <Esc><SID>(quit-session)
 
-  inoremap <buffer> <expr> <BS>  pumvisible() ? '<C-e><BS>' : '<BS>'
-  imap <buffer> <C-h>  <BS>
+  inoremap <buffer> <expr> <SID>(<BS>)  pumvisible() ? '<C-e><BS>' : '<BS>'
+  imap <buffer> <BS>  <SID>(<BS>)
+  imap <buffer> <C-h>  <SID>(<BS>)
   " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
 
   " User's initialization.
