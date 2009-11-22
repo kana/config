@@ -991,6 +991,7 @@ function! s:initialize_ku_buffer()  "{{{2
   \        pumvisible() ? '<C-y>' : ''
   inoremap <buffer> <expr> <SID>(cancel-completion)
   \        pumvisible() ? '<C-e>' : ''
+  inoremap <buffer> <expr> <SID>(<BS>)  pumvisible() ? '<C-e><BS>' : '<BS>'
 
   nnoremap <buffer> <script> <Plug>(ku-choose-action)
   \        <SID>(choose-action)
@@ -1006,7 +1007,6 @@ function! s:initialize_ku_buffer()  "{{{2
   inoremap <buffer> <script> <Plug>(ku-quit-session)
   \        <Esc><SID>(quit-session)
 
-  inoremap <buffer> <expr> <SID>(<BS>)  pumvisible() ? '<C-e><BS>' : '<BS>'
   imap <buffer> <BS>  <SID>(<BS>)
   imap <buffer> <C-h>  <SID>(<BS>)
   " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
