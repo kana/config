@@ -334,6 +334,7 @@ ni	<C-c>		|<Plug>(ku-quit-session)|
 i	<C-h>		|<Plug>(ku-delete-backward-char)|
 ni	<C-i>		|<Plug>(ku-choose-action)|
 ni	<C-m>		|<Plug>(ku-do-default-action)|
+i	<C-w>		|<Plug>(ku-delete-backward-component)|
 ni	<Enter>		|<Plug>(ku-do-default-action)|
 ni	<Return>	|<Plug>(ku-do-default-action)|
 ni	<Tab>		|<Plug>(ku-choose-action)|
@@ -357,6 +358,20 @@ NAMED KEY MAPPINGS				*ku-named-key-mappings*
 <Plug>(ku-delete-backward-char)		   *i_<Plug>(ku-delete-backward-char)*
 			Delete backward character like |i_<BS>|, with special
 			treatment for ku.
+
+<Plug>(ku-delete-backward-component)  *i_<Plug>(ku-delete-backward-component)*
+			Like |i_CTRL-W| to delete backward word, but it
+			deletes backward "component" instead.  See also
+			|ku-automatic-component-completion| for what
+			"component" is.
+
+			Examples:
+				Pattern		After deletion ~
+				----------	-------------- ~
+				>/usr/local/b	>/usr/local/
+				>/usr/local/	>/usr/
+				>/usr/		>/
+				>/		>
 
 				     		*<Plug>(ku-do-default-action)*
 <Plug>(ku-do-default-action)     	      *i_<Plug>(ku-do-default-action)*

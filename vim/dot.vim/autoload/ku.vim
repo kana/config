@@ -201,6 +201,7 @@ function! ku#define_default_ui_key_mappings(override_p)  "{{{2
 
   call f.map('i', '<BS>', '<Plug>(ku-delete-backward-char)')
   call f.map('i', '<C-h>', '<Plug>(ku-delete-backward-char)')
+  call f.map('i', '<C-w>', '<Plug>(ku-delete-backward-component)')
 
   return
 endfunction
@@ -997,6 +998,9 @@ function! s:initialize_ku_buffer()  "{{{2
   \        pumvisible() ? '<C-e>' : ''
   inoremap <buffer> <expr> <SID>(delete-backward-char)
   \        pumvisible() ? '<C-e><BS>' : '<BS>'
+  inoremap <buffer> <expr> <SID>(delete-backward-component)
+  \ (pumvisible() ? '<C-e>' : '')
+  \ . <SID>keys_to_delete_backward_component()
 
   nnoremap <buffer> <script> <Plug>(ku-choose-action)
   \        <SID>(choose-action)
@@ -1014,6 +1018,8 @@ function! s:initialize_ku_buffer()  "{{{2
 
   inoremap <buffer> <script> <Plug>(ku-delete-backward-char)
   \        <SID>(delete-backward-char)
+  inoremap <buffer> <script> <Plug>(ku-delete-backward-component)
+  \        <SID>(delete-backward-component)
   " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
 
   " User's initialization.
@@ -1025,6 +1031,14 @@ function! s:initialize_ku_buffer()  "{{{2
   endif
 
   return
+endfunction
+
+
+
+
+function! s:keys_to_delete_backward_component()  "{{{2
+  " FIXME: NIY
+  return "\<C-w>"
 endfunction
 
 
