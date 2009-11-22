@@ -309,7 +309,12 @@ function! ku#start(...)  "{{{2
   2 wincmd _
 
   " Set some options.
+    " Ensure to allow backspacing after ACC, etc.  These features move the
+    " cursor in Insert mode and such operation starts new Insert mode, so that
+    " backspacing may not work after ACC, etc if the value of 'backspace' is
+    " not properly set.
   set backspace=eol,indent,start
+    " Ensure to show ins-completion-menu while automatic completion.
   set completeopt=menu,menuone
 
   " Reset the content of the ku buffer.
