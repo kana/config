@@ -309,6 +309,7 @@ function! ku#start(...)  "{{{2
   2 wincmd _
 
   " Set some options.
+  set backspace=eol,indent,start
   set completeopt=menu,menuone
 
   " Reset the content of the ku buffer.
@@ -1147,6 +1148,7 @@ function! s:new_session(source_names)  "{{{2
   let session.last_lcandidates = []
   let session.last_pattern_raw = ''
   let session.now_quitting_p = s:FALSE
+  let session.original_backspace = &backspace
   let session.original_completeopt = &completeopt
   let session.original_curwinnr = winnr()
   let session.original_winrestcmd = winrestcmd()
@@ -1255,6 +1257,7 @@ function! s:quit_session()  "{{{2
   let s:session.now_quitting_p = s:TRUE
     close
 
+    let &backspace = s:session.original_backspace
     let &completeopt = s:session.original_completeopt
     execute s:session.original_curwinnr 'wincmd w'
     execute s:session.original_winrestcmd
