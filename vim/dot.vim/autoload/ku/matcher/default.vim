@@ -23,8 +23,29 @@
 " }}}
 " Interface  "{{{1
 function! ku#matcher#default#matches_p(candidate, args)  "{{{2
-  return ku#matcher#simple#matches_p(a:candidate, a:args)
+  return s:matches_p(a:candidate, a:args)
 endfunction
+
+
+
+
+function! ku#matcher#default#use(matcher)  "{{{2
+  let Old_matcher = s:matches_p
+  unlet s:matches_p  " To avoid E705.
+  let s:matches_p = a:matcher
+  return Old_matcher
+endfunction
+
+
+
+
+
+
+
+
+" Misc.  "{{{1
+
+let s:matches_p = function('ku#matcher#simple#matches_p')
 
 
 

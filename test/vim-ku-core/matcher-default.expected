@@ -1,12 +1,28 @@
-==== ku_matcher_default_matches_p 
+==== ku_matcher_default_matches_p with custom
+---- It requires the following initialization 
+
+---- It should return true for matched candidate 
+...
+---- It should return false for unmatched candidate 
+...
+---- It requires to reset side effect 
+.
+
+==== ku_matcher_default_matches_p with default
 ---- It should return true for matched candidate 
 .....
 ---- It should return false for unmatched candidate 
 ...
+
+==== ku_matcher_default_use 
+---- It should return the defult matcher at first 
+.
+---- It should return the previously used matcher 
+.
 
 
 
 **** Result ****
 
 
-8 examples, 0 failures
+17 examples, 0 failures

@@ -262,7 +262,18 @@ MATCHERS					*ku-functions-matchers*
 
 					      *ku#matcher#default#matches_p()*
 ku#matcher#default#matches_p({candidate}, {args})
-			Same as |ku#matcher#simple#matches_p()|.
+			Determine whether {candidates} is matched to given
+			{args} or not, by the method which is specified by
+			|ku#matcher#default#use()|.  The default method is
+			|ku#matcher#simple#matches_p()|.
+
+ku#matcher#default#use({matcher})		*ku#matcher#default#use()*
+			Use {matcher} as the default methods to determine
+			a given candidate is matched to given {args} or not.
+			{matcher} is a funcref.  See also
+			|ku-source-attribute-matchers| for the details.
+
+			Return value is a funcref of the old matcher.
 
 					      *ku#matcher#simple#matches_p()*
 ku#matcher#simple#matches_p({candidate}, {args})
