@@ -280,6 +280,12 @@ ku#matcher#simple#matches_p({candidate}, {args})
 			Return true if {candidate}.word contains
 			{args}.patatern.  Otherwise return false.
 
+					      *ku#matcher#true#matches_p()*
+ku#matcher#true#matches_p({candidate}, {args})
+			Dummy matcher - always return true regardless of
+			{candidats} nor {args}.  Use this matcher if sorters
+			do also filtering candidats according to {args}.
+
 SORTERS						*ku-functions-sorters*
 
 ku#sorter#default#sort({lcandidates}, {args})	*ku#sorter#default#sort()*

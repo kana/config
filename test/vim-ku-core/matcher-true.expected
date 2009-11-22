@@ -1,0 +1,10 @@
+==== ku_matcher_true_matches_p 
+---- It should return true regardless of candidate nor args 
+.........
+
+
+
+**** Result ****
+
+
+9 examples, 0 failures
