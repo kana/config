@@ -23,7 +23,7 @@
 " }}}
 " Interface  "{{{1
 function! ku#matcher#default#matches_p(candidate, args)  "{{{2
-  return stridx(a:candidate.word, a:args.pattern) != -1
+  return ku#matcher#simple#matches_p(a:candidate, a:args)
 endfunction
 
 

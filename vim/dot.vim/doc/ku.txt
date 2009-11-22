@@ -262,8 +262,7 @@ MATCHERS					*ku-functions-matchers*
 
 					      *ku#matcher#default#matches_p()*
 ku#matcher#default#matches_p({candidate}, {args})
-			Return true if {candidate}.word contains
-			{args}.patatern.  Otherwise return false.
+			Same as |ku#matcher#simple#matches_p()|.
 
 					      *ku#matcher#simple#matches_p()*
 ku#matcher#simple#matches_p({candidate}, {args})
