@@ -224,14 +224,14 @@ function s:describe__s_initialize_ku_buffer__with_users_init_autocmd()  "{{{1
 
   It should define several named key mappings for the current buffer
 
-  Should maparg('<BS>', 'i') != '' == 1
-  Should maparg('<C-h>', 'i') != '' == 1
-  Should maparg('<Plug>(ku-choose-action)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-choose-action)', 'n') != '' == 1
-  Should maparg('<Plug>(ku-do-default-action)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-do-default-action)', 'n') != '' == 1
-  Should maparg('<Plug>(ku-quit-session)', 'i') != '' == 1
-  Should maparg('<Plug>(ku-quit-session)', 'n') != '' == 1
+  Should maparg('<BS>', 'i') != ''
+  Should maparg('<C-h>', 'i') != ''
+  Should maparg('<Plug>(ku-choose-action)', 'i') != ''
+  Should maparg('<Plug>(ku-choose-action)', 'n') != ''
+  Should maparg('<Plug>(ku-do-default-action)', 'i') != ''
+  Should maparg('<Plug>(ku-do-default-action)', 'n') != ''
+  Should maparg('<Plug>(ku-quit-session)', 'i') != ''
+  Should maparg('<Plug>(ku-quit-session)', 'n') != ''
 
   It should not define any ui key mapping for the current buffer
 
