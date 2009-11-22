@@ -321,25 +321,25 @@ ku#sorter#smart#sort({lcandidates}, {args})	*ku#sorter#smart#sort()*
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
 
-In |the-ku-buffer|, the following key mappings are defined in Normal mode and
-Insert mode.
+In |the-ku-buffer|, the following key mappings are defined.
 
 DEFAULT UI KEY MAPPINGS				*ku-default-ui-key-mappings*
 
 See also |ku#define_default_ui_key_mappings()|.
 
-Key sequence	Meaning ~
-------------	----------------------------------- ~
-<C-c>		|<Plug>(ku-quit-session)|
-<C-i>		|<Plug>(ku-choose-action)|
-<C-m>		|<Plug>(ku-do-default-action)|
-<Enter>		|<Plug>(ku-do-default-action)|
-<Return>	|<Plug>(ku-do-default-action)|
-<Tab>		|<Plug>(ku-choose-action)|
+Modes	Key sequence	Meaning ~
+-----	------------	----------------------------------- ~
+ni	<C-c>		|<Plug>(ku-quit-session)|
+ni	<C-i>		|<Plug>(ku-choose-action)|
+ni	<C-m>		|<Plug>(ku-do-default-action)|
+ni	<Enter>		|<Plug>(ku-do-default-action)|
+ni	<Return>	|<Plug>(ku-do-default-action)|
+ni	<Tab>		|<Plug>(ku-choose-action)|
 
 NAMED KEY MAPPINGS				*ku-named-key-mappings*
 
-<Plug>(ku-choose-action)			*<Plug>(ku-choose-action)*
+						*<Plug>(ku-choose-action)*
+<Plug>(ku-choose-action)			*i_<Plug>(ku-choose-action)*
 			Like |<Plug>(ku-do-default-action)|, but you can
 			choose an action from all available actions for the
 			currently selected candidate.
@@ -352,11 +352,13 @@ NAMED KEY MAPPINGS				*ku-named-key-mappings*
 			See also |ku#custom_key()| to customize key bindings
 			to choose an action.
 
-<Plug>(ku-do-default-action)     		*<Plug>(ku-do-default-action)*
+				     		*<Plug>(ku-do-default-action)*
+<Plug>(ku-do-default-action)     	      *i_<Plug>(ku-do-default-action)*
 			Do the default action on the currently selected
 			candidate, then quit the current session.
 
-<Plug>(ku-quit-session)				*<Plug>(ku-quit-session)*
+						*<Plug>(ku-quit-session)*
+<Plug>(ku-quit-session)				*i_<Plug>(ku-quit-session)*
 			Quit the current session.
 
 
