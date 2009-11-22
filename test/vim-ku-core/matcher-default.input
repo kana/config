@@ -33,7 +33,7 @@ endfunction
 function s:describe__ku_matcher_default_matches_p__with_default()  "{{{1
   let args = {'pattern': 'rail'}
 
-  It should return true for matched candidate
+  It should act as same as matcher true
 
   Should !!ku#matcher#default#matches_p({'word': 'rail'}, args) == 1
   Should !!ku#matcher#default#matches_p({'word': 'a rail'}, args) == 1
@@ -41,11 +41,9 @@ function s:describe__ku_matcher_default_matches_p__with_default()  "{{{1
   Should !!ku#matcher#default#matches_p({'word': 'a rail gun'}, args) == 1
   Should !!ku#matcher#default#matches_p({'word': 'arailgun'}, args) == 1
 
-  It should return false for unmatched candidate
-
-  Should !!ku#matcher#default#matches_p({'word': ''}, args) == 0
-  Should !!ku#matcher#default#matches_p({'word': 'reil gan'}, args) == 0
-  Should !!ku#matcher#default#matches_p({'word': 'RAILgun'}, args) == 0
+  Should !!ku#matcher#default#matches_p({'word': ''}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'reil gan'}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'RAILgun'}, args) == 1
 endfunction
 
 
@@ -55,7 +53,7 @@ function s:describe__ku_matcher_default_use()  "{{{1
   It should return the defult matcher at first
 
   let Default_matcher = ku#matcher#default#use(function('function'))
-  Should Default_matcher ==# function('ku#matcher#simple#matches_p')
+  Should Default_matcher ==# function('ku#matcher#true#matches_p')
 
   It should return the previously used matcher
 

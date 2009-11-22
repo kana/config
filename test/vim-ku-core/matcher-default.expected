@@ -9,10 +9,8 @@
 .
 
 ==== ku_matcher_default_matches_p with default
----- It should return true for matched candidate 
-.....
----- It should return false for unmatched candidate 
-...
+---- It should act as same as matcher true 
+........
 
 ==== ku_matcher_default_use 
 ---- It should return the defult matcher at first 

@@ -265,7 +265,7 @@ ku#matcher#default#matches_p({candidate}, {args})
 			Determine whether {candidates} is matched to given
 			{args} or not, by the method which is specified by
 			|ku#matcher#default#use()|.  The default method is
-			|ku#matcher#simple#matches_p()|.
+			|ku#matcher#true#matches_p()|.
 
 ku#matcher#default#use({matcher})		*ku#matcher#default#use()*
 			Use {matcher} as the default methods to determine

@@ -45,7 +45,7 @@ endfunction
 
 " Misc.  "{{{1
 
-let s:matches_p = function('ku#matcher#simple#matches_p')
+let s:matches_p = function('ku#matcher#true#matches_p')
 
 
 
