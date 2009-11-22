@@ -283,7 +283,18 @@ ku#sorter#simple#sort({lcandidates}, {args})	*ku#sorter#simple#sort()*
 			Sort {lcandidates} by |sort()|.
 
 ku#sorter#smart#sort({lcandidates}, {args})	*ku#sorter#smart#sort()*
-			Sort {lcandidates} smartly.
+			Sort {lcandidates} smartly -- calculate "score" for
+			each candidate, then sort candidats by scores.  The
+			minimum score is 0% and the maximum score is 100%.
+			Higher score means strong similarity, so candidates
+			are sorted in descending order of score.
+
+			Score is calculated as follows:
+				FIXME: Description on how score is calculated.
+
+			0% score means that a candidate is not matched to
+			a given pattern.  So such candidates are dropped from
+			result.
 
 
 ------------------------------------------------------------------------------
