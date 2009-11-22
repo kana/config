@@ -1037,8 +1037,36 @@ endfunction
 
 
 function! s:keys_to_delete_backward_component()  "{{{2
-  " FIXME: NIY
-  return "\<C-w>"
+  " In the following figures,
+  " '|' means the cursor position, and
+  " '^' means characters to delete:
+  "
+  "   >/usr/local/b|
+  "               ^
+  "
+  "   >/usr/local/|
+  "         ^^^^^^
+  "
+  "   >/usr/|
+  "     ^^^^
+
+  let line = getline('.')
+  if len(line) < col('.')
+    let i = matchend(line,
+    \                ('\V\.\*\['
+    \                 . escape(g:ku_component_separators, '\')
+    \                 . ']\ze\.'))
+    if 0 <= i
+      return repeat("\<BS>", len(line) - i)
+    else
+      " No component separator - delete everything.
+      return "\<C-u>"
+    endif
+  else
+    " Don't consider cases that the cursor doesn't point the end of the
+    " current line.
+    return "\<C-w>"
+  endif
 endfunction
 
 

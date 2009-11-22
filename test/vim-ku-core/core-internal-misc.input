@@ -498,6 +498,42 @@ endfunction
 
 
 
+function s:describe__s_keys_to_delete_backward_component()  "{{{1
+  It requires the following initialization
+
+  set virtualedit=onemore
+
+  It should return valid keys
+
+  normal! o/usr/local/b
+  normal! $l
+  Should Call('s:keys_to_delete_backward_component') ==# repeat("\<BS>", 1)
+
+  normal! o/usr/local/
+  normal! $l
+  Should Call('s:keys_to_delete_backward_component') ==# repeat("\<BS>", 6)
+
+  normal! o/usr/
+  normal! $l
+  Should Call('s:keys_to_delete_backward_component') ==# repeat("\<BS>", 4)
+
+  normal! o/
+  normal! $l
+  Should Call('s:keys_to_delete_backward_component') ==# "\<C-u>"
+
+  normal! o
+  normal! $l
+  Should Call('s:keys_to_delete_backward_component') ==# "\<C-u>"
+
+  It requires to reset side effect
+
+  set virtualedit&
+  silent bwipeout!
+endfunction
+
+
+
+
 function s:describe__s_kinds_from_kind_names()  "{{{1
   It requires the following initialization
 
