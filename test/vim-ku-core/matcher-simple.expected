@@ -1,0 +1,12 @@
+==== ku_matcher_simple_matches_p 
+---- It should return true for matched candidate 
+.....
+---- It should return false for unmatched candidate 
+...
+
+
+
+**** Result ****
+
+
+8 examples, 0 failures

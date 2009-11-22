@@ -383,7 +383,8 @@ PACKAGE_vim_ku_core_FILES_core=\
 PACKAGE_vim_ku_core_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/common.vim
 PACKAGE_vim_ku_core_FILES_matchers=\
-  vim/dot.vim/autoload/ku/matcher/default.vim
+  vim/dot.vim/autoload/ku/matcher/default.vim \
+  vim/dot.vim/autoload/ku/matcher/simple.vim
 PACKAGE_vim_ku_core_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
   vim/dot.vim/autoload/ku/sorter/simple.vim \
@@ -850,6 +851,7 @@ TESTS_vim_ku_core = \
 		core-ui \
 		kind-common \
 		matcher-default \
+		matcher-simple \
 		sorter-default \
 		sorter-simple \
 		sorter-smart

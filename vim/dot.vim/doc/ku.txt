@@ -265,6 +265,11 @@ ku#matcher#default#matches_p({candidate}, {args})
 			Return true if {candidate}.word contains
 			{args}.patatern.  Otherwise return false.
 
+					      *ku#matcher#simple#matches_p()*
+ku#matcher#simple#matches_p({candidate}, {args})
+			Return true if {candidate}.word contains
+			{args}.patatern.  Otherwise return false.
+
 SORTERS						*ku-functions-sorters*
 
 ku#sorter#default#sort({lcandidates}, {args})	*ku#sorter#default#sort()*
