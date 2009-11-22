@@ -1,6 +1,8 @@
 ==== ku_sorter_smart_sort 
 ---- It should sort candidates by their scores 
 .
+---- It should drop candidates with 0 score 
+.
 
 ==== score 
 ---- It should return 90% for base case 
@@ -23,4 +25,4 @@
 **** Result ****
 
 
-20 examples, 0 failures
+21 examples, 0 failures

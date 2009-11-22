@@ -20,6 +20,22 @@ function s:describe__ku_sorter_smart_sort()  "{{{1
   \   {'word': 'dot.vimrc'},
   \   {'word': 'autoload.vim'},
   \ ]
+
+  It should drop candidates with 0 score
+
+  let lcandidates = [
+  \   {'word': '.vimrc'},
+  \   {'word': 'autoload.vi'},
+  \   {'word': 'dot.vimrc'},
+  \   {'word': 'vim'},
+  \ ]
+  let args = {'pattern': 'vim'}
+
+  Should ku#sorter#smart#sort(lcandidates, args) == [
+  \   {'word': 'vim'},
+  \   {'word': '.vimrc'},
+  \   {'word': 'dot.vimrc'},
+  \ ]
 endfunction
 
 

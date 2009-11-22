@@ -26,6 +26,7 @@ function! ku#sorter#smart#sort(lcandidates, args)  "{{{2
   let _ = copy(a:lcandidates)
 
   call map(_, '[s:score(v:val.word, a:args.pattern), v:val]')
+  call filter(_, '0 < v:val[0]')
   call sort(_, 's:compare')
   call map(_, 'v:val[1]')
 
