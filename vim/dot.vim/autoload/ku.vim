@@ -1213,6 +1213,7 @@ endfunction
 
 
 function! s:normalize_candidate(candidate, source)  "{{{2
+  let a:candidate.dup = s:TRUE
   let a:candidate.ku__source = a:source
   let a:candidate.menu = a:source.name
 

@@ -1063,6 +1063,13 @@ KNOWN ISSUES ~
 - |the-ku-buffer| doesn't work well if a preview window exists in the current
   tabpage.  |ins-completion-menu| is not properly displayed.
 
+- It's not possible to do action on a selected candidate if there are two or
+  more candidates with the same word as the selected one in |the-ku-buffer|.
+  The first one is always selected.
+
+  It's caused by a limitation of Vim - it's not possible to override
+  |i_CTRL-N| nor |i_CTRL-P| while |pumvisible()|.
+
 
 PLANNED FEATURES ~
 
