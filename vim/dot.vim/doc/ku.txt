@@ -954,8 +954,30 @@ Same as |ku-action-resolution-order|.  The difference is that ku looks up
 ==============================================================================
 CUSTOMIZING					*ku-customizing*
 
-FIXME: Description on customization.
+EVENTS						*ku-events*
 
+FileType ku					*ft-ku*
+	This event is published whenever |the-ku-buffer| is created.  Use this
+	event to do your initialization, for example, customizing key mappings
+	for the ku buffer.
+
+	Note that if there is no |:autocmd| nor filetype plugin for this
+	event, ku will call ku#define_default_ui_key_mappings(!0) to define
+	the default UI key mappings.  Otherwise, the key mappings will not be
+	defined.  See |ku#define_default_ui_key_mappings()| for the details of
+	key mappings.
+
+	Example:
+		Define key mappings to execute "left" action with a single key
+		stroke.
+>
+		autocmd FileType ku
+		\   call ku#define_default_ui_key_mappings(!0)
+		\ | execute 'nnoremap <M-[>
+		\              :<C-u>call ku#take_action("left")<Return>'
+		\ | execute 'inoremap <M-[>
+		\              <Esc>:<C-u>call ku#take_action("left")<Return>'
+<
 
 VARIABLES					*ku-variables*
 
