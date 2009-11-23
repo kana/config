@@ -1095,7 +1095,7 @@ KNOWN ISSUES ~
 
 PLANNED FEATURES ~
 
-- Add more useful |ku-functions-sorters|.
+- Tune up |ku#sorter#smart#sort()|.
 
 - Smart chaching.
 
