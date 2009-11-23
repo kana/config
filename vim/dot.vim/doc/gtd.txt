@@ -159,6 +159,10 @@ BUGS						*gtd-bugs*
 ==============================================================================
 CHANGELOG					*gtd-changelog*
 
+0.0.1	2009-11-23T12:38:44+09:00
+	- Fix |gtd#jump_to_issue()| to work with |jumplist|.  Now it's
+	  possible to go back the position before jump with |<C-o>|.
+
 0.0.0	2009-08-08T18:49:16+09:00
 	- Initial version.
 

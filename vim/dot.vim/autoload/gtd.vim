@@ -70,7 +70,13 @@ function! gtd#jump_to_issue()  "{{{2
     return 0
   endif
 
+    " To save the old position in jumplist.
+  let line = line('.')
+  call setpos('.', pos)
+  execute 'normal!' line.'G'
+
   normal! zvzz
+
   return !0
 endfunction
 

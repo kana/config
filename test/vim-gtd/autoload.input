@@ -208,9 +208,16 @@ function s:test_gtd_jump_to_issue_1()  "{{{1
   Assert getline(1, '$') ==> ['']
 
   normal! 1G
+  redir => jumplist1
+  silent jumps
+  redir END
   call gtd#jump_to_issue()
+  redir => jumplist2
+  silent jumps
+  redir END
   Assert getline(1, '$') ==> ['']
   Assert getpos('.')[1:2] ==> [1, 1]
+  Assert len(split(jumplist2, '\n')) ==> len(split(jumplist1, '\n'))
 endfunction
 
 
@@ -224,9 +231,16 @@ function s:test_gtd_jump_to_issue_2()  "{{{1
   Assert getline(1, '$') ==> ['', '#abc', '#def']
 
   normal! 2G
+  redir => jumplist1
+  silent jumps
+  redir END
   call gtd#jump_to_issue()
+  redir => jumplist2
+  silent jumps
+  redir END
   Assert getline(1, '$') ==> ['', '#abc', '#def']
   Assert getpos('.')[1:2] ==> [2, 1]
+  Assert len(split(jumplist2, '\n')) ==> len(split(jumplist1, '\n'))
 endfunction
 
 
@@ -240,9 +254,16 @@ function s:test_gtd_jump_to_issue_3()  "{{{1
   Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def']
 
   normal! 3Gl
+  redir => jumplist1
+  silent jumps
+  redir END
   call gtd#jump_to_issue()
+  redir => jumplist2
+  silent jumps
+  redir END
   Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def']
   Assert getpos('.')[1:2] ==> [3, 2]
+  Assert len(split(jumplist2, '\n')) ==> len(split(jumplist1, '\n'))
 endfunction
 
 
@@ -256,9 +277,16 @@ function s:test_gtd_jump_to_issue_4()  "{{{1
   Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi']
 
   normal! 3Gl
+  redir => jumplist1
+  silent jumps
+  redir END
   call gtd#jump_to_issue()
+  redir => jumplist2
+  silent jumps
+  redir END
   Assert getline(1, '$') ==> ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi']
   Assert getpos('.')[1:2] ==> [5, 1]
+  Assert len(split(jumplist2, '\n')) ==> len(split(jumplist1, '\n')) + 1
 endfunction
 
 
@@ -272,9 +300,16 @@ function s:test_gtd_jump_to_issue_5()  "{{{1
   Assert getline(1, '$') ==> ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def']
 
   normal! 4Gl
+  redir => jumplist1
+  silent jumps
+  redir END
   call gtd#jump_to_issue()
+  redir => jumplist2
+  silent jumps
+  redir END
   Assert getline(1, '$') ==> ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def']
   Assert getpos('.')[1:2] ==> [2, 1]
+  Assert len(split(jumplist2, '\n')) ==> len(split(jumplist1, '\n')) + 1
 endfunction
 
 
