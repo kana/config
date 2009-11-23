@@ -11,8 +11,8 @@ all: update
   all \
   clean \
   clean-vim \
-  list-available-packages \
-  list-files-in-a-package \
+  list-available-bundles \
+  list-files-in-a-bundle \
   package \
   test \
   test-a-package \
@@ -642,15 +642,25 @@ _validate-package-type:
 
 # for vim-bundle
 
-list-available-packages:
-	@echo $(ALL_PACKAGES)
+ALL_TESTS=$(foreach package_name, \
+            $(ALL_PACKAGES), \
+            $(if $(TESTS_$(subst -,_,$(package_name))),test-$(package_name),))
 
-list-files-in-a-package:
-	@if [ -z '$(filter $(PACKAGE_NAME),$(ALL_PACKAGES))' ]; then \
+list-available-bundles:
+	@echo $(ALL_PACKAGES)
+	@echo $(ALL_TESTS)
+
+list-files-in-a-bundle:
+	@if $(if $(filter $(PACKAGE_NAME),$(ALL_PACKAGES)),true,false); then \
+	  echo $(PACKAGE_$(_PACKAGE_NAME)_FILES); \
+	elif $(if $(filter $(PACKAGE_NAME),$(ALL_TESTS)),true,false); then \
+	  echo $(foreach test_case, \
+	         $($(subst -,_,$(patsubst test-%,TESTS_%,$(PACKAGE_NAME)))), \
+	         test/$(subst test-,,$(PACKAGE_NAME))/$(test_case).input); \
+	else \
 	  echo 'Error: Invalid PACKAGE_NAME "$(PACKAGE_NAME)".'; \
 	  false; \
 	fi
-	@echo $(PACKAGE_$(_PACKAGE_NAME)_FILES)
 
 
 
