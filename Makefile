@@ -175,6 +175,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_lastpat_FILES) \
   $(PACKAGE_vim_textobj_syntax_FILES) \
   $(PACKAGE_vim_textobj_user_FILES) \
+  $(PACKAGE_vim_textobj_whitespace_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_vspec_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
@@ -268,6 +269,7 @@ ALL_PACKAGES=\
   vim-textobj-lastpat \
   vim-textobj-syntax \
   vim-textobj-user \
+  vim-textobj-whitespace \
   vim-vcsi \
   vim-vspec \
   vim-xml_autons \
@@ -632,6 +634,12 @@ PACKAGE_vim_textobj_user_BASE=vim/dot.vim
 PACKAGE_vim_textobj_user_FILES=\
   vim/dot.vim/autoload/textobj/user.vim \
   vim/dot.vim/doc/textobj-user.txt
+
+PACKAGE_vim_textobj_whitespace_ARCHIVE=vim-textobj-whitespace-0.0.0
+PACKAGE_vim_textobj_whitespace_BASE=vim/dot.vim
+PACKAGE_vim_textobj_whitespace_FILES=\
+  vim/dot.vim/doc/textobj-whitespace.txt \
+  vim/dot.vim/plugin/textobj/whitespace.vim
 
 PACKAGE_vim_vcsi_ARCHIVE=vim-vcsi-0.1.0
 PACKAGE_vim_vcsi_BASE=vim/dot.vim
