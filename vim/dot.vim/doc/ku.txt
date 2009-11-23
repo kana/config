@@ -392,6 +392,21 @@ pattern to suggest more proper candidates.  The details are as follows:
 FIXME: Details of pattern.
 
 
+PATTERN PREFIX ASSUMPTION			*ku-pattern-prefix-assumption*
+
+Ku usually assumes that sources gather candidates which "prefixes" are always
+same as the "prefix" of a pattern.  Here "prefix" of a pattern is a string
+without the last component of the pattern.
+
+For example:
+- The prefix of "/usr/local/b" is "/usr/local/".
+- If a pattern is "/usr/local/b", ku assumes that sources gather candidates
+  such as "/usr/local/bin", "/usr/local/etc", etc.
+
+See also:
+- |ku-source-attribute-pattern_prefix_assumption_p|
+
+
 ------------------------------------------------------------------------------
 AUTOMATIC COMPONENT COMPLETION		   *ku-automatic-component-completion*
 
@@ -754,6 +769,15 @@ on_action		funcref			(optional)
 			  endif
 			endfunction
 <
+
+			     *ku-source-attribute-pattern_prefix_assumption_p*
+pattern_prefix_assumption_p	boolean		(optional)
+			Determine whether |ku-pattern-prefix-assumption| is
+			valid or not.  If this value is true, the assumption
+			is valid.  Otherwise, it's not valid.
+
+			This attribute is optional; if it is not given, true
+			is used as the default value.
 
 						*ku-source-attribute-sorters*
 sorters			list of funcrefs	(optional)
