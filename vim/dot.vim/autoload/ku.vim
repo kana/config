@@ -185,18 +185,23 @@ function! ku#define_default_ui_key_mappings(override_p)  "{{{2
   " Define key mappings for the current buffer.
   let f = {}
   let f.unique = a:override_p ? '' : '<unique>'
-  function! f.map(lhs, rhs)
-    execute 'silent!' 'nmap' '<buffer>' self.unique a:lhs  a:rhs
-    execute 'silent!' 'imap' '<buffer>' self.unique a:lhs  a:rhs
+  function! f.map(modes, lhs, rhs)
+    for i in range(len(a:modes))
+      execute 'silent!' a:modes[i].'map' '<buffer>' self.unique a:lhs  a:rhs
+    endfor
   endfunction
 
-  call f.map('<C-c>', '<Plug>(ku-quit-session)')
-  call f.map('<C-c>', '<Plug>(ku-quit-session)')
-  call f.map('<C-i>', '<Plug>(ku-choose-action)')
-  call f.map('<C-m>', '<Plug>(ku-do-default-action)')
-  call f.map('<Enter>', '<Plug>(ku-do-default-action)')
-  call f.map('<Return>', '<Plug>(ku-do-default-action)')
-  call f.map('<Tab>', '<Plug>(ku-choose-action)')
+  call f.map('ni', '<C-c>', '<Plug>(ku-quit-session)')
+  call f.map('ni', '<C-c>', '<Plug>(ku-quit-session)')
+  call f.map('ni', '<C-i>', '<Plug>(ku-choose-action)')
+  call f.map('ni', '<C-m>', '<Plug>(ku-do-default-action)')
+  call f.map('ni', '<Enter>', '<Plug>(ku-do-default-action)')
+  call f.map('ni', '<Return>', '<Plug>(ku-do-default-action)')
+  call f.map('ni', '<Tab>', '<Plug>(ku-choose-action)')
+
+  call f.map('i', '<BS>', '<Plug>(ku-delete-backward-char)')
+  call f.map('i', '<C-h>', '<Plug>(ku-delete-backward-char)')
+  call f.map('i', '<C-w>', '<Plug>(ku-delete-backward-component)')
 
   return
 endfunction
@@ -309,6 +314,12 @@ function! ku#start(...)  "{{{2
   2 wincmd _
 
   " Set some options.
+    " Ensure to allow backspacing after ACC, etc.  These features move the
+    " cursor in Insert mode and such operation starts new Insert mode, so that
+    " backspacing may not work after ACC, etc if the value of 'backspace' is
+    " not properly set.
+  set backspace=eol,indent,start
+    " Ensure to show ins-completion-menu while automatic completion.
   set completeopt=menu,menuone
 
   " Reset the content of the ku buffer.
@@ -985,6 +996,11 @@ function! s:initialize_ku_buffer()  "{{{2
   \        pumvisible() ? '<C-y>' : ''
   inoremap <buffer> <expr> <SID>(cancel-completion)
   \        pumvisible() ? '<C-e>' : ''
+  inoremap <buffer> <expr> <SID>(delete-backward-char)
+  \        pumvisible() ? '<C-e><BS>' : '<BS>'
+  inoremap <buffer> <expr> <SID>(delete-backward-component)
+  \ (pumvisible() ? '<C-e>' : '')
+  \ . <SID>keys_to_delete_backward_component()
 
   nnoremap <buffer> <script> <Plug>(ku-choose-action)
   \        <SID>(choose-action)
@@ -1000,8 +1016,10 @@ function! s:initialize_ku_buffer()  "{{{2
   inoremap <buffer> <script> <Plug>(ku-quit-session)
   \        <Esc><SID>(quit-session)
 
-  inoremap <buffer> <expr> <BS>  pumvisible() ? '<C-e><BS>' : '<BS>'
-  imap <buffer> <C-h>  <BS>
+  inoremap <buffer> <script> <Plug>(ku-delete-backward-char)
+  \        <SID>(delete-backward-char)
+  inoremap <buffer> <script> <Plug>(ku-delete-backward-component)
+  \        <SID>(delete-backward-component)
   " <C-n>/<C-p> ... Vim doesn't expand these keys in Insert mode completion.
 
   " User's initialization.
@@ -1013,6 +1031,42 @@ function! s:initialize_ku_buffer()  "{{{2
   endif
 
   return
+endfunction
+
+
+
+
+function! s:keys_to_delete_backward_component()  "{{{2
+  " In the following figures,
+  " '|' means the cursor position, and
+  " '^' means characters to delete:
+  "
+  "   >/usr/local/b|
+  "               ^
+  "
+  "   >/usr/local/|
+  "         ^^^^^^
+  "
+  "   >/usr/|
+  "     ^^^^
+
+  let line = getline('.')
+  if len(line) < col('.')
+    let i = matchend(line,
+    \                ('\V\.\*\['
+    \                 . escape(g:ku_component_separators, '\')
+    \                 . ']\ze\.'))
+    if 0 <= i
+      return repeat("\<BS>", len(line) - i)
+    else
+      " No component separator - delete everything.
+      return "\<C-u>"
+    endif
+  else
+    " Don't consider cases that the cursor doesn't point the end of the
+    " current line.
+    return "\<C-w>"
+  endif
 endfunction
 
 
@@ -1146,6 +1200,7 @@ function! s:new_session(source_names)  "{{{2
   let session.last_lcandidates = []
   let session.last_pattern_raw = ''
   let session.now_quitting_p = s:FALSE
+  let session.original_backspace = &backspace
   let session.original_completeopt = &completeopt
   let session.original_curwinnr = winnr()
   let session.original_winrestcmd = winrestcmd()
@@ -1158,6 +1213,7 @@ endfunction
 
 
 function! s:normalize_candidate(candidate, source)  "{{{2
+  let a:candidate.dup = s:TRUE
   let a:candidate.ku__source = a:source
   let a:candidate.menu = a:source.name
 
@@ -1254,6 +1310,7 @@ function! s:quit_session()  "{{{2
   let s:session.now_quitting_p = s:TRUE
     close
 
+    let &backspace = s:session.original_backspace
     let &completeopt = s:session.original_completeopt
     execute s:session.original_curwinnr 'wincmd w'
     execute s:session.original_winrestcmd

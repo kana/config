@@ -1,0 +1,75 @@
+" Test: vim-ku-core core-syntax
+runtime! plugin/ku/**/*.vim
+silent filetype on
+syntax enable
+function! SynStack(lnum, col)
+  return map(synstack(a:lnum, a:col), 'synIDattr(v:val, "name")')
+endfunction
+function s:describe__syntax()  "{{{1
+  It requires the following initialization
+
+  silent bwipeout!
+  setfiletype ku
+  0 put =['Sources: buffer, file, metarw/git', '>ulb']
+
+  let IL = 'kuInputLine'
+  let IP = 'kuInputPrompt'
+  let IX = 'kuInputPattern'
+  let SL = 'kuStatusLine'
+  let SN = 'kuSourceNames'
+  let SP = 'kuSourcePrompt'
+  let SS = 'kuSourceSeparator'
+
+  It should highlight the status line
+
+  let _ = [
+  \   [1, 1, [SL, SP]],
+  \   [1, 7, [SL, SP]],
+  \   [1, 8, [SL, SS]],
+  \   [1, 9, [SL, SS]],
+  \   [1,10, [SL, SN]],
+  \   [1,15, [SL, SN]],
+  \   [1,16, [SL]],
+  \   [1,17, [SL]],
+  \   [1,18, [SL, SN]],
+  \   [1,21, [SL, SN]],
+  \   [1,22, [SL]],
+  \   [1,23, [SL]],
+  \   [1,24, [SL, SN]],
+  \   [1,33, [SL, SN]],
+  \ ]
+  for [lnum, col, stack] in _
+    execute 'Should SynStack(' string(lnum) ', ' string(col) ') ==# stack'
+  endfor
+
+  It should highlight the input line
+
+  let _ = [
+  \   [2, 1, [IL, IP]],
+  \   [2, 2, [IL, IX]],
+  \   [2, 3, [IL, IX]],
+  \   [2, 4, [IL, IX]],
+  \ ]
+  for [lnum, col, stack] in _
+    execute 'Should SynStack(' string(lnum) ', ' string(col) ') ==# stack'
+  endfor
+
+  It should define highlightings for <Plug>(ku-choose-action)
+
+  Should hlID('kuChooseAction') > 0
+  Should hlID('kuChooseCandidate') > 0
+  Should hlID('kuChooseKey') > 0
+  Should hlID('kuChooseMessage') > 0
+  Should hlID('kuChoosePrompt') > 0
+  Should hlID('kuChooseSource') > 0
+
+  It requires to reset side effect
+
+  silent bwipeout!
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

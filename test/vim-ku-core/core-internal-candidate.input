@@ -29,7 +29,8 @@ function s:describe__ku_omnifunc__findstart_0()  "{{{1
   \ {'word': 'pattern',
   \  'abbr': 'pa',
   \  'menu': Ref('s:available_sources')['test'].name,
-  \  'ku__source': Ref('s:available_sources')['test']},
+  \  'ku__source': Ref('s:available_sources')['test'],
+  \  'dup': !0},
   \ ]
   Should ku#omnifunc(0, 'pattern') ==# Ref('s:session').last_lcandidates
 
@@ -45,7 +46,8 @@ function s:describe__ku_omnifunc__findstart_0()  "{{{1
   \ {'word': 'pattern',
   \  'abbr': 'pa',
   \  'menu': Ref('s:available_sources')['test'].name,
-  \  'ku__source': Ref('s:available_sources')['test']},
+  \  'ku__source': Ref('s:available_sources')['test'],
+  \  'dup': !0},
   \ ]
   Should ku#omnifunc(0, 'pattern') ==# Ref('s:session').last_lcandidates
 
@@ -270,16 +272,16 @@ function s:describe__s_lcandidates_from_pattern()  "{{{1
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_a])
   \ ==# [
-  \   {'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
+  \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
   \ ]
 
   It should return some candidates with multiple sources
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_a, source_b])
   \ ==# [
-  \   {'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
-  \   {'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
-  \   {'ku__source': source_b, 'menu': 'source_b', 'word': 'B'},
+  \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
+  \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
+  \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'B'},
   \ ]
 
   It should return some candidates with multiple sources - duplicate sources
@@ -287,28 +289,28 @@ function s:describe__s_lcandidates_from_pattern()  "{{{1
 
   Should Call('s:lcandidates_from_pattern','2330',[source_a,source_b,source_a])
   \ ==# [
-  \   {'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
-  \   {'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
-  \   {'ku__source': source_b, 'menu': 'source_b', 'word': 'B'},
-  \   {'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
+  \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
+  \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
+  \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'B'},
+  \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
   \ ]
 
   It should return sorted candidates for a source with sorters
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_c])
   \ ==# [
-  \   {'ku__source': source_c, 'menu': 'source_c', 'word': 'p'},
-  \   {'ku__source': source_c, 'menu': 'source_c', 'word': 'u'},
+  \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'p'},
+  \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'u'},
   \ ]
 
   It should return partially sorted candidates for sources with/without sorters
 
   Should Call('s:lcandidates_from_pattern', '2330', [source_c, source_b])
   \ ==# [
-  \   {'ku__source': source_c, 'menu': 'source_c', 'word': 'p'},
-  \   {'ku__source': source_c, 'menu': 'source_c', 'word': 'u'},
-  \   {'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
-  \   {'ku__source': source_b, 'menu': 'source_b', 'word': 'B'},
+  \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'p'},
+  \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'u'},
+  \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
+  \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'B'},
   \ ]
 
   ResetContext
@@ -346,8 +348,8 @@ function s:describe__s_lcandidates_from_pattern__args_source()  "{{{1
 
   Should Call('s:lcandidates_from_pattern', 'juni', [source_a, source_b])
   \ ==# [
-  \   {'ku__source': source_a, 'menu': 'source_a', 'word': 'source_a'},
-  \   {'ku__source': source_b, 'menu': 'source_b', 'word': 'source_b'},
+  \   {'dup':!0, 'ku__source':source_a, 'menu':'source_a', 'word':'source_a'},
+  \   {'dup':!0, 'ku__source':source_b, 'menu':'source_b', 'word':'source_b'},
   \ ]
 
   It requires to reset side effect
@@ -359,6 +361,8 @@ endfunction
 
 
 function s:describe__s_matched_lcandidates()  "{{{1
+  It requires the following initialization
+
   function! Test_matcher_odd(candidate, args)
     return len(a:candidate.word) % 2
   endfunction
@@ -375,12 +379,12 @@ function s:describe__s_matched_lcandidates()  "{{{1
   \     'pattern': 'm',
   \   }
     " The following sources are actually invalid, but it's enough to test.
-  let SOURCE_D_O = {
-  \     'matchers': [function('ku#matcher#default#matches_p'),
+  let SOURCE_S_O = {
+  \     'matchers': [function('ku#matcher#simple#matches_p'),
   \                  function('Test_matcher_odd')],
   \   }
-  let SOURCE_DEFAULT = {
-  \     'matchers': [function('ku#matcher#default#matches_p')],
+  let SOURCE_SIMPLE = {
+  \     'matchers': [function('ku#matcher#simple#matches_p')],
   \   }
   let SOURCE_EMPTY = {
   \     'matchers': [],
@@ -395,10 +399,10 @@ function s:describe__s_matched_lcandidates()  "{{{1
   \ ==# [
   \ ]
 
-  It should return some candidates with the default matcher
+  It should return some candidates with the simple matcher
 
   Should Call('s:matched_lcandidates',
-  \           copy(RAW_LCANDIDATES), ARGS, SOURCE_DEFAULT)
+  \           copy(RAW_LCANDIDATES), ARGS, SOURCE_SIMPLE)
   \ ==# [
   \ {'word': 'mk'},
   \ {'word': 'oom'},
@@ -412,15 +416,17 @@ function s:describe__s_matched_lcandidates()  "{{{1
   \ {'word': 'oom'},
   \ ]
 
-  It should return some candidates matched with "default" or "odd"
+  It should return some candidates matched with "simple" or "odd"
 
-  Should Call('s:matched_lcandidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_D_O)
+  Should Call('s:matched_lcandidates', copy(RAW_LCANDIDATES), ARGS, SOURCE_S_O)
   \ ==# [
   \ {'word': 'mk'},
   \ {'word': 'oom'},
   \ {'word': 'iue'},
   \ {'word': 'oom'},
   \ ]
+
+  It requires to reset side effect
 
   ResetContext
 endfunction
@@ -438,6 +444,7 @@ function s:describe__s_normalize_candidate()  "{{{1
   \   'ku__source': dummy_source,
   \   'menu': dummy_source.name,
   \   'word': 'smooooch',
+  \   'dup': !0,
   \ }
 endfunction
 

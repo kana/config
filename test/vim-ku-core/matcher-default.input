@@ -1,8 +1,39 @@
 " Test: vim-ku-core matcher-default
-function s:describe__ku_matcher_default_matches_p()  "{{{1
+function s:describe__ku_matcher_default_matches_p__with_custom()  "{{{1
   let args = {'pattern': 'rail'}
 
+  It requires the following initialization
+
+  function! Matcher_p(candidate, args)
+    return len(a:candidate.word) % 2 == 0
+  endfunction
+  let Default_matcher = ku#matcher#default#use(function('Matcher_p'))
+
   It should return true for matched candidate
+
+  Should !!ku#matcher#default#matches_p({'word': ''}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'rail'}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'A rail gun'}, args) == 1
+
+  It should return false for unmatched candidate
+
+  Should !!ku#matcher#default#matches_p({'word': 'rail1'}, args) == 0
+  Should !!ku#matcher#default#matches_p({'word': 'railgun'}, args) == 0
+  Should !!ku#matcher#default#matches_p({'word': 'railgun!!'}, args) == 0
+
+  It requires to reset side effect
+
+  let Custom_matcher = ku#matcher#default#use(Default_matcher)
+  Should Custom_matcher ==# function('Matcher_p')
+endfunction
+
+
+
+
+function s:describe__ku_matcher_default_matches_p__with_default()  "{{{1
+  let args = {'pattern': 'rail'}
+
+  It should act as same as matcher true
 
   Should !!ku#matcher#default#matches_p({'word': 'rail'}, args) == 1
   Should !!ku#matcher#default#matches_p({'word': 'a rail'}, args) == 1
@@ -10,11 +41,24 @@ function s:describe__ku_matcher_default_matches_p()  "{{{1
   Should !!ku#matcher#default#matches_p({'word': 'a rail gun'}, args) == 1
   Should !!ku#matcher#default#matches_p({'word': 'arailgun'}, args) == 1
 
-  It should return false for unmatched candidate
+  Should !!ku#matcher#default#matches_p({'word': ''}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'reil gan'}, args) == 1
+  Should !!ku#matcher#default#matches_p({'word': 'RAILgun'}, args) == 1
+endfunction
 
-  Should !!ku#matcher#default#matches_p({'word': ''}, args) == 0
-  Should !!ku#matcher#default#matches_p({'word': 'reil gan'}, args) == 0
-  Should !!ku#matcher#default#matches_p({'word': 'RAILgun'}, args) == 0
+
+
+
+function s:describe__ku_matcher_default_use()  "{{{1
+  It should return the defult matcher at first
+
+  let Default_matcher = ku#matcher#default#use(function('function'))
+  Should Default_matcher ==# function('ku#matcher#true#matches_p')
+
+  It should return the previously used matcher
+
+  let New_matcher = ku#matcher#default#use(Default_matcher)
+  Should New_matcher ==# function('function')
 endfunction
 
 

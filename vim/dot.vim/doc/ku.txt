@@ -262,15 +262,36 @@ MATCHERS					*ku-functions-matchers*
 
 					      *ku#matcher#default#matches_p()*
 ku#matcher#default#matches_p({candidate}, {args})
+			Determine whether {candidates} is matched to given
+			{args} or not, by the method which is specified by
+			|ku#matcher#default#use()|.  The default method is
+			|ku#matcher#true#matches_p()|.
+
+ku#matcher#default#use({matcher})		*ku#matcher#default#use()*
+			Use {matcher} as the default methods to determine
+			a given candidate is matched to given {args} or not.
+			{matcher} is a funcref.  See also
+			|ku-source-attribute-matchers| for the details.
+
+			Return value is a funcref of the old matcher.
+
+					      *ku#matcher#simple#matches_p()*
+ku#matcher#simple#matches_p({candidate}, {args})
 			Return true if {candidate}.word contains
 			{args}.patatern.  Otherwise return false.
+
+					      *ku#matcher#true#matches_p()*
+ku#matcher#true#matches_p({candidate}, {args})
+			Dummy matcher - always return true regardless of
+			{candidats} nor {args}.  Use this matcher if sorters
+			do also filtering candidats according to {args}.
 
 SORTERS						*ku-functions-sorters*
 
 ku#sorter#default#sort({lcandidates}, {args})	*ku#sorter#default#sort()*
 			Sort {lcandidates} by the method which is specified by
 			|ku#sorter#default#use()|.  The default method is
-			|ku#sorter#simple#sort()|.
+			|ku#sorter#smart#sort()|.
 
 ku#sorter#default#use({sorters})		*ku#sorter#default#use()*
 			Use {sorters} as the default methods to sort
@@ -282,29 +303,46 @@ ku#sorter#default#use({sorters})		*ku#sorter#default#use()*
 ku#sorter#simple#sort({lcandidates}, {args})	*ku#sorter#simple#sort()*
 			Sort {lcandidates} by |sort()|.
 
+ku#sorter#smart#sort({lcandidates}, {args})	*ku#sorter#smart#sort()*
+			Sort {lcandidates} smartly -- calculate "score" for
+			each candidate, then sort candidats by scores.  The
+			minimum score is 0% and the maximum score is 100%.
+			Higher score means strong similarity, so candidates
+			are sorted in descending order of score.
+
+			Score is calculated as follows:
+				FIXME: Description on how score is calculated.
+
+			0% score means that a candidate is not matched to
+			a given pattern.  So such candidates are dropped from
+			result.
+
 
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*ku-key-mappings*
 
-In |the-ku-buffer|, the following key mappings are defined in Normal mode and
-Insert mode.
+In |the-ku-buffer|, the following key mappings are defined.
 
 DEFAULT UI KEY MAPPINGS				*ku-default-ui-key-mappings*
 
 See also |ku#define_default_ui_key_mappings()|.
 
-Key sequence	Meaning ~
-------------	----------------------------------- ~
-<C-c>		|<Plug>(ku-quit-session)|
-<C-i>		|<Plug>(ku-choose-action)|
-<C-m>		|<Plug>(ku-do-default-action)|
-<Enter>		|<Plug>(ku-do-default-action)|
-<Return>	|<Plug>(ku-do-default-action)|
-<Tab>		|<Plug>(ku-choose-action)|
+Modes	Key sequence	Meaning ~
+-----	------------	----------------------------------- ~
+i	<BS>		|<Plug>(ku-delete-backward-char)|
+ni	<C-c>		|<Plug>(ku-quit-session)|
+i	<C-h>		|<Plug>(ku-delete-backward-char)|
+ni	<C-i>		|<Plug>(ku-choose-action)|
+ni	<C-m>		|<Plug>(ku-do-default-action)|
+i	<C-w>		|<Plug>(ku-delete-backward-component)|
+ni	<Enter>		|<Plug>(ku-do-default-action)|
+ni	<Return>	|<Plug>(ku-do-default-action)|
+ni	<Tab>		|<Plug>(ku-choose-action)|
 
 NAMED KEY MAPPINGS				*ku-named-key-mappings*
 
-<Plug>(ku-choose-action)			*<Plug>(ku-choose-action)*
+						*<Plug>(ku-choose-action)*
+<Plug>(ku-choose-action)			*i_<Plug>(ku-choose-action)*
 			Like |<Plug>(ku-do-default-action)|, but you can
 			choose an action from all available actions for the
 			currently selected candidate.
@@ -317,11 +355,31 @@ NAMED KEY MAPPINGS				*ku-named-key-mappings*
 			See also |ku#custom_key()| to customize key bindings
 			to choose an action.
 
-<Plug>(ku-do-default-action)     		*<Plug>(ku-do-default-action)*
+<Plug>(ku-delete-backward-char)		   *i_<Plug>(ku-delete-backward-char)*
+			Delete backward character like |i_<BS>|, with special
+			treatment for ku.
+
+<Plug>(ku-delete-backward-component)  *i_<Plug>(ku-delete-backward-component)*
+			Like |i_CTRL-W| to delete backward word, but it
+			deletes backward "component" instead.  See also
+			|ku-automatic-component-completion| for what
+			"component" is.
+
+			Examples:
+				Pattern		After deletion ~
+				----------	-------------- ~
+				>/usr/local/b	>/usr/local/
+				>/usr/local/	>/usr/
+				>/usr/		>/
+				>/		>
+
+				     		*<Plug>(ku-do-default-action)*
+<Plug>(ku-do-default-action)     	      *i_<Plug>(ku-do-default-action)*
 			Do the default action on the currently selected
 			candidate, then quit the current session.
 
-<Plug>(ku-quit-session)				*<Plug>(ku-quit-session)*
+						*<Plug>(ku-quit-session)*
+<Plug>(ku-quit-session)				*i_<Plug>(ku-quit-session)*
 			Quit the current session.
 
 
@@ -1004,6 +1062,13 @@ KNOWN ISSUES ~
 
 - |the-ku-buffer| doesn't work well if a preview window exists in the current
   tabpage.  |ins-completion-menu| is not properly displayed.
+
+- It's not possible to do action on a selected candidate if there are two or
+  more candidates with the same word as the selected one in |the-ku-buffer|.
+  The first one is always selected.
+
+  It's caused by a limitation of Vim - it's not possible to override
+  |i_CTRL-N| nor |i_CTRL-P| while |pumvisible()|.
 
 
 PLANNED FEATURES ~

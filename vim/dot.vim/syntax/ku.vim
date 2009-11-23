@@ -1,5 +1,5 @@
-" ku-matcher-default - The default matcher
-" Version: 0.0.0
+" Vim syntax: ku
+" Version: 0.3.0
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -21,38 +21,49 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Interface  "{{{1
-function! ku#matcher#default#matches_p(candidate, args)  "{{{2
-  return s:matches_p(a:candidate, a:args)
-endfunction
+
+if exists('b:current_syntax')
+  finish
+endif
 
 
 
 
-function! ku#matcher#default#use(matcher)  "{{{2
-  let Old_matcher = s:matches_p
-  unlet s:matches_p  " To avoid E705.
-  let s:matches_p = a:matcher
-  return Old_matcher
-endfunction
+syntax case match
+
+syntax match kuStatusLine /\%1l.*/
+\            contains=kuSourcePrompt,kuSourceSeparator,kuSourceNames
+syntax match kuSourcePrompt /^Sources/ contained nextgroup=kuSourceSeparator
+syntax match kuSourceSeparator /: / contained nextgroup=kuSourceNames
+syntax match kuSourceNames /[a-z/-]\+/ contained
+
+syntax match kuInputLine /\%2l.*/ contains=kuInputPrompt
+syntax match kuInputPrompt /^>/ contained nextgroup=kuInputPattern
+syntax match kuInputPattern /.*/ contained
 
 
 
 
+highlight default link kuSourceNames  Type
+highlight default link kuSourcePrompt  Statement
+highlight default link kuSourceSeparator  NONE
+
+highlight default link kuInputPattern  NONE
+highlight default link kuInputPrompt  Statement
+
+" The following definitions are for <Plug>(ku-choose-action).
+" See s:choose_action() in autoload/ku.vim for the details.
+highlight default link kuChooseAction  NONE
+highlight default link kuChooseCandidate  NONE
+highlight default link kuChooseKey  SpecialKey
+highlight default link kuChooseMessage  NONE
+highlight default link kuChoosePrompt  kuSourcePrompt
+highlight default link kuChooseSource  kuSourceNames
 
 
 
 
-" Misc.  "{{{1
+let b:current_syntax = 'ku'
 
-let s:matches_p = function('ku#matcher#true#matches_p')
-
-
-
-
-
-
-
-
-" __END__  "{{{1
+" __END__
 " vim: foldmethod=marker

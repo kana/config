@@ -1,0 +1,24 @@
+" Test: vim-ku-core matcher-simple
+function s:describe__ku_matcher_simple_matches_p()  "{{{1
+  let args = {'pattern': 'rail'}
+
+  It should return true for matched candidate
+
+  Should !!ku#matcher#simple#matches_p({'word': 'rail'}, args) == 1
+  Should !!ku#matcher#simple#matches_p({'word': 'a rail'}, args) == 1
+  Should !!ku#matcher#simple#matches_p({'word': 'rail gun'}, args) == 1
+  Should !!ku#matcher#simple#matches_p({'word': 'a rail gun'}, args) == 1
+  Should !!ku#matcher#simple#matches_p({'word': 'arailgun'}, args) == 1
+
+  It should return false for unmatched candidate
+
+  Should !!ku#matcher#simple#matches_p({'word': ''}, args) == 0
+  Should !!ku#matcher#simple#matches_p({'word': 'reil gan'}, args) == 0
+  Should !!ku#matcher#simple#matches_p({'word': 'RAILgun'}, args) == 0
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

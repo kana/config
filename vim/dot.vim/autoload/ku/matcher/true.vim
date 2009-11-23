@@ -1,4 +1,4 @@
-" ku-matcher-default - The default matcher
+" ku-matcher-true - Dummy matcher which always returns true
 " Version: 0.0.0
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
@@ -22,30 +22,9 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 " Interface  "{{{1
-function! ku#matcher#default#matches_p(candidate, args)  "{{{2
-  return s:matches_p(a:candidate, a:args)
+function! ku#matcher#true#matches_p(candidate, args)  "{{{2
+  return 1
 endfunction
-
-
-
-
-function! ku#matcher#default#use(matcher)  "{{{2
-  let Old_matcher = s:matches_p
-  unlet s:matches_p  " To avoid E705.
-  let s:matches_p = a:matcher
-  return Old_matcher
-endfunction
-
-
-
-
-
-
-
-
-" Misc.  "{{{1
-
-let s:matches_p = function('ku#matcher#true#matches_p')
 
 
 

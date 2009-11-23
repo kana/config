@@ -1,7 +1,7 @@
 ==== ku_sorter_default_sort 
 ---- It should not sort if default sorters is [] 
 .
----- It should sort candidates by dictionaryr order with the default sorter 
+---- It requires to reset side effect 
 .
 
 ==== ku_sorter_default_use 

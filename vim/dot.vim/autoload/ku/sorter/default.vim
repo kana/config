@@ -27,6 +27,7 @@ function! ku#sorter#default#sort(candidates, args)  "{{{2
 
   for Sort in s:sorters
     let sorted_candidates = Sort(sorted_candidates, a:args)
+    unlet Sort  " To avoid E705.
   endfor
 
   return sorted_candidates
@@ -51,7 +52,7 @@ endfunction
 
 " Misc.  "{{{1
 
-let s:sorters = [function('ku#sorter#simple#sort')]
+let s:sorters = [function('ku#sorter#smart#sort')]
 
 
 

@@ -1,0 +1,18 @@
+==== syntax 
+---- It requires the following initialization 
+
+---- It should highlight the status line 
+..............
+---- It should highlight the input line 
+....
+---- It should define highlightings for <Plug>(ku-choose-action) 
+......
+---- It requires to reset side effect 
+
+
+
+
+**** Result ****
+
+
+24 examples, 0 failures

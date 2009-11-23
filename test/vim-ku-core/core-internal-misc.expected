@@ -61,9 +61,9 @@
 ---- It should define several named key mappings for the current buffer 
 ........
 ---- It should not define any ui key mapping for the current buffer 
-.
+...............
 ---- It should affect only the current buffer when it is called 
-....................
+..................................
 
 ==== s_initialize_ku_buffer with users init ftplugin
 ---- It should set basic optoins 
@@ -73,9 +73,9 @@
 ---- It should define several named key mappings for the current buffer 
 ........
 ---- It should not define any ui key mapping for the current buffer 
-.
+...............
 ---- It should affect only the current buffer when it is called 
-....................
+..................................
 
 ==== s_initialize_ku_buffer without users settings
 ---- It should set basic optoins 
@@ -85,9 +85,17 @@
 ---- It should define several named key mappings for the current buffer 
 ........
 ---- It should define several ui key mappings for the current buffer 
-.
+...............
 ---- It should affect only the current buffer when it is called 
-....................
+..................................
+
+==== s_keys_to_delete_backward_component 
+---- It requires the following initialization 
+
+---- It should return valid keys 
+.....
+---- It requires to reset side effect 
+
 
 ==== s_kinds_from_kind_names 
 ---- It requires the following initialization 
@@ -203,4 +211,4 @@ Invalild definition: Key 'A' must be list of numbers but given value is [1, '2',
 **** Result ****
 
 
-387 examples, 0 failures
+476 examples, 0 failures

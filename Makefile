@@ -385,14 +385,18 @@ PACKAGE_vim_ku_core_FILES_actions=\
 PACKAGE_vim_ku_core_FILES_core=\
   vim/dot.vim/autoload/ku.vim \
   vim/dot.vim/doc/ku.txt \
-  vim/dot.vim/plugin/ku.vim
+  vim/dot.vim/plugin/ku.vim \
+  vim/dot.vim/syntax/ku.vim
 PACKAGE_vim_ku_core_FILES_kinds=\
   vim/dot.vim/plugin/ku/kind/common.vim
 PACKAGE_vim_ku_core_FILES_matchers=\
-  vim/dot.vim/autoload/ku/matcher/default.vim
+  vim/dot.vim/autoload/ku/matcher/default.vim \
+  vim/dot.vim/autoload/ku/matcher/simple.vim \
+  vim/dot.vim/autoload/ku/matcher/true.vim
 PACKAGE_vim_ku_core_FILES_sorters=\
   vim/dot.vim/autoload/ku/sorter/default.vim \
-  vim/dot.vim/autoload/ku/sorter/simple.vim
+  vim/dot.vim/autoload/ku/sorter/simple.vim \
+  vim/dot.vim/autoload/ku/sorter/smart.vim
 
 PACKAGE_vim_ku_source_args_ARCHIVE=vim-ku-source-args-0.2.0
 PACKAGE_vim_ku_source_args_BASE=vim/dot.vim
@@ -913,42 +917,46 @@ TESTS_vim_ku_core = \
 		core-internal-misc \
 		core-public \
 		core-ui \
+		core-syntax \
 		kind-common \
 		matcher-default \
+		matcher-simple \
+		matcher-true \
 		sorter-default \
-		sorter-simple
+		sorter-simple \
+		sorter-smart
 
 test/vim-ku-core/action-%.output: \
 		test/vim-ku-core/action-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_core) \
-		$(PACKAGE_vim_ku_FILES_actions) \
-		$(PACKAGE_vim_ku_FILES_kinds)
+		$(PACKAGE_vim_ku_core_FILES_core) \
+		$(PACKAGE_vim_ku_core_FILES_actions) \
+		$(PACKAGE_vim_ku_core_FILES_kinds)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/core-%.output: \
 		test/vim-ku-core/core-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES)
+		$(PACKAGE_vim_ku_core_FILES)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/kind-%.output: \
 		test/vim-ku-core/kind-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_core) \
-		$(PACKAGE_vim_ku_FILES_kinds)
+		$(PACKAGE_vim_ku_core_FILES_core) \
+		$(PACKAGE_vim_ku_core_FILES_kinds)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/matcher-%.output: \
 		test/vim-ku-core/matcher-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_matchers)
+		$(PACKAGE_vim_ku_core_FILES_matchers)
 	@./test/vspec $< &>$@
 
 test/vim-ku-core/sorter-%.output: \
 		test/vim-ku-core/sorter-%.input \
 		test/vspec \
-		$(PACKAGE_vim_ku_FILES_sorters)
+		$(PACKAGE_vim_ku_core_FILES_sorters)
 	@./test/vspec $< &>$@
 
 

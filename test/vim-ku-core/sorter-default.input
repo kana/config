@@ -1,6 +1,6 @@
 " Test: vim-ku-core sorter-default
 function s:describe__ku_sorter_default_sort()  "{{{1
-  let args = {}
+  let args = {'pattern': ''}
   let lcandidates = [
   \     {'word': 'j'},
   \     {'word': 'u'},
@@ -14,11 +14,10 @@ function s:describe__ku_sorter_default_sort()  "{{{1
   Should ku#sorter#default#sort(copy(lcandidates), args)
   \ ==# [{'word': 'j'}, {'word': 'u'}, {'word': 'n'}, {'word': 'i'}]
 
-  It should sort candidates by dictionaryr order with the default sorter
+  It requires to reset side effect
 
-  call ku#sorter#default#use(default_sorters)
-  Should ku#sorter#default#sort(copy(lcandidates), args)
-  \ ==# [{'word': 'i'}, {'word': 'j'}, {'word': 'n'}, {'word': 'u'}]
+  let new_sorters = ku#sorter#default#use(default_sorters)
+  Should new_sorters ==# []
 endfunction
 
 
@@ -28,7 +27,7 @@ function s:describe__ku_sorter_default_use()  "{{{1
   It should return the defult sorters at first
 
   let default_sorters = ku#sorter#default#use([])
-  Should default_sorters ==# [function('ku#sorter#simple#sort')]
+  Should default_sorters ==# [function('ku#sorter#smart#sort')]
 
   It should return the previously used sorters
 
