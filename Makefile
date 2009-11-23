@@ -851,6 +851,7 @@ TESTS_vim_ku_core = \
 		core-internal-misc \
 		core-public \
 		core-ui \
+		core-syntax \
 		kind-common \
 		matcher-default \
 		matcher-simple \
