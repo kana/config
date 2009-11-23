@@ -13,33 +13,38 @@ TEST: getline(1, '$')  ==>  [''] ... ok
 gtd(E4): No issue ID near the cursor
 TEST: getline(1, '$')  ==>  [''] ... ok
 TEST: getpos('.')[1:2]  ==>  [1, 1] ... ok
-Result: 3 / 3
+TEST: len(split(jumplist2, '\n'))  ==>  len(split(jumplist1, '\n')) ... ok
+Result: 4 / 4
 
 ===== "gtd#jump_to_issue() - with some content - but no issue id"
 TEST: getline(1, '$')  ==>  ['', '#abc', '#def'] ... ok
 gtd(E4): No issue ID near the cursor
 TEST: getline(1, '$')  ==>  ['', '#abc', '#def'] ... ok
 TEST: getpos('.')[1:2]  ==>  [2, 1] ... ok
-Result: 3 / 3
+TEST: len(split(jumplist2, '\n'))  ==>  len(split(jumplist1, '\n')) ... ok
+Result: 4 / 4
 
 ===== "gtd#jump_to_issue() - with some content - no corresponding issue"
 TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def'] ... ok
 gtd(E5): Issue not found: #3
 TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def'] ... ok
 TEST: getpos('.')[1:2]  ==>  [3, 2] ... ok
-Result: 3 / 3
+TEST: len(split(jumplist2, '\n'))  ==>  len(split(jumplist1, '\n')) ... ok
+Result: 4 / 4
 
 ===== "gtd#jump_to_issue() - with some content - corresponding issue - next"
 TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi'] ... ok
 TEST: getline(1, '$')  ==>  ['', '#1 abc', 'def #3 abc', '#2 def', '#3 ghi'] ... ok
 TEST: getpos('.')[1:2]  ==>  [5, 1] ... ok
-Result: 3 / 3
+TEST: len(split(jumplist2, '\n'))  ==>  len(split(jumplist1, '\n')) + 1 ... ok
+Result: 4 / 4
 
 ===== "gtd#jump_to_issue() - with some content - corresponding issue - prev"
 TEST: getline(1, '$')  ==>  ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def'] ... ok
 TEST: getline(1, '$')  ==>  ['', '#3 ghi', '#1 abc', 'def #3 abc', '#2 def'] ... ok
 TEST: getpos('.')[1:2]  ==>  [2, 1] ... ok
-Result: 3 / 3
+TEST: len(split(jumplist2, '\n'))  ==>  len(split(jumplist1, '\n')) + 1 ... ok
+Result: 4 / 4
 
 ===== "gtd#mark() - without any content"
 TEST: getline(1, '$')  ==>  [''] ... ok
@@ -168,4 +173,4 @@ TEST: gtd#status()  ==>  [999, 3] ... ok
 Result: 2 / 2
 
 ===== Total
-Result: 76 / 76
+Result: 81 / 81
