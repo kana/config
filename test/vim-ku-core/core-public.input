@@ -554,10 +554,40 @@ function s:describe__ku_define_source()  "{{{1
 
   It should fail for invalid source definition
 
-  Should ku#define_source({}) == 0
-  Should ku#define_source({'gather_candidates': 0, 'name': 0}) == 0
-  Should ku#define_source({'gather_candidates': 0, 'name': 'test'}) == 0
-  Should ku#define_source({'gather_candidates': F, 'name': 0}) == 0
+  let VALID_SOURCE = {
+  \   'gather_candidates': F,
+  \   'name': 'test',
+  \ }
+  let REQUIRED_ATTRIBUTE_NAMES = [
+  \   'gather_candidates',
+  \   'name',
+  \ ]
+  let OPTIONAL_ATTRIBUTE_NAMES = [
+  \   'default_action_table',
+  \   'default_key_table',
+  \   'filters',
+  \   'kinds',
+  \   'matchers',
+  \   'on_action',
+  \   'sorters',
+  \   'valid_for_acc_p',
+  \ ]
+
+  for attribute_name in REQUIRED_ATTRIBUTE_NAMES
+    let source = copy(VALID_SOURCE)
+    unlet source[attribute_name]
+    silent! let _ = ku#define_source(source)
+    Should _ == 0
+    Should v:errmsg =~# attribute_name
+  endfor
+  for attribute_name in REQUIRED_ATTRIBUTE_NAMES + OPTIONAL_ATTRIBUTE_NAMES
+    let source = copy(VALID_SOURCE)
+    let source[attribute_name] = 0
+    silent! let _ = ku#define_source(source)
+    Should _ == 0
+    Should v:errmsg =~# attribute_name
+  endfor
+
   Should Ref('s:available_sources') ==# available_sources
   Should Ref('s:available_kinds') ==# available_kinds
 
