@@ -580,6 +580,7 @@ function s:describe__ku_define_source()  "{{{1
   \   'kinds',
   \   'matchers',
   \   'on_action',
+  \   'pattern_prefix_assumption_p',
   \   'sorters',
   \   'valid_for_acc_p',
   \ ]
@@ -593,7 +594,8 @@ function s:describe__ku_define_source()  "{{{1
   endfor
   for attribute_name in REQUIRED_ATTRIBUTE_NAMES + OPTIONAL_ATTRIBUTE_NAMES
     let source = copy(VALID_SOURCE)
-    let source[attribute_name] = 0
+    let source[attribute_name]
+    \ = 0 <= index(['pattern_prefix_assumption_p'], attribute_name) ? 'x' : 0
     silent! let _ = ku#define_source(source)
     Should _ == 0
     Should v:errmsg =~# attribute_name
@@ -615,6 +617,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'matchers': matchers,
   \ 'name': 'test',
   \ 'on_action': function('ku#default_on_action'),
+  \ 'pattern_prefix_assumption_p': !0,
   \ 'sorters': sorters,
   \ 'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
   \ }
@@ -644,6 +647,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'matchers': matchers,
   \ 'name': 'test',
   \ 'on_action': function('ku#default_on_action'),
+  \ 'pattern_prefix_assumption_p': !0,
   \ 'sorters': sorters,
   \ 'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
   \ }
@@ -671,6 +675,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'matchers': [G],
   \ 'name': 'test',
   \ 'on_action': F,
+  \ 'pattern_prefix_assumption_p': 0,
   \ 'sorters': [F],
   \ 'valid_for_acc_p': F,
   \ })
@@ -685,6 +690,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'matchers': [G],
   \ 'name': 'test',
   \ 'on_action': F,
+  \ 'pattern_prefix_assumption_p': 0,
   \ 'sorters': [F],
   \ 'valid_for_acc_p': F,
   \ }
