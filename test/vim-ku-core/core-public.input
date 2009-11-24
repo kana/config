@@ -245,10 +245,15 @@ function s:describe__ku_available_sources()  "{{{1
 
   It should return {} after failed ku#define_source()
 
-  Should ku#define_source({}) == 0
-  Should ku#define_source({'gather_candidates': 0, 'name': 0}) == 0
-  Should ku#define_source({'gather_candidates': 0, 'name': 'test'}) == 0
-  Should ku#define_source({'gather_candidates': F, 'name': 0}) == 0
+  silent! let _ = ku#define_source({})
+  Should _ == 0
+  silent! let _ = ku#define_source({'gather_candidates': 0, 'name': 0})
+  Should _ == 0
+  silent! let _ = ku#define_source({'gather_candidates': 0, 'name': 'test'})
+  Should _ == 0
+  silent! let _ = ku#define_source({'gather_candidates': F, 'name': 0})
+  Should _ == 0
+
   Should sort(keys(ku#available_sources())) ==# []
   Should ku#available_sources() ==# Ref('s:available_sources')
 
@@ -458,34 +463,40 @@ function s:describe__ku_define_kind()  "{{{1
 
   It should fail for invalid kind definition
 
-  Should ku#define_kind({
+  silent! let _ = ku#define_kind({
   \ 'default_key_table': {},
   \ 'name': 'file',
-  \ }) == 0
-  Should ku#define_kind({
+  \ })
+  Should _ == 0
+  silent! let _ = ku#define_kind({
   \ 'default_action_table': {},
   \ 'name': 'file',
-  \ }) == 0
-  Should ku#define_kind({
+  \ })
+  Should _ == 0
+  silent! let _ = ku#define_kind({
   \ 'default_action_table': {},
   \ 'default_key_table': {},
-  \ }) == 0
+  \ })
+  Should _ == 0
 
-  Should ku#define_kind({
+  silent! let _ = ku#define_kind({
   \ 'default_action_table': 0,
   \ 'default_key_table': {},
   \ 'name': 'file',
-  \ }) == 0
-  Should ku#define_kind({
+  \ })
+  Should _ == 0
+  silent! let _ = ku#define_kind({
   \ 'default_action_table': {},
   \ 'default_key_table': 0,
   \ 'name': 'file',
-  \ }) == 0
-  Should ku#define_kind({
+  \ })
+  Should _ == 0
+  silent! let _ = ku#define_kind({
   \ 'default_action_table': {},
   \ 'default_key_table': {},
   \ 'name': 0,
-  \ }) == 0
+  \ })
+  Should _ == 0
 
   Should Ref('s:available_kinds') ==# {}
 

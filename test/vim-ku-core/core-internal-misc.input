@@ -1097,8 +1097,14 @@ function s:describe__s_valid_key_p()  "{{{1
 
   It should return false for list with invalid values
 
-  Should Call('s:valid_key_p', {'A': [1, 2, 3]}, 'A', 'list of strings') == 0
-  Should Call('s:valid_key_p', {'A': [1,'2',3]}, 'A', 'list of numbers') == 0
+  silent! let _ = Call('s:valid_key_p',
+  \                    {'A': [1, 2, 3]}, 'A', 'list of strings')
+  Should _ == 0
+  Should v:errmsg =~# "'A'"
+  silent! let _ = Call('s:valid_key_p',
+  \                    {'A': [1,'2',3]}, 'A', 'list of numbers')
+  Should _ == 0
+  Should v:errmsg =~# "'A'"
 endfunction
 
 

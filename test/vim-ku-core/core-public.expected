@@ -64,14 +64,7 @@
 ---- It should return {} if there is no source 
 ..
 ---- It should return {} after failed ku#define_source() 
-
-Error detected while processing function vspec#test..<SNR>3_describe__ku_available_sources..ku#define_source..<SNR>6_valid_key_p:
-line    5:
-Invalild definition: Without key 'gather_candidates'.
-line   17:
-Invalild definition: Key 'gather_candidates' must be function but given value is 0.
-Invalild definition: Key 'gather_candidates' must be function but given value is 0.
-Invalild definition: Key 'name' must be string but given value is 0...
+......
 ---- It should return some content after successful ku#define_source() 
 ...
 ---- It should return some content after overriding a source 
@@ -115,16 +108,7 @@ Invalild definition: Key 'name' must be string but given value is 0...
 ---- It requires the following initialization to test its effect 
 .
 ---- It should fail for invalid kind definition 
-
-Error detected while processing function vspec#test..<SNR>3_describe__ku_define_kind..ku#define_kind..<SNR>6_valid_key_p:
-line    5:
-Invalild definition: Without key 'default_action_table'.
-Invalild definition: Without key 'default_key_table'.
-Invalild definition: Without key 'name'.
-line   17:
-Invalild definition: Key 'default_action_table' must be dictionary but given value is 0.
-Invalild definition: Key 'default_key_table' must be dictionary but given value is 0.
-Invalild definition: Key 'name' must be string but given value is 0..
+.......
 ---- It should succeed for valid kind definition 
 ...
 ---- It should succeed to override existing kind definition 
