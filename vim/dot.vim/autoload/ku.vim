@@ -1354,6 +1354,7 @@ function! s:valid_key_p(definition, key, type)  "{{{2
   endif
 
   let TYPES = {
+  \     'boolean': type(0),
   \     'dictionary': type({}),
   \     'function': type(function('function')),
   \     'list': type([]),

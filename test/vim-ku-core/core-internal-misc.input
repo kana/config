@@ -1079,6 +1079,7 @@ function s:describe__s_valid_key_p()  "{{{1
 
   It should return true for valid values
 
+  Should Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'boolean') == 1
   Should Call('s:valid_key_p', {'8bit': {}}, '8bit', 'dictionary') == 1
   Should Call('s:valid_key_p', {'8': function('len')}, '8', 'function') == 1
   Should Call('s:valid_key_p', {'8bit': []}, '8bit', 'list') == 1
