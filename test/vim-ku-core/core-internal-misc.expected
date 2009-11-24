@@ -196,6 +196,8 @@ Invalild definition: Without key '8bit'.
 ---- It should return false if key doesn't exist 
 
 Invalild definition: Without key 0.
+---- It should return false for invalid values 
+............
 ---- It should return true for valid values 
 ......
 ---- It should return true for list with valid values 
@@ -208,4 +210,4 @@ Invalild definition: Without key 0.
 **** Result ****
 
 
-479 examples, 0 failures
+491 examples, 0 failures

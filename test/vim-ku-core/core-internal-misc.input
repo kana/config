@@ -1077,6 +1077,23 @@ function s:describe__s_valid_key_p()  "{{{1
 
   Should Call('s:valid_key_p', {'8bit': 'rave'}, 0, 'string') == 0
 
+  It should return false for invalid values
+
+  let TYPE_NAMES = [
+  \   'boolean',
+  \   'dictionary',
+  \   'function',
+  \   'list',
+  \   'number',
+  \   'string',
+  \ ]
+  for type_name in TYPE_NAMES
+    let v = 0 <= index(['boolean', 'number'], type_name) ? 'x' : 0
+    silent! let _ = Call('s:valid_key_p', {'8bit': v}, '8bit', type_name)
+    Should _ == 0
+    Should v:errmsg =~ 'must be ' . type_name
+  endfor
+
   It should return true for valid values
 
   Should Call('s:valid_key_p', {'8bit': 3339}, '8bit', 'boolean') == 1
