@@ -623,6 +623,45 @@ SOURCE ATTRIBUTES				*ku-source-attributes*
 
 See also |ku-notation| for {args} and others.
 
+					      *ku-source-attribute-cache_type*
+cache_type		string			(optional)
+			Specifies how ku caches and uses a result from
+			|ku-source-gather_candidates|.  It can be one of the
+			following values:
+
+			"constant"
+				Ku assumes that gather_candidates always
+				returns the same result for a single ku
+				session regardless of a given pattern.
+
+				Examples:
+				- |ku-source-args|
+				- |ku-source-buffer|
+
+			"gel"
+				Mostly same as "constant".  But ku assumes
+				that gather_candidates may return different
+				result whenever user types a special
+				character.  See also
+				|ku-source-special_chars|.
+
+				Examples:
+				- |ku-source-file|
+				- |ku-source-metarw|
+
+			"pattern"
+				Ku assumes that gather_candidates always
+				returns the same result for a single
+				|ku-session| if the same pattern is given.
+
+			"volatile"
+				Ku doesn't make any assumption for this
+				source.  Results from gather_candidates are
+				never cached.
+
+			This attribute is optional; if it is not given,
+			"pattern" is used as the default value.
+
 				    *ku-source-attribute-default_action_table*
 default_action_table	dictionary		(optional)
 			The default action table for candidates of a source.
@@ -767,6 +806,15 @@ sorters			list of funcrefs	(optional)
 
 			This attribute is optional; if it is not given,
 			[|ku#sorter#default#sort()|] is used as the default
+			value.
+
+					   *ku-source-attribute-special_chars*
+special_chars		string			(optional)
+			Each character in this value is treated as "special
+			character" for |ku-source-attribute-cache_type| "gel".
+
+			This attribute is optional; if it is not given,
+			|g:ku_component_separators| is used as the default
 			value.
 
 					 *ku-source-attribute-valid_for_acc_p*
