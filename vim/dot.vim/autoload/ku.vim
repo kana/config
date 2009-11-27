@@ -1125,15 +1125,13 @@ endfunction
 
 
 function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
-  " FIXME: Cache a result. / Use cache if available.
-
   let args = {'pattern': a:pattern}
   let all_lcandidates = []
 
   for source in a:sources
     let args.source = source
 
-    let raw_lcandidates = copy(source.gather_candidates(args))
+    let raw_lcandidates = s:raw_lcandidates(args)
 
     let matched_lcandidates
     \   = s:matched_lcandidates(raw_lcandidates, args, source)
@@ -1346,6 +1344,14 @@ function! s:quit_session()  "{{{2
   let s:session.now_quitting_p = s:FALSE
 
   return s:TRUE
+endfunction
+
+
+
+
+function! s:raw_lcandidates(args)  "{{{2
+  " FIXME: NIY - cache
+  return copy(a:args.source.gather_candidates(a:args))
 endfunction
 
 

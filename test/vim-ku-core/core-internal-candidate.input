@@ -451,6 +451,44 @@ endfunction
 
 
 
+function s:describe__s_raw_lcandidates()  "{{{1
+  It requires the following initialization
+
+  let _ = ku#define_source({
+  \   'name': 'test',
+  \   'gather_candidates': function('function'),
+  \ })
+  Should _ != 0
+  let source = ku#available_sources()['test']
+  function! source.gather_candidates(args)
+    return [
+    \   {'word': 'a'},
+    \   {'word': 'l'},
+    \   {'word': 't'},
+    \   {'word': 'e'},
+    \   {'word': 'r'},
+    \ ]
+  endfunction
+
+  It should return raw candidates gatherd by a given source
+
+  Should Call('s:raw_lcandidates', {'pattern': '!', 'source': source}) == [
+  \   {'word': 'a'},
+  \   {'word': 'l'},
+  \   {'word': 't'},
+  \   {'word': 'e'},
+  \   {'word': 'r'},
+  \ ]
+
+  It requires to reset side effect
+
+  ResetContext
+  Should has_key(ku#available_sources(), 'test') == 0
+endfunction
+
+
+
+
 function s:describe__s_sort_lcandidates()  "{{{1
   function! Test_sorter_reverse(lcandidates, args)
     return reverse(a:lcandidates)

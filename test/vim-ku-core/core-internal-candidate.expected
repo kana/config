@@ -84,6 +84,14 @@
 ---- It should normalize a given candidate with a given source 
 ..
 
+==== s_raw_lcandidates 
+---- It requires the following initialization 
+.
+---- It should return raw candidates gatherd by a given source 
+.
+---- It requires to reset side effect 
+.
+
 ==== s_sort_lcandidates 
 ---- It should return unsorted candidates with no sorter 
 .
@@ -99,4 +107,4 @@
 **** Result ****
 
 
-57 examples, 0 failures
+60 examples, 0 failures
