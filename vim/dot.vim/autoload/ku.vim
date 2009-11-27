@@ -61,6 +61,9 @@ else
 endif
 
 
+let s:NO_CACHE = ['NO CACHE']
+
+
 let s:NULL_KIND = {
 \ }
 
@@ -615,6 +618,14 @@ endfunction
 
 
 
+function! s:cache_lcandidates(session, lcandidates, args)  "{{{2
+  " FIXME: NIY
+  return
+endfunction
+
+
+
+
 function! s:choose_action(candidate)  "{{{2
   " Prompt      Candidate Source
   "    |          |         |
@@ -915,6 +926,14 @@ endfunction
 
 
 
+function! s:get_cached_lcandidates(session, args)  "{{{2
+  " FIXME: NIY
+  return s:NO_CACHE
+endfunction
+
+
+
+
 function! s:get_char(...)  "{{{2
   " Rich version of getchar()
 
@@ -1131,7 +1150,13 @@ function! s:lcandidates_from_pattern(pattern, session)  "{{{2
   for source in a:session.sources
     let args.source = source
 
-    call extend(all_lcandidates, s:make_lcandidates_for_a_source(args))
+    let lcandidates = s:get_cached_lcandidates(a:session, args)
+    if lcandidates is s:NO_CACHE
+      let lcandidates = s:make_lcandidates_for_a_source(args)
+      call s:cache_lcandidates(a:session, lcandidates, args)
+    endif
+
+    call extend(all_lcandidates, lcandidates)
   endfor
 
   return all_lcandidates
