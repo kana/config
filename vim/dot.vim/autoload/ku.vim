@@ -23,6 +23,22 @@
 " }}}
 " Constants  "{{{1
 
+let s:CACHE_CONSTANT = 'constant'
+let s:CACHE_GEL = 'gel'
+let s:CACHE_PATTERN = 'pattern'
+let s:CACHE_VOLATILE = 'volatile'
+
+let s:VALID_CACHE_TYPES = [
+\     s:CACHE_CONSTANT,
+\     s:CACHE_GEL,
+\     s:CACHE_PATTERN,
+\     s:CACHE_VOLATILE,
+\   ]
+
+
+let s:DEFAULT_SPECIAL_CHARS = ''
+
+
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
 
@@ -56,6 +72,7 @@ let s:NULL_KIND = {
 " - The value of 'kinds' is just a placeholder and it's not used as is.
 "   See also ku#define_source().
 let s:NULL_SOURCE = {
+\   'cache_type': s:CACHE_PATTERN,
 \   'default_action_table': {},
 \   'default_key_table': {},
 \   'filters': [],
@@ -63,6 +80,7 @@ let s:NULL_SOURCE = {
 \   'matchers': [function('ku#matcher#default#matches_p')],
 \   'on_action': function('ku#default_on_action'),
 \   'sorters': [function('ku#sorter#default#sort')],
+\   'special_chars': s:DEFAULT_SPECIAL_CHARS,
 \   'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
 \ }
 
@@ -232,6 +250,7 @@ function! ku#define_source(definition)  "{{{2
   let new_source = extend(copy(s:NULL_SOURCE), a:definition, 'force')
 
   if !(s:TRUE
+  \    && s:valid_key_p(new_source, 'cache_type', 'string')
   \    && s:valid_key_p(new_source, 'default_action_table', 'dictionary')
   \    && s:valid_key_p(new_source, 'default_key_table', 'dictionary')
   \    && s:valid_key_p(new_source, 'filters', 'list of functions')
@@ -241,8 +260,17 @@ function! ku#define_source(definition)  "{{{2
   \    && s:valid_key_p(new_source, 'name', 'string')
   \    && s:valid_key_p(new_source, 'on_action', 'function')
   \    && s:valid_key_p(new_source, 'sorters', 'list of functions')
+  \    && s:valid_key_p(new_source, 'special_chars', 'string')
   \    && s:valid_key_p(new_source, 'valid_for_acc_p', 'function')
   \  )
+    return s:FALSE
+  endif
+
+  if !(0 <= index(s:VALID_CACHE_TYPES, new_source.cache_type))
+    echoerr 'Invalild definition:'
+    \       'Key' string('cache_type') 'must be one of the following values'
+    \       string(s:VALID_CACHE_TYPES)
+    \       'but given value is' string(new_source.cache_type)
     return s:FALSE
   endif
 

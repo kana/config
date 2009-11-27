@@ -116,7 +116,7 @@
 
 ==== ku_define_source 
 ---- It should fail for invalid source definition 
-..........................
+....................................
 ---- It should succeed for valid source definition 
 ....
 ---- It should succeed to override existing source definition 
@@ -210,4 +210,4 @@ Already active.....
 **** Result ****
 
 
-402 examples, 0 failures
+412 examples, 0 failures

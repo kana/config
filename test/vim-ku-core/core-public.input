@@ -574,6 +574,7 @@ function s:describe__ku_define_source()  "{{{1
   \   'name',
   \ ]
   let OPTIONAL_ATTRIBUTE_NAMES = [
+  \   'cache_type',
   \   'default_action_table',
   \   'default_key_table',
   \   'filters',
@@ -581,6 +582,7 @@ function s:describe__ku_define_source()  "{{{1
   \   'matchers',
   \   'on_action',
   \   'sorters',
+  \   'special_chars',
   \   'valid_for_acc_p',
   \ ]
 
@@ -598,6 +600,16 @@ function s:describe__ku_define_source()  "{{{1
     Should _ == 0
     Should v:errmsg =~# attribute_name
   endfor
+  for attribute_name in ['cache_type']
+    let source = copy(VALID_SOURCE)
+    let source[attribute_name] = 'xyz'
+    silent! let _ = ku#define_source(source)
+    Should _ == 0
+    Should v:errmsg =~# attribute_name
+    for cache_type in Ref('s:VALID_CACHE_TYPES')
+      Should v:errmsg =~# cache_type
+    endfor
+  endfor
 
   Should Ref('s:available_sources') ==# available_sources
   Should Ref('s:available_kinds') ==# available_kinds
@@ -607,6 +619,7 @@ function s:describe__ku_define_source()  "{{{1
   Should ku#define_source({'gather_candidates': F, 'name': 'test'}) == 1
   Should Ref('s:available_sources')['test']
   \ ==# {
+  \ 'cache_type': Ref('s:CACHE_PATTERN'),
   \ 'default_action_table': {},
   \ 'default_key_table': {},
   \ 'filters': [],
@@ -616,6 +629,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'name': 'test',
   \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
+  \ 'special_chars': Ref('s:DEFAULT_SPECIAL_CHARS'),
   \ 'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
   \ }
   Should Ref('s:available_kinds')['source/test']
@@ -636,6 +650,7 @@ function s:describe__ku_define_source()  "{{{1
   Should ku#define_source({'gather_candidates': G, 'name': 'test'}) == 1
   Should Ref('s:available_sources')['test']
   \ ==# {
+  \ 'cache_type': Ref('s:CACHE_PATTERN'),
   \ 'default_action_table': {},
   \ 'default_key_table': {},
   \ 'filters': [],
@@ -645,6 +660,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'name': 'test',
   \ 'on_action': function('ku#default_on_action'),
   \ 'sorters': sorters,
+  \ 'special_chars': Ref('s:DEFAULT_SPECIAL_CHARS'),
   \ 'valid_for_acc_p': function('ku#default_valid_for_acc_p'),
   \ }
   Should Ref('s:available_kinds')['source/test']
@@ -663,6 +679,7 @@ function s:describe__ku_define_source()  "{{{1
   It should succeed for valid source definition with optional attributes
 
   Should ku#define_source({
+  \ 'cache_type': Ref('s:CACHE_CONSTANT'),
   \ 'default_action_table': {'checkout': function('function')},
   \ 'default_key_table': {'/': 'checkout'},
   \ 'filters': [G],
@@ -672,11 +689,13 @@ function s:describe__ku_define_source()  "{{{1
   \ 'name': 'test',
   \ 'on_action': F,
   \ 'sorters': [F],
+  \ 'special_chars': 'xyz',
   \ 'valid_for_acc_p': F,
   \ })
   \ == 1
   Should Ref('s:available_sources')['test']
   \ ==# {
+  \ 'cache_type': Ref('s:CACHE_CONSTANT'),
   \ 'default_action_table': {'checkout': function('function')},
   \ 'default_key_table': {'/': 'checkout'},
   \ 'filters': [G],
@@ -686,6 +705,7 @@ function s:describe__ku_define_source()  "{{{1
   \ 'name': 'test',
   \ 'on_action': F,
   \ 'sorters': [F],
+  \ 'special_chars': 'xyz',
   \ 'valid_for_acc_p': F,
   \ }
   Should Ref('s:available_kinds')['source/test']
