@@ -375,6 +375,53 @@ endfunction
 
 
 
+function s:describe__s_make_lcandidates_for_a_source()  "{{{1
+  It requires the following initialization
+
+  function! Test_matcher_pattern_included_p(candidate, args)
+    return 0 <= stridx(a:candidate.word, a:args.pattern)
+  endfunction
+
+  function! Test_filter_pattern_length(lcandidate, args)
+    return filter(a:lcandidate, 'len(v:val.word) % 2 == 0')
+  endfunction
+
+  Should ku#define_source({
+  \   'name': 'source_a',
+  \   'gather_candidates': function('function'),
+  \   'sorters': [function('ku#sorter#simple#sort')],
+  \   'matchers': [function('Test_matcher_pattern_included_p')],
+  \   'filters': [function('Test_filter_pattern_length')],
+  \ }) != 0
+  let source_a = ku#available_sources()['source_a']
+  function! source_a.gather_candidates(args)
+    return [
+    \   {'word': 'dcba'},
+    \   {'word': 'a'},
+    \   {'word': 'abc'},
+    \   {'word': 'bc'},
+    \   {'word': 'abcd'},
+    \ ]
+  endfunction
+
+  It should return matched/filtered/sorted/normalized candidates
+
+  let args = {'pattern': 'a', 'source': source_a}
+  Should Call('s:make_lcandidates_for_a_source', args)
+  \ ==# [
+  \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': 'abcd'},
+  \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': 'dcba'},
+  \ ]
+
+  It requires to reset side effect
+
+  ResetContext
+  Should has_key(ku#available_sources(), 'source_a') == 0
+endfunction
+
+
+
+
 function s:describe__s_matched_lcandidates()  "{{{1
   It requires the following initialization
 

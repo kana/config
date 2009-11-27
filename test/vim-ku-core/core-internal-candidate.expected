@@ -66,6 +66,14 @@
 ---- It requires to reset side effect 
 
 
+==== s_make_lcandidates_for_a_source 
+---- It requires the following initialization 
+.
+---- It should return matched/filtered/sorted/normalized candidates 
+.
+---- It requires to reset side effect 
+.
+
 ==== s_matched_lcandidates 
 ---- It requires the following initialization 
 
@@ -147,4 +155,4 @@
 **** Result ****
 
 
-136 examples, 0 failures
+139 examples, 0 failures

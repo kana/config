@@ -1131,21 +1131,7 @@ function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
   for source in a:sources
     let args.source = source
 
-    let raw_lcandidates = s:raw_lcandidates(args)
-
-    let matched_lcandidates
-    \   = s:matched_lcandidates(raw_lcandidates, args, source)
-
-    let filtered_lcandidates
-    \   = s:filter_lcandidates(matched_lcandidates, args, source)
-
-    let sorted_lcandidates
-    \   = s:sort_lcandidates(filtered_lcandidates, args, source)
-
-    let normalized_lcandidates
-    \   = map(sorted_lcandidates, 's:normalize_candidate(v:val, source)')
-
-    call extend(all_lcandidates, normalized_lcandidates)
+    call extend(all_lcandidates, s:make_lcandidates_for_a_source(args))
   endfor
 
   return all_lcandidates
@@ -1183,6 +1169,29 @@ function! s:list_key_tables(kinds)  "{{{2
   " so that it's not necessary to check tables for implicit kinds.
 
   return l_key_tables
+endfunction
+
+
+
+
+function! s:make_lcandidates_for_a_source(args)  "{{{2
+  let source = a:args.source
+
+  let raw_lcandidates = s:raw_lcandidates(a:args)
+
+  let matched_lcandidates
+  \   = s:matched_lcandidates(raw_lcandidates, a:args, source)
+
+  let filtered_lcandidates
+  \   = s:filter_lcandidates(matched_lcandidates, a:args, source)
+
+  let sorted_lcandidates
+  \   = s:sort_lcandidates(filtered_lcandidates, a:args, source)
+
+  let normalized_lcandidates
+  \   = map(sorted_lcandidates, 's:normalize_candidate(v:val, source)')
+
+  return normalized_lcandidates
 endfunction
 
 
