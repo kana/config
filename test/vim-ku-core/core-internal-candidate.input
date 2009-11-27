@@ -504,6 +504,309 @@ endfunction
 
 
 
+function s:describe__s_raw_lcandidates__cache_constant()  "{{{1
+  It requires the following initialization
+
+  Should ku#define_source({
+  \   'name': 'source_a',
+  \   'gather_candidates': function('function'),
+  \   'sorters': [],
+  \   'matchers': [function('ku#matcher#true#matches_p')],
+  \   'filters': [],
+  \   'ku__source_a__count': 0,
+  \ }) != 0
+  let source_a = ku#available_sources()['source_a']
+  function! source_a.gather_candidates(args)
+    let a:args.source.ku__source_a__count += 1
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_a.cache_type = Ref('s:CACHE_CONSTANT')
+
+  let args_a = {'pattern': 'a', 'source': source_a}
+  let args_ab = {'pattern': 'ab', 'source': source_a}
+  let args_ab_c = {'pattern': 'ab_c', 'source': source_a}
+
+  It should call source.gather_candidates only once
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_a)
+  Should _ ==# [{'word': 'a'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 1
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  Should _ ==# [{'word': 'ab'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 2
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  Should _ ==# [{'word': 'ab_c'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 3
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_a)
+  Should _ ==# [{'word': 'a'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 4
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  Should _ ==# [{'word': 'ab'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 5
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  Should _ ==# [{'word': 'ab_c'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 6
+  Should v:errmsg ==# ''
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__s_raw_lcandidates__cache_gel()  "{{{1
+  It requires the following initialization
+
+  Should ku#define_source({
+  \   'name': 'source_a',
+  \   'gather_candidates': function('function'),
+  \   'sorters': [],
+  \   'matchers': [function('ku#matcher#true#matches_p')],
+  \   'filters': [],
+  \   'ku__source_a__count': 0,
+  \   'special_chars': '_',
+  \ }) != 0
+  let source_a = ku#available_sources()['source_a']
+  function! source_a.gather_candidates(args)
+    let a:args.source.ku__source_a__count += 1
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_a.cache_type = Ref('s:CACHE_GEL')
+
+  let args_a = {'pattern': 'a', 'source': source_a}
+  let args_ab = {'pattern': 'ab', 'source': source_a}
+  let args_ab_c = {'pattern': 'ab_c', 'source': source_a}
+
+  It should call source.gather_candidates by "special characters" in pattern
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_a)
+  Should _ ==# [{'word': 'a'}]
+  Should source_a.ku__source_a__count == 1
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  Should _ ==# [{'word': 'ab'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 2
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_a)
+  Should _ ==# [{'word': 'a'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 3
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  Should _ ==# [{'word': 'ab'}]
+    " FIXME: NIY - This should be 1.
+  Should source_a.ku__source_a__count == 4
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  Should _ ==# [{'word': 'ab_c'}]
+    " FIXME: NIY - This should be 2.
+  Should source_a.ku__source_a__count == 5
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_a)
+  Should _ ==# [{'word': 'a'}]
+    " FIXME: NIY - This should be 2.
+  Should source_a.ku__source_a__count == 6
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  Should _ ==# [{'word': 'ab'}]
+    " FIXME: NIY - This should be 2.
+  Should source_a.ku__source_a__count == 7
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  Should _ ==# [{'word': 'ab_c'}]
+    " FIXME: NIY - This should be 2.
+  Should source_a.ku__source_a__count == 8
+  Should v:errmsg ==# ''
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__s_raw_lcandidates__cache_invalid()  "{{{1
+  It requires the following initialization
+
+  Should ku#define_source({
+  \   'name': 'source_a',
+  \   'gather_candidates': function('function'),
+  \   'sorters': [],
+  \   'matchers': [function('ku#matcher#true#matches_p')],
+  \   'filters': [],
+  \   'ku__source_a__count': 0,
+  \ }) != 0
+  let source_a = ku#available_sources()['source_a']
+  function! source_a.gather_candidates(args)
+    let a:args.source.ku__source_a__count += 1
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_a.cache_type = '$*(!)*$%'
+
+  let args = {'pattern': 'x', 'source': source_a}
+
+  It should raise error but behave as if "volatile"
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args)
+  Should _ ==# [{'word': 'x'}]
+  Should source_a.ku__source_a__count == 1
+  Should v:errmsg =~# '^ku:e3:'
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args)
+  Should _ ==# [{'word': 'x'}]
+  Should source_a.ku__source_a__count == 2
+  Should v:errmsg =~# '^ku:e3:'
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__s_raw_lcandidates__cache_pattern()  "{{{1
+  It requires the following initialization
+
+  Should ku#define_source({
+  \   'name': 'source_a',
+  \   'gather_candidates': function('function'),
+  \   'sorters': [],
+  \   'matchers': [function('ku#matcher#true#matches_p')],
+  \   'filters': [],
+  \   'ku__source_a__count': 0,
+  \ }) != 0
+  let source_a = ku#available_sources()['source_a']
+  function! source_a.gather_candidates(args)
+    let a:args.source.ku__source_a__count += 1
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_a.cache_type = Ref('s:CACHE_PATTERN')
+
+  let args_g = {'pattern': 'g', 'source': source_a}
+  let args_G = {'pattern': 'G', 'source': source_a}
+
+  It should call source.gather_candidates for different pattern
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_g)
+  Should _ ==# [{'word': 'g'}]
+  Should source_a.ku__source_a__count == 1
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_G)
+  Should _ ==# [{'word': 'G'}]
+  Should source_a.ku__source_a__count == 2
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_g)
+  Should _ ==# [{'word': 'g'}]
+    " FIXME: NIY - This should be 2.
+  Should source_a.ku__source_a__count == 3
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args_G)
+  Should _ ==# [{'word': 'G'}]
+    " FIXME: NIY - This should be 2.
+  Should source_a.ku__source_a__count == 4
+  Should v:errmsg ==# ''
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
+function s:describe__s_raw_lcandidates__cache_volatile()  "{{{1
+  It requires the following initialization
+
+  Should ku#define_source({
+  \   'name': 'source_a',
+  \   'gather_candidates': function('function'),
+  \   'sorters': [],
+  \   'matchers': [function('ku#matcher#true#matches_p')],
+  \   'filters': [],
+  \   'ku__source_a__count': 0,
+  \ }) != 0
+  let source_a = ku#available_sources()['source_a']
+  function! source_a.gather_candidates(args)
+    let a:args.source.ku__source_a__count += 1
+    return [{'word': a:args.pattern}]
+  endfunction
+  let source_a.cache_type = Ref('s:CACHE_VOLATILE')
+
+  let args = {'pattern': 'x', 'source': source_a}
+
+  It should call source.gather_candidates for each time
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args)
+  Should _ ==# [{'word': 'x'}]
+  Should source_a.ku__source_a__count == 1
+  Should v:errmsg ==# ''
+
+  let v:errmsg = ''
+  silent! let _ = Call('s:raw_lcandidates', args)
+  Should _ ==# [{'word': 'x'}]
+  Should source_a.ku__source_a__count == 2
+  Should v:errmsg ==# ''
+
+  It requires to reset side effect
+
+  ResetContext
+endfunction
+
+
+
+
 function s:describe__s_sort_lcandidates()  "{{{1
   function! Test_sorter_reverse(lcandidates, args)
     return reverse(a:lcandidates)

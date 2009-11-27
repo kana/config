@@ -92,6 +92,46 @@
 ---- It requires to reset side effect 
 .
 
+==== s_raw_lcandidates cache constant
+---- It requires the following initialization 
+.
+---- It should call source.gather_candidates only once 
+..................
+---- It requires to reset side effect 
+
+
+==== s_raw_lcandidates cache gel
+---- It requires the following initialization 
+.
+---- It should call source.gather_candidates by "special characters" in pattern 
+........................
+---- It requires to reset side effect 
+
+
+==== s_raw_lcandidates cache invalid
+---- It requires the following initialization 
+.
+---- It should raise error but behave as if "volatile" 
+......
+---- It requires to reset side effect 
+
+
+==== s_raw_lcandidates cache pattern
+---- It requires the following initialization 
+.
+---- It should call source.gather_candidates for different pattern 
+............
+---- It requires to reset side effect 
+
+
+==== s_raw_lcandidates cache volatile
+---- It requires the following initialization 
+.
+---- It should call source.gather_candidates for each time 
+......
+---- It requires to reset side effect 
+
+
 ==== s_sort_lcandidates 
 ---- It should return unsorted candidates with no sorter 
 .
@@ -107,4 +147,4 @@
 **** Result ****
 
 
-65 examples, 0 failures
+136 examples, 0 failures
