@@ -458,7 +458,7 @@ function! ku#omnifunc(findstart, base)  "{{{2
   else
     let pattern = s:remove_prompt(a:base)
     let s:session.last_lcandidates
-    \   = s:lcandidates_from_pattern(pattern, s:session.sources)
+    \   = s:lcandidates_from_pattern(pattern, s:session)
     return s:session.last_lcandidates
   endif
 endfunction
@@ -1124,11 +1124,11 @@ endfunction
 
 
 
-function! s:lcandidates_from_pattern(pattern, sources)  "{{{2
+function! s:lcandidates_from_pattern(pattern, session)  "{{{2
   let args = {'pattern': a:pattern}
   let all_lcandidates = []
 
-  for source in a:sources
+  for source in a:session.sources
     let args.source = source
 
     call extend(all_lcandidates, s:make_lcandidates_for_a_source(args))

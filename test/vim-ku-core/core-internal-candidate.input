@@ -275,18 +275,21 @@ function s:describe__s_lcandidates_from_pattern()  "{{{1
 
   It should return [] with no source
 
-  Should Call('s:lcandidates_from_pattern', '2330', []) ==# []
+  let session = Call('s:new_session', [])
+  Should Call('s:lcandidates_from_pattern', '2330', session) ==# []
 
   It should return some candidates with a source
 
-  Should Call('s:lcandidates_from_pattern', '2330', [source_a])
+  let session = Call('s:new_session', ['source_a'])
+  Should Call('s:lcandidates_from_pattern', '2330', session)
   \ ==# [
   \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
   \ ]
 
   It should return some candidates with multiple sources
 
-  Should Call('s:lcandidates_from_pattern', '2330', [source_a, source_b])
+  let session = Call('s:new_session', ['source_a', 'source_b'])
+  Should Call('s:lcandidates_from_pattern', '2330', session)
   \ ==# [
   \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
   \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
@@ -296,7 +299,8 @@ function s:describe__s_lcandidates_from_pattern()  "{{{1
   It should return some candidates with multiple sources - duplicate sources
   " (although this case is not a valid usage)
 
-  Should Call('s:lcandidates_from_pattern','2330',[source_a,source_b,source_a])
+  let session = Call('s:new_session', ['source_a', 'source_b', 'source_a'])
+  Should Call('s:lcandidates_from_pattern','2330', session)
   \ ==# [
   \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': '2330'},
   \   {'dup': !0, 'ku__source': source_b, 'menu': 'source_b', 'word': 'b'},
@@ -306,7 +310,8 @@ function s:describe__s_lcandidates_from_pattern()  "{{{1
 
   It should return sorted candidates for a source with sorters
 
-  Should Call('s:lcandidates_from_pattern', '2330', [source_c])
+  let session = Call('s:new_session', ['source_c'])
+  Should Call('s:lcandidates_from_pattern', '2330', session)
   \ ==# [
   \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'p'},
   \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'u'},
@@ -314,7 +319,8 @@ function s:describe__s_lcandidates_from_pattern()  "{{{1
 
   It should return partially sorted candidates for sources with/without sorters
 
-  Should Call('s:lcandidates_from_pattern', '2330', [source_c, source_b])
+  let session = Call('s:new_session', ['source_c', 'source_b'])
+  Should Call('s:lcandidates_from_pattern', '2330', session)
   \ ==# [
   \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'p'},
   \   {'dup': !0, 'ku__source': source_c, 'menu': 'source_c', 'word': 'u'},
@@ -361,7 +367,8 @@ function s:describe__s_lcandidates_from_pattern__args_source()  "{{{1
 
   It should pass a valid args.source
 
-  Should Call('s:lcandidates_from_pattern', 'juni', [source_a, source_b])
+  let session = Call('s:new_session', ['source_a', 'source_b'])
+  Should Call('s:lcandidates_from_pattern', 'juni', session)
   \ ==# [
   \   {'dup':!0, 'ku__source':source_a, 'menu':'source_a', 'word':'source_a'},
   \   {'dup':!0, 'ku__source':source_b, 'menu':'source_b', 'word':'source_b'},
