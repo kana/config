@@ -44,7 +44,7 @@
 ---- It requires to reset side effect 
 .
 
-==== s_lcandidates_from_pattern 
+==== s_lcandidates_from_pattern ...
 ---- It should return [] with no source 
 .
 ---- It should return some candidates with a source 
@@ -60,7 +60,7 @@
 
 ==== s_lcandidates_from_pattern args source
 ---- It requires the following initialization 
-
+..
 ---- It should pass a valid args.source 
 .
 ---- It requires to reset side effect 
@@ -107,4 +107,4 @@
 **** Result ****
 
 
-60 examples, 0 failures
+65 examples, 0 failures
