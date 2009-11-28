@@ -935,8 +935,17 @@ endfunction
 
 
 function! s:get_cached_lcandidates(session, args)  "{{{2
-  " FIXME: NIY
-  return s:NO_CACHE
+  if a:args.source.cache_type ==# s:CACHE_VOLATILE
+    return s:NO_CACHE
+  else
+    if !has_key(a:session.cached_lcandidates, a:args.source.name)
+      let a:session.cached_lcandidates[a:args.source.name] = {}
+    endif
+
+    return get(a:session.cached_lcandidates[a:args.source.name],
+    \          s:cache_key(a:args.pattern),
+    \          s:NO_CACHE)
+  endif
 endfunction
 
 

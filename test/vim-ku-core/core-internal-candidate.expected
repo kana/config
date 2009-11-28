@@ -38,6 +38,20 @@
 ---- It should return the same candidates regardless of order of filters 
 .
 
+==== s_get_cached_lcandidates 
+---- It requires the following initialization 
+..
+---- It should return s:NO_CACHE if there is no cached lcandidates 
+...
+---- It should return a cached one if there is a cached lcandidates 
+...
+---- It should always return s:NO_CACHE for s:CACHE_VOLATILE 
+...
+---- It should return different values for different sources 
+...
+---- It requires to reset side effect 
+.
+
 ==== s_kinds_from_candidate 
 ---- It requires the following initialization 
 ....
@@ -159,4 +173,4 @@
 **** Result ****
 
 
-143 examples, 0 failures
+158 examples, 0 failures

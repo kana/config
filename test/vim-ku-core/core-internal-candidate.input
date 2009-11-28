@@ -209,6 +209,99 @@ endfunction
 
 
 
+function s:describe__s_get_cached_lcandidates()  "{{{1
+  It requires the following initialization
+
+  Should ku#define_source({
+  \   'name': 'source_a',
+  \   'gather_candidates': function('function'),
+  \   'cache_type': Ref('s:CACHE_CONSTANT'),
+  \ }) != 0
+  let source_a = ku#available_sources()['source_a']
+
+  call Set('s:session', Call('s:new_session', [source_a.name]))
+  let session = Ref('s:session')
+  Should session.cached_lcandidates ==# {}
+
+  It should return s:NO_CACHE if there is no cached lcandidates
+
+  let args = {'source': source_a, 'pattern': ''}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+  let args = {'source': source_a, 'pattern': 'a'}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+
+  Should session.cached_lcandidates ==# {'source_a': {}}
+
+  It should return a cached one if there is a cached lcandidates
+
+  let lcandidates_1 = [{'word': '#'}]
+  let lcandidates_2 = [{'word': '#a'}]
+  let lcandidates_3 = [{'word': 'a'}]
+  let session.cached_lcandidates = {source_a.name: {
+  \   Call('s:cache_key', ''): lcandidates_1,
+  \   Call('s:cache_key', 'a'): lcandidates_2,
+  \   'a': lcandidates_3,
+  \ }}
+
+  let args = {'source': source_a, 'pattern': ''}
+  Should Call('s:get_cached_lcandidates', session, args) is lcandidates_1
+  let args = {'source': source_a, 'pattern': 'a'}
+  Should Call('s:get_cached_lcandidates', session, args) is lcandidates_2
+
+  Should session.cached_lcandidates ==# {
+  \   'source_a': {
+  \     Call('s:cache_key', ''): lcandidates_1,
+  \     Call('s:cache_key', 'a'): lcandidates_2,
+  \     'a': lcandidates_3,
+  \   },
+  \ }
+
+  It should always return s:NO_CACHE for s:CACHE_VOLATILE
+
+  let source_a.cache_type = Ref('s:CACHE_VOLATILE')
+
+  let args = {'source': source_a, 'pattern': ''}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+  let args = {'source': source_a, 'pattern': 'a'}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+
+  Should session.cached_lcandidates ==# {
+  \   'source_a': {
+  \     Call('s:cache_key', ''): lcandidates_1,
+  \     Call('s:cache_key', 'a'): lcandidates_2,
+  \     'a': lcandidates_3,
+  \   },
+  \ }
+
+  It should return different values for different sources
+
+  let source_a.cache_type = Ref('s:CACHE_CONSTANT')
+  let source_a.name = 'source_A'
+
+  let args = {'source': source_a, 'pattern': ''}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+  let args = {'source': source_a, 'pattern': 'a'}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+
+  Should session.cached_lcandidates ==# {
+  \   'source_a': {
+  \     Call('s:cache_key', ''): lcandidates_1,
+  \     Call('s:cache_key', 'a'): lcandidates_2,
+  \     'a': lcandidates_3,
+  \   },
+  \   'source_A': {
+  \   },
+  \ }
+
+  It requires to reset side effect
+
+  ResetContext
+  Should ku#available_source_p('source_a') == 0
+endfunction
+
+
+
+
 function s:describe__s_kinds_from_candidate()  "{{{1
   It requires the following initialization
 
