@@ -125,6 +125,80 @@ endfunction
 
 
 
+function s:describe__s_cache_lcandidates()  "{{{1
+  It requires the following initialization
+
+  Should ku#define_source({
+  \   'name': 'source_c',
+  \   'gather_candidates': function('function'),
+  \   'cache_type': Ref('s:CACHE_CONSTANT'),
+  \ }) != 0
+  let source_c = ku#available_sources()['source_c']
+
+  Should ku#define_source({
+  \   'name': 'source_v',
+  \   'gather_candidates': function('function'),
+  \   'cache_type': Ref('s:CACHE_VOLATILE'),
+  \ }) != 0
+  let source_v = ku#available_sources()['source_v']
+
+  call Set('s:session', Call('s:new_session', [source_c.name, source_v.name]))
+  let session = Ref('s:session')
+  Should session.cached_lcandidates ==# {}
+
+  let lcandidates_c1 = [{'word': 'c1'}]
+  let lcandidates_c2 = [{'word': 'c2'}]
+
+  It should cache a given lcandidates for non-volatile sources
+
+  let args = {'pattern': 'c1', 'source': source_c}
+  call Call('s:cache_lcandidates', session, lcandidates_c1, args)
+  let args = {'pattern': 'c2', 'source': source_c}
+  call Call('s:cache_lcandidates', session, lcandidates_c2, args)
+
+  Should session.cached_lcandidates ==# {
+  \   source_c.name: {
+  \     Call('s:cache_key', 'c1'): lcandidates_c1,
+  \     Call('s:cache_key', 'c2'): lcandidates_c2,
+  \   },
+  \ }
+
+  It should not cache a given lcandidates for volatile sources
+
+  let args = {'pattern': 'v1', 'source': source_v}
+  call Call('s:cache_lcandidates', session, [{'word': 'v1'}], args)
+  let args = {'pattern': 'v2', 'source': source_v}
+  call Call('s:cache_lcandidates', session, [{'word': 'v2'}], args)
+
+  Should session.cached_lcandidates ==# {
+  \   source_c.name: {
+  \     Call('s:cache_key', 'c1'): lcandidates_c1,
+  \     Call('s:cache_key', 'c2'): lcandidates_c2,
+  \   },
+  \ }
+
+  It should cache lcandidates for later use
+
+  let args = {'source': source_c, 'pattern': 'c1'}
+  Should Call('s:get_cached_lcandidates', session, args) is lcandidates_c1
+  let args = {'source': source_c, 'pattern': 'c2'}
+  Should Call('s:get_cached_lcandidates', session, args) is lcandidates_c2
+
+  let args = {'source': source_v, 'pattern': 'v1'}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+  let args = {'source': source_v, 'pattern': 'v2'}
+  Should Call('s:get_cached_lcandidates', session, args) is Ref('s:NO_CACHE')
+
+  It requires to reset side effect
+
+  ResetContext
+  Should ku#available_source_p('source_c') == 0
+  Should ku#available_source_p('source_v') == 0
+endfunction
+
+
+
+
 function s:describe__s_filter_lcandidates()  "{{{1
   function! Test_filter_odd(lcandidates, args)
     return filter(a:lcandidates, 'len(v:val.word) % 2')

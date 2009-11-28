@@ -627,8 +627,19 @@ endfunction
 
 
 function! s:cache_lcandidates(session, lcandidates, args)  "{{{2
-  " FIXME: NIY
-  return
+  if a:args.source.cache_type ==# s:CACHE_VOLATILE
+    " Don't cache for a volatile source
+    return
+  else
+    let _ = get(a:session.cached_lcandidates, a:args.source.name, 0)
+    if _ is 0
+      unlet _
+      let _ = {}
+      let a:session.cached_lcandidates[a:args.source.name] = _
+    endif
+
+    let _[s:cache_key(a:args.pattern)] = a:lcandidates
+  endif
 endfunction
 
 

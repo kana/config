@@ -26,6 +26,18 @@
 ---- It should return a mangled version of a given pattern 
 ....
 
+==== s_cache_lcandidates 
+---- It requires the following initialization 
+...
+---- It should cache a given lcandidates for non-volatile sources 
+.
+---- It should not cache a given lcandidates for volatile sources 
+.
+---- It should cache lcandidates for later use 
+....
+---- It requires to reset side effect 
+..
+
 ==== s_filter_lcandidates 
 ---- It should return candidates as-is with no filter 
 .
@@ -173,4 +185,4 @@
 **** Result ****
 
 
-158 examples, 0 failures
+169 examples, 0 failures
