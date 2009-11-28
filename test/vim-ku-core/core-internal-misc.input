@@ -681,6 +681,7 @@ function s:describe__s_new_session()  "{{{1
 
   let session_a = Call('s:new_session', [])
   Should has_key(session_a, 'id') == 1
+  Should session_a.cached_lcandidates ==# {}
   Should session_a.inserted_by_acc_p == 0
   Should session_a.last_column == Ref('s:INVALID_COLUMN')
   Should session_a.last_lcandidates ==# []
@@ -695,6 +696,7 @@ function s:describe__s_new_session()  "{{{1
 
   let session_b = Call('s:new_session', [])
   Should has_key(session_b, 'id') == 1
+  Should session_b.cached_lcandidates ==# {}
   Should session_b.inserted_by_acc_p == 0
   Should session_b.last_column == Ref('s:INVALID_COLUMN')
   Should session_b.last_lcandidates ==# []
@@ -713,6 +715,7 @@ function s:describe__s_new_session()  "{{{1
 
   let session = Call('s:new_session', ['test', 'abc'])
   Should has_key(session, 'id') == 1
+  Should session.cached_lcandidates ==# {}
   Should session.inserted_by_acc_p == 0
   Should session.last_column == Ref('s:INVALID_COLUMN')
   Should session.last_lcandidates ==# []

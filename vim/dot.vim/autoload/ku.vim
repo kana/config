@@ -1256,6 +1256,8 @@ function! s:new_session(source_names)  "{{{2
 
     " Use list to ensure returning different value for each time.
   let session.id = [localtime()]
+    " source-name => {pattern: cached-lcandidates}
+  let session.cached_lcandidates = {}
   let session.inserted_by_acc_p = s:FALSE
   let session.last_column = s:INVALID_COLUMN
   let session.last_lcandidates = []
