@@ -22,6 +22,10 @@
 ---- It requires to reset side effect 
 ...
 
+==== s_cache_key 
+---- It should return a mangled version of a given pattern 
+....
+
 ==== s_filter_lcandidates 
 ---- It should return candidates as-is with no filter 
 .
@@ -155,4 +159,4 @@
 **** Result ****
 
 
-139 examples, 0 failures
+143 examples, 0 failures

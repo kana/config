@@ -113,6 +113,18 @@ endfunction
 
 
 
+function s:describe__s_cache_key()  "{{{1
+  It should return a mangled version of a given pattern
+
+  Should Call('s:cache_key', '') ==# '#'
+  Should Call('s:cache_key', '#') ==# '##'
+  Should Call('s:cache_key', 'abc') ==# '#abc'
+  Should Call('s:cache_key', '%*(!)%*') ==# '#%*(!)%*'
+endfunction
+
+
+
+
 function s:describe__s_filter_lcandidates()  "{{{1
   function! Test_filter_odd(lcandidates, args)
     return filter(a:lcandidates, 'len(v:val.word) % 2')

@@ -618,6 +618,14 @@ endfunction
 
 
 
+function! s:cache_key(pattern)  "{{{2
+  " We can't use empty string as a key of Dictionary because of E713.
+  return '#' . a:pattern
+endfunction
+
+
+
+
 function! s:cache_lcandidates(session, lcandidates, args)  "{{{2
   " FIXME: NIY
   return
