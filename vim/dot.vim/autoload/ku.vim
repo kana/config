@@ -1422,15 +1422,9 @@ function! s:raw_lcandidates(args, session)  "{{{2
   elseif source.cache_type ==# s:CACHE_GEL
     " FIXME: NIY
     let raw_lcandidates = copy(source.gather_candidates(a:args))
-  elseif source.cache_type ==# s:CACHE_PATTERN
-    " FIXME: NIY
-    let raw_lcandidates = copy(source.gather_candidates(a:args))
-  elseif source.cache_type ==# s:CACHE_VOLATILE
-    let raw_lcandidates = copy(source.gather_candidates(a:args))
   else
-    echoerr 'ku:e3: Invalid source.cache_type:'
-    \       'Source' string(source.name)
-    \       'with cache_type' string(source.cache_type)
+    " source.cache_type ==# s:CACHE_PATTERN
+    " source.cache_type ==# s:CACHE_VOLATILE
     let raw_lcandidates = copy(source.gather_candidates(a:args))
   endif
 

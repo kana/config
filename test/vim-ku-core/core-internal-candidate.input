@@ -761,55 +761,6 @@ endfunction
 
 
 
-function s:describe__s_lcandidates_from_pattern__cache_invalid()  "{{{1
-  It requires the following initialization
-
-  Should ku#define_source({
-  \   'name': 'source_a',
-  \   'gather_candidates': function('function'),
-  \   'sorters': [],
-  \   'matchers': [function('ku#matcher#true#matches_p')],
-  \   'filters': [],
-  \   'ku__source_a__count': 0,
-  \ }) != 0
-  let source_a = ku#available_sources()['source_a']
-  function! source_a.gather_candidates(args)
-    let a:args.source.ku__source_a__count += 1
-    return [{'word': a:args.pattern}]
-  endfunction
-  let source_a.cache_type = '$*(!)*$%'
-
-  let session = Call('s:new_session', [source_a.name])
-  let pattern_x = 'x'
-  let candidate_x = {
-  \   'dup': !0,
-  \   'ku__source': source_a,
-  \   'menu': source_a.name,
-  \   'word': pattern_x,
-  \ }
-
-  It should raise error but behave as if "pattern"
-
-  let v:errmsg = ''
-  silent! let _ = Call('s:lcandidates_from_pattern', pattern_x, session)
-  Should _ ==# [candidate_x]
-  Should source_a.ku__source_a__count == 1
-  Should v:errmsg =~# '^ku:e3:'
-
-  let v:errmsg = ''
-  silent! let _ = Call('s:lcandidates_from_pattern', pattern_x, session)
-  Should _ ==# [candidate_x]
-  Should source_a.ku__source_a__count == 1
-  Should v:errmsg == ''
-
-  It requires to reset side effect
-
-  ResetContext
-endfunction
-
-
-
-
 function s:describe__s_lcandidates_from_pattern__cache_pattern()  "{{{1
   It requires the following initialization
 
