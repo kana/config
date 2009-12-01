@@ -172,43 +172,45 @@
 
 ==== s_raw_lcandidates cache constant
 ---- It requires the following initialization 
-.
----- It should call source.gather_candidates only once 
-..................
+.....
+---- It should not call source.gather_candidates anymore for session_1 
+xxxx
+---- It should return more proper cache if there is such one 
+.xxxxx
+---- It should call source.gather_candidates for different session 
+xx
 ---- It requires to reset side effect 
-
+.
 
 ==== s_raw_lcandidates cache gel
 ---- It requires the following initialization 
-.
----- It should call source.gather_candidates by "special characters" in pattern 
-........................
+.....
+---- It should not call source.gather_candidates unless a special char is inserted 
+xxxx
+---- It should return more proper cache if there is such one 
+.xxx
+---- It should call source.gather_candidates if a special char is insereted 
+.x
+---- It should call source.gather_candidates for different session 
+xx
 ---- It requires to reset side effect 
-
-
-==== s_raw_lcandidates cache invalid
----- It requires the following initialization 
 .
----- It should raise error but behave as if "volatile" 
-......
----- It requires to reset side effect 
-
 
 ==== s_raw_lcandidates cache pattern
 ---- It requires the following initialization 
-.
----- It should call source.gather_candidates for different pattern 
-............
+....
+---- It should call source.gather_candidates 
+....
 ---- It requires to reset side effect 
-
+.
 
 ==== s_raw_lcandidates cache volatile
 ---- It requires the following initialization 
-.
----- It should call source.gather_candidates for each time 
-......
+....
+---- It should call source.gather_candidates 
+....
 ---- It requires to reset side effect 
-
+.
 
 ==== s_sort_lcandidates 
 ---- It should return unsorted candidates with no sorter 
@@ -225,4 +227,115 @@
 **** Result ****
 
 
-240 examples, 0 failures
+In s_raw_lcandidates cache constant
+
+It should not call source.gather_candidates anymore for session_1
+FAILED: Call('s:raw_lcandidates', args, session_1) ==# [   candidate_n_a,   candidate_n_s, ]
+  expected: [{'word': 'alter', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}, {'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should not call source.gather_candidates anymore for session_1
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 2
+
+It should not call source.gather_candidates anymore for session_1
+FAILED: Call('s:raw_lcandidates', args, session_1) ==# [   candidate_n_a,   candidate_n_s, ]
+  expected: [{'word': 'alter', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}, {'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should not call source.gather_candidates anymore for session_1
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 3
+
+It should return more proper cache if there is such one
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 4
+
+It should return more proper cache if there is such one
+FAILED: Call('s:raw_lcandidates', args, session_1) ==# [   candidate_n_s, ]
+  expected: [{'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should return more proper cache if there is such one
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 5
+
+It should return more proper cache if there is such one
+FAILED: Call('s:raw_lcandidates', args, session_1) ==# [   candidate_n_s, ]
+  expected: [{'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should return more proper cache if there is such one
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 6
+
+It should call source.gather_candidates for different session
+FAILED: Call('s:raw_lcandidates', args, session_2) ==# [   candidate_n_a,   candidate_n_s, ]
+  expected: [{'word': 'alter', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}, {'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'constant', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': '', 'gather_candidates': function('17'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should call source.gather_candidates for different session
+FAILED: source_a.ku_source_a_count == 2
+  expected: 2
+       got: 7
+
+
+In s_raw_lcandidates cache gel
+
+It should not call source.gather_candidates unless a special char is inserted
+FAILED: Call('s:raw_lcandidates', args, session_1) ==# [   candidate_n_a,   candidate_n_s, ]
+  expected: [{'word': 'alter', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'gel', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': 't', 'gather_candidates': function('18'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}, {'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'gel', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': 't', 'gather_candidates': function('18'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should not call source.gather_candidates unless a special char is inserted
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 2
+
+It should not call source.gather_candidates unless a special char is inserted
+FAILED: Call('s:raw_lcandidates', args, session_1) ==# [   candidate_n_a,   candidate_n_s, ]
+  expected: [{'word': 'alter', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'gel', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': 't', 'gather_candidates': function('18'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}, {'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'gel', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': 't', 'gather_candidates': function('18'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should not call source.gather_candidates unless a special char is inserted
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 3
+
+It should return more proper cache if there is such one
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 4
+
+It should return more proper cache if there is such one
+FAILED: Call('s:raw_lcandidates', args, session_1) ==# [   candidate_n_a, ]
+  expected: [{'word': 'alter', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'gel', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': 't', 'gather_candidates': function('18'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should return more proper cache if there is such one
+FAILED: source_a.ku_source_a_count == 1
+  expected: 1
+       got: 5
+
+It should call source.gather_candidates if a special char is insereted
+FAILED: source_a.ku_source_a_count == 2
+  expected: 2
+       got: 6
+
+It should call source.gather_candidates for different session
+FAILED: Call('s:raw_lcandidates', args, session_2) ==# [   candidate_n_a,   candidate_n_s, ]
+  expected: [{'word': 'alter', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'gel', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': 't', 'gather_candidates': function('18'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}, {'word': 'sasara', 'menu': 'source_a', 'ku__source': {'filters': [], 'cache_type': 'gel', 'on_action': function('ku#default_on_action'), 'name': 'source_a', 'default_action_table': {}, 'sorters': [], 'kind_names': ['source/source_a', 'common'], 'ku_source_a_count': 7, 'matchers': [function('ku#matcher#simple#matches_p')], 'default_key_table': {}, 'special_chars': 't', 'gather_candidates': function('18'), 'valid_for_acc_p': function('ku#default_valid_for_acc_p')}, 'dup': 1}]
+       got: [{'word': 'alter'}, {'word': 'sasara'}]
+
+It should call source.gather_candidates for different session
+FAILED: source_a.ku_source_a_count == 3
+  expected: 3
+       got: 7
+
+
+223 examples, 21 failures
