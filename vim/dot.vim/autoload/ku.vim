@@ -1180,7 +1180,7 @@ function! s:lcandidates_from_pattern(pattern, session)  "{{{2
 
     let lcandidates = s:get_cached_lcandidates(a:session, args)
     if lcandidates is s:NO_CACHE
-      let lcandidates = s:make_lcandidates_for_a_source(args)
+      let lcandidates = s:make_lcandidates_for_a_source(args, a:session)
       call s:cache_lcandidates(a:session, lcandidates, args)
     endif
 
@@ -1227,10 +1227,10 @@ endfunction
 
 
 
-function! s:make_lcandidates_for_a_source(args)  "{{{2
+function! s:make_lcandidates_for_a_source(args, session)  "{{{2
   let source = a:args.source
 
-  let raw_lcandidates = s:raw_lcandidates(a:args)
+  let raw_lcandidates = s:raw_lcandidates(a:args, a:session)
 
   let matched_lcandidates
   \   = s:matched_lcandidates(raw_lcandidates, a:args, source)
@@ -1413,7 +1413,7 @@ endfunction
 
 
 
-function! s:raw_lcandidates(args)  "{{{2
+function! s:raw_lcandidates(args, session)  "{{{2
   let source = a:args.source
 
   if source.cache_type ==# s:CACHE_CONSTANT

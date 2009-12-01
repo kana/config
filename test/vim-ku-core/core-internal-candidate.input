@@ -956,10 +956,12 @@ function s:describe__s_make_lcandidates_for_a_source()  "{{{1
     \ ]
   endfunction
 
+  let session = Call('s:new_session', [source_a.name])
+
   It should return matched/filtered/sorted/normalized candidates
 
   let args = {'pattern': 'a', 'source': source_a}
-  Should Call('s:make_lcandidates_for_a_source', args)
+  Should Call('s:make_lcandidates_for_a_source', args, session)
   \ ==# [
   \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': 'abcd'},
   \   {'dup': !0, 'ku__source': source_a, 'menu': 'source_a', 'word': 'dcba'},
@@ -1084,9 +1086,12 @@ function s:describe__s_raw_lcandidates()  "{{{1
     \ ]
   endfunction
 
+  let session = Call('s:new_session', [source.name])
+
   It should return raw candidates gatherd by a given source
 
-  Should Call('s:raw_lcandidates', {'pattern': '!', 'source': source}) == [
+  Should Call('s:raw_lcandidates', {'pattern': '!', 'source': source}, session)
+  \ == [
   \   {'word': 'a'},
   \   {'word': 'l'},
   \   {'word': 't'},
@@ -1121,6 +1126,8 @@ function s:describe__s_raw_lcandidates__cache_constant()  "{{{1
   endfunction
   let source_a.cache_type = Ref('s:CACHE_CONSTANT')
 
+  let session = Call('s:new_session', [source_a.name])
+
   let args_a = {'pattern': 'a', 'source': source_a}
   let args_ab = {'pattern': 'ab', 'source': source_a}
   let args_ab_c = {'pattern': 'ab_c', 'source': source_a}
@@ -1128,42 +1135,42 @@ function s:describe__s_raw_lcandidates__cache_constant()  "{{{1
   It should call source.gather_candidates only once
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_a)
+  silent! let _ = Call('s:raw_lcandidates', args_a, session)
   Should _ ==# [{'word': 'a'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 1
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  silent! let _ = Call('s:raw_lcandidates', args_ab, session)
   Should _ ==# [{'word': 'ab'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 2
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c, session)
   Should _ ==# [{'word': 'ab_c'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 3
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_a)
+  silent! let _ = Call('s:raw_lcandidates', args_a, session)
   Should _ ==# [{'word': 'a'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 4
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  silent! let _ = Call('s:raw_lcandidates', args_ab, session)
   Should _ ==# [{'word': 'ab'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 5
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c, session)
   Should _ ==# [{'word': 'ab_c'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 6
@@ -1196,6 +1203,8 @@ function s:describe__s_raw_lcandidates__cache_gel()  "{{{1
   endfunction
   let source_a.cache_type = Ref('s:CACHE_GEL')
 
+  let session = Call('s:new_session', [source_a.name])
+
   let args_a = {'pattern': 'a', 'source': source_a}
   let args_ab = {'pattern': 'ab', 'source': source_a}
   let args_ab_c = {'pattern': 'ab_c', 'source': source_a}
@@ -1203,55 +1212,55 @@ function s:describe__s_raw_lcandidates__cache_gel()  "{{{1
   It should call source.gather_candidates by "special characters" in pattern
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_a)
+  silent! let _ = Call('s:raw_lcandidates', args_a, session)
   Should _ ==# [{'word': 'a'}]
   Should source_a.ku__source_a__count == 1
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  silent! let _ = Call('s:raw_lcandidates', args_ab, session)
   Should _ ==# [{'word': 'ab'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 2
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_a)
+  silent! let _ = Call('s:raw_lcandidates', args_a, session)
   Should _ ==# [{'word': 'a'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 3
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  silent! let _ = Call('s:raw_lcandidates', args_ab, session)
   Should _ ==# [{'word': 'ab'}]
     " FIXME: NIY - This should be 1.
   Should source_a.ku__source_a__count == 4
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c, session)
   Should _ ==# [{'word': 'ab_c'}]
     " FIXME: NIY - This should be 2.
   Should source_a.ku__source_a__count == 5
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_a)
+  silent! let _ = Call('s:raw_lcandidates', args_a, session)
   Should _ ==# [{'word': 'a'}]
     " FIXME: NIY - This should be 2.
   Should source_a.ku__source_a__count == 6
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab)
+  silent! let _ = Call('s:raw_lcandidates', args_ab, session)
   Should _ ==# [{'word': 'ab'}]
     " FIXME: NIY - This should be 2.
   Should source_a.ku__source_a__count == 7
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_ab_c)
+  silent! let _ = Call('s:raw_lcandidates', args_ab_c, session)
   Should _ ==# [{'word': 'ab_c'}]
     " FIXME: NIY - This should be 2.
   Should source_a.ku__source_a__count == 8
@@ -1283,18 +1292,20 @@ function s:describe__s_raw_lcandidates__cache_invalid()  "{{{1
   endfunction
   let source_a.cache_type = '$*(!)*$%'
 
+  let session = Call('s:new_session', [source_a.name])
+
   let args = {'pattern': 'x', 'source': source_a}
 
   It should raise error but behave as if "volatile"
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args)
+  silent! let _ = Call('s:raw_lcandidates', args, session)
   Should _ ==# [{'word': 'x'}]
   Should source_a.ku__source_a__count == 1
   Should v:errmsg =~# '^ku:e3:'
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args)
+  silent! let _ = Call('s:raw_lcandidates', args, session)
   Should _ ==# [{'word': 'x'}]
   Should source_a.ku__source_a__count == 2
   Should v:errmsg =~# '^ku:e3:'
@@ -1325,32 +1336,34 @@ function s:describe__s_raw_lcandidates__cache_pattern()  "{{{1
   endfunction
   let source_a.cache_type = Ref('s:CACHE_PATTERN')
 
+  let session = Call('s:new_session', [source_a.name])
+
   let args_g = {'pattern': 'g', 'source': source_a}
   let args_G = {'pattern': 'G', 'source': source_a}
 
   It should call source.gather_candidates for different pattern
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_g)
+  silent! let _ = Call('s:raw_lcandidates', args_g, session)
   Should _ ==# [{'word': 'g'}]
   Should source_a.ku__source_a__count == 1
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_G)
+  silent! let _ = Call('s:raw_lcandidates', args_G, session)
   Should _ ==# [{'word': 'G'}]
   Should source_a.ku__source_a__count == 2
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_g)
+  silent! let _ = Call('s:raw_lcandidates', args_g, session)
   Should _ ==# [{'word': 'g'}]
     " FIXME: NIY - This should be 2.
   Should source_a.ku__source_a__count == 3
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args_G)
+  silent! let _ = Call('s:raw_lcandidates', args_G, session)
   Should _ ==# [{'word': 'G'}]
     " FIXME: NIY - This should be 2.
   Should source_a.ku__source_a__count == 4
@@ -1382,18 +1395,20 @@ function s:describe__s_raw_lcandidates__cache_volatile()  "{{{1
   endfunction
   let source_a.cache_type = Ref('s:CACHE_VOLATILE')
 
+  let session = Call('s:new_session', [source_a.name])
+
   let args = {'pattern': 'x', 'source': source_a}
 
   It should call source.gather_candidates for each time
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args)
+  silent! let _ = Call('s:raw_lcandidates', args, session)
   Should _ ==# [{'word': 'x'}]
   Should source_a.ku__source_a__count == 1
   Should v:errmsg ==# ''
 
   let v:errmsg = ''
-  silent! let _ = Call('s:raw_lcandidates', args)
+  silent! let _ = Call('s:raw_lcandidates', args, session)
   Should _ ==# [{'word': 'x'}]
   Should source_a.ku__source_a__count == 2
   Should v:errmsg ==# ''
