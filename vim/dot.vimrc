@@ -1102,16 +1102,6 @@ endfunction
 
 
 
-function! s:count_sum_of_fields()  "{{{2
-  '<,'>!awk 'BEGIN{c=0} {c+=$1} END{print c}'
-  let _ = getline('.')
-  undo
-  '>put =_
-endfunction
-
-
-
-
 function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   redir => resp
   silent execute 'highlight' a:original_group
@@ -1189,6 +1179,17 @@ endfunction
 function! s:operator_adjust_window_height(motion_wiseness)  "{{{2
   execute (line("']") - line("'[") + 1) 'wincmd' '_'
   normal! `[zt
+endfunction
+
+
+
+
+function! s:operator_calculate_sum_of_fields(motion_wiseness)  "{{{2
+  let sum = 0
+  for line in getline(line("'["), line("']"))
+    let sum += str2nr(matchstr(line, '^\s*\zs-\?\d\+\ze\>'))
+  endfor
+  ']put =sum
 endfunction
 
 
@@ -1567,7 +1568,7 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-Fvmap <silent> [Space]c  <SID>count_sum_of_fields()
+Operatormap [Space]c  <Plug>(operator-my-calculate-sum-of-fields)
 
 Cnmap <silent> [Space]e
 \              setlocal encoding? termencoding? fileencoding? fileencodings?
@@ -1723,6 +1724,8 @@ Arpeggio map oj  <Plug>(operator-my-join)
 
 
 call operator#user#define_ex_command('my-sort', 'sort')
+call operator#user#define('my-calculate-sum-of-fields',
+\                         s:SID_PREFIX() . 'operator_calculate_sum_of_fields')
 " User key mappings will be defined later - see [Space].
 
 
