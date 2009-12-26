@@ -1103,10 +1103,11 @@ endfunction
 
 
 function! s:count_sum_of_fields()  "{{{2
-  '<,'>!awk 'BEGIN{c=0} {c+=$1} END{print c}'
-  let _ = getline('.')
-  undo
-  '>put =_
+  let sum = 0
+  for line in getline(line("'<"), line("'>"))
+    let sum += str2nr(matchstr(line, '^\s*\zs-\?\d\+\ze\>'))
+  endfor
+  '>put =sum
 endfunction
 
 
