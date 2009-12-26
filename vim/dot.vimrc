@@ -1102,7 +1102,7 @@ endfunction
 
 
 
-function! s:count_sum_of_fields()  "{{{2
+function! s:calculate_sum_of_fields()  "{{{2
   let sum = 0
   for line in getline(line("'<"), line("'>"))
     let sum += str2nr(matchstr(line, '^\s*\zs-\?\d\+\ze\>'))
@@ -1568,7 +1568,7 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-Fvmap <silent> [Space]c  <SID>count_sum_of_fields()
+Fvmap <silent> [Space]c  <SID>calculate_sum_of_fields()
 
 Cnmap <silent> [Space]e
 \              setlocal encoding? termencoding? fileencoding? fileencodings?
