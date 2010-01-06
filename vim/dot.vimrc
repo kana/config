@@ -1841,9 +1841,8 @@ function! s:search_the_selected_text_literaly(search_command)
 endfunction
 
 
+Allnoremap <C-z>  <Nop>
 Cnmap <C-z>  SuspendWithAutomticCD
-vnoremap <C-z>  <Nop>
-onoremap <C-z>  <Nop>
 
 
 " Show the lines which match to the last search pattern.
