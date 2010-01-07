@@ -615,17 +615,27 @@ command! -bar -nargs=1 Source
 " SuspendWithAutomticCD  "{{{2
 " Assumption: Use GNU screen.
 " Assumption: There is a window with the title "another".
+" FIXME: Open a (GNU screen) window for each directory.
 
 if !exists('s:GNU_SCREEN_AVAILABLE_P')
-  " Check the existence of $WINDOW to avoid using GNU screen in Vim on
-  " a remote machine (for example, "screen -t remote ssh example.com").
-  let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
+  if has('gui_running')
+    " In GUI, $WINDOW is not reliable, because GUI process is independent from
+    " GNU screen process.  Check availability of executable instead.
+    let s:GNU_SCREEN_AVAILABLE_P = executable('screen')
+  else
+    " In CUI, availability of executable is not reliable, because Vim may be
+    " invoked with "screen ssh example.com vim" and GNU screen may be
+    " available at example.com.  Check $WINDOW instead.
+    let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
+  endif
 endif
 
 command! -bar -nargs=0 SuspendWithAutomticCD
 \ call s:cmd_SuspendWithAutomticCD()
 function! s:cmd_SuspendWithAutomticCD()
   if s:GNU_SCREEN_AVAILABLE_P
+    call s:activate_terminal()
+
     " \015 = <C-m>
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
@@ -1097,6 +1107,23 @@ function! s:_vcs_branch_name(dir)
   endif
 
   return [branch_name, getftime(head_file)]
+endfunction
+
+
+
+
+function! s:activate_terminal()  "{{{2
+  if !has('gui_running')
+    return
+  endif
+
+  if has('macunix')
+    " There is alternative way to activate, but it's slow:
+    " !osascript -e 'tell application "Terminal" to activate the front window'
+    silent !open -a Terminal
+  else
+    " This platform is not supported.
+  endif
 endfunction
 
 
@@ -1841,9 +1868,8 @@ function! s:search_the_selected_text_literaly(search_command)
 endfunction
 
 
+Allnoremap <C-z>  <Nop>
 Cnmap <C-z>  SuspendWithAutomticCD
-vnoremap <C-z>  <Nop>
-onoremap <C-z>  <Nop>
 
 
 " Show the lines which match to the last search pattern.
