@@ -1,5 +1,9 @@
 # vim: filetype=screen
 
+# Register usage:
+#   =        To define alias (A) of existing key binding (E).
+#            Example: bind A eval 'register = ^AE' 'process ='
+
 source "$HOME/.screen/conf"
 source "$HOME/.screen/keys"
 
