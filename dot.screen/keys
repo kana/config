@@ -43,6 +43,8 @@ bind p paste .
 bind ^P paste .
 bind T title
 bind V version
+bind y eval 'register = ^A^Y' 'process ='
+bind ^Y eval 'writebuf' 'exec sh -c "i=/tmp/screen-exchange;pbcopy<\$i;rm \$i"'
 
 bind ^D eval 'echo -p "\^\^D%080="' 'command -c detach'
 bind -c detach d detach
