@@ -213,6 +213,9 @@ set noequalalways
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
+if exists('+guioptions')
+  set guioptions=cgM
+endif
 set history=100
 set hlsearch
 nohlsearch  " To avoid (re)highlighting the last search pattern
