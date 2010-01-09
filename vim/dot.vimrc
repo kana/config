@@ -176,6 +176,8 @@ endif
 
 if $ENV_ACCESS ==# 'summer'
   set termencoding=cp932
+elseif has('gui_macvim')
+  " E617 - It's not possible to change 'termencoding' in MacVim.
 else  " fallback
   set termencoding=  " same as 'encoding'
 endif
