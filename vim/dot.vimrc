@@ -215,6 +215,9 @@ set noequalalways
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
+if exists('+fuoptions')
+  set fuoptions=maxhorz,maxvert
+endif
 if exists('+guioptions')
   set guioptions=cgM
 endif
