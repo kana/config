@@ -220,6 +220,9 @@ nohlsearch  " To avoid (re)highlighting the last search pattern
 " set grepprg=... " See s:toggle_grepprg().
 set incsearch
 set laststatus=2  " always show status lines.
+if exists('+macmeta')
+  set macmeta
+endif
 set mouse=
 set ruler
 set showcmd
