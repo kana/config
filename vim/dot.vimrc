@@ -1129,6 +1129,14 @@ endfunction
 
 
 
+function! s:combinations(xs)  "{{{2
+  " FIXME: NIY
+  return a:xs
+endfunction
+
+
+
+
 function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   redir => resp
   silent execute 'highlight' a:original_group
@@ -1249,6 +1257,171 @@ else
   KeyboardLayout :  :
   KeyboardLayout <Return>  <Return>
   KeyboardLayout <S-Return>  <S-Return>
+endif
+
+
+
+
+" Terminal-GUI interoperability  "{{{2
+"
+" A key which user actually types (A) may be translated into other key
+" sequence (T) in terminal.  For example, <C-Space> is translated into <C-@>
+" = <Nul>.
+"
+" Most of key mappings in this vimrc are written in (T), because:
+" - It's possible to reuse existing settings without big change.
+" - It's not possible to use some key mappings which are not available in
+"   terminal as {lhs} of :map commands.
+"
+" To deal with this problem, define the following key mappings to emulate the
+" translation of terminal for GUI environment.
+
+" <M-{x}> => <Esc>x
+function! s:emulate_meta_esc_behavior_in_terminal()
+  " [key, acceptable-modifiers-except-meta]  "{{{
+  let keys = [
+  \   ['!', ''],
+  \   ['"', ''],
+  \   ['#', ''],
+  \   ['$', ''],
+  \   ['%', ''],
+  \   ['&', ''],
+  \   ['''', ''],
+  \   ['(', ''],
+  \   [')', ''],
+  \   ['*', ''],
+  \   ['+', ''],
+  \   [',', ''],
+  \   ['-', ''],
+  \   ['.', ''],
+  \   ['0', ''],
+  \   ['1', ''],
+  \   ['2', ''],
+  \   ['3', ''],
+  \   ['4', ''],
+  \   ['5', ''],
+  \   ['6', ''],
+  \   ['7', ''],
+  \   ['8', ''],
+  \   ['9', ''],
+  \   [':', ''],
+  \   [';', ''],
+  \   ['<BS>', 'CS'],
+  \   ['<Bar>', ''],
+  \   ['<Bslash>', 'C'],
+  \   ['<Del>', 'CS'],
+  \   ['<Down>', 'CS'],
+  \   ['<End>', 'CS'],
+  \   ['<Esc>', 'CS'],
+  \   ['<F10>', 'CS'],
+  \   ['<F11>', 'CS'],
+  \   ['<F12>', 'CS'],
+  \   ['<F1>', 'CS'],
+  \   ['<F2>', 'CS'],
+  \   ['<F3>', 'CS'],
+  \   ['<F4>', 'CS'],
+  \   ['<F5>', 'CS'],
+  \   ['<F6>', 'CS'],
+  \   ['<F7>', 'CS'],
+  \   ['<F9>', 'CS'],
+  \   ['<F9>', 'CS'],
+  \   ['<Home>', 'CS'],
+  \   ['<LT>', ''],
+  \   ['<Left>', 'CS'],
+  \   ['<PageDown>', 'CS'],
+  \   ['<PageUp>', 'CS'],
+  \   ['<Return>', 'CS'],
+  \   ['<Right>', 'CS'],
+  \   ['<Space>', 'CS'],
+  \   ['<Tab>', 'CS'],
+  \   ['<Up>', 'CS'],
+  \   ['=', ''],
+  \   ['>', ''],
+  \   ['@', 'C'],
+  \   ['A', ''],
+  \   ['B', ''],
+  \   ['C', ''],
+  \   ['D', ''],
+  \   ['E', ''],
+  \   ['F', ''],
+  \   ['G', ''],
+  \   ['H', ''],
+  \   ['I', ''],
+  \   ['J', ''],
+  \   ['K', ''],
+  \   ['L', ''],
+  \   ['M', ''],
+  \   ['N', ''],
+  \   ['O', ''],
+  \   ['P', ''],
+  \   ['Q', ''],
+  \   ['R', ''],
+  \   ['S', ''],
+  \   ['T', ''],
+  \   ['U', ''],
+  \   ['V', ''],
+  \   ['W', ''],
+  \   ['X', ''],
+  \   ['Y', ''],
+  \   ['Z', ''],
+  \   ['[', 'C'],
+  \   [']', 'C'],
+  \   ['^', 'C'],
+  \   ['_', 'C'],
+  \   ['`', ''],
+  \   ['a', 'C'],
+  \   ['b', 'C'],
+  \   ['c', 'C'],
+  \   ['d', 'C'],
+  \   ['e', 'C'],
+  \   ['f', 'C'],
+  \   ['g', 'C'],
+  \   ['h', 'C'],
+  \   ['i', 'C'],
+  \   ['j', 'C'],
+  \   ['k', 'C'],
+  \   ['l', 'C'],
+  \   ['m', 'C'],
+  \   ['n', 'C'],
+  \   ['o', 'C'],
+  \   ['p', 'C'],
+  \   ['q', 'C'],
+  \   ['r', 'C'],
+  \   ['s', 'C'],
+  \   ['t', 'C'],
+  \   ['u', 'C'],
+  \   ['v', 'C'],
+  \   ['w', 'C'],
+  \   ['x', 'C'],
+  \   ['y', 'C'],
+  \   ['z', 'C'],
+  \   ['{', ''],
+  \   ['}', ''],
+  \   ['~', ''],
+  \ ]
+  "}}}
+
+  for [key, modifiers] in keys
+    let k = matchstr(key, '^<\zs.*\ze>$\|.*')
+
+    execute 'Allmap' '<M-'.k.'>'  '<Esc>'.key
+    for m in s:modifier_combinations(modifiers)
+      execute 'Allmap' '<M-'.m.k.'>'  '<Esc><'.m.k.'>'
+    endfor
+  endfor
+endfunction
+
+function! s:modifier_combinations(modifiers)
+  let prefixes = map(range(len(a:modifiers)), 'a:modifiers[v:val] . "-"')
+  return s:combinations(prefixes)
+endfunction
+
+
+if has('gui_running')
+  " NUL
+  Allmap <C-Space>  <C-@>
+
+  call s:emulate_meta_esc_behavior_in_terminal()
 endif
 
 
