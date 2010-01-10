@@ -218,6 +218,10 @@ let &formatlistpat .= '\|^\s*[*+-]\s*'
 if exists('+fuoptions')
   set fuoptions=maxhorz,maxvert
 endif
+if exists('+guicursor')
+  set guicursor&
+  set guicursor=a:blinkwait4000-blinkon1500-blinkoff500
+endif
 if exists('+guioptions')
   set guioptions=cgM
 endif
