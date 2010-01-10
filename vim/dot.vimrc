@@ -1140,9 +1140,50 @@ endfunction
 
 
 
-function! s:combinations(xs)  "{{{2
-  " FIXME: NIY
-  return a:xs
+function! s:all_combinations(xs)  "{{{2
+  let cs = []
+
+  for r in range(1, len(a:xs))
+    call extend(cs, s:combinations(a:xs, r))
+  endfor
+
+  return cs
+endfunction
+
+
+
+
+function! s:combinations(pool, r)  "{{{2
+  let n = len(a:pool)
+  if n < a:r || a:r <= 0
+    return []
+  endif
+
+  let result = []
+
+  let indices = range(a:r)
+  call add(result, join(map(copy(indices), 'a:pool[v:val]'), ''))
+
+  while s:TRUE
+    let broken_p = s:FALSE
+    for i in reverse(range(a:r))
+      if indices[i] != i + n - a:r
+        let broken_p = s:TRUE
+        break
+      endif
+    endfor
+    if !broken_p
+      break
+    endif
+
+    let indices[i] += 1
+    for j in range(i + 1, a:r - 1)
+      let indices[j] = indices[j-1] + 1
+    endfor
+    call add(result, join(map(copy(indices), 'a:pool[v:val]'), ''))
+  endwhile
+
+  return result
 endfunction
 
 
@@ -1424,7 +1465,7 @@ endfunction
 
 function! s:modifier_combinations(modifiers)
   let prefixes = map(range(len(a:modifiers)), 'a:modifiers[v:val] . "-"')
-  return s:combinations(prefixes)
+  return s:all_combinations(prefixes)
 endfunction
 
 
