@@ -731,6 +731,28 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 " Utilities  "{{{1
+" Font selector  "{{{2
+
+command! -complete=customlist,s:cmd_Font_complete -nargs=* Font
+\ set guifont=<args>
+
+function! s:cmd_Font_complete(arglead, cmdline, cursorpos)
+  " FIXME: Proper completion
+  return [
+  \   'Ayuthaya:h14 antialias',
+  \   'cinecaption:h16 antialias',
+  \   'DejaVu\ Sans\ Mono:h14 antialias',
+  \   'Droid\ Sans\ Mono:h14 antialias',
+  \   'Monaco:h14 antialias',
+  \   'Osaka-Mono:h15 antialias',
+  \   'Osaka-Mono:h16 antialias',
+  \   'PC98:h16 noantialias',
+  \ ]
+endfunction
+
+
+
+
 " :grep wrappers  "{{{2
 "
 " To edit {pattern} easily via Command-line mode history,
