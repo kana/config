@@ -218,6 +218,10 @@ let &formatlistpat .= '\|^\s*[*+-]\s*'
 if exists('+fuoptions')
   set fuoptions=maxhorz,maxvert
 endif
+if exists('+guicursor')
+  set guicursor&
+  set guicursor=a:blinkwait4000-blinkon1500-blinkoff500
+endif
 if exists('+guioptions')
   set guioptions=cgM
 endif
@@ -231,7 +235,7 @@ set laststatus=2  " always show status lines.
 if exists('+macmeta')
   set macmeta
 endif
-set mouse=
+set mouse=a
 set ruler
 set showcmd
 set showmode
@@ -731,6 +735,28 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 " Utilities  "{{{1
+" Font selector  "{{{2
+
+command! -complete=customlist,s:cmd_Font_complete -nargs=* Font
+\ set guifont=<args>
+
+function! s:cmd_Font_complete(arglead, cmdline, cursorpos)
+  " FIXME: Proper completion
+  return [
+  \   'Ayuthaya:h14 antialias',
+  \   'cinecaption:h16 antialias',
+  \   'DejaVu\ Sans\ Mono:h14 antialias',
+  \   'Droid\ Sans\ Mono:h14 antialias',
+  \   'Monaco:h14 antialias',
+  \   'Osaka-Mono:h15 antialias',
+  \   'Osaka-Mono:h16 antialias',
+  \   'PC98:h16 noantialias',
+  \ ]
+endfunction
+
+
+
+
 " :grep wrappers  "{{{2
 "
 " To edit {pattern} easily via Command-line mode history,
@@ -1140,9 +1166,50 @@ endfunction
 
 
 
-function! s:combinations(xs)  "{{{2
-  " FIXME: NIY
-  return a:xs
+function! s:all_combinations(xs)  "{{{2
+  let cs = []
+
+  for r in range(1, len(a:xs))
+    call extend(cs, s:combinations(a:xs, r))
+  endfor
+
+  return cs
+endfunction
+
+
+
+
+function! s:combinations(pool, r)  "{{{2
+  let n = len(a:pool)
+  if n < a:r || a:r <= 0
+    return []
+  endif
+
+  let result = []
+
+  let indices = range(a:r)
+  call add(result, join(map(copy(indices), 'a:pool[v:val]'), ''))
+
+  while s:TRUE
+    let broken_p = s:FALSE
+    for i in reverse(range(a:r))
+      if indices[i] != i + n - a:r
+        let broken_p = s:TRUE
+        break
+      endif
+    endfor
+    if !broken_p
+      break
+    endif
+
+    let indices[i] += 1
+    for j in range(i + 1, a:r - 1)
+      let indices[j] = indices[j-1] + 1
+    endfor
+    call add(result, join(map(copy(indices), 'a:pool[v:val]'), ''))
+  endwhile
+
+  return result
 endfunction
 
 
@@ -1424,7 +1491,7 @@ endfunction
 
 function! s:modifier_combinations(modifiers)
   let prefixes = map(range(len(a:modifiers)), 'a:modifiers[v:val] . "-"')
-  return s:combinations(prefixes)
+  return s:all_combinations(prefixes)
 endfunction
 
 
@@ -1805,6 +1872,7 @@ Cnmap <silent> [Space]m  marks
 
 nnoremap [Space]o  <Nop>
 Fnmap <silent> [Space]ob  <SID>toggle_bell()
+Fnmap <silent> [Space]of  <SID>toggle_option('fullscreen')
 Fnmap <silent> [Space]og  <SID>toggle_grepprg()
 Fnmap <silent> [Space]ow  <SID>toggle_option('wrap')
 
