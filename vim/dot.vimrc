@@ -1868,6 +1868,7 @@ Cnmap <silent> [Space]m  marks
 
 nnoremap [Space]o  <Nop>
 Fnmap <silent> [Space]ob  <SID>toggle_bell()
+Fnmap <silent> [Space]of  <SID>toggle_option('fullscreen')
 Fnmap <silent> [Space]og  <SID>toggle_grepprg()
 Fnmap <silent> [Space]ow  <SID>toggle_option('wrap')
 
