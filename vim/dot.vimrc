@@ -235,7 +235,7 @@ set laststatus=2  " always show status lines.
 if exists('+macmeta')
   set macmeta
 endif
-set mouse=
+set mouse=a
 set ruler
 set showcmd
 set showmode
