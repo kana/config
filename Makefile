@@ -177,6 +177,7 @@ GROUP_VIM_FILES=\
   $(PACKAGE_vim_textobj_user_FILES) \
   $(PACKAGE_vim_vcsi_FILES) \
   $(PACKAGE_vim_vspec_FILES) \
+  $(PACKAGE_vim_xire_FILES) \
   $(PACKAGE_vim_xml_autons_FILES) \
   $(PACKAGE_vim_xml_move_FILES) \
   $(PACKAGE_vim_wwwsearch_FILES) \
@@ -270,6 +271,7 @@ ALL_PACKAGES=\
   vim-textobj-user \
   vim-vcsi \
   vim-vspec \
+  vim-xire \
   vim-xml_autons \
   vim-xml_move \
   vim-wwwsearch
@@ -648,6 +650,12 @@ PACKAGE_vim_vspec_FILES=\
   vim/dot.vim/autoload/vspec.vim \
   vim/dot.vim/doc/vspec.txt
 
+PACKAGE_vim_xire_ARCHIVE=vim-xire-0.0.0
+PACKAGE_vim_xire_BASE=vim/dot.vim
+PACKAGE_vim_xire_FILES=\
+  vim/dot.vim/bin/xirec \
+  vim/dot.vim/doc/xire.txt
+
 PACKAGE_vim_xml_autons_ARCHIVE=vim-xml_autons-0.0.1
 PACKAGE_vim_xml_autons_BASE=vim/dot.vim
 PACKAGE_vim_xml_autons_FILES=\
@@ -1022,6 +1030,20 @@ test/vim-vspec/%.output: \
 		test/vspec \
 		vim/dot.vim/autoload/vspec.vim
 	@./test/vspec $< >$@
+
+
+# vim-xire  #{{{2
+TESTS_vim_xire = vim-minimal vim-hello
+
+test/vim-xire/vim-%.output: \
+		test/vim-xire/vim-%.input \
+		test/vim-xire/,vim-%.vim \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim
+	@./test/vspec $< >$@
+
+test/vim-xire/,%.vim: test/vim-xire/%.xire vim/dot.vim/bin/xirec
+	@./vim/dot.vim/bin/xirec <$< >$@
 
 
 # Misc.  #{{{2

@@ -1,0 +1,72 @@
+#!/usr/bin/env gosh
+; FIXME: Add tests.
+
+(use text.tree)
+(use util.match)
+
+
+
+
+(define (x->vson x)
+  ; Convert Scheme object X into a string which expresses an object in Vim
+  ; script, i.e., Vim script object notation (VSON).
+  (match x
+    ((? integer? x) (x->string x))
+    ((? string? x) (with-output-to-string (lambda () (write x))))
+    ((? symbol? x) (symbol->string x))
+    (('quote x) (x->string x))  ; FIXME: Need review.
+    ; Other cases are not supported.
+    ))
+
+
+
+
+(define (xire-compile x)
+  (match x
+    ; FIXME: This dispatching is ad hoc.  It should be replaced with more
+    ; sophisticated way and it should be easily extendable.  For example:
+    ; (define-ex-command (echo (arg object) ...) ...)
+    (('echo . args)
+     (list "echo"
+           " "
+           (string-join (map x->vson args) " ")
+           "\n")
+     )
+    (invalid-expression
+     (errorf "~A:~A: Invalid expression: ~S"
+       (port-name (current-input-port))
+       (port-current-line (current-input-port))
+       invalid-expression))
+    ))
+
+
+
+
+(define (make-xire-context)
+  (let1 h (make-hash-table)
+    (hash-table-put! h 'exprs (list))
+    h))
+
+(define (xire-emit context)
+  (write-tree (reverse (hash-table-get context 'exprs))))
+
+(define (xire-push context x)
+  (hash-table-push! context 'exprs x))
+
+(define (xire-translate)
+  (define context (make-xire-context))
+
+  (port-for-each
+    (lambda (x) (xire-push context (xire-compile x)))
+    (lambda () (read)))
+
+  (xire-emit context))
+
+
+
+
+(define (main args)
+  (xire-translate)
+  0)
+
+; vim: filetype=scheme

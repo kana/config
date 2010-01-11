@@ -1,0 +1,18 @@
+Hello
+Error detected while processing ./test/vim-xire/,vim-hello.vim:
+line    2:
+E121: Undefined variable: World
+E15: Invalid expression: World
+142857
+Hello
+line    4:
+E121: Undefined variable: World
+E15: Invalid expression: World 142857
+'"
+\
+
+
+**** Result ****
+
+
+0 examples, 0 failures

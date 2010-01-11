@@ -1,0 +1,4 @@
+execute 'source'
+\       substitute(expand('<sfile>'), '\([^/\\]*\)\.input$', ',\1.vim', '')
+
+" vim: filetype=vim

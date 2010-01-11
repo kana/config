@@ -1,0 +1,186 @@
+*xire.txt*	Vim script into a programmable programming language
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2009-2010 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*xire-contents*
+
+Introduction            |xire-introduction|
+Interface               |xire-interface|
+  External Commands       |xire-external-commands|
+Xire Script             |xire-script|
+Vim to Xire Mapping     |xire-mapping-to-vim|
+  Objects                  |xire-mapping-to-vim-objects|
+  Expressions              |xire-mapping-to-vim-expressions|
+  Functions                |xire-mapping-to-vim-functions|
+  Ex Commands              |xire-mapping-to-vim-ex-commands|
+Examples                |xire-examples|
+Bugs                    |xire-bugs|
+Changelog               |xire-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*xire-introduction*
+
+*xire* is a system to write Vim script in a DSL based on Scheme.  It enables
+you to write Vim script in a programmable programming language.  Why to use
+xire?  Because:
+
+- Vim script is weak.  Vim script is just a series of Ex commands and its
+  syntax is too arbitrary as a programming language.  It's hard to write and
+  it's nearly impossible to extend.
+- There is several interfaces for other lantuages such as |if_tcl|, but they
+  are not portable nor seemlessly integrated into Vim.
+- And all of these problems are solved with xire.
+
+
+Requirements:
+- Vim 7.2 or later
+- Gauche 0.9 or later <http://practical-scheme.net/gauche/>
+
+Latest version:
+http://github.com/kana/config/commits/vim-xire
+
+Document in HTML format:
+http://kana.github.com/config/vim/xire.html
+
+
+
+
+==============================================================================
+INTERFACE					*xire-interface*
+
+------------------------------------------------------------------------------
+EXTERNAL COMMANDS				*xire-external-commands*
+
+xirec						*xirec*
+			External command to compile a |xire-script| into a Vim
+			script.  It reads a xire script from the standard
+			input and it writes the resulting Vim script to the
+			standard output.
+
+			This command is found in the "bin" directory in
+			a package of xire.
+
+			Example:
+>
+				xirec <foo.xire >foo.vim
+<
+
+
+
+
+==============================================================================
+XIRE SCRIPT					*xire-script*
+
+Xire script is a Scheme-based DSL to write Vim script.  Xire script consists
+of a seriese of xire expression.
+
+Each top-level xire xpression in xire script is compiled into a seriese of Ex
+commands in Vim script, then resulting piece of Vim script is outputted.  For
+example, "(echo 20091206)" is compiled into ":echo 20091206".
+
+See also |xire-mapping-to-vim| for the correspondence of xire script to Vim
+script.
+
+
+
+
+==============================================================================
+VIM TO XIRE MAPPING				*xire-mapping-to-vim*
+
+The following are simple tables of objects, functions and Ex commands in Vim
+script with the corresponding xire expressions.  It's for the convenience of
+people familiar to Vim script.
+
+
+------------------------------------------------------------------------------
+OBJECTS						*xire-mapping-to-vim-objects*
+
+FIXME: Add details.
+
+
+------------------------------------------------------------------------------
+EXPRESSIONS				     *xire-mapping-to-vim-expressions*
+
+FIXME: Add details.
+
+
+------------------------------------------------------------------------------
+FUNCTIONS				       *xire-mapping-to-vim-functions*
+
+FIXME: Add details.
+
+
+------------------------------------------------------------------------------
+EX COMMANDS				     *xire-mapping-to-vim-ex-commands*
+
+|:echo| {expr} ...
+	(echo {expr} ...)
+
+FIXME: Add details.
+
+
+
+
+==============================================================================
+EXAMPLES					*xire-examples*
+
+FIXME: Add details.
+
+
+
+
+==============================================================================
+BUGS						*xire-bugs*
+
+KNOWN ISSUES					*xire-known-issues*
+
+- Currently, there is no known issue.
+
+
+PLANNED FEATURES				*xire-planned-features*
+
+- On-the-fly compilation.
+
+- Optimization on resulting Vim script.
+
+- Add more powerful constructs to write Vim script.
+
+
+
+
+==============================================================================
+CHANGELOG					*xire-changelog*
+
+0.0.0	2009-01-11T09:20:12+09:00		*xire-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

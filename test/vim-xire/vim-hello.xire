@@ -1,0 +1,11 @@
+; "Hello world" in xire.
+
+(echo "Hello")
+(echo 'World)
+(echo 142857)
+
+(echo "Hello" 'World 142857)
+
+(echo "'\"\n\r\\")
+
+; vim: filetype=scheme
