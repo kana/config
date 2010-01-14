@@ -9,6 +9,8 @@
 
 (test-section "make-xire-context")  ;{{{1
 
+; FIXME: Add tests.
+
 
 
 
@@ -40,23 +42,30 @@
 
 
 
-; FIXME: Add tests on the following:
 (test-section "xire-compile")  ;{{{1
+
+; FIXME: Add tests.
 
 
 
 
 (test-section "xire-emit")  ;{{{1
 
+; FIXME: Add tests.
+
 
 
 
 (test-section "xire-push")  ;{{{1
 
+; FIXME: Add tests.
+
 
 
 
 (test-section "xire-translate")  ;{{{1
+
+; FIXME: Add tests.
 
 
 
