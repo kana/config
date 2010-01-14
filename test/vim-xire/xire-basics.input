@@ -1,3 +1,4 @@
+; Test: xire-basics  ;{{{1
 (use gauche.test)
 (test-start "xire-basics")
 (load "./vim/dot.vim/bin/xirec")
@@ -6,7 +7,7 @@
 
 
 
-(test-section "x->vson")
+(test-section "x->vson")  ;{{{1
 
 (test* "integer (small enough)"
        "142857"
@@ -35,15 +36,15 @@
 
 
 ; FIXME: Add tests on the following:
-(test-section "make-xire-context")
-(test-section "xire-compile")
-(test-section "xire-emit")
-(test-section "xire-push")
-(test-section "xire-translate")
+(test-section "make-xire-context")  ;{{{1
+(test-section "xire-compile")  ;{{{1
+(test-section "xire-emit")  ;{{{1
+(test-section "xire-push")  ;{{{1
+(test-section "xire-translate")  ;{{{1
 
 
 
 
-(test-end)
+(test-end)  ;{{{1
 
-; vim: filetype=scheme
+; vim: filetype=scheme foldmethod=marker
