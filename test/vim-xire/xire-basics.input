@@ -7,6 +7,11 @@
 
 
 
+(test-section "make-xire-context")  ;{{{1
+
+
+
+
 (test-section "x->vson")  ;{{{1
 
 (test* "integer (small enough)"
@@ -36,10 +41,21 @@
 
 
 ; FIXME: Add tests on the following:
-(test-section "make-xire-context")  ;{{{1
 (test-section "xire-compile")  ;{{{1
+
+
+
+
 (test-section "xire-emit")  ;{{{1
+
+
+
+
 (test-section "xire-push")  ;{{{1
+
+
+
+
 (test-section "xire-translate")  ;{{{1
 
 
