@@ -1,0 +1,49 @@
+(use gauche.test)
+(test-start "xire-basics")
+(load "./vim/dot.vim/bin/xirec")
+(set! main #f)
+
+
+
+
+(test-section "x->vson")
+
+(test* "integer (small enough)"
+       "142857"
+       (x->vson 142857))
+(test* "integer (too big)"
+       "142857285714428571571428714285857142"
+       (x->vson 142857285714428571571428714285857142))
+
+(test* "string (without strange char)"
+       "\"Sense 2010\""
+       (x->vson "Sense 2010"))
+(test* "string (with quotes)"
+       "\"single ' double \\\"\""
+       (x->vson "single ' double \""))
+(test* "string (with backslash)"
+       "\"\\\\\""
+       (x->vson "\\"))
+; FIXME: Add tests on more strange characters.
+
+(test* "symbol (C-like)"
+       "call_cc"
+       (x->vson 'call_cc))
+; FIXME: Add tests on non C-like symbols such-as-this.
+
+
+
+
+; FIXME: Add tests on the following:
+(test-section "make-xire-context")
+(test-section "xire-compile")
+(test-section "xire-emit")
+(test-section "xire-push")
+(test-section "xire-translate")
+
+
+
+
+(test-end)
+
+; vim: filetype=scheme

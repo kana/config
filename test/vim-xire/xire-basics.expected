@@ -1,0 +1,15 @@
+Testing xire-basics ...                                          Testing xire-basics ===========================================================
+<x->vson>----------------------------------------------------------------------
+test integer (small enough), expects "142857" ==> ok
+test integer (too big), expects "142857285714428571571428714285857142" ==> ok
+test string (without strange char), expects "\"Sense 2010\"" ==> ok
+test string (with quotes), expects "\"single ' double \\\"\"" ==> ok
+test string (with backslash), expects "\"\\\\\"" ==> ok
+test symbol (C-like), expects "call_cc" ==> ok
+passed.
+<make-xire-context>------------------------------------------------------------
+<xire-compile>-----------------------------------------------------------------
+<xire-emit>--------------------------------------------------------------------
+<xire-push>--------------------------------------------------------------------
+<xire-translate>---------------------------------------------------------------
+passed.

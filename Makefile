@@ -1033,7 +1033,14 @@ test/vim-vspec/%.output: \
 
 
 # vim-xire  #{{{2
-TESTS_vim_xire = vim-minimal vim-hello
+TESTS_vim_xire = \
+		xire-basics \
+		vim-minimal vim-hello
+
+test/vim-xire/xire-%.output: \
+		test/vim-xire/xire-%.input \
+		vim/dot.vim/bin/xirec
+	@gosh $< &>$@
 
 test/vim-xire/vim-%.output: \
 		test/vim-xire/vim-%.input \

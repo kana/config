@@ -1,5 +1,4 @@
 #!/usr/bin/env gosh
-; FIXME: Add tests.
 
 (use text.tree)
 (use util.match)
