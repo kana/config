@@ -42,7 +42,7 @@
 
 
 
-(test-section "xire-compile (with invalid expression)")  ;{{{1
+(test-section "xire-compile - invalid expression")  ;{{{1
 
 (test* "bad - list" (test-error <error>) (xire-compile '(bad expression)))
 
@@ -58,7 +58,7 @@
 
 
 
-(test-section "xire-compile (with valid expression)")  ;{{{1
+(test-section "xire-compile - :echo")  ;{{{1
 
 (test* ":echo"
        '(:echo () "\n")
@@ -69,6 +69,11 @@
 (test* ":echo args"
        '(:echo ((" " . "142857") (" " . "285714")) "\n")
        (xire-compile '(echo 142857 285714)))
+
+
+
+
+(test-section "xire-compile - ...")  ;{{{1
 
 ; FIXME: Add tests.
 

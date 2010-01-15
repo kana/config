@@ -7,7 +7,7 @@ test string (without strange char), expects "\"Sense 2010\"" ==> ok
 test string (with quotes), expects "\"single ' double \\\"\"" ==> ok
 test string (with backslash), expects "\"\\\\\"" ==> ok
 test symbol (C-like), expects "call_cc" ==> ok
-<xire-compile (with invalid expression)>---------------------------------------
+<xire-compile - invalid expression>--------------------------------------------
 test bad - list, expects #<<error>> ==> ok
 test bad - character, expects #<<error>> ==> ok
 test bad - integer, expects #<<error>> ==> ok
@@ -17,11 +17,12 @@ test bad - regular expression, expects #<<error>> ==> ok
 test bad - string, expects #<<error>> ==> ok
 test bad - symbol, expects #<<error>> ==> ok
 test bad - vector, expects #<<error>> ==> ok
-<xire-compile (with valid expression)>-----------------------------------------
+<xire-compile - :echo>---------------------------------------------------------
 test :echo, expects (:echo () "\n") ==> ok
 test :echo arg, expects (:echo ((" " . "142857")) "\n") ==> ok
 test :echo args, expects (:echo ((" " . "142857") (" " . "285714")) "\n") ==> ok
 passed.
+<xire-compile - ...>-----------------------------------------------------------
 <xire-emit>--------------------------------------------------------------------
 <xire-push>--------------------------------------------------------------------
 <xire-translate>---------------------------------------------------------------
