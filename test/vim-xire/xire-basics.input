@@ -60,6 +60,16 @@
 
 (test-section "xire-compile (with valid expression)")  ;{{{1
 
+(test* ":echo"
+       '(:echo () "\n")
+       (xire-compile '(echo)))
+(test* ":echo arg"
+       '(:echo ((" " . "142857")) "\n")
+       (xire-compile '(echo 142857)))
+(test* ":echo args"
+       '(:echo ((" " . "142857") (" " . "285714")) "\n")
+       (xire-compile '(echo 142857 285714)))
+
 ; FIXME: Add tests.
 
 

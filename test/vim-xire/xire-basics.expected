@@ -17,8 +17,11 @@ test bad - regular expression, expects #<<error>> ==> ok
 test bad - string, expects #<<error>> ==> ok
 test bad - symbol, expects #<<error>> ==> ok
 test bad - vector, expects #<<error>> ==> ok
-passed.
 <xire-compile (with valid expression)>-----------------------------------------
+test :echo, expects (:echo () "\n") ==> ok
+test :echo arg, expects (:echo ((" " . "142857")) "\n") ==> ok
+test :echo args, expects (:echo ((" " . "142857") (" " . "285714")) "\n") ==> ok
+passed.
 <xire-emit>--------------------------------------------------------------------
 <xire-push>--------------------------------------------------------------------
 <xire-translate>---------------------------------------------------------------
