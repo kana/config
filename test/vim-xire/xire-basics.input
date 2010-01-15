@@ -98,7 +98,26 @@
 
 (test-section "xire-translate")  ;{{{1
 
-; FIXME: Add tests.
+(define (test-xire-translate s)
+  (with-output-to-string
+    (lambda ()
+      (with-input-from-string
+        s
+        (lambda () (xire-translate)))
+      (get-output-string (current-output-port)))))
+
+
+(test* "good"
+       "echo 142857\n"
+       (test-xire-translate "(echo 142857)"))
+
+(test* "bad - invalid xire expression"
+       (test-error <error>)
+       (test-xire-translate ":echo"))
+
+(test* "bad - read error"
+       (test-error <error>)
+       (test-xire-translate "(echo 142857"))
 
 
 

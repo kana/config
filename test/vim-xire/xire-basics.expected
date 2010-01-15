@@ -22,9 +22,12 @@ test 0 argument, expects (:echo () "\n") ==> ok
 test 1 argument, expects (:echo ((" " . "142857")) "\n") ==> ok
 test 2 or more arguments, expects (:echo ((" " . "142857") (" " . "285714")) "\n") ==> ok
 test invalid, expects #<<error>> ==> ok
-passed.
 <xire-compile - ...>-----------------------------------------------------------
 <xire-emit>--------------------------------------------------------------------
 <xire-push>--------------------------------------------------------------------
 <xire-translate>---------------------------------------------------------------
+test good, expects "echo 142857\n" ==> ok
+test bad - invalid xire expression, expects #<<error>> ==> ok
+test bad - read error, expects #<<error>> ==> ok
+passed.
 passed.
