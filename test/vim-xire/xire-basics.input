@@ -99,11 +99,10 @@
 (test-section "xire-translate")  ;{{{1
 
 (define (test-xire-translate s)
-  (with-output-to-string
+  (with-string-io
+    s
     (lambda ()
-      (with-input-from-string
-        s
-        (lambda () (xire-translate)))
+      (xire-translate)
       (get-output-string (current-output-port)))))
 
 
