@@ -26,9 +26,10 @@
     ; sophisticated way and it should be easily extendable.  For example:
     ; (define-ex-command (echo (arg object) ...) ...)
     (('echo . args)
-     (list "echo"
-           " "
-           (string-join (map x->vson args) " ")
+     (list :echo
+           (map
+             (lambda (x) (cons " " x))
+             (map x->vson args))
            "\n")
      )
     (invalid-expression
