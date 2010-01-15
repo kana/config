@@ -18,9 +18,9 @@ test bad - string, expects #<<error>> ==> ok
 test bad - symbol, expects #<<error>> ==> ok
 test bad - vector, expects #<<error>> ==> ok
 <xire-compile - :echo>---------------------------------------------------------
-test :echo, expects (:echo () "\n") ==> ok
-test :echo arg, expects (:echo ((" " . "142857")) "\n") ==> ok
-test :echo args, expects (:echo ((" " . "142857") (" " . "285714")) "\n") ==> ok
+test 0 argument, expects (:echo () "\n") ==> ok
+test 1 argument, expects (:echo ((" " . "142857")) "\n") ==> ok
+test 2 or more arguments, expects (:echo ((" " . "142857") (" " . "285714")) "\n") ==> ok
 passed.
 <xire-compile - ...>-----------------------------------------------------------
 <xire-emit>--------------------------------------------------------------------

@@ -60,13 +60,13 @@
 
 (test-section "xire-compile - :echo")  ;{{{1
 
-(test* ":echo"
+(test* "0 argument"
        '(:echo () "\n")
        (xire-compile '(echo)))
-(test* ":echo arg"
+(test* "1 argument"
        '(:echo ((" " . "142857")) "\n")
        (xire-compile '(echo 142857)))
-(test* ":echo args"
+(test* "2 or more arguments"
        '(:echo ((" " . "142857") (" " . "285714")) "\n")
        (xire-compile '(echo 142857 285714)))
 
