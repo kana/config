@@ -42,7 +42,23 @@
 
 
 
-(test-section "xire-compile")  ;{{{1
+(test-section "xire-compile (with invalid expression)")  ;{{{1
+
+(test* "bad - list" (test-error <error>) (xire-compile '(bad expression)))
+
+(test* "bad - character" (test-error <error>) (xire-compile #\c))
+(test* "bad - integer" (test-error <error>) (xire-compile 142857))
+(test* "bad - keyword" (test-error <error>) (xire-compile :keyword))
+(test* "bad - pair" (test-error <error>) (xire-compile '(car . cdr)))
+(test* "bad - regular expression" (test-error <error>) (xire-compile #/re/))
+(test* "bad - string" (test-error <error>) (xire-compile "string"))
+(test* "bad - symbol" (test-error <error>) (xire-compile 'symbol))
+(test* "bad - vector" (test-error <error>) (xire-compile '#(vec tor)))
+
+
+
+
+(test-section "xire-compile (with valid expression)")  ;{{{1
 
 ; FIXME: Add tests.
 
