@@ -70,6 +70,8 @@
        '(:echo ((" " . "142857") (" " . "285714")) "\n")
        (xire-compile '(echo 142857 285714)))
 
+(test* "invalid" (test-error <error>) (xire-compile '(echo . 501)))
+
 
 
 
