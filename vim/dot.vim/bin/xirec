@@ -1,4 +1,6 @@
 #!/usr/bin/env gosh
+; Misc.  ;{{{1
+; Modules  ;{{{2
 
 (use text.tree)
 (use util.match)
@@ -6,7 +8,7 @@
 
 
 
-(define (x->vson x)
+(define (x->vson x)  ;{{{2
   ; Convert Scheme object X into a string which expresses an object in Vim
   ; script, i.e., Vim script object notation (VSON).
   (match x
@@ -20,7 +22,12 @@
 
 
 
-(define (xire-compile x)
+
+
+
+
+; Compiler  ;{{{1
+(define (xire-compile x)  ;{{{2
   (match x
     ; FIXME: This dispatching is ad hoc.  It should be replaced with more
     ; sophisticated way and it should be easily extendable.  For example:
@@ -42,18 +49,32 @@
 
 
 
-(define (make-xire-context)
+
+
+
+
+; Core  ;{{{1
+(define (make-xire-context)  ;{{{2
   (let1 h (make-hash-table)
     (hash-table-put! h 'exprs (list))
     h))
 
-(define (xire-emit context)
+
+
+
+(define (xire-emit context)  ;{{{2
   (write-tree (reverse (hash-table-get context 'exprs))))
 
-(define (xire-push context x)
+
+
+
+(define (xire-push context x)  ;{{{2
   (hash-table-push! context 'exprs x))
 
-(define (xire-translate)
+
+
+
+(define (xire-translate)  ;{{{2
   (define context (make-xire-context))
 
   (port-for-each
@@ -65,8 +86,22 @@
 
 
 
+
+
+
+
+; Main  ;{{{1
+
 (define (main args)
   (xire-translate)
   0)
 
-; vim: filetype=scheme
+
+
+
+
+
+
+
+; __END__  ;{{{1
+; vim: filetype=scheme foldmethod=marker
