@@ -193,7 +193,7 @@ if (1 < &t_Co || has('gui')) && has('syntax')
   endif
   syntax enable
   if !exists('g:colors_name')  " Don't override colorscheme on reloading.
-    colorscheme desert
+    colorscheme nevfn
     set background=dark
   endif
 endif

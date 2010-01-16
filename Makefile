@@ -465,6 +465,7 @@ PACKAGE_vim_misc_FILES=\
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
+  vim/dot.vim/colors/nevfn.vim \
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
