@@ -36,8 +36,8 @@ highlight SpecialKey    guifg=#66ff66 guibg=#000000 gui=NONE
 highlight Title         guifg=#000000 guibg=#cc6633 gui=NONE
 highlight WildMenu      guifg=#000000 guibg=#ffff00 gui=NONE
 
-highlight Visual        guifg=NONE    guibg=#222211 gui=NONE
-highlight VisualNOS     guifg=NONE    guibg=#221122 gui=NONE
+highlight Visual        guifg=NONE    guibg=#665544 gui=bold
+highlight VisualNOS     guifg=NONE    guibg=#556644 gui=bold
 
 highlight StatusLine    guifg=#000000 guibg=#666666 gui=bold
 highlight StatusLineNC  guifg=#111111 guibg=#666666 gui=NONE
