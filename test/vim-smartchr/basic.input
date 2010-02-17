@@ -3,9 +3,6 @@
 call vspec#hint({'sid': 'smartchr#_sid()'})
 
 
-" Open a line - to avoid remapping hell.
-nnoremap <Plug>(o)  o
-
 " Refresh Vim's internal information on the cursor position.
 " Vim doesn't update the information while inserting characters
 " noninteractively, e.g., ":normal! i_foo_bar".
@@ -98,32 +95,34 @@ endfunction
 
 
 function! s:describe__smartchr_loop()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
   inoremap <expr> _  smartchr#loop(' <- ', ' <<< ', '_')
   new
 
   It should insert ' <- ' for the first time.
 
-  execute 'normal' "\<Plug>(o)_"
+  execute 'normal' "o_"
   Should getline('.') ==# ' <- '
 
   It should insert ' <<< ' for the second time.
 
-  execute 'normal' "\<Plug>(o)_\<Plug>(r)_"
+  execute 'normal' "o_\<Plug>(r)_"
   Should getline('.') ==# ' <<< '
 
   It should insert '_' for the third time.
 
-  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_"
+  execute 'normal' "o_\<Plug>(r)_\<Plug>(r)_"
   Should getline('.') ==# '_'
 
   It should insert '_' for the fourth time.
 
-  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
+  execute 'normal' "o_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
   Should getline('.') ==# ' <- '
 
   It should insert ' <- ' for the fourth time.
 
-  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
+  execute 'normal' "o_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
   Should getline('.') ==# ' <<< '
 
   It requires to reset side effect.
@@ -172,27 +171,29 @@ endfunction
 
 
 function! s:describe__smartchr_one_of__in_Insert_mode()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
   inoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_')
   new
 
   It should insert ' <- ' for the first time.
 
-  execute 'normal' "\<Plug>(o)_"
+  execute 'normal' "o_"
   Should getline('.') ==# ' <- '
 
   It should insert ' <<< ' for the second time.
 
-  execute 'normal' "\<Plug>(o)_\<Plug>(r)_"
+  execute 'normal' "o_\<Plug>(r)_"
   Should getline('.') ==# ' <<< '
 
   It should insert '_' for the third time.
 
-  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_"
+  execute 'normal' "o_\<Plug>(r)_\<Plug>(r)_"
   Should getline('.') ==# '_'
 
   It should insert ' <- _' for the fourth time.
 
-  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
+  execute 'normal' "o_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
   Should getline('.') ==# '_ <- '
 
   It requires to reset side effect.
