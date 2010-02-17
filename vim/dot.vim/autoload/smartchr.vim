@@ -77,7 +77,13 @@ nnoremap <SID>  <SID>
 
 
 function! s:cursor_preceded_with_p(s)  "{{{2
-  return search('\V' . escape(a:s, '\') . '\%#', 'bcn')
+  if mode()[0] ==# 'c'
+    " Command-line mode.
+    return 0  " FIXME: NIY
+  else
+    " Insert mode and other modes except Commnd-line mode.
+    return search('\V' . escape(a:s, '\') . '\%#', 'bcn')
+  endif
 endfunction
 
 

@@ -1,4 +1,4 @@
-==== s_cursor_preceded_with_p 
+==== s_cursor_preceded_with_p in Insert mode
 ---- It requires the following set up. 
 ...
 ---- It should return true if the cursor is preceded with specified string. 

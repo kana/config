@@ -19,25 +19,29 @@ set backspace=indent,eol,start
 
 
 
-function! s:describe__s_cursor_preceded_with_p()  "{{{1
+function! s:describe__s_cursor_preceded_with_p__in_Insert_mode()  "{{{1
   It requires the following set up.
 
-  " ^\oo .*r baz$
+  " ^\oo \.r baz$
   "         *
   new
-  put ='\oo .*r baz'
+  put ='\oo \.r baz'
   normal! $bh
-  Should getline('.') ==# '\oo .*r baz'
+  Should getline('.') ==# '\oo \.r baz'
   Should col('.') == 8
   Should getline('.')[col('.') - 1] ==# ' '
 
   It should return true if the cursor is preceded with specified string.
 
-  Should Call('s:cursor_preceded_with_p', '.*r') != 0
+  silent execute 'normal!'
+  \ "i\<C-r>=Call('s:cursor_preceded_with_p', '\\.r')\<Return>"
+  Should getline('.') ==# '\oo \.r2 baz'
 
   It should return false if the cursor is not preceded with specified string.
 
-  Should Call('s:cursor_preceded_with_p', 'XXX') == 0
+  silent execute 'normal!'
+  \ "i\<C-r>=Call('s:cursor_preceded_with_p', 'XXX')\<Return>"
+  Should getline('.') ==# '\oo \.r02 baz'
 
   It requires to reset side effect.
 
