@@ -21,15 +21,15 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-
-
-
-
-function! smartchr#loop(...)
+" Public API  "{{{1
+function! smartchr#loop(...)  "{{{2
   return call('smartchr#one_of', a:000 + [(a:1)])
 endfunction
 
-function! smartchr#one_of(...)
+
+
+
+function! smartchr#one_of(...)  "{{{2
   " Support function to insert one of the given arguments like
   " ess-smart-underscore of Emacs Speaks Statistics.
   "
@@ -63,5 +63,9 @@ endfunction
 
 
 
-" __END__
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker
