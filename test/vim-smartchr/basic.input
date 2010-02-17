@@ -97,6 +97,8 @@ endfunction
 function! s:describe__smartchr_loop()  "{{{1
   " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
 
+  It requires the following set up.
+
   inoremap <expr> _  smartchr#loop(' <- ', ' <<< ', '_')
   new
 
@@ -136,6 +138,7 @@ endfunction
 
 function! s:describe__smartchr_one_of__in_Command_line_mode()  "{{{1
   " BUGS: This test assumes that all keys but "_" will never be remapped.
+
   It requires the following set up.
 
   cnoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_')
@@ -172,6 +175,8 @@ endfunction
 
 function! s:describe__smartchr_one_of__in_Insert_mode()  "{{{1
   " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
 
   inoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_')
   new

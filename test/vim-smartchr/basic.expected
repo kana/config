@@ -19,6 +19,8 @@
 
 
 ==== smartchr_loop 
+---- It requires the following set up. 
+
 ---- It should insert ' <- ' for the first time. 
 .
 ---- It should insert ' <<< ' for the second time. 
@@ -47,6 +49,8 @@
 
 
 ==== smartchr_one_of in Insert mode
+---- It requires the following set up. 
+
 ---- It should insert ' <- ' for the first time. 
 .
 ---- It should insert ' <<< ' for the second time. 
