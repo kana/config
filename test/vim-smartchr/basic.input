@@ -1,0 +1,91 @@
+" Common Set-Up  "{{{1
+
+" Open a line - to avoid remapping hell.
+nnoremap <Plug>(o)  o
+
+" Refresh Vim's internal information on the cursor position.
+" Vim doesn't update the information while inserting characters
+" noninteractively, e.g., ":normal! i_foo_bar".
+" So we have to refresh it explicitly to test smartchr by a script.
+inoremap <Plug>(r)  <C-o><C-l>
+
+" Allow backspacing everything.  Because backspacing doesn't work just after
+" <Plug>r that starts new Insert mode as a side effect.
+set backspace=indent,eol,start
+
+
+
+
+function! s:describe__smartchr_loop()  "{{{1
+  inoremap <expr> _  smartchr#loop(' <- ', ' <<< ', '_')
+  new
+
+  It should insert ' <- ' for the first time.
+
+  execute 'normal' "\<Plug>(o)_"
+  Should getline('.') ==# ' <- '
+
+  It should insert ' <<< ' for the second time.
+
+  execute 'normal' "\<Plug>(o)_\<Plug>(r)_"
+  Should getline('.') ==# ' <<< '
+
+  It should insert '_' for the third time.
+
+  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_"
+  Should getline('.') ==# '_'
+
+  It should insert '_' for the fourth time.
+
+  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
+  Should getline('.') ==# ' <- '
+
+  It should insert ' <- ' for the fourth time.
+
+  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
+  Should getline('.') ==# ' <<< '
+
+  It requires to reset side effect.
+
+  iunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_one_of()  "{{{1
+  inoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_')
+  new
+
+  It should insert ' <- ' for the first time.
+
+  execute 'normal' "\<Plug>(o)_"
+  Should getline('.') ==# ' <- '
+
+  It should insert ' <<< ' for the second time.
+
+  execute 'normal' "\<Plug>(o)_\<Plug>(r)_"
+  Should getline('.') ==# ' <<< '
+
+  It should insert '_' for the third time.
+
+  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_"
+  Should getline('.') ==# '_'
+
+  It should insert ' <- _' for the fourth time.
+
+  execute 'normal' "\<Plug>(o)_\<Plug>(r)_\<Plug>(r)_\<Plug>(r)_"
+  Should getline('.') ==# '_ <- '
+
+  It requires to reset side effect.
+
+  iunmap _
+  quit!
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker

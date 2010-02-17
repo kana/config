@@ -773,6 +773,17 @@ test/vim-ku/%.output: \
 	@./test/tester-vim $< &>$@
 
 
+# vim-smartchr  #{{{2
+TESTS_vim_smartchr = basic
+
+test/vim-smartchr/%.output: \
+		test/vim-smartchr/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim \
+		vim/dot.vim/autoload/smartchr.vim
+	@./test/vspec $< &>$@
+
+
 # vim-vspec  #{{{2
 TESTS_vim_vspec = no-test typical-content tools context
 
