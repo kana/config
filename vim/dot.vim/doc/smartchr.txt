@@ -112,6 +112,13 @@ BUGS						*smartchr-bugs*
 ==============================================================================
 CHANGELOG					*smartchr-changelog*
 
+0.1.0	2010-02-18T00:32:31+09:00		*smartchr-changelog-0.1.0*
+	- Support Command-line mode.
+	  (Thanks to Tatsuhiro Ujihisa for reporting this)
+
+	  Example configuration:
+	  cnoremap <expr> <Bslash>  smartchr#loop('~/', '<Bslash>')
+
 0.0.2	2010-02-17T22:11:42+09:00		*smartchr-changelog-0.0.2*
 	- Add tests.
 

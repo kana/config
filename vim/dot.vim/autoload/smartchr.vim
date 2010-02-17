@@ -79,7 +79,11 @@ nnoremap <SID>  <SID>
 function! s:cursor_preceded_with_p(s)  "{{{2
   if mode()[0] ==# 'c'
     " Command-line mode.
-    return 0  " FIXME: NIY
+      " getcmdpos() is 1-origin and we want to the position of the character
+      " just before the cursor.
+    let p = getcmdpos() - 1 - 1
+    let l = len(a:s)
+    return l <= p + 1 && getcmdline()[p - l + 1: p] ==# a:s
   else
     " Insert mode and other modes except Commnd-line mode.
     return search('\V' . escape(a:s, '\') . '\%#', 'bcn')

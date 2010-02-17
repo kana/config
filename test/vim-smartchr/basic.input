@@ -19,6 +19,52 @@ set backspace=indent,eol,start
 
 
 
+function! s:describe__s_cursor_preceded_with_p__in_Command_line_mode()  "{{{1
+  It requires the following set up.
+
+  new
+
+  It should return true if the cursor is preceded with specified string.
+
+  silent execute 'normal!'
+  \ ':let b:result = '
+  \ "'abc\\.r\<C-r>="
+  \ "Call('s:cursor_preceded_with_p', '\\.r')"
+  \ "\<Return>'"
+  \ "\<Return>"
+  Should b:result ==# 'abc\.r1'
+
+  silent execute 'normal!'
+  \ ':let b:result = '
+  \ "'abc\\.rx\<Left>\<C-r>="
+  \ "Call('s:cursor_preceded_with_p', '\\.r')"
+  \ "\<Return>\<End>'"
+  \ "\<Return>"
+  Should b:result ==# 'abc\.r1x'
+
+  silent execute 'normal!'
+  \ ":abc\<C-r>="
+  \ "Call('s:cursor_preceded_with_p', 'abc')"
+  \ "\<Return>\<Home>let b:result = '\<End>'"
+  \ "\<Return>"
+  Should b:result ==# 'abc1'
+
+  It should return false if the cursor is not preceded with specified string.
+
+  silent execute 'normal!'
+  \ ':let b:result = '
+  \ "'abcxyz\<C-r>=Call('s:cursor_preceded_with_p', 'foo')\<Return>'"
+  \ "\<Return>"
+  Should b:result ==# 'abcxyz0'
+
+  It requires to reset side effect.
+
+  quit!
+endfunction
+
+
+
+
 function! s:describe__s_cursor_preceded_with_p__in_Insert_mode()  "{{{1
   It requires the following set up.
 
@@ -89,7 +135,43 @@ endfunction
 
 
 
-function! s:describe__smartchr_one_of()  "{{{1
+function! s:describe__smartchr_one_of__in_Command_line_mode()  "{{{1
+  " BUGS: This test assumes that all keys but "_" will never be remapped.
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_')
+  new
+
+  It should insert ' <- ' for the first time.
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# ' <- '
+
+  It should insert ' <<< ' for the second time.
+
+  silent execute 'normal' ":let b:result = '__'\<Return>"
+  Should b:result ==# ' <<< '
+
+  It should insert '_' for the third time.
+
+  silent execute 'normal' ":let b:result = '___'\<Return>"
+  Should b:result ==# '_'
+
+  It should insert ' <- ' for the first time. (edge case)
+
+  silent execute 'normal' ":_\<Home>let b:result = '\<End>'\<Return>"
+  Should b:result ==# ' <- '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_one_of__in_Insert_mode()  "{{{1
   inoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_')
   new
 
