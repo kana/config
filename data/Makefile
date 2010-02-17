@@ -465,6 +465,7 @@ PACKAGE_vim_misc_FILES=\
   vim/dot.vim/colors/black_angus.vim \
   vim/dot.vim/colors/gothic.vim \
   vim/dot.vim/colors/less.vim \
+  vim/dot.vim/colors/nevfn.vim \
   vim/dot.vim/ftplugin/issue.vim \
   vim/dot.vim/syntax/issue.vim \
   vim/dot.vim/syntax/rest.vim \
@@ -519,7 +520,7 @@ PACKAGE_vim_skeleton_FILES=\
   vim/dot.vim/doc/skeleton.txt \
   vim/dot.vim/plugin/skeleton.vim
 
-PACKAGE_vim_smartchr_ARCHIVE=vim-smartchr-0.0.1
+PACKAGE_vim_smartchr_ARCHIVE=vim-smartchr-0.1.0
 PACKAGE_vim_smartchr_BASE=vim/dot.vim
 PACKAGE_vim_smartchr_FILES=\
   vim/dot.vim/autoload/smartchr.vim \
@@ -976,6 +977,17 @@ test/vim-operator-user/%.output: \
 		test/tester-vim \
 		vim/dot.vim/autoload/operator/user.vim
 	@./test/tester-vim $< &>$@
+
+
+# vim-smartchr  #{{{2
+TESTS_vim_smartchr = basic
+
+test/vim-smartchr/%.output: \
+		test/vim-smartchr/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim \
+		vim/dot.vim/autoload/smartchr.vim
+	@./test/vspec $< &>$@
 
 
 # vim-textobj-indent  #{{{2

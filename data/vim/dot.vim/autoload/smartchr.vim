@@ -1,5 +1,5 @@
 " smartchr - Insert several candidates with a single key
-" Version: 0.0.1
+" Version: 0.1.0
 " Copyright (C) 2008 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -21,15 +21,15 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-
-
-
-
-function! smartchr#loop(...)
+" Public API  "{{{1
+function! smartchr#loop(...)  "{{{2
   return call('smartchr#one_of', a:000 + [(a:1)])
 endfunction
 
-function! smartchr#one_of(...)
+
+
+
+function! smartchr#one_of(...)  "{{{2
   " Support function to insert one of the given arguments like
   " ess-smart-underscore of Emacs Speaks Statistics.
   "
@@ -50,7 +50,7 @@ function! smartchr#one_of(...)
     let literal1 = a:000[i]
     let literal2 = a:000[i-1]
 
-    if search('\V' . escape(literal2, '\') . '\%#', 'bcn')
+    if s:cursor_preceded_with_p(literal2)
       return (pumvisible() ? "\<C-e>" : '')
            \ . repeat("\<BS>", len(literal2))
            \ . literal1
@@ -63,5 +63,39 @@ endfunction
 
 
 
-" __END__
+
+
+
+
+" Misc.  "{{{1
+function! smartchr#_sid()  "{{{2
+  return maparg('<SID>', 'n')
+endfunction
+nnoremap <SID>  <SID>
+
+
+
+
+function! s:cursor_preceded_with_p(s)  "{{{2
+  if mode()[0] ==# 'c'
+    " Command-line mode.
+      " getcmdpos() is 1-origin and we want to the position of the character
+      " just before the cursor.
+    let p = getcmdpos() - 1 - 1
+    let l = len(a:s)
+    return l <= p + 1 && getcmdline()[p - l + 1: p] ==# a:s
+  else
+    " Insert mode and other modes except Commnd-line mode.
+    return search('\V' . escape(a:s, '\') . '\%#', 'bcn')
+  endif
+endfunction
+
+
+
+
+
+
+
+
+" __END__  "{{{1
 " vim: foldmethod=marker

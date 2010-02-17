@@ -176,6 +176,8 @@ endif
 
 if $ENV_ACCESS ==# 'summer'
   set termencoding=cp932
+elseif has('gui_macvim')
+  " E617 - It's not possible to change 'termencoding' in MacVim.
 else  " fallback
   set termencoding=  " same as 'encoding'
 endif
@@ -191,7 +193,7 @@ if (1 < &t_Co || has('gui')) && has('syntax')
   endif
   syntax enable
   if !exists('g:colors_name')  " Don't override colorscheme on reloading.
-    colorscheme desert
+    colorscheme nevfn
     set background=dark
   endif
 endif
@@ -213,6 +215,16 @@ set noequalalways
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
+if exists('+fuoptions')
+  set fuoptions=maxhorz,maxvert
+endif
+if exists('+guicursor')
+  set guicursor&
+  set guicursor=a:blinkwait4000-blinkon1500-blinkoff500
+endif
+if exists('+guioptions')
+  set guioptions=cgM
+endif
 set history=100
 set hlsearch
 nohlsearch  " To avoid (re)highlighting the last search pattern
@@ -220,7 +232,10 @@ nohlsearch  " To avoid (re)highlighting the last search pattern
 " set grepprg=... " See s:toggle_grepprg().
 set incsearch
 set laststatus=2  " always show status lines.
-set mouse=
+if exists('+macmeta')
+  set macmeta
+endif
+set mouse=a
 set ruler
 set showcmd
 set showmode
@@ -615,17 +630,27 @@ command! -bar -nargs=1 Source
 " SuspendWithAutomticCD  "{{{2
 " Assumption: Use GNU screen.
 " Assumption: There is a window with the title "another".
+" FIXME: Open a (GNU screen) window for each directory.
 
 if !exists('s:GNU_SCREEN_AVAILABLE_P')
-  " Check the existence of $WINDOW to avoid using GNU screen in Vim on
-  " a remote machine (for example, "screen -t remote ssh example.com").
-  let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
+  if has('gui_running')
+    " In GUI, $WINDOW is not reliable, because GUI process is independent from
+    " GNU screen process.  Check availability of executable instead.
+    let s:GNU_SCREEN_AVAILABLE_P = executable('screen')
+  else
+    " In CUI, availability of executable is not reliable, because Vim may be
+    " invoked with "screen ssh example.com vim" and GNU screen may be
+    " available at example.com.  Check $WINDOW instead.
+    let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
+  endif
 endif
 
 command! -bar -nargs=0 SuspendWithAutomticCD
 \ call s:cmd_SuspendWithAutomticCD()
 function! s:cmd_SuspendWithAutomticCD()
   if s:GNU_SCREEN_AVAILABLE_P
+    call s:activate_terminal()
+
     " \015 = <C-m>
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
@@ -710,6 +735,28 @@ command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 
 
 " Utilities  "{{{1
+" Font selector  "{{{2
+
+command! -complete=customlist,s:cmd_Font_complete -nargs=* Font
+\ set guifont=<args>
+
+function! s:cmd_Font_complete(arglead, cmdline, cursorpos)
+  " FIXME: Proper completion
+  return [
+  \   'Ayuthaya:h14 antialias',
+  \   'cinecaption:h16 antialias',
+  \   'DejaVu\ Sans\ Mono:h14 antialias',
+  \   'Droid\ Sans\ Mono:h14 antialias',
+  \   'Monaco:h14 antialias',
+  \   'Osaka-Mono:h15 antialias',
+  \   'Osaka-Mono:h16 antialias',
+  \   'PC98:h16 noantialias',
+  \ ]
+endfunction
+
+
+
+
 " :grep wrappers  "{{{2
 "
 " To edit {pattern} easily via Command-line mode history,
@@ -1102,11 +1149,67 @@ endfunction
 
 
 
-function! s:count_sum_of_fields()  "{{{2
-  '<,'>!awk 'BEGIN{c=0} {c+=$1} END{print c}'
-  let _ = getline('.')
-  undo
-  '>put =_
+function! s:activate_terminal()  "{{{2
+  if !has('gui_running')
+    return
+  endif
+
+  if has('macunix')
+    " There is alternative way to activate, but it's slow:
+    " !osascript -e 'tell application "Terminal" to activate the front window'
+    silent !open -a Terminal
+  else
+    " This platform is not supported.
+  endif
+endfunction
+
+
+
+
+function! s:all_combinations(xs)  "{{{2
+  let cs = []
+
+  for r in range(1, len(a:xs))
+    call extend(cs, s:combinations(a:xs, r))
+  endfor
+
+  return cs
+endfunction
+
+
+
+
+function! s:combinations(pool, r)  "{{{2
+  let n = len(a:pool)
+  if n < a:r || a:r <= 0
+    return []
+  endif
+
+  let result = []
+
+  let indices = range(a:r)
+  call add(result, join(map(copy(indices), 'a:pool[v:val]'), ''))
+
+  while s:TRUE
+    let broken_p = s:FALSE
+    for i in reverse(range(a:r))
+      if indices[i] != i + n - a:r
+        let broken_p = s:TRUE
+        break
+      endif
+    endfor
+    if !broken_p
+      break
+    endif
+
+    let indices[i] += 1
+    for j in range(i + 1, a:r - 1)
+      let indices[j] = indices[j-1] + 1
+    endfor
+    call add(result, join(map(copy(indices), 'a:pool[v:val]'), ''))
+  endwhile
+
+  return result
 endfunction
 
 
@@ -1194,6 +1297,17 @@ endfunction
 
 
 
+function! s:operator_calculate_sum_of_fields(motion_wiseness)  "{{{2
+  let sum = 0
+  for line in getline(line("'["), line("']"))
+    let sum += str2nr(matchstr(line, '^\s*\zs-\?\d\+\ze\>'))
+  endfor
+  ']put =sum
+endfunction
+
+
+
+
 function! s:set_short_indent()  "{{{2
   setlocal expandtab softtabstop=2 shiftwidth=2
 endfunction
@@ -1221,6 +1335,171 @@ else
   KeyboardLayout :  :
   KeyboardLayout <Return>  <Return>
   KeyboardLayout <S-Return>  <S-Return>
+endif
+
+
+
+
+" Terminal-GUI interoperability  "{{{2
+"
+" A key which user actually types (A) may be translated into other key
+" sequence (T) in terminal.  For example, <C-Space> is translated into <C-@>
+" = <Nul>.
+"
+" Most of key mappings in this vimrc are written in (T), because:
+" - It's possible to reuse existing settings without big change.
+" - It's not possible to use some key mappings which are not available in
+"   terminal as {lhs} of :map commands.
+"
+" To deal with this problem, define the following key mappings to emulate the
+" translation of terminal for GUI environment.
+
+" <M-{x}> => <Esc>x
+function! s:emulate_meta_esc_behavior_in_terminal()
+  " [key, acceptable-modifiers-except-meta]  "{{{
+  let keys = [
+  \   ['!', ''],
+  \   ['"', ''],
+  \   ['#', ''],
+  \   ['$', ''],
+  \   ['%', ''],
+  \   ['&', ''],
+  \   ['''', ''],
+  \   ['(', ''],
+  \   [')', ''],
+  \   ['*', ''],
+  \   ['+', ''],
+  \   [',', ''],
+  \   ['-', ''],
+  \   ['.', ''],
+  \   ['0', ''],
+  \   ['1', ''],
+  \   ['2', ''],
+  \   ['3', ''],
+  \   ['4', ''],
+  \   ['5', ''],
+  \   ['6', ''],
+  \   ['7', ''],
+  \   ['8', ''],
+  \   ['9', ''],
+  \   [':', ''],
+  \   [';', ''],
+  \   ['<BS>', 'CS'],
+  \   ['<Bar>', ''],
+  \   ['<Bslash>', 'C'],
+  \   ['<Del>', 'CS'],
+  \   ['<Down>', 'CS'],
+  \   ['<End>', 'CS'],
+  \   ['<Esc>', 'CS'],
+  \   ['<F10>', 'CS'],
+  \   ['<F11>', 'CS'],
+  \   ['<F12>', 'CS'],
+  \   ['<F1>', 'CS'],
+  \   ['<F2>', 'CS'],
+  \   ['<F3>', 'CS'],
+  \   ['<F4>', 'CS'],
+  \   ['<F5>', 'CS'],
+  \   ['<F6>', 'CS'],
+  \   ['<F7>', 'CS'],
+  \   ['<F9>', 'CS'],
+  \   ['<F9>', 'CS'],
+  \   ['<Home>', 'CS'],
+  \   ['<LT>', ''],
+  \   ['<Left>', 'CS'],
+  \   ['<PageDown>', 'CS'],
+  \   ['<PageUp>', 'CS'],
+  \   ['<Return>', 'CS'],
+  \   ['<Right>', 'CS'],
+  \   ['<Space>', 'CS'],
+  \   ['<Tab>', 'CS'],
+  \   ['<Up>', 'CS'],
+  \   ['=', ''],
+  \   ['>', ''],
+  \   ['@', 'C'],
+  \   ['A', ''],
+  \   ['B', ''],
+  \   ['C', ''],
+  \   ['D', ''],
+  \   ['E', ''],
+  \   ['F', ''],
+  \   ['G', ''],
+  \   ['H', ''],
+  \   ['I', ''],
+  \   ['J', ''],
+  \   ['K', ''],
+  \   ['L', ''],
+  \   ['M', ''],
+  \   ['N', ''],
+  \   ['O', ''],
+  \   ['P', ''],
+  \   ['Q', ''],
+  \   ['R', ''],
+  \   ['S', ''],
+  \   ['T', ''],
+  \   ['U', ''],
+  \   ['V', ''],
+  \   ['W', ''],
+  \   ['X', ''],
+  \   ['Y', ''],
+  \   ['Z', ''],
+  \   ['[', 'C'],
+  \   [']', 'C'],
+  \   ['^', 'C'],
+  \   ['_', 'C'],
+  \   ['`', ''],
+  \   ['a', 'C'],
+  \   ['b', 'C'],
+  \   ['c', 'C'],
+  \   ['d', 'C'],
+  \   ['e', 'C'],
+  \   ['f', 'C'],
+  \   ['g', 'C'],
+  \   ['h', 'C'],
+  \   ['i', 'C'],
+  \   ['j', 'C'],
+  \   ['k', 'C'],
+  \   ['l', 'C'],
+  \   ['m', 'C'],
+  \   ['n', 'C'],
+  \   ['o', 'C'],
+  \   ['p', 'C'],
+  \   ['q', 'C'],
+  \   ['r', 'C'],
+  \   ['s', 'C'],
+  \   ['t', 'C'],
+  \   ['u', 'C'],
+  \   ['v', 'C'],
+  \   ['w', 'C'],
+  \   ['x', 'C'],
+  \   ['y', 'C'],
+  \   ['z', 'C'],
+  \   ['{', ''],
+  \   ['}', ''],
+  \   ['~', ''],
+  \ ]
+  "}}}
+
+  for [key, modifiers] in keys
+    let k = matchstr(key, '^<\zs.*\ze>$\|.*')
+
+    execute 'Allmap' '<M-'.k.'>'  '<Esc>'.key
+    for m in s:modifier_combinations(modifiers)
+      execute 'Allmap' '<M-'.m.k.'>'  '<Esc><'.m.k.'>'
+    endfor
+  endfor
+endfunction
+
+function! s:modifier_combinations(modifiers)
+  let prefixes = map(range(len(a:modifiers)), 'a:modifiers[v:val] . "-"')
+  return s:all_combinations(prefixes)
+endfunction
+
+
+if has('gui_running')
+  " NUL
+  Allmap <C-Space>  <C-@>
+
+  call s:emulate_meta_esc_behavior_in_terminal()
 endif
 
 
@@ -1567,7 +1846,7 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-Fvmap <silent> [Space]c  <SID>count_sum_of_fields()
+Operatormap [Space]c  <Plug>(operator-my-calculate-sum-of-fields)
 
 Cnmap <silent> [Space]e
 \              setlocal encoding? termencoding? fileencoding? fileencodings?
@@ -1593,6 +1872,7 @@ Cnmap <silent> [Space]m  marks
 
 nnoremap [Space]o  <Nop>
 Fnmap <silent> [Space]ob  <SID>toggle_bell()
+Fnmap <silent> [Space]of  <SID>toggle_option('fullscreen')
 Fnmap <silent> [Space]og  <SID>toggle_grepprg()
 Fnmap <silent> [Space]ow  <SID>toggle_option('wrap')
 
@@ -1723,6 +2003,8 @@ Arpeggio map oj  <Plug>(operator-my-join)
 
 
 call operator#user#define_ex_command('my-sort', 'sort')
+call operator#user#define('my-calculate-sum-of-fields',
+\                         s:SID_PREFIX() . 'operator_calculate_sum_of_fields')
 " User key mappings will be defined later - see [Space].
 
 
@@ -1838,9 +2120,8 @@ function! s:search_the_selected_text_literaly(search_command)
 endfunction
 
 
+Allnoremap <C-z>  <Nop>
 Cnmap <C-z>  SuspendWithAutomticCD
-vnoremap <C-z>  <Nop>
-onoremap <C-z>  <Nop>
 
 
 " Show the lines which match to the last search pattern.
