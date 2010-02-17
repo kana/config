@@ -50,7 +50,7 @@ function! smartchr#one_of(...)  "{{{2
     let literal1 = a:000[i]
     let literal2 = a:000[i-1]
 
-    if search('\V' . escape(literal2, '\') . '\%#', 'bcn')
+    if s:cursor_preceded_with_p(literal2)
       return (pumvisible() ? "\<C-e>" : '')
            \ . repeat("\<BS>", len(literal2))
            \ . literal1
@@ -58,6 +58,26 @@ function! smartchr#one_of(...)  "{{{2
   endfor
 
   return a:1
+endfunction
+
+
+
+
+
+
+
+
+" Misc.  "{{{1
+function! smartchr#_sid()  "{{{2
+  return maparg('<SID>', 'n')
+endfunction
+nnoremap <SID>  <SID>
+
+
+
+
+function! s:cursor_preceded_with_p(s)  "{{{2
+  return search('\V' . escape(a:s, '\') . '\%#', 'bcn')
 endfunction
 
 

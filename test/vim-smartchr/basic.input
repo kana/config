@@ -1,5 +1,8 @@
 " Common Set-Up  "{{{1
 
+call vspec#hint({'sid': 'smartchr#_sid()'})
+
+
 " Open a line - to avoid remapping hell.
 nnoremap <Plug>(o)  o
 
@@ -12,6 +15,34 @@ inoremap <Plug>(r)  <C-o><C-l>
 " Allow backspacing everything.  Because backspacing doesn't work just after
 " <Plug>r that starts new Insert mode as a side effect.
 set backspace=indent,eol,start
+
+
+
+
+function! s:describe__s_cursor_preceded_with_p()  "{{{1
+  It requires the following set up.
+
+  " ^\oo .*r baz$
+  "         *
+  new
+  put ='\oo .*r baz'
+  normal! $bh
+  Should getline('.') ==# '\oo .*r baz'
+  Should col('.') == 8
+  Should getline('.')[col('.') - 1] ==# ' '
+
+  It should return true if the cursor is preceded with specified string.
+
+  Should Call('s:cursor_preceded_with_p', '.*r') != 0
+
+  It should return false if the cursor is not preceded with specified string.
+
+  Should Call('s:cursor_preceded_with_p', 'XXX') == 0
+
+  It requires to reset side effect.
+
+  quit!
+endfunction
 
 
 

@@ -1,3 +1,13 @@
+==== s_cursor_preceded_with_p 
+---- It requires the following set up. 
+...
+---- It should return true if the cursor is preceded with specified string. 
+.
+---- It should return false if the cursor is not preceded with specified string. 
+.
+---- It requires to reset side effect. 
+
+
 ==== smartchr_loop 
 ---- It should insert ' <- ' for the first time. 
 .
@@ -29,4 +39,4 @@
 **** Result ****
 
 
-9 examples, 0 failures
+14 examples, 0 failures
