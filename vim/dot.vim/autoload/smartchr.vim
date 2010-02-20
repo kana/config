@@ -30,9 +30,11 @@ endfunction
 
 
 function! smartchr#one_of(...)  "{{{2
-  for i in range(len(a:000) - 1, 1, -1)
-    let literal1 = a:000[i]
-    let literal2 = a:000[i-1]
+  let literals = a:000
+
+  for i in range(len(literals) - 1, 1, -1)
+    let literal1 = literals[i]
+    let literal2 = literals[i-1]
 
     if s:cursor_preceded_with_p(literal2)
       return (pumvisible() ? "\<C-e>" : '')
