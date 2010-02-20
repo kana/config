@@ -1,5 +1,5 @@
 " vspec - Test framework for Vim script
-" Version: 0.0.0
+" Version: 0.0.2
 " Copyright (C) 2009 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -71,11 +71,17 @@ let s:VALID_MATCHERS_ORDERING = [
 \   '>#',
 \   '>=#',
 \ ]
-let s:VALID_MATCHERS = (s:VALID_MATCHERS_EQUALITY
+let s:VALID_MATCHERS_CUSTOM = [
+\   'be',
+\ ]
+let s:VALID_MATCHERS = (s:VALID_MATCHERS_CUSTOM
+\                       + s:VALID_MATCHERS_EQUALITY
 \                       + s:VALID_MATCHERS_ORDERING
 \                       + s:VALID_MATCHERS_REGEXP)
 
 let s:context_stack = []
+
+let s:custom_matchers = {}  " alias => function
 
 let s:saved_scope = {}
 
@@ -110,6 +116,13 @@ endfunction
 
 function! vspec#call(function_name, ...)  "{{{2
   return call(substitute(a:function_name, '^s:', s:hint_sid(), ''), a:000)
+endfunction
+
+
+
+
+function! vspec#customize_matcher(alias, function)  "{{{2
+  let s:custom_matchers[a:alias] = a:function
 endfunction
 
 
@@ -203,11 +216,24 @@ command! -nargs=0 ResetContext  call vspec#cmd_ResetContext()
 command! -nargs=0 SaveContext  call vspec#cmd_SaveContext()
 
 command! -nargs=+ Should
-\ call vspec#cmd_Should(s:parse_should_args(<q-args>),
-\                       map(s:parse_should_args(<q-args>),
-\                           'eval(s:valid_matcher_p(v:val)
-\                                 ? string(v:val)
-\                                 : v:val)'))
+\ call vspec#cmd_Should(s:parse_should_args(<q-args>, 'raw'),
+\                       map(s:parse_should_args(<q-args>, 'eval'),
+\                           'eval(v:val)'))
+
+
+
+
+" Predefined Custom Matchers  "{{{2
+
+function! vspec#_matcher_true(value)
+  return type(a:value) == type(0) ? !!(a:value) : !!0
+endfunction
+call vspec#customize_matcher('true', function('vspec#_matcher_true'))
+
+function! vspec#_matcher_false(value)
+  return type(a:value) == type(0) ? !(a:value) : !!0
+endfunction
+call vspec#customize_matcher('false', function('vspec#_matcher_false'))
 
 
 
@@ -344,7 +370,15 @@ function! s:matches_p(value_actual, expr_matcher, value_expected)  "{{{2
     return s:FALSE
   endif
 
-  if s:valid_matcher_equality_p(a:expr_matcher)
+  if s:valid_matcher_custom_p(a:expr_matcher)
+    let custom_matcher_name = a:value_expected
+    if !has_key(s:custom_matchers, custom_matcher_name)
+      echoerr 'Unknown custom matcher:' string(custom_matcher_name)
+      return s:FALSE
+    endif
+    let MatchesP = s:custom_matchers[custom_matcher_name]
+    return MatchesP(a:value_actual)
+  elseif s:valid_matcher_equality_p(a:expr_matcher)
     let type_equality = type(a:value_actual) == type(a:value_expected)
     if s:valid_matcher_negative_p(a:expr_matcher) && !type_equality
       return s:TRUE
@@ -397,7 +431,9 @@ function! s:output_summary(context)  "{{{2
     echon "\n"
     echo 'It' group
     echo 'FAILED:' join(exprs, ' ')
-    if s:valid_matcher_equality_p(values[1])
+    if s:valid_matcher_custom_p(values[1])
+      echo '       got:' string(values[0])
+    elseif s:valid_matcher_equality_p(values[1])
       echo '  expected:' string(values[2])
       echo '       got:' string(values[0])
     else
@@ -417,14 +453,23 @@ endfunction
 
 
 
-function! s:parse_should_args(s)  "{{{2
+function! s:parse_should_args(s, mode)  "{{{2
   let CMPS = join(map(copy(s:VALID_MATCHERS), 'escape(v:val, "=!<>~#?")'), '|')
   let _ = matchlist(a:s, printf('\C\v^(.{-})\s+(%%(%s)[#?]?)\s+(.*)$', CMPS))
+  let tokens =  _[1:3]
+  let [_actual, _matcher, _expected] = copy(tokens)
+  let [actual, matcher, expected] = copy(tokens)
 
-  " echo string(a:s)
-  " echo string(_[1:3])
+  if a:mode ==# 'eval'
+    if s:valid_matcher_p(_matcher)
+      let matcher = string(_matcher)
+    endif
+    if s:valid_matcher_custom_p(_matcher)
+      let expected = string(_expected)
+    endif
+  endif
 
-  return _[1:3]
+  return [actual, matcher, expected]
 endfunction
 
 
@@ -432,6 +477,13 @@ endfunction
 
 function! s:valid_matcher_p(expr_matcher)  "{{{2
   return 0 <= index(s:VALID_MATCHERS, a:expr_matcher)
+endfunction
+
+
+
+
+function! s:valid_matcher_custom_p(expr_matcher)  "{{{2
+  return 0 <= index(s:VALID_MATCHERS_CUSTOM, a:expr_matcher)
 endfunction
 
 
