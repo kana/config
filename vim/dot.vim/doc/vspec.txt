@@ -1,6 +1,6 @@
 *vspec.txt*	Test framework for Vim script
 
-Version 0.0.0
+Version 0.0.2
 Script ID: ****
 Copyright (C) 2009 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
@@ -126,6 +126,37 @@ COMMANDS					*vspec-commands*
 				:Should {} isnot {}
 				" ==> bad
 <
+						*vspec-custom-matcher*
+			If {matcher} is "be", :Should acts in another mode.
+			{expected} is treated as an alias of a function which
+			is called "custom matcher".  The custom matcher
+			corresponding to {expected} is called with {actual}
+			value.  It must return true if {actual} value is
+			valid, otherwise it must return false.  See also
+			|vspec#customize_matcher()|.
+
+			Examples:
+>
+				function! True(actual_value)
+				  return (type(a:actual_value) == type(0)
+				  \       ? a:actual_value
+				  \       : !!0)
+				endfunction
+				call vspec#customize_matcher('true',
+				\                            function('True'))
+
+				:Should 123 be true
+				" ===> good
+				:Should [123] be true
+				" ===> bad
+<
+					    *vspec-predefined-custom-matchers*
+			The following custom matcheres are predefined:
+
+			"true"
+				Return true if {actual} value is true.
+			"false"
+				Return true if {actual} value is false.
 
 
 ------------------------------------------------------------------------------
@@ -140,7 +171,7 @@ Ref(...)					*Ref()*
 Set(...)					*Set()*
 			Alias of |vspec#set()|.
 
-vspec#call({funcname}, [{arg}, ...])		*vspec##call()*
+vspec#call({funcname}, [{arg}, ...])		*vspec#call()*
 			Like |call()|, but vspec#call() can call
 			a script-local function defined in a script to be
 			tested.
@@ -155,7 +186,11 @@ vspec#call({funcname}, [{arg}, ...])		*vspec##call()*
 			{arg} is an arbitrary value which is given to the
 			function corresponding to o{funcname}.
 
-vspec#hint({info})				*vspec#init()*
+vspec#customize_matcher({alias}, {function})	*vspec#customize_matcher()*
+			Register {function} as a |vspec-custom-matcher| which
+			alias is {alias}.
+
+vspec#hint({info})				*vspec#hint()*
 			Tell vspec "hint" information to use useful API to
 			test a Vim script.
 
@@ -232,6 +267,10 @@ ETC ~
 
 ==============================================================================
 CHANGELOG					*vspec-changelog*
+
+0.0.2	2010-02-20T23:11:03+09:00		*vspec-changelog-0.0.2*
+	- Add |vspec-custom-matcher|.
+	- Fix typos in the document.
 
 0.0.1	2009-11-18T20:44:13+09:00		*vspec-changelog-0.0.1*
 	- Test driver: Fix not to read/write viminfo file for reproducibility
