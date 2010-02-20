@@ -30,22 +30,6 @@ endfunction
 
 
 function! smartchr#one_of(...)  "{{{2
-  " Support function to insert one of the given arguments like
-  " ess-smart-underscore of Emacs Speaks Statistics.
-  "
-  " For example, the following setting emulates ess-smart-underscore:
-  "
-  "   inoremap <expr> _  <SID>smart_char(' <- ', '_')
-  "
-  " With the above setting, when user types "_" key, " <- " is inserted for
-  " the first time.  When user types "_" key again, the previously inserted
-  " " <- " is replaced by "_".
-  "
-  " More generally, this function returns the key sequence to:
-  " - Insert a:1 for the first time.
-  " - Delete a:1 then insert a:2 for the second time.
-  " - Delete a:{N-1} then insert a:{N} for the Nth time.
-
   for i in range(len(a:000) - 1, 1, -1)
     let literal1 = a:000[i]
     let literal2 = a:000[i-1]
