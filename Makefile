@@ -545,7 +545,7 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
 
-PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.1.0
+PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.0.2
 PACKAGE_vim_vspec_BASE=vim/dot.vim
 PACKAGE_vim_vspec_FILES=\
   vim/dot.vim/autoload/vspec.vim \
@@ -785,7 +785,7 @@ test/vim-smartchr/%.output: \
 
 
 # vim-vspec  #{{{2
-TESTS_vim_vspec = no-test typical-content tools context
+TESTS_vim_vspec = no-test typical-content tools context custom-matcher
 
 test/vim-vspec/%.output: \
 		test/vim-vspec/%.input \
