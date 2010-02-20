@@ -545,7 +545,7 @@ PACKAGE_vim_vcsi_FILES=\
   vim/dot.vim/doc/vcsi.txt \
   vim/dot.vim/plugin/vcsi.vim
 
-PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.1.0
+PACKAGE_vim_vspec_ARCHIVE=vim-vspec-0.0.1
 PACKAGE_vim_vspec_BASE=vim/dot.vim
 PACKAGE_vim_vspec_FILES=\
   vim/dot.vim/autoload/vspec.vim \
