@@ -16,6 +16,27 @@ set backspace=indent,eol,start
 
 
 
+function! s:describe__s_context_p()  "{{{1
+  It should return true for {context} value
+
+  Should Call('s:context_p', {}) be true
+  Should Call('s:context_p', {'ctype': '/?'}) be true
+
+    " Contents are not checked.
+  Should Call('s:context_p', {'ctype': {'invalid': 'value'}}) be true
+  Should Call('s:context_p', {'invalild': 'key'}) be true
+
+  It should return false for non-{context} value
+
+  Should Call('s:context_p', 123) be false
+  Should Call('s:context_p', 'string') be false
+  Should Call('s:context_p', ['list']) be false
+  Should Call('s:context_p', function('function')) be false
+endfunction
+
+
+
+
 function! s:describe__s_cursor_preceded_with_p__in_Command_line_mode()  "{{{1
   It requires the following set up.
 

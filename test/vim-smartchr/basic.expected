@@ -1,3 +1,9 @@
+==== s_context_p 
+---- It should return true for {context} value 
+....
+---- It should return false for non-{context} value 
+....
+
 ==== s_cursor_preceded_with_p in Command line mode
 ---- It requires the following set up. 
 
@@ -67,4 +73,4 @@
 **** Result ****
 
 
-22 examples, 0 failures
+30 examples, 0 failures

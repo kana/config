@@ -76,6 +76,13 @@ nnoremap <SID>  <SID>
 
 
 
+function! s:context_p(value)  "{{{2
+  return type(a:value) == type({})
+endfunction
+
+
+
+
 function! s:cursor_preceded_with_p(s)  "{{{2
   if mode()[0] ==# 'c'
     " Command-line mode.
