@@ -30,7 +30,14 @@ endfunction
 
 
 function! smartchr#one_of(...)  "{{{2
-  let literals = a:000
+  let last_arg = a:000[-1]
+  if s:context_p(last_arg)
+    let context = last_arg
+    let literals = a:000[:-2]
+  else
+    let context = s:DEFAULT_CONTEXT
+    let literals = a:000
+  endif
 
   for i in range(len(literals) - 1, 1, -1)
     let literal1 = literals[i]
@@ -54,6 +61,13 @@ endfunction
 
 
 " Misc.  "{{{1
+" Variables  "{{{2
+
+let s:DEFAULT_CONTEXT = {}
+
+
+
+
 function! smartchr#_sid()  "{{{2
   return maparg('<SID>', 'n')
 endfunction

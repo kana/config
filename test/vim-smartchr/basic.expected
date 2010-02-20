@@ -68,9 +68,23 @@
 ---- It requires to reset side effect. 
 
 
+==== smartchr_one_of with empty context
+---- It requires the following set up. 
+
+---- It should insert ' <- ' for the first time. 
+.
+---- It should insert ' <<< ' for the second time. 
+.
+---- It should insert '_' for the third time. 
+.
+---- It should insert ' <- ' for the first time. (edge case) 
+.
+---- It requires to reset side effect. 
+
+
 
 
 **** Result ****
 
 
-30 examples, 0 failures
+34 examples, 0 failures

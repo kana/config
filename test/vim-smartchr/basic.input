@@ -231,5 +231,42 @@ endfunction
 
 
 
+function! s:describe__smartchr_one_of__with_empty_context()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_', {})
+  new
+
+  It should insert ' <- ' for the first time.
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# ' <- '
+
+  It should insert ' <<< ' for the second time.
+
+  silent execute 'normal' ":let b:result = '__'\<Return>"
+  Should b:result ==# ' <<< '
+
+  It should insert '_' for the third time.
+
+  silent execute 'normal' ":let b:result = '___'\<Return>"
+  Should b:result ==# '_'
+
+  It should insert ' <- ' for the first time. (edge case)
+
+  silent execute 'normal' ":_\<Home>let b:result = '\<End>'\<Return>"
+  Should b:result ==# ' <- '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
 " __END__  "{{{1
 " vim: filetype=vim foldmethod=marker
