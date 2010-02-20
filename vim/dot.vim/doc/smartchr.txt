@@ -117,7 +117,7 @@ CHANGELOG					*smartchr-changelog*
 	  (Thanks to Tatsuhiro Ujihisa for reporting this)
 
 	  Example configuration:
-	  cnoremap <expr> <Bslash>  smartchr#loop('~/', '<Bslash>')
+	  cnoremap <expr> \  smartchr#loop('~/', '\')
 
 0.0.2	2010-02-17T22:11:42+09:00		*smartchr-changelog-0.0.2*
 	- Add tests.
