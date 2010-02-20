@@ -23,7 +23,18 @@
 " }}}
 " Public API  "{{{1
 function! smartchr#loop(...)  "{{{2
-  return call('smartchr#one_of', a:000 + [(a:1)])
+  "  a:000 = [a:1, a:2, ..., a:{N}, {context}]
+  "  looped_args = [a:1, a:2, ..., a:{N}, a:1, {context}]
+  "  Note that {context} may be omitted.
+
+  if s:context_p(a:000[-1])
+    let looped_args = copy(a:000)  " Destroying a:value may be harmful.
+    call insert(looped_args, a:1, -1)
+  else
+    let looped_args = a:000 + [(a:1)]
+  endif
+
+  return call('smartchr#one_of', looped_args)
 endfunction
 
 

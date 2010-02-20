@@ -40,6 +40,20 @@
 ---- It requires to reset side effect. 
 
 
+==== smartchr_loop with empty context
+---- It requires the following set up. 
+
+---- It should insert ' <- ' for the first time. (loop #1) 
+.
+---- It should insert ' <<< ' for the second time. (loop #1) 
+.
+---- It should insert ' <- ' for the third time. (loop #2) 
+.
+---- It should insert ' <<< ' for the fourth time. (loop #2) 
+.
+---- It requires to reset side effect. 
+
+
 ==== smartchr_one_of in Command line mode
 ---- It requires the following set up. 
 
@@ -87,4 +101,4 @@
 **** Result ****
 
 
-34 examples, 0 failures
+38 examples, 0 failures

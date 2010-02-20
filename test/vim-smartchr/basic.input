@@ -157,6 +157,43 @@ endfunction
 
 
 
+function! s:describe__smartchr_loop__with_empty_context()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#loop(' <- ', ' <<< ', {})
+  new
+
+  It should insert ' <- ' for the first time. (loop #1)
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# ' <- '
+
+  It should insert ' <<< ' for the second time. (loop #1)
+
+  silent execute 'normal' ":let b:result = '__'\<Return>"
+  Should b:result ==# ' <<< '
+
+  It should insert ' <- ' for the third time. (loop #2)
+
+  silent execute 'normal' ":let b:result = '___'\<Return>"
+  Should b:result ==# ' <- '
+
+  It should insert ' <<< ' for the fourth time. (loop #2)
+
+  silent execute 'normal' ":let b:result = '____'\<Return>"
+  Should b:result ==# ' <<< '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
 function! s:describe__smartchr_one_of__in_Command_line_mode()  "{{{1
   " BUGS: This test assumes that all keys but "_" will never be remapped.
 
