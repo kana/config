@@ -774,7 +774,7 @@ test/vim-ku/%.output: \
 
 
 # vim-vspec  #{{{2
-TESTS_vim_vspec = no-test typical-content tools context
+TESTS_vim_vspec = no-test typical-content tools context custom-matcher
 
 test/vim-vspec/%.output: \
 		test/vim-vspec/%.input \
