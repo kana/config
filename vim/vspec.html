@@ -23,7 +23,7 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 <pre>
 <span class="Ignore">*</span><span class="Constant" id="vspec.txt">vspec.txt</span><span class="Ignore">*</span>     Test framework for Vim script
 
-Version 0.0.0
+Version 0.0.2
 Script ID: ****
 Copyright (C) 2009 kana &lt;<span class="Constant"><a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a></span>&gt;
 License: MIT license  {{{
@@ -106,7 +106,7 @@ Document in HTML format:
                         by <span class="Ignore">|</span><a href="vspec.html#:SaveContext"><span class="Identifier">:SaveContext</span></a><span class="Ignore">|</span>.
 
                         To use this feature, you have to tell &quot;scope&quot; hint to
-                        vspec with <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+                        vspec with <span class="Ignore">|</span><a href="vspec.html#vspec#hint()"><span class="Identifier">vspec#hint()</span></a><span class="Ignore">|</span>.
 
 :SaveContext                                    <span class="Ignore">*</span><span class="Constant" id=":SaveContext">:SaveContext</span><span class="Ignore">*</span>
                         Save the current context of a script, i.e., an
@@ -114,10 +114,10 @@ Document in HTML format:
                         script.  See also <span class="Ignore">|</span><a href="vspec.html#:ResetContext"><span class="Identifier">:ResetContext</span></a><span class="Ignore">|</span>.
 
                         :SaveContext is automatically executed whenever
-                        <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span> is called with &quot;scope&quot; hint.
+                        <span class="Ignore">|</span><a href="vspec.html#vspec#hint()"><span class="Identifier">vspec#hint()</span></a><span class="Ignore">|</span> is called with &quot;scope&quot; hint.
 
                         To use this feature, you have to tell &quot;scope&quot; hint to
-                        vspec with <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+                        vspec with <span class="Ignore">|</span><a href="vspec.html#vspec#hint()"><span class="Identifier">vspec#hint()</span></a><span class="Ignore">|</span>.
 
 :Should <span class="Special">{actual}</span> <span class="Special">{matcher}</span> <span class="Special">{expected}</span>           <span class="Ignore">*</span><span class="Constant" id=":Should">:Should</span><span class="Ignore">*</span>
                         Describe an expectation - test whether <span class="Special">{actual}</span> value
@@ -149,13 +149,44 @@ Document in HTML format:
 <span class="Comment">                                :Should {} isnot {}</span>
 <span class="Comment">                                &quot; ==&gt; bad</span>
 <span class="Ignore">&lt;</span>
+                                                <span class="Ignore">*</span><span class="Constant" id="vspec-custom-matcher">vspec-custom-matcher</span><span class="Ignore">*</span>
+                        If <span class="Special">{matcher}</span> is &quot;be&quot;, :Should acts in another mode.
+                        <span class="Special">{expected}</span> is treated as an alias of a function which
+                        is called &quot;custom matcher&quot;.  The custom matcher
+                        corresponding to <span class="Special">{expected}</span> is called with <span class="Special">{actual}</span>
+                        value.  It must return true if <span class="Special">{actual}</span> value is
+                        valid, otherwise it must return false.  See also
+                        <span class="Ignore">|</span><a href="vspec.html#vspec#customize_matcher()"><span class="Identifier">vspec#customize_matcher()</span></a><span class="Ignore">|</span>.
+
+                        Examples:
+<span class="Ignore">&gt;</span>
+<span class="Comment">                                function! True(actual_value)</span>
+<span class="Comment">                                  return (type(a:actual_value) == type(0)</span>
+<span class="Comment">                                  \       ? a:actual_value</span>
+<span class="Comment">                                  \       : !!0)</span>
+<span class="Comment">                                endfunction</span>
+<span class="Comment">                                call vspec#customize_matcher('true',</span>
+<span class="Comment">                                \                            function('True'))</span>
+
+<span class="Comment">                                :Should 123 be true</span>
+<span class="Comment">                                &quot; ===&gt; good</span>
+<span class="Comment">                                :Should [123] be true</span>
+<span class="Comment">                                &quot; ===&gt; bad</span>
+<span class="Ignore">&lt;</span>
+                                            <span class="Ignore">*</span><span class="Constant" id="vspec-predefined-custom-matchers">vspec-predefined-custom-matchers</span><span class="Ignore">*</span>
+                        The following custom matcheres are predefined:
+
+                        &quot;true&quot;
+                                Return true if <span class="Special">{actual}</span> value is true.
+                        &quot;false&quot;
+                                Return true if <span class="Special">{actual}</span> value is false.
 
 
 <span class="PreProc">------------------------------------------------------------------------------</span>
 <span class="Statement">FUNCTIONS                                       </span><span class="Ignore">*</span><span class="Constant" id="vspec-functions">vspec-functions</span><span class="Ignore">*</span>
 
 Call(...)                                       <span class="Ignore">*</span><span class="Constant" id="Call()">Call()</span><span class="Ignore">*</span>
-                        Alias of <span class="Ignore">|</span><span class="Identifier">vspec#call()</span><span class="Ignore">|</span>.
+                        Alias of <span class="Ignore">|</span><a href="vspec.html#vspec#call()"><span class="Identifier">vspec#call()</span></a><span class="Ignore">|</span>.
 
 Ref(...)                                        <span class="Ignore">*</span><span class="Constant" id="Ref()">Ref()</span><span class="Ignore">*</span>
                         Alias of <span class="Ignore">|</span><a href="vspec.html#vspec#ref()"><span class="Identifier">vspec#ref()</span></a><span class="Ignore">|</span>.
@@ -163,7 +194,7 @@ Ref(...)                                        <span class="Ignore">*</span><sp
 Set(...)                                        <span class="Ignore">*</span><span class="Constant" id="Set()">Set()</span><span class="Ignore">*</span>
                         Alias of <span class="Ignore">|</span><a href="vspec.html#vspec#set()"><span class="Identifier">vspec#set()</span></a><span class="Ignore">|</span>.
 
-vspec#call(<span class="Special">{funcname}</span>, [<span class="Special">{arg}</span>, ...])            <span class="Ignore">*</span><span class="Constant" id="vspec##call()">vspec##call()</span><span class="Ignore">*</span>
+vspec#call(<span class="Special">{funcname}</span>, [<span class="Special">{arg}</span>, ...])            <span class="Ignore">*</span><span class="Constant" id="vspec#call()">vspec#call()</span><span class="Ignore">*</span>
                         Like <span class="Ignore">|</span><span class="Identifier">call()</span><span class="Ignore">|</span>, but vspec#call() can call
                         a script-local function defined in a script to be
                         tested.
@@ -172,13 +203,17 @@ vspec#call(<span class="Special">{funcname}</span>, [<span class="Special">{arg}
                         a function.  If <span class="Special">{funcname}</span> starts with 's:', it calls
                         a script-local function defined in a script to be
                         tested.  To use this feature, you have to tell
-                        &quot;sid&quot; hint to vspec with <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+                        &quot;sid&quot; hint to vspec with <span class="Ignore">|</span><a href="vspec.html#vspec#hint()"><span class="Identifier">vspec#hint()</span></a><span class="Ignore">|</span>.
 
 
                         <span class="Special">{arg}</span> is an arbitrary value which is given to the
                         function corresponding to o<span class="Special">{funcname}</span>.
 
-vspec#hint(<span class="Special">{info}</span>)                              <span class="Ignore">*</span><span class="Constant" id="vspec#init()">vspec#init()</span><span class="Ignore">*</span>
+vspec#customize_matcher(<span class="Special">{alias}</span>, <span class="Special">{function}</span>)    <span class="Ignore">*</span><span class="Constant" id="vspec#customize_matcher()">vspec#customize_matcher()</span><span class="Ignore">*</span>
+                        Register <span class="Special">{function}</span> as a <span class="Ignore">|</span><a href="vspec.html#vspec-custom-matcher"><span class="Identifier">vspec-custom-matcher</span></a><span class="Ignore">|</span> which
+                        alias is <span class="Special">{alias}</span>.
+
+vspec#hint(<span class="Special">{info}</span>)                              <span class="Ignore">*</span><span class="Constant" id="vspec#hint()">vspec#hint()</span><span class="Ignore">*</span>
                         Tell vspec &quot;hint&quot; information to use useful API to
                         test a Vim script.
 
@@ -190,7 +225,7 @@ vspec#hint(<span class="Special">{info}</span>)                              <sp
                                 a script to be tested.
 
                                 If this value is given, you can use
-                                <span class="Ignore">|</span><span class="Identifier">vspec#call()</span><span class="Ignore">|</span>.
+                                <span class="Ignore">|</span><a href="vspec.html#vspec#call()"><span class="Identifier">vspec#call()</span></a><span class="Ignore">|</span>.
 
                         &quot;scope&quot;         (optional)
                                 A string which is evaluated to the dictionary
@@ -207,7 +242,7 @@ vspec#ref(<span class="Special">{varname}</span>)                            <sp
                         a script-local variable defined in a script to be
                         tested.  The name must start with 's:'.  To use this
                         feature, you have to tell vspec to &quot;scope&quot; hint with
-                        <span class="Ignore">|</span><span class="Identifier">vspec#hint()</span><span class="Ignore">|</span>.
+                        <span class="Ignore">|</span><a href="vspec.html#vspec#hint()"><span class="Identifier">vspec#hint()</span></a><span class="Ignore">|</span>.
 
 vspec#set(<span class="Special">{varname}</span>, <span class="Special">{value}</span>)                   <span class="Ignore">*</span><span class="Constant" id="vspec#set()">vspec#set()</span><span class="Ignore">*</span>
                         Assign <span class="Special">{value}</span> to a variable.  See <span class="Ignore">|</span><a href="vspec.html#vspec#ref()"><span class="Identifier">vspec#ref()</span></a><span class="Ignore">|</span> for
@@ -255,6 +290,10 @@ FIXME: More description.
 
 <span class="PreProc">==============================================================================</span>
 <span class="Statement">CHANGELOG                                       </span><span class="Ignore">*</span><span class="Constant" id="vspec-changelog">vspec-changelog</span><span class="Ignore">*</span>
+
+0.0.2   2010-02-20T23:11:03+09:00               <span class="Ignore">*</span><span class="Constant" id="vspec-changelog-0.0.2">vspec-changelog-0.0.2</span><span class="Ignore">*</span>
+        - Add <span class="Ignore">|</span><a href="vspec.html#vspec-custom-matcher"><span class="Identifier">vspec-custom-matcher</span></a><span class="Ignore">|</span>.
+        - Fix typos in the document.
 
 0.0.1   2009-11-18T20:44:13+09:00               <span class="Ignore">*</span><span class="Constant" id="vspec-changelog-0.0.1">vspec-changelog-0.0.1</span><span class="Ignore">*</span>
         - Test driver: Fix not to read/write viminfo file for reproducibility
