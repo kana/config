@@ -1,6 +1,6 @@
 *smartchr.txt*	Insert several candidates with a single key
 
-Version 0.1.0
+Version 0.1.1
 Script ID: 2290
 Copyright (C) 2008 kana <http://whileimautomaton.net/>
 License: MIT license  {{{
