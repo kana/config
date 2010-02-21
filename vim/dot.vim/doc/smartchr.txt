@@ -41,8 +41,11 @@ INTRODUCTION					*smartchr-introduction*
 *smartchr* is a Vim plugin to support input several candidates with a single
 key, like ess-smart-underscore in Emacs Speaks Statistics -- when user types
 "_" key, it inserts " <- " for the first time or it replaces " <- " by "_" for
-the second time.  This plugin provides a function to support to define such
-key bindings.
+the second time.  This plugin provides functions to support to define such
+key bindings easily.  For example:
+>
+	inoremap <expr> _  smartchr#one_of(' <- ', '_')
+<
 
 
 Requirements:
@@ -64,10 +67,9 @@ INTERFACE					*smartchr-interface*
 FUNCTIONS					*smartchr-functions*
 
 						*smartchr#loop()*
-smartchr#loop(...)
+smartchr#loop(s1, s2, ..., s{N})
 	Same as |smartchr#one_of()|, but it returns the key sequence to
-	replace the {N}th argument by the 1st argument for the {N+1}th time.
-	For example,
+	replace s{N} by s1 for the {N+1}th time.  For example,
 >
 		inoremap <expr> _  smartchr#loop(' <- ', '_')
 <
@@ -79,7 +81,7 @@ smartchr#loop(...)
 	  the 3rd time, and so forth.
 
 						*smartchr#one_of()*
-smartchr#one_of(...)
+smartchr#one_of(s1, s2, ..., s{N})
 	Returns a string which represents the key sequence to insert one of
 	the given arguments.  For example, the following setting emulates
 	ess-smart-underscore in Emacs Speaks Statistics:
@@ -92,11 +94,10 @@ smartchr#one_of(...)
 	  the 2nd time.
 
 	More generally, this function returns the key sequence to:
-	- insert the 1st argument for the 1st time, or
-	- replace the 1st argument by the 2nd argument for the 2nd time, or
+	- insert s1 for the 1st time, or
+	- replace s1 by s2 for the 2nd time, or
 	- ...
-	- replace the {N-1}th argument by the {N}th argument for the {N}th
-	  time.
+	- replace s{N-1} argument by s{N} for the {N}th time.
 
 
 
@@ -104,7 +105,7 @@ smartchr#one_of(...)
 ==============================================================================
 BUGS						*smartchr-bugs*
 
-- There are many bugs around the world.
+- Currently, there is no known issue.
 
 
 
