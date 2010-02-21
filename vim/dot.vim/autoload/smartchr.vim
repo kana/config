@@ -79,6 +79,13 @@ let s:DEFAULT_CONTEXT = {}
 
 
 
+function! smartchr#_scope()  "{{{2
+  return s:
+endfunction
+
+
+
+
 function! smartchr#_sid()  "{{{2
   return maparg('<SID>', 'n')
 endfunction
@@ -105,6 +112,20 @@ function! s:cursor_preceded_with_p(s)  "{{{2
   else
     " Insert mode and other modes except Commnd-line mode.
     return search('\V' . escape(a:s, '\') . '\%#', 'bcn')
+  endif
+endfunction
+
+
+
+
+function! s:in_valid_context_p(context)  "{{{2
+  if has_key(a:context, 'ctype')
+    return (mode() ==# 'c'
+    \       ? 0 <= stridx(a:context.ctype, getcmdtype())
+    \       : !0)
+  else
+    " Valild context is not specified - smartchr is enabled in any context.
+    return !0
   endif
 endfunction
 

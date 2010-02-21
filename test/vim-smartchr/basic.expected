@@ -24,6 +24,34 @@
 ---- It requires to reset side effect. 
 
 
+==== s_in_valid_context_p with ctype 1
+---- It requires the following set up. 
+
+---- It should return true in Insert mode. 
+.
+---- It should return true in ":" Command-line mode, if ctype = ':'. 
+..
+---- It requires to reset side effect. 
+
+
+==== s_in_valid_context_p with ctype 2
+---- It requires the following set up. 
+
+---- It should return true in Insert mode. 
+.
+---- It should return true in "/" and "?" Command-line mode, if ctype = '/?'. 
+...
+---- It requires to reset side effect. 
+
+
+==== s_in_valid_context_p with default context
+---- It requires the following set up. 
+
+---- It should return true in any context. 
+..
+---- It requires to reset side effect. 
+
+
 ==== smartchr_loop 
 ---- It requires the following set up. 
 
@@ -101,4 +129,4 @@
 **** Result ****
 
 
-38 examples, 0 failures
+47 examples, 0 failures

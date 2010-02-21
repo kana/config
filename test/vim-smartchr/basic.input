@@ -1,6 +1,6 @@
 " Common Set-Up  "{{{1
 
-call vspec#hint({'sid': 'smartchr#_sid()'})
+call vspec#hint({'sid': 'smartchr#_sid()', 'scope': 'smartchr#_scope()'})
 
 
 " Refresh Vim's internal information on the cursor position.
@@ -109,6 +109,99 @@ function! s:describe__s_cursor_preceded_with_p__in_Insert_mode()  "{{{1
 
   It requires to reset side effect.
 
+  quit!
+endfunction
+
+
+
+
+function! s:describe__s_in_valid_context_p__with_ctype_1()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  inoremap <expr> _  Call('s:in_valid_context_p', {'ctype': ':'})
+  cnoremap <expr> _  Call('s:in_valid_context_p', {'ctype': ':'})
+  new
+
+  It should return true in Insert mode.
+
+  silent execute 'normal' 'i_'
+  Should getline('.') ==# '1'
+
+  It should return true in ":" Command-line mode, if ctype = ':'.
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# '1'
+  execute 'silent!' 'normal' "/_\<Return>"
+  Should @/ ==# '0'
+
+  It requires to reset side effect.
+
+  iunmap _
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__s_in_valid_context_p__with_ctype_2()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  inoremap <expr> _  Call('s:in_valid_context_p', {'ctype': '/?'})
+  cnoremap <expr> _  Call('s:in_valid_context_p', {'ctype': '/?'})
+  new
+
+  It should return true in Insert mode.
+
+  silent execute 'normal' 'i_'
+  Should getline('.') ==# '1'
+
+  It should return true in "/" and "?" Command-line mode, if ctype = '/?'.
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# '0'
+  execute 'silent!' 'normal' "/_\<Return>"
+  Should @/ ==# '1'
+  execute 'silent!' 'normal' "?_\<Return>"
+  Should @/ ==# '1'
+
+  It requires to reset side effect.
+
+  iunmap _
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__s_in_valid_context_p__with_default_context()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  inoremap <expr> _  Call('s:in_valid_context_p', Ref('s:DEFAULT_CONTEXT'))
+  cnoremap <expr> _  Call('s:in_valid_context_p', Ref('s:DEFAULT_CONTEXT'))
+  new
+
+  It should return true in any context.
+
+  " Insert mode
+  silent execute 'normal' 'i_'
+  Should getline('.') ==# '1'
+
+  " Command-line mode
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# '1'
+
+  It requires to reset side effect.
+
+  iunmap _
+  cunmap _
   quit!
 endfunction
 
