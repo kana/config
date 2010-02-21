@@ -67,7 +67,7 @@ INTERFACE					*smartchr-interface*
 FUNCTIONS					*smartchr-functions*
 
 						*smartchr#loop()*
-smartchr#loop(s1, s2, ..., s{N})
+smartchr#loop(s1, s2, ..., s{N}, [{context}])
 	Same as |smartchr#one_of()|, but it returns the key sequence to
 	replace s{N} by s1 for the {N+1}th time.  For example,
 >
@@ -80,8 +80,10 @@ smartchr#loop(s1, s2, ..., s{N})
 	- the previously inserted "_" is removed then " <- " is inserted for
 	  the 3rd time, and so forth.
 
+	See |smartchr-context| for the details of {context}.
+
 						*smartchr#one_of()*
-smartchr#one_of(s1, s2, ..., s{N})
+smartchr#one_of(s1, s2, ..., s{N}, [{context}])
 	Returns a string which represents the key sequence to insert one of
 	the given arguments.  For example, the following setting emulates
 	ess-smart-underscore in Emacs Speaks Statistics:
@@ -98,6 +100,51 @@ smartchr#one_of(s1, s2, ..., s{N})
 	- replace s1 by s2 for the 2nd time, or
 	- ...
 	- replace s{N-1} argument by s{N} for the {N}th time.
+
+	See |smartchr-context| for the details of {context}.
+
+
+Context Designator				*smartchr-context*
+	|smartchr-functions| takes an optional argument {context} which is
+	called "context designator".  It is a dictionary to specify context to
+	enable the functions.  It can contain one or more of the following
+	items:
+
+	"ctype"		(optional)
+		A string which specifies types of Command-line mode.  Each
+		character in this string must be a return value of
+		|getcmdtype()|.
+
+		In Command-line mode:
+			If the current type of Command-line mode is specified
+			in "ctype" value, the functions are enabled.
+			Otherwise they are disabled.
+
+		In other modes:
+			The functions are always enabled.
+
+		If this item is omitted, the functions are not disabled by the
+		current type of Command-line mode.
+
+	"fallback"	(optional)
+		A string which is inserted if the functions are disabled.
+
+		If this item is omitted, s{N}, the {N}th argument given to the
+		functions is used instead.
+
+	Examples:
+>
+		" {context} is not specified - this is always enabled.
+		cnoremap <expr> \  smartchr#loop('~/', '\')
+
+		" This is enabled while user inputs Ex commands, not search
+		" patterns, etc.
+		cnoremap <expr> \  smartchr#loop('~/', '\', {'ctype': ':'})
+
+		" This is enabled while user inputs search patterns, not Ex
+		" commands, etc.
+		cnoremap <expr> (  smartchr#loop('\(', '(', {'ctype': '/?'})
+<
 
 
 
