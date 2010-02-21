@@ -68,6 +68,16 @@
 ---- It requires to reset side effect. 
 
 
+==== smartchr_loop with ctype
+---- It requires the following set up. 
+
+---- It should be disabled for non-"/" Command-line mode, if ctype = '/'. 
+.
+---- It should be enabled for "/" Command-line mode, if ctype = '/'. 
+.
+---- It requires to reset side effect. 
+
+
 ==== smartchr_loop with empty context
 ---- It requires the following set up. 
 
@@ -110,6 +120,16 @@
 ---- It requires to reset side effect. 
 
 
+==== smartchr_one_of with ctype
+---- It requires the following set up. 
+
+---- It should be disabled for non-"/" Command-line mode, if ctype = '/'. 
+.
+---- It should be enabled for "/" Command-line mode, if ctype = '/'. 
+.
+---- It requires to reset side effect. 
+
+
 ==== smartchr_one_of with empty context
 ---- It requires the following set up. 
 
@@ -129,4 +149,4 @@
 **** Result ****
 
 
-47 examples, 0 failures
+51 examples, 0 failures

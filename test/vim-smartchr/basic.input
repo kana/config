@@ -250,6 +250,33 @@ endfunction
 
 
 
+function! s:describe__smartchr_loop__with_ctype()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#loop(' <- ', ' <<< ', '_', {'ctype': '/'})
+  new
+
+  It should be disabled for non-"/" Command-line mode, if ctype = '/'.
+
+  execute 'silent' 'normal' ":let b:result = '_,__,___,____'\<Return>"
+  Should b:result ==# '_,__,___,____'
+
+  It should be enabled for "/" Command-line mode, if ctype = '/'.
+
+  execute 'silent!' 'normal' "/_,__,___,____\<Return>"
+  Should @/ ==# ' <- , <<< ,_, <- '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
 function! s:describe__smartchr_loop__with_empty_context()  "{{{1
   " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
 
@@ -355,6 +382,33 @@ function! s:describe__smartchr_one_of__in_Insert_mode()  "{{{1
   It requires to reset side effect.
 
   iunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_one_of__with_ctype()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_', {'ctype': '/'})
+  new
+
+  It should be disabled for non-"/" Command-line mode, if ctype = '/'.
+
+  execute 'silent' 'normal' ":let b:result = '_,__,___,____'\<Return>"
+  Should b:result ==# '_,__,___,____'
+
+  It should be enabled for "/" Command-line mode, if ctype = '/'.
+
+  execute 'silent!' 'normal' "/_,__,___,____\<Return>"
+  Should @/ ==# ' <- , <<< ,_,_ <- '
+
+  It requires to reset side effect.
+
+  cunmap _
   quit!
 endfunction
 
