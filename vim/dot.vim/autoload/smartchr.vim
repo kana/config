@@ -23,45 +23,14 @@
 " }}}
 " Public API  "{{{1
 function! smartchr#loop(...)  "{{{2
-  "  a:000 = [a:1, a:2, ..., a:{N}, {context}]
-  "  looped_args = [a:1, a:2, ..., a:{N}, a:1, {context}]
-  "  Note that {context} may be omitted.
-
-  if s:context_p(a:000[-1])
-    let looped_args = copy(a:000)  " Destroying a:value may be harmful.
-    call insert(looped_args, a:1, -1)
-  else
-    let looped_args = a:000 + [(a:1)]
-  endif
-
-  return call('smartchr#one_of', looped_args)
+  return smartchr#_expand(!0, a:000)
 endfunction
 
 
 
 
 function! smartchr#one_of(...)  "{{{2
-  let last_arg = a:000[-1]
-  if s:context_p(last_arg)
-    let context = last_arg
-    let literals = a:000[:-2]
-  else
-    let context = s:DEFAULT_CONTEXT
-    let literals = a:000
-  endif
-
-  for i in range(len(literals) - 1, 1, -1)
-    let literal1 = literals[i]
-    let literal2 = literals[i-1]
-
-    if s:cursor_preceded_with_p(literal2)
-      return (pumvisible() ? "\<C-e>" : '')
-           \ . repeat("\<BS>", len(literal2))
-           \ . literal1
-    endif
-  endfor
-
-  return a:1
+  return smartchr#_expand(!!0, a:000)
 endfunction
 
 
@@ -75,6 +44,37 @@ endfunction
 " Variables  "{{{2
 
 let s:DEFAULT_CONTEXT = {}
+
+
+
+
+function! smartchr#_expand(loop_p, args)  "{{{2
+  let last_arg = a:args[-1]
+  if s:context_p(last_arg)
+    let context = last_arg
+    let literals = a:args[:-2]
+  else
+    let context = s:DEFAULT_CONTEXT
+    let literals = a:args
+  endif
+
+  if a:loop_p
+    let literals = literals + [literals[0]]
+  endif
+
+  for i in range(len(literals) - 1, 1, -1)
+    let literal1 = literals[i]
+    let literal2 = literals[i-1]
+
+    if s:cursor_preceded_with_p(literal2)
+      return (pumvisible() ? "\<C-e>" : '')
+           \ . repeat("\<BS>", len(literal2))
+           \ . literal1
+    endif
+  endfor
+
+  return literals[0]
+endfunction
 
 
 
