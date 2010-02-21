@@ -1,6 +1,6 @@
 " Common Set-Up  "{{{1
 
-call vspec#hint({'sid': 'smartchr#_sid()'})
+call vspec#hint({'sid': 'smartchr#_sid()', 'scope': 'smartchr#_scope()'})
 
 
 " Refresh Vim's internal information on the cursor position.
@@ -12,6 +12,27 @@ inoremap <Plug>(r)  <C-o><C-l>
 " Allow backspacing everything.  Because backspacing doesn't work just after
 " <Plug>r that starts new Insert mode as a side effect.
 set backspace=indent,eol,start
+
+
+
+
+function! s:describe__s_context_p()  "{{{1
+  It should return true for {context} value
+
+  Should Call('s:context_p', {}) be true
+  Should Call('s:context_p', {'ctype': '/?'}) be true
+
+    " Contents are not checked.
+  Should Call('s:context_p', {'ctype': {'invalid': 'value'}}) be true
+  Should Call('s:context_p', {'invalild': 'key'}) be true
+
+  It should return false for non-{context} value
+
+  Should Call('s:context_p', 123) be false
+  Should Call('s:context_p', 'string') be false
+  Should Call('s:context_p', ['list']) be false
+  Should Call('s:context_p', function('function')) be false
+endfunction
 
 
 
@@ -94,6 +115,99 @@ endfunction
 
 
 
+function! s:describe__s_in_valid_context_p__with_ctype_1()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  inoremap <expr> _  Call('s:in_valid_context_p', {'ctype': ':'})
+  cnoremap <expr> _  Call('s:in_valid_context_p', {'ctype': ':'})
+  new
+
+  It should return true in Insert mode.
+
+  silent execute 'normal' 'i_'
+  Should getline('.') ==# '1'
+
+  It should return true in ":" Command-line mode, if ctype = ':'.
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# '1'
+  execute 'silent!' 'normal' "/_\<Return>"
+  Should @/ ==# '0'
+
+  It requires to reset side effect.
+
+  iunmap _
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__s_in_valid_context_p__with_ctype_2()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  inoremap <expr> _  Call('s:in_valid_context_p', {'ctype': '/?'})
+  cnoremap <expr> _  Call('s:in_valid_context_p', {'ctype': '/?'})
+  new
+
+  It should return true in Insert mode.
+
+  silent execute 'normal' 'i_'
+  Should getline('.') ==# '1'
+
+  It should return true in "/" and "?" Command-line mode, if ctype = '/?'.
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# '0'
+  execute 'silent!' 'normal' "/_\<Return>"
+  Should @/ ==# '1'
+  execute 'silent!' 'normal' "?_\<Return>"
+  Should @/ ==# '1'
+
+  It requires to reset side effect.
+
+  iunmap _
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__s_in_valid_context_p__with_default_context()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  inoremap <expr> _  Call('s:in_valid_context_p', Ref('s:DEFAULT_CONTEXT'))
+  cnoremap <expr> _  Call('s:in_valid_context_p', Ref('s:DEFAULT_CONTEXT'))
+  new
+
+  It should return true in any context.
+
+  " Insert mode
+  silent execute 'normal' 'i_'
+  Should getline('.') ==# '1'
+
+  " Command-line mode
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# '1'
+
+  It requires to reset side effect.
+
+  iunmap _
+  cunmap _
+  quit!
+endfunction
+
+
+
+
 function! s:describe__smartchr_loop()  "{{{1
   " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
 
@@ -130,6 +244,98 @@ function! s:describe__smartchr_loop()  "{{{1
   It requires to reset side effect.
 
   iunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_loop__with_ctype()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#loop(' <- ', ' <<< ', '_', {'ctype': '/'})
+  new
+
+  It should be disabled for non-"/" Command-line mode, if ctype = '/'.
+
+  execute 'silent' 'normal' ":let b:result = '_,__,___,____'\<Return>"
+  Should b:result ==# '_,__,___,____'
+
+  It should be enabled for "/" Command-line mode, if ctype = '/'.
+
+  execute 'silent!' 'normal' "/_,__,___,____\<Return>"
+  Should @/ ==# ' <- , <<< ,_, <- '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_loop__with_ctype_and_fallback()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _
+  \ smartchr#loop(' <- ', ' <<< ', '_', {'ctype': '/', 'fallback': 'X'})
+  new
+
+  It should use "fallback" instead of literal{N} if smartchr is disabled.
+
+  execute 'silent' 'normal' ":let b:result = '_,__,___,____'\<Return>"
+  Should b:result ==# 'X,XX,XXX,XXXX'
+
+  It should not use "fallback" if smartchr is enabled.
+
+  execute 'silent!' 'normal' "/_,__,___,____\<Return>"
+  Should @/ ==# ' <- , <<< ,_, <- '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_loop__with_empty_context()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#loop(' <- ', ' <<< ', {})
+  new
+
+  It should insert ' <- ' for the first time. (loop #1)
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# ' <- '
+
+  It should insert ' <<< ' for the second time. (loop #1)
+
+  silent execute 'normal' ":let b:result = '__'\<Return>"
+  Should b:result ==# ' <<< '
+
+  It should insert ' <- ' for the third time. (loop #2)
+
+  silent execute 'normal' ":let b:result = '___'\<Return>"
+  Should b:result ==# ' <- '
+
+  It should insert ' <<< ' for the fourth time. (loop #2)
+
+  silent execute 'normal' ":let b:result = '____'\<Return>"
+  Should b:result ==# ' <<< '
+
+  It requires to reset side effect.
+
+  cunmap _
   quit!
 endfunction
 
@@ -204,6 +410,98 @@ function! s:describe__smartchr_one_of__in_Insert_mode()  "{{{1
   It requires to reset side effect.
 
   iunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_one_of__with_ctype()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_', {'ctype': '/'})
+  new
+
+  It should be disabled for non-"/" Command-line mode, if ctype = '/'.
+
+  execute 'silent' 'normal' ":let b:result = '_,__,___,____'\<Return>"
+  Should b:result ==# '_,__,___,____'
+
+  It should be enabled for "/" Command-line mode, if ctype = '/'.
+
+  execute 'silent!' 'normal' "/_,__,___,____\<Return>"
+  Should @/ ==# ' <- , <<< ,_,_ <- '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_one_of__with_ctype_and_fallback()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _
+  \ smartchr#one_of(' <- ', ' <<< ', '_', {'ctype': '/', 'fallback': 'X'})
+  new
+
+  It should use "fallback" instead of literal{N} if smartchr is disabled.
+
+  execute 'silent' 'normal' ":let b:result = '_,__,___,____'\<Return>"
+  Should b:result ==# 'X,XX,XXX,XXXX'
+
+  It should not use "fallback" if smartchr is enabled.
+
+  execute 'silent!' 'normal' "/_,__,___,____\<Return>"
+  Should @/ ==# ' <- , <<< ,_,_ <- '
+
+  It requires to reset side effect.
+
+  cunmap _
+  quit!
+endfunction
+
+
+
+
+function! s:describe__smartchr_one_of__with_empty_context()  "{{{1
+  " BUGS: Assumption: all keys but "_" / "<Plug>(r)" will never be remapped.
+
+  It requires the following set up.
+
+  cnoremap <expr> _  smartchr#one_of(' <- ', ' <<< ', '_', {})
+  new
+
+  It should insert ' <- ' for the first time.
+
+  silent execute 'normal' ":let b:result = '_'\<Return>"
+  Should b:result ==# ' <- '
+
+  It should insert ' <<< ' for the second time.
+
+  silent execute 'normal' ":let b:result = '__'\<Return>"
+  Should b:result ==# ' <<< '
+
+  It should insert '_' for the third time.
+
+  silent execute 'normal' ":let b:result = '___'\<Return>"
+  Should b:result ==# '_'
+
+  It should insert ' <- ' for the first time. (edge case)
+
+  silent execute 'normal' ":_\<Home>let b:result = '\<End>'\<Return>"
+  Should b:result ==# ' <- '
+
+  It requires to reset side effect.
+
+  cunmap _
   quit!
 endfunction
 
