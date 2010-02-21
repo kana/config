@@ -78,6 +78,16 @@
 ---- It requires to reset side effect. 
 
 
+==== smartchr_loop with ctype and fallback
+---- It requires the following set up. 
+
+---- It should use "fallback" instead of literal{N} if smartchr is disabled. 
+.
+---- It should not use "fallback" if smartchr is enabled. 
+.
+---- It requires to reset side effect. 
+
+
 ==== smartchr_loop with empty context
 ---- It requires the following set up. 
 
@@ -130,6 +140,16 @@
 ---- It requires to reset side effect. 
 
 
+==== smartchr_one_of with ctype and fallback
+---- It requires the following set up. 
+
+---- It should use "fallback" instead of literal{N} if smartchr is disabled. 
+.
+---- It should not use "fallback" if smartchr is enabled. 
+.
+---- It requires to reset side effect. 
+
+
 ==== smartchr_one_of with empty context
 ---- It requires the following set up. 
 
@@ -149,4 +169,4 @@
 **** Result ****
 
 
-51 examples, 0 failures
+55 examples, 0 failures

@@ -78,7 +78,7 @@ function! smartchr#_expand(loop_p, args)  "{{{2
 
     return literals[0]
   else
-    return _literals[-1]
+    return get(context, 'fallback', _literals[-1])
   endif
 endfunction
 
