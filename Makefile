@@ -249,6 +249,7 @@ ALL_PACKAGES=\
   vim-narrow \
   vim-operator-replace \
   vim-operator-user \
+  vim-regcopy \
   vim-repeat \
   vim-scratch \
   vim-skeleton \
@@ -499,6 +500,13 @@ PACKAGE_vim_operator_user_BASE=vim/dot.vim
 PACKAGE_vim_operator_user_FILES=\
   vim/dot.vim/autoload/operator/user.vim \
   vim/dot.vim/doc/operator-user.txt
+
+PACKAGE_vim_regcopy_ARCHIVE=vim-regcopy-0.0.0
+PACKAGE_vim_regcopy_BASE=vim/dot.vim
+PACKAGE_vim_regcopy_FILES=\
+  vim/dot.vim/autoload/regcopy.vim \
+  vim/dot.vim/doc/regcopy.txt \
+  vim/dot.vim/plugin/regcopy.vim
 
 PACKAGE_vim_repeat_ARCHIVE=vim-repeat-0.0.0
 PACKAGE_vim_repeat_BASE=vim/dot.vim
@@ -977,6 +985,18 @@ test/vim-operator-user/%.output: \
 		test/tester-vim \
 		vim/dot.vim/autoload/operator/user.vim
 	@./test/tester-vim $< &>$@
+
+
+# vim-regcopy  #{{{2
+TESTS_vim_regcopy = basic
+
+test/vim-regcopy/%.output: \
+		test/vim-regcopy/%.input \
+		test/vspec \
+		vim/dot.vim/autoload/vspec.vim \
+		vim/dot.vim/autoload/regcopy.vim \
+		vim/dot.vim/plugin/regcopy.vim
+	@./test/vspec $< &>$@
 
 
 # vim-smartchr  #{{{2

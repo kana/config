@@ -1,0 +1,126 @@
+*regcopy.txt*	Quick and easy way to copy text between registers
+
+Version 0.0.0
+Script ID: ****
+Copyright (C) 2010 kana <http://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*regcopy-contents*
+
+Introduction            |regcopy-introduction|
+Interface               |regcopy-interface|
+  Key Mappings            |regcopy-key-mappings|
+Bugs                    |regcopy-bugs|
+Changelog               |regcopy-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION					*regcopy-introduction*
+
+*regcopy* is a Vim plugin to provide quick and easy way to copy a content of
+a register into another register.  For example, if you want to copy register
+content, you have to type the following command:
+>
+	:let @a = @0
+<
+With regcopy, this operation is simplified as follows:
+>
+	"0"a
+<
+
+
+Requirements:
+- Vim 7.2 or later
+
+Latest version:
+http://github.com/kana/config/commits/vim-regcopy
+
+Document in HTML format:
+http://kana.github.com/config/vim/regcopy.html
+
+
+
+
+==============================================================================
+INTERFACE					*regcopy-interface*
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*regcopy-key-mappings*
+
+DEFAULT KEY MAPPINGS				*regcopy-default-key-mappings*
+
+Modes	{lhs}		{rhs}
+------------------------------------------------
+n	"		|<Plug>(regcopy-do)|
+
+					   *g:regcopy_no_default_key_mappings*
+If variable g:regcopy_no_default_key_mappings is defined,
+|regcopy-default-key-mappings| will never be defined.
+
+
+NAMED KEY MAPPINGS				*regcopy-named-key-mappings*
+
+<Plug>(regcopy-do)				*<Plug>(regcopy-do)*
+			Key mapping version of |regcopy#do()|.  Its behavior
+			is a bit complilcated as follows:
+
+			- If register is not specified, it works the same as
+			  |quote|.
+			- If register is specified, it waits user to input
+			  a single character which is the name of a register.
+			  Then copy content of the former register into the
+			  latter register.
+
+			By default, " is mapped to |<Plug>(regcopy-do)|.  This
+			means that typing "f"t to copy content of register
+			f into register t.
+
+			If you want to use other key instead of ", add the
+			following into your |vimrc|:
+>
+				nmap <expr> {favorite-key}  <Plug>(regcopy-do)
+<
+
+
+
+
+==============================================================================
+BUGS						*regcopy-bugs*
+
+- Currently, there is no known bug.
+
+
+
+
+==============================================================================
+CHANGELOG					*regcopy-changelog*
+
+0.0.0	2010-02-24T08:11:40+09:00		*regcopy-changelog-0.0.0*
+	- Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
