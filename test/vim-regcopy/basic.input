@@ -1,0 +1,126 @@
+" Common Set-Up  "{{{1
+
+runtime! plugin/regcopy.vim
+
+
+
+
+function s:describe__definition_of_default_ui_key_mappings()  "{{{1
+  It should de defined in proper modes.
+
+  Should maparg('"', 'n') ==# '<Plug>(regcopy-do)'
+  Should maparg('"', 'v') == ''
+  Should maparg('"', 'o') == ''
+  Should maparg('"', 'i') == ''
+  Should maparg('"', 'l') == ''
+  Should maparg('"', 'c') == ''
+endfunction
+
+
+
+
+function s:describe__definition_of_named_key_mappings()  "{{{1
+  It should be defined in proper modes.
+
+  Should maparg('<Plug>(regcopy-do)', 'n') != ''
+  Should maparg('<Plug>(regcopy-do)', 'v') == ''
+  Should maparg('<Plug>(regcopy-do)', 'o') == ''
+  Should maparg('<Plug>(regcopy-do)', 'i') == ''
+  Should maparg('<Plug>(regcopy-do)', 'l') == ''
+  Should maparg('<Plug>(regcopy-do)', 'c') == ''
+endfunction
+
+
+
+
+function s:describe__regcopy__map__without_register()  "{{{1
+  It should works the same as `"' if register is not specified.
+
+  " FIXME: Ensure to reset v:register.
+  Should v:register == ''
+
+  Should regcopy#_map() ==# '"'
+endfunction
+
+
+
+
+function s:describe__regcopy__map__with_valid_register()  "{{{1
+  It should copy register content if valid register name is specified.
+
+  cnoremap <expr> _  regcopy#_map()
+  nnoremap #  "
+
+  let @a = 'aaa'
+  let @b = 'bbb'
+  Should @a ==# 'aaa'
+  Should @b ==# 'bbb'
+
+  execute "normal #a:let b:result = '_'\<Return>"
+  Should exists('b:result') be false
+
+  Should @a ==# 'aaa'
+  Should @b ==# 'aaa'
+endfunction
+
+
+
+
+finish  "{{{1
+function s:describe__regcopy__map__with_valid_register()  "{{{1
+  It should copy register content if valid register name is specified.
+
+  let @a = 'aaa'
+  let @b = 'bbb'
+  Should @a ==# 'aaa'
+  Should @b ==# 'bbb'
+
+  function! Test()
+    Should v:register ==# 'a'
+    Should getchar(1) ==# char2nr('b')
+
+    Should regcopy#_map() ==# "\<Esc>"
+
+    Should getchar(0) == 0
+    Should getchar(0) == 0
+    Should @a ==# 'aaa'
+    Should @b ==# 'aaa'
+  endfunction
+
+  call feedkeys('b', 'n')
+  Should getchar(1) ==# char2nr('b')
+  Should getchar(1) ==# char2nr('b')
+  execute 'normal!' "\"a:call Test()\<Return>"
+endfunction
+
+
+
+
+function s:describe__regcopy__map__with_invalid_register_1()  "{{{1
+  It should behave as if register is not specified if given one is invalid.
+
+  let @a = 'aaa'
+  let @b = 'bbb'
+  Should @a ==# 'aaa'
+  Should @b ==# 'bbb'
+
+  function! Test()
+    Should v:register ==# ''
+
+    Should feedkeys('b', 'n') == 0
+    Should regcopy#_map() ==# '"'
+    Should getchar(1) ==# 'b'
+    Should getchar(1) ==# 0
+
+    Should @a ==# 'aaa'
+    Should @b ==# 'bbb'
+  endfunction
+
+  execute 'normal!' "\"?:call Test()\<Return>"
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
