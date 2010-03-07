@@ -48,6 +48,8 @@
 	m2 = merge --log HEAD@{2}
 	m3 = merge --log HEAD@{3}
 	pa = !git pushall
+	publish = !git pushall $(git rev-parse --symbolic --branches --tags) \
+	           "$@"
 	pushall = <<<
 		for i in $(git remote)
 		do
