@@ -42,6 +42,7 @@
 		fi
 		git --no-pager l1 --reverse -"$1" "${2:-HEAD}"
 	>>>
+	ls = ls-files
 	ls-conflicted-files = ls-files --unmerged
 	m = merge --log
 	m1 = merge --log HEAD@{1}
@@ -75,6 +76,11 @@
 	sa = stash apply
 	sd = stash drop
 	sl = stash list
+	sm = submodule
+	sma = submodule add
+	smi = submodule init
+	sms = submodule status
+	smu = submodule update
 	sp = stash pop
 	ss = stash save
 	st = status
