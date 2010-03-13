@@ -42,6 +42,7 @@
 		fi
 		git --no-pager l1 --reverse -"$1" "${2:-HEAD}"
 	>>>
+	ls = ls-files
 	ls-conflicted-files = ls-files --unmerged
 	m = merge --log
 	m1 = merge --log HEAD@{1}
