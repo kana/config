@@ -51,6 +51,24 @@
 	pa = !git pushall
 	publish = !git pushall $(git rev-parse --symbolic --branches --tags) \
 	           "$@"
+	publish-all = <<<
+		for repos in ~/working/*/
+		do
+		  pushd "$repos" >/dev/null
+		  echo
+		  echo "==== $PWD"
+		  for remote in $(git config --get-regexp \
+		                      '^remote\..*\.url$' \
+		                      "^(git@github\.com:kana|$HOME/Dropbox)" \
+		                  | sed 's/^remote\.\([^.]*\)\.url .*$/\1/')
+		  do
+		    echo "---- $remote"
+		    git push "$remote" --all -f
+		    git push "$remote" --tags -f
+		  done
+		  popd >/dev/null
+		done
+	>>>
 	pushall = <<<
 		for i in $(git remote)
 		do
