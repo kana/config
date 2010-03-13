@@ -76,6 +76,11 @@
 	sa = stash apply
 	sd = stash drop
 	sl = stash list
+	sm = submodule
+	sma = submodule add
+	smi = submodule init
+	sms = submodule status
+	smu = submodule update
 	sp = stash pop
 	ss = stash save
 	st = status
