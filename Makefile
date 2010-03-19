@@ -1,7 +1,7 @@
 # Driver Makefile
 # Requirement: GNU make
 
-softwares_common :=# Empty
+softwares_common := sh
 
 softwares := \
 	$(softwares_common) \
