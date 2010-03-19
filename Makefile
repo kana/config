@@ -1,7 +1,7 @@
 # Driver Makefile
 # Requirement: GNU make
 
-softwares_common := sh
+softwares_common := opera sh
 
 softwares := \
 	$(softwares_common) \
