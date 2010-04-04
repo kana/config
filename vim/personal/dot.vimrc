@@ -2649,6 +2649,7 @@ omap gy  <Plug>(operator-grex-yank)
 " ku  "{{{2
 
 autocmd MyAutoCmd FileType ku  call ku#default_key_mappings(s:TRUE)
+let g:ku_common_junk_pattern = '\v((^|\/)\,|\~$)'
 
 
 call ku#custom_action('common', 'Yank', s:SID_PREFIX().'ku_common_action_Yank')
