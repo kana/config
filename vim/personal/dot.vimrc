@@ -627,6 +627,33 @@ command! -bar -nargs=1 Source
 
 
 
+" Split - :split variants  "{{{2
+
+command! -bar -nargs=1 Split  call s:cmd_Split(<q-args>)
+function! s:cmd_Split(direction)
+  let DIRECTION_MODIFIER_TABLE = {
+  \   'Top': 'topleft',
+  \   'Bottom': 'botright',
+  \   'Left': 'vertical topleft',
+  \   'Right': 'vertical botright',
+  \   'above': 'leftabove',
+  \   'below': 'rightbelow',
+  \   'left': 'vertical leftabove',
+  \   'right': 'vertical rightbelow',
+  \ }
+
+  let modifier = get(DIRECTION_MODIFIER_TABLE, a:direction, 0)
+  if modifier is 0
+    echoerr 'Invalid direction:' string(a:direction)
+    return
+  endif
+
+  execute modifier 'split'
+endfunction
+
+
+
+
 " SuspendWithAutomticCD  "{{{2
 " Assumption: Use GNU screen.
 " Assumption: There is a window with the title "another".
@@ -1601,17 +1628,15 @@ Cnmap <silent> tsp  split \| tpevious
 Cnmap <silent> tsP  split \| tfirst
 Cnmap <silent> tsN  split \| tlast
 
-
-" With :vertical split  "{{{3
-
-  " |:vsplit|-then-|<C-]>| is simple
-  " but its modification to tag stacks is not same as |<C-w>]|.
-nnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-vnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-Cnmap <silent> tvn  vsplit \| tnext
-Cnmap <silent> tvp  vsplit \| tpevious
-Cnmap <silent> tvP  vsplit \| tfirst
-Cnmap <silent> tvN  vsplit \| tlast
+  " FIXME: Define also in Visual mode.
+Cnmap <silent> tsH  Split Left \| normal! <C-]>
+Cnmap <silent> tsJ  Split Bottom \| normal! <C-]>
+Cnmap <silent> tsK  Split Top \| normal! <C-]>
+Cnmap <silent> tsL  Split Right \| normal! <C-]>
+Cnmap <silent> tsh  Split left \| normal! <C-]>
+Cnmap <silent> tsj  Split below \| normal! <C-]>
+Cnmap <silent> tsk  Split above \| normal! <C-]>
+Cnmap <silent> tsl  Split right \| normal! <C-]>
 
 
 
