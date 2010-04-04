@@ -1256,6 +1256,14 @@ endfunction
 
 
 
+function! s:git_controlled_directory_p()  "{{{2
+  call system('git rev-parse --is-inside-work-tree')
+  return v:shell_error == 0
+endfunction
+
+
+
+
 function! s:join_here(...)  "{{{2
   " like join (J), but move the next line into the cursor position.
 
@@ -2586,21 +2594,21 @@ autocmd MyAutoCmd User BundleUndefined!:*
 \ call bundle#return(s:files_in_a_bundle(bundle#name()))
 
 
-let s:CONFIG_DIR = '~/working/config'
-let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
-
+let s:BUNDLE_NAME_CURRENT_REPOSITORY = 'current-repository'
 function! s:available_bundles()
-  return split(s:system('make'
-  \                     . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
-  \                     . ' list-available-bundles'))
+  if s:git_controlled_directory_p()
+    return [s:BUNDLE_NAME_CURRENT_REPOSITORY]
+  else
+    return []
+  endif
 endfunction
 
 function! s:files_in_a_bundle(name)
-  return map(split(s:system('make'
-  \                         . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
-  \                         . ' PACKAGE_NAME=' . a:name
-  \                         . ' list-files-in-a-bundle')),
-  \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
+  if a:name ==# s:BUNDLE_NAME_CURRENT_REPOSITORY
+    return split(s:system('git ls-files'), "\n")
+  else
+    return []
+  endif
 endfunction
 
 function! s:system(command)
