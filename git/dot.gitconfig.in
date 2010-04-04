@@ -92,6 +92,9 @@
 	ri = <<<
 		git rebase -i "HEAD~${1:-10}"
 	>>>
+	rib = <<<
+		git rebase -i $(git merge-base "${1:-HEAD}" HEAD)
+	>>>
 	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
 	s = show
