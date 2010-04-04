@@ -84,6 +84,9 @@
 	r3 = rebase HEAD@{3}
 	ra = rebase --abort
 	rc = rebase --continue
+	review = <<<
+		git log --reverse -p "$1..HEAD"
+	>>>
 	rh = reset --hard
 	ri = <<<
 		git rebase -i "HEAD~${1:-10}"
@@ -96,6 +99,9 @@
 	s3 = show HEAD@{3}
 	sa = stash apply
 	sd = stash drop
+	since = <<<
+		git lg "$1..HEAD"
+	>>>
 	sl = stash list
 	sm = submodule
 	sma = submodule add
