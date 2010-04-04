@@ -1628,6 +1628,16 @@ Cnmap <silent> tsp  split \| tpevious
 Cnmap <silent> tsP  split \| tfirst
 Cnmap <silent> tsN  split \| tlast
 
+  " FIXME: Define also in Visual mode.
+Cnmap <silent> tsH  Split Left \| normal! <C-]>
+Cnmap <silent> tsJ  Split Bottom \| normal! <C-]>
+Cnmap <silent> tsK  Split Top \| normal! <C-]>
+Cnmap <silent> tsL  Split Right \| normal! <C-]>
+Cnmap <silent> tsh  Split left \| normal! <C-]>
+Cnmap <silent> tsj  Split below \| normal! <C-]>
+Cnmap <silent> tsk  Split above \| normal! <C-]>
+Cnmap <silent> tsl  Split right \| normal! <C-]>
+
 
 
 
