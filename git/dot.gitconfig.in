@@ -51,6 +51,7 @@
 	m1 = merge --log HEAD@{1}
 	m2 = merge --log HEAD@{2}
 	m3 = merge --log HEAD@{3}
+	mb = merge-base
 	pa = !git pushall
 	publish = !git pushall $(git rev-parse --symbolic --branches --tags) \
 	           "$@"
