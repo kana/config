@@ -30,7 +30,10 @@
 	l1 = log --pretty=oneline --abbrev-commit
 	l1f = log --pretty=oneline
 	lg = log --graph --pretty=oneline --abbrev-commit
+	lgd = !git lg --decorate
 	lgf = log --graph --pretty=oneline
+	lgs = !git lg --source
+	lgss = !git lgs --branches --tags
 	lr = <<<
 		n=10
 		1="${1:-$n}"
