@@ -2586,21 +2586,12 @@ autocmd MyAutoCmd User BundleUndefined!:*
 \ call bundle#return(s:files_in_a_bundle(bundle#name()))
 
 
-let s:CONFIG_DIR = '~/working/config'
-let s:CONFIG_MAKEFILE = s:CONFIG_DIR . '/Makefile'
-
 function! s:available_bundles()
-  return split(s:system('make'
-  \                     . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
-  \                     . ' list-available-bundles'))
+  return []
 endfunction
 
 function! s:files_in_a_bundle(name)
-  return map(split(s:system('make'
-  \                         . ' -f ' . shellescape(s:CONFIG_MAKEFILE)
-  \                         . ' PACKAGE_NAME=' . a:name
-  \                         . ' list-files-in-a-bundle')),
-  \          'fnamemodify(s:CONFIG_DIR . "/" . v:val, ":~:.")')
+  return []
 endfunction
 
 function! s:system(command)
