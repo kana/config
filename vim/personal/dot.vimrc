@@ -1602,18 +1602,6 @@ Cnmap <silent> tsP  split \| tfirst
 Cnmap <silent> tsN  split \| tlast
 
 
-" With :vertical split  "{{{3
-
-  " |:vsplit|-then-|<C-]>| is simple
-  " but its modification to tag stacks is not same as |<C-w>]|.
-nnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-vnoremap <silent> tvt  <C-]>:<C-u>vsplit<Return><C-w>p<C-t><C-w>p
-Cnmap <silent> tvn  vsplit \| tnext
-Cnmap <silent> tvp  vsplit \| tpevious
-Cnmap <silent> tvP  vsplit \| tfirst
-Cnmap <silent> tvN  vsplit \| tlast
-
-
 
 
 " Quickfix  "{{{2
