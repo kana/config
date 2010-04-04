@@ -1256,6 +1256,14 @@ endfunction
 
 
 
+function! s:git_controlled_directory_p()  "{{{2
+  call system('git rev-parse --is-inside-work-tree')
+  return v:shell_error == 0
+endfunction
+
+
+
+
 function! s:join_here(...)  "{{{2
   " like join (J), but move the next line into the cursor position.
 
@@ -2586,12 +2594,21 @@ autocmd MyAutoCmd User BundleUndefined!:*
 \ call bundle#return(s:files_in_a_bundle(bundle#name()))
 
 
+let s:BUNDLE_NAME_CURRENT_REPOSITORY = 'current-repository'
 function! s:available_bundles()
-  return []
+  if s:git_controlled_directory_p()
+    return [s:BUNDLE_NAME_CURRENT_REPOSITORY]
+  else
+    return []
+  endif
 endfunction
 
 function! s:files_in_a_bundle(name)
-  return []
+  if a:name ==# s:BUNDLE_NAME_CURRENT_REPOSITORY
+    return split(s:system('git ls-files'), "\n")
+  else
+    return []
+  endif
 endfunction
 
 function! s:system(command)
