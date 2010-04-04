@@ -51,6 +51,7 @@
 	m1 = merge --log HEAD@{1}
 	m2 = merge --log HEAD@{2}
 	m3 = merge --log HEAD@{3}
+	mb = merge-base
 	pa = !git pushall
 	publish = !git pushall $(git rev-parse --symbolic --branches --tags) \
 	           "$@"
@@ -91,6 +92,9 @@
 	ri = <<<
 		git rebase -i "HEAD~${1:-10}"
 	>>>
+	rib = <<<
+		git rebase -i $(git merge-base "${1:-HEAD}" HEAD)
+	>>>
 	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
 	s = show
@@ -114,6 +118,7 @@
 	staged = diff --cached
 	sv = stash save
 	t = tag
+	td = tag -d
 	unstaged = diff
 
 # __END__
