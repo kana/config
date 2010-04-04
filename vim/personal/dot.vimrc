@@ -627,6 +627,33 @@ command! -bar -nargs=1 Source
 
 
 
+" Split - :split variants  "{{{2
+
+command! -bar -nargs=1 Split  call s:cmd_Split(<q-args>)
+function! s:cmd_Split(direction)
+  let DIRECTION_MODIFIER_TABLE = {
+  \   'Top': 'topleft',
+  \   'Bottom': 'botright',
+  \   'Left': 'vertical topleft',
+  \   'Right': 'vertical botright',
+  \   'above': 'leftabove',
+  \   'below': 'rightbelow',
+  \   'left': 'vertical leftabove',
+  \   'right': 'vertical rightbelow',
+  \ }
+
+  let modifier = get(DIRECTION_MODIFIER_TABLE, a:direction, 0)
+  if modifier is 0
+    echoerr 'Invalid direction:' string(a:direction)
+    return
+  endif
+
+  execute modifier 'split'
+endfunction
+
+
+
+
 " SuspendWithAutomticCD  "{{{2
 " Assumption: Use GNU screen.
 " Assumption: There is a window with the title "another".
