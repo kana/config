@@ -30,7 +30,10 @@
 	l1 = log --pretty=oneline --abbrev-commit
 	l1f = log --pretty=oneline
 	lg = log --graph --pretty=oneline --abbrev-commit
+	lgd = !git lg --decorate
 	lgf = log --graph --pretty=oneline
+	lgs = !git lg --source
+	lgss = !git lgs --branches --tags
 	lr = <<<
 		n=10
 		1="${1:-$n}"
@@ -81,6 +84,9 @@
 	r3 = rebase HEAD@{3}
 	ra = rebase --abort
 	rc = rebase --continue
+	review = <<<
+		git log --reverse -p "$1..HEAD"
+	>>>
 	rh = reset --hard
 	ri = <<<
 		git rebase -i "HEAD~${1:-10}"
@@ -93,6 +99,9 @@
 	s3 = show HEAD@{3}
 	sa = stash apply
 	sd = stash drop
+	since = <<<
+		git lg "$1..HEAD"
+	>>>
 	sl = stash list
 	sm = submodule
 	sma = submodule add
