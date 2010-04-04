@@ -1,7 +1,10 @@
 " Vim colorscheme: nevfn
 " Copyright (C) 2010 kana <http://whileimautomaton.net/>
 
-colorscheme desert
+  " :colorscheme is preferred for readability, but it cannot be nested.
+  " See also load_colors() in Vim source for the details.
+runtime colors/desert.vim
+
 let g:colors_name = 'nevfn'
 
 
