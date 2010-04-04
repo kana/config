@@ -114,6 +114,7 @@
 	staged = diff --cached
 	sv = stash save
 	t = tag
+	td = tag -d
 	unstaged = diff
 
 # __END__
