@@ -34,6 +34,9 @@
 	lgf = log --graph --pretty=oneline
 	lgs = !git lg --source
 	lgss = !git lgs --branches --tags
+	ln = <<<
+		git l1 --name-only "$@" | grep -v ' ' | sort -u
+	>>>
 	lr = <<<
 		n=10
 		1="${1:-$n}"
