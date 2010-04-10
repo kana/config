@@ -2652,6 +2652,8 @@ endfunction
 
 " <C-j>/<C-k> for consistency with my UI key mappings on jumplist.
 " BUGS: Inconsistency - <Esc>{x} is usually used for window-related operation.
+nmap <C-S-j>  <Plug>(exjumplist-next-buffer)
+nmap <C-S-k>  <Plug>(exjumplist-previous-buffer)
 nmap <Esc><C-j>  <Plug>(exjumplist-next-buffer)
 nmap <Esc><C-k>  <Plug>(exjumplist-previous-buffer)
 
