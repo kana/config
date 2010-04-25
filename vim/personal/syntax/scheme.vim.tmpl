@@ -39,10 +39,13 @@ if ((exists('g:is_gauche') && g:is_gauche)
 \   || (exists('b:is_gauche') && b:is_gauche))
   ##gauche-define##
 
+  syntax match schemeGaucheWeirdSymbol oneline  /|[^|]\+|/
+
   highlight default link schemeGaucheGeneric  schemeFunc
   highlight default link schemeGaucheMacro  schemeSyntax
   highlight default link schemeGaucheProcedure  schemeFunc
   highlight default link schemeGaucheSyntax  schemeSyntax
+  highlight default link schemeGaucheWeirdSymbol  schemeOther
 endif
 
 " __END__
