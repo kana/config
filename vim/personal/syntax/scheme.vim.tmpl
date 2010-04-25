@@ -42,6 +42,7 @@ if ((exists('g:is_gauche') && g:is_gauche)
   syntax match schemeGaucheReaderPragma oneline  /#!\k\+/
   syntax match schemeGaucheRegexp oneline  !\v\#\/(\\\\|\\\/|.){-}\/!
   syntax match schemeGaucheShebang oneline  /^#!.*\%1l/
+  syntax match schemeGaucheStringInterpolationPrefix oneline  /#`/
   syntax match schemeGaucheWeirdSymbol oneline  /|[^|]\+|/
   syntax region schemeGaucheMultilineComment start=/#|/ end=/|#/
   \             contains=schemeGaucheMultilineComment
@@ -53,6 +54,7 @@ if ((exists('g:is_gauche') && g:is_gauche)
   highlight default link schemeGaucheReaderPragma  PreProc
   highlight default link schemeGaucheRegexp  schemeString
   highlight default link schemeGaucheShebang  PreProc
+  highlight default link schemeGaucheStringInterpolationPrefix  schemeString
   highlight default link schemeGaucheSyntax  schemeSyntax
   highlight default link schemeGaucheWeirdSymbol  schemeOther
 endif
