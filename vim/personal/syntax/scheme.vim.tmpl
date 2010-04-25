@@ -41,9 +41,12 @@ if ((exists('g:is_gauche') && g:is_gauche)
 
   syntax match schemeGaucheRegexp oneline  !\v\#\/(\\\\|\\\/|.){-}\/!
   syntax match schemeGaucheWeirdSymbol oneline  /|[^|]\+|/
+  syntax region schemeGaucheMultilineComment start=/#|/ end=/|#/
+  \             contains=schemeGaucheMultilineComment
 
   highlight default link schemeGaucheGeneric  schemeFunc
   highlight default link schemeGaucheMacro  schemeSyntax
+  highlight default link schemeGaucheMultilineComment  schemeComment
   highlight default link schemeGaucheProcedure  schemeFunc
   highlight default link schemeGaucheRegexp  schemeString
   highlight default link schemeGaucheSyntax  schemeSyntax
