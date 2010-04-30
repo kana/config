@@ -2195,6 +2195,13 @@ function! s:search_forward_p()
 endfunction
 
 
+" Easy to type aliases.
+noremap <Esc>(  [(
+noremap <Esc>)  ])
+noremap <Esc>{  [{
+noremap <Esc>}  ]}
+
+
 
 
 
