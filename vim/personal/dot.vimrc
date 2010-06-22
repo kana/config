@@ -1372,6 +1372,10 @@ else
   KeyboardLayout <S-Return>  <S-Return>
 endif
 
+" For ease of typing, treat <kEnter> as if it is a <Return> key.
+Allmap <kEnter>  <Return>
+Allmap <S-kEnter>  <S-Return>
+
 
 
 
