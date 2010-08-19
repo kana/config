@@ -733,7 +733,7 @@ function! s:cmd_UsualDays()
 
   tabnew
   normal! 'V
-  execute 'CD' fnamemodify(expand('%'), ':p:h:h')
+  execute 'CD' fnamemodify(expand('%'), ':p:h:h:h')
   TabpageTitle config
 endfunction
 
