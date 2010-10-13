@@ -21,6 +21,21 @@
 	cp = cherry-pick
 	d = diff
 	db = diff HEAD
+	derive = <<<
+		if [ 2 -le "$#" ]
+		then
+		  base="$1"
+		  topic="$2"
+		elif [ 1 -le "$#" ]
+		then
+		  base='HEAD'
+		  topic="$1"
+		else
+		  echo "Usage: $0 derive [base] {topic}"
+		  false
+		fi
+		git checkout -b "$topic" "$base"
+	>>>
 	ds = diff --cached
 	du = diff
 	edit-conflicted-files = !$EDITOR $(git ls-conflicted-files)
