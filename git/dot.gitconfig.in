@@ -20,7 +20,6 @@
 	cob = checkout -b
 	cp = cherry-pick
 	d = diff HEAD
-	dl = diff HEAD^
 	ds = diff --cached
 	du = diff
 	edit-conflicted-files = !$EDITOR $(git ls-conflicted-files)
