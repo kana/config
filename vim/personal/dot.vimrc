@@ -2422,9 +2422,10 @@ autocmd MyAutoCmd BufReadPost {dav,file,ftp,http,rcp,rsync,scp,sftp}://*
 
 autocmd MyAutoCmd FileType python
 \   call s:set_short_indent()
-\ | let python_highlight_numbers = 1
-\ | let python_highlight_builtins = 1
-\ | let python_highlight_space_errors = 1
+
+let g:python_highlight_numbers = 1
+let g:python_highlight_builtins = 1
+let g:python_highlight_space_errors = 1
 
 
 
