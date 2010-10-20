@@ -1243,21 +1243,38 @@ endfunction
 
 
 function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
-  redir => resp
-  silent execute 'highlight' a:original_group
-  redir END
-  if resp =~# 'xxx cleared'
-    let original_settings = ''
-  elseif resp =~# 'xxx links to'
-    return s:extend_highlight(
-    \        a:target_group,
-    \        substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
-    \        a:new_settings
-    \      )
-  else  " xxx {key}={arg} ...
-    let t = substitute(resp,'\_.*xxx\(\(\_s\+[^= \t]\+=[^= \t]\+\)*\)','\1','')
-    let original_settings = substitute(t, '\_s\+', ' ', 'g')
-  endif
+  let mode = has('gui_running') ? 'gui' : (1 < &t_Co ? 'cterm' : 'term')
+  let items = [
+  \   'bg',
+  \   'bold',
+  \   'fg',
+  \   'font',
+  \   'italic',
+  \   'reverse',
+  \   'sp',
+  \   'standout',
+  \   'undercurl',
+  \   'underline',
+  \ ]
+  let d = {}
+  for i in items
+    let d[i] = synIDattr(synIDtrans(hlID(a:original_group)), i)
+  endfor
+
+  let attributes = filter(
+  \   map(
+  \     ['bold', 'italic', 'reverse', 'standout', 'undercurl', 'underline'],
+  \     'd[v:val] ? v:val : 0'
+  \   ),
+  \   'v:val isnot 0'
+  \ )
+  let original_settings = join([
+  \   mode.'='.join(empty(attributes) ? ['NONE'] : attributes, ','),
+  \   (mode[0] !=# 't' && 0 <= d['bg'] ? mode.'bg='.d['bg'] : ''),
+  \   (mode[0] !=# 't' && 0 <= d['fg'] ? mode.'fg='.d['fg'] : ''),
+  \   (mode[0] ==# 'g' && d['sp'] != '' ? mode.'sp='.d['sp'] : ''),
+  \   (mode[0] ==# 'g' && d['font'] != '' ? 'font='.d['font'] : ''),
+  \ ])
 
   silent execute 'highlight' a:target_group 'NONE'
   \          '|' 'highlight' a:target_group original_settings
