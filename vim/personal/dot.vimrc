@@ -1126,13 +1126,13 @@ endfunction
 " VCS branch name  "{{{2
 " Returns the name of the current branch of the given directory.
 " BUGS: git is only supported.
-let s:_vcs_branch_name_cache = {}  " dir_path = [branch_name, key_file_mtime]
+let s:_vcs_branch_name_cache = {}  " dir_path = [branch_name, cache_key]
 
 
 function! s:vcs_branch_name(dir)
   let cache_entry = get(s:_vcs_branch_name_cache, a:dir, 0)
   if cache_entry is 0
-  \  || cache_entry[1] < getftime(s:_vcs_branch_name_key_file(a:dir))
+  \  || cache_entry[1] !=# s:_vcs_branch_name_cache_key(a:dir)
     unlet cache_entry
     let cache_entry = s:_vcs_branch_name(a:dir)
     let s:_vcs_branch_name_cache[a:dir] = cache_entry
@@ -1142,13 +1142,13 @@ function! s:vcs_branch_name(dir)
 endfunction
 
 
-function! s:_vcs_branch_name_key_file(dir)
-  return a:dir . '/.git/HEAD'
+function! s:_vcs_branch_name_cache_key(dir)
+  return getftime(a:dir . '/.git/HEAD')
 endfunction
 
 
 function! s:_vcs_branch_name(dir)
-  let head_file = s:_vcs_branch_name_key_file(a:dir)
+  let head_file = a:dir . '/.git/HEAD'
   let branch_name = ''
 
   if filereadable(head_file)
@@ -1168,7 +1168,7 @@ function! s:_vcs_branch_name(dir)
     endif
   endif
 
-  return [branch_name, getftime(head_file)]
+  return [branch_name, s:_vcs_branch_name_cache_key(a:dir)]
 endfunction
 
 
