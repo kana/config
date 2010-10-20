@@ -2017,6 +2017,10 @@ Objnoremap gc  :<C-u>normal gc<CR>
 map gm  gc
 
 
+" Select the last selected text.
+onoremap gv  :<C-u>normal! gv<Return>
+
+
 
 
 " Operators  "{{{2
