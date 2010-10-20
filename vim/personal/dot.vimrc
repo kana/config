@@ -1143,29 +1143,49 @@ endfunction
 
 
 function! s:_vcs_branch_name_cache_key(dir)
-  return getftime(a:dir . '/.git/HEAD')
+  return getftime(a:dir . '/.git/HEAD') . getftime(a:dir . '/.git/MERGE_HEAD')
 endfunction
 
 
 function! s:_vcs_branch_name(dir)
-  let head_file = a:dir . '/.git/HEAD'
-  let branch_name = ''
+  let git_dir = a:dir . '/.git'
 
-  if filereadable(head_file)
-    let ref_info = s:first_line(head_file)
-    if ref_info =~ '^\x\{40}$'
-      let remote_refs_dir = a:dir . '/.git/refs/remotes/'
-      let remote_branches = split(glob(remote_refs_dir . '**'), "\n")
-      call filter(remote_branches, 's:first_line(v:val) ==# ref_info')
-      if 1 <= len(remote_branches)
-        let branch_name = 'remote: '. remote_branches[0][len(remote_refs_dir):]
-      endif
+  " head_info, additional_info
+  if isdirectory(git_dir . '/rebase-apply')
+    if filereadable(git_dir . '/rebase-apply/rebasing')
+      let additional_info = 'REBASE'
+    elseif filereadable(git_dir . '/rebase-apply/applying')
+      let additional_info = 'AM'
     else
-      let branch_name = matchlist(ref_info, '^ref: refs/heads/\(\S\+\)$')[1]
-      if branch_name == ''
-        let branch_name = ref_info
-      endif
+      let additional_info = 'AM/REBASE'
     endif
+    let head_info = s:first_line(git_dir . '/HEAD')
+  elseif filereadable(git_dir . '/rebase-merge/interactive')
+    let additional_info = 'REBASE-i'
+    let head_info = s:first_line(git_dir . '/rebase-merge/head-name')
+  elseif isdirectory(git_dir . '/rebase-merge')
+    let additional_info = 'REBASE-m'
+    let head_info = s:first_line(git_dir . '/rebase-merge/head-name')
+  elseif filereadable(git_dir . '/MERGE_HEAD')
+    let additional_info = 'MERGING'
+    let head_info = s:first_line(git_dir . '/HEAD')
+  else
+    let additional_info = ''
+    let head_info = s:first_line(git_dir . '/HEAD')
+  endif
+
+  let branch_name = matchstr(head_info, '^\(ref: \)\?refs/heads/\zs\S\+\ze$')
+  if branch_name == ''
+    let lines = readfile(git_dir . '/logs/HEAD')
+    let co_lines = filter(lines, 'v:val =~# "checkout: moving from"')
+    let log = empty(co_lines) ? '' : co_lines[-1]
+    let branch_name = substitute(log, '^.* to \([^ ]*\)$', '\1', '')
+    if branch_name == ''
+      let branch_name = '(unknown)'
+    endif
+  endif
+  if additional_info != ''
+    let branch_name .= '|' . additional_info
   endif
 
   return [branch_name, s:_vcs_branch_name_cache_key(a:dir)]
