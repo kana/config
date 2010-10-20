@@ -250,8 +250,6 @@ set viminfo=<50,'10,h,r/a,n~/.viminfo
 let &statusline = ''
 let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
-  "" temporary disabled.
-  "let &statusline .= '(%{' . s:SID_PREFIX() . 'vcs_branch_name(getcwd())}) '
 let &statusline .= '[%{&l:fileencoding == "" ? &encoding : &l:fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
