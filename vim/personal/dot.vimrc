@@ -250,8 +250,6 @@ set viminfo=<50,'10,h,r/a,n~/.viminfo
 let &statusline = ''
 let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
-  "" temporary disabled.
-  "let &statusline .= '(%{' . s:SID_PREFIX() . 'vcs_branch_name(getcwd())}) '
 let &statusline .= '[%{&l:fileencoding == "" ? &encoding : &l:fileencoding}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
@@ -1128,13 +1126,13 @@ endfunction
 " VCS branch name  "{{{2
 " Returns the name of the current branch of the given directory.
 " BUGS: git is only supported.
-let s:_vcs_branch_name_cache = {}  " dir_path = [branch_name, key_file_mtime]
+let s:_vcs_branch_name_cache = {}  " dir_path = [branch_name, cache_key]
 
 
 function! s:vcs_branch_name(dir)
   let cache_entry = get(s:_vcs_branch_name_cache, a:dir, 0)
   if cache_entry is 0
-  \  || cache_entry[1] < getftime(s:_vcs_branch_name_key_file(a:dir))
+  \  || cache_entry[1] !=# s:_vcs_branch_name_cache_key(a:dir)
     unlet cache_entry
     let cache_entry = s:_vcs_branch_name(a:dir)
     let s:_vcs_branch_name_cache[a:dir] = cache_entry
@@ -1144,33 +1142,53 @@ function! s:vcs_branch_name(dir)
 endfunction
 
 
-function! s:_vcs_branch_name_key_file(dir)
-  return a:dir . '/.git/HEAD'
+function! s:_vcs_branch_name_cache_key(dir)
+  return getftime(a:dir . '/.git/HEAD') . getftime(a:dir . '/.git/MERGE_HEAD')
 endfunction
 
 
 function! s:_vcs_branch_name(dir)
-  let head_file = s:_vcs_branch_name_key_file(a:dir)
-  let branch_name = ''
+  let git_dir = a:dir . '/.git'
 
-  if filereadable(head_file)
-    let ref_info = s:first_line(head_file)
-    if ref_info =~ '^\x\{40}$'
-      let remote_refs_dir = a:dir . '/.git/refs/remotes/'
-      let remote_branches = split(glob(remote_refs_dir . '**'), "\n")
-      call filter(remote_branches, 's:first_line(v:val) ==# ref_info')
-      if 1 <= len(remote_branches)
-        let branch_name = 'remote: '. remote_branches[0][len(remote_refs_dir):]
-      endif
+  " head_info, additional_info
+  if isdirectory(git_dir . '/rebase-apply')
+    if filereadable(git_dir . '/rebase-apply/rebasing')
+      let additional_info = 'REBASE'
+    elseif filereadable(git_dir . '/rebase-apply/applying')
+      let additional_info = 'AM'
     else
-      let branch_name = matchlist(ref_info, '^ref: refs/heads/\(\S\+\)$')[1]
-      if branch_name == ''
-        let branch_name = ref_info
-      endif
+      let additional_info = 'AM/REBASE'
     endif
+    let head_info = s:first_line(git_dir . '/HEAD')
+  elseif filereadable(git_dir . '/rebase-merge/interactive')
+    let additional_info = 'REBASE-i'
+    let head_info = s:first_line(git_dir . '/rebase-merge/head-name')
+  elseif isdirectory(git_dir . '/rebase-merge')
+    let additional_info = 'REBASE-m'
+    let head_info = s:first_line(git_dir . '/rebase-merge/head-name')
+  elseif filereadable(git_dir . '/MERGE_HEAD')
+    let additional_info = 'MERGING'
+    let head_info = s:first_line(git_dir . '/HEAD')
+  else
+    let additional_info = ''
+    let head_info = s:first_line(git_dir . '/HEAD')
   endif
 
-  return [branch_name, getftime(head_file)]
+  let branch_name = matchstr(head_info, '^\(ref: \)\?refs/heads/\zs\S\+\ze$')
+  if branch_name == ''
+    let lines = readfile(git_dir . '/logs/HEAD')
+    let co_lines = filter(lines, 'v:val =~# "checkout: moving from"')
+    let log = empty(co_lines) ? '' : co_lines[-1]
+    let branch_name = substitute(log, '^.* to \([^ ]*\)$', '\1', '')
+    if branch_name == ''
+      let branch_name = '(unknown)'
+    endif
+  endif
+  if additional_info != ''
+    let branch_name .= '|' . additional_info
+  endif
+
+  return [branch_name, s:_vcs_branch_name_cache_key(a:dir)]
 endfunction
 
 
@@ -1243,21 +1261,38 @@ endfunction
 
 
 function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
-  redir => resp
-  silent execute 'highlight' a:original_group
-  redir END
-  if resp =~# 'xxx cleared'
-    let original_settings = ''
-  elseif resp =~# 'xxx links to'
-    return s:extend_highlight(
-    \        a:target_group,
-    \        substitute(resp, '\_.*xxx links to\s\+\(\S\+\)', '\1', ''),
-    \        a:new_settings
-    \      )
-  else  " xxx {key}={arg} ...
-    let t = substitute(resp,'\_.*xxx\(\(\_s\+[^= \t]\+=[^= \t]\+\)*\)','\1','')
-    let original_settings = substitute(t, '\_s\+', ' ', 'g')
-  endif
+  let mode = has('gui_running') ? 'gui' : (1 < &t_Co ? 'cterm' : 'term')
+  let items = [
+  \   'bg',
+  \   'bold',
+  \   'fg',
+  \   'font',
+  \   'italic',
+  \   'reverse',
+  \   'sp',
+  \   'standout',
+  \   'undercurl',
+  \   'underline',
+  \ ]
+  let d = {}
+  for i in items
+    let d[i] = synIDattr(synIDtrans(hlID(a:original_group)), i)
+  endfor
+
+  let attributes = filter(
+  \   map(
+  \     ['bold', 'italic', 'reverse', 'standout', 'undercurl', 'underline'],
+  \     'd[v:val] ? v:val : 0'
+  \   ),
+  \   'v:val isnot 0'
+  \ )
+  let original_settings = join([
+  \   mode.'='.join(empty(attributes) ? ['NONE'] : attributes, ','),
+  \   (mode[0] !=# 't' && 0 <= d['bg'] ? mode.'bg='.d['bg'] : ''),
+  \   (mode[0] !=# 't' && 0 <= d['fg'] ? mode.'fg='.d['fg'] : ''),
+  \   (mode[0] ==# 'g' && d['sp'] != '' ? mode.'sp='.d['sp'] : ''),
+  \   (mode[0] ==# 'g' && d['font'] != '' ? 'font='.d['font'] : ''),
+  \ ])
 
   silent execute 'highlight' a:target_group 'NONE'
   \          '|' 'highlight' a:target_group original_settings
@@ -2015,6 +2050,10 @@ Objnoremap gc  :<C-u>normal gc<CR>
   " synonyms for gc - "m" stands for "M"odified.
   " built-in motion "gm" is overridden, but I'll never use it.
 map gm  gc
+
+
+" Select the last selected text.
+onoremap gv  :<C-u>normal! gv<Return>
 
 
 
