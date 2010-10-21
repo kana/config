@@ -1151,7 +1151,6 @@ function! s:_vcs_branch_name(dir)
   let git_dir = a:dir . '/.git'
 
   if isdirectory(git_dir)
-    " head_info, additional_info
     if isdirectory(git_dir . '/rebase-apply')
       if filereadable(git_dir . '/rebase-apply/rebasing')
         let additional_info = 'REBASE'
@@ -1170,7 +1169,7 @@ function! s:_vcs_branch_name(dir)
     elseif filereadable(git_dir . '/MERGE_HEAD')
       let additional_info = 'MERGING'
       let head_info = s:first_line(git_dir . '/HEAD')
-    else
+    else  " Normal case
       let additional_info = ''
       let head_info = s:first_line(git_dir . '/HEAD')
     endif
@@ -1186,10 +1185,10 @@ function! s:_vcs_branch_name(dir)
       endif
     endif
     if additional_info != ''
-      let branch_name .= '|' . additional_info
+      let branch_name .= ' ' . '(' . additional_info . ')'
     endif
-  else
-    let branch_name = '(unknown)'
+  else  " Not in a git repository.
+    let branch_name = '-'
   endif
 
   return [branch_name, s:_vcs_branch_name_cache_key(a:dir)]
