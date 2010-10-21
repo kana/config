@@ -1289,8 +1289,8 @@ function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   \ )
   let original_settings = join([
   \   mode.'='.join(empty(attributes) ? ['NONE'] : attributes, ','),
-  \   (m !=# 't' && 0 <= d['bg'] ? mode.'bg='.d['bg'] : ''),
-  \   (m !=# 't' && 0 <= d['fg'] ? mode.'fg='.d['fg'] : ''),
+  \   (m !=# 't' && d['bg'] != '' && 0 <= d['bg'] ? mode.'bg='.d['bg'] : ''),
+  \   (m !=# 't' && d['fg'] != '' && 0 <= d['fg'] ? mode.'fg='.d['fg'] : ''),
   \   (m ==# 'g' && d['sp'] != '' ? mode.'sp='.d['sp'] : ''),
   \   (m ==# 'g' && d['font'] != '' ? 'font='.d['font'] : ''),
   \ ])
