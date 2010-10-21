@@ -1262,6 +1262,7 @@ endfunction
 
 function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   let mode = has('gui_running') ? 'gui' : (1 < &t_Co ? 'cterm' : 'term')
+  let m = mode[0]
   let items = [
   \   'bg',
   \   'bold',
@@ -1288,10 +1289,10 @@ function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   \ )
   let original_settings = join([
   \   mode.'='.join(empty(attributes) ? ['NONE'] : attributes, ','),
-  \   (mode[0] !=# 't' && 0 <= d['bg'] ? mode.'bg='.d['bg'] : ''),
-  \   (mode[0] !=# 't' && 0 <= d['fg'] ? mode.'fg='.d['fg'] : ''),
-  \   (mode[0] ==# 'g' && d['sp'] != '' ? mode.'sp='.d['sp'] : ''),
-  \   (mode[0] ==# 'g' && d['font'] != '' ? 'font='.d['font'] : ''),
+  \   (m !=# 't' && 0 <= d['bg'] ? mode.'bg='.d['bg'] : ''),
+  \   (m !=# 't' && 0 <= d['fg'] ? mode.'fg='.d['fg'] : ''),
+  \   (m ==# 'g' && d['sp'] != '' ? mode.'sp='.d['sp'] : ''),
+  \   (m ==# 'g' && d['font'] != '' ? 'font='.d['font'] : ''),
   \ ])
 
   silent execute 'highlight' a:target_group 'NONE'
