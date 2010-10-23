@@ -2341,7 +2341,7 @@ endfunction
 " Unset 'paste' automatically.  It's often hard to do so because of most
 " mappings are disabled in Paste mode.
 autocmd MyAutoCmd InsertLeave *  set nopaste
-autocmd MyAutoCmd CursorHoldI *  set nopaste | redraw
+autocmd MyAutoCmd CursorHoldI *  set nopaste | echo 'redraw the bottom line'
 
 
 
