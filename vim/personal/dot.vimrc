@@ -212,6 +212,9 @@ set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
 set directory=.,~/tmp
 set noequalalways
+set foldopen&
+  " Patch: http://github.com/kana/vim/commits/hack%2Ffoldopen-map
+silent! set foldopen+=map
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
@@ -294,8 +297,8 @@ let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
 " set lines=25
 
 
-let mapleader = ','
-let maplocalleader = '.'
+let g:mapleader = ','
+let g:maplocalleader = '.'
 
 
 
@@ -2337,13 +2340,10 @@ endfunction
 
 " Unset 'paste' automatically.  It's often hard to do so because of most
 " mappings are disabled in Paste mode.
-autocmd MyAutoCmd InsertLeave *  set nopaste
-  " Experimental: Turn off 'paste' if idle.  Because it's hard to manually
-  "               leave Insert mode while 'paste' is turned on - custom
-  "               {lhs}es to <Esc> aren't available.
-  "
-  " It's necessary to :redraw to update 'showmode' message.
-autocmd MyAutoCmd CursorHoldI *  set nopaste | redraw
+if !has('gui_running')  " 'paste'/autopaste is not used in GUI version.
+  autocmd MyAutoCmd InsertLeave *  set nopaste
+  autocmd MyAutoCmd CursorHoldI *  set nopaste | echo 'redraw the bottom line'
+endif
 
 
 
