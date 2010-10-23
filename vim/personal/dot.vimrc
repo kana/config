@@ -297,8 +297,8 @@ let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
 " set lines=25
 
 
-let mapleader = ','
-let maplocalleader = '.'
+let g:mapleader = ','
+let g:maplocalleader = '.'
 
 
 
