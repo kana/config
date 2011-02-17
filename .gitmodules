@@ -106,3 +106,6 @@
 [submodule "vim/xml-move"]
 	path = vim/xml-move
 	url = ../vim-xml-move
+[submodule "vim/filetype-haskell"]
+	path = vim/filetype-haskell
+	url = ../vim-filetype-haskell

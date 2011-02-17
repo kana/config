@@ -6,6 +6,7 @@ vim_plugins := \
 	bundle \
 	exjumplist \
 	fakeclip \
+	filetype-haskell \
 	flydiff \
 	grex \
 	metarw \
