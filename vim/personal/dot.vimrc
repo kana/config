@@ -2252,6 +2252,31 @@ noremap <Esc>{  [{
 noremap <Esc>}  ]}
 
 
+" git-diff-aware version of gf commands.
+nnoremap <expr> gf  <SID>do_git_diff_aware_gf('gf')
+nnoremap <expr> gF  <SID>do_git_diff_aware_gf('gF')
+nnoremap <expr> <C-w>f  <SID>do_git_diff_aware_gf('<C-w>f')
+nnoremap <expr> <C-w><C-f>  <SID>do_git_diff_aware_gf('<C-w><C-f>')
+nnoremap <expr> <C-w>F  <SID>do_git_diff_aware_gf('<C-w>F')
+nnoremap <expr> <C-w>gf  <SID>do_git_diff_aware_gf('<C-w>gf')
+nnoremap <expr> <C-w>gF  <SID>do_git_diff_aware_gf('<C-w>gF')
+
+function! s:do_git_diff_aware_gf(command)
+  let target_path = expand('<cfile>')
+  if target_path =~# '^[ab]/'  " with a peculiar prefix of git-diff(1)?
+    if filereadable(target_path) || isdirectory(target_path)
+      return a:command
+    else
+      " BUGS: Side effect - Cursor position is changed.
+      let [_, c] = searchpos('\f\+', 'cenW')
+      return c . '|' . 'v' . (len(target_path) - 2 - 1) . 'h' . a:command
+    endif
+  else
+    return a:command
+  endif
+endfunction
+
+
 
 
 
