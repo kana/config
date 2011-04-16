@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if ! [ -d .git ]
+then
+  echo 'The current directory is not controled by git.'
+  exit 1
+fi
+
+basename="$(basename "$PWD")"
+reponame="$HOME/Dropbox/working/$basename.git"
+
+if [ -e "$reponame" ]
+then
+  echo "Dropbox repository $reponame already exists."
+  exit 1
+fi
+
+mkdir -p "$reponame" &&
+(
+  cd "$reponame"
+  git init --bare
+) &&
+git remote add dropbox "$reponame"
+
+# __END__
