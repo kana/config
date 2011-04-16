@@ -155,5 +155,12 @@ fi
 
 
 
+# Last resort  #{{{1
+# RVM: Ruby Version Manager  #{{{2
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+
+
+
 # __END__  #{{{1
 # vim: filetype=sh foldmethod=marker
