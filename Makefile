@@ -1,7 +1,7 @@
 # Driver Makefile
 # Requirement: GNU make
 
-softwares_common := dotfiles git opera sh vim
+softwares_common := bin dotfiles git opera sh vim
 
 softwares := \
 	$(softwares_common) \
