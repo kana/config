@@ -222,7 +222,13 @@ function prompt_setup() {
       ;;
   esac
 
-  local t_host="$c_user%n$c_reset$c_host@%m$c_reset"
+    # On Mac OS X, %m may be expanded to an IP address.
+    # Use the computer name from System Preferences if available.
+  local t_hosname="$(scutil --get ComputerName 2>/dev/null)"
+  if [ "$?" != 0 ]; then
+    t_hosname='%m'
+  fi
+  local t_host="$c_user%n$c_reset$c_host@$t_hosname$c_reset"
   local t_cwd="$c_yellow%~$c_reset"
   local t_main='YUKI.N%(!.#.>) '
   if [[ 2 -le $SHLVL ]]; then  # is nested interactive shell?
