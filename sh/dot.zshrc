@@ -395,7 +395,7 @@ if where git &>/dev/null; then
         # so we have to use another method to get the name of {commitish}.
         head_name="($(
           {
-            fgrep 'checkout: moving from ' .git/logs/HEAD |
+            fgrep 'checkout: moving from ' "$git_dir/logs/HEAD" |
             sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
           } 2>/dev/null
         ))"
