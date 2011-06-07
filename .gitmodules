@@ -109,3 +109,6 @@
 [submodule "vim/filetype-haskell"]
 	path = vim/filetype-haskell
 	url = ../vim-filetype-haskell
+[submodule "vim/altr"]
+	path = vim/altr
+	url = ../vim-altr

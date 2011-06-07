@@ -2,6 +2,7 @@
 
 vim_plugins := \
 	altercmd \
+	altr \
 	arpeggio \
 	bundle \
 	exjumplist \
