@@ -2105,11 +2105,6 @@ nnoremap <C-j>  <C-i>
 nnoremap <C-k>  <C-o>
 
 
-" Switch to the previously edited file (like Vz)
-nnoremap <Esc>2  <C-^>
-nmap <F2>  <Esc>2
-
-
 " Disable some dangerous key.
 nnoremap ZZ  <Nop>
 nnoremap ZQ  <Nop>
@@ -2688,6 +2683,28 @@ endfunction
 
 
 " Plugins  "{{{1
+" altr  "{{{2
+
+" If I remember correctly, <F2> is a keyboard shortcut to switch to the
+" previously edited file in Vz editor.  I often used the keyboard shortcut, so
+" that I bound <F2> to <C-^> before.
+"
+" But I noticed that there is a relationship between the current buffer and
+" the previously edited file in many cases, like *.c and *.h.  And what
+" I really wanted is a function to switch to some file which is related to the
+" current buffer.  <C-^> doesn't behave so.
+"
+" So that now I use altr instead of <C-^>.
+nmap <F1>  <Plug>(altr-back)
+nmap <F2>  <Plug>(altr-forward)
+
+" Aliases.  Because function keys are usually far to type.
+nmap <Esc>1  <F1>
+nmap <Esc>2  <F2>
+
+
+
+
 " bundle  "{{{2
 
 autocmd MyAutoCmd User BundleAvailability
