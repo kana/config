@@ -2296,6 +2296,41 @@ function! s:on_FileType_any()
   if &l:omnifunc == ''
     setlocal omnifunc=syntaxcomplete#Complete
   endif
+
+  " Undo indent settings whenever 'filetype' is changed to a different value.
+  " Most indent scripts don't undo their settings in the event, and it causes
+  " some problems.  For example:
+  "
+  " (1) A file is opened and its 'filetype' is set to FOO by default.
+  " (2) The file contain modelines to override 'filetype' to BAR.
+  " (3) But indent scripts for FOO don't set b:undo_indent.
+  "     So that some settings are configured for FOO but other settings are
+  "     configured for BAR.  Inconsistent settings make users mad.
+  if exists('b:undo_indent')
+    let b:undo_indent .= ' | '
+  else
+    let b:undo_indent = ''
+  endif
+  let b:undo_indent .= 'setlocal
+  \ autoindent<
+  \ cindent<
+  \ cinkeys<
+  \ cinoptions<
+  \ cinwords<
+  \ copyindent<
+  \ expandtab<
+  \ indentexpr<
+  \ indentkeys<
+  \ lisp<
+  \ lispwords<
+  \ preserveindent<
+  \ shiftround<
+  \ shiftwidth<
+  \ smartindent<
+  \ smarttab<
+  \ softtabstop<
+  \ tabstop<
+  \ '
 endfunction
 
 
