@@ -1,0 +1,80 @@
+#!/usr/bin/env gosh
+
+(use file.util)
+(use srfi-1)
+(use srfi-13)
+
+(define (list-maybe-module-names)
+  (map string->symbol
+       (map (cut regexp-replace-all*
+                 <>
+                 #/^\// ""
+                 #/\.scm$/ ""
+                 #/\// ".")
+            (filter #/\.scm$/
+                    (concatenate
+                      (map (lambda (dir)
+                             (directory-fold
+                               dir
+                               (lambda (path paths)
+                                 (cons (string-drop path (string-length dir))
+                                       paths))
+                               '()))
+                           *load-path*))))))
+
+(define (load-modules maybe-module-names)
+  (cons*
+    'scheme
+    'gauche
+    (map (lambda (maybe-module-name)
+           (guard (e (else #f))  ; Ignore if the module is not found.
+                  (eval `(use ,maybe-module-name)
+                        (current-module))
+                  maybe-module-name))
+         maybe-module-names)))
+
+(define (loaded-modules->global-variables loaded-modules)
+  (filter
+    (lambda (symbol)
+      (global-variable-bound? (current-module) symbol))
+    (concatenate
+      (map
+        (lambda (module-name%)
+          (hash-table-keys (module-table (find-module module-name%))))
+        loaded-modules))))
+
+(define (generate-vim-syntax-script-snippet)
+  (define (print-generic symbol)
+    (print (format "syntax keyword schemeGaucheGeneric ~a" symbol)))
+  (define (print-macro symbol)
+    (print (format "syntax keyword schemeGaucheMacro ~a" symbol)))
+  (define (print-module symbol)
+    (print (format "syntax keyword schemeGaucheModule ~a" symbol)))
+  (define (print-procedure symbol)
+    (print (format "syntax keyword schemeGaucheProcedure ~a" symbol)))
+  (define (print-syntax symbol)
+    (print (format "syntax keyword schemeGaucheSyntax ~a" symbol)))
+  (define (print-etc symbol)
+    (print (format "syntax keyword schemeGaucheEtc ~a" symbol)))
+
+  (define sort (cut sort-by <> symbol->string))
+  (define distinct (cut apply lset-adjoin eq? <>))
+  (for-each
+    (lambda (symbol)
+      (define value (eval symbol (current-module)))
+      (cond
+        [(is-a? value <generic>) (print-generic symbol)]
+        [(is-a? value <macro>) (print-macro symbol)]
+        [(is-a? value <module>) (print-module symbol)]
+        [(is-a? value <procedure>) (print-procedure symbol)]
+        [(is-a? value <syntax>) (print-syntax symbol)]
+        [else (print-etc symbol)]))
+    (sort (distinct (loaded-modules->global-variables
+                      (filter (lambda (m) m)
+                              (load-modules (list-maybe-module-names)))))))
+  )
+
+(generate-vim-syntax-script-snippet)
+
+; __END__
+; vim: filetype=scheme

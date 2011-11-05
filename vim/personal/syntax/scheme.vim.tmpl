@@ -1,6 +1,6 @@
 " Vim syntax: scheme/gauche
-" Version: 0.0.0
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Version: 0.0.1
+" Copyright (C) 2008-2011 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -37,7 +37,7 @@ endif
 
 if ((exists('g:is_gauche') && g:is_gauche)
 \   || (exists('b:is_gauche') && b:is_gauche))
-  ##gauche-define##
+  {{gauche-definition}}
 
   syntax match schemeGaucheReaderPragma oneline  /#!\k\+/
   syntax match schemeGaucheRegexp oneline  !\v\#\/(\\\\|\\\/|.){-}\/!
@@ -47,6 +47,7 @@ if ((exists('g:is_gauche') && g:is_gauche)
   syntax region schemeGaucheMultilineComment start=/#|/ end=/|#/
   \             contains=schemeGaucheMultilineComment
 
+  highlight default link schemeGaucheEtc  schemeConstant
   highlight default link schemeGaucheGeneric  schemeFunc
   highlight default link schemeGaucheMacro  schemeSyntax
   highlight default link schemeGaucheMultilineComment  schemeComment

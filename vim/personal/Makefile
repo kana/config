@@ -17,31 +17,12 @@ TARGETS_STATIC = $(filter-out \
 
 all:
 
-,gauche-modules:
-	for d in `gosh -b -e ' \
-	          (for-each \
-		    (lambda (path) \
-		      (display path) \
-		      (newline)) \
-		    *load-path*) \
-		  ' </dev/null`; do \
-	  cd $$d \
-	  && find -name '*.scm' \
-	     | perl -pe 's!^\./!!; s!\.scm$$!!; s!/!.!g;'; \
-	done | sort --unique >$@
+syntax/,scheme.vim.snippet: tools/generate-vim-script-for-gauche
+	./tools/generate-vim-script-for-gauche >"$@"
 
-,gauche-symbols: gauche-generate-symbols.scm ,gauche-modules
-	gosh gauche-generate-symbols.scm <,gauche-modules | sort --unique >$@
-
-syntax/scheme.vim: \
-		syntax/scheme.vim.tmpl \
-		gauche-generate-syntax-vim.scm \
-		,gauche-modules \
-		,gauche-symbols
-	gosh gauche-generate-syntax-vim.scm \
-	  ,gauche-modules ,gauche-symbols \
-	  $< \
-	  >$@
+syntax/scheme.vim: syntax/scheme.vim.tmpl syntax/,scheme.vim.snippet
+	sed -ne '/{{gauche-definition}}/!{p;b};r syntax/,scheme.vim.snippet' \
+	  <"$<" >"$@"
 
 # NB: Every make for each vim/$plugin tries to update doc/tags, but doc/tags
 # is updated by make for vim/$first_plugin, so make for vim/$other_plugins
