@@ -1,6 +1,6 @@
-" Vim additional ftplugin: scheme
-" Version: 0.0.0
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Vim additional indent script: lisp
+" Version: 0.1.0
+" Copyright (C) 2008-2011 kana <http://whileimautomaton.net/>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -22,6 +22,8 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
+setlocal lisp
+
 setlocal expandtab
 setlocal shiftwidth=2
 setlocal softtabstop=2
@@ -29,12 +31,8 @@ setlocal softtabstop=2
 
 
 
-if exists('b:undo_ftplugin')
-  let b:undo_ftplugin .= '|'
-else
-  let b:undo_ftplugin = ''
-endif
-let b:undo_ftplugin .= 'setlocal expandtab& shiftwidth& softtabstop&'
+" Indent settings will be automatically undone by vimrc.
+" So that b:undo_ftplugin is not configured in this script.
 
 " __END__
 " vim: foldmethod=marker
