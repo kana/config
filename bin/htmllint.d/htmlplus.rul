@@ -1,0 +1,793 @@
+# HTML+
+
+#======= ELEMENTS =======
+$emptyTags = 'BASE|BR|CHANGED|HR|IMG|INPUT|ISINDEX|LINK|META|RENDER|TAB';
+$pairTags = 'A|ABBREV|ABSTRACT|ACRONYM|ADDED|ADDRESS|ARG|B|BODY|CAPTION|CITE'.
+            '|CMD|CODE|DD|DFN|DIV1|DIV2|DIV3|DIV4|DIV5|DIV6|DL|DT|EM|EPILOGUE'.
+            '|FIG|FOOTNOTE|FORM|H1|H2|H3|H4|H5|H6|HEAD|HIDE|HTMLPLUS|I|KBD|LI'.
+            '|MARGIN|MESSAGE|NOTE|OL|OPTION|P|PERSON|PRE|PROLOGUE|Q|QUOTE'.
+            '|REMOVED|REV|S|SAMP|SELECT|STRONG|SUB|SUP|TABLE|TD|TEXTAREA|TH'.
+            '|TITLE|TR|TT|U|UL|VAR';
+$deprecatedTags = '';
+$omitStartTags = 'EPILOGUE|HTMLPLUS|PROLOGUE';
+$omitEndTags = 'BODY|DD|DT|EPILOGUE|HEAD|HTMLPLUS|LI|MESSAGE|OPTION|P'.
+               '|PROLOGUE|TD|TH|TR';
+#$maybeEmpty = 'A|ABBREV|ABSTRACT|ACRONYM|ADDED|ARG|CMD|FOOTNOTE|MARGIN'.
+#              '|MESSAGE|NOTE|OPTION|PERSON|Q|QUOTE|REMOVED|REV|S|SUB|SUP|TD'.
+#              '|TEXTAREA|TH|TR';
+%requiredTags = (
+  'DIV1'     => 'H1',
+  'DIV2'     => 'H2',
+  'DIV3'     => 'H3',
+  'DIV4'     => 'H4',
+  'DIV5'     => 'H5',
+  'DIV6'     => 'H6',
+  'HTMLPLUS' => 'HEAD|BODY',
+);
+%onceonlyTags = (
+  'BODY'     => 'PROLOGUE|EPILOGUE',
+  'DIV1'     => 'H1',
+  'DIV2'     => 'H2',
+  'DIV3'     => 'H3',
+  'DIV4'     => 'H4',
+  'DIV5'     => 'H5',
+  'DIV6'     => 'H6',
+  'FIG'      => 'CAPTION',
+  'FORM'     => 'MESSAGE',
+  'HEAD'     => 'TITLE|ISINDEX|BASE',
+  'HIDE'     => 'A|IMG|FIG|I|B|U|TT|CITE|EM|STRONG|KBD|VAR|DFN|CODE|SAMP|S|Q'.
+                '|PERSON|ACRONYM|ABBREV|CMD|ARG|REMOVED|ADDED|REV|SUP|SUB'.
+                '|CHANGED|TAB|HIDE|BR|RENDER|FOOTNOTE|MARGIN|INPUT|TEXTAREA'.
+                '|SELECT',
+  'HTMLPLUS' => 'HEAD|BODY',
+  'TABLE'    => 'CAPTION',
+);
+$sequencialTags = 'DIV3|DIV6|TABLE|HTMLPLUS|FIG|DIV4|BODY|DIV5|DIV2|DIV1|FORM';
+%tagsElements = (
+  '#000'     => 'PRE|P|DL|OL|UL|FORM|TABLE|HR|ADDRESS|ABSTRACT|QUOTE|NOTE',
+  'A'        => 'HIDE|TAB|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV'.
+                '|ACRONYM|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT'.
+                '|U|B|I|IMG|#PCDATA',
+  'ABBREV'   => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'ABSTRACT' => 'P',
+  'ACRONYM'  => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'ADDED'    => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'ADDRESS'  => 'P',
+  'ARG'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'B'        => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'BODY'     => 'PROLOGUE|DIV6|DIV5|DIV4|DIV3|DIV2|DIV1|EPILOGUE',
+  'CAPTION'  => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'CITE'     => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'CMD'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'CODE'     => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'DD'       => 'PRE|HR|P|OL|UL|DL',
+  'DFN'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'DIV1'     => 'H1|#000|DIV6|DIV5|DIV4|DIV3|DIV2',
+  'DIV2'     => 'H2|#000|DIV6|DIV5|DIV4|DIV3',
+  'DIV3'     => 'H3|#000|DIV6|DIV5|DIV4',
+  'DIV4'     => 'H4|#000|DIV6|DIV5',
+  'DIV5'     => 'H5|#000|DIV6',
+  'DIV6'     => 'H6|#000',
+  'DL'       => 'DD|DT',
+  'DT'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'EM'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'EPILOGUE' => 'PRE|P|DL|OL|UL|FORM|TABLE|HR|ADDRESS|ABSTRACT|QUOTE|NOTE',
+  'FIG'      => 'CAPTION|P',
+  'FOOTNOTE' => 'SELECT|TEXTAREA|INPUT|RENDER|BR|HIDE|TAB|CHANGED|SUB|SUP|REV'.
+                '|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM|PERSON|Q|S|SAMP|CODE'.
+                '|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I|FIG|IMG|A|#PCDATA',
+  'FORM'     => '#000|MESSAGE',
+  'H1'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'H2'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'H3'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'H4'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'H5'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'H6'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'HEAD'     => 'TITLE|ISINDEX|BASE|META|LINK|RENDER',
+  'HIDE'     => '#PCDATA|A|IMG|FIG|I|B|U|TT|CITE|EM|STRONG|KBD|VAR|DFN|CODE'.
+                '|SAMP|S|Q|PERSON|ACRONYM|ABBREV|CMD|ARG|REMOVED|ADDED|REV'.
+                '|SUP|SUB|CHANGED|TAB|BR|RENDER|FOOTNOTE|MARGIN|INPUT'.
+                '|TEXTAREA|SELECT',
+  'HTMLPLUS' => 'HEAD|BODY',
+  'I'        => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'KBD'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'LI'       => 'PRE|HR|P|OL|UL|DL',
+  'MARGIN'   => 'SELECT|TEXTAREA|INPUT|RENDER|BR|HIDE|TAB|CHANGED|SUB|SUP|REV'.
+                '|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM|PERSON|Q|S|SAMP|CODE'.
+                '|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I|FIG|IMG|A|#PCDATA',
+  'MESSAGE'  => 'RCDATA',
+  'NOTE'     => 'P',
+  'OL'       => 'LI',
+  'OPTION'   => 'RCDATA',
+  'P'        => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'PERSON'   => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'PRE'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'PROLOGUE' => 'PRE|P|DL|OL|UL|FORM|TABLE|HR|ADDRESS|ABSTRACT|QUOTE|NOTE',
+  'Q'        => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'QUOTE'    => 'P',
+  'REMOVED'  => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'REV'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'S'        => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'SAMP'     => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'SELECT'   => 'OPTION',
+  'STRONG'   => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'SUB'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'SUP'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'TABLE'    => 'CAPTION|TR',
+  'TD'       => 'DL|OL|UL|H6|H5|H4|H3|H2|H1|P',
+  'TEXTAREA' => 'RCDATA',
+  'TH'       => 'DL|OL|UL|H6|H5|H4|H3|H2|H1|P',
+  'TITLE'    => 'HIDE|TAB|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV'.
+                '|ACRONYM|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT'.
+                '|U|B|I|#PCDATA',
+  'TR'       => 'TD|TH',
+  'TT'       => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'U'        => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+  'UL'       => 'LI',
+  'VAR'      => 'SELECT|TEXTAREA|INPUT|MARGIN|FOOTNOTE|RENDER|BR|HIDE|TAB'.
+                '|CHANGED|SUB|SUP|REV|ADDED|REMOVED|ARG|CMD|ABBREV|ACRONYM'.
+                '|PERSON|Q|S|SAMP|CODE|DFN|VAR|KBD|STRONG|EM|CITE|TT|U|B|I'.
+                '|FIG|IMG|A|#PCDATA',
+);
+%excludedElems = (
+  'FOOTNOTE' => 'FOOTNOTE|MARGIN',
+  'FORM'     => 'FORM',
+  'HIDE'     => 'HIDE',
+  'MARGIN'   => 'FOOTNOTE|MARGIN',
+);
+%includedElems = (
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'CHARSET' => 'CDATA',
+    'HREF'    => '%URL',
+    'ID'      => 'ID',
+    'PRINT'   => 'CDATA',
+    'REL'     => 'CDATA',
+    'REV'     => 'CDATA',
+    'SHAPE'   => 'CDATA',
+    'SIG'     => 'CDATA',
+    'TITLE'   => 'CDATA',
+  },
+  'ABBREV' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'ABSTRACT' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'ACRONYM' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'ADDED' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'ADDRESS' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'ARG' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'B' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'BASE' => {
+    'HREF' => '%URL',
+  },
+  'CAPTION' => {
+    'ALIGN'   => 'top|bottom',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'CHANGED' => {
+    'BEGIN' => 'ID',
+    'END'   => 'IDREF',
+  },
+  'CITE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'CMD' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'CODE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DD' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DFN' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DIV1' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DIV2' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DIV3' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DIV4' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DIV5' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DIV6' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'DL' => {
+    'CHARSET' => 'CDATA',
+    'COMPACT' => 'compact',
+    'ID'      => 'ID',
+  },
+  'DT' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'EM' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'FIG' => {
+    'ALIGN'    => 'top|middle|bottom|left|center|right',
+    'BASELINE' => 'NUMBER',
+    'CHARSET'  => 'CDATA',
+    'ID'       => 'ID',
+    'ISMAP'    => 'ismap',
+    'SRC'      => '%URL',
+  },
+  'FOOTNOTE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'FORM' => {
+    'ACTION'  => '%URL',
+    'CHARSET' => 'CDATA',
+    'ENCTYPE' => 'CDATA',
+    'ID'      => 'ID',
+    'METHOD'  => 'CDATA',
+    'SCRIPT'  => '%URL',
+  },
+  'H1' => {
+    'ALIGN'   => 'left|indent|center|right|justify',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'H2' => {
+    'ALIGN'   => 'left|indent|center|right|justify',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'H3' => {
+    'ALIGN'   => 'left|indent|center|right|justify',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'H4' => {
+    'ALIGN'   => 'left|indent|center|right|justify',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'H5' => {
+    'ALIGN'   => 'left|indent|center|right|justify',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'H6' => {
+    'ALIGN'   => 'left|indent|center|right|justify',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'HTMLPLUS' => {
+    'CHARSET' => 'CDATA',
+    'VERSION' => 'CDATA',
+  },
+  'I' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'IMG' => {
+    'ALIGN'    => 'top|middle|bottom',
+    'ALT'      => 'CDATA',
+    'BASELINE' => 'NUMBER',
+    'ISMAP'    => 'ismap',
+    'SRC'      => '%URL',
+  },
+  'INPUT' => {
+    'ALIGN'     => 'top|middle|bottom',
+    'ALT'       => 'CDATA',
+    'CHARSET'   => 'CDATA',
+    'CHECKED'   => 'checked',
+    'DISABLED'  => 'disabled',
+    'ERROR'     => 'error',
+    'ID'        => 'ID',
+    'MAX'       => 'NUMBER',
+    'MAXLENGTH' => 'NUMBER',
+    'MIN'       => 'NUMBER',
+    'NAME'      => 'CDATA',
+    'SIZE'      => 'CDATA',
+    'SRC'       => '%URL',
+    'TYPE'      => 'text|password|checkbox|radio|submit|reset|int|float|date'.
+                   '|url|hidden|range|scribble|audio',
+    'VALUE'     => 'CDATA',
+  },
+  'ISINDEX' => {
+    'HREF' => '%URL',
+  },
+  'KBD' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'LI' => {
+    'CHARSET' => 'CDATA',
+    'ICON'    => '%URL',
+    'ID'      => 'ID',
+    'LABEL'   => 'CDATA',
+    'NUMBER'  => 'NUMBER',
+  },
+  'LINK' => {
+    'CHARSET' => 'CDATA',
+    'FROM'    => 'IDREF',
+    'HREF'    => '%URL',
+    'ID'      => 'ID',
+    'PRINT'   => 'CDATA',
+    'REL'     => 'CDATA',
+    'REV'     => 'CDATA',
+    'SEAL'    => 'CDATA',
+    'SRC'     => '%URL',
+    'TITLE'   => 'CDATA',
+  },
+  'MARGIN' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'MESSAGE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+    'STATUS'  => 'info|warning|error',
+  },
+  'META' => {
+    'ID'    => 'ID',
+    'NAME'  => 'CDATA',
+    'VALUE' => 'CDATA',
+  },
+  'NOTE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+    'ROLE'    => 'Simple|Tip|Note|Warning|Error',
+    'SRC'     => '%URL',
+  },
+  'OL' => {
+    'CHARSET' => 'CDATA',
+    'COMPACT' => 'compact',
+    'ID'      => 'ID',
+    'START'   => 'NUMBER',
+  },
+  'OPTION' => {
+    'CHARSET'  => 'CDATA',
+    'DISABLED' => 'disabled',
+    'ID'       => 'ID',
+    'SELECTED' => 'selected',
+    'SHAPE'    => 'CDATA',
+    'VALUE'    => 'CDATA',
+  },
+  'P' => {
+    'ALIGN'   => 'left|indent|center|right|justify',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+    'NOFOLD'  => 'nofold',
+    'NOWRAP'  => 'nowrap',
+  },
+  'PERSON' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'PRE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'Q' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'QUOTE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'REMOVED' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'RENDER' => {
+    'EQUIV' => 'CDATA',
+    'ID'    => 'ID',
+    'STYLE' => 'NAMES',
+    'TAG'   => 'CDATA',
+  },
+  'REV' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'S' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'SAMP' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'SELECT' => {
+    'CHARSET'  => 'CDATA',
+    'EDIT'     => 'NUMBER',
+    'ERROR'    => 'error',
+    'ID'       => 'ID',
+    'MULTIPLE' => 'multiple',
+    'NAME'     => 'CDATA',
+    'SRC'      => '%URL',
+  },
+  'STRONG' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'SUB' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'SUP' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'TAB' => {
+    'AFTER'  => 'NUMBER',
+    'BEFORE' => 'NUMBER',
+    'ID'     => 'ID',
+    'TO'     => 'IDREF',
+  },
+  'TABLE' => {
+    'BORDER'  => 'border',
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'TD' => {
+    'ALIGN'   => 'left|center|right',
+    'ALIGNON' => 'CDATA',
+    'CHARSET' => 'CDATA',
+    'COLSPAN' => 'NUMBER',
+    'ID'      => 'ID',
+    'NOWRAP'  => 'nowrap',
+    'ROWSPAN' => 'NUMBER',
+  },
+  'TEXTAREA' => {
+    'CHARSET'  => 'CDATA',
+    'COLS'     => 'NUMBER',
+    'DISABLED' => 'disabled',
+    'ERROR'    => 'error',
+    'ID'       => 'ID',
+    'NAME'     => 'CDATA',
+    'ROWS'     => 'NUMBER',
+    'WRAP'     => 'wrap',
+  },
+  'TH' => {
+    'ALIGN'   => 'left|center|right',
+    'ALIGNON' => 'CDATA',
+    'CHARSET' => 'CDATA',
+    'COLSPAN' => 'NUMBER',
+    'ID'      => 'ID',
+    'NOWRAP'  => 'nowrap',
+    'ROWSPAN' => 'NUMBER',
+  },
+  'TITLE' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'TR' => {
+    'ID' => 'ID',
+  },
+  'TT' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'U' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+  'UL' => {
+    'CHARSET' => 'CDATA',
+    'COMPACT' => 'compact',
+    'ID'      => 'ID',
+    'PLAIN'   => 'plain',
+    'WRAP'    => 'vert|horiz|none',
+  },
+  'VAR' => {
+    'CHARSET' => 'CDATA',
+    'ID'      => 'ID',
+  },
+);
+%requiredAttrs = (
+  'IMG'  => 'SRC',
+  'LINK' => 'HREF',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'AElig'  => '&#198;',
+  'Aacute' => '&#193;',
+  'Acirc'  => '&#194;',
+  'Agrave' => '&#192;',
+  'Aring'  => '&#197;',
+  'Atilde' => '&#195;',
+  'Auml'   => '&#196;',
+  'Ccedil' => '&#199;',
+  'ETH'    => '&#208;',
+  'Eacute' => '&#201;',
+  'Ecirc'  => '&#202;',
+  'Egrave' => '&#200;',
+  'Euml'   => '&#203;',
+  'Iacute' => '&#205;',
+  'Icirc'  => '&#206;',
+  'Igrave' => '&#204;',
+  'Iuml'   => '&#207;',
+  'Ntilde' => '&#209;',
+  'Oacute' => '&#211;',
+  'Ocirc'  => '&#212;',
+  'Ograve' => '&#210;',
+  'Oslash' => '&#216;',
+  'Otilde' => '&#213;',
+  'Ouml'   => '&#214;',
+  'THORN'  => '&#222;',
+  'Uacute' => '&#218;',
+  'Ucirc'  => '&#219;',
+  'Ugrave' => '&#217;',
+  'Uuml'   => '&#220;',
+  'Yacute' => '&#221;',
+  'aacute' => '&#225;',
+  'acirc'  => '&#226;',
+  'acute'  => '&#180;',
+  'aelig'  => '&#230;',
+  'agrave' => '&#224;',
+  'amp'    => '&#38;',
+  'apos'   => '&#39;',
+  'aring'  => '&#229;',
+  'ast'    => '&#42;',
+  'atilde' => '&#227;',
+  'auml'   => '&#228;',
+  'breve'  => '&#728;',
+  'brvbar' => '&#166;',
+  'bsol'   => '&#92;',
+  'caron'  => '&#711;',
+  'ccedil' => '&#231;',
+  'cedil'  => '&#184;',
+  'cent'   => '&#162;',
+  'circ'   => '&#710;',
+  'colon'  => '&#58;',
+  'comma'  => '&#44;',
+  'commat' => '&#64;',
+  'copy'   => '&#169;',
+  'curren' => '&#164;',
+  'darr'   => '&#8595;',
+  'dblac'  => '&#733;',
+  'deg'    => '&#176;',
+  'die'    => '&#168;',
+  'divide' => '&#247;',
+  'dollar' => '&#36;',
+  'dot'    => '&#729;',
+  'eacute' => '&#233;',
+  'ecirc'  => '&#234;',
+  'egrave' => '&#232;',
+  'emsp'   => '&#8195;',
+  'ensp'   => '&#8194;',
+  'equals' => '&#61;',
+  'eth'    => '&#240;',
+  'euml'   => '&#235;',
+  'excl'   => '&#33;',
+  'frac12' => '&#189;',
+  'frac14' => '&#188;',
+  'frac18' => '&#8539;',
+  'frac34' => '&#190;',
+  'frac38' => '&#8540;',
+  'frac58' => '&#8541;',
+  'frac78' => '&#8542;',
+  'grave'  => '&#96;',
+  'gt'     => '&#62;',
+  'half'   => '&#189;',
+  'hellip' => '&#8230;',
+  'horbar' => '&#8213;',
+  'hyphen' => '&#8208;',
+  'iacute' => '&#237;',
+  'icirc'  => '&#238;',
+  'iexcl'  => '&#161;',
+  'igrave' => '&#236;',
+  'iquest' => '&#191;',
+  'iuml'   => '&#239;',
+  'laquo'  => '&#171;',
+  'larr'   => '&#8592;',
+  'lcub'   => '&#123;',
+  'ldquo'  => '&#8220;',
+  'lowbar' => '&#95;',
+  'lpar'   => '&#40;',
+  'lsqb'   => '&#91;',
+  'lsquo'  => '&#8216;',
+  'lt'     => '&#60;',
+  'macr'   => '&#175;',
+  'mdash'  => '&#8212;',
+  'micro'  => '&#181;',
+  'middot' => '&#183;',
+  'nbsp'   => '&#160;',
+  'ndash'  => '&#8211;',
+  'not'    => '&#172;',
+  'ntilde' => '&#241;',
+  'num'    => '&#35;',
+  'oacute' => '&#243;',
+  'ocirc'  => '&#244;',
+  'ogon'   => '&#731;',
+  'ograve' => '&#242;',
+  'ohm'    => '&#8486;',
+  'ordf'   => '&#170;',
+  'ordm'   => '&#186;',
+  'oslash' => '&#248;',
+  'otilde' => '&#245;',
+  'ouml'   => '&#246;',
+  'para'   => '&#182;',
+  'percnt' => '&#37;',
+  'period' => '&#46;',
+  'plus'   => '&#43;',
+  'plusmn' => '&#177;',
+  'pound'  => '&#163;',
+  'quest'  => '&#63;',
+  'quot'   => '&#34;',
+  'raquo'  => '&#187;',
+  'rarr'   => '&#8594;',
+  'rcub'   => '&#125;',
+  'rdquo'  => '&#8221;',
+  'reg'    => '&#174;',
+  'ring'   => '&#730;',
+  'rpar'   => '&#41;',
+  'rsqb'   => '&#93;',
+  'rsquo'  => '&#8217;',
+  'sect'   => '&#167;',
+  'semi'   => '&#59;',
+  'shy'    => '&#173;',
+  'sol'    => '&#47;',
+  'sung'   => '&#9834;',
+  'sup1'   => '&#185;',
+  'sup2'   => '&#178;',
+  'sup3'   => '&#179;',
+  'szlig'  => '&#223;',
+  'thorn'  => '&#254;',
+  'tilde'  => '&#732;',
+  'times'  => '&#215;',
+  'trade'  => '&#8482;',
+  'uacute' => '&#250;',
+  'uarr'   => '&#8593;',
+  'ucirc'  => '&#251;',
+  'ugrave' => '&#249;',
+  'uml'    => '&#168;',
+  'uuml'   => '&#252;',
+  'vellip' => '&#8942;',
+  'verbar' => '&#124;',
+  'yacute' => '&#253;',
+  'yen'    => '&#165;',
+  'yuml'   => '&#255;',
+);
+%refParams = (
+  'URL' => '&URL',
+);
+
+1;

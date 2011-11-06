@@ -1,0 +1,619 @@
+# HTML2.x (i18n)
+
+#======= ELEMENTS =======
+$emptyTags = 'BASE|BR|HR|IMG|INPUT|ISINDEX|LINK|META|NEXTID';
+$pairTags = 'A|ADDRESS|B|BDO|BLOCKQUOTE|BODY|CITE|CODE|DD|DIR|DL|DT|EM|FORM'.
+            '|H1|H2|H3|H4|H5|H6|HEAD|HTML|I|KBD|LI|LISTING|MENU|OL|OPTION|P'.
+            '|PLAINTEXT|PRE|Q|SAMP|SELECT|SPAN|STRONG|SUB|SUP|TEXTAREA|TITLE'.
+            '|TT|UL|VAR|XMP';
+$deprecatedTags = 'XMP|LISTING|PLAINTEXT';
+$omitStartTags = 'BODY|HEAD|HTML';
+$omitEndTags = 'BODY|DD|DT|HEAD|HTML|LI|OPTION|P|PLAINTEXT';
+#$maybeEmpty = 'A|ADDRESS|B|BLOCKQUOTE|BODY|CITE|CODE|DD|DT|EM|FORM|H1|H2|H3'.
+#              '|H4|H5|H6|I|KBD|LI|LISTING|OPTION|P|PLAINTEXT|PRE|Q|SAMP|SPAN'.
+#              '|STRONG|SUB|SUP|TEXTAREA|TITLE|TT|VAR|XMP';
+$maybeEmpty = 'LISTING|PLAINTEXT|PRE|TEXTAREA|XMP';
+%requiredTags = (
+  'HEAD' => 'TITLE',
+  'HTML' => 'HEAD|BODY',
+);
+%onceonlyTags = (
+  'HEAD' => 'TITLE|ISINDEX|BASE|NEXTID',
+  'HTML' => 'HEAD|BODY|PLAINTEXT',
+);
+$sequencialTags = 'HTML';
+%tagsElements = (
+  'A'          => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'ADDRESS'    => 'P|SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG'.
+                  '|EM|BR|IMG|A|#PCDATA',
+  'B'          => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'BDO'        => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'BLOCKQUOTE' => 'ADDRESS|HR|ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU'.
+                  '|DIR|OL|UL|P|SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP'.
+                  '|CODE|STRONG|EM|BR|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'BODY'       => 'ADDRESS|HR|ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU'.
+                  '|DIR|OL|UL|P|SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP'.
+                  '|CODE|STRONG|EM|BR|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'CITE'       => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'CODE'       => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'DD'         => 'ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU|DIR|OL|UL'.
+                  '|P|SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG'.
+                  '|EM|BR|IMG|A|#PCDATA',
+  'DIR'        => 'LI',
+  'DL'         => 'DD|DT',
+  'DT'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'EM'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'FORM'       => 'ADDRESS|HR|ISINDEX|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU|DIR'.
+                  '|OL|UL|P|SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|BR|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1|INPUT|SELECT'.
+                  '|TEXTAREA',
+  'H1'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'H2'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'H3'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'H4'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'H5'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'H6'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'HEAD'       => 'TITLE|ISINDEX|BASE|NEXTID|META|LINK',
+  'HTML'       => 'HEAD|BODY|PLAINTEXT',
+  'I'          => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'KBD'        => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'LI'         => 'ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU|DIR|OL|UL'.
+                  '|P|SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG'.
+                  '|EM|BR|IMG|A|#PCDATA',
+  'LISTING'    => '%literal',
+  'MENU'       => 'LI',
+  'OL'         => 'LI',
+  'OPTION'     => '#PCDATA',
+  'P'          => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'PLAINTEXT'  => '%literal',
+  'PRE'        => 'BDO|SPAN|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|I|B|TT|BR|HR|A'.
+                  '|#PCDATA',
+  'Q'          => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'SAMP'       => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'SELECT'     => 'OPTION',
+  'SPAN'       => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'STRONG'     => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'SUB'        => '#PCDATA',
+  'SUP'        => '#PCDATA',
+  'TEXTAREA'   => '#PCDATA',
+  'TITLE'      => '#PCDATA',
+  'TT'         => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'UL'         => 'LI',
+  'VAR'        => 'SUB|SUP|BDO|Q|SPAN|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|BR|IMG|A|#PCDATA',
+  'XMP'        => '%literal',
+);
+%excludedElems = (
+  'A'        => 'A',
+  'DIR'      => 'P|UL|OL|DIR|MENU|DL|PRE|XMP|LISTING|BLOCKQUOTE|FORM|ISINDEX',
+  'FORM'     => 'FORM',
+  'MENU'     => 'P|UL|OL|DIR|MENU|DL|PRE|XMP|LISTING|BLOCKQUOTE|FORM|ISINDEX',
+  'SELECT'   => 'INPUT|SELECT|TEXTAREA',
+  'TEXTAREA' => 'INPUT|SELECT|TEXTAREA',
+  'TITLE'    => 'META|LINK',
+);
+%includedElems = (
+  'FORM' => 'INPUT|SELECT|TEXTAREA',
+  'HEAD' => 'META|LINK',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'CHARSET' => 'NAME',
+    'CLASS'   => 'NAMES',
+    'DIR'     => 'LTR|RTL',
+    'HREF'    => '%URL', # org:CDATA
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+    'METHODS' => 'NAMES',
+    'NAME'    => 'CDATA',
+    'REL'     => '%linkType',
+    'REV'     => '%linkType',
+    'TITLE'   => 'CDATA',
+    'URN'     => 'CDATA',
+  },
+  'ADDRESS' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'B' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'BASE' => {
+    'HREF' => '%URL', # org:CDATA
+  },
+  'BDO' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'BLOCKQUOTE' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'BODY' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'CITE' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'CODE' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'DD' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'DIR' => {
+    'ALIGN'   => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS'   => 'NAMES',
+    'COMPACT' => 'COMPACT',
+    'DIR'     => 'LTR|RTL',
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+  },
+  'DL' => {
+    'CLASS'   => 'NAMES',
+    'COMPACT' => 'COMPACT',
+    'DIR'     => 'LTR|RTL',
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+  },
+  'DT' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'EM' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'FORM' => {
+    'ACTION'  => 'CDATA',
+    'CLASS'   => 'NAMES',
+    'DIR'     => 'LTR|RTL',
+    'ENCTYPE' => '%Content-Type',
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+    'METHOD'  => 'GET|POST',
+  },
+  'H1' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'H2' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'H3' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'H4' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'H5' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'H6' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'HEAD' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'HR' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+  },
+  'HTML' => {
+    'CLASS'   => 'NAMES',
+    'DIR'     => 'LTR|RTL',
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+    'VERSION' => 'CDATA=-//IETF//DTD HTML i18n//EN',
+  },
+  'I' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'IMG' => {
+    'ALIGN' => 'TOP|MIDDLE|BOTTOM',
+    'ALT'   => 'CDATA',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'ISMAP' => 'ISMAP',
+    'LANG'  => '%lang', #org:NAME
+    'SRC'   => 'CDATA',
+  },
+  'INPUT' => {
+    'ACCEPT'         => 'CDATA',
+    'ACCEPT-CHARSET' => 'CDATA',
+    'ALIGN'          => 'TOP|MIDDLE|BOTTOM',
+    'CHECKED'        => 'CHECKED',
+    'CLASS'          => 'NAMES',
+    'DIR'            => 'LTR|RTL',
+    'ID'             => 'ID',
+    'LANG'           => '%lang', #org:NAME
+    'MAXLENGTH'      => 'NUMBER',
+    'NAME'           => 'CDATA',
+    'SIZE'           => 'CDATA',
+    'SRC'            => 'CDATA',
+    'TYPE'           => 'TEXT|PASSWORD|CHECKBOX|RADIO|SUBMIT|RESET|IMAGE'.
+                        '|HIDDEN|FILE',
+    'VALUE'          => 'CDATA',
+  },
+  'ISINDEX' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'KBD' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'LI' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'LINK' => {
+    'CHARSET' => 'NAME',
+    'CLASS'   => 'NAMES',
+    'DIR'     => 'LTR|RTL',
+    'HREF'    => '%URL', # org:CDATA
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+    'METHODS' => 'NAMES',
+    'REL'     => '%linkType',
+    'REV'     => '%linkType',
+    'TITLE'   => 'CDATA',
+    'URN'     => 'CDATA',
+  },
+  'LISTING' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'MENU' => {
+    'ALIGN'   => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS'   => 'NAMES',
+    'COMPACT' => 'COMPACT',
+    'DIR'     => 'LTR|RTL',
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+  },
+  'META' => {
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'NAME',
+    'NAME'       => 'NAME',
+  },
+  'NEXTID' => {
+    'N' => 'CDATA',
+  },
+  'OL' => {
+    'ALIGN'   => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS'   => 'NAMES',
+    'COMPACT' => 'COMPACT',
+    'DIR'     => 'LTR|RTL',
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+  },
+  'OPTION' => {
+    'CLASS'    => 'NAMES',
+    'DIR'      => 'LTR|RTL',
+    'ID'       => 'ID',
+    'LANG'     => '%lang', #org:NAME
+    'SELECTED' => 'SELECTED',
+    'VALUE'    => 'CDATA',
+  },
+  'P' => {
+    'ALIGN' => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'PLAINTEXT' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'PRE' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+    'WIDTH' => 'NUMBER',
+  },
+  'Q' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'SAMP' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'SELECT' => {
+    'CLASS'    => 'NAMES',
+    'DIR'      => 'LTR|RTL',
+    'ID'       => 'ID',
+    'LANG'     => '%lang', #org:NAME
+    'MULTIPLE' => 'MULTIPLE',
+    'NAME'     => 'CDATA',
+    'SIZE'     => 'NUMBER',
+  },
+  'SPAN' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'STRONG' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'SUB' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'SUP' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'TEXTAREA' => {
+    'ACCEPT-CHARSET' => 'CDATA',
+    'CLASS'          => 'NAMES',
+    'COLS'           => 'NUMBER',
+    'DIR'            => 'LTR|RTL',
+    'ID'             => 'ID',
+    'LANG'           => '%lang', #org:NAME
+    'NAME'           => 'CDATA',
+    'ROWS'           => 'NUMBER',
+  },
+  'TITLE' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'TT' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'UL' => {
+    'ALIGN'   => 'LEFT|RIGHT|CENTER|JUSTIFY',
+    'CLASS'   => 'NAMES',
+    'COMPACT' => 'COMPACT',
+    'DIR'     => 'LTR|RTL',
+    'ID'      => 'ID',
+    'LANG'    => '%lang', #org:NAME
+  },
+  'VAR' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+  'XMP' => {
+    'CLASS' => 'NAMES',
+    'DIR'   => 'LTR|RTL',
+    'ID'    => 'ID',
+    'LANG'  => '%lang', #org:NAME
+  },
+);
+%requiredAttrs = (
+  'BASE'     => 'HREF',
+  'BDO'      => 'DIR',
+  'IMG'      => 'SRC',
+  'LINK'     => 'HREF',
+  'META'     => 'CONTENT',
+  'NEXTID'   => 'N',
+  'SELECT'   => 'NAME',
+  'TEXTAREA' => 'NAME&ROWS&COLS',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'AElig'  => '&#198;',
+  'Aacute' => '&#193;',
+  'Acirc'  => '&#194;',
+  'Agrave' => '&#192;',
+  'Aring'  => '&#197;',
+  'Atilde' => '&#195;',
+  'Auml'   => '&#196;',
+  'Ccedil' => '&#199;',
+  'ETH'    => '&#208;',
+  'Eacute' => '&#201;',
+  'Ecirc'  => '&#202;',
+  'Egrave' => '&#200;',
+  'Euml'   => '&#203;',
+  'Iacute' => '&#205;',
+  'Icirc'  => '&#206;',
+  'Igrave' => '&#204;',
+  'Iuml'   => '&#207;',
+  'Ntilde' => '&#209;',
+  'Oacute' => '&#211;',
+  'Ocirc'  => '&#212;',
+  'Ograve' => '&#210;',
+  'Oslash' => '&#216;',
+  'Otilde' => '&#213;',
+  'Ouml'   => '&#214;',
+  'THORN'  => '&#222;',
+  'Uacute' => '&#218;',
+  'Ucirc'  => '&#219;',
+  'Ugrave' => '&#217;',
+  'Uuml'   => '&#220;',
+  'Yacute' => '&#221;',
+  'aacute' => '&#225;',
+  'acirc'  => '&#226;',
+  'acute'  => '&#180;',
+  'aelig'  => '&#230;',
+  'agrave' => '&#224;',
+  'amp'    => '&#38;',
+  'aring'  => '&#229;',
+  'atilde' => '&#227;',
+  'auml'   => '&#228;',
+  'brvbar' => '&#166;',
+  'ccedil' => '&#231;',
+  'cedil'  => '&#184;',
+  'cent'   => '&#162;',
+  'copy'   => '&#169;',
+  'curren' => '&#164;',
+  'deg'    => '&#176;',
+  'divide' => '&#247;',
+  'eacute' => '&#233;',
+  'ecirc'  => '&#234;',
+  'egrave' => '&#232;',
+  'eth'    => '&#240;',
+  'euml'   => '&#235;',
+  'frac12' => '&#189;',
+  'frac14' => '&#188;',
+  'frac34' => '&#190;',
+  'gt'     => '&#62;',
+  'iacute' => '&#237;',
+  'icirc'  => '&#238;',
+  'iexcl'  => '&#161;',
+  'igrave' => '&#236;',
+  'iquest' => '&#191;',
+  'iuml'   => '&#239;',
+  'laquo'  => '&#171;',
+  'lrm'    => '&#8206;',
+  'lt'     => '&#60;',
+  'macr'   => '&#175;',
+  'micro'  => '&#181;',
+  'middot' => '&#183;',
+  'nbsp'   => '&#160;',
+  'not'    => '&#172;',
+  'ntilde' => '&#241;',
+  'oacute' => '&#243;',
+  'ocirc'  => '&#244;',
+  'ograve' => '&#242;',
+  'ordf'   => '&#170;',
+  'ordm'   => '&#186;',
+  'oslash' => '&#248;',
+  'otilde' => '&#245;',
+  'ouml'   => '&#246;',
+  'para'   => '&#182;',
+  'plusmn' => '&#177;',
+  'pound'  => '&#163;',
+  'quot'   => '&#34;',
+  'raquo'  => '&#187;',
+  'reg'    => '&#174;',
+  'rlm'    => '&#8207;',
+  'sect'   => '&#167;',
+  'shy'    => '&#173;',
+  'sup1'   => '&#185;',
+  'sup2'   => '&#178;',
+  'sup3'   => '&#179;',
+  'szlig'  => '&#223;',
+  'thorn'  => '&#254;',
+  'times'  => '&#215;',
+  'uacute' => '&#250;',
+  'ucirc'  => '&#251;',
+  'ugrave' => '&#249;',
+  'uml'    => '&#168;',
+  'uuml'   => '&#252;',
+  'yacute' => '&#253;',
+  'yen'    => '&#165;',
+  'yuml'   => '&#255;',
+  'zwj'    => '&#8205;',
+  'zwnj'   => '&#8204;',
+);
+%refParams = (
+  'Content-Type' => 'CDATA+',
+  'linkType'     => 'NAMES',
+  'literal'      => 'CDATA',
+  'URL'          => '&URL',
+  'lang'         => '(?i)[A-Z]{1,8}(?:-[A-Z]{1,8})*',
+);
+
+1;

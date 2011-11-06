@@ -1,0 +1,1050 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="prev" href="./introduction.html">
+<link rel="next" href="./use-htmllintcgi.html">
+<title>Another HTML-lint : Notice</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./introduction.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./use-htmllintcgi.html">next</a>]<!--*-->
+</div><hr>
+<h1><a name="top"><span>Another HTML-lint</span></a></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/notice.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="notice">いくつかの覚え書き</a></h2>
+<ul>
+<li><a href="#utf8">UTF-8</a>
+<li><a href="#xhtml2">XHTML&#8482; 2.0</a>
+<li><a href="#xhtml11">XHTML&#8482; 1.1</a>
+<li><a href="#xhtmlbasic">XHTML&#8482; Basic</a>
+<li><a href="#xhtml1">XHTML&#8482; 1.0</a>
+<li><a href="#html401">HTML4.01</a>
+<li><a href="#html40">HTML4.0</a>
+<li><a href="#html32">HTML3.2</a>
+<li><a href="#html30">HTML3.0</a>
+<li><a href="#htmlplus">HTML+</a>
+<li><a href="#html20">HTML2.0</a>
+<li><a href="#html10">HTML1.0</a>
+<li><a href="#mozilla">Mozilla</a>
+<li><a href="#ie50">MSIE5.0</a>
+<li><a href="#ie40">MSIE4.0</a>
+<li><a href="#ie30">MSIE3.0</a>
+<li><a href="#ie30b">MSIE3.0β</a>
+<li><a href="#webexp">WebExplorer</a>
+<li><a href="#ncals">NCALS HTML2.0</a>
+<li><a href="#iso15445">ISO/IEC 15445</a>
+<li><a href="#html40mobile">HTML4.0 Mobile</a>
+<li><a href="#CompactHTML">Compact HTML</a>
+<li><a href="#iMode">iモード</a>
+<li><a href="#J-SkyWeb">J-SkyWeb</a>
+<li><a href="#doti">ドットi</a>
+<li><a href="#Hqq">H&quot;</a>
+<li><a href="#hdml">HDML</a>
+<li><a href="#xhtmlmp">XHTML Mobile Profile</a>
+<li><a href="#jpo">特許出願用HTML</a>
+<li><a href="#rfc2368">RFC2368</a>
+<li><a href="#rfc2396">RFC2396</a>
+</ul>
+<p><a href="http://www.w3.mag.keio.ac.jp/">慶應義塾大学内のサイト</a>は<a href="http://www.w3.org/">W3C</a>をミラーしているわけではないそうです。<!-- 古賀@W3C --></p>
+<p><a href="./explain.html">結果の解説</a>に、どうしてもブロックレベル要素とインライン要素の話が出て来てしまう。ここら辺は、なるべくうやむやに、しかし間違いではないように、妙な気を使って書いていましたが、だんだんとそうもいかなくなってきました。これらを解説しようとすると、どうしたってHTMLの基礎を解説することになっちまって、かなりの馬力が必要です。困ったな。<a href="./reference.html">他にいくらでも優秀なサイトがある</a>ので、そっちを見てもらうことにしよう。</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="utf8">UTF-8</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://openlab.ring.gr.jp/Jcode/index-j.html">Jcode.pm</a>を使って<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2279.txt">UTF-8</a>をハンドリングしています。いくらか制約があります。
+</p>
+<ul>
+<li>0.57より前の版では、文書から自動的にそれがUTF-8であるかどうかを判定できません。したがって、CHARSETなどによって明示的にUTF-8と指定された場合のみUTF-8として評価します。
+<li>変換できない文字は、<code>\xa2\xf7</code> のように変換されます。
+<li>0.40より前の版では、JIS第一、第二水準以外にマップされる文字などは、正しく表示されないかも知れません。特に、ASCII文字中の \ (0x5C)、~ (0x7E) も該当します。<!--0.40以降のJcode.pmではこれらのASCII文字に対して $Jcode::Unicode::PEDANTIC によって制御できるようになりました。-->
+</ul>
+<p>
+(<span class="date">1999/07/15</span>)
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="xhtml2">XHTML&#8482; 2.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p><a href="http://www.w3.org/TR/2002/WD-xhtml2-20020805/">XHTML&#8482; 2.0</a> のドラフトが出ています。DTDが見つからないので対応できません。
+(<span class="date">2002/08/08</span>)
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="xhtml11">XHTML&#8482; 1.1</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p><a href="http://www.w3.org/TR/xhtml11/">XHTML&#8482; 1.1</a>が勧告された (<span class="date">2001/05/31</span>)。</p>
+
+<hr size="1" width="50%">
+
+<p><a href="http://www.w3.org/TR/xhtml11/">XHTML&#8482; 1.1</a>は勧告案 (<span class="date">2001/04</span>)、Modularization of XHTML&#8482;は、勧告された (<span class="date">2001/02/22</span>)。</p>
+
+<hr size="1" width="50%">
+
+<p>
+<a href="http://www.w3.org/TR/xhtml11/">XHTML&#8482; 1.1</a>は、まだドラフトである(<span class="date">2000/03</span>)。次のような特徴があります。
+</p>
+<ul>
+<li>HTML4のTransitionalやFramesetな要素が排除された。
+<li>&lt;a&gt; などの name 属性が廃止された。
+<li>DTDで、要素がモジュール化され、見通しがよくなり、カスタマイズが容易になった。
+<li><a href="http://www.w3.org/TR/ruby/">ルビ</a>(<a href="http://www.asahi-net.or.jp/~sd5a-ucd/PR-ruby/">内田明訳</a>)モジュールが含まれている。
+</ul>
+<p>
+(<span class="date">2000/03/27</span>)
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="xhtmlbasic">XHTML&#8482; Basic</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p><a href="http://www.w3.org/TR/xhtml-basic/">XHTML&#8482; Basic</a>は、2000/12/19 に勧告されました。</p>
+
+<hr size="1" width="50%">
+<p>
+<a href="http://www.w3.org/TR/xhtml-basic/">XHTML&#8482; Basic</a>というXHTML1.1のサブセットもある。これは、携帯電話やPDAなどの小型情報機器向けの仕様になっていて、イメージ、フォーム、基本的なテーブルなどが含まれています。<br>
+規則ファイル作成にあたっては、xhtml-framework-1.mod 内の xhtml-arch.module を IGNORE にしました。
+</p>
+<p>(<span class="date">2000/03/27</span>)</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="xhtml1">XHTML&#8482; 1.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p><a href="http://www.w3.org/TR/2002/REC-xhtml1-20020801/">XHTML&#8482; 1.0 (Second Edition)</a> が勧告されていました。<br>
+&lt;base href&gt; が #REQUIRED になってめでたしめでたし。
+(<span class="date">2002/08/08</span>)</p>
+
+<hr size="1" width="50%">
+
+<!--
+<p><a href="http://www.w3.org/TR/2001/WD-xhtml1-20011004/">XHTML&#8482; 1.0 (Second Edition)</a>。
+(<span class="date">2001/10/15</span>)</p>
+<hr size="1" width="50%">
+-->
+
+<p>
+<a href="http://www.w3.org/TR/2000/REC-xhtml1-20000126/">XHTML&#8482; 1.0</a>は<a href="http://www.w3.org/TR/REC-html40/">HTML4</a>をベースにした<a href="http://www.w3.org/TR/REC-xml">XML</a>で、HTMLとしての上っ面だけ見ると次のような特徴があります。
+</p>
+<ul>
+<li>要素名や属性名は小文字で書かなければならない。大文字はだめ。
+    <table border="1" class="code-sample">
+    <tr><td>○<td><code>&lt;a href="http://k16.org/"&gt;</code></tr>
+    <tr><td>×<td><code>&lt;A HREF="http://k16.org/"&gt;</code></tr>
+    </table>
+<li>開始タグや終了タグの省略はできない。
+    <table border="1" class="code-sample">
+    <tr><td>○<td><code>&lt;p&gt;ほにゃらら&lt;/p&gt;&lt;p&gt;ぴー&lt;/p&gt;</code></tr>
+    <tr><td>×<td><code>&lt;p&gt;ほにゃらら&lt;p&gt;ぴー</code></tr>
+    </table>
+<li>属性値はすべて引用符で囲まなければならない。
+    <table border="1" class="code-sample">
+    <tr><td>○<td><code>&lt;ol start="5"&gt;</code></tr>
+    <tr><td>×<td><code>&lt;ol start=5&gt;</code></tr>
+    </table>
+<li>属性名の省略はできない。(<a href="./explain.html#minimized-attribute">属性値の省略ではありません</a>)
+    <table border="1" class="code-sample">
+    <tr><td>○<td><code>&lt;dl compact="compact"&gt;</code></tr>
+    <tr><td>×<td><code>&lt;dl compact&gt;</code></tr>
+    </table>
+<li>空要素タグは <code>/&gt;</code> で終わらせる。(<a href="./explain.html#leading-space-endtag-slash"><code>/&gt;</code> の前には空白を空けるよう薦められています</a>)<br>
+    実はすべての要素には終了タグがあるので、<code>/&gt;</code> で終わらせるのは、単なる短縮形です。非空要素タグを短縮形で書くことは禁止されています。
+    <table border="1" class="code-sample">
+    <tr><td>○<td><code>&lt;img src="panda.jpg" alt="panda" /&gt;</code></tr>
+    <tr><td>○<td><code>&lt;img src="panda.jpg" alt="panda"&gt;&lt;/img&gt;</code></tr>
+    <tr><td>△<td><code>&lt;img src="panda.jpg" alt="panda"/&gt;</code></tr>
+    <tr><td>×<td><code>&lt;img src="panda.jpg" alt="panda"&gt;</code></tr>
+    <tr><td>×<td><code>&lt;td /&gt;</code></tr>
+    </table>
+<li>SCRIPTやSTYLEの内容がCDATAではなく#PCDATAとなりました。<br>
+    これは非常に大きな違いで、CDATAを直接記述するためには内容をコメントで囲めばいいわけではなく、マーク区間を利用します。ただし、<!--XMLによる制約から、--><a href="./explain.html#badstr-in-marked-section">CDATAマーク区間中に <code>]]&gt;</code> を記述することはできません</a>。CDATA以外のマーク区間では、<code>&lt;</code>、<code>&amp;</code> も記述することはできません。つまり、<code>]]&gt;</code> を含むスクリプトやスタイルシートの記述を直接HTML中に埋め込むことはできませんし、<a href="./explain.html#embedded-in-cdata"><code>--</code> などを含ませることも薦められていません</a>。そのようなときは外部にスクリプトやスタイルシートを用意しなければなりません。
+    <table border="1" class="code-sample">
+    <tr><td>○<td><code>&lt;script&gt;<br>
+                        &lt;![CDATA[<br>
+                        ... if (var &gt; 100) ...<br>
+                        ]]&gt;<br>
+                        &lt;/script&gt;</code></tr>
+    <tr><td>△<td><code>&lt;script&gt;<br>
+                        &lt;!--<br>
+                        ... if (var &amp;gt; 100) ...<br>
+                        //--&gt;<br>
+                        &lt;/script&gt;</code></tr>
+    <tr><td>×<td><code>&lt;script&gt;<br>
+                        &lt;!--<br>
+                        ... if (var &gt; 100) ...<br>
+                        //--&gt;<br>
+                        &lt;/script&gt;</code></tr>
+    <tr><td>×<td><code>&lt;script&gt;<br>
+                        &lt;![CDATA[<br>
+                        &lt;!--<br>
+                        ... if (var &amp;gt; 100) ...<br>
+                        //--&gt;<br>
+                        ]]&gt;<br>
+                        &lt;/script&gt;</code></tr>
+    <tr><td>○<td><code>&lt;script&gt;<br>
+                        &lt;![CDATA[<br>
+                        ... if (var &lt; 100) ...<br>
+                        ]]&gt;<br>
+                        &lt;/script&gt;</code></tr>
+    </table>
+</ul>
+<p>と、ここまではチェックしています。この他にも、次のようなのがあります。</p>
+<ul>
+<li>属性値の先行後行する空白を捨て、連続空白をひとつの空白にする、というのは行なっています。
+<li>name 属性は使わずに id 属性を使うように、警告されます。
+<li>XML名前空間に関しては、対応できていません。
+<li>除外要素に関してDTDからは読めずに、Appendix B. にあったりする。これは、XMLの制約による。<br>
+<li><a href="#html401">HTML4.01</a>で追加された属性をDTDに追加しましたが、もしかしたら余計なお世話なのかも。
+<li>MIMEタイプの変更はありません。<strong>text/html</strong> のままです。text/xhtml ではありません。text/html ならばHTMLとして評価され、text/xml ならXMLとして評価されます。
+</ul>
+<p>(<span class="date">2000/02/08</span>)</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="html401">HTML4.01</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>HTML4.0は、<a href="http://www.w3.org/TR/html401/">HTML4.01</a> に改訂されました(<span class="date">1999/12/24</span>)。これに伴って HTML4.0 は obsolete になっています。<br>
+それほど多くの改訂があるわけではありません。次の属性が追加されています。</p>
+<ul>
+<li>&lt;IMG NAME&gt;
+<li>&lt;FORM NAME&gt;
+<li>&lt;INPUT ISMAP&gt;
+</ul>
+<p>あとはいくらかのDTDの修正などです。<br>
+仕様書本文にも、いろいろ修正がありますが、ちゃんとは目を通していません。(<span class="date">1999/09/12</span>)</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="html40">HTML4.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://www.w3.org/TR/1998/REC-html40-19980424/intro/intro.html#h-2.1.1">HTML4.0</a>では、親しまれている "URL"(Uniform Resource Locator) の代わりに、より広義の "URI"(Uniform Resource Identifier) を用いています。これらは、ちゃんと使い分けなければならないのですが、きちんとできてません。詳しくは <a href="http://www.w3.org/Addressing/">Web Naming and Addressing Overview</a>。
+</p>
+<p>
+<a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0</a>の赤枠で囲まれている ILLEGAL EXAMPLE はすべて警告されるようにした、つもり。
+</p>
+<p>
+<a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0</a> (<a href="http://www.w3.org/pub/WWW/MarkUp/Cougar/">Cougar</a>) のDTDで、loose.dtd にあり strict.dtd にないタグのうち、以下を薦められないタグとしました。
+</p>
+<ul>
+<li>&lt;APPLET&gt;
+<li>&lt;CENTER&gt;
+<li>&lt;DIR&gt;
+<li>&lt;MENU&gt;
+<li>&lt;ISINDEX&gt;
+</ul>
+<p>
+これら以外で、loose.dtd にあり strict.dtd にないタグで、フレーム関係以外のものは以下のとおりなんですが、これらは、スタイルシート(<a href="http://www.w3.org/TR/REC-CSS1">CSS1</a>/<a href="http://www.w3.org/TR/REC-CSS2/">CSS2</a>)で行なえ、という主旨らしいです。これらも薦められないタグとしましたが、スタイルシートをサポートしていないWWWブラウザのためには使わざるを得ないような気もするんだけど、使っちゃいかんというのならそれはそれでよい。
+</p>
+<ul>
+<li>&lt;U&gt;
+<li>&lt;S&gt;
+<li>&lt;STRIKE&gt;
+<li>&lt;FONT&gt;
+<li>&lt;BASEFONT&gt;
+</ul>
+<p>
+loose.dtd にあり strict.dtd にない属性は以下のとおりです。しかし、&lt;OL START&gt;などは、だめと言われてもCSS1には代替がないので、どうするつもりなんでしょ(CSS2にはある?)。
+</p>
+<ul>
+<li>&lt;BODY BACKGROUND BGCOLOR TEXT LINK VLINK ALINK&gt;
+<li>&lt;BR CLEAR&gt;
+<li>&lt;CAPTION ALIGN&gt;
+<li>&lt;DIV ALIGN&gt;
+<li>&lt;DL COMPACT&gt;
+<li>&lt;Hn ALIGN&gt;
+<li>&lt;HR ALIGN NOSHADE SIZE WIDTH&gt;
+<li>&lt;IMG ALIGN BORDER HSPACE VSPACE&gt;
+<li>&lt;INPUT ALIGN&gt;
+<li>&lt;LEGEND ALIGN&gt;
+<li>&lt;LI TYPE VALUE&gt;
+<li>&lt;OBJECT ALIGN BORDER HSPACE VSPACE&gt;
+<li>&lt;OL TYPE COMPACT START&gt;
+<li>&lt;P ALIGN&gt;
+<li>&lt;PRE WIDTH&gt;
+<li>&lt;TABLE ALIGN BGCOLOR&gt;
+<li>&lt;TD NOWRAP BGCOLOR WIDTH HEIGHT&gt;
+<li>&lt;TH NOWRAP BGCOLOR WIDTH HEIGHT&gt;
+<li>&lt;TR BGCOLOR&gt;
+<li>&lt;UL TYPE COMPACT&gt;
+</ul>
+<p>
+&lt;TD&gt;、&lt;TH&gt;の要素を空にできないと、空のセルを作れないので、空にできるとみなしました。<a href="http://www.w3.org/TR/REC-html40/struct/tables.html#h-11.4.2">HTML4.0 11.4.2</a> には、実際にそのような例が出てきます。<br>
+&lt;TABLE&gt;、&lt;TD&gt;、&lt;TH&gt;のWIDTH属性が%Pixels;となっていますが、%指定できるように%Length;に変更しました。<br>
+loose.dtdでは、&lt;BASE&gt;のHREF属性が必須ではなくなりましたが、HREF属性とTARGET属性のどちらかが必要だとしました。<br>
+&lt;SCRIPT&gt;と&lt;STYLE&gt;にTYPE属性が必要となっています。値は<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2045.txt">ContentType</a>です。それぞれ、text/javascript とか text/css とか書いてください。<br>
+Mozillaにはあるが、&lt;FORM&gt;にNAME属性がない。SCRIPT書くのにちょっと困るかも知れない。しかし、NAME属性はID属性に取って代わられる方向のようだ。<br>
+&lt;OBJECT ARCHIVE&gt; は space separated archive list なのに、&lt;APPLET ARCHIVE&gt; は comma separated archive list なんだ。
+</p>
+<p>
+HTML4.0では、16進の文字参照ができる。&amp;#x6C34; みたいに。
+</p>
+<p>
+HTML4.0では、IDやNAMEに "_" や ":" が使えると書いてある。つまり、SGML宣言の</p>
+<pre>    LCNMCHAR ".-_:"
+    UCNMCHAR ".-_:"</pre>
+<p>の部分だ。<code>SHORTTAG YES</code> はデフォルトなので、HTML4.0では、属性値に "_" や ":" を含む文字列を与えるときに、引用符で囲まなくてもよいということになる。
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="html32">HTML3.2</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+HTML3.2のDTDでは、&lt;INPUT&gt;などが&lt;FORM&gt;の外にも書けるようになっているが、<a href="http://www.w3.org/TR/REC-html32">HTML 3.2 Reference Specification</a> では "<q>INPUT, SELECT and TEXTAREA are only allowed within FORM elements.</q>" と書かれていて矛盾しています。これはおそらくDTDの方が正しい。<a href="http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.2">HTML 4.0 Specification 17.2 Controls</a> では、"<q>The following control elements generally appear within a FORM element declaration. However, these elements may also appear outside of a FORM element declaration when they are used to build user interfaces.</q>" と&lt;FORM&gt;の外側に書けるようにした理由が書かれている。<!-- 角健太郎 --><br>
+Mozillaでは、&lt;INPUT&gt;などを&lt;FORM&gt;の外に書くと、そういう要素は無視されて表示されない。MSIEでは表示される。
+</p>
+
+<p>
+<a href="http://www.w3.org/pub/WWW/MarkUp/Wilbur/">HTML3.2</a> のDTDには、実体宣言に &amp;quot; が欠落しています。これはW3Cも認めている誤りです。完全DTDベースの <a href="http://validator.w3.org/">W3C HTML Validation Service</a> ではエラーになりますが、補正してある Another HTML-lint ではエラーになりません。</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="html30">HTML3.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://www.w3.org/pub/WWW/MarkUp/html3/">HTML3.0</a> (<a href="http://www.w3.org/hypertext/WWW/Arena/">Arena</a>) は、すでに破棄されてしまった仕様です。このHTMLは仕様が大きく、ちょっと荷が重かったのですが、かなり手抜きをして何とか規則ファイルを作ることができました。<br>
+DTDの次のような記述は実装されていません。
+</p>
+<ul>
+<li>SHORTREF/USEMAPによる短縮参照
+<li>NOTATIONによる記法宣言
+</ul>
+<p>
+短縮参照は、&lt;MATH&gt;タグなど用に宣言されていて、X<sup>2</sup> みたいな表現を、X^2^ と書くだけで済まそう、とかいう代物で、他にもいろいろな短縮形が宣言されています。記法宣言は&lt;STYLE&gt;で行なわれています。
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="htmlplus">HTML+</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>HTML+ は、http://www.w3.org/MarkUp/HTMLPlus/htmlplus_1.html を基にしていましたが、最近になって、<!--このドラフトは期限切れで、-->より新しい <a href="http://www.w3.org/MarkUp/htmlplus_paper/htmlplus.dtd">DTD</a>の存在を知りました。
+(2008/02/19)
+</p>
+<p>DTDに次のような部分がある。</p>
+<pre>
+    &lt;!ENTITY mdash  SDATA "[ndash ]"--=em dash--&gt;
+</pre>
+<p>"[ndash ]" は "[mdash ]" の誤りだろう。
+また、</p>
+<pre>
+    &lt;!DOCTYPE htmlplus [
+       &lt;!ENTITY % HTML.tables "INCLUDE"&gt;
+       &lt;!ENTITY % HTML.forms "INCLUDE"&gt;
+    ]&gt;
+</pre>
+<p>のようにして、拡張しろみたいなことが書かれていて、コアのDTDではTABLE等は使えなくなっている。</p>
+<pre>
+    &lt;!ENTITY % HTML.tables "IGNORE"&gt;
+    &lt;!ENTITY % HTML.figures "IGNORE"&gt;
+    &lt;!ENTITY % HTML.emph "IGNORE"&gt;
+    &lt;!ENTITY % HTML.forms "IGNORE"&gt;
+</pre>
+<p>上記をINCLUDEして規則ファイルを作成してあります。</p>
+<pre>
+    &lt;!ENTITY % HTML.math "IGNORE"&gt;
+</pre>
+<p>HTML.mathはIGNOREのままです。
+HTML.mathとHTML.figuresは背反していて、HTML.figuresをINCLUDEすると、HTML.mathの要素MATHがどこからも参照されなくなる。</p>
+<pre>
+    &lt;![ %HTML.figures [ &lt;!ENTITY % text "#PCDATA|A|IMG|FIG|%emph;|%misc;"&gt; ]]&gt;
+    &lt;!ENTITY % text "#PCDATA|A|IMG|%emph;|%misc; %math;"&gt;
+</pre>
+
+<hr size="1" width="50%">
+
+<p>
+<a href="http://www.w3.org/MarkUp/HTMLPlus/htmlplus_1.html">HTML+</a>は、HTML文書を&lt;HTMLPLUS&gt;〜&lt;/HTMLPLUS&gt;で囲むことになっていて、ちょっと異色だ。つまり、</p>
+<pre>    &lt;!DOCTYPE HTMLPLUS [ 〜 ]&gt;</pre>
+<p>となっている。<br>
+文字参照の定義をHTML1.0のDTDからコピーしたらしく、&amp;amp;と&amp;lt;に同じ間違いがある。&amp;quot;などがあるように書いてあるけど、DTDには欠落している。
+</p>
+<p>DTD中の次の部分</p>
+<pre>    &lt;!ELEMENT HTMLPLUS O O ((HEAD, BODY) | ((%setup;), (%main;)*))&gt;
+    &lt;!ELEMENT HEAD - - (%setup;) -- delimits document wide properties --&gt;
+    &lt;!ELEMENT BODY - - (%main;)* -- delimits the document's body --&gt;</pre>
+<p>は次のように書き換えた。</p>
+<pre>    &lt;!ELEMENT HTMLPLUS O O (HEAD, BODY)&gt;
+    &lt;!ELEMENT HEAD O O (%setup;) -- delimits document wide properties --&gt;
+    &lt;!ELEMENT BODY O O (%main;)* -- delimits the document's body --&gt;</pre>
+<p>これは、オリジナルと若干の意味の相違がある。つまり、オリジナルでは、HEADやBODYの開始タグを書いて終了タグを書かないなどということが禁止されている。<br>
+また、ADDRESSとBLOCKQUOTEが定義されているがどこからも参照されていない。</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="html20">HTML2.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p>
+HTML2.0は破棄されました。(<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2854.txt">RFC2854</a>)
+</p>
+<hr size="1" width="50%">
+<p>
+<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1866.txt">HTML2.0</a>では、以下のようなDTDのヴァリエーションが書かれていますが、Another HTML-lint では、DOCTYPEにどれを書いてもすべて同じ扱いです。
+</p>
+<ul>
+<li><code>PUBLIC "-//IETF//DTD HTML//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML 2.0//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML Level 2//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML 2.0 Level 2//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML Level 1//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML 2.0 Level 1//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML Strict//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML 2.0 Strict//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML Strict Level 2//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML 2.0 Strict Level 2//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML Strict Level 1//EN"</code>
+<li><code>PUBLIC "-//IETF//DTD HTML 2.0 Strict Level 1//EN"</code>
+</ul>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="html10">HTML1.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+参考までに、<a href="http://www.w3.org/MarkUp/draft-ietf-iiir-html-01.txt">HTML1.0</a>のDTDも見てみました。実用的価値は皆無です。(<span class="date">1998/07/07</span>)<br>
+DTDの以下の部分を修正しました。
+</p>
+<pre>    &lt;!ENTITY % bodyelement
+             "P | %heading |
+             %list | DL | HEADERS | ADDRESS | PRE | BLOCKQUOTE
+            | %literal"&gt;</pre>
+<p>
+の <code>HEADERS</code> というのがどこにも出て来ないので削除した。
+</p>
+<pre>    &lt;!ENTITY amp "&amp;amp;" -- ampersand --&gt;
+    &lt;!ENTITY lt "&amp;lt;" -- less than --&gt;</pre>
+<p>
+は、それぞれ、<code>"&amp;#38;"</code>、<code>"&amp;#60;"</code> とした。
+</p>
+<p>
+よく見ると、HTML1.0でも&lt;PRE&gt;内に&lt;IMG&gt;は書けない。<a href="http://www.lne.com/Web/">Laura Lemay</a>女史は、何を参考にしたのだろうか。HTML+では&lt;PRE&gt;内に&lt;IMG&gt;が書けるのだが、こういう都合のいいところだけ先取りしていたのだろうか。
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="mozilla">Mozilla</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://developer.netscape.com/docs/manuals/htmlguid/index.htm">HTML Tag Reference (<span class="date">1998/01/26</span>)</a> には記述がないが、&lt;TABLE BACKGROUND&gt; が有効なようだ<!-- textnerd -->。&lt;TD&gt;、&lt;TH&gt;なども。いつから有効は、例えば <a href="http://www.blooberry.com/indexdot/html/supportkey/t.htm">http://www.blooberry.com/indexdot/html/supportkey/t.htm</a> に記述がある<!--森田雄-->。(<span class="date">2000/01/22</span>)
+</p>
+
+<hr size="1" width="50%">
+<!--<p>
+いくつかのヴァージョン(4.04や4.51など)のMozillaでは、スタイルシート有効な状態でJavaScriptを含むページを一度でも表示した後、</p>
+<pre>    &lt;p&gt;&lt;img 〜&gt;&lt;/p&gt;</pre>
+<p>のようなコードを含むページを表示しようとすると死ぬことが多い。
+</p>-->
+<p>
+<span class="date">1998/04/24</span>版のHTML4.0の <a href="http://www.w3.org/TR/1998/REC-html40-19980424/intro/sgmltut.html">3 On SGML and HTML</a> を MacのMozilla(4.05/PPC)で開こうとするとMozillaが死ぬ。死なないようにするには、スタイルシートを無効にするか、41行目の &lt;dfn&gt; を削除すればいい(&lt;/dfn&gt;も)。
+</p>
+<hr size="1" width="50%">
+<p>
+<a href="http://home.netscape.com/navigator/">Navigator</a>/<a href="http://home.netscape.com/comprod/products/communicator/">Communicator</a>(Mozilla)のDTDは存在しないらしいので、HTML2.0/HTML3.2のDTDをベースに、Netscape社の <a href="http://developer.netscape.com/docs/manuals/htmlguid/index.htm">HTML Tag Reference (<span class="date">1998/01/26</span>)</a> を参考にして捏造しました。その際、リファレンスの納得のいかない記述は曲解しました。それらや疑問点は以下のとおりです。また、リファレンスはDTDに比べて正確さが格段に落ちるため、DTD化にあたってはHTML2.0/HTML3.2を踏襲しています。これらにない部分は、HTML4.0を参考にしています。
+</p>
+<ul>
+<li>&lt;LINK&gt;はMozilla4.0からサポートされたが、どうもリファレンスがうそ臭い。REV属性がないようだが、補っておこう。また、HREF属性ではなくSRC属性であるが、実際にはHREFで動作する。HTML4.0を考慮してHREF属性も追加しておこう。
+<li>&lt;DT&gt;、&lt;DD&gt;が空要素タグとされている。しかし、&lt;DL&gt;中にこれらだけが許されるようにするには、空要素タグではDTDで表現するのがとても面倒だ。終了タグ省略可能にした。
+<li>&lt;PLAINTEXT&gt;が空要素タグだが、HTMLは&lt;/HTML&gt;で終了する都合上終了タグ省略可能とした。
+<li>&lt;AREA&gt;にALT属性がないが補っておこう。
+<li>&lt;FORM&gt;の各コントロールは&lt;FORM&gt;の外に出せない。その代わりACTION属性が必須ではないようだ。
+<li>&lt;INPUT&gt;のTYPE属性は省略可能か。記述がみつからない。HTML3.2は省略可能でTEXTが既定値となっている。実際にはMozillaもそのように動作する。
+<li>リファレンスにはないが、&lt;INPUT&gt;にWIDTH、HEIGHT、BORDERなどが書けて、ちゃんと評価される<!-- 星野美季 -->。
+<li>同様に、&lt;IMG NOSAVE&gt;というのが存在する<!-- 星野美季 -->。
+<li>&lt;EMBED&gt;にUNIT属性が追加されているが、新しく追加されたようなことは書いていない。
+<li>&lt;OBJECT&gt;が追加されている。空要素タグになっているが、HTML4.0ではそうでないし、解説中にも許される要素の説明や、&lt;/OBJECT&gt;が出てくるので、終了タグを補った。
+<li>&lt;LAYER&gt;にはCLASS属性が含まれていない。しかし、<a href="http://developer.netscape.com/docs/manuals/communicator/dynhtml/index.htm">Dynamic HTML</a>の方のサンプルにはしっかりと使われている。これはきっとSTYLE属性とかも書けるに違いない。
+<li>&lt;HYPE&gt;という秘密のタグが存在する。
+</ul>
+<p>
+<a href="ftp://www.ring.gr.jp/pub/net/www/mozilla/">ソースが公開されている</a>のだから、その気になればこういったことの実装を確認できるんだけれど、あまりやる気がないなぁ。
+</p>
+<p>
+Netscape社の作ったものじゃないですが、MozillaのDTDが<a href="http://valsvc.webtechs.com/index.htm">WebTechsのサイト</a>にあることを発見しました(<span class="date">1997/07/31</span>)。しかし、古いし、あまりよくありませんでした。
+</p>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/mozilla40.dtd">Mozilla4.0 DTD</a></div>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/mozilla30.dtd">Mozilla3.0 DTD</a></div>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/mozilla.dtd">Mozilla2.0 DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="ie50">MSIE5.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://msdn.microsoft.com/workshop/author/html/reference/elements.asp">MSIE5.0に対応したリファレンス</a>がある。しかし、例によって内容は不正確だし矛盾だらけである。(<span class="date">1999/07/29</span>)<br>
+きわめてお粗末な DynamicHTML のプログラミングのために、自社製品のIE5上でもランタイムエラーが頻発する。しかも、ダイナミックに変更されたものがすべて表示されているかというと、ちょん切れていたりするから始末が悪い。つまり、Members/Attributes に全属性が表示されている保証はない。再読込みしたり、All を選んだりと試行錯誤が必要だ。まあ、どうせ信用性に乏しいので、たいした問題ではないとも言える。<a href="#ie40">MSIE4.0</a>のときの問題点は、ほとんど解決されていないと思ってよい(問題意識がないのだろう)。&lt;SCRIPT&gt;のコメントは直っているみたいだけど。
+</p>
+<ul>
+<li>Syntax に出てくる属性と、Members に出てくる属性が、ほとんどのタグで一致しない。統一性もない。&lt;SELECT&gt; などめちゃくちゃだ(中身が空)。
+<li>Events がでたらめに見える。MSIE4.0にあったものが落ちていたり、同一カテゴリのタグで使用できる Event が異なっていたり。なるべく多くを包含するようにDTDは作ってあります。
+<li><q>The OL element is a block element and requires a closing tag.</q> といっていながら Syntax には終了タグがなかったりする。だいたい <q>closing tag</q> なんてのは正しい用語か。
+<li>&lt;BODY&gt; の Members には onblur/onfocus/onload/onunload が含まれていないが、Remarks に window object のためなら使えるようなことが書いてある。どういう意味かよくわからんが、追加しておこう (IE4にも)。
+<li>&lt;DL COMPACT=TRUE&gt; みたいに、こういった属性は値に true/false を採ることができる。
+<li>&lt;BODY BGPROPERTIES&gt; は、値に FIXED と "" を採り得る。
+<li>&lt;INPUT TYPE=PASSWORD VCARD_NAME="..."&gt; 属性名に下線を使ってやがる。
+<li><q>The NEXTID element does not require a closing tag.</q> とあるのに NEXTID というタグに関する解説はない。
+<li>&lt;RUBY&gt; は、<a href="http://www.w3.org/TR/WD-ruby/">W3Cのドラフト</a>のサブセットのようにリファレンスからは読めるが、実験してみるとそのドラフト(著者はMSの方)の仕様をすべて満たしているようで、ちゃんと&lt;RP&gt;も解釈できている。つまり、
+<dl><dd><table class="code-sample"><tr><td>
+<code>&lt;RUBY&gt;日本語&lt;RP&gt;(&lt;RT&gt;にほんご&lt;RP&gt;)&lt;/RUBY&gt;</code>
+</tr></table></dl>
+と書ける。ということは、&lt;RB&gt;も存在するということだが、&lt;RB&gt;は開始終了タグ共省略可能なので、本当にサポートしているのかを確かめるのは難しいんだけど。<br>
+MSIE5なら次はちゃんとかっこの付いていないルビ付きで表示されるはずだ。そうでなければ、ルビがかっこ付きでふつうのテキストとして「日本語(にほんご)」とそのまま表示される。
+<dl><dd><table class="code-sample"><tr><td>
+<code><ruby>日本語<rp>(<rt>にほんご<rp>)</ruby></code>
+</tr></table></dl>
+この&lt;RP&gt;が解釈できることは、非ルビサポートのユーザエージェントのことを考えると、非常に重要だ。リファレンスに公開されていないのは単なるマヌケか。
+<li>custom Element なんてサポートできない。
+<li>&lt;HTML XMLNS:namespace&gt; は評価できない。&lt;HTML XMLNS:Prefix1 XMLNS:Prefix2="www.microsoft.com"&gt; なんてHTMLの文法じゃないじゃんか。いや、XMLNS:Prefix1 までで属性名とみなせなくもないか。なおさら評価できないや。
+<li>&lt;XML&gt; は、うさんくさいのでちょっと保留。
+</ul>
+
+<p>
+&lt;HTML XMLNS:namespace&gt; と &lt;XML&gt; を解釈するようにしたが、XML名前空間などをちゃんと評価はできない。(<span class="date">1999/10/31</span>)
+</p>
+<ul>
+<li>&lt;XML&gt;〜&lt;/XML&gt; 内には、任意の名前の要素を書けるようにした。ただし、すべてに終了タグが必要。
+<li>&lt;HTML XMLNS:namespace&gt; で宣言された namespace は、&lt;STYLE&gt; 内で要素名などの詳細を宣言されるが、そこまではチェックしていない。宣言された namespace を使った要素(custom Elemnt)は、インライン要素として評価される。
+</ul>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/ie55.dtd">MSIE5.5 DTD</a></div>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/ie50.dtd">MSIE5.0 DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="ie40">MSIE4.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+MSIE4.0では、&lt;/P&gt;の直前に&lt;BR&gt;があると、&lt;/P&gt;が無視されるように見える。Mac版だけか? さらに、VScriptをサポートしてないって出るぞ。自分とこのページにわんさと使ってるのにいいのか?
+</p>
+
+<p>
+<a href="http://msdn.microsoft.com/workshop/author/html/reference/elements.asp">MSIE4.0のリファレンス</a>が公開されているのだが、ひどいねこりゃ。ダウンロードイメージがないので、あとでゆっくりというわけにいかないことからしてけしからんのだが、目次に挙がっているのと内容が一致しない、ナヴィゲーションが正しくない、ただ並べてあるだけで意味を理解させようとしているとは思えない(多くの属性の意味不明だ)、記述の正確さは微塵もない、HTMLソースはぐちゃぐちゃ(ど素人が書いたとしか思えん、FrontPageかも)。タグリファレンスのMembersって何だ? MSIE3.0と上位互換性がない。(<span class="date">1998/07/04</span>)
+</p>
+<ul>
+<li>専用のDOCTYPEがあってしかるべきなのに、HTML3.2やHTML4.0の例示があるのはどういうつもりなのか。
+<li>今に始まったことじゃないけど、要素限定の記述があいまいだ。というか皆無に近い。HTML4.0を参考にしようにも、ちと無理があるか。
+<li>今に始まったことじゃないけど、終了タグがあるのかないのかあいまいだ。
+<li>取り得るイベント属性が同じようなタグでも異なっていると、どうも信用できない。
+<li>Deprecatedな要素がほとんどない。MSIE3.0なんかの流れから、CENTER、COMMENT、EMBED、LISTING、PLAINTEXT、XMPくらいはDeprecatedにしちゃおう。ISINDEXはHTML4.0でdeprecatedだとわざわざ書いてあるからこれも。XMPは no longer recommended て書いてある。
+<li>ほぼすべてのタグに共通する属性に、CLASS、ID、TITLE、LANG、LANGUAGE、STYLEがあるんだけど、ちょっとづつ違うタグがある。あえてそうしているのかどうか判断が難しい。例えば、&lt;BASEFONT&gt;には、CLASS、ID、LANG属性だけが、&lt;BGSOUND&gt;には、CLASS、ID、LANG、TITLE属性だけが、&lt;COMMENT&gt;には、ID、LANG、TITLE属性だけがあって、他と違う。
+<li>&lt;BR LANG&gt;がないけど、面倒なので補っておこう。イベントも書いてないけど、Membersにはある。
+<li>&lt;WBR LANG&gt;がないけど、面倒なので補っておこう。また、これは空要素タグにした。
+<li>&lt;ISINDEX&gt;は空要素タグだろうよ。&lt;ISINDEX TITLE&gt;がないけど、面倒なので補っておこう。イベント属性があるように書いてあるけど、Membersにはないぞ。
+<li>&lt;MAP LANGUAGE&gt;がないけど、面倒なので補っておこう。
+<li>DATAFLD属性、DATASRC属性って何? 属性の値は何?
+<li>&lt;DT&gt;、&lt;DD&gt;、&lt;LI&gt;、&lt;PLAINTEXT&gt;が空要素タグだけど、それだと要素限定がうまくできないので、終了タグ省略可能にした。
+<li>&lt;PLAINTEXT&gt;なんて&lt;FRAMESET&gt;と共存するとは思えないけど、DTDが複雑になるのでいつでも書けるとした。
+<li>&lt;INS&gt;のイベント属性が書いてない。&lt;DEL&gt;と同じにした。
+<li>&lt;MENU LANGUAGE&gt;がない。&lt;DIR&gt;にはある。補っておこう。
+<li>&lt;FRAMESET&gt;に書いてあるイベント属性は&lt;FRAME&gt;のものだろう。
+<li>&lt;HTMLAREA&gt;って何? &lt;TEXTAREA&gt;と似て非なるもののようだな。でも使えるイベント属性は違うんだ。他の属性は同一なのに。ちゃんと考えて違えてるのかな。
+<li>&lt;A URN&gt;って何? HTML2.0のときにあったやつなんだけど、どうして突然復活するわけ? しかも&lt;A&gt;にだけ。ちなみに、URNてのは Universal Resource Number。
+<li>&lt;A&gt;のRELとREVの値がSTYLESHEETだけだ。
+<li>&lt;LINK&gt;のRELとREVの値がSTYLESHEETだけってのは嘘でしょう。と思ったら、何を指定してもSTYLESHEETだとみなして、揚げ句に「そんなスタイルシートはインストールされていない」とエラーが出たりするようです<!-- 水無月ばけら -->。HTML4.0なんかはなから眼中にないようで、これはちょっとひどいね。
+<li>&lt;LINK&gt;にはイベント属性がないようで、あるようだ。
+<li>&lt;NEXTID&gt;の中身がない。だいたいどうしてこんなのが出てくるわけ? HTML2.0にはあるけど、最近のHTMLにはないよ(MSIE3.0にもないけど3.0βにはあるな)。この要素はDTDに含めない。でも、しっかり対応イベントなんか書かれてるんだよな。つくづく何考えてるのかわからんな。
+<li>&lt;PARAM&gt;は空要素タグとした。
+<li>&lt;SCRIPT&gt;とか&lt;STYLE&gt;とかにはMembersにイベント属性がある。
+<li>リファレンスのソースを見れば一目瞭然だけど、ことごとく
+<pre>    &lt;SCRIPT&gt;
+    //&lt;!--
+    ...
+    // --&gt;
+    &lt;/SCRIPT&gt;</pre>
+という風に書いてある。相当マヌケだ。
+</ul>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/ie40.dtd">MSIE4.0 DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="ie30">MSIE3.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://msdn.microsoft.com/workshop/author/newhtml/default.htm">MSIE3.0のリファレンス</a>(注:デッドリンクです)に対する代表的な疑問点を挙げておきます。これらに対する規則ファイルの修正は、明記されていない場合は行なっていません。ちなみに、このリファレンスはものすごく雑です。漏れや矛盾がぼろぼろあります。"<q class="version">Last Updated: October 24, 1996</q>" なんてことでは、このリファレンスも信頼に足るものではないかも知れません(ベータ版DTDよりも古い!)。
+</p>
+<ul>
+<li>HTML3.2のDOCTYPEを用いるように書かれている。しかし、中身は独自拡張を含んだり、HTML3.2とは異なる記述が多くあり、HTML3.2は大嘘の宣言だ。
+<li>要素の入れ子に関する記述がない。
+<li>開始タグや終了タグの省略可能性がわからない。
+<li>見出しに終了タグがないのに、例示に終了タグがあったりすると、どっちが正しいかわからない。
+<li>&lt;FONT SIZE=+4&gt;とか&lt;BODY BGCOLOR=#FFFF&gt;とか間違った記述がある。
+<li>&lt;DD&gt;、&lt;DT&gt;、&lt;LI&gt;が空要素タグ。これは、このリファレンス作成者があまりにも無知ゆえだろうから、終了タグ省略可能とした。
+<li>&lt;EMBED&gt;には、任意の属性が指定できるようだが、そんなのはDTDでは表現できない。
+<li>&lt;IMG ISMAP=<i>image</i>&gt;とは何か。
+<li>&lt;TD ALIGN&gt;の既定値がCENTERとなっているが本当か。
+<li>&lt;UL TYPE&gt;がない。
+<li>色名はHTML標準の16色しか示されていないが、Mozillaの色も補った。
+<li>Deprecatedであろうタグはベータ版DTDと同じにした。
+</ul>
+<p>
+MSIE3.0のスタイルシート対応はめちゃくちゃです。font-size:2em の em を解釈しないので、この場合 2pt または 2px で表示されるようです。この、Another HTML-lint のHTMLは、見出し部などにこのような指定があるため、MSIE3.0ではうまく表示できません。スタイルシートを無効にすればちゃんと表示されます。
+</p>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/ie30.dtd">MSIE3.0 DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="ie30b">MSIE3.0β</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+MSIE3.0は<a href="http://msdn.microsoft.com/workshop/author/ie3html/ie3dtd.asp">ベータ版DTD</a>が公開されています。このDTDには独自のDOCTYPEなどもちゃんと定義されているのですが、内容が古く、現在のMicrosoftのサイトで<!--a href="http://msdn.microsoft.com/workshop/author/newhtml/default.htm"-->公開されているリファレンス<!--/a-->とは大きく食い違っています。<br>
+公開されているベータ版DTDは、著者自らがいくつものバグやおかしな記述があることを述べています。以下はこのDTDを利用するにあたってのいくつかの疑問点です。これらに対する規則ファイルの修正は、明記されていない場合は行なっていません。
+</p>
+<ul>
+<li>&lt;NOBR&gt;が空要素タグである。したがって&lt;/NOBR&gt;はない。
+<li>&lt;EMBED&gt;は空要素タグではない。要素はどういう意味を持つのか。
+<li>&lt;NOEMBED&gt;が &lt;!ELEMENT NOEMBED - - EMPTY&gt; と定義されている。これは、開始終了タグ共に必要だが要素に何も書けないという意味だ。⇒ これは正しくは、終了タグも書けないという意味だそうです<!--石川哲志-->(2003/02/16)。
+<li>&lt;SCRIPT&gt;は &lt;!ELEMENT SCRIPT - - (#PCDATA)* -(%head.misc)&gt; と定義されている。#PCDATAというのは普通のテキストだが、&lt; や &amp; などは実体参照を用いて書かなくちゃならないし、コメントも &lt;!-- 〜 --&gt; を解釈する。一般のどういう文法かわからないスクリプト言語を書かせるのにこれでは不自由である。CDATAに変更しました。
+<li>&lt;SPAN&gt;がstrictじゃないと、なくなってしまう。補いました。
+</ul>
+<p>
+Strict版と非Strict版の両方用意されていますが、Strict版の方は採用しませんでした。
+</p>
+<div align="right">上がすでにデッドリンクなので → <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/msid30b.dtd">MSIE3.0β DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="webexp">WebExplorer</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<!--a href="http://www.networking.ibm.com/WebExplorer/webhome.htm"-->IBM WebExplorer 1.1<!--/a--> は、最近更新されているのかいないのかわからないけど、どうやら見捨てられてしまっているらしい。資料がほとんどないので、サポートしているタグに何があるのかよくわからない。独特な&lt;ANIMATE&gt;などのタグを解釈するようにはしてみたものの、いまいちです。HTML2.0ベースらしいんだけど、それほど互換性があるようにも見えないしなぁ。今更、こんなのやったってしょうがないといえば、そのとおりです。
+</p>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/webexp.dtd">WebExplorer1.1 DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="ncals">NCALS HTML2.0</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p>
+<a href="http://www1.u-netsurf.ne.jp/~7l1rll/ncalsHTML.html">DTD for NCALS HTML2.0</a>。なんか昔とDTDがちょっと違うみたいな気がする。(<span class="date">2002/04/17</span>)
+</p>
+
+<hr size="1" width="50%">
+<p>
+<a href="http://www.ncals.cif.or.jp/ncals/standards/ncalsHTML.html">DTD for NCALS HTML2.0</a> というのがあります。しかし、このDTDは相当おかしな代物です。
+</p>
+<ul>
+<li>&lt;- 〜 -&gt; というコメントらしい記述がある。&lt;!- というのもある。
+<li>かっこや引用符の閉じ忘れはざら。
+<li>未定義のパラメタ参照がむちゃくちゃたくさんある。
+</ul>
+<p>
+こんなのを信じろというのが無理な話です。<!--誰が書いたか知らないけれど恥ずかしくないかね。-->
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="iso15445">ISO/IEC 15445</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p><a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO/IEC 15445:2000</a> が改訂されている。FORMに関する改訂など、いろいろと手が加えられているが、DOCTYPEの変更はない<!--古林寛-->。この変更に伴って、1999版DOCTYPEは受け付けなくした。(<span class="date">2001/03/20</span>)</p>
+<p>DTD中には、<code>&lt;!ENTITY % Preparation "IGNORE"&gt;</code> という制御用のパラメタが定義されている。これは最終的なHTMLとしてはIGNOREとなるべきものだが、準備段階の文書に対してINCLUDEとして適用すると、<code>&lt;H1&gt;</code>〜<code>&lt;H6&gt;</code> の出現に関して厳密な構造を要求されるようになる。つまり、<code>&lt;H1&gt;</code> の次に <code>&lt;H3&gt;</code> が現れてはならない。<code>&lt;H1&gt;</code> を独立トップページにして、その下位の(複数の) <code>&lt;H2&gt;</code> を別のページに独立させることはできない。</p>
+<p>この Preparation に対するDOCTYPEは特に用意されていないが、</p>
+<pre>     &lt;!DOCTYPE Pre-HTML PUBLIC "ISO/IEC 15445:2000//DTD HTML//EN"&gt;</pre>
+<p>などとして Preparation に対応させた。HTMLは <code>&lt;Pre-HTML&gt;</code>〜<code>&lt;/Pre-HTML&gt;</code> で囲まれる。</p>
+
+<hr size="1" width="50%">
+<p>ISO/IEC 15445:2000 は、1999からDTDの変更はない。この ISO/IEC 15445:2000 を翻訳したものが <a href="http://www.y-adagio.com/public/standards/jis_html/toc.htm">日本工業規格 JIS X 4156:2000</a> となっている。(<span class="date">2000/11/28</span>)</p>
+
+<hr size="1" width="50%">
+<p>
+<a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO/IEC 15445</a>、いわゆる ISO-HTML はまだ策定作業中です。作業中であるが、せっかく公開されていることでもあり、そこにあるDTDを組み込んでみました。HTML4.0 にあって 15445 にないパラメタ参照、例えば</p>
+<pre>    &lt;!ENTITY % Charset "CDATA"&gt;
+    &lt;!ENTITY % LanguageCode "NAME"&gt;</pre>
+<p>などを補って、DTDに多少手を加えました。(<span class="date">1999/05/01</span>)
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="html40mobile">HTML4.0 Mobile</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://www.w3.org/TR/NOTE-html40-mobile">HTML 4.0 Guidelines for Mobile Access</a> (<span class="date">1999/03/15</span>版) は、モバイル用コンテンツ作成者に向けたアクセス性などに関する注意書きなどをまとめたものです。この文書自体、単なるガイドラインに過ぎず、含まれるDTDは参考程度のものでしかない。が、せっかくDTDがあるので、組み込んでみた。このDTDは <a href="#html40">HTML4.0 Strict</a> のサブセットであり、<a href="iso15445">ISO/IEC 15445</a> のサブセットでもあるから、DOCTYPEにそれらを用いたとしても間違いではない。(<span class="date">1999/05/01</span>)
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="CompactHTML">Compact HTML</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+W3Cに <a href="http://www.w3.org/TR/1998/NOTE-compactHTML-19980209/">Compact HTML</a> というノートがあり、ここにはDTDもある。タグリストの Elements に <code>!-</code> とか <code>!DOCTYPE</code> とか <code>&amp;xxx;</code> とかが並んでるが、これらは Element じゃない。(<span class="date">1999/05/01</span>)
+</p>
+<ul>
+<li>タグリストにある <code>!-</code> はなんだろう。
+<li><code>&lt;DFN&gt;</code>、<code>&lt;ISINDEX&gt;</code> は含まれないはずがDTDに中途半端に含まれている。削除した。
+<li><code>&lt;META&gt;</code> がDTD中でどこからも参照されていない。<code>&lt;HEAD&gt;</code> の要素に含めた。また、属性に NAME と CONTENT がない。タグリストにもあるし、明らかに間違いだろうから、補った。
+<li><code>&lt;SELECT&gt;</code> の文字数 4Kバイト、<code>&lt;TEXTAREA&gt;</code> の文字数 512バイトなどという制限が書いてあるが、チェックしていない。
+</ul>
+<div align="right">→ わたしが加工した <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/compact-html.dtd">Compact HTML DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="iMode">iモード</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p><a href="http://www.nttdocomo.co.jp/p_s/imode/xhtml/s1.html">imode XHTML 1.1</a> になった。<!--Sirakaba-->
+いくつかの属性などが追加された。しかし、それらは iモードHTML5.0 に存在するものである。
+DTDの所在は相変わらず不明。(<span class="date">2004/03/03</span>)</p>
+
+<hr size="1" width="50%">
+
+<p>HTMLは5.0になった。いくつか属性が追加された<!--森田雄-->。(<span class="date">2003/04/09</span>)</p>
+
+<hr size="1" width="50%">
+
+<p><a href="http://www.nttdocomo.co.jp/p_s/imode/xhtml/s1.html">XHTML用</a>という代物が公開された<!--森田雄-->。(<span class="date">2003/02/10</span>)</p>
+
+<ul>
+<li>XHTMLであり、整形式であることを要求しているが、示されているPUBLICなDTDの所在は不明。どうやって整形式を書けというのだ。
+<li><a href="#xhtmlmp">XHTML Mobile Profile</a> をベースにしていると書かれているが、既存のiモード用の仕様との互換性をひどく意識したものとなっている。
+<li>相変わらず、<code>!--</code> が要素として解説されており、<code>!DOCTYPE</code> や <code>![CDATA[</code> も要素となった。仕様書の読者層がまったく不明だ。素人相手に意味不明なことを並べて煙に巻くのが目的か。
+<li><code>&amp;XXX;</code> も要素として解説されている。文字参照は、以前は &amp;#0;〜&amp;#127; だったのに、XHTMLでは、わずかな 16進数の文字参照しか示されていない。10進では書けないってこと? これ以外は書けないってこと? この真意は不明。仕様書を尊重したいが、そんなめんどくさいチェックはしたくないのでしない。
+<li>絵文字の参照方法が記述されていないようだ。仕様書を尊重して、絵文字は参照できなくなったと解釈するのが自然だろう。
+<li><q>XHTMLではbody要素に直接文字列を記述できないためdiv要素またはp要素を介在させる</q> などとご丁寧な注意書きがある。そんなことはDTDを示してくれれば済む話だ。
+<li>扱える文字セットはShiftJISまたはUTF-8、文書サイズ100Kバイト以内(イメージを含む)。
+<li>対応表のcti属性がhrefとなっているのは誤りであろう。
+<li>CSSは、i-CSSなぞと称して、ほとんどを属性値として直接記述する。これは、XHTMLで廃止されている属性をすべて <code>style="xxx"</code> として代替しようという魂胆に過ぎない。<br>
+<code>&lt;style&gt;</code> 要素には <code>&lt;![CDATA[</code> を用いた正しい記述が要求されるが、<code>a:link</code> などのほんのわずかなスタイルしか記述できない。しかも、i-CSSなのに <code>type="text/css"</code> だ。<br>
+これらは、利用者の便宜を何も考えずに闇雲に格好だけXHTML化しただけの使いにくい仕様と言える。
+</ul>
+<p>
+存在しなければならないDTDがどこに存在するのかわからないので、捏造しなければならない。XHTML-MPをベースにするよりも、既存のiモード4.0用のものをベースにする方が楽だ。<br>
+styleの属性値は、タグによってけっこう細かく規定されているようだが、そんなチェックは行なわない。style属性の値はCDATAとする。
+</p>
+<div align="right">→ 捏造した <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/imode-xhtml.dtd">iモード XHTML 1.0 DTD</a></div>
+
+<hr size="1" width="50%">
+<p>4.0になった。いくつか属性が追加された。(<span class="date">2002/06/19</span>)</p>
+
+<hr size="1" width="50%">
+<p>3.0になった。<code>&lt;OBJECT&gt;</code> と、<code>&lt;A&gt;</code> の属性が追加された。(<span class="date">2001/03/13</span>)</p>
+<ul>
+<li><code>&lt;OPTION VALUE&gt;</code> の長さ制限がなくなった。
+<li><code>&lt;A&gt;</code> の subject、body 属性の書式が
+<pre>    &lt;A href="mailto:メールアドレス"?subject="サブジェクト"&amp;body="本文"&gt;</pre>となっている。どういう積りなのかわからん。引用符の位置を間違えているとも取れるが、属性てんだから属性なんだろう。(注: 2002/03/13現在は訂正されている<!--渡辺博昭-->)
+<li><code>&lt;A KANA&gt;</code> の値は、属性名などから推察するに、半角カタカナのみのようだが、実際には英数字も登録できるようだ。
+<li><code>&lt;A EMAIL&gt;</code> の値はURLではない。09012345678@docomo.ne.jp の電話番号部分など。いずれにしても @ の前の部分で、電話番号以外は英数字、ハイフン、ピリオド、下線が許される。
+<li>「半角英数字」という属性値の制約が出てくる。これは字面どおりだとすると、空白やピリオドやハイフンなど記号類は含まないと読めるが、正解はどうなんだ。
+<li>さらに突っ込みを入れると、「<q>目安として題面(subject)は30バイト、本文(body)は500バイトにしてください</q>」てのがあって、30バイト以下とは書いていないわけだ(題面て何?)。
+<li>2.0の改訂のときに見落としていたけど、CTIという属性が <code>&lt;CTI&gt;</code> として記述されている。MULTIPLE属性も <code>&lt;MULTIPLE&gt;</code> だ。
+</ul>
+<!--こいつら日本語も書けなければ緻密な設計技術も何もないということになるな-->
+
+<hr size="1" width="50%">
+<p>
+1.0 にあった一部の制限が、2.0の<a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">タグ一覧</a>からは削除されている。また、<code>&lt;/P&gt;</code> が明示されるようになったが、<code>&lt;/LI&gt;</code> などは出てこない。(<span class="date">2000/05/26</span>)
+</p>
+<ul>
+<li>「HTML2.0、3.2、4.0のサブセットです」と書いてあるが、言っていることが矛盾しているし、そういうような仕様でもない。
+<li><code>&lt;INPUT TYPE=TEXT&gt;</code>、<code>&lt;INPUT TYPE=PASSWORD&gt;</code> の <code>SIZE</code> や <code>MAXLENGTH</code> の限界値の制限がなくなった。
+<li><code>&lt;OPTION&gt;</code> の件数の制限がなくなった。
+<li><code>&lt;TEXTAREA&gt;</code> の <code>COLS</code> や <code>ROWS</code> の限界値の制限がなくなった。
+<li><code>&lt;PLAINTEXT&gt;</code> が追加されている。HTML3.2の仕様とは異なる。どちらかというと、<code>&lt;XMP&gt;</code> のように振舞う。
+<li>扱える文字コードは Shift JIS のみとなっているが、EUC でも表示されるようだ<!-- たけうちこうた -->。
+</ul>
+
+<hr size="1" width="50%">
+<p>
+iモードのHTML Versionが 2.0になっていた。(<span class="date">1999/12/05</span>)<br>
+<code>&lt;BLINK&gt;</code> だとか <code>&lt;MARQUEE&gt;</code> だとか <code>&lt;FONT color&gt;</code> だとか、時流に逆らうような改訂であるが、利用者にはありがたいであろう。
+</p>
+
+<hr size="1" width="50%">
+<p>
+<a href="http://www.nttdocomo.co.jp/mc-user/i/">NTT DoCoMo の iモード</a>は、<a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">タグ一覧</a>が公開されている。HTML3.2ベースと書いてあるが、ベースは明らかにW3Cにある <a href="#CompactHTML">Compact HTML</a> である。iモードはこれをアレンジしたものである。サブセットではない。DTDは Compact HTML を元に作成した。(<span class="date">1999/04/09</span>)
+</p>
+<ul>
+<li>コメントが <code>&lt;! 〜 &gt;</code> となっているが、これはあんまりじゃないのか。
+<li>文字参照は <code>&amp;#127;</code> までということになっているが、<code>&amp;copy;</code> など、その範囲を超えた実体参照を使用できることになっていたり、さらに、数多く内蔵している絵文字は、<code>&amp;#63808;</code> などととんでもなく大きな値に対応している。これから、<code>&amp;#65535;</code> まで参照できるようにしておいた。<a href="http://imode.sh/tips/iTip010.html">imode端末文字一覧</a>などが参考になります。
+<li><code>&lt;Hn&gt;</code> の n は、1〜6なんだろうな。
+<li><code>&lt;HTML&gt;</code> の属性 <code>VERSION</code> で、HTMLバージョンを指定することができるようだ(DOCTYPEじゃないところがなんともいえないけど)。この属性値は何が指定できるのだろうか。2.0と3.2だろうか。これによってHTML解釈を制御しているのだろうか。
+<li><code>&lt;A HREF="tel:0123456789"&gt;</code> とすれば電話がかけられる。HTML3.2にはない <code>ACCESSKEY</code> 属性をサポートしていて、これと組み合わせれば便利そうだ。
+<li><code>&lt;A&gt;</code> の解説に、タグとして <code>ACCESSKEY</code> が出てくるが、それは明らかに間違い。
+<li><code>ACCESSKEY</code> の値は、<a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">表紙</a>と<a href="http://www.nttdocomo.co.jp/mc-user/i/tag/a.html">Aタグの説明</a>とでは指定できる文字に矛盾がある。
+<li><code>&lt;BR CLEAR&gt;</code> という表現を許すために、<code>&lt;BR CLEAR=CLEAR&gt;</code> を属性値に追加した。
+<li><code>&lt;HR&gt;</code> はヘアライン?? どっから持って来た訳だか。だいたいラインはLだろうが。レはレモンのレと言うのと同じだ。
+<li><code>&lt;IMG&gt;</code> は2階調GIFのみをサポートしている。URLの存在をチェックするようにしていれば、GIFかどうかはチェックされるが、2階調かどうかはチェックできない。
+<li>CompactHTMLによって、<code>&lt;A&gt;</code> の要素に <code>&lt;IMG&gt;</code> が書けることになっているが、そのように実装されているか確認したい。
+<li><code>&lt;/P&gt;</code> が出てこない。他にも <code>&lt;/DT&gt;</code>、<code>&lt;/DD&gt;</code>、<code>&lt;/LI&gt;</code> が出てこない。当然CompactHTMLにはある。
+<li>HTML3.2から追加したタグがあるように書かれているが、タグの追加はない。属性の追加はある。
+<li>文字セットはShiftJIS、文書サイズ2Kバイト以内という制限がある。この2Kバイトにはイメージファイルのサイズも含まれている。URLの存在をチェックするようにしていれば、それもチェックされる。
+<li>いくつかの例を見ると、半角カタカナの使用を認めているようだ。
+</ul>
+<p>
+以下の制限はチェックしています。
+</p>
+<ul>
+<li>文字セットと文書サイズ。
+<li><code>ACCESSKEY</code> の値。
+<li><code>&lt;INPUT TYPE=TEXT&gt;</code>、<code>&lt;INPUT TYPE=PASSWORD&gt;</code> での <code>SIZE</code> と <code>MAXLENGTH</code> の値。
+<li><code>&lt;OPTION&gt;</code> の件数と、<code>VALUE</code> の長さ。
+<li><code>&lt;TEXTAREA&gt;</code> の <code>COLS</code> と <code>ROWS</code> の値。
+</ul>
+<p>iモードで利用できる<a href="http://www.nttdocomo.co.jp/mc-user/i/tag/emoji/index.html">絵文字</a>は、すべて機種依存文字の領域ですが、iモードチェック時には除外しています(SJISでのチェック時のみ)。(<span class="date">1999/10/19</span>)<!-- 杉本崇 -->
+</p>
+<p align="right">「ｉモード」は NTT DoCoMo の登録商標</p>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/imode40.dtd">iモード4.0 DTD</a></div>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/imode30.dtd">iモード3.0 DTD</a></div>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/imode20.dtd">iモード2.0 DTD</a></div>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/imode.dtd">iモード1.0 DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="J-SkyWeb">J-SkyWeb</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p>「<a href="http://www.dp.j-phone.com/file/JSkyHTMLGuide_20020115.pdf">J-スカイサービス向けHTMLコンテンツ開発ガイド</a>」という文書があり、そこには文字参照ができないことが明記されていました。<!--水無月ばけら--></p>
+
+<p>だいぶタグが追加されていた。また、ステーション対応とかいうよくわからん機種があって、それだと、通常のJ-Sky対応機種よりも扱えるタグが多い。(<span class="date">2000/10/19</span>)</p>
+
+<hr size="1" width="50%">
+<p><a href="http://www.j-phone.com/scripts/japanese/top.jsp">J-フォン東京株式会社</a>の<a href="http://www.dp.j-phone.com/jsky/ref/tag_frame.html">スカイウェブの情報サービスメニュー向けのHTML</a>が公開されている。独自拡張した属性が多くあり、<a href="http://www.mobidy.mag.keio.ac.jp/index.html">MML(Mobile Markup Language)</a>という言語をベースにしている。W3Cにあるものではない。<br>
+利用者はHTMLで文書を記述しサーバに置く。スカイウェブサービスセンターは要求のあったHTMLを取得し、MMLに変換して端末に送信する。利用者がMMLそのものを意識する必要はない。(<span class="date">2000/06/18</span>)</p>
+<ul>
+<li>「エンコード形式 HTML4.0、3.2、2.0対応」というのはどういう意味か不明。どれでもMMLに変換しますよ、という意味か?
+<li><code>&lt;P&gt;</code> は空要素タグのようだ。<strong>なんと！</strong>
+<li><code>&lt;IMG&gt;</code> はPNGのみサポートしている。実際の表示はBMPに変換してから行なうようだが、そのときのサイズを32KBに収めろと言われても、利用者にそんなことはわかるまい。
+<li><code>&lt;IMG&gt;</code> の <code>MOTION</code> 属性は、アニメーションを実現するために同一タグ中にいくつも記述することができる。<strong>そんなのはSGMLじゃない！</strong>ってはじめからMMLって言ってるのか。
+<li><code>&lt;A HREF="tel:0123456789"&gt;</code> とすれば電話がかけられる。
+<li>文字セットはShiftJIS、文書サイズ6Kバイト以内という制限がある。この6Kバイトにはイメージファイルのサイズも含まれている。URLの存在をチェックするようにしていれば、それもチェックされる。
+<li>半角カタカナが使えるのか使えないのか不明。<code>&lt;INPUT MODE&gt;</code> にはそのような選択肢はない。使えないことはないとは思うが?
+<li>実体参照に関する記述がない。MMLにあるものは書けるのであろう。<code>&amp;#38;</code> なんてのは書けるのだろうか。これに関してMMLには言及がない。書けなくする実装は面倒なので <code>&amp;#255;</code> までは書けるようにしとこう。
+<li><code>&lt;UL&gt;</code>、<code>&lt;OL&gt;</code> の入れ子は３階層まで、<code>&lt;LI&gt;</code> は99個まで、という制限がある。<code>&lt;LI&gt;</code> の制限は入れ子ごとに独立なのかどうかあいまい。入れ子も含めての制限と解釈した。
+</ul>
+<p>制限の多い SkyWeb には対応していません。</p>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/jskystation.dtd">J-SkyWeb Station DTD</a></div>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/jskyweb.dtd">J-SkyWeb DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="doti">ドットi</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p><a href="http://www.ttnet.co.jp/tokyodenwa_astel/">東京電話アステル</a>のドットiと称する独自の<a href="http://www.ctc.co.jp/astel/service/dot_i_hp/index.html">HTML仕様</a>が公開されている。<a href="#iMode">iモード</a>と非常によく似ているが、ちょっと違う。(<span class="date">2000/10/26</span>)</p>
+<ul>
+<li>「HTML2.0、3.2、4.0のサブセットです」と書いてあるが、言っていることが矛盾しているし、そういうような仕様でもない。どうも、iモードの仕様に書いてあるのをそのままコピーしたようにも見える。
+<li>「コンテンツ記述言語はＨＴＭＬのサブセットを使用しています」とも書いてある。意味不明。
+<li>「アステル絵文字が利用可能です」と書いてあるが、どういう風に利用するのか書いてない。
+<li>色の指定に "White" とか書けるのかわからない。すべての例示に色名は出て来ない。
+<li><code>&lt;A HREF&gt;</code> などのURLに指定できるスキームは http: mailto: tel: だけだと明記されている。
+</ul>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/doti10.dtd">ドットi DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="Hqq">H&quot;</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p><a href="http://www.ddipocket.co.jp/">DDIポケット</a>の H&quot; では、<a href="http://www.ddipocket.co.jp/h_link/index.html">H&quot;LINK</a>対応機でHTMLの閲覧ができるそうである。(<span class="date">2002/04/09</span>)<!--渡辺博昭--></p>
+<blockquote>
+「オープンネットコンテンツ」では、専用に作成されたインターネット上のホームページをH&quot;LINK(Pメー ルDX)対応端末を使って閲覧することができます。
+</blockquote>
+<p>とのことである。「オープンネットコンテンツ」とはなんぞや。仕様書によると、</p>
+<blockquote>
+DDIポケットが提供するセンターを利用して、freeH&quot;/H&quot;およびPメールDX対応PHSから、インターネット上のWWWサーバに置かれたDDIポケットのオープンネットコンテンツ用に作られたホームページへのアクセスを可能にするものです。
+</blockquote>
+<p>だそうだ。</p>
+<p>通常のHTMLと共通のタグは、&lt;BR&gt;、&lt;P&gt;、&lt;HR&gt; のみで、ハイパーリンクなどは特殊な方法で指定する。
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="hdml">HDML</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+
+<p>流行らないHDMLでは利用者が増えないと悟ったか、<a href="http://www.au.kddi.com/ezfactory/index.html">au</a> は、XHTMLでのサーヴィスも始めた。一応、XHTML Basic と謳って<a href="http://www.au.kddi.com/ezfactory/tec/spec/xhtml.html">タグ一覧</a>が公開されている。<a href="http://www.tu-ka.co.jp/common/support/index.html">tu-ka</a> にはXHTMLの記述はない。(<span class="date">2002/04/08</span>)<!--渡辺博昭-->
+</p>
+<p>この au のXHTMLをどのように扱うかは難しい。DTD不在のくせにもっともらしい宣言だけは用意されていて、あいまいなXHTMLもどきの仕様しかないから、たちが悪い。
+仕様としては、<a href="http://www.au.kddi.com/ezfactory/tec/spec/html_con.html">HTML変換仕様</a>の方が詳しいようだ。
+</p>
+<ul>
+<li>XML宣言中に文字セットについて一般的なことが述べられているが、UTF-8など本当に解釈できるのか。すべてのサンプルは Shift_JIS となっている。
+<li>DOCTYPEはOPENWAVEのものだが、<a href="#xhtmlmp">XHTML Mobile Profile</a> とはシステム記述子が異なっている(しかも引用符で囲まれていない)。
+<li>このシステム記述子に示されたリソース http://www.openwave.com/DTD/xhtml-basic.dtd は存在しないので、XHTML-MPとどこが違うのかは不明。
+<li>もし、このリソースが存在しているとして、これには au 独自の &lt;bgsound&gt; とかが含まれているのであろうか。常識的に考えれば、xhtml-basic などという名称からはW3Cのそれを期待するわけで、妙な独自タグが含まれているとは思えないが、それではDOCTYPE詐称ということになってしまう。いや、存在しないこと自体が詐称だな。
+<li>タグ一覧は、「主要タグ」と形容されており、実際に使えるタグの一覧はない。<q>一般的なタグは市販本を見よ</q> と書いてあるので、XHTML(Basic?)で使えるすべてのタグをサポートしているようにも読めるが、HTML変換仕様にないタグは無視されるだけなのかも知れない。
+<li><q>XHTMLでは、以下のようなオーバー・ハングをしてはいけません</q> ということは、XHTMLじゃなければしてもいいのか? オーバー・ハングというのはどこの用語?
+<li><q>&lt;brと/&gt;の間には半角スペースが必要です</q> ということは、詰まっている場合はエラーにしなくちゃならないの?
+HTMLはXHTMLに限らずどこかの段階でHDMLに変換されるようで、それならこの制限も手抜き実装という意味で頷ける。半角スペースを空けなかったらどうなるのかも知りたい。
+<li>&lt;marquee&gt; とか &lt;blink&gt; とか &lt;plaintext&gt; とか &lt;dir&gt; とか &lt;menu&gt; とか、XHTML的には信じられないようなタグが存在している。これは、既存のHDMLを考慮してのことなのであろう。(と好意的に解釈する)
+<li><q>&lt;a&gt;タグ内に&lt;img&gt;タグ、&lt;br&gt;タグ等のインライン要素を挿入した場合には、同一リンク先であってもインライン要素ごとに複数リンクが生成されますのでご注意下さい</q> ってどういうこと?
+<li>&lt;img&gt; にsrc属性は必須ではないようだ。localsrc、src、dataのいずれかがあればよいようにHTML変換仕様からは読める。data属性はXHTML-MPにはない。
+<li>&lt;img&gt;と&lt;object&gt;はほとんど等価なタグのようだ。
+<li>XHTML-MPにある wtai: スキームについて記述がないが、tel: というサンプルがある。
+<li>CSSも使えるようだが、CSSに関する記述はない(&lt;style&gt;タグは一覧にある)。いや、HTML変換仕様の中にちょこちょこ書いてあるな。
+<li>コンテンツの容量制限が、画像を含めず 9KBとなっている。
+</ul>
+
+<p>いろいろ読んでいくと、結局ベースにはHDMLがあるようで、それならそれでOPENWAVEのXHTMLとは相容れないんじゃないかと思えてくる。</p>
+
+<hr size="1" width="50%">
+<p>
+<a href="http://www.ezweb.ne.jp">EZweb</a>などで利用されている HDML(<a href="http://www.w3.org/TR/NOTE-Submission-HDML-spec.html">Handheld Device Markup Language</a>)はHTMLではない。W3CにもDTDではなくBNFとして文法が示されている。だからSGMLでもない。
+</p>
+<p>
+無理矢理DTDを作れば文法チェックできない話ではない。ただし、そのときでもデータ領域か、ファイル名の指定でのチェックとなる。HTTPでのアクセスはできない。
+</p>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="xhtmlmp">XHTML Mobile Profile</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p><a href="http://devgate2.phone.com/ja/index.html">OPENWAVE</a>が開発者向けに <a href="http://devgate2.phone.com/ja/htmldoc/ue1/xhtml-mp-referenceJ/">Extensible Hypertext Markup Language Mobile Profile (XHTML-MP) 1.0</a> の仕様を公開している。完全なDTDを取得できる。<br>
+XHTML-MPは、携帯電話やPDA、TVベースWebブラウザなど向けの仕様である。また、<q>XHTML1.0 (HTML 4 の XML 版) の簡略版である XHTML Basic のスーパセットであり、CSSをサポートしている</q>、と書いてあるが、XHTML Basic は XHTML1.1のサブセットであるから、のっけから間違っている。本当に XHTML Basic のスーパセットかは面倒なので確認していない。(<span class="date">2002/04/08</span>)<!--渡辺博昭-->
+</p>
+
+<ul>
+<li>XML宣言のことが書かれていないようだが、サンプルコードには XML1.0 宣言がある。
+<li>ドキュメントは、すべてのDTD要素を解説しているわけではないようだ。例えば、&lt;body&gt;の属性はDTD中の方が多い。
+<li>&lt;a href&gt;に wtai: というスキームがあり、電話がかけられる。
+<li>&lt;brと/&gt;の間を空けるようにとは書かれていない。それどころかすべてのサンプルコードは&lt;br/&gt;と詰まっている。
+<li>&lt;a id="target"/&gt; と書いてもいいのか? それだと &lt;p/&gt; とかもOKと考えられるが、W3Cの提唱に反している。
+<li>&lt;address&gt; の解説で、&lt;p&gt;&lt;address&gt;〜&lt;/address&gt;&lt;/p&gt; と書いている。こいつら、自分とこのDTDもろくに読めないようだ。
+<li>&lt;img src=""&gt; が許される。おそらく、このときは &lt;img src="" localsrc="moon1"&gt; のように localsrc属性を期待するんだろうが、そうは書かれていない。
+</ul>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="jpo">特許出願用HTML</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://www.jpo.go.jp/indexj.htm">特許庁</a>では、HTML形式の書類によるパソコンでの特許の電子出願を受け付けています。ただし、専用のソフト(<span class="date">1998/12</span>現在のバージョンは<span class="version">01.02b</span>)を申請して取得しなければなりません。ソフト自体は無料です。また、パソコンはWindows95/NTのみを想定しているようですし、ISDN回線によるダイアルアップ接続のみをサポートしています。
+</p>
+<p>
+ここで用いられる<a href="http://www.jpo.go.jp/info/pcinfo.htm">特許出願用HTML</a>はかなり異様なもので、SGMLとしての体裁を有していません。<a href="./tagslist.cgi?HTMLVersion=JPO">タグの少なさ</a>以外に、特筆すべき性格として以下のようなものがあります。(*) 印の項目が例外扱いされて、チェックされたりされなかったりします。
+</p>
+<ul>
+<li>&lt;HTML&gt;以前にいかなる文字も書くことができない。DOCTYPEも書けない。(*)
+<li>&lt; とタグ名の間に空白を置くことを許している。
+<li>&lt;IMG&gt;は行頭から始まらなければならない。
+<li>&lt;IMG&gt;の後は行末まで空白以外の文字があってはならない。空白に全角空白が含まれるのかは明記されていない。
+<li>文字セットはShiftJISを想定しているが、実際に利用できる文字は限定されている。(*)
+<li>Microsoft系の丸付き数字(ShiftJISコード0x8740〜0x8748)の使用を認めている。(*)
+<li>半角カタカナの使用を認めている。(*)
+</ul>
+<p>
+特許庁では、出願された文書を規定によって(HTMLではない文書に)再整形するわけですが、なぜ出願文書をこんなへんてこりんなHTMLにしたかは不明です。
+</p>
+<div align="right">→ <a href="http://openlab.ring.gr.jp/k16/htmllint/dtds/jpo.dtd">特許出願用 DTD</a></div>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="rfc2368">RFC2368</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2368.txt">RFC2368</a>は、<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1738.txt">RFC1738</a>で定められている mailto: URL の構文の拡張を定義したものです。ここでは、mailto: URL が次のように定義されています。
+</p>
+<pre>
+     mailtoURL  =  "mailto:" [ to ] [ headers ]
+     to         =  #mailbox
+     headers    =  "?" header *( "&amp;" header )
+     header     =  hname "=" hvalue
+     hname      =  *urlc
+     hvalue     =  *urlc
+</pre>
+<p>
+これに対していくつか疑問があります。ご存知の方は k16@chiba.email.ne.jp までお教えくださるとありがたいです。(<span class="date">1999/08/03</span>)
+</p>
+<ul>
+<li>この構文は<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1738.txt">RFC1738</a>から引用したように書かれていますが、<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1738.txt">RFC1738</a>には <code>urlc</code> という構文要素は出てきません。<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc822.txt">RFC822</a>にも出てきません(当然)。<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2396.txt">RFC2396</a>の <code>uric</code> のことでしょうか。そもそも<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1738.txt">RFC1738</a>にこのような構文は書かれていません。話の流れから言うと、uric から ? = &amp; を取り除いたもののようです。
+<li>構文では <code>hname</code> と <code>hvalue</code> が共に空になり得るので、<code>=</code> だけのheader部が許されることになりますが、本当にそれでいいのでしょうか。
+</ul>
+
+<hr><!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+<h3><a name="rfc2396">RFC2396</a>
+<a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></h3>
+<p>
+<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2396.txt">RFC2396</a>は、<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1738.txt">RFC1738</a>をその後の経緯を踏まえて、一般化したURI構文を規定するものです。ここに書かれている構文で、「おや?」と思ったことを挙げてみます。(<span class="date">1999/08/28</span>)
+</p>
+<ul>
+<li><br>
+<pre>
+      URI-reference = [ absoluteURI | relativeURI ] [ "#" fragment ]
+</pre>
+URI-reference は空でもよいということだが、ちょっと扱いにくいので、
+<pre>
+      URI-reference = ( absoluteURI | relativeURI ) [ "#" fragment ] | "#" fragment
+</pre>
+としておこう。
+<li><br>
+<pre>
+      absoluteURI   = scheme ":" ( hier_part | opaque_part )
+      opaque_part   = uric_no_slash *uric
+</pre>
+一般URIとしてはいたしかたないのだが、opaque_part によって怪しげな文字列もマッチしてしまう。absoluteURI はあまり役に立たない。
+<pre>
+      absoluteURI_hier = scheme ":" hier_part
+</pre>
+みたいなのを用意しておいた方がいいかも知れない。
+<li><br>
+<pre>
+      abs_path      = "/"  path_segments
+      path_segments = segment *( "/" segment )
+      segment       = *pchar *( ";" param )
+      param         = *pchar
+</pre>
+これによると、segment や param は空でよいので、path_segments も空でもよいということで、abs_path は "/" だけでもよいし、"/////////" のようなのでもよいということだ。segment は ";" だけでもOKなので、abs_path は "/;/;/;/;/;/;/" でもよいということだ。本当にそれでいいのか。
+<pre>
+      abs_path      = "/" [ path_segments ]
+      path_segments = segment *( "/" [ segment ] )
+      segment       = 1*pchar *( ";" param ) | 1*( ";" param )
+      param         = 1*pchar
+</pre>
+という風に解釈しておこう。
+<li><br>
+<pre>
+      net_path      = "//" authority [ abs_path ]
+      authority     = server | reg_name
+      server        = [ [ userinfo "@" ] hostport ]
+      userinfo      = *( unreserved | escaped |
+                         ";" | ":" | "&amp;" | "=" | "+" | "$" | "," )
+</pre>
+userinfo は空でもよいということだが、本当か。server も空でよいので、net_path が "//" だけでもよいということになる。本当か。
+<pre>
+      net_path      = "//" ( authority [ abs_path ] | abs_path )
+      authority     = server | reg_name
+      server        = [ userinfo "@" ] hostport
+      userinfo      = 1*( unreserved | escaped |
+                         ";" | ":" | "&amp;" | "=" | "+" | "$" | "," )
+</pre>
+という風に解釈しておこう。
+<li><br>
+<pre>
+      IPv4address   = 1*digit "." 1*digit "." 1*digit "." 1*digit
+</pre>
+実際には 0〜255 までしか許されないはずなので、次のようにした方がいいかも知れない。
+<pre>
+      IPv4part      = [ "0" | "1" ] digit [ digit ] |
+                      "2" ( ( "0" | "1" | "2" | "3" | "4" ) digit |
+                            "5" ( "0" | "1" | "2" | "3" | "4" | "5" ) )
+      IPv4address   = IPv4part "." IPv4part "." IPv4part "." IPv4part
+</pre>
+<!--しかし、0001 などというのも許すのだとしたらこれは間違いとなる。-->また、0.0.0.0 は禁止されているので取り除く必要があるのだが、それは面倒。
+<li><br>
+<pre>
+      query         = *uric
+      fragment      = *uric
+</pre>
+これはつまり、"http://www.uso800.ac.jp/hogehoge.cgi?" とか "http://www.uso800.ac.jp/hogehoge.html#" みたいに書いても問題なしということだ。
+</ul>
+
+<p><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a><br clear="all"></p>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/notice.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Feb 20, 2008<br>
+Created: Jun 19, 1997
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./introduction.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./use-htmllintcgi.html">next</a>]
+</div>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+<!-- 15445.dtd Preparation -->
+
+<!DOCTYPE Pre-HTML [
+<!ENTITY % Preparation "INCLUDE" >
+<!ENTITY % ISOIEC15445.dtd SYSTEM "15445.dtd">
+%ISOIEC15445.dtd;
+]>

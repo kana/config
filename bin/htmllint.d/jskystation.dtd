@@ -1,0 +1,7 @@
+<!--============ HTML Document Type Definition J-SkyWeb Station ===========-->
+
+<!--                    THIS IS EXPERIMENTAL by k16                        -->
+
+<!ENTITY % JSKY.STATION "INCLUDE">
+<!ENTITY % JSkyWeb.dtd SYSTEM "jskyweb.dtd">
+%JSkyWeb.dtd;

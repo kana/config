@@ -1,0 +1,228 @@
+# NTT DoCoMo iMode XHTML 1.0
+
+#======= ELEMENTS =======
+$emptyTags = '';
+$pairTags = 'A|BASE|BLOCKQUOTE|BODY|BR|DD|DIV|DL|DT|FORM|H1|H2|H3|H4|H5|H6'.
+            '|HEAD|HR|HTML|IMG|INPUT|LI|META|OBJECT|OL|OPTION|P|PARAM|PRE'.
+            '|SELECT|SPAN|STYLE|TEXTAREA|TITLE|UL';
+$deprecatedTags = '';
+$omitStartTags = '';
+$omitEndTags = '';
+#$maybeEmpty = 'A|BASE|BLOCKQUOTE|BODY|BR|DD|DIV|DT|FORM|H1|H2|H3|H4|H5|H6|HR'.
+#              '|IMG|INPUT|LI|META|OBJECT|OPTION|P|PARAM|PRE|SPAN|STYLE'.
+#              '|TEXTAREA|TITLE';
+$maybeEmpty = 'OBJECT|PRE|STYLE|TEXTAREA';
+%requiredTags = (
+  'HEAD' => 'TITLE',
+  'HTML' => 'HEAD|BODY',
+);
+%onceonlyTags = (
+  'HEAD' => 'TITLE|BASE',
+  'HTML' => 'HEAD|BODY',
+);
+$sequencialTags = 'HTML';
+%tagsElements = (
+  'A'          => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|#PCDATA',
+  'BLOCKQUOTE' => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|FORM|BLOCKQUOTE'.
+                  '|HR|PRE|DL|OL|UL|DIV|H6|H5|H4|H3|H2|H1|P|#PCDATA',
+  'BODY'       => 'FORM|BLOCKQUOTE|HR|PRE|DL|OL|UL|DIV|H6|H5|H4|H3|H2|H1|P',
+  'DD'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|FORM|BLOCKQUOTE'.
+                  '|HR|PRE|DL|OL|UL|DIV|H6|H5|H4|H3|H2|H1|P|#PCDATA',
+  'DIV'        => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|FORM|BLOCKQUOTE'.
+                  '|HR|PRE|DL|OL|UL|DIV|H6|H5|H4|H3|H2|H1|P|#PCDATA',
+  'DL'         => 'DD|DT',
+  'DT'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'FORM'       => 'BLOCKQUOTE|HR|PRE|DL|OL|UL|DIV|H6|H5|H4|H3|H2|H1|P',
+  'H1'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'H2'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'H3'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'H4'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'H5'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'H6'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'HEAD'       => 'TITLE|BASE|STYLE|META',
+  'HTML'       => 'HEAD|BODY',
+  'LI'         => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|FORM|BLOCKQUOTE'.
+                  '|HR|PRE|DL|OL|UL|DIV|H6|H5|H4|H3|H2|H1|P|#PCDATA',
+  'OBJECT'     => 'PARAM',
+  'OL'         => 'LI',
+  'OPTION'     => '#PCDATA',
+  'P'          => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'PRE'        => 'TEXTAREA|SELECT|INPUT|SPAN|BR|A|#PCDATA',
+  'SELECT'     => 'OPTION',
+  'SPAN'       => 'TEXTAREA|SELECT|INPUT|IMG|OBJECT|SPAN|BR|A|#PCDATA',
+  'STYLE'      => '#PCDATA',
+  'TEXTAREA'   => '#PCDATA',
+  'TITLE'      => '#PCDATA',
+  'UL'         => 'LI',
+);
+%excludedElems = (
+  'A'      => 'A',
+  'PRE'    => 'IMG|OBJECT',
+  'FORM'   => 'FORM',
+);
+%includedElems = (
+  'HEAD' => 'STYLE|META',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'ACCESSKEY' => '%Character',
+    'BODY'      => '%alphanum',
+    'CTI'       => '%CharacterCTI',
+    'EMAIL'     => 'CDATA',
+    'HREF'      => '%URI',
+    'ID'        => 'ID',
+    'IJAM'      => 'IDREF',
+    'ISTA'      => 'IDREF',
+    'KANA'      => '%hankana',
+    'SUBJECT'   => '%alphanum',
+    'TELBOOK'   => 'CDATA',
+    'UTN'       => 'utn',
+  },
+  'BASE' => {
+    'HREF' => '%URI',
+  },
+  'BODY' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'BR' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'DIV' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'FORM' => {
+    'ACTION' => '%URI',
+    'METHOD' => 'get|post',
+    'UTN'    => 'utn',
+  },
+  'H1' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'H2' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'H3' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'H4' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'H5' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'H6' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'HR' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'HTML' => {
+    'XMLNS' => '%URI=http://www.w3.org/1999/xhtml',
+  },
+  'IMG' => {
+    'ALT'    => '%Text',
+    'HEIGHT' => '%Length',
+    'SRC'    => '%URI',
+    'STYLE'  => '%StyleSheet',
+    'WIDTH'  => '%Length',
+  },
+  'INPUT' => {
+    'ACCESSKEY' => '%Character',
+    'CHECKED'   => 'checked',
+    'MAXLENGTH' => '%Number',
+    'NAME'      => '%Name',
+    'SIZE'      => 'CDATA',
+    'STYLE'     => '%StyleSheet',
+    'TYPE'      => 'text|password|checkbox|radio|submit|reset|hidden',
+    'VALUE'     => 'CDATA',
+  },
+  'LI' => {
+    'STYLE' => '%StyleSheet',
+    'VALUE' => '%Number',
+  },
+  'META' => {
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'CDATA',
+  },
+  'OBJECT' => {
+    'DATA'    => '%URI',
+    'DECLARE' => 'declare',
+    'ID'      => 'ID',
+    'TYPE'    => 'CDATA',
+  },
+  'OL' => {
+    'START' => '%Number',
+    'STYLE' => '%StyleSheet',
+  },
+  'OPTION' => {
+    'SELECTED' => 'selected',
+    'VALUE'    => 'CDATA',
+  },
+  'P' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'PARAM' => {
+    'NAME'      => '%Name',
+    'VALUE'     => 'CDATA',
+    'VALUETYPE' => 'data',
+  },
+  'SELECT' => {
+    'MULTIPLE' => 'multiple',
+    'NAME'     => '%Name',
+    'SIZE'     => '%Number',
+  },
+  'SPAN' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'STYLE' => {
+    'TYPE' => '%ContentType=text/css',
+  },
+  'TEXTAREA' => {
+    'ACCESSKEY' => '%Character',
+    'COLS'      => '%Number',
+    'NAME'      => '%Name',
+    'ROWS'      => '%Number',
+    'STYLE'     => '%StyleSheet',
+  },
+  'UL' => {
+    'STYLE' => '%StyleSheet',
+  },
+);
+%requiredAttrs = (
+  'BASE'     => 'HREF',
+  'FORM'     => 'ACTION',
+  'IMG'      => 'SRC&ALT',
+  'META'     => 'CONTENT',
+  'OBJECT'   => 'DECLARE&ID&DATA&TYPE',
+  'PARAM'    => 'NAME',
+  'TEXTAREA' => 'ROWS&COLS',
+  'HTML'     => 'XMLNS',
+  'STYLE'    => 'TYPE',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'amp'  => '&#38;',
+  'apos' => '&#39;',
+  'copy' => '&#169;',
+  'gt'   => '&#62;',
+  'lt'   => '&#60;',
+  'nbsp' => '&#160;',
+  'quot' => '&#34;',
+  'reg'  => '&#174;',
+);
+%refParams = (
+  'Character'    => '[0-9#\*]',
+  'CharacterCTI' => '[0-9#\*\/,]',
+  'ContentType'  => 'CDATA+',
+  'Length'       => '\d+[%]?',
+  'Name'         => 'CDATA+',
+  'Number'       => 'NUMBER',
+  'StyleSheet'   => 'CDATA',
+  'Text'         => 'CDATA',
+  'URI'          => '&URL',
+  'alphanum'     => '\w+',
+  'hankana'      => 'CDATA',
+);
+
+1;

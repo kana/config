@@ -1,0 +1,7 @@
+<!--====== HTML Document Type Definition for Internet Explorer 5.0 ========-->
+
+<!--                  THIS IS EXPERIMENTAL by k16                          -->
+
+<!ENTITY % MSIE5.5 "INCLUDE">
+<!ENTITY % MSIE5.dtd SYSTEM "ie50.dtd">
+%MSIE5.dtd;

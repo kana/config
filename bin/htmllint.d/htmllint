@@ -1,0 +1,16 @@
+#!/usr/local/bin/perl
+
+# Another HTML-lint ###########################################
+
+use File::Basename;
+push @INC => [&fileparse($0)]->[1];
+
+my $add_options; # = '-noscore -pedantic etc...';
+
+if ($add_options) {
+  require 'shellwords.pl';
+  unshift @ARGV => &shellwords($add_options);
+}
+
+require 'htmllint.pm';
+exit(&htmllint::HTMLlint(@ARGV));

@@ -1,0 +1,326 @@
+<!-- J-SkyWeb Document Type Definition -->
+
+<!--                    THIS IS EXPERIMENTAL by k16                        -->
+
+<!ENTITY % JSKY.STATION "IGNORE">
+
+<!--================== Deprecated Features Switch =========================-->
+
+<!ENTITY % HTML.Deprecated "INCLUDE">
+
+<!--================== Imported Names =====================================-->
+
+<!ENTITY % Content-Type "CDATA">
+
+<![ %JSKY.STATION [
+<!ENTITY % HTTP-Method "GET|POST">
+]]>
+<!ENTITY % HTTP-Method "GET">
+
+<!ENTITY % URL "CDATA">
+
+<!-- Parameter Entities -->
+
+<!ENTITY % list "UL | OL">
+
+<!ENTITY % preformatted "PRE">
+
+<!--================ Character mnemonic entities ==========================-->
+
+<!ENTITY quot   CDATA "&#34;"  -- double quote -->
+<!ENTITY amp    CDATA "&#38;"  -- ampersand -->
+<!ENTITY lt     CDATA "&#60;"  -- less than -->
+<!ENTITY gt     CDATA "&#62;"  -- greater than -->
+<!ENTITY reg    CDATA "&#174;">
+<!ENTITY copy   CDATA "&#169;">
+<!ENTITY nbsp   CDATA "&#32;">
+
+<!ENTITY q      CDATA "&#34;">
+<!ENTITY a      CDATA "&#38;">
+<!ENTITY l      CDATA "&#60;">
+<!ENTITY g      CDATA "&#62;">
+<!ENTITY r      CDATA "&#174;">
+<!ENTITY c      CDATA "&#169;">
+<!ENTITY n      CDATA "&#32;">
+
+<!--=================== Text Markup =======================================-->
+
+<!ENTITY % fontstyle "U">
+
+<!ENTITY % special "A | IMG | BR | BLINK | MARQUEE | FONT ">
+
+<!ENTITY % form "INPUT | SELECT | TEXTAREA">
+
+<!ENTITY % text "#PCDATA | %fontstyle; | %special; | %form;">
+
+<!ELEMENT (%fontstyle;) - - (%text;)*>
+
+<!ELEMENT BR    - O EMPTY>
+<!ATTLIST BR
+        clear (clear) #IMPLIED
+        >
+
+<!--================== HTML content models ================================-->
+
+<!ENTITY % block
+     "P | %list; | %preformatted; | DL | DIV | CENTER | FORM | HR | TABLE">
+
+<!ENTITY % flow "(%text; | %block;)*">
+
+<!--=================== Document Body =====================================-->
+
+<!ENTITY % body.content "( %text; | %block; )*">
+
+<!ENTITY % color "CDATA" -- a color specification: #HHHHHH -->
+
+<!ELEMENT BODY O O %body.content>
+<!ATTLIST BODY
+        bgcolor %color; #IMPLIED
+        text    %color; #IMPLIED
+        link    %color; #IMPLIED
+        >
+
+<!ELEMENT DIV - - %body.content>
+<!ATTLIST DIV
+        align   (left|center|right) #IMPLIED
+        >
+
+<!ELEMENT center - - %body.content;>
+
+<!--================== The Anchor Element =================================-->
+
+<!ENTITY % Character "CDATA">
+
+<!ELEMENT A - - (%text;)* -(A)>
+
+<!ENTITY % loop "CDATA" -- 1..50 or infinite -->
+<!ENTITY % viblength "CDATA" -- 1..9 -->
+
+<![ %JSKY.STATION [
+<!ATTLIST A
+        name    CDATA   #IMPLIED
+        href    %URL;   #IMPLIED
+        directkey %Character;  #IMPLIED
+        memoryname CDATA #IMPLIED
+        mailbody CDATA #IMPLIED
+        nonumber (nonumber) #IMPLIED
+        soundstart (select|focus) #IMPLIED
+        loop %loop; 1
+        volume (high|middle|low) #IMPLIED
+        vibration (select|focus) #IMPLIED
+        viblength %viblength; 1
+        >
+]]>
+<!ATTLIST A
+        name    CDATA   #IMPLIED
+        href    %URL;   #IMPLIED
+        directkey %Character;  #IMPLIED
+        memoryname CDATA #IMPLIED
+        >
+
+<!--=================== Images ============================================-->
+
+<!ENTITY % Length "CDATA">
+<!ENTITY % Pixels "NUMBER">
+
+<!ELEMENT IMG    - O EMPTY>
+<![ %JSKY.STATION [
+<!ATTLIST IMG
+        src     %URL;     #REQUIRED
+        align   (top|middle|bottom)  #IMPLIED
+        alt     CDATA     #IMPLIED
+        motion  %URL;     #IMPLIED
+        direction (left|right) #IMPLIED
+        flash (0|1|2|3) 1
+        vibration (focus) #IMPLIED
+        viblength %viblength; 1
+        >
+]]>
+<!ATTLIST IMG
+        src     %URL;     #REQUIRED
+        align   (top|middle|bottom)  #IMPLIED
+        alt     CDATA     #IMPLIED
+        motion  %URL;     #IMPLIED
+        direction (left|right) #IMPLIED
+        flash (1|2) 1
+        >
+
+<!--=================== Marquee/Blink/Font ================================-->
+
+<!ELEMENT MARQUEE  - - (%text;)*>
+<!ATTLIST MARQUEE
+        direction       (left|right)    LEFT
+        >
+
+<!ELEMENT BLINK    - - (%text;)*>
+
+<!ELEMENT FONT     - - (%text;)*>
+<!ATTLIST FONT
+        color    %color; #IMPLIED
+        >
+
+<!--=================== Horizontal Rule ===================================-->
+
+<!ELEMENT HR    - O EMPTY>
+<!ATTLIST HR
+        color    %color; #IMPLIED
+        noshade (noshade) #IMPLIED
+        >
+
+<!--=================== Paragraphs=========================================-->
+
+<!ELEMENT P     - O EMPTY>
+
+<!--=================== Preformatted Text =================================-->
+
+<!ENTITY % pre.exclusion "IMG">
+
+<!ELEMENT PRE - - (%text;)* -(%pre.exclusion;)>
+
+
+<!--=================== Lists =============================================-->
+
+<!ELEMENT DL - -  (DT|DD)+>
+<!ELEMENT DT - O  (%text;)*>
+<!ELEMENT DD - O  %flow;>
+
+<!ELEMENT (OL|UL) - -  (LI)+>
+<!ELEMENT LI - O %flow;>
+
+<!--================ Forms ===============================================-->
+
+<!ELEMENT FORM - - %body.content; -(FORM)>
+<!ATTLIST FORM
+        action %URL; #IMPLIED
+        method (%HTTP-Method;) GET
+     -- enctype %Content-Type; "application/x-www-form-urlencoded" --
+        >
+
+<!ENTITY % InputType
+        "(TEXT|PASSWORD|CHECKBOX|RADIO|HIDDEN|SUBMIT|RESET|FILE)">
+
+<!ELEMENT INPUT - O EMPTY>
+<![ %JSKY.STATION [
+<!ATTLIST INPUT
+        type %InputType; TEXT
+        name  CDATA   #IMPLIED
+        value CDATA   #IMPLIED
+        checked (checked) #IMPLIED
+        size NUMBER   #IMPLIED
+        maxlength NUMBER #IMPLIED
+        mode (hiragana|katakana|alphabet|numeric) #IMPLIED
+        src    %URL;   #IMPLIED
+        soundstart (select|focus) #IMPLIED
+        loop %loop; 1
+        volume (high|middle|low) #IMPLIED
+        vibration (select|focus) #IMPLIED
+        viblength %viblength; 1
+        >
+]]>
+<!ATTLIST INPUT
+        type %InputType; TEXT
+        name  CDATA   #IMPLIED
+        value CDATA   #IMPLIED
+        checked (checked) #IMPLIED
+        size NUMBER   #IMPLIED
+        maxlength NUMBER #IMPLIED
+        mode (hiragana|katakana|alphabet|numeric) #IMPLIED
+        >
+
+<!ELEMENT SELECT - - (OPTION+)>
+<!ATTLIST SELECT
+        name CDATA #REQUIRED
+        size NUMBER #IMPLIED
+        multiple (multiple) #IMPLIED
+        >
+
+<!ELEMENT OPTION - O (#PCDATA)*>
+<!ATTLIST OPTION
+        selected (selected) #IMPLIED
+        value  CDATA  #IMPLIED
+        >
+
+<!ELEMENT TEXTAREA - - (#PCDATA)*>
+<!ATTLIST TEXTAREA
+        name CDATA #REQUIRED
+        rows NUMBER #REQUIRED
+        cols NUMBER #REQUIRED
+        >
+
+<!--======================= Tables ========================================-->
+
+<!ELEMENT TABLE - - (CAPTION?, TR+)>
+<![ %JSKY.STATION [
+<!ATTLIST TABLE
+        border (border) #IMPLIED
+        bgcolor %color; #IMPLIED
+        >
+]]>
+<!ATTLIST TABLE
+        border (border) #IMPLIED
+        >
+
+<!ELEMENT TR - O (TH|TD)*>
+<!ELEMENT (TH|TD) - O %body.content;>
+<![ %JSKY.STATION [
+<!ATTLIST TD
+        nowrap (nowrap) #IMPLIED
+        bgcolor %color; #IMPLIED
+        >
+<!ATTLIST TH
+        rowspan NUMBER   1
+        colspan NUMBER   1
+        nowrap (nowrap) #IMPLIED
+        bgcolor %color; #IMPLIED
+        >
+]]>
+<!ATTLIST TH
+        rowspan NUMBER   1
+        colspan NUMBER   1
+        >
+
+<!ELEMENT CAPTION - - (%text;)+>
+<!ATTLIST CAPTION
+        align (top|bottom) #IMPLIED
+        >
+
+<!--================ Document Head ========================================-->
+
+<![ %JSKY.STATION [
+<!ENTITY % head.misc "META|BGSOUND">
+]]>
+<!ENTITY % head.misc "META">
+
+<!ENTITY % head.content "TITLE & BASE?">
+
+<!ELEMENT HEAD O O (%head.content;) +(%head.misc;) >
+
+<!ELEMENT TITLE - -  (#PCDATA)*>
+
+<!ELEMENT BASE - O EMPTY>
+<!ATTLIST BASE
+  href        %URL;          #IMPLIED
+  >
+
+<!ELEMENT META - O EMPTY>
+<!ATTLIST META
+  http-equiv  NAME           #IMPLIED
+  content     CDATA          #REQUIRED
+  >
+
+<![ %JSKY.STATION [
+<!ELEMENT BGSOUND  - O EMPTY>
+<!ATTLIST BGSOUND
+        src  %URL;    #IMPLIED
+        loop %loop; 1
+        volume (high|middle|low|0) #IMPLIED
+        >
+]]>
+
+<!--================ Document Structure ===================================-->
+
+<!ENTITY % html.content "HEAD, BODY">
+
+<!ELEMENT HTML O O  (%html.content)>
+
+<!--================ End of DTD ===========================================-->

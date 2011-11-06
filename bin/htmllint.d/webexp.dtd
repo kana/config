@@ -1,0 +1,288 @@
+<!--========== HTML Document Type Definition WebExplorer 1.1 ==============-->
+
+<!--                     THIS IS A TRIAL by k16                            -->
+
+
+<!--============== Imported Names ==============================-->
+
+<!ENTITY % Content-Type "CDATA"
+        -- meaning an internet media type
+           (aka MIME content type, as per RFC1521)
+        -->
+
+<!ENTITY % HTTP-Method "GET | POST"
+        -- as per HTTP specification, in progress
+        -->
+
+<!--========= DTD "Macros" =====================-->
+
+<!ENTITY % heading "H1|H2|H3|H4|H5|H6|H7">
+
+<!ENTITY % list "UL|OL|DIR|MENU" >
+
+
+<!--======= Character mnemonic entities =================-->
+
+<!ENTITY % ISOlat1 PUBLIC
+  "ISO 8879-1986//ENTITIES Added Latin 1//EN//HTML">
+%ISOlat1;
+
+<!ENTITY amp  CDATA "&#38;"    -- ampersand          -->
+<!ENTITY gt   CDATA "&#62;"    -- greater than       -->
+<!ENTITY lt   CDATA "&#60;"    -- less than          -->
+<!ENTITY quot CDATA "&#34;"    -- double quote       -->
+
+
+<!--========== Text Markup =====================-->
+
+<!ENTITY % font "TT|B|I|S|U">
+
+<!ENTITY % phrase "EM|STRONG|CODE|CITE|Q|QUOTE">
+
+<!ENTITY % image "IMG|IMAGE">
+
+<!ENTITY % text "#PCDATA | A | ANIMATE | %image | BR | %phrase | %font |
+                 FONT | BASEFONT ">
+
+<!ELEMENT (%font|%phrase) - - (%text)*>
+
+<!ENTITY % pre.content "#PCDATA | A | HR | BR | %font | %phrase | TAB">
+
+<!ELEMENT BR    - O EMPTY>
+
+<!ELEMENT TAB   - O EMPTY>
+<!ATTLIST TAB
+    id    CDATA  #IMPLIED
+    to    CDATA  #IMPLIED
+    >
+
+
+<!ENTITY % rsize "CDATA">
+<!ENTITY % fsize "CDATA">
+
+<!ELEMENT FONT - - (%text)*     -- local change to font -->
+<!ATTLIST FONT
+    size    %rsize   3           -- [+]nn e.g. size="+1", size=4 --
+    >
+
+<!ELEMENT BASEFONT - O (%text)*  -- base font size (1 to 7)-->
+<!ATTLIST BASEFONT
+    size    %fsize   3  -- e.g. size=3 --
+    >
+
+
+<!--========= Link Markup ======================-->
+
+<!ENTITY % A.content   "(%heading|%text)*">
+
+<!ENTITY % URL "CDATA">
+
+<!ELEMENT A     - - %A.content -(A)>
+<!ATTLIST A
+        HREF %URL #IMPLIED
+        NAME CDATA #IMPLIED
+        TITLE CDATA #IMPLIED
+        >
+
+
+<!--========== Images ==========================-->
+
+<!ENTITY % Length "CDATA" -- nn for pixels or nn% for percentage length -->
+<!ENTITY % Pixels "CDATA" -- integer representing length in pixels -->
+
+<!ELEMENT (%image)    - O EMPTY>
+<!ATTLIST (%image)
+        SRC %URL #REQUIRED
+        ALT CDATA #IMPLIED
+        ALIGN (top|middle|bottom) #IMPLIED
+        ISMAP (ISMAP) #IMPLIED
+        HSPACE %Pixels #IMPLIED
+        VSPACE %Pixels #IMPLIED
+        >
+
+<!ELEMENT ANIMATE - - (FRAME)+ -- ??? -->
+<!ELEMENT FRAME - O EMPTY>
+<!ATTLIST FRAME SRC %URL #IMPLIED>
+
+
+<!--========== Paragraphs=======================-->
+
+<!ELEMENT P     - O EMPTY>
+
+
+<!--========== Headings, Titles, Sections ===============-->
+
+<!ELEMENT HR    - O EMPTY>
+<!ATTLIST HR
+        ALIGN (left|right|center) #IMPLIED
+        SIZE        %Pixels    #IMPLIED
+        WIDTH       %Length    #IMPLIED
+        >
+
+
+<!ELEMENT ( %heading )  - -  (%text;)*>
+
+
+<!--========== Text Flows ======================-->
+
+<!ENTITY % block.forms "BLOCKQUOTE | FORM | ISINDEX">
+
+<!ENTITY % preformatted "PRE | XMP | LISTING">
+
+<!ENTITY % block "P | %list | DL | CENTER | TABLE
+        | %preformatted
+        | %block.forms">
+
+<!ENTITY % flow "(%text|%block)*">
+
+<!ENTITY % body.content "(%heading | %text | %block | HR | ADDRESS)*">
+
+<!ELEMENT CENTER - - %body.content>
+
+<!ELEMENT PRE - - (%pre.content)*>
+<!ATTLIST PRE
+        WIDTH NUMBER #implied
+        >
+
+
+<!ENTITY % literal "CDATA"
+        -- historical, non-conforming parsing mode where
+           the only markup signal is the end tag
+           in full
+        -->
+
+<!ELEMENT (XMP|LISTING) - -  %literal>
+
+<!ELEMENT PLAINTEXT - O %literal>
+
+
+<!--========== Lists ==================-->
+
+<!ELEMENT DL    - -  (DT | DD)+>
+<!ATTLIST DL
+        COMPACT (COMPACT) #IMPLIED
+        >
+
+<!ELEMENT DT    - O (%text)*>
+<!ELEMENT DD    - O %flow>
+
+
+<!ELEMENT (OL|UL) - -  (LI)+>
+
+<!ELEMENT (DIR|MENU) - -  (LI)+ -(%block)>
+
+<!ELEMENT LI    - O %flow>
+
+
+<!--========== Tables ===================-->
+
+<!ELEMENT TABLE - - (CAPTION?, TR+)>
+<!ELEMENT TR - O (TH|TD)*>
+<!ELEMENT (TH|TD) - O %body.content>
+
+<!ENTITY % border "CDATA" >
+
+<!ATTLIST TABLE                       -- table element --
+        border    %border  #IMPLIED  -- controls frame width around table --
+        cellspacing %Pixels #IMPLIED  -- spacing between cells --
+        cellpadding %Pixels #IMPLIED  -- spacing within cells --
+        >
+
+<!ELEMENT CAPTION - - (%text)* -- table or figure caption -->
+<!ATTLIST CAPTION
+        align (top|bottom) top
+        >
+
+<!ATTLIST (TH|TD)                  -- header or data cell --
+        nowrap (nowrap)  #IMPLIED  -- suppress word wrap --
+        rowspan NUMBER   1         -- number of rows spanned by cell --
+        colspan NUMBER   1         -- number of cols spanned by cell --
+        align  (left|center|right) #IMPLIED
+        valign (top|middle|bottom) #IMPLIED
+        >
+
+
+<!--========== Document Body ===================-->
+
+<!ENTITY % color "CDATA" -- a color specification: #HHHHHH @@ details? -->
+
+<!ELEMENT BODY O O  %body.content>
+<!ATTLIST BODY
+        background %URL #IMPLIED  -- texture tile for document background --
+        bgcolor %color #IMPLIED
+        text %color #IMPLIED
+        link %color #IMPLIED
+        vlink %color #IMPLIED
+        alink %color #IMPLIED
+        >
+
+<!ELEMENT BLOCKQUOTE - - %body.content>
+
+<!ELEMENT ADDRESS - - (%text|P)*>
+
+
+<!--======= Forms ====================-->
+
+<!ELEMENT FORM - - %body.content -(FORM) +(INPUT|SELECT|TEXTAREA)>
+<!ATTLIST FORM
+        ACTION CDATA #IMPLIED
+        METHOD (%HTTP-Method) GET
+        ENCTYPE %Content-Type; "application/x-www-form-urlencoded"
+        >
+
+<!ENTITY % InputType "(TEXT | PASSWORD | CHECKBOX |
+                        RADIO | SUBMIT | RESET |
+                        IMAGE | HIDDEN )">
+<!ELEMENT INPUT - O EMPTY>
+<!ATTLIST INPUT
+        TYPE %InputType TEXT
+        SRC %URL #IMPLIED
+        ALIGN (top|middle|bottom) #IMPLIED
+        CHECKED (CHECKED) #IMPLIED
+        MAXLENGTH NUMBER #IMPLIED
+        NAME CDATA #IMPLIED
+        SIZE CDATA #IMPLIED
+        VALUE CDATA #IMPLIED
+        >
+
+<!ELEMENT SELECT - - (OPTION+) -(INPUT|SELECT|TEXTAREA)>
+<!ATTLIST SELECT
+        MULTIPLE (MULTIPLE) #IMPLIED
+        SIZE NUMBER #IMPLIED
+        NAME CDATA #REQUIRED
+        >
+
+<!ELEMENT OPTION - O (#PCDATA)*>
+<!ATTLIST OPTION
+        SELECTED (SELECTED) #IMPLIED
+        VALUE CDATA #IMPLIED
+        >
+
+<!ELEMENT TEXTAREA - - (#PCDATA)* -(INPUT|SELECT|TEXTAREA)>
+<!ATTLIST TEXTAREA
+        NAME CDATA #REQUIRED
+        ROWS NUMBER #REQUIRED
+        COLS NUMBER #REQUIRED
+        >
+
+
+<!--======= Document Head ======================-->
+
+<!ENTITY % head.content "TITLE & ISINDEX? & BASE?">
+
+<!ELEMENT HEAD O O  (%head.content) >
+
+<!ELEMENT TITLE - -  (#PCDATA)* >
+
+<!ELEMENT ISINDEX - O EMPTY>
+
+<!ELEMENT BASE - O EMPTY>
+<!ATTLIST BASE
+        HREF %URL #REQUIRED     >
+
+
+<!--======= Document Structure =================-->
+
+<!ENTITY % html.content "HEAD, BODY, PLAINTEXT?">
+
+<!ELEMENT HTML O O  (%html.content)>

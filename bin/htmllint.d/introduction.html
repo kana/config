@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="prev" href="./index.html">
+<link rel="next" href="./notice.html">
+<title>Another HTML-lint : Introduction</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./index.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./notice.html">next</a>]<!--*-->
+</div><hr>
+<h1><span>Another HTML-lint</span></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/introduction.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="introduction">はじめに</a></h2>
+<p>
+Another HTML-lint は、<a href="http://www.vector.co.jp/vpack/browse/person/an000106.html">わたし</a>個人が興味本位に <a href="http://openlab.ring.gr.jp/">Ringオープンラボラトリ</a> の場をお借りして運営しています。<a href="https://sw.vector.co.jp/swreg/step1.info?srno=SR011941&amp;site=v&amp;sid=335404740">貧乏な作者のためにビールをおごってください</a> <code>:-)</code>
+</p>
+
+<hr>
+
+<blockquote>
+お願い: わたしは、このプロジェクトを積極的に宣伝したことはありません。啓蒙活動もしていませんし、文法至上主義を標榜したこともありません。ただ lint の作者というだけで、そのような思想の持ち主だと短絡的な判断はなさらぬようお願いいたします。
+</blockquote>
+
+<hr>
+
+<p>
+HTMLの文法チェッカとして、<a href="http://www.cre.canon.co.uk/~neilb/">Neil Bowers氏</a>の <a href="http://www.weblint.org/">Weblint</a>、および、それを日本語対応した<a href="http://www.sfc.keio.ac.jp/~mimasa/">石川雅康氏</a>の <a href="http://www.isoternet.org/~asada/weblint/">jweblint</a> や、<a href="http://www.asahi-net.or.jp/~wq6k-yn/">矢野啓介氏</a>の <a href="http://ais2.huie.hokudai.ac.jp/~yano/htv/">Libra</a> が有名です。<!--Weblint/jweblint は、誰でも再利用可能で、ソースであるPerlスクリプト等もすべて公開されています。また、石川氏のサイトには、WWW上でこれらを利用するためのゲートウェイスクリプトもあり、非常に参考になります。-->Another HTML-lint の多くのアイデアは、これらから頂戴したものです。また、Another HTML-lint は jweblint では<strong>ありません</strong>。くれぐれも、そのような誤解から石川氏に迷惑がかからないようにお願いいたします。
+</p>
+<p>
+先日(といっても1997年初頭だからずいぶん前のことだ)、jweblint を社内にインストールし、社内向けにゲートウェイサーヴィスを開始しました。その際、提供されているHTMLやPerlスクリプトなどに若干の手直しをしました。しばらく使用してみて、いろいろおかしな判定が気にかかるようになり、どのような方式でHTMLをチェックしているのか、また、RFCなどで提供されているDTDがどの程度正確に反映されているのか、などの興味を抱き、Weblint (jweblint) のPerlスクリプトを解析し出したわけなんです。その結果は、あまり納得のいくものではありませんでした。<br>
+もともと Weblint は厳密なチェックを目指していないので、結構お手軽に書かれています。それにしても、お手軽すぎてあまりにも多くの情報を捨ててしまっていますし、データ構造はほとんどないに等しく、ここの場面でこういうときはこうする、ああいうときはああする、といった場当たり的な処理の羅列に終始しています。例えば、タグの出現順序、出現回数に関する情報は、&lt;HTML&gt;〜&lt;/HTML&gt;タグに関するものしか持っていません。しかも抽象化されていないので、他への応用が利きません。また、終了タグを省略できる場合の処理もあまり正確ではありませんし、タグの要素として書くことを許されているタグに何があるのか、という情報は皆無です。一部&lt;A&gt;とヘディング&lt;Hn&gt;の入れ子関係をチェックしていたり、&lt;LI&gt;などのリスティング関係のタグをチェックしているくらいです。もうちょっとDTDの情報をうまく利用すれば、どのタグがどのタグ要素として許されるのか明白です。(1997/06時点の話なので、最新版は違うかも知れません)<br>
+というような調子なので、しばらくは手直ししながら利用していましたが、そのうちに、好みに改造するのも手間だし、今後の拡張を正確に反映させていくにはそうとうな労力を要求されそうだと判断し、新規にHTMLチェッカを書き起こすことにしました。<br>
+あまりDTDぎちぎちのチェックをすると、ゆるやかなHTML評価をしている多くのWWWブラウザにとってはかえってありがた迷惑だし、そんなのは専門のSGMLパーサがやればいい話なので、DTDの情報はなるたけ吸収するけれども、チェックはほどほどに、という態度でDTDの簡易パーサから作成しています。だから、完全にDTDが反映されるわけでもないですし、実際DTDの記述と現実のWWWブラウザ(主にMozillaとMSIEなんだけど)の動作を比べて、DTDの方を歪曲しちまってることすらあります。<br>
+専門のSGMLパーサとの最大の違いは、DTDでは規定されない多くの事柄をチェックしたり、望ましくないと判断されるスタイルもチェックすることです。<br>
+このように、チェックのよりどころはDTDなのですが、具合の悪いことにNavigator(Mozilla)用のDTDは存在しないのか公開されていないのかなので、捏造しなけりゃなりませんでした。
+</p>
+<p>
+なにしろ本格的には書いたことのないPerl初心者なので、まずPerlから勉強し、あとは週末と夜中でだいたい片が付くだろうという予想で始めたんですが、だいたいそんなもんでした。難しいですね、Perlって。今はなき日経MIXでいろいろ教えていただきました。
+</p>
+
+<blockquote>
+Perl4入門的に書き始め、大幅な書き換えもせずに無理矢理 Perl5に移行しています。ソースは非常に汚いです。ご注意を。
+</blockquote>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/introduction.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Jul 07, 2005<br>
+Created: Jun 19, 1997
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./index.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./notice.html">next</a>]
+</div>
+
+</body>
+</html>

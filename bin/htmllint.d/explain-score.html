@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<meta name="Description" content="Another HTML-lint">
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="next" href="./explain.html">
+<title>Another HTML-lint : Explanation SCORE</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[prev]
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./explain.html">next</a>]<!--*-->
+</div><hr>
+<h1><a name="top"><span>Another HTML-lint</span> 結果の解説</a></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right">目次　<br></th><td><a href="./explain-score.html">点数について</a>　　　</td><td align="right">　<a href="./index.html">Another HTML-lint について</a></td></tr>
+<tr><td></td><td><a href="./explain.html">エラーについて</a>　　</td><td align="right">　　　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./explain-wai.html">アクセス性について</a></td><td align="right">　　　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./explain-omake.html">おまけ</a>　　　　　　</td><!--td align="right">　　　　　　　　　　<a href="./statistics.html">統計情報</a></td--></tr>
+<tr><td></td><td>　　　　　　　　　</td><td align="right">　　　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-score.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="score">点数について</a></h2>
+<p>
+点数の計算は満点からの減点法で、エラーの数、タグの数、タグの種類<!--、行数-->などから、<strong>いいかげんな式によって計算されています</strong>。大きなHTMLが不利ということはありません(たぶん)。各エラーには重みがあり、軽度のものはあまり減点されませんが、重要なエラーはたくさん減点されます。減点されないエラーもあります。また、タグ<!--や行数-->が少ないのにエラーが多いときも減点は多くなります。
+</p>
+<p>
+まじめに書いているのに極端にマイナスの激しい場合は、<a href="./explain.html#unknown-doctype">適切なDOCTYPE宣言がなされていない</a>ことが考えられます。あまり理解せずにDOCTYPEを適当に書いたりしていませんか。自分はどのHTMLを書いているのか、もうちょっと意識しましょう。また、エラーが多すぎると<a href="./explain.html#over-limit-whines">チェックが打ち切られてしまいます</a>。同じようなエラーばかり出ているときは、そのエラーをチェックしないようにしてみてください。
+</p>
+<p>
+点数が悪いからといって、悲観しないでください。腹を立てないでください。点数の計算方法には、何ら学術的根拠はありません。あくまでも文法的(若干宗教的)なチェックしかしません。<strong>書かれている内容については何ら関知しません</strong>。<br>
+すんごくかっこいいページでも、めちゃくちゃな文法のことはよくあります。そのようなページは、往々にして限られた環境でのみかっこよく見えるものです。文法を正したからといって、かっこわるくなることはありません。
+</p>
+<p>
+チェック項目を減らせば、容易に満点を取ることができますが、それではチェックの意味がありません。宗教的経験的エラー以外の項目のチェックを外すのは避けましょう。<br>
+チェックで満点だからといって、それが優れたHTMLだというわけではありません。<a href="./faq.html#perfect"><strong>各WWWブラウザで正しく表示されることを保証するものでもありません</strong></a>し、評価結果は何かを認定するものでもありません。満点をとって安心しないようにしましょう。だいたい満点を取らなけりゃならない理由は全然ありません。内容が伴ってなんぼのHTMLです。<br>
+ちなみに、この一連の Another HTML-lint のHTMLがお手本になるなどと決して思わないでください。
+</p>
+<p>
+多分に慣れもありますが、生産性の面から言ったら、一般のエディタでタグをしこしこ書くよりも、HTMLエディタなどのオーサリングツールを使った方がいいに決まっています。残念なことに、多くのHTMLエディタが生成するHTMLは文法的な誤りを多く含んでいます(<a href="http://www.kanzaki.com/docs/Style/">Style Guide for online hypertext</a> は皮肉を言ってるのでしょう)。<!--これについて、系統立った調査を行なってみたい気はするのですが、今のところ余裕がありません。時間も財力もないので、ちゃんとした調査が行なえる目途は立ってません。:-)-->
+</p>
+<p>
+プログラムの不具合によって、とんでもない点数が出ないとも限りません。同じ行の同じエラーがずっと繰り返されていたり、理不尽な判定をされていると思ったときは、k16@chiba.email.ne.jp までお知らせください。
+</p>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-score.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Apr 04, 2007<br>
+Created: Jul 17, 1997
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[prev]
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./explain.html">next</a>]
+</div>
+
+</body>
+</html>

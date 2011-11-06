@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<meta name="Description" content="Another HTML-lint">
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="prev" href="./explain.html">
+<link rel="next" href="./explain-omake.html">
+<title>Another HTML-lint : Explanation WAI</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./explain.html">prev</a>]
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./explain-omake.html">next</a>]<!--*-->
+</div><hr>
+<h1><a name="top"><span>Another HTML-lint</span> 結果の解説</a></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right">目次　<br></th><td><a href="./explain-score.html">点数について</a>　　　</td><td align="right">　<a href="./index.html">Another HTML-lint について</a></td></tr>
+<tr><td></td><td><a href="./explain.html">エラーについて</a>　　</td><td align="right">　　　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./explain-wai.html">アクセス性について</a></td><td align="right">　　　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./explain-omake.html">おまけ</a>　　　　　　</td><!--td align="right">　　　　　　　　　　<a href="./statistics.html">統計情報</a></td--></tr>
+<tr><td></td><td>　　　　　　　　　</td><td align="right">　　　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-wai.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="wai">アクセス性について</a></h2>
+<p><a href="http://www.w3.org/TR/WAI-WEBCONTENT/">WAI Content Accessibility Guidelines 1.0</a>(<a href="http://www.asahi-net.or.jp/~bd9y-ktu/WEBc_f/wai-pageauth.html">J</a>) は、1999/05/05に勧告されました。この文書には、アクセス性チェックの具体的な方法を述べた <a href="http://www.w3.org/TR/WCAG10-TECHS/">Techniques for Web Content Accessibility Guidelines</a>(<a href="http://www.asahi-net.or.jp/~bd9y-ktu/WEBct_f/wai-pageauth-tech.html">J</a>) という文書が付属しているので、こちらも参考にしてください。</p>
+<p>チェックの指針には次のような優先度が設けられています。</p>
+<blockquote>
+<dl compact class="priority">
+<dt><span class="priority1">[優先度1]</span><dd>守らなければならない(must)事項。これを守らないと、文書内容にアクセスできないことがある。
+<dt><span class="priority2">[優先度2]</span><dd>守るべき(should)事項。これを守らないと、文書内容へのアクセスが困難になることがある。
+<dt><span class="priority3">[優先度3]</span><dd>守った方がよい(may)事項。これを守れば、より多くの人々が恩恵を被ることができる。
+</dl>
+</blockquote>
+<p><a href="http://www.w3.org/WAI/">Web Accessibility Initiative</a> (WAI) では、これらの指針に対しての文書の適合度を次のように定義しています。</p>
+<blockquote>
+<dl compact class="priority">
+<dt><strong>A</strong><dd>優先度1をすべて満たしている文書。
+<dt><strong>AA</strong><dd>ダブルA。優先度1〜2をすべて満たしている文書。
+<dt><strong>AAA</strong><dd>トリプルA。優先度1〜3のすべての要件を満たしている文書。
+</dl>
+</blockquote>
+<p>この勧告文書は、その名のとおり、HTML文書の内容に関する指針なので、文法をチェックする Another HTML-lint とは守備範囲が異なります。そのため、Another HTML-lint では、ここに書かれている指針の多くをチェックすることができません。つまり、Another HTML-lint がこの適合度を示すことはできません。<a href="http://www.w3.org/TR/WAI-WEBCONTENT/full-checklist.html">チェックリスト</a>(<a href="http://www.asahi-net.or.jp/~bd9y-ktu/WEBc_f/full-checklist.html">J</a>)で実際にチェックしてみるといいでしょう。</p>
+<p>ここでは、この勧告文書の内容アクセス指針チェック項目に対して、Another HTML-lint がどのようなチェックに対応しているのかを、各チェック項目に対して示します (上手に訳せてないものあり:-)。より詳しいチェックの内容については、<a href="http://www.w3.org/TR/WAI-WEBCONTENT/">勧告文書</a>(<a href="http://www.asahi-net.or.jp/~bd9y-ktu/WEBc_f/wai-pageauth.html">J</a>)を参照してください。</p>
+
+<h3 class="guideline">指針 1. <a name="gl-provide-equivalents">非テキスト要素の代替手段を用意すること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="1.1">1.1</a></span> 音声や画像などの非テキスト要素に等価なテキストを用意する <span class="priority1">[優先度1]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#img-alt">&lt;IMG&gt; タグにALT属性を指定するよう促す</a>
+        <li><a href="./explain.html#object-text-equivalent">&lt;OBJECT&gt; には等価な内容を指定するよう促す</a>
+        <li><a href="./explain.html#heading-text-equivalent">見出しイメージに等価な説明を書くよう促す</a>
+        <li><a href="./explain.html#required-attribute">必要な属性が指定されていなかったら警告する</a>
+    </ul>
+    などが相当します。ALTの指定に関しては、&lt;IMG&gt; 以外に対してもチェックされます。指針では、ALTで不足する場合はLONGDESCなどを使うよう示されていますが、何をもってALTでは不足だと判断するのかがわからないので、そこまではチェックできていません。イメージマップの&lt;A&gt;と&lt;MAP&gt;の連携もチェックできていません。
+    </dl>
+<dd><span class="checkpoint"><a name="1.2">1.2</a></span> サーバサイドイメージマップにテキストによるリンクを用意する <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="1.3">1.3</a></span> 視覚的内容には音声ガイドを用意する <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="1.4">1.4</a></span> 動画やアニメーションなどには等価な代替テキストを用意する <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="1.5">1.5</a></span> クライアントサイドイメージマップに等価な代替テキストを用意する <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできていません。</dl>
+</dl>
+
+<h3 class="guideline">指針 2. <a name="gl-color">色彩には非依存であること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="2.1">2.1</a></span> 色なしでも情報が得られること <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="2.2">2.2</a></span> 前景と背景に十分なコントラストを持たせる <span class="priority2">[優先度2〜3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#body-color">&lt;BODY&gt; での色指定が不完全だったら警告する</a>
+        <li><a href="./explain.html#background">背景画像が指定してあるのに背景色が指定していなかったら警告する</a>
+        <li><a href="./explain.html#same-bgcolor">背景色と同じ色のテキスト色を指定していたら警告する</a>
+        <li><a href="./explain.html#near-bgcolor">背景色と似た色のテキスト色を指定していたら警告する</a>
+    </ul>
+    などが相当しますが、これらは主に&lt;BODY&gt;からみですし、コントラストの具合まで細かく見ることはできません。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 3. <a name="gl-structure-presentation">マークアップとスタイルシートを正しく使うこと</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="3.1">3.1</a></span> 可能ならば画像を用いずにマークアップする <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="3.2">3.2</a></span> 正式な文法に則る <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針は、Another HTML-lint の目的そのものです。強いて挙げれば、
+    <ul><li><a href="./explain.html#required-doctype">DOCTYPE宣言がなかったら警告する</a>
+        <li><a href="./explain.html#unknown-doctype">不明なDOCTYPE宣言だったら警告する</a>
+        <li><a href="./explain.html#other-html-element">別のHTML用のタグを書いていたら警告する</a>
+        <li><a href="./explain.html#other-html-attribute">別のHTML用の属性が指定されていたら警告する</a>
+    </ul>
+    などが相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="3.3">3.3</a></span> 体裁のためにはスタイルシートを利用する <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#deprecated-tag-css">スタイルシートを使った方がいいタグを書いていたら警告する</a>
+        <li><a href="./explain.html#deprecated-attribute-css">スタイルシートを使った方がいい属性を書いていたら警告する</a>
+        <li><a href="./explain.html#space-container">開始タグと終了タグの間が空白だけだったら警告する。</a>
+        <li><a href="./explain.html#physical-font">物理的フォントタグ(&lt;B&gt;、&lt;I&gt;、&lt;TT&gt;等)を書かないよう促す</a>
+    </ul>
+    などが相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="3.4">3.4</a></span> 属性やスタイルシートの値には相対値を用いる <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="3.5">3.5</a></span> 文書構造を見出し要素を用いて表現する <span class="priority2">[優先度2]</span>
+    <dl><dd>間接的には
+    <ul><li><a href="./explain.html#heading-order">見出し(&lt;H1&gt;〜&lt;H6&gt;)のレベルが連続していなかったら警告する</a>
+    </ul>
+    が相当しますが、直接的にこの指針をチェックすることはできません。
+    </dl>
+<dd><span class="checkpoint"><a name="3.6">3.6</a></span> リスト要素はリスト構造に用いる <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="3.7">3.7</a></span> 引用を字下げなどの手段に用いない <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+</dl>
+
+<h3 class="guideline">指針 4. <a name="gl-abbreviated-and-foreign">自然言語を明示すること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="4.1">4.1</a></span> 文章中の言語の変化を明示する <span class="priority1">[優先度1]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#lang-attribute">LANG属性の指定と属性値の言語が食い違っていたら警告する</a>
+        <li><a href="./explain.html#lang-pcdata">LANG属性の指定とテキストの言語が食い違っていたら警告する</a>
+    </ul>
+    などが相当すると言えなくもないです。
+    </dl>
+<dd><span class="checkpoint"><a name="4.2">4.2</a></span> 省略語や頭文字の語源を明示する <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#recommended-title">&lt;ABBR&gt; タグなどにTITLE属性を指定するよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="4.3">4.3</a></span> 基本の言語を明示する <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#html-lang">&lt;HTML&gt; タグにLANG属性を指定するよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 5. <a name="gl-table-markup">テーブルは非テーブルとしてもうまく理解できるように</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="5.1">5.1</a></span> データ表では行と見出しが識別できるようにする <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="5.2">5.2</a></span> データ部と見出し部の関係付けに配慮する <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="5.3">5.3</a></span> ベタ読みして意味不明になるようなテーブルはレイアウトのために利用しない <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="5.4">5.4</a></span> レイアウトのためのテーブルでは見た目の書式化を行なわない <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。&lt;TH&gt;がテーブル内で上端とか左端とかに位置することをチェックすることは可能ですが、それがこの指針の意図を表わしているのか、いまいち自信がありません。
+    </dl>
+<dd><span class="checkpoint"><a name="5.5">5.5</a></span> テーブルの要約を用意する <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#table-summary">&lt;TABLE&gt; タグにSUMMARY属性を指定するよう促す</a>
+    </ul>
+    が相当します。&lt;CAPTION&gt; の利用も薦められていますが、チェックしていません。
+    </dl>
+<dd><span class="checkpoint"><a name="5.6">5.6</a></span> 見出しラベルの略語を用意する <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#abbr-header-label">&lt;TH&gt; タグにABBR属性を指定するよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 6. <a name="gl-new-technologies">最新技術を用いるときはそうでない場合でもアクセスできるようにすること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="6.1">6.1</a></span> スタイルシートがなくても読めるようにする <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="6.2">6.2</a></span> 動的な内容が更新されたとき、それと同じものは同期する <span class="priority1">[優先度1]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#frame-image">&lt;FRAME&gt; で直接イメージなどを指定していたら警告する</a>
+    </ul>
+    が相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="6.3">6.3</a></span> スクリプトやアプレットなどが動作できなくてもページが利用できるようにする <span class="priority1">[優先度1]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#no-noscript">&lt;SCRIPT&gt; タグがあるのに &lt;NOSCRIPT&gt; タグがなかったら警告する</a>
+        <li><a href="./explain.html#javascript-url">URLが javascript: スキームだったら警告する</a>
+    </ul>
+    などが相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="6.4">6.4</a></span> スクリプトやアプレットなどのイベント処理は入力装置に依存しない <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#event-pair">対で用いるべきイベントを警告する。</a>
+    </ul>
+    などが相当します。
+    </dl>
+
+<dd><span class="checkpoint"><a name="6.5">6.5</a></span> 動的な内容と等価な代替ページを用意する <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#no-noframes">&lt;FRAMESET&gt; タグがあるのに &lt;NOFRAMES&gt; タグがなかったら警告する</a>
+    </ul>
+    などが相当します。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 7. <a name="gl-movement">動きのある内容は制御可能であること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="7.1">7.1</a></span> 画面をちらつかせない <span class="priority1">[優先度1]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#should-not-use">使うべきでないとされているタグを書いていたら警告する</a>
+    </ul>
+    が相当します。これは、&lt;BLINK&gt;や&lt;MARQUEE&gt;といったタグの使用を制限します。
+    </dl>
+<dd><span class="checkpoint"><a name="7.2">7.2</a></span> 点滅する内容は避ける <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#should-not-use">使うべきでないとされているタグを書いていたら警告する</a>
+    </ul>
+    が相当します。これは、&lt;BLINK&gt;や&lt;MARQUEE&gt;といったタグの使用を制限します。
+    </dl>
+<dd><span class="checkpoint"><a name="7.3">7.3</a></span> ページ内に利用者の制御できない動くものを置かない <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="7.4">7.4</a></span> 周期的な自動更新は行なわない <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#refresh">&lt;META HTTP-EQUIV="REFRESH"&gt; は使用しないよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="7.5">7.5</a></span> 自動的に他のページに移動しない <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#refresh-link">&lt;META HTTP-EQUIV="REFRESH"&gt; に相当するリンクがなかったら警告する</a>
+    </ul>
+    が相当します。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 8. <a name="gl-own-interface">ユーザインタフェースのアクセス性を確保すること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="8.1">8.1</a></span> スクリプトやアプレットなどのプログラム要素には直接アクセスできること <span class="priority1">[優先度1〜2]</span>
+    <dl><dd>チェックできていません。</dl>
+</dl>
+
+<h3 class="guideline">指針 9. <a name="gl-device-independence">デバイス非依存であること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="9.1">9.1</a></span> なるべくサーバサイドイメージマップでなくクライアントサイドイメージマップを使う <span class="priority1">[優先度1]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#server-side-image-map">サーバサイドイメージマップを使用していたら警告する</a>
+    </ul>
+    が相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="9.2">9.2</a></span> 固有のインタフェースを持つ要素はデバイスに依存せずに操作できること <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="9.3">9.3</a></span> スクリプトではデバイスに依存したイベントでなく論理的イベントを処理すること <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="9.4">9.4</a></span> リンクや入力フォーム、オブジェクトにタブ順序を設定する <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#form-tabindex">&lt;INPUT&gt; タグなどにTABINDEX属性を指定するよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="9.5">9.5</a></span> 重要なリンクや入力フォームにはキーボードショートカットを設定する <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#form-accesskey">&lt;INPUT&gt; タグなどにACCESSKEY属性を指定するよう促す</a>
+        <li><a href="./explain.html#link-accesskey">&lt;A&gt; タグにACCESSKEY属性を指定するよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 10. <a name="gl-interim-accessibility">暫定的な解決策を用意すること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="10.1">10.1</a></span> 無断で新しいウィンドウを表示したり、現在のウィンドウを変更したりしない <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="10.2">10.2</a></span> ラベルとフォームの関係付けが明確に行なえないときは、ラベルを適切に配置すること <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#label-control">&lt;LABEL&gt; 中に複数のフォームコントロールを書いていたら警告する</a>
+    </ul>
+    などが相当すると言えなくもないですが、指針の意図はちょっと違います。
+    </dl>
+<dd><span class="checkpoint"><a name="10.3">10.3</a></span> テーブルを利用したような横に並んだテキストに対しては、べた書きのテキストを別途用意する <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="10.4">10.4</a></span> エディットボックスやテキストエリアには初期文字列を入れておく <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#default-text">エディットボックスやテキストエリアには初期値となるテキストを入れておくよう促がす</a>
+    </ul>
+    が相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="10.5">10.5</a></span> リンクとリンクの間は印字可能な文字で区切る <span class="priority3">[優先度3]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#link-separation">リンクとリンクの間に何か文字を置くよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 11. <a name="gl-use-w3c">W3Cの技術と指針を利用すること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="11.1">11.1</a></span> できるだけ最新のW3Cの仕様に従う <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="11.2">11.2</a></span> 破棄される予定の技術は避ける <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#expired-doctype">すでに廃棄されてしまったDOCTYPEが指定されていたら警告する</a>
+        <li><a href="./explain.html#obsoleted-doctype">HTML4.0に対してHTML4.01を使うよう促す</a>
+        <li><a href="./explain.html#deprecated-tag">あまり薦められないタグを書いていたら警告する</a>
+        <li><a href="./explain.html#deprecated-attribute">あまり薦められない属性を書いていたら警告する</a>
+        <li><a href="./explain.html#deprecated-value">あまり薦められない属性値を書いていたら警告する</a>
+    </ul>
+    などが相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="11.3">11.3</a></span> 文書の情報を利用者に提供する <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="11.4">11.4</a></span> どうしてもアクセスし易くならないときは、等価な内容を持ち、元の文書と同期して更新される代替ページを用意する <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできません。</dl>
+</dl>
+
+<h3 class="guideline">指針 12. <a name="gl-complex-elements">文脈と方向性の情報を提供すること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="12.1">12.1</a></span> 各フレームにタイトルを付ける <span class="priority1">[優先度1]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#frame-title">&lt;FRAME&gt; タグにTITLE属性を指定するよう促す</a>
+    </ul>
+    が相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="12.2">12.2</a></span> タイトルだけで不足ならフレームの相互関係を説明する <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="12.3">12.3</a></span> 大きな情報はブロック化する <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="12.4">12.4</a></span> ラベルの目的を明確にする <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#label-no-control">FOR属性のない &lt;LABEL&gt; 中にフォームコントロールがなかったら警告する</a>
+        <li><a href="./explain.html#label-for-control">&lt;LABEL&gt; のFOR属性の値と内容に含まれるフォームコントロールのID属性の値が食い違っていたら警告する</a>
+    </ul>
+    などが相当します。
+    </dl>
+</dl>
+
+<h3 class="guideline">指針 13. <a name="gl-facilitate-navigation">ナヴィゲーション機構を提供すること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="13.1">13.1</a></span> 各リンクの目標を明確にする <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#link-text-equivalent">リンクイメージに等価な説明を書くよう促す</a>
+        <li><a href="./explain.html#d-link">D-リンクを警告する</a>
+        <li><a href="./explain.html#same-link-text">同一のアンカーで異なるリンク先を指していたら警告する</a>
+        <li><a href="./explain.html#here-anchor">アンカーとして "here" とか "ここ" などを書いていたら警告する</a>
+    </ul>
+    などが相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="13.2">13.2</a></span> メタデータを利用してページやサイトに意味付けをする <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、&lt;TITLE&gt; や &lt;ADDRESS&gt; の利用の薦めが含まれています。前者は必須要素なので
+    <ul><li><a href="./explain.html#required">必要なタグを書いていなかったら警告する</a>
+    </ul>
+    として警告されますが、後者はチェックしていません。</dl>
+<dd><span class="checkpoint"><a name="13.3">13.3</a></span> サイトの構造の情報を提供する <span class="priority2">[優先度2]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="13.4">13.4</a></span> ナヴィゲーション機構を用意する <span class="priority2">[優先度2]</span>
+    <dl><dd>この指針には、
+    <ul><li><a href="./explain.html#navigation-link">&lt;HEAD&gt; 中に &lt;LINK REL="NEXT" HREF="〜"&gt; などのナヴィゲーション用のリンクがなかったら警告する</a>
+    </ul>
+    などが相当します。
+    </dl>
+<dd><span class="checkpoint"><a name="13.5">13.5</a></span> ナヴィゲーション機構のためにナヴィゲーションバーを用意する <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="13.6">13.6</a></span> 関係するリンクをグループ化し、そのグループを迂回できるようにする <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできていません。</dl>
+<dd><span class="checkpoint"><a name="13.7">13.7</a></span> 検索機能を提供するなら異なるスキルに対応すること <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="13.8">13.8</a></span> 見出し、パラグラフ、リストの先頭にはそれぞれ異なる情報を置く <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="13.9">13.9</a></span> 文書のまとまりに対して情報を提供する <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="13.10">13.10</a></span> 複数行に渡るASCIIアートを飛び越えられるようにする <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできません。</dl>
+</dl>
+
+<h3 class="guideline">指針 14. <a name="gl-facilitate-comprehension">文書は簡潔明瞭であること</a></h3>
+<div class="glnavimg"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<dl class="guideline">
+<dd><span class="checkpoint"><a name="14.1">14.1</a></span> サイトの内容には簡潔明瞭なことばを使う <span class="priority1">[優先度1]</span>
+    <dl><dd>チェックできません。</dl>
+<dd><span class="checkpoint"><a name="14.2">14.2</a></span> 画像や音声に補足テキストを用意し、ページの把握を容易にする <span class="priority3">[優先度3]</span>
+    <dl><dd><a href="#gl-provide-equivalents">指針 1.</a> のチェックと同等なチェックしかできません。</dl>
+<dd><span class="checkpoint"><a name="14.3">14.3</a></span> ページ間の表現の方法を統一する <span class="priority3">[優先度3]</span>
+    <dl><dd>チェックできません。</dl>
+</dl>
+
+<p><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a><br clear="all"></p>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-wai.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Apr 04, 2007<br>
+Created: Jun 04, 1999
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./explain.html">prev</a>]
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./explain-omake.html">next</a>]
+</div>
+
+</body>
+</html>

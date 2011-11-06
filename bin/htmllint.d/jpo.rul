@@ -1,0 +1,67 @@
+# Japan Patent Office
+
+#======= ELEMENTS =======
+$emptyTags = 'BR|FIG|IMG';
+$pairTags = 'BODY|FONT|HEAD|HTML|PRE|SUB|SUP|TITLE|U';
+$deprecatedTags = '';
+$omitStartTags = '';
+$omitEndTags = '';
+#$maybeEmpty = 'BODY|FONT|PRE|SUB|SUP|TITLE|U';
+$maybeEmpty = 'PRE';
+%requiredTags = (
+  'HTML' => 'HEAD|BODY',
+);
+%onceonlyTags = (
+  'HEAD' => 'TITLE',
+  'HTML' => 'HEAD|BODY',
+);
+$sequencialTags = 'HTML';
+%tagsElements = (
+  'BODY'  => 'PRE|BR|IMG|FIG|SUP|SUB|U|FONT|#PCDATA',
+  'FONT'  => 'BR|SUP|SUB|U|#PCDATA',
+  'HEAD'  => 'TITLE',
+  'HTML'  => 'HEAD|BODY',
+  'PRE'   => 'BR|IMG|FIG|SUP|SUB|U|FONT|#PCDATA',
+  'SUB'   => 'BR|U|FONT|#PCDATA',
+  'SUP'   => 'BR|U|FONT|#PCDATA',
+  'TITLE' => '#PCDATA',
+  'U'     => 'BR|SUP|SUB|FONT|#PCDATA',
+);
+%excludedElems = (
+  'FONT' => 'FONT|FIG|IMG',
+  'PRE'  => 'PRE',
+  'SUB'  => 'SUB|SUP|FIG|IMG',
+  'SUP'  => 'SUB|SUP|FIG|IMG',
+  'U'    => 'U|FIG|IMG',
+);
+%includedElems = (
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'FIG' => {
+    'SRC' => '%URL',
+  },
+  'FONT' => {
+    'SIZE' => 'NUMBER',
+  },
+  'IMG' => {
+    'SRC' => '%URL',
+  },
+);
+%requiredAttrs = (
+  'FIG'  => 'SRC',
+  'FONT' => 'SIZE',
+  'IMG'  => 'SRC',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'amp'  => '&#38;',
+  'gt'   => '&#62;',
+  'lt'   => '&#60;',
+  'quot' => '&#34;',
+);
+%refParams = (
+  'URL' => '&URL',
+);
+
+1;

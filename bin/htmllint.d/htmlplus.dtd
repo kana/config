@@ -1,0 +1,1017 @@
+<!SGML  "ISO 8879:1986"
+--
+  Document Type Definition for the HyperText Markup Language Plus
+  for use with the World Wide Web application (HTML+ DTD).
+  This DTD is designed for use with SGML authoring tools and
+  it is expected that most browsers will tolerate omissions,
+  in particular, missing <DIVn> elements and <P> start tags
+  following headers, which can easily be inferred from the context.
+
+     The HTML+ DTD which is structured as an HTML core plus a
+     number of additional modules which can be included by an
+     entity definition in a document's <!DOCTYPE> element.
+     You can include specific features in your document
+     using the DOCTYPE declaration at the start, e.g.
+
+     <!DOCTYPE htmlplus [
+        <!ENTITY % HTML.tables "INCLUDE">
+        <!ENTITY % HTML.forms "INCLUDE">
+     ]>
+
+     This spec also allows for authors to extend the DTD and
+     to define how any new elements are rendered in terms of
+     existing ones. This should be used with caution.
+
+     I would like to acknowledge the influence of the TEI DTDs
+     which proved very helpful in restructuring the DTD.
+
+     Dave Raggett <dsr@hplb.hpl.hp.com> 5th April 1994
+
+     Changes:
+
+     Added align attribute to headers with same values
+     and meaning as for paragraphs.
+
+     Added prologue and epilogue elements and fixed bug
+     in definition of %paras with HTML.emph.
+
+     Added entity names for standard icons c/o Bert Bos.
+     This are enabled with the HTML.icons switch.
+
+     Added PRE to content model for LI and DD, and changed
+     DL to require at least one DT per DD. Math is now
+     part of %text; but can't be nested.
+
+     Tried to permit an optional epilogue following last
+     division, but sgmls gave: Content model is ambiguous
+
+     Added support for graphical menus to SELECT/OPTION.
+
+     Liberalised content model for headers to %text;
+     Added optional NOFOLD attribute to P element to
+     inhibit SGML folding of whitespace.
+
+     Dropped the LIT element and changed the TAB element
+     over to the LaTeX model. Added NOWRAP to P element.
+     Replaced TH/TD's align=numeric with ALIGNON="." etc.
+
+     Made anchor NAME attribute conditional on HTML.obsolete
+     Added HTML.obsolete for obsoleted HTML elements
+
+     Added SIG attribute to A and LINK for specifying
+     a digital signature to attest that a linked document
+     is unchanged.
+
+     SRC attribute added to NOTE to allow authors to override
+     the default icon chosen on the basis of the ROLE attribute.
+
+     Switched REL/REV back to CDATA to avoid trouble with duplicate
+     name or name token error. Using an explicit list of relationship
+     types would force us to drop REV.
+
+     Added top/bottom alignment attribute to CAPTION
+
+     REL and REV domains now defined by parameter entities
+
+     SRC attribute added to LINK to allow images to be used
+     in document specific toolbar
+
+     Baseline attribute added to FIG and IMG to give precise
+     control of vertical position relative to baseline.
+
+     Revised comments for <A> and <LINK> to remove references to
+     obsoleted timing attributes and to add a list of "standard"
+     relationship types.
+
+     CHANGED element now uses more meaningful attribute names.
+
+     STATE dropped in favor of INPUT with TYPE="hidden". Forms now
+     support a link to a script for client-side execution of constraints.
+
+     The element definition for DIV1..DIV6 and P no longer permit the
+     start tag to be omitted. This was regrettably forced by a
+     restriction in the SGML standard. Browsers *must* be capable of
+     inferring them when missing,in order to cope with legacy documents.
+
+     Fixed some errors in earlier version to do with start tags and
+     definitions of parameter entities. The content model for FIG has
+     been changed to use a P element for text to avoid an SGML parsing
+     problem with a line break before the caption.
+--
+CHARSET
+        BASESET "ISO 646:1983//CHARSET
+                 International Reference Version (IRV)//ESC 2/5 4/0"
+        DESCSET 0   9   UNUSED
+                9   2   9
+                11  2   UNUSED
+                13  1   13
+                14 18   UNUSED
+                32 95   32
+               127  1   UNUSED
+        BASESET "ISO Registration Number 100//CHARSET
+                 ECMA-94 Right Part of Latin Alphabet Nr. 1//ESC 2/13 4/1"
+        DESCSET 128  32  UNUSED
+                160  95  32
+                255   1  UNUSED
+
+CAPACITY        SGMLREF
+                TOTALCAP        150000
+                GRPCAP          150000
+
+SCOPE   DOCUMENT
+SYNTAX
+        SHUNCHAR CONTROLS  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+                           19 20 21 22 23 24 25 26 27 28 29 30 31 127 255
+        BASESET "ISO 646:1983//CHARSET
+                 International Reference Version (IRV)//ESC 2/5 4/0"
+        DESCSET 0 128 0
+        FUNCTION RE         13
+                 RS         10
+                 SPACE      32
+                 TAB SEPCHAR 9
+        NAMING   LCNMSTRT ""
+                 UCNMSTRT ""
+                 LCNMCHAR ".-"
+                 UCNMCHAR ".-"
+                 NAMECASE GENERAL YES
+                          ENTITY  NO
+        DELIM    GENERAL  SGMLREF
+                 SHORTREF SGMLREF
+        NAMES    SGMLREF
+        QUANTITY SGMLREF
+                 NAMELEN  32
+                 TAGLVL   100
+                 LITLEN   1024
+                 GRPGTCNT 150
+                 GRPCNT   64
+
+FEATURES
+  MINIMIZE
+    DATATAG  NO
+    OMITTAG  YES
+    RANK     NO
+    SHORTTAG NO
+  LINK
+    SIMPLE   NO
+    IMPLICIT NO
+    EXPLICIT NO
+  OTHER
+    CONCUR  NO
+    SUBDOC  NO
+    FORMAL  YES
+  APPINFO NONE
+>
+
+<!DOCTYPE HTMLPLUS [
+
+<!-- DTD for HTML+
+Markup minimisation should be avoided, otherwise the default <!SGML>
+declaration is fine. Browsers should be forgiving of markup errors,
+while authoring tools *should* enforce compliance with the DTD.
+
+Common Attributes:
+
+id      This attribute allows authors to name elements such as headers
+        and paragraphs as potential destinations for links. Note that
+        links don't specify points, but rather extended objects.
+
+charset This allows authors to switch to a different char set for
+        quotations or list etc. This is particularly useful for oriental
+        languages which need two byte character codes, e.g. see RFC 1468
+        "Japanese Character Encoding for Internet Messages"
+
+ENTITY DECLARATIONS
+
+ <!ENTITY % foo "X | Y | Z"> is a macro definition for parameters and in
+ subsequent statements, the string "%foo;" is expanded to "X | Y | Z"
+
+ Various classes of SGML text types:
+
+  CDATA  text which doesn't include markup or entity references
+  RCDATA text with entity references but no markup
+  PCDATA text occurring in a context in which markup and entity references
+     may occur.
+-->
+
+<!-- Core HTML+ DTD omits following features -->
+<!ENTITY % HTML.math "IGNORE">
+<!ENTITY % HTML.tables "INCLUDE">		<!-- INCLUDE by k16 -->
+<!ENTITY % HTML.figures "INCLUDE">		<!-- INCLUDE by k16 -->
+<!ENTITY % HTML.emph "INCLUDE">			<!-- INCLUDE by k16 -->
+<!ENTITY % HTML.forms "INCLUDE">		<!-- INCLUDE by k16 -->
+<!ENTITY % HTML.obsolete "IGNORE">
+<!ENTITY % HTML.icons "IGNORE">
+
+<!ENTITY % cextra "" -- for character-like elements -->
+<!ENTITY % pextra "" -- for paragraph-like elements -->
+
+<!-- %cextra; and %pextra are designed to allow document specific
+     extensions to the HTML+ DTD, e.g.
+
+      <!DOCTYPE htmlplus [
+        <!ENTITY % cextra "|PROPNAME">
+        <!ELEMENT PROPNAME - - CDATA>
+      ]>
+
+     Use the RENDER element to specify how the browser should
+     display new elements in terms of existing ones, e.g.
+
+      <RENDER tag="PROPNAME" style="I">
+-->
+
+<!ENTITY % URL "CDATA" -- a URL or URN designating a hypertext node -->
+
+<!-- Browsers should render the following types of emphasis
+     distinctly when the obvious rendering is impractical
+
+     I = italic, B = bold, U = underline, S = strikethru,
+     TT = teletype font, SUP = superscript, SUB = subscript
+     REV = reverse video for highlighting hit areas in the result of a query
+     Q = inline quote (render according to local conventions)
+-->
+
+<!ENTITY % emph1 "I|B|U|TT|CITE|EM|STRONG|KBD|VAR|DFN|CODE|SAMP">
+<!ENTITY % emph2 "S|Q|PERSON|ACRONYM|ABBREV|CMD|ARG|REMOVED|ADDED|REV">
+<!ENTITY % emph3 "SUP|SUB|CHANGED|TAB|HIDE">
+
+<![ %HTML.emph [ <!ENTITY % emph  "%emph1;|%emph2;|%emph3;"> ]]>
+<!ENTITY % emph  "%emph1;">
+
+<![ %HTML.emph [ <!ENTITY % misc1 "|RENDER|FOOTNOTE|MARGIN"> ]]>
+<!ENTITY % misc1 "">
+
+<![ %HTML.forms [ <!ENTITY % misc2 "|INPUT|TEXTAREA|SELECT"> ]]>
+<!ENTITY % misc2 "">
+
+<!ENTITY % misc "BR %misc1 %misc2; %cextra;">
+
+<![ %HTML.math [ <!ENTITY % math "|MATH"> ]]>
+<!ENTITY % math "">
+
+<![ %HTML.figures [ <!ENTITY % text "#PCDATA|A|IMG|FIG|%emph;|%misc;"> ]]>
+<!ENTITY % text "#PCDATA|A|IMG|%emph;|%misc; %math;">
+
+<!ENTITY % paras "P|PRE %pextra;">
+
+<!ENTITY % lists "UL|OL|DL">
+
+<![ %HTML.emph [ <!ENTITY % block1 "NOTE|QUOTE|ABSTRACT|ADDRESS|HR"> ]]>
+<!ENTITY % block1 "ADDRESS|HR">
+
+<![ %HTML.tables [ <!ENTITY % block2 "|TABLE"> ]]>
+<!ENTITY % block2 "">
+
+<![ %HTML.forms [ <!ENTITY % block3 "|FORM"> ]]>
+<!ENTITY % block3 "">
+
+<![ %HTML.obsolete [ <!ENTITY % block4 "|MENU|DIR|BLOCKQUOTE"> ]]>
+<!ENTITY % block4 "">
+
+<!ENTITY % block "%block1; %block2; %block3; %block4;">
+
+<![ %HTML.emph [<!ENTITY % setup1 "& RENDER*"> ]]>
+<!ENTITY % setup1 "">
+
+<!ENTITY % setup "(TITLE? & ISINDEX? & BASE? & META* & LINK* %setup1;)">
+
+<!ENTITY % main "%block;|%lists;|%paras;">
+<!ENTITY % divisions "DIV6*, DIV5*, DIV4*, DIV3*, DIV2*, DIV1*">
+
+<!-- these entities are used to simplify element definitions -->
+
+<!ENTITY % heading "H1|H2|H3|H4|H5|H6">
+<!ENTITY % table "P|%heading;|%lists;">
+<!ENTITY % formulae "BOX|ARRAY|ROOT|%text;">
+
+<![ %HTML.obsolete [<!ENTITY % anchorname "name NMTOKEN #IMPLIED"> ]]>
+<!ENTITY % anchorname "">
+
+<![ %HTML.forms [
+ <!ENTITY % fields "text|password|checkbox|radio|submit|reset|int|
+                        float|date|url|hidden|range|scribble|audio">
+]]>
+
+
+<!-- Core DTD includes basic Latin-1 entities -->
+<!ENTITY % ISOlat1 PUBLIC "ISO 8879-1986//ENTITIES Added Latin 1//EN">
+%ISOlat1;
+
+<!-- additional entities normally found in Latin-1 char sets-->
+<!ENTITY % ISOnum PUBLIC "ISO 8879-1986//ENTITIES Numeric and Special Graphic//EN">
+%ISOnum;
+
+<!-- diacritical marks normally found in Latin-1 char sets-->
+<!ENTITY % ISOdia PUBLIC "ISO 8879-1986//ENTITIES Diacritical Marks//EN">
+%ISOdia;
+
+<!-- misc. from ISO Publishing entities -->
+<!ENTITY ndash  SDATA "[ndash ]"--=en dash-->
+<!ENTITY mdash  SDATA "[mdash ]"--=em dash-->	<!-- change [ndash ] to [mdash ] by k16 -->
+<!ENTITY ensp   SDATA "[ensp  ]"--=en space (1/2-em)-->
+<!ENTITY emsp   SDATA "[emsp  ]"--=em space-->
+<!ENTITY hellip SDATA "[hellip]"--=ellipsis (horizontal)-->
+<!ENTITY vellip SDATA "[vellip]"--=ellipsis (vertical)-->
+
+<!-- standard ISO/WWW icons courtesy of Bert Bos and Kevin Hughes, see
+         gopher://gopher.let.rug.nl/00/ftp/pub/Bert/WWWicn.940218
+
+    These can be used in place of default symbols for list items or as
+    part of hypertext links, and save time needed to download images.
+    Browsers can define them in terms of library images or as URL/URNs.
+-->
+
+<![ %HTML.icons [
+  <!ENTITY ftp SDATA "ftp" -- ftp server -->
+  <!ENTITY gopher SDATA "gopher" -- gopher server -->
+  <!ENTITY telnet SDATA "telnet" -- telnet connection -->
+  <!ENTITY archive SDATA "archive" -- archive server -->
+  <!ENTITY filing.cabinet SDATA "filing.cabinet" -- filing cabinet -->
+  <!ENTITY folder SDATA "folder" -- folder or directory -->
+  <!ENTITY fixed.disk SDATA "fixed.disk" -- fixed media drive -->
+  <!ENTITY disk.drive SDATA "disk.drive" -- removeable media drive -->
+  <!ENTITY document SDATA "document" -- unspecified document type -->
+  <!ENTITY unknown.document SDATA "unknown.document" -- unrecognised document type -->
+  <!ENTITY text.document SDATA "text.document" -- text/plain, text.html etc. -->
+  <!ENTITY binary.document SDATA "binary.document" -- binary data -->
+  <!ENTITY binhex.document SDATA "binhex.document" -- binhex format -->
+  <!ENTITY audio SDATA "audio" -- audio sequence -->
+  <!ENTITY film SDATA "film" -- film or animation, such as an MPEG movie -->
+  <!ENTITY image SDATA "image" -- photograph, drawing or graphic of any kind -->
+  <!ENTITY map SDATA "map" -- geographical or a schematic map -->
+  <!ENTITY form SDATA "form" -- fill-out form -->
+  <!ENTITY mail SDATA "mail" -- email messages -->
+  <!ENTITY parent SDATA "parent" -- parent of current document -->
+  <!ENTITY next SDATA "next" -- next document in current sequence -->
+  <!ENTITY previous SDATA "previous" -- previous document in current sequence -->
+  <!ENTITY home SDATA "home" -- home document -->
+  <!ENTITY toc SDATA "toc" -- table of contents -->
+  <!ENTITY glossary SDATA "glossary" -- glossary of terms etc. -->
+  <!ENTITY index SDATA "index" -- searchable index -->
+  <!ENTITY summary SDATA "summary" -- summary -->
+
+  <!ENTITY calculator SDATA "calculator" -- A calculator -->
+  <!ENTITY caution SDATA "caution" -- Warnign sign -->
+  <!ENTITY clock SDATA "clock" -- A clock -->
+  <!ENTITY compressed.document SDATA "compressed.document">
+  <!ENTITY diskette SDATA "diskette" -- A diskette -->
+  <!ENTITY display SDATA "display" -- A computer screen -->
+  <!ENTITY fax SDATA "fax" -- A fax machine -->
+  <!ENTITY mail.in SDATA "mail.in" -- mail-in tray -->
+  <!ENTITY mail.out SDATA "mail.out" -- mail-out tray -->
+  <!ENTITY mouse SDATA "mouse" -- mouse/pointing device -->
+  <!ENTITY printer SDATA "printer" -- hardcopy device -->
+  <!ENTITY tn3270 SDATA "tn3270" --tn3270 terminal session -->
+  <!ENTITY trash SDATA "trash" -- waste paper basket -->
+  <!ENTITY uuencoded.document SDATA "uuencoded.document" -- uuencoded data -->
+]]>
+
+<!-- maths symbols when needed -->
+<![ %HTML.math [
+    <!ENTITY % ISOtech PUBLIC "ISO 8879-1986//ENTITIES General Technical//EN">
+    %ISOtech;
+
+    <!ENTITY % ISOgrk3 PUBLIC "ISO 8879-1986//ENTITIES Greek Symbols//EN">
+    %ISOgrk3;
+
+    <!ENTITY % ISOamso PUBLIC "ISO 8879-1986//ENTITIES Added Math Symbols: Ordinary//EN">
+    %ISOamso;
+
+    <!ENTITY % ISOamsr PUBLIC "ISO 8879-1986//ENTITIES Added Math Symbols: Relations//EN">
+    %ISOamsr;
+
+    <!ENTITY % ISOamsc PUBLIC "ISO 8879-1986//ENTITIES Added Math Symbols: Delimiters//EN">
+    %ISOamsc;
+
+    <!-- misc. from ISO Binary and Large operators -->
+
+    <!ENTITY thinsp SDATA "[thinsp]"--=thin space (1/6 em)-->
+    <!ENTITY coprod SDATA "[coprod]"--/coprod L: coproduct operator-->
+    <!ENTITY prod   SDATA "[prod  ]"--/prod L: product operator-->
+    <!ENTITY sum    SDATA "[sum   ]"--/sum L: summation operator-->
+]]>
+
+<!-- Basic types of elements:
+  <!ELEMENT tagname - - CONTENT> elements needing end tags
+  <!ELEMENT tagname - O CONTENT> elements with optional end tags
+  <!ELEMENT tagname - O EMPTY> elements without content or end tags
+
+The content definition is:
+       -  an entity definition as defined above
+       -  a tagname
+       -  (brackets enclosing the above)
+These may be combined with the operators:
+  A*      A occurs zero or more times
+  A+      A occurs one or more times
+  A|B     implies either A or B
+  A?      A occurs zero or one times
+  A,B     implies first A then B
+  A&B     either or both A and B (in either order A B or B A)
+-->
+
+<!ELEMENT HTMLPLUS O O (HEAD, BODY)>
+<!ATTLIST HTMLPLUS
+        version CDATA #IMPLIED -- the HTML+ version number --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!ELEMENT HEAD - O (%setup;) -- delimits document wide properties -->
+<!ELEMENT BODY - O (PROLOGUE?, %divisions;, EPILOGUE?)>
+
+<!ELEMENT PROLOGUE O O (%main;)+>
+<!ELEMENT EPILOGUE O O (%main;)+>
+
+<!--
+  Browsers *must* tolerate missing DIVn tags, e.g. the presence of an
+  <H1> tag implies a DIV1 element enclosing it and the following text.
+  The SGML standard unfortunately doesn't permit such inferences due
+  to a decision made to simplify writing general SGML parsers.
+
+  It would be nice to allow an optional prologue and epilogue, before
+  and after the divisions respectively. Unfortunately, the epilogue
+  would lead to an ambiguous content model (according to sgmls).
+-->
+
+<!ELEMENT DIV1 - - (H1, (%main;)*, DIV6*, DIV5*, DIV4*, DIV3*, DIV2*)>
+<!ELEMENT DIV2 - - (H2, (%main;)*, DIV6*, DIV5*, DIV4*, DIV3*)>
+<!ELEMENT DIV3 - - (H3, (%main;)*, DIV6*, DIV5*, DIV4*)>
+<!ELEMENT DIV4 - - (H4, (%main;)*, DIV6*, DIV5*)>
+<!ELEMENT DIV5 - - (H5, (%main;)*, DIV6*)>
+<!ELEMENT DIV6 - - (H6, (%main;)*)>
+
+<!ATTLIST (DIV6|DIV5|DIV4|DIV3|DIV2|DIV1)
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- Document headers -->
+<!ELEMENT (%heading;) - - (%text;)+>
+<!ATTLIST (%heading;)
+        id      ID      #IMPLIED -- defines link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese --
+        align   (left|indent|center|right|justify) left>
+
+<!-- character emphasis -->
+<!ELEMENT (%emph1;) - - (%text;)+>
+<!ATTLIST (%emph1;)
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!--
+ Paragraphs which act as containers for the following text
+
+ Browsers *must* be capable of inferring missing <P>
+ start tags from the content model. Basically, if the parser
+ comes across unexpected %text; then there's a missing <P>.
+-->
+<!ELEMENT P - O (%text;)+>
+<!ATTLIST P
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese --
+        nowrap (nowrap) #IMPLIED -- don't wrap words --
+        nofold (nofold) #IMPLIED -- don't fold whitespace --
+        align   (left|indent|center|right|justify) left>
+
+<!ELEMENT HR - O EMPTY -- Horizontal Rule -->
+<!ELEMENT BR - O EMPTY -- forced line break -->
+
+<!ELEMENT PRE - - (%text;)+ -- preformatted fixed pitch text -->
+<!ATTLIST PRE
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!ELEMENT ADDRESS - - (P)+ -- info on author -->
+<!ATTLIST ADDRESS
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- Lists which can be nested -->
+<!ELEMENT OL - - (LI)+ -- ordered list -->
+<!ATTLIST OL
+        id      ID      #IMPLIED
+        start   NUMBER  1           -- sequence number for first item --
+        charset CDATA   #IMPLIED    -- eg "ISO-2022-JP" for japanese --
+        compact (compact) #IMPLIED  -- reduced interitem spacing -->
+
+<!ELEMENT UL - - (LI)+ -- unordered list -->
+<!ATTLIST UL
+        id      ID      #IMPLIED    -- link destination --
+        charset CDATA   #IMPLIED    -- eg "ISO-2022-JP" for japanese --
+        compact (compact) #IMPLIED  -- reduced interitem spacing --
+        plain   (plain) #IMPLIED    -- suppress bullets --
+        wrap (vert|horiz|none) none -- multicolumn list wrap style -->
+
+<!-- List items for UL and OL lists
+
+ By default UL list items have bullets while OL list items
+ are numbered in a style dependent on nesting. For extra impact
+ specify an explicit image with the icon attribute or a string
+ with the label attribute. This attribute can also be used with
+ SGML entities to specify standard icons, e.g. label="&folder;"
+-->
+
+<!ELEMENT LI - O (DL|UL|OL|P|HR|PRE)+>
+<!ATTLIST LI
+        id      ID      #IMPLIED
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese --
+        number  NUMBER  #IMPLIED -- sets sequence number for OL lists --
+        icon     %URL;  #IMPLIED -- image for use in place of bullet --
+        label   CDATA   #IMPLIED -- when you can't show the icon image -->
+
+<!-- Definition Lists (terms + definitions) -->
+<!ELEMENT DL - - (DT+,DD)+>
+<!ATTLIST DL
+        id      ID      #IMPLIED
+        charset CDATA   #IMPLIED    -- eg "ISO-2022-JP" for japanese --
+        compact (compact) #IMPLIED  -- reduced interitem spacing -->
+
+<!ELEMENT DT - O (%text;)+          -- term text -- >
+<!ELEMENT DD - O (DL|UL|OL|P|HR|PRE)+   -- definition text -- >
+<!ATTLIST (DT|DD)
+        id      ID      #IMPLIED
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- Hypertext Links from points within document nodes
+
+ The HREF attribute specifies the link destination as a URL or URN.
+ In figures, the SHAPE attribute defines the extent of the link as
+ a polygonal region, and is used with the FIG element.
+
+ The PRINT attribute determines how the browser should deal with
+ links when printing this document. This makes it possible for
+ users to print a document and related subdocuments with a single
+ menu action. If PRINT="Section", then the link is followed and
+ printed as a follow-on section after the current document. If
+ PRINT="Footnote" and the linked document is sufficiently small
+ then it is included as a footnote. If PRINT="Reference" then the
+ document's URL (and title) is included in a footnote or in a list
+ of references at the end of the document.
+
+ The TITLE attribute may be used for links in which the destination
+ node doesn't define a title itself, e.g. non-html documents.
+
+ The REL attribute is used to specify how the browser interprets
+ the link when this document is being used as a hypertext path
+ REL="Path" causes the linked document to be treated as a path
+ and inserted into the current path, while REL="Node" treats
+ the linked document as a node on the current path. REL="Embed"
+ is a hint to embed the referenced node into the current document.
+
+ The SIG attribute allows authors to specify a digital signature
+ of linked documents to check that they haven't been changed.
+ It starts with a prefix denoting the algorithm used, in particular
+ SIG="md5:2l3k4j2lkj423l" denotes the MD5 signature: 2l3k4j2lkj423l
+ which is encoded using the standard MIME base64 representation
+-->
+
+<!ELEMENT A - - (#PCDATA | IMG | %emph;)*>
+<!ATTLIST A
+        id      ID      #IMPLIED -- as target of link --
+        %anchorname;             -- see HTML.obsolete --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese --
+        shape   CDATA   #IMPLIED -- list of points for shaped buttons --
+        href    %URL;   #IMPLIED -- destination node --
+        rel     CDATA   #IMPLIED -- forward relationship type --
+        rev     CDATA   #IMPLIED --  reverse relationship type --
+        print   CDATA   #IMPLIED -- reference/footnote/section --
+        title   CDATA   #IMPLIED -- when otherwise unavailable --
+        sig     CDATA   #IMPLIED -- MD5 digital signature -->
+
+<!-- Other kinds of relationships between documents
+
+ There are a set of standard RELationship types which alter the
+ browser's navigation menu:
+
+    UseIndex        searchable index
+    UseGlossary     shared glossary
+    Contents        shared contents page
+    Previous        previous document in a hypertext path
+    Next            next document in a hypertext path
+    Bookmark        named with the title attribute
+    Made            Defines who is the "maker" of this document
+    Help            provides help on this document
+    Annotation      an additional note on current document
+    Reply           a note with equal footing to current document
+    Subdocument     defines parent->child relationship
+    Parent          defines child->parent relationship
+    StyleSheet      an associated style sheet
+
+ Bookmarks allow authors to define a set of useful links
+ which are to be accessed via a menu, rather than as conventional
+ in-line hypertext links. Previous and Next links are inserted
+ by the browser when interpreting a separate document as a path.
+ See above description of REL="Node" and REL="Path" for <A>.
+
+ The FROM attribute makes it possible to specify annotation
+ links separately from the document text flow. The FROM
+ attribute specifies an ID for the source of a link, while
+ the HREF attribute specifies its destination. HTTP servers
+ can use the WWW-Link: header to "insert" such annotations
+ into documents.
+-->
+
+<!ELEMENT LINK - O EMPTY>
+<!ATTLIST LINK
+        id      ID      #IMPLIED -- to allow meta info on links --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese --
+        from    IDREF   #IMPLIED -- starting point --
+        href    %URL;  #REQUIRED -- destination node --
+        rel     CDATA   #IMPLIED -- forward relationship type --
+        rev     CDATA   #IMPLIED -- reverse relationship type --
+        src     %URL;   #IMPLIED -- an image for displaying link --
+        print   CDATA   #IMPLIED -- reference/footnote/section --
+        title   CDATA   #IMPLIED -- when otherwise unavailable --
+        seal    CDATA   #IMPLIED -- MD5 digital signature -->
+
+<!-- Document title -->
+<!ELEMENT TITLE - - (#PCDATA | %emph;)+>
+<!ATTLIST TITLE
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- Original document URL for resolving relative URLs  -->
+<!ELEMENT BASE - O EMPTY>
+<!ATTLIST BASE HREF %URL; #IMPLIED>
+
+<!-- Signifies the document's URL accepts queries,
+     and may be implied by HTTP header info -->
+<!ELEMENT ISINDEX - O EMPTY>
+<!ATTLIST ISINDEX href %URL; #IMPLIED -- defaults to document's URL -->
+
+<!--
+ Servers should read the document head to generate HTTP headers
+ corresponding to META elements, e.g. if the document contains:
+
+        <meta name="Expires" value="Tue, 04 Dec 1993 21:29:02 GMT">
+
+ The server should include the HTTP date format header field:
+
+        Expires: Tue, 04 Dec 1993 21:29:02 GMT
+
+ Other likely names are "Summary", "Keywords", "Created",
+ "Owner" (a name) and "Reply-To" (an email address)
+
+ These elements can be used to construct IAFA style templates
+ which describe the contents of the server. The templates are
+ then used for automatic indexing of servers.
+
+ The effectiveness of indexing is dependent on using well defined
+ keywords drawn from standard sets.
+
+ The Document-Icon header is used to specify a URL for
+ use as an icon in the hotlist and history list.
+-->
+
+<!ELEMENT META - O EMPTY>
+<!ATTLIST META
+        id      ID      #IMPLIED -- to allow meta info  --
+        name    CDATA   #IMPLIED -- HTTP header e.g. "Expires" --
+        value   CDATA   #IMPLIED -- associated value -->
+
+<![ %HTML.obsolete [
+
+<!ELEMENT (MENU|DIR) - - (LI)+ -- plain single/multicolumn lists-->
+<!ATTLIST (MENU|DIR)
+        compact (compact) #IMPLIED  -- reduced interitem spacing -->
+
+<!ELEMENT BLOCKQUOTE - - (P)+ -- extended quotes -->
+
+]]>
+
+<![ %HTML.emph [
+
+<!-- additional character emphasis -->
+<!ELEMENT (%emph2;) - - (%text;)*>
+<!ATTLIST (%emph2;)
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!ELEMENT (SUP|SUB) - - (%text;)* -- superscripts and subscripts -->
+<!ATTLIST (SUP|SUB)
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!ELEMENT (FOOTNOTE|MARGIN) - - (%text;)* -(FOOTNOTE|MARGIN)>
+<!ATTLIST (FOOTNOTE|MARGIN)
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- RENDER only appears in the document head -->
+<!ELEMENT RENDER -O EMPTY -- how to render unknown elements -->
+<!ATTLIST RENDER
+        id      ID      #IMPLIED -- to allow meta info  --
+        tag     CDATA   #IMPLIED -- tag name --
+        equiv   CDATA   #IMPLIED -- HTML+ equivalent tag name --
+        style   NAMES   #IMPLIED -- space separated list of styles -->
+
+<!-- Based on LaTeX's tabbing environment -->
+<!ELEMENT TAB - O EMPTY>
+<!ATTLIST TAB
+        id      ID      #IMPLIED  -- used to set a tab stop --
+        to      IDREF   #IMPLIED  -- move to previously defined tab stop --
+        before  NUMBER  0         -- scaled em spaces before tab stop --
+        after   NUMBER  0         -- scaled em spaces after tab stop -->
+
+<!-- content is hidden, equivalent of LaTeX's \kill -->
+<!ELEMENT HIDE - - (%text;) -(HIDE)>
+
+<!ELEMENT QUOTE - - (P*) -- block quote -->
+<!ATTLIST QUOTE
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!ELEMENT ABSTRACT - - (P*) -- document summary -->
+<!ATTLIST ABSTRACT
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- often rendered with an icon in left margin,
+     the role is shown before the first paragraph -->
+<!ELEMENT NOTE - - (P*) -- admonishment -->
+<!ATTLIST NOTE
+        id      ID      #IMPLIED -- link destination --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese --
+        src     %URL;   #IMPLIED -- url for the icon --
+        role (Simple|Tip|Note|Warning|Error) Simple >
+
+<!-- change bars can bridge markup boundaries -->
+<!ELEMENT CHANGED - O EMPTY>
+<!ATTLIST CHANGED -- one of id or idref is always required --
+        begin    ID      #IMPLIED -- signals beginning of changes --
+        end      IDREF   #IMPLIED -- signals end of changes -->
+]]>
+
+
+<![ %HTML.figures [ <!ENTITY % HTML.captions "INCLUDE"> ]]>
+<![ %HTML.tables [ <!ENTITY % HTML.captions "INCLUDE"> ]]>
+<!ENTITY % HTML.captions "IGNORE">
+
+<![ %HTML.captions [
+
+<!ELEMENT CAPTION - - (%text;)+ -- table or figure caption -->
+<!ATTLIST CAPTION
+        id      ID      #IMPLIED
+        align (top|bottom) #IMPLIED
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+]]>
+
+<![ %HTML.tables [
+
+<!-- a pre-pass is needed to count columns and determine
+     min/max widths before sizing to match window size -->
+
+<!ELEMENT TABLE - - (CAPTION?, TR*) -- mixed headers and data -->
+<!ATTLIST TABLE
+        id      ID      #IMPLIED
+        border (border) #IMPLIED -- draw borders --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- browsers should tolerate an omission of the first
+  <TR> tag as it is implied by the context -->
+<!ELEMENT TR - O (TH|TD)* -- acts like row separator -->
+<!ATTLIST TR id ID #IMPLIED>
+
+<!ELEMENT TH - O (%table;)* -- a header cell -->
+<!ATTLIST TH
+        id      ID      #IMPLIED
+        colspan NUMBER    1      -- columns spanned --
+        rowspan NUMBER    1      -- rows spanned --
+        align (left|center|right) center
+        alignon CDATA   #IMPLIED -- align on decimal point etc --
+        nowrap (nowrap) #IMPLIED -- don't wrap words --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!ELEMENT TD - O (%table;)* -- a data cell -->
+<!ATTLIST TD
+        id      ID      #IMPLIED
+        colspan NUMBER    1      -- columns spanned --
+        rowspan NUMBER    1      -- rows spanned --
+        align (left|center|right) center
+        alignon CDATA   #IMPLIED -- align on decimal point etc --
+        nowrap (nowrap) #IMPLIED -- don't wrap words --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+]]>
+
+<![ %HTML.forms [
+
+<!--
+ The form contents are sent to the server upon pressing a submit
+ button. Forms can be associated with scripts, e.g. to make one
+ selection field effect which options are enabled for other fields.
+
+ Clicking on a selection or typing into a text field result in events
+ which are processed by the script. Event handlers are associated
+ with each field or with the form itself. The script language is
+ deliberately restricted to avoid any security issues.
+
+ Fields can be disabled (greyed out) or marked as being in error.
+ The MESSAGE element may be used by the server to set error messages.
+ Servers can store state information in forms with hidden input fields.
+ These are not displayed and can be used to hold transaction handles etc.
+-->
+
+<!ELEMENT FORM - - ((%main;)*, MESSAGE?) -(FORM) -- forms can't be nested -->
+<!ATTLIST FORM
+        id      ID      #IMPLIED
+        action  %URL;   #IMPLIED -- defaults to URL for current doc --
+        method  CDATA   #IMPLIED -- GET, PUT, POST, DELETE etc. --
+        enctype CDATA   #IMPLIED -- encoding type for form transfers --
+        script  %URL;   #IMPLIED -- locally executed event handlers --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- Types of INPUT field:
+ text: one line text fields, size gives visible width of field in chars
+       where value may grow beyond this up to MAX (MAXLENGTH) chars.
+ password: like text fields but with no echo of typed characters
+ checkbox: for simple yes/no choices
+ radio: for one from many choices, each radio button in a group
+        has the same NAME but a different VALUE.
+ submit: Sends form to server. If the SRC attribute specifies an
+       icon the point clicked is sent to the server as per ISMAP.
+       The default NAME for this field is "Submit". The VALUE is used
+       as the buttobn label. The NAME/VALUE are submitted with the form
+       contents to allow servers to work out which button was pressed.
+ reset: Resets fields to their initial values. The VALUE is used as the
+       button label. The SRC attribute can be used for an icon button.
+ int: for input of integers, SIZE attribute gives width of field
+ float: for input of floating point numbers
+ date: for input of dates
+ url: for input of universal resource locators
+ hidden: used by server for state info, opaque to client
+ range: integer range from MIN to MAX, rendered as a slider etc.
+ scribble: Pen input, which may include time and pressure info, the
+        background can be initialised to an image with the SRC attribute
+ audio: sound input with up to MAX seconds
+-->
+<!ELEMENT INPUT - O EMPTY>
+<!ATTLIST INPUT
+        id      ID      #IMPLIED -- to allow meta info  --
+        name    CDATA   #IMPLIED -- attribute name (may not be unique) --
+        type    (%fields) text   -- a wide variety of field types --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese --
+        size    CDATA   #IMPLIED -- visible size of text fields --
+        min     NUMBER  #IMPLIED -- for range controls --
+        max     NUMBER  #IMPLIED -- for range controls or text fields --
+        maxlength NUMBER #IMPLIED -- max length of text fields (equiv to max)--
+        value   CDATA   #IMPLIED -- attribute value (altered by user) --
+        checked (checked) #IMPLIED -- for check boxes and radio buttons --
+        disabled (disabled) #IMPLIED -- if grayed out --
+        error   (error) #IMPLIED -- if in error --
+        src      %URL;  #IMPLIED -- for SUBMIT, SCRIBBLE & AUDIO fields --
+        alt     CDATA   #IMPLIED -- alternative text for VT100's etc --
+        align (top|middle|bottom) top -- for IMAGE fields only -->
+
+<!-- multiline text input fields, we probably will want
+     to generalise this to accept arbitrary clipboard data
+     e.g. hypertext and images, in addition to plain text -->
+<!ELEMENT TEXTAREA - - RCDATA -- multi-line text fields -->
+<!ATTLIST TEXTAREA
+        id      ID      #IMPLIED -- to allow meta info  --
+        name    CDATA   #IMPLIED -- attribute name (may not be unique) --
+        cols    NUMBER  #IMPLIED -- visible width in characters --
+        rows    NUMBER  #IMPLIED -- visible height in characters --
+        wrap    (wrap)  #IMPLIED -- wrap input in text area --
+        disabled (disabled) #IMPLIED -- if grayed out --
+        error   (error) #IMPLIED -- if in error --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!--
+     The EDIT attribute when present allows you to type and
+     edit the selected option.
+
+     The SRC attribute allows for graphical menus, e.g. users
+     wanting to buy a house could click on each of the areas on
+     a map that they were interested in.
+ -->
+<!ELEMENT SELECT - - (OPTION+) -- combo style selection lists -->
+<!ATTLIST SELECT
+        id      ID      #IMPLIED -- to allow meta info  --
+        name    CDATA   #IMPLIED -- attribute name (may not be unique) --
+        edit    NUMBER  #IMPLIED -- width of editable selection --
+        multiple (multiple) #IMPLIED -- permits multiple selections --
+        error   (error) #IMPLIED -- if in error --
+        src      %URL;  #IMPLIED -- for graphical menus --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!-- The SHAPE attribute defines a region in the image that
+     is specified by the SRC attribute for the SELECT element -->
+<!ELEMENT OPTION - O RCDATA>
+<!ATTLIST OPTION
+        id      ID      #IMPLIED -- to allow meta info  --
+        value   CDATA   #IMPLIED -- attribute value --
+        selected (selected) #IMPLIED -- if initially selected --
+        disabled (disabled) #IMPLIED -- if grayed out --
+        shape   CDATA   #IMPLIED -- list of points for shaped region --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+
+<!--
+ Scripts executed by the client need a way of displaying
+ warning/error messages. We define an element so that the
+ server too can initialise this one-per-form message area.
+ Clients should preferably avoid displaying the message
+ in-line, as the window size may prevent the user from
+ seeing the message.
+ -->
+<!ELEMENT MESSAGE - O RCDATA -- place for error/warning/info -->
+<!ATTLIST MESSAGE
+        id      ID      #IMPLIED -- to allow meta info  --
+        status  (info|warning|error) info
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+]]>
+
+<![ %HTML.figures [
+
+<!-- figures which subsume the role of the earlier IMG element.
+
+  Behaves identically to IMG for align = top, middle or bottom.
+  Otherwise figure is inserted after next line break (soft or hard).
+  For align=left, the image is left aligned and text is flowed
+  on the right of the image, and similarly for align=right, with
+  no text flow for align=center (the default). The caption is
+  placed under the image.
+
+  Finer control of the vertical positioning relative to the text
+  line is possible with the baseline attribute. When present, the
+  figure acts like the IMG element but is shifted so that the baseline
+  occurs at the specified number of pixels above the bottom of the image.
+  If this is given as a floating point number, it is interpreted as a
+  fraction of the image height and must lie in the range (0.0 to 1.0)
+
+  The <A> element is used for shaped buttons handled by browser,
+  while the ISMAP mechanism sends pointer clicks/drags to server.
+  The text contained by this element is used for text-only displays
+  and authors should remember to provide effective descriptions,
+  including label text for shaped buttons.
+-->
+<!ELEMENT FIG - - (CAPTION?, P*)>
+<!ATTLIST FIG
+        id      ID      #IMPLIED
+        align   (top|middle|bottom|left|center|right) center -- position --
+        baseline NUMBER #IMPLIED -- height of baseline above image bottom --
+        ismap   (ismap) #IMPLIED -- server can handle mouse clicks/drags --
+        src     %URL;   #IMPLIED -- link to image data --
+        charset CDATA   #IMPLIED -- eg "ISO-2022-JP" for japanese -->
+]]>
+
+<!-- img is left in for at least the short term -->
+<!ELEMENT IMG - O EMPTY>
+<!ATTLIST IMG
+        src     %URL;   #REQUIRED -- where to get image data --
+        align   (top|middle|bottom) top  -- top, middle or bottom --
+        baseline NUMBER #IMPLIED -- height of baseline above image bottom --
+        alt     CDATA   #IMPLIED -- description for text-only displays --
+        ismap   (ismap) #IMPLIED  -- send mouse clicks/drags to server -->
+
+<![ %HTML.math [
+
+<!-- Proposal for representing formulae
+
+  Delimiters should stretch to match the size of the delimited
+  object. <SUB> and <SUP> are used for subscripts and superscripts
+
+                                          i j
+      X <SUP>i</SUP>Y<SUP>j</SUP>  is   X  Y
+
+  i.e. the space following the X disambiguates the binding.
+-->
+
+<!ELEMENT MATH - - (%formulae;)* -(MATH) -- math can't be nested -->
+<!ATTLIST MATH id ID #IMPLIED>
+
+<!-- Invisible brackets which may also be
+     used for numerators and denominators:
+
+                                   1 + X
+     <BOX>1 + X<OVER>Y</BOX>  is  _______
+                                     Y
+
+                                 _____
+     <BOX><OVER>X + Y</BOX>  is  X + Y
+-->
+<!ELEMENT BOX - - ((%formulae;)*, (OVER, (%formulae;)*)?)>
+
+<!-- Horizontal line between numerator and denominator
+     The symbol attribute allows authors to supply an
+     entity name for an arrow symbol etc.
+ -->
+<!ELEMENT OVER - O EMPTY>
+<!ATTLIST OVER symbol ENTITY #IMPLIED>
+
+<!-- Roots - default to square root -->
+<!ELEMENT ROOT - - (%formulae;)*>
+<!ATTLIST ROOT root CDATA #IMPLIED>
+
+<!-- LaTeX like arrays. The align attribute specifies
+     a single letter for each column, which also determines
+     how the column should be aligned, e.g. align=ccc"
+
+        "l"     left
+        "c"     center
+        "r"     right
+-->
+<!ELEMENT ARRAY - - (ITEM)+>
+<!ATTLIST ARRAY align CDATA #REQUIRED>
+
+<!ELEMENT ITEM - O (%formulae;)*>
+
+]]>
+
+<!-- The END -->
+]>

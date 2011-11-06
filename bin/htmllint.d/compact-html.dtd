@@ -1,0 +1,570 @@
+<!-- Compact HTML Document Type Definition -->
+
+<!--
+        Date: Tuesday November 25th 1997
+        Author: Tomihisa Kamada <tomy@access.co.jp>
+-->
+
+<!ENTITY % HTML.Version
+        "-//W3C//DTD Compact HTML 1.0 Draft//EN"
+        >
+
+<!--================== NTT DoCoMo iMode Switch by k16 1999/05/01 ==========-->
+
+<!ENTITY % iMode.10 "IGNORE">
+<!ENTITY % iMode.20 "IGNORE" -- 1999/12/05 -->
+<!ENTITY % iMode.30 "IGNORE" -- 2001/03/13 -->
+<!ENTITY % iMode.40 "IGNORE" -- 2002/06/19 -->
+<!ENTITY % iMode.50 "IGNORE" -- 2003/04/09 -->
+<!ENTITY % doti.10  "IGNORE" -- 2000/10/26 -->
+
+<!--================== Deprecated Features Switch =========================-->
+
+<!ENTITY % HTML.Deprecated "INCLUDE">
+
+<!--================== Imported Names =====================================-->
+
+<!ENTITY % Content-Type "CDATA">
+
+<!ENTITY % HTTP-Method "GET | POST">
+
+<!ENTITY % URL "CDATA">
+
+<!-- Parameter Entities -->
+
+<!ENTITY % heading "H1|H2|H3|H4|H5|H6">
+
+<!ENTITY % list "UL | OL |  DIR | MENU">
+
+<![ %doti.10 [
+<!ENTITY % preformatted "PRE|PLAINTEXT">
+]]>
+<![ %iMode.10 [
+<!ENTITY % preformatted "PRE|PLAINTEXT">
+]]>
+<!ENTITY % preformatted "PRE">
+
+<!--================ Character mnemonic entities ==========================-->
+
+<![ %doti.10 [
+<!ENTITY % ISOlat1 "">
+<!ENTITY quot   CDATA "&#34;"  -- double quote -->
+<!ENTITY amp    CDATA "&#38;"  -- ampersand -->
+<!ENTITY lt     CDATA "&#60;"  -- less than -->
+<!ENTITY gt     CDATA "&#62;"  -- greater than -->
+]]>
+<![ %iMode.10 [
+<!ENTITY % ISOlat1 "">
+<!ENTITY quot   CDATA "&#34;"  -- double quote -->
+<!ENTITY amp    CDATA "&#38;"  -- ampersand -->
+<!ENTITY lt     CDATA "&#60;"  -- less than -->
+<!ENTITY gt     CDATA "&#62;"  -- greater than -->
+<!ENTITY nbsp   CDATA "&#160;" -- no-break space -->
+<!ENTITY copy   CDATA "&#169;" -- copyright sign -->
+<!ENTITY reg    CDATA "&#174;" -- registered sign -->
+]]>
+
+<!ENTITY % ISOlat1 PUBLIC
+       "ISO 8879-1986//ENTITIES Added Latin 1//EN//HTML">
+
+%ISOlat1;
+
+<!--================ Entities for special symbols =========================-->
+
+<!ENTITY amp    CDATA "&"  -- ampersand    -->
+<!ENTITY gt     CDATA ">"  -- greater than -->
+<!ENTITY lt     CDATA "<"  -- less than    -->
+
+<!--=================== Text Markup =======================================-->
+
+<![ IGNORE [ -- deleted by k16 --
+<!ENTITY % phrase "DFN">
+]]>
+
+<![ %doti.10 [
+<!ENTITY % special "A | IMG | BR | BLINK | MARQUEE | FONT | EMBED">
+<!ENTITY % fontstyle "I | B">
+]]>
+<![ %iMode.30 [
+<!ENTITY % special "A | IMG | BR | BLINK | MARQUEE | FONT | OBJECT">
+]]>
+<![ %iMode.20 [
+<!ENTITY % special "A | IMG | BR | BLINK | MARQUEE | FONT ">
+]]>
+<!ENTITY % special "A | IMG | BR ">
+<!ENTITY % fontstyle "">
+
+<!ENTITY % form "INPUT | SELECT | TEXTAREA">
+
+<![ %doti.10 [
+<!ENTITY % text "#PCDATA | %special; | %form; | %fontstyle;">
+]]>
+<!ENTITY % text "#PCDATA | %special; | %form;">
+
+<![ IGNORE [ -- deleted by k16 --
+<!ENTITY % text "#PCDATA | %phrase; | %special; | %form;">
+<!ELEMENT (%phrase;) - - (%text;)*>
+]]>
+
+<![ %doti.10 [
+<!ELEMENT (%fontstyle;) - - (%text;)*>
+]]>
+
+<![ %iMode.20 [
+    <!ENTITY % br.attrs "clear (left|all|right) #IMPLIED">
+]]>
+<![ %iMode.10 [
+    <!ENTITY % br.attrs "clear (left|all|right|clear) clear">
+]]>
+    <!ENTITY % br.attrs "clear (left|all|right|none) none">
+
+<!ELEMENT BR    - O EMPTY>
+<!ATTLIST BR
+        %br.attrs;
+        >
+
+<!--================== HTML content models ================================-->
+
+<!ENTITY % block
+     "P | %list; | %preformatted; | DL | DIV | CENTER |
+      BLOCKQUOTE | FORM | HR ">
+
+<!ENTITY % flow "(%text; | %block;)*">
+
+<!--=================== Document Body =====================================-->
+
+<!ENTITY % body.content "(%heading; | %text; | %block; )*">
+
+<!ENTITY % color "CDATA" -- a color specification: #HHHHHH -->
+
+<!ELEMENT BODY O O %body.content>
+
+<![ %doti.10 [
+<!ATTLIST BODY
+        background %URL; #IMPLIED
+        bgcolor %color; #IMPLIED
+        text    %color; #IMPLIED
+        link    %color; #IMPLIED
+        alink   %color; #IMPLIED
+        >
+]]>
+<![ %iMode.40 [
+<!ATTLIST BODY
+        bgcolor %color; #IMPLIED
+        text    %color; #IMPLIED
+        link    %color; #IMPLIED
+        alink   %color; #IMPLIED
+        vlink   %color; #IMPLIED
+        >
+]]>
+<![ %iMode.20 [
+<!ATTLIST BODY
+        bgcolor %color; #IMPLIED
+        text    %color; #IMPLIED
+        link    %color; #IMPLIED
+        >
+]]>
+
+<!ELEMENT DIV - - %body.content>
+<!ATTLIST DIV
+        align   (left|center|right) #IMPLIED
+        >
+
+<!ELEMENT center - - %body.content;>
+
+<!--================== The Anchor Element =================================-->
+
+<![ %doti.10 [
+    <!ENTITY % Character "CDATA" -- 0-9 * # -->
+    <!ENTITY % accesskey
+        "accesskey %Character; #IMPLIED -- accessibility key character --">
+]]>
+<![ %iMode.10 [
+    <!ENTITY % Character "CDATA">
+    <!ENTITY % accesskey
+        "accesskey %Character;  #IMPLIED -- accessibility key character --">
+]]>
+    <!ENTITY % accesskey "">
+
+<![ %iMode.20 [
+    <!ENTITY % CharacterCTI "CDATA" -- 0-9 * # , / -->
+    <!ENTITY % a.attrs.20
+        "cti %CharacterCTI; #IMPLIED">
+]]>
+    <!ENTITY % a.attrs.20 "">
+
+<![ %iMode.30 [
+    <!ENTITY % alphanum "CDATA" -- 0-9 A-Z a-z -->
+    <!ENTITY % hankana  "CDATA" -- hankaku kana -->
+    <!ENTITY % a.attrs.30
+        "ijam    IDREF      #IMPLIED
+         subject %alphanum; #IMPLIED
+         body    %alphanum; #IMPLIED
+         telbook CDATA      #IMPLIED
+         kana    %hankana;  #IMPLIED
+         email   CDATA      #IMPLIED">
+]]>
+    <!ENTITY % a.attrs.30 "">
+
+<![ %iMode.40 [
+    <!ENTITY % a.attrs.40
+        "ista    IDREF      #IMPLIED">
+]]>
+    <!ENTITY % a.attrs.40 "">
+
+<![ %iMode.50 [
+    <!ENTITY % a.attrs.50
+        "ilet    IDREF      #IMPLIED
+         iswf    IDREF      #IMPLIED
+         irst    IDREF      #IMPLIED">
+]]>
+    <!ENTITY % a.attrs.50 "">
+
+<![ %iMode.30 [
+    <!ENTITY % utn "utn (UTN) #IMPLIED">
+]]>
+    <!ENTITY % utn "">
+
+<!ELEMENT A - - (%text;)* -(A)>
+<!ATTLIST A
+        name    CDATA   #IMPLIED
+        href    %URL;   #IMPLIED
+        %accesskey;
+        %a.attrs.20;
+        %a.attrs.30;
+        %a.attrs.40;
+        %a.attrs.50;
+        %utn;
+        >
+
+<!--=================== Images ============================================-->
+
+<!ENTITY % Length "CDATA">
+<!ENTITY % Pixels "NUMBER">
+
+<!ENTITY % IAlign "(top|middle|bottom|left|right)">
+<![ %iMode.40 [
+<!ENTITY % ImgAlign "(top|middle|bottom|left|right|center)">
+]]>
+<!ENTITY % ImgAlign "(top|middle|bottom|left|right)">
+
+<![ %iMode.10 [
+<!ENTITY % img.border "">
+]]>
+<!ENTITY % img.border "border  %Pixels;  #IMPLIED">
+
+<!ELEMENT IMG    - O EMPTY>
+<!ATTLIST IMG
+        src     %URL;     #REQUIRED
+        align   %ImgAlign;  #IMPLIED
+        width   %Length;  #IMPLIED
+        height  %Length;  #IMPLIED
+        hspace  %Pixels;  #IMPLIED
+        vspace  %Pixels;  #IMPLIED
+        alt     CDATA     #IMPLIED
+        %img.border;
+        >
+
+<![ %iMode.40 [
+<!ENTITY % ObjectContents "(PARAM)*"  -- max 16 PARAMs -->
+]]>
+<!ENTITY % ObjectContents "EMPTY">
+
+<!ELEMENT OBJECT - - %ObjectContents;>
+<!ATTLIST OBJECT
+        declare (declare) #REQUIRED
+        id      ID        #REQUIRED
+        data    %URL;     #REQUIRED
+        type    CDATA #FIXED 'application/x-jam'
+        >
+
+<![ %iMode.40 [
+<!ELEMENT PARAM - - EMPTY>
+<!ENTITY % Name  "CDATA" >
+<!ATTLIST PARAM
+  name        %Name;         #REQUIRED -- property name --
+  value       CDATA          #IMPLIED  -- property value --
+  >
+
+]]>
+
+<![ %doti.10 [
+<!ELEMENT EMBED    - O EMPTY>
+<!ATTLIST EMBED
+        src     %URL;     #REQUIRED
+        >
+]]>
+
+<!--=================== Marquee/Blink/Font ================================-->
+
+<![ %doti.10 [
+<!ENTITY % Loop "CDATA" -- -1 or NUMBER -->
+<!ELEMENT MARQUEE  - - (%text;)*>
+<!ATTLIST MARQUEE
+        direction       (left|right)    LEFT
+        loop    %Loop;   #IMPLIED
+        width   %Length; #IMPLIED
+        behavior        (scroll|slide|alternate) SCROLL
+        >
+
+<!ELEMENT BLINK    - - (%text;)*>
+
+<!ELEMENT FONT     - - (%text;)*>
+<!ATTLIST FONT
+        size     (1|2|3|4|5|6|7) #IMPLIED
+        color    %color; #IMPLIED
+        >
+]]>
+
+<![ %iMode.50 [
+<!ENTITY % marquee.attr "bgcolor %color; #IMPLIED">
+]]>
+<!ENTITY % marquee.attr "">
+
+<![ %iMode.20 [
+<!ELEMENT MARQUEE  - - (%text;)*>
+<!ATTLIST MARQUEE
+        direction       (left|right)    LEFT
+        loop    NUMBER  1 -- max 16 --
+        behavior        (scroll|slide|alternate) SCROLL
+        %marquee.attr;
+        >
+
+<!ELEMENT BLINK    - - (%text;)*>
+
+<!ELEMENT FONT     - - (%text;)*>
+<!ATTLIST FONT
+        color    %color; #IMPLIED
+        >
+]]>
+
+<!--=================== Horizontal Rule ===================================-->
+
+<![ %iMode.40 [
+<!ENTITY % hr.color "color %color; #IMPLIED">
+]]>
+<![ %doti.10 [
+<!ENTITY % hr.color "color %color; #IMPLIED">
+]]>
+<!ENTITY % hr.color "">
+
+<![ %iMode.10 [
+<!ENTITY % hr.noshade "">
+]]>
+<!ENTITY % hr.noshade "noshade (noshade) #IMPLIED">
+
+<!ELEMENT HR    - O EMPTY>
+<!ATTLIST HR
+        align (left|right|center) #IMPLIED
+        size  %Pixels;    #IMPLIED
+        width %Length;    #IMPLIED
+        %hr.noshade;
+        %hr.color;
+        >
+
+<!--=================== Paragraphs=========================================-->
+
+<!ELEMENT P     - O (%text;)*>
+<!ATTLIST P
+        align  (left|center|right) #IMPLIED
+        >
+
+<!--=================== Headings ==========================================-->
+
+<!ELEMENT ( %heading; )  - -  (%text;)*>
+<!ATTLIST ( %heading; )
+        align  (left|center|right) #IMPLIED
+        >
+
+<!--=================== Preformatted Text =================================-->
+
+<!ENTITY % pre.exclusion "IMG">
+
+<!ELEMENT PRE - - (%text;)* -(%pre.exclusion;)>
+
+<![ %doti.10 [
+<!ENTITY % literal "CDATA">
+<!ELEMENT PLAINTEXT - -  %literal>
+]]>
+<![ %iMode.10 [
+<!ENTITY % literal "CDATA">
+<!ELEMENT PLAINTEXT - -  %literal>
+]]>
+
+<!--=================== Block-like Quotes =================================-->
+
+<!ELEMENT BLOCKQUOTE - - %body.content;>
+
+<!--=================== Lists =============================================-->
+
+<!ELEMENT DL - -  (DT|DD)+>
+<!ELEMENT DT - O  (%text;)*>
+<!ELEMENT DD - O  %flow;>
+
+<!ELEMENT (OL|UL) - -  (LI)+>
+
+<![ %doti.10 [
+<!ENTITY % OLStyle "CDATA" -- constrained to: [1|a|A] -->
+<!ATTLIST OL
+        type      %OLStyle;  #IMPLIED   -- numbering style --
+        start     NUMBER     #IMPLIED   -- starting sequence number --
+        >
+]]>
+<![ %iMode.20 [
+<!ENTITY % OLStyle "CDATA" -- constrained to: [1|a|A] -->
+<!ATTLIST OL
+        type      %OLStyle;  #IMPLIED   -- numbering style --
+        start     NUMBER     #IMPLIED   -- starting sequence number --
+        >
+]]>
+
+<!ELEMENT (DIR|MENU) - -  (LI)+ -(%block;)>
+
+<!ELEMENT LI - O %flow;>
+
+<![ %iMode.20 [
+<!ENTITY % LIStyle "CDATA" -- constrained to: "(%OLStyle)" -->
+<!ATTLIST LI
+        type    %LIStyle     #IMPLIED   -- list item style --
+        value    NUMBER      #IMPLIED   -- reset sequence number --
+        >
+]]>
+
+<!--================ Forms ===============================================-->
+
+<![ %doti.10 [
+<!ENTITY % enctype "">
+]]>
+<![ %iMode.10 [
+<!ENTITY % enctype "">
+]]>
+<!ENTITY % enctype "enctype %Content-Type; 'application/x-www-form-urlencoded'">
+
+<!ELEMENT FORM - - %body.content; -(FORM)>
+<!ATTLIST FORM
+        action %URL; #IMPLIED
+        method (%HTTP-Method;) GET
+        %enctype;
+        %utn;
+        >
+
+<![ %doti.10 [
+<!ENTITY % InputType
+        "(TEXT | PASSWORD | CHECKBOX | RADIO | HIDDEN | SUBMIT | RESET )">
+]]>
+<![ %iMode.10 [
+<!ENTITY % InputType
+        "(TEXT | PASSWORD | CHECKBOX | RADIO | HIDDEN | SUBMIT | RESET )">
+]]>
+<!ENTITY % InputType
+        "(TEXT | PASSWORD | CHECKBOX | RADIO | HIDDEN
+         | IMAGE | SUBMIT | RESET )">
+
+<![ %doti.10 [
+<!ENTITY % input.src   "">
+<!ENTITY % input.align "">
+<!ENTITY % input.style "astyle (1|2|3|4) 1">
+]]>
+<![ %iMode.20 [
+<!ENTITY % input.style "istyle (1|2|3|4) 1">
+]]>
+<![ %iMode.10 [
+<!ENTITY % input.src   "">
+<!ENTITY % input.align "">
+]]>
+<!ENTITY % input.src   "src   %URL;    #IMPLIED">
+<!ENTITY % input.align "align %IAlign; #IMPLIED">
+<!ENTITY % input.style "">
+
+<!ELEMENT INPUT - O EMPTY>
+<!ATTLIST INPUT
+        type %InputType; TEXT
+        name  CDATA   #IMPLIED
+        value CDATA   #IMPLIED
+        checked (checked) #IMPLIED
+        size CDATA    #IMPLIED
+        maxlength NUMBER #IMPLIED
+        %input.src;
+        %input.align;
+        %accesskey;
+        %input.style;
+        >
+
+<![ %iMode.20 [
+<!ENTITY % select.multiple "multiple (multiple) #IMPLIED">
+]]>
+<![ %iMode.10 [
+<!ENTITY % select.multiple "">
+]]>
+<!ENTITY % select.multiple "multiple (multiple) #IMPLIED">
+
+<!ELEMENT SELECT - - (OPTION+)>
+<!ATTLIST SELECT
+        name CDATA #REQUIRED
+        size NUMBER #IMPLIED
+        %select.multiple;
+        >
+
+<!ELEMENT OPTION - O (#PCDATA)*>
+<!ATTLIST OPTION
+        selected (selected) #IMPLIED
+        value  CDATA  #IMPLIED
+        >
+
+<!ELEMENT TEXTAREA - - (#PCDATA)*>
+<!ATTLIST TEXTAREA
+        name CDATA #REQUIRED
+        rows NUMBER #REQUIRED
+        cols NUMBER #REQUIRED
+        %input.style;
+        >
+
+<!--================ Document Head ========================================-->
+
+<!ENTITY % head.content "TITLE & BASE?">
+<![ IGNORE [ -- deleted by k16 --
+<!ENTITY % head.content "TITLE & ISINDEX? & BASE?">
+]]>
+
+<![ %iMode.20 [
+<!ENTITY % head.misc "+(META)">
+]]>
+<![ %iMode.10 [
+<!ENTITY % head.misc "">
+]]>
+<!ENTITY % head.misc "+(META)" -- META added by k16 -->
+
+<!ELEMENT HEAD O O  (%head.content;) %head.misc;>
+
+<!ELEMENT TITLE - -  (#PCDATA)*>
+
+<!ELEMENT BASE - O EMPTY>
+<!ATTLIST BASE
+        href %URL;  #REQUIRED
+        >
+
+<!ELEMENT META - O EMPTY>
+<!ATTLIST META
+        http-equiv  NAME    #IMPLIED
+        name        NAME    #IMPLIED   -- added by k16 --
+        content     CDATA   #REQUIRED  -- added by k16 --
+        >
+
+<!--================ Document Structure ===================================-->
+
+<![ %iMode.10 [
+<!ENTITY % version.attr "">
+]]>
+<![ %doti.10 [
+<!ENTITY % version.attr "">
+]]>
+<!ENTITY % version.attr "VERSION CDATA #FIXED '%HTML.Version;'">
+
+<!ENTITY % html.content "HEAD, BODY">
+
+<!ELEMENT HTML O O  (%html.content)>
+<!ATTLIST HTML
+        %version.attr;
+        >
+
+<!--================ End of DTD ===========================================-->

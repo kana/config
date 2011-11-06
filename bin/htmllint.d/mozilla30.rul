@@ -1,0 +1,1032 @@
+# Netscape Navigator 3.0
+
+#======= ELEMENTS =======
+$emptyTags = 'AREA|BASE|BR|FRAME|HR|HYPE|IMG|INPUT|ISINDEX|KEYGEN|META|PARAM'.
+             '|SPACER|WBR';
+$pairTags = 'A|ADDRESS|APPLET|B|BASEFONT|BIG|BLINK|BLOCKQUOTE|BODY|CAPTION'.
+            '|CENTER|CITE|CODE|DD|DIR|DIV|DL|DT|EM|EMBED|FONT|FORM|FRAMESET'.
+            '|H1|H2|H3|H4|H5|H6|HEAD|HTML|I|KBD|LI|LISTING|MAP|MENU|MULTICOL'.
+            '|NOBR|NOEMBED|NOFRAMES|NOSCRIPT|OL|OPTION|P|PLAINTEXT|PRE|S|SAMP'.
+            '|SCRIPT|SELECT|SERVER|SMALL|STRIKE|STRONG|SUB|SUP|TABLE|TD'.
+            '|TEXTAREA|TH|TITLE|TR|TT|U|UL|VAR|XMP';
+$deprecatedTags = 'LISTING|PLAINTEXT';
+$omitStartTags = 'BODY|HEAD|HTML';
+$omitEndTags = 'BASEFONT|BODY|DD|DT|HEAD|HTML|LI|NOBR|OPTION|P|PLAINTEXT|TD'.
+               '|TH|TR';
+#$maybeEmpty = 'A|ADDRESS|APPLET|B|BASEFONT|BIG|BLINK|BLOCKQUOTE|BODY|CAPTION'.
+#              '|CENTER|CITE|CODE|DD|DIV|DT|EM|EMBED|FONT|FORM|H1|H2|H3|H4|H5'.
+#              '|H6|I|KBD|LI|LISTING|MAP|MULTICOL|NOBR|NOEMBED|NOSCRIPT|OPTION'.
+#              '|P|PLAINTEXT|PRE|S|SAMP|SCRIPT|SERVER|SMALL|STRIKE|STRONG|SUB'.
+#              '|SUP|TD|TEXTAREA|TH|TITLE|TR|TT|U|VAR|XMP';
+$maybeEmpty = 'PLAINTEXT|PRE|SCRIPT|SERVER|EMBED|TD|TEXTAREA|TH|XMP';
+%requiredTags = (
+  'HEAD'  => 'TITLE',
+  'HTML'  => 'HEAD|#001',
+  'TABLE' => 'TR',
+);
+%onceonlyTags = (
+  '#001'     => 'BODY|FRAMESET',
+  'HEAD'     => 'TITLE|ISINDEX|BASE',
+  'HTML'     => 'HEAD|#001|PLAINTEXT',
+  'NOFRAMES' => 'BODY',
+  'TABLE'    => 'CAPTION',
+);
+$sequencialTags = 'TABLE|HTML';
+%tagsElements = (
+  '#000'       => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1',
+  '#001'       => 'BODY|FRAMESET',
+  'A'          => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|CITE|VAR|KBD|SAMP|CODE|STRONG'.
+                  '|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA',
+  'ADDRESS'    => 'P|SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'APPLET'     => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA|PARAM',
+  'B'          => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'BASEFONT'   => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'BIG'        => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'BLINK'      => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'BLOCKQUOTE' => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1',
+  'BODY'       => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1',
+  'CAPTION'    => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'CENTER'     => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1',
+  'CITE'       => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'CODE'       => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'DD'         => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA',
+  'DIR'        => 'LI',
+  'DIV'        => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1',
+  'DL'         => 'DD|DT',
+  'DT'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'EM'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'EMBED'      => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1|NOEMBED',
+  'FONT'       => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'FORM'       => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|BLOCKQUOTE|CENTER|DIV|DL'.
+                  '|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP|NOSCRIPT'.
+                  '|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED|APPLET|HYPE'.
+                  '|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S|STRIKE|BLINK'.
+                  '|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3|H2|H1|INPUT'.
+                  '|SELECT|TEXTAREA|KEYGEN',
+  'FRAMESET'   => 'NOFRAMES|FRAME|FRAMESET',
+  'H1'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'H2'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'H3'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'H4'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'H5'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'H6'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'HEAD'       => 'TITLE|ISINDEX|BASE|SCRIPT|SERVER|META|LINK',
+  'HTML'       => 'HEAD|#001|PLAINTEXT',
+  'I'          => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'KBD'        => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'LI'         => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA',
+  'LISTING'    => '%literal',
+  'MAP'        => 'AREA',
+  'MENU'       => 'LI',
+  'MULTICOL'   => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'NOBR'       => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|WBR|BR|BASEFONT|FONT'.
+                  '|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM'.
+                  '|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA',
+  'NOEMBED'    => '#PCDATA',
+  'NOFRAMES'   => 'BODY|#000',
+  'NOSCRIPT'   => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP|SERVER'.
+                  '|NOBR|WBR|BR|BASEFONT|FONT|EMBED|APPLET|HYPE|IMG|A|CITE'.
+                  '|VAR|KBD|SAMP|CODE|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB'.
+                  '|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'OL'         => 'LI',
+  'OPTION'     => '#PCDATA',
+  'P'          => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'PLAINTEXT'  => '%literal',
+  'PRE'        => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|A'.
+                  '|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S|STRIKE|BLINK|B|I|TT'.
+                  '|#PCDATA',
+  'S'          => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'SAMP'       => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'SCRIPT'     => 'CDATA',
+  'SELECT'     => 'OPTION',
+  'SERVER'     => 'CDATA',
+  'SMALL'      => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'STRIKE'     => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'STRONG'     => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'SUB'        => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'SUP'        => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'TABLE'      => 'CAPTION|TR',
+  'TD'         => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1',
+  'TEXTAREA'   => '#PCDATA',
+  'TH'         => 'MULTICOL|ADDRESS|TABLE|HR|ISINDEX|FORM|BLOCKQUOTE|CENTER'.
+                  '|DIV|DL|LISTING|XMP|PRE|MENU|DIR|OL|UL|P|SPACER|MAP'.
+                  '|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT|FONT|EMBED'.
+                  '|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|U|S'.
+                  '|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT|#PCDATA|H6|H5|H4|H3'.
+                  '|H2|H1',
+  'TITLE'      => '#PCDATA',
+  'TR'         => 'TD|TH',
+  'TT'         => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'U'          => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'UL'         => 'LI',
+  'VAR'        => 'SPACER|MAP|NOSCRIPT|SERVER|SCRIPT|NOBR|WBR|BR|BASEFONT'.
+                  '|FONT|EMBED|APPLET|HYPE|IMG|A|CITE|VAR|KBD|SAMP|CODE'.
+                  '|STRONG|EM|U|S|STRIKE|BLINK|SUP|SUB|SMALL|BIG|B|I|TT'.
+                  '|#PCDATA',
+  'XMP'        => '%literal',
+);
+%excludedElems = (
+  'A'        => 'A',
+  'DIR'      => 'P|UL|OL|DIR|MENU|PRE|XMP|LISTING|DL|DIV|CENTER|BLOCKQUOTE'.
+                '|FORM|ISINDEX|HR|TABLE|ADDRESS|MULTICOL',
+  'FORM'     => 'FORM',
+  'MENU'     => 'P|UL|OL|DIR|MENU|PRE|XMP|LISTING|DL|DIV|CENTER|BLOCKQUOTE'.
+                '|FORM|ISINDEX|HR|TABLE|ADDRESS|MULTICOL',
+  'NOBR'     => 'NOBR',
+  'NOEMBED'  => 'NOEMBED',
+  'NOFRAMES' => 'NOFRAMES',
+  'NOSCRIPT' => 'SCRIPT|NOSCRIPT',
+  'PRE'      => 'IMG|APPLET|HYPE|BIG|SMALL|SUB|SUP|FONT|EMBED',
+  'SELECT'   => 'INPUT|SELECT|TEXTAREA|KEYGEN',
+  'TEXTAREA' => 'INPUT|SELECT|TEXTAREA|KEYGEN',
+  'TITLE'    => 'SCRIPT|SERVER|META|LINK',
+);
+%includedElems = (
+  'FORM' => 'INPUT|SELECT|TEXTAREA|KEYGEN',
+  'HEAD' => 'SCRIPT|SERVER|META|LINK',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'CLASS'       => 'CDATA',
+    'HREF'        => '%URL',
+    'ID'          => 'ID',
+    'LANG'        => '%Lang',
+    'NAME'        => 'CDATA',
+    'ONCLICK'     => '%Script',
+    'ONMOUSEOUT'  => '%Script',
+    'ONMOUSEOVER' => '%Script',
+    'TARGET'      => 'CDATA',
+  },
+  'ADDRESS' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'APPLET' => {
+    'ALIGN'     => 'TOP|BOTTOM|LEFT|RIGHT|ABSMIDDLE|ABSBOTTOM|TEXTTOP|MIDDLE'.
+                   '|BASELINE',
+    'ALT'       => 'CDATA',
+    'ARCHIVE'   => '%URL',
+    'CLASS'     => 'CDATA',
+    'CODE'      => '%URL',
+    'CODEBASE'  => '%URL',
+    'HEIGHT'    => '%Length',
+    'HSPACE'    => '%Pixels',
+    'ID'        => 'ID',
+    'LANG'      => '%Lang',
+    'MAYSCRIPT' => 'MAYSCRIPT',
+    'NAME'      => 'CDATA',
+    'VSPACE'    => '%Pixels',
+    'WIDTH'     => '%Length',
+  },
+  'AREA' => {
+    'ALT'         => 'CDATA',
+    'CLASS'       => 'CDATA',
+    'COORDS'      => '%COORDS',
+    'HREF'        => '%URL',
+    'ID'          => 'ID',
+    'LANG'        => '%Lang',
+    'NOHREF'      => 'NOHREF',
+    'ONMOUSEOUT'  => '%Script',
+    'ONMOUSEOVER' => '%Script',
+    'SHAPE'       => 'RECT|CIRCLE|POLY|DEFAULT',
+    'TARGET'      => 'CDATA',
+  },
+  'B' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'BASE' => {
+    'HREF'   => '%URL',
+    'TARGET' => 'CDATA',
+  },
+  'BASEFONT' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'SIZE'  => '%fsize',
+  },
+  'BIG' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'BLINK' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'BLOCKQUOTE' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'BODY' => {
+    'ALINK'      => '%color',
+    'BACKGROUND' => '%URL',
+    'BGCOLOR'    => '%color',
+    'CLASS'      => 'CDATA',
+    'ID'         => 'ID',
+    'LANG'       => '%Lang',
+    'LINK'       => '%color',
+    'ONBLUR'     => '%Script',
+    'ONFOCUS'    => '%Script',
+    'ONLOAD'     => '%Script',
+    'ONUNLOAD'   => '%Script',
+    'TEXT'       => '%color',
+    'VLINK'      => '%color',
+  },
+  'BR' => {
+    'CLASS' => 'CDATA',
+    'CLEAR' => 'LEFT|ALL|RIGHT',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'CAPTION' => {
+    'ALIGN' => 'TOP|BOTTOM',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'CENTER' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'CITE' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'CODE' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'DD' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'DIR' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'DIV' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'DL' => {
+    'CLASS'   => 'CDATA',
+    'COMPACT' => 'COMPACT',
+    'ID'      => 'ID',
+    'LANG'    => '%Lang',
+  },
+  'DT' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'EM' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'EMBED' => {
+    'ALIGN'       => 'LEFT|RIGHT|TOP|BOTTOM',
+    'BORDER'      => '%border',
+    'CLASS'       => 'CDATA',
+    'FRAMEBORDER' => 'NO',
+    'HEIGHT'      => '%Pixels',
+    'HIDDEN'      => 'TRUE|FALSE',
+    'HSPACE'      => '%Pixels',
+    'ID'          => 'ID',
+    'LANG'        => '%Lang',
+    'NAME'        => 'CDATA',
+    'PALETTE'     => 'FOREGROUND|BACKGROUND',
+    'PLUGINSPAGE' => '%URL',
+    'PLUGINURL'   => '%URL',
+    'SRC'         => '%URL',
+    'TYPE'        => '%MIMEType',
+    'UNITS'       => '%Pixels',
+    'VSPACE'      => '%Pixels',
+    'WIDTH'       => '%Pixels',
+  },
+  'FONT' => {
+    'CLASS' => 'CDATA',
+    'COLOR' => '%color',
+    'FACE'  => '%face',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'SIZE'  => '%rsize',
+  },
+  'FORM' => {
+    'ACTION'   => '%URL',
+    'CLASS'    => 'CDATA',
+    'ENCTYPE'  => '%Content-Type',
+    'ID'       => 'ID',
+    'LANG'     => '%Lang',
+    'METHOD'   => 'GET|POST',
+    'NAME'     => 'CDATA',
+    'ONRESET'  => '%Script',
+    'ONSUBMIT' => '%Script',
+    'TARGET'   => 'CDATA',
+  },
+  'FRAME' => {
+    'BORDERCOLOR'  => '%color',
+    'CLASS'        => 'CDATA',
+    'FRAMEBORDER'  => 'NO|YES',
+    'ID'           => 'ID',
+    'LANG'         => '%Lang',
+    'MARGINHEIGHT' => '%Pixels',
+    'MARGINWIDTH'  => '%Pixels',
+    'NAME'         => 'CDATA',
+    'NORESIZE'     => 'NORESIZE',
+    'SCROLLING'    => 'YES|NO|AUTO',
+    'SRC'          => '%URL',
+  },
+  'FRAMESET' => {
+    'BORDER'      => '%border',
+    'BORDERCOLOR' => '%color',
+    'CLASS'       => 'CDATA',
+    'COLS'        => '%frame-size',
+    'FRAMEBORDER' => 'NO|YES',
+    'ID'          => 'ID',
+    'LANG'        => '%Lang',
+    'ONBLUR'      => '%Script',
+    'ONFOCUS'     => '%Script',
+    'ONLOAD'      => '%Script',
+    'ONUNLOAD'    => '%Script',
+    'ROWS'        => '%frame-size',
+  },
+  'H1' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'H2' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'H3' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'H4' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'H5' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'H6' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'HR' => {
+    'ALIGN'   => 'LEFT|RIGHT|CENTER',
+    'CLASS'   => 'CDATA',
+    'ID'      => 'ID',
+    'LANG'    => '%Lang',
+    'NOSHADE' => 'NOSHADE',
+    'SIZE'    => '%Pixels',
+    'WIDTH'   => '%Length',
+  },
+  'I' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'IMG' => {
+    'ALIGN'   => 'TOP|BOTTOM|LEFT|RIGHT|ABSMIDDLE|ABSBOTTOM|TEXTTOP|MIDDLE'.
+                 '|BASELINE',
+    'ALT'     => 'CDATA',
+    'BORDER'  => '%Pixels',
+    'CLASS'   => 'CDATA',
+    'HEIGHT'  => '%Length',
+    'HSPACE'  => '%Pixels',
+    'ID'      => 'ID',
+    'ISMAP'   => 'ISMAP',
+    'LANG'    => '%Lang',
+    'LOWSRC'  => '%URL',
+    'NAME'    => 'CDATA',
+    'ONABORT' => '%Script',
+    'ONERROR' => '%Script',
+    'ONLOAD'  => '%Script',
+    'SRC'     => '%URL',
+    'USEMAP'  => '%URLwithName',
+    'VSPACE'  => '%Pixels',
+    'WIDTH'   => '%Length',
+  },
+  'INPUT' => {
+    'ALIGN'     => 'TOP|BOTTOM|LEFT|RIGHT|ABSMIDDLE|ABSBOTTOM|TEXTTOP|MIDDLE'.
+                   '|BASELINE',
+    'BORDER'    => '%border',
+    'CHECKED'   => 'CHECKED',
+    'CLASS'     => 'CDATA',
+    'HEIGHT'    => '%Length',
+    'ID'        => 'ID',
+    'LANG'      => '%Lang',
+    'MAXLENGTH' => 'NUMBER',
+    'NAME'      => 'CDATA',
+    'ONBLUR'    => '%Script',
+    'ONCHANGE'  => '%Script',
+    'ONCLICK'   => '%Script',
+    'ONFOCUS'   => '%Script',
+    'ONSELECT'  => '%Script',
+    'SIZE'      => '%Pixels',
+    'SRC'       => '%URL',
+    'TYPE'      => 'BUTTON|CHECKBOX|FILE|HIDDEN|IMAGE|PASSWORD|RADIO|RESET'.
+                   '|SUBMIT|TEXT',
+    'VALUE'     => 'CDATA',
+    'WIDTH'     => '%Length',
+  },
+  'ISINDEX' => {
+    'PROMPT' => 'CDATA',
+  },
+  'KBD' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'KEYGEN' => {
+    'CHALLENGE' => 'CDATA',
+    'CLASS'     => 'CDATA',
+    'ID'        => 'ID',
+    'LANG'      => '%Lang',
+    'NAME'      => 'CDATA',
+  },
+  'LI' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'TYPE'  => '%LIStyle',
+    'VALUE' => 'NUMBER',
+  },
+  'LISTING' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'MAP' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'NAME'  => 'CDATA',
+  },
+  'MENU' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'META' => {
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'NAME',
+    'NAME'       => 'NAME',
+  },
+  'MULTICOL' => {
+    'CLASS'  => 'CDATA',
+    'COLS'   => 'NUMBER',
+    'GUTTER' => '%Pixels',
+    'ID'     => 'ID',
+    'LANG'   => '%Lang',
+    'WIDTH'  => '%Pixels',
+  },
+  'NOBR' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'NOEMBED' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'NOFRAMES' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'OL' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'START' => 'NUMBER',
+    'TYPE'  => '%OLStyle',
+  },
+  'OPTION' => {
+    'CLASS'    => 'CDATA',
+    'ID'       => 'ID',
+    'LANG'     => '%Lang',
+    'SELECTED' => 'SELECTED',
+    'VALUE'    => 'CDATA',
+  },
+  'P' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'PARAM' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'NAME'  => 'NMTOKEN',
+    'VALUE' => 'CDATA',
+  },
+  'PLAINTEXT' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'PRE' => {
+    'CLASS' => 'CDATA',
+    'COLS'  => 'NUMBER',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'WRAP'  => 'WRAP',
+  },
+  'S' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'SAMP' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'SCRIPT' => {
+    'LANGUAGE' => 'CDATA',
+    'SRC'      => '%URL',
+  },
+  'SELECT' => {
+    'CLASS'    => 'CDATA',
+    'ID'       => 'ID',
+    'LANG'     => '%Lang',
+    'MULTIPLE' => 'MULTIPLE',
+    'NAME'     => 'CDATA',
+    'ONBLUR'   => '%Script',
+    'ONCHANGE' => '%Script',
+    'ONCLICK'  => '%Script',
+    'ONFOCUS'  => '%Script',
+    'SIZE'     => '%Pixels',
+  },
+  'SMALL' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'SPACER' => {
+    'ALIGN'  => 'TOP|BOTTOM|LEFT|RIGHT|ABSMIDDLE|ABSBOTTOM|TEXTTOP|MIDDLE'.
+                '|BASELINE',
+    'CLASS'  => 'CDATA',
+    'HEIGHT' => '%Pixels',
+    'ID'     => 'ID',
+    'LANG'   => '%Lang',
+    'SIZE'   => '%Pixels',
+    'TYPE'   => 'HORIZONTAL|VERTICAL|BLOCK',
+    'WIDTH'  => '%Pixels',
+  },
+  'STRIKE' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'STRONG' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'SUB' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'SUP' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'TABLE' => {
+    'ALIGN'       => 'LEFT|RIGHT',
+    'BGCOLOR'     => '%color',
+    'BORDER'      => '%border',
+    'CELLPADDING' => '%Pixels',
+    'CELLSPACING' => '%Pixels',
+    'CLASS'       => 'CDATA',
+    'HEIGHT'      => '%Pixels',
+    'HSPACE'      => '%Pixels',
+    'ID'          => 'ID',
+    'LANG'        => '%Lang',
+    'VSPACE'      => '%Pixels',
+    'WIDTH'       => '%Length',
+  },
+  'TD' => {
+    'ALIGN'   => 'LEFT|CENTER|RIGHT',
+    'BGCOLOR' => '%color',
+    'CLASS'   => 'CDATA',
+    'COLSPAN' => 'NUMBER',
+    'HEIGHT'  => '%Length',
+    'ID'      => 'ID',
+    'LANG'    => '%Lang',
+    'NOWRAP'  => 'NOWRAP',
+    'ROWSPAN' => 'NUMBER',
+    'VALIGN'  => 'TOP|MIDDLE|BOTTOM|BASELINE',
+    'WIDTH'   => '%Length',
+  },
+  'TEXTAREA' => {
+    'CLASS'    => 'CDATA',
+    'COLS'     => 'NUMBER',
+    'ID'       => 'ID',
+    'LANG'     => '%Lang',
+    'NAME'     => 'CDATA',
+    'ONBLUR'   => '%Script',
+    'ONCHANGE' => '%Script',
+    'ONFOCUS'  => '%Script',
+    'ONSELECT' => '%Script',
+    'ROWS'     => 'NUMBER',
+    'WRAP'     => 'OFF|HARD|SOFT',
+  },
+  'TH' => {
+    'ALIGN'   => 'LEFT|CENTER|RIGHT',
+    'BGCOLOR' => '%color',
+    'CLASS'   => 'CDATA',
+    'COLSPAN' => 'NUMBER',
+    'HEIGHT'  => '%Length',
+    'ID'      => 'ID',
+    'LANG'    => '%Lang',
+    'NOWRAP'  => 'NOWRAP',
+    'ROWSPAN' => 'NUMBER',
+    'VALIGN'  => 'TOP|MIDDLE|BOTTOM|BASELINE',
+    'WIDTH'   => '%Length',
+  },
+  'TR' => {
+    'ALIGN'   => 'LEFT|CENTER|RIGHT',
+    'BGCOLOR' => '%color',
+    'CLASS'   => 'CDATA',
+    'ID'      => 'ID',
+    'LANG'    => '%Lang',
+    'VALIGN'  => 'TOP|MIDDLE|BOTTOM|BASELINE',
+  },
+  'TT' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'U' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'UL' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+    'TYPE'  => 'DISC|SQUARE|CIRCLE',
+  },
+  'VAR' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'WBR' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+  'XMP' => {
+    'CLASS' => 'CDATA',
+    'ID'    => 'ID',
+    'LANG'  => '%Lang',
+  },
+);
+%requiredAttrs = (
+  'A'        => 'NAME|HREF',
+  'APPLET'   => 'CODE&WIDTH&HEIGHT',
+  'AREA'     => 'COORDS&HREF',
+  'BASE'     => 'HREF',
+  'EMBED'    => 'SRC|TYPE',
+  'FRAME'    => 'SRC',
+  'FRAMESET' => 'ROWS|COLS',
+  'IMG'      => 'SRC',
+  'KEYGEN'   => 'NAME',
+  'MAP'      => 'NAME',
+  'META'     => 'CONTENT',
+  'MULTICOL' => 'COLS',
+  'PARAM'    => 'NAME&VALUE',
+  'SCRIPT'   => 'LANGUAGE|SRC',
+  'SELECT'   => 'NAME',
+  'TEXTAREA' => 'NAME&COLS',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'AElig'  => '&#198;',
+  'Aacute' => '&#193;',
+  'Acirc'  => '&#194;',
+  'Agrave' => '&#192;',
+  'Aring'  => '&#197;',
+  'Atilde' => '&#195;',
+  'Auml'   => '&#196;',
+  'Ccedil' => '&#199;',
+  'ETH'    => '&#208;',
+  'Eacute' => '&#201;',
+  'Ecirc'  => '&#202;',
+  'Egrave' => '&#200;',
+  'Euml'   => '&#203;',
+  'Iacute' => '&#205;',
+  'Icirc'  => '&#206;',
+  'Igrave' => '&#204;',
+  'Iuml'   => '&#207;',
+  'Ntilde' => '&#209;',
+  'Oacute' => '&#211;',
+  'Ocirc'  => '&#212;',
+  'Ograve' => '&#210;',
+  'Oslash' => '&#216;',
+  'Otilde' => '&#213;',
+  'Ouml'   => '&#214;',
+  'THORN'  => '&#222;',
+  'Uacute' => '&#218;',
+  'Ucirc'  => '&#219;',
+  'Ugrave' => '&#217;',
+  'Uuml'   => '&#220;',
+  'Yacute' => '&#221;',
+  'aacute' => '&#225;',
+  'acirc'  => '&#226;',
+  'acute'  => '&#180;',
+  'aelig'  => '&#230;',
+  'agrave' => '&#224;',
+  'amp'    => '&#38;',
+  'aring'  => '&#229;',
+  'atilde' => '&#227;',
+  'auml'   => '&#228;',
+  'brvbar' => '&#166;',
+  'ccedil' => '&#231;',
+  'cedil'  => '&#184;',
+  'cent'   => '&#162;',
+  'copy'   => '&#169;',
+  'curren' => '&#164;',
+  'deg'    => '&#176;',
+  'divide' => '&#247;',
+  'eacute' => '&#233;',
+  'ecirc'  => '&#234;',
+  'egrave' => '&#232;',
+  'eth'    => '&#240;',
+  'euml'   => '&#235;',
+  'frac12' => '&#189;',
+  'frac14' => '&#188;',
+  'frac34' => '&#190;',
+  'gt'     => '&#62;',
+  'iacute' => '&#237;',
+  'icirc'  => '&#238;',
+  'iexcl'  => '&#161;',
+  'igrave' => '&#236;',
+  'iquest' => '&#191;',
+  'iuml'   => '&#239;',
+  'laquo'  => '&#171;',
+  'lt'     => '&#60;',
+  'macr'   => '&#175;',
+  'micro'  => '&#181;',
+  'middot' => '&#183;',
+  'nbsp'   => '&#160;',
+  'not'    => '&#172;',
+  'ntilde' => '&#241;',
+  'oacute' => '&#243;',
+  'ocirc'  => '&#244;',
+  'ograve' => '&#242;',
+  'ordf'   => '&#170;',
+  'ordm'   => '&#186;',
+  'oslash' => '&#248;',
+  'otilde' => '&#245;',
+  'ouml'   => '&#246;',
+  'para'   => '&#182;',
+  'plusmn' => '&#177;',
+  'pound'  => '&#163;',
+  'quot'   => '&#34;',
+  'raquo'  => '&#187;',
+  'reg'    => '&#174;',
+  'sect'   => '&#167;',
+  'shy'    => '&#173;',
+  'sup1'   => '&#185;',
+  'sup2'   => '&#178;',
+  'sup3'   => '&#179;',
+  'szlig'  => '&#223;',
+  'thorn'  => '&#254;',
+  'times'  => '&#215;',
+  'uacute' => '&#250;',
+  'ucirc'  => '&#251;',
+  'ugrave' => '&#249;',
+  'uml'    => '&#168;',
+  'uuml'   => '&#252;',
+  'yacute' => '&#253;',
+  'yen'    => '&#165;',
+  'yuml'   => '&#255;',
+);
+%refParams = (
+  'COORDS'       => '(?:\d+(?:\s*,\s*|\s+))+\d+',
+  'Content-Type' => 'CDATA+',
+  'Lang'         => '(?i)[A-Z]{1,8}(?:-[A-Z]{1,8})*',
+  'LIStyle'      => '&LIStype',
+  'Length'       => '\d+[%]?',
+  'MIMEType'     => 'CDATA+',
+  'OLStyle'      => '&OLStype',
+  'Pixels'       => '\d+',
+  'Script'       => 'CDATA',
+  'URL'          => '&URL',
+  'URLwithName'  => '&URL',
+  'border'       => '(?i)\d+|BORDER',
+  'face'         => 'CDATA+',
+  'frame-size'   => '(?:(?:\d+[*%]?|\*)\s*,\s*)*(?:\d+[*%]?|\*)',
+  'fsize'        => '[1-7]',
+  'rsize'        => '[+|-]?[1-7]',
+  'literal'      => 'CDATA',
+  'color'        => '(?i)#[0-9A-F]{6}'.
+                    '|aqua|black|blue|fuchsia|gray|green|lime|maroon'.
+                    '|navy|olive|purple|red|silver|teal|white|yellow'.
+                    '|aliceblue|antiquewhite|aquamarine|azure'.
+                    '|beige|bisque|blanchedalmond|blueviolet|brown|burlywood'.
+                    '|cadetblue|chartreuse|chocolate|coral|cornflowerblue'.
+                    '|cornsilk|crimson|cyan'.
+                    '|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen'.
+                    '|darkkhaki|darkmagenta|darkolivegreen|darkorange'.
+                    '|darkorchid|darkred|darksalmon|darkseagreen'.
+                    '|darkslateblue|darkslategray|darkturquoise|darkviolet'.
+                    '|deeppink|deepskyblue|dimgray|dodgerblue'.
+                    '|firebrick|floralwhite|forestgreen'.
+                    '|gainsboro|ghostwhite|gold|goldenrod|greenyellow'.
+                    '|honeydew|hotpink|indianred|indigo|ivory|khaki'.
+                    '|lavender|lavenderblush|lawngreen|lemonchiffon'.
+                    '|lightblue|lightcoral|lightcyan|lightgoldenrodyellow'.
+                    '|lightgreen|lightgrey|lightpink|lightsalmon'.
+                    '|lightseagreen|lightskyblue|lightslategray'.
+                    '|lightsteelblue|lightyellow|limegreen|linen'.
+                    '|magenta|mediumaquamarine|mediumblue|mediumorchid'.
+                    '|mediumpurple|mediumseagreen|mediumslateblue'.
+                    '|mediumspringgreen|mediumturquoise|mediumvioletred'.
+                    '|midnightblue|mintcream|mistyrose|moccasin'.
+                    '|navajowhite|oldlace|olivedrab|orange|orangered|orchid'.
+                    '|palegoldenrod|palegreen|paleturquoise|palevioletred'.
+                    '|papayawhip|peachpuff|peru|pink|plum|powderblue'.
+                    '|rosybrown|royalblue'.
+                    '|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna'.
+                    '|skyblue|slateblue|slategray|snow|springgreen|steelblue'.
+                    '|tan|thistle|tomato|turquoise|violet'.
+                    '|wheat|whitesmoke|yellowgreen',
+);
+
+1;

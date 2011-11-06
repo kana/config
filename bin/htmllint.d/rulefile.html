@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="prev" href="./use-htmllint.html">
+<link rel="next" href="./download.html">
+<title>Another HTML-lint : Rule file</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./use-htmllint.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./download.html">next</a>]<!--*-->
+</div><hr>
+<h1><span>Another HTML-lint</span></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/rulefile.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="rulefile">規則ファイルの生成</a></h2>
+<p>
+規則ファイルはhtmllintが読み込む各HTMLヴァージョンに対応した規則を記述したファイルです。あらかじめいくつか用意してありますが、これらは次のような手順で作成されています。
+</p>
+<ol class="rulefile">
+<li>DTDを用意する。SGML宣言は要りません。HTMLのDTD部分だけで十分です。SGML宣言は、あっても無視されます。また、他のDTDを展開するような記述は、ISO Latin 1 などの一部を除き展開されないので、必要ならば実際にそこに展開しておいてください。<br>
+SCRIPTのイベント(intrinsic events)は、ATTLIST で onblur %Script; #IMPLIED のように %Script でパラメタ参照してください。
+<li>parsedtd.plを用いて規則ファイルの雛形を作ります。
+<pre class="pre-sample">    perl parsedtd.pl xxxx.dtd &gt; xxxx.rul</pre>
+<li>DTDが理解できる範囲の記述ならば、規則ファイルxxxx.rulができあがります。あまり複雑なDTDは解釈できません。
+<li>生成される規則ファイルはPerlのスクリプトファイルで、中身は配列などの集まりです。それらは次のとおりです。
+<dl>
+<dt>%unknownStyleElements
+<dd>もし、この配列が含まれていたら、DTDにparsedtd.plの理解を超えた記述が含まれていたということです。DTDを平易に書き改めるか、parsedtd.plを賢く調教するしかありません。<br>
+ちゃんと解釈できたときは、この配列は含まれていません。
+<dt>$emptyTags
+<dd>空要素タグ(終了タグのないタグ)です。
+<dt>$pairTags
+<dd>開始タグと終了タグの対で表現されるタグです。$pairTagsと$emptyTagsで、サポートしている全タグとなります。
+<dt>$deprecatedTags
+<dd>あまり薦められない形式のタグ。DTD中の、
+<pre class="pre-sample">    &lt;![ %HTML.Deprecated [ &lt;!ELEMENT TAGNAME ....&gt; ]]&gt;</pre>
+というような記述から、HTML.DeprecatedがINCLUDEのときに、このTAGNAMEが該当するとみなしています。
+<dt>$omitStartTags
+<dd>開始タグ省略可能なタグです。実際には、HTMLで開始タグの省略はほとんど行なわれないようです。
+<dt>$omitEndTags
+<dd>終了タグ省略可能なタグです。これらの中には、省略するのが一般的なタグも含まれます。その区別は、使用される状況から自動的に判定されます。
+<dt>$maybeEmpty
+<dd>開始タグと終了タグの間の要素が空でもよいタグです。
+<dt>%requiredTags
+<dd>必ず書かなければならないタグです。これらは、HTML全体の指定ではなく、あるタグ内ではどうかという指定であることに注意してください。
+<dt>%onceonlyTags
+<dd>あるタグ内の要素に書けるタグのうち、２つ以上書いてはいけないタグです。
+<dt>$sequencialTags
+<dd>タグ内の要素が順序どおりに現れなければならないタグです。
+<dt>%tagsElements
+<dd>タグ内の要素として書けるタグの一覧です。#PCDATAというのは普通のテキストを表わします。%で始まるものは、後述する%refParamsへの参照を表わします。
+<dt>%excludedElems
+<dd>タグ内の要素として禁止されるタグです。ここに指定されているタグは、入れ子になったタグ内の要素にも有効です。
+<dt>%includedElems
+<dd>タグ内の要素として許されるタグを追加指定します。%excludedElemsよりも優先します。
+<dt>$deprecatedElems
+<dd>タグ内の要素としてあまり薦められないタグ。自動的には生成されないので、手動かparsedtd.plをもう一度利用して作成します。
+<dt>%tagsAttributes
+<dd>各タグに指定できる属性の一覧と、その属性がどういう値を取るのかが示されています。CDATAやNUMBERなどは、SGMLで決められている書式を要求されるものです。%で始まるものは、後述する%refParamsへの参照を表わします。
+<dt>%requiredAttrs
+<dd>タグの属性として必ず指定しなければならない属性です。&amp; で連結されているものはそれらがすべて指定されなければならないことを表わし、| で連結されているものはそれらのうちどれかひとつが指定さればいいことを表わします。parsedtd.plで作った直後はすべて &amp; です。
+<dt>%deprecatedAtts/%deprecatedAttsCss
+<dd>あまり薦められない属性。これは、自動的には生成されないので、手動かparsedtd.plをもう一度利用して作成します(これについては後述してあります)。
+<dt>%deprecatedVals
+<dd>あまり薦められない属性値。これも、手動かparsedtd.plをもう一度利用して作成します(これについては後述してあります)。
+<dt>%refEntities
+<dd>実体宣言です。
+<dt>%refParams
+<dd>DTD中に大量にあるパラメータ宣言のうち、内部で利用するために残されているものです。ここには、CDATAやNUMBERなどの他に、正規表現と関数呼び出しが指定されています。正規表現は、大文字小文字区別されるので、必要ならば先頭に(?i)を付加して区別されないようにします。&amp;で始まるものが関数呼び出しです。この関数は、htmllint内で用意されているものでなければなりません。parsedtd.plで作った直後はすべてCDATAやNUMBERなどです。
+</dl>
+<li>できたばかりの規則ファイルは不完全です。なぜならば、DTDの解析だけでは自動的に読み取れない情報で重要なものが反映されていないからです。それらはたいていはコメントとしてDTD中に記述されているものです。主に次の３点です。
+<ol type="a">
+<li>属性値の取り得る値に制約のあるものが多い。DTD中では正規表現などが記述できないので、単にCDATAなどとなっている。
+<li>タグの属性のうち、どちらか一方が指定されればよいが、指定されなければならないようなものは、DTDでは記述できない。
+<li>これと似ているが、ある属性が特定の属性値を持つときだけ、他の属性を必要とするような場合。
+</ol>
+<li>a.に関しては、%refParamsを書き換えます。ここは、最初はCDATAとかNUMBERとかばかりのはずなので、正規表現などを利用した書き方に変更します。値集合が規定されている属性値は、その大文字小文字が区別されないので、大文字小文字を区別したいようなときはhtmllint内に処理関数を用意しなければなりません。
+<li>b.に関しては、%requiredAttrs内の &amp; を | に変更します。DTD中で#REQUIREDとなっていない属性はここに現れないので、もしそういう属性がある場合は追加します。
+<li>c.に関しては、うまく抽象化できていないので、それぞれのタグごとに例外処理をします。例えば、&lt;INPUT&gt;のNAME属性は、TYPEによって必要であったりそうでなかったりします。
+<li>DTDには望ましくない記述が少なからずあります。例えば、&lt;TABLE BGCOLOR=&gt;の値は色です。色にはcolorというパラメータ宣言が定義されていますが、ここではそれが参照されていません (WilburもMSIEも)。このような本来参照すべきパラメータ宣言を参照していないものが多いので、それらをきちんと参照するようにしなければなりません。そうして、同じ意味のものは同じ%refParamsを参照するようにします。しかし、DTDとしてはどちらも同義なので、一概にDTDが悪いというわけではありません。
+<li>ブラウザが勝手に拡張してしまっている属性値があります。例えば、いろいろなタグに出てくるWIDTH属性は、50%のような指定ができるものとそうでないものとがありますが、実際にはDTDどおりではありません。これらは、なるべく許容する方向で修正します。
+<li>CDATAで示される属性値のうち、空が好ましくないものが少なからずあります。これらはCDATA+に変更します。
+<li>$maybeEmptyは、DTDで (〜)* などと記述されていると追加されますが、例えば、&lt;TITLE&gt; などの要素が空であるのは好ましくありません。このようなタグを配列から取り除いておきます。実際には、空でもよさそうなタグの方が少なく、それは次くらいです (私見)。
+<ul>
+<li>&lt;LISTING&gt;
+<li>&lt;PLAINTEXT&gt;
+<li>&lt;PRE&gt;
+<li>&lt;SCRIPT&gt;
+<li>&lt;SERVER&gt;
+<li>&lt;STYLE&gt;
+<li>&lt;TD&gt;
+<li>&lt;TEXTAREA&gt;
+<li>&lt;TH&gt;
+<li>&lt;XMP&gt;
+</ul>
+<li>各タグごとの%tagsElementsの順序は、$sequencialTagsで$omitStartTagsのときに意味を持ちます。その順序で開始タグが省略されていないか調べるからです。
+<li>ラテン文字などに対する外部実体宣言は、("-//W3C//ENTITIES Special//EN//HTML" のような) 代表的なものだけが読み込まれています。もし、読み込まれていない場合は、%refEntitiesに含まれていません。必要ならば追加します。
+<li>いくつかの薦められない要素などの情報は、ふたつの規則ファイル (HTML.DeprecatedがINCLUDEなものとIGNOREのもの) を作ってから調べることができます。
+<pre class="pre-sample">    perl parsedtd.pl -d include.rul ignore.rul</pre>
+この出力を include.rul に適当に埋め込みます。
+<li>common.rulは、他の規則ファイルの不備を補うもので、新しい規則ファイルを作ったときはこのファイルの変更も必要です。他の規則ファイルよりも先に読み込まれます。
+<li>common.rulの%doctypesに各DOCTYPEに関する情報を定義します。この連想配列のキーに<code>.rul</code>を付けたものが規則ファイルの名前になります。手抜きをしているので、htmllintのヘルプはこれに連動していません。
+</ol>
+<p>
+以上で規則ファイルの追加作業は終わりです。規則ファイルは htmllint と同じディレクトリに置くか、htmllint.env で指定されたディレクトリに置きます。
+</p>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/rulefile.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Jul 07, 2005<br>
+Created: Jun 19, 1997
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./use-htmllint.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./download.html">next</a>]
+</div>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+# Another HTML-lint 環境ファイル
+#   ***ファイル名は htmllint.env に改名してください***
+#   このファイルは htmllint.cgi、tagslist.cgi が読み込みます。
+#   htmllint.pm も、このファイルがあれば読み込みますが、なくても動作します。
+#   アクセス権をうまく工夫して、他人から見えないようにしてください。
+
+# CGI 用ディレクトリ (絶対パスかCGI相対パスで指定、なるべく絶対パスにしてください)
+$RULEDIR  = './';        # 規則ファイルの場所
+#$LOGSDIR = './logs/';   # ログファイルの場所 (不要ならコメントアウト)
+$TMPDIR   = '/tmp/';     # テンポラリファイルの場所
+$IMGDIR   = './';        # イメージファイルの場所
+$TAGSLIST = '';          # タグ一覧キャッシュ用の場所 (空ならキャッシュしない)
+                         # 設定するときはアクセス権を適当に与えておくこと
+
+# HTML 用ディレクトリ (CGI が出力する HTML 中で使う)
+$HTMLDIR    = './';                     # HTMLファイルの場所
+$GATEWAYURL = $HTMLDIR.'htmllint.html'; # ゲイトウェイサーヴィス HTML
+$EXPLAIN    = $HTMLDIR.'explain.html';  # 解説用 HTML (HTML用)
+$CGIROOT    = $HTMLDIR;                 # CGIの場所
+$IMGROOT    = $HTMLDIR;                 # イメージファイルの場所
+
+# インクルードパスの追加
+unshift @INC, '.', $RULEDIR;
+
+# デフォルト規則ファイル (Windows/Macでは . から始まるファイルは無効)
+$HTMLLINTRC = '.htmllintrc';
+
+# HTMLファイル拡張子 (正規表現)
+$HTMLEXT = 'html?|[sp]ht(ml?)?';
+
+# index.html (正規表現)
+$INDEXHTML = "index\\.($HTMLEXT)";
+
+# 検査除外ドメイン (不要ならコメントアウト)
+# IPで指定するときは 192.168.1.64/26 のようにマスク指定ができます
+# IP末尾が 0 の場合、例えば 192.168.0.0/16 のとき /16 は不要です
+# 名前指定だけのとき、対応するIPが素通りしてしまうことに注意してください
+# IPで指定する場合は、適用条件を書くことができます
+# 例えば、192.168.1.0/24 にあるページは 192.168.1.0/24 以外から
+# チェックさせたくない場合は、192.168.1.0/24!192.168.1.0/24 と書くことができます
+# また、192.168.1.0/24 のページを 192.168.1.64/26 から検索させたくない場合は
+# 192.168.1.0/24*192.168.1.64/26 と書くことができます
+# IP指定は他のドメイン指定の配列にも書くことができます
+#@EXCEPTDOMAINS = qw(uso800.ac.jp);
+
+# 検査非除外ドメイン (不要ならコメントアウト)
+# @EXCEPTDOMAINSでひっかかっても、ここで指定してあるドメインは非除外となります
+#@PERMITDOMAINS = qw(fake.uso800.ac.jp www.uso800.ac.jp);
+
+# プライヴェートIPを許す (禁止するときコメントアウト)
+#$PERMITPRIVATEIP = 1;
+
+# LWP や Jcode.pm の使用を制限する (制限したいときコメントを外す)
+#$NOUSELWP = 1;
+#$NOUSEJCODE = 1;
+
+# httpreq.pl/LWP 用 HTML の限界サイズ (KB) (0 は無制限)
+$MAXHTMLSIZE = 512;
+
+# httpreq.pl/LWP 用タイムアウト時間 (秒) (既定値 180秒)
+#$TIMEOUT = 3*60;
+
+# httpreq.pl/LWP 用プロキシサーバ (不要ならコメントアウト)
+#$HTTP_PROXY = 'firewall:8080';
+
+# httpreq.pl/LWP 用ノープロキシドメインリスト (不要ならコメントアウト)
+#@HTTP_NOPROXY = qw(noproxy domain names list);
+
+# htmllint.cgi でローカルファイルも取得できるようにする (不要ならコメントアウト)
+# 取得できるファイルは、クライアント上のファイルではなくてサーバ上のファイルを
+# 指すことに注意してください (つまり、ローカルファイルというのは不正確です)
+# したがって、この指定は、***ローカルなサーバ以外ではセキュリティ上危険です***
+# この指定により、file:// で始まるプロトコルを URL に指定できるようになります
+# ブラウザは、これをクライアント上のファイルとして取得しますが、ここではサーバ上
+# のファイルとして取得するので注意してください
+# Windows上のサーバでは、C: のようなドライブ名から始まるファイル名も記述できます
+#$GETLOCALFILE = 1;
+
+# CGI が出力する HTML の漢字コードの既定値 (コメントアウトしても可)
+#$KANJICODE = 'JIS';    # JIS/EUC/SJIS/UTF8 のいずれか
+
+# Lynx (不要あるいは未実装ならコメントアウト)
+#$LYNX = '/usr/local/bin/lynx -dump -nolist -force_html';
+
+# w3m (不要あるいは未実装ならコメントアウト)
+#   カラー機能のない場合 -M の指定は不可
+#   -e は EUC、Shift JIS なら -s
+#$W3M = '/usr/local/bin/w3m -dump -T text/html -M -e';
+
+# 得点記録用ログファイル (不要ならコメントアウト)
+#   # の部分は年月に置き換わります
+#$SCOREFILE    = "${LOGSDIR}score#.log";
+#$SCORECOUNTER = "${LOGSDIR}score.cnt";
+
+# 警告の統計用ログファイル (不要ならコメントアウト)
+#   # の部分は年月に置き換わります
+#$STATFILE = "${LOGSDIR}statistics#.log";
+
+# 得点記録除外ドメイン (不要ならコメントアウト)
+#@EXCEPTSCORES = qw(uso800.ac.jp);
+
+# Muquit's Access Counter CGI (不要あるいは未実装ならコメントアウト)
+#$COUNTER = '/usr/local/www/cgi-bin/Count.cgi';
+
+# ビジーチェック関数
+# sub BusyCheck {
+#   何かごにょごにょ行なって、lint したくないとき空でない次のような *文字列* を返す
+#     q|ただいま大変混雑しております。もうしばらくしてからチェックしてください。|;
+#   空文字列や 0 を返すと lint を行なう
+#   当然だが正しい Perl スクリプトであること
+#   例えば次のようなもの
+#   my $ps = `ps -axw`; または `ps -efA`; など
+#   my $cnt = 0;
+#   $cnt++ while $ps =~ m#/htmllint/htmllint.cgi#og;
+#   ($cnt >= 100)? '混雑してます': '';
+# }
+
+# 後始末関数
+#sub EndProc {
+#    htmllint.cgi の END{} 内で呼ばれる
+#}
+
+1;

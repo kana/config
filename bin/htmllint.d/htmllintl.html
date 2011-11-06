@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<meta name="Description" content="Another HTML-lint">
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<title>Another HTML-lint gateway</title>
+
+<script type="text/javascript"><!--
+var MSIE = navigator.userAgent.indexOf("MSIE");
+var noClear;
+if (MSIE != -1) {
+  MSIE += 5;
+  var c = navigator.userAgent.charAt(MSIE);
+  MSIE = (c < "0" || c > "9")? 0:
+      parseInt(navigator.userAgent.substring(MSIE, navigator.userAgent.length));
+  noClear = (MSIE < 4);
+} else {
+  MSIE = noClear = 0;
+}
+
+// クリアの   "ア" のJISコードは 2522 なので 'ア' とする必要がある。
+// チェックの "ェ" のJISコードは 2527 なので "ェ" とする必要がある。
+// 項目の     "目" のJISコードは 4C5C である。
+// ボタンの   "ボ" のJISコードは 255C である。
+// JISでは全角半角の間にエスケープが入るので "ボ\" としてもうまくいかない。
+function GuideText()
+{
+  if (!noClear) document.writeln('[クリア] はそれぞれの内容を消去します。');
+}
+
+function ClearButton(name)
+{
+  if (noClear) return;
+  var obj = "document.forms[0].elements['"+name+"']";
+  document.writeln('　<input type=button onclick="',
+                    obj, ".value = ''; ",
+                    obj, '.focus()" value="クリア">');
+}
+//-->
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">full</a>]
+[<a href="./htmllinte.html">dynhtml</a>]<!--*-->
+</div><hr>
+<h1><span>Another HTML-lint gateway</span></h1>
+
+<table summary="toc" width="100%" border="0">
+<tr><td><div align="center"><h2>HTML文書の文法をチェックし、採点します</h2>
+<span class="version">htmllint.cgi ver1.23 / htmllint.pm ver3.46</span>
+</div></td><td><div align="right">
+<a href="./index.html">Another HTML-lint について</a><br>
+<a href="./explain.html">結果の解説</a><br>
+<!--a href="./statistics.html">統計情報</a><br-->
+<a href="./tagslist.html">タグ一覧</a><br>
+<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a><br>
+<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllintl.html">プライマリサイト</a></div></td></tr>
+</table>
+
+<p>
+<strong>文法しか採点しません</strong>。<strong>内容の良し悪しは採点されません</strong>。<strong>結果に疑問を感じたら必ず<a href="./explain.html">結果の解説</a>を読んでください</strong>。<a href="http://homepage1.nifty.com/VET06031/web/lint100.html">満点で慢心しないでください</a>。<br>
+このページは、基本的な設定だけの軽いゲートウェイです (軽いのはこのHTMLのことで、チェック自体はどれでも同じです)。細かなオプションを指定したいときは、<a href="./htmllint.html">こちらのゲートウェイ</a>を利用してください。
+</p>
+
+<form action="./htmllint.cgi" method="post" enctype="multipart/form-data">
+<input type="hidden" name="Stat" value="on">
+
+<hr>
+<p>
+チェックしたいHTMLのURLを指定するか、HTMLを下のテキスト領域に直接記述して、[チェック] ボタンを押してください。巨大なHTMLは途中でちょん切られてしまうことがあります。
+[リセット] は全ての設定内容を初期状態に戻します。
+<script type="text/javascript">
+<!--
+GuideText();
+//-->
+</script>
+</p>
+<p>
+　<input type="submit" value="チェック" accesskey="C">
+　<input type="reset"  value="リセット" accesskey="R">
+</p>
+
+<dl>
+<dt><input type="radio" name="Method" value="URL" id="MethodURL" accesskey="M" checked><label for="MethodURL"><strong>URL</strong></label>
+<dd><input type="text" name="URL" accesskey="U" size="60" value="http://">
+<script type="text/javascript">
+<!--
+ClearButton("URL");
+//-->
+</script>
+
+<dt><input type="radio" name="Method" value="Data" id="MethodData" accesskey="M"><label for="MethodData"><strong>DATA</strong></label> (DATA領域指定では<a href="./explain.html#charset-mismatch">文字コードの一致性</a>はチェックできません)
+<dd><textarea name="Data" accesskey="D" cols="60" rows="10">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+<script type="text/javascript">
+<!--
+ClearButton("Data");
+//-->
+</script>
+
+<dt><input type="radio" name="Method" value="File" id="MethodFile" accesskey="M"><label for="MethodFile"><strong>FILE</strong></label> (あまり大きなファイルは受け付けません/Internal Server Error となります。日本語を含むファイル名はチェックできないことがあります)
+<dd><input type="file" name="File" accesskey="F" size="60">
+</dl>
+
+<p>
+<input type="checkbox" value="on" name="ViewSource" id="ViewSource" accesskey="S" checked>
+<label for="ViewSource">チェックしたHTMLを行番号付きで表示します。</label><br>
+<input type="checkbox" value="on" name="Pedantic" id="Pedantic" accesskey="P">
+<label for="Pedantic">すべてのチェックを有効にします</label>。<br>
+<input type="checkbox" value="on" name="NoReligious" id="NoReligious" accesskey="G">
+<label for="NoReligious">宗教的なチェックをすべて無効にします</label>。<br>
+<input type="checkbox" value="on" name="NoAccessibility" id="NoAccessibility" accesskey="A">
+<label for="NoAccessibility"><a href="./explain-wai.html">WAI Content Accessibility Guidelines</a> に示されている軽度のチェックを無効にします</label>。<br>
+<input type="hidden" value="on" name="OtherWindow">
+</p>
+<p>
+テキストベースブラウザでの見え方の表示
+　<input type="radio" name="TextView" value="no"   id="TextViewNo" checked><label for="TextViewNo">なし</label>
+　<input type="radio" name="TextView" value="lynx" id="TextViewLynx"><label for="TextViewLynx">lynx</label>
+　<input type="radio" name="TextView" value="w3m"  id="TextViewW3m"><label for="TextViewW3m">w3m</label>
+</p>
+
+</form>
+
+<hr>
+
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllintl.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Apr 10, 2008<br>
+Created: Oct 15, 1997
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">full</a>]
+[<a href="./htmllinte.html">dynhtml</a>]
+</div>
+
+</body>
+</html>

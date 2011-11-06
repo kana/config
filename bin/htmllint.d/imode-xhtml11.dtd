@@ -1,0 +1,9 @@
+<!--===== HTML Document Type Definition NTT DoCoMo iMode XHTML 1.1 ========-->
+
+<!--                  THIS IS EXPERIMENTAL by k16                          -->
+
+
+<!ENTITY % iXHTML.11 "INCLUDE" -- 2004/03/11 -->
+
+<!ENTITY % imode-xhtml.dtd SYSTEM "imode-xhtml.dtd">
+%imode-xhtml.dtd;

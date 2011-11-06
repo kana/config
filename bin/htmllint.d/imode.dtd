@@ -1,0 +1,8 @@
+<!--========== HTML Document Type Definition NTT DoCoMo iMode =============-->
+
+<!--                  THIS IS EXPERIMENTAL by k16                          -->
+
+
+<!ENTITY % iMode.10 "INCLUDE">
+<!ENTITY % CompactHTML.dtd SYSTEM "compact-html.dtd">
+%CompactHTML.dtd;

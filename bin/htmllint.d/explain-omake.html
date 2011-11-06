@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<meta name="Description" content="Another HTML-lint">
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="prev" href="./explain-wai.html">
+<title>Another HTML-lint : Explanation OMAKE</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./explain-wai.html">prev</a>]
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]<!--*-->
+[next]
+</div><hr>
+<h1><a name="top"><span>Another HTML-lint</span> 結果の解説 おまけ</a></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right">目次　<br></th><td><a href="./explain-score.html">点数について</a>　　　</td><td align="right">　<a href="./index.html">Another HTML-lint について</a></td></tr>
+<tr><td></td><td><a href="./explain.html">エラーについて</a>　　</td><td align="right">　　　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./explain-wai.html">アクセス性について</a></td><td align="right">　　　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./explain-omake.html">おまけ</a>　　　　　　</td><!--td align="right">　　　　　　　　　　<a href="./statistics.html">統計情報</a></td--></tr>
+<tr><td></td><td>　　　　　　　　　</td><td align="right">　　　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-omake.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="omake">おまけ</a></h2>
+<p>好ましくないHTMLなんだけど、Another HTML-lint では検出できないケースというのはたくさんあります。いくつか紹介しますが、どうもこういう話を始めると宗教色が濃くなってしまって、あまりよろしくありません。すべて私の主観的なものなので、話半分で聞いといてください。</p>
+
+<blockquote class="caution">
+注意: ここの内容もずいぶんと古臭くなってしまった気がします。だいたい 1998〜1999 頃に書かれた記事です。その積もりで読んでください。
+</blockquote>
+
+<ol class="omake">
+<li><p class="omake"><strong>全角空白をインデントを揃える目的に多用する。</strong></p>
+<div class="omakenav"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<p>次のように箇条書きなんかするときに使われます。□は全角空白のことね。</p>
+<pre class="pre-sample">    次のような原因が考えられます。&lt;BR&gt;
+    □□あそこがああだったから、ここがこうなってどうたらこうたら・・・&lt;BR&gt;
+    □□上司が怠慢だったから部下がふてくされてああなってこうなって・・・&lt;BR&gt;</pre>
+<pre class="pre-sample">    日時：□□□平成９年８月１５日（金曜日）午前２時&lt;BR&gt;
+    場所：□□□山奥寺墓地&lt;BR&gt;
+    雨天の場合：庫裏で行ないます&lt;BR&gt;
+    連絡先：□□山奥寺株式会社、担当ねずみ男&lt;BR&gt;</pre>
+<p>ちょうどいいインデントをHTMLに要求するのは無理なことです。これらの例ではウィンドウの幅が狭くなったときなど見にくいでしょうね。こういうのは例えば、素直に次のように書けばいいんです。もっと細かく設定したければスタイルシートを使うことになるでしょう。</p>
+<pre class="pre-sample">    &lt;DL&gt;
+    &lt;DT&gt;次のような原因が考えられます。
+    &lt;DD&gt;あそこがああだったから、ここがこうなってどうたらこうたら・・・
+    &lt;BR&gt;上司が怠慢だったから部下がふてくされてああなってこうなって・・・
+    &lt;/DL&gt;</pre>
+<pre class="pre-sample">    &lt;TABLE&gt;
+    &lt;TR&gt;&lt;TD&gt;日時：&lt;TD&gt;平成９年８月１５日（金曜日）午前２時&lt;/TR&gt;
+    &lt;TR&gt;&lt;TD&gt;場所：&lt;TD&gt;山奥寺墓地&lt;/TR&gt;
+    &lt;TR&gt;&lt;TD&gt;雨天の場合：&lt;TD&gt;庫裏で行ないます&lt;/TR&gt;
+    &lt;TR&gt;&lt;TD&gt;連絡先：&lt;TD&gt;山奥寺株式会社、担当ねずみ男&lt;/TR&gt;
+    &lt;/TABLE&gt;</pre>
+<p>WWWブラウザのフォント設定で、日本語の等幅フォントが設定されていないこともあります。多くの人がインストールしたままの状態でWWWブラウザを使用していることは大いに考えられます。</p>
+
+<li><p class="omake"><strong>何でもかでも <code>&lt;PRE&gt;</code>〜<code>&lt;/PRE&gt;</code> で囲む。</strong></p>
+<div class="omakenav"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<p>何でわざわざ <code>&lt;PRE&gt;</code> にしなきゃならんのかよくわからないケースが多いです。どうも全角文字は半角文字の２倍の幅でなきゃならん、とかいう先入観があったりするからなのかなぁ、とも思います。また、プロポーショナルより等幅の方が美しくレイアウトされます、などと公言しているHTML指南サイトもあったりするからやになっちゃいます。原稿用紙をイメージしてあえてそのようにした、という優れた応用もあるのですが、ほとんどは <code>&lt;PRE&gt;</code> にする必然性のないことが多いです。本当に <code>&lt;PRE&gt;</code> でなきゃだめなのかもう一度よく考えましょう。少ない文字数で強制的に改行されている文章は、低い解像度ではあまり気になりませんが、高解像度では間が抜けているものです。<br>
+全角半角混じりだと、うまく桁合わせができないから <code>&lt;PRE&gt;</code> で済ます、というのも多いです。</p>
+<pre class="pre-sample">    &lt;PRE&gt;
+    □□電話□03-5678-9XXX
+    □□FAX □03-8765-4XXX
+    &lt;/PRE&gt;</pre>
+<p>とかやるんですが、あなたの環境でちょうど揃って美しくレイアウトされているからといって、別の人の環境でもそうなる保証はどこにもありません。</p>
+<p>また、もともとの原稿が固定幅で改行されているものをHTML化するときに、<code>&lt;PRE&gt;</code> で囲んじまえば相当手抜きができます。ページの端から端までひとつの <code>&lt;PRE&gt;</code> なんてのもあります。<!--http://www.ed.noda.sut.ac.jp/~j6397038/post256.html 97/09/30--></p>
+
+<li><p class="omake"><strong>句読点など無視して、全行を <code>&lt;P&gt;</code>〜<code>&lt;/P&gt;</code> で囲む。</strong></p>
+<div class="omakenav"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<p>実際にあった(今もある)んですが、最初、とある財団法人のページ<!-- http://www.place.or.jp/ 97/09/30 -->はタグのひとつもないプレーンなテキストでした。原稿は何かのワープロで作ったんでしょう。文章は 40文字程度のところで一律に改行でぶち切られています。HTMLでは改行はただの空白になったり無視されたりするので、WWWブラウザで見ると全行が繋がって見えます。しばらくすると、そのことに気付いたらしく、全行の頭に <code>&lt;P&gt;</code>、お尻に <code>&lt;/P&gt;</code> が書かれていました。<code>&lt;PRE&gt;</code> で全部を囲む智恵はなかったと思われます。一応、<code>&lt;HEAD&gt;</code> などのタグも付けられてはいました。HTMLとしては正しいんだけど、こんなのは厳しく減点したいものです。</p>
+
+<li><p class="omake"><strong>インデントを揃えたいがために、でかい <code>&lt;TABLE&gt;</code> を作る。</strong></p>
+<div class="omakenav"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<p><code>&lt;TABLE&gt;</code> を利用して多段組をやっているページのことです。<code>&lt;TABLE&gt;</code> の応用としては正しいんだけど、ちょっとWWWブラウザの負荷が大きいですよね。なにしろTABLE全部評価し終わらないと表示を開始できないんですもの。</p>
+
+<li><p class="omake"><strong>クリッカブルマップしかないページ。</strong></p>
+<div class="omakenav"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<p>こんなのはお話になりませんね。何考えてるんでしょう。文章をわざわざイメージファイルにしてあるようなやつは最低だな<!-- http://www.jhd.go.jp/ の潮干狩りカレンダーなど -->。いや、スキャナで撮って無加工で貼り付けるだけだから、わざわざというのは当たらないか。</p>
+
+<li><p class="omake"><strong>不用意に改行を入れる。</strong></p>
+<div class="omakenav"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<p>HTMLを普通のテキストエディタで書くことは多いでしょう。エディタによっては長い行が扱えないために、途中で改行せざるを得ないものも多いです。HTMLでは改行は空白なので、改行した部分は分かち書きされたとみなされます。つまり、隙間が空きます。改行は無視されるわけではありません。</p>
+<pre class="pre-sample">    こういう長い文章が途中で切れてい
+    るとそこには隙間が空くのですよ。</pre>
+<p>なんて原稿では、「い」と「る」の間に空白が入ります。<!--現在の-->日本語には分かち書きの習慣はないので、無意識に切ってしまうのだと思いますが、WWWブラウザが表示するのは日本語だけではありません。英単語の word を wo と rd の間で改行する人はいません(たぶん)。改行するなら、句読点の後とか、語の切れ目とか、そういう場所でしてもらいたいものです。<br>
+これは、LynxなどテキストベースのWWWブラウザをふだん使っている人のHTMLに多く見られる傾向です。テキストベースWWWブラウザでは、フォントは等幅で表示桁も固定なので、いつも決まった場所で改行されます。HTMLもそれに合わせて改行していることが多いようです。<!--多くのHTMLがテキストベースWWWブラウザに対する配慮が足りない、と口を酸っぱく言う割りには、自分のHTMLを棚に上げていると言えます。--><br>
+しかし、<a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2070.txt">RFC2070</a>には、ユーザエージェント(WWWブラウザのこと)は改行文字をスクリプト(英語とか日本語とかの表記のこと)に応じて適切に扱うように、と書かれています。日本語は分かち書きしないので、不要な改行はWWWブラウザが適切に無視すべきなのです。現実のWWWブラウザでそこまで処理しているのは、ごく一部ですがあるようですので、今後対応が進むことが期待されます。「本来WWWブラウザがやるべき仕事だからおれはそんなしちめんどうな本末転倒のことはやらない」というスタンスももっとも(わがままとも言える)なのですが、可能ならば、空白が入ってしまうWWWブラウザを使っている多くの人々のことを考えてあげてもいいのではないでしょうか。</p>
+<p>矢野啓介氏の「<a href="http://www.asahi-net.or.jp/~wq6k-yn/kaigyo.html">HTML文書中の改行文字について</a>」も参考にしてください(注意:このページはスタイルシートの仕様を守って書かれていますがWWWブラウザの実装状況をまるで無視しているため、MSIE4以外のブラウザではスタイルシートの機能を外さないと正しく閲覧できません。改行がテーマの文書なのに、改行されるべきところで改行されないため、文意が損なわれてしまいます。1998/12)。ただし、わたしはこの30〜35文字程度で改行しましょうという考えには賛成しません。どこで改行するかは読み手にまかせるべきで、書き手に30〜35文字で改行するように勧めるべきではないと考えています(ここで言う改行とは、ページ端での行替えのことで、段落などのことではありません)。</p>
+<ol type="a">
+<li>日本語(によるスクリプト)は分かち書きしない?
+<p>改行を空白で置き換えることは、分かち書きされる英語などの場合は自然な動きです。<br>
+日本語で改行を無視するというのは、日本語が分かち書きされないという前提に立った話です。現実には日本語を(それがいいか悪いかは別として)分かち書きすることがあります。表現手段として利用するのです。<br>
+分かち書きされる日本語を考えた場合、改行を無視するというのはうまくありません。つまり、分かつ場所で改行してしまうと、繋がってしまうからです。分かち書きはないというのなら、文中の空白も無視すべきでしょう。しかし、それではあまりにも自由な表現を奪ってしまいます。<br>
+文中の空白は捨てないけれども改行は無視するというのは、折中案としてはそこそこいい線行ってますが、所詮は限られた環境で有効な方法でしかありません。</p>
+<p>他のスクリプトを混在させる場合、<a href="./explain-wai.html#4.1">LANG属性による明示が薦められています</a>。</p>
+<pre class="pre-sample">    日本語に含まれる &lt;SPAN lang="en"&gt;English&lt;/SPAN&gt; もある。</pre>
+<p>このとき、SPAN前後の空白は分かち書きの区切りです。</p>
+<pre class="pre-sample">    日本語に含まれる
+    &lt;SPAN lang="en"&gt;English&lt;/SPAN&gt; もある。</pre>
+<p>のように改行したら分けてくれないことになります。空白をSPANの中に入れることも考えられます。</p>
+<pre class="pre-sample">    日本語に含まれる&lt;SPAN lang="en"&gt; English &lt;/SPAN&gt;もある。</pre>
+<p>しかし、このような書き方は<a href="./explain.html#container-whitespace">HTML4.0では薦められていません</a>。</p>
+<li>行あたり 35文字程度が読み易い?
+<p>行あたり 35文字というのは、印刷物としての紙(または本)というメディアを前提としています。コンピュータのディスプレイなどにそのまま応用していいものではありません。書き手が読み手に対してどうしても 35文字を主張するなら、そのように整形した文書を提示すればよいのです。HTMLでそのようにすることは可能です。ちなみに、文庫本は 42字程度、新聞は 12字程度で折り返されますが、そこに改行が入っているわけではありません。<br>
+また、書き手が改行を含めてテキストを書くかどうかは好き好きなので、１行が 1000文字に渡るのはけしからんというのはおかしな話です。少なくとも、改行でぶち切られたテキストを、再利用しようと思ったら、不要な改行を取り除く作業が不可欠なわけです。そして、どれが不要かを判断するのは、結局文章を読まないと*絶対に*わかりません。</p>
+<li>悪いのはブラウザだからHTMLに手を入れる必要はない?
+<p>正論です。ですが手前勝手です。ほんのちょっとした努力で、*今現在の*多くの利用者に益があるのですから、そうしてあげればいいでしょう。文法違反を犯すわけではありません。いつ改訂されるかわからない未来のブラウザに期待して(あるいは改訂を働きかけるにしても)あぐらをかいていていいとは思いません。<br>
+多くのHTMLライタは、自分では使いもしないテキストベースのブラウザのことや、障碍者のことを考えてさまざまな工夫を凝らしています。仕様どおり書けば自動的にそうなるものでもありません(<a href="./explain-wai.html">WAIのガイドラインに沿えば</a>そうなります)。もっと普通の利用者の便も図ってあげましょう。<br>
+単純に、ブラウザの問題で片付けてしまうのは、ブラウザを限定することと同じです。<br>
+ちなみに<a href="http://www.w3.org/TR/REC-xml">XML1.0</a>では改行は空白扱いです。</p>
+</ol>
+<!--改行を入れて整形された文書を編集しようとして、何か文字を入れたり削ったりすれば、整形はくずれてしまい、1行を35文字に揃えるための再整形を余儀なくされます。
+また、ヴューワなどが改行を自動的に削除できるか否かという問題では、ちょうど35文字目に句点がある場合、書き手がそこで本当に改行したいのか否かは判断できません。つまり、書き手の意図したとおりに改行をきちんと削除することは*不可能*です。日本語中で英語を引用するような場合はもっと複雑です。スクリプトを明示するようなタグを入れればいいなどという、親切な助言はすべきではありません。規則が単純明快なのが利用者にとってありがたいのは明白です。日本語のときはこうこうこういうときに改行が無視され、無視されないのはこういう条件を満たしたときで、英語では改行は空白になる。アラビア語では云々、などという複雑な規則はありがたくありません。単純に改行は空白と等価、となっていれば、書き手の負担はほとんどありません。-->
+<p>テキストに不要な改行は入れないようにしましょう。30や35文字で切らざるを得ない環境ならばいざ知らず、現在のGUI環境にあるエディタでは、途中に改行を入れないことの方が普通です。1行35文字にしたければ、ウィンドウの幅をそうすればいいだけです。嬉しいことに、多くのテキストエディタは禁則処理も行なってくれるので、句読点が行頭に行ったりすることもありません。読み手に35文字改行を要求するなら、そのようなHTMLを書いてください。</p>
+<p>余談ですが、<a href="http://www.ncsa.uiuc.edu/SDG/Software/Mosaic/">NCSA Mosaic</a> では、行末にかかった日本語などの多バイト文字の追い出しがうまくないことがあるようで、そんなとき横スクロールバーが出てしまうようです。それを嫌って、余分な空白や改行を入れて調整したりすることがあるそうです<!-- 崎山百恵 -->。</p>
+
+<li><p class="omake"><strong>スタイルシートでフォントファミリを指定する。</strong></p>
+<div class="omakenav"><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a></div>
+<p>スタイルシートは、WWWブラウザの対応が追い付いていないとはいえ、利用しているページは多くなってきました。これらのページの作者は、MSIEでは見えるか、Mozillaではどうかといろいろ腐心されているかと思います。しかし、日本語に対してフォントファミリを指定するのは時期尚早のような気がします。うまく表示できる環境ももちろんありますし、そういう環境が増えるであろうことは明白です。しかし、現在のMacintoshのMozillaではうまくありません。いつまでたっても(4.5でも)改善されないので、あえて書くことにしました。MacのMozillaでは、フォントファミリが指定されていると、欧文フォントで処理されてしまい、文章を全く判読できなくなってしまいます。MSIE4.0は大丈夫なのですが、利用者の多さを考えると、無視するわけにもいかない気がします。自身がMacユーザなら気付いているでしょうから、Macを利用できる環境にない作者なので、気が付かなくて当然なのですが。<br>
+<em>最近(2002)のMozillaには、この内容を適用することはできませんのでご注意を</em>。</p>
+
+</ol>
+
+<p><a href="#top"><img src="./top.gif" width="12" height="12" border="0" align="right" alt="top"></a><br clear="all"></p>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-omake.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Apr 04, 2007<br>
+Created: Jul 17, 1997
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./explain-wai.html">prev</a>]
+[<a href="./index.html">about</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[next]
+</div>
+
+</body>
+</html>

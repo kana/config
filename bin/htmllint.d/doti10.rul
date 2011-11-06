@@ -1,0 +1,240 @@
+# TTNet doti 1.0
+
+#======= ELEMENTS =======
+$emptyTags = 'BASE|BR|EMBED|HR|IMG|INPUT|META';
+$pairTags = 'A|B|BLINK|BLOCKQUOTE|BODY|CENTER|DD|DIR|DIV|DL|DT|FONT|FORM|H1'.
+            '|H2|H3|H4|H5|H6|HEAD|HTML|I|LI|MARQUEE|MENU|OL|OPTION|P'.
+            '|PLAINTEXT|PRE|SELECT|TEXTAREA|TITLE|UL';
+$deprecatedTags = '';
+$omitStartTags = 'BODY|HEAD|HTML';
+$omitEndTags = 'BODY|DD|DT|HEAD|HTML|LI|OPTION|P';
+#$maybeEmpty = 'A|B|BLINK|BLOCKQUOTE|BODY|CENTER|DD|DIV|DT|FONT|FORM|H1|H2|H3'.
+#              '|H4|H5|H6|I|LI|MARQUEE|OPTION|P|PLAINTEXT|PRE|TEXTAREA|TITLE';
+$maybeEmpty = 'PLAINTEXT|PRE|TEXTAREA';
+%requiredTags = (
+  'HEAD' => 'TITLE',
+  'HTML' => 'HEAD|BODY',
+);
+%onceonlyTags = (
+  'HEAD' => 'TITLE|BASE',
+  'HTML' => 'HEAD|BODY',
+);
+$sequencialTags = 'HTML';
+%tagsElements = (
+  'A'          => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|#PCDATA',
+  'B'          => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'BLINK'      => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'BLOCKQUOTE' => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK'.
+                  '|BR|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'BODY'       => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK'.
+                  '|BR|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'CENTER'     => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK'.
+                  '|BR|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'DD'         => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK'.
+                  '|BR|IMG|A|#PCDATA',
+  'DIR'        => 'LI',
+  'DIV'        => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK'.
+                  '|BR|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'DL'         => 'DD|DT',
+  'DT'         => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'FONT'       => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'FORM'       => 'HR|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL|UL|P'.
+                  '|B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'H1'         => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'H2'         => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'H3'         => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'H4'         => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'H5'         => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'H6'         => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'HEAD'       => 'TITLE|BASE|META',
+  'HTML'       => 'HEAD|BODY',
+  'I'          => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'LI'         => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK'.
+                  '|BR|IMG|A|#PCDATA',
+  'MARQUEE'    => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'MENU'       => 'LI',
+  'OL'         => 'LI',
+  'OPTION'     => '#PCDATA',
+  'P'          => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|A|#PCDATA',
+  'PLAINTEXT'  => '%literal',
+  'PRE'        => 'B|I|TEXTAREA|SELECT|INPUT|EMBED|FONT|MARQUEE|BLINK|BR|A'.
+                  '|#PCDATA',
+  'SELECT'     => 'OPTION',
+  'TEXTAREA'   => '#PCDATA',
+  'TITLE'      => '#PCDATA',
+  'UL'         => 'LI',
+);
+%excludedElems = (
+  'A'    => 'A',
+  'DIR'  => 'P|UL|OL|DIR|MENU|PRE|PLAINTEXT|DL|DIV|CENTER|BLOCKQUOTE|FORM|HR',
+  'FORM' => 'FORM',
+  'MENU' => 'P|UL|OL|DIR|MENU|PRE|PLAINTEXT|DL|DIV|CENTER|BLOCKQUOTE|FORM|HR',
+  'PRE'  => 'IMG',
+);
+%includedElems = (
+  'HEAD' => 'META',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'ACCESSKEY' => '%Character',
+    'HREF'      => '%URL',
+    'NAME'      => 'CDATA',
+  },
+  'BASE' => {
+    'HREF' => '%URL',
+  },
+  'BODY' => {
+    'ALINK'      => '%color',
+    'BACKGROUND' => '%URL',
+    'BGCOLOR'    => '%color',
+    'LINK'       => '%color',
+    'TEXT'       => '%color',
+  },
+  'BR' => {
+    'CLEAR' => 'LEFT|ALL|RIGHT|NONE',
+  },
+  'DIV' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'EMBED' => {
+    'SRC' => '%URL',
+  },
+  'FONT' => {
+    'COLOR' => '%color',
+    'SIZE'  => '1|2|3|4|5|6|7',
+  },
+  'FORM' => {
+    'ACTION' => '%URL',
+    'METHOD' => 'GET|POST',
+  },
+  'H1' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H2' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H3' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H4' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H5' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H6' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'HR' => {
+    'ALIGN'   => 'LEFT|RIGHT|CENTER',
+    'COLOR'   => '%color',
+    'NOSHADE' => 'NOSHADE',
+    'SIZE'    => '%Pixels',
+    'WIDTH'   => '%Length',
+  },
+  'IMG' => {
+    'ALIGN'  => 'TOP|MIDDLE|BOTTOM|LEFT|RIGHT',
+    'ALT'    => 'CDATA',
+    'BORDER' => '%Pixels',
+    'HEIGHT' => '%Length',
+    'HSPACE' => '%Pixels',
+    'SRC'    => '%URL',
+    'VSPACE' => '%Pixels',
+    'WIDTH'  => '%Length',
+  },
+  'INPUT' => {
+    'ACCESSKEY' => '%Character',
+    'ASTYLE'    => '1|2|3|4',
+    'CHECKED'   => 'CHECKED',
+    'MAXLENGTH' => 'NUMBER',
+    'NAME'      => 'CDATA',
+    'SIZE'      => 'CDATA',
+    'TYPE'      => 'TEXT|PASSWORD|CHECKBOX|RADIO|HIDDEN|SUBMIT|RESET',
+    'VALUE'     => 'CDATA',
+  },
+  'MARQUEE' => {
+    'BEHAVIOR'  => 'SCROLL|SLIDE|ALTERNATE',
+    'DIRECTION' => 'LEFT|RIGHT',
+    'LOOP'      => '%Loop',
+    'WIDTH'     => '%Length',
+  },
+  'META' => {
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'NAME',
+    'NAME'       => 'NAME',
+  },
+  'OL' => {
+    'START' => 'NUMBER',
+    'TYPE'  => '%OLStyle',
+  },
+  'OPTION' => {
+    'SELECTED' => 'SELECTED',
+    'VALUE'    => 'CDATA',
+  },
+  'P' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'SELECT' => {
+    'MULTIPLE' => 'MULTIPLE',
+    'NAME'     => 'CDATA',
+    'SIZE'     => 'NUMBER',
+  },
+  'TEXTAREA' => {
+    'ASTYLE' => '1|2|3|4',
+    'COLS'   => 'NUMBER',
+    'NAME'   => 'CDATA',
+    'ROWS'   => 'NUMBER',
+  },
+);
+%requiredAttrs = (
+  'A'        => 'NAME|HREF',
+  'BASE'     => 'HREF',
+  'EMBED'    => 'SRC',
+  'IMG'      => 'SRC',
+  'META'     => 'CONTENT',
+  'SELECT'   => 'NAME',
+  'TEXTAREA' => 'NAME&ROWS&COLS',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'amp'  => '&#38;',
+  'gt'   => '&#62;',
+  'lt'   => '&#60;',
+  'quot' => '&#34;',
+);
+%refParams = (
+  'Character'    => '[0-9#\*]',
+  'Length'       => '\d+[%]?',
+  'Loop'         => '-1|\d+',
+  'Pixels'       => '\d+',
+  'URL'          => '&URL',
+  'OLStyle'      => '&OLStyle',
+  'color'        => '(?i)#[0-9A-F]{6}'.
+                    '|aqua|black|blue|fuchsia|gray|green|lime|maroon'.
+                    '|navy|olive|purple|red|silver|teal|white|yellow',
+  'literal'      => 'CDATA',
+);
+
+1;

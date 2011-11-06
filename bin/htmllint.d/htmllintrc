@@ -1,0 +1,819 @@
+# 初期状態の設定ファイル
+#   ここには、状態変更可能なすべてのパラメタが、既定状態と共に列挙されています。
+#   指定の方法は
+#       keyword value
+#   という形式です。キーワードの後ろには空白を(ひとつ以上)空けてください。
+#   行頭の # はコメント行を示します。変更不要なパラメタはコメントにしてください。
+#   htmllint の出す警告などの初期状態を変更するには、このファイルを
+#       perl htmllint -f htmllintrc ...
+#   のように指定して htmllint を起動するか、環境変数 HTMLLINTRC に、ファイル名の
+#   フルパスか htmllint からの相対パスを指定してください。コマンドラインオプション
+#   の方が環境変数よりも優先されます。また、ここでの変更と同じ指定がコマンドライン
+#   にある場合は、コマンドラインの方が優先します。
+#   この設定ファイルのファイル名は任意で構いません。
+#   UNIXの場合、環境変数HOMEで示されるディレクトリに、.htmllintrc というファイルが
+#   あると、初期状態として読み込みます。
+#   正しくない指定をしても、たいていは無視されます。
+
+# 警告メッセージのスタイル
+#   指定できるのは起動時オプション -style と同じで、次のとおりです。
+#       lint     file(#): warning
+#       short    #: warning
+#       long     #: warning-id: warning
+#       terse    file:#:warning-id
+#       verbose  file: #: warning-id: warning
+#style lint
+
+# 警告の打ち切り限界数
+#limit 999
+
+# 無減点同一警告の打ち切り数
+#omit 50
+
+# HTML ヴァージョン
+#   指定できるのは起動時オプション -x と同じで、次のとおりです。
+#       html20  RFC1866
+#       html2x  RFC2070  i18n
+#       html30  arena
+#       html32  wilbur
+#       html40-strict  cougar-strict
+#       html40-transitional  cougar-transitional
+#       html40-frameset  cougar-frameset
+#       mozilla20
+#       mozilla30  navigator
+#       mozilla40  communicator  netscape
+#       ie30b  msie30b
+#       ie30  msie30
+#       ie40  msie40  microsoft
+#       webexp
+#html html20
+
+# 他の起動時オプションの初期値
+#nopedantic
+#religious
+#accessibility
+#banner
+#score
+#noprune
+#warnings
+#uc
+#usedoctype
+#usecharset
+#nolocal
+
+# 各警告の初期状態
+#   各警告の指定は、
+#       enable 警告名
+#   または
+#       disable 警告名
+#   とします。警告名は、空白で区切って複数並べても構いません。
+#   指定できる警告名は、htmllint で使用しているものと同じでなければなりません。
+#   それらは、このサンプルファイルにすべて含まれています。
+#   指定されていない警告に対しては何も変更しません。
+
+# HTML中のリンク先が存在していなかったら警告する。
+disable cant-get-url
+
+# DOCTYPE宣言がなかったら警告する。
+enable required-doctype
+
+# 公開識別子の大文字小文字が食い違っていたら警告する。
+enable doctype-case-mismatch
+
+# 不明なDOCTYPE宣言だったら警告する。
+enable unknown-doctype
+
+# DOCTYPE宣言の前に制御文字が含まれていたら警告する
+enable prectrl-doctype
+
+# サポートしていないDOCTYPE宣言だったら警告する。
+enable unsupported-doctype
+
+# すでに廃棄されてしまったDOCTYPEが指定されていたら警告する。
+enable expired-doctype
+
+# HTML4.0に対してHTML4.01を使うよう促す。
+enable obsoleted-doctype
+
+# 選択されたHTMLヴァージョンとHTML中のDOCTYPE宣言が矛盾していたら警告する。
+enable doctype-mismatch
+
+# DOCTYPE宣言が文書の先頭以外に現れたら警告する。
+enable misplaced-doctype
+
+# XHTMLのDOCTYPE宣言中のHTMLが小文字でなかったら警告する。
+enable lower-case-doctype
+
+# DOCTYPE宣言が大文字でなかったら警告する。
+enable upper-case-doctype
+
+# XHTMLでシステム識別子がなかったら警告する
+enable empty-systemid
+
+# システム識別子が正しくなかったら警告する
+enable illegal-systemid
+
+# システム識別子の大文字小文字が違っていたら警告する
+enable systemid-case-mismatch
+
+# SGML宣言やDTD宣言などが現われたら警告する。
+enable ignore-declaration
+
+# マーク区間が現れたら警告する。
+enable marked-section
+
+# マーク区間中に書いてはならない文字列が含まれていたら警告する。
+enable badstr-in-marked-section
+
+# マーク区間が閉じられていなかったら警告する。
+enable unclosed-marked-section
+
+# XML宣言が文書の先頭以外に現れたら警告する。
+enable misplaced-xmldecl
+
+# XHTMLにXML宣言がなかったら警告する。
+enable xhtml-xmldecl
+
+# XML宣言が ?> で終わっていなかったら警告する。
+enable end-xmldecl
+
+# XML宣言が正しくなかったら警告する。
+enable bad-xmldecl
+
+# 処理命令を警告する。
+enable processing-instruction
+
+# コメント中に -- が含まれていたら警告する。
+enable w-hyphens-in-comment
+
+# HTML4以上でコメント中に -- が含まれていたら警告する。
+enable excluded-w-hyphens-in-comment
+
+# コメントが空 <!> だったら警告する。
+enable empty-comment
+
+# <!-> などの正しくないコメントだったら警告する。
+enable illegal-comment
+
+# <TITLE> 中にコメントを書いていたら警告する。
+enable title-comment
+
+# コメント中に < や > が含まれていたら警告する。
+enable markup-in-comment
+
+# コメントが入れ子になっていたら警告する。
+enable nested-comment
+
+# 閉じコメントの -- と > の間に空白が含まれていたら警告する。
+enable space-in-closed-comment
+
+# 閉じコメントを --!> としていたら警告する。
+enable illegal-closed-comment
+
+# コメントが閉じられていなかったら警告する。
+enable unclosed-comment
+
+# タグが閉じられていなかったら警告する。
+enable unclosed-tag
+
+# < とタグ名の間に空白が含まれていたら警告する。
+enable leading-whitespace
+
+# タグ内に余計な < があったら警告する。
+enable unexpected-open
+
+# XHTMLで空要素タグを />で閉じていなかったら警告する。
+enable endtag-slash
+
+# XHTMLで空要素タグを閉じるとき/>の前に空白がなかったら警告する。
+enable leading-space-endtag-slash
+
+# XHTMLで空要素タグの要素に空白を書いていたら警告する。
+enable contain-no-space
+
+# XHTMLで空要素タグを<tag></tag>と書いていたら警告する。
+enable minimized-endtag
+
+# XHTMLで非空要素タグを/>で閉じていたら警告する。
+enable noempty-endtag-slash
+
+# 場所によって書いてはならないタグを書いたとき警告する。
+enable excluded-element
+
+# 場所によって書くのを薦められないタグを書いたとき警告する。
+disable deprecated-element
+
+# 特定の要素内にしか書けないタグをその外に書いていたとき警告する。
+enable misplaced-element
+
+# 一度しか書いてはならないタグを複数回書いたとき警告する。
+enable once-only
+
+# 他のタグとどちらか一方しか書けないタグを両方書いたとき警告する。
+enable once-only-group
+
+# タグを書く順序を間違えていたら警告する。
+enable must-follow
+
+# <DD> が <DT> に続いていなかったら警告する。
+enable must-follow-slight
+
+# 必要なタグを書いていなかったら警告する。
+enable required
+
+# タグによって、開始タグと終了タグの間に何もなかったら警告する。
+enable empty-container
+
+# 開始タグと終了タグの間が空白だけだったら警告する。
+enable space-container
+
+# 開始タグと終了タグの間が <BR> だけだったら警告する。
+enable br-only-container
+
+# 不明なタグを書いていたら警告する。
+enable unknown-element
+
+# 別のHTML用のタグを書いていたら警告する。
+enable other-html-element
+
+# あまり薦められないタグを書いていたら警告する。
+enable deprecated-tag
+
+# スタイルシートを使った方がいいタグを書いていたら警告する。
+enable deprecated-tag-css
+
+# サポート外のタグを書いていたら警告する。
+enable unsupported-tag
+
+# 使うべきでないとされているタグを書いていたら警告する。
+enable should-not-use
+
+# 省略不可の開始タグが省略されたとき警告する。
+enable required-start-tag
+
+# 開始タグが省略されたとき警告する。省略が自明な場合を除く。
+enable omit-start-tag
+
+# <TBODY> などの省略が自明な開始タグが省略されたとき警告する。
+disable omit-start-tag-trivial
+
+# 省略不可の終了タグが省略されたとき警告する。
+enable required-end-tag
+
+# 終了タグが省略されたとき警告する。省略が自明な場合を除く。
+enable omit-end-tag
+
+# </LI> や </TD> などの省略が自明な終了タグが省略されたとき警告する。
+disable omit-end-tag-trivial
+
+# 終了タグに属性を指定したとき警告する。
+enable closing-attribute
+
+# 終了タグのないタグの終了タグを書いたとき警告する。
+enable illegal-closing
+
+# 開始タグと終了タグの間に望ましくない余分な空白があったら警告する。
+disable container-whitespace
+
+# 開始タグのない終了タグがあったら警告する。
+enable mis-match
+
+# タグの入れ子関係がおかしいとき警告する。
+enable element-overlap
+
+# タグの入れ子が深過ぎたら警告する。
+enable tags-nest
+
+# 必要な終了タグが見つからなかったら警告する。
+enable unclosed-element
+
+# タグ以外が書けない場所にテキストを書いたとき警告する。
+enable unexpected-pcdata
+
+# タグ内におかしな文字があったら警告する。
+enable illegal-attribute
+
+# XHTML以外で空要素タグを /> と閉じていたら警告する。
+enable xhtml-emptytag
+
+# 要素名や属性名の大文字、小文字を統一するように促す。
+disable mixed-case
+
+# XHTMLで要素名を小文字で書いていなかったら警告する。
+enable lower-case-tag
+
+# XHTMLで属性名を小文字で書いていなかったら警告する。
+enable lower-case-attribute
+
+# 不明の属性が指定されていたら警告する。
+enable unknown-attribute
+
+# 別のHTML用の属性が指定されていたら警告する。
+enable other-html-attribute
+
+# あまり薦められない属性を書いていたら警告する。
+enable deprecated-attribute
+
+# スタイルシートを使った方がいい属性を書いていたら警告する。
+enable deprecated-attribute-css
+
+# サポート外の属性を書いていたら警告する。
+enable unsupported-attribute
+
+# 属性が空白で区切られていなかったら警告する。
+enable leading-space-attribute
+
+# 同じ属性が繰り返されていたら警告する。
+enable repeated-attribute
+
+# 必要な属性が指定されていなかったら警告する。
+enable required-attribute
+
+# 同時に指定しなければならない属性が指定されていなかったら警告する。
+enable required-attribute-pair
+
+# 同時に指定してはならない属性が指定されていたら警告する
+enable nomixed-attribute
+
+# 必要な属性値が省略されていたら警告する。
+enable required-value
+
+# 属性値が指定されていないとき警告する。
+enable no-attribute-value
+
+# 引用符で囲まれた属性値が複数行に渡っていたら警告する。
+enable across-lines-attribute
+
+# 属性値区切りの = 前後に空白が含まれていたら警告する。
+disable space-around-equal
+
+# 属性値の引用符が閉じられていなかったら警告する。
+enable unclosed-quotes
+
+# 属性値が単引用符 '〜' で囲まれていたら警告する。
+disable attribute-delimiter
+
+# 引用符で囲まなければならない属性値を引用符で囲んでなかったら警告する。
+enable quote-attribute-value
+
+# 引用符で囲んだ方がよい属性値を引用符で囲んでなかったら警告する。
+enable recommend-quote-attribute-value
+
+# 引用符で囲まれていない属性値を引用符で囲むよう促す。
+disable bare-attribute-value
+
+# 引用符で囲まれた属性値に空白が先行後行していたら警告する。
+enable whitespace-attribute-value
+
+# あまり薦められない属性値を書いていたら警告する。
+enable deprecated-value
+
+# 空にできない属性値が空のとき警告する。
+enable empty-value
+
+# 属性値が長過ぎるとき警告する。
+enable attribute-length
+
+# 属性値が正しくなかったら警告する。
+enable attribute-format
+
+# 色の指定が正しくなかったら警告する。
+enable attribute-color
+
+# PROFILE属性に複数のURIを書いていたら警告する。
+enable profile-uri
+
+# 安全でない属性値を書いていたら警告する。
+enable unsafe-attribute
+
+# XHTMLで属性値の大文字小文字が食い違っていたら警告する。
+enable attribute-value-case
+
+# 属性値が固定されているときそれ以外の値を書いたら警告する。
+enable fixed-attribute
+
+# 属性値と属性名が同一のときは属性名を省略するよう促す。
+enable minimized-attribute
+
+# XHTMLで属性名が省略されていたら警告する。
+enable no-minimization
+
+# 属性値と異なる属性名が省略されていたら警告する。
+enable omit-attribute-name
+
+# 実体参照がセミコロンで終わっていなかったら警告する。
+enable required-semicolon
+
+# 実体参照 &apos; を書かないよう促す
+enable apos
+
+# XHTMLで16進数文字参照にXを使っていたら警告する。
+enable lower-x
+
+# 不明な実体参照のとき警告する。
+enable bad-entity
+
+# 文字参照が限界を超えた文字コードのとき警告する。
+enable over-ref-charset
+
+# 使用できない文字参照を使用したとき警告する
+enable no-ref-charset
+
+# < や & などを実体参照を用いて書くように警告する。
+enable literal-metacharacter
+
+# テキスト中の引用符を実体参照を用いて書くように促す。
+disable double-quote-in-text
+
+# <HTML> タグにLANG属性を指定するよう促す。
+enable html-lang
+
+# lang属性とxml:lang属性を対で指定するよう促す。
+enable lang
+
+# lang属性の値とxml:lang属性の値が食い違っていたら警告する。
+enable lang-mismatch
+
+# LANG属性の指定と属性値の言語が食い違っていたら警告する。
+enable lang-attribute
+
+# LANG属性の指定とテキストの言語が食い違っていたら警告する。
+disable lang-pcdata
+
+# <HEAD> 中に <LINK REV=MADE HREF="mailto:〜"> がなかったら警告する。
+enable mailto-link
+
+# <HEAD> 中に <LINK REL="NEXT" HREF="〜"> などのナヴィゲーション用のリンクがなかったら警告する。
+enable navigation-link
+
+# <LINK REL="CONTENTS"> を CONTENT と書いていたら警告する。
+enable mistype-links
+
+# <META NAME="ROBOTS"> のCONTENT属性の値が正しくなかったら警告する。
+enable robots-content
+
+# <HEAD> 中に <META HTTP-EQUIV=CONTENT-TYPE CONTENT=〜> がなかったら警告する。
+enable content-type
+
+# <META> に指定されているCHARSETが IANA に登録されていなかったら警告する。
+enable no-registered-charset
+
+# <META HTTP-EQUIV=CONTENT-TYPE CONTENT=〜> にCHARSETが指定されていなかったら警告する。
+enable no-charset
+
+# <META HTTP-EQUIV=CONTENT-TYPE CONTENT=〜> でCHARSETが指定される前に非ASCII文字が現れたら警告する。
+enable non-ascii-early
+
+# 非ASCII文字が使用できない CHARSET なのに非ASCII文字が現れたら警告する。
+enable non-ascii
+
+# 改行やタブ以外の制御文字が含まれていたら警告する。
+enable ctrl-character
+
+# 半角カタカナが含まれていたら警告する。
+enable han-katakana
+
+# 機種依存全角文字が含まれていたら警告する。
+enable bad-jis-x0208
+
+# 文書の先頭にBOMが含まれていたら警告する。
+enable bom
+
+# XHTMLで、XML宣言中に encoding 指定がなかったら警告する。
+enable xml-encoding
+
+# CHARSET の指定と実際のコードが矛盾していたら警告する。
+enable charset-mismatch
+
+# HTTPレスポンスヘッダでの CHARSET の指定と <META> の指定が矛盾していたら警告する。
+enable conflict-charset
+
+# HTTPレスポンスヘッダに CHARSET 指定がなかったら警告する。
+enable http-head-charset
+
+# <META> に指定されているCONTENT-TYPEが text/html でなかったら警告する。
+enable no-text-html
+
+# HTTPレスポンスヘッダでのメディアタイプの指定と <META> の指定が矛盾していたら警告する。
+enable conflict-mime
+
+# HTMLによって指定できないメディアタイプが指定されていたら警告する。
+enable unrecommended-mime
+
+# メディアタイプ application/xhtml+xml で <meta http-equiv> が書かれていたら警告する
+enable xml-http-equiv
+
+# <META HTTP-EQUIV=CONTENT-TYPE> が複数回書かれていたら警告する。
+enable existing-content-type
+
+# <SCRIPT> や <STYLE> を使うときは <META HTTP-EQUIV=CONTENT-XXXX-TYPE> を指定するよう促す。
+enable content-xxxx-type
+
+# ONXXXX属性やSTYLE属性を使っているのに <META HTTP-EQUIV=CONTENT-XXXX-TYPE> が指定されていなかったら警告する。
+enable need-content-xxxx-type
+
+# <META> に HTTP-EQUIV と NAME の両方が指定されていたら警告する。
+enable meta-http-equiv-name
+
+# <META CONTENT> に HTTP-EQUIV も NAME も指定されていなかったら警告する。
+enable meta-no-http-equiv-name
+
+# 対で用いるべきイベントを警告する。
+enable event-pair
+
+# <META HTTP-EQUIV="REFRESH"> は使用しないよう促す。
+enable refresh
+
+# <META HTTP-EQUIV="REFRESH"> に相当するリンクがなかったら警告する。
+enable refresh-link
+
+# <SCRIPT> 中の要素をすべてコメントで囲むよう促す。
+enable comment-element
+
+# <SCRIPT> 中に </ を直接書いていたら警告する。
+enable etago-in-cdata
+
+# <SCRIPT> 中に好ましくない文字を書いていたら警告する。
+enable embedded-in-cdata
+
+# XHTMLで <SCRIPT> 中にコメントがあったら警告する
+enable comment-in-stylescript
+
+# <SCRIPT> タグがあるのに <NOSCRIPT> タグがなかったら警告する。
+disable no-noscript
+
+# TITLEの長さが64文字を超えていたら警告する。
+enable title-length
+
+# <BODY> での色指定が不完全だったら警告する。
+enable body-color
+
+# 背景画像が指定してあるのに背景色が指定していなかったら警告する。
+enable background
+
+# 背景色と同じ色のテキスト色を指定していたら警告する。
+enable same-bgcolor
+
+# 背景色と似た色のテキスト色を指定していたら警告する。
+enable near-bgcolor
+
+# ID属性の値が重複していたら警告する。
+enable repeated-id
+
+# 定義されていないID属性の値を参照していたら警告する。
+enable undef-id
+
+# <FORM> の要素名が重複していたら警告する。
+enable repeated-name
+
+# <FIELDSET> の直後に空白以外のテキストを書いていたら警告する。
+enable fieldset-whitespace
+
+# ラジオボタンで複数 CHECKED が指定されていたら警告する。
+enable multiple-checked
+
+# 複数選択不可のチェックボックスで複数 SELECTED が指定されていたら警告する。
+enable multiple-selected
+
+# <OPTION> が多過ぎたら警告する。
+enable over-select-options
+
+# エディットボックスやテキストエリアには初期値となるテキストを入れておくよう促す。
+enable default-text
+
+# <BUTTON> タグにTYPE属性を指定するよう促す。
+enable input-type
+
+# <BUTTON> 中にイメージマップを置いていたら警告する。
+enable button-usemap
+
+# <LABEL> 中に複数のフォームコントロールを書いていたら警告する。
+enable label-control
+
+# FOR属性のない <LABEL> 中にフォームコントロールがなかったら警告する。
+enable label-no-control
+
+# <LABEL> のFOR属性の値と内容に含まれるフォームコントロールのID属性の値が食い違っていたら警告する。
+enable label-for-control
+
+# <INPUT> タグなどにTABINDEX属性を指定するよう促す。
+enable form-tabindex
+
+# <INPUT> タグなどにACCESSKEY属性を指定するよう促す。
+enable form-accesskey
+
+# <ABBR> タグなどにTITLE属性を指定するよう促す。
+enable recommended-title
+
+# <OBJECT> には等価な内容を指定するよう促す。
+enable object-text-equivalent
+
+# <APPLET> にALT属性と等価な内容が指定されていたら警告する。
+enable applet-text-equivalent
+
+# ALT属性の値が空白だけのとき警告する。
+enable alt-spaces
+
+# <IMG> タグにALT属性を指定するよう促す。
+enable img-alt
+
+# <IMG> タグにWIDTH及びHEIGHT属性を指定するよう促す。
+enable img-size
+
+# <IMG> タグにISMAPとUSEMAP属性の両方が指定されていたら警告する。
+enable img-map
+
+# サーバサイドイメージマップを使用していたら警告する。
+enable server-side-image-map
+
+# <TABLE> タグにSUMMARY属性を指定するよう促す。
+enable table-summary
+
+# <TH> タグにABBR属性を指定するよう促す。
+enable abbr-header-label
+
+# <COL> を持つ <COLGROUP> のSPAN属性を警告する。
+enable colgroup-span
+
+# テーブルのセルが重なっていたら警告する。
+enable overlap-cells
+
+# <FRAMESET> タグがあるのに <NOFRAMES> タグがなかったら警告する。
+enable no-noframes
+
+# <FRAME> のURLに自分自身を指定していたら警告する。
+enable same-document-frameset
+
+# <FRAME> で直接イメージを指定していたら警告する。
+enable frame-image
+
+# <FRAME> タグにTITLE属性を指定するよう促す。
+enable frame-title
+
+# <FRAME> の名前が複数指定されていたら警告する。
+enable existing-target-name
+
+# <FRAME> の名前が予約されたものだったら警告する。
+enable reserved-target-name
+
+# <FRAME> の名前が予約されたもので大文字で表記されていたら警告する。
+enable reserved-target-name-upper
+
+# <FRAME> の名前が正しくなかったら警告する。
+enable illegal-target-name
+
+# 物理的フォントタグ(<B>、<I>、<TT>等)を書かないよう促す。
+enable physical-font
+
+# <P> タグを <BR> タグのように使用していたら警告する。
+enable p-isnot-br
+
+# <BR> タグが多数連続していたら警告する。
+enable continuous-brs
+
+# <PRE> 内にタブ文字を書いていたら警告する。
+enable tab-in-pre
+
+# 見出し(<H1>〜<H6>)のレベルが連続していなかったら警告する。
+enable heading-order
+
+# 見出しイメージに等価な説明を書くよう促す。
+enable heading-text-equivalent
+
+# <A> タグにACCESSKEY属性を指定するよう促す。
+disable link-accesskey
+
+# リンクとリンクの間に何か文字を置くよう促す。
+enable link-separation
+
+# リンクイメージに等価な説明を書くよう促す。
+enable link-text-equivalent
+
+# D-リンクを警告する。
+disable d-link
+
+# 同一のアンカーで異なるリンク先を指していたら警告する。
+enable same-link-text
+
+# アンカーとして "here" とか "ここ" などを書いていたら警告する。
+enable here-anchor
+
+# アンカー名に空白文字が含まれていたら警告する。
+enable fragment-id-whitespace
+
+# アンカー名に安全でない文字が含まれていたら警告する。
+enable unsafe-fragment-id
+
+# アンカー名が空のとき警告する。
+enable empty-fragment-id
+
+# 同じアンカー名が指定されていたら警告する。
+enable existing-fragment-id
+
+# 大文字小文字区別しないで同じアンカー名が指定されていたら警告する。
+enable case-insensitive-fragment-id
+
+# アンカー名とID属性に同じものが指定されていたら警告する。
+enable same-fragment-id
+
+# ID属性として定義されているアンカー名に対して警告する。
+enable id-link
+
+# 同一タグ中のNAME属性の値とID属性の値が異なっていたら警告する。
+enable diff-id-link
+
+# NAME属性とID属性の両方を指定するよう促す。
+enable need-id-name
+
+# ID属性値に小文字が使われていたら警告する
+enable lower-id
+
+# 定義されていないアンカー名に対して警告する。
+enable bad-link
+
+# 参照されていないアンカー名に対して警告する。
+disable unref-link
+
+# URLが空のとき警告する。
+enable empty-url
+
+# URLに空白文字が含まれていたら警告する。
+enable url-whitespace
+
+# URLに "\" が含まれていたら警告する。
+enable url-backslash
+
+# URLに "~" が含まれていたら警告する。
+disable unsafe-url
+
+# URLに使用できないASCII文字が含まれていたら警告する。
+enable excluded-url
+
+# URL中の実体参照に使用できない文字が含まれていたら警告する。
+enable excluded-url-ref
+
+# URLにASCII以外の文字が含まれていたら警告する。
+enable no-corresponding-url
+
+# URLに正しくないスキーム名が指定されていたら警告する。
+enable illegal-protocol
+
+# URLに大文字のスキーム名が指定されていたら警告する。
+enable upper-protocol
+
+# URLに不明のスキーム名が指定されていたら警告する。
+enable unknown-protocol
+
+# URLが file: などのローカルファイルを参照していたら警告する。
+enable local-protocol
+
+# URLに利用できないスキームが指定されていたら警告する。
+enable cantuse-protocol
+
+# URLが javascript: スキームだったら警告する。
+enable javascript-url
+
+# URLが正しくない書式のとき警告する。
+enable illegal-format-url
+
+# "/" で終わるべきURLが "/" で終わっていなかったら警告する。
+enable trailing-slash
+
+# URIが "//" で始まっていたら警告する。
+enable net-path
+
+# "/" で終わっているURLとそうでないURLが混在していたら警告する。
+disable conflict-directory
+
+# "〜/index.html" と "〜/" が統一されていなかったら警告する。
+enable index-html
+
+# <BASE> で指定するより前にURLが現れたら警告する。
+enable later-base
+
+# <BASE> で指定されたURLが絶対指定でなかったら警告する。
+enable absolute-base-url
+
+# </HTML> の後にまだテキストが続いていたら警告する。
+enable unexpected-end-of-html
+
+# ファイルサイズが制限を超えていたら警告する。
+enable over-file-size
+
+# イメージファイルに規定外のものが指定されていたら警告する。
+enable unsupported-image
+
+# J-SkyWebで <UL>、<OL> の入れ子が深すぎたら警告する。
+enable jskyweb-olul
+
+# J-SkyWebで <LI> の個数が制限を超えていたら警告する。
+enable jskyweb-li
+
+# 特許出願用HTMLが <HTML> から始まっていなかったら警告する。
+enable jpo-no-html
+
+# 特許出願用HTMLが Shift JIS でなかったら警告する。
+enable jpo-shift-jis
+
+# 特許出願用HTMLで使用できない文字を使っていたら警告する。
+enable jpo-bad-char

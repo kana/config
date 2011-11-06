@@ -1,0 +1,250 @@
+# NTT DoCoMo iMode 3.0
+
+#======= ELEMENTS =======
+$emptyTags = 'BASE|BR|HR|IMG|INPUT|META';
+$pairTags = 'A|BLINK|BLOCKQUOTE|BODY|CENTER|DD|DIR|DIV|DL|DT|FONT|FORM|H1|H2'.
+            '|H3|H4|H5|H6|HEAD|HTML|LI|MARQUEE|MENU|OBJECT|OL|OPTION|P'.
+            '|PLAINTEXT|PRE|SELECT|TEXTAREA|TITLE|UL';
+$deprecatedTags = '';
+$omitStartTags = 'BODY|HEAD|HTML';
+$omitEndTags = 'BODY|DD|DT|HEAD|HTML|LI|OPTION|P';
+#$maybeEmpty = 'A|BLINK|BLOCKQUOTE|BODY|CENTER|DD|DIV|DT|FONT|FORM|H1|H2|H3|H4'.
+#              '|H5|H6|LI|MARQUEE|OBJECT|OPTION|P|PLAINTEXT|PRE|TEXTAREA|TITLE';
+$maybeEmpty = 'OBJECT|PLAINTEXT|PRE|TEXTAREA';
+%requiredTags = (
+  'HEAD' => 'TITLE',
+  'HTML' => 'HEAD|BODY',
+);
+%onceonlyTags = (
+  'HEAD' => 'TITLE|BASE',
+  'HTML' => 'HEAD|BODY',
+);
+$sequencialTags = 'HTML';
+%tagsElements = (
+  'A'          => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG'.
+                  '|#PCDATA',
+  'BLINK'      => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'BLOCKQUOTE' => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR'.
+                  '|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'BODY'       => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR'.
+                  '|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'CENTER'     => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR'.
+                  '|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'DD'         => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR'.
+                  '|IMG|A|#PCDATA',
+  'DIR'        => 'LI',
+  'DIV'        => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR'.
+                  '|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'DL'         => 'DD|DT',
+  'DT'         => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'FONT'       => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'FORM'       => 'HR|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'H1'         => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'H2'         => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'H3'         => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'H4'         => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'H5'         => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'H6'         => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'HEAD'       => 'TITLE|BASE|META',
+  'HTML'       => 'HEAD|BODY',
+  'LI'         => 'HR|FORM|BLOCKQUOTE|CENTER|DIV|DL|PLAINTEXT|PRE|MENU|DIR|OL'.
+                  '|UL|P|TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR'.
+                  '|IMG|A|#PCDATA',
+  'MARQUEE'    => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'MENU'       => 'LI',
+  'OL'         => 'LI',
+  'OPTION'     => '#PCDATA',
+  'P'          => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|IMG|A'.
+                  '|#PCDATA',
+  'PLAINTEXT'  => '%literal',
+  'PRE'        => 'TEXTAREA|SELECT|INPUT|OBJECT|FONT|MARQUEE|BLINK|BR|A'.
+                  '|#PCDATA',
+  'SELECT'     => 'OPTION',
+  'TEXTAREA'   => '#PCDATA',
+  'TITLE'      => '#PCDATA',
+  'UL'         => 'LI',
+);
+%excludedElems = (
+  'A'    => 'A',
+  'DIR'  => 'P|UL|OL|DIR|MENU|PRE|PLAINTEXT|DL|DIV|CENTER|BLOCKQUOTE|FORM|HR',
+  'FORM' => 'FORM',
+  'MENU' => 'P|UL|OL|DIR|MENU|PRE|PLAINTEXT|DL|DIV|CENTER|BLOCKQUOTE|FORM|HR',
+  'PRE'  => 'IMG',
+);
+%includedElems = (
+  'HEAD' => 'META',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'ACCESSKEY' => '%Character',
+    'BODY'      => '%alphanum',
+    'CTI'       => '%CharacterCTI',
+    'EMAIL'     => 'CDATA',
+    'HREF'      => '%URL',
+    'IJAM'      => 'IDREF',
+    'KANA'      => '%hankana',
+    'NAME'      => 'CDATA',
+    'SUBJECT'   => '%alphanum',
+    'TELBOOK'   => 'CDATA',
+    'UTN'       => 'UTN',
+  },
+  'BASE' => {
+    'HREF' => '%URL',
+  },
+  'BODY' => {
+    'BGCOLOR' => '%color',
+    'LINK'    => '%color',
+    'TEXT'    => '%color',
+  },
+  'BR' => {
+    'CLEAR' => 'left|all|right',
+  },
+  'DIV' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'FONT' => {
+    'COLOR' => '%color',
+  },
+  'FORM' => {
+    'ACTION' => '%URL',
+    'METHOD' => 'GET|POST',
+    'UTN'    => 'UTN',
+  },
+  'H1' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'H2' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'H3' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'H4' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'H5' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'H6' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'HR' => {
+    'ALIGN' => 'left|right|center',
+    'SIZE'  => '%Pixels',
+    'WIDTH' => '%Length',
+  },
+  'IMG' => {
+    'ALIGN'  => 'top|middle|bottom|left|right',
+    'ALT'    => 'CDATA',
+    'HEIGHT' => '%Length',
+    'HSPACE' => '%Pixels',
+    'SRC'    => '%URL',
+    'VSPACE' => '%Pixels',
+    'WIDTH'  => '%Length',
+  },
+  'INPUT' => {
+    'ACCESSKEY' => '%Character',
+    'CHECKED'   => 'checked',
+    'ISTYLE'    => '1|2|3|4',
+    'MAXLENGTH' => 'NUMBER',
+    'NAME'      => 'CDATA',
+    'SIZE'      => 'CDATA',
+    'TYPE'      => 'TEXT|PASSWORD|CHECKBOX|RADIO|HIDDEN|SUBMIT|RESET',
+    'VALUE'     => 'CDATA',
+  },
+  'LI' => {
+    'TYPE'  => '%LIStyle',
+    'VALUE' => 'NUMBER',
+  },
+  'MARQUEE' => {
+    'BEHAVIOR'  => 'scroll|slide|alternate',
+    'DIRECTION' => 'left|right',
+    'LOOP'      => 'NUMBER',
+  },
+  'META' => {
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'NAME',
+    'NAME'       => 'NAME',
+  },
+  'OBJECT' => {
+    'DATA'    => '%URL',
+    'DECLARE' => 'declare',
+    'ID'      => 'ID',
+    'TYPE'    => 'CDATA=application/x-jam',
+  },
+  'OL' => {
+    'START' => 'NUMBER',
+    'TYPE'  => '%OLStyle',
+  },
+  'OPTION' => {
+    'SELECTED' => 'selected',
+    'VALUE'    => 'CDATA',
+  },
+  'P' => {
+    'ALIGN' => 'left|center|right',
+  },
+  'SELECT' => {
+    'MULTIPLE' => 'multiple',
+    'NAME'     => 'CDATA',
+    'SIZE'     => 'NUMBER',
+  },
+  'TEXTAREA' => {
+    'COLS'   => 'NUMBER',
+    'ISTYLE' => '1|2|3|4',
+    'NAME'   => 'CDATA',
+    'ROWS'   => 'NUMBER',
+  },
+);
+%requiredAttrs = (
+  'BASE'     => 'HREF',
+  'IMG'      => 'SRC',
+  'META'     => 'CONTENT',
+  'OBJECT'   => 'DECLARE&ID&DATA',
+  'SELECT'   => 'NAME',
+  'TEXTAREA' => 'NAME&ROWS&COLS',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'amp'  => '&#38;',
+  'copy' => '&#169;',
+  'gt'   => '&#62;',
+  'lt'   => '&#60;',
+  'nbsp' => '&#160;',
+  'quot' => '&#34;',
+  'reg'  => '&#174;',
+);
+%refParams = (
+  'Character'    => '[0-9#\*]',
+  'CharacterCTI' => '[0-9#\*\/,]',
+  'Length'       => '\d+[%]?',
+  'Pixels'       => '\d+',
+  'URL'          => '&URL',
+  'LIStyle'      => '&LIStyle',
+  'OLStyle'      => '&OLStyle',
+  'color'        => '(?i)#[0-9A-F]{6}'.
+                    '|aqua|black|blue|fuchsia|gray|green|lime|maroon'.
+                    '|navy|olive|purple|red|silver|teal|white|yellow',
+  'alphanum'     => '\w+',
+  'hankana'      => 'CDATA',
+  'literal'      => 'CDATA',
+);
+
+1;

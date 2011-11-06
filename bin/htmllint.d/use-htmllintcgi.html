@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<link rev="made" href="mailto:k16@chiba.email.ne.jp">
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="prev" href="./notice.html">
+<link rel="next" href="./use-htmllint.html">
+<title>Another HTML-lint : How to use htmllint.cgi</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./notice.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./use-htmllint.html">next</a>]<!--*-->
+</div><hr>
+<h1><span>Another HTML-lint</span></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllintcgi.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="use-htmllint.cgi">htmllint.cgi の使い方</a></h2>
+<h3><a name="apply">簡単な応用</a></h3>
+<p>
+ゲートウェイCGIスクリプト htmllint.cgi はどのHTMLからでも呼び出すことができます。<br>
+あなたのHTMLを、ボタンを押すだけで簡単に採点することができるようにしてみましょう。次のようなコードをあなたのHTMLに含めるだけです。METHODはPOSTでも構いません。
+</p>
+<blockquote class="code-sample"><code>
+	&lt;FORM action="http://openlab.ring.gr.jp/k16/htmllint/htmllint.cgi" method="GET"&gt;<br>
+	&lt;INPUT type="HIDDEN" name="ViewSource" value="on"&gt;<br>
+	&lt;INPUT type="SUBMIT" value="Check This HTML"&gt;<br>
+	&lt;/FORM&gt;
+</code></blockquote>
+<p>次のボタンはこのHTMLをチェックします。</p>
+<form action="./htmllint.cgi">
+<input type="hidden" name="ViewSource" value="on">
+<input type="submit" value="このHTMLは満点じゃないかも知れません">
+</form>
+<p><!--ちなみに、満点を目指すなら /~k16/ ではなくて /%7Ek16/ と書いてくださいね。また、-->デフォルトでMozillaのHTMLでチェックしたい、というときは</p>
+<blockquote class="code-sample"><code>
+	&lt;INPUT type="HIDDEN" name="HTMLVersion" value="Mozilla40"&gt;
+</code></blockquote>
+<p>などをFORMの中に含めてください。<br>
+特定のURLをチェックしたいときは、</p>
+<blockquote class="code-sample"><code>
+	&lt;INPUT type="HIDDEN" name="URL" value="http://すきなアドレス"&gt;
+</code></blockquote>
+<p>とかいう行を含めてください。</p>
+<p>何もFORMでボタンを作らなくったって、次のようなリンクを作るだけでもチェックできます。</p>
+<blockquote class="code-sample"><code>
+	&lt;A href="http://openlab.ring.gr.jp/k16/htmllint/htmllint.cgi?ViewSource=on"&gt;<a href="./htmllint.cgi?V">Check This HTML</a>&lt;/A&gt;
+</code></blockquote>
+<p>
+要領はFORMと同じですので、わかりますよね。CGIのパラメータの指定は、URLの後ろに <code>?</code> を書いて、変数の指定を <code>;</code> で区切って並べりゃいいんです。この区切りは、伝統的に <code>&amp;</code> でもいいんですが、<code>&amp;</code> を直接書くのは危ないので、<code>&amp;amp;</code> としなけりゃなりません。利用しているPerlのライブラリによっては <code>;</code> が使えないことがあります。なるべく <code>;</code> の使える環境を用意しましょう。
+</p>
+<p>
+いちいち満点にしなけりゃ気が済まないんだけど、ときどきチェックしていないといつの間にか満点じゃなくなってるしなぁ、たくさんHTMLを持っているとURLをそれぞれ入力するのがめんどくさい、という方は、チェック用のページを作っちまえばいいんです。例えば次のような感じ。
+</p>
+<blockquote class="code-sample"><code>
+	&lt;HTML&gt;<br>
+	&lt;HEAD&gt;<br>
+	&lt;TITLE&gt;チェック用ページ&lt;/TITLE&gt;<br>
+	&lt;BASE href="http://openlab.ring.gr.jp/k16/htmllint/"&gt;<br>
+	&lt;/HEAD&gt;<br>
+	&lt;BODY&gt;<br>
+	&lt;UL&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/"&gt;メインページ&lt;/A&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/foods.html"&gt;食い物&lt;/A&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/bikes.html"&gt;バイク&lt;/A&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/links.html"&gt;リンク&lt;/A&gt;<br>
+	&lt;LI&gt;…<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on"&gt;このページ&lt;/A&gt;<br>
+	&lt;/UL&gt;<br>
+	&lt;/BODY&gt;<br>
+	&lt;/HTML&gt;
+</code></blockquote>
+
+<h3><a name="query">問い合わせ変数一覧</a></h3>
+<p>
+htmllint.cgi が受け取ることができるデータ(変数)は以下のとおりです。変数名の大文字小文字は区別されます。これらは、GETでもPOSTでもどちらで渡しても構いませんが、TEXTAREAを使うときなど、データ量が多いときはPOSTの方が安全です。<br>
+変数名には短縮形を指定できるものがあります。例えば、<code>ViewSource=on</code> は <code>V=on</code> と書けます。また、<code>=on</code> は省略することができます。
+</p>
+<blockquote class="code-sample"><code>
+	&lt;A href="htmllint.cgi?ViewSource=on;LynxView=on"&gt;<br>
+</code></blockquote>
+<p>は</p>
+<blockquote class="code-sample"><code>
+	&lt;A href="htmllint.cgi?V;L"&gt;<br>
+</code></blockquote>
+<p>と書けます。</p>
+
+<table border="1" summary="CGI Parameters' List" class="border">
+<col span="4"><col width="60%">
+<tr><td colspan="2" class="header">変数</td><td class="header">値</td><td colspan="2" class="header">意味</td></tr>
+<tr><td valign="top" rowspan="4">Method</td><td valign="top" rowspan="4" align="center">M</td><td colspan="3">チェックするHTMLをURLから取得するか、直接記述するかを指定します。省略時はURLから取得するとみなされます。</td></tr>
+<tr><td valign="top">URL</td><td colspan="2">チェックするHTMLを変数URLで示されるURLから取得します。</td></tr>
+<tr><td valign="top">Data</td><td colspan="2">チェックするHTMLを変数Dataの値そのものとします。</td></tr>
+<tr><td valign="top">File</td><td colspan="2">チェックするHTMLを変数Fileで示されるクライアント上のファイルから取得します。このとき、<code>&lt;FORM enctype="multipart/form-data"&gt;</code> でなければなりません。</td></tr>
+<tr><td valign="top" colspan="2">URL</td><td colspan="3">Method=URLのときのURLを指定します。このURLは、htmllint.cgi から見える場所になければなりません。つまり、外部からの要求に対して、ファイアウォール内のファイルなどは取得できません。<!--当然、htmllint.cgi をファイアウォール内で動かしている場合は、そのファイアウォール内のファイルをファイアウォール内からのアクセスに対して取得することはできます。--><br>
+URLが指定されていないときは、(環境変数HTTP_REFERERで示される)直前の参照サイトとみなされます。これも空ならMethod=Dataとみなされます。</td></tr>
+<tr><td valign="top" colspan="2">Data</td><td colspan="3">Method=DataのときのHTMLを値として指定します。たいていは、<code>&lt;TEXTAREA&gt;</code> などに用います。</td></tr>
+<tr><td valign="top" colspan="2">File</td><td colspan="3">Method=Fileのときのクライアント上のファイルを指定します。<code>&lt;INPUT type="FILE"&gt;</code> でなければなりません。</td></tr>
+<tr><td valign="top" rowspan="6">CharCode</td><td valign="top" rowspan="6" align="center">C</td><td colspan="3">出力する漢字コードを指定します。省略時は AUTO とみなされます。</td></tr>
+<tr><td valign="top">AUTO</td><td colspan="3">出力する漢字コードを入力と同じにします。日本語コードのときのみ有効です。</td></tr>
+<tr><td valign="top">JIS</td><td colspan="2">出力する漢字コードを JIS (ISO-2022-JP) にします。</td></tr>
+<tr><td valign="top">EUC</td><td colspan="2">出力する漢字コードを EUC-JP にします。</td></tr>
+<tr><td valign="top">SJIS</td><td colspan="2">出力する漢字コードを Shift JIS にします。</td></tr>
+<tr><td valign="top">UTF8</td><td colspan="2">出力する漢字コードを UTF-8 にします。Jcode.pm使用時のみ有効です。</td></tr>
+<tr><td valign="top">NoWarnings</td><td valign="top" align="center">N</td><td valign="top">on</td><td colspan="2">チェックだけして個々の警告を表示しないようにします。</td></tr>
+<tr><td valign="top">ViewSource</td><td valign="top" align="center">V</td><td valign="top">on</td><td colspan="2">チェックしたHTMLを行番号付きで表示します。</td></tr>
+<tr><td valign="top">LynxView</td><td valign="top" align="center">L</td><td valign="top">on</td><td valign="top" colspan="2">lynxでの見え方を表示します。</td></tr>
+<tr><td valign="top" rowspan="4">TextView</td><td valign="top" rowspan="4" align="center">X</td><td valign="top" colspan="3">テキストベースブラウザでの見え方を表示します。LynxViewが指定されているときは無効です。</td></tr>
+<tr><td valign="top">no</td><td colspan="2">いずれも表示しません。</td></tr>
+<tr><td valign="top">lynx</td><td colspan="2">lynxでの見え方を表示します。LynxViewと同じです。</td></tr>
+<tr><td valign="top">w3m</td><td colspan="2">w3mでの見え方を表示します。</td></tr>
+<tr><td valign="top" colspan="2">NoCheck</td><td valign="top">on</td><td colspan="2">LynxViewやTextViewと共に指定したとき、文法チェックをしないようにします。</td></tr>
+<tr><td valign="top" colspan="2">HTTPHeader</td><td valign="top">on</td><td colspan="2">URL指定のとき、HTTPレスポンスヘッダを表示するようにします。</td></tr>
+<tr><td valign="top">OtherWindow</td><td valign="top" align="center">O</td><td valign="top">on</td><td colspan="2">結果のページから解説を参照するとき、別のウィンドウに表示します。</td></tr>
+<tr><td valign="top">IgnoreDOCTYPE</td><td valign="top" align="center">I</td><td valign="top">on</td><td colspan="2">HTML中のDOCTYPE宣言を無視してHTMLVersionで指定されているヴァージョンでチェックします。この指定がないときは、DOCTYPE宣言があればそれを優先させ、なければHTMLVersionの指定によります。</td></tr>
+<tr><td valign="top" rowspan="42">HTMLVersion</td><td valign="top" rowspan="41" align="center">H</td><td colspan="3">IgnoreDOCTYPEが指定されているときや、HTML中にDOCTYPE宣言がないときに、どのHTMLでチェックするかを指定します。省略時は HTML4.01 Transitional とみなされます。</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML10</td><td>HTML1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML20</td><td>HTML2.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML2x</td><td>HTML2.x</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTMLplus</td><td>HTML+</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML30</td><td>HTML3.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML32</td><td>HTML3.2</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML40-Strict</td><td>HTML4.0 Strict</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML40-Transitional</td><td>HTML4.0 Transitional</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML40-Frameset</td><td>HTML4.0 Frameset</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML40-Mobile</td><td>HTML4.0 Mobile</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML401-Strict</td><td>HTML4.01 Strict</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML401-Transitional</td><td>HTML4.01 Transitional</td></tr>
+<tr><td valign="top" colspan="2" nowrap>HTML401-Frameset</td><td>HTML4.01 Frameset</td></tr>
+<tr><td valign="top" colspan="2" nowrap>XHTML1-Strict</td><td>XHTML1.0 Strict</td></tr>
+<tr><td valign="top" colspan="2" nowrap>XHTML1-Transitional</td><td>XHTML1.0 Transitional</td></tr>
+<tr><td valign="top" colspan="2" nowrap>XHTML1-Frameset</td><td>XHTML1.0 Frameset</td></tr>
+<tr><td valign="top" colspan="2" nowrap>XHTML11</td><td>XHTML1.1</td></tr>
+<tr><td valign="top" colspan="2" nowrap>XHTML-Basic</td><td>XHTML Basic</td></tr>
+<tr><td valign="top" colspan="2" nowrap>XHTML-MP</td><td>XHTML Mobile Profile 1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>15445</td><td>ISO/IEC 15445</td></tr>
+<tr><td valign="top" colspan="2" nowrap>15445-Preparation</td><td>ISO/IEC 15445 Preparation</td></tr>
+<tr><td valign="top" colspan="2" nowrap>Mozilla20</td><td>Netscape Navigator 2.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>Mozilla30</td><td>Netscape Navigator 3.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>Mozilla40</td><td>Netscape Navigator 4.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>IE30-beta</td><td>Microsoft Internet Explorer 3.0 beta</td></tr>
+<tr><td valign="top" colspan="2" nowrap>IE30</td><td>Microsoft Internet Explorer 3.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>IE40</td><td>Microsoft Internet Explorer 4.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>IE50</td><td>Microsoft Internet Explorer 5.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>IE55</td><td>Microsoft Internet Explorer 5.5</td></tr>
+<tr><td valign="top" colspan="2" nowrap>WebExp</td><td>IBM WebExplorer 1.1</td></tr>
+<tr><td valign="top" colspan="2" nowrap>Compact-HTML</td><td>Compact HTML</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode10</td><td>NTT DoCoMo iモード 1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode20</td><td>NTT DoCoMo iモード 2.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode30</td><td>NTT DoCoMo iモード 3.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode40</td><td>NTT DoCoMo iモード 4.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode-XHTML10</td><td>NTT DoCoMo iモード XHTML 1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode-XHTML11</td><td>NTT DoCoMo iモード XHTML 1.1</td></tr>
+<tr><td valign="top" colspan="2" nowrap>J-SkyWeb</td><td>J-SkyWeb</td></tr>
+<tr><td valign="top" colspan="2" nowrap>J-SkyWebStation</td><td>J-SkyWeb Station</td></tr>
+<tr><td valign="top" colspan="2" nowrap>doti10</td><td>ドットi 1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>JPO</td><td>特許出願用HTML</td></tr>
+<tr><td valign="top">Pedantic</td><td valign="top" align="center">P</td><td valign="top">on</td><td colspan="2">すべてのチェックを有効にします。</td></tr>
+<tr><td valign="top">NoReligious</td><td valign="top" align="center">R</td><td valign="top">on</td><td colspan="2">宗教的なチェックを無効にします。</td></tr>
+<tr><td valign="top">NoAccessibility</td><td valign="top" align="center">A</td><td valign="top">on</td><td colspan="2">アクセス性向上に関する警告を無効にします。</td></tr>
+<tr><td valign="top">TimeOut</td><td valign="top" align="center">T</td><td valign="top">秒数</td><td colspan="2">リンク先リソースが存在するかどうかチェックするときのタイムアウト秒数を指定します。<!--リンクが多いと時間がかかるので注意してください。-->60より大きな値は指定できません。そのときは60とみなされます。0以下を指定するとチェックせずに無条件で存在するとみなされます。Pedantic=onでTimeOut=0とすれば、このチェック以外のすべてを有効にすることができます。</td></tr>
+<tr><td valign="top" colspan="2">CheckGET</td><td valign="top">on</td><td colspan="2">リンク先リソースが存在するかどうかチェックするときに、通常は効率的なHEADリクエストを用いますが、<!--Niftyなど-->一部のISPはHEADリクエストを受け付けないことがあります。そのようなURLが含まれるときに指定します。HEADが失敗したときにGETで再リクエストします。</td></tr>
+<tr><td valign="top" colspan="2">CheckList</td><td valign="top">on</td><td colspan="2">(over-limit-whinesを除く)すべてのエラーチェックのon/offが指定されていることを示します。この指定がないときは、すべてのチェック状態は既定値に従います。Pedantic=onのときは無視されます。どういうチェックがあるのかは、htmllint.html や htmllintrc を参照してください。</td></tr>
+<tr><td valign="top">Enable</td><td valign="top" align="center">E</td><td colspan="3">既定値に対してどのチェックを有効にするかを指定します。複数指定するときは、Enable=unref-link,required のように空白を空けずにコンマで繋げます。Pedantic=onのときまたはCheckList=onのときは無視されます。どういうチェックがあるのかは、htmllint.html や htmllintrc を参照してください。</td></tr>
+<tr><td valign="top">Disable</td><td valign="top" align="center">D</td><td colspan="3">既定値に対してどのチェックを無効にするかを指定します。複数指定するときは、Disable=unknown-doctype,mailto-link,empty-container のように空白を空けずにコンマで繋げます。Pedantic=onのときまたはCheckList=onのときは無視されます。どういうチェックがあるのかは、htmllint.html や htmllintrc を参照してください。</td></tr>
+<tr><td valign="top" colspan="2">LimitWhines</td><td colspan="3">エラーの打ち切り限界数を指定します。省略時はLimitWhines=999です。</td></tr>
+</table>
+<p>注意: 仕様は予告なく変更されます。</p>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllintcgi.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Jul 07, 2005<br>
+Created: Jun 19, 1997
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./notice.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[<a href="./use-htmllint.html">next</a>]
+</div>
+
+</body>
+</html>

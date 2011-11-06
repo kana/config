@@ -1,0 +1,2949 @@
+<!--====== HTML Document Type Definition for Internet Explorer 5.0 ========-->
+
+<!--                  THIS IS EXPERIMENTAL by k16                          -->
+
+<!ENTITY % MSIE5.5 "IGNORE">
+
+<!ENTITY % HTML.Version
+  "http://msdn.microsoft.com/workshop/author/html/reference/elements.asp"
+>
+
+<!--================== Deprecated Features Switch =========================-->
+
+<!ENTITY % HTML.Recommended "IGNORE" >
+
+<![ %HTML.Recommended [
+        <!ENTITY % HTML.Deprecated "IGNORE">
+]]>
+
+<!ENTITY % HTML.Deprecated "INCLUDE">
+
+<!--================== Imported Names =====================================-->
+
+<!ENTITY % ContentType "CDATA"
+        -- meaning a MIME content type, as per RFC1521
+        -->
+
+<!ENTITY % Character "CDATA"
+    -- a single character from [ISO10646]
+    -->
+
+<!ENTITY % Relation "CDATA"
+    -- comma-separated list of relations
+    -->
+
+<!ENTITY % LanguageCode "NAME"
+    -- a language code, as per [RFC1766]
+    -->
+
+<!ENTITY % HTTP-Method "GET | POST"
+        -- as per HTTP specification
+        -->
+
+<!ENTITY % HTTP-Methods "CDATA"
+        -- String that specifies the comma-separated list of HTTP methods
+        -->
+
+<!ENTITY % URL "CDATA"
+        -- The term URL means a CDATA attribute
+           whose value is a Uniform Resource Locator,
+           See RFC1808 (June 95) and RFC1738 (Dec 94).
+        -->
+
+<!ENTITY % Script "CDATA">
+<!ENTITY % StyleSheet "CDATA">
+<!ENTITY % Language "JAVASCRIPT|JSCRIPT|VBSCRIPT|VBS">
+
+<!ENTITY % Length "CDATA"  -- nn for pixels or nn% for percentage length -->
+<!ENTITY % Pixels "NUMBER" -- integer representing length in pixels -->
+
+<!--========= Common attributes ============================================-->
+
+<!ENTITY % attrs  -- common attributes. Taken from the HTML 3 DTD --
+       'id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        title  CDATA   #IMPLIED    -- advisory title string --
+        lang   %LanguageCode; #IMPLIED
+        dir    (LTR|RTL)      LTR  -- direction for weak/neutral text --
+        language (%Language;) #IMPLIED
+        style  %StyleSheet;   #IMPLIED
+       '>
+<!ENTITY % access
+       'accesskey   %Character; #IMPLIED  -- accessibility key character --
+        tabindex    NUMBER      #IMPLIED
+       '>
+
+<![ %MSIE5.5 [
+<!ENTITY % selection.attrs "
+        atomicselection  (true|false) false
+        unselectable     (on|off) off
+        ">
+]]>
+<!ENTITY % selection.attrs "">
+
+<!--========= Color attribute ============================================-->
+
+<!ENTITY % color "CDATA" -- a color specification: #HHHHHH @@ details? -->
+
+<!--================ Character mnemonic entities ==========================-->
+
+<!ENTITY % ISOlat1 PUBLIC
+       "ISO 8879-1986//ENTITIES Added Latin 1//EN//HTML">
+%ISOlat1;
+
+<!ENTITY % HTMLspecial PUBLIC
+   "-//W3C//ENTITIES Special//EN//HTML"
+   "http://www.w3.org/TR/REC-html40-971218/HTMLspecial.ent">
+%HTMLspecial;
+
+<!--================ Entities for special symbols =========================-->
+<!-- &trade &shy and &cbsp are not widely deployed and so not included here -->
+
+<!ENTITY copy   CDATA "&#169;"  -- copyright sign     -->
+<!ENTITY reg    CDATA "&#174;"  -- registered sign    -->
+<!ENTITY amp    CDATA "&#38;"   -- ampersand          -->
+<!ENTITY gt     CDATA "&#62;"   -- greater than       -->
+<!ENTITY lt     CDATA "&#60;"   -- less than          -->
+<!ENTITY quot   CDATA "&#34;"   -- double quote       -->
+<!ENTITY nbsp   CDATA "&#160;"  -- non breaking space -->
+
+<!-- Parameter Entities -->
+
+<!ENTITY % heading "H1|H2|H3|H4|H5|H6">
+
+
+<!--=================== Text Content =======================================-->
+
+<!ENTITY % font "TT | I | B  | U | STRIKE | BIG | SMALL | SUB | SUP | FONT | S | BLINK">
+
+<!ENTITY % phrase "EM | STRONG | DFN | CODE | SAMP | KBD | VAR | CITE | ACRONYM ">
+
+<!ENTITY % break  "BR | NOBR | WBR" >
+
+<!ENTITY % special "A | Q | SPAN | BDO" >
+
+<![ %HTML.Deprecated [
+<!ENTITY % mmobjects "IMG | APPLET | SCRIPT | MAP |  MARQUEE | OBJECT | EMBED" >
+]]>
+<!ENTITY % mmobjects "IMG | APPLET | SCRIPT | MAP |  MARQUEE | OBJECT" >
+
+<!ENTITY % formctrl "INPUT | SELECT | TEXTAREA | LABEL | BUTTON">
+
+<![ %HTML.Deprecated [
+<!ENTITY % inline "#PCDATA | COMMENT | %font; | %phrase; | %break; | %special; | %mmobjects; | %formctrl; | RUBY | :XMLNS:">
+]]>
+<!ENTITY % inline "#PCDATA | %font; | %phrase; | %break; | %special; | %mmobjects; | %formctrl; | RUBY | :XMLNS:">
+
+<!--=================== Flow Content =======================================-->
+
+<!ENTITY % list "UL | OL | DL | DIR | MENU">
+
+<![ %HTML.Deprecated [
+<!ENTITY % preformatted "PRE | XMP | LISTING">
+]]>
+<!ENTITY % preformatted "PRE">
+
+
+<![ %HTML.Deprecated [
+<!ENTITY % block
+     "P | %heading; | %list; | %preformatted; | DIV | BLOCKQUOTE | FORM | ISINDEX |
+         NOSCRIPT | NOFRAMES | HR | TABLE | FIELDSET | IFRAME | CENTER">
+]]>
+<!ENTITY % block
+     "P | %heading; | %list; | %preformatted; | DIV | BLOCKQUOTE | FORM |
+         NOSCRIPT | NOFRAMES | HR | TABLE | FIELDSET | IFRAME">
+
+<!ENTITY % mixed.content "%inline|%block|ADDRESS|BASEFONT" >
+
+<!ENTITY % flow "%mixed.content;">
+
+<!ENTITY % font.content "%mixed.content;">
+
+
+<!-- Text Elements -->
+
+<!ELEMENT (%font) - -  (%font.content;)* >
+<!ATTLIST (TT|I|B|U|STRIKE|BIG|SMALL|SUB|SUP|S|BLINK)
+        %attrs;
+--      %access; --
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+<!ENTITY % face  "CDATA">
+<!ENTITY % fsize "CDATA">
+<!ENTITY % rsize "CDATA">
+<!ATTLIST FONT
+        %attrs;
+        %access;
+        %selection.attrs;
+        color   %color; #IMPLIED    -- #RRGGBB in hex, e.g. red: color="#FF0000" --
+        face    %face;  #IMPLIED
+        size    %rsize; #IMPLIED    -- [+]nn e.g. size="+1", size=4 --
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+
+<!ELEMENT (%phrase;) - - (%inline;)*>
+<!ATTLIST ACRONYM
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+<!ATTLIST (KBD|VAR)
+        %attrs;
+        %access;
+        %selection.attrs;
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+<!ATTLIST (EM|STRONG|DFN|CODE|SAMP|CITE)
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT SPAN - - (%inline;)*>
+<!ATTLIST SPAN
+        %attrs;
+        %access;
+        %selection.attrs;
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        onbeforeeditfocus %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT BDO - - (%inline;)*>
+<!ATTLIST BDO
+        %attrs;
+        %access;
+        %selection.attrs;
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncellchange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT (BR|WBR) - O EMPTY   -- forced line break -->
+<!ELEMENT NOBR     - O (%inline;)* -(NOBR) >
+<!ATTLIST BR
+        %attrs;
+        clear (left|all|right|none) #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        >
+<!ATTLIST WBR
+        -- %attrs; --
+        >
+<!ATTLIST NOBR
+        %attrs;
+        %selection.attrs;
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<![ %HTML.Deprecated [
+<!ELEMENT COMMENT  - - CDATA>
+<!ATTLIST COMMENT
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        lang   %LanguageCode; #IMPLIED
+        title  CDATA   #IMPLIED    -- advisory title string --
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+]]>
+
+
+<!--=================== Document Body =====================================-->
+
+<!ENTITY % body.content "%mixed.content;" >
+
+<!ENTITY % body-color-attrs "
+        bgcolor %color #IMPLIED
+        text    %color #IMPLIED
+        link    %color #IMPLIED
+        vlink   %color #IMPLIED
+        alink   %color #IMPLIED
+        ">
+
+<!ENTITY % bgproperties "CDATA" -- fixed or "" -->
+
+<!ELEMENT BODY O O  (%body.content;)* +(INS|DEL|XML)>
+<!ATTLIST BODY
+        %attrs;
+        %access;
+        %selection.attrs;
+        background      %URL;    #IMPLIED  -- texture tile for document background --
+        %body-color-attrs;                -- bgcolor, text, link, vlink, alink --
+        bgproperties %bgproperties; #IMPLIED
+        bottommargin    %Pixels;  #IMPLIED
+        leftmargin      %Pixels;  #IMPLIED
+        rightmargin     %Pixels;  #IMPLIED
+        topmargin       %Pixels;  #IMPLIED
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        nowrap (nowrap|true|false)  false  -- suppress word wrap --
+        scroll         (yes|no)   yes
+        onafterprint %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeprint %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        onblur %Script; #IMPLIED    -- in Remarks --
+        onfocus %Script; #IMPLIED   -- in Remarks --
+        onload %Script; #IMPLIED    -- in Remarks --
+        onunload %Script; #IMPLIED  -- in Remarks --
+        >
+
+<![ %HTML.Deprecated [
+<!ENTITY % address.content "((%inline;) | P | CENTER)*">
+]]>
+<!ENTITY % address.content "((%inline;) | P)*">
+
+<!ELEMENT ADDRESS - - %address.content;>
+<!ATTLIST ADDRESS
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT DIV - - (%body.content;)*>
+<!ATTLIST DIV
+        %attrs;
+        %access;
+        %selection.attrs;
+        align  (left|center|right|justify) left -- alignment of following text --
+        nowrap (nowrap|true|false)  false  -- suppress word wrap --
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        onbeforeeditfocus %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<![ %HTML.Deprecated [
+<!-- CENTER is a shorthand for DIV with ALIGN=CENTER -->
+<!ELEMENT CENTER - - (%mixed.content;)*>
+<!ATTLIST CENTER
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+]]>
+
+<!--===================== Inline Quotes ==================================-->
+
+<!ELEMENT Q - - (%inline;)*            -- short inline quotation -->
+<!ATTLIST Q
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--================== The Anchor Element =================================-->
+
+<!ELEMENT A - - (%inline;)* -(A)>
+<!ATTLIST A
+        %attrs;
+        %access;
+        %selection.attrs;
+        datafld CDATA   #IMPLIED    -- ??? --
+        datasrc CDATA   #IMPLIED    -- ??? --
+        href    %URL;    #IMPLIED    -- URL for linked resource --
+        methods %HTTP-Methods; #IMPLIED
+        name    CDATA   #IMPLIED    -- named link end --
+        rel     %Relation; #IMPLIED
+        rev     %Relation; #IMPLIED    -- reverse link types --
+        target  CDATA   #IMPLIED    -- frame target --
+        urn     CDATA   #IMPLIED    -- ??? --
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--================== Client-side image maps ============================-->
+
+<!-- These can be placed in the same document or grouped in a
+     separate document although this isn't yet widely supported -->
+
+<!ENTITY % SHAPE "(rect|rectangle|circ|circle|poly|polygon)">
+<!ENTITY % COORDS "CDATA" -- comma separated list of numbers -->
+
+<!ELEMENT MAP - - (AREA)*>
+<!ATTLIST MAP
+        -- %attrs; --
+        name    CDATA   #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT AREA - O EMPTY>
+<!ATTLIST AREA
+        %attrs;
+        %access;
+        %selection.attrs;
+        alt     CDATA   #IMPLIED
+        coords  %COORDS #IMPLIED  -- always needed except for shape=default --
+        href    %URL;    #IMPLIED  -- this region acts as hypertext link --
+        nohref (nohref|true|false) false  -- this region has no action --
+        shape   %SHAPE  rect
+        target  CDATA   #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+    >
+
+<!--================== The LINK Element ==================================-->
+
+<!ENTITY % Types "CDATA"
+        -- See Internet Draft: draft-ietf-html-relrev-00.txt
+           LINK has been part of HTML since the early days
+           although few browsers as yet take advantage of it.
+
+           Relationship values can be used in principle:
+
+                a) for document specific toolbars/menus when used
+                   with the LINK element in document head:
+                b) to link to a separate style sheet (rel=stylesheet)
+                c) to make a link to a script (rel=script)
+                d) by stylesheets to control how collections of
+                   html nodes are rendered into printed documents
+                e) to make a link to a printable version of this document
+                   e.g. a postscript or pdf version (rel=print)
+-->
+
+<!ENTITY % disabled "disabled (disabled|true|false) false">
+
+<!ELEMENT LINK - O EMPTY>
+<!ATTLIST LINK
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        title  CDATA   #IMPLIED    -- advisory title string --
+        name   CDATA   #IMPLIED
+        %disabled;
+        href    %URL;    #IMPLIED    -- URL for linked resource --
+        media  (screen|print|all) #IMPLIED
+        rel    %Relation;  #IMPLIED    -- forward link types --
+        rev    %Relation;  #IMPLIED    -- reverse link types --
+        onerror %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!--=================== Images ============================================-->
+
+<!-- Suggested widths are used for negotiating image size
+     with the module responsible for painting the image.
+     align=left or right cause image to float to margin
+     and for subsequent text to wrap around image -->
+
+<!ENTITY % Align "(absbottom|absmiddle|baseline|bottom|left|middle|right|texttop|top)">
+
+<!ENTITY % Loop "CDATA" -- -1 or NUMBER -->
+
+<!ELEMENT IMG    - O EMPTY --  Embedded image -->
+<!ATTLIST IMG
+        %attrs;
+        %access;
+        %selection.attrs;
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        align       %Align;  left       -- vertical or horizontal alignment --
+        alt         CDATA    #IMPLIED   -- for display in place of image --
+        border      %Pixels;  #IMPLIED   -- suggested link border width --
+        dynsrc      %URL;     #IMPLIED  -- URL of image to embed --
+        lowsrc      %URL;     #IMPLIED  -- URL of image to embed --
+        src         %URL;     #REQUIRED  -- URL of image to embed --
+        height      %Length;  #IMPLIED   -- suggested height in pixels --
+        width       %Length;  #IMPLIED   -- suggested width in pixels --
+        hspace      %Pixels;  #IMPLIED   -- suggested horizontal gutter --
+        vspace      %Pixels;  #IMPLIED   -- suggested vertical gutter --
+        loop        %Loop;  #IMPLIED
+        ismap       (ismap|true|false)  false   -- use server image map --
+        usemap      %URL;     #IMPLIED   -- use client-side image map --
+        name        CDATA    #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onabort %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeunload %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onerror %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        onunload %Script; #IMPLIED
+    >
+
+<!-- USEMAP points to a MAP element which may be in this document
+  or an external document, although the latter is not widely supported -->
+
+<!--=================== Java APPLET tag ===================================-->
+
+<!ELEMENT APPLET - - (PARAM|%inline;)*>
+<!ATTLIST APPLET
+        %attrs;
+        %access;
+     -- %disabled; --
+        %selection.attrs;
+        datafld CDATA      #IMPLIED   -- ??? --
+        datasrc CDATA      #IMPLIED   -- ??? --
+        align    %Align;   left       -- vertical or horizontal alignment --
+        alt      CDATA     #IMPLIED   -- for display in place of applet --
+        code     %URL;     #IMPLIED   -- class file --
+        codebase %URL;     #IMPLIED   -- code base --
+        height   %Pixels;  #REQUIRED  -- suggested height in pixels --
+        hspace   %Pixels;  #IMPLIED   -- suggested horizontal gutter --
+        name     CDATA     #IMPLIED   -- applet name --
+        src      %URL;     #IMPLIED
+        vspace   %Pixels;  #IMPLIED   -- suggested vertical gutter --
+        width    %Pixels;  #REQUIRED  -- suggested width in pixels --
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncellchange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondataavailable %Script; #IMPLIED
+        ondatasetchanged %Script; #IMPLIED
+        ondatasetcomplete %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onrowsdelete %Script; #IMPLIED
+        onrowsinserted %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        >
+
+
+<!--=================== Horizontal Rule ===================================-->
+
+<!ELEMENT HR    - O EMPTY>
+<!ATTLIST HR
+        %attrs;
+        %access;
+        %selection.attrs;
+        align (left|right|center) left
+        color   %color;   #IMPLIED
+        noshade (noshade|true|false) false
+        size    %Pixels;  #IMPLIED
+        width   %Length;  #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--=================== Paragraphs=========================================-->
+
+<!ENTITY % P.content    "(%inline|CENTER)*" >
+
+<!ELEMENT P     - O %P.content; >
+<!ATTLIST P
+        %attrs;
+        %access;
+        %selection.attrs;
+        align  (left|center|right|justify) left
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+
+<!--=================== Base Font =========================================-->
+
+<!ELEMENT BASEFONT      - O EMPTY>
+<!ATTLIST BASEFONT
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        lang   %LanguageCode; #IMPLIED
+        size   %fsize;  #IMPLIED
+        face   %face;   #IMPLIED
+        color  %color;  #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!--=================== Background Sound =================================-->
+
+<!ENTITY % Balance "CDATA"
+        -- Integer that specifies a value within the -10,000 to +10,000 range
+        -->
+
+<!ELEMENT BGSOUND  - O EMPTY>
+<!ATTLIST BGSOUND
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        lang   %LanguageCode; #IMPLIED
+        title  CDATA   #IMPLIED    -- advisory title string --
+        loop    %Loop;  #IMPLIED
+        src     %URL;    #IMPLIED
+        volume  NUMBER  #IMPLIED
+        balance %Balance 0
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!--=================== Marquee =========================================-->
+
+<!ELEMENT MARQUEE  - O (%inline;)*>
+<!ATTLIST MARQUEE
+        %attrs;
+        %access;
+        %selection.attrs;
+        behavior        (scroll|slide|alternate) SCROLL
+        bgcolor %color;  #IMPLIED
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        direction       (left|right|up|down)    LEFT
+        height  %Length; #IMPLIED
+        hspace  %Pixels; #IMPLIED
+        loop    %Loop;  #IMPLIED
+        scrollamount    NUMBER  #IMPLIED
+        scrolldelay     NUMBER  #IMPLIED
+        truespeed (truespeed|true|false) false
+        vspace  %Pixels; #IMPLIED
+        width   %Length; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onbounce %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfinish %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        onstart %Script; #IMPLIED
+        >
+
+<!--=================== Headings ==========================================-->
+
+<!--
+  There are six levels of headers from H1 (the most important)
+  to H6 (the least important).
+-->
+
+<!ELEMENT ( %heading; )  - -  %P.content >
+<!ATTLIST ( %heading; )
+        %attrs;
+        %access;
+        %selection.attrs;
+        align  (left|center|right|justify) left
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--=================== Preformatted Text =================================-->
+
+<!-- excludes images and changes in font size -->
+
+<!ENTITY % pre.exclusion "IMG|BIG|SMALL|SUB|SUP|FONT">
+
+<!ELEMENT PRE - - (%inline;)* -(%pre.exclusion;)>
+<!ATTLIST PRE
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<![ %HTML.Deprecated [
+
+<!ENTITY % literal "CDATA"
+        -- historical, non-conforming parsing mode where
+           the only markup signal is the end tag
+           in full
+        -->
+
+<!ELEMENT (XMP|LISTING) - -  %literal;>
+<!ATTLIST XMP
+        %attrs;
+        %access;
+        %selection.attrs;
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+<!ATTLIST LISTING
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT PLAINTEXT - O %literal;>
+<!ATTLIST PLAINTEXT
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+]]>
+
+<!--=================== Block-like Quotes =================================-->
+
+<!ELEMENT BLOCKQUOTE - - (%body.content;)*>
+<!ATTLIST BLOCKQUOTE
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--=================== Inserted/Deleted Text ============================-->
+
+<!-- INS/DEL are handled by inclusion on BODY -->
+<!ELEMENT (INS|DEL) - - (%flow;)*      -- inserted text, deleted text -->
+<!ATTLIST (INS|DEL)
+        %attrs;
+        %access;
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--=================== Lists =============================================-->
+
+<!--
+    HTML 3.2 allows you to control the sequence number for ordered lists.
+    You can set the sequence number with the START and VALUE attributes.
+    The TYPE attribute may be used to specify the rendering of ordered
+    and unordered lists.
+-->
+
+<!-- definition lists - DT for term, DD for its definition -->
+
+<!ELEMENT DL    - -  (DT|DD)*>
+<!ATTLIST DL
+        %attrs;
+        %access;
+        %selection.attrs;
+        compact (compact|true|false) false -- more compact style --
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT DT - O (%inline;)*>
+<!ATTLIST DT
+        %attrs;
+        %access;
+        %selection.attrs;
+        nowrap (nowrap|true|false)  false  -- suppress word wrap --
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT DD - O (%flow;)*>
+<!ATTLIST DD
+        %attrs;
+        %access;
+        %selection.attrs;
+        nowrap (nowrap|true|false)  false  -- suppress word wrap --
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!-- Ordered lists OL, and unordered lists UL -->
+<!ELEMENT (OL|UL) - -  (LI)*>
+
+<!--
+       Numbering style
+    1   arabic numbers      1, 2, 3, ...
+    a   lower alpha         a, b, c, ...
+    A   upper alpha         A, B, C, ...
+    i   lower roman         i, ii, iii, ...
+    I   upper roman         I, II, III, ...
+
+    The style is applied to the sequence number which by default
+    is reset to 1 for the first list item in an ordered list.
+
+    This can't be expressed directly in SGML due to case folding.
+-->
+
+<!ENTITY % OLStyle "CDATA" -- constrained to: [1|a|A|i|I] -->
+<!ENTITY % ULStyle "(disc|square|circle)">
+
+<!ATTLIST OL -- ordered lists --
+        %attrs;
+        %access;
+        %selection.attrs;
+        type      %OLStyle;  1   -- numbering style --
+        start     NUMBER     #IMPLIED   -- starting sequence number --
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ATTLIST UL -- unordered lists --
+        %attrs;
+        %access;
+        %selection.attrs;
+        type      %ULStyle;  disc   -- numbering style --
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT (DIR|MENU) - -  (LI)* -(%block;)>
+<!ATTLIST (DIR|MENU)
+        %attrs;
+        %access;
+        %selection.attrs;
+        type (disk|circle|square) #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!-- The type attribute can be used to change the bullet style
+     in unordered lists and the numbering style in ordered lists -->
+
+<!ENTITY % LIStyle "CDATA" -- constrained to: "(%OLStyle)" -->
+
+<!ELEMENT LI - O (%flow;)*>
+<!ATTLIST LI
+        %attrs;
+        %access;
+        %selection.attrs;
+        type    %LIStyle     #IMPLIED   -- list item style --
+        value    NUMBER      #IMPLIED   -- reset sequence number --
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--================ Forms ===============================================-->
+
+<!ELEMENT FORM - - (%body.content;)* -(FORM) +(%formctrl;)>
+<!ATTLIST FORM
+        %attrs;
+        %access;
+        %selection.attrs;
+        action %URL; #REQUIRED -- server-side form handler --
+        enctype CDATA #IMPLIED -- application/x-www-form-urlencoded --
+        method (%HTTP-Method;) GET -- see HTTP specification --
+        name    CDATA  #IMPLIED
+        target  CDATA  #IMPLIED
+        autocomplete (on|off) #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreset %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        onsubmit %Script; #IMPLIED
+        >
+
+<!ENTITY % InputType
+        "(TEXT | PASSWORD | CHECKBOX | RADIO | SUBMIT
+            | RESET | FILE | HIDDEN | IMAGE | BUTTON)">
+
+<!ELEMENT INPUT - O EMPTY>
+<!ATTLIST INPUT
+        type %InputType TEXT     -- what kind of widget is needed --
+        %attrs;
+        %access;
+        %selection.attrs;
+        align   (center|left|right) left
+        alt     CDATA     #IMPLIED
+        src     %URL;  #IMPLIED     -- for fields with background images --
+        dynsrc  %URL;  #IMPLIED     -- for fields with background images --
+        lowsrc  %URL;  #IMPLIED     -- for fields with background images --
+        maxlength NUMBER #IMPLIED
+        name  CDATA #IMPLIED     -- required for all but submit and reset --
+        %disabled;
+        readonly (readonly|true|false) false
+        size CDATA  #IMPLIED     -- specific to each type of field --
+        value CDATA #IMPLIED     -- required for radio and checkboxes --
+        checked (checked) #IMPLIED -- for radio buttons and check boxes --
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        autocomplete (on|off) #IMPLIED
+        vcard_name CDATA #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onchange %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onselect %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT SELECT - - (OPTION+)>
+<!ATTLIST SELECT
+        %attrs;
+        %access;
+        %selection.attrs;
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        align %Align; left
+        %disabled;
+        multiple (multiple|true|false) false
+        name CDATA #REQUIRED
+        size NUMBER #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onchange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT OPTION - O (#PCDATA)*>
+<!ATTLIST OPTION
+        %attrs;
+        selected (selected|true|false) false
+        value  CDATA  #IMPLIED -- defaults to element content --
+        onreadystatechange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT TEXTAREA - - (#PCDATA)*>
+<!ATTLIST TEXTAREA
+        %attrs;
+        %access;
+        %selection.attrs;
+        rows NUMBER #REQUIRED
+        cols NUMBER #REQUIRED
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        name CDATA #REQUIRED
+        %disabled;
+        readonly (readonly|true|false) false
+        wrap (off|hard|soft) #IMPLIED
+        type (textarea) textarea
+        onbeforeeditfocus %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onchange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselect %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT FIELDSET - - (#PCDATA,LEGEND,(%flow;)*) -- form control group -->
+<!ATTLIST FIELDSET
+        %attrs;
+        %access;
+        %selection.attrs;
+        align %Align left
+        onbeforeeditfocus %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT LEGEND - - (%inline;)*       -- fieldset legend -->
+<!ATTLIST LEGEND
+        %attrs;
+        %access;
+        %selection.attrs;
+        align (bottom|center|left|right|top) #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        >
+
+<!ELEMENT BUTTON - - (%flow;)* -(A|%formctrl;|FORM|ISINDEX|FIELDSET|IFRAME)>
+<!ATTLIST BUTTON
+        %attrs;
+        %access;
+        %selection.attrs;
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        %disabled;
+        name        CDATA          #IMPLIED
+        type        (button|submit|reset) button -- for use as form button --
+        value       CDATA          #IMPLIED  -- sent to server when submitted --
+        onbeforecut %Script; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT LABEL - - (%inline;)* -(LABEL) -- form field label text -->
+<!ATTLIST LABEL
+        %attrs;
+        %access;
+        %selection.attrs;
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        for     IDREF     #IMPLIED  -- matches field ID value --
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--======================= Tables ========================================-->
+
+<!ELEMENT TABLE - - (CAPTION?, (COLGROUP*|COL*), THEAD?, TFOOT?, TBODY+)>
+<!ELEMENT CAPTION - - (%inline;)+>
+<!ELEMENT THEAD - O (TR+)>
+<!ELEMENT TFOOT - O (TR+)>
+<!ELEMENT TBODY O O (TR+)>
+<!ELEMENT COLGROUP - O (COL*)>
+<!ELEMENT COL - O EMPTY>
+<!ELEMENT TR - O (TH|TD)+>
+<!ELEMENT (TH|TD) - O (%body.content;)*>
+
+<!ENTITY % border "CDATA" -- \d+|BORDER -->
+
+<!ATTLIST TABLE                    -- table element --
+        %attrs;
+        %access;
+        %selection.attrs;
+        align (center|left|right) left -- table position relative to window --
+        border  %border; 1  -- controls frame width around table --
+        background       %URL;   #IMPLIED        -- background picture --
+        bgcolor          %color; #IMPLIED  -- table background color --
+        bordercolor      %color; #IMPLIED  -- cell border color --
+        bordercolordark  %color; #IMPLIED  -- 3D table border color --
+        bordercolorlight %color; #IMPLIED  -- 3D table border color --
+        cellspacing %Pixels; #IMPLIED -- spacing between cells --
+        cellpadding %Pixels; #IMPLIED -- spacing within cells --
+        cols    NUMBER   #IMPLIED  -- used for immediate display mode --
+        datapagesize NUMBER #IMPLIED
+        datasrc %URL;    #IMPLIED
+        frame   (ABOVE | BELOW | BORDER | BOX | INSIDES | LHS | RHS | VOID | VSIDES)
+                         VOID  -- which parts of table frame to include --
+        height  %Length; #IMPLIED  -- table width relative to window --
+        width   %Length; #IMPLIED  -- table width relative to window --
+        rules   (ALL | COLS | GROUPS | NONE | ROWS)
+                         #IMPLIED  -- rulings between rows and cols --
+        onbeforecut %Script; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ATTLIST CAPTION                  -- table caption --
+        %attrs;
+        %access;
+        %selection.attrs;
+        align  (bottom|center|left|right|top) center
+        valign (top|bottom)        top
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+
+<!ATTLIST COLGROUP
+        %attrs;
+        align  (left|center|right) left
+        valign (baseline|bottom|middle|top|center) middle
+        span    NUMBER   1         -- default number of columns in group --
+        bgcolor %color;  #IMPLIED  -- background color for cell --
+        width   %Length; #IMPLIED  -- default width for enclosed COLs --
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!ATTLIST COL                      -- column groups and properties --
+        %attrs;
+        align  (left|center|right) left
+        valign (baseline|bottom|middle|top|center) middle
+        span    NUMBER   1         -- number of columns spanned by group --
+        bgcolor %color;  #IMPLIED  -- background color for cell --
+        width   %Length; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!--
+    Use THEAD to duplicate headers when breaking table
+    across page boundaries, or for static headers when
+    body sections are rendered in scrolling panel.
+
+    Use TFOOT to duplicate footers when breaking table
+    across page boundaries, or for static footers when
+    body sections are rendered in scrolling panel.
+
+    Use multiple TBODY sections when rules are needed
+    between groups of table rows.
+-->
+<!ATTLIST TBODY      -- table section --
+        %attrs;
+        %access;
+        %selection.attrs;
+        align   (left|center|right) left
+        valign  (baseline|bottom|middle|top|center) middle
+        bgcolor %color; #IMPLIED  -- background color for cell --
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+<!ATTLIST (THEAD|TFOOT)      -- table section --
+        %attrs;
+        %access;
+        %selection.attrs;
+        align   (left|center|right) left
+        valign  (baseline|bottom|middle|top|center) middle
+        bgcolor %color; #IMPLIED  -- background color for cell --
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ATTLIST TR                       -- table row --
+        %attrs;
+        %access;
+        align   (left|center|right) left
+        valign  (baseline|bottom|middle|top|center) middle
+        bgcolor          %color; #IMPLIED  -- background color for cell --
+        bordercolor      %color; #IMPLIED  -- cell border color --
+        bordercolorlight %color; #IMPLIED  -- 3D cell border color --
+        bordercolordark  %color; #IMPLIED  -- 3D cell border color --
+        width    %Length; #IMPLIED
+        height   %Length; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ATTLIST (TD|TH)              -- header or data cell --
+        %attrs;
+        %access;
+        align   (left|center|right) #IMPLIED
+        valign  (baseline|bottom|middle|top|center) middle
+        background       %URL;   #IMPLIED        -- background graphic --
+        bgcolor          %color; #IMPLIED  -- background color for cell --
+        bordercolor      %color; #IMPLIED  -- cell border color --
+        bordercolorlight %color; #IMPLIED  -- 3D cell border color --
+        bordercolordark  %color; #IMPLIED  -- 3D cell border color --
+        rowspan NUMBER   1         -- number of rows spanned by cell --
+        colspan NUMBER   1         -- number of cols spanned by cell --
+        nowrap (nowrap|true|false)  false  -- suppress word wrap --
+        width    %Length; #IMPLIED
+        height   %Length; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforecopy %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncopy %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--================ Document Head ========================================-->
+
+<!ENTITY % head.misc "SCRIPT|STYLE|META|LINK|BGSOUND|BASEFONT" -- repeatable head elements -->
+
+<![ %HTML.Deprecated [
+<!ENTITY % head.content "TITLE & ISINDEX? & BASE?">
+]]>
+<!ENTITY % head.content "TITLE & BASE?">
+
+<!ELEMENT HEAD O O  (%head.content;) +(%head.misc;)>
+<!ATTLIST HEAD
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        title  CDATA   #IMPLIED    -- advisory title string --
+        lang   %LanguageCode; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!ELEMENT TITLE - -  (#PCDATA)* -(%head.misc;)
+          -- The TITLE element is not considered part of the flow of text.
+             It should be displayed, for example as the page header or
+             window title.
+          -->
+<!ATTLIST TITLE
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        lang   %LanguageCode; #IMPLIED
+        dir    (LTR|RTL)      #IMPLIED  -- direction for weak/neutral text --
+        title  CDATA   #IMPLIED    -- advisory title string --
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<![ %HTML.Deprecated [
+<!ELEMENT ISINDEX - O EMPTY>
+<!ATTLIST ISINDEX
+        %attrs;
+        %access;
+        %selection.attrs;
+        action %URL; #IMPLIED
+        prompt  CDATA   #IMPLIED -- prompt message --
+        onblur %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        >
+]]>
+
+<!ELEMENT BASE - O EMPTY>
+<!ATTLIST BASE
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        href   %URL;   #REQUIRED
+        target CDATA   #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!ELEMENT META - O EMPTY -- Generic Metainformation -->
+<!ATTLIST META
+        content     CDATA   #REQUIRED -- associated information     --
+        http-equiv  NAME    #IMPLIED  -- HTTP response header name  --
+        name        CDATA   #IMPLIED  -- metainformation name       --
+        title       CDATA   #IMPLIED
+        >
+
+
+<!ELEMENT STYLE - - CDATA>
+<!ATTLIST STYLE
+        %disabled;
+        type        %ContentType;   #IMPLIED
+        title       CDATA   #IMPLIED
+        media  (screen|print|all) #IMPLIED
+        onerror %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!ELEMENT SCRIPT - - CDATA>
+<!ATTLIST SCRIPT
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        title  CDATA   #IMPLIED    -- advisory title string --
+        lang   %LanguageCode; #IMPLIED
+        dir    (LTR|RTL)      #IMPLIED  -- direction for weak/neutral text --
+        language (%Language;) #IMPLIED
+        src    %URL;   #IMPLIED
+        defer (defer|true|false)  false
+        event  CDATA   #IMPLIED
+        for    IDREF   #IMPLIED
+        type    %ContentType;    #IMPLIED   -- Internet media type for data --
+        onpropertychange %Script; #IMPLIED
+        onerror %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!ELEMENT NOSCRIPT - - (%flow;)*>
+<!ATTLIST NOSCRIPT
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        onreadystatechange %Script; #IMPLIED
+        >
+
+
+<!--================ Document Structure ===================================-->
+
+<!ENTITY % version.attr "VERSION CDATA #FIXED '%HTML.Version;'">
+
+<!ELEMENT HTML O O  (HEAD, (BODY|FRAMESET), PLAINTEXT?)>
+<!ATTLIST HTML
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        title  CDATA   #IMPLIED -- advisory title string --
+        xmlns: CDATA   #IMPLIED -- CAUTION! THIS IS NOT HTML STYLE ATTRIBUTE --
+        onreadystatechange %Script; #IMPLIED
+        >
+
+<!-- Frames -->
+
+<!ELEMENT FRAMESET      - -     (FRAMESET|FRAME|NOFRAMES)+ >
+<!ATTLIST FRAMESET
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        lang   %LanguageCode; #IMPLIED
+        dir    (LTR|RTL)      #IMPLIED  -- direction for weak/neutral text --
+        language (%Language;) #IMPLIED
+        title  CDATA   #IMPLIED    -- advisory title string --
+        tabindex    NUMBER      #IMPLIED
+        border  %Pixels; #IMPLIED
+        rows    CDATA   #IMPLIED
+        cols    CDATA   #IMPLIED
+        frameborder     (yes|no|1|0)   1
+        framespacing    %Pixels;   #IMPLIED
+        bordercolor %color; #IMPLIED
+        %selection.attrs;
+        onafterprint %Script; #IMPLIED
+        onbeforeprint %Script; #IMPLIED
+        onbeforeunload %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onunload %Script; #IMPLIED
+        >
+
+<!ELEMENT FRAME - O     EMPTY >
+<!ATTLIST FRAME
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        lang   %LanguageCode; #IMPLIED
+        language (%Language;) #IMPLIED
+        title  CDATA   #IMPLIED    -- advisory title string --
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        bordercolor %color; #IMPLIED
+        frameborder (yes|no|1|0)   1
+        width    %Length; #IMPLIED
+        height   %Length; #IMPLIED
+        marginwidth  %Pixels; #IMPLIED -- check this --
+        marginheight %Pixels; #IMPLIED -- check this --
+        name    CDATA   #IMPLIED
+        noresize  (noresize|true|false)      false
+        scrolling (auto|yes|no)    auto
+        src     %URL;    #REQUIRED
+        application (yes|no) no
+        %selection.attrs;
+        onblur %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onbeforeunload %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onunload %Script; #IMPLIED
+        >
+
+<!ELEMENT IFRAME - - (%flow;)*>
+<!ATTLIST IFRAME
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        class  NAMES   #IMPLIED -- for subclassing elements --
+        lang   %LanguageCode; #IMPLIED
+        language (%Language;) #IMPLIED
+        title  CDATA   #IMPLIED    -- advisory title string --
+        style  %StyleSheet;   #IMPLIED
+        tabindex    NUMBER      #IMPLIED
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        %selection.attrs;
+        align   %Align; left
+        border  %Pixels; #IMPLIED
+        bordercolor %color; #IMPLIED
+        frameborder (yes|no|1|0)   1
+        framespacing  %Pixels; #IMPLIED
+        hspace   %Pixels; #IMPLIED
+        vspace   %Pixels; #IMPLIED
+        width    %Length; #IMPLIED
+        height   %Length; #IMPLIED
+        marginwidth  %Pixels; #IMPLIED -- check this --
+        marginheight %Pixels; #IMPLIED -- check this --
+        name    CDATA   #IMPLIED
+        noresize  (noresize|true|false)      false
+        scrolling (auto|yes|no)    auto
+        src     %URL;    #REQUIRED
+        application (yes|no) no
+        onblur %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        >
+
+<!ELEMENT NOFRAMES      - -     (%body.content;)* +(INS|DEL|XML)>
+<!ATTLIST NOFRAMES
+        id     ID      #IMPLIED -- as target for hrefs (link ends) --
+        title  CDATA   #IMPLIED    -- advisory title string --
+        style  %StyleSheet;   #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        >
+
+
+<!-- OBJECT is a character-like element for inserting objects -->
+<!ELEMENT OBJECT - - (PARAM | %body.content;)*>
+<!ATTLIST OBJECT
+        %attrs;
+        %access;
+        %selection.attrs;
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        align    %Align;  left       -- vertical or horizontal alignment --
+        classid  %URL;    #IMPLIED   -- identifies an implementation --
+        code     %URL;    #IMPLIED   -- class file --
+        codebase %URL;    #IMPLIED   -- code base --
+        data     %URL;    #IMPLIED   -- reference to object's data --
+        height   %Pixels; #REQUIRED  -- suggested height in pixels --
+        width    %Pixels; #REQUIRED  -- suggested width in pixels --
+        hspace %Length; #IMPLIED
+        vspace %Length; #IMPLIED
+        name     CDATA    #IMPLIED   -- applet name --
+        type    %ContentType;    #IMPLIED   -- Internet media type for data --
+        codetype CDATA #IMPLIED
+        onbeforeeditfocus %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        oncellchange %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondataavailable %Script; #IMPLIED
+        ondatasetchanged %Script; #IMPLIED
+        ondatasetcomplete %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondrag %Script; #IMPLIED
+        ondragend %Script; #IMPLIED
+        ondragenter %Script; #IMPLIED
+        ondragleave %Script; #IMPLIED
+        ondragover %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        ondrop %Script; #IMPLIED
+        onerror %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onrowsdelete %Script; #IMPLIED
+        onrowsinserted %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!ELEMENT PARAM - O EMPTY -- named property value -->
+<!ATTLIST PARAM
+        dataformatas (html|text)   text
+        datafld CDATA     #IMPLIED   -- ??? --
+        datasrc CDATA     #IMPLIED   -- ??? --
+        name      CDATA             #REQUIRED  -- property name --
+        value     CDATA             #IMPLIED   -- property value --
+        >
+
+<![ %HTML.Deprecated [
+<!ELEMENT EMBED - - (%body.content;)* >
+<!ATTLIST EMBED
+        %attrs;
+        %access;
+        %selection.attrs;
+        align  %Align; left
+        alt    CDATA    #IMPLIED
+        code   %URL;    #IMPLIED
+        height %Length; #IMPLIED
+        width  %Length; #IMPLIED
+        hspace %Length; #IMPLIED
+        vspace %Length; #IMPLIED
+        name    CDATA   #IMPLIED
+        src     %URL;    #REQUIRED  -- URL of image to embed --
+        units   (px|em)  #IMPLIED
+        pluginspage %URL; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onload %Script; #IMPLIED
+        onlosecapture %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpropertychange %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onresize %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onscroll %Script; #IMPLIED
+        >
+]]>
+
+<!--======================= XML ===========================================-->
+
+<!-- !!CAUTION!! XML IS NOT HTML STYLE ELEMENT -->
+
+<!ELEMENT XML - - (#PCDATA)* -(XML) -- CAUTION! '#PCDATA' IS DUMMY -->
+<!ATTLIST XML
+        id     ID    #IMPLIED
+        ns     CDATA #IMPLIED -- CDATA? --
+        prefix CDATA #IMPLIED -- CDATA? --
+        src    %URL; #IMPLIED
+        ondataavailable %Script; #IMPLIED
+        ondatasetchanged %Script; #IMPLIED
+        ondatasetcomplete %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onrowenter %Script; #IMPLIED
+        onrowexit %Script; #IMPLIED
+        onrowsdelete %Script; #IMPLIED
+        onrowsinserted %Script; #IMPLIED
+        >
+
+<!ELEMENT :XMLNS: - -(%inline;)* -- CAUTION! :XMLNS: IS TYPICAL ELEMENT NAME -->
+<!ATTLIST :XMLNS:
+        %attrs;
+        %access;
+        %selection.attrs;
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >
+
+<!--======================= Ruby ==========================================-->
+
+<!ENTITY % ruby.content "(%inline;)* -(RUBY)">
+
+<!ELEMENT RUBY - - (RB, RP?, RT, RP?)>
+<!ELEMENT RB   O O (%inline;)*>
+<!ELEMENT RT   - O %ruby.content;>
+<!ELEMENT RP   - O (#PCDATA)*>
+
+<!ATTLIST (RUBY|RB|RT|RP)
+        %attrs;
+        %access;
+        %selection.attrs;
+        name    CDATA   #IMPLIED
+        onafterupdate %Script; #IMPLIED
+        onbeforeupdate %Script; #IMPLIED
+        onbeforecut %Script; #IMPLIED
+        onbeforepaste %Script; #IMPLIED
+        onblur %Script; #IMPLIED
+        onclick %Script; #IMPLIED
+        oncontextmenu %Script; #IMPLIED
+        oncut %Script; #IMPLIED
+        ondblclick %Script; #IMPLIED
+        ondragstart %Script; #IMPLIED
+        onerrorupdate %Script; #IMPLIED
+        onfilterchange %Script; #IMPLIED
+        onfocus %Script; #IMPLIED
+        onhelp %Script; #IMPLIED
+        onkeydown %Script; #IMPLIED
+        onkeypress %Script; #IMPLIED
+        onkeyup %Script; #IMPLIED
+        onmousedown %Script; #IMPLIED
+        onmousemove %Script; #IMPLIED
+        onmouseout %Script; #IMPLIED
+        onmouseover %Script; #IMPLIED
+        onmouseup %Script; #IMPLIED
+        onpaste %Script; #IMPLIED
+        onreadystatechange %Script; #IMPLIED
+        onselectstart %Script; #IMPLIED
+        >

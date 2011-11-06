@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
+<meta name="Description" content="Another HTML-lint">
+<link rel="stylesheet" type="text/css" href="./htmllint.css">
+<link rel="contents" href="./index.html">
+<link rel="prev" href="./reference.html">
+<title>Another HTML-lint : FAQ</title>
+<style type="text/css"><!--
+span.title { text-decoration: underline }
+--></style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<div align="center" class="nav">
+[<a href="./reference.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[next]<!--*-->
+</div><hr>
+<h1><a name="top"><span>Another HTML-lint FAQ</span></a></h1>
+
+<table summary="toc" width="100%" border="0" class="contents">
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/faq.html">プライマリサイト</a></td></tr>
+</table>
+
+<hr class="none">
+<h2 class="title"><a name="faq">よくある質問と答</a></h2>
+
+<p>こんな質問、ほんとによくあるのか? というのは置いといてください。</p>
+
+<dl compact class="faq">
+<dt>Q<dd>総本山W3Cのサーヴィス「<a href="http://validator.w3.org/">W3C HTML Validation Service</a>」とどう違うのですか。
+<dt>A<dd>W3Cのサーヴィスは、HTMLをDTD的に検証するだけです。しかし、W3Cの策定しているHTMLの仕様書中や、DTDのコメント中には、DTDでは表現できない多種多様な制約事項が述べられています。W3Cの検証ではそのようなチェックは一切行なわれません。例えばHTML4などで、&lt;OL type&gt; の値は、DTDではCDATAとしか書かれていませんが、実際は "(1|a|A|i|I)" であるべきことがコメント中に明記されています。DTDではそのような表現ができないからです。W3Cの検証はそのようなチェックはしません(できません)。つまり、&lt;OL type="USO800"&gt; と書いてもエラーにはなりません。Another HTML-lint はそのようなことも含めて、仕様書中の瑣末なことまで、なるべくチェックするよう努力しています。<br>
+というわけで、はっきり言って、W3Cの検証でお墨付きをもらったとしても、DTD的に正当なだけで、HTML的に正当かどうかの保証は一切ありません。しかし、Another HTML-lint のDTD的検証にはだいぶ手抜きがあります。W3Cの検証も是非行なってください。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>満点なら<a name="perfect">どんなブラウザでもちゃんと見れるのですか</a>。
+<dt>A<dd>そんな保証はありません。指定された文法的なチェックをするだけで、見え方まではわかりません。特定の環境でちゃんと見えるようにするためには、減点が不可避なこともあります。<br>
+また、<a href="http://www.w3.org/TR/WAI-WEBCONTENT/">WAI</a>で言われているアクセス性に関するチェックは、<a href="./explain-wai.html">ごく一部しかできません</a>。この勧告文書(<a href="http://www.asahi-net.or.jp/~bd9y-ktu/WEBc_f/wai-pageauth.html">加藤泰孝氏が訳されています</a>)をちゃんと読んで、よりよいHTMLを書いてください。<br>
+満点である必要はありません。…と言うと、無理解のまま「満点の必要はありません」と宣伝する方々がいらっしゃいます。発言には十分気を付けましょう。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>結果の評価は信用できるのですか。
+<dt>A<dd>人の言うことは、眉唾だと思うことが基本です。相手がどんな権威でも、盲信するのは危険です。信用に足るかどうかは自分で判断するしかありません。そういう判断ができる知識を身に付けましょう。評論家になるのはその後です。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>ちゃんと見えるのだから、文法なんか守らなくてもいいじゃないか。
+<dt>A<dd>あなたの環境でちゃんと見えているのであって、隣の人もちゃんと見えるかどうかはわかりません。大勢の人々に見てもらおうというのなら、誰もがちゃんと見えるようにしなければならないのですが、それには決められた文法を守って書くことが必要です(十分ではありません)。<br>
+しかし、現実には文法を守らなくても、優秀なWWWブラウザが適当に不備を補ってくれるので、かなりいいかげんに書いても多くの人々にはちゃんと見えます。だから、今のところ文法に関してルーズでも困ることはあまりありません。でも、文法的に正しければより多くの人にちゃんと見てもらえます。HTMLの未来が<a href="http://www.w3.org/TR/REC-xml">XML</a>にあるのなら、文法違反はご法度になる方向にあるということです。<br>
+チェックで満点を目指すというのは、「正しい日本語を話しましょう」というのと似ていなくもないですが、HTML文法は自然言語じゃないのでちと違います。ちょいとばかし堅苦しいところがある点は同じです。満点だからといって、それでは十分でないことに気付いてください。Another HTML-lint がチェックするのは文書の内容ではないのです。正しい日本語でたわけたことを言っていてもしょうがありません。文法よりも、内容が大事なことは明々白々ですが、文法を正したからといって、内容が損なわれることはありません。
+</dl>
+
+<dl compact class="faq">
+<dt>Q</dt><dd>大手<a name="famousesite">有名サイトでもひどい点数</a>です。文法なんか守る必要ないと思います。</dd>
+<dt>A</dt><dd>その超有名サイトの技術者が、W3Cの仕様を守る技術力を持っていないというだけのことでしょう。もし、思惑通りに表示させるためにあえて違反を犯しているのなら、HTMLを採用すべきではありません。どうしてもHTMLを使いたいなら、W3Cに仕様変更を求めるべきです。あるいは、HTMLより優れたプロトコルを設計し、広く世間に流布させればいいのです。
+</dd>
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>エラーの解説が難し過ぎてちんぷんかんぷんです。
+<dt>A<dd>なるべく平易に書くように努めているつもりなのですが(どこがじゃ)、どうもHTMLの基礎的なことは端折ってしまいがちです。部分部分で「ここがわからない」という指摘はその都度書き換えなどをしたいと思いますが、総体的にわからないというのであれば、<a href="./reference.html#reference">他の優れた方々のサイト</a>を巡ってHTMLの基礎を勉強してください。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>参考書に書かれているとおりにHTMLを書いているのにエラーが沢山出ます。
+<dt>A<dd>はっきり言って、その参考書が間違っています。<a href="http://www.asahi-net.or.jp/~jy3k-sm/i_net/books.html">あやしい本</a>や<a href="http://www.ne.jp/asahi/minazuki/bakera/html/book/">のけぞる本！</a>が詳しいです。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>HTMLを作成するツールを使ってHTMLを書いているのにエラーが沢山出ます。
+<dt>A<dd>残念なことに、正しいHTML文法の認知度が非常に低いからです。このような間違ったHTMLを生成するオーサリングツールの開発者達は、MozillaやMSIEなどの目的とするWWWブラウザでちゃんと見えればよいようにHTMLタグを生成しようとしているのです。そのようなオーサリングツールは、最初のラフなHTML生成用に使用し、その後テキストエディタで手直しする必要があるかも知れません。<br>
+これはとてもおかしな話で、これでは何のためのオーサリングツールかわかりませんね。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>私の利用しているプロバイダでは、<a name="commercial">ページの頭などに広告が挿入</a>されてしまい、それが減点を招きます。その部分をチェックから外せませんか。
+<dt>A<dd>残念ながらできません。チェックするときに得られるHTMLからは、それが広告主によって挿入されたものか、ページ製作者の意図したものかの区別が文法的にできないからです。<br>
+しかし、広告を除いてチェックして高得点を得ても、あなたが広告付きプロバイダを利用する限り意味がありません。あなたのサイトを訪れる人は広告付きのHTMLを表示しようとするからです。広告部分に致命的な欠陥があるのなら、あなたのサイトは閲覧できない可能性が高いことに変わりはありません。あなたのサイトの評価は広告込みで行なわれるべきです。そこに広告が表示されるのは、そのプロバイダを選んだあなたの責任であり、広告はあなたのHTMLの一部です。
+プロバイダ提供のCGI等でも同様です。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>とてもエラーが多くて直す気にもなりません。
+<dt>A<dd>基本的なタグ付けの方法が正しくないと思われますので、HTMLの基礎を勉強し直しましょう。
+<!--これは、HTMLの新しい技術を使っているにもかかわらず、DOCTYPE宣言がないために、古いHTMLとしてチェックされているのが原因のことが多いです。DOCTYPE宣言がないときは、HTML2.0というのが「標準語」として採用されるのです。HTML2.0は、HTML4.0などに較べて機能的に非常に劣ります。最新のタグを使ったHTMLを、HTML2.0としてチェックすれば、エラーが多いのは当然なのです。--><br>
+また、DOCTYPE宣言がないときは、とりあえず、文書の先頭に
+<pre class="pre-sample">    &lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"&gt;</pre>
+と書いておいてください。そして、<a href="./explain.html#required-doctype">この行の意味を勉強してください</a>。<br>
+もし、すでにDOCTYPE宣言があるのにエラーが多い場合は、HTMLヴァージョンにいろいろあることをあまり理解できていないために、<a href="./explain.html#unknown-doctype">不適切なDOCTYPE宣言である</a>ことが考えられますが、深く理解するのなんかさらさらごめん、という方は、やはり上のDOCTYPEに改めてみてください。Transitionalがあるとないでは大違いなので注意しましょう。<br>
+宗教的なチェックなどを無効にしても、エラーがずいぶん減ります。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>でもやっぱりエラーが多くて直す気になりません。
+<dt>A<dd>過去のしがらみを捨て、最初から書き直しましょう。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>満点を<a name="getperfect">取る</a>にはどうすればいいのですか。
+<dt>A<dd>満点を取ることを目標にしてはいけません。例えば以下のような修正は、あなたのHTMLを満点に導きます。
+<ul>
+<li><code>&lt;font color="red"&gt;</code> ⇒ <code>&lt;span class="red"&gt;</code>
+<li><code>&lt;div align="center"&gt;</code> ⇒ <code>&lt;div style="text-align:center"&gt;</code>
+<li><code>&lt;br /&gt;&lt;br /&gt;</code> ⇒ <code>&lt;br /&gt;&amp;nbsp;&lt;br /&gt;</code>
+<li><code>&lt;a target="..."&gt;</code> ⇒ <code>&lt;a onclick="window.open(...)"&gt;</code>
+</ul>
+でも、これらは表現方法を変えてはいるものの、相変わらず物理的な記述をしており、とてもよいHTMLとは言えません。文章に論理的な意味を与えていません。なぜ文字を赤くしたいのか、なぜ中央寄せしたいのかを考えましょう。&lt;br /&gt; の例などはとてもひどいもので、涙が出ちゃうくらいです。targetによる方向付けは、そういう行為自体を戒めているものなのに、targetじゃなければいいなどという発想自体がおかしいのです。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>DOCTYPEって何ですか。
+<dt>A<dd>書かれているHTML文書が、どういったHTMLかを示すためのものです。これは、例えば、「この文書は津軽弁で記述されています」といったようなことに相当します。HTMLにいろいろなものがあるのは、HTML4.0だとかHTML3.2だとかいうのがあるので、薄々気付いているでしょう。だから、HTML3.2の参考書を見て書いたHTMLの先頭には、「HTML3.2で書かれた文書です」と宣言するわけです。<a href="./explain.html#required-doctype">結果の解説</a>などを読んでください。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>MSIE用にHTMLを書いていますが、<a name="no-doctype">DOCTYPEがない</a>と言われます。どうすればいいのですか。
+<dt>A<dd>MozillaやMSIEにはHTMLの正式な文法がありません。この文法は Document Type Definition (DTD/文書型定義) と呼ばれるものです。DOCTYPEは、HTML文書がどのDTDに則って書かれているかを示すものなので、DTDの存在しないMozillaやMSIE用のHTML文書にDOCTYPE宣言をすることはできません。HTMLをMozillaやMSIE用としてチェックさせるには、HTMLヴァージョンをそれぞれ該当するものに変更してからチェックしてください。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>納得できないエラーがあります。
+<dt>A<dd>ほとんどすべてのエラーは、わたしの主観によるものではありません。エラーにはすべて出典があります。文句はその出典元(<a href="http://www.w3.org/">W3C</a>とか<a href="http://www.ietf.cnri.reston.va.us/home.html">IETF</a>とか)へ言ってください。宗教的や経験的とされているものでもそうなのですが、出典元がうさんくさいものや、多少主観の入っているものもあります。納得できない理由を客観的に分析してみましょう。
+まあ、わたしの理解が足りない場合や、プログラムミスによって間違った判定をされることも大いにあり得ますので、「変だ」と思ったら k16@chiba.email.ne.jp までメールでもしてください。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>文字コードが<a name="detect-encoding">誤判定されます</a>。
+<dt>A<dd>まれに、日本語の文字コードを誤判定することがあります。これは、日本語の文字コードがごくわずかしか含まれないときや、短い日本語文字コードが最初に現れてから、次が現れるまでだいぶ間が空いているようなときです。HTML文書の最初の方に、コメントとして適当な日本語を入れておくことで回避できます。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>Mozillaで見ると、Mozillaがクラッシュしてしまうページがあるのですが。
+<dt>A<dd>Mozillaのヴァージョンによって、<a href="http://openlab.ring.gr.jp/k16/htmllint/findfault.html">いくつかの書籍のあらさがし</a>などの一部のページを見ようとすると、クラッシュしてしまうことがあるようです。Mozillaがスタイルシートの処理をうまく行なえないのが原因なのですが、どのような記述が直接の引き金になっているのか特定できていません。クラッシュするページでJavaScriptは使用していませんが、当該ページを見る前に一度でもJavaScriptが動作しているとだめなようです。JavaScriptを無効にするなどしてください。申し訳ありません(わたしが謝る筋合いのものではないんだけど)。<br>
+蛇足ですが、Mozilla4.5(やそれ以前)のスタイルシートの対応度は評価以前のレベルです。MSIE3のスタイルシートは使わないでください。MSIE4.5やMSIE5だとそこそこです。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>MacのMozillaで見ると、htmllint.htmlが正しく表示されません。
+<dt>A<dd>たぶんMacのMozilla(4.5)などのJavaScript処理で、JISコードの扱いがうまくないのが原因のようです。再読み込みさせればちゃんと見えると思います。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>チェックしようとすると、<code>cgi-lib.pl: Unknown Content-type: application/x-www-form-urlencoded; charset=iso-2022-jp</code> と出てチェックできません。
+<dt>A<dd>一部のユーザエージェント(<a href="ftp://crab.it.osha.sut.ac.jp/pub/Win32/develope/senshu/Lynx/">Lynx2.8j</a>など)が、フォームの送出に際してこのようなContent-typeを送出するようで、cgi-lib.plを利用しているとこのような症状が出るようです。<a href="./download.html#cgi-lib.pl">cgi-lib.plをパッチ</a>するか、Content-typeに charset=iso-2022-jp を付けないようにLynxを改造してください。<br>
+CGI.pmではこのようなことはないようです。<!-- 平田倫久 -->
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>Another HTML-lint をインストールしましたが、結果のHTMLなどが文字化けします。
+<dt>A<dd>すべて正しい設定であるとして、Perl の作られ方によっては jcode.pl がうまく動作しないことがあります(どのヴァージョンの Perl が該当するのかはちゃんと調べてません)。例えば、次のようなテストスクリプトを走らせてみてください。
+<pre class="pre-sample">    $x = 'abcd';
+    &amp;foo(*x);
+    sub foo {
+      local(*_) = @_;
+      print $_;
+    }</pre>
+正しく <code>abcd</code> と表示されない場合は、-Dusethread して作られた Perl の可能性があります。それを外して作り直してみてください。また、どうしてもスレッド処理したいときは、jcode.pl に手を入れれば動くようになります。<code>local(*_)</code> などが <code>my(*_)</code> として評価されてしまうのが原因です。<code>local(*v)</code> のように名前を付ければ問題なくなります (<code>local($_)</code> などもだよ)。jcode.pl のそのような部分すべてに名前を付ければ動作します。しかし、他の Perl スクリプトにやはり動かないものが出てくるので、これでは根本的な解決にはなりません。(<a href="ftp://ftp.iij.ad.jp/pub/IIJ/dist/utashiro/perl/">jcode.pl 2.11</a> ではこの問題は改修されているそうです。)<br>
+なお、現在は、jcode.plではなく、<a href="http://openlab.ring.gr.jp/Jcode/index-j.html">Jcode.pm</a>を使用しています。このときは、<!--型グロブ(typoglob)に関する-->このような問題は発生しないと思われます。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>サーバに <a href="http://ei5nazha.yz.yamagata-u.ac.jp/~aito/w3m/">w3m</a> をインストールしましたが Another HTML-lint で結果が表示されません。
+<dt>A<dd>デフォルトで、-Mオプションを付けてw3mを呼び出すため、カラー機能を無効にしてコンパイルされたw3mでうまく動作しないようです。カラー機能を有効にするか、htmllint.env で
+<pre class="pre-sample">    $W3M = '/usr/local/bin/w3m -dump -T text/html -e';</pre>
+などと -M のないオプションを指定してください(オプションの詳細はw3mを参照のこと)。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>Another HTML-lint にはセキュリティの問題はありませんか。
+<dt>A<dd>Another HTML-lint は、CGIとして次のように動作します。
+<ol>
+<li>指定されたURLに対応するリソースを取得し、それをワークファイルに保存します。ファイルサイズには上限を設けています。
+<li>データ領域に直接指定されている場合や、クライアント上のファイル名が指定されている場合は、それをワークファイルに保存します。
+<li>URLから取得したものがHTMLでなかった(text/htmlでなかった)場合は、それを消去してエラーとして処理を終えます。
+<li>取得したファイルを htmllint.pm でチェックします。
+<li>HTML中のリンク先が実存チェックの指定があるときは、そのURLのヘッダ情報を求めます。URLの内容取得は行ないません。
+<li>ワークファイルを消去します。
+<!--li>統計情報用に結果のログを保存します。-->
+<li>結果を返します。
+</ol>
+秘密のURLを指定してチェックを行なえば、サーバはそれを知り得ます。ログにも残ります。具合の悪いときは、ローカルなサーバを用意するなどしてください。<br>
+また、ゲートウェイである htmllint.html/htmllinte.html は、JavaScriptを利用してクッキーを操作します。この情報はクライアント側でのみ利用するもので、チェックの状態などの保持を行ないます。クッキーを使ってのサーバとのやり取りはありません。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>HDML(<a href="./notice.html#hdml">Handheld Device Markup Language</a>)には対応しないのですか。
+<dt>A<dd>プロトコルが全然違うので、ちょっと難しいです。
+<!--HDMLなどについては、嶋是一氏の「<a href="http://tenten.fastwave.gr.jp/wapinfo/wap.html">WAPでわっぷっぷ</a>」がわかりやすいかと思います。-->
+データ領域指定などだけならできるかもなぁ。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>Another HTML-lint はどうして JPerl で動かないのですか。
+<dt>A<dd>わたしが JPerl で動かそうと努力していないからです。たぶん今後もしません。運がよければ動くかも知れませんが、保証の限りではありません。
+JPerl でうまくいかない最大の要因は、Shift JIS コードでの正規表現中の日本語の扱いによるものです。Another HTML-lint でも、ごく一部にそのような正規表現を使用していますが、Perl スクリプトが Shift JIS のときは、うまく動くようにエスケープ処理を行なっています。
+<!--そもそも、わたしは今の JPerl が嫌いです。例えば、[ぁ-ん] などという不自然極まりない表記がまかり通っている限り、絶対使いません。-->
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>Another HTML-lint を <a href="http://www.ruby-lang.org/ja/">Ruby</a> で動かすにはどうすればいいのですか。
+<dt>A<dd>移植してください。あなたの腕次第です。なお、当然ですが、この <a href="http://www.ruby-lang.org/ja/">Ruby</a> と、W3Cにある <a href="http://www.w3.org/TR/ruby/">Ruby</a> はまったく別物(紛らわしいなぁ)。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>こんなすばらしいソフトを無償で提供していただいて、<a name="beer">感謝の意を表わしたいのですが</a>。
+<dt>A<dd>来るものは拒みません。貧乏な開発者のためにビールでも何でもおごってください。<!--ただし、何の見返りもありません。-->ご遠慮なさらずにいつでもどうぞ。次のようなおごり方があります。
+<ul>
+<li>飲みに行こうと誘っておごる。<br>
+千葉在住です。勤務先は今のところ都内です。メール(k16@chiba.email.ne.jp)などで示し合わせれば、喜んで出かけて行きます。旅行や出張などで遠出するときを見計らって現地で飲むというのもいいですね。
+<li><a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">Vector経由で</a>おごる。<br>
+Vectorのシェアレジを利用しています。手間いらずで簡単です。でも、手数料をVectorと銀行に取られるので、身入りはあまりよくありません。Vector上では、Mac/Win/UNIXのプラットフォームごとに独立ですが、どれでも同じです。<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">たくさんおごりたい人向け</a>のシェアレジもあります。
+<li>直接貢ぎ物をする。<br>
+<span title="上喜元、四季桜、菊姫、etc..." class="title">大吟醸</span>や<span title="藤村の" class="title">羊羹</span>などを貢ぐときは、ご連絡ください。送付先をお教えいたします。好みは<span title="大吟醸がいいなぁ" class="title">日本酒</span>と<span title="ボディのあるとても渋いやつが好み" class="title">ワイン</span>と<span title="自分で作ったこともあるけど地ビールはあまり好きくない" class="title">ビール</span>です。甘いものも好きです。
+<li>お布施を口座に直接振り込む。<br>いちばん嬉しいです。メールください、口座番号お知らせします。
+<!--ずうずうしく書けば、<q>三井住友銀行神田支店 3407 石野恵一郎</q> だよ。若い口座番号ですが 3407で間違いではありません。直接振込みの場合の領収書の発行は厭いません。(ちなみに、ここは残高ありませんので、泥棒しようとしても無駄です)-->
+</ul>
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>Another HTML-lint を<a name="payment">営利目的に利用したいのですが</a>。
+<dt>A<dd>金儲けの道具として Another HTML-lint を使うときは、利用料をお支払いください<!--a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">何がしかのお布施</a>をいただけると助かります-->。例えば、
+営利企業の社内ネットワークにインストールして多くの社員が利用する、
+プロのWeb屋さんが開発ツールとして利用する、
+Webアプリなどの開発ツールとして利用する、
+<!--ミラーもどきサイトを構築して広告収入を得る、-->
+おまけ以外の目的で書籍などに添付する、
+授業で生徒のHTMLの質の判断基準に利用する、
+などです。
+もっともよくある利用形態である、マシンにインストールして、CGIやコマンドラインとして利用する場合は、次のような計算式を基本としてください。
+<pre class="exp">
+I*15000円 + max(U-I, 0)*1500円
+  I : インストールするマシン数
+  U : おおよそのユーザ数
+</pre>
+期限は無期限です。ただし、個別サポートはしません。
+わたし(石野恵一郎 k16@chiba.email.ne.jp)までご連絡ください。請求書等の発行をいたします。
+max(U-I, 0) が 100を超える場合は、ユーザ数無制限として、max(U-I, 0) を 100としてください。
+まぁ、もっと払ってもよいなどという場合は 100より多くても構いません。
+不特定多数へのゲートウェイサーヴィスは、ユーザ数無制限と同様にしてください。ただし、それによる広告収入を許可しません。
+学校の授業での利用の場合、生徒はユーザ数に数えません。
+ソフトウェア製品への組み込み等の場合はご相談ください。
+<br>
+<!--自前のマシンにインストールせず、Ringのゲートウェイを利用する場合は、15000円ですが、-->商用の場合は、<!--可能ならば-->Ringに負荷をかけないようにして欲しいと思います。
+また、Vector経由での支払いの場合、匿名となるため、どなかだ支払われたのかわかりません。
+</dl>
+
+<dl compact class="faq">
+<dt>Q<dd>スポンサーになりたいのですが。
+<dt>A<dd>非常に居心地のよい <a href="http://www.ring.gr.jp/">RingServer</a> では静的コンテンツへの広告はできないので、スポンサー様の広告を挿入するためには別のサーバへ引っ越す必要があります。いたれりつくせりサーバを用意してくださるのなら、引越しを考えますが。
+</dl>
+
+<hr>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/faq.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。</em></p>
+<div align="center"><address>Updated: Oct 22, 2007<br>
+Created: Jun 06, 1999
+&#xA9; by k16@chiba.email.ne.jp
+</address></div>
+<hr><div align="center" class="nav">
+[<a href="./reference.html">prev</a>]
+[<a href="./sitemap.html">sitemap</a>]
+[<a href="./htmllint.html">gateway</a>]
+[next]
+</div>
+
+</body>
+</html>

@@ -1,0 +1,297 @@
+# HTML 2.0
+
+#======= ELEMENTS =======
+$emptyTags = 'BASE|BR|HR|IMG|INPUT|ISINDEX|LINK|META|NEXTID';
+$pairTags = 'A|ADDRESS|B|BLOCKQUOTE|BODY|CITE|CODE|DD|DIR|DL|DT|EM|FORM|H1|H2'.
+            '|H3|H4|H5|H6|HEAD|HTML|I|KBD|LI|LISTING|MENU|OL|OPTION|P'.
+            '|PLAINTEXT|PRE|SAMP|SELECT|STRONG|TEXTAREA|TITLE|TT|UL|VAR|XMP';
+$deprecatedTags = 'XMP|LISTING|PLAINTEXT';
+$omitStartTags = 'BODY|HEAD|HTML';
+$omitEndTags = 'BODY|DD|DT|HEAD|HTML|LI|OPTION|P|PLAINTEXT';
+#$maybeEmpty = 'A|ADDRESS|B|BLOCKQUOTE|BODY|CITE|CODE|DD|DT|EM|FORM|H1|H2|H3'.
+#              '|H4|H5|H6|I|KBD|LI|LISTING|OPTION|P|PLAINTEXT|PRE|SAMP|STRONG'.
+#              '|TEXTAREA|TITLE|TT|VAR|XMP';
+$maybeEmpty = 'LISTING|PLAINTEXT|PRE|TEXTAREA|XMP';
+%requiredTags = (
+  'HEAD' => 'TITLE',
+  'HTML' => 'HEAD|BODY',
+);
+%onceonlyTags = (
+  'HEAD' => 'TITLE|ISINDEX|BASE|NEXTID',
+  'HTML' => 'HEAD|BODY|PLAINTEXT',
+);
+$sequencialTags = 'HTML';
+%tagsElements = (
+  'A'          => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|#PCDATA|H6'.
+                  '|H5|H4|H3|H2|H1',
+  'ADDRESS'    => 'P|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'B'          => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'BLOCKQUOTE' => 'ADDRESS|HR|ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU'.
+                  '|DIR|OL|UL|P|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR'.
+                  '|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'BODY'       => 'ADDRESS|HR|ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU'.
+                  '|DIR|OL|UL|P|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR'.
+                  '|IMG|A|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'CITE'       => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'CODE'       => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'DD'         => 'ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU|DIR|OL|UL'.
+                  '|P|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A'.
+                  '|#PCDATA',
+  'DIR'        => 'LI',
+  'DL'         => 'DD|DT',
+  'DT'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'EM'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'FORM'       => 'ADDRESS|HR|ISINDEX|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU|DIR'.
+                  '|OL|UL|P|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A'.
+                  '|#PCDATA|H6|H5|H4|H3|H2|H1|INPUT|SELECT|TEXTAREA',
+  'H1'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'H2'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'H3'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'H4'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'H5'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'H6'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'HEAD'       => 'TITLE|ISINDEX|BASE|NEXTID|META|LINK',
+  'HTML'       => 'HEAD|BODY|PLAINTEXT',
+  'I'          => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'KBD'        => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'LI'         => 'ISINDEX|FORM|BLOCKQUOTE|LISTING|XMP|PRE|DL|MENU|DIR|OL|UL'.
+                  '|P|I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A'.
+                  '|#PCDATA',
+  'LISTING'    => '%literal',
+  'MENU'       => 'LI',
+  'OL'         => 'LI',
+  'OPTION'     => '#PCDATA',
+  'P'          => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'PLAINTEXT'  => '%literal',
+  'PRE'        => 'CITE|VAR|KBD|SAMP|CODE|STRONG|EM|I|B|TT|BR|HR|A|#PCDATA',
+  'SAMP'       => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'SELECT'     => 'OPTION',
+  'STRONG'     => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'TEXTAREA'   => '#PCDATA',
+  'TITLE'      => '#PCDATA',
+  'TT'         => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'UL'         => 'LI',
+  'VAR'        => 'I|B|TT|CITE|VAR|KBD|SAMP|CODE|STRONG|EM|BR|IMG|A|#PCDATA',
+  'XMP'        => '%literal',
+);
+%excludedElems = (
+  'A'        => 'A',
+  'DIR'      => 'P|UL|OL|DIR|MENU|DL|PRE|XMP|LISTING|BLOCKQUOTE|FORM|ISINDEX',
+  'FORM'     => 'FORM',
+  'MENU'     => 'P|UL|OL|DIR|MENU|DL|PRE|XMP|LISTING|BLOCKQUOTE|FORM|ISINDEX',
+  'SELECT'   => 'INPUT|SELECT|TEXTAREA',
+  'TEXTAREA' => 'INPUT|SELECT|TEXTAREA',
+  'TITLE'    => 'META|LINK',
+);
+%includedElems = (
+  'FORM' => 'INPUT|SELECT|TEXTAREA',
+  'HEAD' => 'META|LINK',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'HREF'    => '%URL', # org:CDATA
+    'METHODS' => 'NAMES',
+    'NAME'    => 'CDATA',
+    'REL'     => '%linkType',
+    'REV'     => '%linkType',
+    'TITLE'   => 'CDATA',
+    'URN'     => 'CDATA',
+  },
+  'BASE' => {
+    'HREF' => '%URL', # org:CDATA
+  },
+  'DIR' => {
+    'COMPACT' => 'COMPACT',
+  },
+  'DL' => {
+    'COMPACT' => 'COMPACT',
+  },
+  'FORM' => {
+    'ACTION'  => 'CDATA',
+    'ENCTYPE' => '%Content-Type',
+    'METHOD'  => 'GET|POST',
+  },
+  'HTML' => {
+    'VERSION' => 'CDATA=-//IETF//DTD HTML 2.0//EN',
+  },
+  'IMG' => {
+    'ALIGN' => 'TOP|MIDDLE|BOTTOM',
+    'ALT'   => 'CDATA',
+    'ISMAP' => 'ISMAP',
+    'SRC'   => '%URL', # org:CDATA
+  },
+  'INPUT' => {
+    'ALIGN'     => 'TOP|MIDDLE|BOTTOM',
+    'CHECKED'   => 'CHECKED',
+    'MAXLENGTH' => 'NUMBER',
+    'NAME'      => 'CDATA',
+    'SIZE'      => 'CDATA',
+    'SRC'       => '%URL', # org:CDATA
+    'TYPE'      => 'TEXT|PASSWORD|CHECKBOX|RADIO|SUBMIT|RESET|IMAGE|HIDDEN',
+    'VALUE'     => 'CDATA',
+  },
+  'LINK' => {
+    'HREF'    => '%URL', # org:CDATA
+    'METHODS' => 'NAMES',
+    'REL'     => '%linkType',
+    'REV'     => '%linkType',
+    'TITLE'   => 'CDATA',
+    'URN'     => 'CDATA',
+  },
+  'MENU' => {
+    'COMPACT' => 'COMPACT',
+  },
+  'META' => {
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'NAME',
+    'NAME'       => 'NAME',
+  },
+  'NEXTID' => {
+    'N' => 'CDATA',
+  },
+  'OL' => {
+    'COMPACT' => 'COMPACT',
+  },
+  'OPTION' => {
+    'SELECTED' => 'SELECTED',
+    'VALUE'    => 'CDATA',
+  },
+  'PRE' => {
+    'WIDTH' => 'NUMBER',
+  },
+  'SELECT' => {
+    'MULTIPLE' => 'MULTIPLE',
+    'NAME'     => 'CDATA',
+    'SIZE'     => 'NUMBER',
+  },
+  'TEXTAREA' => {
+    'COLS' => 'NUMBER',
+    'NAME' => 'CDATA',
+    'ROWS' => 'NUMBER',
+  },
+  'UL' => {
+    'COMPACT' => 'COMPACT',
+  },
+);
+%requiredAttrs = (
+  'A'        => 'NAME|HREF',
+  'BASE'     => 'HREF',
+  'IMG'      => 'SRC',
+  'LINK'     => 'HREF',
+  'META'     => 'CONTENT',
+  'NEXTID'   => 'N',
+  'SELECT'   => 'NAME',
+  'TEXTAREA' => 'NAME&ROWS&COLS',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'AElig'  => '&#198;',
+  'Aacute' => '&#193;',
+  'Acirc'  => '&#194;',
+  'Agrave' => '&#192;',
+  'Aring'  => '&#197;',
+  'Atilde' => '&#195;',
+  'Auml'   => '&#196;',
+  'Ccedil' => '&#199;',
+  'ETH'    => '&#208;',
+  'Eacute' => '&#201;',
+  'Ecirc'  => '&#202;',
+  'Egrave' => '&#200;',
+  'Euml'   => '&#203;',
+  'Iacute' => '&#205;',
+  'Icirc'  => '&#206;',
+  'Igrave' => '&#204;',
+  'Iuml'   => '&#207;',
+  'Ntilde' => '&#209;',
+  'Oacute' => '&#211;',
+  'Ocirc'  => '&#212;',
+  'Ograve' => '&#210;',
+  'Oslash' => '&#216;',
+  'Otilde' => '&#213;',
+  'Ouml'   => '&#214;',
+  'THORN'  => '&#222;',
+  'Uacute' => '&#218;',
+  'Ucirc'  => '&#219;',
+  'Ugrave' => '&#217;',
+  'Uuml'   => '&#220;',
+  'Yacute' => '&#221;',
+  'aacute' => '&#225;',
+  'acirc'  => '&#226;',
+  'acute'  => '&#180;',
+  'aelig'  => '&#230;',
+  'agrave' => '&#224;',
+  'amp'    => '&#38;',
+  'aring'  => '&#229;',
+  'atilde' => '&#227;',
+  'auml'   => '&#228;',
+  'brvbar' => '&#166;',
+  'ccedil' => '&#231;',
+  'cedil'  => '&#184;',
+  'cent'   => '&#162;',
+  'copy'   => '&#169;',
+  'curren' => '&#164;',
+  'deg'    => '&#176;',
+  'divide' => '&#247;',
+  'eacute' => '&#233;',
+  'ecirc'  => '&#234;',
+  'egrave' => '&#232;',
+  'eth'    => '&#240;',
+  'euml'   => '&#235;',
+  'frac12' => '&#189;',
+  'frac14' => '&#188;',
+  'frac34' => '&#190;',
+  'gt'     => '&#62;',
+  'iacute' => '&#237;',
+  'icirc'  => '&#238;',
+  'iexcl'  => '&#161;',
+  'igrave' => '&#236;',
+  'iquest' => '&#191;',
+  'iuml'   => '&#239;',
+  'laquo'  => '&#171;',
+  'lt'     => '&#60;',
+  'macr'   => '&#175;',
+  'micro'  => '&#181;',
+  'middot' => '&#183;',
+  'nbsp'   => '&#160;',
+  'not'    => '&#172;',
+  'ntilde' => '&#241;',
+  'oacute' => '&#243;',
+  'ocirc'  => '&#244;',
+  'ograve' => '&#242;',
+  'ordf'   => '&#170;',
+  'ordm'   => '&#186;',
+  'oslash' => '&#248;',
+  'otilde' => '&#245;',
+  'ouml'   => '&#246;',
+  'para'   => '&#182;',
+  'plusmn' => '&#177;',
+  'pound'  => '&#163;',
+  'quot'   => '&#34;',
+  'raquo'  => '&#187;',
+  'reg'    => '&#174;',
+  'sect'   => '&#167;',
+  'shy'    => '&#173;',
+  'sup1'   => '&#185;',
+  'sup2'   => '&#178;',
+  'sup3'   => '&#179;',
+  'szlig'  => '&#223;',
+  'thorn'  => '&#254;',
+  'times'  => '&#215;',
+  'uacute' => '&#250;',
+  'ucirc'  => '&#251;',
+  'ugrave' => '&#249;',
+  'uml'    => '&#168;',
+  'uuml'   => '&#252;',
+  'yacute' => '&#253;',
+  'yen'    => '&#165;',
+  'yuml'   => '&#255;',
+);
+%refParams = (
+  'Content-Type' => 'CDATA+',
+  'linkType'     => 'NAMES',
+  'literal'      => 'CDATA',
+  'URL'          => '&URL',
+);
+
+1;

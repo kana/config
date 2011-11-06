@@ -1,0 +1,616 @@
+# DOCTYPE に関する情報 (キーはファイル名)
+$doctypescnt = 0;
+  #  doctype   => DOCTYPE 宣言 (手抜きのため引用符の対応はいいかげん)
+  #  system    => システム記述子
+  #  guess     => 不完全な宣言 (これから宣言を類推する)
+  #  superset  => ここで示されたHTMLのサブセットであることを示す
+  #  name      => 起動時オプションによる DOCTYPE 指定
+  #  guide     => ガイド文字列
+  #  abbr      => 短縮名
+  #  expired   => 廃棄された DOCTYPE のとき abbr と同じものを指定
+  #  obsoleted => 旧式になったとき代替として abbr と同じものを指定
+  #  group     => グループ名
+  #  order     => 順序
+  #  version   => HTMLヴァージョン (XHTML1.0 は 4.5 XHTML1.1 は 4.6)
+  #  charref   => 文字参照限界
+  #  doclimit  => 文書サイズ限界 (KB)
+  #  scheme    => 追加スキーム
+  #  allschemes=> 利用可能なスキーム (未定義なら $allSchemes)
+  #  restrict  => SJIS限定等
+                  $restrictkana    = 1;  # 半角カナ可
+                  $restrictsjis    = 2;  # SJISのみ
+                  $restrictsjiseuc = 4;  # SJIS/EUCのみ
+                  $restrictsjisutf = 8;  # SJIS/UTF8のみ
+  #  alloweuc  => 機種依存文字から除外する文字コード (範囲を示す対で指定)
+  #  allowsjis => 機種依存文字から除外する文字コード (範囲を示す対で指定)
+%doctypes = (
+  'html10' => {
+    guess     => 'HTML\s*1\.?0',
+    name      => 'html1\.?0',
+    guide     => 'HTML1.0',
+    abbr      => 'HTML1.0',
+    group     => 'HTML1.0',
+    order     => ++$doctypescnt,
+    version   => 1.0,
+    charref   => 256 },
+  'html20' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//IETF//DTD\s+HTML(\s+2\.0.*)?//EN["\']',
+    guess     => 'HTML\s*2\.?0',
+    name      => 'html2\.?0|rfc1866',
+    guide     => 'HTML2.0',
+    abbr      => 'HTML2.0',
+    expired   => 'HTML2.0',
+    group     => 'HTML2.0',
+    order     => ++$doctypescnt,
+    version   => 2.0,
+    charref   => 256 },
+  'i18n' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//IETF//DTD\s+HTML\s+i18n.*//EN["\']',
+    guess     => 'i18n',
+    name      => 'html2\.?x|i18n|rfc2070',
+    guide     => 'HTML2.x (i18n)',
+    abbr      => 'HTML2.x',
+    expired   => 'HTML2.x',
+    group     => 'HTML2.x',
+    order     => ++$doctypescnt,
+    version   => 2.0,
+    charref   => 2147483486 },
+  'htmlplus' => {
+    doctype   => 'HTMLPLUS\s+SYSTEM\s+["\']HTMLPLUS.DTD["\']',
+#   doctype   => 'HTMLPLUS\s+PUBLIC\s+["\']-//Internet/RFC \d+//EN["\']',
+    guess     => 'HTML\s*(\+|plus)',
+    name      => 'html+|htmlplus',
+    guide     => 'HTML+',
+    abbr      => 'HTML+',
+    expired   => 'HTML+',
+    group     => 'HTML+',
+    order     => ++$doctypescnt,
+    version   => 3.0,
+    charref   => 256 },
+  'arena' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//IETF//DTD\s+HTML\s+3\.0.*//EN["\']',
+    guess     => 'HTML\s*3\.?0',
+    name      => 'html3\.?0|arena',
+    guide     => 'HTML3.0',
+    abbr      => 'HTML3.0',
+    expired   => 'HTML3.0',
+    group     => 'HTML3.0',
+    order     => ++$doctypescnt,
+    version   => 3.0,
+    charref   => 256 },
+  'wilbur' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+HTML\s+3\.2.*//EN["\']',
+    guess     => 'HTML\s*3\.?2',
+    name      => 'html3\.?2|wilbur',
+    guide     => 'HTML3.2',
+    abbr      => 'HTML3.2',
+    group     => 'HTML3.2',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 256 },
+  'html40-strict' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+HTML\s+4\.0//EN["\']',
+    system    => 'http://www.w3.org/TR/REC-html40/strict.dtd',
+    guess     => 'HTML\s*4\.?0(?!1)',
+    superset  => 'html40-transitional',
+    name      => 'html4\.?0(-?s(trict)?)?|cougar(-s(trict)?)?',
+    guide     => 'HTML4.0 Strict',
+    abbr      => 'HTML4.0 Strict',
+    group     => 'HTML4.0',
+    obsoleted => 'html401-strict',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'html40-transitional' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+HTML\s+4\.0\s+Transitional//EN["\']',
+    system    => 'http://www.w3.org/TR/REC-html40/loose.dtd',
+    name      => 'html4\.?0-?t(ransitional)?|cougar-t(ransitional)?',
+    guide     => 'HTML4.0 Transitional',
+    abbr      => 'HTML4.0 Transitional',
+    group     => 'HTML4.0',
+    obsoleted => 'html401-transitional',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'html40-frameset' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+HTML\s+4\.0\s+Frameset//EN["\']',
+    system    => 'http://www.w3.org/TR/REC-html40/frameset.dtd',
+    name      => 'html4\.?0-?f(rameset)?|cougar-f(rameset)?',
+    guide     => 'HTML4.0 Frameset',
+    abbr      => 'HTML4.0 Frameset',
+    group     => 'HTML4.0',
+    obsoleted => 'html401-frameset',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'html40-mobile' => {
+    doctype   => 'HTML\s+SYSTEM\s+["\']html40-mobile.dtd["\']',
+    name      => 'html4\.?0-?m(obile)?|cougar-m(obile)?',
+    superset  => 'html40-strict|15445',
+    guide     => 'HTML4.0 Mobile',
+    abbr      => 'HTML4.0 Mobile',
+    group     => 'HTML4.0',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'html401-strict' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+HTML\s+4\.01//EN["\']',
+    system    => 'http://www.w3.org/TR/html4(01)?/strict.dtd',
+    guess     => 'HTML\s*4\.?01',
+    superset  => 'html401-transitional',
+    name      => 'html4\.?01(-?s(trict)?)?',
+    guide     => 'HTML4.01 Strict',
+    abbr      => 'HTML4.01 Strict',
+    group     => 'HTML4.01',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'html401-transitional' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+HTML\s+4\.01\s+Transitional//EN["\']',
+    system    => 'http://www.w3.org/TR/html4(01)?/loose.dtd',
+    name      => 'html4\.?01-?t(ransitional)?',
+    guide     => 'HTML4.01 Transitional',
+    abbr      => 'HTML4.01 Transitional',
+    group     => 'HTML4.01',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'html401-frameset' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+HTML\s+4\.01\s+Frameset//EN["\']',
+    system    => 'http://www.w3.org/TR/html4(01)?/frameset.dtd',
+    name      => 'html4\.?01-?f(rameset)?',
+    guide     => 'HTML4.01 Frameset',
+    abbr      => 'HTML4.01 Frameset',
+    group     => 'HTML4.01',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'xhtml1-strict' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//W3C//DTD\s+XHTML\s+1\.0(\s+Strict)?//EN["\']',
+    system    => 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd',
+    guess     => 'XHTML',
+    superset  => 'xhtml1-transitional',
+    name      => 'xhtml1(\.?0)?(-?s(trict)?)?',
+    guide     => 'XHTML1.0 Strict',
+    abbr      => 'XHTML1.0 Strict',
+    group     => 'XHTML1.0',
+    order     => ++$doctypescnt,
+    version   => 4.5,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'xhtml1-transitional' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//W3C//DTD\s+XHTML\s+1\.0\s+Transitional//EN["\']',
+    system    => 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd',
+    name      => 'xhtml1(\.?0)?(-?t(ransitional)?)?',
+    guide     => 'XHTML1.0 Transitional',
+    abbr      => 'XHTML1.0 Transitional',
+    group     => 'XHTML1.0',
+    order     => ++$doctypescnt,
+    version   => 4.5,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'xhtml1-frameset' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//W3C//DTD\s+XHTML\s+1\.0\s+Frameset//EN["\']',
+    system    => 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd',
+    name      => 'xhtml1(\.?0)?(-?f(rameset)?)?',
+    guide     => 'XHTML1.0 Frameset',
+    abbr      => 'XHTML1.0 Frameset',
+    group     => 'XHTML1.0',
+    order     => ++$doctypescnt,
+    version   => 4.5,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'xhtml11' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//W3C//DTD\s+XHTML\s+1\.1//EN["\']',
+    system    => 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd',
+    name      => 'xhtml1\.?1',
+    guide     => 'XHTML1.1',
+    abbr      => 'XHTML1.1',
+    group     => 'XHTML1.1',
+    order     => ++$doctypescnt,
+    version   => 4.6,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'xhtml-basic' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//W3C//DTD\s+XHTML\s+Basic\s+1\.0//EN["\']',
+    system    => 'http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd',
+    name      => 'xhtml-?b(asic)?(1\.?0?)?',
+    superset  => 'xhtml11',
+    guide     => 'XHTML Basic',
+    abbr      => 'XHTML Basic',
+    group     => 'XHTML1.1',
+    order     => ++$doctypescnt,
+    version   => 4.6,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'xhtml-mp' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//OPENWAVE//DTD\s+XHTML\s+Mobile\s+1\.0//EN["\']',
+    system    => 'http://www.openwave.com/DTD/xhtml-mobile10.dtd',
+    name      => 'xhtml-?m(obile)?\s*p(rofile)?(1\.?0?)?',
+    guide     => 'XHTML Mobile Profile',
+    abbr      => 'XHTML-MP',
+    group     => 'XHTML1.1',
+    order     => ++$doctypescnt,
+    version   => 4.6,
+    scheme    => 'wtai',
+    charref   => 1114112 },
+  '15445' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']ISO/IEC\s+15445:2000//DTD\s+(HTML|HyperText\s+Markup\s+Language)//EN["\']',
+#   system    => 'ftp://ftp.cs.tcd.ie/isohtml/15445.dtd',
+    guess     => '15445',
+    name      => '(iso(/iec)?)?15445|iso-?html',
+    guide     => 'ISO/IEC 15445',
+    abbr      => 'ISO/IEC 15445',
+    group     => 'ISO15445',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  '15445-preparation' => {
+    doctype   => 'Pre-HTML\s+PUBLIC\s+["\']ISO/IEC\s+15445:2000//DTD\s+(HTML|HyperText\s+Markup\s+Language)//EN["\']',
+#   system    => 'ftp://ftp.cs.tcd.ie/isohtml/15445.dtd',
+    name      => '((iso(/iec)?)?15445|iso-?html)-?p(re(paration)?)?',
+    guide     => 'ISO/IEC 15445 Preparation',
+    abbr      => 'ISO/IEC 15445 Preparation',
+    group     => 'ISO15445',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'mozilla20' => {
+    guess     => '(Netscape|Navigator|Mozilla)\D*2',
+    name      => 'mozilla2\.?0',
+    superset  => 'mozilla30|mozilla40',
+    guide     => 'Netscape Navigator 2.0 (Mozilla)',
+    abbr      => 'Mozilla2.0',
+    group     => 'Mozilla',
+    order     => ++$doctypescnt,
+    version   => 2.0,
+    scheme    => 'view-source|about|livescript|mocha|montulli|resource' },
+  'mozilla30' => {
+    guess     => '(Netscape|Navigator|Mozilla)\D*3',
+    name      => 'mozilla(3\.?0)?',
+    superset  => 'mozilla40',
+    guide     => 'Netscape Navigator 3.0 (Mozilla)',
+    abbr      => 'Mozilla3.0',
+    group     => 'Mozilla',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    scheme    => 'view-source|about|livescript|mocha|montulli|resource' },
+  'mozilla40' => {
+    guess     => '(Netscape|Navigator|Communicator|Mozilla)\D*([^23]|$)',
+    name      => 'mozilla4\.?0|communicator|navigator|netscape',
+    guide     => 'Netscape Navigator 4.0 (Mozilla)',
+    abbr      => 'Mozilla4.0',
+    group     => 'Mozilla',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    scheme    => 'view-source|about|livescript|mocha|montulli|resource' },
+  'ie30b' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//Microsoft//DTD\s+Internet\s+Explorer\s+3\.0\s+HTML//EN["\']',
+    name      => '(ms)?ie3\.?0b',
+    guide     => 'Microsoft Internet Explorer 3.0 beta',
+    abbr      => 'MSIE3.0beta',
+    group     => 'MSIE',
+    order     => ++$doctypescnt,
+    version   => 3.0,
+    scheme    => 'view-source|about|livescript|mocha|montulli' },
+  'ie30' => {
+    guess     => '(Internet Explorer|MSIE)\D*3',
+    name      => '(ms)?ie3\.?0',
+    guide     => 'Microsoft Internet Explorer 3.0',
+    abbr      => 'MSIE3.0',
+    group     => 'MSIE',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    scheme    => 'view-source|about|livescript|mocha|montulli' },
+  'ie40' => {
+    guess     => '(Internet Explorer|MSIE)\D*4',
+    name      => '(ms)?ie4\.?0',
+    guide     => 'Microsoft Internet Explorer 4.0',
+    abbr      => 'MSIE4.0',
+    group     => 'MSIE',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn|view-source|about|livescript|mocha|montulli' },
+  'ie50' => {
+    guess     => '(Internet Explorer|MSIE)\D*5(\.?0)?$',
+    name      => '(ms)?ie5\.?0',
+    guide     => 'Microsoft Internet Explorer 5.0',
+    abbr      => 'MSIE5.0',
+    group     => 'MSIE',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn|view-source|about|livescript|mocha|montulli' },
+  'ie55' => {
+    guess     => '(Internet Explorer|MSIE)\D*5\.?5',
+    name      => '(ms)?ie5\.?5|microsoft',
+    guide     => 'Microsoft Internet Explorer 5.5',
+    abbr      => 'MSIE5.5',
+    group     => 'MSIE',
+    order     => ++$doctypescnt,
+    version   => 4.0,
+    scheme    => 'urn|view-source|about|livescript|mocha|montulli' },
+  'webexp' => {
+    name      => 'webexp(1\.1)?',
+    guide     => 'IBM WebExplorer 1.1',
+    abbr      => 'WebExplorer1.1',
+    group     => 'WebExplorer',
+    order     => ++$doctypescnt,
+    version   => 2.0,
+    charref   => 256 },
+  'compact-html' => {
+    doctype   => 'HTML\s+PUBLIC\s+["\']-//W3C//DTD\s+Compact\s+HTML\s+1.0\s+Draft//EN["\']',
+    guess     => 'Compact(\s+HTML)?',
+    name      => 'compact(-?html)?',
+    guide     => 'Compact HTML',
+    abbr      => 'Compact HTML',
+    group     => 'Compact HTML',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 256 },
+  'imode' => {
+    guess     => '(DoCoMo|iMode)\D*(1|$)',
+    name      => 'imode(1\.?0)?',
+    guide     => 'NTT DoCoMo iMode 1.0',
+    abbr      => 'iMode1.0',
+    group     => 'iMode',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 65536,
+    doclimit  => 2,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjis,
+    allowsjis => { 0xF89F => 0xF9B0 } },
+  'imode20' => {
+    guess     => '(DoCoMo|iMode)\D*2',
+    name      => 'imode2\.?0',
+    guide     => 'NTT DoCoMo iMode 2.0',
+    abbr      => 'iMode2.0',
+    group     => 'iMode',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 65536,
+    doclimit  => 5,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjis,
+    allowsjis => { 0xF89F => 0xF9B0 } },
+  'imode30' => {
+    guess     => '(DoCoMo|iMode)\D*3',
+    name      => 'imode3\.?0',
+    guide     => 'NTT DoCoMo iMode 3.0',
+    abbr      => 'iMode3.0',
+    group     => 'iMode',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 65536,
+    doclimit  => 5,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjis,
+    allowsjis => { 0xF89F => 0xF9B0 } },
+  'imode40' => {
+    guess     => '(DoCoMo|iMode)\D*4',
+    name      => 'imode4\.?0',
+    guide     => 'NTT DoCoMo iMode 4.0',
+    abbr      => 'iMode4.0',
+    group     => 'iMode',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 65536,
+    doclimit  => 5,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjis,
+    allowsjis => { 0xF89F => 0xF9B0 } },
+  'imode45' => {
+    guess     => '(DoCoMo|iMode)\D*5',
+    name      => 'imode5\.?0',
+    guide     => 'NTT DoCoMo iMode 5.0',
+    abbr      => 'iMode5.0',
+    group     => 'iMode',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 65536,
+    doclimit  => 5,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjis,
+    allowsjis => { 0xF89F => 0xF9B0 } },
+  'imode-xhtml' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//i-mode\s+group\s+\(ja\)//DTD\s+XHTML\s+i-XHTML\(Locale/Ver\.=ja/1\.0\)\s+1\.0//EN["\']',
+    system    => 'i-xhtml_4ja_10.dtd',
+    guess     => '(DoCoMo|iMode)\WXHTML',
+    name      => 'imode-xhtml1\.?0|i-?xhtml1\.?0',
+    guide     => 'NTT DoCoMo iMode XHTML 1.0',
+    abbr      => 'iMode XHTML 1.0',
+    group     => 'iMode XHTML',
+    order     => ++$doctypescnt,
+    version   => 4.5,
+    charref   => 65536,
+    doclimit  => 100,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjisutf,
+    allowsjis => { 0xF89F => 0xF9B0 } },
+  'imode-xhtml11' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//i-mode\s+group\s+\(ja\)//DTD\s+XHTML\s+i-XHTML\(Locale/Ver\.=ja/1\.1\)\s+1\.0//EN["\']',
+    system    => 'i-xhtml_4ja_10.dtd',
+    guess     => '(DoCoMo|iMode)\WXHTML',
+    name      => 'imode-xhtml(1\.?1)?|i-?xhtml(1\.?1)?',
+    guide     => 'NTT DoCoMo iMode XHTML 1.1',
+    abbr      => 'iMode XHTML 1.1',
+    group     => 'iMode XHTML',
+    order     => ++$doctypescnt,
+    version   => 4.5,
+    charref   => 65536,
+    doclimit  => 100,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjisutf,
+    allowsjis => { 0xF89F => 0xF9B0 } },
+  'jskyweb' => {
+    guess     => 'J-?Sky(Web)?',
+    name      => 'j-?sky(web)?',
+    guide     => 'J-SkyWeb',
+    abbr      => 'J-SkyWeb',
+    group     => 'J-SkyWeb',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 0,
+    doclimit  => 6,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjis },
+  'jskystation' => {
+    guess     => 'J-?Sky(Web)?\s*Station',
+    name      => 'j-?sky(web)?\s*station',
+    guide     => 'J-SkyWeb Station',
+    abbr      => 'J-SkyWeb Station',
+    group     => 'J-SkyWeb',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 0,
+    doclimit  => 6,
+    scheme    => 'tel',
+    restrict  => $restrictkana|$restrictsjis },
+  'doti10' => {
+    guess     => '(doti)\D*(1|$)',
+    name      => 'doti(1\.?0)?',
+    guide     => 'TTNet ドットi 1.0',
+    abbr      => 'doti1.0',
+    group     => 'doti',
+    order     => ++$doctypescnt,
+    version   => 3.2,
+    charref   => 65536,
+    doclimit  => 10,
+    scheme    => 'tel',
+    allschemes=> 'http|mailto|tel',
+    restrict  => $restrictkana|$restrictsjiseuc, },
+  'jpo' => {
+    name      => 'jpo',
+    guide     => '特許出願用HTML',
+    abbr      => '特許出願用HTML',
+    group     => '特許出願用HTML',
+    order     => ++$doctypescnt,
+    version   => 0,
+    restrict  => $restrictkana|$restrictsjis,
+    alloweuc  => { 0xADA1 => 0xADA9 },
+    allowsjis => { 0x8740 => 0x8748 } },
+);
+
+# DOCTYPE省略時の既定値
+$defaultrule = 'html401-transitional';
+
+# サポートしていない DOCTYPE
+%xdoctypes = (
+);
+
+# 物理的フォントタグとその代替え候補
+%physicalFontElements = (
+  B  => 'STRONG',
+  I  => 'EM',
+  TT => 'CODE|SAMP|KBD',
+);
+
+# フォームコントロール
+$formControls = 'INPUT|TEXTAREA|SELECT|BUTTON|KEYGEN';
+
+# 特定の要素の内容にしか書けないタグ
+%innerElements = (
+  FORM => 'INPUT|TEXTAREA|SELECT|BUTTON|KEYGEN',
+);
+
+# ブラウザによる非サポートタグを吸収する対
+%nonsupportedTagsPair = (
+  FRAMESET => [ 'NOFRAMES', 'no-noframes' ],
+  SCRIPT   => [ 'NOSCRIPT', 'no-noscript' ],
+);
+
+# 推奨されないタグの代替
+%altDeprecated = (
+  CENTER => 'DIV ALIGN="CENTER"',
+  DIR => 'UL',
+  MENU => 'UL',
+# NEXTID =>
+  ISINDEX => 'INPUT',
+  XMP => 'PRE',
+# LISTING =>
+# PLAINTEXT =>
+  APPLET => 'OBJECT',
+  'BASEFONT|FONT' => 'css2',
+  'S|STRIKE|U' => 'css',
+);
+
+# ヘディングの独立ブロック
+$headingBlocks = 'BLOCK|BLOCKQUOTE|TABLE';
+
+# タグの要素の先頭や末尾に空白を禁止するタグ
+$cuddleContainers = 'A|H\d|LI|TITLE';
+
+# WAI で使うべきでないとされているタグ
+$shouldNotUse = 'BLINK|MARQUEE';
+
+# WIDTH と HEIGHT 属性があった方がいいタグ
+$recommendedWidth = 'IMG|APPLET|EMBED|OBJECT';
+
+# TITLE 属性があった方がいいタグ
+$recommendedTitle = 'ABBR|ACRONYM';
+$recommendedFrameTitle = 'FRAMESET|FRAME|IFRAME';
+
+# LONGDESC 属性があった方がいいタグ
+#$recommendedLongdesc = 'FRAME';
+
+# ACCESSKEY 属性があった方がいいタグ
+$recommendedAccesskey = 'A|AREA|LEGEND|INPUT|TEXTAREA|BUTTON';
+
+# TABINDEX 属性があった方がいいタグ
+$recommendedTabindex = 'INPUT|TEXTAREA|BUTTON|SELECT';
+
+# SUMMARY 属性があった方がいいタグ
+$recommendedSummary = 'TABLE';
+
+# ABBR 属性があった方がいいタグ
+$recommendedAbbr = 'TH';
+
+# NAME属性が廃止されるタグ
+$deprecatedName = 'A|APPLET|FORM|FRAME|IFRAME|IMG|MAP';
+
+# あまり終了タグ省略性を認めたくないタグ
+$noOmissibleEndTags = 'HTML|HEAD|BODY|TR';
+
+# <!-- --> で要素の内容を囲んだ方がいいタグ
+$commentedElement = 'SCRIPT|STYLE|SERVER';
+
+# 共通スキーム
+$allSchemes  = # RFC1738
+               'ftp|http|gopher|mailto|news|nntp|telnet|wais|file|prospero'.
+               # RFC2224 2255 2192 2122  2056             2384 2392    2397
+                   '|nfs|ldap|imap|vemmi|z39\.50r|z39\.50s|pop|cid|mid|data'.
+               # HTML4.0
+               '|java|javascript'.
+               # Others
+               '|https|clsid|snews';
+$httpSchemes = 'https?';
+
+# 予約フレーム名
+$reservedFrameNames = '_top|_self|_parent|_blank';
+
+# HTML4.0 の Link Types
+$linkTypes = 'alternate|stylesheet|start|next|prev(?:ious)?|contents|toc|index|glossary|copyright|chapter|section|subsection|appendix|help|bookmark';
+
+# <META NAME=ROBOTS CONTENTS> の値
+$robotsContents = 'ALL|NONE|FOLLOW|INDEX|NOFOLLOW|NOINDEX';
+
+# ナヴィゲーション用リンク
+$navigationLinks = 'START|NEXT|PREV(IOUS)?|CONTENTS|INDEX|TOC|GLOSSARY|CHAPTER|(SUB)?SECTION|APPENDIX|HELP';
+
+# <A> の好ましくない内容 (英大文字小文字区別なし)
+$hereAnchors = '(?:click\s+)?(?:here|this)(?:\s+(?:site|page|link))?\s*[,.!]?';
+$hereAnchorsJ =
+  '(?:ここ|ココ|これ|コレ|こちら|コチラ|こっち|コッチ|うち|ウチ|此所|此処|こんなの)(?:で|へ)?(?:\s|　)*(?:、|。|，|．|,|\.|!|！)?'.
+  '|(?:この|こちらの|コチラの|こっちの|コッチの|うちの|ウチの|此の)\s*(?:サイト|SITE|ページ|PAGE|リンク|LINK)(?:で|へ)?(?:\s|　)*(?:、|。|，|．|,|\.|!|！)?'.
+  '|(?:(?:ここ|ココ|此所|此処)を)?(?:クリック|CLICK|(?:クリック|CLICK|押)(?:し(?:て|ま)|す))[^<]*';
+
+1;

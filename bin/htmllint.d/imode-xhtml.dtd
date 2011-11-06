@@ -1,0 +1,399 @@
+<!--======= HTML Document Type Definition NTT DoCoMo iMode XHTML ==========-->
+
+<!--                  THIS IS EXPERIMENTAL by k16                          -->
+
+<!ENTITY % iXHTML.11 "IGNORE" -- 2004/03/11 -->
+
+
+<!ENTITY % HTML.Version
+        "-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/1.0) 1.0//EN"
+
+-- Typical usage:
+
+    <?xml version="1.0" encoding="Shift_JIS"?>
+    <!DOCTYPE html PUBLIC
+        "-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/1.0) 1.0//EN"
+        "i-xhtml_4ja_10.dtd">
+    <html>
+    <head>
+    ...
+    </head>
+    <body>
+    ...
+    </body>
+    </html>
+-->
+
+<![ %iXHTML.11 [
+<!ENTITY % HTML.Version
+        "-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/1.1) 1.0//EN">
+]]>
+
+<!--================== Version Control Switch =============================-->
+
+<!ENTITY % iMode.XHTML.10 "INCLUDE" -- 2003/02/11-->
+
+<!--================== Deprecated Features Switch =========================-->
+
+<!ENTITY % HTML.Deprecated "INCLUDE">
+
+<!--================== Imported Names =====================================-->
+
+<!ENTITY % ContentType "CDATA">
+    <!-- media type, as per [RFC2045] -->
+
+<!ENTITY % Number "CDATA">
+    <!-- one or more digits -->
+
+<!ENTITY % LinkTypes "CDATA">
+    <!-- space-separated list of link types -->
+
+<!ENTITY % URI "CDATA">
+    <!-- a Uniform Resource Identifier, see [RFC2396] -->
+
+<!ENTITY % StyleSheet "CDATA">
+    <!-- style sheet data -->
+
+<!ENTITY % Text "CDATA">
+    <!-- used for titles etc. -->
+
+<!ENTITY % FrameTarget "NMTOKEN">
+    <!-- render in this frame -->
+
+<!ENTITY % Length "CDATA">
+    <!-- nn for pixels or nn% for percentage length -->
+
+<!ENTITY % Pixels "CDATA">
+    <!-- integer representing length in pixels -->
+
+<!ENTITY % Class "CDATA" >
+<!ENTITY % Name  "CDATA" >
+<!ENTITY % Color "CDATA" -- #RRGGB or 16 typical names -->
+
+<!--=================== Generic Attributes ===============================-->
+
+<!ENTITY % attrs
+ "style       %StyleSheet;   #IMPLIED"
+  >
+
+<!--================ Character mnemonic entities ==========================-->
+
+<!ENTITY quot   "&#34;"  -- double quote -->
+<!ENTITY amp    "&#38;"  -- ampersand -->
+<!ENTITY apos   "&#39;"  --  apostrophe mark -->
+<!ENTITY lt     "&#60;"  -- less than -->
+<!ENTITY gt     "&#62;"  -- greater than -->
+<!ENTITY nbsp   "&#160;" -- no-break space -->
+<!ENTITY copy   "&#169;" -- copyright sign -->
+<!ENTITY reg    "&#174;" -- registered sign -->
+
+<!--=================== Text Elements ====================================-->
+
+<!ENTITY % special "br | span | object | img">
+
+<!ENTITY % inline.forms "input | select | textarea">
+
+<!ENTITY % inline "a | %special; | %inline.forms;">
+
+<!-- %Inline; covers inline or "text-level" elements -->
+<!ENTITY % Inline "(#PCDATA | %inline;)*">
+
+<!--================== Block level elements ==============================-->
+
+<!ENTITY % heading "h1|h2|h3|h4|h5|h6">
+<!ENTITY % lists "ul | ol | dl">
+<!ENTITY % blocktext "pre | hr | blockquote">
+
+<!ENTITY % block
+    "p | %heading; | div | %lists; | %blocktext;">
+
+<!ENTITY % Block "(%block; | form)*">
+
+<!-- %Flow; mixes Block and Inline and is used for list items etc. -->
+<!ENTITY % Flow "(#PCDATA | %block; | form | %inline;)*">
+
+<!--================== Content models for exclusions =====================-->
+
+<!-- a elements use %Inline; excluding a -->
+
+<!ENTITY % a.content
+   "(#PCDATA | %special; | %inline.forms;)*">
+
+<!-- pre uses %Inline excluding img, object, big, small, sup or sup -->
+
+<!ENTITY % pre.content
+   "(#PCDATA | a | br | span | %inline.forms;)*">
+
+<!-- form uses %Block; excluding form -->
+
+<!ENTITY % form.content "(%block;)*">
+
+<!--================ Document Structure ==================================-->
+
+<!-- the namespace URI designates the document profile -->
+
+<!ELEMENT html (head, body)>
+<!ATTLIST html
+  xmlns       %URI;          #FIXED 'http://www.w3.org/1999/xhtml'
+  >
+
+<!--================ Document Head =======================================-->
+
+<!ELEMENT head (title & base?) +(style|meta)>
+
+<!-- The title element is not considered part of the flow of text.
+       It should be displayed, for example as the page header or
+       window title. Exactly one title is required per document.
+    -->
+<!ELEMENT title (#PCDATA)>
+
+<!-- document base URI -->
+
+<!ELEMENT base EMPTY>
+<!ATTLIST base
+  href        %URI;          #REQUIRED
+  >
+
+<!-- generic metainformation -->
+<!ELEMENT meta EMPTY>
+<!ATTLIST meta
+  http-equiv  CDATA          #IMPLIED
+  content     CDATA          #REQUIRED
+  >
+
+<!-- style info, which may include CDATA sections -->
+<!ELEMENT style (#PCDATA)>
+<!ATTLIST style
+  type        %ContentType;  #FIXED 'text/css'
+  >
+
+<!--=================== Document Body ====================================-->
+
+<!ELEMENT body %Block;>
+<!ATTLIST body
+  %attrs;
+  >
+
+<!ELEMENT div %Flow;>  <!-- generic language/style container -->
+<!ATTLIST div
+  %attrs;
+  >
+
+<!--=================== Paragraphs =======================================-->
+
+<!ELEMENT p %Inline;>
+<!ATTLIST p
+  %attrs;
+  >
+
+<!--=================== Headings =========================================-->
+
+<!--
+  There are six levels of headings from h1 (the most important)
+  to h6 (the least important).
+-->
+
+<!ELEMENT h1  %Inline;>
+<!ATTLIST h1
+   %attrs;
+   >
+
+<!ELEMENT h2 %Inline;>
+<!ATTLIST h2
+   %attrs;
+   >
+
+<!ELEMENT h3 %Inline;>
+<!ATTLIST h3
+   %attrs;
+   >
+
+<!ELEMENT h4 %Inline;>
+<!ATTLIST h4
+   %attrs;
+   >
+
+<!ELEMENT h5 %Inline;>
+<!ATTLIST h5
+   %attrs;
+   >
+
+<!ELEMENT h6 %Inline;>
+<!ATTLIST h6
+   %attrs;
+   >
+
+<!--=================== Lists ============================================-->
+
+<!-- Unordered list -->
+
+<!ELEMENT ul (li)+>
+<!ATTLIST ul
+  %attrs;
+  >
+
+<!-- Ordered (numbered) list -->
+
+<!ELEMENT ol (li)+>
+<!ATTLIST ol
+  %attrs;
+  start       %Number;       #IMPLIED
+  >
+
+<!-- list item -->
+
+<!ELEMENT li %Flow;>
+<!ATTLIST li
+  %attrs;
+  value       %Number;       #IMPLIED
+  >
+
+<!-- definition lists - dt for term, dd for its definition -->
+
+<!ELEMENT dl (dt|dd)+>
+
+<!ELEMENT dt %Inline;>
+
+<!ELEMENT dd %Flow;>
+
+<!--=================== Horizontal Rule ==================================-->
+
+<!ELEMENT hr EMPTY>
+<!ATTLIST hr
+  %attrs;
+  >
+
+<!--=================== Preformatted Text ================================-->
+
+<!ELEMENT pre %pre.content;>
+
+<!--=================== Block-like Quotes ================================-->
+
+<!ELEMENT blockquote %Flow;>
+
+<!--================== The Anchor Element ================================-->
+
+<!-- content is %Inline; except that anchors shouldn't be nested -->
+
+    <!ENTITY % alphanum "CDATA" -- 0-9 A-Z a-z -->
+    <!ENTITY % hankana  "CDATA" -- hankaku kana -->
+    <!ENTITY % Character "CDATA" -- 0-9 * # -->
+    <!ENTITY % CharacterCTI "CDATA" -- 0-9 * # , / -->
+    <!ENTITY % accesskey
+        "accesskey %Character;  #IMPLIED">
+
+<![ %iXHTML.11 [
+<!ENTITY % a.add.11 "
+  ilet        IDREF          #IMPLIED
+  iswf        IDREF          #IMPLIED
+  irst        IDREF          #IMPLIED
+  ">
+]]>
+
+<!ELEMENT a %a.content;>
+<!ATTLIST a
+  id          ID             #IMPLIED
+  href        %URI;          #IMPLIED
+  %accesskey;
+  cti         %CharacterCTI; #IMPLIED
+  ijam        IDREF          #IMPLIED
+  utn         (utn)          #IMPLIED
+  subject     %alphanum;     #IMPLIED
+  body        %alphanum;     #IMPLIED
+  telbook     CDATA          #IMPLIED
+  kana        %hankana;      #IMPLIED
+  email       CDATA          #IMPLIED
+  ista        IDREF          #IMPLIED
+  %a.add.11;
+  >
+
+<!--===================== Inline Elements ================================-->
+
+<!ELEMENT span %Inline;> <!-- generic language/style container -->
+<!ATTLIST span
+  %attrs;
+  >
+
+<!ELEMENT br EMPTY>   <!-- forced line break -->
+<!ATTLIST br
+  %attrs;
+  >
+
+<!--==================== Object ======================================-->
+
+<!ELEMENT object - - (param)*>
+<!ATTLIST object
+        declare (declare) #REQUIRED
+        id      ID        #REQUIRED
+        data    %URI;     #REQUIRED
+        type    CDATA     #REQUIRED --(application/x-jam|video/3gpp|audio/3gpp)--
+        >
+
+<!ELEMENT param - - EMPTY>
+<!ATTLIST param
+  name        %Name;         #REQUIRED -- property name --
+  value       CDATA          #IMPLIED  -- property value --
+  valuetype   (data)         #IMPLIED
+  >
+
+<!--=================== Images ===========================================-->
+
+<!ELEMENT img EMPTY>
+<!ATTLIST img
+  %attrs;
+  src         %URI;          #REQUIRED
+  height      %Length;       #IMPLIED
+  width       %Length;       #IMPLIED
+  alt         %Text;         #REQUIRED
+  >
+
+<!--================ Forms ===============================================-->
+
+<!ELEMENT form %form.content;>   <!-- forms shouldn't be nested -->
+
+<!ATTLIST form
+  action      %URI;          #REQUIRED
+  method      (get|post)     "get"
+  utn         (utn)          #IMPLIED
+  >
+
+<!ENTITY % InputType
+  "(text | password | checkbox |
+    radio | submit | reset | hidden)"
+   >
+
+<!-- the name attribute is required for all but submit & reset -->
+
+<!ELEMENT input EMPTY>     <!-- form control -->
+<!ATTLIST input
+  %attrs;
+  type        %InputType;    "text"
+  name        %Name;         #IMPLIED
+  size        CDATA          #IMPLIED
+  maxlength   %Number;       #IMPLIED
+  %accesskey;
+  value       CDATA          #IMPLIED
+  checked     (checked)      #IMPLIED
+  >
+
+<!ELEMENT select (option)+>  <!-- option selector -->
+<!ATTLIST select
+  name        %Name;         #IMPLIED
+  size        %Number;       #IMPLIED
+  multiple    (multiple)     #IMPLIED
+  >
+
+<!ELEMENT option (#PCDATA)>     <!-- selectable choice -->
+<!ATTLIST option
+  selected    (selected)     #IMPLIED
+  value       CDATA          #IMPLIED
+  >
+
+<!ELEMENT textarea (#PCDATA)>     <!-- multi-line text field -->
+<!ATTLIST textarea
+  %attrs;
+  name        %Name;         #IMPLIED
+  %accesskey;
+  rows        %Number;       #REQUIRED
+  cols        %Number;       #REQUIRED
+  >

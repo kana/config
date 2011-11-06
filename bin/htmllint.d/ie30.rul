@@ -1,0 +1,992 @@
+# Microsoft Internet Explorer 3.0
+
+#======= ELEMENTS =======
+$emptyTags = 'AREA|BASE|BASEFONT|BGSOUND|BR|COL|FRAME|HR|IMG|INPUT|ISINDEX'.
+             '|LINK|META|PARAM|WBR';
+$pairTags = 'A|ADDRESS|APPLET|B|BIG|BLOCKQUOTE|BODY|CAPTION|CENTER|CITE|CODE'.
+            '|COLGROUP|COMMENT|DD|DFN|DIR|DIV|DL|DT|EM|EMBED|FONT|FORM'.
+            '|FRAMESET|H1|H2|H3|H4|H5|H6|HEAD|HTML|I|IFRAME|KBD|LI|LISTING'.
+            '|MAP|MARQUEE|MENU|NOBR|NOFRAMES|OBJECT|OL|OPTION|P|PLAINTEXT|PRE'.
+            '|S|SAMP|SCRIPT|SELECT|SMALL|SPAN|STRIKE|STRONG|STYLE|SUB|SUP'.
+            '|TABLE|TBODY|TD|TEXTAREA|TFOOT|TH|THEAD|TITLE|TR|TT|U|UL|VAR|XMP';
+$deprecatedTags = 'COMMENT|CENTER|XMP|LISTING|PLAINTEXT|EMBED';
+$omitStartTags = 'BODY|HEAD|HTML|TBODY';
+$omitEndTags = 'BODY|COLGROUP|DD|DT|HEAD|HTML|LI|MARQUEE|NOBR|OPTION|P'.
+               '|PLAINTEXT|TBODY|TD|TFOOT|TH|THEAD|TR';
+#$maybeEmpty = 'A|ADDRESS|APPLET|B|BIG|BLOCKQUOTE|BODY|CENTER|CITE|CODE'.
+#              '|COLGROUP|COMMENT|DD|DFN|DIR|DIV|DL|DT|EM|EMBED|FONT|FORM|H1'.
+#              '|H2|H3|H4|H5|H6|I|IFRAME|KBD|LI|LISTING|MAP|MARQUEE|MENU|NOBR'.
+#              '|NOFRAMES|OBJECT|OL|OPTION|P|PLAINTEXT|PRE|S|SAMP|SCRIPT|SMALL'.
+#              '|SPAN|STRIKE|STRONG|STYLE|SUB|SUP|TD|TEXTAREA|TH|TITLE|TT|U|UL'.
+#              '|VAR|XMP';
+$maybeEmpty = 'COMMENT|LISTING|PLAINTEXT|PRE|SCRIPT|STYLE|TD|TEXTAREA|TH|XMP'.
+              '|COLGROUP|OBJECT|EMBED';
+%requiredTags = (
+  'HEAD'  => 'TITLE',
+  'HTML'  => 'HEAD|#001',
+  'TABLE' => 'TBODY',
+);
+%onceonlyTags = (
+  '#001'  => 'BODY|FRAMESET',
+  'HEAD'  => 'TITLE|ISINDEX|BASE',
+  'HTML'  => 'HEAD|#001|PLAINTEXT',
+  'TABLE' => 'CAPTION|#000|THEAD|TFOOT',
+);
+$sequencialTags = 'TABLE|HTML';
+%tagsElements = (
+  '#000'       => 'COL|COLGROUP',
+  '#001'       => 'BODY|FRAMESET',
+  'A'          => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP|CODE'.
+                  '|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I|TT'.
+                  '|COMMENT|#PCDATA',
+  'ADDRESS'    => 'CENTER|P|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE'.
+                  '|BGSOUND|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR'.
+                  '|KBD|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG'.
+                  '|STRIKE|U|B|I|TT|COMMENT|#PCDATA',
+  'APPLET'     => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|PARAM',
+  'B'          => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'BIG'        => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'BLOCKQUOTE' => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'BODY'       => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'CAPTION'    => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'CENTER'     => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'CITE'       => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'CODE'       => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'COLGROUP'   => 'COL',
+  'COMMENT'    => 'CDATA',
+  'DD'         => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'DFN'        => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'DIR'        => 'LI',
+  'DIV'        => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'DL'         => 'DD|DT',
+  'DT'         => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'EM'         => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'EMBED'      => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'FONT'       => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'FORM'       => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|BLOCKQUOTE'.
+                  '|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P|TEXTAREA|SELECT'.
+                  '|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP|SCRIPT|APPLET|IMG'.
+                  '|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP|CODE|DFN|STRONG|EM|S'.
+                  '|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I|TT|COMMENT|#PCDATA|H6'.
+                  '|H5|H4|H3|H2|H1|INPUT|SELECT|TEXTAREA',
+  'FRAMESET'   => 'NOFRAMES|FRAME|FRAMESET',
+  'H1'         => 'CENTER|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND'.
+                  '|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD'.
+                  '|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U'.
+                  '|B|I|TT|COMMENT|#PCDATA',
+  'H2'         => 'CENTER|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND'.
+                  '|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD'.
+                  '|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U'.
+                  '|B|I|TT|COMMENT|#PCDATA',
+  'H3'         => 'CENTER|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND'.
+                  '|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD'.
+                  '|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U'.
+                  '|B|I|TT|COMMENT|#PCDATA',
+  'H4'         => 'CENTER|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND'.
+                  '|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD'.
+                  '|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U'.
+                  '|B|I|TT|COMMENT|#PCDATA',
+  'H5'         => 'CENTER|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND'.
+                  '|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD'.
+                  '|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U'.
+                  '|B|I|TT|COMMENT|#PCDATA',
+  'H6'         => 'CENTER|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND'.
+                  '|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD'.
+                  '|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U'.
+                  '|B|I|TT|COMMENT|#PCDATA',
+  'HEAD'       => 'TITLE|ISINDEX|BASE|SCRIPT|STYLE|META|LINK|BGSOUND',
+  'HTML'       => 'HEAD|#001|PLAINTEXT',
+  'I'          => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'IFRAME'     => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'KBD'        => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'LI'         => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'LISTING'    => '%literal',
+  'MAP'        => 'AREA',
+  'MARQUEE'    => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'MENU'       => 'LI',
+  'NOBR'       => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|BR|SPAN|CITE|VAR|KBD|SAMP|CODE'.
+                  '|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I|TT'.
+                  '|COMMENT|#PCDATA',
+  'NOFRAMES'   => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'OBJECT'     => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1|PARAM',
+  'OL'         => 'LI',
+  'OPTION'     => '#PCDATA',
+  'P'          => 'CENTER|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND'.
+                  '|MAP|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD'.
+                  '|SAMP|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U'.
+                  '|B|I|TT|COMMENT|#PCDATA',
+  'PLAINTEXT'  => '%literal',
+  'PRE'        => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP|CODE'.
+                  '|DFN|STRONG|EM|S|STRIKE|U|B|I|TT|COMMENT|#PCDATA',
+  'S'          => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'SAMP'       => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'SCRIPT'     => 'CDATA',
+  'SELECT'     => 'OPTION',
+  'SMALL'      => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'SPAN'       => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'STRIKE'     => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'STRONG'     => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'STYLE'      => 'CDATA',
+  'SUB'        => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'SUP'        => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'TABLE'      => 'CAPTION|#000|THEAD|TFOOT|TBODY',
+  'TBODY'      => 'TR',
+  'TD'         => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'TEXTAREA'   => '#PCDATA',
+  'TFOOT'      => 'TR',
+  'TH'         => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'THEAD'      => 'TR',
+  'TITLE'      => '#PCDATA',
+  'TR'         => 'TD|TH',
+  'TT'         => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'U'          => 'BASEFONT|ADDRESS|CENTER|IFRAME|TABLE|HR|ISINDEX|FORM'.
+                  '|BLOCKQUOTE|DIV|LISTING|XMP|PRE|MENU|DIR|DL|OL|UL|P'.
+                  '|TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA|H6|H5|H4|H3|H2|H1',
+  'UL'         => 'LI',
+  'VAR'        => 'TEXTAREA|SELECT|INPUT|EMBED|OBJECT|MARQUEE|BGSOUND|MAP'.
+                  '|SCRIPT|APPLET|IMG|A|WBR|NOBR|BR|SPAN|CITE|VAR|KBD|SAMP'.
+                  '|CODE|DFN|STRONG|EM|S|FONT|SUP|SUB|SMALL|BIG|STRIKE|U|B|I'.
+                  '|TT|COMMENT|#PCDATA',
+  'XMP'        => '%literal',
+);
+%excludedElems = (
+  'A'     => 'A',
+  'DIR'   => 'P|UL|OL|DL|DIR|MENU|PRE|XMP|LISTING|DIV|BLOCKQUOTE|FORM|ISINDEX'.
+             '|HR|TABLE|IFRAME|CENTER',
+  'FORM'  => 'FORM',
+  'MENU'  => 'P|UL|OL|DL|DIR|MENU|PRE|XMP|LISTING|DIV|BLOCKQUOTE|FORM|ISINDEX'.
+             '|HR|TABLE|IFRAME|CENTER',
+  'NOBR'  => 'NOBR',
+  'PRE'   => 'IMG|BIG|SMALL|SUB|SUP|FONT',
+  'TITLE' => 'SCRIPT|STYLE|META|LINK|BGSOUND',
+);
+%includedElems = (
+  'FORM' => 'INPUT|SELECT|TEXTAREA',
+  'HEAD' => 'SCRIPT|STYLE|META|LINK|BGSOUND',
+);
+%deprecatedElems = (
+  'A'          => 'INPUT|SELECT|TEXTAREA',
+  'ADDRESS'    => 'INPUT|SELECT|TEXTAREA',
+  'APPLET'     => 'INPUT|SELECT|TEXTAREA',
+  'B'          => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'BIG'        => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'BLOCKQUOTE' => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|INPUT|KBD|NOBR'.
+                  '|S|SAMP|SELECT|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TEXTAREA'.
+                  '|TT|U|VAR|WBR',
+  'BODY'       => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|INPUT|KBD|NOBR'.
+                  '|S|SAMP|SELECT|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TEXTAREA'.
+                  '|TT|U|VAR|WBR',
+  'CAPTION'    => 'INPUT|SELECT|TEXTAREA',
+  'CITE'       => 'INPUT|SELECT|TEXTAREA',
+  'CODE'       => 'INPUT|SELECT|TEXTAREA',
+  'DD'         => 'ADDRESS|BASEFONT|H1|H2|H3|H4|H5|H6|INPUT|SELECT|TEXTAREA',
+  'DFN'        => 'INPUT|SELECT|TEXTAREA',
+  'DIV'        => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|INPUT|KBD|NOBR'.
+                  '|S|SAMP|SELECT|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TEXTAREA'.
+                  '|TT|U|VAR|WBR',
+  'DT'         => 'INPUT|SELECT|TEXTAREA',
+  'EM'         => 'INPUT|SELECT|TEXTAREA',
+  'FONT'       => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'FORM'       => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|KBD|NOBR|S|SAMP'.
+                  '|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TT|U|VAR|WBR',
+  'H1'         => 'INPUT|SELECT|TEXTAREA',
+  'H2'         => 'INPUT|SELECT|TEXTAREA',
+  'H3'         => 'INPUT|SELECT|TEXTAREA',
+  'H4'         => 'INPUT|SELECT|TEXTAREA',
+  'H5'         => 'INPUT|SELECT|TEXTAREA',
+  'H6'         => 'INPUT|SELECT|TEXTAREA',
+  'I'          => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'IFRAME'     => 'ADDRESS|BASEFONT|H1|H2|H3|H4|H5|H6|INPUT|SELECT|TEXTAREA',
+  'KBD'        => 'INPUT|SELECT|TEXTAREA',
+  'LI'         => 'ADDRESS|BASEFONT|H1|H2|H3|H4|H5|H6|INPUT|SELECT|TEXTAREA',
+  'MARQUEE'    => 'INPUT|SELECT|TEXTAREA',
+  'NOBR'       => 'INPUT|SELECT|TEXTAREA',
+  'NOFRAMES'   => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|INPUT|KBD|NOBR'.
+                  '|S|SAMP|SELECT|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TEXTAREA'.
+                  '|TT|U|VAR|WBR',
+  'OBJECT'     => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|INPUT|KBD|NOBR'.
+                  '|S|SAMP|SELECT|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TEXTAREA'.
+                  '|TT|U|VAR|WBR',
+  'P'          => 'INPUT|SELECT|TEXTAREA',
+  'PRE'        => 'INPUT|SELECT|TEXTAREA',
+  'S'          => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'SAMP'       => 'INPUT|SELECT|TEXTAREA',
+  'SMALL'      => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'SPAN'       => 'INPUT|SELECT|TEXTAREA',
+  'STRIKE'     => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'STRONG'     => 'INPUT|SELECT|TEXTAREA',
+  'SUB'        => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'SUP'        => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'TD'         => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|INPUT|KBD|NOBR'.
+                  '|S|SAMP|SELECT|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TEXTAREA'.
+                  '|TT|U|VAR|WBR',
+  'TH'         => '#PCDATA|A|B|BIG|BR|CITE|CODE|DFN|EM|FONT|I|INPUT|KBD|NOBR'.
+                  '|S|SAMP|SELECT|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TEXTAREA'.
+                  '|TT|U|VAR|WBR',
+  'TT'         => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'U'          => 'ADDRESS|BASEFONT|BLOCKQUOTE|DIR|DIV|DL|FORM|H1|H2|H3|H4|H5'.
+                  '|H6|HR|IFRAME|INPUT|ISINDEX|MENU|OL|P|PRE|SELECT|TABLE'.
+                  '|TEXTAREA|UL',
+  'VAR'        => 'INPUT|SELECT|TEXTAREA',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'CLASS'       => 'NAMES',
+    'HREF'        => '%URL',
+    'ID'          => 'ID',
+    'NAME'        => 'CDATA',
+    'ONCLICK'     => '%Script',
+    'ONMOUSEOVER' => '%Script',
+    'REL'         => 'SAME|NEXT|PARENT|PREVIOUS',
+    'REV'         => 'CDATA',
+    'STYLE'       => '%StyleSheet',
+    'TARGET'      => 'CDATA',
+    'TITLE'       => 'CDATA',
+  },
+  'APPLET' => {
+    'ALIGN'    => 'TOP|MIDDLE|BOTTOM|LEFT|CENTER|RIGHT',
+    'ALT'      => 'CDATA',
+    'CLASS'    => 'NAMES',
+    'CODE'     => 'CDATA',
+    'CODEBASE' => '%URL',
+    'DOWNLOAD' => 'NUMBER',
+    'HEIGHT'   => '%Pixels',
+    'HSPACE'   => '%Pixels',
+    'ID'       => 'ID',
+    'NAME'     => 'CDATA',
+    'STYLE'    => '%StyleSheet',
+    'TITLE'    => 'CDATA',
+    'VSPACE'   => '%Pixels',
+    'WIDTH'    => '%Pixels',
+  },
+  'AREA' => {
+    'ALT'      => 'CDATA',
+    'CLASS'    => 'NAMES',
+    'COORDS'   => '%COORDS',
+    'HREF'     => '%URL',
+    'ID'       => 'ID',
+    'NOHREF'   => 'NOHREF',
+    'NOTAB'    => 'NOTAB',
+    'SHAPE'    => 'RECT|RECTANGLE|CIRC|CIRCLE|POLY|POLYGON|DEFAULT',
+    'STYLE'    => '%StyleSheet',
+    'TABINDEX' => 'NUMBER',
+    'TARGET'   => 'CDATA',
+    'TITLE'    => 'CDATA',
+  },
+  'BASE' => {
+    'HREF'   => '%URL',
+    'TARGET' => 'CDATA',
+  },
+  'BASEFONT' => {
+    'COLOR' => '%color',
+    'SIZE'  => '%fsize', # org:NUMBER
+  },
+  'BGSOUND' => {
+    'LOOP' => 'NMTOKEN',
+    'SRC'  => '%URL',
+  },
+  'BODY' => {
+    'ALINK'        => '%color',
+    'BACKGROUND'   => '%URL',
+    'BGCOLOR'      => '%color',
+    'BGPROPERTIES' => 'FIXED',
+    'CLASS'        => 'NAMES',
+    'ID'           => 'ID',
+    'LEFTMARGIN'   => 'NUMBER',
+    'LINK'         => '%color',
+    'STYLE'        => '%StyleSheet',
+    'TEXT'         => '%color',
+    'TOPMARGIN'    => 'NUMBER',
+    'VLINK'        => '%color',
+  },
+  'BR' => {
+    'CLASS' => 'NAMES',
+    'CLEAR' => 'LEFT|ALL|RIGHT|NONE',
+  },
+  'CAPTION' => {
+    'ALIGN'  => 'CENTER|LEFT|RIGHT',
+    'VALIGN' => 'TOP|BOTTOM',
+  },
+  'COL' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'SPAN'  => '%Span',
+  },
+  'COLGROUP' => {
+    'ALIGN'  => 'LEFT|CENTER|RIGHT',
+    'SPAN'   => '%Span',
+    'VALIGN' => 'TOP|MIDDLE|BOTTOM',
+    'WIDTH'  => '%Length',
+  },
+  'DD' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+  },
+  'DIV' => {
+    'ALIGN'  => 'LEFT|CENTER|RIGHT|JUSTIFY',
+    'CLASS'  => 'NAMES',
+    'ID'     => 'ID',
+    'NOWRAP' => 'NOWRAP',
+    'STYLE'  => '%StyleSheet',
+  },
+  'DL' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+  },
+  'DT' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+  },
+  'EMBED' => {
+    'HEIGHT'  => 'CDATA',
+    'NAME'    => 'CDATA',
+    'PALETTE' => 'CDATA',
+    'PARAM'   => 'CDATA',
+    'SRC'     => '%URL',
+    'UNITS'   => 'PIXELS|EN',
+    'WIDTH'   => 'CDATA',
+  },
+  'FONT' => {
+    'COLOR' => '%color',
+    'FACE'  => '%face',  # org:CDATA
+    'SIZE'  => '%rsize', # org:CDATA
+  },
+  'FORM' => {
+    'ACTION'   => '%URL',
+    'METHOD'   => 'GET|POST',
+    'ONSUBMIT' => '%Script',
+    'TARGET'   => 'CDATA',
+  },
+  'FRAME' => {
+    'ALIGN'        => 'LEFT|CENTER|RIGHT|TOP|BOTTOM',
+    'FRAMEBORDER'  => '1|0',
+    'MARGINHEIGHT' => 'NUMBER',
+    'MARGINWIDTH'  => 'NUMBER',
+    'NAME'         => 'CDATA',
+    'NORESIZE'     => 'NORESIZE',
+    'SCROLLING'    => 'YES|NO',
+    'SRC'          => '%URL',
+  },
+  'FRAMESET' => {
+    'COLS'         => 'CDATA',
+    'FRAMEBORDER'  => '1|0',
+    'FRAMESPACING' => 'CDATA',
+    'ROWS'         => 'CDATA',
+  },
+  'H1' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H2' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H3' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H4' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H5' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'H6' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'HR' => {
+    'ALIGN'   => 'LEFT|RIGHT|CENTER',
+    'CLASS'   => 'NAMES',
+    'COLOR'   => '%color',
+    'ID'      => 'ID',
+    'NOSHADE' => 'NOSHADE',
+    'SIZE'    => '%Pixels',
+    'STYLE'   => '%StyleSheet',
+    'WIDTH'   => '%Length',
+  },
+  'IFRAME' => {
+    'ALIGN'        => 'LEFT|CENTER|RIGHT|TOP|BOTTOM',
+    'FRAMEBORDER'  => '1|0',
+    'HEIGHT'       => '%Length',
+    'MARGINHEIGHT' => 'NUMBER',
+    'MARGINWIDTH'  => 'NUMBER',
+    'NAME'         => 'CDATA',
+    'SCROLLING'    => 'YES|NO',
+    'SRC'          => '%URL',
+    'WIDTH'        => '%Length',
+  },
+  'IMG' => {
+    'ALIGN'  => 'TOP|MIDDLE|BOTTOM|LEFT|CENTER|RIGHT',
+    'ALT'    => 'CDATA',
+    'BORDER' => '%Pixels',
+    'CLASS'  => 'NAMES',
+    'DYNSRC' => '%URL',
+    'HEIGHT' => '%Length',
+    'HSPACE' => '%Pixels',
+    'ID'     => 'ID',
+    'ISMAP'  => 'ISMAP',
+    'LOOP'   => 'NMTOKEN',
+    'SRC'    => '%URL',
+    'START'  => 'NAMES',
+    'STYLE'  => '%StyleSheet',
+    'TITLE'  => 'CDATA',
+    'USEMAP' => '%URL',
+    'VSPACE' => '%Pixels',
+    'WIDTH'  => '%Length',
+  },
+  'INPUT' => {
+    'ALIGN'     => 'TOP|MIDDLE|BOTTOM|LEFT|RIGHT',
+    'CHECKED'   => 'CHECKED',
+    'CLASS'     => 'NAMES',
+    'ID'        => 'ID',
+    'MAXLENGTH' => 'NUMBER',
+    'NAME'      => 'CDATA',
+    'NOTAB'     => 'NOTAB',
+    'ONBLUR'    => '%Script',
+    'ONCHANGE'  => '%Script',
+    'ONCLICK'   => '%Script',
+    'ONFOCUS'   => '%Script',
+    'ONSELECT'  => '%Script',
+    'SIZE'      => 'CDATA',
+    'SRC'       => '%URL',
+    'STYLE'     => '%StyleSheet',
+    'TABINDEX'  => 'NUMBER',
+    'TITLE'     => 'CDATA',
+    'TYPE'      => 'TEXT|TEXTAREA|PASSWORD|CHECKBOX|RADIO|SUBMIT|RESET|FILE'.
+                   '|HIDDEN|IMAGE|BUTTON',
+    'VALUE'     => 'CDATA',
+  },
+  'ISINDEX' => {
+    'ACTION' => '%URL',
+    'PROMPT' => 'CDATA',
+  },
+  'LI' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+    'TYPE'  => '%LIStyle',
+    'VALUE' => 'NUMBER',
+  },
+  'LINK' => {
+    'HREF'  => '%URL',
+    'REL'   => '%Types',
+    'REV'   => '%Types',
+    'TITLE' => 'CDATA',
+    'TYPE'  => 'CDATA',
+  },
+  'MAP' => {
+    'NAME' => 'CDATA',
+  },
+  'MARQUEE' => {
+    'ALIGN'        => 'LEFT|CENTER|RIGHT|TOP|BOTTOM',
+    'BEHAVIOR'     => 'SCROLL|SLIDE|ALTERNATE',
+    'BGCOLOR'      => '%color',
+    'DIRECTION'    => 'LEFT|RIGHT',
+    'HEIGHT'       => '%Length',
+    'HSPACE'       => '%Pixels',
+    'LOOP'         => 'CDATA',
+    'SCROLLAMOUNT' => 'NUMBER',
+    'SCROLLDELAY'  => 'NUMBER',
+    'VSPACE'       => '%Pixels',
+    'WIDTH'        => '%Length',
+  },
+  'META' => {
+    'CHARSET'    => 'CDATA',
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'NAME',
+    'NAME'       => 'NAME',
+    'URL'        => '%URL',
+  },
+  'OBJECT' => {
+    'ALIGN'    => 'TEXTTOP|MIDDLE|TEXTMIDDLE|BASELINE|TEXTBOTTOM|LEFT|CENTER'.
+                  '|RIGHT',
+    'BORDER'   => '%Length',
+    'CLASSID'  => '%URL',
+    'CODEBASE' => '%URL',
+    'CODETYPE' => 'CDATA',
+    'DATA'     => '%URL',
+    'DECLARE'  => 'DECLARE',
+    'HEIGHT'   => '%Length',
+    'HSPACE'   => '%Length',
+    'NAME'     => '%URL',
+    'NOTAB'    => 'NOTAB',
+    'SHAPES'   => 'SHAPES',
+    'STANDBY'  => 'CDATA',
+    'TABINDEX' => 'NUMBER',
+    'TITLE'    => 'CDATA',
+    'TYPE'     => 'CDATA',
+    'USEMAP'   => '%URL',
+    'VSPACE'   => '%Length',
+    'WIDTH'    => '%Length',
+  },
+  'OL' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'START' => 'NUMBER',
+    'STYLE' => '%StyleSheet',
+    'TYPE'  => '%OLStyle',
+  },
+  'OPTION' => {
+    'SELECTED' => 'SELECTED',
+    'VALUE'    => 'CDATA',
+  },
+  'P' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+  },
+  'PARAM' => {
+    'NAME'      => 'CDATA',
+    'TYPE'      => 'CDATA',
+    'VALUE'     => 'CDATA',
+    'VALUETYPE' => 'DATA|REF|OBJECT',
+  },
+  'SCRIPT' => {
+    'LANGUAGE' => 'CDATA',
+  },
+  'SELECT' => {
+    'NAME' => 'CDATA',
+    'SIZE' => 'NUMBER',
+  },
+  'SPAN' => {
+    'STYLE' => '%StyleSheet',
+  },
+  'STYLE' => {
+    'TITLE' => 'CDATA',
+    'TYPE'  => 'CDATA',
+  },
+  'TABLE' => {
+    'ALIGN'            => 'LEFT|CENTER|RIGHT|BLEEDLEFT|BLEEDRIGHT|JUSTIFY',
+    'BACKGROUND'       => '%URL',
+    'BGCOLOR'          => '%color',
+    'BORDER'           => '%border', # org:CDATA
+    'BORDERCOLOR'      => '%color',
+    'BORDERCOLORDARK'  => '%color',
+    'BORDERCOLORLIGHT' => '%color',
+    'CELLPADDING'      => '%Pixels',
+    'CELLSPACING'      => '%Pixels',
+    'CLASS'            => 'NAMES',
+    'CLEAR'            => 'LEFT|RIGHT|ALL|NO',
+    'COLS'             => 'NUMBER',
+    'FRAME'            => 'VOID|ABOVE|BELOW|HSIDES|LHS|RHS|VSIDES|BOX|BORDER',
+    'ID'               => 'ID',
+    'NOWRAP'           => 'NOWRAP',
+    'RULES'            => 'NONE|GROUPS|ROWS|COLS|ALL',
+    'STYLE'            => '%StyleSheet',
+    'VALIGN'           => 'TOP|MIDDLE|BOTTOM|BASELINE',
+    'WIDTH'            => '%Length',
+  },
+  'TBODY' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+  },
+  'TD' => {
+    'ALIGN'            => 'LEFT|CENTER|RIGHT|JUSTIFY',
+    'BACKGROUND'       => '%URL',
+    'BGCOLOR'          => '%color',
+    'BORDERCOLOR'      => '%color',
+    'BORDERCOLORDARK'  => '%color',
+    'BORDERCOLORLIGHT' => '%color',
+    'CLASS'            => 'NAMES',
+    'COLSPAN'          => 'NUMBER',
+    'HEIGHT'           => '%Length',
+    'ID'               => 'ID',
+    'NOWRAP'           => 'NOWRAP',
+    'ROWSPAN'          => 'NUMBER',
+    'STYLE'            => '%StyleSheet',
+    'VALIGN'           => 'TOP|MIDDLE|BOTTOM|BASELINE',
+    'WIDTH'            => '%Length',
+  },
+  'TEXTAREA' => {
+    'COLS' => 'NUMBER',
+    'NAME' => 'CDATA',
+    'ROWS' => 'NUMBER',
+  },
+  'TFOOT' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+  },
+  'TH' => {
+    'ALIGN'            => 'LEFT|CENTER|RIGHT|JUSTIFY',
+    'BACKGROUND'       => '%URL',
+    'BGCOLOR'          => '%color',
+    'BORDERCOLOR'      => '%color',
+    'BORDERCOLORDARK'  => '%color',
+    'BORDERCOLORLIGHT' => '%color',
+    'CLASS'            => 'NAMES',
+    'COLSPAN'          => 'NUMBER',
+    'HEIGHT'           => '%Length',
+    'ID'               => 'ID',
+    'NOWRAP'           => 'NOWRAP',
+    'ROWSPAN'          => 'NUMBER',
+    'STYLE'            => '%StyleSheet',
+    'VALIGN'           => 'TOP|MIDDLE|BOTTOM|BASELINE',
+    'WIDTH'            => '%Length',
+  },
+  'THEAD' => {
+    'ALIGN'  => 'LEFT|CENTER|RIGHT|JUSTIFY',
+    'CLASS'  => 'NAMES',
+    'ID'     => 'ID',
+    'STYLE'  => '%StyleSheet',
+    'VALIGN' => 'TOP|MIDDLE|BOTTOM',
+  },
+  'TR' => {
+    'ALIGN'            => 'LEFT|CENTER|RIGHT|JUSTIFY',
+    'BGCOLOR'          => '%color',
+    'BORDERCOLOR'      => '%color',
+    'BORDERCOLORDARK'  => '%color',
+    'BORDERCOLORLIGHT' => '%color',
+    'CLASS'            => 'NAMES',
+    'ID'               => 'ID',
+    'STYLE'            => '%StyleSheet',
+    'VALIGN'           => 'TOP|MIDDLE|BOTTOM|BASELINE',
+  },
+  'UL' => {
+    'CLASS' => 'NAMES',
+    'ID'    => 'ID',
+    'STYLE' => '%StyleSheet',
+  },
+);
+%requiredAttrs = (
+  'A'        => 'HREF|NAME',
+  'APPLET'   => 'CODE&HEIGHT&WIDTH',
+  'BASE'     => 'HREF',
+  'EMBED'    => 'SRC',
+  'FORM'     => 'ACTION',
+  'FRAME'    => 'SRC',
+  'IFRAME'   => 'SRC',
+  'IMG'      => 'SRC',
+  'META'     => 'CONTENT',
+  'PARAM'    => 'NAME',
+  'SELECT'   => 'NAME',
+  'TEXTAREA' => 'NAME&ROWS&COLS',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'AElig'  => '&#198;',
+  'Aacute' => '&#193;',
+  'Acirc'  => '&#194;',
+  'Agrave' => '&#192;',
+  'Aring'  => '&#197;',
+  'Atilde' => '&#195;',
+  'Auml'   => '&#196;',
+  'Ccedil' => '&#199;',
+  'ETH'    => '&#208;',
+  'Eacute' => '&#201;',
+  'Ecirc'  => '&#202;',
+  'Egrave' => '&#200;',
+  'Euml'   => '&#203;',
+  'Iacute' => '&#205;',
+  'Icirc'  => '&#206;',
+  'Igrave' => '&#204;',
+  'Iuml'   => '&#207;',
+  'Ntilde' => '&#209;',
+  'Oacute' => '&#211;',
+  'Ocirc'  => '&#212;',
+  'Ograve' => '&#210;',
+  'Oslash' => '&#216;',
+  'Otilde' => '&#213;',
+  'Ouml'   => '&#214;',
+  'THORN'  => '&#222;',
+  'Uacute' => '&#218;',
+  'Ucirc'  => '&#219;',
+  'Ugrave' => '&#217;',
+  'Uuml'   => '&#220;',
+  'Yacute' => '&#221;',
+  'aacute' => '&#225;',
+  'acirc'  => '&#226;',
+  'acute'  => '&#180;',
+  'aelig'  => '&#230;',
+  'agrave' => '&#224;',
+  'amp'    => '&#38;',
+  'aring'  => '&#229;',
+  'atilde' => '&#227;',
+  'auml'   => '&#228;',
+  'brvbar' => '&#166;',
+  'ccedil' => '&#231;',
+  'cedil'  => '&#184;',
+  'cent'   => '&#162;',
+  'copy'   => '&#169;',
+  'curren' => '&#164;',
+  'deg'    => '&#176;',
+  'divide' => '&#247;',
+  'eacute' => '&#233;',
+  'ecirc'  => '&#234;',
+  'egrave' => '&#232;',
+  'eth'    => '&#240;',
+  'euml'   => '&#235;',
+  'frac12' => '&#189;',
+  'frac14' => '&#188;',
+  'frac34' => '&#190;',
+  'gt'     => '&#62;',
+  'iacute' => '&#237;',
+  'icirc'  => '&#238;',
+  'iexcl'  => '&#161;',
+  'igrave' => '&#236;',
+  'iquest' => '&#191;',
+  'iuml'   => '&#239;',
+  'laquo'  => '&#171;',
+  'lt'     => '&#60;',
+  'macr'   => '&#175;',
+  'micro'  => '&#181;',
+  'middot' => '&#183;',
+  'nbsp'   => '&#160;',
+  'not'    => '&#172;',
+  'ntilde' => '&#241;',
+  'oacute' => '&#243;',
+  'ocirc'  => '&#244;',
+  'ograve' => '&#242;',
+  'ordf'   => '&#170;',
+  'ordm'   => '&#186;',
+  'oslash' => '&#248;',
+  'otilde' => '&#245;',
+  'ouml'   => '&#246;',
+  'para'   => '&#182;',
+  'plusmn' => '&#177;',
+  'pound'  => '&#163;',
+  'quot'   => '&#34;',
+  'raquo'  => '&#187;',
+  'reg'    => '&#174;',
+  'sect'   => '&#167;',
+  'shy'    => '&#173;',
+  'sup1'   => '&#185;',
+  'sup2'   => '&#178;',
+  'sup3'   => '&#179;',
+  'szlig'  => '&#223;',
+  'thorn'  => '&#254;',
+  'times'  => '&#215;',
+  'uacute' => '&#250;',
+  'ucirc'  => '&#251;',
+  'ugrave' => '&#249;',
+  'uml'    => '&#168;',
+  'uuml'   => '&#252;',
+  'yacute' => '&#253;',
+  'yen'    => '&#165;',
+  'yuml'   => '&#255;',
+);
+%refParams = (
+  'COORDS'     => '(?:\d+(?:\s*,\s*|\s+))+\d+',
+  'LIStyle'    => '&LIStyle',
+  'OLStyle'    => '&OLStyle',
+  'Length'     => '\d+[%]?',
+  'Pixels'     => '\d+',
+  'Script'     => 'CDATA',
+  'Span'       => 'NUMBER+',
+  'StyleSheet' => 'CDATA',
+  'Types'      => 'CDATA+',
+  'URL'        => '&URL',
+  'literal'    => 'CDATA',
+  'border'     => '(?i)\d+|BORDER',
+  'face'       => 'CDATA+',
+  'fsize'      => '[1-7]',
+  'rsize'      => '[+|-]?[1-7]',
+  'color'      => '(?i)#[0-9A-F]{6}'.
+                  '|aqua|black|blue|fuchsia|gray|green|lime|maroon'.
+                  '|navy|olive|purple|red|silver|teal|white|yellow'.
+                  '|aliceblue|antiquewhite|aquamarine|azure'.
+                  '|beige|bisque|blanchedalmond|blueviolet|brown|burlywood'.
+                  '|cadetblue|chartreuse|chocolate|coral|cornflowerblue'.
+                  '|cornsilk|crimson|cyan'.
+                  '|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen'.
+                  '|darkkhaki|darkmagenta|darkolivegreen|darkorange'.
+                  '|darkorchid|darkred|darksalmon|darkseagreen'.
+                  '|darkslateblue|darkslategray|darkturquoise|darkviolet'.
+                  '|deeppink|deepskyblue|dimgray|dodgerblue'.
+                  '|firebrick|floralwhite|forestgreen'.
+                  '|gainsboro|ghostwhite|gold|goldenrod|greenyellow'.
+                  '|honeydew|hotpink|indianred|indigo|ivory|khaki'.
+                  '|lavender|lavenderblush|lawngreen|lemonchiffon'.
+                  '|lightblue|lightcoral|lightcyan|lightgoldenrodyellow'.
+                  '|lightgreen|lightgrey|lightpink|lightsalmon'.
+                  '|lightseagreen|lightskyblue|lightslategray'.
+                  '|lightsteelblue|lightyellow|limegreen|linen'.
+                  '|magenta|mediumaquamarine|mediumblue|mediumorchid'.
+                  '|mediumpurple|mediumseagreen|mediumslateblue'.
+                  '|mediumspringgreen|mediumturquoise|mediumvioletred'.
+                  '|midnightblue|mintcream|mistyrose|moccasin'.
+                  '|navajowhite|oldlace|olivedrab|orange|orangered|orchid'.
+                  '|palegoldenrod|palegreen|paleturquoise|palevioletred'.
+                  '|papayawhip|peachpuff|peru|pink|plum|powderblue'.
+                  '|rosybrown|royalblue'.
+                  '|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna'.
+                  '|skyblue|slateblue|slategray|snow|springgreen|steelblue'.
+                  '|tan|thistle|tomato|turquoise|violet'.
+                  '|wheat|whitesmoke|yellowgreen',
+);
+
+1;

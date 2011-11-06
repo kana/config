@@ -1,0 +1,10 @@
+<!--============ HTML Document Type Definition Mozilla 4.0 ================-->
+
+<!--                  THIS IS EXPERIMENTAL by k16                          -->
+
+<!--=================== Mozilla Version Control ===========================-->
+
+<!ENTITY % MOZILLA.40 "INCLUDE">
+<!ENTITY % MOZILLA.30 "INCLUDE">
+<!ENTITY % Mozilla.dtd SYSTEM "mozilla.dtd">
+%Mozilla.dtd;

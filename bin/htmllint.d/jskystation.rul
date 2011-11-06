@@ -1,0 +1,209 @@
+# J-SkyWeb Station
+
+#======= ELEMENTS =======
+$emptyTags = 'BASE|BGSOUND|BR|HR|IMG|INPUT|META|P';
+$pairTags = 'A|BLINK|BODY|CAPTION|CENTER|DD|DIV|DL|DT|FONT|FORM|HEAD|HTML|LI'.
+            '|MARQUEE|OL|OPTION|PRE|SELECT|TABLE|TD|TEXTAREA|TH|TITLE|TR|U|UL';
+$deprecatedTags = '';
+$omitStartTags = 'BODY|HEAD|HTML';
+$omitEndTags = 'BODY|DD|DT|HEAD|HTML|LI|OPTION|TD|TH|TR';
+#$maybeEmpty = 'A|BLINK|BODY|CENTER|DD|DIV|DT|FONT|FORM|LI|MARQUEE|OPTION|PRE'.
+#              '|TD|TEXTAREA|TH|TITLE|TR|U';
+$maybeEmpty = 'PRE|TEXTAREA|TD|TH';
+%requiredTags = (
+  'HEAD'  => 'TITLE',
+  'HTML'  => 'HEAD|BODY',
+  'TABLE' => 'TR',
+);
+%onceonlyTags = (
+  'HEAD'  => 'TITLE|BASE',
+  'HTML'  => 'HEAD|BODY',
+  'TABLE' => 'CAPTION',
+);
+$sequencialTags = 'TABLE|HTML';
+%tagsElements = (
+  'A'        => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|IMG|U|#PCDATA',
+  'BLINK'    => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'BODY'     => 'TABLE|HR|FORM|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT'.
+                '|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'CAPTION'  => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'CENTER'   => 'TABLE|HR|FORM|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT'.
+                '|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'DD'       => 'TABLE|HR|FORM|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT'.
+                '|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'DIV'      => 'TABLE|HR|FORM|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT'.
+                '|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'DL'       => 'DD|DT',
+  'DT'       => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'FONT'     => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'FORM'     => 'TABLE|HR|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT|INPUT'.
+                '|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'HEAD'     => 'TITLE|BASE|META|BGSOUND',
+  'HTML'     => 'HEAD|BODY',
+  'LI'       => 'TABLE|HR|FORM|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT'.
+                '|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'MARQUEE'  => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'OL'       => 'LI',
+  'OPTION'   => '#PCDATA',
+  'PRE'      => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|A|U|#PCDATA',
+  'SELECT'   => 'OPTION',
+  'TABLE'    => 'CAPTION|TR',
+  'TD'       => 'TABLE|HR|FORM|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT'.
+                '|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'TEXTAREA' => '#PCDATA',
+  'TH'       => 'TABLE|HR|FORM|CENTER|DIV|DL|PRE|OL|UL|P|TEXTAREA|SELECT'.
+                '|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'TITLE'    => '#PCDATA',
+  'TR'       => 'TD|TH',
+  'U'        => 'TEXTAREA|SELECT|INPUT|FONT|MARQUEE|BLINK|BR|IMG|A|U|#PCDATA',
+  'UL'       => 'LI',
+);
+%excludedElems = (
+  'A'    => 'A',
+  'FORM' => 'FORM',
+  'PRE'  => 'IMG',
+);
+%includedElems = (
+  'HEAD' => 'META|BGSOUND',
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'DIRECTKEY'  => '%Character',
+    'HREF'       => '%URL',
+    'LOOP'       => '%loop',
+    'MAILBODY'   => 'CDATA',
+    'MEMORYNAME' => 'CDATA',
+    'NAME'       => 'CDATA',
+    'NONUMBER'   => 'NONUMBER',
+    'SOUNDSTART' => 'SELECT|FOCUS',
+    'VIBLENGTH'  => '%viblength',
+    'VIBRATION'  => 'SELECT|FOCUS',
+    'VOLUME'     => 'HIGH|MIDDLE|LOW',
+  },
+  'BASE' => {
+    'HREF' => '%URL',
+  },
+  'BGSOUND' => {
+    'LOOP'   => '%loop',
+    'SRC'    => '%URL',
+    'VOLUME' => 'HIGH|MIDDLE|LOW|0',
+  },
+  'BODY' => {
+    'BGCOLOR' => '%color',
+    'LINK'    => '%color',
+    'TEXT'    => '%color',
+  },
+  'BR' => {
+    'CLEAR' => 'CLEAR',
+  },
+  'CAPTION' => {
+    'ALIGN' => 'TOP|BOTTOM',
+  },
+  'DIV' => {
+    'ALIGN' => 'LEFT|CENTER|RIGHT',
+  },
+  'FONT' => {
+    'COLOR' => '%color',
+  },
+  'FORM' => {
+    'ACTION' => '%URL',
+    'METHOD' => 'GET|POST',
+  },
+  'HR' => {
+    'COLOR'   => '%color',
+    'NOSHADE' => 'NOSHADE',
+  },
+  'IMG' => {
+    'ALIGN'     => 'TOP|MIDDLE|BOTTOM',
+    'ALT'       => 'CDATA',
+    'DIRECTION' => 'LEFT|RIGHT',
+    'FLASH'     => '1|2',
+    'MOTION'    => '%URL',
+    'SRC'       => '%URL',
+    'VIBLENGTH' => '%viblength',
+    'VIBRATION' => 'FOCUS',
+  },
+  'INPUT' => {
+    'CHECKED'    => 'CHECKED',
+    'LOOP'       => '%loop',
+    'MAXLENGTH'  => 'NUMBER',
+    'MODE'       => 'HIRAGANA|KATAKANA|ALPHABET|NUMERIC',
+    'NAME'       => 'CDATA',
+    'SIZE'       => 'NUMBER',
+    'SOUNDSTART' => 'SELECT|FOCUS',
+    'SRC'        => '%URL',
+    'TYPE'       => 'TEXT|PASSWORD|CHECKBOX|RADIO|HIDDEN|SUBMIT|RESET|FILE',
+    'VALUE'      => 'CDATA',
+    'VIBLENGTH'  => '%viblength',
+    'VIBRATION'  => 'SELECT|FOCUS',
+    'VOLUME'     => 'HIGH|MIDDLE|LOW',
+  },
+  'MARQUEE' => {
+    'DIRECTION' => 'LEFT|RIGHT',
+  },
+  'META' => {
+    'CONTENT'    => 'CDATA',
+    'HTTP-EQUIV' => 'NAME',
+  },
+  'OPTION' => {
+    'SELECTED' => 'SELECTED',
+    'VALUE'    => 'CDATA',
+  },
+  'SELECT' => {
+    'MULTIPLE' => 'MULTIPLE',
+    'NAME'     => 'CDATA',
+    'SIZE'     => 'NUMBER',
+  },
+  'TABLE' => {
+    'BGCOLOR' => '%color',
+    'BORDER'  => 'BORDER',
+  },
+  'TD' => {
+    'BGCOLOR' => '%color',
+    'NOWRAP'  => 'NOWRAP',
+  },
+  'TEXTAREA' => {
+    'COLS' => 'NUMBER',
+    'NAME' => 'CDATA',
+    'ROWS' => 'NUMBER',
+  },
+  'TH' => {
+    'BGCOLOR' => '%color',
+    'COLSPAN' => 'NUMBER',
+    'NOWRAP'  => 'NOWRAP',
+    'ROWSPAN' => 'NUMBER',
+  },
+);
+%requiredAttrs = (
+  'IMG'      => 'SRC&SRC',
+  'META'     => 'CONTENT',
+  'SELECT'   => 'NAME',
+  'TEXTAREA' => 'NAME&ROWS&COLS',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'a'    => '&#38;',
+  'amp'  => '&#38;',
+  'c'    => '&#169;',
+  'copy' => '&#169;',
+  'g'    => '&#62;',
+  'gt'   => '&#62;',
+  'l'    => '&#60;',
+  'lt'   => '&#60;',
+  'n'    => '&#32;',
+  'nbsp' => '&#32;',
+  'q'    => '&#34;',
+  'quot' => '&#34;',
+  'r'    => '&#174;',
+  'reg'  => '&#174;',
+);
+%refParams = (
+  'Character' => '[0-9#\*]',
+  'URL'       => '&URL',
+  'color'     => '(?i)#[0-9A-F]{6}',
+  'loop'      => '(?i)infinite|[1-9]|[1-4][0-9]|50',
+  'viblength' => '[1-9]',
+);
+
+1;

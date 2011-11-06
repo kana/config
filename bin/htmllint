@@ -1,0 +1,5 @@
+#!/bin/bash
+
+perl "$(dirname "$(which "$0")")"/htmllint.d/htmllint "$@"
+
+# __END__

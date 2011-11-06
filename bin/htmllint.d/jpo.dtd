@@ -1,0 +1,56 @@
+<!--======= HTML Document Type Definition for Japan Patent Office =========-->
+
+<!--                    THIS IS EXPERIMENTAL by k16                        -->
+
+<!ENTITY quot CDATA "&#34;">
+<!ENTITY amp  CDATA "&#38;">
+<!ENTITY lt   CDATA "&#60;">
+<!ENTITY gt   CDATA "&#62;">
+
+<!--================ Text Markup ==========================================-->
+
+<!ENTITY % font  "FONT|U|SUB|SUP">
+<!ENTITY % image "FIG|IMG">
+<!ENTITY % text  "#PCDATA|%font;|%image;|BR">
+
+<!ELEMENT FONT - - (%text;)* -(FONT|%image;)>
+<!ATTLIST FONT SIZE NUMBER #REQUIRED>
+
+<!ELEMENT U   - - (%text;)* -(U|%image;)>
+<!ELEMENT SUB - - (%text;)* -(SUB|SUP|%image;)>
+<!ELEMENT SUP - - (%text;)* -(SUB|SUP|%image;)>
+
+<!ELEMENT BR - O EMPTY>
+
+<!--================ Images ===============================================-->
+
+<!ENTITY % URL "CDATA">
+
+<!ELEMENT (%image;) - O EMPTY>
+<!ATTLIST (%image;) SRC %URL; #REQUIRED>
+
+<!--================ Preformatted Text ====================================-->
+
+<!ELEMENT PRE - - (%text;)* -(PRE)>
+
+<!--================ Document Body ========================================-->
+
+<!ENTITY % block "PRE">
+
+<!ENTITY % body.content "(%text;|%block;)*">
+
+<!ELEMENT BODY - - %body.content;>
+
+<!--================ Document Head ========================================-->
+
+<!ENTITY % head.content "(TITLE?)">
+
+<!ELEMENT HEAD - - %head.content;>
+
+<!ELEMENT TITLE - - (#PCDATA)*>
+
+<!--================ Document Structure ===================================-->
+
+<!ENTITY % html.content "(HEAD, BODY)">
+
+<!ELEMENT HTML - - %html.content;>

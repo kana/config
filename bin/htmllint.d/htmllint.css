@@ -1,0 +1,251 @@
+/* CSS for Another HTML-lint */
+
+body {
+/*/*	background-image: url(background.gif); */
+/*	background-color: #E4EDE3; */*/
+	background-color: white;
+/*	background-attachment: fixed; */
+/*	color: #000000; */
+	font-family: Arial, sans-serif;
+}
+
+a:link    { color: #0000CC }
+a:visited { color: #330099 }
+a:active  { color: #FF0000 }
+
+h1 span {
+	/*font-family: serif;*/
+	font-weight: 600;
+}
+h2.book {
+	font-size: 1.5em;
+	font-weight: 600;
+}
+h2.title {
+	margin: 1em 1em 0em 0em;
+	padding-left: 0.5em;
+	font-size: 1.75em;
+	font-weight: 600;
+	border-width: 0.3em 0em 0.1em 0.7em;
+	border-style: solid;
+}
+h3.title {
+	margin: 1em 1em 0em 0em;
+	padding-left: 0.5em;
+	font-size: 1.5em;
+	font-weight: 600;
+	border-width: 0.2em 0em 0.1em 0.7em;
+	border-style: solid;
+}
+h2.title,
+h3.title,
+div.title {
+	border-color: ThreeDShadow;
+}
+
+.date, .version, .size, .forjap, .counter,
+address { /*font-family: serif;*/ }
+
+div.title {
+	margin: 1em 1em 0em 0em;
+	border-width: 0.2em 0em 0.1em 0.7em;
+	border-style: solid;
+}
+.cite {
+	border-width: 1px;
+	border-style: solid;
+	border-color: ThreeDShadow;
+	padding: 0.5em;
+}
+.slight-error {
+	color: #666666;
+}
+.error-line {
+	color: red;
+}
+.link-free,
+.caution {
+/*	margin-right: 0em; */
+}
+.link-free,
+.caution,
+.unfriendly {
+	background-color: #FFFFCC;
+	border-width: medium;
+	border-style: solid;
+	border-color: #CCCC66;
+	padding: 0.5em;
+}
+div.lynx {
+	border-width: medium;
+	border-style: solid;
+	border-color: #CCCC66;
+	font-family: monospace;
+	margin-left: 1em;
+	width: 42em;
+}
+pre.exp,
+pre.lynx {
+	margin-left: 1em;
+}
+.comment {
+/*	font-size: 1.1em; */
+	font-weight: 500;
+/*	background-color: #FFFFCC; */
+	border-width: thick;
+	border-style: groove;
+	border-color: #CC3333;
+	padding: 0.5em;
+}
+span.ring {
+	font-size: 1.8em;
+	/*font-family: serif;*/
+	font-weight: bold;
+/*	font-style: italic; */
+	color: #006600;
+}
+
+hr.none { display: none }
+
+span.religious     { color: red }
+span.accessibility { color: blue }
+span.warn          { color: red }
+
+span.penalty { color: maroon }
+p.penalty { margin-left:1em }
+
+/* use-htmllint.html */
+div.options {
+	border-width: thin;
+	border-style: solid;
+	border-color: ThreeDShadow;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	padding: 0.5em;
+}
+
+/* rulefile.html */
+ol.rulefile li {
+	margin-top: 0.5em;
+}
+ol.rulefile li ul li {
+	margin-top: 0em;
+}
+ol.rulefile li dl dt {
+	margin-left: 1em;
+	margin-top: 0.5em;
+}
+
+/* download.html */
+ul.necessary li,
+dl.inc-files dt {
+	margin-top: 0.5 em;
+}
+
+/* thanks.html */
+dl.thanks dt {
+	margin-top: 0.5em;
+}
+
+/* explain.html */
+div.errnavimg {
+	float: right;
+/*	margin-top: -2em; */
+}
+
+/* explain-wai.html */
+dl.guideline dd {
+	margin-top: 0.75em;
+/*	padding-left: 3em;
+	text-indent: -2em; */
+}
+dl.guideline dd dd {
+	margin-top: 0em;
+/*	padding-left: 0em;
+	text-indent:  0em; */
+}
+dl.priority dt {
+	margin-top: 0.5em;
+}
+span.checkpoint {
+	font-weight: bold;
+}
+span.priority1 {
+	color: #FF0000;
+	background: white;
+	font-weight: bold;
+}
+span.priority2 {
+	font-weight: bold;
+}
+span.priority3 {
+	font-weight: bold;
+}
+/* findfault.html */
+dl.findfault    { margin-left: 1.5em }
+dl.findfault dt { margin-top:  0.5em }
+
+/* explain.html */
+ol.explain0 p.whine,
+ol.explain p.whine {
+	color: black;
+/*	color: #0050B2; */
+	border-width: 1px;
+	border: 1px solid;
+	border-color: ThreeDShadow;
+	background-color: #FFFFCC;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
+/*	margin-top: 10px; */
+	margin-right: 32px;
+/*	width: 90%; */
+/*	float: left; */
+}
+
+/* explain-wai.html */
+h3.guideline {
+	font-size: 110%;
+	font-weight: bold;
+	color: black;
+/*	color: #0050B2; */
+	border-width: 1px;
+	border: 1px solid;
+	border-color: ThreeDShadow;
+	background-color: #FFFFCC;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin-top: 10px;
+	margin-right: 32px;
+/*	width: 90%; */
+}
+
+/* explain-omake.html */
+ol.omake p.omake {
+	color: black;
+/*	color: #0050B2; */
+	border-width: 1px;
+	border: 1px solid;
+	border-color: ThreeDShadow;
+	background-color: #FFFFCC;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
+/*	margin-top: 10px; */
+	margin-right: 32px;
+/*	width: 90%; */
+}
+
+/* faq.html */
+dl.faq dt { font-weight: bold }
+
+@import url(htmllint2.css);
+
+@media print {
+.nav,
+.noprint { display: none }
+}

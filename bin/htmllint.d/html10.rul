@@ -1,0 +1,201 @@
+# HTML 1.0
+
+#======= ELEMENTS =======
+$emptyTags = 'BASE|DD|DT|IMG|ISINDEX|LI|LINK|NEXTID|P|PLAINTEXT';
+$pairTags = 'A|ADDRESS|B|BLOCKQUOTE|BODY|CITE|CODE|DFN|DIR|DL|EM|H1|H2|H3|H4'.
+            '|H5|H6|HEAD|HTML|I|KBD|KEY|LISTING|MENU|OL|PRE|SAMP|STRONG|TITLE'.
+            '|TT|U|UL|VAR|XMP';
+$deprecatedTags = '';
+$omitStartTags = 'HTML';
+$omitEndTags = 'HTML';
+#$maybeEmpty = 'B|BODY|CITE|CODE|DFN|DL|EM|I|KBD|KEY|LISTING|SAMP|STRONG|TITLE'.
+#              '|TT|U|VAR|XMP';
+$maybeEmpty = 'LISTING|XMP';
+%requiredTags = (
+);
+%onceonlyTags = (
+  'A'    => 'IMG|EM|TT|STRONG|B|I|U|CODE|SAMP|KBD|KEY|VAR|DFN|CITE',
+  'HEAD' => 'TITLE|ISINDEX|NEXTID|BASE',
+  'HTML' => 'PLAINTEXT',
+);
+$sequencialTags = 'HTML';
+%tagsElements = (
+  '#000'       => '#PCDATA|LISTING|XMP|BLOCKQUOTE|PRE|ADDRESS|DL|MENU|DIR|OL'.
+                  '|UL|H6|H5|H4|H3|H2|H1|P|ISINDEX|NEXTID|TITLE|BODY|HEAD',
+  'A'          => '#PCDATA|IMG|EM|TT|STRONG|B|I|U|CODE|SAMP|KBD|KEY|VAR|DFN'.
+                  '|CITE',
+  'ADDRESS'    => 'P|CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'B'          => '#PCDATA',
+  'BLOCKQUOTE' => 'P|CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'BODY'       => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A|LISTING|XMP|BLOCKQUOTE|PRE|ADDRESS|DL|MENU|DIR'.
+                  '|OL|UL|H6|H5|H4|H3|H2|H1|P',
+  'CITE'       => '#PCDATA',
+  'CODE'       => '#PCDATA',
+  'DFN'        => '#PCDATA',
+  'DIR'        => 'LI|CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'DL'         => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A|P|DD|DT',
+  'EM'         => '#PCDATA',
+  'H1'         => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'H2'         => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'H3'         => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'H4'         => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'H5'         => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'H6'         => 'CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'HEAD'       => 'TITLE|ISINDEX|NEXTID|LINK|BASE',
+  'HTML'       => '#000|PLAINTEXT',
+  'I'          => '#PCDATA',
+  'KBD'        => '#PCDATA',
+  'KEY'        => '#PCDATA',
+  'LISTING'    => 'CDATA',
+  'MENU'       => 'LI|CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'OL'         => 'P|LI|CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'PRE'        => 'P|A|CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM'.
+                  '|#PCDATA',
+  'SAMP'       => '#PCDATA',
+  'STRONG'     => '#PCDATA',
+  'TITLE'      => '#PCDATA',
+  'TT'         => '#PCDATA',
+  'U'          => '#PCDATA',
+  'UL'         => 'P|LI|CITE|DFN|VAR|KEY|KBD|SAMP|CODE|U|I|B|STRONG|TT|EM|IMG'.
+                  '|#PCDATA|A',
+  'VAR'        => '#PCDATA',
+  'XMP'        => 'CDATA',
+);
+%excludedElems = (
+);
+%includedElems = (
+);
+#======= ATTRIBUTES =======
+%tagsAttributes = (
+  'A' => {
+    'HREF'    => '%URL',
+    'METHODS' => 'NAMES',
+    'NAME'    => 'NMTOKEN',
+    'REL'     => 'CDATA',
+    'REV'     => 'CDATA',
+    'TITLE'   => 'CDATA',
+    'URN'     => 'CDATA',
+  },
+  'BASE' => {
+    'HREF' => '%URL',
+  },
+  'DIR' => {
+    'COMPACT' => 'NAME',
+  },
+  'IMG' => {
+    'SRC' => '%URL',
+  },
+  'LINK' => {
+    'HREF'    => '%URL',
+    'METHODS' => 'NAMES',
+    'NAME'    => 'NMTOKEN',
+    'REL'     => 'CDATA',
+    'REV'     => 'CDATA',
+    'TITLE'   => 'CDATA',
+    'URN'     => 'CDATA',
+  },
+  'MENU' => {
+    'COMPACT' => 'NAME',
+  },
+  'NEXTID' => {
+    'N' => 'NAME',
+  },
+  'OL' => {
+    'COMPACT' => 'NAME',
+  },
+  'PRE' => {
+    'WIDTH' => 'NUMBER',
+  },
+  'UL' => {
+    'COMPACT' => 'NAME',
+  },
+);
+%requiredAttrs = (
+  'NEXTID' => 'N',
+);
+#======= ENTITIES =======
+%refEntities = (
+  'AElig'  => '&#198;',
+  'Aacute' => '&#193;',
+  'Acirc'  => '&#194;',
+  'Agrave' => '&#192;',
+  'Aring'  => '&#197;',
+  'Atilde' => '&#195;',
+  'Auml'   => '&#196;',
+  'Ccedil' => '&#199;',
+  'ETH'    => '&#208;',
+  'Eacute' => '&#201;',
+  'Ecirc'  => '&#202;',
+  'Egrave' => '&#200;',
+  'Euml'   => '&#203;',
+  'Iacute' => '&#205;',
+  'Icirc'  => '&#206;',
+  'Igrave' => '&#204;',
+  'Iuml'   => '&#207;',
+  'Ntilde' => '&#209;',
+  'Oacute' => '&#211;',
+  'Ocirc'  => '&#212;',
+  'Ograve' => '&#210;',
+  'Oslash' => '&#216;',
+  'Otilde' => '&#213;',
+  'Ouml'   => '&#214;',
+  'THORN'  => '&#222;',
+  'Uacute' => '&#218;',
+  'Ucirc'  => '&#219;',
+  'Ugrave' => '&#217;',
+  'Uuml'   => '&#220;',
+  'Yacute' => '&#221;',
+  'aacute' => '&#225;',
+  'acirc'  => '&#226;',
+  'aelig'  => '&#230;',
+  'agrave' => '&#224;',
+  'amp'    => '&#38;',
+  'aring'  => '&#229;',
+  'atilde' => '&#227;',
+  'auml'   => '&#228;',
+  'ccedil' => '&#231;',
+  'eacute' => '&#233;',
+  'ecirc'  => '&#234;',
+  'egrave' => '&#232;',
+  'eth'    => '&#240;',
+  'euml'   => '&#235;',
+  'gt'     => '&#62;',
+  'iacute' => '&#237;',
+  'icirc'  => '&#238;',
+  'igrave' => '&#236;',
+  'iuml'   => '&#239;',
+  'lt'     => '&#60;',
+  'ntilde' => '&#241;',
+  'oacute' => '&#243;',
+  'ocirc'  => '&#244;',
+  'ograve' => '&#242;',
+  'oslash' => '&#248;',
+  'otilde' => '&#245;',
+  'ouml'   => '&#246;',
+  'szlig'  => '&#223;',
+  'thorn'  => '&#254;',
+  'uacute' => '&#250;',
+  'ucirc'  => '&#251;',
+  'ugrave' => '&#249;',
+  'uuml'   => '&#252;',
+  'yacute' => '&#253;',
+  'yuml'   => '&#255;',
+);
+%refParams = (
+  'URL' => '&URL',
+);
+
+1;
