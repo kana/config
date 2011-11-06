@@ -155,6 +155,10 @@ fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 
+# VVM: Vim Version Manager  #{{{2
+[[ -s "$HOME/.vvm/etc/login" ]] && source "$HOME/.vvm/etc/login"
+
+
 
 
 # __END__  #{{{1
