@@ -1,0 +1,518 @@
+#!/usr/bin/env python
+'''fteep - non-interactive ftp client to update web site'''
+__ID__ = '''$Id: fteep.py 442 2007-09-27 15:03:48Z kana $'''
+__VERSION__ = '0.0'
+
+import ftplib
+from getpass import getpass
+from optparse import OptionParser
+import os
+import re
+from sets import Set
+import string
+from StringIO import StringIO
+import sys
+from time import time
+
+
+
+
+
+
+
+
+# Misc. ================================================================== {{{1
+
+class error(Exception): pass
+class parse_error(error): pass
+class syntax_error(error): pass
+class runtime_error(error): pass
+
+
+
+
+def file_with_default(filename, default=None):
+  try:
+    return file(filename)
+  except IOError:
+    if default is None:
+      raise
+    else:
+      return StringIO(default)
+
+
+def dirp(path):
+  return path.endswith('/')
+
+
+
+
+# S-expression reader ---------------------------------------------------- {{{2
+# `la' means `look ahead'.
+
+END_OF_LIST = []
+
+
+def read_sexpr(file, la=None, nest=0):
+  '''Read an s-expression from file, and return it as list.
+
+  - Atoms are returned as Python's strings.
+  - Lists are returned as Python's lists.
+  - Spaces are ignored.
+  - Comments `;' are ignored.
+  - Dotted list are not supported.
+
+  s-exp ::= atom | list
+  atom ::= <symbol> | <string>
+  list ::= '(' s-exp* ')'
+
+  # Examples
+  >>> read_sexpr(StringIO(''))  # result is None
+
+  >>> read_sexpr(StringIO('; nothing'))  # result is None
+
+  >>> read_sexpr(StringIO('xyz'))
+  'xyz'
+  >>> read_sexpr(StringIO('()'))
+  []
+  >>> read_sexpr(StringIO('(a)'))
+  ['a']
+  >>> read_sexpr(StringIO('(a b c)'))
+  ['a', 'b', 'c']
+  >>> read_sexpr(StringIO('(a (b) ((c)))'))
+  ['a', ['b'], [['c']]]
+  >>> read_sexpr(StringIO('(a (b)) ; comment'))
+  ['a', ['b']]
+  >>> read_sexpr(StringIO('"foo bar baz"'))
+  'foo bar baz'
+  '''
+  if la is None:
+    la = file.read(1)
+
+  while True:
+    if not la:
+      sexpr, la = None, None
+      break
+    elif la in string.whitespace:
+      pass
+    elif la == ';':
+      file.readline()
+    elif la == '(':
+      sexpr, la = read_list(file, None, nest+1)
+      break
+    elif la == ')':
+      if not 0 < nest:
+        raise parse_error, "Unmatched `)'"
+      sexpr, la = END_OF_LIST, None
+      break
+    else:
+      sexpr, la = read_atom(file, la)
+      break
+    la = file.read(1)
+
+  if 0 < nest:
+    return sexpr, la
+  else:
+    return sexpr
+
+
+def read_atom(file, la):
+  if la == '"':
+    return read_string(file, la)
+  else:
+    return read_symbol(file, la)
+
+def read_symbol(file, la):
+  s = StringIO()
+  s.write(la)
+  while True:
+    la = file.read(1)
+    if not la or la in string.whitespace or la in ';()':
+      break
+    else:
+      s.write(la)
+  return s.getvalue(), la
+
+def read_string(file, la):  # FIXME: `\'-escape is not supported.
+  s = StringIO()
+  while True:
+    la = file.read(1)
+    if not la:
+      raise parse_error, 'Unmatched `"\''
+    elif la == '"':
+      break
+    else:
+      s.write(la)
+  return s.getvalue(), None
+
+
+def read_list(file, la, nest):
+  result = []
+  while True:
+    sexpr, la = read_sexpr(file, la, nest)
+    if sexpr is None:
+      raise parse_error, "Unmatched `('"
+    elif sexpr is END_OF_LIST:
+      break
+    else:
+      result.append(sexpr)
+  return result, None
+
+
+
+
+# Ftpfile parser --------------------------------------------------------- {{{2
+
+class Ftpfile:
+  '''
+  Ftpfile ::= (entry*)
+  entry ::= host | user | password | destination | default | sources
+  host, user, password, destination ::= <string>
+
+  default ::= (default-entry*)
+  default-entry ::= (pattern permission type)
+  pattern ::= pattern-endswith | pattern-regexp
+  pattern-regexp ::= <string like `#/regexp/'>
+  pattern-endswith :::= <string other than pattern-regexp>
+  permission ::= /[0-7]{3}/
+  type ::= 'text' | 'ascii' | 'binary' | 'image'
+
+  sources ::= (source-entry*)
+  source-entry ::= local-name | (local-name option*)
+  option ::= ':permission' permission
+           | ':type' type
+           | ':remote-name' remote-name
+  local-name ::= <string>
+  remote-name ::= <string>
+  '''
+  def __init__(self, file):
+    data = {
+      ':host': None,
+      ':user': 'anonymous',
+      ':password': None,
+      ':destination': None,
+      ':default': [],
+      ':sources': [],
+    }
+
+    sexpr = read_sexpr(file)
+    i = 0
+    while i < len(sexpr):
+      key = sexpr[i]
+      if key in (':host', ':user', ':password', ':destination'):
+        if not i+1 < len(sexpr):
+          raise syntax_error, 'Argument for %r is required' % key
+        value = sexpr[i+1]
+        if not isinstance(value, str):
+          raise syntax_error, \
+                'Argument for %r must be string, but given %r' % (key, value)
+        data[key] = value
+        i += 2
+      elif key == ':default':
+        if not i+1 < len(sexpr):
+          raise syntax_error, 'Argument for %r is required' % key
+        value = sexpr[i+1]
+        if not isinstance(value, list):
+          raise syntax_error, \
+                'Argument for %r must be list, but given %r' % (key, value)
+        for entry in value:
+          if not isinstance(entry, list) or len(entry) != 3:
+            raise syntax_error, \
+                  ':default entry must be a list of length 3, but given: %r' \
+                  % entry
+          pattern = self.compile_pattern(entry[0])
+          permission = self.compile_permission(entry[1])
+          type = self.compile_type(entry[2])
+          data[key].append((pattern, permission, type))
+        i += 2
+      elif key == ':sources':
+        if not i+1 < len(sexpr):
+          raise syntax_error, 'Argument for %r is required' % key
+        value = sexpr[i+1]
+        if not isinstance(value, list):
+          raise syntax_error, \
+                'Argument for %r must be list, but given %r' % (key, value)
+        for entry in value:
+          if isinstance(entry, str):  # treat `x' as `(x)'.
+            entry = [entry]
+          if not 1 <= len(entry):
+            raise syntax_error, \
+              ':sources entry must be list of length 1 or more, but given %r' \
+              % entry
+          local_name = self.compile_local_name(entry[0])
+          permission = None
+          type = None
+          remote_name = None
+          j = 1
+          while j < len(entry):
+            if not j+1 < len(entry):
+              raise syntax_error, \
+                    'Argument is required for %r (in :sources entry %r)' \
+                    % (entry[j], entry)
+            elif entry[j] == ':permission':
+              permission = self.compile_permission(entry[j+1])
+            elif entry[j] == ':type':
+              type = self.compile_type(entry[j+1])
+            elif entry[j] == ':remote-name':
+              remote_name = self.compile_remote_name(entry[j+1])
+            else:
+              raise syntax_error, ':sources entry is not valid: %r' % entry
+            j += 2
+          data[key].append((local_name, permission, type, remote_name))
+        i += 2
+      else:
+        raise syntax_error, 'Unknown key: %r' % key
+
+    for k, v in data.iteritems():
+      setattr(self, k[1:], v)
+    if self.host is None:
+      raise syntax_error, ':host must be given'
+    self.default.reverse()
+    self.sources = self.normalize_sources(self.sources)
+    return
+
+  def normalize_sources(self, sources):
+    # Complete remote-name.
+    t = [(local_name, permission, type, remote_name or local_name)
+         for (local_name, permission, type, remote_name)
+         in sources]
+
+    # Complete directories to be made before upload.
+    dirs = Set()
+    for local_name, _, _, remote_name in t:
+      name = remote_name or local_name
+        # skip the last '/' to avoid adding the whole name.
+      i = len(name) - 1
+      if len(name) <= 1:
+        continue
+      while True:
+        i = name.rfind('/', 0, i-1)
+        if i == -1:
+          break
+        dirs.add(name[:i+1])
+    for d in dirs:
+      t.append((d, None, None, d))
+
+    # Complete permission and type.
+    tt = []
+    for local_name, permission, type, remote_name in t:
+      if permission is None:
+        permission = self.search_permission(remote_name)
+      if type is None:
+        type = self.search_type(remote_name)
+      tt.append((local_name, permission, type, remote_name))
+    t = tt
+
+    # Sort.  # FIXME: assumes that no char which is less than `/' is used.
+    t.sort(key = lambda x: x[-1])
+    return t
+
+  def search_permission(self, name):
+    for pattern, permission, type in self.default:
+      if pattern(name):
+        return permission
+    raise syntax_error, 'Default permission for %r is not found' % name
+
+  def search_type(self, local_name):
+    for pattern, permission, type in self.default:
+      if pattern(local_name):
+        return type
+    raise syntax_error, 'Default type for %r is not found' % local_name
+
+  def compile_pattern(src):
+    if not isinstance(src, str):
+      raise syntax_error, 'Invalid pattern: %r' % src
+    if 3 <= len(src) and src.startswith('#/') and src.endswith('/'):
+      return re.compile(src[2:-1]).match
+    else:
+      return lambda s: s.endswith(src)
+  compile_pattern = staticmethod(compile_pattern)
+
+  def compile_permission(src):
+    if not isinstance(src, str) or not re.match(r'^[0-7]{3}$', src):
+      raise syntax_error, 'Invalid permission: %r' % src
+    return src
+  compile_permission = staticmethod(compile_permission)
+
+  def compile_type(src):
+    if not isinstance(src, str):
+      raise syntax_error, 'Invalid type: %r' % src
+    for pattern, result in (('text', 'TEXT'),
+                            ('ascii', 'TEXT'),
+                            ('binary', 'BINARY'),
+                            ('image', 'BINARY')):
+      if pattern.startswith(src.lower()) and len(src) <= len(pattern):
+        return result
+    raise syntax_error, 'Invalid type: %r' % src
+  compile_type = staticmethod(compile_type)
+
+  def compile_local_name(src):
+    if not isinstance(src, str):
+      raise syntax_error, 'Invalid local-name: %r' % src
+    return src
+  compile_local_name = staticmethod(compile_local_name)
+
+  def compile_remote_name(src):
+    if not isinstance(src, str):
+      raise syntax_error, 'Invalid remote-name: %r' % src
+    return src
+  compile_remote_name = staticmethod(compile_remote_name)
+
+
+
+
+# Cachefile parser ------------------------------------------------------- {{{2
+
+class Cachefile:
+  def __init__(self, file):
+    self.entries = {}
+    for name, mtime in read_sexpr(file):
+      self.entries[name] = float(mtime)
+    return
+
+  def write(self, file):
+    file.write('(\n')
+    for name, mtime in self.entries.iteritems():
+      file.write('(%s %s)\n' % (name, mtime))
+    file.write(')\n')
+    return
+
+  def update(self, name):
+    self.entries[name] = time()
+    return
+
+  def mtime(self, name):
+    try:
+      return self.entries[name]
+    except KeyError:
+      return 0.0
+
+
+
+
+
+
+
+
+# Main =================================================================== {{{1
+
+def select_targets_to_be_updated(ftpfile, cachefile):
+  # entry ::= (local_name, permission, type, remote_name)
+  targets = []
+  for entry in ftpfile.sources:
+    try:
+      if dirp(entry[0]):
+        current_mtime = 1  # greater than 0.
+      else:
+        current_mtime = os.stat(entry[0]).st_mtime
+    except OSError:
+      raise runtime_error, 'Local file/directory %r does not exist' % entry[0]
+    if cachefile.mtime(entry[0]) < current_mtime:
+      targets.append(entry)
+  return targets
+
+
+def do_ftp(ftpfile, cachefile, do_sendp):
+  print '%s@%s' % (ftpfile.user, ftpfile.host)
+  targets = select_targets_to_be_updated(ftpfile, cachefile)
+  if targets:
+    if do_sendp:
+      if ftpfile.password is None:
+        password = getpass()
+      else:
+        password = ftpfile.password
+      ftp = ftplib.FTP(ftpfile.host, ftpfile.user, password)
+      print ftp.getwelcome()
+
+    if ftpfile.destination is not None:
+      if do_sendp:
+        ftp.cwd(ftpfile.destination)
+      print 'Destination directory: %s' % ftpfile.destination
+
+    for local_name, permission, type, remote_name in targets:
+      print local_name,
+      if local_name is not remote_name:
+        print '(as %s)' % remote_name,
+
+      if dirp(remote_name):
+        if cachefile.mtime(local_name) == 0:  # does not exist before?
+          if do_sendp:
+            ftp.mkd(remote_name)
+      else:
+        if type == 'TEXT':
+          if do_sendp:
+            ftp.storlines('STOR %s' % remote_name, file(local_name, 'rt'))
+        else:  # type == 'BINARY':
+          if do_sendp:
+            ftp.storbinary('STOR %s' % remote_name, file(local_name, 'rb'))
+
+      if cachefile.mtime(local_name) == 0:  # does not exist before?
+        if do_sendp:
+          ftp.sendcmd('SITE CHMOD %s %s' % (permission, remote_name))
+        print '(chmod %s)' % permission,
+
+      cachefile.update(local_name)
+      print
+
+    if do_sendp:
+      ftp.quit()
+  else:
+    print 'No target to be updated.'
+  return
+
+
+
+
+def main():
+  parser = OptionParser()
+  parser.add_option('-c', '--cache',
+                    dest='cachefile', action='store',
+                    help='Read/write FILE as a cache file.', metavar='FILE')
+  parser.add_option('-f', '--file',
+                    dest='ftpfile', action='store',
+                    help='Read FILE as a ftpfile.', metavar='FILE')
+  parser.add_option('-n', '--just-print',
+                    dest='mode', action='store_const', const='just-print',
+                    help="Don't actually run any commands; just print them.")
+  parser.add_option('-r', '-t', '--remake-cache',
+                    dest='mode', action='store_const', const='remake-cache',
+                    help='Remake cache, then exit.')
+  parser.add_option('--test',
+                    dest='mode', action='store_const', const='test',
+                    help='Test this software, then exit.')
+  parser.set_defaults(mode='normal',
+                      ftpfile='Ftpfile',
+                      cachefile=None)
+  (options, args) = parser.parse_args()
+  if options.cachefile is None:
+    options.cachefile = options.ftpfile + '.cache'
+
+  mode = options.mode
+  if mode in ('normal', 'just-print', 'remake-cache'):
+    ftpfile = Ftpfile(file(options.ftpfile))
+    if mode != 'remake-cache':
+      cachefile = Cachefile(file_with_default(options.cachefile, '()'))
+    else:
+      cachefile = Cachefile(StringIO('()'))
+
+    do_ftp(ftpfile, cachefile, mode == 'normal')
+
+    if mode != 'just-print':
+      cachefile.write(file(options.cachefile, 'w'))
+  elif mode == 'test':
+    import doctest
+    doctest.testmod()
+  else:
+    assert False
+  return
+
+if __name__ == '__main__':
+  try:
+    main()
+  except:
+    e = sys.exc_info()
+    if not (e[0] in ftplib.all_errors or issubclass(e[0], error)):
+      raise
+    print '%s: %s' % (e[0], e[1])
+
+# vim: et sts=2 sw=2 foldmethod=marker
