@@ -17,6 +17,7 @@ function is_my_git_repo
 function git_push_to_my_remote_repos
 {
   local repo_dir="$1" &&
+  shift &&
   (
     cd $repo_dir &&
     test -d .git &&
@@ -28,7 +29,7 @@ function git_push_to_my_remote_repos
       local url="$(git config --local --get "remote.$remote_name.url")" &&
       if is_my_git_repo "$url"
       then
-        git push $remote_name --all
+        git push $remote_name --all "$@"
         # git push $remote_name --tags -- Tags should be pushed manually
       fi
     done
@@ -39,7 +40,7 @@ function git_push_to_all_my_remote_repos
 {
   for repo_dir in ~/working/*
   do
-    git_push_to_my_remote_repos "$repo_dir"
+    git_push_to_my_remote_repos "$repo_dir" "$@"
   done
 }
 
@@ -50,6 +51,7 @@ Usage: $0 [OPTION]
 
     -f, --force           Do push actually.
     -h, --help            Show this help.
+    -n, --dry-run         Dry run.
     -v, --version         Shwo version information.
 END
 }
@@ -69,6 +71,9 @@ function main
       ;;
     ('-h'|'--help')
       show_usage
+      ;;
+    ('-n'|'--dry-run')
+      git_push_to_all_my_remote_repos --dry-run
       ;;
     ('-v'|'--version')
       show_version
