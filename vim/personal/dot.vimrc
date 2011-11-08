@@ -2993,10 +2993,6 @@ let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
-  " autocmd MyAutoCmd VimEnter *
-  " \ doautocmd MyAutoCmd User DelayedSettings
-else
-  " doautocmd MyAutoCmd User DelayedSettings
 endif
 
 
