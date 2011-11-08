@@ -2297,7 +2297,7 @@ function! s:on_FileType_any()
     setlocal omnifunc=syntaxcomplete#Complete
   endif
 
-  " Undo indent settings whenever 'filetype' is changed to a different value.
+  " Universal indent undo: Undo indent settings whenever 'filetype' is set.
   " Most indent scripts don't undo their settings in the event, and it causes
   " some problems.  For example:
   "
