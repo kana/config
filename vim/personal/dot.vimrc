@@ -2360,7 +2360,9 @@ autocmd MyAutoCmd ColorScheme *
 \ | highlight TabLineFill
 \             term=reverse
 \             cterm=NONE ctermfg=lightgray ctermbg=darkgray
-doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
+if !exists('s:loaded_my_vimrc')
+  doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
+endif
 
 
 " Automatically shift to the Insert mode
