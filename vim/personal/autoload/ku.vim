@@ -1165,13 +1165,12 @@ endfunction
 
 augroup plugin-ku
   autocmd!
-  autocmd CursorHold *
+  autocmd CursorHold,CursorHoldI *
   \   if (g:ku_history_reloading_style ==# 'idle'
   \       || g:ku_history_reloading_style ==# 'each')
   \ |   call s:history_reload()
   \ |   let s:after_idle_p = s:TRUE
   \ | endif
-  autocmd CursorHoldI *  doautocmd plugin-ku CursorHold
   autocmd VimLeave *  call s:history_save()
 augroup END
 
