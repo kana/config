@@ -45,10 +45,16 @@
 	m = merge --log
 	mb = merge-base
 	pushall = <<<
-		for i in $(git remote)
+		for remote in $(
+			git config --get-regexp \
+				'^remote\..*\.url$' \
+				"^(git@github\.com:kana|$HOME/Dropbox)" \
+			| sed 's/^remote\.\([^.]*\)\.url .*$/\1/'
+		)
 		do
-		  echo "# git push $i $@"
-		  git push "$i" "$@"
+		  echo "# ------------------------------"
+		  echo "# git push $remote $@"
+		  git push "$remote" "$@"
 		done
 	>>>
 	ra = rebase --abort
