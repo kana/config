@@ -10,48 +10,23 @@
 	pager = less -r
 	excludesfile = ~/.gitignore
 [alias]
-	amend = !git fix
 	b = branch
 	ba = branch -a
 	br = branch -r
-	cb = checkout -b
 	ci = commit
 	co = checkout
 	cob = checkout -b
 	cp = cherry-pick
 	d = diff
 	db = diff HEAD
-	derive = <<<
-		if [ 2 -le "$#" ]
-		then
-		  base="$1"
-		  topic="$2"
-		elif [ 1 -le "$#" ]
-		then
-		  base='HEAD'
-		  topic="$1"
-		else
-		  echo "Usage: $0 derive [base] {topic}"
-		  false
-		fi
-		git checkout -b "$topic" "$base"
-	>>>
 	ds = diff --cached
 	du = diff
-	edit-conflicted-files = !$EDITOR $(git ls-conflicted-files)
 	f = fetch
 	fix = commit --amend
 	l = log
 	l1 = log --pretty=oneline --abbrev-commit
-	l1f = log --pretty=oneline
 	lg = log --graph --pretty=oneline --abbrev-commit
 	lgd = !git lg --decorate
-	lgf = log --graph --pretty=oneline
-	lgs = !git lg --source
-	lgss = !git lgs --branches --tags
-	ln = <<<
-		git l1 --name-only "$@" | grep -v ' ' | sort -u
-	>>>
 	lr = <<<
 		n=10
 		1="${1:-$n}"
@@ -64,33 +39,8 @@
 		git --no-pager l1 --reverse -"$1" "${2:-HEAD}"
 	>>>
 	ls = ls-files
-	ls-conflicted-files = ls-files --unmerged
 	m = merge --log
-	m1 = merge --log HEAD@{1}
-	m2 = merge --log HEAD@{2}
-	m3 = merge --log HEAD@{3}
 	mb = merge-base
-	pa = !git pushall
-	publish = !git pushall $(git rev-parse --symbolic --branches --tags) \
-	           "$@"
-	publish-all = <<<
-		for repos in ~/working/*/
-		do
-		  pushd "$repos" >/dev/null
-		  echo
-		  echo "==== $PWD"
-		  for remote in $(git config --get-regexp \
-		                      '^remote\..*\.url$' \
-		                      "^(git@github\.com:kana|$HOME/Dropbox)" \
-		                  | sed 's/^remote\.\([^.]*\)\.url .*$/\1/')
-		  do
-		    echo "---- $remote"
-		    git push "$remote" --all -f
-		    git push "$remote" --tags -f
-		  done
-		  popd >/dev/null
-		done
-	>>>
 	pushall = <<<
 		for i in $(git remote)
 		do
@@ -98,9 +48,6 @@
 		  git push "$i" "$@"
 		done
 	>>>
-	r1 = rebase HEAD@{1}
-	r2 = rebase HEAD@{2}
-	r3 = rebase HEAD@{3}
 	ra = rebase --abort
 	rc = rebase --continue
 	review = <<<
@@ -133,10 +80,7 @@
 	sp = stash pop
 	ss = stash save
 	st = status
-	staged = diff --cached
-	sv = stash save
 	t = tag
 	td = tag -d
-	unstaged = diff
 
 # __END__
