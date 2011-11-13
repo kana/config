@@ -65,6 +65,7 @@
 	>>>
 	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
+	rx = reset --mixed
 	s = show
 	s1 = show HEAD@{1}
 	s2 = show HEAD@{2}
