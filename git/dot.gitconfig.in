@@ -27,8 +27,9 @@
 	fu = commit --amend -C HEAD
 	l = log
 	l1 = log --pretty=oneline --abbrev-commit
-	lg = log --graph --pretty=oneline --abbrev-commit
-	lgd = !git lg --decorate
+	lg = log --graph --pretty=oneline --abbrev-commit --decorate
+	lgd = !git lg
+	lgD = !git lg --no-decorate
 	lr = <<<
 		n=10
 		1="${1:-$n}"
