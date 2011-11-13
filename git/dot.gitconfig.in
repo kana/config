@@ -54,7 +54,7 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	review = <<<
-		git log --reverse -p "$1..HEAD"
+		git log -p --reverse "${1:master}..HEAD" --
 	>>>
 	rh = reset --hard
 	ri = <<<
