@@ -73,7 +73,7 @@
 	sa = stash apply
 	sd = stash drop
 	since = <<<
-		git lg "$1..HEAD"
+		git lg "$1..HEAD" --
 	>>>
 	sl = stash list
 	sm = submodule
