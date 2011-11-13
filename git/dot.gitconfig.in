@@ -23,6 +23,8 @@
 	du = diff
 	f = fetch
 	fix = commit --amend
+	fixup = !git fu
+	fu = commit --amend -C HEAD
 	l = log
 	l1 = log --pretty=oneline --abbrev-commit
 	lg = log --graph --pretty=oneline --abbrev-commit
