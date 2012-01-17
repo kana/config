@@ -118,3 +118,6 @@
 [submodule "vim/gf-user"]
 	path = vim/gf-user
 	url = ../vim-gf-user
+[submodule "vim/gf-diff"]
+	path = vim/gf-diff
+	url = ../vim-gf-diff

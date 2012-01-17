@@ -9,6 +9,7 @@ vim_plugins := \
 	fakeclip \
 	filetype-haskell \
 	flydiff \
+	gf-diff \
 	gf-user \
 	grex \
 	metarw \
