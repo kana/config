@@ -2136,12 +2136,6 @@ inoremap <C-w>  <C-g>u<C-w>
 inoremap <C-u>  <C-g>u<C-u>
 
 
-" Delete the content of the current line (not the line itself).
-" BUGS: not repeatable.
-" BUGS: the default behavior is overridden, but it's still available via "x".
-nnoremap dl  0d$
-
-
 " Make I/A available in characterwise-visual and linewise-visual.
 Fvmap <silent> I  <SID>force_blockwise_visual('I')
 Fvmap <silent> A  <SID>force_blockwise_visual('A')
