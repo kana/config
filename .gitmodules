@@ -115,3 +115,6 @@
 [submodule "vim/textobj-line"]
 	path = vim/textobj-line
 	url = ../vim-textobj-line
+[submodule "vim/gf-user"]
+	path = vim/gf-user
+	url = ../vim-gf-user
