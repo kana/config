@@ -112,3 +112,6 @@
 [submodule "vim/altr"]
 	path = vim/altr
 	url = ../vim-altr
+[submodule "vim/textobj-line"]
+	path = vim/textobj-line
+	url = ../vim-textobj-line

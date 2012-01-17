@@ -31,6 +31,7 @@ vim_plugins := \
 	textobj-indent \
 	textobj-jabraces \
 	textobj-lastpat \
+	textobj-line \
 	textobj-syntax \
 	textobj-user \
 	vcsi \
