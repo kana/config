@@ -2455,6 +2455,8 @@ function! s:on_FileType_help()
     map <buffer> J  <Plug>(textobj-help-any-n)
     map <buffer> K  <Plug>(textobj-help-any-p)
   endif
+
+  setlocal conceallevel=0
 endfunction
 
 
