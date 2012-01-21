@@ -230,7 +230,7 @@ function prompt_setup() {
   fi
   local t_host="$c_user%n$c_reset$c_host@$t_hosname$c_reset"
   local t_cwd="$c_yellow%~$c_reset"
-  local t_main='YUKI.N%(!.#.>) '
+  local t_main='$PS_DECORATOR%(!.#.>) '
   if [[ 2 -le $SHLVL ]]; then  # is nested interactive shell?
     local t_shlvl=' ($SHLVL)'
   else
@@ -240,6 +240,7 @@ function prompt_setup() {
   PS1="
 $t_host $t_cwd$t_shlvl\$(prompt-git-head-name)
 $t_main"
+  PS_DECORATOR='YUKI.N'
 }
 
 prompt_setup
