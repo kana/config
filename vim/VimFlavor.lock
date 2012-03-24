@@ -1,0 +1,242 @@
+--- 
+:flavors: 
+  git://github.com/kana/vim-altercmd.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-altercmd
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-altr.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-altr
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-arpeggio.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.6
+    :repo_name: kana/vim-arpeggio
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-bundle.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.3
+    :repo_name: kana/vim-bundle
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-exjumplist.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-exjumplist
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-fakeclip.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.2.10
+    :repo_name: kana/vim-fakeclip
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-filetype-haskell.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-filetype-haskell
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-flydiff.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.2
+    :repo_name: kana/vim-flydiff
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-gf-diff.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.1.1
+    :repo_name: kana/vim-gf-diff
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-gf-user.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-gf-user
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-grex.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.2
+    :repo_name: kana/vim-grex
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-metarw.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.5
+    :repo_name: kana/vim-metarw
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-metarw-git.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.4
+    :repo_name: kana/vim-metarw-git
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-narrow.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.2.2
+    :repo_name: kana/vim-narrow
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-operator-replace.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.2
+    :repo_name: kana/vim-operator-replace
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-operator-user.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.6
+    :repo_name: kana/vim-operator-user
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-repeat.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-repeat
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-scratch.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.1.1
+    :repo_name: kana/vim-scratch
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-skeleton.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.3
+    :repo_name: kana/vim-skeleton
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-smartchr.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.1.1
+    :repo_name: kana/vim-smartchr
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-smarttill.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-smarttill
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-smartword.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.3
+    :repo_name: kana/vim-smartword
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-submode.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-submode
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-surround.git: 
+    :groups: 
+    - :default
+    :locked_version: 1.34.7
+    :repo_name: kana/vim-surround
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-datetime.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.3.2
+    :repo_name: kana/vim-textobj-datetime
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-diff.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-textobj-diff
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-entire.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-textobj-entire
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-fold.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.1.3
+    :repo_name: kana/vim-textobj-fold
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-function.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.1.1
+    :repo_name: kana/vim-textobj-function
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-indent.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.4
+    :repo_name: kana/vim-textobj-indent
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-jabraces.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.1.2
+    :repo_name: kana/vim-textobj-jabraces
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-lastpat.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-textobj-lastpat
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-line.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-textobj-line
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-syntax.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-textobj-syntax
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-textobj-user.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.3.12
+    :repo_name: kana/vim-textobj-user
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-vcsi.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.1.1
+    :repo_name: kana/vim-vcsi
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-vspec.git: 
+    :groups: 
+    - :default
+    :locked_version: 1.0.2
+    :repo_name: kana/vim-vspec
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-wwwsearch.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.2
+    :repo_name: kana/vim-wwwsearch
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-xml-autons.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-xml-autons
+    :version_contraint: ">= 0"
+  git://github.com/kana/vim-xml-move.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.2
+    :repo_name: kana/vim-xml-move
+    :version_contraint: ">= 0"
