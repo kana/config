@@ -100,5 +100,8 @@
 	st = status
 	t = tag
 	td = tag -d
+	tv = <<<
+		git tag "$1" -m "Version $1"
+	>>>
 
 # __END__
