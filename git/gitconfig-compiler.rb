@@ -25,19 +25,18 @@ def main()
     if context == :normal
       if script_begin? line
         context = :script
-        puts without_script_begin_marker(line) + %q["!$SHELL -c '\\]
+        puts without_script_begin_marker(line) + %q["!f() {\\]
       else
         puts line.sub('= ~', "= #{ENV['HOME']}")
       end
     elsif context == :script
       if script_end? line
         context = :normal
-        puts %Q[' __dummy__"]
+        puts %Q[}; f"]
       else
         puts line.
           gsub("\\") {"\\\\"}.
           gsub('"') {'\"'}.
-          gsub("'") {"'\\\\''"}.
           sub("\n") {"\\n\\\n"}
       end
     else
