@@ -43,7 +43,7 @@
 		  a1="${a2:-$n}"
 		  a2="$t"
 		fi
-		git --no-pager l1 --reverse -"$a1" "${a2:-HEAD}"
+		git --no-pager l1 --reverse -n"$a1" "${a2:-HEAD}"
 	>>>
 	ls = ls-files
 	m = merge --log
