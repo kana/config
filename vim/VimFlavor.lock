@@ -120,6 +120,12 @@
     :locked_version: 0.1.1
     :repo_name: kana/vim-smartchr
     :version_contraint: ">= 0"
+  git://github.com/kana/vim-smartinput.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.1
+    :repo_name: kana/vim-smartinput
+    :version_contraint: ">= 0"
   git://github.com/kana/vim-smarttill.git: 
     :groups: 
     - :default
