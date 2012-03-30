@@ -2914,6 +2914,18 @@ endfunction
 
 
 
+" smartinput  "{{{2
+
+call smartinput#map_to_trigger('i', '<Plug>(physical-key-;)',
+\                              '<Enter>',
+\                              '<Enter>')
+call smartinput#map_to_trigger('c', '<Plug>(physical-key-;)',
+\                              '<Enter>',
+\                              '<Enter>')
+
+
+
+
 " smarttill  "{{{2
 
 Objmap q  <Plug>(smarttill-t)
