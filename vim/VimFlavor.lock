@@ -123,7 +123,7 @@
   git://github.com/kana/vim-smartinput.git: 
     :groups: 
     - :default
-    :locked_version: 0.0.1
+    :locked_version: 0.0.3
     :repo_name: kana/vim-smartinput
     :version_contraint: ">= 0"
   git://github.com/kana/vim-smarttill.git: 
@@ -183,7 +183,7 @@
   git://github.com/kana/vim-textobj-indent.git: 
     :groups: 
     - :default
-    :locked_version: 0.0.4
+    :locked_version: 0.0.5
     :repo_name: kana/vim-textobj-indent
     :version_contraint: ">= 0"
   git://github.com/kana/vim-textobj-jabraces.git: 
