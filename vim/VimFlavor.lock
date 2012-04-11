@@ -150,6 +150,12 @@
     :locked_version: 1.34.7
     :repo_name: kana/vim-surround
     :version_contraint: ">= 0"
+  git://github.com/kana/vim-tabpagecd.git: 
+    :groups: 
+    - :default
+    :locked_version: 0.0.0
+    :repo_name: kana/vim-tabpagecd
+    :version_contraint: ">= 0"
   git://github.com/kana/vim-textobj-datetime.git: 
     :groups: 
     - :default
