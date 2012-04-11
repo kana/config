@@ -506,7 +506,7 @@ command! -nargs=+ Operatorunmap
 
 " CD - alternative :cd with more user-friendly completion  "{{{2
 
-command! -complete=customlist,s:complete_cdpath -nargs=+ CD  TabpageCD <args>
+command! -complete=customlist,s:complete_cdpath -nargs=+ CD  cd <args>
 function! s:complete_cdpath(arglead, cmdline, cursorpos)
   return split(globpath(&cdpath,
   \                     join(split(a:cmdline, '\s', s:TRUE)[1:], ' ') . '*/'),
@@ -695,21 +695,6 @@ function! s:cmd_SuspendWithAutomticCD()
     suspend
   endif
 endfunction
-
-
-
-
-" TabpageCD - wrapper of :cd to keep cwd for each tabpage  "{{{2
-
-command! -nargs=? TabpageCD
-\   execute 'cd' fnameescape(<q-args>)
-\ | let t:cwd = getcwd()
-
-autocmd MyAutoCmd TabEnter *
-\   if !exists('t:cwd')
-\ |   let t:cwd = getcwd()
-\ | endif
-\ | execute 'cd' fnameescape(t:cwd)
 
 
 
