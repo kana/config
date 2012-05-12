@@ -269,8 +269,7 @@ function! s:my_tabline()  "{{{
     let mod = len(filter(bufnrs, 'getbufvar(v:val, "&modified")')) ? '+' : ' '
     let title = s:gettabvar(i, 'title')
     let title = title != '' ? title : fnamemodify(s:gettabvar(i, 'cwd'), ':t')
-    let title = title != '' ? title : fnamemodify(bufname(curbufnr),':t')
-    let title = title != '' ? title : '[No Name]'
+    let title = title != '' ? title : fnamemodify(getcwd(), ':t')
 
     let s .= '%'.i.'T'
     let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
