@@ -1603,7 +1603,6 @@ noremap! <Esc>?  :
 
 
 " Tag jumping  "{{{2
-" FIXME: the target window of :split/:vsplit version.
 " Fallback  "{{{3
 
 " ``T'' is also disabled for consistency.
@@ -1660,7 +1659,7 @@ Cnmap <silent> tsp  split \| tpevious
 Cnmap <silent> tsP  split \| tfirst
 Cnmap <silent> tsN  split \| tlast
 
-  " FIXME: Define also in Visual mode.
+  " FIXME: Define also in Visual mode -- but is it really useful?
 Cnmap <silent> tsH  Split Left \| normal! <C-]>
 Cnmap <silent> tsJ  Split Bottom \| normal! <C-]>
 Cnmap <silent> tsK  Split Top \| normal! <C-]>
