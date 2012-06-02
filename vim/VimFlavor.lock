@@ -93,7 +93,7 @@
   git://github.com/kana/vim-operator-user.git: 
     :groups: 
     - :default
-    :locked_version: 0.0.6
+    :locked_version: 0.0.7
     :repo_name: kana/vim-operator-user
     :version_contraint: ">= 0"
   git://github.com/kana/vim-repeat.git: 
