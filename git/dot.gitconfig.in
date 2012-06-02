@@ -30,10 +30,10 @@
 	lg = log --graph --pretty=oneline --abbrev-commit --decorate
 	lgd = !git lg
 	lgD = !git lg --no-decorate
-	lgr = !git lg -n10
-	lgrr = !git lg -n20
-	lgrrr = !git lg -n30
-	lgrrrr = !git lg -n40
+	lgr = !git --no-pager lg -n10
+	lgrr = !git --no-pager lg -n20
+	lgrrr = !git --no-pager lg -n30
+	lgrrrr = !git --no-pager lg -n40
 	lr = <<<
 		n=10
 		a1="${1:-$n}"
