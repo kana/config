@@ -2077,6 +2077,10 @@ call operator#user#define('my-calculate-sum-of-fields',
 " User key mappings will be defined later - see [Space].
 
 
+call operator#user#define_ex_command('my-reverse', "global/^/move '[-1'")
+Arpeggio map OR  <Plug>(operator-my-reverse)
+
+
 
 
 " Misc.  "{{{2
@@ -2142,7 +2146,7 @@ endfunction
 " the next insertion [count] times, because I've never felt that it is useful.
 nnoremap <expr> <Plug>(arpeggio-default:o)
 \        <SID>start_insert_mode_with_blank_lines('o')
-nnoremap <expr> O
+nnoremap <expr> <Plug>(arpeggio-default:O)
 \        <SID>start_insert_mode_with_blank_lines('O')
 function! s:start_insert_mode_with_blank_lines(command)
   if v:count != v:count1
