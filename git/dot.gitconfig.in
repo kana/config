@@ -33,6 +33,7 @@
 	lgr = !git lg -n10
 	lgrr = !git lg -n20
 	lgrrr = !git lg -n30
+	lgrrrr = !git lg -n40
 	lr = <<<
 		n=10
 		a1="${1:-$n}"
@@ -45,6 +46,9 @@
 		fi
 		git --no-pager l1 --reverse -n"$a1" "${a2:-HEAD}"
 	>>>
+	lrr = !git lr -n20
+	lrrr = !git lr -n30
+	lrrrr = !git lr -n40
 	ls = ls-files
 	m = merge --log
 	mb = merge-base
