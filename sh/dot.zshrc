@@ -25,9 +25,17 @@ case "$ENV_WORKING" in
     export CDPATH="$(echo . ~/{working,} | tr ' ' ':')"
     ;;
 esac
+
 HISTFILE=~/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
+
+# Workaround: In zsh 4.3.11 (i386-apple-darwin11.0) on Mac OS X Lion,
+# history-beginning-search-backward does not work
+# if the number of entries in $HISTFILE is greater than 85000,
+# and it shows the following error (note that the last number is arbitrary):
+#
+#     _all_labels:39: subscript too big: 262233
+HISTSIZE=80000
+SAVEHIST=80000
 
 
 
