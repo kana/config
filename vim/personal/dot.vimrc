@@ -2371,6 +2371,14 @@ autocmd MyAutoCmd FileType css
 
 
 
+" cucumber  "{{{2
+
+autocmd MyAutoCmd FileType cucumber
+\   call s:set_short_indent()
+
+
+
+
 " dosini (.ini)  "{{{2
 
 autocmd MyAutoCmd FileType dosini
