@@ -9,7 +9,7 @@
   git://github.com/kana/vim-altr.git: 
     :groups: 
     - :default
-    :locked_version: 0.0.1
+    :locked_version: 0.0.2
     :repo_name: kana/vim-altr
     :version_contraint: ">= 0"
   git://github.com/kana/vim-arpeggio.git: 
@@ -153,7 +153,7 @@
   git://github.com/kana/vim-tabpagecd.git: 
     :groups: 
     - :default
-    :locked_version: 0.0.0
+    :locked_version: 0.0.1
     :repo_name: kana/vim-tabpagecd
     :version_contraint: ">= 0"
   git://github.com/kana/vim-textobj-datetime.git: 
@@ -231,7 +231,7 @@
   git://github.com/kana/vim-vspec.git: 
     :groups: 
     - :default
-    :locked_version: 1.0.2
+    :locked_version: 1.1.0
     :repo_name: kana/vim-vspec
     :version_contraint: ">= 0"
   git://github.com/kana/vim-wwwsearch.git: 
