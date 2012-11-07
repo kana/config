@@ -44,6 +44,14 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
     fi
   fi
 
+  # To use own versions prior to default (e.g. sed installed by homebrew)
+  PATH="/usr/local/bin:${PATH/:\/usr\/local\/bin:/:}"
+
+  # To use coreutils, installed by homebrew, without the prefix "g".
+  if which brew >/dev/null; then
+    PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+  fi
+
   # for cabal
   if [ -d "$HOME/.cabal/bin" ]; then PATH="$HOME/.cabal/bin:$PATH"; fi
 
@@ -157,6 +165,13 @@ fi
 
 # VVM: Vim Version Manager  #{{{2
 [[ -s "$HOME/.vvm/etc/login" ]] && source "$HOME/.vvm/etc/login"
+
+
+
+
+# Workaround for Mac OS Lion's /etc/zshenv  #{{{2
+# See also dot.zshenv.
+export CUSTOM_PATH="$PATH"
 
 
 
