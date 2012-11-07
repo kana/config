@@ -169,5 +169,12 @@ fi
 
 
 
+# Workaround for Mac OS Lion's /etc/zshenv  #{{{2
+# See also dot.zshenv.
+export CUSTOM_PATH="$PATH"
+
+
+
+
 # __END__  #{{{1
 # vim: filetype=sh foldmethod=marker
