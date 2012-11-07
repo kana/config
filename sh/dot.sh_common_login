@@ -44,6 +44,9 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
     fi
   fi
 
+  # To use own versions prior to default (e.g. sed installed by homebrew)
+  PATH="/usr/local/bin:${PATH/:\/usr\/local\/bin:/:}"
+
   # To use coreutils, installed by homebrew, without the prefix "g".
   if which brew >/dev/null; then
     PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
