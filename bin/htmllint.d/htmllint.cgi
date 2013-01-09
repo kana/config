@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # CGI script for Another HTML-lint gateway
 require 5.004;
-$VERSION = '1.23';
+$VERSION = '1.28';
 $PROGNAME = 'Another HTML-lint';
 =ignore
 use strict;
@@ -14,7 +14,7 @@ use vars qw(%in $stdio %doctypes $defaultrule %whines $icode $counter $err %warn
 my $myADDRESS = 'k16@chiba.email.ne.jp';
 my $version = <<EndOfVersion;
   Another HTML-lint gateway script ver$VERSION
-    Copyright (c) 1997-2007 by ISHINO Keiichiro <$myADDRESS>.
+    Copyright (c) 1997-2009 by ISHINO Keiichiro <$myADDRESS>.
     All rights reserved.
 EndOfVersion
 
@@ -60,37 +60,37 @@ if ($Jcode = (!$NOUSEJCODE && eval('require Jcode'))) {
 }
 
 my $acceptMIME = 'text\/html|application\/xhtml\+xml';
-my $msgCantLint = '¿½¤·Ìõ¤¢¤ê¤Ş¤»¤ó¡£¤¿¤À¤¤¤ŞÄ´À°Ãæ¤Ç¤¹¡£¤â¤¦¤·¤Ğ¤é¤¯¤·¤Æ¤«¤éºÆ¥Á¥§¥Ã¥¯¤·¤Æ¤¯¤À¤µ¤¤¡£';
-my $msgInURL   = '»ØÄê¤µ¤ì¤¿URL (';
-my $msgNoHTML  = ') ¤Ï HTML ¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£';
-my $msgBadResp = ') ¤Ï HTTP¥ì¥¹¥İ¥ó¥¹¥Ø¥Ã¥À¤ËÌäÂê¤¬¤¢¤ê¤Ş¤¹¡£';
-my $msgInHTML  = '»ØÄê¤µ¤ì¤¿HTML (';
-my $msgInFile  = '»ØÄê¤µ¤ì¤¿¥Õ¥¡¥¤¥ë (';
-my $msgCantGet = ') ¤ò¼èÆÀ¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿¡£';
-my $msgNoData  = 'ÆşÎÏ¤µ¤ì¤¿¥Ç¡¼¥¿¤Ï¤¢¤ê¤Ş¤»¤ó¤Ç¤·¤¿¡£';
-my $msgNoFile  = '¥Õ¥¡¥¤¥ëÌ¾¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ş¤»¤ó¡£';
-my $msgCannotMkdir = ' ¤òºîÀ®¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿¡£';
-my $myCODE = &Jgetcode(\$msgCantLint); # euc ¤Ş¤¿¤Ï sjis
+my $msgCantLint = 'ç”³ã—è¨³ã‚ã‚Šã¾ã›ã‚“ã€‚ãŸã ã„ã¾èª¿æ•´ä¸­ã§ã™ã€‚ã‚‚ã†ã—ã°ã‚‰ãã—ã¦ã‹ã‚‰å†ãƒã‚§ãƒƒã‚¯ã—ã¦ãã ã•ã„ã€‚';
+my $msgInURL   = 'æŒ‡å®šã•ã‚ŒãŸURL (';
+my $msgNoHTML  = ') ã¯ HTML ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚';
+my $msgBadResp = ') ã¯ HTTPãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ˜ãƒƒãƒ€ã«å•é¡ŒãŒã‚ã‚Šã¾ã™ã€‚';
+my $msgInHTML  = 'æŒ‡å®šã•ã‚ŒãŸHTML (';
+my $msgInFile  = 'æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ« (';
+my $msgCantGet = ') ã‚’å–å¾—ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸã€‚';
+my $msgNoData  = 'å…¥åŠ›ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã¯ã‚ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚';
+my $msgNoFile  = 'ãƒ•ã‚¡ã‚¤ãƒ«åãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚';
+my $msgCannotMkdir = ' ã‚’ä½œæˆã§ãã¾ã›ã‚“ã§ã—ãŸã€‚';
+my $myCODE = &Jgetcode(\$msgCantLint); # euc ã¾ãŸã¯ sjis
 my $bannerCommercial = $NOCOMMERCIAL? '': '';
 my $addinfo = defined(&AddInfo);
 &ShortName;
 
-# ½ĞÎÏ¤¹¤ë´Á»ú¥³¡¼¥É¤ÎÁªÂò
-&DetectCode($cgi->param('CharCode') or $KANJICODE) or &DetectCode('JIS');
+# å‡ºåŠ›ã™ã‚‹æ¼¢å­—ã‚³ãƒ¼ãƒ‰ã®é¸æŠ
+&DetectCode($cgi->param('CharCode')) or &DetectCode($KANJICODE) or &DetectCode('JIS');
 $| = 1;
 
-# ¥Ó¥¸¡¼¥Á¥§¥Ã¥¯
+# ãƒ“ã‚¸ãƒ¼ãƒã‚§ãƒƒã‚¯
 if (defined(&BusyCheck)) {
  my $msg = &BusyCheck;
  &ErrorExit($msg) if $msg;
 }
-END { # ¥·¥°¥Ê¥ë¤Ç¤Î½ªÎ»»ş¤ÏÍè¤Ê¤¤
+END { # ã‚·ã‚°ãƒŠãƒ«ã§ã®çµ‚äº†æ™‚ã¯æ¥ãªã„
   &EndProc if defined(&EndProc);
 }
 
 $URL = $RURL = ($cgi->param('Method') =~ /^(?:Data|File)$/oi)? '': &htmllint::AbsoluteURL($ENV{HTTP_REFERER}, $cgi->param('URL'));
 
-# ¥Á¥§¥Ã¥¯¥ª¥×¥·¥ç¥ó¤òÆÀ¤ë
+# ãƒã‚§ãƒƒã‚¯ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹
 &GetOptions;
 push @OPT, '-banner', '-score', '-w', 'long';
 #push @OPT, '-r', $RULEDIR if $RULEDIR;
@@ -106,7 +106,7 @@ if ($LOGSDIR ne '') {
  $SCOREFILE = $SCORECOUNTER = $STATFILE = '';
 }
 
-# HTML¤ò¥í¡¼¥«¥ë¤ËÆÀ¤ë
+# HTMLã‚’ãƒ­ãƒ¼ã‚«ãƒ«ã«å¾—ã‚‹
 $HTML = $TMPDIR.'htmllint'.$$.'.html';
 if ($UNIX) {
  $SIG{'INT'} = $SIG{'QUIT'} = $SIG{'TERM'} = $SIG{'PIPE'} = sub {
@@ -123,26 +123,26 @@ if ($URL ne '') {
   }
  }
  if (defined($LOCALFILE)) {
-  # ¥í¡¼¥«¥ë¥Õ¥¡¥¤¥ë¤ò¼èÆÀ
+  # ãƒ­ãƒ¼ã‚«ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—
   $HTML = $RURL = $LOCALFILE;
   if ($MAC) {
    $HTML =~ s#/#:#og;
    $HTML = ($HTML =~ m#^:(.*)#)? $1: ':'.$HTML;
   }
-  # %XX¤Î¥Ç¥³¡¼¥É¤ò¹Ô¤Ê¤¦
+  # %XXã®ãƒ‡ã‚³ãƒ¼ãƒ‰ã‚’è¡Œãªã†
   $HTML =~ s/\%([0-9A-Fa-f][0-9A-Fa-f])/pack('C', hex($1))/oge;
  } else {
-  my ($scheme, $host) = &htmllint::ParseURL($URL);
+  my ($scheme, $host, $port, $path, $file) = &htmllint::ParseURL($URL);
   unless ($scheme =~ /^http/i) {
      &ErrorExit($msgInURL.&HrefURL($URL).$msgCantGet);
   }
   $host = $1 if $host =~ /\@(.+)$/;
   unless ($PERMITPRIVATEIP) {
-   # Private IP ¤«Ä´¤Ù¤ë
+   # Private IP ã‹èª¿ã¹ã‚‹
    &ErrorExit($msgInHTML.&HrefURL($URL).$msgCantGet) if !CheckPrivateIP($ENV{REMOTE_ADDR}) && CheckPrivateIP($host);
   }
   if (@REJECTREFERER) {
-   # µñÈİREFERER
+   # æ‹’å¦REFERER
    my $ref = (&htmllint::ParseURL($ENV{HTTP_REFERER}))[1];
    foreach (@REJECTREFERER) {
     if (&CheckDomain($ref, $_)) {
@@ -151,14 +151,14 @@ if ($URL ne '') {
    }
   }
   if (@EXCEPTDOMAINS) {
-   # ½ü³°¥É¥á¥¤¥ó¤Î¥Á¥§¥Ã¥¯
+   # é™¤å¤–ãƒ‰ãƒ¡ã‚¤ãƒ³ã®ãƒã‚§ãƒƒã‚¯
    my $ok = 1;
    foreach (@EXCEPTDOMAINS) {
     if (&CheckDomain($host, $_)) {
      $ok = 0;
      foreach (@PERMITDOMAINS) {
       if (&CheckDomain($host, $_)) {
-       $ok = 1; # Èó½ü³°
+       $ok = 1; # éé™¤å¤–
        last;
       }
      }
@@ -168,7 +168,7 @@ if ($URL ne '') {
    &ErrorExit($msgInHTML.&HrefURL($URL).$msgCantGet) unless $ok;
   }
   if (@EXCEPTSCORES) {
-   # ÆÀÅÀµ­Ï¿½ü³°¥É¥á¥¤¥ó¤Î¥Á¥§¥Ã¥¯
+   # å¾—ç‚¹è¨˜éŒ²é™¤å¤–ãƒ‰ãƒ¡ã‚¤ãƒ³ã®ãƒã‚§ãƒƒã‚¯
    foreach (@EXCEPTSCORES) {
     if (&CheckDomain($host, $_)) {
      $SCOREFILE = $STATFILE = '';
@@ -176,7 +176,15 @@ if ($URL ne '') {
     }
    }
   }
-  # HTML¤òÆÉ¤ß¹ş¤ó¤Ç²ş¹Ô¤òÊÑ´¹¤·¤Æ¥Æ¥ó¥İ¥é¥ê¤Ë½ñ¤¯
+  { # 20100811
+    $path .= $file;
+    $path =~ s/\%([0-9A-F][0-9A-F])/chr(hex($1))/gei;
+    if ($path =~ /<script\b/i) {
+      # XSSã‚¢ã‚¿ãƒƒã‚¯ã®ç–‘ã„
+      &ErrorExit($msgInHTML.&HrefURL($URL).$msgCantGet);
+    }
+  }
+  # HTMLã‚’èª­ã¿è¾¼ã‚“ã§æ”¹è¡Œã‚’å¤‰æ›ã—ã¦ãƒ†ãƒ³ãƒãƒ©ãƒªã«æ›¸ã
   if (!$NOUSELWP &&
     eval('require LWP::UserAgent') && eval('require HTTP::Request')) {
    $URLGETVer = "LWP $LWP::VERSION";
@@ -189,7 +197,8 @@ if ($URL ne '') {
    $LWPUA->no_proxy(@HTTP_NOPROXY) if @HTTP_NOPROXY;
    $LWPUA->parse_head(0);
    my $req = new HTTP::Request GET => $URL;
-   $req->header('Accept' => 'text/html, application/xhtml+xml, */*;q=0.1');
+#  $req->header('Accept' => 'text/html, application/xhtml+xml, */*;q=0.1');
+   $req->header('Accept' => 'text/html, application/xhtml+xml');	# 20090427
    if ($host =~ m#^//(.+)#o) { $req->header('Host' => $1); }
    my $res = $LWPUA->request($req, $HTML);
    $RESULT = $res->status_line()."\n".$res->headers_as_string();
@@ -253,14 +262,14 @@ if ($URL ne '') {
  push @OPT, '-usec';
 } else {
  if ($cgi->param('Method') =~ /^File$/oi) {
-  # ¥Õ¥¡¥¤¥ë¥¢¥Ã¥×¥í¡¼¥É
+  # ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰
   $FILE = $cgi->param('File');
   if ($FILE eq '') { &ErrorExit($msgNoFile); }
   $HTML = $cgi->tmpFileName($FILE);
   close($FILE);
   push @OPT, '-usec';
  } else {
-  # TEXTEREA¤ÎÆâÍÆ¤ò¥Æ¥ó¥İ¥é¥ê¤Ë½ñ¤¯
+  # TEXTEREAã®å†…å®¹ã‚’ãƒ†ãƒ³ãƒãƒ©ãƒªã«æ›¸ã
   open(HTML, ">$HTML");
   print HTML $cgi->param('Data');
   close(HTML);
@@ -270,8 +279,8 @@ if ($URL ne '') {
 push @OPT, '-stat', $STATFILE if $STATFILE && $cgi->param('Stat');
 
 if (!(-e $HTML) || (-z $HTML)) {
- # ¥Æ¥ó¥İ¥é¥ê¥Õ¥¡¥¤¥ë¤¬¤¦¤Ş¤¯¤Ç¤­¤Æ¤¤¤Ê¤¤
- my $japURL = (&Jgetcode(\$URL) =~ /^(jis|euc|sjis)$/)? 'URL¤ËÆüËÜ¸ì¤Ê¤É¤ÎASCII°Ê³°¤ÎÊ¸»ú¤ò»È¤¦¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£': '';
+ # ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ•ã‚¡ã‚¤ãƒ«ãŒã†ã¾ãã§ãã¦ã„ãªã„
+ my $japURL = (&Jgetcode(\$URL) =~ /^(jis|euc|sjis)$/)? 'URLã«æ—¥æœ¬èªãªã©ã®ASCIIä»¥å¤–ã®æ–‡å­—ã‚’ä½¿ã†ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚': '';
  &Unlink;
  &EscapeRef(\$STAT);
  &EscapeRef(\$FILE);
@@ -284,16 +293,16 @@ if ($TextView ne 'lynx' || $MAC) { $LYNX = ''; } else { $LYNX =~ s/^\s+//o; }
 if ($TextView ne 'w3m'  || $MAC) { $W3M  = ''; } else { $W3M  =~ s/^\s+//o; }
 if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
  push @OPT, '--', $HTML;
- # ·ë²ÌÍÑPIPE¥Õ¥¡¥¤¥ë¤òºî¤ë
+ # çµæœç”¨PIPEãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œã‚‹
  $PIPE = $TMPDIR.'htmllint'.$$.'.result';
  open(PIPE, ">$PIPE");
  my $oldfh = select PIPE;
- # ¤µ¤¢¹Ô¤±¡ª
+ # ã•ã‚è¡Œã‘ï¼
  &htmllint::HTMLlint(@OPT);
  &DetectCode($TXTCODE)
   if $cgi->param('CharCode') eq '' || uc($cgi->param('CharCode')) eq 'AUTO';
  select $oldfh;
- # ·ë²Ì¤òÆÉ¤ß¹ş¤à
+ # çµæœã‚’èª­ã¿è¾¼ã‚€
  my $header;
  my $footer;
  #close(PIPE);
@@ -314,17 +323,17 @@ if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
  ($WARNS) = $footer =~ /^(\d+)/o;
  ($SCORE) = $footer =~ / (-?\d+)(.*)/o;
  ($KIND, $TAGS) = $2 =~ / (\d+)\D+ (\d+)/o;
- ($RULE) = $header =~ /\Q¤ò\E (.+) \Q¤È¤·¤Æ\E/o;
+ ($RULE) = $header =~ /\Qã‚’\E (.+) \Qã¨ã—ã¦\E/o;
  if ($RULE eq '' || $SCORE eq '') {
   &Unlink;
   &ErrorExit("$msgCantLint<br>$header");
  }
  $counter = $SCOREFILE? &LogScore: 0;
- # ·ë²Ì¤ÎÉ½¼¨
- my ($img, $alt) = (!$WARNS && $SCORE >= 100)? ('verygood', '¤¿¤¤¤Ø¤ó¤è¤¯¤Ç¤­¤Ş¤·¤¿'):
-                              ($SCORE >=  80)? ('good',     '¤è¤¯¤Ç¤­¤Ş¤·¤¿'):
-                              ($SCORE >=  35)? ('normal',   '¤Õ¤Ä¤¦¤Ç¤¹'):
-                                               ('fight',    '¤¬¤ó¤Ğ¤ê¤Ş¤·¤ç¤¦');
+ # çµæœã®è¡¨ç¤º
+ my ($img, $alt) = (!$WARNS && $SCORE >= 100)? ('verygood', 'ãŸã„ã¸ã‚“ã‚ˆãã§ãã¾ã—ãŸ'):
+                              ($SCORE >=  80)? ('good',     'ã‚ˆãã§ãã¾ã—ãŸ'):
+                              ($SCORE >=  35)? ('normal',   'ãµã¤ã†ã§ã™'):
+                                               ('fight',    'ãŒã‚“ã°ã‚Šã¾ã—ã‚‡ã†');
  $img .= '.gif';
  if ($cgi->param('Image') ne '') {
   &Unlink;
@@ -368,24 +377,24 @@ if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
    &Jprint(&AddInfo($SCORE));
    print q|</td></tr></table>|;
   }
-  $footer =~ s#(\Q¡À(^o^)¡¿\E)#<code>$1</code>#o;
+  $footer =~ s#(\Qï¼¼(^o^)ï¼\E)#<code>$1</code>#o;
   print('<h2>');
-  &Jprint('¥Á¥§¥Ã¥¯¤Î·ë²Ì¤Ï°Ê²¼¤Î¤È¤ª¤ê¤Ç¤¹¡£');
+  &Jprint('ãƒã‚§ãƒƒã‚¯ã®çµæœã¯ä»¥ä¸‹ã®ã¨ãŠã‚Šã§ã™ã€‚');
   print("</h2>\n");
   print("<p>\n");
   if ($FILE ne '') {
    &EscapeRef(\$FILE);
-   &Jprint($FILE.' ¤ò ');
+   &Jprint($FILE.' ã‚’ ');
   } elsif ($URL ne '') {
-   &Jprint(&HrefURL($URL).' ¤ò ');
+   &Jprint(&HrefURL($URL).' ã‚’ ');
   }
-  &Jprint($RULE.' ¤È¤·¤Æ¥Á¥§¥Ã¥¯¤·¤Ş¤·¤¿¡£'."<br>\n", ($TAGS ne '0')?
-      "$footer<br>\n": '¥¿¥°¤Î¤Ò¤È¤Ä¤â¤Ê¤¤HTML¤ÏºÎÅÀ¤Ç¤­¤Ş¤»¤ó¡£'."<br>\n");
+  &Jprint($RULE.' ã¨ã—ã¦ãƒã‚§ãƒƒã‚¯ã—ã¾ã—ãŸã€‚'."<br>\n", ($TAGS ne '0')?
+      "$footer<br>\n": 'ã‚¿ã‚°ã®ã²ã¨ã¤ã‚‚ãªã„HTMLã¯æ¡ç‚¹ã§ãã¾ã›ã‚“ã€‚'."<br>\n");
   if (!$Jcode && $cgi->param('CharCode') =~ /^UTF8$/oi) {
-   &Jprint("<br>\n".'¤³¤Î¥µ¡¼¥Ğ¤Ç¤ÏUTF-8¤Ï°·¤¨¤Ş¤»¤ó¡£');
+   &Jprint("<br>\n".'ã“ã®ã‚µãƒ¼ãƒã§ã¯UTF-8ã¯æ‰±ãˆã¾ã›ã‚“ã€‚');
   }
   if ($LYNX ne '' || $W3M ne '') {
-   &Jprint(qq|<br>\n<a href="#${TextView}View">${TextView}|.'¤Ç¤Î¸«¤¨Êı¤Ï¤³¤Á¤é</a>¤Ë¤¢¤ê¤Ş¤¹¡£');
+   &Jprint(qq|<br>\n<a href="#${TextView}View">${TextView}|.'ã§ã®è¦‹ãˆæ–¹ã¯ã“ã¡ã‚‰</a>ã«ã‚ã‚Šã¾ã™ã€‚');
   }
   print("</p>\n");
   &PrintHTTPHeader;
@@ -393,15 +402,15 @@ if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
   if (@line) {
    my $br = '';
    my $tar = $cgi->param('OtherWindow')? ' target="explain"': '';
-   &Jprint('<p>ÀèÆ¬¤Î¿ô»ú¤Ï¥¨¥é¡¼¤Î¤ª¤ª¤Ş¤«¤Ê½ÅÍ×ÅÙ¤ò 0¡Á9 ¤Ç¼¨¤·¤Æ¤¤¤Ş¤¹(¸ºÅÀ¿ô¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó)¡£¾¯¤Ê¤¤¿ô»ú¤Ï·Ú¤¯¡¢9 ¤Ë¤Ê¤ë¤Û¤ÉÃ×Ì¿Åª¤Ç¤¹¡£');
+   &Jprint('<p>å…ˆé ­ã®æ•°å­—ã¯ã‚¨ãƒ©ãƒ¼ã®ãŠãŠã¾ã‹ãªé‡è¦åº¦ã‚’ 0ã€œ9 ã§ç¤ºã—ã¦ã„ã¾ã™(æ¸›ç‚¹æ•°ã§ã¯ã‚ã‚Šã¾ã›ã‚“)ã€‚å°‘ãªã„æ•°å­—ã¯è»½ãã€9 ã«ãªã‚‹ã»ã©è‡´å‘½çš„ã§ã™ã€‚');
    foreach (@line) {
     /^(\d+): ([^:]+):\s*(.*)/o;
     my $id = $2;
     unless ($whines{$id}) {
      if ($SCORE >= 0) {
-      &Jprint('0 ¤Ï¸ºÅÀÂĞ¾İ³°¤Î¤´¤¯·ÚÅÙ¤Î¥¨¥é¡¼¤Ç '.qq|<span class="slight-error">|.'(¥°¥ì¥¤¤Î¤«¤Ã¤³¤Ä¤­)</span> ¤Ç¥á¥Ã¥»¡¼¥¸¤µ¤ì¤Æ¤¤¤Ş¤¹¡£');
+      &Jprint('0 ã¯æ¸›ç‚¹å¯¾è±¡å¤–ã®ã”ãè»½åº¦ã®ã‚¨ãƒ©ãƒ¼ã§ '.qq|<span class="slight-error">|.'(ã‚°ãƒ¬ã‚¤ã®ã‹ã£ã“ã¤ã)</span> ã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã•ã‚Œã¦ã„ã¾ã™ã€‚');
      } else {
-      &Jprint('<strong>¤³¤ÎHTML¤Ë¤Ï½ÅÍ×¤ÊÌäÂê¤¬Â¿¤¯´Ş¤Ş¤ì¤Æ¤¤¤Ş¤¹</strong>¡£´Ä¶­¤Ë¤è¤Ã¤Æ¤Ï±ÜÍ÷¤Ç¤­¤Ê¤¤²ÄÇ½À­¤¬Èó¾ï¤Ë¹â¤¤¤È¸À¤¨¤Ş¤¹¡£¸ºÅÀÂĞ¾İ³°¤Î¤´¤¯·ÚÅÙ¤Î¥¨¥é¡¼¤Ï³ä°¦¤µ¤ì¤Æ¤¤¤Ş¤¹¡£');
+      &Jprint('<strong>ã“ã®HTMLã«ã¯é‡è¦ãªå•é¡ŒãŒå¤šãå«ã¾ã‚Œã¦ã„ã¾ã™</strong>ã€‚ç’°å¢ƒã«ã‚ˆã£ã¦ã¯é–²è¦§ã§ããªã„å¯èƒ½æ€§ãŒéå¸¸ã«é«˜ã„ã¨è¨€ãˆã¾ã™ã€‚æ¸›ç‚¹å¯¾è±¡å¤–ã®ã”ãè»½åº¦ã®ã‚¨ãƒ©ãƒ¼ã¯å‰²æ„›ã•ã‚Œã¦ã„ã¾ã™ã€‚');
      }
      last;
     }
@@ -429,7 +438,7 @@ if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
       $id = $htmllint::alias_messages{$id};
       $n = ${$htmllint::messages{$id}}[1];
      }
-     &Jprint(' ¢ª '.qq|<a href="$EXPLAIN#$id"$tar>|.'²òÀâ'." $n</a>");
+     &Jprint(' â†’ '.qq|<a href="$EXPLAIN#$id"$tar>|.'è§£èª¬'." $n</a>");
     }
    }
    print("</p>\n");
@@ -437,12 +446,12 @@ if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
   # print(qq|<br clear="all">\n|) if $useimage;
 
   if ($cgi->param('ViewSource')) {
-   &Jprint('<hr><h2>¥Á¥§¥Ã¥¯¤·¤¿HTML¤Ï°Ê²¼¤Î¤È¤ª¤ê¤Ç¤¹¡£'."</h2>\n");
+   &Jprint('<hr><h2>ãƒã‚§ãƒƒã‚¯ã—ãŸHTMLã¯ä»¥ä¸‹ã®ã¨ãŠã‚Šã§ã™ã€‚'."</h2>\n");
    if ($RURL ne '' || $LYNX ne '' || $W3M ne '') {
     print('<p>');
     &Jprint(&HrefURL($RURL)) if $RURL ne '';
     if ($LYNX ne '' || $W3M ne '') {
-     &Jprint(qq| ¢ª <a href="#${TextView}View">${TextView}¤Ç¤Î¸«¤¨Êı¤Ï¤³¤Á¤é</a>|);
+     &Jprint(qq| â†’ <a href="#${TextView}View">${TextView}ã§ã®è¦‹ãˆæ–¹ã¯ã“ã¡ã‚‰</a>|);
     }
     print("</p>\n");
    }
@@ -475,11 +484,11 @@ if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
    print('<hr>');
    my $view;
    if ($LYNX ne '') {
-    $view = &LynxView; # Lynx ¤â¸«¤¿¤±¤ì¤Ğ¼Â¹Ô¤¹¤ë
+    $view = &LynxView; # Lynx ã‚‚è¦‹ãŸã‘ã‚Œã°å®Ÿè¡Œã™ã‚‹
    } elsif ($W3M ne '') {
-    $view = &W3mView; # w3m ¤â¸«¤¿¤±¤ì¤Ğ¼Â¹Ô¤¹¤ë
+    $view = &W3mView; # w3m ã‚‚è¦‹ãŸã‘ã‚Œã°å®Ÿè¡Œã™ã‚‹
    }
-   &Jprint('<h2>¤³¤Î¥µ¡¼¥Ğ¤Ç¤Ï', $TextView, '¤Ï¥µ¥İ¡¼¥È¤µ¤ì¤Æ¤¤¤Ş¤»¤ó¡£</h2>'."\n") if !$view;
+   &Jprint('<h2>ã“ã®ã‚µãƒ¼ãƒã§ã¯', $TextView, 'ã¯ã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚</h2>'."\n") if !$view;
   }
   &Unlink;
   &PrintHTMLFooter(1);
@@ -487,9 +496,9 @@ if (!$cgi->param('NoCheck') || ($LYNX eq '' && $W3M eq '')) {
 } else {
  &PrintHTMLHeader("$TextView View by $PROGNAME");
  if ($LYNX ne '') {
-  &LynxView; # Lynx ¤ÎÉ½¼¨¤À¤±¸«¤ë
+  &LynxView; # Lynx ã®è¡¨ç¤ºã ã‘è¦‹ã‚‹
  } elsif ($W3M ne '') {
-  &W3mView; # w3m ¤ÎÉ½¼¨¤À¤±¸«¤ë
+  &W3mView; # w3m ã®è¡¨ç¤ºã ã‘è¦‹ã‚‹
  }
  &Unlink;
  &PrintHTMLFooter(0);
@@ -506,7 +515,7 @@ sub PrintHTTPHeader
    &ConvertAndEscape($CTYPE);
    print('<pre>', $RESULT, '</pre>');
   } else {
-   &Jprint('¤³¤Î¥µ¡¼¥Ğ¤ÎÀßÄê¤Ç¤ÏHTTP¥Ø¥Ã¥À¤òÆÀ¤é¤ì¤Ş¤»¤ó¡£');
+   &Jprint('ã“ã®ã‚µãƒ¼ãƒã®è¨­å®šã§ã¯HTTPãƒ˜ãƒƒãƒ€ã‚’å¾—ã‚‰ã‚Œã¾ã›ã‚“ã€‚');
   }
   print("</blockquote>\n");
  }
@@ -539,7 +548,7 @@ sub TextView
  $opt = $defopt if $opt eq '';
  $RESULT = `$prog $opt $HTML`;
  &ConvertAndEscape(&Jgetcode(\$RESULT));
- &Jprint(qq|<h2><a name="${TextView}View">$TextView|, '¤Ç¤Î¸«¤¨Êı¤Ï°Ê²¼¤Î¤È¤ª¤ê¤Ç¤¹¡£</a>');
+ &Jprint(qq|<h2><a name="${TextView}View">$TextView|, 'ã§ã®è¦‹ãˆæ–¹ã¯ä»¥ä¸‹ã®ã¨ãŠã‚Šã§ã™ã€‚</a>');
  print(qq|</h2>\n<div class="lynx"><pre class="lynx">\n|, $RESULT, "</pre></div>\n");
  print(q|<blockquote><hr class="none">|, $ver, "</blockquote>\n") if $ver;
  1;
@@ -584,13 +593,13 @@ sub DetectCode
  1;
 }
 
-# ¥Æ¥ó¥İ¥é¥ê¥Õ¥¡¥¤¥ë¤ò¾Ã¤¹
+# ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¶ˆã™
 sub Unlink
 {
  unlink($HTML) if !defined($LOCALFILE);
 }
 
-# IP¤òÆÀ¤ë
+# IPã‚’å¾—ã‚‹
 sub GetIP
 {
  my $host = shift;
@@ -605,21 +614,21 @@ sub GetIP
  ((((($ip[0]<<8)+$ip[1])<<8)+$ip[2])<<8)+$ip[3];
 }
 
-# Private IP ¤«Ä´¤Ù¤ë
+# Private IP ã‹èª¿ã¹ã‚‹
 sub CheckPrivateIP
 {
  my $host = shift;
  if ($host =~ m#^(?://)?(\d+)\.(\d+)\.(\d+)\.(\d+)$#) {
-  # RFC1918¤Ë¼¨¤µ¤ì¤ë¤Î¤Ï°Ê²¼
-  # 10.0.0.0¡Á10.255.255.255
-  # 172.16.0.0¡Á172.31.255.255
-  # 192.168.0.0¡Á192.168.255.255
+  # RFC1918ã«ç¤ºã•ã‚Œã‚‹ã®ã¯ä»¥ä¸‹
+  # 10.0.0.0ã€œ10.255.255.255
+  # 172.16.0.0ã€œ172.31.255.255
+  # 192.168.0.0ã€œ192.168.255.255
   ($1==10) || ($1==172 && $2>=16 && $2<32) || ($1==192 && $2==168) ||
   ($1==127 && $2==0 && $3==0); # 127.0.0.*
  } else { 0 }
 }
 
-# ¥É¥á¥¤¥óÌ¾¤¬»ØÄê¤Î¤â¤Î¤«Ä´¤Ù¤ë
+# ãƒ‰ãƒ¡ã‚¤ãƒ³åãŒæŒ‡å®šã®ã‚‚ã®ã‹èª¿ã¹ã‚‹
 sub CheckDomain
 {
  my ($host, $domain) = @_;
@@ -645,13 +654,13 @@ sub CheckDomain
  } else {
   $domain =~ s/\./\\\./og;
   if ($host =~ m#(^//|\.)$domain$#) {
-   return 1; # »ØÄê¥É¥á¥¤¥óÌ¾¤Ç½ª¤ï¤ë¥Û¥¹¥È
+   return 1; # æŒ‡å®šãƒ‰ãƒ¡ã‚¤ãƒ³åã§çµ‚ã‚ã‚‹ãƒ›ã‚¹ãƒˆ
   }
  }
  0;
 }
 
-# URL¤Ø¤Î¥ê¥ó¥¯»²¾È¤òµá¤á¤ë
+# URLã¸ã®ãƒªãƒ³ã‚¯å‚ç…§ã‚’æ±‚ã‚ã‚‹
 sub HrefURL
 {
  my $url = shift;
@@ -659,8 +668,8 @@ sub HrefURL
  $url =~ m#^\w+://#o? qq|<a href="$url">$url</a>|: $url;
 }
 
-# URL ¤¬Â¸ºß¤¹¤ë¤«Ä´¤Ù¥¹¥Æ¡¼¥¿¥¹¤òÊÖ¤¹ (http ¤Î¤ß)
-# Ìá¤êÃÍ¤Ï (stat, url, content-type, content-length, msg) ¤ÎÇÛÎó
+# URL ãŒå­˜åœ¨ã™ã‚‹ã‹èª¿ã¹ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¿”ã™ (http ã®ã¿)
+# æˆ»ã‚Šå€¤ã¯ (stat, url, content-type, content-length, msg) ã®é…åˆ—
 sub AskHTML
 {
  my $stat = 200;
@@ -697,7 +706,7 @@ sub AskHTML
  [$stat, $rurl, $type, $length, $msg];
 }
 
-# ¥³¡¼¥ÉÊÑ´¹¤·¤Æ¼ÂÂÎ»²¾È¤Ë¥¨¥¹¥±¡¼¥×¤¹¤ë
+# ã‚³ãƒ¼ãƒ‰å¤‰æ›ã—ã¦å®Ÿä½“å‚ç…§ã«ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã™ã‚‹
 sub ConvertAndEscape
 {
  $icode = shift;
@@ -711,7 +720,7 @@ sub ConvertAndEscape
  }
 }
 
-# ¼ÂÂÎ»²¾È¤Ë¥¨¥¹¥±¡¼¥×¤¹¤ë
+# å®Ÿä½“å‚ç…§ã«ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã™ã‚‹
 sub EscapeRef
 {
  my $str = shift;
@@ -722,7 +731,7 @@ sub EscapeRef
  $$str =~ s/\n/<br>/og;
 }
 
-# À©¸æÊ¸»ú¤ò°õ»ú²ÄÇ½¤ËÊÑ´¹¤¹¤ë
+# åˆ¶å¾¡æ–‡å­—ã‚’å°å­—å¯èƒ½ã«å¤‰æ›ã™ã‚‹
 sub PrintableCtrlCharacter
 {
  my $str = shift;
@@ -730,7 +739,7 @@ sub PrintableCtrlCharacter
  $str;
 }
 
-# ¥¨¥é¡¼½ĞÎÏ¤·¤Æ½ªÎ»¤¹¤ë
+# ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã—ã¦çµ‚äº†ã™ã‚‹
 sub ErrorExit
 {
  my (@msgs) = @_;
@@ -748,7 +757,7 @@ sub ErrorExit
 
 sub Exit
 {
- # ¾Ã¤µ¤ì¤Æ¤¤¤Ê¤¤¥Æ¥ó¥İ¥é¥ê¤Î»ÏËö¤ò¤¹¤ë
+ # æ¶ˆã•ã‚Œã¦ã„ãªã„ãƒ†ãƒ³ãƒãƒ©ãƒªã®å§‹æœ«ã‚’ã™ã‚‹
  &find(\&CleanupTmp, $TMPDIR? $TMPDIR: '.');
  exit;
 }
@@ -758,12 +767,12 @@ sub CleanupTmp
  if (-d) {
   $File::Find::prune = 1 if $_ ne '.';
  } elsif (/^htmllint-?\d+\.(html|result)$/o && (stat($_))[9] < time-24*60*60) {
-  # 24»ş´Ö°ÊÁ°¤Î¥Õ¥¡¥¤¥ë¤ò¾Ã¤¹
+  # 24æ™‚é–“ä»¥å‰ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¶ˆã™
   unlink($_);
  }
 }
 
-# HTML ¥Ø¥Ã¥ÀÉôÊ¬¤ò½ĞÎÏ¤¹¤ë (PrintHeader¤È¤¤¤¦´Ø¿ô¤Ï cgi-lib ¤Ë´ûÂ¸)
+# HTML ãƒ˜ãƒƒãƒ€éƒ¨åˆ†ã‚’å‡ºåŠ›ã™ã‚‹ (PrintHeaderã¨ã„ã†é–¢æ•°ã¯ cgi-lib ã«æ—¢å­˜)
 sub PrintHTMLHeader {
  my ($title) = @_;
  my $brclear = $bannerCommercial? '<br clear="all">': '';
@@ -774,13 +783,13 @@ sub PrintHTMLHeader {
 <meta http-equiv="Content-Type" content="text/html; charset=$CHARSET">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
-<meta name="keywords" content="lint,¥Ğ¥ê¥Ç¡¼¥¿,HTMLÊ¸Ë¡,HTML¸¡¾Ú,ºÇÅ¬²½,SEO" />
-<meta name="author" content="ISHINO Keiichiro" />
+<meta name="keywords" content="lint,ãƒãƒªãƒ‡ãƒ¼ã‚¿,HTMLæ–‡æ³•,HTMLæ¤œè¨¼,æœ€é©åŒ–,SEO">
+<meta name="author" content="ISHINO Keiichiro">
 <link rel="stylesheet" type="text/css" href="${HTMLDIR}htmllint.css">
 <link rel="contents" href="${HTMLDIR}index.html">
 <title>$title</title>
 </head>
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">$bannerCommercial
 [<a href="${HTMLDIR}index.html">about</a>]
 [<a href="${HTMLDIR}sitemap.html">sitemap</a>]
@@ -791,7 +800,7 @@ sub PrintHTMLHeader {
 EndOfHTMLHeader
 }
 
-# HTML¥Õ¥Ã¥¿ÉôÊ¬¤ò½ĞÎÏ¤¹¤ë
+# HTMLãƒ•ãƒƒã‚¿éƒ¨åˆ†ã‚’å‡ºåŠ›ã™ã‚‹
 sub PrintHTMLFooter
 {
  my $cntstr;
@@ -807,7 +816,7 @@ sub PrintHTMLFooter
 <hr><div align="center">
 <address>${cntstr}This page was generated by $CGI_NAME $VERSION / $LINT_NAME $htmllint::VERSION<br>
 $vers<br>
-1997-2007 \&#xA9; by <!--a href="mailto:k16\@chiba.email.ne.jp"-->k16\@chiba.email.ne.jp<!--/a--></address></div>
+1997-2009 \&#xA9; by <!--a href="mailto:k16\@chiba.email.ne.jp"-->k16\@chiba.email.ne.jp<!--/a--></address></div>
 <hr><div align="center" class="nav">$bannerCommercial
 [<a href="${HTMLDIR}index.html">about</a>]
 [<a href="${HTMLDIR}sitemap.html">sitemap</a>]
@@ -819,7 +828,7 @@ $vers<br>
 EndOfHTMLFooter
 }
 
-# ÆÀÅÀ¤Îµ­Ï¿
+# å¾—ç‚¹ã®è¨˜éŒ²
 sub LogScore
 {
  my $rule = $RULE;
@@ -860,14 +869,14 @@ sub LogScore
  $cnt;
 }
 
-# ·Ù¹ğ¾ğÊó¤ò¼ı½¸¤¹¤ë (htmllint.pm ¤¬¸Æ¤Ö)
+# è­¦å‘Šæƒ…å ±ã‚’åé›†ã™ã‚‹ (htmllint.pm ãŒå‘¼ã¶)
 sub PushStat
 {
  my $name = shift;
  push(@{'stat'.$name}, shift);
 }
 
-# ·Ù¹ğ¤ÎÅı·×¤ò¼è¤ë (htmllint.pm ¤¬¸Æ¤Ö)
+# è­¦å‘Šã®çµ±è¨ˆã‚’å–ã‚‹ (htmllint.pm ãŒå‘¼ã¶)
 sub TakeStatistics
 {
  my $stat = shift;
@@ -880,14 +889,14 @@ sub TakeStatistics
    if (-e $stat) {
     open(STAT, "+<$stat") || return;
     flock(STAT, 2) if $UNIX;
-    # ÇÓÂ¾À©¸æ¤¬µ¯¤³¤Ã¤¿¤È¤­STAT¤ÎÆâÍÆ¤Ï¸Å¤¤¤Î¤Ç¤â¤¦°ìÅÙ¥ª¡¼¥×¥ó¤·Ä¾¤¹
+    # æ’ä»–åˆ¶å¾¡ãŒèµ·ã“ã£ãŸã¨ãSTATã®å†…å®¹ã¯å¤ã„ã®ã§ã‚‚ã†ä¸€åº¦ã‚ªãƒ¼ãƒ—ãƒ³ã—ç›´ã™
     open(STAT, "+<$stat") || return;
     flock(STAT, 2) if $UNIX;
     local $err = 0;
-    local $SIG{__WARN__} = sub { $err++; }; # ¼¡¤Î do ¤Î¥¨¥é¡¼¤ò¥È¥é¥Ã¥×
+    local $SIG{__WARN__} = sub { $err++; }; # æ¬¡ã® do ã®ã‚¨ãƒ©ãƒ¼ã‚’ãƒˆãƒ©ãƒƒãƒ—
     do $stat;
     if (!defined($statstart) && !$err) {
-     # ²¿¤é¤«¤ÎÍıÍ³¤ÇÆÉ¤ß¹ş¤ß¤Ë¼ºÇÔ¤·¤¿ ($stat ¤¬ÇËÂ»¤·¤Æ¤¤¤ë¤È¤­¤Ï½¤Éü¤¹¤ë)
+     # ä½•ã‚‰ã‹ã®ç†ç”±ã§èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸ ($stat ãŒç ´æã—ã¦ã„ã‚‹ã¨ãã¯ä¿®å¾©ã™ã‚‹)
 #    flock(STAT, 8) if $UNIX;
      close(STAT);
      return;
@@ -966,7 +975,7 @@ sub PrintStatArray
    print STAT "\%$name = (\n";
    foreach (sort {$$name{$b} <=> $$name{$a} || $a cmp $b} keys(%$name)) {
     $esc = $_;
-    $esc =~ s/[\x00-\x1F]/ /og; # »ÃÄê
+    $esc =~ s/[\x00-\x1F]/ /og; # æš«å®š
     $esc =~ s/\\/\\\\/og;
     $esc =~ s/'/\\'/og;
     print STAT "  '$esc' => $$name{$_},\n";
@@ -977,7 +986,7 @@ sub PrintStatArray
  }
 }
 
-# Ã»½ÌÌä¤¤¹ç¤ï¤»¥Ç¡¼¥¿¤ÎÄ´À°
+# çŸ­ç¸®å•ã„åˆã‚ã›ãƒ‡ãƒ¼ã‚¿ã®èª¿æ•´
 sub ShortName
 {
  foreach (split(/[&;]/, $cgi->param('keywords'))) {
@@ -1009,7 +1018,7 @@ sub ShortName
  }
 }
 
-# ¥Á¥§¥Ã¥¯¥ª¥×¥·¥ç¥ó¤òÆÀ¤ë
+# ãƒã‚§ãƒƒã‚¯ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹
 sub GetOptions
 {
  my $x = $defaultrule;

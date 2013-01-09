@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <link rel="stylesheet" type="text/css" href="./htmllint.css">
 <link rel="contents" href="./index.html">
@@ -10,7 +10,7 @@
 <title>Another HTML-lint : Rule file</title>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [<a href="./use-htmllint.html">prev</a>]
 [<a href="./sitemap.html">sitemap</a>]
@@ -20,94 +20,95 @@
 <h1><span>Another HTML-lint</span></h1>
 
 <table summary="toc" width="100%" border="0" class="contents">
-<tr><th abbr="contents" align="right"><a href="./index.html">$BL\<!(B</a>$B!!(B<br></th><td><a href="./introduction.html">$B$O$8$a$K(B</a>$B!!!!!!!!!!!!(B</td>
-    <td align="right">$B!!(B<a href="./htmllint.html">$B%2!<%H%&%'%$%5!<%t%#%9(B</a></td></tr>
-<tr><td></td><td><a href="./notice.html">$B$$$/$D$+$N3P$(=q$-(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="./htmllintl.html">$B4J0W%2!<%H%&%'%$(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgi$B$N;H$$J}(B</a></td>
-    <td align="right">$B!!!!!!!!!!!!!!(B<a href="./explain.html">$B7k2L$N2r@b(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllint.html">htmllint$B$N;H$$J}(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!(B<a href="./tagslist.html">$B%?%00lMw(B</a></td></tr>
-<tr><td></td><td><a href="./rulefile.html">$B5,B'%U%!%$%k$N@8@.(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!!!(B<a href="./colors.html">$B?'8+K\(B</a></td></tr>
-<tr><td></td><td><a href="./download.html">$B%@%&%s%m!<%I(B</a>$B!!!!!!!!(B</td></tr>
-<tr><td></td><td><a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B!!!!(B</td></tr>
-<tr><td></td><td><a href="./reference.html">$B;29M$^$G$K(B</a>$B!!!!!!!!!!(B</td>
-    <td align="right">$B!!!!(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a></td></tr>
-<tr><td></td><td><a href="./faq.html">$B$h$/$"$k<ALd$HEz(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="http://openlab.ring.gr.jp/k16/htmllint/rulefile.html">$B%W%i%$%^%j%5%$%H(B</a></td></tr>
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/rulefile.html">プライマリサイト</a></td></tr>
 </table>
 
+
 <hr class="none">
-<h2 class="title"><a name="rulefile">$B5,B'%U%!%$%k$N@8@.(B</a></h2>
+<h2 class="title"><a name="rulefile">規則ファイルの生成</a></h2>
 <p>
-$B5,B'%U%!%$%k$O(Bhtmllint$B$,FI$_9~$`3F(BHTML$B%t%!!<%8%g%s$KBP1~$7$?5,B'$r5-=R$7$?%U%!%$%k$G$9!#$"$i$+$8$a$$$/$D$+MQ0U$7$F$"$j$^$9$,!"$3$l$i$O<!$N$h$&$J<j=g$G:n@.$5$l$F$$$^$9!#(B
+規則ファイルはhtmllintが読み込む各HTMLヴァージョンに対応した規則を記述したファイルです。あらかじめいくつか用意してありますが、これらは次のような手順で作成されています。
 </p>
 <ol class="rulefile">
-<li>DTD$B$rMQ0U$9$k!#(BSGML$B@k8@$OMW$j$^$;$s!#(BHTML$B$N(BDTD$BItJ,$@$1$G==J,$G$9!#(BSGML$B@k8@$O!"$"$C$F$bL5;k$5$l$^$9!#$^$?!"B>$N(BDTD$B$rE83+$9$k$h$&$J5-=R$O!"(BISO Latin 1 $B$J$I$N0lIt$r=|$-E83+$5$l$J$$$N$G!"I,MW$J$i$P<B:]$K$=$3$KE83+$7$F$*$$$F$/$@$5$$!#(B<br>
-SCRIPT$B$N%$%Y%s%H(B(intrinsic events)$B$O!"(BATTLIST $B$G(B onblur %Script; #IMPLIED $B$N$h$&$K(B %Script $B$G%Q%i%a%?;2>H$7$F$/$@$5$$!#(B
-<li>parsedtd.pl$B$rMQ$$$F5,B'%U%!%$%k$N?w7A$r:n$j$^$9!#(B
+<li>DTDを用意する。SGML宣言は要りません。HTMLのDTD部分だけで十分です。SGML宣言は、あっても無視されます。また、他のDTDを展開するような記述は、ISO Latin 1 などの一部を除き展開されないので、必要ならば実際にそこに展開しておいてください。<br>
+SCRIPTのイベント(intrinsic events)は、ATTLIST で onblur %Script; #IMPLIED のように %Script でパラメタ参照してください。
+<li>parsedtd.plを用いて規則ファイルの雛形を作ります。
 <pre class="pre-sample">    perl parsedtd.pl xxxx.dtd &gt; xxxx.rul</pre>
-<li>DTD$B$,M}2r$G$-$kHO0O$N5-=R$J$i$P!"5,B'%U%!%$%k(Bxxxx.rul$B$,$G$-$"$,$j$^$9!#$"$^$jJ#;($J(BDTD$B$O2r<a$G$-$^$;$s!#(B
-<li>$B@8@.$5$l$k5,B'%U%!%$%k$O(BPerl$B$N%9%/%j%W%H%U%!%$%k$G!"Cf?H$OG[Ns$J$I$N=8$^$j$G$9!#$=$l$i$O<!$N$H$*$j$G$9!#(B
+<li>DTDが理解できる範囲の記述ならば、規則ファイルxxxx.rulができあがります。あまり複雑なDTDは解釈できません。
+<li>生成される規則ファイルはPerlのスクリプトファイルで、中身は配列などの集まりです。それらは次のとおりです。
 <dl>
 <dt>%unknownStyleElements
-<dd>$B$b$7!"$3$NG[Ns$,4^$^$l$F$$$?$i!"(BDTD$B$K(Bparsedtd.pl$B$NM}2r$rD6$($?5-=R$,4^$^$l$F$$$?$H$$$&$3$H$G$9!#(BDTD$B$rJ?0W$K=q$-2~$a$k$+!"(Bparsedtd.pl$B$r8-$/D465$9$k$7$+$"$j$^$;$s!#(B<br>
-$B$A$c$s$H2r<a$G$-$?$H$-$O!"$3$NG[Ns$O4^$^$l$F$$$^$;$s!#(B
+<dd>もし、この配列が含まれていたら、DTDにparsedtd.plの理解を超えた記述が含まれていたということです。DTDを平易に書き改めるか、parsedtd.plを賢く調教するしかありません。<br>
+ちゃんと解釈できたときは、この配列は含まれていません。
 <dt>$emptyTags
-<dd>$B6uMWAG%?%0(B($B=*N;%?%0$N$J$$%?%0(B)$B$G$9!#(B
+<dd>空要素タグ(終了タグのないタグ)です。
 <dt>$pairTags
-<dd>$B3+;O%?%0$H=*N;%?%0$NBP$GI=8=$5$l$k%?%0$G$9!#(B$pairTags$B$H(B$emptyTags$B$G!"%5%]!<%H$7$F$$$kA4%?%0$H$J$j$^$9!#(B
+<dd>開始タグと終了タグの対で表現されるタグです。$pairTagsと$emptyTagsで、サポートしている全タグとなります。
 <dt>$deprecatedTags
-<dd>$B$"$^$jA&$a$i$l$J$$7A<0$N%?%0!#(BDTD$BCf$N!"(B
+<dd>あまり薦められない形式のタグ。DTD中の、
 <pre class="pre-sample">    &lt;![ %HTML.Deprecated [ &lt;!ELEMENT TAGNAME ....&gt; ]]&gt;</pre>
-$B$H$$$&$h$&$J5-=R$+$i!"(BHTML.Deprecated$B$,(BINCLUDE$B$N$H$-$K!"$3$N(BTAGNAME$B$,3:Ev$9$k$H$_$J$7$F$$$^$9!#(B
+というような記述から、HTML.DeprecatedがINCLUDEのときに、このTAGNAMEが該当するとみなしています。
 <dt>$omitStartTags
-<dd>$B3+;O%?%0>JN,2DG=$J%?%0$G$9!#<B:]$K$O!"(BHTML$B$G3+;O%?%0$N>JN,$O$[$H$s$I9T$J$o$l$J$$$h$&$G$9!#(B
+<dd>開始タグ省略可能なタグです。実際には、HTMLで開始タグの省略はほとんど行なわれないようです。
 <dt>$omitEndTags
-<dd>$B=*N;%?%0>JN,2DG=$J%?%0$G$9!#$3$l$i$NCf$K$O!">JN,$9$k$N$,0lHLE*$J%?%0$b4^$^$l$^$9!#$=$N6hJL$O!";HMQ$5$l$k>u67$+$i<+F0E*$KH=Dj$5$l$^$9!#(B
+<dd>終了タグ省略可能なタグです。これらの中には、省略するのが一般的なタグも含まれます。その区別は、使用される状況から自動的に判定されます。
 <dt>$maybeEmpty
-<dd>$B3+;O%?%0$H=*N;%?%0$N4V$NMWAG$,6u$G$b$h$$%?%0$G$9!#(B
+<dd>開始タグと終了タグの間の要素が空でもよいタグです。
 <dt>%requiredTags
-<dd>$BI,$:=q$+$J$1$l$P$J$i$J$$%?%0$G$9!#$3$l$i$O!"(BHTML$BA4BN$N;XDj$G$O$J$/!"$"$k%?%0Fb$G$O$I$&$+$H$$$&;XDj$G$"$k$3$H$KCm0U$7$F$/$@$5$$!#(B
+<dd>必ず書かなければならないタグです。これらは、HTML全体の指定ではなく、あるタグ内ではどうかという指定であることに注意してください。
 <dt>%onceonlyTags
-<dd>$B$"$k%?%0Fb$NMWAG$K=q$1$k%?%0$N$&$A!"#2$D0J>e=q$$$F$O$$$1$J$$%?%0$G$9!#(B
+<dd>あるタグ内の要素に書けるタグのうち、２つ以上書いてはいけないタグです。
 <dt>$sequencialTags
-<dd>$B%?%0Fb$NMWAG$,=g=x$I$*$j$K8=$l$J$1$l$P$J$i$J$$%?%0$G$9!#(B
+<dd>タグ内の要素が順序どおりに現れなければならないタグです。
 <dt>%tagsElements
-<dd>$B%?%0Fb$NMWAG$H$7$F=q$1$k%?%0$N0lMw$G$9!#(B#PCDATA$B$H$$$&$N$OIaDL$N%F%-%9%H$rI=$o$7$^$9!#(B%$B$G;O$^$k$b$N$O!"8e=R$9$k(B%refParams$B$X$N;2>H$rI=$o$7$^$9!#(B
+<dd>タグ内の要素として書けるタグの一覧です。#PCDATAというのは普通のテキストを表わします。%で始まるものは、後述する%refParamsへの参照を表わします。
 <dt>%excludedElems
-<dd>$B%?%0Fb$NMWAG$H$7$F6X;_$5$l$k%?%0$G$9!#$3$3$K;XDj$5$l$F$$$k%?%0$O!"F~$l;R$K$J$C$?%?%0Fb$NMWAG$K$bM-8z$G$9!#(B
+<dd>タグ内の要素として禁止されるタグです。ここに指定されているタグは、入れ子になったタグ内の要素にも有効です。
 <dt>%includedElems
-<dd>$B%?%0Fb$NMWAG$H$7$F5v$5$l$k%?%0$rDI2C;XDj$7$^$9!#(B%excludedElems$B$h$j$bM%@h$7$^$9!#(B
+<dd>タグ内の要素として許されるタグを追加指定します。%excludedElemsよりも優先します。
 <dt>$deprecatedElems
-<dd>$B%?%0Fb$NMWAG$H$7$F$"$^$jA&$a$i$l$J$$%?%0!#<+F0E*$K$O@8@.$5$l$J$$$N$G!"<jF0$+(Bparsedtd.pl$B$r$b$&0lEYMxMQ$7$F:n@.$7$^$9!#(B
+<dd>タグ内の要素としてあまり薦められないタグ。自動的には生成されないので、手動かparsedtd.plをもう一度利用して作成します。
 <dt>%tagsAttributes
-<dd>$B3F%?%0$K;XDj$G$-$kB0@-$N0lMw$H!"$=$NB0@-$,$I$&$$$&CM$r<h$k$N$+$,<($5$l$F$$$^$9!#(BCDATA$B$d(BNUMBER$B$J$I$O!"(BSGML$B$G7h$a$i$l$F$$$k=q<0$rMW5a$5$l$k$b$N$G$9!#(B%$B$G;O$^$k$b$N$O!"8e=R$9$k(B%refParams$B$X$N;2>H$rI=$o$7$^$9!#(B
+<dd>各タグに指定できる属性の一覧と、その属性がどういう値を取るのかが示されています。CDATAやNUMBERなどは、SGMLで決められている書式を要求されるものです。%で始まるものは、後述する%refParamsへの参照を表わします。
 <dt>%requiredAttrs
-<dd>$B%?%0$NB0@-$H$7$FI,$:;XDj$7$J$1$l$P$J$i$J$$B0@-$G$9!#(B&amp; $B$GO"7k$5$l$F$$$k$b$N$O$=$l$i$,$9$Y$F;XDj$5$l$J$1$l$P$J$i$J$$$3$H$rI=$o$7!"(B| $B$GO"7k$5$l$F$$$k$b$N$O$=$l$i$N$&$A$I$l$+$R$H$D$,;XDj$5$l$P$$$$$3$H$rI=$o$7$^$9!#(Bparsedtd.pl$B$G:n$C$?D>8e$O$9$Y$F(B &amp; $B$G$9!#(B
+<dd>タグの属性として必ず指定しなければならない属性です。&amp; で連結されているものはそれらがすべて指定されなければならないことを表わし、| で連結されているものはそれらのうちどれかひとつが指定さればいいことを表わします。parsedtd.plで作った直後はすべて &amp; です。
 <dt>%deprecatedAtts/%deprecatedAttsCss
-<dd>$B$"$^$jA&$a$i$l$J$$B0@-!#$3$l$O!"<+F0E*$K$O@8@.$5$l$J$$$N$G!"<jF0$+(Bparsedtd.pl$B$r$b$&0lEYMxMQ$7$F:n@.$7$^$9(B($B$3$l$K$D$$$F$O8e=R$7$F$"$j$^$9(B)$B!#(B
+<dd>あまり薦められない属性。これは、自動的には生成されないので、手動かparsedtd.plをもう一度利用して作成します(これについては後述してあります)。
 <dt>%deprecatedVals
-<dd>$B$"$^$jA&$a$i$l$J$$B0@-CM!#$3$l$b!"<jF0$+(Bparsedtd.pl$B$r$b$&0lEYMxMQ$7$F:n@.$7$^$9(B($B$3$l$K$D$$$F$O8e=R$7$F$"$j$^$9(B)$B!#(B
+<dd>あまり薦められない属性値。これも、手動かparsedtd.plをもう一度利用して作成します(これについては後述してあります)。
 <dt>%refEntities
-<dd>$B<BBN@k8@$G$9!#(B
+<dd>実体宣言です。
 <dt>%refParams
-<dd>DTD$BCf$KBgNL$K$"$k%Q%i%a!<%?@k8@$N$&$A!"FbIt$GMxMQ$9$k$?$a$K;D$5$l$F$$$k$b$N$G$9!#$3$3$K$O!"(BCDATA$B$d(BNUMBER$B$J$I$NB>$K!"@55,I=8=$H4X?t8F$S=P$7$,;XDj$5$l$F$$$^$9!#@55,I=8=$O!"BgJ8;z>.J8;z6hJL$5$l$k$N$G!"I,MW$J$i$P@hF,$K(B(?i)$B$rIU2C$7$F6hJL$5$l$J$$$h$&$K$7$^$9!#(B&amp;$B$G;O$^$k$b$N$,4X?t8F$S=P$7$G$9!#$3$N4X?t$O!"(Bhtmllint$BFb$GMQ0U$5$l$F$$$k$b$N$G$J$1$l$P$J$j$^$;$s!#(Bparsedtd.pl$B$G:n$C$?D>8e$O$9$Y$F(BCDATA$B$d(BNUMBER$B$J$I$G$9!#(B
+<dd>DTD中に大量にあるパラメータ宣言のうち、内部で利用するために残されているものです。ここには、CDATAやNUMBERなどの他に、正規表現と関数呼び出しが指定されています。正規表現は、大文字小文字区別されるので、必要ならば先頭に(?i)を付加して区別されないようにします。&amp;で始まるものが関数呼び出しです。この関数は、htmllint内で用意されているものでなければなりません。parsedtd.plで作った直後はすべてCDATAやNUMBERなどです。
 </dl>
-<li>$B$G$-$?$P$+$j$N5,B'%U%!%$%k$OIT40A4$G$9!#$J$<$J$i$P!"(BDTD$B$N2r@O$@$1$G$O<+F0E*$KFI$_<h$l$J$$>pJs$G=EMW$J$b$N$,H?1G$5$l$F$$$J$$$+$i$G$9!#$=$l$i$O$?$$$F$$$O%3%a%s%H$H$7$F(BDTD$BCf$K5-=R$5$l$F$$$k$b$N$G$9!#<g$K<!$N#3E@$G$9!#(B
+<li>できたばかりの規則ファイルは不完全です。なぜならば、DTDの解析だけでは自動的に読み取れない情報で重要なものが反映されていないからです。それらはたいていはコメントとしてDTD中に記述されているものです。主に次の３点です。
 <ol type="a">
-<li>$BB0@-CM$N<h$jF@$kCM$K@)Ls$N$"$k$b$N$,B?$$!#(BDTD$BCf$G$O@55,I=8=$J$I$,5-=R$G$-$J$$$N$G!"C1$K(BCDATA$B$J$I$H$J$C$F$$$k!#(B
-<li>$B%?%0$NB0@-$N$&$A!"$I$A$i$+0lJ}$,;XDj$5$l$l$P$h$$$,!";XDj$5$l$J$1$l$P$J$i$J$$$h$&$J$b$N$O!"(BDTD$B$G$O5-=R$G$-$J$$!#(B
-<li>$B$3$l$H;w$F$$$k$,!"$"$kB0@-$,FCDj$NB0@-CM$r;}$D$H$-$@$1!"B>$NB0@-$rI,MW$H$9$k$h$&$J>l9g!#(B
+<li>属性値の取り得る値に制約のあるものが多い。DTD中では正規表現などが記述できないので、単にCDATAなどとなっている。
+<li>タグの属性のうち、どちらか一方が指定されればよいが、指定されなければならないようなものは、DTDでは記述できない。
+<li>これと似ているが、ある属性が特定の属性値を持つときだけ、他の属性を必要とするような場合。
 </ol>
-<li>a.$B$K4X$7$F$O!"(B%refParams$B$r=q$-49$($^$9!#$3$3$O!":G=i$O(BCDATA$B$H$+(BNUMBER$B$H$+$P$+$j$N$O$:$J$N$G!"@55,I=8=$J$I$rMxMQ$7$?=q$-J}$KJQ99$7$^$9!#CM=89g$,5,Dj$5$l$F$$$kB0@-CM$O!"$=$NBgJ8;z>.J8;z$,6hJL$5$l$J$$$N$G!"BgJ8;z>.J8;z$r6hJL$7$?$$$h$&$J$H$-$O(Bhtmllint$BFb$K=hM}4X?t$rMQ0U$7$J$1$l$P$J$j$^$;$s!#(B
-<li>b.$B$K4X$7$F$O!"(B%requiredAttrs$BFb$N(B &amp; $B$r(B | $B$KJQ99$7$^$9!#(BDTD$BCf$G(B#REQUIRED$B$H$J$C$F$$$J$$B0@-$O$3$3$K8=$l$J$$$N$G!"$b$7$=$&$$$&B0@-$,$"$k>l9g$ODI2C$7$^$9!#(B
-<li>c.$B$K4X$7$F$O!"$&$^$/Cj>]2=$G$-$F$$$J$$$N$G!"$=$l$>$l$N%?%0$4$H$KNc30=hM}$r$7$^$9!#Nc$($P!"(B&lt;INPUT&gt;$B$N(BNAME$BB0@-$O!"(BTYPE$B$K$h$C$FI,MW$G$"$C$?$j$=$&$G$J$+$C$?$j$7$^$9!#(B
-<li>DTD$B$K$OK>$^$7$/$J$$5-=R$,>/$J$+$i$:$"$j$^$9!#Nc$($P!"(B&lt;TABLE BGCOLOR=&gt;$B$NCM$O?'$G$9!#?'$K$O(Bcolor$B$H$$$&%Q%i%a!<%?@k8@$,Dj5A$5$l$F$$$^$9$,!"$3$3$G$O$=$l$,;2>H$5$l$F$$$^$;$s(B (Wilbur$B$b(BMSIE$B$b(B)$B!#$3$N$h$&$JK\Mh;2>H$9$Y$-%Q%i%a!<%?@k8@$r;2>H$7$F$$$J$$$b$N$,B?$$$N$G!"$=$l$i$r$-$A$s$H;2>H$9$k$h$&$K$7$J$1$l$P$J$j$^$;$s!#$=$&$7$F!"F1$80UL#$N$b$N$OF1$8(B%refParams$B$r;2>H$9$k$h$&$K$7$^$9!#$7$+$7!"(BDTD$B$H$7$F$O$I$A$i$bF15A$J$N$G!"0l35$K(BDTD$B$,0-$$$H$$$&$o$1$G$O$"$j$^$;$s!#(B
-<li>$B%V%i%&%6$,>!<j$K3HD%$7$F$7$^$C$F$$$kB0@-CM$,$"$j$^$9!#Nc$($P!"$$$m$$$m$J%?%0$K=P$F$/$k(BWIDTH$BB0@-$O!"(B50%$B$N$h$&$J;XDj$,$G$-$k$b$N$H$=$&$G$J$$$b$N$H$,$"$j$^$9$,!"<B:]$K$O(BDTD$B$I$*$j$G$O$"$j$^$;$s!#$3$l$i$O!"$J$k$Y$/5vMF$9$kJ}8~$G=$@5$7$^$9!#(B
-<li>CDATA$B$G<($5$l$kB0@-CM$N$&$A!"6u$,9%$^$7$/$J$$$b$N$,>/$J$+$i$:$"$j$^$9!#$3$l$i$O(BCDATA+$B$KJQ99$7$^$9!#(B
-<li>$maybeEmpty$B$O!"(BDTD$B$G(B ($B!A(B)* $B$J$I$H5-=R$5$l$F$$$k$HDI2C$5$l$^$9$,!"Nc$($P!"(B&lt;TITLE&gt; $B$J$I$NMWAG$,6u$G$"$k$N$O9%$^$7$/$"$j$^$;$s!#$3$N$h$&$J%?%0$rG[Ns$+$i<h$j=|$$$F$*$-$^$9!#<B:]$K$O!"6u$G$b$h$5$=$&$J%?%0$NJ}$,>/$J$/!"$=$l$O<!$/$i$$$G$9(B ($B;d8+(B)$B!#(B
+<li>a.に関しては、%refParamsを書き換えます。ここは、最初はCDATAとかNUMBERとかばかりのはずなので、正規表現などを利用した書き方に変更します。値集合が規定されている属性値は、その大文字小文字が区別されないので、大文字小文字を区別したいようなときはhtmllint内に処理関数を用意しなければなりません。
+<li>b.に関しては、%requiredAttrs内の &amp; を | に変更します。DTD中で#REQUIREDとなっていない属性はここに現れないので、もしそういう属性がある場合は追加します。
+<li>c.に関しては、うまく抽象化できていないので、それぞれのタグごとに例外処理をします。例えば、&lt;INPUT&gt;のNAME属性は、TYPEによって必要であったりそうでなかったりします。
+<li>DTDには望ましくない記述が少なからずあります。例えば、&lt;TABLE BGCOLOR=&gt;の値は色です。色にはcolorというパラメータ宣言が定義されていますが、ここではそれが参照されていません (WilburもMSIEも)。このような本来参照すべきパラメータ宣言を参照していないものが多いので、それらをきちんと参照するようにしなければなりません。そうして、同じ意味のものは同じ%refParamsを参照するようにします。しかし、DTDとしてはどちらも同義なので、一概にDTDが悪いというわけではありません。
+<li>ブラウザが勝手に拡張してしまっている属性値があります。例えば、いろいろなタグに出てくるWIDTH属性は、50%のような指定ができるものとそうでないものとがありますが、実際にはDTDどおりではありません。これらは、なるべく許容する方向で修正します。
+<li>CDATAで示される属性値のうち、空が好ましくないものが少なからずあります。これらはCDATA+に変更します。
+<li>$maybeEmptyは、DTDで (～)* などと記述されていると追加されますが、例えば、&lt;TITLE&gt; などの要素が空であるのは好ましくありません。このようなタグを配列から取り除いておきます。実際には、空でもよさそうなタグの方が少なく、それは次くらいです (私見)。
 <ul>
 <li>&lt;LISTING&gt;
 <li>&lt;PLAINTEXT&gt;
@@ -120,21 +121,21 @@ SCRIPT$B$N%$%Y%s%H(B(intrinsic events)$B$O!"(BATTLIST $B$G(B onblur %Scrip
 <li>&lt;TH&gt;
 <li>&lt;XMP&gt;
 </ul>
-<li>$B3F%?%0$4$H$N(B%tagsElements$B$N=g=x$O!"(B$sequencialTags$B$G(B$omitStartTags$B$N$H$-$K0UL#$r;}$A$^$9!#$=$N=g=x$G3+;O%?%0$,>JN,$5$l$F$$$J$$$+D4$Y$k$+$i$G$9!#(B
-<li>$B%i%F%sJ8;z$J$I$KBP$9$k30It<BBN@k8@$O!"(B("-//W3C//ENTITIES Special//EN//HTML" $B$N$h$&$J(B) $BBeI=E*$J$b$N$@$1$,FI$_9~$^$l$F$$$^$9!#$b$7!"FI$_9~$^$l$F$$$J$$>l9g$O!"(B%refEntities$B$K4^$^$l$F$$$^$;$s!#I,MW$J$i$PDI2C$7$^$9!#(B
-<li>$B$$$/$D$+$NA&$a$i$l$J$$MWAG$J$I$N>pJs$O!"$U$?$D$N5,B'%U%!%$%k(B (HTML.Deprecated$B$,(BINCLUDE$B$J$b$N$H(BIGNORE$B$N$b$N(B) $B$r:n$C$F$+$iD4$Y$k$3$H$,$G$-$^$9!#(B
+<li>各タグごとの%tagsElementsの順序は、$sequencialTagsで$omitStartTagsのときに意味を持ちます。その順序で開始タグが省略されていないか調べるからです。
+<li>ラテン文字などに対する外部実体宣言は、("-//W3C//ENTITIES Special//EN//HTML" のような) 代表的なものだけが読み込まれています。もし、読み込まれていない場合は、%refEntitiesに含まれていません。必要ならば追加します。
+<li>いくつかの薦められない要素などの情報は、ふたつの規則ファイル (HTML.DeprecatedがINCLUDEなものとIGNOREのもの) を作ってから調べることができます。
 <pre class="pre-sample">    perl parsedtd.pl -d include.rul ignore.rul</pre>
-$B$3$N=PNO$r(B include.rul $B$KE,Ev$KKd$a9~$_$^$9!#(B
-<li>common.rul$B$O!"B>$N5,B'%U%!%$%k$NITHw$rJd$&$b$N$G!"?7$7$$5,B'%U%!%$%k$r:n$C$?$H$-$O$3$N%U%!%$%k$NJQ99$bI,MW$G$9!#B>$N5,B'%U%!%$%k$h$j$b@h$KFI$_9~$^$l$^$9!#(B
-<li>common.rul$B$N(B%doctypes$B$K3F(BDOCTYPE$B$K4X$9$k>pJs$rDj5A$7$^$9!#$3$NO"A[G[Ns$N%-!<$K(B<code>.rul</code>$B$rIU$1$?$b$N$,5,B'%U%!%$%k$NL>A0$K$J$j$^$9!#<jH4$-$r$7$F$$$k$N$G!"(Bhtmllint$B$N%X%k%W$O$3$l$KO"F0$7$F$$$^$;$s!#(B
+この出力を include.rul に適当に埋め込みます。
+<li>common.rulは、他の規則ファイルの不備を補うもので、新しい規則ファイルを作ったときはこのファイルの変更も必要です。他の規則ファイルよりも先に読み込まれます。
+<li>common.rulの%doctypesに各DOCTYPEに関する情報を定義します。この連想配列のキーに<code>.rul</code>を付けたものが規則ファイルの名前になります。手抜きをしているので、htmllintのヘルプはこれに連動していません。
 </ol>
 <p>
-$B0J>e$G5,B'%U%!%$%k$NDI2C:n6H$O=*$o$j$G$9!#5,B'%U%!%$%k$O(B htmllint $B$HF1$8%G%#%l%/%H%j$KCV$/$+!"(Bhtmllint.env $B$G;XDj$5$l$?%G%#%l%/%H%j$KCV$-$^$9!#(B
+以上で規則ファイルの追加作業は終わりです。規則ファイルは htmllint と同じディレクトリに置くか、htmllint.env で指定されたディレクトリに置きます。
 </p>
 
 <hr>
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/rulefile.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Jul 07, 2005<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/rulefile.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Jun 19, 1997
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

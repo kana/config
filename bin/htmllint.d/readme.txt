@@ -1,12 +1,12 @@
-Another HTML-lint �̗��p�ɂ�������
+Another HTML-lint の利用にあたって
 
-Another HTML-lint �����Ȃ��̃T�C�g�փC���X�g�[�����ĉ^�p����Ƃ��́A
-�ȉ�������Ă��������B
-�E�v���C�}���T�C�g�ւ̃����N���폜���Ă͂Ȃ�܂���B
-�E�T�C�g�Ǘ��҂̏��݂Ɩ⍇����𖾎����Ă��������B
-�E�L���\���͂��Ȃ��ł��������B
+Another HTML-lint をあなたのサイトへインストールして運用するときは、
+以下を守ってください。
+・プライマリサイトへのリンクを削除してはなりません。
+・サイト管理者の所在と問合せ先を明示してください。
+・広告表示はしないでください。
 
-�eHTML�̉����ɂ́A�T�C�g�Ǘ��҂ւ̘A����𑣂������������Ă��܂��B
-�K��HTML�����H���Ă��������B
+各HTMLの下部には、サイト管理者への連絡先を促す文言が入っています。
+必ずHTMLを加工してください。
 
-                                                �Ζ�b��Y
+                                                石野恵一郎

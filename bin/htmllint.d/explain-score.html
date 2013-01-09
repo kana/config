@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <meta name="Description" content="Another HTML-lint">
@@ -11,7 +11,7 @@
 <title>Another HTML-lint : Explanation SCORE</title>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [prev]
 [<a href="./index.html">about</a>]
@@ -19,43 +19,43 @@
 [<a href="./htmllint.html">gateway</a>]
 [<a href="./explain.html">next</a>]<!--*-->
 </div><hr>
-<h1><a name="top"><span>Another HTML-lint</span> $B7k2L$N2r@b(B</a></h1>
+<h1><a name="top"><span>Another HTML-lint</span> 結果の解説</a></h1>
 
 <table summary="toc" width="100%" border="0" class="contents">
-<tr><th abbr="contents" align="right">$BL\<!!!(B<br></th><td><a href="./explain-score.html">$BE@?t$K$D$$$F(B</a>$B!!!!!!(B</td><td align="right">$B!!(B<a href="./index.html">Another HTML-lint $B$K$D$$$F(B</a></td></tr>
-<tr><td></td><td><a href="./explain.html">$B%(%i!<$K$D$$$F(B</a>$B!!!!(B</td><td align="right">$B!!!!!!(B<a href="./htmllint.html">$B%2!<%H%&%'%$%5!<%t%#%9(B</a></td></tr>
-<tr><td></td><td><a href="./explain-wai.html">$B%"%/%;%9@-$K$D$$$F(B</a></td><td align="right">$B!!!!!!!!!!!!(B<a href="./htmllintl.html">$B4J0W%2!<%H%&%'%$(B</a></td></tr>
-<tr><td></td><td><a href="./explain-omake.html">$B$*$^$1(B</a>$B!!!!!!!!!!!!(B</td><!--td align="right">$B!!!!!!!!!!!!!!!!!!!!(B<a href="./statistics.html">$BE}7W>pJs(B</a></td--></tr>
-<tr><td></td><td>$B!!!!!!!!!!!!!!!!!!(B</td><td align="right">$B!!!!!!!!!!!!(B<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-score.html">$B%W%i%$%^%j%5%$%H(B</a></td></tr>
+<tr><th abbr="contents" align="right">目次　<br></th><td><a href="./explain-score.html">点数について</a>　　　</td><td align="right">　<a href="./index.html">Another HTML-lint について</a></td></tr>
+<tr><td></td><td><a href="./explain.html">エラーについて</a>　　</td><td align="right">　　　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./explain-wai.html">アクセス性について</a></td><td align="right">　　　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./explain-omake.html">おまけ</a>　　　　　　</td></tr>
+<tr><td></td><td>　　　　　　　　　</td><td align="right">　　　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-score.html">プライマリサイト</a></td></tr>
 </table>
 
 <hr class="none">
-<h2 class="title"><a name="score">$BE@?t$K$D$$$F(B</a></h2>
+<h2 class="title"><a name="score">点数について</a></h2>
 <p>
-$BE@?t$N7W;;$OK~E@$+$i$N8:E@K!$G!"%(%i!<$N?t!"%?%0$N?t!"%?%0$N<oN`(B<!--$B!"9T?t(B-->$B$J$I$+$i!"(B<strong>$B$$$$$+$2$s$J<0$K$h$C$F7W;;$5$l$F$$$^$9(B</strong>$B!#Bg$-$J(BHTML$B$,ITMx$H$$$&$3$H$O$"$j$^$;$s(B($B$?$V$s(B)$B!#3F%(%i!<$K$O=E$_$,$"$j!"7ZEY$N$b$N$O$"$^$j8:E@$5$l$^$;$s$,!"=EMW$J%(%i!<$O$?$/$5$s8:E@$5$l$^$9!#8:E@$5$l$J$$%(%i!<$b$"$j$^$9!#$^$?!"%?%0(B<!--$B$d9T?t(B-->$B$,>/$J$$$N$K%(%i!<$,B?$$$H$-$b8:E@$OB?$/$J$j$^$9!#(B
+点数の計算は満点からの減点法で、エラーの数、タグの数、タグの種類<!--、行数-->などから、<strong>いいかげんな式によって計算されています</strong>。大きなHTMLが不利ということはありません(たぶん)。各エラーには重みがあり、軽度のものはあまり減点されませんが、重要なエラーはたくさん減点されます。減点されないエラーもあります。また、タグ<!--や行数-->が少ないのにエラーが多いときも減点は多くなります。
 </p>
 <p>
-$B$^$8$a$K=q$$$F$$$k$N$K6KC<$K%^%$%J%9$N7c$7$$>l9g$O!"(B<a href="./explain.html#unknown-doctype">$BE,@Z$J(BDOCTYPE$B@k8@$,$J$5$l$F$$$J$$(B</a>$B$3$H$,9M$($i$l$^$9!#$"$^$jM}2r$;$:$K(BDOCTYPE$B$rE,Ev$K=q$$$?$j$7$F$$$^$;$s$+!#<+J,$O$I$N(BHTML$B$r=q$$$F$$$k$N$+!"$b$&$A$g$C$H0U<1$7$^$7$g$&!#$^$?!"%(%i!<$,B?$9$.$k$H(B<a href="./explain.html#over-limit-whines">$B%A%'%C%/$,BG$A@Z$i$l$F$7$^$$$^$9(B</a>$B!#F1$8$h$&$J%(%i!<$P$+$j=P$F$$$k$H$-$O!"$=$N%(%i!<$r%A%'%C%/$7$J$$$h$&$K$7$F$_$F$/$@$5$$!#(B
+まじめに書いているのに極端にマイナスの激しい場合は、<a href="./explain.html#unknown-doctype">適切なDOCTYPE宣言がなされていない</a>ことが考えられます。あまり理解せずにDOCTYPEを適当に書いたりしていませんか。自分はどのHTMLを書いているのか、もうちょっと意識しましょう。また、エラーが多すぎると<a href="./explain.html#over-limit-whines">チェックが打ち切られてしまいます</a>。同じようなエラーばかり出ているときは、そのエラーをチェックしないようにしてみてください。
 </p>
 <p>
-$BE@?t$,0-$$$+$i$H$$$C$F!"Ha4Q$7$J$$$G$/$@$5$$!#J"$rN)$F$J$$$G$/$@$5$$!#E@?t$N7W;;J}K!$K$O!"2?$i3X=QE*:,5r$O$"$j$^$;$s!#$"$/$^$G$bJ8K!E*(B($B<c43=!65E*(B)$B$J%A%'%C%/$7$+$7$^$;$s!#(B<strong>$B=q$+$l$F$$$kFbMF$K$D$$$F$O2?$i4XCN$7$^$;$s(B</strong>$B!#(B<br>
-$B$9$s$4$/$+$C$3$$$$%Z!<%8$G$b!"$a$A$c$/$A$c$JJ8K!$N$3$H$O$h$/$"$j$^$9!#$=$N$h$&$J%Z!<%8$O!"1}!9$K$7$F8B$i$l$?4D6-$G$N$_$+$C$3$h$/8+$($k$b$N$G$9!#J8K!$r@5$7$?$+$i$H$$$C$F!"$+$C$3$o$k$/$J$k$3$H$O$"$j$^$;$s!#(B
+点数が悪いからといって、悲観しないでください。腹を立てないでください。点数の計算方法には、何ら学術的根拠はありません。あくまでも文法的(若干宗教的)なチェックしかしません。<strong>書かれている内容については何ら関知しません</strong>。<br>
+すんごくかっこいいページでも、めちゃくちゃな文法のことはよくあります。そのようなページは、往々にして限られた環境でのみかっこよく見えるものです。文法を正したからといって、かっこわるくなることはありません。
 </p>
 <p>
-$B%A%'%C%/9`L\$r8:$i$;$P!"MF0W$KK~E@$r<h$k$3$H$,$G$-$^$9$,!"$=$l$G$O%A%'%C%/$N0UL#$,$"$j$^$;$s!#=!65E*7P83E*%(%i!<0J30$N9`L\$N%A%'%C%/$r30$9$N$OHr$1$^$7$g$&!#(B<br>
-$B%A%'%C%/$GK~E@$@$+$i$H$$$C$F!"$=$l$,M%$l$?(BHTML$B$@$H$$$&$o$1$G$O$"$j$^$;$s!#(B<a href="./faq.html#perfect"><strong>$B3F(BWWW$B%V%i%&%6$G@5$7$/I=<($5$l$k$3$H$rJ]>Z$9$k$b$N$G$b$"$j$^$;$s(B</strong></a>$B$7!"I>2A7k2L$O2?$+$rG'Dj$9$k$b$N$G$b$"$j$^$;$s!#K~E@$r$H$C$F0B?4$7$J$$$h$&$K$7$^$7$g$&!#$@$$$?$$K~E@$r<h$i$J$1$j$c$J$i$J$$M}M3$OA4A3$"$j$^$;$s!#FbMF$,H<$C$F$J$s$\$N(BHTML$B$G$9!#(B<br>
-$B$A$J$_$K!"$3$N0lO"$N(B Another HTML-lint $B$N(BHTML$B$,$*<jK\$K$J$k$J$I$H7h$7$F;W$o$J$$$G$/$@$5$$!#(B
+チェック項目を減らせば、容易に満点を取ることができますが、それではチェックの意味がありません。宗教的経験的エラー以外の項目のチェックを外すのは避けましょう。<br>
+チェックで満点だからといって、それが優れたHTMLだというわけではありません。<a href="./faq.html#perfect"><strong>各WWWブラウザで正しく表示されることを保証するものでもありません</strong></a>し、評価結果は何かを認定するものでもありません。満点をとって安心しないようにしましょう。だいたい満点を取らなけりゃならない理由は全然ありません。内容が伴ってなんぼのHTMLです。<br>
+ちなみに、この一連の Another HTML-lint のHTMLがお手本になるなどと決して思わないでください。
 </p>
 <p>
-$BB?J,$K47$l$b$"$j$^$9$,!"@8;:@-$NLL$+$i8@$C$?$i!"0lHL$N%(%G%#%?$G%?%0$r$7$3$7$3=q$/$h$j$b!"(BHTML$B%(%G%#%?$J$I$N%*!<%5%j%s%0%D!<%k$r;H$C$?J}$,$$$$$K7h$^$C$F$$$^$9!#;DG0$J$3$H$K!"B?$/$N(BHTML$B%(%G%#%?$,@8@.$9$k(BHTML$B$OJ8K!E*$J8m$j$rB?$/4^$s$G$$$^$9(B(<a href="http://www.kanzaki.com/docs/Style/">Style Guide for online hypertext</a> $B$OHiFy$r8@$C$F$k$N$G$7$g$&(B)$B!#(B<!--$B$3$l$K$D$$$F!"7OE}N)$C$?D4::$r9T$J$C$F$_$?$$5$$O$9$k$N$G$9$,!":#$N$H$3$mM>M5$,$"$j$^$;$s!#;~4V$b:bNO$b$J$$$N$G!"$A$c$s$H$7$?D4::$,9T$J$($kL\ES$ON)$C$F$^$;$s!#(B:-)-->
+多分に慣れもありますが、生産性の面から言ったら、一般のエディタでタグをしこしこ書くよりも、HTMLエディタなどのオーサリングツールを使った方がいいに決まっています。残念なことに、多くのHTMLエディタが生成するHTMLは文法的な誤りを多く含んでいます(<a href="http://www.kanzaki.com/docs/Style/">Style Guide for online hypertext</a> は皮肉を言ってるのでしょう)。<!--これについて、系統立った調査を行なってみたい気はするのですが、今のところ余裕がありません。時間も財力もないので、ちゃんとした調査が行なえる目途は立ってません。:-)-->
 </p>
 <p>
-$B%W%m%0%i%`$NIT6q9g$K$h$C$F!"$H$s$G$b$J$$E@?t$,=P$J$$$H$b8B$j$^$;$s!#F1$89T$NF1$8%(%i!<$,$:$C$H7+$jJV$5$l$F$$$?$j!"M}IT?T$JH=Dj$r$5$l$F$$$k$H;W$C$?$H$-$O!"(Bk16@chiba.email.ne.jp $B$^$G$*CN$i$;$/$@$5$$!#(B
+プログラムの不具合によって、とんでもない点数が出ないとも限りません。同じ行の同じエラーがずっと繰り返されていたり、理不尽な判定をされていると思ったときは、k16@chiba.email.ne.jp までお知らせください。
 </p>
 
 <hr>
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-score.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Apr 04, 2007<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/explain-score.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Jul 17, 1997
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

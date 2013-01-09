@@ -1,28 +1,28 @@
-# DOCTYPE ¤Ë´Ø¤¹¤ë¾ğÊó (¥­¡¼¤Ï¥Õ¥¡¥¤¥ëÌ¾)
+# DOCTYPE ã«é–¢ã™ã‚‹æƒ…å ± (ã‚­ãƒ¼ã¯ãƒ•ã‚¡ã‚¤ãƒ«å)
 $doctypescnt = 0;
-  #  doctype   => DOCTYPE Àë¸À (¼êÈ´¤­¤Î¤¿¤á°úÍÑÉä¤ÎÂĞ±ş¤Ï¤¤¤¤¤«¤²¤ó)
-  #  system    => ¥·¥¹¥Æ¥àµ­½Ò»Ò
-  #  guess     => ÉÔ´°Á´¤ÊÀë¸À (¤³¤ì¤«¤éÀë¸À¤òÎà¿ä¤¹¤ë)
-  #  superset  => ¤³¤³¤Ç¼¨¤µ¤ì¤¿HTML¤Î¥µ¥Ö¥»¥Ã¥È¤Ç¤¢¤ë¤³¤È¤ò¼¨¤¹
-  #  name      => µ¯Æ°»ş¥ª¥×¥·¥ç¥ó¤Ë¤è¤ë DOCTYPE »ØÄê
-  #  guide     => ¥¬¥¤¥ÉÊ¸»úÎó
-  #  abbr      => Ã»½ÌÌ¾
-  #  expired   => ÇÑ´ş¤µ¤ì¤¿ DOCTYPE ¤Î¤È¤­ abbr ¤ÈÆ±¤¸¤â¤Î¤ò»ØÄê
-  #  obsoleted => µì¼°¤Ë¤Ê¤Ã¤¿¤È¤­ÂåÂØ¤È¤·¤Æ abbr ¤ÈÆ±¤¸¤â¤Î¤ò»ØÄê
-  #  group     => ¥°¥ë¡¼¥×Ì¾
-  #  order     => ½ç½ø
-  #  version   => HTML¥ô¥¡¡¼¥¸¥ç¥ó (XHTML1.0 ¤Ï 4.5 XHTML1.1 ¤Ï 4.6)
-  #  charref   => Ê¸»ú»²¾È¸Â³¦
-  #  doclimit  => Ê¸½ñ¥µ¥¤¥º¸Â³¦ (KB)
-  #  scheme    => ÄÉ²Ã¥¹¥­¡¼¥à
-  #  allschemes=> ÍøÍÑ²ÄÇ½¤Ê¥¹¥­¡¼¥à (Ì¤ÄêµÁ¤Ê¤é $allSchemes)
-  #  restrict  => SJIS¸ÂÄêÅù
-                  $restrictkana    = 1;  # È¾³Ñ¥«¥Ê²Ä
-                  $restrictsjis    = 2;  # SJIS¤Î¤ß
-                  $restrictsjiseuc = 4;  # SJIS/EUC¤Î¤ß
-                  $restrictsjisutf = 8;  # SJIS/UTF8¤Î¤ß
-  #  alloweuc  => µ¡¼ï°ÍÂ¸Ê¸»ú¤«¤é½ü³°¤¹¤ëÊ¸»ú¥³¡¼¥É (ÈÏ°Ï¤ò¼¨¤¹ÂĞ¤Ç»ØÄê)
-  #  allowsjis => µ¡¼ï°ÍÂ¸Ê¸»ú¤«¤é½ü³°¤¹¤ëÊ¸»ú¥³¡¼¥É (ÈÏ°Ï¤ò¼¨¤¹ÂĞ¤Ç»ØÄê)
+  #  doctype   => DOCTYPE å®£è¨€ (æ‰‹æŠœãã®ãŸã‚å¼•ç”¨ç¬¦ã®å¯¾å¿œã¯ã„ã„ã‹ã’ã‚“)
+  #  system    => ã‚·ã‚¹ãƒ†ãƒ è¨˜è¿°å­
+  #  guess     => ä¸å®Œå…¨ãªå®£è¨€ (ã“ã‚Œã‹ã‚‰å®£è¨€ã‚’é¡æ¨ã™ã‚‹)
+  #  superset  => ã“ã“ã§ç¤ºã•ã‚ŒãŸHTMLã®ã‚µãƒ–ã‚»ãƒƒãƒˆã§ã‚ã‚‹ã“ã¨ã‚’ç¤ºã™
+  #  name      => èµ·å‹•æ™‚ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«ã‚ˆã‚‹ DOCTYPE æŒ‡å®š
+  #  guide     => ã‚¬ã‚¤ãƒ‰æ–‡å­—åˆ—
+  #  abbr      => çŸ­ç¸®å
+  #  expired   => å»ƒæ£„ã•ã‚ŒãŸ DOCTYPE ã®ã¨ã abbr ã¨åŒã˜ã‚‚ã®ã‚’æŒ‡å®š
+  #  obsoleted => æ—§å¼ã«ãªã£ãŸã¨ãä»£æ›¿ã¨ã—ã¦ abbr ã¨åŒã˜ã‚‚ã®ã‚’æŒ‡å®š
+  #  group     => ã‚°ãƒ«ãƒ¼ãƒ—å
+  #  order     => é †åº
+  #  version   => HTMLãƒ´ã‚¡ãƒ¼ã‚¸ãƒ§ãƒ³ (XHTML1.0 ã¯ 4.5 XHTML1.1 ã¯ 4.6)
+  #  charref   => æ–‡å­—å‚ç…§é™ç•Œ
+  #  doclimit  => æ–‡æ›¸ã‚µã‚¤ã‚ºé™ç•Œ (KB)
+  #  scheme    => è¿½åŠ ã‚¹ã‚­ãƒ¼ãƒ 
+  #  allschemes=> åˆ©ç”¨å¯èƒ½ãªã‚¹ã‚­ãƒ¼ãƒ  (æœªå®šç¾©ãªã‚‰ $allSchemes)
+  #  restrict  => SJISé™å®šç­‰
+                  $restrictkana    = 1;  # åŠè§’ã‚«ãƒŠå¯
+                  $restrictsjis    = 2;  # SJISã®ã¿
+                  $restrictsjiseuc = 4;  # SJIS/EUCã®ã¿
+                  $restrictsjisutf = 8;  # SJIS/UTF8ã®ã¿
+  #  alloweuc  => æ©Ÿç¨®ä¾å­˜æ–‡å­—ã‹ã‚‰é™¤å¤–ã™ã‚‹æ–‡å­—ã‚³ãƒ¼ãƒ‰ (ç¯„å›²ã‚’ç¤ºã™å¯¾ã§æŒ‡å®š)
+  #  allowsjis => æ©Ÿç¨®ä¾å­˜æ–‡å­—ã‹ã‚‰é™¤å¤–ã™ã‚‹æ–‡å­—ã‚³ãƒ¼ãƒ‰ (ç¯„å›²ã‚’ç¤ºã™å¯¾ã§æŒ‡å®š)
 %doctypes = (
   'html10' => {
     guess     => 'HTML\s*1\.?0',
@@ -214,6 +214,17 @@ $doctypescnt = 0;
     guide     => 'XHTML1.1',
     abbr      => 'XHTML1.1',
     group     => 'XHTML1.1',
+    order     => ++$doctypescnt,
+    version   => 4.6,
+    scheme    => 'urn',
+    charref   => 1114112 },
+  'xhtml-rdfa-1' => {
+    doctype   => 'html\s+PUBLIC\s+["\']-//W3C//DTD\s+XHTML\+RDFa\s+1\.0//EN["\']',
+    system    => 'http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd',
+    name      => 'xhtml[-+]?rdfa',
+    guide     => 'XHTML+RDFa',
+    abbr      => 'XHTML+RDFa',
+    group     => 'XHTML+RDFa',
     order     => ++$doctypescnt,
     version   => 4.6,
     scheme    => 'urn',
@@ -478,7 +489,7 @@ $doctypescnt = 0;
   'doti10' => {
     guess     => '(doti)\D*(1|$)',
     name      => 'doti(1\.?0)?',
-    guide     => 'TTNet ¥É¥Ã¥Èi 1.0',
+    guide     => 'TTNet ãƒ‰ãƒƒãƒˆi 1.0',
     abbr      => 'doti1.0',
     group     => 'doti',
     order     => ++$doctypescnt,
@@ -490,9 +501,9 @@ $doctypescnt = 0;
     restrict  => $restrictkana|$restrictsjiseuc, },
   'jpo' => {
     name      => 'jpo',
-    guide     => 'ÆÃµö½Ğ´êÍÑHTML',
-    abbr      => 'ÆÃµö½Ğ´êÍÑHTML',
-    group     => 'ÆÃµö½Ğ´êÍÑHTML',
+    guide     => 'ç‰¹è¨±å‡ºé¡˜ç”¨HTML',
+    abbr      => 'ç‰¹è¨±å‡ºé¡˜ç”¨HTML',
+    group     => 'ç‰¹è¨±å‡ºé¡˜ç”¨HTML',
     order     => ++$doctypescnt,
     version   => 0,
     restrict  => $restrictkana|$restrictsjis,
@@ -500,35 +511,35 @@ $doctypescnt = 0;
     allowsjis => { 0x8740 => 0x8748 } },
 );
 
-# DOCTYPE¾ÊÎ¬»ş¤Î´ûÄêÃÍ
+# DOCTYPEçœç•¥æ™‚ã®æ—¢å®šå€¤
 $defaultrule = 'html401-transitional';
 
-# ¥µ¥İ¡¼¥È¤·¤Æ¤¤¤Ê¤¤ DOCTYPE
+# ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ãªã„ DOCTYPE
 %xdoctypes = (
 );
 
-# ÊªÍıÅª¥Õ¥©¥ó¥È¥¿¥°¤È¤½¤ÎÂåÂØ¤¨¸õÊä
+# ç‰©ç†çš„ãƒ•ã‚©ãƒ³ãƒˆã‚¿ã‚°ã¨ãã®ä»£æ›¿ãˆå€™è£œ
 %physicalFontElements = (
   B  => 'STRONG',
   I  => 'EM',
   TT => 'CODE|SAMP|KBD',
 );
 
-# ¥Õ¥©¡¼¥à¥³¥ó¥È¥í¡¼¥ë
+# ãƒ•ã‚©ãƒ¼ãƒ ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 $formControls = 'INPUT|TEXTAREA|SELECT|BUTTON|KEYGEN';
 
-# ÆÃÄê¤ÎÍ×ÁÇ¤ÎÆâÍÆ¤Ë¤·¤«½ñ¤±¤Ê¤¤¥¿¥°
+# ç‰¹å®šã®è¦ç´ ã®å†…å®¹ã«ã—ã‹æ›¸ã‘ãªã„ã‚¿ã‚°
 %innerElements = (
   FORM => 'INPUT|TEXTAREA|SELECT|BUTTON|KEYGEN',
 );
 
-# ¥Ö¥é¥¦¥¶¤Ë¤è¤ëÈó¥µ¥İ¡¼¥È¥¿¥°¤òµÛ¼ı¤¹¤ëÂĞ
+# ãƒ–ãƒ©ã‚¦ã‚¶ã«ã‚ˆã‚‹éã‚µãƒãƒ¼ãƒˆã‚¿ã‚°ã‚’å¸åã™ã‚‹å¯¾
 %nonsupportedTagsPair = (
   FRAMESET => [ 'NOFRAMES', 'no-noframes' ],
   SCRIPT   => [ 'NOSCRIPT', 'no-noscript' ],
 );
 
-# ¿ä¾©¤µ¤ì¤Ê¤¤¥¿¥°¤ÎÂåÂØ
+# æ¨å¥¨ã•ã‚Œãªã„ã‚¿ã‚°ã®ä»£æ›¿
 %altDeprecated = (
   CENTER => 'DIV ALIGN="CENTER"',
   DIR => 'UL',
@@ -543,74 +554,79 @@ $formControls = 'INPUT|TEXTAREA|SELECT|BUTTON|KEYGEN';
   'S|STRIKE|U' => 'css',
 );
 
-# ¥Ø¥Ç¥£¥ó¥°¤ÎÆÈÎ©¥Ö¥í¥Ã¥¯
+# ãƒ˜ãƒ‡ã‚£ãƒ³ã‚°ã®ç‹¬ç«‹ãƒ–ãƒ­ãƒƒã‚¯
 $headingBlocks = 'BLOCK|BLOCKQUOTE|TABLE';
 
-# ¥¿¥°¤ÎÍ×ÁÇ¤ÎÀèÆ¬¤äËöÈø¤Ë¶õÇò¤ò¶Ø»ß¤¹¤ë¥¿¥°
+# ã‚¿ã‚°ã®è¦ç´ ã®å…ˆé ­ã‚„æœ«å°¾ã«ç©ºç™½ã‚’ç¦æ­¢ã™ã‚‹ã‚¿ã‚°
 $cuddleContainers = 'A|H\d|LI|TITLE';
 
-# WAI ¤Ç»È¤¦¤Ù¤­¤Ç¤Ê¤¤¤È¤µ¤ì¤Æ¤¤¤ë¥¿¥°
+# WAI ã§ä½¿ã†ã¹ãã§ãªã„ã¨ã•ã‚Œã¦ã„ã‚‹ã‚¿ã‚°
 $shouldNotUse = 'BLINK|MARQUEE';
 
-# WIDTH ¤È HEIGHT Â°À­¤¬¤¢¤Ã¤¿Êı¤¬¤¤¤¤¥¿¥°
+# WIDTH ã¨ HEIGHT å±æ€§ãŒã‚ã£ãŸæ–¹ãŒã„ã„ã‚¿ã‚°
 $recommendedWidth = 'IMG|APPLET|EMBED|OBJECT';
 
-# TITLE Â°À­¤¬¤¢¤Ã¤¿Êı¤¬¤¤¤¤¥¿¥°
+# TITLE å±æ€§ãŒã‚ã£ãŸæ–¹ãŒã„ã„ã‚¿ã‚°
 $recommendedTitle = 'ABBR|ACRONYM';
 $recommendedFrameTitle = 'FRAMESET|FRAME|IFRAME';
 
-# LONGDESC Â°À­¤¬¤¢¤Ã¤¿Êı¤¬¤¤¤¤¥¿¥°
+# LONGDESC å±æ€§ãŒã‚ã£ãŸæ–¹ãŒã„ã„ã‚¿ã‚°
 #$recommendedLongdesc = 'FRAME';
 
-# ACCESSKEY Â°À­¤¬¤¢¤Ã¤¿Êı¤¬¤¤¤¤¥¿¥°
+# ACCESSKEY å±æ€§ãŒã‚ã£ãŸæ–¹ãŒã„ã„ã‚¿ã‚°
 $recommendedAccesskey = 'A|AREA|LEGEND|INPUT|TEXTAREA|BUTTON';
 
-# TABINDEX Â°À­¤¬¤¢¤Ã¤¿Êı¤¬¤¤¤¤¥¿¥°
+# TABINDEX å±æ€§ãŒã‚ã£ãŸæ–¹ãŒã„ã„ã‚¿ã‚°
 $recommendedTabindex = 'INPUT|TEXTAREA|BUTTON|SELECT';
 
-# SUMMARY Â°À­¤¬¤¢¤Ã¤¿Êı¤¬¤¤¤¤¥¿¥°
+# SUMMARY å±æ€§ãŒã‚ã£ãŸæ–¹ãŒã„ã„ã‚¿ã‚°
 $recommendedSummary = 'TABLE';
 
-# ABBR Â°À­¤¬¤¢¤Ã¤¿Êı¤¬¤¤¤¤¥¿¥°
+# ABBR å±æ€§ãŒã‚ã£ãŸæ–¹ãŒã„ã„ã‚¿ã‚°
 $recommendedAbbr = 'TH';
 
-# NAMEÂ°À­¤¬ÇÑ»ß¤µ¤ì¤ë¥¿¥°
+# NAMEå±æ€§ãŒå»ƒæ­¢ã•ã‚Œã‚‹ã‚¿ã‚°
 $deprecatedName = 'A|APPLET|FORM|FRAME|IFRAME|IMG|MAP';
 
-# ¤¢¤Ş¤ê½ªÎ»¥¿¥°¾ÊÎ¬À­¤òÇ§¤á¤¿¤¯¤Ê¤¤¥¿¥°
+# ã‚ã¾ã‚Šçµ‚äº†ã‚¿ã‚°çœç•¥æ€§ã‚’èªã‚ãŸããªã„ã‚¿ã‚°
 $noOmissibleEndTags = 'HTML|HEAD|BODY|TR';
 
-# <!-- --> ¤ÇÍ×ÁÇ¤ÎÆâÍÆ¤ò°Ï¤ó¤ÀÊı¤¬¤¤¤¤¥¿¥°
+# <!-- --> ã§è¦ç´ ã®å†…å®¹ã‚’å›²ã‚“ã æ–¹ãŒã„ã„ã‚¿ã‚°
 $commentedElement = 'SCRIPT|STYLE|SERVER';
 
-# ¶¦ÄÌ¥¹¥­¡¼¥à
-$allSchemes  = # RFC1738
-               'ftp|http|gopher|mailto|news|nntp|telnet|wais|file|prospero'.
-               # RFC2224 2255 2192 2122  2056             2384 2392    2397
-                   '|nfs|ldap|imap|vemmi|z39\.50r|z39\.50s|pop|cid|mid|data'.
-               # HTML4.0
-               '|java|javascript'.
-               # Others
-               '|https|clsid|snews';
+# å…±é€šã‚¹ã‚­ãƒ¼ãƒ 
+$allSchemes = # IANA http://www.iana.org/assignments/uri-schemes.html
+				'aaa|aaas|acap|cap|cid|crid|data|dav|dict|dns|fax|file|ftp'.
+					'|go|gopher|h323|http|https|icap|im|imap|info|ipp'.
+					'|iris|iris\.beep|iris\.xpc|iris\.xpcs|iris\.lwz|ldap'.
+					'|mailto|mid|modem|msrp|msrps|mtqp|mupdate|news|nfs|nntp'.
+					'|opaquelocktoken|pop|pres|rtsp|service|shttp|sip|sips|snmp'.
+					'|soap\.beep|soap\.beeps|tag|tel|telnet|tftp|thismessage|tip|tv'.
+					'|urn|vemmi|xmlrpc\.beep|xmlrpc\.beeps|xmpp|z39\.50r|z39\.50s'.
+					'|afs|dtn|iax|mailserver|pack|tn3270|prospero|snews|videotex|wais'.
+				# HTML4.0
+					'|java|javascript'.
+				# Others
+					'|clsid';
 $httpSchemes = 'https?';
 
-# Í½Ìó¥Õ¥ì¡¼¥àÌ¾
+# äºˆç´„ãƒ•ãƒ¬ãƒ¼ãƒ å
 $reservedFrameNames = '_top|_self|_parent|_blank';
 
-# HTML4.0 ¤Î Link Types
+# HTML4.0 ã® Link Types
 $linkTypes = 'alternate|stylesheet|start|next|prev(?:ious)?|contents|toc|index|glossary|copyright|chapter|section|subsection|appendix|help|bookmark';
 
-# <META NAME=ROBOTS CONTENTS> ¤ÎÃÍ
+# <META NAME=ROBOTS CONTENTS> ã®å€¤
 $robotsContents = 'ALL|NONE|FOLLOW|INDEX|NOFOLLOW|NOINDEX';
 
-# ¥Ê¥ô¥£¥²¡¼¥·¥ç¥óÍÑ¥ê¥ó¥¯
+# ãƒŠãƒ´ã‚£ã‚²ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ãƒªãƒ³ã‚¯
 $navigationLinks = 'START|NEXT|PREV(IOUS)?|CONTENTS|INDEX|TOC|GLOSSARY|CHAPTER|(SUB)?SECTION|APPENDIX|HELP';
 
-# <A> ¤Î¹¥¤Ş¤·¤¯¤Ê¤¤ÆâÍÆ (±ÑÂçÊ¸»ú¾®Ê¸»ú¶èÊÌ¤Ê¤·)
+# <A> ã®å¥½ã¾ã—ããªã„å†…å®¹ (è‹±å¤§æ–‡å­—å°æ–‡å­—åŒºåˆ¥ãªã—)
 $hereAnchors = '(?:click\s+)?(?:here|this)(?:\s+(?:site|page|link))?\s*[,.!]?';
 $hereAnchorsJ =
-  '(?:¤³¤³|¥³¥³|¤³¤ì|¥³¥ì|¤³¤Á¤é|¥³¥Á¥é|¤³¤Ã¤Á|¥³¥Ã¥Á|¤¦¤Á|¥¦¥Á|º¡½ê|º¡½è|¤³¤ó¤Ê¤Î)(?:¤Ç|¤Ø)?(?:\s|¡¡)*(?:¡¢|¡£|¡¤|¡¥|,|\.|!|¡ª)?'.
-  '|(?:¤³¤Î|¤³¤Á¤é¤Î|¥³¥Á¥é¤Î|¤³¤Ã¤Á¤Î|¥³¥Ã¥Á¤Î|¤¦¤Á¤Î|¥¦¥Á¤Î|º¡¤Î)\s*(?:¥µ¥¤¥È|SITE|¥Ú¡¼¥¸|PAGE|¥ê¥ó¥¯|LINK)(?:¤Ç|¤Ø)?(?:\s|¡¡)*(?:¡¢|¡£|¡¤|¡¥|,|\.|!|¡ª)?'.
-  '|(?:(?:¤³¤³|¥³¥³|º¡½ê|º¡½è)¤ò)?(?:¥¯¥ê¥Ã¥¯|CLICK|(?:¥¯¥ê¥Ã¥¯|CLICK|²¡)(?:¤·(?:¤Æ|¤Ş)|¤¹))[^<]*';
+  '(?:ã“ã“|ã‚³ã‚³|ã“ã‚Œ|ã‚³ãƒ¬|ã“ã¡ã‚‰|ã‚³ãƒãƒ©|ã“ã£ã¡|ã‚³ãƒƒãƒ|ã†ã¡|ã‚¦ãƒ|æ­¤æ‰€|æ­¤å‡¦|ã“ã‚“ãªã®)(?:ã§|ã¸)?(?:\s|ã€€)*(?:ã€|ã€‚|ï¼Œ|ï¼|,|\.|!|ï¼)?'.
+  '|(?:ã“ã®|ã“ã¡ã‚‰ã®|ã‚³ãƒãƒ©ã®|ã“ã£ã¡ã®|ã‚³ãƒƒãƒã®|ã†ã¡ã®|ã‚¦ãƒã®|æ­¤ã®)\s*(?:ã‚µã‚¤ãƒˆ|SITE|ãƒšãƒ¼ã‚¸|PAGE|ãƒªãƒ³ã‚¯|LINK)(?:ã§|ã¸)?(?:\s|ã€€)*(?:ã€|ã€‚|ï¼Œ|ï¼|,|\.|!|ï¼)?'.
+  '|(?:(?:ã“ã“|ã‚³ã‚³|æ­¤æ‰€|æ­¤å‡¦)ã‚’)?(?:ã‚¯ãƒªãƒƒã‚¯|CLICK|(?:ã‚¯ãƒªãƒƒã‚¯|CLICK|æŠ¼)(?:ã—(?:ã¦|ã¾)|ã™))[^<]*';
 
 1;

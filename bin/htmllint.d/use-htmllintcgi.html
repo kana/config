@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <link rev="made" href="mailto:k16@chiba.email.ne.jp">
 <link rel="stylesheet" type="text/css" href="./htmllint.css">
@@ -11,7 +11,7 @@
 <title>Another HTML-lint : How to use htmllint.cgi</title>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [<a href="./notice.html">prev</a>]
 [<a href="./sitemap.html">sitemap</a>]
@@ -21,124 +21,125 @@
 <h1><span>Another HTML-lint</span></h1>
 
 <table summary="toc" width="100%" border="0" class="contents">
-<tr><th abbr="contents" align="right"><a href="./index.html">$BL\<!(B</a>$B!!(B<br></th><td><a href="./introduction.html">$B$O$8$a$K(B</a>$B!!!!!!!!!!!!(B</td>
-    <td align="right">$B!!(B<a href="./htmllint.html">$B%2!<%H%&%'%$%5!<%t%#%9(B</a></td></tr>
-<tr><td></td><td><a href="./notice.html">$B$$$/$D$+$N3P$(=q$-(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="./htmllintl.html">$B4J0W%2!<%H%&%'%$(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgi$B$N;H$$J}(B</a></td>
-    <td align="right">$B!!!!!!!!!!!!!!(B<a href="./explain.html">$B7k2L$N2r@b(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllint.html">htmllint$B$N;H$$J}(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!(B<a href="./tagslist.html">$B%?%00lMw(B</a></td></tr>
-<tr><td></td><td><a href="./rulefile.html">$B5,B'%U%!%$%k$N@8@.(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!!!(B<a href="./colors.html">$B?'8+K\(B</a></td></tr>
-<tr><td></td><td><a href="./download.html">$B%@%&%s%m!<%I(B</a>$B!!!!!!!!(B</td></tr>
-<tr><td></td><td><a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B!!!!(B</td></tr>
-<tr><td></td><td><a href="./reference.html">$B;29M$^$G$K(B</a>$B!!!!!!!!!!(B</td>
-    <td align="right">$B!!!!(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a></td></tr>
-<tr><td></td><td><a href="./faq.html">$B$h$/$"$k<ALd$HEz(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllintcgi.html">$B%W%i%$%^%j%5%$%H(B</a></td></tr>
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllintcgi.html">プライマリサイト</a></td></tr>
 </table>
 
+
 <hr class="none">
-<h2 class="title"><a name="use-htmllint.cgi">htmllint.cgi $B$N;H$$J}(B</a></h2>
-<h3><a name="apply">$B4JC1$J1~MQ(B</a></h3>
+<h2 class="title"><a name="use-htmllint.cgi">htmllint.cgi の使い方</a></h2>
+<h3><a name="apply">簡単な応用</a></h3>
 <p>
-$B%2!<%H%&%'%$(BCGI$B%9%/%j%W%H(B htmllint.cgi $B$O$I$N(BHTML$B$+$i$G$b8F$S=P$9$3$H$,$G$-$^$9!#(B<br>
-$B$"$J$?$N(BHTML$B$r!"%\%?%s$r2!$9$@$1$G4JC1$K:NE@$9$k$3$H$,$G$-$k$h$&$K$7$F$_$^$7$g$&!#<!$N$h$&$J%3!<%I$r$"$J$?$N(BHTML$B$K4^$a$k$@$1$G$9!#(BMETHOD$B$O(BPOST$B$G$b9=$$$^$;$s!#(B
+ゲートウェイCGIスクリプト htmllint.cgi はどのHTMLからでも呼び出すことができます。<br>
+あなたのHTMLを、ボタンを押すだけで簡単に採点することができるようにしてみましょう。次のようなコードをあなたのHTMLに含めるだけです。<!--METHODはPOSTでも構いません。-->
 </p>
 <blockquote class="code-sample"><code>
-	&lt;FORM action="http://openlab.ring.gr.jp/k16/htmllint/htmllint.cgi" method="GET"&gt;<br>
+	&lt;FORM action="http://openlab.ring.gr.jp/k16/htmllint/htmllint.cgi" method="POST"&gt;<br>
 	&lt;INPUT type="HIDDEN" name="ViewSource" value="on"&gt;<br>
 	&lt;INPUT type="SUBMIT" value="Check This HTML"&gt;<br>
 	&lt;/FORM&gt;
 </code></blockquote>
-<p>$B<!$N%\%?%s$O$3$N(BHTML$B$r%A%'%C%/$7$^$9!#(B</p>
+<p>次のボタンはこのHTMLをチェックします。</p>
 <form action="./htmllint.cgi">
 <input type="hidden" name="ViewSource" value="on">
-<input type="submit" value="$B$3$N(BHTML$B$OK~E@$8$c$J$$$+$bCN$l$^$;$s(B">
+<input type="submit" value="このHTMLは満点じゃないかも知れません">
 </form>
-<p><!--$B$A$J$_$K!"K~E@$rL\;X$9$J$i(B /~k16/ $B$G$O$J$/$F(B /%7Ek16/ $B$H=q$$$F$/$@$5$$$M!#$^$?!"(B-->$B%G%U%)%k%H$G(BMozilla$B$N(BHTML$B$G%A%'%C%/$7$?$$!"$H$$$&$H$-$O(B</p>
+<p><!--ちなみに、満点を目指すなら /~k16/ ではなくて /%7Ek16/ と書いてくださいね。また、-->デフォルトでMozillaのHTMLでチェックしたい、というときは</p>
 <blockquote class="code-sample"><code>
 	&lt;INPUT type="HIDDEN" name="HTMLVersion" value="Mozilla40"&gt;
 </code></blockquote>
-<p>$B$J$I$r(BFORM$B$NCf$K4^$a$F$/$@$5$$!#(B<br>
-$BFCDj$N(BURL$B$r%A%'%C%/$7$?$$$H$-$O!"(B</p>
+<p>などをFORMの中に含めてください。<br>
+特定のURLをチェックしたいときは、</p>
 <blockquote class="code-sample"><code>
-	&lt;INPUT type="HIDDEN" name="URL" value="http://$B$9$-$J%"%I%l%9(B"&gt;
+	&lt;INPUT type="HIDDEN" name="URL" value="http://すきなアドレス"&gt;
 </code></blockquote>
-<p>$B$H$+$$$&9T$r4^$a$F$/$@$5$$!#(B</p>
-<p>$B2?$b(BFORM$B$G%\%?%s$r:n$i$J$/$C$?$C$F!"<!$N$h$&$J%j%s%/$r:n$k$@$1$G$b%A%'%C%/$G$-$^$9!#(B</p>
+<p>とかいう行を含めてください。</p>
+<p>何もFORMでボタンを作らなくったって、次のようなリンクを作るだけでもチェックできます。</p>
 <blockquote class="code-sample"><code>
 	&lt;A href="http://openlab.ring.gr.jp/k16/htmllint/htmllint.cgi?ViewSource=on"&gt;<a href="./htmllint.cgi?V">Check This HTML</a>&lt;/A&gt;
 </code></blockquote>
 <p>
-$BMWNN$O(BFORM$B$HF1$8$G$9$N$G!"$o$+$j$^$9$h$M!#(BCGI$B$N%Q%i%a!<%?$N;XDj$O!"(BURL$B$N8e$m$K(B <code>?</code> $B$r=q$$$F!"JQ?t$N;XDj$r(B <code>;</code> $B$G6h@Z$C$FJB$Y$j$c$$$$$s$G$9!#$3$N6h@Z$j$O!"EAE}E*$K(B <code>&amp;</code> $B$G$b$$$$$s$G$9$,!"(B<code>&amp;</code> $B$rD>@\=q$/$N$O4m$J$$$N$G!"(B<code>&amp;amp;</code> $B$H$7$J$1$j$c$J$j$^$;$s!#MxMQ$7$F$$$k(BPerl$B$N%i%$%V%i%j$K$h$C$F$O(B <code>;</code> $B$,;H$($J$$$3$H$,$"$j$^$9!#$J$k$Y$/(B <code>;</code> $B$N;H$($k4D6-$rMQ0U$7$^$7$g$&!#(B
+要領はFORMと同じですので、わかりますよね。CGIのパラメータの指定は、URLの後ろに <code>?</code> を書いて、変数の指定を <code>;</code> で区切って並べりゃいいんです。この区切りは、伝統的に <code>&amp;</code> でもいいんですが、<code>&amp;</code> を直接書くのは危ないので、<code>&amp;amp;</code> としなけりゃなりません。利用しているPerlのライブラリによっては <code>;</code> が使えないことがあります。なるべく <code>;</code> の使える環境を用意しましょう。
 </p>
 <p>
-$B$$$A$$$AK~E@$K$7$J$1$j$c5$$,:Q$^$J$$$s$@$1$I!"$H$-$I$-%A%'%C%/$7$F$$$J$$$H$$$D$N4V$K$+K~E@$8$c$J$/$J$C$F$k$7$J$!!"$?$/$5$s(BHTML$B$r;}$C$F$$$k$H(BURL$B$r$=$l$>$lF~NO$9$k$N$,$a$s$I$/$5$$!"$H$$$&J}$O!"%A%'%C%/MQ$N%Z!<%8$r:n$C$A$^$($P$$$$$s$G$9!#Nc$($P<!$N$h$&$J46$8!#(B
+いちいち満点にしなけりゃ気が済まないんだけど、ときどきチェックしていないといつの間にか満点じゃなくなってるしなぁ、たくさんHTMLを持っているとURLをそれぞれ入力するのがめんどくさい、という方は、チェック用のページを作っちまえばいいんです。例えば次のような感じ。
 </p>
 <blockquote class="code-sample"><code>
 	&lt;HTML&gt;<br>
 	&lt;HEAD&gt;<br>
-	&lt;TITLE&gt;$B%A%'%C%/MQ%Z!<%8(B&lt;/TITLE&gt;<br>
+	&lt;TITLE&gt;チェック用ページ&lt;/TITLE&gt;<br>
 	&lt;BASE href="http://openlab.ring.gr.jp/k16/htmllint/"&gt;<br>
 	&lt;/HEAD&gt;<br>
 	&lt;BODY&gt;<br>
 	&lt;UL&gt;<br>
-	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/"&gt;$B%a%$%s%Z!<%8(B&lt;/A&gt;<br>
-	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/foods.html"&gt;$B?)$$J*(B&lt;/A&gt;<br>
-	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/bikes.html"&gt;$B%P%$%/(B&lt;/A&gt;<br>
-	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/links.html"&gt;$B%j%s%/(B&lt;/A&gt;<br>
-	&lt;LI&gt;$B!D(B<br>
-	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on"&gt;$B$3$N%Z!<%8(B&lt;/A&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/"&gt;メインページ&lt;/A&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/foods.html"&gt;食い物&lt;/A&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/bikes.html"&gt;バイク&lt;/A&gt;<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on;URL=http://www.uso800.com/~hyena/links.html"&gt;リンク&lt;/A&gt;<br>
+	&lt;LI&gt;…<br>
+	&lt;LI&gt;&lt;A href="htmllint.cgi?ViewSource=on"&gt;このページ&lt;/A&gt;<br>
 	&lt;/UL&gt;<br>
 	&lt;/BODY&gt;<br>
 	&lt;/HTML&gt;
 </code></blockquote>
 
-<h3><a name="query">$BLd$$9g$o$;JQ?t0lMw(B</a></h3>
+<h3><a name="query">問い合わせ変数一覧</a></h3>
 <p>
-htmllint.cgi $B$,<u$1<h$k$3$H$,$G$-$k%G!<%?(B($BJQ?t(B)$B$O0J2<$N$H$*$j$G$9!#JQ?tL>$NBgJ8;z>.J8;z$O6hJL$5$l$^$9!#$3$l$i$O!"(BGET$B$G$b(BPOST$B$G$b$I$A$i$GEO$7$F$b9=$$$^$;$s$,!"(BTEXTAREA$B$r;H$&$H$-$J$I!"%G!<%?NL$,B?$$$H$-$O(BPOST$B$NJ}$,0BA4$G$9!#(B<br>
-$BJQ?tL>$K$OC;=L7A$r;XDj$G$-$k$b$N$,$"$j$^$9!#Nc$($P!"(B<code>ViewSource=on</code> $B$O(B <code>V=on</code> $B$H=q$1$^$9!#$^$?!"(B<code>=on</code> $B$O>JN,$9$k$3$H$,$G$-$^$9!#(B
+htmllint.cgi が受け取ることができるデータ(変数)は以下のとおりです。変数名の大文字小文字は区別されます。これらは、GETでもPOSTでもどちらで渡しても構いませんが、TEXTAREAを使うときなど、データ量が多いときはPOSTの方が安全です。<br>
+変数名には短縮形を指定できるものがあります。例えば、<code>ViewSource=on</code> は <code>V=on</code> と書けます。また、<code>=on</code> は省略することができます。
 </p>
 <blockquote class="code-sample"><code>
 	&lt;A href="htmllint.cgi?ViewSource=on;LynxView=on"&gt;<br>
 </code></blockquote>
-<p>$B$O(B</p>
+<p>は</p>
 <blockquote class="code-sample"><code>
 	&lt;A href="htmllint.cgi?V;L"&gt;<br>
 </code></blockquote>
-<p>$B$H=q$1$^$9!#(B</p>
+<p>と書けます。</p>
 
 <table border="1" summary="CGI Parameters' List" class="border">
 <col span="4"><col width="60%">
-<tr><td colspan="2" class="header">$BJQ?t(B</td><td class="header">$BCM(B</td><td colspan="2" class="header">$B0UL#(B</td></tr>
-<tr><td valign="top" rowspan="4">Method</td><td valign="top" rowspan="4" align="center">M</td><td colspan="3">$B%A%'%C%/$9$k(BHTML$B$r(BURL$B$+$i<hF@$9$k$+!"D>@\5-=R$9$k$+$r;XDj$7$^$9!#>JN,;~$O(BURL$B$+$i<hF@$9$k$H$_$J$5$l$^$9!#(B</td></tr>
-<tr><td valign="top">URL</td><td colspan="2">$B%A%'%C%/$9$k(BHTML$B$rJQ?t(BURL$B$G<($5$l$k(BURL$B$+$i<hF@$7$^$9!#(B</td></tr>
-<tr><td valign="top">Data</td><td colspan="2">$B%A%'%C%/$9$k(BHTML$B$rJQ?t(BData$B$NCM$=$N$b$N$H$7$^$9!#(B</td></tr>
-<tr><td valign="top">File</td><td colspan="2">$B%A%'%C%/$9$k(BHTML$B$rJQ?t(BFile$B$G<($5$l$k%/%i%$%"%s%H>e$N%U%!%$%k$+$i<hF@$7$^$9!#$3$N$H$-!"(B<code>&lt;FORM enctype="multipart/form-data"&gt;</code> $B$G$J$1$l$P$J$j$^$;$s!#(B</td></tr>
-<tr><td valign="top" colspan="2">URL</td><td colspan="3">Method=URL$B$N$H$-$N(BURL$B$r;XDj$7$^$9!#$3$N(BURL$B$O!"(Bhtmllint.cgi $B$+$i8+$($k>l=j$K$J$1$l$P$J$j$^$;$s!#$D$^$j!"30It$+$i$NMW5a$KBP$7$F!"%U%!%$%"%&%)!<%kFb$N%U%!%$%k$J$I$O<hF@$G$-$^$;$s!#(B<!--$BEvA3!"(Bhtmllint.cgi $B$r%U%!%$%"%&%)!<%kFb$GF0$+$7$F$$$k>l9g$O!"$=$N%U%!%$%"%&%)!<%kFb$N%U%!%$%k$r%U%!%$%"%&%)!<%kFb$+$i$N%"%/%;%9$KBP$7$F<hF@$9$k$3$H$O$G$-$^$9!#(B--><br>
-URL$B$,;XDj$5$l$F$$$J$$$H$-$O!"(B($B4D6-JQ?t(BHTTP_REFERER$B$G<($5$l$k(B)$BD>A0$N;2>H%5%$%H$H$_$J$5$l$^$9!#$3$l$b6u$J$i(BMethod=Data$B$H$_$J$5$l$^$9!#(B</td></tr>
-<tr><td valign="top" colspan="2">Data</td><td colspan="3">Method=Data$B$N$H$-$N(BHTML$B$rCM$H$7$F;XDj$7$^$9!#$?$$$F$$$O!"(B<code>&lt;TEXTAREA&gt;</code> $B$J$I$KMQ$$$^$9!#(B</td></tr>
-<tr><td valign="top" colspan="2">File</td><td colspan="3">Method=File$B$N$H$-$N%/%i%$%"%s%H>e$N%U%!%$%k$r;XDj$7$^$9!#(B<code>&lt;INPUT type="FILE"&gt;</code> $B$G$J$1$l$P$J$j$^$;$s!#(B</td></tr>
-<tr><td valign="top" rowspan="6">CharCode</td><td valign="top" rowspan="6" align="center">C</td><td colspan="3">$B=PNO$9$k4A;z%3!<%I$r;XDj$7$^$9!#>JN,;~$O(B AUTO $B$H$_$J$5$l$^$9!#(B</td></tr>
-<tr><td valign="top">AUTO</td><td colspan="3">$B=PNO$9$k4A;z%3!<%I$rF~NO$HF1$8$K$7$^$9!#F|K\8l%3!<%I$N$H$-$N$_M-8z$G$9!#(B</td></tr>
-<tr><td valign="top">JIS</td><td colspan="2">$B=PNO$9$k4A;z%3!<%I$r(B JIS (ISO-2022-JP) $B$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">EUC</td><td colspan="2">$B=PNO$9$k4A;z%3!<%I$r(B EUC-JP $B$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">SJIS</td><td colspan="2">$B=PNO$9$k4A;z%3!<%I$r(B Shift JIS $B$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">UTF8</td><td colspan="2">$B=PNO$9$k4A;z%3!<%I$r(B UTF-8 $B$K$7$^$9!#(BJcode.pm$B;HMQ;~$N$_M-8z$G$9!#(B</td></tr>
-<tr><td valign="top">NoWarnings</td><td valign="top" align="center">N</td><td valign="top">on</td><td colspan="2">$B%A%'%C%/$@$1$7$F8D!9$N7Y9p$rI=<($7$J$$$h$&$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">ViewSource</td><td valign="top" align="center">V</td><td valign="top">on</td><td colspan="2">$B%A%'%C%/$7$?(BHTML$B$r9THV9fIU$-$GI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top">LynxView</td><td valign="top" align="center">L</td><td valign="top">on</td><td valign="top" colspan="2">lynx$B$G$N8+$(J}$rI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" rowspan="4">TextView</td><td valign="top" rowspan="4" align="center">X</td><td valign="top" colspan="3">$B%F%-%9%H%Y!<%9%V%i%&%6$G$N8+$(J}$rI=<($7$^$9!#(BLynxView$B$,;XDj$5$l$F$$$k$H$-$OL58z$G$9!#(B</td></tr>
-<tr><td valign="top">no</td><td colspan="2">$B$$$:$l$bI=<($7$^$;$s!#(B</td></tr>
-<tr><td valign="top">lynx</td><td colspan="2">lynx$B$G$N8+$(J}$rI=<($7$^$9!#(BLynxView$B$HF1$8$G$9!#(B</td></tr>
-<tr><td valign="top">w3m</td><td colspan="2">w3m$B$G$N8+$(J}$rI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" colspan="2">NoCheck</td><td valign="top">on</td><td colspan="2">LynxView$B$d(BTextView$B$H6&$K;XDj$7$?$H$-!"J8K!%A%'%C%/$r$7$J$$$h$&$K$7$^$9!#(B</td></tr>
-<tr><td valign="top" colspan="2">HTTPHeader</td><td valign="top">on</td><td colspan="2">URL$B;XDj$N$H$-!"(BHTTP$B%l%9%]%s%9%X%C%@$rI=<($9$k$h$&$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">OtherWindow</td><td valign="top" align="center">O</td><td valign="top">on</td><td colspan="2">$B7k2L$N%Z!<%8$+$i2r@b$r;2>H$9$k$H$-!"JL$N%&%#%s%I%&$KI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top">IgnoreDOCTYPE</td><td valign="top" align="center">I</td><td valign="top">on</td><td colspan="2">HTML$BCf$N(BDOCTYPE$B@k8@$rL5;k$7$F(BHTMLVersion$B$G;XDj$5$l$F$$$k%t%!!<%8%g%s$G%A%'%C%/$7$^$9!#$3$N;XDj$,$J$$$H$-$O!"(BDOCTYPE$B@k8@$,$"$l$P$=$l$rM%@h$5$;!"$J$1$l$P(BHTMLVersion$B$N;XDj$K$h$j$^$9!#(B</td></tr>
-<tr><td valign="top" rowspan="42">HTMLVersion</td><td valign="top" rowspan="41" align="center">H</td><td colspan="3">IgnoreDOCTYPE$B$,;XDj$5$l$F$$$k$H$-$d!"(BHTML$BCf$K(BDOCTYPE$B@k8@$,$J$$$H$-$K!"$I$N(BHTML$B$G%A%'%C%/$9$k$+$r;XDj$7$^$9!#>JN,;~$O(B HTML4.01 Transitional $B$H$_$J$5$l$^$9!#(B</td></tr>
+<tr><td colspan="2" class="header">変数</td><td class="header">値</td><td colspan="2" class="header">意味</td></tr>
+<tr><td valign="top" rowspan="4">Method</td><td valign="top" rowspan="4" align="center">M</td><td colspan="3">チェックするHTMLをURLから取得するか、直接記述するかを指定します。省略時はURLから取得するとみなされます。</td></tr>
+<tr><td valign="top">URL</td><td colspan="2">チェックするHTMLを変数URLで示されるURLから取得します。</td></tr>
+<tr><td valign="top">Data</td><td colspan="2">チェックするHTMLを変数Dataの値そのものとします。</td></tr>
+<tr><td valign="top">File</td><td colspan="2">チェックするHTMLを変数Fileで示されるクライアント上のファイルから取得します。このとき、<code>&lt;FORM enctype="multipart/form-data"&gt;</code> でなければなりません。</td></tr>
+<tr><td valign="top" colspan="2">URL</td><td colspan="3">Method=URLのときのURLを指定します。このURLは、htmllint.cgi から見える場所になければなりません。つまり、外部からの要求に対して、ファイアウォール内のファイルなどは取得できません。<!--当然、htmllint.cgi をファイアウォール内で動かしている場合は、そのファイアウォール内のファイルをファイアウォール内からのアクセスに対して取得することはできます。--><br>
+URLが指定されていないときは、(環境変数HTTP_REFERERで示される)直前の参照サイトとみなされます。これも空ならMethod=Dataとみなされます。</td></tr>
+<tr><td valign="top" colspan="2">Data</td><td colspan="3">Method=DataのときのHTMLを値として指定します。たいていは、<code>&lt;TEXTAREA&gt;</code> などに用います。</td></tr>
+<tr><td valign="top" colspan="2">File</td><td colspan="3">Method=Fileのときのクライアント上のファイルを指定します。<code>&lt;INPUT type="FILE"&gt;</code> でなければなりません。</td></tr>
+<tr><td valign="top" rowspan="6">CharCode</td><td valign="top" rowspan="6" align="center">C</td><td colspan="3">出力する漢字コードを指定します。省略時は AUTO とみなされます。</td></tr>
+<tr><td valign="top">AUTO</td><td colspan="3">出力する漢字コードを入力と同じにします。日本語コードのときのみ有効です。</td></tr>
+<tr><td valign="top">JIS</td><td colspan="2">出力する漢字コードを JIS (ISO-2022-JP) にします。</td></tr>
+<tr><td valign="top">EUC</td><td colspan="2">出力する漢字コードを EUC-JP にします。</td></tr>
+<tr><td valign="top">SJIS</td><td colspan="2">出力する漢字コードを Shift JIS にします。</td></tr>
+<tr><td valign="top">UTF8</td><td colspan="2">出力する漢字コードを UTF-8 にします。Jcode.pm使用時のみ有効です。</td></tr>
+<tr><td valign="top">NoWarnings</td><td valign="top" align="center">N</td><td valign="top">on</td><td colspan="2">チェックだけして個々の警告を表示しないようにします。</td></tr>
+<tr><td valign="top">ViewSource</td><td valign="top" align="center">V</td><td valign="top">on</td><td colspan="2">チェックしたHTMLを行番号付きで表示します。</td></tr>
+<tr><td valign="top">LynxView</td><td valign="top" align="center">L</td><td valign="top">on</td><td valign="top" colspan="2">lynxでの見え方を表示します。</td></tr>
+<tr><td valign="top" rowspan="4">TextView</td><td valign="top" rowspan="4" align="center">X</td><td valign="top" colspan="3">テキストベースブラウザでの見え方を表示します。LynxViewが指定されているときは無効です。</td></tr>
+<tr><td valign="top">no</td><td colspan="2">いずれも表示しません。</td></tr>
+<tr><td valign="top">lynx</td><td colspan="2">lynxでの見え方を表示します。LynxViewと同じです。</td></tr>
+<tr><td valign="top">w3m</td><td colspan="2">w3mでの見え方を表示します。</td></tr>
+<tr><td valign="top" colspan="2">NoCheck</td><td valign="top">on</td><td colspan="2">LynxViewやTextViewと共に指定したとき、文法チェックをしないようにします。</td></tr>
+<tr><td valign="top" colspan="2">HTTPHeader</td><td valign="top">on</td><td colspan="2">URL指定のとき、HTTPレスポンスヘッダを表示するようにします。</td></tr>
+<tr><td valign="top">OtherWindow</td><td valign="top" align="center">O</td><td valign="top">on</td><td colspan="2">結果のページから解説を参照するとき、別のウィンドウに表示します。</td></tr>
+<tr><td valign="top">IgnoreDOCTYPE</td><td valign="top" align="center">I</td><td valign="top">on</td><td colspan="2">HTML中のDOCTYPE宣言を無視してHTMLVersionで指定されているヴァージョンでチェックします。この指定がないときは、DOCTYPE宣言があればそれを優先させ、なければHTMLVersionの指定によります。</td></tr>
+<tr><td valign="top" rowspan="43">HTMLVersion</td><td valign="top" rowspan="43" align="center">H</td><td colspan="3">IgnoreDOCTYPEが指定されているときや、HTML中にDOCTYPE宣言がないときに、どのHTMLでチェックするかを指定します。省略時は HTML4.01 Transitional とみなされます。</td></tr>
 <tr><td valign="top" colspan="2" nowrap>HTML10</td><td>HTML1.0</td></tr>
 <tr><td valign="top" colspan="2" nowrap>HTML20</td><td>HTML2.0</td></tr>
 <tr><td valign="top" colspan="2" nowrap>HTML2x</td><td>HTML2.x</td></tr>
@@ -156,6 +157,7 @@ URL$B$,;XDj$5$l$F$$$J$$$H$-$O!"(B($B4D6-JQ?t(BHTTP_REFERER$B$G<($5$l$k(B)
 <tr><td valign="top" colspan="2" nowrap>XHTML1-Transitional</td><td>XHTML1.0 Transitional</td></tr>
 <tr><td valign="top" colspan="2" nowrap>XHTML1-Frameset</td><td>XHTML1.0 Frameset</td></tr>
 <tr><td valign="top" colspan="2" nowrap>XHTML11</td><td>XHTML1.1</td></tr>
+<tr><td valign="top" colspan="2" nowrap>XHTML-RDFa</td><td>XHTML + RDFa</td></tr>
 <tr><td valign="top" colspan="2" nowrap>XHTML-Basic</td><td>XHTML Basic</td></tr>
 <tr><td valign="top" colspan="2" nowrap>XHTML-MP</td><td>XHTML Mobile Profile 1.0</td></tr>
 <tr><td valign="top" colspan="2" nowrap>15445</td><td>ISO/IEC 15445</td></tr>
@@ -170,31 +172,31 @@ URL$B$,;XDj$5$l$F$$$J$$$H$-$O!"(B($B4D6-JQ?t(BHTTP_REFERER$B$G<($5$l$k(B)
 <tr><td valign="top" colspan="2" nowrap>IE55</td><td>Microsoft Internet Explorer 5.5</td></tr>
 <tr><td valign="top" colspan="2" nowrap>WebExp</td><td>IBM WebExplorer 1.1</td></tr>
 <tr><td valign="top" colspan="2" nowrap>Compact-HTML</td><td>Compact HTML</td></tr>
-<tr><td valign="top" colspan="2" nowrap>iMode10</td><td>NTT DoCoMo i$B%b!<%I(B 1.0</td></tr>
-<tr><td valign="top" colspan="2" nowrap>iMode20</td><td>NTT DoCoMo i$B%b!<%I(B 2.0</td></tr>
-<tr><td valign="top" colspan="2" nowrap>iMode30</td><td>NTT DoCoMo i$B%b!<%I(B 3.0</td></tr>
-<tr><td valign="top" colspan="2" nowrap>iMode40</td><td>NTT DoCoMo i$B%b!<%I(B 4.0</td></tr>
-<tr><td valign="top" colspan="2" nowrap>iMode-XHTML10</td><td>NTT DoCoMo i$B%b!<%I(B XHTML 1.0</td></tr>
-<tr><td valign="top" colspan="2" nowrap>iMode-XHTML11</td><td>NTT DoCoMo i$B%b!<%I(B XHTML 1.1</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode10</td><td>NTT DoCoMo iモード 1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode20</td><td>NTT DoCoMo iモード 2.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode30</td><td>NTT DoCoMo iモード 3.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode40</td><td>NTT DoCoMo iモード 4.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode-XHTML10</td><td>NTT DoCoMo iモード XHTML 1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>iMode-XHTML11</td><td>NTT DoCoMo iモード XHTML 1.1</td></tr>
 <tr><td valign="top" colspan="2" nowrap>J-SkyWeb</td><td>J-SkyWeb</td></tr>
 <tr><td valign="top" colspan="2" nowrap>J-SkyWebStation</td><td>J-SkyWeb Station</td></tr>
-<tr><td valign="top" colspan="2" nowrap>doti10</td><td>$B%I%C%H(Bi 1.0</td></tr>
-<tr><td valign="top" colspan="2" nowrap>JPO</td><td>$BFC5v=P4jMQ(BHTML</td></tr>
-<tr><td valign="top">Pedantic</td><td valign="top" align="center">P</td><td valign="top">on</td><td colspan="2">$B$9$Y$F$N%A%'%C%/$rM-8z$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">NoReligious</td><td valign="top" align="center">R</td><td valign="top">on</td><td colspan="2">$B=!65E*$J%A%'%C%/$rL58z$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">NoAccessibility</td><td valign="top" align="center">A</td><td valign="top">on</td><td colspan="2">$B%"%/%;%9@-8~>e$K4X$9$k7Y9p$rL58z$K$7$^$9!#(B</td></tr>
-<tr><td valign="top">TimeOut</td><td valign="top" align="center">T</td><td valign="top">$BIC?t(B</td><td colspan="2">$B%j%s%/@h%j%=!<%9$,B8:_$9$k$+$I$&$+%A%'%C%/$9$k$H$-$N%?%$%`%"%&%HIC?t$r;XDj$7$^$9!#(B<!--$B%j%s%/$,B?$$$H;~4V$,$+$+$k$N$GCm0U$7$F$/$@$5$$!#(B-->60$B$h$jBg$-$JCM$O;XDj$G$-$^$;$s!#$=$N$H$-$O(B60$B$H$_$J$5$l$^$9!#(B0$B0J2<$r;XDj$9$k$H%A%'%C%/$;$:$KL5>r7o$GB8:_$9$k$H$_$J$5$l$^$9!#(BPedantic=on$B$G(BTimeOut=0$B$H$9$l$P!"$3$N%A%'%C%/0J30$N$9$Y$F$rM-8z$K$9$k$3$H$,$G$-$^$9!#(B</td></tr>
-<tr><td valign="top" colspan="2">CheckGET</td><td valign="top">on</td><td colspan="2">$B%j%s%/@h%j%=!<%9$,B8:_$9$k$+$I$&$+%A%'%C%/$9$k$H$-$K!"DL>o$O8zN(E*$J(BHEAD$B%j%/%(%9%H$rMQ$$$^$9$,!"(B<!--Nifty$B$J$I(B-->$B0lIt$N(BISP$B$O(BHEAD$B%j%/%(%9%H$r<u$1IU$1$J$$$3$H$,$"$j$^$9!#$=$N$h$&$J(BURL$B$,4^$^$l$k$H$-$K;XDj$7$^$9!#(BHEAD$B$,<:GT$7$?$H$-$K(BGET$B$G:F%j%/%(%9%H$7$^$9!#(B</td></tr>
-<tr><td valign="top" colspan="2">CheckList</td><td valign="top">on</td><td colspan="2">(over-limit-whines$B$r=|$/(B)$B$9$Y$F$N%(%i!<%A%'%C%/$N(Bon/off$B$,;XDj$5$l$F$$$k$3$H$r<($7$^$9!#$3$N;XDj$,$J$$$H$-$O!"$9$Y$F$N%A%'%C%/>uBV$O4{DjCM$K=>$$$^$9!#(BPedantic=on$B$N$H$-$OL5;k$5$l$^$9!#$I$&$$$&%A%'%C%/$,$"$k$N$+$O!"(Bhtmllint.html $B$d(B htmllintrc $B$r;2>H$7$F$/$@$5$$!#(B</td></tr>
-<tr><td valign="top">Enable</td><td valign="top" align="center">E</td><td colspan="3">$B4{DjCM$KBP$7$F$I$N%A%'%C%/$rM-8z$K$9$k$+$r;XDj$7$^$9!#J#?t;XDj$9$k$H$-$O!"(BEnable=unref-link,required $B$N$h$&$K6uGr$r6u$1$:$K%3%s%^$G7R$2$^$9!#(BPedantic=on$B$N$H$-$^$?$O(BCheckList=on$B$N$H$-$OL5;k$5$l$^$9!#$I$&$$$&%A%'%C%/$,$"$k$N$+$O!"(Bhtmllint.html $B$d(B htmllintrc $B$r;2>H$7$F$/$@$5$$!#(B</td></tr>
-<tr><td valign="top">Disable</td><td valign="top" align="center">D</td><td colspan="3">$B4{DjCM$KBP$7$F$I$N%A%'%C%/$rL58z$K$9$k$+$r;XDj$7$^$9!#J#?t;XDj$9$k$H$-$O!"(BDisable=unknown-doctype,mailto-link,empty-container $B$N$h$&$K6uGr$r6u$1$:$K%3%s%^$G7R$2$^$9!#(BPedantic=on$B$N$H$-$^$?$O(BCheckList=on$B$N$H$-$OL5;k$5$l$^$9!#$I$&$$$&%A%'%C%/$,$"$k$N$+$O!"(Bhtmllint.html $B$d(B htmllintrc $B$r;2>H$7$F$/$@$5$$!#(B</td></tr>
-<tr><td valign="top" colspan="2">LimitWhines</td><td colspan="3">$B%(%i!<$NBG$A@Z$j8B3&?t$r;XDj$7$^$9!#>JN,;~$O(BLimitWhines=999$B$G$9!#(B</td></tr>
+<tr><td valign="top" colspan="2" nowrap>doti10</td><td>ドットi 1.0</td></tr>
+<tr><td valign="top" colspan="2" nowrap>JPO</td><td>特許出願用HTML</td></tr>
+<tr><td valign="top">Pedantic</td><td valign="top" align="center">P</td><td valign="top">on</td><td colspan="2">すべてのチェックを有効にします。</td></tr>
+<tr><td valign="top">NoReligious</td><td valign="top" align="center">R</td><td valign="top">on</td><td colspan="2">宗教的なチェックを無効にします。</td></tr>
+<tr><td valign="top">NoAccessibility</td><td valign="top" align="center">A</td><td valign="top">on</td><td colspan="2">アクセス性向上に関する警告を無効にします。</td></tr>
+<tr><td valign="top">TimeOut</td><td valign="top" align="center">T</td><td valign="top">秒数</td><td colspan="2">リンク先リソースが存在するかどうかチェックするときのタイムアウト秒数を指定します。<!--リンクが多いと時間がかかるので注意してください。-->60より大きな値は指定できません。そのときは60とみなされます。0以下を指定するとチェックせずに無条件で存在するとみなされます。Pedantic=onでTimeOut=0とすれば、このチェック以外のすべてを有効にすることができます。</td></tr>
+<tr><td valign="top" colspan="2">CheckGET</td><td valign="top">on</td><td colspan="2">リンク先リソースが存在するかどうかチェックするときに、通常は効率的なHEADリクエストを用いますが、<!--Niftyなど-->一部のISPはHEADリクエストを受け付けないことがあります。そのようなURLが含まれるときに指定します。HEADが失敗したときにGETで再リクエストします。</td></tr>
+<tr><td valign="top" colspan="2">CheckList</td><td valign="top">on</td><td colspan="2">(over-limit-whinesを除く)すべてのエラーチェックのon/offが指定されていることを示します。この指定がないときは、すべてのチェック状態は既定値に従います。Pedantic=onのときは無視されます。どういうチェックがあるのかは、htmllint.html や htmllintrc を参照してください。</td></tr>
+<tr><td valign="top">Enable</td><td valign="top" align="center">E</td><td colspan="3">既定値に対してどのチェックを有効にするかを指定します。複数指定するときは、Enable=unref-link,required のように空白を空けずにコンマで繋げます。Pedantic=onのときまたはCheckList=onのときは無視されます。どういうチェックがあるのかは、htmllint.html や htmllintrc を参照してください。</td></tr>
+<tr><td valign="top">Disable</td><td valign="top" align="center">D</td><td colspan="3">既定値に対してどのチェックを無効にするかを指定します。複数指定するときは、Disable=unknown-doctype,mailto-link,empty-container のように空白を空けずにコンマで繋げます。Pedantic=onのときまたはCheckList=onのときは無視されます。どういうチェックがあるのかは、htmllint.html や htmllintrc を参照してください。</td></tr>
+<tr><td valign="top" colspan="2">LimitWhines</td><td colspan="3">エラーの打ち切り限界数を指定します。省略時はLimitWhines=999です。</td></tr>
 </table>
-<p>$BCm0U(B: $B;EMM$OM=9p$J$/JQ99$5$l$^$9!#(B</p>
+<p>注意: 仕様は予告なく変更されます。</p>
 
 <hr>
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllintcgi.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Jul 07, 2005<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllintcgi.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Jun 19, 1997
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

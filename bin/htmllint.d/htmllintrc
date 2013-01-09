@@ -1,22 +1,22 @@
-# ������֤�����ե�����
-#   �����ˤϡ������ѹ���ǽ�ʤ��٤ƤΥѥ�᥿����������֤ȶ�����󤵤�Ƥ��ޤ���
-#   �������ˡ��
+# 初期状態の設定ファイル
+#   ここには、状態変更可能なすべてのパラメタが、既定状態と共に列挙されています。
+#   指定の方法は
 #       keyword value
-#   �Ȥ��������Ǥ���������ɤθ���ˤ϶����(�ҤȤİʾ�)�����Ƥ���������
-#   ��Ƭ�� # �ϥ����ȹԤ򼨤��ޤ����ѹ����פʥѥ�᥿�ϥ����Ȥˤ��Ƥ���������
-#   htmllint �νФ��ٹ�ʤɤν�����֤��ѹ�����ˤϡ����Υե������
+#   という形式です。キーワードの後ろには空白を(ひとつ以上)空けてください。
+#   行頭の # はコメント行を示します。変更不要なパラメタはコメントにしてください。
+#   htmllint の出す警告などの初期状態を変更するには、このファイルを
 #       perl htmllint -f htmllintrc ...
-#   �Τ褦�˻��ꤷ�� htmllint ��ư���뤫���Ķ��ѿ� HTMLLINTRC �ˡ��ե�����̾��
-#   �ե�ѥ��� htmllint ��������Хѥ�����ꤷ�Ƥ������������ޥ�ɥ饤�󥪥ץ����
-#   �������Ķ��ѿ�����ͥ�褵��ޤ����ޤ��������Ǥ��ѹ���Ʊ�����꤬���ޥ�ɥ饤��
-#   �ˤ�����ϡ����ޥ�ɥ饤�������ͥ�褷�ޤ���
-#   ��������ե�����Υե�����̾��Ǥ�դǹ����ޤ���
-#   UNIX�ξ�硢�Ķ��ѿ�HOME�Ǽ������ǥ��쥯�ȥ�ˡ�.htmllintrc �Ȥ����ե����뤬
-#   ����ȡ�������֤Ȥ����ɤ߹��ߤޤ���
-#   �������ʤ�����򤷤Ƥ⡢�����Ƥ���̵�뤵��ޤ���
+#   のように指定して htmllint を起動するか、環境変数 HTMLLINTRC に、ファイル名の
+#   フルパスか htmllint からの相対パスを指定してください。コマンドラインオプション
+#   の方が環境変数よりも優先されます。また、ここでの変更と同じ指定がコマンドライン
+#   にある場合は、コマンドラインの方が優先します。
+#   この設定ファイルのファイル名は任意で構いません。
+#   UNIXの場合、環境変数HOMEで示されるディレクトリに、.htmllintrc というファイルが
+#   あると、初期状態として読み込みます。
+#   正しくない指定をしても、たいていは無視されます。
 
-# �ٹ��å������Υ�������
-#   ����Ǥ���Τϵ�ư�����ץ���� -style ��Ʊ���ǡ����ΤȤ���Ǥ���
+# 警告メッセージのスタイル
+#   指定できるのは起動時オプション -style と同じで、次のとおりです。
 #       lint     file(#): warning
 #       short    #: warning
 #       long     #: warning-id: warning
@@ -24,31 +24,17 @@
 #       verbose  file: #: warning-id: warning
 #style lint
 
-# �ٹ���Ǥ��ڤ�³���
+# 警告の打ち切り限界数
 #limit 999
 
-# ̵����Ʊ��ٹ���Ǥ��ڤ��
+# 無減点同一警告の打ち切り数
 #omit 50
 
-# HTML �����������
-#   ����Ǥ���Τϵ�ư�����ץ���� -x ��Ʊ���ǡ����ΤȤ���Ǥ���
-#       html20  RFC1866
-#       html2x  RFC2070  i18n
-#       html30  arena
-#       html32  wilbur
-#       html40-strict  cougar-strict
-#       html40-transitional  cougar-transitional
-#       html40-frameset  cougar-frameset
-#       mozilla20
-#       mozilla30  navigator
-#       mozilla40  communicator  netscape
-#       ie30b  msie30b
-#       ie30  msie30
-#       ie40  msie40  microsoft
-#       webexp
-#html html20
+# HTML ヴァージョン
+#   指定できるのは起動時オプション -x と同じです。
+#html html401t
 
-# ¾�ε�ư�����ץ����ν����
+# 他の起動時オプションの初期値
 #nopedantic
 #religious
 #accessibility
@@ -61,759 +47,771 @@
 #usecharset
 #nolocal
 
-# �Ʒٹ�ν������
-#   �Ʒٹ�λ���ϡ�
-#       enable �ٹ�̾
-#   �ޤ���
-#       disable �ٹ�̾
-#   �Ȥ��ޤ����ٹ�̾�ϡ�����Ƕ��ڤä�ʣ���¤٤Ƥ⹽���ޤ���
-#   ����Ǥ���ٹ�̾�ϡ�htmllint �ǻ��Ѥ��Ƥ����Τ�Ʊ���Ǥʤ���Фʤ�ޤ���
-#   �����ϡ����Υ���ץ�ե�����ˤ��٤ƴޤޤ�Ƥ��ޤ���
-#   ���ꤵ��Ƥ��ʤ��ٹ���Ф��Ƥϲ����ѹ����ޤ���
+# 各警告の初期状態
+#   各警告の指定は、
+#       enable 警告名
+#   または
+#       disable 警告名
+#   とします。警告名は、空白で区切って複数並べても構いません。
+#   指定できる警告名は、htmllint で使用しているものと同じでなければなりません。
+#   それらは、このサンプルファイルにすべて含まれています。
+#   指定されていない警告に対しては何も変更しません。
 
-# HTML��Υ���褬¸�ߤ��Ƥ��ʤ��ä���ٹ𤹤롣
+#1. HTML中のリンク先が存在していなかったら警告する。
 disable cant-get-url
 
-# DOCTYPE������ʤ��ä���ٹ𤹤롣
+#2. DOCTYPE宣言がなかったら警告する。
 enable required-doctype
 
-# �������̻Ҥ���ʸ����ʸ����������äƤ�����ٹ𤹤롣
-enable doctype-case-mismatch
-
-# ������DOCTYPE������ä���ٹ𤹤롣
-enable unknown-doctype
-
-# DOCTYPE�������������ʸ�����ޤޤ�Ƥ�����ٹ𤹤�
+#3. DOCTYPE宣言の前に制御文字が含まれていたら警告する
 enable prectrl-doctype
 
-# ���ݡ��Ȥ��Ƥ��ʤ�DOCTYPE������ä���ٹ𤹤롣
+#4. 不明なDOCTYPE宣言だったら警告する。
+enable unknown-doctype
+
+#5. 公開識別子の大文字小文字が食い違っていたら警告する。
+enable doctype-case-mismatch
+
+#6. サポートしていないDOCTYPE宣言だったら警告する。
 enable unsupported-doctype
 
-# ���Ǥ��Ѵ�����Ƥ��ޤä�DOCTYPE�����ꤵ��Ƥ�����ٹ𤹤롣
+#7. すでに廃棄されてしまったDOCTYPEが指定されていたら警告する。
 enable expired-doctype
 
-# HTML4.0���Ф���HTML4.01��Ȥ��褦¥����
+#8. HTML4.0に対してHTML4.01を使うよう促す。
 enable obsoleted-doctype
 
-# ���򤵤줿HTML������������HTML���DOCTYPE�����̷�⤷�Ƥ�����ٹ𤹤롣
+#9. 選択されたHTMLヴァージョンとHTML中のDOCTYPE宣言が矛盾していたら警告する。
 enable doctype-mismatch
 
-# DOCTYPE�����ʸ�����Ƭ�ʳ��˸��줿��ٹ𤹤롣
+#10. DOCTYPE宣言が文書の先頭以外に現れたら警告する。
 enable misplaced-doctype
 
-# XHTML��DOCTYPE������HTML����ʸ���Ǥʤ��ä���ٹ𤹤롣
+#11. XHTMLのDOCTYPE宣言中のHTMLが小文字でなかったら警告する。
 enable lower-case-doctype
 
-# DOCTYPE�������ʸ���Ǥʤ��ä���ٹ𤹤롣
+#12. DOCTYPE宣言が大文字でなかったら警告する。
 enable upper-case-doctype
 
-# XHTML�ǥ����ƥ༱�̻Ҥ��ʤ��ä���ٹ𤹤�
+#13. XHTMLでシステム識別子がなかったら警告する
 enable empty-systemid
 
-# �����ƥ༱�̻Ҥ��������ʤ��ä���ٹ𤹤�
+#14. システム識別子が正しくなかったら警告する
 enable illegal-systemid
 
-# �����ƥ༱�̻Ҥ���ʸ����ʸ������äƤ�����ٹ𤹤�
+#15. システム識別子の大文字小文字が違っていたら警告する
 enable systemid-case-mismatch
 
-# SGML�����DTD����ʤɤ�����줿��ٹ𤹤롣
+#16. SGML宣言やDTD宣言などが現われたら警告する。
 enable ignore-declaration
 
-# �ޡ�����֤����줿��ٹ𤹤롣
+#17. マーク区間が現れたら警告する。
 enable marked-section
 
-# �ޡ��������˽񤤤ƤϤʤ�ʤ�ʸ���󤬴ޤޤ�Ƥ�����ٹ𤹤롣
+#18. マーク区間中に書いてはならない文字列が含まれていたら警告する。
 enable badstr-in-marked-section
 
-# �ޡ�����֤��Ĥ����Ƥ��ʤ��ä���ٹ𤹤롣
+#19. マーク区間が閉じられていなかったら警告する。
 enable unclosed-marked-section
 
-# XML�����ʸ�����Ƭ�ʳ��˸��줿��ٹ𤹤롣
+#20. XML宣言が文書の先頭以外に現れたら警告する。
 enable misplaced-xmldecl
 
-# XHTML��XML������ʤ��ä���ٹ𤹤롣
+#21. XHTMLにXML宣言がなかったら警告する。
 enable xhtml-xmldecl
 
-# XML����� ?> �ǽ���äƤ��ʤ��ä���ٹ𤹤롣
+#22. XML宣言が ?> で終わっていなかったら警告する。
 enable end-xmldecl
 
-# XML������������ʤ��ä���ٹ𤹤롣
+#23. XML宣言が正しくなかったら警告する。
 enable bad-xmldecl
 
-# ����̿���ٹ𤹤롣
+#24. 処理命令を警告する。
 enable processing-instruction
 
-# ��������� -- ���ޤޤ�Ƥ�����ٹ𤹤롣
+#25. コメント中に -- が含まれていたら警告する。
 enable w-hyphens-in-comment
 
-# HTML4�ʾ�ǥ�������� -- ���ޤޤ�Ƥ�����ٹ𤹤롣
+#26. HTML4以上でコメント中に -- が含まれていたら警告する。
 enable excluded-w-hyphens-in-comment
 
-# �����Ȥ��� <!> ���ä���ٹ𤹤롣
+#27. コメントが空 <!> だったら警告する。
 enable empty-comment
 
-# <!-> �ʤɤ��������ʤ������Ȥ��ä���ٹ𤹤롣
+#28. <!-> などの正しくないコメントだったら警告する。
 enable illegal-comment
 
-# <TITLE> ��˥����Ȥ�񤤤Ƥ�����ٹ𤹤롣
+#29. <TITLE> 中にコメントを書いていたら警告する。
 enable title-comment
 
-# ��������� < �� > ���ޤޤ�Ƥ�����ٹ𤹤롣
+#30. コメント中に < や > が含まれていたら警告する。
 enable markup-in-comment
 
-# �����Ȥ�����ҤˤʤäƤ�����ٹ𤹤롣
+#31. コメントが入れ子になっていたら警告する。
 enable nested-comment
 
-# �Ĥ������Ȥ� -- �� > �δ֤˶��򤬴ޤޤ�Ƥ�����ٹ𤹤롣
+#32. 閉じコメントの -- と > の間に空白が含まれていたら警告する。
 enable space-in-closed-comment
 
-# �Ĥ������Ȥ� --!> �Ȥ��Ƥ�����ٹ𤹤롣
+#33. 閉じコメントを --!> としていたら警告する。
 enable illegal-closed-comment
 
-# �����Ȥ��Ĥ����Ƥ��ʤ��ä���ٹ𤹤롣
+#34. コメントが閉じられていなかったら警告する。
 enable unclosed-comment
 
-# �������Ĥ����Ƥ��ʤ��ä���ٹ𤹤롣
+#35. タグが閉じられていなかったら警告する。
 enable unclosed-tag
 
-# < �ȥ���̾�δ֤˶��򤬴ޤޤ�Ƥ�����ٹ𤹤롣
+#36. < とタグ名の間に空白が含まれていたら警告する。
 enable leading-whitespace
 
-# �������;�פ� < �����ä���ٹ𤹤롣
+#37. タグ内に余計な < があったら警告する。
 enable unexpected-open
 
-# XHTML�Ƕ����ǥ����� />���Ĥ��Ƥ��ʤ��ä���ٹ𤹤롣
+#38. XHTMLで空要素タグを />で閉じていなかったら警告する。
 enable endtag-slash
 
-# XHTML�Ƕ����ǥ������Ĥ���Ȥ�/>�����˶��򤬤ʤ��ä���ٹ𤹤롣
+#39. XHTMLで空要素タグを閉じるとき/>の前に空白がなかったら警告する。
 enable leading-space-endtag-slash
 
-# XHTML�Ƕ����ǥ��������Ǥ˶����񤤤Ƥ�����ٹ𤹤롣
+#40. XHTMLで空要素タグの要素に空白を書いていたら警告する。
 enable contain-no-space
 
-# XHTML�Ƕ����ǥ�����<tag></tag>�Ƚ񤤤Ƥ�����ٹ𤹤롣
+#41. XHTMLで空要素タグを<tag></tag>と書いていたら警告する。
 enable minimized-endtag
 
-# XHTML��������ǥ�����/>���Ĥ��Ƥ�����ٹ𤹤롣
+#42. XHTMLで非空要素タグを/>で閉じていたら警告する。
 enable noempty-endtag-slash
 
-# ���ˤ�äƽ񤤤ƤϤʤ�ʤ�������񤤤��Ȥ��ٹ𤹤롣
+#43. 場所によって書いてはならないタグを書いたとき警告する。
 enable excluded-element
 
-# ���ˤ�äƽ񤯤Τ�������ʤ�������񤤤��Ȥ��ٹ𤹤롣
+#44. 場所によって書くのを薦められないタグを書いたとき警告する。
 disable deprecated-element
 
-# �����������ˤ����񤱤ʤ������򤽤γ��˽񤤤Ƥ����Ȥ��ٹ𤹤롣
+#45. 特定の要素内にしか書けないタグをその外に書いていたとき警告する。
 enable misplaced-element
 
-# ���٤����񤤤ƤϤʤ�ʤ�������ʣ����񤤤��Ȥ��ٹ𤹤롣
+#46. 一度しか書いてはならないタグを複数回書いたとき警告する。
 enable once-only
 
-# ¾�Υ����Ȥɤ��餫���������񤱤ʤ�������ξ���񤤤��Ȥ��ٹ𤹤롣
+#47. 他のタグとどちらか一方しか書けないタグを両方書いたとき警告する。
 enable once-only-group
 
-# ������񤯽����ְ㤨�Ƥ�����ٹ𤹤롣
+#48. タグを書く順序を間違えていたら警告する。
 enable must-follow
 
-# <DD> �� <DT> ��³���Ƥ��ʤ��ä���ٹ𤹤롣
+#49. <DD> が <DT> に続いていなかったら警告する。
 enable must-follow-slight
 
-# ɬ�פʥ�����񤤤Ƥ��ʤ��ä���ٹ𤹤롣
+#50. 必要なタグを書いていなかったら警告する。
 enable required
 
-# �����ˤ�äơ����ϥ����Ƚ�λ�����δ֤˲���ʤ��ä���ٹ𤹤롣
+#51. タグによって、開始タグと終了タグの間に何もなかったら警告する。
 enable empty-container
 
-# ���ϥ����Ƚ�λ�����δ֤�����������ä���ٹ𤹤롣
+#52. 開始タグと終了タグの間が空白だけだったら警告する。
 enable space-container
 
-# ���ϥ����Ƚ�λ�����δ֤� <BR> �������ä���ٹ𤹤롣
+#53. 開始タグと終了タグの間が <BR> だけだったら警告する。
 enable br-only-container
 
-# �����ʥ�����񤤤Ƥ�����ٹ𤹤롣
+#54. 不明なタグを書いていたら警告する。
 enable unknown-element
 
-# �̤�HTML�ѤΥ�����񤤤Ƥ�����ٹ𤹤롣
+#55. 別のHTML用のタグを書いていたら警告する。
 enable other-html-element
 
-# ���ޤ�������ʤ�������񤤤Ƥ�����ٹ𤹤롣
+#56. あまり薦められないタグを書いていたら警告する。
 enable deprecated-tag
 
-# �������륷���Ȥ�Ȥä���������������񤤤Ƥ�����ٹ𤹤롣
+#57. スタイルシートを使った方がいいタグを書いていたら警告する。
 enable deprecated-tag-css
 
-# ���ݡ��ȳ��Υ�����񤤤Ƥ�����ٹ𤹤롣
+#58. サポート外のタグを書いていたら警告する。
 enable unsupported-tag
 
-# �Ȥ��٤��Ǥʤ��Ȥ���Ƥ��륿����񤤤Ƥ�����ٹ𤹤롣
+#59. 使うべきでないとされているタグを書いていたら警告する。
 enable should-not-use
 
-# ��ά�ԲĤγ��ϥ�������ά���줿�Ȥ��ٹ𤹤롣
+#60. 省略不可の開始タグが省略されたとき警告する。
 enable required-start-tag
 
-# ���ϥ�������ά���줿�Ȥ��ٹ𤹤롣��ά�������ʾ��������
+#61. 開始タグが省略されたとき警告する。省略が自明な場合を除く。
 enable omit-start-tag
 
-# <TBODY> �ʤɤξ�ά�������ʳ��ϥ�������ά���줿�Ȥ��ٹ𤹤롣
+#62. <TBODY> などの省略が自明な開始タグが省略されたとき警告する。
 disable omit-start-tag-trivial
 
-# ��ά�ԲĤν�λ��������ά���줿�Ȥ��ٹ𤹤롣
+#63. 省略不可の終了タグが省略されたとき警告する。
 enable required-end-tag
 
-# ��λ��������ά���줿�Ȥ��ٹ𤹤롣��ά�������ʾ��������
+#64. 終了タグが省略されたとき警告する。省略が自明な場合を除く。
 enable omit-end-tag
 
-# </LI> �� </TD> �ʤɤξ�ά�������ʽ�λ��������ά���줿�Ȥ��ٹ𤹤롣
+#65. </LI> や </TD> などの省略が自明な終了タグが省略されたとき警告する。
 disable omit-end-tag-trivial
 
-# ��λ������°������ꤷ���Ȥ��ٹ𤹤롣
+#66. 終了タグに属性を指定したとき警告する。
 enable closing-attribute
 
-# ��λ�����Τʤ������ν�λ������񤤤��Ȥ��ٹ𤹤롣
+#67. 終了タグのないタグの終了タグを書いたとき警告する。
 enable illegal-closing
 
-# ���ϥ����Ƚ�λ�����δ֤�˾�ޤ����ʤ�;ʬ�ʶ��򤬤��ä���ٹ𤹤롣
+#68. 開始タグと終了タグの間に望ましくない余分な空白があったら警告する。
 disable container-whitespace
 
-# ���ϥ����Τʤ���λ���������ä���ٹ𤹤롣
+#69. 開始タグのない終了タグがあったら警告する。
 enable mis-match
 
-# ����������Ҵط������������Ȥ��ٹ𤹤롣
+#70. タグの入れ子関係がおかしいとき警告する。
 enable element-overlap
 
-# ����������Ҥ����᤮����ٹ𤹤롣
+#71. タグの入れ子が深過ぎたら警告する。
 enable tags-nest
 
-# ɬ�פʽ�λ���������Ĥ���ʤ��ä���ٹ𤹤롣
+#72. 必要な終了タグが見つからなかったら警告する。
 enable unclosed-element
 
-# �����ʳ����񤱤ʤ����˥ƥ����Ȥ�񤤤��Ȥ��ٹ𤹤롣
+#73. タグ以外が書けない場所にテキストを書いたとき警告する。
 enable unexpected-pcdata
 
-# ������ˤ�������ʸ�������ä���ٹ𤹤롣
+#74. タグ内におかしな文字があったら警告する。
 enable illegal-attribute
 
-# XHTML�ʳ��Ƕ����ǥ����� /> ���Ĥ��Ƥ�����ٹ𤹤롣
+#75. XHTML以外で空要素タグを /> と閉じていたら警告する。
 enable xhtml-emptytag
 
-# ����̾��°��̾����ʸ������ʸ�������줹��褦��¥����
+#76. 要素名や属性名の大文字、小文字を統一するように促す。
 disable mixed-case
 
-# XHTML������̾��ʸ���ǽ񤤤Ƥ��ʤ��ä���ٹ𤹤롣
+#77. XHTMLで要素名を小文字で書いていなかったら警告する。
 enable lower-case-tag
 
-# XHTML��°��̾��ʸ���ǽ񤤤Ƥ��ʤ��ä���ٹ𤹤롣
+#78. XHTMLで属性名を小文字で書いていなかったら警告する。
 enable lower-case-attribute
 
-# ������°�������ꤵ��Ƥ�����ٹ𤹤롣
+#79. 不明の属性が指定されていたら警告する。
 enable unknown-attribute
 
-# �̤�HTML�Ѥ�°�������ꤵ��Ƥ�����ٹ𤹤롣
+#80. 別のHTML用の属性が指定されていたら警告する。
 enable other-html-attribute
 
-# ���ޤ�������ʤ�°����񤤤Ƥ�����ٹ𤹤롣
+#81. あまり薦められない属性を書いていたら警告する。
 enable deprecated-attribute
 
-# �������륷���Ȥ�Ȥä���������°����񤤤Ƥ�����ٹ𤹤롣
+#82. スタイルシートを使った方がいい属性を書いていたら警告する。
 enable deprecated-attribute-css
 
-# ���ݡ��ȳ���°����񤤤Ƥ�����ٹ𤹤롣
+#83. サポート外の属性を書いていたら警告する。
 enable unsupported-attribute
 
-# °��������Ƕ��ڤ��Ƥ��ʤ��ä���ٹ𤹤롣
+#84. 属性が空白で区切られていなかったら警告する。
 enable leading-space-attribute
 
-# Ʊ��°���������֤���Ƥ�����ٹ𤹤롣
+#85. 同じ属性が繰り返されていたら警告する。
 enable repeated-attribute
 
-# ɬ�פ�°�������ꤵ��Ƥ��ʤ��ä���ٹ𤹤롣
+#86. 必要な属性が指定されていなかったら警告する。
 enable required-attribute
 
-# Ʊ���˻��ꤷ�ʤ���Фʤ�ʤ�°�������ꤵ��Ƥ��ʤ��ä���ٹ𤹤롣
+#87. 同時に指定しなければならない属性が指定されていなかったら警告する。
 enable required-attribute-pair
 
-# Ʊ���˻��ꤷ�ƤϤʤ�ʤ�°�������ꤵ��Ƥ�����ٹ𤹤�
+#88. 同時に指定してはならない属性が指定されていたら警告する
 enable nomixed-attribute
 
-# ɬ�פ�°���ͤ���ά����Ƥ�����ٹ𤹤롣
+#89. 必要な属性値が省略されていたら警告する。
 enable required-value
 
-# °���ͤ����ꤵ��Ƥ��ʤ��Ȥ��ٹ𤹤롣
+#90. 属性値が指定されていないとき警告する。
 enable no-attribute-value
 
-# ������ǰϤޤ줿°���ͤ�ʣ���Ԥ��ϤäƤ�����ٹ𤹤롣
+#91. 引用符で囲まれた属性値が複数行に渡っていたら警告する。
 enable across-lines-attribute
 
-# °���Ͷ��ڤ�� = ����˶��򤬴ޤޤ�Ƥ�����ٹ𤹤롣
+#92. 属性値区切りの = 前後に空白が含まれていたら警告する。
 disable space-around-equal
 
-# °���ͤΰ����䤬�Ĥ����Ƥ��ʤ��ä���ٹ𤹤롣
+#93. 属性値の引用符が閉じられていなかったら警告する。
 enable unclosed-quotes
 
-# °���ͤ�ñ������ '��' �ǰϤޤ�Ƥ�����ٹ𤹤롣
+#94. 属性値が単引用符 '〜' で囲まれていたら警告する。
 disable attribute-delimiter
 
-# ������ǰϤޤʤ���Фʤ�ʤ�°���ͤ������ǰϤ�Ǥʤ��ä���ٹ𤹤롣
+#95. 引用符で囲まなければならない属性値を引用符で囲んでなかったら警告する。
 enable quote-attribute-value
 
-# ������ǰϤ�������褤°���ͤ������ǰϤ�Ǥʤ��ä���ٹ𤹤롣
+#96. 引用符で囲んだ方がよい属性値を引用符で囲んでなかったら警告する。
 enable recommend-quote-attribute-value
 
-# ������ǰϤޤ�Ƥ��ʤ�°���ͤ������ǰϤ�褦¥����
+#97. 引用符で囲まれていない属性値を引用符で囲むよう促す。
 disable bare-attribute-value
 
-# ������ǰϤޤ줿°���ͤ˶�����Ը�Ԥ��Ƥ�����ٹ𤹤롣
+#98. 引用符で囲まれた属性値に空白が先行後行していたら警告する。
 enable whitespace-attribute-value
 
-# ���ޤ�������ʤ�°���ͤ�񤤤Ƥ�����ٹ𤹤롣
+#99. あまり薦められない属性値を書いていたら警告する。
 enable deprecated-value
 
-# ���ˤǤ��ʤ�°���ͤ����ΤȤ��ٹ𤹤롣
+#100. 空にできない属性値が空のとき警告する。
 enable empty-value
 
-# °���ͤ�Ĺ�᤮��Ȥ��ٹ𤹤롣
+#101. 属性値が長過ぎるとき警告する。
 enable attribute-length
 
-# °���ͤ��������ʤ��ä���ٹ𤹤롣
+#102. 属性値が正しくなかったら警告する。
 enable attribute-format
 
-# ���λ��꤬�������ʤ��ä���ٹ𤹤롣
+#103. 色の指定が正しくなかったら警告する。
 enable attribute-color
 
-# PROFILE°����ʣ����URI��񤤤Ƥ�����ٹ𤹤롣
+#104. PROFILE属性に複数のURIを書いていたら警告する。
 enable profile-uri
 
-# �����Ǥʤ�°���ͤ�񤤤Ƥ�����ٹ𤹤롣
+#105. 安全でない属性値を書いていたら警告する。
 enable unsafe-attribute
 
-# XHTML��°���ͤ���ʸ����ʸ����������äƤ�����ٹ𤹤롣
+#106. XHTMLで属性値の大文字小文字が食い違っていたら警告する。
 enable attribute-value-case
 
-# °���ͤ����ꤵ��Ƥ���Ȥ�����ʳ����ͤ�񤤤���ٹ𤹤롣
+#107. 属性値が固定されているときそれ以外の値を書いたら警告する。
 enable fixed-attribute
 
-# °���ͤ�°��̾��Ʊ��ΤȤ���°��̾���ά����褦¥����
+#108. 属性値と属性名が同一のときは属性名を省略するよう促す。
 enable minimized-attribute
 
-# XHTML��°��̾����ά����Ƥ�����ٹ𤹤롣
+#109. XHTMLで属性名が省略されていたら警告する。
 enable no-minimization
 
-# °���ͤȰۤʤ�°��̾����ά����Ƥ�����ٹ𤹤롣
+#110. 属性値と異なる属性名が省略されていたら警告する。
 enable omit-attribute-name
 
-# ���λ��Ȥ����ߥ�����ǽ���äƤ��ʤ��ä���ٹ𤹤롣
+#111. 実体参照がセミコロンで終わっていなかったら警告する。
 enable required-semicolon
 
-# ���λ��� &apos; ��񤫤ʤ��褦¥��
+#112. 実体参照 &apos; を書かないよう促す
 enable apos
 
-# XHTML��16�ʿ�ʸ�����Ȥ�X��ȤäƤ�����ٹ𤹤롣
+#113. XHTMLで16進数文字参照にXを使っていたら警告する。
 enable lower-x
 
-# �����ʼ��λ��ȤΤȤ��ٹ𤹤롣
+#114. 不明な実体参照のとき警告する。
 enable bad-entity
 
-# ʸ�����Ȥ��³���Ķ����ʸ�������ɤΤȤ��ٹ𤹤롣
+#115. 文字参照が限界を超えた文字コードのとき警告する。
 enable over-ref-charset
 
-# ���ѤǤ��ʤ�ʸ�����Ȥ���Ѥ����Ȥ��ٹ𤹤�
+#116. 使用できない文字参照を使用したとき警告する
 enable no-ref-charset
 
-# < �� & �ʤɤ���λ��Ȥ��Ѥ��ƽ񤯤褦�˷ٹ𤹤롣
+#117. < や & などを実体参照を用いて書くように警告する。
 enable literal-metacharacter
 
-# �ƥ�������ΰ��������λ��Ȥ��Ѥ��ƽ񤯤褦��¥����
+#118. テキスト中の引用符を実体参照を用いて書くように促す。
 disable double-quote-in-text
 
-# <HTML> ������LANG°������ꤹ��褦¥����
+#119. <HTML> タグにLANG属性を指定するよう促す。
 enable html-lang
 
-# lang°����xml:lang°�����Фǻ��ꤹ��褦¥����
+#120. lang属性とxml:lang属性を対で指定するよう促す。
 enable lang
 
-# lang°�����ͤ�xml:lang°�����ͤ�������äƤ�����ٹ𤹤롣
+#121. lang属性の値とxml:lang属性の値が食い違っていたら警告する。
 enable lang-mismatch
 
-# LANG°���λ����°���ͤθ��줬������äƤ�����ٹ𤹤롣
+#122. LANG属性の指定と属性値の言語が食い違っていたら警告する。
 enable lang-attribute
 
-# LANG°���λ���ȥƥ����Ȥθ��줬������äƤ�����ٹ𤹤롣
+#123. LANG属性の指定とテキストの言語が食い違っていたら警告する。
 disable lang-pcdata
 
-# <HEAD> ��� <LINK REV=MADE HREF="mailto:��"> ���ʤ��ä���ٹ𤹤롣
+#124. <HEAD> 中に <LINK REV=MADE HREF="mailto:〜"> がなかったら警告する。
 enable mailto-link
 
-# <HEAD> ��� <LINK REL="NEXT" HREF="��"> �ʤɤΥʥ�������������ѤΥ�󥯤��ʤ��ä���ٹ𤹤롣
+#125. <HEAD> 中に <LINK REL="NEXT" HREF="〜"> などのナヴィゲーション用のリンクがなかったら警告する。
 enable navigation-link
 
-# <LINK REL="CONTENTS"> �� CONTENT �Ƚ񤤤Ƥ�����ٹ𤹤롣
+#126. <LINK REL="CONTENTS"> を CONTENT と書いていたら警告する。
 enable mistype-links
 
-# <META NAME="ROBOTS"> ��CONTENT°�����ͤ��������ʤ��ä���ٹ𤹤롣
+#127. <META NAME="ROBOTS"> のCONTENT属性の値が正しくなかったら警告する。
 enable robots-content
 
-# <HEAD> ��� <META HTTP-EQUIV=CONTENT-TYPE CONTENT=��> ���ʤ��ä���ٹ𤹤롣
+#128. <HEAD> 中に <META HTTP-EQUIV=CONTENT-TYPE CONTENT=〜> がなかったら警告する。
 enable content-type
 
-# <META> �˻��ꤵ��Ƥ���CHARSET�� IANA ����Ͽ����Ƥ��ʤ��ä���ٹ𤹤롣
+#129. <META> に指定されているCHARSETが登録されているものでなかったら警告する。
 enable no-registered-charset
 
-# <META HTTP-EQUIV=CONTENT-TYPE CONTENT=��> ��CHARSET�����ꤵ��Ƥ��ʤ��ä���ٹ𤹤롣
+#130. <META HTTP-EQUIV=CONTENT-TYPE CONTENT=〜> にCHARSETが指定されていなかったら警告する。
 enable no-charset
 
-# <META HTTP-EQUIV=CONTENT-TYPE CONTENT=��> ��CHARSET�����ꤵ���������ASCIIʸ�������줿��ٹ𤹤롣
+#131. <META HTTP-EQUIV=CONTENT-TYPE CONTENT=〜> でCHARSETが指定される前に非ASCII文字が現れたら警告する。
 enable non-ascii-early
 
-# ��ASCIIʸ�������ѤǤ��ʤ� CHARSET �ʤΤ���ASCIIʸ�������줿��ٹ𤹤롣
+#132. 非ASCII文字が使用できない CHARSET なのに非ASCII文字が現れたら警告する。
 enable non-ascii
 
-# ���Ԥ䥿�ְʳ�������ʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#133. 改行やタブ以外の制御文字が含まれていたら警告する。
 enable ctrl-character
 
-# Ⱦ�ѥ������ʤ��ޤޤ�Ƥ�����ٹ𤹤롣
+#134. 半角カタカナが含まれていたら警告する。
 enable han-katakana
 
-# �����¸����ʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#135. 機種依存全角文字が含まれていたら警告する。
 enable bad-jis-x0208
 
-# ʸ�����Ƭ��BOM���ޤޤ�Ƥ�����ٹ𤹤롣
+#136. 文書の先頭にBOMが含まれていたら警告する。
 enable bom
 
-# XHTML�ǡ�XML������ encoding ���꤬�ʤ��ä���ٹ𤹤롣
+#137. XHTMLで、XML宣言中に encoding 指定がなかったら警告する。
 enable xml-encoding
 
-# CHARSET �λ���ȼºݤΥ����ɤ�̷�⤷�Ƥ�����ٹ𤹤롣
+#138. CHARSET の指定と実際のコードが矛盾していたら警告する。
 enable charset-mismatch
 
-# HTTP�쥹�ݥ󥹥إå��Ǥ� CHARSET �λ���� <META> �λ��̷꤬�⤷�Ƥ�����ٹ𤹤롣
+#139. HTTPレスポンスヘッダでの CHARSET の指定と <META> の指定が矛盾していたら警告する。
 enable conflict-charset
 
-# HTTP�쥹�ݥ󥹥إå��� CHARSET ���꤬�ʤ��ä���ٹ𤹤롣
+#140. HTTPレスポンスヘッダに CHARSET 指定がなかったら警告する。
 enable http-head-charset
 
-# <META> �˻��ꤵ��Ƥ���CONTENT-TYPE�� text/html �Ǥʤ��ä���ٹ𤹤롣
+#141. <META> に指定されているCONTENT-TYPEが text/html でなかったら警告する。
 enable no-text-html
 
-# HTTP�쥹�ݥ󥹥إå��ǤΥ�ǥ��������פλ���� <META> �λ��̷꤬�⤷�Ƥ�����ٹ𤹤롣
+#142. HTTPレスポンスヘッダでのメディアタイプの指定と <META> の指定が矛盾していたら警告する。
 enable conflict-mime
 
-# HTML�ˤ�äƻ���Ǥ��ʤ���ǥ��������פ����ꤵ��Ƥ�����ٹ𤹤롣
+#143. HTMLによって指定できないメディアタイプが指定されていたら警告する。
 enable unrecommended-mime
 
-# ��ǥ��������� application/xhtml+xml �� <meta http-equiv> ���񤫤�Ƥ�����ٹ𤹤�
+#144. メディアタイプ application/xhtml+xml で <meta http-equiv> が書かれていたら警告する
 enable xml-http-equiv
 
-# <META HTTP-EQUIV=CONTENT-TYPE> ��ʣ����񤫤�Ƥ�����ٹ𤹤롣
+#145. <META HTTP-EQUIV=CONTENT-TYPE> が複数回書かれていたら警告する。
 enable existing-content-type
 
-# <SCRIPT> �� <STYLE> ��Ȥ��Ȥ��� <META HTTP-EQUIV=CONTENT-XXXX-TYPE> ����ꤹ��褦¥����
+#146. <SCRIPT> や <STYLE> を使うときは <META HTTP-EQUIV=CONTENT-XXXX-TYPE> を指定するよう促す。
 enable content-xxxx-type
 
-# ONXXXX°����STYLE°����ȤäƤ���Τ� <META HTTP-EQUIV=CONTENT-XXXX-TYPE> �����ꤵ��Ƥ��ʤ��ä���ٹ𤹤롣
+#147. ONXXXX属性やSTYLE属性を使っているのに <META HTTP-EQUIV=CONTENT-XXXX-TYPE> が指定されていなかったら警告する。
 enable need-content-xxxx-type
 
-# <META> �� HTTP-EQUIV �� NAME ��ξ�������ꤵ��Ƥ�����ٹ𤹤롣
+#148. <META> に HTTP-EQUIV と NAME の両方が指定されていたら警告する。
 enable meta-http-equiv-name
 
-# <META CONTENT> �� HTTP-EQUIV �� NAME ����ꤵ��Ƥ��ʤ��ä���ٹ𤹤롣
+#149. <META CONTENT> に HTTP-EQUIV も NAME も指定されていなかったら警告する。
 enable meta-no-http-equiv-name
 
-# �Ф��Ѥ���٤����٥�Ȥ�ٹ𤹤롣
+#150. 対で用いるべきイベントを警告する。
 enable event-pair
 
-# <META HTTP-EQUIV="REFRESH"> �ϻ��Ѥ��ʤ��褦¥����
+#151. <META HTTP-EQUIV="REFRESH"> は使用しないよう促す。
 enable refresh
 
-# <META HTTP-EQUIV="REFRESH"> �����������󥯤��ʤ��ä���ٹ𤹤롣
+#152. <META HTTP-EQUIV="REFRESH"> に相当するリンクがなかったら警告する。
 enable refresh-link
 
-# <SCRIPT> ������Ǥ򤹤٤ƥ����ȤǰϤ�褦¥����
+#153. <SCRIPT> 中の要素をすべてコメントで囲むよう促す。
 enable comment-element
 
-# <SCRIPT> ��� </ ��ľ�ܽ񤤤Ƥ�����ٹ𤹤롣
+#154. <SCRIPT> 中に </ を直接書いていたら警告する。
 enable etago-in-cdata
 
-# <SCRIPT> ��˹��ޤ����ʤ�ʸ����񤤤Ƥ�����ٹ𤹤롣
+#155. <SCRIPT> 中に好ましくない文字を書いていたら警告する。
 enable embedded-in-cdata
 
-# XHTML�� <SCRIPT> ��˥����Ȥ����ä���ٹ𤹤�
+#156. XHTMLで <SCRIPT> 中にコメントがあったら警告する
 enable comment-in-stylescript
 
-# <SCRIPT> ����������Τ� <NOSCRIPT> �������ʤ��ä���ٹ𤹤롣
+#157. <SCRIPT> タグがあるのに <NOSCRIPT> タグがなかったら警告する。
 disable no-noscript
 
-# TITLE��Ĺ����64ʸ����Ķ���Ƥ�����ٹ𤹤롣
+#158. TITLEの長さが64文字を超えていたら警告する。
 enable title-length
 
-# <BODY> �Ǥο����꤬�Դ������ä���ٹ𤹤롣
+#159. <BODY> での色指定が不完全だったら警告する。
 enable body-color
 
-# �طʲ��������ꤷ�Ƥ���Τ��طʿ������ꤷ�Ƥ��ʤ��ä���ٹ𤹤롣
+#160. 背景画像が指定してあるのに背景色が指定していなかったら警告する。
 enable background
 
-# �طʿ���Ʊ�����Υƥ����ȿ�����ꤷ�Ƥ�����ٹ𤹤롣
+#161. 背景色と同じ色のテキスト色を指定していたら警告する。
 enable same-bgcolor
 
-# �طʿ��Ȼ������Υƥ����ȿ�����ꤷ�Ƥ�����ٹ𤹤롣
+#162. 背景色と似た色のテキスト色を指定していたら警告する。
 enable near-bgcolor
 
-# ID°�����ͤ���ʣ���Ƥ�����ٹ𤹤롣
+#163. 背景色とテキスト色の輝度比が不足していたら警告する。
+enable contrast
+
+#164. ID属性の値が重複していたら警告する。
 enable repeated-id
 
-# �������Ƥ��ʤ�ID°�����ͤ򻲾Ȥ��Ƥ�����ٹ𤹤롣
+#165. 定義されていないID属性の値を参照していたら警告する。
 enable undef-id
 
-# <FORM> ������̾����ʣ���Ƥ�����ٹ𤹤롣
+#166. <FORM> の要素名が重複していたら警告する。
 enable repeated-name
 
-# <FIELDSET> ��ľ��˶���ʳ��Υƥ����Ȥ�񤤤Ƥ�����ٹ𤹤롣
+#167. <FIELDSET> の直後に空白以外のテキストを書いていたら警告する。
 enable fieldset-whitespace
 
-# �饸���ܥ����ʣ�� CHECKED �����ꤵ��Ƥ�����ٹ𤹤롣
+#168. ラジオボタンで複数 CHECKED が指定されていたら警告する。
 enable multiple-checked
 
-# ʣ�������ԲĤΥ����å��ܥå�����ʣ�� SELECTED �����ꤵ��Ƥ�����ٹ𤹤롣
+#169. ラジオボタンでひとつも CHECKED が指定されていなかったら警告する。
+enable no-checked
+
+#170. <OPTION> にひとつも SELECTED が指定されていなかったら警告する。
+enable no-selected
+
+#171. 複数選択不可のチェックボックスで複数 SELECTED が指定されていたら警告する。
 enable multiple-selected
 
-# <OPTION> ��¿�᤮����ٹ𤹤롣
+#172. <OPTION> が多過ぎたら警告する。
 enable over-select-options
 
-# ���ǥ��åȥܥå�����ƥ����ȥ��ꥢ�ˤϽ���ͤȤʤ�ƥ����Ȥ�����Ƥ����褦¥����
+#173. エディットボックスやテキストエリアには初期値となるテキストを入れておくよう促す。
 enable default-text
 
-# <BUTTON> ������TYPE°������ꤹ��褦¥����
+#174. <BUTTON> タグにTYPE属性を指定するよう促す。
 enable input-type
 
-# <BUTTON> ��˥��᡼���ޥåפ��֤��Ƥ�����ٹ𤹤롣
+#175. <BUTTON> 中にイメージマップを置いていたら警告する。
 enable button-usemap
 
-# <LABEL> ���ʣ���Υե����ॳ��ȥ������񤤤Ƥ�����ٹ𤹤롣
+#176. <LABEL> 中に複数のフォームコントロールを書いていたら警告する。
 enable label-control
 
-# FOR°���Τʤ� <LABEL> ��˥ե����ॳ��ȥ����뤬�ʤ��ä���ٹ𤹤롣
+#177. FOR属性のない <LABEL> 中にフォームコントロールがなかったら警告する。
 enable label-no-control
 
-# <LABEL> ��FOR°�����ͤ����Ƥ˴ޤޤ��ե����ॳ��ȥ������ID°�����ͤ�������äƤ�����ٹ𤹤롣
+#178. <LABEL> のFOR属性の値と内容に含まれるフォームコントロールのID属性の値が食い違っていたら警告する。
 enable label-for-control
 
-# <INPUT> �����ʤɤ�TABINDEX°������ꤹ��褦¥����
+#179. <INPUT> タグなどにTABINDEX属性を指定するよう促す。
 enable form-tabindex
 
-# <INPUT> �����ʤɤ�ACCESSKEY°������ꤹ��褦¥����
+#180. <INPUT> タグなどにACCESSKEY属性を指定するよう促す。
 enable form-accesskey
 
-# <ABBR> �����ʤɤ�TITLE°������ꤹ��褦¥����
+#181. <ABBR> タグなどにTITLE属性を指定するよう促す。
 enable recommended-title
 
-# <OBJECT> �ˤ����������Ƥ���ꤹ��褦¥����
+#182. <OBJECT> には等価な内容を指定するよう促す。
 enable object-text-equivalent
 
-# <APPLET> ��ALT°�������������Ƥ����ꤵ��Ƥ�����ٹ𤹤롣
+#183. <APPLET> にALT属性と等価な内容が指定されていたら警告する。
 enable applet-text-equivalent
 
-# ALT°�����ͤ���������ΤȤ��ٹ𤹤롣
+#184. ALT属性の値が空白だけのとき警告する。
 enable alt-spaces
 
-# <IMG> ������ALT°������ꤹ��褦¥����
+#185. <IMG> タグにALT属性を指定するよう促す。
 enable img-alt
 
-# <IMG> ������WIDTH�ڤ�HEIGHT°������ꤹ��褦¥����
+#186. <IMG> タグにWIDTH及びHEIGHT属性を指定するよう促す。
 enable img-size
 
-# <IMG> ������ISMAP��USEMAP°����ξ�������ꤵ��Ƥ�����ٹ𤹤롣
+#187. <IMG> タグにISMAPとUSEMAP属性の両方が指定されていたら警告する。
 enable img-map
 
-# �����Х����ɥ��᡼���ޥåפ���Ѥ��Ƥ�����ٹ𤹤롣
+#188. サーバサイドイメージマップを使用していたら警告する。
 enable server-side-image-map
 
-# <TABLE> ������SUMMARY°������ꤹ��褦¥����
+#189. <TABLE> タグにSUMMARY属性を指定するよう促す。
 enable table-summary
 
-# <TH> ������ABBR°������ꤹ��褦¥����
+#190. <TH> タグにABBR属性を指定するよう促す。
 enable abbr-header-label
 
-# <COL> ����� <COLGROUP> ��SPAN°����ٹ𤹤롣
+#191. <COL> を持つ <COLGROUP> のSPAN属性を警告する。
 enable colgroup-span
 
-# �ơ��֥�Υ��뤬�ŤʤäƤ�����ٹ𤹤롣
+#192. テーブルのセルが重なっていたら警告する。
 enable overlap-cells
 
-# <FRAMESET> ����������Τ� <NOFRAMES> �������ʤ��ä���ٹ𤹤롣
+#193. <FRAMESET> タグがあるのに <NOFRAMES> タグがなかったら警告する。
 enable no-noframes
 
-# <FRAME> ��URL�˼�ʬ���Ȥ���ꤷ�Ƥ�����ٹ𤹤롣
+#194. <FRAME> のURLに自分自身を指定していたら警告する。
 enable same-document-frameset
 
-# <FRAME> ��ľ�ܥ��᡼������ꤷ�Ƥ�����ٹ𤹤롣
+#195. <FRAME> で直接イメージを指定していたら警告する。
 enable frame-image
 
-# <FRAME> ������TITLE°������ꤹ��褦¥����
+#196. <FRAME> タグにTITLE属性を指定するよう促す。
 enable frame-title
 
-# <FRAME> ��̾����ʣ�����ꤵ��Ƥ�����ٹ𤹤롣
+#197. <FRAME> の名前が複数指定されていたら警告する。
 enable existing-target-name
 
-# <FRAME> ��̾����ͽ�󤵤줿��Τ��ä���ٹ𤹤롣
+#198. <FRAME> の名前が予約されたものだったら警告する。
 enable reserved-target-name
 
-# <FRAME> ��̾����ͽ�󤵤줿��Τ���ʸ����ɽ������Ƥ�����ٹ𤹤롣
+#199. <FRAME> の名前が予約されたもので大文字で表記されていたら警告する。
 enable reserved-target-name-upper
 
-# <FRAME> ��̾�����������ʤ��ä���ٹ𤹤롣
+#200. <FRAME> の名前が正しくなかったら警告する。
 enable illegal-target-name
 
-# ʪ��Ū�ե���ȥ���(<B>��<I>��<TT>��)��񤫤ʤ��褦¥����
+#201. 物理的フォントタグ(<B>、<I>、<TT>等)を書かないよう促す。
 enable physical-font
 
-# <P> ������ <BR> �����Τ褦�˻��Ѥ��Ƥ�����ٹ𤹤롣
+#202. <P> タグを <BR> タグのように使用していたら警告する。
 enable p-isnot-br
 
-# <BR> ������¿��Ϣ³���Ƥ�����ٹ𤹤롣
+#203. <BR> タグが多数連続していたら警告する。
 enable continuous-brs
 
-# <PRE> ��˥���ʸ����񤤤Ƥ�����ٹ𤹤롣
+#204. <PRE> 内にタブ文字を書いていたら警告する。
 enable tab-in-pre
 
-# ���Ф�(<H1>��<H6>)�Υ�٥뤬Ϣ³���Ƥ��ʤ��ä���ٹ𤹤롣
+#205. 見出し(<H1>〜<H6>)のレベルが連続していなかったら警告する。
 enable heading-order
 
-# ���Ф����᡼����������������񤯤褦¥����
+#206. 見出しイメージに等価な説明を書くよう促す。
 enable heading-text-equivalent
 
-# <A> ������ACCESSKEY°������ꤹ��褦¥����
+#207. <A> タグにACCESSKEY属性を指定するよう促す。
 disable link-accesskey
 
-# ��󥯤ȥ�󥯤δ֤˲���ʸ�����֤��褦¥����
+#208. リンクとリンクの間に何か文字を置くよう促す。
 enable link-separation
 
-# ��󥯥��᡼����������������񤯤褦¥����
+#209. リンクイメージに等価な説明を書くよう促す。
 enable link-text-equivalent
 
-# D-��󥯤�ٹ𤹤롣
+#210. D-リンクを警告する。
 disable d-link
 
-# Ʊ��Υ��󥫡��ǰۤʤ������ؤ��Ƥ�����ٹ𤹤롣
+#211. 同一のアンカーで異なるリンク先を指していたら警告する。
 enable same-link-text
 
-# ���󥫡��Ȥ��� "here" �Ȥ� "����" �ʤɤ�񤤤Ƥ�����ٹ𤹤롣
+#212. アンカーとして "here" とか "ここ" などを書いていたら警告する。
 enable here-anchor
 
-# ���󥫡�̾�˶���ʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#213. <IMG ALT> アンカーとして "here" とか "ここ" などを書いていたら警告する。
+enable here-anchor-alt
+
+#214. アンカー名に空白文字が含まれていたら警告する。
 enable fragment-id-whitespace
 
-# ���󥫡�̾�˰����Ǥʤ�ʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#215. アンカー名に安全でない文字が含まれていたら警告する。
 enable unsafe-fragment-id
 
-# ���󥫡�̾�����ΤȤ��ٹ𤹤롣
+#216. アンカー名が空のとき警告する。
 enable empty-fragment-id
 
-# Ʊ�����󥫡�̾�����ꤵ��Ƥ�����ٹ𤹤롣
+#217. 同じアンカー名が指定されていたら警告する。
 enable existing-fragment-id
 
-# ��ʸ����ʸ�����̤��ʤ���Ʊ�����󥫡�̾�����ꤵ��Ƥ�����ٹ𤹤롣
+#218. 大文字小文字区別しないで同じアンカー名が指定されていたら警告する。
 enable case-insensitive-fragment-id
 
-# ���󥫡�̾��ID°����Ʊ����Τ����ꤵ��Ƥ�����ٹ𤹤롣
+#219. アンカー名とID属性に同じものが指定されていたら警告する。
 enable same-fragment-id
 
-# ID°���Ȥ����������Ƥ��륢�󥫡�̾���Ф��Ʒٹ𤹤롣
+#220. ID属性として定義されているアンカー名に対して警告する。
 enable id-link
 
-# Ʊ�쥿�����NAME°�����ͤ�ID°�����ͤ��ۤʤäƤ�����ٹ𤹤롣
+#221. 同一タグ中のNAME属性の値とID属性の値が異なっていたら警告する。
 enable diff-id-link
 
-# NAME°����ID°����ξ������ꤹ��褦¥����
+#222. NAME属性とID属性の両方を指定するよう促す。
 enable need-id-name
 
-# ID°���ͤ˾�ʸ�����Ȥ��Ƥ�����ٹ𤹤�
+#223. ID属性値に小文字が使われていたら警告する
 enable lower-id
 
-# �������Ƥ��ʤ����󥫡�̾���Ф��Ʒٹ𤹤롣
+#224. 定義されていないアンカー名に対して警告する。
 enable bad-link
 
-# ���Ȥ���Ƥ��ʤ����󥫡�̾���Ф��Ʒٹ𤹤롣
+#225. 参照されていないアンカー名に対して警告する。
 disable unref-link
 
-# URL�����ΤȤ��ٹ𤹤롣
+#226. URLが空のとき警告する。
 enable empty-url
 
-# URL�˶���ʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#227. URLに空白文字が含まれていたら警告する。
 enable url-whitespace
 
-# URL�� "\" ���ޤޤ�Ƥ�����ٹ𤹤롣
+#228. URLに "\" が含まれていたら警告する。
 enable url-backslash
 
-# URL�� "~" ���ޤޤ�Ƥ�����ٹ𤹤롣
+#229. URLに "~" が含まれていたら警告する。
 disable unsafe-url
 
-# URL�˻��ѤǤ��ʤ�ASCIIʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#230. URLに使用できないASCII文字が含まれていたら警告する。
 enable excluded-url
 
-# URL��μ��λ��Ȥ˻��ѤǤ��ʤ�ʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#231. URL中の実体参照に使用できない文字が含まれていたら警告する。
 enable excluded-url-ref
 
-# URL��ASCII�ʳ���ʸ�����ޤޤ�Ƥ�����ٹ𤹤롣
+#232. URLにASCII以外の文字が含まれていたら警告する。
 enable no-corresponding-url
 
-# URL���������ʤ���������̾�����ꤵ��Ƥ�����ٹ𤹤롣
+#233. URLに正しくないスキーム名が指定されていたら警告する。
 enable illegal-protocol
 
-# URL����ʸ���Υ�������̾�����ꤵ��Ƥ�����ٹ𤹤롣
+#234. URLに大文字のスキーム名が指定されていたら警告する。
 enable upper-protocol
 
-# URL�������Υ�������̾�����ꤵ��Ƥ�����ٹ𤹤롣
+#235. URLに不明のスキーム名が指定されていたら警告する。
 enable unknown-protocol
 
-# URL�� file: �ʤɤΥ�������ե�����򻲾Ȥ��Ƥ�����ٹ𤹤롣
+#236. URLが file: などのローカルファイルを参照していたら警告する。
 enable local-protocol
 
-# URL�����ѤǤ��ʤ��������ब���ꤵ��Ƥ�����ٹ𤹤롣
+#237. URLに利用できないスキームが指定されていたら警告する。
 enable cantuse-protocol
 
-# URL�� javascript: ����������ä���ٹ𤹤롣
+#238. URLが javascript: スキームだったら警告する。
 enable javascript-url
 
-# URL���������ʤ��񼰤ΤȤ��ٹ𤹤롣
+#239. URLが正しくない書式のとき警告する。
 enable illegal-format-url
 
-# "/" �ǽ����٤�URL�� "/" �ǽ���äƤ��ʤ��ä���ٹ𤹤롣
+#240. "/" で終わるべきURLが "/" で終わっていなかったら警告する。
 enable trailing-slash
 
-# URI�� "//" �ǻϤޤäƤ�����ٹ𤹤롣
+#241. URIが "//" で始まっていたら警告する。
 enable net-path
 
-# "/" �ǽ���äƤ���URL�Ȥ����Ǥʤ�URL�����ߤ��Ƥ�����ٹ𤹤롣
+#242. "/" で終わっているURLとそうでないURLが混在していたら警告する。
 disable conflict-directory
 
-# "��/index.html" �� "��/" �����줵��Ƥ��ʤ��ä���ٹ𤹤롣
+#243. "〜/index.html" と "〜/" が統一されていなかったら警告する。
 enable index-html
 
-# <BASE> �ǻ��ꤹ��������URL�����줿��ٹ𤹤롣
+#244. <BASE> で指定するより前にURLが現れたら警告する。
 enable later-base
 
-# <BASE> �ǻ��ꤵ�줿URL�����л���Ǥʤ��ä���ٹ𤹤롣
+#245. <BASE> で指定されたURLが絶対指定でなかったら警告する。
 enable absolute-base-url
 
-# </HTML> �θ�ˤޤ��ƥ����Ȥ�³���Ƥ�����ٹ𤹤롣
+#246. </HTML> の後にまだテキストが続いていたら警告する。
 enable unexpected-end-of-html
 
-# �ե����륵���������¤�Ķ���Ƥ�����ٹ𤹤롣
+#247. ファイルサイズが制限を超えていたら警告する。
 enable over-file-size
 
-# ���᡼���ե�����˵��곰�Τ�Τ����ꤵ��Ƥ�����ٹ𤹤롣
+#248. イメージファイルに規定外のものが指定されていたら警告する。
 enable unsupported-image
 
-# J-SkyWeb�� <UL>��<OL> ������Ҥ�����������ٹ𤹤롣
+#249. J-SkyWebで <UL>、<OL> の入れ子が深すぎたら警告する。
 enable jskyweb-olul
 
-# J-SkyWeb�� <LI> �θĿ������¤�Ķ���Ƥ�����ٹ𤹤롣
+#250. J-SkyWebで <LI> の個数が制限を超えていたら警告する。
 enable jskyweb-li
 
-# �õ��д���HTML�� <HTML> ����ϤޤäƤ��ʤ��ä���ٹ𤹤롣
+#251. 特許出願用HTMLが <HTML> から始まっていなかったら警告する。
 enable jpo-no-html
 
-# �õ��д���HTML�� Shift JIS �Ǥʤ��ä���ٹ𤹤롣
+#252. 特許出願用HTMLが Shift JIS でなかったら警告する。
 enable jpo-shift-jis
 
-# �õ��д���HTML�ǻ��ѤǤ��ʤ�ʸ����ȤäƤ�����ٹ𤹤롣
+#253. 特許出願用HTMLで使用できない文字を使っていたら警告する。
 enable jpo-bad-char

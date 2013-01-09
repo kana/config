@@ -1,10 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <meta name="Description" content="Another HTML-lint">
+<meta name="keywords" content="lint,バリデータ,HTML文法,HTML検証,最適化,SEO">
 <link rel="stylesheet" type="text/css" href="./htmllint.css">
 <link rel="contents" href="./index.html">
 <title>Another HTML-lint gateway</title>
@@ -22,29 +23,29 @@ if (MSIE != -1) {
   MSIE = noClear = 0;
 }
 
-// $B%/%j%"$N(B   "$B%"(B" $B$N(BJIS$B%3!<%I$O(B 2522 $B$J$N$G(B '$B%"(B' $B$H$9$kI,MW$,$"$k!#(B
-// $B%A%'%C%/$N(B "$B%'(B" $B$N(BJIS$B%3!<%I$O(B 2527 $B$J$N$G(B "$B%'(B" $B$H$9$kI,MW$,$"$k!#(B
-// $B9`L\$N(B     "$BL\(B" $B$N(BJIS$B%3!<%I$O(B 4C5C $B$G$"$k!#(B
-// $B%\%?%s$N(B   "$B%\(B" $B$N(BJIS$B%3!<%I$O(B 255C $B$G$"$k!#(B
-// JIS$B$G$OA43QH>3Q$N4V$K%(%9%1!<%W$,F~$k$N$G(B "$B%\(B\" $B$H$7$F$b$&$^$/$$$+$J$$!#(B
+// クリアの   "ア" のJISコードは 2522 なので 'ア' とする必要がある。
+// チェックの "ェ" のJISコードは 2527 なので "ェ" とする必要がある。
+// 項目の     "目" のJISコードは 4C5C である。
+// ボタンの   "ボ" のJISコードは 255C である。
+// JISでは全角半角の間にエスケープが入るので "ボ\" としてもうまくいかない。
 function GuideText()
 {
-  if (!noClear) document.writeln('[$B%/%j%"(B] $B$O$=$l$>$l$NFbMF$r>C5n$7$^$9!#(B');
+  if (!noClear) document.writeln('[クリア] はそれぞれの内容を消去します。');
 }
 
 function ClearButton(name)
 {
   if (noClear) return;
   var obj = "document.forms[0].elements['"+name+"']";
-  document.writeln('$B!!(B<input type=button onclick="',
+  document.writeln('　<input type=button onclick="',
                     obj, ".value = ''; ",
-                    obj, '.focus()" value="$B%/%j%"(B">');
+                    obj, '.focus()" value="クリア">');
 }
 //-->
 </script>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [<a href="./index.html">about</a>]
 [<a href="./sitemap.html">sitemap</a>]
@@ -54,20 +55,19 @@ function ClearButton(name)
 <h1><span>Another HTML-lint gateway</span></h1>
 
 <table summary="toc" width="100%" border="0">
-<tr><td><div align="center"><h2>HTML$BJ8=q$NJ8K!$r%A%'%C%/$7!":NE@$7$^$9(B</h2>
-<span class="version">htmllint.cgi ver1.23 / htmllint.pm ver3.46</span>
+<tr><td><div align="center"><h2>HTML文書の文法をチェックし、採点します</h2>
+<span class="version">htmllint.cgi ver1.28 / htmllint.pm ver3.58</span>
 </div></td><td><div align="right">
-<a href="./index.html">Another HTML-lint $B$K$D$$$F(B</a><br>
-<a href="./explain.html">$B7k2L$N2r@b(B</a><br>
-<!--a href="./statistics.html">$BE}7W>pJs(B</a><br-->
-<a href="./tagslist.html">$B%?%00lMw(B</a><br>
-<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a><br>
-<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllintl.html">$B%W%i%$%^%j%5%$%H(B</a></div></td></tr>
+<a href="./index.html">Another HTML-lint について</a><br>
+<a href="./explain.html">結果の解説</a><br>
+<a href="./tagslist.html">タグ一覧</a><br>
+<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a><br>
+<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllintl.html">プライマリサイト</a></div></td></tr>
 </table>
 
 <p>
-<strong>$BJ8K!$7$+:NE@$7$^$;$s(B</strong>$B!#(B<strong>$BFbMF$NNI$70-$7$O:NE@$5$l$^$;$s(B</strong>$B!#(B<strong>$B7k2L$K5?Ld$r46$8$?$iI,$:(B<a href="./explain.html">$B7k2L$N2r@b(B</a>$B$rFI$s$G$/$@$5$$(B</strong>$B!#(B<a href="http://homepage1.nifty.com/VET06031/web/lint100.html">$BK~E@$GK}?4$7$J$$$G$/$@$5$$(B</a>$B!#(B<br>
-$B$3$N%Z!<%8$O!"4pK\E*$J@_Dj$@$1$N7Z$$%2!<%H%&%'%$$G$9(B ($B7Z$$$N$O$3$N(BHTML$B$N$3$H$G!"%A%'%C%/<+BN$O$I$l$G$bF1$8$G$9(B)$B!#:Y$+$J%*%W%7%g%s$r;XDj$7$?$$$H$-$O!"(B<a href="./htmllint.html">$B$3$A$i$N%2!<%H%&%'%$(B</a>$B$rMxMQ$7$F$/$@$5$$!#(B
+<strong>文法しか採点しません</strong>。<strong>内容の良し悪しは採点されません</strong>。<strong>結果に疑問を感じたら必ず<a href="./explain.html">結果の解説</a>を読んでください</strong>。<a href="http://homepage1.nifty.com/VET06031/web/lint100.html">満点で慢心しないでください</a>。<br>
+このページは、基本的な設定だけの軽いゲートウェイです (軽いのはこのHTMLのことで、チェック自体はどれでも同じです)。細かなオプションを指定したいときは、<a href="./htmllint.html">こちらのゲートウェイ</a>を利用してください。
 </p>
 
 <form action="./htmllint.cgi" method="post" enctype="multipart/form-data">
@@ -75,8 +75,8 @@ function ClearButton(name)
 
 <hr>
 <p>
-$B%A%'%C%/$7$?$$(BHTML$B$N(BURL$B$r;XDj$9$k$+!"(BHTML$B$r2<$N%F%-%9%HNN0h$KD>@\5-=R$7$F!"(B[$B%A%'%C%/(B] $B%\%?%s$r2!$7$F$/$@$5$$!#5pBg$J(BHTML$B$OESCf$G$A$g$s@Z$i$l$F$7$^$&$3$H$,$"$j$^$9!#(B
-[$B%j%;%C%H(B] $B$OA4$F$N@_DjFbMF$r=i4|>uBV$KLa$7$^$9!#(B
+チェックしたいHTMLのURLを指定するか、HTMLを下のテキスト領域に直接記述して、[チェック] ボタンを押してください。巨大なHTMLは途中でちょん切られてしまうことがあります。
+[リセット] は全ての設定内容を初期状態に戻します。
 <script type="text/javascript">
 <!--
 GuideText();
@@ -84,8 +84,8 @@ GuideText();
 </script>
 </p>
 <p>
-$B!!(B<input type="submit" value="$B%A%'%C%/(B" accesskey="C">
-$B!!(B<input type="reset"  value="$B%j%;%C%H(B" accesskey="R">
+　<input type="submit" value="チェック" accesskey="C">
+　<input type="reset"  value="リセット" accesskey="R">
 </p>
 
 <dl>
@@ -97,7 +97,7 @@ ClearButton("URL");
 //-->
 </script>
 
-<dt><input type="radio" name="Method" value="Data" id="MethodData" accesskey="M"><label for="MethodData"><strong>DATA</strong></label> (DATA$BNN0h;XDj$G$O(B<a href="./explain.html#charset-mismatch">$BJ8;z%3!<%I$N0lCW@-(B</a>$B$O%A%'%C%/$G$-$^$;$s(B)
+<dt><input type="radio" name="Method" value="Data" id="MethodData" accesskey="M"><label for="MethodData"><strong>DATA</strong></label> (DATA領域指定では<a href="./explain.html#charset-mismatch">文字コードの一致性</a>はチェックできません)
 <dd><textarea name="Data" accesskey="D" cols="60" rows="10">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
 &lt;html&gt;
 &lt;head&gt;&lt;title&gt;&lt;/title&gt;&lt;/head&gt;
@@ -112,34 +112,34 @@ ClearButton("Data");
 //-->
 </script>
 
-<dt><input type="radio" name="Method" value="File" id="MethodFile" accesskey="M"><label for="MethodFile"><strong>FILE</strong></label> ($B$"$^$jBg$-$J%U%!%$%k$O<u$1IU$1$^$;$s(B/Internal Server Error $B$H$J$j$^$9!#F|K\8l$r4^$`%U%!%$%kL>$O%A%'%C%/$G$-$J$$$3$H$,$"$j$^$9(B)
+<dt><input type="radio" name="Method" value="File" id="MethodFile" accesskey="M"><label for="MethodFile"><strong>FILE</strong></label> (あまり大きなファイルは受け付けません/Internal Server Error となります。日本語を含むファイル名はチェックできないことがあります)
 <dd><input type="file" name="File" accesskey="F" size="60">
 </dl>
 
 <p>
 <input type="checkbox" value="on" name="ViewSource" id="ViewSource" accesskey="S" checked>
-<label for="ViewSource">$B%A%'%C%/$7$?(BHTML$B$r9THV9fIU$-$GI=<($7$^$9!#(B</label><br>
+<label for="ViewSource">チェックしたHTMLを行番号付きで表示します。</label><br>
 <input type="checkbox" value="on" name="Pedantic" id="Pedantic" accesskey="P">
-<label for="Pedantic">$B$9$Y$F$N%A%'%C%/$rM-8z$K$7$^$9(B</label>$B!#(B<br>
+<label for="Pedantic">すべてのチェックを有効にします</label>。<br>
 <input type="checkbox" value="on" name="NoReligious" id="NoReligious" accesskey="G">
-<label for="NoReligious">$B=!65E*$J%A%'%C%/$r$9$Y$FL58z$K$7$^$9(B</label>$B!#(B<br>
+<label for="NoReligious">宗教的なチェックをすべて無効にします</label>。<br>
 <input type="checkbox" value="on" name="NoAccessibility" id="NoAccessibility" accesskey="A">
-<label for="NoAccessibility"><a href="./explain-wai.html">WAI Content Accessibility Guidelines</a> $B$K<($5$l$F$$$k7ZEY$N%A%'%C%/$rL58z$K$7$^$9(B</label>$B!#(B<br>
+<label for="NoAccessibility"><a href="./explain-wai.html">WAI Content Accessibility Guidelines</a> に示されている軽度のチェックを無効にします</label>。<br>
 <input type="hidden" value="on" name="OtherWindow">
 </p>
 <p>
-$B%F%-%9%H%Y!<%9%V%i%&%6$G$N8+$(J}$NI=<((B
-$B!!(B<input type="radio" name="TextView" value="no"   id="TextViewNo" checked><label for="TextViewNo">$B$J$7(B</label>
-$B!!(B<input type="radio" name="TextView" value="lynx" id="TextViewLynx"><label for="TextViewLynx">lynx</label>
-$B!!(B<input type="radio" name="TextView" value="w3m"  id="TextViewW3m"><label for="TextViewW3m">w3m</label>
+テキストベースブラウザでの見え方の表示
+　<input type="radio" name="TextView" value="no"   id="TextViewNo" checked><label for="TextViewNo">なし</label>
+　<input type="radio" name="TextView" value="lynx" id="TextViewLynx"><label for="TextViewLynx">lynx</label>
+　<input type="radio" name="TextView" value="w3m"  id="TextViewW3m"><label for="TextViewW3m">w3m</label>
 </p>
 
 </form>
 
 <hr>
 
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllintl.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Apr 10, 2008<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllintl.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Oct 15, 1997
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

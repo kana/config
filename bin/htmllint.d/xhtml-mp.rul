@@ -990,7 +990,7 @@ $sequencialTags = 'HTML|TABLE';
                              '|navy|olive|purple|red|silver|teal|white|yellow',
   'ContentType.datatype'  => 'CDATA+',
   'FPI.datatype'          => 'CDATA',
-  'LanguageCode.datatype' => '(?i)[A-Z]{1,8}(?:-[A-Z]{1,8})*',
+  'LanguageCode.datatype' => '(?:(?i)[A-Z]{1,8}(?:-[A-Z]{1,8})*)?',
   'Length.datatype'       => '\d+%?',
   'LinkTypes.datatype'    => 'NMTOKENS',
   'MediaDesc.datatype'    => 'CDATA+',
