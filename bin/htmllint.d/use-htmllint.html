@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <link rel="stylesheet" type="text/css" href="./htmllint.css">
@@ -11,7 +11,7 @@
 <title>Another HTML-lint : How to use htmllint</title>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [<a href="./use-htmllintcgi.html">prev</a>]
 [<a href="./sitemap.html">sitemap</a>]
@@ -21,59 +21,60 @@
 <h1><span>Another HTML-lint</span></h1>
 
 <table summary="toc" width="100%" border="0" class="contents">
-<tr><th abbr="contents" align="right"><a href="./index.html">$BL\<!(B</a>$B!!(B<br></th><td><a href="./introduction.html">$B$O$8$a$K(B</a>$B!!!!!!!!!!!!(B</td>
-    <td align="right">$B!!(B<a href="./htmllint.html">$B%2!<%H%&%'%$%5!<%t%#%9(B</a></td></tr>
-<tr><td></td><td><a href="./notice.html">$B$$$/$D$+$N3P$(=q$-(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="./htmllintl.html">$B4J0W%2!<%H%&%'%$(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgi$B$N;H$$J}(B</a></td>
-    <td align="right">$B!!!!!!!!!!!!!!(B<a href="./explain.html">$B7k2L$N2r@b(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllint.html">htmllint$B$N;H$$J}(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!(B<a href="./tagslist.html">$B%?%00lMw(B</a></td></tr>
-<tr><td></td><td><a href="./rulefile.html">$B5,B'%U%!%$%k$N@8@.(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!!!(B<a href="./colors.html">$B?'8+K\(B</a></td></tr>
-<tr><td></td><td><a href="./download.html">$B%@%&%s%m!<%I(B</a>$B!!!!!!!!(B</td></tr>
-<tr><td></td><td><a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B!!!!(B</td></tr>
-<tr><td></td><td><a href="./reference.html">$B;29M$^$G$K(B</a>$B!!!!!!!!!!(B</td>
-    <td align="right">$B!!!!(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a></td></tr>
-<tr><td></td><td><a href="./faq.html">$B$h$/$"$k<ALd$HEz(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllint.html">$B%W%i%$%^%j%5%$%H(B</a></td></tr>
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllint.html">プライマリサイト</a></td></tr>
 </table>
 
+
 <hr class="none">
-<h2 class="title"><a name="use-htmllint">htmllint $B$N;H$$J}(B</a></h2>
-<p>Another HTML-lint $B$O!"(BPerl4$B$G$OF0:n$7$^$;$s!#(BJPerl$B$G$O$&$^$/F0:n$7$J$$$+$bCN$l$^$;$s!#(B<br>
-htmllint $B$O!"(Bhtmllint.pm $B$r8F$S=P$9$@$1$N%9%/%j%W%H$G!"%A%'%C%+K\BN$O(B htmllint.pm $B$G$9!#(Bhtmllint $B$O!"(BUNIX$B$d(BWin32$B$N%3%s%=!<%k$J$I$G!"<!$N$h$&$K5/F0$7$^$9!#(B</p>
+<h2 class="title"><a name="use-htmllint">htmllint の使い方</a></h2>
+<p>Another HTML-lint は、Perl4では動作しません。JPerlではうまく動作しないかも知れません。<br>
+htmllint は、htmllint.pm を呼び出すだけのスクリプトで、チェッカ本体は htmllint.pm です。htmllint は、UNIXやWin32のコンソールなどで、次のように起動します。</p>
 <pre class="pre-sample">    perl htmllint options file.html...</pre>
-<p>Classic MacOS$B$G$O!"(Bhtmllint $B$K(BHTML$B%U%!%$%k$r%I%i%C%0(B&amp;$B%I%m%C%W$7$^$9!#(B<a href="http://openlab.ring.gr.jp/k16/htmllint/onmacos.html#mpw-perl">MPW Shell $B$G$bF0:n$5$;$i$l$^$9(B</a>$B!#$=$N$H$-$O(B htmllint $B$r%F%-%9%H%U%!%$%k$K$7$^$9!#(B</p>
-<p>htmllint.env $B$,(B htmllint $B$HF1$8%G%#%l%/%H%j$KB8:_$7$F$$$l$PFI$_9~$_$^$9!#$=$N:]!"5,B'%U%!%$%k$N>l=j$r;X<($7$F$$$k(B $RULEDIR $B$H!"%$%s%/%k!<%I%Q%9$N;XDj$J$I$,F0:n$K1F6A$7$^$9!#(B</p>
-<p>$B%*%W%7%g%s$K$O0J2<$,;XDj$G$-$^$9!#(B</p>
+<p>Classic MacOSでは、htmllint にHTMLファイルをドラッグ&amp;ドロップします。<a href="http://openlab.ring.gr.jp/k16/htmllint/onmacos.html#mpw-perl">MPW Shell でも動作させられます</a>。そのときは htmllint をテキストファイルにします。</p>
+<p>htmllint.env が htmllint と同じディレクトリに存在していれば読み込みます。その際、規則ファイルの場所を指示している $RULEDIR と、インクルードパスの指定などが動作に影響します。</p>
+<p>オプションには以下が指定できます。</p>
 <div class="options">
 <table border="0" class="options">
-<tr><td valign="top" nowrap><code>-d &lt;warn&gt;</code></td><td valign="top"><code>:</code></td><td>$B;XDj$5$l$?7Y9p$rL58z$K$7$^$9!#(B($B3F7Y9p$O(B , ; : $B$N$$$:$l$+$G6h@Z$k(B)</td></tr>
-<tr><td valign="top" nowrap><code>-e &lt;warn&gt;</code></td><td valign="top"><code>:</code></td><td>$B;XDj$5$l$?7Y9p$rM-8z$K$7$^$9!#(B($B3F7Y9p$O(B , ; : $B$N$$$:$l$+$G6h@Z$k(B)</td></tr>
-<tr><td valign="top" nowrap><code>-f &lt;file&gt;</code></td><td valign="top"><code>:</code></td><td>$B@_Dj%U%!%$%k(B(htmllintrc)$B$r;XDj$7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-pedantic</code></td><td valign="top"><code>:</code></td><td>$B$9$Y$F$N7Y9p$rM-8z$K$7$^$9!#(B($B$3$N$H$-(B -d -e $B$N;XDjL58z(B)</td></tr>
-<tr><td valign="top" nowrap><code>-nopedantic</code></td><td valign="top"><code>:</code></td><td>$B$9$Y$F$N7Y9p$rM-8z$K$9$k$3$H$O$7$^$;$s!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-religious</code></td><td valign="top"><code>:</code></td><td>$B=!65E*$J7Y9p$rM-8z$K$7$^$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-noreligious</code></td><td valign="top"><code>:</code></td><td>$B=!65E*$J7Y9p$rL58z$K$7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-accessibility</code></td><td valign="top"><code>:</code></td><td>$B%"%/%;%9@-8~>e$K4X$9$k7Y9p$rM-8z$K$7$^$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-noaccessibility</code></td><td valign="top"><code>:</code></td><td>$B%"%/%;%9@-8~>e$K4X$9$k7Y9p$rL58z$K$7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-banner</code></td><td valign="top"><code>:</code></td><td>$B=hM}3+;O$H=*N;%a%C%;!<%8$rI=<($7$^$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-nobanner</code></td><td valign="top"><code>:</code></td><td>$B=hM}3+;O$H=*N;%a%C%;!<%8$rI=<($7$^$;$s!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-score</code></td><td valign="top"><code>:</code></td><td>$B%A%'%C%/$7$?(B HTML $B$NE@?t$rI=<($7$^$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-scorenowhines</code></td><td valign="top"><code>:</code></td><td>$B%A%'%C%/$7$?(B HTML $B$NE@?t$r7Y9p$"$j$N$H$-$N$_I=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-scoreonly</code></td><td valign="top"><code>:</code></td><td>$B%A%'%C%/$7$?(B HTML $B$NE@?t$N$_$rI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-noscore</code></td><td valign="top"><code>:</code></td><td>$B%A%'%C%/$7$?(B HTML $B$NE@?t$rI=<($7$^$;$s!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-prune</code></td><td valign="top"><code>:</code></td><td>$B%G%#%l%/%H%j;XDj$N$H$-2<0L%G%#%l%/%H%j$rC5$7$^$;$s!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-noprune</code></td><td valign="top"><code>:</code></td><td>$B%G%#%l%/%H%j;XDj$N$H$-2<0L%G%#%l%/%H%j$rC5$7$^$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-warnings</code></td><td valign="top"><code>:</code></td><td>$B%A%'%C%/$K$h$k7Y9p$rI=<($7$^$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-nowarnings</code></td><td valign="top"><code>:</code></td><td>$B%A%'%C%/$@$1$7$F2?$b7Y9p$rI=<($7$^$;$s!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-linklist</code></td><td valign="top"><code>:</code></td><td>HTML $B$K4^$^$l$k%j%s%/@h$rI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-nolinklist</code></td><td valign="top"><code>:</code></td><td>HTML $B$K4^$^$l$k%j%s%/@h$rI=<($7$^$;$s!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-lc</code></td><td valign="top"><code>:</code></td><td>$B7Y9pCf$NMWAGL>$dB0@-L>$r>.J8;z$GI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-uc</code></td><td valign="top"><code>:</code></td><td>$B7Y9pCf$NMWAGL>$dB0@-L>$rBgJ8;z$GI=<($7$^$9!#(BXHTML$B$N$H$-$OL58z$G$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-listwarnings</code></td><td valign="top"><code>:</code></td><td>$B%5%]!<%H$5$l$F$$$k$9$Y$F$N7Y9p$rI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-w &lt;style&gt;</code></td><td valign="top"><code>:</code></td><td>$B7Y9p%a%C%;!<%8$N%9%?%$%k$r;XDj$7$^$9!#(B($B1&$,$=$N%9%?%$%k$G$9(B)</td></tr>
+<tr><td valign="top" nowrap><code>-d &lt;warn&gt;</code></td><td valign="top"><code>:</code></td><td>指定された警告を無効にします。(各警告は , ; : のいずれかで区切る)</td></tr>
+<tr><td valign="top" nowrap><code>-e &lt;warn&gt;</code></td><td valign="top"><code>:</code></td><td>指定された警告を有効にします。(各警告は , ; : のいずれかで区切る)</td></tr>
+<tr><td valign="top" nowrap><code>-f &lt;file&gt;</code></td><td valign="top"><code>:</code></td><td>設定ファイル(htmllintrc)を指定します。</td></tr>
+<tr><td valign="top" nowrap><code>-pedantic</code></td><td valign="top"><code>:</code></td><td>すべての警告を有効にします。(このとき -d -e の指定無効)</td></tr>
+<tr><td valign="top" nowrap><code>-nopedantic</code></td><td valign="top"><code>:</code></td><td>すべての警告を有効にすることはしません。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-religious</code></td><td valign="top"><code>:</code></td><td>宗教的な警告を有効にします。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-noreligious</code></td><td valign="top"><code>:</code></td><td>宗教的な警告を無効にします。</td></tr>
+<tr><td valign="top" nowrap><code>-accessibility</code></td><td valign="top"><code>:</code></td><td>アクセス性向上に関する警告を有効にします。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-noaccessibility</code></td><td valign="top"><code>:</code></td><td>アクセス性向上に関する警告を無効にします。</td></tr>
+<tr><td valign="top" nowrap><code>-banner</code></td><td valign="top"><code>:</code></td><td>処理開始と終了メッセージを表示します。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-nobanner</code></td><td valign="top"><code>:</code></td><td>処理開始と終了メッセージを表示しません。</td></tr>
+<tr><td valign="top" nowrap><code>-score</code></td><td valign="top"><code>:</code></td><td>チェックした HTML の点数を表示します。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-scorenowhines</code></td><td valign="top"><code>:</code></td><td>チェックした HTML の点数を警告ありのときのみ表示します。</td></tr>
+<tr><td valign="top" nowrap><code>-scoreonly</code></td><td valign="top"><code>:</code></td><td>チェックした HTML の点数のみを表示します。</td></tr>
+<tr><td valign="top" nowrap><code>-noscore</code></td><td valign="top"><code>:</code></td><td>チェックした HTML の点数を表示しません。</td></tr>
+<tr><td valign="top" nowrap><code>-prune</code></td><td valign="top"><code>:</code></td><td>ディレクトリ指定のとき下位ディレクトリを探しません。</td></tr>
+<tr><td valign="top" nowrap><code>-noprune</code></td><td valign="top"><code>:</code></td><td>ディレクトリ指定のとき下位ディレクトリを探します。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-warnings</code></td><td valign="top"><code>:</code></td><td>チェックによる警告を表示します。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-nowarnings</code></td><td valign="top"><code>:</code></td><td>チェックだけして何も警告を表示しません。</td></tr>
+<tr><td valign="top" nowrap><code>-linklist</code></td><td valign="top"><code>:</code></td><td>HTML に含まれるリンク先を表示します。</td></tr>
+<tr><td valign="top" nowrap><code>-nolinklist</code></td><td valign="top"><code>:</code></td><td>HTML に含まれるリンク先を表示しません。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-lc</code></td><td valign="top"><code>:</code></td><td>警告中の要素名や属性名を小文字で表示します。</td></tr>
+<tr><td valign="top" nowrap><code>-uc</code></td><td valign="top"><code>:</code></td><td>警告中の要素名や属性名を大文字で表示します。XHTMLのときは無効です。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-listwarnings</code></td><td valign="top"><code>:</code></td><td>サポートされているすべての警告を表示します。</td></tr>
+<tr><td valign="top" nowrap><code>-w &lt;style&gt;</code></td><td valign="top"><code>:</code></td><td>警告メッセージのスタイルを指定します。(右がそのスタイルです)</td></tr>
 <tr><td valign="top" colspan="2"></td><td><table border="0">
 <tr><td valign="top" nowrap><code>&lt;style&gt;</code></td><td valign="top"><code>=</code></td><td><code>lint</code>&nbsp;&nbsp;</td><td><code>file(#): warning-message</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>short</code>&nbsp;&nbsp;</td><td><code>#: warning-message</code></td></tr>
@@ -81,9 +82,9 @@ htmllint $B$O!"(Bhtmllint.pm $B$r8F$S=P$9$@$1$N%9%/%j%W%H$G!"%A%'%C%+K\BN$O(
 <tr><td></td><td valign="top"><code>=</code></td><td><code>terse</code>&nbsp;&nbsp;</td><td><code>file:#:warning-id</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>verbose</code>&nbsp;&nbsp;</td><td><code>file: #: warning-id: warning-message</code></td></tr>
 </table></td></tr>
-<tr><td colspan="2"></td><td>$B;XDj$,$J$$$H$-$O(B lint $B$H$_$J$7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-limit &lt;n&gt;</code></td><td valign="top"><code>:</code></td><td>$B7Y9p$,;XDj$5$l$?8D?t$rD6$($?>l9g$O%A%'%C%/$rBG$A@Z$j$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-x &lt;html&gt;</code></td><td valign="top"><code>:</code></td><td>$B;XDj$5$l$?(B HTML $B%t%!!<%8%g%s$G%A%'%C%/$7$^$9!#(B($BBgJ8;z>.J8;z6hJL$J$7(B)</td></tr>
+<tr><td colspan="2"></td><td>指定がないときは lint とみなします。</td></tr>
+<tr><td valign="top" nowrap><code>-limit &lt;n&gt;</code></td><td valign="top"><code>:</code></td><td>警告が指定された個数を超えた場合はチェックを打ち切ります。</td></tr>
+<tr><td valign="top" nowrap><code>-x &lt;html&gt;</code></td><td valign="top"><code>:</code></td><td>指定された HTML ヴァージョンでチェックします。(大文字小文字区別なし)</td></tr>
 <tr><td colspan="2"></td><td><table border="0">
 <tr><td valign="top" nowrap><code>&lt;html&gt;</code></td><td valign="top"><code>=</code></td><td><code>html10</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>html20 | RFC1866</code></td></tr>
@@ -102,6 +103,7 @@ htmllint $B$O!"(Bhtmllint.pm $B$r8F$S=P$9$@$1$N%9%/%j%W%H$G!"%A%'%C%+K\BN$O(
 <tr><td></td><td valign="top"><code>=</code></td><td><code>xhtml1t | xhtml1-transitional</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>xhtml1f | xhtml1-frameset</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>xhtml11</code></td></tr>
+<tr><td></td><td valign="top"><code>=</code></td><td><code>xhtml-rdfa</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>xhtmlb</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>xhtmlmp</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>15445 | iso-html</code></td></tr>
@@ -127,58 +129,58 @@ htmllint $B$O!"(Bhtmllint.pm $B$r8F$S=P$9$@$1$N%9%/%j%W%H$G!"%A%'%C%+K\BN$O(
 <tr><td></td><td valign="top"><code>=</code></td><td><code>doti10</code></td></tr>
 <tr><td></td><td valign="top"><code>=</code></td><td><code>jpo</code></td></tr>
 </table></td></tr>
-<tr><td colspan="2"></td><td>$B;XDj$,$J$$$H$-$O(B html401t $B$H$_$J$7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-igndoctype</code></td><td valign="top"><code>:</code></td><td>HTML $BCf$N(B DOCTYPE $B@k8@$rL5;k$7$^$9!#(B<code>(**)</code></td></tr>
-<tr><td valign="top" nowrap><code>-usedoctype</code></td><td valign="top"><code>:</code></td><td>HTML $BCf$N(B DOCTYPE $B@k8@$rL5;k$7$^$;$s!#(B<code>(**)</code></td></tr>
-<tr><td valign="top" nowrap><code>-igncharset</code></td><td valign="top"><code>:</code></td><td>CHARSET $B$N;XDj$H%3!<%I$N0lCW@-$rL5;k$7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-usecharset</code></td><td valign="top"><code>:</code></td><td>CHARSET $B$N;XDj$H%3!<%I$N0lCW@-$rL5;k$7$^$;$s!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-local</code></td><td valign="top"><code>:</code></td><td>HTML $BCf$N%m!<%+%k%U%!%$%k$N;2>H$r5v2D$7$^$9!#(B<code>(*)</code></td></tr>
-<tr><td valign="top" nowrap><code>-nolocal</code></td><td valign="top"><code>:</code></td><td>HTML $BCf$N%m!<%+%k%U%!%$%k$N;2>H$r6X;_$7$^$9!#(B</td></tr>
+<tr><td colspan="2"></td><td>指定がないときは html401t とみなします。</td></tr>
+<tr><td valign="top" nowrap><code>-igndoctype</code></td><td valign="top"><code>:</code></td><td>HTML 中の DOCTYPE 宣言を無視します。<code>(**)</code></td></tr>
+<tr><td valign="top" nowrap><code>-usedoctype</code></td><td valign="top"><code>:</code></td><td>HTML 中の DOCTYPE 宣言を無視しません。<code>(**)</code></td></tr>
+<tr><td valign="top" nowrap><code>-igncharset</code></td><td valign="top"><code>:</code></td><td>CHARSET の指定とコードの一致性を無視します。</td></tr>
+<tr><td valign="top" nowrap><code>-usecharset</code></td><td valign="top"><code>:</code></td><td>CHARSET の指定とコードの一致性を無視しません。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-local</code></td><td valign="top"><code>:</code></td><td>HTML 中のローカルファイルの参照を許可します。<code>(*)</code></td></tr>
+<tr><td valign="top" nowrap><code>-nolocal</code></td><td valign="top"><code>:</code></td><td>HTML 中のローカルファイルの参照を禁止します。</td></tr>
 <tr><td valign="top" nowrap><code>-after &lt;date&gt;</code></td><td valign="top"><code>:</code></td><td>
-$B;XDjF|0J9_$N%U%!%$%k$N$_%A%'%C%/$7$^$9!#(B</td></tr>
+指定日以降のファイルのみチェックします。</td></tr>
 <tr><td valign="top" colspan="2"></td><td><table border="0">
-<tr><td valign="top" nowrap><code>&lt;date&gt;</code></td><td valign="top"><code>=</code></td><td><code>YYYY-MM-DD-hh-mm-ss</code>&nbsp;&nbsp;</td><td><code>$B6h@Z$j$O6uGr?t;z0J30G$0U!"(B2002-7 $B$N$h$&$JESCf$^$G$N;XDj2D(B</code></td></tr>
-<tr><td></td><td valign="top"><code>=</code></td><td><code>@file</code>&nbsp;&nbsp;</td><td><code>$B$3$N%U%!%$%k$N%?%$%`%9%?%s%W$r4p=`$K$9$k(B</code></td></tr>
+<tr><td valign="top" nowrap><code>&lt;date&gt;</code></td><td valign="top"><code>=</code></td><td><code>YYYY-MM-DD-hh-mm-ss</code>&nbsp;&nbsp;</td><td><code>区切りは空白数字以外任意、2002-7 のような途中までの指定可</code></td></tr>
+<tr><td></td><td valign="top"><code>=</code></td><td><code>@file</code>&nbsp;&nbsp;</td><td><code>このファイルのタイムスタンプを基準にする</code></td></tr>
 </table></td></tr>
-<tr><td valign="top" nowrap><code>-r &lt;dir&gt;</code></td><td valign="top"><code>:</code></td><td>$B5,B'%U%!%$%k(B(*.rul)$B$N%G%#%l%/%H%j$r;XDj$7$^$9!#;XDj$,$J$$$H$-$O(B htmllint $B$HF1$8>l=j$H$_$J$5$l$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-v | -version</code></td><td valign="top"><code>:</code></td><td>$B%t%!!<%8%g%s$rI=<($7$^$9!#(B</td></tr>
-<tr><td valign="top" nowrap><code>-u | -help</code></td><td valign="top"><code>:</code></td><td>$B$3$N%a%C%;!<%8$rI=<($7$^$9!#(B</td></tr>
+<tr><td valign="top" nowrap><code>-r &lt;dir&gt;</code></td><td valign="top"><code>:</code></td><td>規則ファイル(*.rul)のディレクトリを指定します。指定がないときは htmllint と同じ場所とみなされます。</td></tr>
+<tr><td valign="top" nowrap><code>-v | -version</code></td><td valign="top"><code>:</code></td><td>ヴァージョンを表示します。</td></tr>
+<tr><td valign="top" nowrap><code>-u | -help</code></td><td valign="top"><code>:</code></td><td>このメッセージを表示します。</td></tr>
 </table></div>
 <blockquote>
 <dl compact>
-<dt><code>(*)</code><dd>$BGXH?$9$k%*%W%7%g%s$N>JN,;~$N4{DjCM$r<($7$^$9!#(B
-<dt><code>(**)</code><dd>-x $B$,;XDj$5$l$F$$$k$H$-$O(B -igndoctype $B$,!"$=$&$G$J$$$H$-$O(B -usedoctype $B$,>JN,;~$N4{DjCM$H$J$j$^$9!#(B
+<dt><code>(*)</code><dd>背反するオプションの省略時の既定値を示します。
+<dt><code>(**)</code><dd>-x が指定されているときは -igndoctype が、そうでないときは -usedoctype が省略時の既定値となります。
 </dl>
 </blockquote>
 <p>
-$B%*%W%7%g%s$O%U%k%9%Z%k$G=q$/I,MW$O$"$j$^$;$s!#%f%K!<%/$K$J$k=j$^$G$G9=$$$^$;$s!#Nc$($P!"(B-noscore $B$O!"(B-nos $B$G(BOK$B$G$9!#GXH?$9$k%*%W%7%g%s$O!"8e$+$i;XDj$7$?J}$,M-8z$G$9!#(B-e $B$d(B -d $B$rJ#?t;XDj$9$k$3$H$b$G$-$^$9!#(B
-htmllint $BFb$N(B $add_options $B$K!"4{Dj$N%*%W%7%g%s$r;XDj$7$F$*$/$3$H$b$G$-$^$9!#(B
+オプションはフルスペルで書く必要はありません。ユニークになる所までで構いません。例えば、-noscore は、-nos でOKです。背反するオプションは、後から指定した方が有効です。-e や -d を複数指定することもできます。
+htmllint 内の $add_options に、既定のオプションを指定しておくこともできます。
 </p>
 <p>
--d $B$d(B -e $B$G;XDj$9$k7Y9p$O!"$=$l$>$l$N7Y9p$NL>A0$r;XDj$7$^$9!#J#?t;XDj$9$k$H$-$O!"(B-e unref-link,required $B$N$h$&$K%3%s%^$G6h@Z$C$F6uGr$r64$^$:$K;XDj$7$^$9!#(B-e $B$d(B -d $B$N8e$K6uGr$r6u$1!"%3%s%^$NA08e$K6uGr$r6u$1$F$O$$$1$^$;$s!#$^$?!"(B-e unref-link -e required $B$N$h$&$K!"JL!9$N%*%W%7%g%s$H$7$F;XDj$9$k$3$H$b$G$-$^$9!#$9$Y$F$N7Y9p$NL>A0$O!"(Bhtmllint.html $B$d(B htmllintrc $B$r;2>H$7$F$/$@$5$$!#$^$?!"(B-listwarnings $B%*%W%7%g%s$GA47Y9p$rI=<($5$;$k$3$H$b$G$-$^$9!#$=$N$H$-!"C;=LL>$NIU$$$F$$$k7Y9p$O!"(B-e $B$d(B -d $B$N;XDj$G$=$l$rMQ$$$k$3$H$,$G$-$^$9!#(B
+-d や -e で指定する警告は、それぞれの警告の名前を指定します。複数指定するときは、-e unref-link,required のようにコンマで区切って空白を挟まずに指定します。-e や -d の後に空白を空け、コンマの前後に空白を空けてはいけません。また、-e unref-link -e required のように、別々のオプションとして指定することもできます。すべての警告の名前は、htmllint.html や htmllintrc を参照してください。また、-listwarnings オプションで全警告を表示させることもできます。そのとき、短縮名の付いている警告は、-e や -d の指定でそれを用いることができます。
 </p>
 <p>
--f $B$G;XDj$9$k@_Dj%U%!%$%k$O!"%5%s%W%k(B htmllintrc $B$,E:IU$5$l$F$$$^$9!#$3$l$r2C9)$7$FMxMQ$7$F$/$@$5$$!#$^$?!"4D6-JQ?t(B HTMLLINTRC $B$G;XDj$7$F$*$/$H!"5/F0;~%*%W%7%g%s$r;XDj$7$J$/$F$b$=$l$rFI$_$K9T$-$^$9!#(Bhtmllint.env $BCf$N(B $HTMLLINTRC $BJQ?t$K@_Dj%U%!%$%kL>$r;XDj$9$k$3$H$,$G$-$^$9!#;XDj$5$l$F$$$k%U%!%$%k$,!"(B. $B$+$i;O$^$C$F$$$J$$>l9g$O!"(Bhtmllint $B$HF1$8%G%#%l%/%H%j$KB8:_$9$k>l9g$b$=$l$,FI$_9~$^$l$^$9!#(B.htmllintrc $B$N$h$&$K!"(B. $B$+$i;O$^$k%U%!%$%kL>$N>l9g$O!"(BUNIX$B$N$H$-$KMxMQ$5$l!"4D6-JQ?t(BHOME$B$G<($5$l$k%G%#%l%/%H%j$K$=$N%U%!%$%k$,$"$k$H!"=i4|>uBV$H$7$FFI$_9~$_$^$9!#E:IU$5$l$F$$$k(B htmllintrc $B$r;2>H$7$F$/$@$5$$!#(B
+-f で指定する設定ファイルは、サンプル htmllintrc が添付されています。これを加工して利用してください。また、環境変数 HTMLLINTRC で指定しておくと、起動時オプションを指定しなくてもそれを読みに行きます。htmllint.env 中の $HTMLLINTRC 変数に設定ファイル名を指定することができます。指定されているファイルが、. から始まっていない場合は、htmllint と同じディレクトリに存在する場合もそれが読み込まれます。.htmllintrc のように、. から始まるファイル名の場合は、UNIXのときに利用され、環境変数HOMEで示されるディレクトリにそのファイルがあると、初期状態として読み込みます。添付されている htmllintrc を参照してください。
 </p>
 <p>
-$B%U%!%$%kL>(B - $B$OI8=`F~NO$rI=$o$7$^$9!#%U%!%$%k%j%9%H$K$O!"%o%$%k%I%+!<%I$r;HMQ$7$F(B *.html $B$J$I$H=q$/$3$H$,$G$-$^$9!#$^$?!"%G%#%l%/%H%jL>$r;XDj$9$k$H!"$=$N%G%#%l%/%H%j0J2<$N(B($B%5%W%G%#%l%/%H%j$b4^$`(B)$B$9$Y$F$N(B *.html$B!"(B*.htm $B$d(B *.shtml $B$J$I$,BP>]$H$J$j$^$9!#$3$N3HD%;R$O!"(Bhtmllint.env $B$N(B $HTMLEXT $BJQ?t$GJQ99$9$k$3$H$,$G$-$^$9!#%5%V%G%#%l%/%H%j0J2<$r=|$-$?$$$H$-$O(B -prune $B%*%W%7%g%s$rJ;MQ$7$^$9!#(B<br>
-$B2?$b%(%i!<$,$J$1$l$P%(%i!<%9%F!<%?%9(B 0 $B$G=*N;$7$^$9!#%(%i!<$,$"$l$PI8=`=PNO$K7k2L$r=PNO$7!"%(%i!<%9%F!<%?%9(B 1 $B$G=*N;$7$^$9!#(B
+ファイル名 - は標準入力を表わします。ファイルリストには、ワイルドカードを使用して *.html などと書くことができます。また、ディレクトリ名を指定すると、そのディレクトリ以下の(サプディレクトリも含む)すべての *.html、*.htm や *.shtml などが対象となります。この拡張子は、htmllint.env の $HTMLEXT 変数で変更することができます。サブディレクトリ以下を除きたいときは -prune オプションを併用します。<br>
+何もエラーがなければエラーステータス 0 で終了します。エラーがあれば標準出力に結果を出力し、エラーステータス 1 で終了します。
 </p>
 <p>
-$BNc$($P!"(BUNIX$B$G!"%+%l%s%H%G%#%l%/%H%j0J2<$N$9$Y$F$N(B .html $B$r%A%'%C%/$9$k$K$O<!$N$h$&$K$9$k$3$H$b$G$-$^$9!#(B
+例えば、UNIXで、カレントディレクトリ以下のすべての .html をチェックするには次のようにすることもできます。
 </p>
 <pre class="pre-sample">    perl htmllint -banner `find . -name "*.html"`</pre>
-<!-- DOS $B$G$O(B dir /s /b *.html $B$GA4It=&$($k$s$@$1$I(B -->
+<!-- DOS では dir /s /b *.html で全部拾えるんだけど -->
 <p>
-HTML$BCf$G;2>H$7$F$$$k%$%s%?%M%C%H>e$N(BURL$B$,<B:]$KB8:_$9$k$+$I$&$+$O!"(Bhtmllint.cgi$B7PM3$G$J$$$HD4$Y$i$l$^$;$s!#(Bhtmllint$BC1BN$G$OD4$Y$i$l$J$$$N$GCm0U$7$F$/$@$5$$!#$3$l$O!"%$%s%?%M%C%H$X$N%"%/%;%9$r$9$Y$F(Bhtmllint.cgi$B$G9T$J$C$F$$$k$+$i$G$9!#(B
-htmllint$BC1BN$N$H$-$O!"AjBP(BURL$B$N$_$,B8:_$9$k$+$I$&$+D4$Y$i$l$^$9!#(B
+HTML中で参照しているインタネット上のURLが実際に存在するかどうかは、htmllint.cgi経由でないと調べられません。htmllint単体では調べられないので注意してください。これは、インタネットへのアクセスをすべてhtmllint.cgiで行なっているからです。
+htmllint単体のときは、相対URLのみが存在するかどうか調べられます。
 </p>
 
-<p>$BCm0U(B: $B;EMM$OM=9p$J$/JQ99$5$l$^$9!#(B</p>
+<p>注意: 仕様は予告なく変更されます。</p>
 
 <hr>
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllint.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Mar 22, 2008<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/use-htmllint.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Jun 19, 1997
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

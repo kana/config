@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <meta name="Description" content="Another HTML-lint">
+<meta name="keywords" content="lint,バリデータ,HTML文法,HTML検証,最適化,SEO">
 <link rel="stylesheet" type="text/css" href="./htmllint.css">
 <link rel="contents" href="./index.html">
 <title>Another HTML-lint gateway</title>
@@ -14,8 +15,8 @@
 <!-- Initial coding: Aug 31, 1997 by k16
 
 var cookieName = "HTMLLINT";
-var cookieVersion = "134"; // FORM $B$N%3%s%H%m!<%k?tEy$,JQ2=$7$?$iA}$d$9(B
-var nHTMLVersions =  "41"; // HTML$B%t%!!<%8%g%s$N?t(B
+var cookieVersion = "135"; // FORM のコントロール数等が変化したら増やす
+var nHTMLVersions =  "42"; // HTMLヴァージョンの数
 var LOADED = false;
 var MSIE = navigator.userAgent.indexOf("MSIE");
 var noClear;
@@ -29,7 +30,7 @@ if (MSIE != -1) {
   MSIE = noClear = 0;
 }
 
-function DummyArray() {} // Array() $B$O(B Mozilla3.0 $B$+$i(B
+function DummyArray() {} // Array() は Mozilla3.0 から
 var checkersName = new DummyArray();
 var checkersCnt = 0;
 checkersName[checkersCnt++] = "cant-get-url";
@@ -194,6 +195,7 @@ checkersName[checkersCnt++] = "body-color";
 checkersName[checkersCnt++] = "background";
 checkersName[checkersCnt++] = "same-bgcolor";
 checkersName[checkersCnt++] = "near-bgcolor";
+checkersName[checkersCnt++] = "contrast";
 checkersName[checkersCnt++] = "repeated-id";
 checkersName[checkersCnt++] = "undef-id";
 checkersName[checkersCnt++] = "repeated-name";
@@ -289,7 +291,7 @@ function SetCookie(name, cookie, expires)
 {
   if (expires) {
     expires = new Date();
-    expires.setTime(expires.getTime()+(7*24*60*60*1000)); // $BM-8z0l=54V(B
+    expires.setTime(expires.getTime()+(7*24*60*60*1000)); // 有効一週間
     expires = "; expires=" + expires.toGMTString()
   } else {
     expires = "";
@@ -320,7 +322,7 @@ function GetCheck(checkbox)
   return checkbox.checked? "1": "0";
 }
 
-// onUnload $B$G$3$N4X?t$r8F$S=P$9$N$O4m81(B
+// onUnload でこの関数を呼び出すのは危険
 function SaveCookies()
 {
   if (noClear || !LOADED) return;
@@ -422,31 +424,31 @@ function LoadCookies()
   LOADED = true;
 }
 
-// $B%/%j%"$N(B   "$B%"(B" $B$N(BJIS$B%3!<%I$O(B 2522 $B$J$N$G(B '$B%"(B' $B$H$9$kI,MW$,$"$k!#(B
-// $B%A%'%C%/$N(B "$B%'(B" $B$N(BJIS$B%3!<%I$O(B 2527 $B$J$N$G(B "$B%'(B" $B$H$9$kI,MW$,$"$k!#(B
-// $B9`L\$N(B     "$BL\(B" $B$N(BJIS$B%3!<%I$O(B 4C5C $B$G$"$k!#(B
-// $B%\%?%s$N(B   "$B%\(B" $B$N(BJIS$B%3!<%I$O(B 255C $B$G$"$k!#(B
-// JIS$B$G$OA43QH>3Q$N4V$K%(%9%1!<%W$,F~$k$N$G(B "$B%\(B\" $B$H$7$F$b$&$^$/$$$+$J$$!#(B
+// クリアの   "ア" のJISコードは 2522 なので 'ア' とする必要がある。
+// チェックの "ェ" のJISコードは 2527 なので "ェ" とする必要がある。
+// 項目の     "目" のJISコードは 4C5C である。
+// ボタンの   "ボ" のJISコードは 255C である。
+// JISでは全角半角の間にエスケープが入るので "ボ\" としてもうまくいかない。
 function GuideText()
 {
-  if (!noClear) document.writeln('[$B%/%j%"(B] $B$O$=$l$>$l$NFbMF$r>C5n$7$^$9!#(B');
-  document.writeln("$B8=:_$N%A%'%C%/%*%W%7%g%s$O(B ", checkersCnt, "$B<oN`$G$9!#(B");
+  if (!noClear) document.writeln('[クリア] はそれぞれの内容を消去します。');
+  document.writeln("現在のチェックオプションは ", checkersCnt, "種類です。");
 }
 
 function ClearButton(name)
 {
   if (noClear) return;
   var obj = "document.forms[0].elements['"+name+"']";
-  document.writeln('$B!!(B<input type="button" ',
+  document.writeln('　<input type="button" ',
                     'onclick="', obj, ".value = ''; ", obj, '.focus()" ',
                     'onkeypress="', obj, ".value = ''; ", obj, '.focus()" ',
-                    'value="$B%/%j%"(B">');
+                    'value="クリア">');
 }
 
 function InitStyle()
 {
 //  if (MSIE < 4) {
-//    window.alert("$B$3$N(BDynamicHTML$B$O(BMSIE4.0$B0J>eMQ$G$9!#(B");
+//    window.alert("このDynamicHTMLはMSIE4.0以上用です。");
 //    window.location = "./htmllint.html";
 //  }
 }
@@ -466,7 +468,7 @@ function DispCtrl(id, img)
 </script>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000" onload="LoadCookies();InitStyle()">
+<body onload="LoadCookies();InitStyle()">
 <div align="center" class="nav">
 [<a href="./index.html">about</a>]
 [<a href="./sitemap.html">sitemap</a>]
@@ -476,36 +478,35 @@ function DispCtrl(id, img)
 <h1><span>Another HTML-lint gateway</span></h1>
 
 <table summary="toc" width="100%" border="0">
-<tr><td><div align="center"><h2>HTML$BJ8=q$NJ8K!$r%A%'%C%/$7!":NE@$7$^$9(B</h2>
-<span class="version">htmllint.cgi ver1.23 / htmllint.pm ver3.46</span>
+<tr><td><div align="center"><h2>HTML文書の文法をチェックし、採点します</h2>
+<span class="version">htmllint.cgi ver1.28 / htmllint.pm ver3.58</span>
 </div></td><td><div align="right">
-<a href="./index.html">Another HTML-lint $B$K$D$$$F(B</a><br>
-<a href="./explain.html">$B7k2L$N2r@b(B</a><br>
-<!--a href="./statistics.html">$BE}7W>pJs(B</a><br-->
-<a href="./tagslist.html">$B%?%00lMw(B</a><br>
-<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a><br>
-<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllinte.html">$B%W%i%$%^%j%5%$%H(B</a></div></td></tr>
+<a href="./index.html">Another HTML-lint について</a><br>
+<a href="./explain.html">結果の解説</a><br>
+<a href="./tagslist.html">タグ一覧</a><br>
+<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a><br>
+<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllinte.html">プライマリサイト</a></div></td></tr>
 </table>
 
 <p>
-<strong>$BJ8K!$7$+:NE@$7$^$;$s(B</strong>$B!#(B<strong>$BFbMF$NNI$70-$7$O:NE@$5$l$^$;$s(B</strong>$B!#(B<strong>$B7k2L$K5?Ld$r46$8$?$iI,$:(B<a href="./explain.html">$B7k2L$N2r@b(B</a>$B$rFI$s$G$/$@$5$$(B</strong>$B!#(B<a href="http://homepage1.nifty.com/VET06031/web/lint100.html">$BK~E@$GK}?4$7$J$$$G$/$@$5$$(B</a>$B!#(B<br>
-$B%A%'%C%/$7$J$$7Y9p$O8:E@BP>]30$G!"K~E@$O(B 100$BE@$G$9!#%A%'%C%/$7$F$b8:E@$5$l$J$$7Y9p$b$"$j$^$9!#(B<!--$B8:E@$O%?%0?t$J$I$KH?HfNc$9$k$N$G!"Bg$-$J(BHTML$B$,ITMx$H$$$&$3$H$O$"$j$^$;$s!#$J$*!"E@?t$N7W;;J}K!$O$H$-$I$-JQ99$5$l$^$9$7!"%A%'%C%/9`L\$OA}$($k798~$K$"$j$^$9!#:#F|K~E@$@$C$?$+$i$H$$$C$F!"L@F|$bK~E@$H$O8B$j$^$;$s!#(B-->$B5$$KF~$i$J$$%A%'%C%/9`L\$O30$9$3$H$,$G$-$^$9!#$*9%$_$KD4@0$7$F$/$@$5$$!#(B
+<strong>文法しか採点しません</strong>。<strong>内容の良し悪しは採点されません</strong>。<strong>結果に疑問を感じたら必ず<a href="./explain.html">結果の解説</a>を読んでください</strong>。<a href="http://homepage1.nifty.com/VET06031/web/lint100.html">満点で慢心しないでください</a>。<br>
+チェックしない警告は減点対象外で、満点は 100点です。チェックしても減点されない警告もあります。<!--減点はタグ数などに反比例するので、大きなHTMLが不利ということはありません。なお、点数の計算方法はときどき変更されますし、チェック項目は増える傾向にあります。今日満点だったからといって、明日も満点とは限りません。-->気に入らないチェック項目は外すことができます。お好みに調整してください。
 </p>
 
 <hr>
 <form action="htmllint.cgi" method="post" enctype="multipart/form-data">
 <input type="hidden" name="Stat" value="on">
 <p>
-$B%A%'%C%/$7$?$$(BHTML$B$N(BURL$B$r;XDj$9$k$+!"(BHTML$B$r2<$N%F%-%9%HNN0h$KD>@\5-=R$7$F!"(B[$B%A%'%C%/(B] $B%\%?%s$r2!$7$F$/$@$5$$!#5pBg$J(BHTML$B$OESCf$G$A$g$s@Z$i$l$F$7$^$&$3$H$,$"$j$^$9!#(B
-[$B%j%;%C%H(B] $B$O$9$Y$F$N@_DjFbMF$r=i4|>uBV$KLa$7$^$9!#(B
+チェックしたいHTMLのURLを指定するか、HTMLを下のテキスト領域に直接記述して、[チェック] ボタンを押してください。巨大なHTMLは途中でちょん切られてしまうことがあります。
+[リセット] はすべての設定内容を初期状態に戻します。
 <script type="text/javascript"><!--
 GuideText();
 //-->
 </script>
 </p>
 <p>
-$B!!(B<input type="submit" value="$B%A%'%C%/(B" accesskey="C" onclick="SaveCookies()" onkeypress="SaveCookies()">
-$B!!(B<input type="reset" value="$B%j%;%C%H(B" accesskey="R" onclick="ClearCookies()" onkeypress="ClearCookies()">
+　<input type="submit" value="チェック" accesskey="C" onclick="SaveCookies()" onkeypress="SaveCookies()">
+　<input type="reset" value="リセット" accesskey="R" onclick="ClearCookies()" onkeypress="ClearCookies()">
 </p>
 
 <dl>
@@ -516,7 +517,7 @@ ClearButton("URL");
 //-->
 </script>
 
-<dt><input type="radio" name="Method" value="Data" id="MethodData" accesskey="M"><label for="MethodData"><strong>DATA</strong></label> (DATA$BNN0h;XDj$G$O(B<a href="./explain.html#charset-mismatch">$BJ8;z%3!<%I$N0lCW@-(B</a>$B$O%A%'%C%/$G$-$^$;$s(B)
+<dt><input type="radio" name="Method" value="Data" id="MethodData" accesskey="M"><label for="MethodData"><strong>DATA</strong></label> (DATA領域指定では<a href="./explain.html#charset-mismatch">文字コードの一致性</a>はチェックできません)
 <dd><textarea name="Data" accesskey="D" cols="60" rows="10">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
 &lt;html&gt;
 &lt;head&gt;&lt;title&gt;&lt;/title&gt;&lt;/head&gt;
@@ -530,661 +531,665 @@ ClearButton("Data");
 //-->
 </script>
 
-<dt><input type="radio" name="Method" value="File" id="MethodFile" accesskey="M"><label for="MethodFile"><strong>FILE</strong></label> ($B$"$^$jBg$-$J%U%!%$%k$O<u$1IU$1$^$;$s(B/Internal Server Error $B$H$J$j$^$9!#F|K\8l$r4^$`%U%!%$%kL>$O%A%'%C%/$G$-$J$$$3$H$,$"$j$^$9(B)
+<dt><input type="radio" name="Method" value="File" id="MethodFile" accesskey="M"><label for="MethodFile"><strong>FILE</strong></label> (あまり大きなファイルは受け付けません/Internal Server Error となります。日本語を含むファイル名はチェックできないことがあります)
 <dd><input type="file" name="File" accesskey="F" size="60">
 </dl>
 
-<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.OUTPUT,this)" onkeypress="DispCtrl(document.all.OUTPUT,this)"><strong>$B=PNO$K$D$$$F(B</strong></p>
+<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.OUTPUT,this)" onkeypress="DispCtrl(document.all.OUTPUT,this)"><strong>出力について</strong></p>
 <div id="OUTPUT" style="display:none">
 <p>
-$B=PNO$9$k4A;z%3!<%I(B
-$B!!(B<input type="radio" name="CharCode" value="AUTO" id="CharCodeAUTO" checked><label for="CharCodeAUTO">$B<+F0(B</label>
-$B!!(B<input type="radio" name="CharCode" value="JIS"  id="CharCodeJIS"><label for="CharCodeJIS">JIS (ISO-2022-JP)</label>
-$B!!(B<input type="radio" name="CharCode" value="EUC"  id="CharCodeEUC"><label for="CharCodeEUC">EUC-JP</label>
-$B!!(B<input type="radio" name="CharCode" value="SJIS" id="CharCodeSJIS"><label for="CharCodeSJIS">Shift JIS</label>
-$B!!(B<input type="radio" name="CharCode" value="UTF8" id="CharCodeUTF8"><label for="CharCodeUTF8">UTF-8</label>
+出力する漢字コード
+　<input type="radio" name="CharCode" value="AUTO" id="CharCodeAUTO" checked><label for="CharCodeAUTO">自動</label>
+　<input type="radio" name="CharCode" value="JIS"  id="CharCodeJIS"><label for="CharCodeJIS">JIS (ISO-2022-JP)</label>
+　<input type="radio" name="CharCode" value="EUC"  id="CharCodeEUC"><label for="CharCodeEUC">EUC-JP</label>
+　<input type="radio" name="CharCode" value="SJIS" id="CharCodeSJIS"><label for="CharCodeSJIS">Shift JIS</label>
+　<input type="radio" name="CharCode" value="UTF8" id="CharCodeUTF8"><label for="CharCodeUTF8">UTF-8</label>
 </p>
 
 <p>
-<input type="checkbox" value="on" name="NoWarnings" id="NoWarnings" accesskey="W"><label for="NoWarnings">$B%A%'%C%/$@$1$7$F8D!9$N7Y9p$rI=<($7$J$$$h$&$K$7$^$9!#(B</label><br>
-<input type="checkbox" value="on" name="ViewSource" id="ViewSource" accesskey="S" checked><label for="ViewSource">$B%A%'%C%/$7$?(BHTML$B$r9THV9fIU$-$GI=<($7$^$9!#(B</label><br>
-<input type="checkbox" value="on" name="HTTPHeader" id="HTTPHeader" accesskey="H"><label for="HTTPHeader">URL$B;XDj$N$H$-(BHTTP$B%l%9%]%s%9%X%C%@$rI=<($7$^$9!#(B</label><br>
-<input type="checkbox" value="on" name="OtherWindow" id="OtherWindow" accesskey="O" checked><label for="OtherWindow">$B%A%'%C%/8e$N7k2L$N2r@b$rJL%&%#%s%I%&$KI=<($7$^$9!#(B</label><br>
+<input type="checkbox" value="on" name="NoWarnings" id="NoWarnings" accesskey="W"><label for="NoWarnings">チェックだけして個々の警告を表示しないようにします。</label><br>
+<input type="checkbox" value="on" name="ViewSource" id="ViewSource" accesskey="S" checked><label for="ViewSource">チェックしたHTMLを行番号付きで表示します。</label><br>
+<input type="checkbox" value="on" name="HTTPHeader" id="HTTPHeader" accesskey="H"><label for="HTTPHeader">URL指定のときHTTPレスポンスヘッダを表示します。</label><br>
+<input type="checkbox" value="on" name="OtherWindow" id="OtherWindow" accesskey="O" checked><label for="OtherWindow">チェック後の結果の解説を別ウィンドウに表示します。</label><br>
 </p>
 
 <p>
-$B%F%-%9%H%Y!<%9%V%i%&%6$G$N8+$(J}$NI=<((B
-$B!!(B<input type="radio" name="TextView" value="no"   id="TextViewNo" checked><label for="TextViewNo">$B$J$7(B</label>
-$B!!(B<input type="radio" name="TextView" value="lynx" id="TextViewLynx"><label for="TextViewLynx">lynx</label>
-$B!!(B<input type="radio" name="TextView" value="w3m"  id="TextViewW3m"><label for="TextViewW3m">w3m</label>
+テキストベースブラウザでの見え方の表示
+　<input type="radio" name="TextView" value="no"   id="TextViewNo" checked><label for="TextViewNo">なし</label>
+　<input type="radio" name="TextView" value="lynx" id="TextViewLynx"><label for="TextViewLynx">lynx</label>
+　<input type="radio" name="TextView" value="w3m"  id="TextViewW3m"><label for="TextViewW3m">w3m</label>
 </p>
 
 </div>
 
 <hr class="none">
 
-<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.VERSION,this)" onkeypress="DispCtrl(document.all.VERSION,this)"><strong>HTML$B%t%!!<%8%g%s(B</strong></p>
+<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.VERSION,this)" onkeypress="DispCtrl(document.all.VERSION,this)"><strong>HTMLヴァージョン</strong></p>
 <div id="VERSION" style="display:none">
 
 <dl>
 <dt><input type="checkbox" value="on" name="IgnoreDOCTYPE" id="IgnoreDOCTYPE" accesskey="I">
-    <label for="IgnoreDOCTYPE">HTML$BCf$N(BDOCTYPE$B@k8@$rL5;k$7$F6/@)E*$K0J2<$N%t%!!<%8%g%s$G%A%'%C%/$7$^$9(B</label>$B!#$3$3$r%A%'%C%/$7$F$$$J$$$H$-$O!"(BHTML$BCf$K(BDOCTYPE$B@k8@$,$J$$$H$-$K8B$j0J2<$N%t%!!<%8%g%s$G%A%'%C%/$7$^$9!#8D!9$N6qBNE*$J(BDOCTYPE$B$K$D$$$F$O(B<a href="./explain.html#unknown-doctype">$B2r@b(B</a>$B$r8+$F$/$@$5$$!#(B
+    <label for="IgnoreDOCTYPE">HTML中のDOCTYPE宣言を無視して強制的に以下のヴァージョンでチェックします</label>。ここをチェックしていないときは、HTML中にDOCTYPE宣言がないときに限り以下のヴァージョンでチェックします。個々の具体的なDOCTYPEについては<a href="./explain.html#unknown-doctype">解説</a>を見てください。
 </dl>
 <ol>
 <li><input type="radio" name="HTMLVersion" value="HTML10" accesskey="V">
-    <a href="http://www.w3.org/MarkUp/draft-ietf-iiir-html-01.txt">HTML1.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML10" title="HTML10 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/MarkUp/draft-ietf-iiir-html-01.txt">HTML1.0</a> → <a href="./tagslist.cgi?HTMLVersion=HTML10" title="HTML10 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML20" accesskey="V">
-    <a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1866.txt">HTML2.0</a> (RFC1866) $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML20" title="HTML20 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.ring.gr.jp/pub/doc/RFC/rfc1866.txt">HTML2.0</a> (RFC1866) → <a href="./tagslist.cgi?HTMLVersion=HTML20" title="HTML20 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="i18n" accesskey="V">
-    <a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2070.txt">HTML2.x</a> (RFC2070) $B"*(B <a href="./tagslist.cgi?HTMLVersion=i18n" title="i18n syntax">$BJ8K!(B</a><br>
+    <a href="http://www.ring.gr.jp/pub/doc/RFC/rfc2070.txt">HTML2.x</a> (RFC2070) → <a href="./tagslist.cgi?HTMLVersion=i18n" title="i18n syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTMLplus" accesskey="V">
-    <a href="http://www.w3.org/MarkUp/HTMLPlus/htmlplus_1.html">HTML+</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTMLplus" title="HTML+ syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/MarkUp/HTMLPlus/htmlplus_1.html">HTML+</a> → <a href="./tagslist.cgi?HTMLVersion=HTMLplus" title="HTML+ syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="Arena" accesskey="V">
-    <a href="http://www.w3.org/pub/WWW/MarkUp/html3/">HTML3.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=Arena" title="Arena syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/pub/WWW/MarkUp/html3/">HTML3.0</a> → <a href="./tagslist.cgi?HTMLVersion=Arena" title="Arena syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="Wilbur" accesskey="V">
-    <a href="http://www.w3.org/pub/WWW/MarkUp/Wilbur/">HTML3.2</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=Wilbur" title="Wilbur syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/pub/WWW/MarkUp/Wilbur/">HTML3.2</a> → <a href="./tagslist.cgi?HTMLVersion=Wilbur" title="Wilbur syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML40-Strict" accesskey="V">
-    <a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0 Strict</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML40-Strict" title="HTML40-Strict syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0 Strict</a> → <a href="./tagslist.cgi?HTMLVersion=HTML40-Strict" title="HTML40-Strict syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML40-Transitional" accesskey="V">
-    <a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0 Transitional</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML40-Transitional" title="HTML40-Transitional syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0 Transitional</a> → <a href="./tagslist.cgi?HTMLVersion=HTML40-Transitional" title="HTML40-Transitional syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML40-Frameset" accesskey="V">
-    <a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0 Frameset</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML40-Frameset" title="HTML40-Frameset syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/1998/REC-html40-19980424/">HTML4.0 Frameset</a> → <a href="./tagslist.cgi?HTMLVersion=HTML40-Frameset" title="HTML40-Frameset syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML40-Mobile" accesskey="V">
-    <a href="http://www.w3.org/TR/NOTE-html40-mobile">HTML4.0 Mobile</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML40-Mobile" title="HTML40-Mobile syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/NOTE-html40-mobile">HTML4.0 Mobile</a> → <a href="./tagslist.cgi?HTMLVersion=HTML40-Mobile" title="HTML40-Mobile syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML401-Strict" accesskey="V">
-    <a href="http://www.w3.org/TR/html401/">HTML4.01 Strict</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML401-Strict" title="HTML401-Strict syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/html401/">HTML4.01 Strict</a> → <a href="./tagslist.cgi?HTMLVersion=HTML401-Strict" title="HTML401-Strict syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML401-Transitional" accesskey="V" checked>
-    <a href="http://www.w3.org/TR/html401/">HTML4.01 Transitional</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML401-Transitional" title="HTML401-Transitional syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/html401/">HTML4.01 Transitional</a> → <a href="./tagslist.cgi?HTMLVersion=HTML401-Transitional" title="HTML401-Transitional syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="HTML401-Frameset" accesskey="V">
-    <a href="http://www.w3.org/TR/html401/">HTML4.01 Frameset</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=HTML401-Frameset" title="HTML401-Frameset syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/html401/">HTML4.01 Frameset</a> → <a href="./tagslist.cgi?HTMLVersion=HTML401-Frameset" title="HTML401-Frameset syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="XHTML1-Strict" accesskey="V">
-    <a href="http://www.w3.org/TR/xhtml1/">XHTML1.0 Strict</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=XHTML1-Strict" title="XHTML1-Strict syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/xhtml1/">XHTML1.0 Strict</a> → <a href="./tagslist.cgi?HTMLVersion=XHTML1-Strict" title="XHTML1-Strict syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="XHTML1-Transitional" accesskey="V">
-    <a href="http://www.w3.org/TR/xhtml1/">XHTML1.0 Transitional</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=XHTML1-Transitional" title="XHTML1-Transitional syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/xhtml1/">XHTML1.0 Transitional</a> → <a href="./tagslist.cgi?HTMLVersion=XHTML1-Transitional" title="XHTML1-Transitional syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="XHTML1-Frameset" accesskey="V">
-    <a href="http://www.w3.org/TR/xhtml1/">XHTML1.0 Frameset</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=XHTML1-Frameset" title="XHTML1-Frameset syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/xhtml1/">XHTML1.0 Frameset</a> → <a href="./tagslist.cgi?HTMLVersion=XHTML1-Frameset" title="XHTML1-Frameset syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="XHTML11" accesskey="V">
-    <a href="http://www.w3.org/TR/xhtml11/">XHTML1.1</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=XHTML11" title="XHTML11 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/xhtml11/">XHTML1.1</a> → <a href="./tagslist.cgi?HTMLVersion=XHTML11" title="XHTML11 syntax">文法</a><br>
+<li><input type="radio" name="HTMLVersion" value="XHTML-RDFa-1" accesskey="V">
+    <a href="http://www.w3.org/TR/rdfa-syntax/">XHTML + RDFa 1.0</a> → <a href="./tagslist.cgi?HTMLVersion=XHTML-RDFa" title="XHTML+RDFa syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="XHTML-Basic" accesskey="V">
-    <a href="http://www.w3.org/TR/xhtml-basic/">XHTML Basic</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=XHTML-Basic" title="XHTML-Basic syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/xhtml-basic/">XHTML Basic</a> → <a href="./tagslist.cgi?HTMLVersion=XHTML-Basic" title="XHTML-Basic syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="XHTML-MP" accesskey="V">
-    <a href="http://devgate2.phone.com/ja/htmldoc/ue1/xhtml-mp-referenceJ/">XHTML Mobile Profile</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=XHTML-MP" title="XHTML-MP syntax">$BJ8K!(B</a><br>
+    <a href="http://devgate2.phone.com/ja/htmldoc/ue1/xhtml-mp-referenceJ/">XHTML Mobile Profile</a> → <a href="./tagslist.cgi?HTMLVersion=XHTML-MP" title="XHTML-MP syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="15445" accesskey="V">
-    <a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO/IEC 15445</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=15445" title="15445 syntax">$BJ8K!(B</a><br>
+    <a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO/IEC 15445</a> → <a href="./tagslist.cgi?HTMLVersion=15445" title="15445 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="15445-Preparation" accesskey="V">
-    <a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO/IEC 15445 Preparation</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=15445-Preparation" title="15445-Preparation syntax">$BJ8K!(B</a><br>
+    <a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO/IEC 15445 Preparation</a> → <a href="./tagslist.cgi?HTMLVersion=15445-Preparation" title="15445-Preparation syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="Mozilla20" accesskey="V">
-    Netscape Navigator 2.0 $B"*(B <a href="./tagslist.cgi?HTMLVersion=Mozilla20" title="Mozilla20 syntax">$BJ8K!(B</a>
+    Netscape Navigator 2.0 → <a href="./tagslist.cgi?HTMLVersion=Mozilla20" title="Mozilla20 syntax">文法</a>
 <li><input type="radio" name="HTMLVersion" value="Mozilla30" accesskey="V">
-    Netscape Navigator 3.0 $B"*(B <a href="./tagslist.cgi?HTMLVersion=Mozilla30" title="Mozilla30 syntax">$BJ8K!(B</a>
+    Netscape Navigator 3.0 → <a href="./tagslist.cgi?HTMLVersion=Mozilla30" title="Mozilla30 syntax">文法</a>
 <li><input type="radio" name="HTMLVersion" value="Mozilla40" accesskey="V">
-    <a href="http://developer.netscape.com/docs/manuals/htmlguid/index.htm">Netscape Navigator 4.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=Mozilla40" title="Mozilla40 syntax">$BJ8K!(B</a><br>
+    <a href="http://developer.netscape.com/docs/manuals/htmlguid/index.htm">Netscape Navigator 4.0</a> → <a href="./tagslist.cgi?HTMLVersion=Mozilla40" title="Mozilla40 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="IE30b" accesskey="V">
-    <a href="http://msdn.microsoft.com/workshop/author/ie3html/ie3dtd.asp">Microsoft Internet Explorer 3.0 beta</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=IE30b" title="IE30b syntax">$BJ8K!(B</a><br>
+    <a href="http://msdn.microsoft.com/workshop/author/ie3html/ie3dtd.asp">Microsoft Internet Explorer 3.0 beta</a> → <a href="./tagslist.cgi?HTMLVersion=IE30b" title="IE30b syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="IE30" accesskey="V">
-    Microsoft Internet Explorer 3.0 $B"*(B <a href="./tagslist.cgi?HTMLVersion=IE30" title="IE30 syntax">$BJ8K!(B</a>
+    Microsoft Internet Explorer 3.0 → <a href="./tagslist.cgi?HTMLVersion=IE30" title="IE30 syntax">文法</a>
 <li><input type="radio" name="HTMLVersion" value="IE40" accesskey="V">
-    Microsoft Internet Explorer 4.0 $B"*(B <a href="./tagslist.cgi?HTMLVersion=IE40" title="IE40 syntax">$BJ8K!(B</a>
+    Microsoft Internet Explorer 4.0 → <a href="./tagslist.cgi?HTMLVersion=IE40" title="IE40 syntax">文法</a>
 <li><input type="radio" name="HTMLVersion" value="IE50" accesskey="V">
-    Microsoft Internet Explorer 5.0 $B"*(B <a href="./tagslist.cgi?HTMLVersion=IE50" title="IE50 syntax">$BJ8K!(B</a><br>
+    Microsoft Internet Explorer 5.0 → <a href="./tagslist.cgi?HTMLVersion=IE50" title="IE50 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="IE55" accesskey="V">
-    <a href="http://msdn.microsoft.com/workshop/author/html/reference/elements.asp">Microsoft Internet Explorer 5.5</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=IE55" title="IE55 syntax">$BJ8K!(B</a><br>
+    <a href="http://msdn.microsoft.com/workshop/author/html/reference/elements.asp">Microsoft Internet Explorer 5.5</a> → <a href="./tagslist.cgi?HTMLVersion=IE55" title="IE55 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="WebExp" accesskey="V">
-    <!--a href="http://www.networking.ibm.com/WebExplorer/webhome.htm"-->IBM WebExplorer 1.1<!--/a--> $B"*(B <a href="./tagslist.cgi?HTMLVersion=WebExp" title="WebExp syntax">$BJ8K!(B</a><br>
+    <!--a href="http://www.networking.ibm.com/WebExplorer/webhome.htm"-->IBM WebExplorer 1.1<!--/a--> → <a href="./tagslist.cgi?HTMLVersion=WebExp" title="WebExp syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="Compact-HTML" accesskey="V">
-    <a href="http://www.w3.org/TR/1998/NOTE-compactHTML-19980209/">Compact HTML</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=Compact-HTML" title="Compact-HTML syntax">$BJ8K!(B</a><br>
+    <a href="http://www.w3.org/TR/1998/NOTE-compactHTML-19980209/">Compact HTML</a> → <a href="./tagslist.cgi?HTMLVersion=Compact-HTML" title="Compact-HTML syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="iMode10" accesskey="V">
-    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo i$B%b!<%I(B 1.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=iMode10" title="iMode10 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo iモード 1.0</a> → <a href="./tagslist.cgi?HTMLVersion=iMode10" title="iMode10 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="iMode20" accesskey="V">
-    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo i$B%b!<%I(B 2.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=iMode20" title="iMode20 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo iモード 2.0</a> → <a href="./tagslist.cgi?HTMLVersion=iMode20" title="iMode20 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="iMode30" accesskey="V">
-    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo i$B%b!<%I(B 3.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=iMode30" title="iMode30 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo iモード 3.0</a> → <a href="./tagslist.cgi?HTMLVersion=iMode30" title="iMode30 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="iMode40" accesskey="V">
-    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo i$B%b!<%I(B 4.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=iMode40" title="iMode40 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.nttdocomo.co.jp/mc-user/i/tag/">NTT DoCoMo iモード 4.0</a> → <a href="./tagslist.cgi?HTMLVersion=iMode40" title="iMode40 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="iMode-XHTML10" accesskey="V">
-    <a href="http://www.nttdocomo.co.jp/p_s/imode/xhtml/s1.html">NTT DoCoMo i$B%b!<%I(B XHTML 1.0</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=iMode-XHTML10" title="iMode XHTML syntax">$BJ8K!(B</a><br>
+    <a href="http://www.nttdocomo.co.jp/p_s/imode/xhtml/s1.html">NTT DoCoMo iモード XHTML 1.0</a> → <a href="./tagslist.cgi?HTMLVersion=iMode-XHTML10" title="iMode XHTML syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="iMode-XHTML11" accesskey="V">
-    <a href="http://www.nttdocomo.co.jp/p_s/imode/xhtml/s1.html">NTT DoCoMo i$B%b!<%I(B XHTML 1.1</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=iMode-XHTML11" title="iMode XHTML syntax">$BJ8K!(B</a><br>
+    <a href="http://www.nttdocomo.co.jp/p_s/imode/xhtml/s1.html">NTT DoCoMo iモード XHTML 1.1</a> → <a href="./tagslist.cgi?HTMLVersion=iMode-XHTML11" title="iMode XHTML syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="J-SkyWeb" accesskey="V">
-    <a href="http://www.dp.j-phone.com/dp/tool_dl/web/tech.php">J-SkyWeb</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=J-SkyWeb" title="J-SkyWeb syntax">$BJ8K!(B</a><br>
+    <a href="http://www.dp.j-phone.com/dp/tool_dl/web/tech.php">J-SkyWeb</a> → <a href="./tagslist.cgi?HTMLVersion=J-SkyWeb" title="J-SkyWeb syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="J-SkyWebStation" accesskey="V">
-    <a href="http://www.dp.j-phone.com/dp/tool_dl/web/tech.php">J-SkyWeb Station</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=J-SkyWebStation" title="J-SkyWeb Station syntax">$BJ8K!(B</a><br>
+    <a href="http://www.dp.j-phone.com/dp/tool_dl/web/tech.php">J-SkyWeb Station</a> → <a href="./tagslist.cgi?HTMLVersion=J-SkyWebStation" title="J-SkyWeb Station syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="Doti10" accesskey="V">
-    <a href="http://www.ctc.co.jp/astel/service/dot_i_hp/index.html">TTNet $B%I%C%H(Bi</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=Doti10" title="Doti10 syntax">$BJ8K!(B</a><br>
+    <a href="http://www.ctc.co.jp/astel/service/dot_i_hp/index.html">TTNet ドットi</a> → <a href="./tagslist.cgi?HTMLVersion=Doti10" title="Doti10 syntax">文法</a><br>
 <li><input type="radio" name="HTMLVersion" value="JPO" accesskey="V">
-    <a href="http://www.jpo.go.jp/indexj.htm">$BFC5v=P4jMQ(BHTML</a> $B"*(B <a href="./tagslist.cgi?HTMLVersion=JPO" title="JPO syntax">$BJ8K!(B</a><br>
+    <a href="http://www.jpo.go.jp/indexj.htm">特許出願用HTML</a> → <a href="./tagslist.cgi?HTMLVersion=JPO" title="JPO syntax">文法</a><br>
 </ol>
 </div>
 
 <hr class="none">
 
-<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.OPTION,this)" onkeypress="DispCtrl(document.all.OPTION,this)"><strong>$B%A%'%C%/%*%W%7%g%s(B</strong></p>
+<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.OPTION,this)" onkeypress="DispCtrl(document.all.OPTION,this)"><strong>チェックオプション</strong></p>
 <div id="OPTION" style="display:none">
 
 <input type="hidden" name="LimitWhines" value="999">
 <input type="hidden" name="CheckList" value="on">
 <dl>
 <dt><input type="checkbox" value="on" name="Pedantic" id="Pedantic" accesskey="P">
-    <label for="Pedantic">$B0J2<$N$9$Y$F$N%A%'%C%/$rM-8z$K$7$^$9(B</label>$B!#$3$N$H$-8D!9$N;XDj$OL5;k$5$l$^$9!#0J2<$G$9$Y$F$G$9!#(B
+    <label for="Pedantic">以下のすべてのチェックを有効にします</label>。このとき個々の指定は無視されます。以下ですべてです。
 <dt><input type="checkbox" value="on" name="NoReligious" id="NoReligious" accesskey="G">
-    <label for="NoReligious">$B=!65E*$J%A%'%C%/$r$9$Y$FL58z$K$7$^$9(B</label>$B!#$=$l$i$K$O(B <span class="religious">(*)</span> $B0u$,IU$$$F$$$^$9!#(B
+    <label for="NoReligious">宗教的なチェックをすべて無効にします</label>。それらには <span class="religious">(*)</span> 印が付いています。
 <dt><input type="checkbox" value="on" name="NoAccessibility" id="NoAccessibility" accesskey="A">
-    <label for="NoAccessibility"><a href="./explain-wai.html">WAI Content Accessibility Guidelines</a> $B$K<($5$l$F$$$k7ZEY$N%A%'%C%/$rL58z$K$7$^$9(B</label>$B!#$=$l$i$K$O(B <span class="accessibility">(@)</span> $B0u$,IU$$$F$$$^$9!#(B
+    <label for="NoAccessibility"><a href="./explain-wai.html">WAI Content Accessibility Guidelines</a> に示されている軽度のチェックを無効にします</label>。それらには <span class="accessibility">(@)</span> 印が付いています。
 </dl>
 
-<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.DETAIL,this)" onkeypress="DispCtrl(document.all.DETAIL,this)"><strong>$B>\:Y%*%W%7%g%s;XDj(B</strong></p>
+<p><img src="./close.gif" width="16" height="12" alt="" onclick="DispCtrl(document.all.DETAIL,this)" onkeypress="DispCtrl(document.all.DETAIL,this)"><strong>詳細オプション指定</strong></p>
 <div id="DETAIL" style="display:none">
 
-<p class="penalty">$B%A%'%C%/%\%C%/%9A0$N(B<span class="penalty">$B?t;z(B</span>$B$O%(%i!<$N$*$*$^$+$J=EMWEY$r(B 0$B!A(B9 $B$G<($7$F$$$^$9(B($B8:E@?t$G$O$"$j$^$;$s(B)$B!#>/$J$$?t;z$O7Z$/!"(B9 $B$K$J$k$[$ICWL?E*$G$9!#(B
+<p class="penalty">チェックボックス前の<span class="penalty">数字</span>はエラーのおおまかな重要度を 0～9 で示しています(減点数ではありません)。少ない数字は軽く、9 になるほど致命的です。
 </p>
 <ol>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="cant-get-url" id="cant-get-url">
-    <label for="cant-get-url">HTML$BCf$N%j%s%/@h$,B8:_$7$F$$$J$+$C$?$i7Y9p$9$k(B(http:$B$N$_(B)</label>$B!#(BHTML$BCf$N%j%s%/$,B?$$$H%A%'%C%/$K;~4V$,$+$+$j$^$9!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#cant-get-url" title="cant-get-url">$B2r@b(B</a>
-    <dl><dd>$B%?%$%`%"%&%H(B<input type="text" name="TimeOut" value="10" size="2">$BIC(B (0$BIC$N;XDj$N$H$-$O%j%s%/@h$NB8:_$O%A%'%C%/$5$l$^$;$s(B)
-        <dd><input type="checkbox" value="on" name="CheckGET" id="CheckGET"> <label for="CheckGET">HEAD$B%j%/%(%9%H$,<:GT$7$?$i(BGET$B%j%/%(%9%H$G%A%'%C%/(B</label>
+    <label for="cant-get-url">HTML中のリンク先が存在していなかったら警告する(http:のみ)</label>。HTML中のリンクが多いとチェックに時間がかかります。DATA領域指定のときはチェックされません。 → <a href="./explain.html#cant-get-url" title="cant-get-url">解説</a>
+    <dl><dd>タイムアウト<input type="text" name="TimeOut" value="10" size="2">秒 (0秒の指定のときはリンク先の存在はチェックされません)
+        <dd><input type="checkbox" value="on" name="CheckGET" id="CheckGET"> <label for="CheckGET">HEADリクエストが失敗したらGETリクエストでチェック</label>
     </dl>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="required-doctype" id="required-doctype" checked>
-    <label for="required-doctype">DOCTYPE$B@k8@$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required-doctype" title="required-doctype">$B2r@b(B</a>
+    <label for="required-doctype">DOCTYPE宣言がなかったら警告する</label>。 → <a href="./explain.html#required-doctype" title="required-doctype">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="prectrl-doctype" id="prectrl-doctype" checked>
-    <label for="prectrl-doctype">DOCTYPE$B@k8@$NA0$K@)8fJ8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#prectrl-doctype" title="prectrl-doctype">$B2r@b(B</a>
+    <label for="prectrl-doctype">DOCTYPE宣言の前に制御文字が含まれていたら警告する</label>。 → <a href="./explain.html#prectrl-doctype" title="prectrl-doctype">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="unknown-doctype" id="unknown-doctype" checked>
-    <label for="unknown-doctype">$BITL@$J(BDOCTYPE$B@k8@$@$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unknown-doctype" title="unknown-doctype">$B2r@b(B</a>
+    <label for="unknown-doctype">不明なDOCTYPE宣言だったら警告する</label>。 → <a href="./explain.html#unknown-doctype" title="unknown-doctype">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="doctype-case-mismatch" id="doctype-case-mismatch" checked>
-    <label for="doctype-case-mismatch">$B8x3+<1JL;R$NBgJ8;z>.J8;z$,?)$$0c$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#doctype-case-mismatch" title="doctype-case-mismatch">$B2r@b(B</a>
+    <label for="doctype-case-mismatch">公開識別子の大文字小文字が食い違っていたら警告する</label>。 → <a href="./explain.html#doctype-case-mismatch" title="doctype-case-mismatch">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="unsupported-doctype" id="unsupported-doctype" checked>
-    <label for="unsupported-doctype">$B%5%]!<%H$7$F$$$J$$(BDOCTYPE$B@k8@$@$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unsupported-doctype" title="unsupported-doctype">$B2r@b(B</a>
+    <label for="unsupported-doctype">サポートしていないDOCTYPE宣言だったら警告する</label>。 → <a href="./explain.html#unsupported-doctype" title="unsupported-doctype">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="expired-doctype" id="expired-doctype" checked>
-    <label for="expired-doctype">$B$9$G$KGQ4~$5$l$F$7$^$C$?(BDOCTYPE$B$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#expired-doctype" title="expired-doctype">$B2r@b(B</a>
+    <label for="expired-doctype">すでに廃棄されてしまったDOCTYPEが指定されていたら警告する</label>。 → <a href="./explain.html#expired-doctype" title="expired-doctype">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="obsoleted-doctype" id="obsoleted-doctype" checked>
-    <label for="obsoleted-doctype">HTML4.0$B$KBP$7$F(BHTML4.01$B$r;H$&$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#obsoleted-doctype" title="obsoleted-doctype">$B2r@b(B</a>
+    <label for="obsoleted-doctype">HTML4.0に対してHTML4.01を使うよう促す</label>。 → <a href="./explain.html#obsoleted-doctype" title="obsoleted-doctype">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="doctype-mismatch" id="doctype-mismatch" checked>
-    <label for="doctype-mismatch">$BA*Br$5$l$?(BHTML$B%t%!!<%8%g%s$H(BHTML$BCf$N(BDOCTYPE$B@k8@$,L7=b$7$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#doctype-mismatch" title="doctype-mismatch">$B2r@b(B</a>
+    <label for="doctype-mismatch">選択されたHTMLヴァージョンとHTML中のDOCTYPE宣言が矛盾していたら警告する</label>。減点されません。 → <a href="./explain.html#doctype-mismatch" title="doctype-mismatch">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="misplaced-doctype" id="misplaced-doctype" checked>
-    <label for="misplaced-doctype">DOCTYPE$B@k8@$,J8=q$N@hF,0J30$K8=$l$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#misplaced-doctype" title="misplaced-doctype">$B2r@b(B</a>
+    <label for="misplaced-doctype">DOCTYPE宣言が文書の先頭以外に現れたら警告する</label>。 → <a href="./explain.html#misplaced-doctype" title="misplaced-doctype">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="lower-case-doctype" id="lower-case-doctype" checked>
-    <label for="lower-case-doctype">XHTML$B$N(BDOCTYPE$B@k8@Cf$N(BHTML$B$,>.J8;z$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#lower-case-doctype" title="lower-case-doctype">$B2r@b(B</a>
+    <label for="lower-case-doctype">XHTMLのDOCTYPE宣言中のHTMLが小文字でなかったら警告する</label>。 → <a href="./explain.html#lower-case-doctype" title="lower-case-doctype">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="upper-case-doctype" id="upper-case-doctype" checked>
-    <label for="upper-case-doctype">DOCTYPE$B@k8@$,BgJ8;z$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#upper-case-doctype" title="upper-case-doctype">$B2r@b(B</a>
+    <label for="upper-case-doctype">DOCTYPE宣言が大文字でなかったら警告する</label>。 → <a href="./explain.html#upper-case-doctype" title="upper-case-doctype">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="empty-systemid" id="empty-systemid" checked>
-    <label for="empty-systemid">XHTML$B$G%7%9%F%`<1JL;R$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#empty-systemid" title="empty-systemid">$B2r@b(B</a>
+    <label for="empty-systemid">XHTMLでシステム識別子がなかったら警告する</label>。 → <a href="./explain.html#empty-systemid" title="empty-systemid">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="illegal-systemid" id="illegal-systemid" checked>
-    <label for="illegal-systemid">$B%7%9%F%`<1JL;R$,@5$7$/$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-systemid" title="illegal-systemid">$B2r@b(B</a>
+    <label for="illegal-systemid">システム識別子が正しくなかったら警告する</label>。 → <a href="./explain.html#illegal-systemid" title="illegal-systemid">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="systemid-case-mismatch" id="systemid-case-mismatch" checked>
-    <label for="systemid-case-mismatch">$B%7%9%F%`<1JL;R$NBgJ8;z>.J8;z$,0c$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#systemid-case-mismatch" title="systemid-case-mismatch">$B2r@b(B</a>
+    <label for="systemid-case-mismatch">システム識別子の大文字小文字が違っていたら警告する</label>。 → <a href="./explain.html#systemid-case-mismatch" title="systemid-case-mismatch">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="ignore-declaration" id="ignore-declaration" checked>
-    <label for="ignore-declaration">SGML$B@k8@$d(BDTD$B@k8@$J$I$,8=$l$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#ignore-declaration" title="ignore-declaration">$B2r@b(B</a>
+    <label for="ignore-declaration">SGML宣言やDTD宣言などが現れたら警告する</label>。 → <a href="./explain.html#ignore-declaration" title="ignore-declaration">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="marked-section" id="marked-section" checked>
-    <label for="marked-section">$B%^!<%/6h4V$,8=$l$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#marked-section" title="marked-section">$B2r@b(B</a>
+    <label for="marked-section">マーク区間が現れたら警告する</label>。減点されません。 → <a href="./explain.html#marked-section" title="marked-section">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="badstr-in-marked-section" id="badstr-in-marked-section" checked>
-    <label for="badstr-in-marked-section">$B%^!<%/6h4VCf$K=q$$$F$O$J$i$J$$J8;zNs$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#badstr-in-marked-section" title="badstr-in-marked-section">$B2r@b(B</a>
+    <label for="badstr-in-marked-section">マーク区間中に書いてはならない文字列が含まれていたら警告する</label>。 → <a href="./explain.html#badstr-in-marked-section" title="badstr-in-marked-section">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="unclosed-marked-section" id="unclosed-marked-section" checked>
-    <label for="unclosed-marked-section">$B%^!<%/6h4V$,JD$8$i$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unclosed-marked-section" title="unclosed-marked-section">$B2r@b(B</a>
+    <label for="unclosed-marked-section">マーク区間が閉じられていなかったら警告する</label>。 → <a href="./explain.html#unclosed-marked-section" title="unclosed-marked-section">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="misplaced-xmldecl" id="misplaced-xmldecl" checked>
-    <label for="misplaced-xmldecl">XML$B@k8@$,J8=q$N@hF,0J30$K8=$l$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#misplaced-xmldecl" title="misplaced-xmldecl">$B2r@b(B</a>
+    <label for="misplaced-xmldecl">XML宣言が文書の先頭以外に現れたら警告する</label>。 → <a href="./explain.html#misplaced-xmldecl" title="misplaced-xmldecl">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="xhtml-xmldecl" id="xhtml-xmldecl" checked>
-    <label for="xhtml-xmldecl">XHTML$B$K(BXML$B@k8@$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#xhtml-xmldecl" title="xhtml-xmldecl">$B2r@b(B</a>
+    <label for="xhtml-xmldecl">XHTMLにXML宣言がなかったら警告する</label>。 → <a href="./explain.html#xhtml-xmldecl" title="xhtml-xmldecl">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="end-xmldecl" id="end-xmldecl" checked>
-    <label for="end-xmldecl">XML$B@k8@$,(B ?&gt; $B$G=*$o$C$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#end-xmldecl" title="end-xmldecl">$B2r@b(B</a>
+    <label for="end-xmldecl">XML宣言が ?&gt; で終わっていなかったら警告する</label>。 → <a href="./explain.html#end-xmldecl" title="end-xmldecl">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="bad-xmldecl" id="bad-xmldecl" checked>
-    <label for="bad-xmldecl">XML$B@k8@$,@5$7$/$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#bad-xmldecl" title="bad-xmldecl">$B2r@b(B</a>
+    <label for="bad-xmldecl">XML宣言が正しくなかったら警告する</label>。 → <a href="./explain.html#bad-xmldecl" title="bad-xmldecl">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="processing-instruction" id="processing-instruction" checked>
-    <label for="processing-instruction">$B=hM}L?Na$r7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#processing-instruction" title="processing-instruction">$B2r@b(B</a>
+    <label for="processing-instruction">処理命令を警告する</label>。減点されません。 → <a href="./explain.html#processing-instruction" title="processing-instruction">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="w-hyphens-in-comment" id="w-hyphens-in-comment" checked>
-    <label for="w-hyphens-in-comment">$B%3%a%s%HCf$K(B -- $B$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#w-hyphens-in-comment" title="w-hyphens-in-comment">$B2r@b(B</a>
+    <label for="w-hyphens-in-comment">コメント中に -- が含まれていたら警告する</label>。 → <a href="./explain.html#w-hyphens-in-comment" title="w-hyphens-in-comment">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="excluded-w-hyphens-in-comment" id="excluded-w-hyphens-in-comment" checked>
-    <label for="excluded-w-hyphens-in-comment">HTML4$B0J>e$G%3%a%s%HCf$K(B -- $B$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#excluded-w-hyphens-in-comment" title="excluded-w-hyphens-in-comment">$B2r@b(B</a>
+    <label for="excluded-w-hyphens-in-comment">HTML4以上でコメント中に -- が含まれていたら警告する</label>。 → <a href="./explain.html#excluded-w-hyphens-in-comment" title="excluded-w-hyphens-in-comment">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="empty-comment" id="empty-comment" checked>
-    <label for="empty-comment">$B%3%a%s%H$,6u(B &lt;!&gt; $B$@$C$?$i7Y9p$9$k(B</label>$B!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#empty-comment" title="empty-comment">$B2r@b(B</a>
+    <label for="empty-comment">コメントが空 &lt;!&gt; だったら警告する</label>。<span class="religious">(*)</span> → <a href="./explain.html#empty-comment" title="empty-comment">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="illegal-comment" id="illegal-comment" checked>
-    <label for="illegal-comment">&lt;!-&gt; $B$J$I$N@5$7$/$J$$%3%a%s%H$@$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-comment" title="illegal-comment">$B2r@b(B</a>
+    <label for="illegal-comment">&lt;!-&gt; などの正しくないコメントだったら警告する</label>。 → <a href="./explain.html#illegal-comment" title="illegal-comment">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="title-comment" id="title-comment" checked>
-    <label for="title-comment">&lt;TITLE&gt; $BCf$K%3%a%s%H$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#title-comment" title="title-comment">$B2r@b(B</a>
+    <label for="title-comment">&lt;TITLE&gt; 中にコメントを書いていたら警告する</label>。 → <a href="./explain.html#title-comment" title="title-comment">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="markup-in-comment" id="markup-in-comment" checked>
-    <label for="markup-in-comment">$B%3%a%s%HCf$K(B &lt; $B$d(B &gt; $B$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#markup-in-comment" title="markup-in-comment">$B2r@b(B</a>
+    <label for="markup-in-comment">コメント中に &lt; や &gt; が含まれていたら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#markup-in-comment" title="markup-in-comment">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="nested-comment" id="nested-comment" checked>
-    <label for="nested-comment">$B%3%a%s%H$,F~$l;R$K$J$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#nested-comment" title="nested-comment">$B2r@b(B</a>
+    <label for="nested-comment">コメントが入れ子になっていたら警告する</label>。 → <a href="./explain.html#nested-comment" title="nested-comment">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="space-in-closed-comment" id="space-in-closed-comment" checked>
-    <label for="space-in-closed-comment">$BJD$8%3%a%s%H$N(B -- $B$H(B &gt; $B$N4V$K6uGr$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#space-in-closed-comment" title="space-in-closed-comment">$B2r@b(B</a>
+    <label for="space-in-closed-comment">閉じコメントの -- と &gt; の間に空白が含まれていたら警告する</label>。<span class="religious">(*)</span> → <a href="./explain.html#space-in-closed-comment" title="space-in-closed-comment">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="illegal-closed-comment" id="illegal-closed-comment" checked>
-    <label for="illegal-closed-comment">$BJD$8%3%a%s%H$r(B --!&gt; $B$H$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-closed-comment" title="illegal-closed-comment">$B2r@b(B</a>
+    <label for="illegal-closed-comment">閉じコメントを --!&gt; としていたら警告する</label>。 → <a href="./explain.html#illegal-closed-comment" title="illegal-closed-comment">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="unclosed-comment" id="unclosed-comment" checked>
-    <label for="unclosed-comment">$B%3%a%s%H$,JD$8$i$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unclosed-comment" title="unclosed-comment">$B2r@b(B</a>
+    <label for="unclosed-comment">コメントが閉じられていなかったら警告する</label>。 → <a href="./explain.html#unclosed-comment" title="unclosed-comment">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="unclosed-tag" id="unclosed-tag" checked>
-    <label for="unclosed-tag">$B%?%0$,JD$8$i$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unclosed-tag" title="unclosed-tag">$B2r@b(B</a>
+    <label for="unclosed-tag">タグが閉じられていなかったら警告する</label>。 → <a href="./explain.html#unclosed-tag" title="unclosed-tag">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="leading-whitespace" id="leading-whitespace" checked>
-    <label for="leading-whitespace">&lt; $B$H%?%0L>$N4V$K6uGr$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#leading-whitespace" title="leading-whitespace">$B2r@b(B</a>
+    <label for="leading-whitespace">&lt; とタグ名の間に空白が含まれていたら警告する</label>。 → <a href="./explain.html#leading-whitespace" title="leading-whitespace">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="unexpected-open" id="unexpected-open" checked>
-    <label for="unexpected-open">$B%?%0Fb$KM>7W$J(B &lt; $B$,$"$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unexpected-open" title="unexpected-open">$B2r@b(B</a>
+    <label for="unexpected-open">タグ内に余計な &lt; があったら警告する</label>。 → <a href="./explain.html#unexpected-open" title="unexpected-open">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="endtag-slash" id="endtag-slash" checked>
-    <label for="endtag-slash">XHTML$B$G6uMWAG%?%0$r(B /&gt;$B$GJD$8$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#endtag-slash" title="endtag-slash">$B2r@b(B</a>
+    <label for="endtag-slash">XHTMLで空要素タグを /&gt;で閉じていなかったら警告する</label>。 → <a href="./explain.html#endtag-slash" title="endtag-slash">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="leading-space-endtag-slash" id="leading-space-endtag-slash" checked>
-    <label for="leading-space-endtag-slash">XHTML$B$G6uMWAG%?%0$rJD$8$k$H$-(B/&gt;$B$NA0$K6uGr$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#leading-space-endtag-slash" title="leading-space-endtag-slash">$B2r@b(B</a>
+    <label for="leading-space-endtag-slash">XHTMLで空要素タグを閉じるとき/&gt;の前に空白がなかったら警告する</label>。 → <a href="./explain.html#leading-space-endtag-slash" title="leading-space-endtag-slash">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="contain-no-space" id="contain-no-space" checked>
-    <label for="contain-no-space">XHTML$B$G6uMWAG%?%0$NMWAG$K6uGr$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#contain-no-space" title="contain-no-space">$B2r@b(B</a>
+    <label for="contain-no-space">XHTMLで空要素タグの要素に空白を書いていたら警告する</label>。 → <a href="./explain.html#contain-no-space" title="contain-no-space">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="minimized-endtag" id="minimized-endtag" checked>
-    <label for="minimized-endtag">XHTML$B$G6uMWAG%?%0$r(B&lt;tag&gt;&lt;/tag&gt;$B$H=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#minimized-endtag" title="minimized-endtag">$B2r@b(B</a>
+    <label for="minimized-endtag">XHTMLで空要素タグを&lt;tag&gt;&lt;/tag&gt;と書いていたら警告する</label>。 → <a href="./explain.html#minimized-endtag" title="minimized-endtag">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="noempty-endtag-slash" id="noempty-endtag-slash" checked>
-    <label for="noempty-endtag-slash">XHTML$B$GHs6uMWAG%?%0$r(B/&gt;$B$GJD$8$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#noempty-endtag-slash" title="noempty-endtag-slash">$B2r@b(B</a>
+    <label for="noempty-endtag-slash">XHTMLで非空要素タグを/&gt;で閉じていたら警告する</label>。 → <a href="./explain.html#noempty-endtag-slash" title="noempty-endtag-slash">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="excluded-element" id="excluded-element" checked>
-    <label for="excluded-element">$B>l=j$K$h$C$F=q$$$F$O$J$i$J$$%?%0$r=q$$$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#excluded-element" title="excluded-element">$B2r@b(B</a>
+    <label for="excluded-element">場所によって書いてはならないタグを書いたとき警告する</label>。 → <a href="./explain.html#excluded-element" title="excluded-element">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="deprecated-element" id="deprecated-element">
-    <label for="deprecated-element">$B>l=j$K$h$C$F=q$/$N$rA&$a$i$l$J$$%?%0$r=q$$$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#deprecated-element" title="deprecated-element">$B2r@b(B</a>
+    <label for="deprecated-element">場所によって書くのを薦められないタグを書いたとき警告する</label>。 → <a href="./explain.html#deprecated-element" title="deprecated-element">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="misplaced-element" id="misplaced-element" checked>
-    <label for="misplaced-element">$BFCDj$NMWAGFb$K$7$+=q$1$J$$%?%0$r$=$N30$K=q$$$F$$$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#misplaced-element" title="misplaced-element">$B2r@b(B</a>
+    <label for="misplaced-element">特定の要素内にしか書けないタグをその外に書いていたとき警告する</label>。 → <a href="./explain.html#misplaced-element" title="misplaced-element">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="once-only" id="once-only" checked>
-    <label for="once-only">$B0lEY$7$+=q$$$F$O$J$i$J$$%?%0$rJ#?t2s=q$$$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#once-only" title="once-only">$B2r@b(B</a>
+    <label for="once-only">一度しか書いてはならないタグを複数回書いたとき警告する</label>。 → <a href="./explain.html#once-only" title="once-only">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="once-only-group" id="once-only-group" checked>
-    <label for="once-only-group">$BB>$N%?%0$H$I$A$i$+0lJ}$7$+=q$1$J$$%?%0$rN>J}=q$$$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#once-only-group" title="once-only-group">$B2r@b(B</a>
+    <label for="once-only-group">他のタグとどちらか一方しか書けないタグを両方書いたとき警告する</label>。 → <a href="./explain.html#once-only-group" title="once-only-group">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="must-follow" id="must-follow" checked>
-    <label for="must-follow">$B%?%0$r=q$/=g=x$r4V0c$($F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#must-follow" title="must-follow">$B2r@b(B</a>
+    <label for="must-follow">タグを書く順序を間違えていたら警告する</label>。 → <a href="./explain.html#must-follow" title="must-follow">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="must-follow-slight" id="must-follow-slight" checked>
-    <label for="must-follow-slight">HTML4$B0JA0$G(B &lt;DD&gt; $B$,(B &lt;DT&gt; $B$KB3$$$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#must-follow-slight" title="must-follow-slight">$B2r@b(B</a>
+    <label for="must-follow-slight">HTML4以前で &lt;DD&gt; が &lt;DT&gt; に続いていなかったら警告する</label>。 → <a href="./explain.html#must-follow-slight" title="must-follow-slight">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="required" id="required" checked>
-    <label for="required">$BI,MW$J%?%0$r=q$$$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required" title="required">$B2r@b(B</a>
+    <label for="required">必要なタグを書いていなかったら警告する</label>。 → <a href="./explain.html#required" title="required">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="empty-container" id="empty-container" checked>
-    <label for="empty-container">$B3+;O%?%0$H=*N;%?%0$N4V$K2?$b$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#empty-container" title="empty-container">$B2r@b(B</a>
+    <label for="empty-container">開始タグと終了タグの間に何もなかったら警告する</label>。<span class="religious">(*)</span> → <a href="./explain.html#empty-container" title="empty-container">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="space-container" id="space-container" checked>
-    <label for="space-container">$B3+;O%?%0$H=*N;%?%0$N4V$,6uGr$@$1$@$C$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#space-container" title="space-container">$B2r@b(B</a>
+    <label for="space-container">開始タグと終了タグの間が空白だけだったら警告する</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#space-container" title="space-container">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="br-only-container" id="br-only-container" checked>
-    <label for="br-only-container">$B3+;O%?%0$H=*N;%?%0$N4V$,(B &lt;BR&gt; $B$@$1$@$C$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#br-only-container" title="br-only-container">$B2r@b(B</a>
+    <label for="br-only-container">開始タグと終了タグの間が &lt;BR&gt; だけだったら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#br-only-container" title="br-only-container">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="unknown-element" id="unknown-element" checked>
-    <label for="unknown-element">$BITL@$J%?%0$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unknown-element" title="unknown-element">$B2r@b(B</a>
+    <label for="unknown-element">不明なタグを書いていたら警告する</label>。 → <a href="./explain.html#unknown-element" title="unknown-element">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="other-html-element" id="other-html-element" checked>
-    <label for="other-html-element">$BJL$N(BHTML$BMQ$N%?%0$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#other-html-element" title="other-html-element">$B2r@b(B</a>
+    <label for="other-html-element">別のHTML用のタグを書いていたら警告する</label>。 → <a href="./explain.html#other-html-element" title="other-html-element">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="deprecated-tag" id="deprecated-tag" checked>
-    <label for="deprecated-tag">$B$"$^$jA&$a$i$l$J$$%?%0$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#deprecated-tag" title="deprecated-tag">$B2r@b(B</a>
+    <label for="deprecated-tag">あまり薦められないタグを書いていたら警告する</label>。 → <a href="./explain.html#deprecated-tag" title="deprecated-tag">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="deprecated-tag-css" id="deprecated-tag-css" checked>
-    <label for="deprecated-tag-css">$B%9%?%$%k%7!<%H$r;H$C$?J}$,$$$$%?%0$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#deprecated-tag-css" title="deprecated-tag-css">$B2r@b(B</a>
+    <label for="deprecated-tag-css">スタイルシートを使った方がいいタグを書いていたら警告する</label>。 → <a href="./explain.html#deprecated-tag-css" title="deprecated-tag-css">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="unsupported-tag" id="unsupported-tag" checked>
-    <label for="unsupported-tag">$B%5%]!<%H30$N%?%0$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s(B $B"*(B <a href="./explain.html#unsupported-tag" title="unsupported-tag">$B2r@b(B</a>
+    <label for="unsupported-tag">サポート外のタグを書いていたら警告する</label>。減点されません → <a href="./explain.html#unsupported-tag" title="unsupported-tag">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="should-not-use" id="should-not-use" checked>
-    <label for="should-not-use">$B;H$&$Y$-$G$J$$$H$5$l$F$$$k%?%0$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#should-not-use" title="should-not-use">$B2r@b(B</a>
+    <label for="should-not-use">使うべきでないとされているタグを書いていたら警告する</label>。 → <a href="./explain.html#should-not-use" title="should-not-use">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="required-start-tag" id="required-start-tag" checked>
-    <label for="required-start-tag">$B>JN,IT2D$N3+;O%?%0$,>JN,$5$l$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required-start-tag" title="required-start-tag">$B2r@b(B</a>
+    <label for="required-start-tag">省略不可の開始タグが省略されたとき警告する</label>。 → <a href="./explain.html#required-start-tag" title="required-start-tag">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="omit-start-tag" id="omit-start-tag" checked>
-    <label for="omit-start-tag">$B3+;O%?%0$,>JN,$5$l$?$H$-7Y9p$9$k(B</label>$B!#<!$N>JN,$,<+L@$J>l9g$r=|$/!#(B $B"*(B <a href="./explain.html#omit-start-tag" title="omit-start-tag">$B2r@b(B</a>
+    <label for="omit-start-tag">開始タグが省略されたとき警告する</label>。次の省略が自明な場合を除く。 → <a href="./explain.html#omit-start-tag" title="omit-start-tag">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="omit-start-tag-trivial" id="omit-start-tag-trivial">
-    <label for="omit-start-tag-trivial">&lt;TBODY&gt; $B$J$I$N>JN,$,<+L@$J3+;O%?%0$,>JN,$5$l$?$H$-7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#omit-start-tag-trivial" title="omit-start-tag-trivial">$B2r@b(B</a>
+    <label for="omit-start-tag-trivial">&lt;TBODY&gt; などの省略が自明な開始タグが省略されたとき警告する</label>。減点されません。 → <a href="./explain.html#omit-start-tag-trivial" title="omit-start-tag-trivial">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="required-end-tag" id="required-end-tag" checked>
-    <label for="required-end-tag">$B>JN,IT2D$N=*N;%?%0$,>JN,$5$l$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required-end-tag" title="required-end-tag">$B2r@b(B</a>
+    <label for="required-end-tag">省略不可の終了タグが省略されたとき警告する</label>。 → <a href="./explain.html#required-end-tag" title="required-end-tag">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="omit-end-tag" id="omit-end-tag" checked>
-    <label for="omit-end-tag">$B=*N;%?%0$,>JN,$5$l$?$H$-7Y9p$9$k(B</label>$B!#<!$N>JN,$,<+L@$J>l9g$r=|$/!#(B $B"*(B <a href="./explain.html#omit-end-tag" title="omit-end-tag">$B2r@b(B</a>
+    <label for="omit-end-tag">終了タグが省略されたとき警告する</label>。次の省略が自明な場合を除く。 → <a href="./explain.html#omit-end-tag" title="omit-end-tag">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="omit-end-tag-trivial" id="omit-end-tag-trivial">
-    <label for="omit-end-tag-trivial">&lt;/LI&gt; $B$d(B &lt;/DD&gt; $B$J$I$N>JN,$,<+L@$J=*N;%?%0$,>JN,$5$l$?$H$-7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#omit-end-tag-trivial" title="omit-end-tag-trivial">$B2r@b(B</a>
+    <label for="omit-end-tag-trivial">&lt;/LI&gt; や &lt;/DD&gt; などの省略が自明な終了タグが省略されたとき警告する</label>。減点されません。 → <a href="./explain.html#omit-end-tag-trivial" title="omit-end-tag-trivial">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="closing-attribute" id="closing-attribute" checked>
-    <label for="closing-attribute">$B=*N;%?%0$KB0@-$r;XDj$7$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#closing-attribute" title="closing-attribute">$B2r@b(B</a>
+    <label for="closing-attribute">終了タグに属性を指定したとき警告する</label>。 → <a href="./explain.html#closing-attribute" title="closing-attribute">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="illegal-closing" id="illegal-closing" checked>
-    <label for="illegal-closing">$B=*N;%?%0$N$J$$%?%0$N=*N;%?%0$r=q$$$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-closing" title="illegal-closing">$B2r@b(B</a>
+    <label for="illegal-closing">終了タグのないタグの終了タグを書いたとき警告する</label>。 → <a href="./explain.html#illegal-closing" title="illegal-closing">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="container-whitespace" id="container-whitespace">
-    <label for="container-whitespace">$B3+;O%?%0$H=*N;%?%0$N4V$KK>$^$7$/$J$$M>J,$J6uGr$,$"$C$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#container-whitespace" title="container-whitespace">$B2r@b(B</a>
+    <label for="container-whitespace">開始タグと終了タグの間に望ましくない余分な空白があったら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#container-whitespace" title="container-whitespace">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="mis-match" id="mis-match" checked>
-    <label for="mis-match">$B3+;O%?%0$N$J$$=*N;%?%0$,$"$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#mis-match" title="mis-match">$B2r@b(B</a>
+    <label for="mis-match">開始タグのない終了タグがあったら警告する</label>。 → <a href="./explain.html#mis-match" title="mis-match">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="element-overlap" id="element-overlap" checked>
-    <label for="element-overlap">$B%?%0$NF~$l;R4X78$,$*$+$7$$$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#element-overlap" title="element-overlap">$B2r@b(B</a>
+    <label for="element-overlap">タグの入れ子関係がおかしいとき警告する</label>。 → <a href="./explain.html#element-overlap" title="element-overlap">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="tags-nest" id="tags-nest" checked>
-    <label for="tags-nest">$B%?%0$NF~$l;R$,?<$9$.$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#tags-nest" title="tags-nest">$B2r@b(B</a>
+    <label for="tags-nest">タグの入れ子が深すぎたら警告する</label>。 → <a href="./explain.html#tags-nest" title="tags-nest">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="unclosed-element" id="unclosed-element" checked>
-    <label for="unclosed-element">$BI,MW$J=*N;%?%0$,8+$D$+$i$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unclosed-element" title="unclosed-element">$B2r@b(B</a>
+    <label for="unclosed-element">必要な終了タグが見つからなかったら警告する</label>。 → <a href="./explain.html#unclosed-element" title="unclosed-element">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="unexpected-pcdata" id="unexpected-pcdata" checked>
-    <label for="unexpected-pcdata">$B%?%00J30$,=q$1$J$$>l=j$K%F%-%9%H$r=q$$$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unexpected-pcdata" title="unexpected-pcdata">$B2r@b(B</a>
+    <label for="unexpected-pcdata">タグ以外が書けない場所にテキストを書いたとき警告する</label>。 → <a href="./explain.html#unexpected-pcdata" title="unexpected-pcdata">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="illegal-attribute" id="illegal-attribute" checked>
-    <label for="illegal-attribute">$B%?%0Fb$K$*$+$7$JJ8;z$,$"$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-attribute" title="illegal-attribute">$B2r@b(B</a>
+    <label for="illegal-attribute">タグ内におかしな文字があったら警告する</label>。 → <a href="./explain.html#illegal-attribute" title="illegal-attribute">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="xhtml-emptytag" id="xhtml-emptytag" checked>
-    <label for="xhtml-emptytag">XHTML$B0J30$G6uMWAG%?%0$r(B /&gt; $B$HJD$8$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#xhtml-emptytag" title="xhtml-emptytag">$B2r@b(B</a>
+    <label for="xhtml-emptytag">XHTML以外で空要素タグを /&gt; と閉じていたら警告する</label>。 → <a href="./explain.html#xhtml-emptytag" title="xhtml-emptytag">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="mixed-case" id="mixed-case">
-    <label for="mixed-case">$BMWAGL>$dB0@-L>$NBgJ8;z!">.J8;z$rE}0l$9$k$h$&$KB%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#mixed-case" title="mixed-case">$B2r@b(B</a>
+    <label for="mixed-case">要素名や属性名の大文字、小文字を統一するように促す</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#mixed-case" title="mixed-case">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="lower-case-tag" id="lower-case-tag" checked>
-    <label for="lower-case-tag">XHTML$B$GMWAGL>$r>.J8;z$G=q$$$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#lower-case-tag" title="lower-case-tag">$B2r@b(B</a>
+    <label for="lower-case-tag">XHTMLで要素名を小文字で書いていなかったら警告する</label>。 → <a href="./explain.html#lower-case-tag" title="lower-case-tag">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="lower-case-attribute" id="lower-case-attribute" checked>
-    <label for="lower-case-attribute">XHTML$B$GB0@-L>$r>.J8;z$G=q$$$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#lower-case-attribute" title="lower-case-attribute">$B2r@b(B</a>
+    <label for="lower-case-attribute">XHTMLで属性名を小文字で書いていなかったら警告する</label>。 → <a href="./explain.html#lower-case-attribute" title="lower-case-attribute">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="unknown-attribute" id="unknown-attribute" checked>
-    <label for="unknown-attribute">$BITL@$NB0@-$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unknown-attribute" title="unknown-attribute">$B2r@b(B</a>
+    <label for="unknown-attribute">不明の属性が指定されていたら警告する</label>。 → <a href="./explain.html#unknown-attribute" title="unknown-attribute">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="other-html-attribute" id="other-html-attribute" checked>
-    <label for="other-html-attribute">$BJL$N(BHTML$BMQ$NB0@-$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#other-html-attribute" title="other-html-attribute">$B2r@b(B</a>
+    <label for="other-html-attribute">別のHTML用の属性が指定されていたら警告する</label>。 → <a href="./explain.html#other-html-attribute" title="other-html-attribute">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="deprecated-attribute" id="deprecated-attribute" checked>
-    <label for="deprecated-attribute">$B$"$^$jA&$a$i$l$J$$B0@-$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#deprecated-attribute" title="deprecated-attribute">$B2r@b(B</a>
+    <label for="deprecated-attribute">あまり薦められない属性を書いていたら警告する</label>。 → <a href="./explain.html#deprecated-attribute" title="deprecated-attribute">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="deprecated-attribute-css" id="deprecated-attribute-css" checked>
-    <label for="deprecated-attribute-css">$B%9%?%$%k%7!<%H$r;H$C$?J}$,$$$$B0@-$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#deprecated-attribute-css" title="deprecated-attribute-css">$B2r@b(B</a>
+    <label for="deprecated-attribute-css">スタイルシートを使った方がいい属性を書いていたら警告する</label>。 → <a href="./explain.html#deprecated-attribute-css" title="deprecated-attribute-css">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="unsupported-attribute" id="unsupported-attribute" checked>
-    <label for="unsupported-attribute">$B%5%]!<%H30$NB0@-$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s(B $B"*(B <a href="./explain.html#unsupported-attribute" title="unsupported-attribute">$B2r@b(B</a>
+    <label for="unsupported-attribute">サポート外の属性を書いていたら警告する</label>。減点されません → <a href="./explain.html#unsupported-attribute" title="unsupported-attribute">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="leading-space-attribute" id="leading-space-attribute" checked>
-    <label for="leading-space-attribute">$BB0@-$,6uGr$G6h@Z$i$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#leading-space-attribute" title="leading-space-attribute">$B2r@b(B</a>
+    <label for="leading-space-attribute">属性が空白で区切られていなかったら警告する</label>。 → <a href="./explain.html#leading-space-attribute" title="leading-space-attribute">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="repeated-attribute" id="repeated-attribute" checked>
-    <label for="repeated-attribute">$BF1$8B0@-$,7+$jJV$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#repeated-attribute" title="repeated-attribute">$B2r@b(B</a>
+    <label for="repeated-attribute">同じ属性が繰り返されていたら警告する</label>。 → <a href="./explain.html#repeated-attribute" title="repeated-attribute">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="required-attribute" id="required-attribute" checked>
-    <label for="required-attribute">$BI,MW$JB0@-$,;XDj$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required-attribute" title="required-attribute">$B2r@b(B</a>
+    <label for="required-attribute">必要な属性が指定されていなかったら警告する</label>。 → <a href="./explain.html#required-attribute" title="required-attribute">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="required-attribute-pair" id="required-attribute-pair" checked>
-    <label for="required-attribute-pair">$BF1;~$K;XDj$7$J$1$l$P$J$i$J$$B0@-$,;XDj$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required-attribute-pair" title="required-attribute-pair">$B2r@b(B</a>
+    <label for="required-attribute-pair">同時に指定しなければならない属性が指定されていなかったら警告する</label>。 → <a href="./explain.html#required-attribute-pair" title="required-attribute-pair">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="nomixed-attribute" id="nomixed-attribute" checked>
-    <label for="nomixed-attribute">$BF1;~$K;XDj$7$F$O$J$i$J$$B0@-$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#nomixed-attribute" title="nomixed-attribute">$B2r@b(B</a>
+    <label for="nomixed-attribute">同時に指定してはならない属性が指定されていたら警告する</label>。 → <a href="./explain.html#nomixed-attribute" title="nomixed-attribute">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="required-value" id="required-value" checked>
-    <label for="required-value">$BI,MW$JB0@-CM$,>JN,$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required-value" title="required-value">$B2r@b(B</a>
+    <label for="required-value">必要な属性値が省略されていたら警告する</label>。 → <a href="./explain.html#required-value" title="required-value">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="no-attribute-value" id="no-attribute-value" checked>
-    <label for="no-attribute-value">$BB0@-CM$,;XDj$5$l$F$$$J$$$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-attribute-value" title="no-attribute-value">$B2r@b(B</a>
+    <label for="no-attribute-value">属性値が指定されていないとき警告する</label>。 → <a href="./explain.html#no-attribute-value" title="no-attribute-value">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="across-lines-attribute" id="across-lines-attribute" checked>
-    <label for="across-lines-attribute">$B0zMQId$G0O$^$l$?B0@-CM$,J#?t9T$KEO$C$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#across-lines-attribute" title="across-lines-attribute">$B2r@b(B</a>
+    <label for="across-lines-attribute">引用符で囲まれた属性値が複数行に渡っていたら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#across-lines-attribute" title="across-lines-attribute">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="space-around-equal" id="space-around-equal">
-     <label for="space-around-equal">$BB0@-CM6h@Z$j$N(B = $BA08e$K6uGr$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#space-around-equal" title="space-around-equal">$B2r@b(B</a>
+     <label for="space-around-equal">属性値区切りの = 前後に空白が含まれていたら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#space-around-equal" title="space-around-equal">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="unclosed-quotes" id="unclosed-quotes" checked>
-    <label for="unclosed-quotes">$BB0@-CM$N0zMQId$,JD$8$i$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unclosed-quotes" title="unclosed-quotes">$B2r@b(B</a>
+    <label for="unclosed-quotes">属性値の引用符が閉じられていなかったら警告する</label>。 → <a href="./explain.html#unclosed-quotes" title="unclosed-quotes">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="attribute-delimiter" id="attribute-delimiter">
-    <label for="attribute-delimiter">$BB0@-CM$,C10zMQId(B '$B!A(B' $B$G0O$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#attribute-delimiter" title="attribute-delimiter">$B2r@b(B</a>
+    <label for="attribute-delimiter">属性値が単引用符 '～' で囲まれていたら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#attribute-delimiter" title="attribute-delimiter">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="quote-attribute-value" id="quote-attribute-value" checked>
-    <label for="quote-attribute-value">$B0zMQId$G0O$^$J$1$l$P$J$i$J$$B0@-CM$r0zMQId$G0O$s$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#quote-attribute-value" title="quote-attribute-value">$B2r@b(B</a>
+    <label for="quote-attribute-value">引用符で囲まなければならない属性値を引用符で囲んでなかったら警告する</label>。 → <a href="./explain.html#quote-attribute-value" title="quote-attribute-value">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="recommend-quote-attribute-value" id="recommend-quote-attribute-value" checked>
-    <label for="recommend-quote-attribute-value">$B0zMQId$G0O$s$@J}$,$h$$B0@-CM$r0zMQId$G0O$s$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#recommend-quote-attribute-value" title="recommend-quote-attribute-value">$B2r@b(B</a>
+    <label for="recommend-quote-attribute-value">引用符で囲んだ方がよい属性値を引用符で囲んでなかったら警告する</label>。 → <a href="./explain.html#recommend-quote-attribute-value" title="recommend-quote-attribute-value">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="bare-attribute-value" id="bare-attribute-value">
-    <label for="bare-attribute-value">$B0zMQId$G0O$^$l$F$$$J$$B0@-CM$r0zMQId$G0O$`$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#bare-attribute-value" title="bare-attribute-value">$B2r@b(B</a>
+    <label for="bare-attribute-value">引用符で囲まれていない属性値を引用符で囲むよう促す</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#bare-attribute-value" title="bare-attribute-value">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="whitespace-attribute-value" id="whitespace-attribute-value" checked>
-    <label for="whitespace-attribute-value">$B0zMQId$G0O$^$l$?B0@-CM$K6uGr$,@h9T8e9T$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#whitespace-attribute-value" title="whitespace-attribute-value">$B2r@b(B</a>
+    <label for="whitespace-attribute-value">引用符で囲まれた属性値に空白が先行後行していたら警告する</label>。<span class="religious">(*)</span> → <a href="./explain.html#whitespace-attribute-value" title="whitespace-attribute-value">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="deprecated-value" id="deprecated-value" checked>
-    <label for="deprecated-value">$B$"$^$jA&$a$i$l$J$$B0@-CM$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#deprecated-value" title="deprecated-value">$B2r@b(B</a>
+    <label for="deprecated-value">あまり薦められない属性値を書いていたら警告する</label>。 → <a href="./explain.html#deprecated-value" title="deprecated-value">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="empty-value" id="empty-value" checked>
-    <label for="empty-value">$B6u$K$G$-$J$$B0@-CM$,6u$N$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#empty-value" title="empty-value">$B2r@b(B</a>
+    <label for="empty-value">空にできない属性値が空のとき警告する</label>。 → <a href="./explain.html#empty-value" title="empty-value">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="attribute-length" id="attribute-length" checked>
-    <label for="attribute-length">$BB0@-CM$,D92a$.$k$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#attribute-length" title="attribute-length">$B2r@b(B</a>
+    <label for="attribute-length">属性値が長過ぎるとき警告する</label>。 → <a href="./explain.html#attribute-length" title="attribute-length">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="attribute-format" id="attribute-format" checked>
-    <label for="attribute-format">$BB0@-CM$,@5$7$/$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#attribute-format" title="attribute-format">$B2r@b(B</a>
+    <label for="attribute-format">属性値が正しくなかったら警告する</label>。 → <a href="./explain.html#attribute-format" title="attribute-format">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="attribute-color" id="attribute-color" checked>
-    <label for="attribute-color">$B?'$N;XDj$,@5$7$/$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#attribute-color" title="attribute-color">$B2r@b(B</a>
+    <label for="attribute-color">色の指定が正しくなかったら警告する</label>。 → <a href="./explain.html#attribute-color" title="attribute-color">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="profile-uri" id="profile-uri" checked>
-    <label for="profile-uri">PROFILE$BB0@-$KJ#?t$N(BURI$B$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#profile-uri" title="profile-uri">$B2r@b(B</a>
+    <label for="profile-uri">PROFILE属性に複数のURIを書いていたら警告する</label>。減点されません。 → <a href="./explain.html#profile-uri" title="profile-uri">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="unsafe-attribute" id="unsafe-attribute" checked>
-    <label for="unsafe-attribute">$B0BA4$G$J$$B0@-CM$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unsafe-attribute" title="unsafe-attribute">$B2r@b(B</a>
+    <label for="unsafe-attribute">安全でない属性値を書いていたら警告する</label>。 → <a href="./explain.html#unsafe-attribute" title="unsafe-attribute">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="attribute-value-case" id="attribute-value-case" checked>
-    <label for="attribute-value-case">XHTML$B$GB0@-CM$NBgJ8;z>.J8;z$,?)$$0c$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#attribute-value-case" title="attribute-value-case">$B2r@b(B</a>
+    <label for="attribute-value-case">XHTMLで属性値の大文字小文字が食い違っていたら警告する</label>。 → <a href="./explain.html#attribute-value-case" title="attribute-value-case">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="fixed-attribute" id="fixed-attribute" checked>
-    <label for="fixed-attribute">$BB0@-CM$,8GDj$5$l$F$$$k$H$-$=$l0J30$NCM$r=q$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#fixed-attribute" title="fixed-attribute">$B2r@b(B</a>
+    <label for="fixed-attribute">属性値が固定されているときそれ以外の値を書いたら警告する</label>。 → <a href="./explain.html#fixed-attribute" title="fixed-attribute">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="minimized-attribute" id="minimized-attribute" checked>
-    <label for="minimized-attribute">$BB0@-CM$HB0@-L>$,F10l$N$H$-$OB0@-L>$r>JN,$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#minimized-attribute" title="minimized-attribute">$B2r@b(B</a>
+    <label for="minimized-attribute">属性値と属性名が同一のときは属性名を省略するよう促す</label>。 → <a href="./explain.html#minimized-attribute" title="minimized-attribute">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="no-minimization" id="no-minimization" checked>
-    <label for="no-minimization">XHTML$B$GB0@-L>$,>JN,$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-minimization" title="no-minimization">$B2r@b(B</a>
+    <label for="no-minimization">XHTMLで属性名が省略されていたら警告する</label>。 → <a href="./explain.html#no-minimization" title="no-minimization">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="omit-attribute-name" id="omit-attribute-name" checked>
-    <label for="omit-attribute-name">$BB0@-CM$H0[$J$kB0@-L>$,>JN,$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#omit-attribute-name" title="omit-attribute-name">$B2r@b(B</a>
+    <label for="omit-attribute-name">属性値と異なる属性名が省略されていたら警告する</label>。 → <a href="./explain.html#omit-attribute-name" title="omit-attribute-name">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="required-semicolon" id="required-semicolon" checked>
-    <label for="required-semicolon">$B<BBN;2>H$,%;%_%3%m%s$G=*$o$C$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#required-semicolon" title="required-semicolon">$B2r@b(B</a>
+    <label for="required-semicolon">実体参照がセミコロンで終わっていなかったら警告する</label>。 → <a href="./explain.html#required-semicolon" title="required-semicolon">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="apos" id="apos" checked>
-    <label for="apos">$B<BBN;2>H(B &amp;apos; $B$r=q$+$J$$$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#apos" title="apos">$B2r@b(B</a>
+    <label for="apos">実体参照 &amp;apos; を書かないよう促す</label>。 → <a href="./explain.html#apos" title="apos">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="lower-x" id="lower-x" checked>
-    <label for="lower-x">XHTML$B$G(B16$B?J?tJ8;z;2>H$K(BX$B$r;H$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#lower-x" title="lower-x">$B2r@b(B</a>
+    <label for="lower-x">XHTMLで16進数文字参照にXを使っていたら警告する</label>。 → <a href="./explain.html#lower-x" title="lower-x">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="bad-entity" id="bad-entity" checked>
-    <label for="bad-entity">$BITL@$J<BBN;2>H$N$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#bad-entity" title="bad-entity">$B2r@b(B</a>
+    <label for="bad-entity">不明な実体参照のとき警告する</label>。 → <a href="./explain.html#bad-entity" title="bad-entity">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="over-ref-charset" id="over-ref-charset" checked>
-    <label for="over-ref-charset">$BJ8;z;2>H$,8B3&$rD6$($?J8;z%3!<%I$N$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#over-ref-charset" title="over-ref-charset">$B2r@b(B</a>
+    <label for="over-ref-charset">文字参照が限界を超えた文字コードのとき警告する</label>。 → <a href="./explain.html#over-ref-charset" title="over-ref-charset">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="no-ref-charset" id="no-ref-charset" checked>
-    <label for="no-ref-charset">$B;HMQ$G$-$J$$J8;z;2>H$r;HMQ$7$?$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-ref-charset" title="no-ref-charset">$B2r@b(B</a>
+    <label for="no-ref-charset">使用できない文字参照を使用したとき警告する</label>。 → <a href="./explain.html#no-ref-charset" title="no-ref-charset">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="literal-metacharacter" id="literal-metacharacter" checked>
-    <label for="literal-metacharacter">&lt; $B$d(B &amp; $B$J$I$r<BBN;2>H$rMQ$$$F=q$/$h$&$K7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#literal-metacharacter" title="literal-metacharacter">$B2r@b(B</a>
+    <label for="literal-metacharacter">&lt; や &amp; などを実体参照を用いて書くように警告する</label>。 → <a href="./explain.html#literal-metacharacter" title="literal-metacharacter">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="double-quote-in-text" id="double-quote-in-text">
-    <label for="double-quote-in-text">$B%F%-%9%HCf$N0zMQId$r<BBN;2>H$rMQ$$$F=q$/$h$&$KB%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#double-quote-in-text" title="double-quote-in-text">$B2r@b(B</a>
+    <label for="double-quote-in-text">テキスト中の引用符を実体参照を用いて書くように促す</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#double-quote-in-text" title="double-quote-in-text">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="html-lang" id="html-lang" checked>
-    <label for="html-lang">&lt;HTML&gt; $B%?%0$K(BLANG$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#html-lang" title="html-lang">$B2r@b(B</a>
+    <label for="html-lang">&lt;HTML&gt; タグにLANG属性を指定するよう促す</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#html-lang" title="html-lang">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="lang" id="lang" checked>
-    <label for="lang">lang$BB0@-$H(Bxml:lang$BB0@-$rBP$G;XDj$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#lang" title="lang">$B2r@b(B</a>
+    <label for="lang">lang属性とxml:lang属性を対で指定するよう促す</label>。 → <a href="./explain.html#lang" title="lang">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="lang-mismatch" id="lang-mismatch" checked>
-    <label for="lang-mismatch">lang$BB0@-$NCM$H(Bxml:lang$BB0@-$NCM$,?)$$0c$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#lang-mismatch" title="lang-mismatch">$B2r@b(B</a>
+    <label for="lang-mismatch">lang属性の値とxml:lang属性の値が食い違っていたら警告する</label>。 → <a href="./explain.html#lang-mismatch" title="lang-mismatch">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="lang-attribute" id="lang-attribute" checked>
-    <label for="lang-attribute">LANG$BB0@-$N;XDj$HB0@-CM$N8@8l$,?)$$0c$C$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#lang-attribute" title="lang-attribute">$B2r@b(B</a>
+    <label for="lang-attribute">LANG属性の指定と属性値の言語が食い違っていたら警告する</label>。減点されません。 → <a href="./explain.html#lang-attribute" title="lang-attribute">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="lang-pcdata" id="lang-pcdata" checked>
-    <label for="lang-pcdata">LANG$BB0@-$N;XDj$H%F%-%9%H$N8@8l$,?)$$0c$C$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#lang-pcdata" title="lang-pcdata">$B2r@b(B</a>
+    <label for="lang-pcdata">LANG属性の指定とテキストの言語が食い違っていたら警告する</label>。減点されません。 → <a href="./explain.html#lang-pcdata" title="lang-pcdata">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="mailto-link" id="mailto-link" checked>
-    <label for="mailto-link">&lt;HEAD&gt; $BCf$K(B &lt;LINK REV="MADE" HREF="mailto:$B!A(B"&gt; $B$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#mailto-link" title="mailto-link">$B2r@b(B</a>
+    <label for="mailto-link">&lt;HEAD&gt; 中に &lt;LINK REV="MADE" HREF="mailto:～"&gt; がなかったら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#mailto-link" title="mailto-link">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="navigation-link" id="navigation-link" checked>
-    <label for="navigation-link">&lt;HEAD&gt; $BCf$K(B &lt;LINK REL="NEXT" HREF="$B!A(B"&gt; $B$J$I$N%J%t%#%2!<%7%g%sMQ$N%j%s%/$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#navigation-link" title="navigation-link">$B2r@b(B</a>
+    <label for="navigation-link">&lt;HEAD&gt; 中に &lt;LINK REL="NEXT" HREF="～"&gt; などのナヴィゲーション用のリンクがなかったら警告する</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#navigation-link" title="navigation-link">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="mistype-links" id="mistype-links" checked>
-    <label for="mistype-links">&lt;LINK REL="CONTENTS"&gt; $B$r(B CONTENT $B$H=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#mistype-links" title="mistype-links">$B2r@b(B</a>
+    <label for="mistype-links">&lt;LINK REL="CONTENTS"&gt; を CONTENT と書いていたら警告する</label>。 → <a href="./explain.html#mistype-links" title="mistype-links">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="robots-content" id="robots-content" checked>
-    <label for="robots-content">&lt;META NAME="ROBOTS"&gt; $B$N(BCONTENT$BB0@-$NCM$,@5$7$/$J$+$C$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#robots-content" title="robots-content">$B2r@b(B</a>
+    <label for="robots-content">&lt;META NAME="ROBOTS"&gt; のCONTENT属性の値が正しくなかったら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#robots-content" title="robots-content">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="content-type" id="content-type" checked>
-    <label for="content-type">&lt;HEAD&gt; $BCf$K(B &lt;META HTTP-EQUIV="CONTENT-TYPE" CONTENT="$B!A(B"&gt; $B$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#content-type" title="content-type">$B2r@b(B</a>
+    <label for="content-type">&lt;HEAD&gt; 中に &lt;META HTTP-EQUIV="CONTENT-TYPE" CONTENT="～"&gt; がなかったら警告する</label>。 → <a href="./explain.html#content-type" title="content-type">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="no-registered-charset" id="no-registered-charset" checked>
-    <label for="no-registered-charset">&lt;META&gt; $B$K;XDj$5$l$F$$$k(BCHARSET$B$,EPO?$5$l$F$$$k$b$N$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-registered-charset" title="no-registered-charset">$B2r@b(B</a>
+    <label for="no-registered-charset">&lt;META&gt; に指定されているCHARSETが登録されているものでなかったら警告する</label>。 → <a href="./explain.html#no-registered-charset" title="no-registered-charset">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="no-charset" id="no-charset" checked>
-    <label for="no-charset">&lt;META HTTP-EQUIV="CONTENT-TYPE" CONTENT="$B!A(B"&gt; $B$K(BCHARSET$B$,;XDj$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-charset" title="no-charset">$B2r@b(B</a>
+    <label for="no-charset">&lt;META HTTP-EQUIV="CONTENT-TYPE" CONTENT="～"&gt; にCHARSETが指定されていなかったら警告する</label>。 → <a href="./explain.html#no-charset" title="no-charset">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="non-ascii-early" id="non-ascii-early" checked>
-    <label for="non-ascii-early">&lt;META HTTP-EQUIV="CONTENT-TYPE" CONTENT="$B!A(B"&gt; $B$G(BCHARSET$B$,;XDj$5$l$kA0$KHs(BASCII$BJ8;z$,8=$l$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#non-ascii-early" title="non-ascii-early">$B2r@b(B</a>
+    <label for="non-ascii-early">&lt;META HTTP-EQUIV="CONTENT-TYPE" CONTENT="～"&gt; でCHARSETが指定される前に非ASCII文字が現れたら警告する</label>。 → <a href="./explain.html#non-ascii-early" title="non-ascii-early">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="non-ascii" id="non-ascii" checked>
-    <label for="non-ascii">$BHs(BASCII$BJ8;z$,;HMQ$G$-$J$$(B CHARSET $B$J$N$KHs(BASCII$BJ8;z$,8=$l$?$i7Y9p$9$k(B</label>$B!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#non-ascii" title="non-ascii">$B2r@b(B</a>
+    <label for="non-ascii">非ASCII文字が使用できない CHARSET なのに非ASCII文字が現れたら警告する</label>。DATA領域指定のときはチェックされません。 → <a href="./explain.html#non-ascii" title="non-ascii">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="ctrl-character" id="ctrl-character" checked>
-    <label for="ctrl-character">$B2~9T$d%?%V0J30$N@)8fJ8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#ctrl-character" title="ctrl-character">$B2r@b(B</a>
+    <label for="ctrl-character">改行やタブ以外の制御文字が含まれていたら警告する</label>。DATA領域指定のときはチェックされません。 → <a href="./explain.html#ctrl-character" title="ctrl-character">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="han-katakana" id="han-katakana" checked>
-    <label for="han-katakana">CHARSET $B$,(B JIS$B!"(BShift JIS $B$N$H$-H>3Q%+%?%+%J$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#han-katakana" title="han-katakana">$B2r@b(B</a>
+    <label for="han-katakana">CHARSET が JIS、Shift JIS のとき半角カタカナが含まれていたら警告する</label>。DATA領域指定のときはチェックされません。 → <a href="./explain.html#han-katakana" title="han-katakana">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="bad-jis-x0208" id="bad-jis-x0208" checked>
-    <label for="bad-jis-x0208">$B5!<o0MB8A43QJ8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#bad-jis-x0208" title="bad-jis-x0208">$B2r@b(B</a>
+    <label for="bad-jis-x0208">機種依存全角文字が含まれていたら警告する</label>。 → <a href="./explain.html#bad-jis-x0208" title="bad-jis-x0208">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="bom" id="bom">
-    <label for="bom">$BJ8=q$N@hF,$K(BBOM$B$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#bom" title="bom">$B2r@b(B</a>
+    <label for="bom">文書の先頭にBOMが含まれていたら警告する</label>。 → <a href="./explain.html#bom" title="bom">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="xml-encoding" id="xml-encoding" checked>
-    <label for="xml-encoding">XHTML$B$G!"(BXML$B@k8@Cf$K(B encoding $B;XDj$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#xml-encoding" title="xml-encoding">$B2r@b(B</a>
+    <label for="xml-encoding">XHTMLで、XML宣言中に encoding 指定がなかったら警告する</label>。 → <a href="./explain.html#xml-encoding" title="xml-encoding">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="charset-mismatch" id="charset-mismatch" checked>
-    <label for="charset-mismatch">CHARSET $B$N;XDj$H<B:]$N%3!<%I$,L7=b$7$F$$$?$i7Y9p$9$k(B</label>$B!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#charset-mismatch" title="charset-mismatch">$B2r@b(B</a>
+    <label for="charset-mismatch">CHARSET の指定と実際のコードが矛盾していたら警告する</label>。DATA領域指定のときはチェックされません。 → <a href="./explain.html#charset-mismatch" title="charset-mismatch">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="conflict-charset" id="conflict-charset" checked>
-    <label for="conflict-charset">HTTP$B%l%9%]%s%9%X%C%@$G$N(B CHARSET $B$N;XDj$H(B &lt;META&gt; $B$N;XDj$,L7=b$7$F$$$?$i7Y9p$9$k(B</label>$B!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#conflict-charset" title="conflict-charset">$B2r@b(B</a>
+    <label for="conflict-charset">HTTPレスポンスヘッダでの CHARSET の指定と &lt;META&gt; の指定が矛盾していたら警告する</label>。DATA領域指定のときはチェックされません。 → <a href="./explain.html#conflict-charset" title="conflict-charset">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="http-head-charset" id="http-head-charset" checked>
-    <label for="http-head-charset">HTTP$B%l%9%]%s%9%X%C%@$K(B charset $B;XDj$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#http-head-charset" title="http-head-charset">$B2r@b(B</a>
+    <label for="http-head-charset">HTTPレスポンスヘッダに CHARSET 指定がなかったら警告する</label>。 → <a href="./explain.html#http-head-charset" title="http-head-charset">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="no-text-html" id="no-text-html" checked>
-    <label for="no-text-html">&lt;META&gt; $B$K;XDj$5$l$F$$$k(BCONTENT-TYPE$B$,(B text/html $B$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-text-html" title="no-text-html">$B2r@b(B</a>
+    <label for="no-text-html">&lt;META&gt; に指定されているCONTENT-TYPEが text/html でなかったら警告する</label>。 → <a href="./explain.html#no-text-html" title="no-text-html">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="conflict-mime" id="conflict-mime" checked>
-    <label for="conflict-mime">HTTP$B%l%9%]%s%9%X%C%@$G$N%a%G%#%"%?%$%W$N;XDj$H(B &lt;meta&gt; $B$N;XDj$,L7=b$7$F$$$?$i7Y9p$9$k(B</label>$B!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#conflict-mime" title="conflict-mime">$B2r@b(B</a>
+    <label for="conflict-mime">HTTPレスポンスヘッダでのメディアタイプの指定と &lt;meta&gt; の指定が矛盾していたら警告する</label>。DATA領域指定のときはチェックされません。 → <a href="./explain.html#conflict-mime" title="conflict-mime">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="unrecommended-mime" id="unrecommended-mime" checked>
-    <label for="unrecommended-mime">HTML$B$K$h$C$F;XDj$G$-$J$$%a%G%#%"%?%$%W$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unrecommended-mime" title="unrecommended-mime">$B2r@b(B</a>
+    <label for="unrecommended-mime">HTMLによって指定できないメディアタイプが指定されていたら警告する</label>。 → <a href="./explain.html#unrecommended-mime" title="unrecommended-mime">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="xml-http-equiv" id="xml-http-equiv" checked>
-    <label for="xml-http-equiv">$B%a%G%#%"%?%$%W(B application/xhtml+xml $B$G(B &lt;meta http-equiv&gt; $B$,=q$+$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#xml-http-equiv" title="xml-http-equiv">$B2r@b(B</a>
+    <label for="xml-http-equiv">メディアタイプ application/xhtml+xml で &lt;meta http-equiv&gt; が書かれていたら警告する</label>。 → <a href="./explain.html#xml-http-equiv" title="xml-http-equiv">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="existing-content-type" id="existing-content-type" checked>
-    <label for="existing-content-type">&lt;META HTTP-EQUIV="CONTENT-TYPE"&gt; $B$,J#?t2s=q$+$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#existing-content-type" title="existing-content-type">$B2r@b(B</a>
+    <label for="existing-content-type">&lt;META HTTP-EQUIV="CONTENT-TYPE"&gt; が複数回書かれていたら警告する</label>。 → <a href="./explain.html#existing-content-type" title="existing-content-type">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="content-xxxx-type" id="content-xxxx-type" checked>
-    <label for="content-xxxx-type">&lt;SCRIPT&gt; $B$d(B &lt;STYLE&gt; $B$r;H$&$H$-$O(B &lt;META HTTP-EQUIV="CONTENT-XXXX-TYPE"&gt; $B$r;XDj$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#content-xxxx-type" title="content-xxxx-type">$B2r@b(B</a>
+    <label for="content-xxxx-type">&lt;SCRIPT&gt; や &lt;STYLE&gt; を使うときは &lt;META HTTP-EQUIV="CONTENT-XXXX-TYPE"&gt; を指定するよう促す</label>。 → <a href="./explain.html#content-xxxx-type" title="content-xxxx-type">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="need-content-xxxx-type" id="need-content-xxxx-type" checked>
-    <label for="need-content-xxxx-type">ONXXXX$BB0@-$d(BSTYLE$BB0@-$r;H$C$F$$$k$N$K(B &lt;META HTTP-EQUIV="CONTENT-XXXX-TYPE"&gt; $B$,;XDj$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#need-content-xxxx-type" title="need-content-xxxx-type">$B2r@b(B</a>
+    <label for="need-content-xxxx-type">ONXXXX属性やSTYLE属性を使っているのに &lt;META HTTP-EQUIV="CONTENT-XXXX-TYPE"&gt; が指定されていなかったら警告する</label>。 → <a href="./explain.html#need-content-xxxx-type" title="need-content-xxxx-type">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="meta-http-equiv-name" id="meta-http-equiv-name" checked>
-    <label for="meta-http-equiv-name">&lt;META&gt; $B$K(B HTTP-EQUIV $B$H(B NAME $B$NN>J}$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#meta-http-equiv-name" title="meta-http-equiv-name">$B2r@b(B</a>
+    <label for="meta-http-equiv-name">&lt;META&gt; に HTTP-EQUIV と NAME の両方が指定されていたら警告する</label>。 → <a href="./explain.html#meta-http-equiv-name" title="meta-http-equiv-name">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="meta-no-http-equiv-name" id="meta-no-http-equiv-name" checked>
-    <label for="meta-no-http-equiv-name">&lt;META CONTENT&gt; $B$K(B HTTP-EQUIV $B$b(B NAME $B$b;XDj$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#meta-no-http-equiv-name" title="meta-no-http-equiv-name">$B2r@b(B</a>
+    <label for="meta-no-http-equiv-name">&lt;META CONTENT&gt; に HTTP-EQUIV も NAME も指定されていなかったら警告する</label>。 → <a href="./explain.html#meta-no-http-equiv-name" title="meta-no-http-equiv-name">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="event-pair" id="event-pair" checked>
-    <label for="event-pair">$BBP$GMQ$$$k$Y$-%$%Y%s%H$r7Y9p$9$k(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#event-pair" title="event-pair">$B2r@b(B</a>
+    <label for="event-pair">対で用いるべきイベントを警告する</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#event-pair" title="event-pair">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="refresh" id="refresh" checked>
-    <label for="refresh">&lt;META HTTP-EQUIV="REFRESH"&gt; $B$O;HMQ$7$J$$$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#refresh" title="refresh">$B2r@b(B</a>
+    <label for="refresh">&lt;META HTTP-EQUIV="REFRESH"&gt; は使用しないよう促す</label>。 → <a href="./explain.html#refresh" title="refresh">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="refresh-link" id="refresh-link" checked>
-    <label for="refresh-link">&lt;META HTTP-EQUIV="REFRESH"&gt; $B$KAjEv$9$k%j%s%/$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#refresh-link" title="refresh-link">$B2r@b(B</a>
+    <label for="refresh-link">&lt;META HTTP-EQUIV="REFRESH"&gt; に相当するリンクがなかったら警告する</label>。 → <a href="./explain.html#refresh-link" title="refresh-link">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="comment-element" id="comment-element" checked>
-    <label for="comment-element">&lt;SCRIPT&gt; &lt;STYLE&gt; $BCf$NMWAG$r$9$Y$F%3%a%s%H$G0O$`$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#comment-element" title="comment-element">$B2r@b(B</a>
+    <label for="comment-element">&lt;SCRIPT&gt; &lt;STYLE&gt; 中の要素をすべてコメントで囲むよう促す</label>。 → <a href="./explain.html#comment-element" title="comment-element">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="etago-in-cdata" id="etago-in-cdata" checked>
-    <label for="etago-in-cdata">&lt;SCRIPT&gt; &lt;STYLE&gt; $BCf$K(B &lt;/ $B$rD>@\=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#etago-in-cdata" title="etago-in-cdata">$B2r@b(B</a>
+    <label for="etago-in-cdata">&lt;SCRIPT&gt; &lt;STYLE&gt; 中に &lt;/ を直接書いていたら警告する</label>。 → <a href="./explain.html#etago-in-cdata" title="etago-in-cdata">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="embedded-in-cdata" id="embedded-in-cdata" checked>
-    <label for="embedded-in-cdata">&lt;SCRIPT&gt; &lt;STYLE&gt; $BCf$K9%$^$7$/$J$$J8;z$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#embedded-in-cdata" title="embedded-in-cdata">$B2r@b(B</a>
+    <label for="embedded-in-cdata">&lt;SCRIPT&gt; &lt;STYLE&gt; 中に好ましくない文字を書いていたら警告する</label>。減点されません。 → <a href="./explain.html#embedded-in-cdata" title="embedded-in-cdata">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="comment-in-stylescript" id="comment-in-stylescript" checked>
-    <label for="comment-in-stylescript">XHTML$B$G(B &lt;SCRIPT&gt; &lt;STYLE&gt; $BCf$K%3%a%s%H$,$"$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#comment-in-stylescript" title="comment-in-stylescript">$B2r@b(B</a>
+    <label for="comment-in-stylescript">XHTMLで &lt;SCRIPT&gt; &lt;STYLE&gt; 中にコメントがあったら警告する</label>。 → <a href="./explain.html#comment-in-stylescript" title="comment-in-stylescript">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="no-noscript" id="no-noscript">
-    <label for="no-noscript">&lt;SCRIPT&gt; $B%?%0$,$"$k$N$K(B &lt;NOSCRIPT&gt; $B%?%0$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#no-noscript" title="no-noscript">$B2r@b(B</a>
+    <label for="no-noscript">&lt;SCRIPT&gt; タグがあるのに &lt;NOSCRIPT&gt; タグがなかったら警告する</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#no-noscript" title="no-noscript">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="title-length" id="title-length" checked>
-    <label for="title-length">TITLE$B$ND9$5$,(B64$BJ8;z$rD6$($F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#title-length" title="title-length">$B2r@b(B</a>
+    <label for="title-length">TITLEの長さが64文字を超えていたら警告する</label>。 → <a href="./explain.html#title-length" title="title-length">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="body-color" id="body-color" checked>
-    <label for="body-color">&lt;BODY&gt; $B$G$N?';XDj$,IT40A4$@$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#body-color" title="body-color">$B2r@b(B</a>
+    <label for="body-color">&lt;BODY&gt; での色指定が不完全だったら警告する</label>。 → <a href="./explain.html#body-color" title="body-color">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="background" id="background" checked>
-    <label for="background">$BGX7J2hA|$,;XDj$7$F$"$k$N$KGX7J?'$,;XDj$7$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#background" title="background">$B2r@b(B</a>
+    <label for="background">背景画像が指定してあるのに背景色が指定していなかったら警告する</label>。 → <a href="./explain.html#background" title="background">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="same-bgcolor" id="same-bgcolor" checked>
-    <label for="same-bgcolor">$BGX7J?'$HF1$8?'$N%F%-%9%H?'$r;XDj$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#same-bgcolor" title="same-bgcolor">$B2r@b(B</a>
+    <label for="same-bgcolor">背景色と同じ色のテキスト色を指定していたら警告する</label>。 → <a href="./explain.html#same-bgcolor" title="same-bgcolor">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="near-bgcolor" id="near-bgcolor" checked>
-    <label for="near-bgcolor">$BGX7J?'$H;w$??'$N%F%-%9%H?'$r;XDj$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#near-bgcolor" title="near-bgcolor">$B2r@b(B</a>
+    <label for="near-bgcolor">背景色と似た色のテキスト色を指定していたら警告する</label>。 → <a href="./explain.html#near-bgcolor" title="near-bgcolor">解説</a>
+<li><span class="penalty">3</span><input type="checkbox" value="on" name="contrast" id="contrast" checked>
+    <label for="contrast">背景色とテキスト色の輝度比が不足していたら警告する</label>。 → <a href="./explain.html#contrast" title="contrast">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="repeated-id" id="repeated-id" checked>
-    <label for="repeated-id">ID$BB0@-$NCM$,=EJ#$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#repeated-id" title="repeated-id">$B2r@b(B</a>
+    <label for="repeated-id">ID属性の値が重複していたら警告する</label>。 → <a href="./explain.html#repeated-id" title="repeated-id">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="undef-id" id="undef-id" checked>
-    <label for="undef-id">$BDj5A$5$l$F$$$J$$(BID$BB0@-$NCM$r;2>H$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#undef-id" title="undef-id">$B2r@b(B</a>
+    <label for="undef-id">定義されていないID属性の値を参照していたら警告する</label>。 → <a href="./explain.html#undef-id" title="undef-id">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="repeated-name" id="repeated-name" checked>
-    <label for="repeated-name">&lt;FORM&gt; $B$NMWAGL>$,=EJ#$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#repeated-name" title="repeated-name">$B2r@b(B</a>
+    <label for="repeated-name">&lt;FORM&gt; の要素名が重複していたら警告する</label>。 → <a href="./explain.html#repeated-name" title="repeated-name">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="fieldset-whitespace" id="fieldset-whitespace" checked>
-    <label for="fieldset-whitespace">&lt;FIELDSET&gt; $B$ND>8e$K6uGr0J30$N%F%-%9%H$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#fieldset-whitespace" title="fieldset-whitespace">$B2r@b(B</a>
+    <label for="fieldset-whitespace">&lt;FIELDSET&gt; の直後に空白以外のテキストを書いていたら警告する</label>。 → <a href="./explain.html#fieldset-whitespace" title="fieldset-whitespace">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="multiple-checked" id="multiple-checked" checked>
-    <label for="multiple-checked">$B%i%8%*%\%?%s$GJ#?t(B CHECKED $B$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#multiple-checked" title="multiple-checked">$B2r@b(B</a>
+    <label for="multiple-checked">ラジオボタンで複数 CHECKED が指定されていたら警告する</label>。 → <a href="./explain.html#multiple-checked" title="multiple-checked">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="no-checked" id="no-checked" checked>
-    <label for="no-checked">$B%i%8%*%\%?%s$G$R$H$D$b(B CHECKED $B$,;XDj$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-checked" title="no-checked">$B2r@b(B</a>
+    <label for="no-checked">ラジオボタンでひとつも CHECKED が指定されていなかったら警告する</label>。 → <a href="./explain.html#no-checked" title="no-checked">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="no-selected" id="no-selected" checked>
-    <label for="no-selected">&lt;OPTION&gt; $B$K$R$H$D$b(B SELECTED $B$,;XDj$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-selected" title="no-selected">$B2r@b(B</a>
+    <label for="no-selected">&lt;OPTION&gt; にひとつも SELECTED が指定されていなかったら警告する</label>。 → <a href="./explain.html#no-selected" title="no-selected">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="multiple-selected" id="multiple-selected" checked>
-    <label for="multiple-selected">$BJ#?tA*BrIT2D$N%A%'%C%/%\%C%/%9$GJ#?t(B SELECTED $B$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#multiple-selected" title="multiple-selected">$B2r@b(B</a>
+    <label for="multiple-selected">複数選択不可のチェックボックスで複数 SELECTED が指定されていたら警告する</label>。 → <a href="./explain.html#multiple-selected" title="multiple-selected">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="over-select-options" id="over-select-options" checked>
-    <label for="over-select-options">&lt;OPTION&gt; $B$,B?2a$.$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#over-select-options" title="over-select-options">$B2r@b(B</a>
+    <label for="over-select-options">&lt;OPTION&gt; が多過ぎたら警告する</label>。 → <a href="./explain.html#over-select-options" title="over-select-options">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="default-text" id="default-text" checked>
-    <label for="default-text">$B%(%G%#%C%H%\%C%/%9$d%F%-%9%H%(%j%"$K$O=i4|CM$H$J$k%F%-%9%H$rF~$l$F$*$/$h$&B%$9(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#default-text" title="default-text">$B2r@b(B</a>
+    <label for="default-text">エディットボックスやテキストエリアには初期値となるテキストを入れておくよう促す</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#default-text" title="default-text">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="input-type" id="input-type" checked>
-    <label for="input-type">ISO/IEC 15445 $B$G!"(B&lt;BUTTON&gt; $B%?%0$K(BTYPE$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#input-type" title="input-type">$B2r@b(B</a>
+    <label for="input-type">ISO/IEC 15445 で、&lt;BUTTON&gt; タグにTYPE属性を指定するよう促す</label>。 → <a href="./explain.html#input-type" title="input-type">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="button-usemap" id="button-usemap" checked>
-    <label for="button-usemap">&lt;BUTTON&gt; $BCf$K%$%a!<%8%^%C%W$rCV$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#button-usemap" title="button-usemap">$B2r@b(B</a>
+    <label for="button-usemap">&lt;BUTTON&gt; 中にイメージマップを置いていたら警告する</label>。 → <a href="./explain.html#button-usemap" title="button-usemap">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="label-control" id="label-control" checked>
-    <label for="label-control">&lt;LABEL&gt; $BCf$KJ#?t$N%U%)!<%`%3%s%H%m!<%k$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#label-control" title="label-control">$B2r@b(B</a>
+    <label for="label-control">&lt;LABEL&gt; 中に複数のフォームコントロールを書いていたら警告する</label>。 → <a href="./explain.html#label-control" title="label-control">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="label-no-control" id="label-no-control" checked>
-    <label for="label-no-control">FOR$BB0@-$N$J$$(B &lt;LABEL&gt; $BCf$K%U%)!<%`%3%s%H%m!<%k$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#label-no-control" title="label-no-control">$B2r@b(B</a>
+    <label for="label-no-control">FOR属性のない &lt;LABEL&gt; 中にフォームコントロールがなかったら警告する</label>。 → <a href="./explain.html#label-no-control" title="label-no-control">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="label-for-control" id="label-for-control" checked>
-    <label for="label-for-control">&lt;LABEL&gt; $B$N(BFOR$BB0@-$NCM$HFbMF$K4^$^$l$k%U%)!<%`%3%s%H%m!<%k$N(BID$BB0@-$NCM$,?)$$0c$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#label-for-control" title="label-for-control">$B2r@b(B</a>
+    <label for="label-for-control">&lt;LABEL&gt; のFOR属性の値と内容に含まれるフォームコントロールのID属性の値が食い違っていたら警告する</label>。 → <a href="./explain.html#label-for-control" title="label-for-control">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="form-tabindex" id="form-tabindex" checked>
-    <label for="form-tabindex">&lt;INPUT&gt; $B%?%0$J$I$K(BTABINDEX$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#form-tabindex" title="form-tabindex">$B2r@b(B</a>
+    <label for="form-tabindex">&lt;INPUT&gt; タグなどにTABINDEX属性を指定するよう促す</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#form-tabindex" title="form-tabindex">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="form-accesskey" id="form-accesskey" checked>
-    <label for="form-accesskey">&lt;INPUT&gt; $B%?%0$J$I$K(BACCESSKEY$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#form-accesskey" title="form-accesskey">$B2r@b(B</a>
+    <label for="form-accesskey">&lt;INPUT&gt; タグなどにACCESSKEY属性を指定するよう促す</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#form-accesskey" title="form-accesskey">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="recommended-title" id="recommended-title" checked>
-    <label for="recommended-title">&lt;ABBR&gt; $B%?%0$J$I$K(BTITLE$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#recommended-title" title="recommended-title">$B2r@b(B</a>
+    <label for="recommended-title">&lt;ABBR&gt; タグなどにTITLE属性を指定するよう促す</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#recommended-title" title="recommended-title">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="object-text-equivalent" id="object-text-equivalent" checked>
-    <label for="object-text-equivalent">&lt;OBJECT&gt; $B$K$OEy2A$JFbMF$r;XDj$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#object-text-equivalent" title="object-text-equivalent">$B2r@b(B</a>
+    <label for="object-text-equivalent">&lt;OBJECT&gt; には等価な内容を指定するよう促す</label>。 → <a href="./explain.html#object-text-equivalent" title="object-text-equivalent">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="applet-text-equivalent" id="applet-text-equivalent" checked>
-    <label for="applet-text-equivalent">&lt;APPLET&gt; $B$K(BALT$BB0@-$HEy2A$JFbMF$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#applet-text-equivalent" title="applet-text-equivalent">$B2r@b(B</a>
+    <label for="applet-text-equivalent">&lt;APPLET&gt; にALT属性と等価な内容が指定されていたら警告する</label>。 → <a href="./explain.html#applet-text-equivalent" title="applet-text-equivalent">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="alt-spaces" id="alt-spaces" checked>
-    <label for="alt-spaces">ALT$BB0@-$NCM$,6uGr$@$1$N$H$-7Y9p$9$k(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#alt-spaces" title="alt-spaces">$B2r@b(B</a>
+    <label for="alt-spaces">ALT属性の値が空白だけのとき警告する</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#alt-spaces" title="alt-spaces">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="img-alt" id="img-alt" checked>
-    <label for="img-alt">&lt;IMG&gt; $B%?%0$K(BALT$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#img-alt" title="img-alt">$B2r@b(B</a>
+    <label for="img-alt">&lt;IMG&gt; タグにALT属性を指定するよう促す</label>。 → <a href="./explain.html#img-alt" title="img-alt">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="img-size" id="img-size" checked>
-    <label for="img-size">&lt;IMG&gt; $B%?%0$K(BWIDTH$B5Z$S(BHEIGHT$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#img-size" title="img-size">$B2r@b(B</a>
+    <label for="img-size">&lt;IMG&gt; タグにWIDTH及びHEIGHT属性を指定するよう促す</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#img-size" title="img-size">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="img-map" id="img-map" checked>
-    <label for="img-map">&lt;IMG&gt; $B%?%0$K(BISMAP$B$H(BUSEMAP$BB0@-$NN>J}$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#img-map" title="img-map">$B2r@b(B</a>
+    <label for="img-map">&lt;IMG&gt; タグにISMAPとUSEMAP属性の両方が指定されていたら警告する</label>。 → <a href="./explain.html#img-map" title="img-map">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="server-side-image-map" id="server-side-image-map" checked>
-    <label for="server-side-image-map">$B%5!<%P%5%$%I%$%a!<%8%^%C%W$r;HMQ$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#server-side-image-map" title="server-side-image-map">$B2r@b(B</a>
+    <label for="server-side-image-map">サーバサイドイメージマップを使用していたら警告する</label>。 → <a href="./explain.html#server-side-image-map" title="server-side-image-map">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="table-summary" id="table-summary" checked>
-    <label for="table-summary">&lt;TABLE&gt; $B%?%0$K(BSUMMARY$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#table-summary" title="table-summary">$B2r@b(B</a>
+    <label for="table-summary">&lt;TABLE&gt; タグにSUMMARY属性を指定するよう促す</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#table-summary" title="table-summary">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="abbr-header-label" id="abbr-header-label" checked>
-    <label for="abbr-header-label">&lt;TH&gt; $B%?%0$K(BABBR$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#abbr-header-label" title="abbr-header-label">$B2r@b(B</a>
+    <label for="abbr-header-label">&lt;TH&gt; タグにABBR属性を指定するよう促す</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#abbr-header-label" title="abbr-header-label">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="colgroup-span" id="colgroup-span" checked>
-    <label for="colgroup-span">&lt;COL&gt; $B$r;}$D(B &lt;COLGROUP&gt; $B$N(BSPAN$BB0@-$r7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#colgroup-span" title="colgroup-span">$B2r@b(B</a>
+    <label for="colgroup-span">&lt;COL&gt; を持つ &lt;COLGROUP&gt; のSPAN属性を警告する</label>。 → <a href="./explain.html#colgroup-span" title="colgroup-span">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="overlap-cells" id="overlap-cells" checked>
-    <label for="overlap-cells">$B%F!<%V%k$N%;%k$,=E$J$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#overlap-cells" title="overlap-cells">$B2r@b(B</a>
+    <label for="overlap-cells">テーブルのセルが重なっていたら警告する</label>。 → <a href="./explain.html#overlap-cells" title="overlap-cells">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="no-noframes" id="no-noframes" checked>
-    <label for="no-noframes">&lt;FRAMESET&gt; $B%?%0$,$"$k$N$K(B &lt;NOFRAMES&gt; $B%?%0$,$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-noframes" title="no-noframes">$B2r@b(B</a>
+    <label for="no-noframes">&lt;FRAMESET&gt; タグがあるのに &lt;NOFRAMES&gt; タグがなかったら警告する</label>。 → <a href="./explain.html#no-noframes" title="no-noframes">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="same-document-frameset" id="same-document-frameset" checked>
-    <label for="same-document-frameset">&lt;FRAME&gt; $B$N(BURI$B$K<+J,<+?H$r;XDj$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#same-document-frameset" title="same-document-frameset">$B2r@b(B</a>
+    <label for="same-document-frameset">&lt;FRAME&gt; のURIに自分自身を指定していたら警告する</label>。 → <a href="./explain.html#same-document-frameset" title="same-document-frameset">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="frame-image" id="frame-image" checked>
-    <label for="frame-image">&lt;FRAME&gt; $B$GD>@\%$%a!<%8$J$I$r;XDj$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#frame-image" title="frame-image">$B2r@b(B</a>
+    <label for="frame-image">&lt;FRAME&gt; で直接イメージなどを指定していたら警告する</label>。 → <a href="./explain.html#frame-image" title="frame-image">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="frame-title" id="frame-title" checked>
-    <label for="frame-title">&lt;FRAME&gt; $B%?%0$K(BTITLE$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#frame-title" title="frame-title">$B2r@b(B</a>
+    <label for="frame-title">&lt;FRAME&gt; タグにTITLE属性を指定するよう促す</label>。 → <a href="./explain.html#frame-title" title="frame-title">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="existing-target-name" id="existing-target-name" checked>
-    <label for="existing-target-name">&lt;FRAME&gt; $B$NL>A0$,J#?t;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#existing-target-name" title="existing-target-name">$B2r@b(B</a>
+    <label for="existing-target-name">&lt;FRAME&gt; の名前が複数指定されていたら警告する</label>。 → <a href="./explain.html#existing-target-name" title="existing-target-name">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="reserved-target-name" id="reserved-target-name" checked>
-    <label for="reserved-target-name">&lt;FRAME&gt; $B$NL>A0$,M=Ls$5$l$?$b$N$@$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#reserved-target-name" title="reserved-target-name">$B2r@b(B</a>
+    <label for="reserved-target-name">&lt;FRAME&gt; の名前が予約されたものだったら警告する</label>。 → <a href="./explain.html#reserved-target-name" title="reserved-target-name">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="reserved-target-name-upper" id="reserved-target-name-upper" checked>
-    <label for="reserved-target-name-upper">&lt;FRAME&gt; $B$NL>A0$,M=Ls$5$l$?$b$N$GBgJ8;z$GI=5-$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#reserved-target-name-upper" title="reserved-target-name-upper">$B2r@b(B</a>
+    <label for="reserved-target-name-upper">&lt;FRAME&gt; の名前が予約されたもので大文字で表記されていたら警告する</label>。 → <a href="./explain.html#reserved-target-name-upper" title="reserved-target-name-upper">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="illegal-target-name" id="illegal-target-name" checked>
-    <label for="illegal-target-name">&lt;FRAME&gt; $B$NL>A0$,@5$7$/$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-target-name" title="illegal-target-name">$B2r@b(B</a>
+    <label for="illegal-target-name">&lt;FRAME&gt; の名前が正しくなかったら警告する</label>。 → <a href="./explain.html#illegal-target-name" title="illegal-target-name">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="physical-font" id="physical-font" checked>
-    <label for="physical-font">$BJ*M}E*%U%)%s%H%?%0(B(&lt;B&gt;$B!"(B&lt;I&gt;$B!"(B&lt;TT&gt;$BEy(B)$B$r=q$+$J$$$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#physical-font" title="physical-font">$B2r@b(B</a>
+    <label for="physical-font">物理的フォントタグ(&lt;B&gt;、&lt;I&gt;、&lt;TT&gt;等)を書かないよう促す</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#physical-font" title="physical-font">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="p-isnot-br" id="p-isnot-br" checked>
-    <label for="p-isnot-br">&lt;P&gt; $B%?%0$r(B &lt;BR&gt; $B%?%0$N$h$&$K;HMQ$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#p-isnot-br" title="p-isnot-br">$B2r@b(B</a>
+    <label for="p-isnot-br">&lt;P&gt; タグを &lt;BR&gt; タグのように使用していたら警告する</label>。 → <a href="./explain.html#p-isnot-br" title="p-isnot-br">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="continuous-brs" id="continuous-brs" checked>
-    <label for="continuous-brs">&lt;BR&gt; $B%?%0$,B??tO"B3$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#continuous-brs" title="continuous-brs">$B2r@b(B</a>
+    <label for="continuous-brs">&lt;BR&gt; タグが多数連続していたら警告する</label>。 → <a href="./explain.html#continuous-brs" title="continuous-brs">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="tab-in-pre" id="tab-in-pre" checked>
-    <label for="tab-in-pre">&lt;PRE&gt; $BFb$K%?%VJ8;z$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#tab-in-pre" title="tab-in-pre">$B2r@b(B</a>
+    <label for="tab-in-pre">&lt;PRE&gt; 内にタブ文字を書いていたら警告する</label>。 → <a href="./explain.html#tab-in-pre" title="tab-in-pre">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="heading-order" id="heading-order" checked>
-    <label for="heading-order">$B8+=P$7(B(&lt;H1&gt;$B!A(B&lt;H6&gt;)$B$N%l%Y%k$,O"B3$7$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#heading-order" title="heading-order">$B2r@b(B</a>
+    <label for="heading-order">見出し(&lt;H1&gt;～&lt;H6&gt;)のレベルが連続していなかったら警告する</label>。 → <a href="./explain.html#heading-order" title="heading-order">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="heading-text-equivalent" id="heading-text-equivalent" checked>
-    <label for="heading-text-equivalent">$B8+=P$7%$%a!<%8$KEy2A$J@bL@$r=q$/$h$&B%$9(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#heading-text-equivalent" title="heading-text-equivalent">$B2r@b(B</a>
+    <label for="heading-text-equivalent">見出しイメージに等価な説明を書くよう促す</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#heading-text-equivalent" title="heading-text-equivalent">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="link-accesskey" id="link-accesskey">
-    <label for="link-accesskey">&lt;A&gt; $B%?%0$K(BACCESSKEY$BB0@-$r;XDj$9$k$h$&B%$9(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#link-accesskey" title="link-accesskey">$B2r@b(B</a>
+    <label for="link-accesskey">&lt;A&gt; タグにACCESSKEY属性を指定するよう促す</label>。減点されません。<span class="accessibility">(@)</span> → <a href="./explain.html#link-accesskey" title="link-accesskey">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="link-separation" id="link-separation" checked>
-    <label for="link-separation">$B%j%s%/$H%j%s%/$N4V$K2?$+J8;z$rCV$/$h$&B%$9(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#link-separation" title="link-separation">$B2r@b(B</a>
+    <label for="link-separation">リンクとリンクの間に何か文字を置くよう促す</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#link-separation" title="link-separation">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="link-text-equivalent" id="link-text-equivalent" checked>
-    <label for="link-text-equivalent">$B%j%s%/%$%a!<%8$KEy2A$J@bL@$r=q$/$h$&B%$9(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#link-text-equivalent" title="link-text-equivalent">$B2r@b(B</a>
+    <label for="link-text-equivalent">リンクイメージに等価な説明を書くよう促す</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#link-text-equivalent" title="link-text-equivalent">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="d-link" id="d-link">
-    <label for="d-link">D-$B%j%s%/$r7Y9p$9$k(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#d-link" title="d-link">$B2r@b(B</a>
+    <label for="d-link">D-リンクを警告する</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#d-link" title="d-link">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="same-link-text" id="same-link-text" checked>
-    <label for="same-link-text">$BF10l$N%"%s%+!<$G0[$J$k%j%s%/@h$r;X$7$F$$$?$i7Y9p$9$k(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#same-link-text" title="same-link-text">$B2r@b(B</a>
+    <label for="same-link-text">同一のアンカーで異なるリンク先を指していたら警告する</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#same-link-text" title="same-link-text">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="here-anchor" id="here-anchor" checked>
-    <label for="here-anchor">$B%"%s%+!<$H$7$F(B "here" $B$H$+(B "$B$3$3(B" $B$J$I$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#here-anchor" title="here-anchor">$B2r@b(B</a>
+    <label for="here-anchor">アンカーとして "here" とか "ここ" などを書いていたら警告する</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#here-anchor" title="here-anchor">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="here-anchor-alt" id="here-anchor-alt" checked>
-    <label for="here-anchor-alt">&lt;IMG ALT&gt; $B%"%s%+!<$H$7$F(B "here" $B$H$+(B "$B$3$3(B" $B$J$I$r=q$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#here-anchor-alt" title="here-anchor-alt">$B2r@b(B</a>
+    <label for="here-anchor-alt">&lt;IMG ALT&gt; アンカーとして "here" とか "ここ" などを書いていたら警告する</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#here-anchor-alt" title="here-anchor-alt">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="fragment-id-whitespace" id="fragment-id-whitespace" checked>
-    <label for="fragment-id-whitespace">$B%"%s%+!<L>$K6uGrJ8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#fragment-id-whitespace" title="fragment-id-whitespace">$B2r@b(B</a>
+    <label for="fragment-id-whitespace">アンカー名に空白文字が含まれていたら警告する</label>。 → <a href="./explain.html#fragment-id-whitespace" title="fragment-id-whitespace">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="unsafe-fragment-id" id="unsafe-fragment-id" checked>
-    <label for="unsafe-fragment-id">$B%"%s%+!<L>$K0BA4$G$J$$J8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unsafe-fragment" title="unsafe-fragment">$B2r@b(B</a>
+    <label for="unsafe-fragment-id">アンカー名に安全でない文字が含まれていたら警告する</label>。 → <a href="./explain.html#unsafe-fragment" title="unsafe-fragment">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="empty-fragment-id" id="empty-fragment-id" checked>
-    <label for="empty-fragment-id">$B%"%s%+!<L>$,6u$N$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#empty-fragment-id" title="empty-fragment-id">$B2r@b(B</a>
+    <label for="empty-fragment-id">アンカー名が空のとき警告する</label>。 → <a href="./explain.html#empty-fragment-id" title="empty-fragment-id">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="existing-fragment-id" id="existing-fragment-id" checked>
-    <label for="existing-fragment-id">$BF1$8%"%s%+!<L>$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#existing-fragment-id" title="existing-fragment-id">$B2r@b(B</a>
+    <label for="existing-fragment-id">同じアンカー名が指定されていたら警告する</label>。 → <a href="./explain.html#existing-fragment-id" title="existing-fragment-id">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="case-insensitive-fragment-id" id="case-insensitive-fragment-id" checked>
-    <label for="case-insensitive-fragment-id">$BBgJ8;z>.J8;z6hJL$7$J$$$GF1$8%"%s%+!<L>$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#case-insensitive-fragment-id" title="case-insensitive-fragment-id">$B2r@b(B</a>
+    <label for="case-insensitive-fragment-id">大文字小文字区別しないで同じアンカー名が指定されていたら警告する</label>。 → <a href="./explain.html#case-insensitive-fragment-id" title="case-insensitive-fragment-id">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="same-fragment-id" id="same-fragment-id" checked>
-    <label for="same-fragment-id">$B%"%s%+!<L>$H(BID$BB0@-$KF1$8$b$N$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#same-fragment-id" title="same-fragment-id">$B2r@b(B</a>
+    <label for="same-fragment-id">アンカー名とID属性に同じものが指定されていたら警告する</label>。 → <a href="./explain.html#same-fragment-id" title="same-fragment-id">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="id-link" id="id-link" checked>
-    <label for="id-link">ID$BB0@-$H$7$FDj5A$5$l$F$$$k%"%s%+!<L>$KBP$7$F7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#id-link" title="id-link">$B2r@b(B</a>
+    <label for="id-link">ID属性として定義されているアンカー名に対して警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#id-link" title="id-link">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="diff-id-link" id="diff-id-link" checked>
-    <label for="diff-id-link">$BF10l%?%0Cf$N(BNAME$BB0@-$NCM$H(BID$BB0@-$NCM$,0[$J$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#diff-id-link" title="diff-id-link">$B2r@b(B</a>
+    <label for="diff-id-link">同一タグ中のNAME属性の値とID属性の値が異なっていたら警告する</label>。 → <a href="./explain.html#diff-id-link" title="diff-id-link">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="need-id-name" id="need-id-name" checked>
-    <label for="need-id-name">NAME$BB0@-$H(BID$BB0@-$NN>J}$r;XDj$9$k$h$&B%$9(B</label>$B!#(B $B"*(B <a href="./explain.html#need-id-name" title="need-id-name">$B2r@b(B</a>
+    <label for="need-id-name">NAME属性とID属性の両方を指定するよう促す</label>。 → <a href="./explain.html#need-id-name" title="need-id-name">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="lower-id" id="lower-id" checked>
-    <label for="lower-id">ID$BB0@-CM$K>.J8;z$,;H$o$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#lower-id" title="lower-id">$B2r@b(B</a>
+    <label for="lower-id">ID属性値に小文字が使われていたら警告する</label>。 → <a href="./explain.html#lower-id" title="lower-id">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="bad-link" id="bad-link" checked>
-    <label for="bad-link">$BDj5A$5$l$F$$$J$$%"%s%+!<L>$KBP$7$F7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#bad-link" title="bad-link">$B2r@b(B</a>
+    <label for="bad-link">定義されていないアンカー名に対して警告する</label>。 → <a href="./explain.html#bad-link" title="bad-link">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="unref-link" id="unref-link">
-    <label for="unref-link">$B;2>H$5$l$F$$$J$$%"%s%+!<L>$KBP$7$F7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#unref-link" title="unref-link">$B2r@b(B</a>
+    <label for="unref-link">参照されていないアンカー名に対して警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#unref-link" title="unref-link">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="empty-url" id="empty-url" checked>
-    <label for="empty-url">URI$B$,6u$N$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#empty-url" title="empty-url">$B2r@b(B</a>
+    <label for="empty-url">URIが空のとき警告する</label>。 → <a href="./explain.html#empty-url" title="empty-url">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="url-whitespace" id="url-whitespace" checked>
-    <label for="url-whitespace">URI$B$K6uGrJ8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#url-whitespace" title="url-whitespace">$B2r@b(B</a>
+    <label for="url-whitespace">URIに空白文字が含まれていたら警告する</label>。 → <a href="./explain.html#url-whitespace" title="url-whitespace">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="url-backslash" id="url-backslash" checked>
-    <label for="url-backslash">URI$B$K(B "\" $B$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#url-backslash" title="url-backslash">$B2r@b(B</a>
+    <label for="url-backslash">URIに "\" が含まれていたら警告する</label>。 → <a href="./explain.html#url-backslash" title="url-backslash">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="unsafe-url" id="unsafe-url">
-    <label for="unsafe-url">URI$B$K(B "~" $B$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#unsafe-url" title="unsafe-url">$B2r@b(B</a>
+    <label for="unsafe-url">URIに "~" が含まれていたら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#unsafe-url" title="unsafe-url">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="excluded-url" id="excluded-url" checked>
-    <label for="excluded-url">URI$B$K;HMQ$G$-$J$$(BASCII$BJ8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#excluded-url" title="excluded-url">$B2r@b(B</a>
+    <label for="excluded-url">URIに使用できないASCII文字が含まれていたら警告する</label>。 → <a href="./explain.html#excluded-url" title="excluded-url">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="excluded-url-ref" id="excluded-url-ref" checked>
-    <label for="excluded-url-ref">URI$BCf$N<BBN;2>H$K;HMQ$G$-$J$$J8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#excluded-url-ref" title="excluded-url-ref">$B2r@b(B</a>
+    <label for="excluded-url-ref">URI中の実体参照に使用できない文字が含まれていたら警告する</label>。 → <a href="./explain.html#excluded-url-ref" title="excluded-url-ref">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="no-corresponding-url" id="no-corresponding-url" checked>
-    <label for="no-corresponding-url">URI$B$K(BASCII$B0J30$NJ8;z$,4^$^$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#no-corresponding-url" title="no-corresponding-url">$B2r@b(B</a>
+    <label for="no-corresponding-url">URIにASCII以外の文字が含まれていたら警告する</label>。 → <a href="./explain.html#no-corresponding-url" title="no-corresponding-url">解説</a>
 <li><span class="penalty">7</span><input type="checkbox" value="on" name="illegal-protocol" id="illegal-protocol" checked>
-    <label for="illegal-protocol">URI$B$K@5$7$/$J$$%9%-!<%`L>$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-protocol" title="illegal-protocol">$B2r@b(B</a>
+    <label for="illegal-protocol">URIに正しくないスキーム名が指定されていたら警告する</label>。 → <a href="./explain.html#illegal-protocol" title="illegal-protocol">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="upper-protocol" id="upper-protocol" checked>
-    <label for="upper-protocol">URI$B$KBgJ8;z$N%9%-!<%`L>$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#upper-protocol" title="upper-protocol">$B2r@b(B</a>
+    <label for="upper-protocol">URIに大文字のスキーム名が指定されていたら警告する</label>。 → <a href="./explain.html#upper-protocol" title="upper-protocol">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="unknown-protocol" id="unknown-protocol" checked>
-    <label for="unknown-protocol">URI$B$KITL@$N%9%-!<%`L>$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unknown-protocol" title="unknown-protocol">$B2r@b(B</a>
+    <label for="unknown-protocol">URIに不明のスキーム名が指定されていたら警告する</label>。 → <a href="./explain.html#unknown-protocol" title="unknown-protocol">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="local-protocol" id="local-protocol" checked>
-    <label for="local-protocol">URI$B$,(B file: $B$J$I$N%m!<%+%k%U%!%$%k$r;2>H$7$F$$$?$i7Y9p$9$k(B</label>$B!#(BDATA$BNN0h;XDj$N$H$-$O%A%'%C%/$5$l$^$;$s!#(B $B"*(B <a href="./explain.html#local-protocol" title="local-protocol">$B2r@b(B</a>
+    <label for="local-protocol">URIが file: などのローカルファイルを参照していたら警告する</label>。DATA領域指定のときはチェックされません。 → <a href="./explain.html#local-protocol" title="local-protocol">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="cantuse-protocol" id="cantuse-protocol" checked>
-    <label for="cantuse-protocol">URI$B$KMxMQ$G$-$J$$%9%-!<%`$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#cantuse-protocol" title="cantuse-protocol">$B2r@b(B</a>
+    <label for="cantuse-protocol">URIに利用できないスキームが指定されていたら警告する</label>。 → <a href="./explain.html#cantuse-protocol" title="cantuse-protocol">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="javascript-url" id="javascript-url" checked>
-    <label for="javascript-url">URI$B$,(B javascript: $B%9%-!<%`$@$C$?$i7Y9p$9$k(B</label>$B!#(B<span class="accessibility">(@)</span> $B"*(B <a href="./explain.html#javascript-url" title="javascript-url">$B2r@b(B</a>
+    <label for="javascript-url">URIが javascript: スキームだったら警告する</label>。<span class="accessibility">(@)</span> → <a href="./explain.html#javascript-url" title="javascript-url">解説</a>
 <li><span class="penalty">4</span><input type="checkbox" value="on" name="illegal-format-url" id="illegal-format-url" checked>
-    <label for="illegal-format-url">URI$B$,@5$7$/$J$$=q<0$N$H$-7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#illegal-format-url" title="illegal-format-url">$B2r@b(B</a>
+    <label for="illegal-format-url">URIが正しくない書式のとき警告する</label>。 → <a href="./explain.html#illegal-format-url" title="illegal-format-url">解説</a>
 <li><span class="penalty">2</span><input type="checkbox" value="on" name="trailing-slash" id="trailing-slash" checked>
-    <label for="trailing-slash">"/" $B$G=*$o$k$Y$-(BURI$B$,(B "/" $B$G=*$o$C$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#trailing-slash" title="trailing-slash">$B2r@b(B</a>
+    <label for="trailing-slash">"/" で終わるべきURIが "/" で終わっていなかったら警告する</label>。 → <a href="./explain.html#trailing-slash" title="trailing-slash">解説</a>
 <li><span class="penalty">3</span><input type="checkbox" value="on" name="net-path" id="net-path" checked>
-    <label for="net-path">URI$B$,(B "//" $B$G;O$^$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#net-path" title="net-path">$B2r@b(B</a>
+    <label for="net-path">URIが "//" で始まっていたら警告する</label>。 → <a href="./explain.html#net-path" title="net-path">解説</a>
 <li><span class="penalty">0</span><input type="checkbox" value="on" name="conflict-directory" id="conflict-directory">
-    <label for="conflict-directory">"/" $B$G=*$o$C$F$$$k(BURI$B$H$=$&$G$J$$(BURI$B$,:.:_$7$F$$$?$i7Y9p$9$k(B</label>$B!#8:E@$5$l$^$;$s!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#conflict-directory" title="conflict-directory">$B2r@b(B</a>
+    <label for="conflict-directory">"/" で終わっているURIとそうでないURIが混在していたら警告する</label>。減点されません。<span class="religious">(*)</span> → <a href="./explain.html#conflict-directory" title="conflict-directory">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="index-html" id="index-html" checked>
-    <label for="index-html">"$B!A(B/index.html" $B$H(B "$B!A(B/" $B$,E}0l$5$l$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B<span class="religious">(*)</span> $B"*(B <a href="./explain.html#index-html" title="index-html">$B2r@b(B</a>
+    <label for="index-html">"～/index.html" と "～/" が統一されていなかったら警告する</label>。<span class="religious">(*)</span> → <a href="./explain.html#index-html" title="index-html">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="later-base" id="later-base" checked>
-    <label for="later-base">&lt;BASE&gt; $B$G;XDj$9$k$h$jA0$K(BURI$B$,8=$l$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#later-base" title="later-base">$B2r@b(B</a>
+    <label for="later-base">&lt;BASE&gt; で指定するより前にURIが現れたら警告する</label>。 → <a href="./explain.html#later-base" title="later-base">解説</a>
 <li><span class="penalty">6</span><input type="checkbox" value="on" name="absolute-base-url" id="absolute-base-url" checked>
-    <label for="absolute-base-url">&lt;BASE&gt; $B$G;XDj$5$l$?(BURI$B$,@dBP;XDj$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#absolute-base-url" title="absolute-base-url">$B2r@b(B</a>
+    <label for="absolute-base-url">&lt;BASE&gt; で指定されたURIが絶対指定でなかったら警告する</label>。 → <a href="./explain.html#absolute-base-url" title="absolute-base-url">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="unexpected-end-of-html" id="unexpected-end-of-html" checked>
-    <label for="unexpected-end-of-html">&lt;/HTML&gt; $B$N8e$K$^$@%F%-%9%H$,B3$$$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unexpected-end-of-html" title="unexpected-end-of-html">$B2r@b(B</a>
+    <label for="unexpected-end-of-html">&lt;/HTML&gt; の後にまだテキストが続いていたら警告する</label>。 → <a href="./explain.html#unexpected-end-of-html" title="unexpected-end-of-html">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="over-file-size" id="over-file-size" checked>
-    <label for="over-file-size">$B%U%!%$%k%5%$%:$,@)8B$rD6$($F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#over-file-size" title="over-file-size">$B2r@b(B</a>
+    <label for="over-file-size">ファイルサイズが制限を超えていたら警告する</label>。 → <a href="./explain.html#over-file-size" title="over-file-size">解説</a>
 <li><span class="penalty">5</span><input type="checkbox" value="on" name="unsupported-image" id="unsupported-image" checked>
-    <label for="unsupported-image">$B%$%a!<%8%U%!%$%k$K5,Dj30$N$b$N$,;XDj$5$l$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#unsupported-image" title="unsupported-image">$B2r@b(B</a>
+    <label for="unsupported-image">イメージファイルに規定外のものが指定されていたら警告する</label>。 → <a href="./explain.html#unsupported-image" title="unsupported-image">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="jskyweb-olul" id="jskyweb-olul" checked>
-    <label for="jskyweb-olul">J-SkyWeb$B$G(B &lt;UL&gt;$B!"(B&lt;OL&gt; $B$NF~$l;R$,?<$9$.$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#jskyweb-olul" title="jskyweb-olul">$B2r@b(B</a>
+    <label for="jskyweb-olul">J-SkyWebで &lt;UL&gt;、&lt;OL&gt; の入れ子が深すぎたら警告する</label>。 → <a href="./explain.html#jskyweb-olul" title="jskyweb-olul">解説</a>
 <li><span class="penalty">8</span><input type="checkbox" value="on" name="jskyweb-li" id="jskyweb-li" checked>
-    <label for="jskyweb-li">J-SkyWeb$B$G$N(B &lt;LI&gt; $B$N8D?t!"(Bi$B%b!<%I$G$N(B &lt;PARAM&gt; $B$N8D?t$,@)8B$rD6$($F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#jskyweb-li" title="jskyweb-li">$B2r@b(B</a>
+    <label for="jskyweb-li">J-SkyWebでの &lt;LI&gt; の個数、iモードでの &lt;PARAM&gt; の個数が制限を超えていたら警告する</label>。 → <a href="./explain.html#jskyweb-li" title="jskyweb-li">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="jpo-no-html" id="jpo-no-html" checked>
-    <label for="jpo-no-html">$BFC5v=P4jMQ(BHTML$B$,(B &lt;HTML&gt; $B$+$i;O$^$C$F$$$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#jpo-no-html" title="jpo-no-html">$B2r@b(B</a>
+    <label for="jpo-no-html">特許出願用HTMLが &lt;HTML&gt; から始まっていなかったら警告する</label>。 → <a href="./explain.html#jpo-no-html" title="jpo-no-html">解説</a>
 <li><span class="penalty">9</span><input type="checkbox" value="on" name="jpo-shift-jis" id="jpo-shift-jis" checked>
-    <label for="jpo-shift-jis">$BFC5v=P4jMQ$d(B i$B%b!<%IMQ(BHTML$B$,(B Shift JIS $B$G$J$+$C$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#jpo-shift-jis" title="jpo-shift-jis">$B2r@b(B</a>
+    <label for="jpo-shift-jis">特許出願用や iモード用HTMLが Shift JIS でなかったら警告する</label>。 → <a href="./explain.html#jpo-shift-jis" title="jpo-shift-jis">解説</a>
 <li><span class="penalty">1</span><input type="checkbox" value="on" name="jpo-bad-char" id="jpo-bad-char" checked>
-    <label for="jpo-bad-char">$BFC5v=P4jMQ(BHTML$B$G;HMQ$G$-$J$$J8;z$r;H$C$F$$$?$i7Y9p$9$k(B</label>$B!#(B $B"*(B <a href="./explain.html#jpo-bad-char" title="jpo-bad-char">$B2r@b(B</a>
+    <label for="jpo-bad-char">特許出願用HTMLで使用できない文字を使っていたら警告する</label>。 → <a href="./explain.html#jpo-bad-char" title="jpo-bad-char">解説</a>
 </ol>
 </div>
 </div>
@@ -1193,8 +1198,8 @@ ClearButton("Data");
 
 <hr>
 
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllinte.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Apr 10, 2008<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/htmllinte.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Oct 10, 1998
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

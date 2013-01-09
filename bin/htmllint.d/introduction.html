@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <link rel="stylesheet" type="text/css" href="./htmllint.css">
 <link rel="contents" href="./index.html">
@@ -10,7 +10,7 @@
 <title>Another HTML-lint : Introduction</title>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [<a href="./index.html">prev</a>]
 [<a href="./sitemap.html">sitemap</a>]
@@ -20,60 +20,60 @@
 <h1><span>Another HTML-lint</span></h1>
 
 <table summary="toc" width="100%" border="0" class="contents">
-<tr><th abbr="contents" align="right"><a href="./index.html">$BL\<!(B</a>$B!!(B<br></th><td><a href="./introduction.html">$B$O$8$a$K(B</a>$B!!!!!!!!!!!!(B</td>
-    <td align="right">$B!!(B<a href="./htmllint.html">$B%2!<%H%&%'%$%5!<%t%#%9(B</a></td></tr>
-<tr><td></td><td><a href="./notice.html">$B$$$/$D$+$N3P$(=q$-(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="./htmllintl.html">$B4J0W%2!<%H%&%'%$(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgi$B$N;H$$J}(B</a></td>
-    <td align="right">$B!!!!!!!!!!!!!!(B<a href="./explain.html">$B7k2L$N2r@b(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllint.html">htmllint$B$N;H$$J}(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!(B<a href="./tagslist.html">$B%?%00lMw(B</a></td></tr>
-<tr><td></td><td><a href="./rulefile.html">$B5,B'%U%!%$%k$N@8@.(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!!!(B<a href="./colors.html">$B?'8+K\(B</a></td></tr>
-<tr><td></td><td><a href="./download.html">$B%@%&%s%m!<%I(B</a>$B!!!!!!!!(B</td></tr>
-<tr><td></td><td><a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B!!!!(B</td></tr>
-<tr><td></td><td><a href="./reference.html">$B;29M$^$G$K(B</a>$B!!!!!!!!!!(B</td>
-    <td align="right">$B!!!!(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a></td></tr>
-<tr><td></td><td><a href="./faq.html">$B$h$/$"$k<ALd$HEz(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="http://openlab.ring.gr.jp/k16/htmllint/introduction.html">$B%W%i%$%^%j%5%$%H(B</a></td></tr>
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/introduction.html">プライマリサイト</a></td></tr>
 </table>
 
+
 <hr class="none">
-<h2 class="title"><a name="introduction">$B$O$8$a$K(B</a></h2>
+<h2 class="title"><a name="introduction">はじめに</a></h2>
 <p>
-Another HTML-lint $B$O!"(B<a href="http://www.vector.co.jp/vpack/browse/person/an000106.html">$B$o$?$7(B</a>$B8D?M$,6=L#K\0L$K(B <a href="http://openlab.ring.gr.jp/">Ring$B%*!<%W%s%i%\%i%H%j(B</a> $B$N>l$r$*<Z$j$7$F1?1D$7$F$$$^$9!#(B<a href="https://sw.vector.co.jp/swreg/step1.info?srno=SR011941&amp;site=v&amp;sid=335404740">$BIOK3$J:n<T$N$?$a$K%S!<%k$r$*$4$C$F$/$@$5$$(B</a> <code>:-)</code>
+Another HTML-lint は、<!--a href="http://www.vector.co.jp/vpack/browse/person/an000106.html"--><a href="http://www.asahi-net.or.jp/~rh5k-isn/">わたし</a>個人が興味本位に <a href="http://openlab.ring.gr.jp/">Ringオープンラボラトリ</a> の場をお借りして運営しています。<a href="https://sw.vector.co.jp/swreg/step1.info?srno=SR011941&amp;site=v&amp;sid=335404740">貧乏な作者のためにビールをおごってください</a> <code>:-)</code>
 </p>
 
 <hr>
 
+<!--blockquote>
+お願い: わたしは、このプロジェクトを積極的に宣伝したことはありません。啓蒙活動もしていませんし、文法至上主義を標榜したこともありません。ただ lint の作者というだけで、そのような思想の持ち主だと短絡的な判断はなさらぬようお願いいたします。
+</blockquote>
+<hr-->
+
+<p>
+HTMLの文法チェッカとして、<a href="http://www.cre.canon.co.uk/~neilb/">Neil Bowers氏</a>の <a href="http://www.weblint.org/">Weblint</a>、および、それを日本語対応した<a href="http://www.sfc.keio.ac.jp/~mimasa/">石川雅康氏</a>の <a href="http://www.isoternet.org/~asada/weblint/">jweblint</a> や、<a href="http://www.asahi-net.or.jp/~wq6k-yn/">矢野啓介氏</a>の <a href="http://ais2.huie.hokudai.ac.jp/~yano/htv/">Libra</a> が有名です。<!--Weblint/jweblint は、誰でも再利用可能で、ソースであるPerlスクリプト等もすべて公開されています。また、石川氏のサイトには、WWW上でこれらを利用するためのゲートウェイスクリプトもあり、非常に参考になります。-->Another HTML-lint の多くのアイデアは、これらから頂戴したものです。また、Another HTML-lint は jweblint では<strong>ありません</strong>。くれぐれも、そのような誤解から石川氏に迷惑がかからないようにお願いいたします。
+</p>
+<p>
+先日(といっても1997年初頭だからずいぶん前のことだ)、jweblint を社内にインストールし、社内向けにゲートウェイサーヴィスを開始しました。その際、提供されているHTMLやPerlスクリプトなどに若干の手直しをしました。しばらく使用してみて、いろいろおかしな判定が気にかかるようになり、どのような方式でHTMLをチェックしているのか、また、RFCなどで提供されているDTDがどの程度正確に反映されているのか、などの興味を抱き、Weblint (jweblint) のPerlスクリプトを解析し出したわけなんです。その結果は、あまり納得のいくものではありませんでした。<br>
+もともと Weblint は厳密なチェックを目指していないので、結構お手軽に書かれています。それにしても、お手軽すぎてあまりにも多くの情報を捨ててしまっていますし、データ構造はほとんどないに等しく、ここの場面でこういうときはこうする、ああいうときはああする、といった場当たり的な処理の羅列に終始しています。例えば、タグの出現順序、出現回数に関する情報は、&lt;HTML&gt;～&lt;/HTML&gt;タグに関するものしか持っていません。しかも抽象化されていないので、他への応用が利きません。また、終了タグを省略できる場合の処理もあまり正確ではありませんし、タグの要素として書くことを許されているタグに何があるのか、という情報は皆無です。一部&lt;A&gt;とヘディング&lt;Hn&gt;の入れ子関係をチェックしていたり、&lt;LI&gt;などのリスティング関係のタグをチェックしているくらいです。もうちょっとDTDの情報をうまく利用すれば、どのタグがどのタグ要素として許されるのか明白です。(1997/06時点の話なので、最新版は違うかも知れません)<br>
+というような調子なので、しばらくは手直ししながら利用していましたが、そのうちに、好みに改造するのも手間だし、今後の拡張を正確に反映させていくにはそうとうな労力を要求されそうだと判断し、新規にHTMLチェッカを書き起こすことにしました。<br>
+あまりDTDぎちぎちのチェックをすると、ゆるやかなHTML評価をしている多くのWWWブラウザにとってはかえってありがた迷惑だし、そんなのは専門のSGMLパーサがやればいい話なので、DTDの情報はなるたけ吸収するけれども、チェックはほどほどに、という態度でDTDの簡易パーサから作成しています。だから、完全にDTDが反映されるわけでもないですし、実際DTDの記述と現実のWWWブラウザ(主にMozillaとMSIEなんだけど)の動作を比べて、DTDの方を歪曲しちまってることすらあります。<br>
+専門のSGMLパーサとの最大の違いは、DTDでは規定されない多くの事柄をチェックしたり、望ましくないと判断されるスタイルもチェックすることです。<br>
+このように、チェックのよりどころはDTDなのですが、具合の悪いことにNavigator(Mozilla)用のDTDは存在しないのか公開されていないのかなので、捏造しなけりゃなりませんでした。
+</p>
+<p>
+なにしろ本格的には書いたことのないPerl初心者なので、まずPerlから勉強し、あとは週末と夜中でだいたい片が付くだろうという予想で始めたんですが、だいたいそんなもんでした。難しいですね、Perlって。今はなき日経MIXでいろいろ教えていただきました。
+</p>
+
 <blockquote>
-$B$*4j$$(B: $B$o$?$7$O!"$3$N%W%m%8%'%/%H$r@Q6KE*$K@kEA$7$?$3$H$O$"$j$^$;$s!#7<LX3hF0$b$7$F$$$^$;$s$7!"J8K!;j>e<g5A$rI8\V$7$?$3$H$b$"$j$^$;$s!#$?$@(B lint $B$N:n<T$H$$$&$@$1$G!"$=$N$h$&$J;WA[$N;}$A<g$@$HC;MmE*$JH=CG$O$J$5$i$L$h$&$*4j$$$$$?$7$^$9!#(B
+Perl4入門的に書き始め、大幅な書き換えもせずに無理矢理 Perl5に移行しています。ソースは非常に汚いです。ご注意を。
 </blockquote>
 
 <hr>
-
-<p>
-HTML$B$NJ8K!%A%'%C%+$H$7$F!"(B<a href="http://www.cre.canon.co.uk/~neilb/">Neil Bowers$B;a(B</a>$B$N(B <a href="http://www.weblint.org/">Weblint</a>$B!"$*$h$S!"$=$l$rF|K\8lBP1~$7$?(B<a href="http://www.sfc.keio.ac.jp/~mimasa/">$B@P@n2m9/;a(B</a>$B$N(B <a href="http://www.isoternet.org/~asada/weblint/">jweblint</a> $B$d!"(B<a href="http://www.asahi-net.or.jp/~wq6k-yn/">$BLpLn7<2p;a(B</a>$B$N(B <a href="http://ais2.huie.hokudai.ac.jp/~yano/htv/">Libra</a> $B$,M-L>$G$9!#(B<!--Weblint/jweblint $B$O!"C/$G$b:FMxMQ2DG=$G!"%=!<%9$G$"$k(BPerl$B%9%/%j%W%HEy$b$9$Y$F8x3+$5$l$F$$$^$9!#$^$?!"@P@n;a$N%5%$%H$K$O!"(BWWW$B>e$G$3$l$i$rMxMQ$9$k$?$a$N%2!<%H%&%'%$%9%/%j%W%H$b$"$j!"Hs>o$K;29M$K$J$j$^$9!#(B-->Another HTML-lint $B$NB?$/$N%"%$%G%"$O!"$3$l$i$+$iD:BW$7$?$b$N$G$9!#$^$?!"(BAnother HTML-lint $B$O(B jweblint $B$G$O(B<strong>$B$"$j$^$;$s(B</strong>$B!#$/$l$0$l$b!"$=$N$h$&$J8m2r$+$i@P@n;a$KLBOG$,$+$+$i$J$$$h$&$K$*4j$$$$$?$7$^$9!#(B
-</p>
-<p>
-$B@hF|(B($B$H$$$C$F$b(B1997$BG/=iF,$@$+$i$:$$$V$sA0$N$3$H$@(B)$B!"(Bjweblint $B$r<RFb$K%$%s%9%H!<%k$7!"<RFb8~$1$K%2!<%H%&%'%$%5!<%t%#%9$r3+;O$7$^$7$?!#$=$N:]!"Ds6!$5$l$F$$$k(BHTML$B$d(BPerl$B%9%/%j%W%H$J$I$K<c43$N<jD>$7$r$7$^$7$?!#$7$P$i$/;HMQ$7$F$_$F!"$$$m$$$m$*$+$7$JH=Dj$,5$$K$+$+$k$h$&$K$J$j!"$I$N$h$&$JJ}<0$G(BHTML$B$r%A%'%C%/$7$F$$$k$N$+!"$^$?!"(BRFC$B$J$I$GDs6!$5$l$F$$$k(BDTD$B$,$I$NDxEY@53N$KH?1G$5$l$F$$$k$N$+!"$J$I$N6=L#$rJz$-!"(BWeblint (jweblint) $B$N(BPerl$B%9%/%j%W%H$r2r@O$7=P$7$?$o$1$J$s$G$9!#$=$N7k2L$O!"$"$^$jG<F@$N$$$/$b$N$G$O$"$j$^$;$s$G$7$?!#(B<br>
-$B$b$H$b$H(B Weblint $B$O87L)$J%A%'%C%/$rL\;X$7$F$$$J$$$N$G!"7k9=$*<j7Z$K=q$+$l$F$$$^$9!#$=$l$K$7$F$b!"$*<j7Z$9$.$F$"$^$j$K$bB?$/$N>pJs$r<N$F$F$7$^$C$F$$$^$9$7!"%G!<%?9=B$$O$[$H$s$I$J$$$KEy$7$/!"$3$3$N>lLL$G$3$&$$$&$H$-$O$3$&$9$k!"$"$"$$$&$H$-$O$"$"$9$k!"$H$$$C$?>lEv$?$jE*$J=hM}$NMeNs$K=*;O$7$F$$$^$9!#Nc$($P!"%?%0$N=P8==g=x!"=P8=2s?t$K4X$9$k>pJs$O!"(B&lt;HTML&gt;$B!A(B&lt;/HTML&gt;$B%?%0$K4X$9$k$b$N$7$+;}$C$F$$$^$;$s!#$7$+$bCj>]2=$5$l$F$$$J$$$N$G!"B>$X$N1~MQ$,Mx$-$^$;$s!#$^$?!"=*N;%?%0$r>JN,$G$-$k>l9g$N=hM}$b$"$^$j@53N$G$O$"$j$^$;$s$7!"%?%0$NMWAG$H$7$F=q$/$3$H$r5v$5$l$F$$$k%?%0$K2?$,$"$k$N$+!"$H$$$&>pJs$O3'L5$G$9!#0lIt(B&lt;A&gt;$B$H%X%G%#%s%0(B&lt;Hn&gt;$B$NF~$l;R4X78$r%A%'%C%/$7$F$$$?$j!"(B&lt;LI&gt;$B$J$I$N%j%9%F%#%s%04X78$N%?%0$r%A%'%C%/$7$F$$$k$/$i$$$G$9!#$b$&$A$g$C$H(BDTD$B$N>pJs$r$&$^$/MxMQ$9$l$P!"$I$N%?%0$,$I$N%?%0MWAG$H$7$F5v$5$l$k$N$+L@Gr$G$9!#(B(1997/06$B;~E@$NOC$J$N$G!":G?7HG$O0c$&$+$bCN$l$^$;$s(B)<br>
-$B$H$$$&$h$&$JD4;R$J$N$G!"$7$P$i$/$O<jD>$7$7$J$,$iMxMQ$7$F$$$^$7$?$,!"$=$N$&$A$K!"9%$_$K2~B$$9$k$N$b<j4V$@$7!":#8e$N3HD%$r@53N$KH?1G$5$;$F$$$/$K$O$=$&$H$&$JO+NO$rMW5a$5$l$=$&$@$HH=CG$7!"?75,$K(BHTML$B%A%'%C%+$r=q$-5/$3$9$3$H$K$7$^$7$?!#(B<br>
-$B$"$^$j(BDTD$B$.$A$.$A$N%A%'%C%/$r$9$k$H!"$f$k$d$+$J(BHTML$BI>2A$r$7$F$$$kB?$/$N(BWWW$B%V%i%&%6$K$H$C$F$O$+$($C$F$"$j$,$?LBOG$@$7!"$=$s$J$N$O@lLg$N(BSGML$B%Q!<%5$,$d$l$P$$$$OC$J$N$G!"(BDTD$B$N>pJs$O$J$k$?$15[<}$9$k$1$l$I$b!"%A%'%C%/$O$[$I$[$I$K!"$H$$$&BVEY$G(BDTD$B$N4J0W%Q!<%5$+$i:n@.$7$F$$$^$9!#$@$+$i!"40A4$K(BDTD$B$,H?1G$5$l$k$o$1$G$b$J$$$G$9$7!"<B:](BDTD$B$N5-=R$H8=<B$N(BWWW$B%V%i%&%6(B($B<g$K(BMozilla$B$H(BMSIE$B$J$s$@$1$I(B)$B$NF0:n$rHf$Y$F!"(BDTD$B$NJ}$rOD6J$7$A$^$C$F$k$3$H$9$i$"$j$^$9!#(B<br>
-$B@lLg$N(BSGML$B%Q!<%5$H$N:GBg$N0c$$$O!"(BDTD$B$G$O5,Dj$5$l$J$$B?$/$N;vJA$r%A%'%C%/$7$?$j!"K>$^$7$/$J$$$HH=CG$5$l$k%9%?%$%k$b%A%'%C%/$9$k$3$H$G$9!#(B<br>
-$B$3$N$h$&$K!"%A%'%C%/$N$h$j$I$3$m$O(BDTD$B$J$N$G$9$,!"6q9g$N0-$$$3$H$K(BNavigator(Mozilla)$BMQ$N(BDTD$B$OB8:_$7$J$$$N$+8x3+$5$l$F$$$J$$$N$+$J$N$G!"YTB$$7$J$1$j$c$J$j$^$;$s$G$7$?!#(B
-</p>
-<p>
-$B$J$K$7$mK\3JE*$K$O=q$$$?$3$H$N$J$$(BPerl$B=i?4<T$J$N$G!"$^$:(BPerl$B$+$iJY6/$7!"$"$H$O=5Kv$HLkCf$G$@$$$?$$JR$,IU$/$@$m$&$H$$$&M=A[$G;O$a$?$s$G$9$,!"$@$$$?$$$=$s$J$b$s$G$7$?!#Fq$7$$$G$9$M!"(BPerl$B$C$F!#:#$O$J$-F|7P(BMIX$B$G$$$m$$$m65$($F$$$?$@$-$^$7$?!#(B
-</p>
-
-<blockquote>
-Perl4$BF~LgE*$K=q$-;O$a!"BgI}$J=q$-49$($b$;$:$KL5M}LpM}(B Perl5$B$K0\9T$7$F$$$^$9!#%=!<%9$OHs>o$K1x$$$G$9!#$4Cm0U$r!#(B
-</blockquote>
-
-<hr>
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/introduction.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Jul 07, 2005<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/introduction.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Jun 19, 1997
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

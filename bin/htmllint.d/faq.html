@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <meta name="Description" content="Another HTML-lint">
@@ -14,7 +14,7 @@ span.title { text-decoration: underline }
 --></style>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [<a href="./reference.html">prev</a>]
 [<a href="./sitemap.html">sitemap</a>]
@@ -24,256 +24,264 @@ span.title { text-decoration: underline }
 <h1><a name="top"><span>Another HTML-lint FAQ</span></a></h1>
 
 <table summary="toc" width="100%" border="0" class="contents">
-<tr><th abbr="contents" align="right"><a href="./index.html">$BL\<!(B</a>$B!!(B<br></th><td><a href="./introduction.html">$B$O$8$a$K(B</a>$B!!!!!!!!!!!!(B</td>
-    <td align="right">$B!!(B<a href="./htmllint.html">$B%2!<%H%&%'%$%5!<%t%#%9(B</a></td></tr>
-<tr><td></td><td><a href="./notice.html">$B$$$/$D$+$N3P$(=q$-(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="./htmllintl.html">$B4J0W%2!<%H%&%'%$(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgi$B$N;H$$J}(B</a></td>
-    <td align="right">$B!!!!!!!!!!!!!!(B<a href="./explain.html">$B7k2L$N2r@b(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllint.html">htmllint$B$N;H$$J}(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!(B<a href="./tagslist.html">$B%?%00lMw(B</a></td></tr>
-<tr><td></td><td><a href="./rulefile.html">$B5,B'%U%!%$%k$N@8@.(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!!!(B<a href="./colors.html">$B?'8+K\(B</a></td></tr>
-<tr><td></td><td><a href="./download.html">$B%@%&%s%m!<%I(B</a>$B!!!!!!!!(B</td></tr>
-<tr><td></td><td><a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B!!!!(B</td></tr>
-<tr><td></td><td><a href="./reference.html">$B;29M$^$G$K(B</a>$B!!!!!!!!!!(B</td>
-    <td align="right">$B!!!!(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a></td></tr>
-<tr><td></td><td><a href="./faq.html">$B$h$/$"$k<ALd$HEz(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="http://openlab.ring.gr.jp/k16/htmllint/faq.html">$B%W%i%$%^%j%5%$%H(B</a></td></tr>
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/faq.html">プライマリサイト</a></td></tr>
 </table>
 
+
 <hr class="none">
-<h2 class="title"><a name="faq">$B$h$/$"$k<ALd$HEz(B</a></h2>
+<h2 class="title"><a name="faq">よくある質問と答</a></h2>
 
-<p>$B$3$s$J<ALd!"$[$s$H$K$h$/$"$k$N$+(B? $B$H$$$&$N$OCV$$$H$$$F$/$@$5$$!#(B</p>
+<p>こんな質問、ほんとによくあるのか? というのは置いといてください。</p>
 
 <dl compact class="faq">
-<dt>Q<dd>$BAmK\;3(BW3C$B$N%5!<%t%#%9!V(B<a href="http://validator.w3.org/">W3C HTML Validation Service</a>$B!W$H$I$&0c$&$N$G$9$+!#(B
-<dt>A<dd>W3C$B$N%5!<%t%#%9$O!"(BHTML$B$r(BDTD$BE*$K8!>Z$9$k$@$1$G$9!#$7$+$7!"(BW3C$B$N:vDj$7$F$$$k(BHTML$B$N;EMM=qCf$d!"(BDTD$B$N%3%a%s%HCf$K$O!"(BDTD$B$G$OI=8=$G$-$J$$B?<oB?MM$J@)Ls;v9`$,=R$Y$i$l$F$$$^$9!#(BW3C$B$N8!>Z$G$O$=$N$h$&$J%A%'%C%/$O0l@Z9T$J$o$l$^$;$s!#Nc$($P(BHTML4$B$J$I$G!"(B&lt;OL type&gt; $B$NCM$O!"(BDTD$B$G$O(BCDATA$B$H$7$+=q$+$l$F$$$^$;$s$,!"<B:]$O(B "(1|a|A|i|I)" $B$G$"$k$Y$-$3$H$,%3%a%s%HCf$KL@5-$5$l$F$$$^$9!#(BDTD$B$G$O$=$N$h$&$JI=8=$,$G$-$J$$$+$i$G$9!#(BW3C$B$N8!>Z$O$=$N$h$&$J%A%'%C%/$O$7$^$;$s(B($B$G$-$^$;$s(B)$B!#$D$^$j!"(B&lt;OL type="USO800"&gt; $B$H=q$$$F$b%(%i!<$K$O$J$j$^$;$s!#(BAnother HTML-lint $B$O$=$N$h$&$J$3$H$b4^$a$F!";EMM=qCf$N`tKv$J$3$H$^$G!"$J$k$Y$/%A%'%C%/$9$k$h$&EXNO$7$F$$$^$9!#(B<br>
-$B$H$$$&$o$1$G!"$O$C$-$j8@$C$F!"(BW3C$B$N8!>Z$G$*KOIU$-$r$b$i$C$?$H$7$F$b!"(BDTD$BE*$K@5Ev$J$@$1$G!"(BHTML$BE*$K@5Ev$+$I$&$+$NJ]>Z$O0l@Z$"$j$^$;$s!#$7$+$7!"(BAnother HTML-lint $B$N(BDTD$BE*8!>Z$K$O$@$$$V<jH4$-$,$"$j$^$9!#(BW3C$B$N8!>Z$b@'Hs9T$J$C$F$/$@$5$$!#(B
+<dt>Q<dd>総本山W3Cのサーヴィス「<a href="http://validator.w3.org/">W3C HTML Validation Service</a>」とどう違うのですか。
+<dt>A<dd>W3Cのサーヴィスは、HTMLをDTD的に検証するだけです。しかし、W3Cの策定しているHTMLの仕様書中や、DTDのコメント中には、DTDでは表現できない多種多様な制約事項が述べられています。W3Cの検証ではそのようなチェックは一切行なわれません。例えばHTML4などで、&lt;OL type&gt; の値は、DTDではCDATAとしか書かれていませんが、実際は "(1|a|A|i|I)" であるべきことがコメント中に明記されています。DTDではそのような表現ができないからです。W3Cの検証はそのようなチェックはしません(できません)。つまり、&lt;OL type="USO800"&gt; と書いてもエラーにはなりません。Another HTML-lint はそのようなことも含めて、仕様書中の瑣末なことまで、なるべくチェックするよう努力しています。<br>
+というわけで、はっきり言って、W3Cの検証でお墨付きをもらったとしても、DTD的に正当なだけで、HTML的に正当かどうかの保証は一切ありません。しかし、Another HTML-lint のDTD的検証にはだいぶ手抜きがあります。W3Cの検証も是非行なってください。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$BK~E@$J$i(B<a name="perfect">$B$I$s$J%V%i%&%6$G$b$A$c$s$H8+$l$k$N$G$9$+(B</a>$B!#(B
-<dt>A<dd>$B$=$s$JJ]>Z$O$"$j$^$;$s!#;XDj$5$l$?J8K!E*$J%A%'%C%/$r$9$k$@$1$G!"8+$(J}$^$G$O$o$+$j$^$;$s!#FCDj$N4D6-$G$A$c$s$H8+$($k$h$&$K$9$k$?$a$K$O!"8:E@$,IT2DHr$J$3$H$b$"$j$^$9!#(B<br>
-$B$^$?!"(B<a href="http://www.w3.org/TR/WAI-WEBCONTENT/">WAI</a>$B$G8@$o$l$F$$$k%"%/%;%9@-$K4X$9$k%A%'%C%/$O!"(B<a href="./explain-wai.html">$B$4$/0lIt$7$+$G$-$^$;$s(B</a>$B!#$3$N4+9pJ8=q(B(<a href="http://www.asahi-net.or.jp/~bd9y-ktu/WEBc_f/wai-pageauth.html">$B2CF#BY9';a$,Lu$5$l$F$$$^$9(B</a>)$B$r$A$c$s$HFI$s$G!"$h$j$h$$(BHTML$B$r=q$$$F$/$@$5$$!#(B<br>
-$BK~E@$G$"$kI,MW$O$"$j$^$;$s!#!D$H8@$&$H!"L5M}2r$N$^$^!VK~E@$NI,MW$O$"$j$^$;$s!W$H@kEA$9$kJ}!9$,$$$i$C$7$c$$$^$9!#H/8@$K$O==J,5$$rIU$1$^$7$g$&!#(B
+<dt>Q<dd>満点なら<a name="perfect">どんなブラウザでもちゃんと見れるのですか</a>。
+<dt>A<dd>そんな保証はありません。指定された文法的なチェックをするだけで、見え方まではわかりません。特定の環境でちゃんと見えるようにするためには、減点が不可避なこともあります。<br>
+また、<a href="http://www.w3.org/TR/WAI-WEBCONTENT/">WAI</a>で言われているアクセス性に関するチェックは、<a href="./explain-wai.html">ごく一部しかできません</a>。この勧告文書(<a href="http://www.asahi-net.or.jp/~bd9y-ktu/WEBc_f/wai-pageauth.html">加藤泰孝氏が訳されています</a>)をちゃんと読んで、よりよいHTMLを書いてください。<br>
+満点である必要はありません。…と言うと、無理解のまま「満点の必要はありません」と宣伝する方々がいらっしゃいます。発言には十分気を付けましょう。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B7k2L$NI>2A$O?.MQ$G$-$k$N$G$9$+!#(B
-<dt>A<dd>$B?M$N8@$&$3$H$O!"H}BC$@$H;W$&$3$H$,4pK\$G$9!#Aj<j$,$I$s$J8"0R$G$b!"LU?.$9$k$N$O4m81$G$9!#?.MQ$KB-$k$+$I$&$+$O<+J,$GH=CG$9$k$7$+$"$j$^$;$s!#$=$&$$$&H=CG$,$G$-$kCN<1$r?H$KIU$1$^$7$g$&!#I>O@2H$K$J$k$N$O$=$N8e$G$9!#(B
+<dt>Q<dd>結果の評価は信用できるのですか。
+<dt>A<dd>人の言うことは、眉唾だと思うことが基本です。相手がどんな権威でも、盲信するのは危険です。信用に足るかどうかは自分で判断するしかありません。そういう判断ができる知識を身に付けましょう。評論家になるのはその後です。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B$A$c$s$H8+$($k$N$@$+$i!"J8K!$J$s$+<i$i$J$/$F$b$$$$$8$c$J$$$+!#(B
-<dt>A<dd>$B$"$J$?$N4D6-$G$A$c$s$H8+$($F$$$k$N$G$"$C$F!"NY$N?M$b$A$c$s$H8+$($k$+$I$&$+$O$o$+$j$^$;$s!#Bg@*$N?M!9$K8+$F$b$i$*$&$H$$$&$N$J$i!"C/$b$,$A$c$s$H8+$($k$h$&$K$7$J$1$l$P$J$i$J$$$N$G$9$,!"$=$l$K$O7h$a$i$l$?J8K!$r<i$C$F=q$/$3$H$,I,MW$G$9(B($B==J,$G$O$"$j$^$;$s(B)$B!#(B<br>
-$B$7$+$7!"8=<B$K$OJ8K!$r<i$i$J$/$F$b!"M%=($J(BWWW$B%V%i%&%6$,E,Ev$KITHw$rJd$C$F$/$l$k$N$G!"$+$J$j$$$$$+$2$s$K=q$$$F$bB?$/$N?M!9$K$O$A$c$s$H8+$($^$9!#$@$+$i!":#$N$H$3$mJ8K!$K4X$7$F%k!<%:$G$b:$$k$3$H$O$"$^$j$"$j$^$;$s!#$G$b!"J8K!E*$K@5$7$1$l$P$h$jB?$/$N?M$K$A$c$s$H8+$F$b$i$($^$9!#(BHTML$B$NL$Mh$,(B<a href="http://www.w3.org/TR/REC-xml">XML</a>$B$K$"$k$N$J$i!"J8K!0cH?$O$4K!EY$K$J$kJ}8~$K$"$k$H$$$&$3$H$G$9!#(B<br>
-$B%A%'%C%/$GK~E@$rL\;X$9$H$$$&$N$O!"!V@5$7$$F|K\8l$rOC$7$^$7$g$&!W$H$$$&$N$H;w$F$$$J$/$b$J$$$G$9$,!"(BHTML$BJ8K!$O<+A38@8l$8$c$J$$$N$G$A$H0c$$$^$9!#$A$g$$$H$P$+$77x6l$7$$$H$3$m$,$"$kE@$OF1$8$G$9!#K~E@$@$+$i$H$$$C$F!"$=$l$G$O==J,$G$J$$$3$H$K5$IU$$$F$/$@$5$$!#(BAnother HTML-lint $B$,%A%'%C%/$9$k$N$OJ8=q$NFbMF$G$O$J$$$N$G$9!#@5$7$$F|K\8l$G$?$o$1$?$3$H$r8@$C$F$$$F$b$7$g$&$,$"$j$^$;$s!#J8K!$h$j$b!"FbMF$,Bg;v$J$3$H$OL@!9Gr!9$G$9$,!"J8K!$r@5$7$?$+$i$H$$$C$F!"FbMF$,B;$J$o$l$k$3$H$O$"$j$^$;$s!#(B
+<dt>Q<dd>ちゃんと見えるのだから、文法なんか守らなくてもいいじゃないか。
+<dt>A<dd>あなたの環境でちゃんと見えているのであって、隣の人もちゃんと見えるかどうかはわかりません。大勢の人々に見てもらおうというのなら、誰もがちゃんと見えるようにしなければならないのですが、それには決められた文法を守って書くことが必要です(十分ではありません)。<br>
+しかし、現実には文法を守らなくても、優秀なWWWブラウザが適当に不備を補ってくれるので、かなりいいかげんに書いても多くの人々にはちゃんと見えます。だから、今のところ文法に関してルーズでも困ることはあまりありません。でも、文法的に正しければより多くの人にちゃんと見てもらえます。HTMLの未来が<a href="http://www.w3.org/TR/REC-xml">XML</a>にあるのなら、文法違反はご法度になる方向にあるということです。<br>
+チェックで満点を目指すというのは、「正しい日本語を話しましょう」というのと似ていなくもないですが、HTML文法は自然言語じゃないのでちと違います。ちょいとばかし堅苦しいところがある点は同じです。満点だからといって、それでは十分でないことに気付いてください。Another HTML-lint がチェックするのは文書の内容ではないのです。正しい日本語でたわけたことを言っていてもしょうがありません。文法よりも、内容が大事なことは明々白々ですが、文法を正したからといって、内容が損なわれることはありません。
 </dl>
 
 <dl compact class="faq">
-<dt>Q</dt><dd>$BBg<j(B<a name="famousesite">$BM-L>%5%$%H$G$b$R$I$$E@?t(B</a>$B$G$9!#J8K!$J$s$+<i$kI,MW$J$$$H;W$$$^$9!#(B</dd>
-<dt>A</dt><dd>$B$=$ND6M-L>%5%$%H$N5;=Q<T$,!"(BW3C$B$N;EMM$r<i$k5;=QNO$r;}$C$F$$$J$$$H$$$&$@$1$N$3$H$G$7$g$&!#$b$7!";WOGDL$j$KI=<($5$;$k$?$a$K$"$($F0cH?$rHH$7$F$$$k$N$J$i!"(BHTML$B$r:NMQ$9$Y$-$G$O$"$j$^$;$s!#$I$&$7$F$b(BHTML$B$r;H$$$?$$$J$i!"(BW3C$B$K;EMMJQ99$r5a$a$k$Y$-$G$9!#$"$k$$$O!"(BHTML$B$h$jM%$l$?%W%m%H%3%k$r@_7W$7!"9-$/@$4V$KN.I[$5$;$l$P$$$$$N$G$9!#(B
+<dt>Q</dt><dd>大手<a name="famousesite">有名サイトでもひどい点数</a>です。文法なんか守る必要ないと思います。</dd>
+<dt>A</dt><dd>その超有名サイトの技術者が、W3Cの仕様を守る技術力を持っていないというだけのことでしょう。もし、思惑通りに表示させるためにあえて違反を犯しているのなら、HTMLを採用すべきではありません。どうしてもHTMLを使いたいなら、W3Cに仕様変更を求めるべきです。あるいは、HTMLより優れたプロトコルを設計し、広く世間に流布させればいいのです。
 </dd>
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B%(%i!<$N2r@b$,Fq$72a$.$F$A$s$W$s$+$s$W$s$G$9!#(B
-<dt>A<dd>$B$J$k$Y$/J?0W$K=q$/$h$&$KEX$a$F$$$k$D$b$j$J$N$G$9$,(B($B$I$3$,$8$c(B)$B!"$I$&$b(BHTML$B$N4pACE*$J$3$H$OC<@^$C$F$7$^$$$,$A$G$9!#ItJ,ItJ,$G!V$3$3$,$o$+$i$J$$!W$H$$$&;XE&$O$=$NETEY=q$-49$($J$I$r$7$?$$$H;W$$$^$9$,!"AmBNE*$K$o$+$i$J$$$H$$$&$N$G$"$l$P!"(B<a href="./reference.html#reference">$BB>$NM%$l$?J}!9$N%5%$%H(B</a>$B$r=d$C$F(BHTML$B$N4pAC$rJY6/$7$F$/$@$5$$!#(B
+<dt>Q<dd>エラーの解説が難し過ぎてちんぷんかんぷんです。
+<dt>A<dd>なるべく平易に書くように努めているつもりなのですが(どこがじゃ)、どうもHTMLの基礎的なことは端折ってしまいがちです。部分部分で「ここがわからない」という指摘はその都度書き換えなどをしたいと思いますが、総体的にわからないというのであれば、<a href="./reference.html#reference">他の優れた方々のサイト</a>を巡ってHTMLの基礎を勉強してください。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B;29M=q$K=q$+$l$F$$$k$H$*$j$K(BHTML$B$r=q$$$F$$$k$N$K%(%i!<$,Bt;3=P$^$9!#(B
-<dt>A<dd>$B$O$C$-$j8@$C$F!"$=$N;29M=q$,4V0c$C$F$$$^$9!#(B<a href="http://www.asahi-net.or.jp/~jy3k-sm/i_net/books.html">$B$"$d$7$$K\(B</a>$B$d(B<a href="http://www.ne.jp/asahi/minazuki/bakera/html/book/">$B$N$1$>$kK\!*(B</a>$B$,>\$7$$$G$9!#(B
+<dt>Q<dd>参考書に書かれているとおりにHTMLを書いているのにエラーが沢山出ます。
+<dt>A<dd>はっきり言って、その参考書が間違っています。<a href="http://www.asahi-net.or.jp/~jy3k-sm/i_net/books.html">あやしい本</a>や<a href="http://www.ne.jp/asahi/minazuki/bakera/html/book/">のけぞる本！</a>が詳しいです。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>HTML$B$r:n@.$9$k%D!<%k$r;H$C$F(BHTML$B$r=q$$$F$$$k$N$K%(%i!<$,Bt;3=P$^$9!#(B
-<dt>A<dd>$B;DG0$J$3$H$K!"@5$7$$(BHTML$BJ8K!$NG'CNEY$,Hs>o$KDc$$$+$i$G$9!#$3$N$h$&$J4V0c$C$?(BHTML$B$r@8@.$9$k%*!<%5%j%s%0%D!<%k$N3+H/<TC#$O!"(BMozilla$B$d(BMSIE$B$J$I$NL\E*$H$9$k(BWWW$B%V%i%&%6$G$A$c$s$H8+$($l$P$h$$$h$&$K(BHTML$B%?%0$r@8@.$7$h$&$H$7$F$$$k$N$G$9!#$=$N$h$&$J%*!<%5%j%s%0%D!<%k$O!":G=i$N%i%U$J(BHTML$B@8@.MQ$K;HMQ$7!"$=$N8e%F%-%9%H%(%G%#%?$G<jD>$7$9$kI,MW$,$"$k$+$bCN$l$^$;$s!#(B<br>
-$B$3$l$O$H$F$b$*$+$7$JOC$G!"$3$l$G$O2?$N$?$a$N%*!<%5%j%s%0%D!<%k$+$o$+$j$^$;$s$M!#(B
+<dt>Q<dd>HTMLを作成するツールを使ってHTMLを書いているのにエラーが沢山出ます。
+<dt>A<dd>残念なことに、正しいHTML文法の認知度が非常に低いからです。このような間違ったHTMLを生成するオーサリングツールの開発者達は、MozillaやMSIEなどの目的とするWWWブラウザでちゃんと見えればよいようにHTMLタグを生成しようとしているのです。そのようなオーサリングツールは、最初のラフなHTML生成用に使用し、その後テキストエディタで手直しする必要があるかも知れません。<br>
+これはとてもおかしな話で、これでは何のためのオーサリングツールかわかりませんね。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B;d$NMxMQ$7$F$$$k%W%m%P%$%@$G$O!"(B<a name="commercial">$B%Z!<%8$NF,$J$I$K9-9p$,A^F~(B</a>$B$5$l$F$7$^$$!"$=$l$,8:E@$r>7$-$^$9!#$=$NItJ,$r%A%'%C%/$+$i30$;$^$;$s$+!#(B
-<dt>A<dd>$B;DG0$J$,$i$G$-$^$;$s!#%A%'%C%/$9$k$H$-$KF@$i$l$k(BHTML$B$+$i$O!"$=$l$,9-9p<g$K$h$C$FA^F~$5$l$?$b$N$+!"%Z!<%8@=:n<T$N0U?^$7$?$b$N$+$N6hJL$,J8K!E*$K$G$-$J$$$+$i$G$9!#(B<br>
-$B$7$+$7!"9-9p$r=|$$$F%A%'%C%/$7$F9bF@E@$rF@$F$b!"$"$J$?$,9-9pIU$-%W%m%P%$%@$rMxMQ$9$k8B$j0UL#$,$"$j$^$;$s!#$"$J$?$N%5%$%H$rK,$l$k?M$O9-9pIU$-$N(BHTML$B$rI=<($7$h$&$H$9$k$+$i$G$9!#9-9pItJ,$KCWL?E*$J7g4Y$,$"$k$N$J$i!"$"$J$?$N%5%$%H$O1\Mw$G$-$J$$2DG=@-$,9b$$$3$H$KJQ$o$j$O$"$j$^$;$s!#$"$J$?$N%5%$%H$NI>2A$O9-9p9~$_$G9T$J$o$l$k$Y$-$G$9!#$=$3$K9-9p$,I=<($5$l$k$N$O!"$=$N%W%m%P%$%@$rA*$s$@$"$J$?$N@UG$$G$"$j!"9-9p$O$"$J$?$N(BHTML$B$N0lIt$G$9!#(B
-$B%W%m%P%$%@Ds6!$N(BCGI$BEy$G$bF1MM$G$9!#(B
+<dt>Q<dd>私の利用しているプロバイダでは、<a name="commercial">ページの頭などに広告が挿入</a>されてしまい、それが減点を招きます。その部分をチェックから外せませんか。
+<dt>A<dd>残念ながらできません。チェックするときに得られるHTMLからは、それが広告主によって挿入されたものか、ページ製作者の意図したものかの区別が文法的にできないからです。<br>
+しかし、広告を除いてチェックして高得点を得ても、あなたが広告付きプロバイダを利用する限り意味がありません。あなたのサイトを訪れる人は広告付きのHTMLを表示しようとするからです。広告部分に致命的な欠陥があるのなら、あなたのサイトは閲覧できない可能性が高いことに変わりはありません。あなたのサイトの評価は広告込みで行なわれるべきです。そこに広告が表示されるのは、そのプロバイダを選んだあなたの責任であり、広告はあなたのHTMLの一部です。
+プロバイダ提供のCGI等でも同様です。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B$H$F$b%(%i!<$,B?$/$FD>$95$$K$b$J$j$^$;$s!#(B
-<dt>A<dd>$B4pK\E*$J%?%0IU$1$NJ}K!$,@5$7$/$J$$$H;W$o$l$^$9$N$G!"(BHTML$B$N4pAC$rJY6/$7D>$7$^$7$g$&!#(B
-<!--$B$3$l$O!"(BHTML$B$N?7$7$$5;=Q$r;H$C$F$$$k$K$b$+$+$o$i$:!"(BDOCTYPE$B@k8@$,$J$$$?$a$K!"8E$$(BHTML$B$H$7$F%A%'%C%/$5$l$F$$$k$N$,860x$N$3$H$,B?$$$G$9!#(BDOCTYPE$B@k8@$,$J$$$H$-$O!"(BHTML2.0$B$H$$$&$N$,!VI8=`8l!W$H$7$F:NMQ$5$l$k$N$G$9!#(BHTML2.0$B$O!"(BHTML4.0$B$J$I$K3S$Y$F5!G=E*$KHs>o$KNt$j$^$9!#:G?7$N%?%0$r;H$C$?(BHTML$B$r!"(BHTML2.0$B$H$7$F%A%'%C%/$9$l$P!"%(%i!<$,B?$$$N$OEvA3$J$N$G$9!#(B--><br>
-$B$^$?!"(BDOCTYPE$B@k8@$,$J$$$H$-$O!"$H$j$"$($:!"J8=q$N@hF,$K(B
+<dt>Q<dd>とてもエラーが多くて直す気にもなりません。
+<dt>A<dd>基本的なタグ付けの方法が正しくないと思われますので、HTMLの基礎を勉強し直しましょう。
+<!--これは、HTMLの新しい技術を使っているにもかかわらず、DOCTYPE宣言がないために、古いHTMLとしてチェックされているのが原因のことが多いです。DOCTYPE宣言がないときは、HTML2.0というのが「標準語」として採用されるのです。HTML2.0は、HTML4.0などに較べて機能的に非常に劣ります。最新のタグを使ったHTMLを、HTML2.0としてチェックすれば、エラーが多いのは当然なのです。--><br>
+また、DOCTYPE宣言がないときは、とりあえず、文書の先頭に
 <pre class="pre-sample">    &lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"&gt;</pre>
-$B$H=q$$$F$*$$$F$/$@$5$$!#$=$7$F!"(B<a href="./explain.html#required-doctype">$B$3$N9T$N0UL#$rJY6/$7$F$/$@$5$$(B</a>$B!#(B<br>
-$B$b$7!"$9$G$K(BDOCTYPE$B@k8@$,$"$k$N$K%(%i!<$,B?$$>l9g$O!"(BHTML$B%t%!!<%8%g%s$K$$$m$$$m$"$k$3$H$r$"$^$jM}2r$G$-$F$$$J$$$?$a$K!"(B<a href="./explain.html#unknown-doctype">$BITE,@Z$J(BDOCTYPE$B@k8@$G$"$k(B</a>$B$3$H$,9M$($i$l$^$9$,!"?<$/M}2r$9$k$N$J$s$+$5$i$5$i$4$a$s!"$H$$$&J}$O!"$d$O$j>e$N(BDOCTYPE$B$K2~$a$F$_$F$/$@$5$$!#(BTransitional$B$,$"$k$H$J$$$G$OBg0c$$$J$N$GCm0U$7$^$7$g$&!#(B<br>
-$B=!65E*$J%A%'%C%/$J$I$rL58z$K$7$F$b!"%(%i!<$,$:$$$V$s8:$j$^$9!#(B
+と書いておいてください。そして、<a href="./explain.html#required-doctype">この行の意味を勉強してください</a>。<br>
+もし、すでにDOCTYPE宣言があるのにエラーが多い場合は、HTMLヴァージョンにいろいろあることをあまり理解できていないために、<a href="./explain.html#unknown-doctype">不適切なDOCTYPE宣言である</a>ことが考えられますが、深く理解するのなんかさらさらごめん、という方は、やはり上のDOCTYPEに改めてみてください。Transitionalがあるとないでは大違いなので注意しましょう。<br>
+宗教的なチェックなどを無効にしても、エラーがずいぶん減ります。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B$G$b$d$C$Q$j%(%i!<$,B?$/$FD>$95$$K$J$j$^$;$s!#(B
-<dt>A<dd>$B2a5n$N$7$,$i$_$r<N$F!":G=i$+$i=q$-D>$7$^$7$g$&!#(B
+<dt>Q<dd>でもやっぱりエラーが多くて直す気になりません。
+<dt>A<dd>過去のしがらみを捨て、最初から書き直しましょう。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$BK~E@$r(B<a name="getperfect">$B<h$k(B</a>$B$K$O$I$&$9$l$P$$$$$N$G$9$+!#(B
-<dt>A<dd>$BK~E@$r<h$k$3$H$rL\I8$K$7$F$O$$$1$^$;$s!#Nc$($P0J2<$N$h$&$J=$@5$O!"$"$J$?$N(BHTML$B$rK~E@$KF3$-$^$9!#(B
+<dt>Q<dd>満点を<a name="getperfect">取る</a>にはどうすればいいのですか。
+<dt>A<dd>満点を取ることを目標にしてはいけません。例えば以下のような修正は、あなたのHTMLを満点に導きます。
 <ul>
-<li><code>&lt;font color="red"&gt;</code> $B"M(B <code>&lt;span class="red"&gt;</code>
-<li><code>&lt;div align="center"&gt;</code> $B"M(B <code>&lt;div style="text-align:center"&gt;</code>
-<li><code>&lt;br /&gt;&lt;br /&gt;</code> $B"M(B <code>&lt;br /&gt;&amp;nbsp;&lt;br /&gt;</code>
-<li><code>&lt;a target="..."&gt;</code> $B"M(B <code>&lt;a onclick="window.open(...)"&gt;</code>
+<li><code>&lt;font color="red"&gt;</code> ⇒ <code>&lt;span class="red"&gt;</code>
+<li><code>&lt;div align="center"&gt;</code> ⇒ <code>&lt;div style="text-align:center"&gt;</code>
+<li><code>&lt;br /&gt;&lt;br /&gt;</code> ⇒ <code>&lt;br /&gt;&amp;nbsp;&lt;br /&gt;</code>
+<li><code>&lt;a target="..."&gt;</code> ⇒ <code>&lt;a onclick="window.open(...)"&gt;</code>
 </ul>
-$B$G$b!"$3$l$i$OI=8=J}K!$rJQ$($F$O$$$k$b$N$N!"AjJQ$o$i$:J*M}E*$J5-=R$r$7$F$*$j!"$H$F$b$h$$(BHTML$B$H$O8@$($^$;$s!#J8>O$KO@M}E*$J0UL#$rM?$($F$$$^$;$s!#$J$<J8;z$r@V$/$7$?$$$N$+!"$J$<Cf1{4s$;$7$?$$$N$+$r9M$($^$7$g$&!#(B&lt;br /&gt; $B$NNc$J$I$O$H$F$b$R$I$$$b$N$G!"N^$,=P$A$c$&$/$i$$$G$9!#(Btarget$B$K$h$kJ}8~IU$1$O!"$=$&$$$&9T0Y<+BN$r2|$a$F$$$k$b$N$J$N$K!"(Btarget$B$8$c$J$1$l$P$$$$$J$I$H$$$&H/A[<+BN$,$*$+$7$$$N$G$9!#(B
+でも、これらは表現方法を変えてはいるものの、相変わらず物理的な記述をしており、とてもよいHTMLとは言えません。文章に論理的な意味を与えていません。なぜ文字を赤くしたいのか、なぜ中央寄せしたいのかを考えましょう。&lt;br /&gt; の例などはとてもひどいもので、涙が出ちゃうくらいです。targetによる方向付けは、そういう行為自体を戒めているものなのに、targetじゃなければいいなどという発想自体がおかしいのです。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>DOCTYPE$B$C$F2?$G$9$+!#(B
-<dt>A<dd>$B=q$+$l$F$$$k(BHTML$BJ8=q$,!"$I$&$$$C$?(BHTML$B$+$r<($9$?$a$N$b$N$G$9!#$3$l$O!"Nc$($P!"!V$3$NJ8=q$ODE7ZJ[$G5-=R$5$l$F$$$^$9!W$H$$$C$?$h$&$J$3$H$KAjEv$7$^$9!#(BHTML$B$K$$$m$$$m$J$b$N$,$"$k$N$O!"(BHTML4.0$B$@$H$+(BHTML3.2$B$@$H$+$$$&$N$,$"$k$N$G!"Gv!95$IU$$$F$$$k$G$7$g$&!#$@$+$i!"(BHTML3.2$B$N;29M=q$r8+$F=q$$$?(BHTML$B$N@hF,$K$O!"!V(BHTML3.2$B$G=q$+$l$?J8=q$G$9!W$H@k8@$9$k$o$1$G$9!#(B<a href="./explain.html#required-doctype">$B7k2L$N2r@b(B</a>$B$J$I$rFI$s$G$/$@$5$$!#(B
+<dt>Q<dd>DOCTYPEって何ですか。
+<dt>A<dd>書かれているHTML文書が、どういったHTMLかを示すためのものです。これは、例えば、「この文書は津軽弁で記述されています」といったようなことに相当します。HTMLにいろいろなものがあるのは、HTML4.0だとかHTML3.2だとかいうのがあるので、薄々気付いているでしょう。だから、HTML3.2の参考書を見て書いたHTMLの先頭には、「HTML3.2で書かれた文書です」と宣言するわけです。<a href="./explain.html#required-doctype">結果の解説</a>などを読んでください。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>MSIE$BMQ$K(BHTML$B$r=q$$$F$$$^$9$,!"(B<a name="no-doctype">DOCTYPE$B$,$J$$(B</a>$B$H8@$o$l$^$9!#$I$&$9$l$P$$$$$N$G$9$+!#(B
-<dt>A<dd>Mozilla$B$d(BMSIE$B$K$O(BHTML$B$N@5<0$JJ8K!$,$"$j$^$;$s!#$3$NJ8K!$O(B Document Type Definition (DTD/$BJ8=q7?Dj5A(B) $B$H8F$P$l$k$b$N$G$9!#(BDOCTYPE$B$O!"(BHTML$BJ8=q$,$I$N(BDTD$B$KB'$C$F=q$+$l$F$$$k$+$r<($9$b$N$J$N$G!"(BDTD$B$NB8:_$7$J$$(BMozilla$B$d(BMSIE$BMQ$N(BHTML$BJ8=q$K(BDOCTYPE$B@k8@$r$9$k$3$H$O$G$-$^$;$s!#(BHTML$B$r(BMozilla$B$d(BMSIE$BMQ$H$7$F%A%'%C%/$5$;$k$K$O!"(BHTML$B%t%!!<%8%g%s$r$=$l$>$l3:Ev$9$k$b$N$KJQ99$7$F$+$i%A%'%C%/$7$F$/$@$5$$!#(B
+<dt>Q<dd>MSIE用にHTMLを書いていますが、<a name="no-doctype">DOCTYPEがない</a>と言われます。どうすればいいのですか。
+<dt>A<dd>MozillaやMSIEにはHTMLの正式な文法がありません。この文法は Document Type Definition (DTD/文書型定義) と呼ばれるものです。DOCTYPEは、HTML文書がどのDTDに則って書かれているかを示すものなので、DTDの存在しないMozillaやMSIE用のHTML文書にDOCTYPE宣言をすることはできません。HTMLをMozillaやMSIE用としてチェックさせるには、HTMLヴァージョンをそれぞれ該当するものに変更してからチェックしてください。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$BG<F@$G$-$J$$%(%i!<$,$"$j$^$9!#(B
-<dt>A<dd>$B$[$H$s$I$9$Y$F$N%(%i!<$O!"$o$?$7$N<g4Q$K$h$k$b$N$G$O$"$j$^$;$s!#%(%i!<$K$O$9$Y$F=PE5$,$"$j$^$9!#J86g$O$=$N=PE585(B(<a href="http://www.w3.org/">W3C</a>$B$H$+(B<a href="http://www.ietf.cnri.reston.va.us/home.html">IETF</a>$B$H$+(B)$B$X8@$C$F$/$@$5$$!#=!65E*$d7P83E*$H$5$l$F$$$k$b$N$G$b$=$&$J$N$G$9$,!"=PE585$,$&$5$s$/$5$$$b$N$d!"B?>/<g4Q$NF~$C$F$$$k$b$N$b$"$j$^$9!#G<F@$G$-$J$$M}M3$r5R4QE*$KJ,@O$7$F$_$^$7$g$&!#(B
-$B$^$"!"$o$?$7$NM}2r$,B-$j$J$$>l9g$d!"%W%m%0%i%`%_%9$K$h$C$F4V0c$C$?H=Dj$r$5$l$k$3$H$bBg$$$K$"$jF@$^$9$N$G!"!VJQ$@!W$H;W$C$?$i(B k16@chiba.email.ne.jp $B$^$G%a!<%k$G$b$7$F$/$@$5$$!#(B
+<dt>Q<dd>納得できないエラーがあります。
+<dt>A<dd>ほとんどすべてのエラーは、わたしの主観によるものではありません。エラーにはすべて出典があります。文句はその出典元(<a href="http://www.w3.org/">W3C</a>とか<a href="http://www.ietf.cnri.reston.va.us/home.html">IETF</a>とか)へ言ってください。宗教的や経験的とされているものでもそうなのですが、出典元がうさんくさいものや、多少主観の入っているものもあります。納得できない理由を客観的に分析してみましょう。
+まあ、わたしの理解が足りない場合や、プログラムミスによって間違った判定をされることも大いにあり得ますので、「変だ」と思ったら k16@chiba.email.ne.jp までメールでもしてください。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$BJ8;z%3!<%I$,(B<a name="detect-encoding">$B8mH=Dj$5$l$^$9(B</a>$B!#(B
-<dt>A<dd>$B$^$l$K!"F|K\8l$NJ8;z%3!<%I$r8mH=Dj$9$k$3$H$,$"$j$^$9!#$3$l$O!"F|K\8l$NJ8;z%3!<%I$,$4$/$o$:$+$7$+4^$^$l$J$$$H$-$d!"C;$$F|K\8lJ8;z%3!<%I$,:G=i$K8=$l$F$+$i!"<!$,8=$l$k$^$G$@$$$V4V$,6u$$$F$$$k$h$&$J$H$-$G$9!#(BHTML$BJ8=q$N:G=i$NJ}$K!"%3%a%s%H$H$7$FE,Ev$JF|K\8l$rF~$l$F$*$/$3$H$G2sHr$G$-$^$9!#(B
+<dt>Q<dd>文字コードが<a name="detect-encoding">誤判定されます</a>。
+<dt>A<dd>まれに、日本語の文字コードを誤判定することがあります。これは、日本語の文字コードがごくわずかしか含まれないときや、短い日本語文字コードが最初に現れてから、次が現れるまでだいぶ間が空いているようなときです。HTML文書の最初の方に、コメントとして適当な日本語を入れておくことで回避できます。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>Mozilla$B$G8+$k$H!"(BMozilla$B$,%/%i%C%7%e$7$F$7$^$&%Z!<%8$,$"$k$N$G$9$,!#(B
-<dt>A<dd>Mozilla$B$N%t%!!<%8%g%s$K$h$C$F!"(B<a href="http://openlab.ring.gr.jp/k16/htmllint/findfault.html">$B$$$/$D$+$N=q@R$N$"$i$5$,$7(B</a>$B$J$I$N0lIt$N%Z!<%8$r8+$h$&$H$9$k$H!"%/%i%C%7%e$7$F$7$^$&$3$H$,$"$k$h$&$G$9!#(BMozilla$B$,%9%?%$%k%7!<%H$N=hM}$r$&$^$/9T$J$($J$$$N$,860x$J$N$G$9$,!"$I$N$h$&$J5-=R$,D>@\$N0z$-6b$K$J$C$F$$$k$N$+FCDj$G$-$F$$$^$;$s!#%/%i%C%7%e$9$k%Z!<%8$G(BJavaScript$B$O;HMQ$7$F$$$^$;$s$,!"Ev3:%Z!<%8$r8+$kA0$K0lEY$G$b(BJavaScript$B$,F0:n$7$F$$$k$H$@$a$J$h$&$G$9!#(BJavaScript$B$rL58z$K$9$k$J$I$7$F$/$@$5$$!#?=$7Lu$"$j$^$;$s(B($B$o$?$7$,<U$k6Z9g$$$N$b$N$G$O$J$$$s$@$1$I(B)$B!#(B<br>
-$B<XB-$G$9$,!"(BMozilla4.5($B$d$=$l0JA0(B)$B$N%9%?%$%k%7!<%H$NBP1~EY$OI>2A0JA0$N%l%Y%k$G$9!#(BMSIE3$B$N%9%?%$%k%7!<%H$O;H$o$J$$$G$/$@$5$$!#(BMSIE4.5$B$d(BMSIE5$B$@$H$=$3$=$3$G$9!#(B
+<dt>Q<dd>Mozillaで見ると、Mozillaがクラッシュしてしまうページがあるのですが。
+<dt>A<dd>Mozillaのヴァージョンによって、<a href="http://openlab.ring.gr.jp/k16/htmllint/findfault.html">いくつかの書籍のあらさがし</a>などの一部のページを見ようとすると、クラッシュしてしまうことがあるようです。Mozillaがスタイルシートの処理をうまく行なえないのが原因なのですが、どのような記述が直接の引き金になっているのか特定できていません。クラッシュするページでJavaScriptは使用していませんが、当該ページを見る前に一度でもJavaScriptが動作しているとだめなようです。JavaScriptを無効にするなどしてください。申し訳ありません(わたしが謝る筋合いのものではないんだけど)。<br>
+蛇足ですが、Mozilla4.5(やそれ以前)のスタイルシートの対応度は評価以前のレベルです。MSIE3のスタイルシートは使わないでください。MSIE4.5やMSIE5だとそこそこです。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>Mac$B$N(BMozilla$B$G8+$k$H!"(Bhtmllint.html$B$,@5$7$/I=<($5$l$^$;$s!#(B
-<dt>A<dd>$B$?$V$s(BMac$B$N(BMozilla(4.5)$B$J$I$N(BJavaScript$B=hM}$G!"(BJIS$B%3!<%I$N07$$$,$&$^$/$J$$$N$,860x$N$h$&$G$9!#:FFI$_9~$_$5$;$l$P$A$c$s$H8+$($k$H;W$$$^$9!#(B
+<dt>Q<dd>MacのMozillaで見ると、htmllint.htmlが正しく表示されません。
+<dt>A<dd>たぶんMacのMozilla(4.5)などのJavaScript処理で、JISコードの扱いがうまくないのが原因のようです。再読み込みさせればちゃんと見えると思います。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B%A%'%C%/$7$h$&$H$9$k$H!"(B<code>cgi-lib.pl: Unknown Content-type: application/x-www-form-urlencoded; charset=iso-2022-jp</code> $B$H=P$F%A%'%C%/$G$-$^$;$s!#(B
-<dt>A<dd>$B0lIt$N%f!<%6%(!<%8%'%s%H(B(<a href="ftp://crab.it.osha.sut.ac.jp/pub/Win32/develope/senshu/Lynx/">Lynx2.8j</a>$B$J$I(B)$B$,!"%U%)!<%`$NAw=P$K:]$7$F$3$N$h$&$J(BContent-type$B$rAw=P$9$k$h$&$G!"(Bcgi-lib.pl$B$rMxMQ$7$F$$$k$H$3$N$h$&$J>I>u$,=P$k$h$&$G$9!#(B<a href="./download.html#cgi-lib.pl">cgi-lib.pl$B$r%Q%C%A(B</a>$B$9$k$+!"(BContent-type$B$K(B charset=iso-2022-jp $B$rIU$1$J$$$h$&$K(BLynx$B$r2~B$$7$F$/$@$5$$!#(B<br>
-CGI.pm$B$G$O$3$N$h$&$J$3$H$O$J$$$h$&$G$9!#(B<!-- $BJ?EDNQ5W(B -->
+<dt>Q<dd>チェックしようとすると、<code>cgi-lib.pl: Unknown Content-type: application/x-www-form-urlencoded; charset=iso-2022-jp</code> と出てチェックできません。
+<dt>A<dd>一部のユーザエージェント(<a href="ftp://crab.it.osha.sut.ac.jp/pub/Win32/develope/senshu/Lynx/">Lynx2.8j</a>など)が、フォームの送出に際してこのようなContent-typeを送出するようで、cgi-lib.plを利用しているとこのような症状が出るようです。<a href="./download.html#cgi-lib.pl">cgi-lib.plをパッチ</a>するか、Content-typeに charset=iso-2022-jp を付けないようにLynxを改造してください。<br>
+CGI.pmではこのようなことはないようです。<!-- 平田倫久 -->
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>Another HTML-lint $B$r%$%s%9%H!<%k$7$^$7$?$,!"7k2L$N(BHTML$B$J$I$,J8;z2=$1$7$^$9!#(B
-<dt>A<dd>$B$9$Y$F@5$7$$@_Dj$G$"$k$H$7$F!"(BPerl $B$N:n$i$lJ}$K$h$C$F$O(B jcode.pl $B$,$&$^$/F0:n$7$J$$$3$H$,$"$j$^$9(B($B$I$N%t%!!<%8%g%s$N(B Perl $B$,3:Ev$9$k$N$+$O$A$c$s$HD4$Y$F$^$;$s(B)$B!#Nc$($P!"<!$N$h$&$J%F%9%H%9%/%j%W%H$rAv$i$;$F$_$F$/$@$5$$!#(B
+<dt>Q<dd>Another HTML-lint をインストールしましたが、結果のHTMLなどが文字化けします。
+<dt>A<dd>すべて正しい設定であるとして、Perl の作られ方によっては jcode.pl がうまく動作しないことがあります(どのヴァージョンの Perl が該当するのかはちゃんと調べてません)。例えば、次のようなテストスクリプトを走らせてみてください。
 <pre class="pre-sample">    $x = 'abcd';
     &amp;foo(*x);
     sub foo {
       local(*_) = @_;
       print $_;
     }</pre>
-$B@5$7$/(B <code>abcd</code> $B$HI=<($5$l$J$$>l9g$O!"(B-Dusethread $B$7$F:n$i$l$?(B Perl $B$N2DG=@-$,$"$j$^$9!#$=$l$r30$7$F:n$jD>$7$F$_$F$/$@$5$$!#$^$?!"$I$&$7$F$b%9%l%C%I=hM}$7$?$$$H$-$O!"(Bjcode.pl $B$K<j$rF~$l$l$PF0$/$h$&$K$J$j$^$9!#(B<code>local(*_)</code> $B$J$I$,(B <code>my(*_)</code> $B$H$7$FI>2A$5$l$F$7$^$&$N$,860x$G$9!#(B<code>local(*v)</code> $B$N$h$&$KL>A0$rIU$1$l$PLdBj$J$/$J$j$^$9(B (<code>local($_)</code> $B$J$I$b$@$h(B)$B!#(Bjcode.pl $B$N$=$N$h$&$JItJ,$9$Y$F$KL>A0$rIU$1$l$PF0:n$7$^$9!#$7$+$7!"B>$N(B Perl $B%9%/%j%W%H$K$d$O$jF0$+$J$$$b$N$,=P$F$/$k$N$G!"$3$l$G$O:,K\E*$J2r7h$K$O$J$j$^$;$s!#(B(<a href="ftp://ftp.iij.ad.jp/pub/IIJ/dist/utashiro/perl/">jcode.pl 2.11</a> $B$G$O$3$NLdBj$O2~=$$5$l$F$$$k$=$&$G$9!#(B)<br>
-$B$J$*!"8=:_$O!"(Bjcode.pl$B$G$O$J$/!"(B<a href="http://openlab.ring.gr.jp/Jcode/index-j.html">Jcode.pm</a>$B$r;HMQ$7$F$$$^$9!#$3$N$H$-$O!"(B<!--$B7?%0%m%V(B(typoglob)$B$K4X$9$k(B-->$B$3$N$h$&$JLdBj$OH/@8$7$J$$$H;W$o$l$^$9!#(B
+正しく <code>abcd</code> と表示されない場合は、-Dusethread して作られた Perl の可能性があります。それを外して作り直してみてください。また、どうしてもスレッド処理したいときは、jcode.pl に手を入れれば動くようになります。<code>local(*_)</code> などが <code>my(*_)</code> として評価されてしまうのが原因です。<code>local(*v)</code> のように名前を付ければ問題なくなります (<code>local($_)</code> などもだよ)。jcode.pl のそのような部分すべてに名前を付ければ動作します。しかし、他の Perl スクリプトにやはり動かないものが出てくるので、これでは根本的な解決にはなりません。(<a href="ftp://ftp.iij.ad.jp/pub/IIJ/dist/utashiro/perl/">jcode.pl 2.11</a> ではこの問題は改修されているそうです。)<br>
+なお、現在は、jcode.plではなく、<a href="http://openlab.ring.gr.jp/Jcode/index-j.html">Jcode.pm</a>を使用しています。このときは、<!--型グロブ(typoglob)に関する-->このような問題は発生しないと思われます。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B%5!<%P$K(B <a href="http://ei5nazha.yz.yamagata-u.ac.jp/~aito/w3m/">w3m</a> $B$r%$%s%9%H!<%k$7$^$7$?$,(B Another HTML-lint $B$G7k2L$,I=<($5$l$^$;$s!#(B
-<dt>A<dd>$B%G%U%)%k%H$G!"(B-M$B%*%W%7%g%s$rIU$1$F(Bw3m$B$r8F$S=P$9$?$a!"%+%i!<5!G=$rL58z$K$7$F%3%s%Q%$%k$5$l$?(Bw3m$B$G$&$^$/F0:n$7$J$$$h$&$G$9!#%+%i!<5!G=$rM-8z$K$9$k$+!"(Bhtmllint.env $B$G(B
+<dt>Q<dd>サーバに <a href="http://ei5nazha.yz.yamagata-u.ac.jp/~aito/w3m/">w3m</a> をインストールしましたが Another HTML-lint で結果が表示されません。
+<dt>A<dd>デフォルトで、-Mオプションを付けてw3mを呼び出すため、カラー機能を無効にしてコンパイルされたw3mでうまく動作しないようです。カラー機能を有効にするか、htmllint.env で
 <pre class="pre-sample">    $W3M = '/usr/local/bin/w3m -dump -T text/html -e';</pre>
-$B$J$I$H(B -M $B$N$J$$%*%W%7%g%s$r;XDj$7$F$/$@$5$$(B($B%*%W%7%g%s$N>\:Y$O(Bw3m$B$r;2>H$N$3$H(B)$B!#(B
+などと -M のないオプションを指定してください(オプションの詳細はw3mを参照のこと)。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>Another HTML-lint $B$K$O%;%-%e%j%F%#$NLdBj$O$"$j$^$;$s$+!#(B
-<dt>A<dd>Another HTML-lint $B$O!"(BCGI$B$H$7$F<!$N$h$&$KF0:n$7$^$9!#(B
+<dt>Q<dd>Another HTML-lint にはセキュリティの問題はありませんか。
+<dt>A<dd>Another HTML-lint は、CGIとして次のように動作します。
 <ol>
-<li>$B;XDj$5$l$?(BURL$B$KBP1~$9$k%j%=!<%9$r<hF@$7!"$=$l$r%o!<%/%U%!%$%k$KJ]B8$7$^$9!#%U%!%$%k%5%$%:$K$O>e8B$r@_$1$F$$$^$9!#(B
-<li>$B%G!<%?NN0h$KD>@\;XDj$5$l$F$$$k>l9g$d!"%/%i%$%"%s%H>e$N%U%!%$%kL>$,;XDj$5$l$F$$$k>l9g$O!"$=$l$r%o!<%/%U%!%$%k$KJ]B8$7$^$9!#(B
-<li>URL$B$+$i<hF@$7$?$b$N$,(BHTML$B$G$J$+$C$?(B(text/html$B$G$J$+$C$?(B)$B>l9g$O!"$=$l$r>C5n$7$F%(%i!<$H$7$F=hM}$r=*$($^$9!#(B
-<li>$B<hF@$7$?%U%!%$%k$r(B htmllint.pm $B$G%A%'%C%/$7$^$9!#(B
-<li>HTML$BCf$N%j%s%/@h$,<BB8%A%'%C%/$N;XDj$,$"$k$H$-$O!"$=$N(BURL$B$N%X%C%@>pJs$r5a$a$^$9!#(BURL$B$NFbMF<hF@$O9T$J$$$^$;$s!#(B
-<li>$B%o!<%/%U%!%$%k$r>C5n$7$^$9!#(B
-<!--li>$BE}7W>pJsMQ$K7k2L$N%m%0$rJ]B8$7$^$9!#(B-->
-<li>$B7k2L$rJV$7$^$9!#(B
+<li>指定されたURLに対応するリソースを取得し、それをワークファイルに保存します。ファイルサイズには上限を設けています。
+<li>データ領域に直接指定されている場合や、クライアント上のファイル名が指定されている場合は、それをワークファイルに保存します。
+<li>URLから取得したものがHTMLでなかった(text/htmlでなかった)場合は、それを消去してエラーとして処理を終えます。
+<li>取得したファイルを htmllint.pm でチェックします。
+<li>HTML中のリンク先が実存チェックの指定があるときは、そのURLのヘッダ情報を求めます。URLの内容取得は行ないません。
+<li>ワークファイルを消去します。
+<li>結果を返します。
 </ol>
-$BHkL)$N(BURL$B$r;XDj$7$F%A%'%C%/$r9T$J$($P!"%5!<%P$O$=$l$rCN$jF@$^$9!#%m%0$K$b;D$j$^$9!#6q9g$N0-$$$H$-$O!"%m!<%+%k$J%5!<%P$rMQ0U$9$k$J$I$7$F$/$@$5$$!#(B<br>
-$B$^$?!"%2!<%H%&%'%$$G$"$k(B htmllint.html/htmllinte.html $B$O!"(BJavaScript$B$rMxMQ$7$F%/%C%-!<$rA`:n$7$^$9!#$3$N>pJs$O%/%i%$%"%s%HB&$G$N$_MxMQ$9$k$b$N$G!"%A%'%C%/$N>uBV$J$I$NJ];}$r9T$J$$$^$9!#%/%C%-!<$r;H$C$F$N%5!<%P$H$N$d$j<h$j$O$"$j$^$;$s!#(B
+秘密のURLを指定してチェックを行なえば、サーバはそれを知り得ます。ログにも残ります。具合の悪いときは、ローカルなサーバを用意するなどしてください。
+また、ゲートウェイである htmllint.html/htmllinte.html は、JavaScriptを利用してクッキーを操作します。この情報はクライアント側でのみ利用するもので、チェックの状態などの保持を行ないます。クッキーを使ってのサーバとのやり取りはありません。
+<p class="comment">
+しかし、代替でよそ様のサーバへアクセスする性格上、不正アクセスの踏み台とされ得ます。
+DoSアタックやパスワードファイルの参照要求などさまざまな不正が考えられます。Ringでは逐次セキュリティ強化対策を行なっています。
+</p>
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>HDML(<a href="./notice.html#hdml">Handheld Device Markup Language</a>)$B$K$OBP1~$7$J$$$N$G$9$+!#(B
-<dt>A<dd>$B%W%m%H%3%k$,A4A30c$&$N$G!"$A$g$C$HFq$7$$$G$9!#(B
-<!--HDML$B$J$I$K$D$$$F$O!"Eh@'0l;a$N!V(B<a href="http://tenten.fastwave.gr.jp/wapinfo/wap.html">WAP$B$G$o$C$W$C$W(B</a>$B!W$,$o$+$j$d$9$$$+$H;W$$$^$9!#(B-->
-$B%G!<%?NN0h;XDj$J$I$@$1$J$i$G$-$k$+$b$J$!!#(B
+<dt>Q<dd>HDML(<a href="./notice.html#hdml">Handheld Device Markup Language</a>)には対応しないのですか。
+<dt>A<dd>プロトコルが全然違うので、ちょっと難しいです。
+<!--HDMLなどについては、嶋是一氏の「<a href="http://tenten.fastwave.gr.jp/wapinfo/wap.html">WAPでわっぷっぷ</a>」がわかりやすいかと思います。-->
+データ領域指定などだけならできるかもなぁ。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>Another HTML-lint $B$O$I$&$7$F(B JPerl $B$GF0$+$J$$$N$G$9$+!#(B
-<dt>A<dd>$B$o$?$7$,(B JPerl $B$GF0$+$=$&$HEXNO$7$F$$$J$$$+$i$G$9!#$?$V$s:#8e$b$7$^$;$s!#1?$,$h$1$l$PF0$/$+$bCN$l$^$;$s$,!"J]>Z$N8B$j$G$O$"$j$^$;$s!#(B
-JPerl $B$G$&$^$/$$$+$J$$:GBg$NMW0x$O!"(BShift JIS $B%3!<%I$G$N@55,I=8=Cf$NF|K\8l$N07$$$K$h$k$b$N$G$9!#(BAnother HTML-lint $B$G$b!"$4$/0lIt$K$=$N$h$&$J@55,I=8=$r;HMQ$7$F$$$^$9$,!"(BPerl $B%9%/%j%W%H$,(B Shift JIS $B$N$H$-$O!"$&$^$/F0$/$h$&$K%(%9%1!<%W=hM}$r9T$J$C$F$$$^$9!#(B
-<!--$B$=$b$=$b!"$o$?$7$O:#$N(B JPerl $B$,7y$$$G$9!#Nc$($P!"(B[$B$!(B-$B$s(B] $B$J$I$H$$$&IT<+A36K$^$j$J$$I=5-$,$^$+$jDL$C$F$$$k8B$j!"@dBP;H$$$^$;$s!#(B-->
+<dt>Q<dd>Another HTML-lint はどうして JPerl で動かないのですか。
+<dt>A<dd>わたしが JPerl で動かそうと努力していないからです。たぶん今後もしません。運がよければ動くかも知れませんが、保証の限りではありません。
+JPerl でうまくいかない最大の要因は、Shift JIS コードでの正規表現中の日本語の扱いによるものです。Another HTML-lint でも、ごく一部にそのような正規表現を使用していますが、Perl スクリプトが Shift JIS のときは、うまく動くようにエスケープ処理を行なっています。
+<!--そもそも、わたしは今の JPerl が嫌いです。例えば、[ぁ-ん] などという不自然極まりない表記がまかり通っている限り、絶対使いません。-->
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>Another HTML-lint $B$r(B <a href="http://www.ruby-lang.org/ja/">Ruby</a> $B$GF0$+$9$K$O$I$&$9$l$P$$$$$N$G$9$+!#(B
-<dt>A<dd>$B0\?"$7$F$/$@$5$$!#$"$J$?$NOS<!Bh$G$9!#$J$*!"EvA3$G$9$,!"$3$N(B <a href="http://www.ruby-lang.org/ja/">Ruby</a> $B$H!"(BW3C$B$K$"$k(B <a href="http://www.w3.org/TR/ruby/">Ruby</a> $B$O$^$C$?$/JLJ*(B($BJ6$i$o$7$$$J$!(B)$B!#(B
+<dt>Q<dd>Another HTML-lint を <a href="http://www.ruby-lang.org/ja/">Ruby</a> で動かすにはどうすればいいのですか。
+<dt>A<dd>移植してください。あなたの腕次第です。なお、当然ですが、この <a href="http://www.ruby-lang.org/ja/">Ruby</a> と、W3Cにある <a href="http://www.w3.org/TR/ruby/">Ruby</a> はまったく別物(紛らわしいなぁ)。
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>$B$3$s$J$9$P$i$7$$%=%U%H$rL5=~$GDs6!$7$F$$$?$@$$$F!"(B<a name="beer">$B46<U$N0U$rI=$o$7$?$$$N$G$9$,(B</a>$B!#(B
-<dt>A<dd>$BMh$k$b$N$O5q$_$^$;$s!#IOK3$J3+H/<T$N$?$a$K%S!<%k$G$b2?$G$b$*$4$C$F$/$@$5$$!#(B<!--$B$?$@$7!"2?$N8+JV$j$b$"$j$^$;$s!#(B-->$B$41sN8$J$5$i$:$K$$$D$G$b$I$&$>!#<!$N$h$&$J$*$4$jJ}$,$"$j$^$9!#(B
+<dt>Q<dd>こんなすばらしいソフトを無償で提供していただいて、<a name="beer">感謝の意を表わしたいのですが</a>。
+<dt>A<dd>来るものは拒みません。貧乏な開発者のためにビールでも何でもおごってください。<!--ただし、何の見返りもありません。-->ご遠慮なさらずにいつでもどうぞ。次のようなおごり方があります。
 <ul>
-<li>$B0{$_$K9T$3$&$HM6$C$F$*$4$k!#(B<br>
-$B@iMU:_=;$G$9!#6PL3@h$O:#$N$H$3$mETFb$G$9!#%a!<%k(B(k16@chiba.email.ne.jp)$B$J$I$G<($79g$o$;$l$P!"4n$s$G=P$+$1$F9T$-$^$9!#N99T$d=PD%$J$I$G1s=P$9$k$H$-$r8+7W$i$C$F8=CO$G0{$`$H$$$&$N$b$$$$$G$9$M!#(B
-<li><a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">Vector$B7PM3$G(B</a>$B$*$4$k!#(B<br>
-Vector$B$N%7%'%"%l%8$rMxMQ$7$F$$$^$9!#<j4V$$$i$:$G4JC1$G$9!#$G$b!"<j?tNA$r(BVector$B$H6d9T$K<h$i$l$k$N$G!"?HF~$j$O$"$^$j$h$/$"$j$^$;$s!#(BVector$B>e$G$O!"(BMac/Win/UNIX$B$N%W%i%C%H%U%)!<%`$4$H$KFHN)$G$9$,!"$I$l$G$bF1$8$G$9!#(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">$B$?$/$5$s$*$4$j$?$$?M8~$1(B</a>$B$N%7%'%"%l%8$b$"$j$^$9!#(B
-<li>$BD>@\9W$.J*$r$9$k!#(B<br>
-<span title="$B>e4n85!";M5(:y!"5FI1!"(Betc..." class="title">$BBg6c>z(B</span>$B$d(B<span title="$BF#B<$N(B" class="title">$BMSf=(B</span>$B$J$I$r9W$0$H$-$O!"$4O"Mm$/$@$5$$!#AwIU@h$r$*65$($$$?$7$^$9!#9%$_$O(B<span title="$BBg6c>z$,$$$$$J$!(B" class="title">$BF|K\<r(B</span>$B$H(B<span title="$B%\%G%#$N$"$k$H$F$b=B$$$d$D$,9%$_(B" class="title">$B%o%$%s(B</span>$B$H(B<span title="$B<+J,$G:n$C$?$3$H$b$"$k$1$ICO%S!<%k$O$"$^$j9%$-$/$J$$(B" class="title">$B%S!<%k(B</span>$B$G$9!#4E$$$b$N$b9%$-$G$9!#(B
-<li>$B$*I[;\$r8}:B$KD>@\?6$j9~$`!#(B<br>$B$$$A$P$s4r$7$$$G$9!#%a!<%k$/$@$5$$!"8}:BHV9f$*CN$i$;$7$^$9!#(B
-<!--$B$:$&$:$&$7$/=q$1$P!"(B<q>$B;00f=;M'6d9T?@ED;YE9(B 3407 $B@PLn7C0lO:(B</q> $B$@$h!#<c$$8}:BHV9f$G$9$,(B 3407$B$G4V0c$$$G$O$"$j$^$;$s!#D>@\?69~$_$N>l9g$NNN<}=q$NH/9T$O1^$$$^$;$s!#(B($B$A$J$_$K!"$3$3$O;D9b$"$j$^$;$s$N$G!"E%K@$7$h$&$H$7$F$bL5BL$G$9(B)-->
+<li>飲みに行こうと誘っておごる。<br>
+千葉在住です。勤務先は今のところ都内です。メール(k16@chiba.email.ne.jp)などで示し合わせれば、喜んで出かけて行きます。旅行や出張などで遠出するときを見計らって現地で飲むというのもいいですね。
+<li><a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">Vector経由で</a>おごる。<br>
+Vectorのシェアレジを利用しています。手間いらずで簡単です。でも、手数料をVectorと銀行に取られるので、身入りはあまりよくありません。Vector上では、Mac/Win/UNIXのプラットフォームごとに独立ですが、どれでも同じです。<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">たくさんおごりたい人向け</a>のシェアレジもあります。
+<li><a href="https://www.paypal.com/j1">PayPal</a> で、k16@chiba.email.ne.jp に送金する。
+<li>直接貢ぎ物をする。<br>
+<span title="上喜元、四季桜、菊姫、etc..." class="title">大吟醸</span>や<span title="藤村の" class="title">羊羹</span>などを貢ぐときは、ご連絡ください。送付先をお教えいたします。好みは<span title="大吟醸がいいなぁ" class="title">日本酒</span>と<span title="ボディのあるとても渋いやつが好み" class="title">ワイン</span>と<span title="自分で作ったこともあるけど地ビールはあまり好きくない" class="title">ビール</span>です。甘いものも好きです。
+<li>お布施を口座に直接振り込む。ご連絡くだされば、口座番号をお知らせします。
+<!--ずうずうしく書けば、<q>三井住友銀行神田支店 3407 石野恵一郎</q> だよ。若い口座番号ですが 3407で間違いではありません。直接振込みの場合の領収書の発行は厭いません。(ちなみに、ここは残高ありませんので、泥棒しようとしても無駄です)-->
 </ul>
 </dl>
 
 <dl compact class="faq">
-<dt>Q<dd>Another HTML-lint $B$r(B<a name="payment">$B1DMxL\E*$KMxMQ$7$?$$$N$G$9$,(B</a>$B!#(B
-<dt>A<dd>$B6bLY$1$NF;6q$H$7$F(B Another HTML-lint $B$r;H$&$H$-$O!"MxMQNA$r$*;YJ'$$$/$@$5$$(B<!--a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">$B2?$,$7$+$N$*I[;\(B</a>$B$r$$$?$@$1$k$H=u$+$j$^$9(B-->$B!#Nc$($P!"(B
-$B1DMx4k6H$N<RFb%M%C%H%o!<%/$K%$%s%9%H!<%k$7$FB?$/$N<R0w$,MxMQ$9$k!"(B
-$B%W%m$N(BWeb$B20$5$s$,3+H/%D!<%k$H$7$FMxMQ$9$k!"(B
-Web$B%"%W%j$J$I$N3+H/%D!<%k$H$7$FMxMQ$9$k!"(B
-<!--$B%_%i!<$b$I$-%5%$%H$r9=C[$7$F9-9p<}F~$rF@$k!"(B-->
-$B$*$^$10J30$NL\E*$G=q@R$J$I$KE:IU$9$k!"(B
-$B<x6H$G@8EL$N(BHTML$B$N<A$NH=CG4p=`$KMxMQ$9$k!"(B
-$B$J$I$G$9!#(B
-$B$b$C$H$b$h$/$"$kMxMQ7ABV$G$"$k!"%^%7%s$K%$%s%9%H!<%k$7$F!"(BCGI$B$d%3%^%s%I%i%$%s$H$7$FMxMQ$9$k>l9g$O!"<!$N$h$&$J7W;;<0$r4pK\$H$7$F$/$@$5$$!#(B
+<dt>Q<dd>Another HTML-lint を<a name="payment">営利目的に利用したいのですが</a>。
+<dt>A<dd>金儲けの道具として Another HTML-lint を使うときは、利用料をお支払いください<!--a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">何がしかのお布施</a>をいただけると助かります-->（これは、プライマリサイトのゲートウェイサーヴィスに対するものではありません）。
+例えば、
+営利企業の社内ネットワークにインストールして多くの社員が利用する、
+プロのWeb屋さんが開発ツールとして利用する、
+Webアプリなどの開発ツールとして利用する、
+<!--ミラーもどきサイトを構築して広告収入を得る、-->
+おまけ以外の目的で書籍などに添付する、
+授業で生徒のHTMLの質の判断基準に利用する、
+などです。
+もっともよくある利用形態である、マシンにインストールして、CGIやコマンドラインとして利用する場合は、次のような計算式を基本としてください。
 <pre class="exp">
-I*15000$B1_(B + max(U-I, 0)*1500$B1_(B
-  I : $B%$%s%9%H!<%k$9$k%^%7%s?t(B
-  U : $B$*$*$h$=$N%f!<%6?t(B
+I*15000円 + max(U-I, 0)*1500円
+  I : インストールするマシン数
+  U : おおよそのユーザ数
 </pre>
-$B4|8B$OL54|8B$G$9!#$?$@$7!"8DJL%5%]!<%H$O$7$^$;$s!#(B
-$B$o$?$7(B($B@PLn7C0lO:(B k16@chiba.email.ne.jp)$B$^$G$4O"Mm$/$@$5$$!#@A5a=qEy$NH/9T$r$$$?$7$^$9!#(B
-max(U-I, 0) $B$,(B 100$B$rD6$($k>l9g$O!"%f!<%6?tL5@)8B$H$7$F!"(Bmax(U-I, 0) $B$r(B 100$B$H$7$F$/$@$5$$!#(B
-$B$^$!!"$b$C$HJ'$C$F$b$h$$$J$I$H$$$&>l9g$O(B 100$B$h$jB?$/$F$b9=$$$^$;$s!#(B
-$BITFCDjB??t$X$N%2!<%H%&%'%$%5!<%t%#%9$O!"%f!<%6?tL5@)8B$HF1MM$K$7$F$/$@$5$$!#$?$@$7!"$=$l$K$h$k9-9p<}F~$r5v2D$7$^$;$s!#(B
-$B3X9;$N<x6H$G$NMxMQ$N>l9g!"@8EL$O%f!<%6?t$K?t$($^$;$s!#(B
-$B%=%U%H%&%'%"@=IJ$X$NAH$_9~$_Ey$N>l9g$O$4AjCL$/$@$5$$!#(B
+期限は無期限です。ただし、個別サポートはしません。
+わたし(石野恵一郎 k16@chiba.email.ne.jp)までご連絡ください。請求書等の発行をいたします。
+max(U-I, 0) が 100を超える場合は、ユーザ数無制限として、max(U-I, 0) を 100としてください。
+まぁ、もっと払ってもよいなどという場合は 100より多くても構いません。
+不特定多数へのゲートウェイサーヴィスは、ユーザ数無制限と同様にしてください。ただし、それによる広告収入を許可しません。
+学校の授業での利用の場合、生徒はユーザ数に数えません。
+ソフトウェア製品への組み込み等の場合はご相談ください。
 <br>
-<!--$B<+A0$N%^%7%s$K%$%s%9%H!<%k$;$:!"(BRing$B$N%2!<%H%&%'%$$rMxMQ$9$k>l9g$O!"(B15000$B1_$G$9$,!"(B-->$B>&MQ$N>l9g$O!"(B<!--$B2DG=$J$i$P(B-->Ring$B$KIi2Y$r$+$1$J$$$h$&$K$7$FM_$7$$$H;W$$$^$9!#(B
-$B$^$?!"(BVector$B7PM3$G$N;YJ'$$$N>l9g!"F?L>$H$J$k$?$a!"$I$J$+$@;YJ'$o$l$?$N$+$o$+$j$^$;$s!#(B
+<!--自前のマシンにインストールせず、Ringのゲートウェイを利用する場合は、15000円ですが、-->商用の場合は、<!--可能ならば-->Ringに負荷をかけないようにして欲しいと思います。
+また、Vector経由での支払いの場合、匿名となるため、どなかだ支払われたのかわかりません。
 </dl>
 
+<!--
 <dl compact class="faq">
-<dt>Q<dd>$B%9%]%s%5!<$K$J$j$?$$$N$G$9$,!#(B
-<dt>A<dd>$BHs>o$K5o?4CO$N$h$$(B <a href="http://www.ring.gr.jp/">RingServer</a> $B$G$O@EE*%3%s%F%s%D$X$N9-9p$O$G$-$J$$$N$G!"%9%]%s%5!<MM$N9-9p$rA^F~$9$k$?$a$K$OJL$N%5!<%P$X0z$C1[$9I,MW$,$"$j$^$9!#$$$?$l$j$D$/$;$j%5!<%P$rMQ0U$7$F$/$@$5$k$N$J$i!"0z1[$7$r9M$($^$9$,!#(B
+<dt>Q<dd>スポンサーになりたいのですが。
+<dt>A<dd>非常に居心地のよい <a href="http://www.ring.gr.jp/">RingServer</a> では静的コンテンツへの広告はできないので、スポンサー様の広告を挿入するためには別のサーバへ引っ越す必要があります。いたれりつくせりサーバを用意してくださるのなら、引越しを考えますが。
 </dl>
+-->
 
 <hr>
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/faq.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Oct 22, 2007<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/faq.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Jun 06, 1999
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>

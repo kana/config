@@ -19,7 +19,7 @@ use vars qw($rule $HTML $line $ungetl $token $reacheof $readsize $fromfile
             %hrefAnchors %seenAnchors %seenAnchorsU %seenAnchorsID %seenAnchorsIN
             %mapAnchors %seenMapAnchors %seenMapAnchorsU %seenMapAnchorsID
             %seenFrameName $seenRelURL $headElements @ijams @istas @ilets @iswfs @irsts
-            @tableInfos @tableInfo $tableCell %linkText %linkInfo %alt $bgcolor
+            @tableInfos @tableInfo $tableCell %linkText %linkInfo %alt %bgcolor $txcolor
             $multibody $bodyline @seenLabels @seenLabel @ctrlLabels @ctrlLabel
             @seenSelect @selOption $selOptions $seenPre @seenObjects @seenObject
             @headingLevel $headingStart %formNames $needprchar
@@ -57,7 +57,7 @@ my ($SEP, $version);
 
 BEGIN {     require 5.002;  # JPerl では動作しません
 
-$VERSION = '3.46';
+$VERSION = '3.58';
 
 my $myADDRESS = 'k16@chiba.email.ne.jp';
 
@@ -181,6 +181,7 @@ EndOfUsage
                             = xhtml1t | xhtml1-transitional
                             = xhtml1f | xhtml1-frameset
                             = xhtml11
+                            = xhtml-rdfa
                             = xhtmlb
                             = xhtmlmp
                             = 15445 | iso-html
@@ -273,6 +274,7 @@ my %AttrCheckers = (
   STYLE      => \&CheckAttrSTYLE,
   TABINDEX   => \&CheckAttrTABINDEX,
   DISABLED   => \&CheckAttrDISABLED,
+  BGCOLOR    => \&CheckAttrBGCOLOR,
 );
 my %TagCheckers = (
   HTML     => \&CheckTagHTML,
@@ -467,7 +469,7 @@ sub Lint
          %hrefAnchors, %seenAnchors, %seenAnchorsU, %seenAnchorsID, %seenAnchorsIN,
          %mapAnchors, %seenMapAnchors, %seenMapAnchorsU, %seenMapAnchorsID,
          %seenFrameName, $seenRelURL, $headElements, @ijams, @istas, @ilets, @iswfs, @irsts,
-         @tableInfos, @tableInfo, $tableCell, %linkText, %linkInfo, $bgcolor,
+         @tableInfos, @tableInfo, $tableCell, %linkText, %linkInfo, %bgcolor, $txcolor,
          $multibody, $bodyline, @seenLabels, @seenLabel, @ctrlLabels, @ctrlLabel,
          @seenSelect, @selOption, $selOptions, $seenPre, @seenObjects, @seenObject,
          @headingLevel, $headingStart, %formNames, $needprchar,
@@ -506,6 +508,7 @@ sub Lint
     $metaCharset++;
   }
   $tagscnt = 0;
+  push(@headingLevel, [ 0, 0 ]);
   my ($ln, $tag);
   local $analizing = 1;
   ($ln, $tag) = &ReadTag($HTML) until $tag eq $HTML;
@@ -780,6 +783,8 @@ sub ReadTag
   $needprchar = 0 unless $token =~ /^<A(?:\s|>|$)/i;
   $ln = $.;
   local $unknownTag = 0;
+  my %oldbgcolor = %bgcolor;
+  local %bgcolor = %oldbgcolor;
   if ($TAG eq '') {
     # 次の $appElem は有効な内容がないときに無限ループを防ぐ
     &GetLine ne '' || !$appElem++ || return (0, '');
@@ -1150,7 +1155,7 @@ sub ReadTag
         my $level = $1;
         if ($headingStart <= $#headingLevel) {
           my $last = $headingLevel[$#headingLevel];
-          if ($last->[0]+1 < $level) {
+          if ($last->[0] and $last->[0]+1 < $level) {
             &Whine($., 'heading-order', xc($TAG), xc('H'.$last->[0]), $last->[1]);
           } else {
             foreach (reverse $headingStart..$#headingLevel) {
@@ -1829,7 +1834,15 @@ print "$.>$TAG:$seenSelect[1]\n";
 }
 sub CheckTagAttrFONT_COLOR
 {
-  &CheckBgColor($ATTR, $value);
+  &CheckBgColor($TAG, $ATTR, $value);
+}
+sub CheckAttrBGCOLOR
+{
+  $bgcolor{COL} = &HexColor($value);
+  $bgcolor{TAG} = $TAG;
+  if ($txcolor ne '') {
+    &CheckBgColor('BODY', 'TEXT', $txcolor);
+  }
 }
 
 sub CheckAttrCLASS
@@ -1933,26 +1946,45 @@ sub CheckTagBODY
       $seenAttrs{BACKGROUND} ne '' && $seenAttrs{BGCOLOR} eq '') {
     &Whine($., 'background', xc($TAG), xc('BACKGROUND'), xc('BGCOLOR'));
   }
-  $bgcolor = &HexColor($seenAttrs{BGCOLOR}) if $seenAttrs{BGCOLOR} ne '';
-  &CheckBgColor('TEXT',  $seenAttrs{TEXT});
-  &CheckBgColor('LINK',  $seenAttrs{LINK});
-  &CheckBgColor('VLINK', $seenAttrs{VLINK});
-  &CheckBgColor('ALINK', $seenAttrs{ALINK});
+  if ($seenAttrs{TEXT}) {
+    $txcolor = &HexColor($seenAttrs{TEXT});
+  }
+  &CheckBgColor($TAG, 'TEXT',  $seenAttrs{TEXT});
+  &CheckBgColor($TAG, 'LINK',  $seenAttrs{LINK});
+  &CheckBgColor($TAG, 'VLINK', $seenAttrs{VLINK});
+  &CheckBgColor($TAG, 'ALINK', $seenAttrs{ALINK});
 }
   sub CheckBgColor
   {
-    if ($bgcolor ne '') {
-      my ($attr, $col) = @_;
+    if (%bgcolor) {
+      my ($tag, $attr, $col) = @_;
       $col = &HexColor($col);
       if ($col ne '') {
-        if (hex($col) == hex($bgcolor)) {
-          &Whine($., 'same-bgcolor', xc($TAG), xc($attr), xc('<BODY BGCOLOR>'));
+        my $bgtag = xc("<$bgcolor{TAG} BGCOLOR>");
+        if (hex($col) == hex($bgcolor{COL})) {
+          &Whine($., 'same-bgcolor', xc($tag), xc($attr), $bgtag);
         } else {
-          my @diff = &NearColor($col, $bgcolor);
-          my $b = ($diff[0] < 125)? '明度差('.$diff[0].')': '';
-          my $c = ($diff[1] < 500)? '色差('  .$diff[1].')': '';
-          &Whine($., 'near-bgcolor', xc($TAG), xc($attr), xc('<BODY BGCOLOR>'),
-                   &Join('と', $b, $c)) if $b || $c;
+          my @x = $col =~ /(..)/g;
+          my @y = $bgcolor{COL} =~ /(..)/g;
+          my %rgbX = (R=>hex($x[0]),G=>hex($x[1]),B=>hex($x[2]));
+          my %rgbY = (R=>hex($y[0]),G=>hex($y[1]),B=>hex($y[2]));
+          my $brightnessX = &Brightness($rgbX{R},$rgbX{G},$rgbX{B});
+          my $brightnessY = &Brightness($rgbY{R},$rgbY{G},$rgbY{B});
+          my $diffb = abs($brightnessX-$brightnessY)/1000;
+          my $diffc = abs($rgbX{R}-$rgbY{R})+abs($rgbX{G}-$rgbY{G})+abs($rgbX{B}-$rgbY{B});
+          $diffb = ($diffb < 125)? '明度差('.$diffb.')': '';
+          $diffc = ($diffc < 500)? '色差('  .$diffc.')': '';
+          if ($diffb or $diffc) {
+            &Whine($., 'near-bgcolor', xc($tag), xc($attr), $bgtag,
+                       &Join(($diffb and $diffc)? 'と': '', $diffb, $diffc));
+          }
+          my $lx = &Luminosity($rgbX{R},$rgbX{G},$rgbX{B});
+          my $ly = &Luminosity($rgbY{R},$rgbY{G},$rgbY{B});
+          my $contrast = ($lx >= $ly)? ($lx+0.05)/($ly+0.05): ($ly+0.05)/($lx+0.05);
+          if ($contrast < 7.0) {
+            &Whine($., ($contrast < 4.5)? 'contrast': 'contrast-aaa',
+                       xc($tag), xc($attr), $bgtag, $contrast);
+          }
         }
       }
     }
@@ -1962,16 +1994,23 @@ sub CheckTagBODY
     my $col = shift;
     ($col =~ /^#?([0-9A-Fa-f]{6})$/)? $1: $colorTable{lc($col)};
   }
-  sub NearColor
+  sub Brightness
   {
-    my @x = shift =~ /(..)/g;
-    my @y = shift =~ /(..)/g;
-    my %rgbX = (R=>hex($x[0]),G=>hex($x[1]),B=>hex($x[2]));
-    my %rgbY = (R=>hex($y[0]),G=>hex($y[1]),B=>hex($y[2]));
-    my $brightnessX = $rgbX{R}*299+$rgbX{G}*587+$rgbX{B}*114;
-    my $brightnessY = $rgbY{R}*299+$rgbY{G}*587+$rgbY{B}*114;
-    (abs($brightnessX-$brightnessY)/1000,
-     abs($rgbX{R}-$rgbY{R})+abs($rgbX{G}-$rgbY{G})+abs($rgbX{B}-$rgbY{B}));
+    my ($r, $g, $b) = @_;
+    $r*299+$g*587+$b*114;
+  }
+  sub Luminosity
+  {
+    my $r = &GammaLinearize($_[0]);
+    my $g = &GammaLinearize($_[1]);
+    my $b = &GammaLinearize($_[2]);
+    $r*0.2126 + $g*0.7152 + $b*0.0722;
+  }
+  sub GammaLinearize
+  {
+    my $col = shift;
+    $col /= 255;
+    ($col <= 0.03928)? $col/12.92: (($col+0.055)/1.055)**2.4;
   }
 sub CheckTagLINK
 {
@@ -2121,7 +2160,7 @@ sub CheckTagMETA
       if ($sep) {
         $href = $1 if $sep eq ';' && $href =~ /^URL\s*=\s*(.*)/i;
         local $ATTR = 'CONTENT';
-        &CheckURL($href);
+        &CheckURL($href, 2);
         @refreshHTML = ($., &NormalizeURL($href)) if $href;
       }
       &Whine($., 'refresh', xc($TAG), xc('HTTP-EQUIV'), xc('REFRESH'));
@@ -2562,11 +2601,12 @@ sub ReadEndTag
     if ($xhtml && $id ne lc($id)) {
       &Whine($., 'lower-case-tag', '', "/$id") if uc($id) =~ /^(?:$allTags)$/;
     }
+    my $oid = $id;
     $id = uc($id);
     unless ($xmlns) {
       if ($id !~ /^(?:$pairTags)$/) {
         # 不明の終了タグ
-        &WhineUnknownElement($id);
+        &WhineUnknownElement("/$oid");
         &Whine($., 'closing-attribute', xc($TAG), xc($id))
           if &AdvanceCloseTag($end, $.);
         return 0;
@@ -3094,7 +3134,8 @@ sub URLs
 
 sub CheckURL
 {
-  my $value = shift;
+  my ($value, $urichk) = @_;
+  $urichk or ($urichk = 1);
   my $reluri = 0;
   if ($value =~ /^\s*$/) {
     &Whine($., 'empty-url', xc($TAG), xc($ATTR));
@@ -3150,7 +3191,7 @@ sub CheckURL
         my $exurl = '';
         while ($urlscan =~ /^([^&]*)(&.*)/) {
           my ($scanned, $c) = ($1);
-          ($urlscan, $c) = &CheckRefEntities($2, 1, 1);
+          ($urlscan, $c) = &CheckRefEntities($2, $urichk, 1);
           $exurl .= $scanned.$c;
           $illchar += &CheckCharURL($scanned, $url);
         }
@@ -3413,7 +3454,7 @@ sub SplitFragmentID
     if ($urlscan =~ /^([^:?#]*):/) {
       $scheme = $1;
       if ($scheme !~ /^($RFC2396::scheme)$/o) {
-        $scheme = substr($url, 0, length($url)-length($urlscan)+length($scheme)-1);
+        $scheme = substr($url, 0, length($url)-length($urlscan)+length($scheme));
       }
     }
     $url = $urlscan if $scheme ne '';
@@ -3584,7 +3625,9 @@ sub ReadPCDATA
       $pcdata .= $pre;
       if ($delim eq '&') {
         $pcdata .= $line;
-        ($line) = &CheckRefEntities($line);
+        my $pcode;
+        ($line, $pcode) = &CheckRefEntities($line);
+        $pretab++ if $pcode eq "\t";
         substr($pcdata, -length($line)) = '';
       } else {
         last if $delim ne '"' && &CheckTag ne '';
@@ -3738,7 +3781,9 @@ sub GetAttrName
       } else {
         if (!$tagsElements{$TAG}) {
           $minetag = $TAG;
-          &Whine($., 'contain-no-space', xc($TAG)) if $line =~ m#^>\s#;
+          if ($TAG !~ /^([^:]+):/ or !$xhtml) {
+            &Whine($., 'contain-no-space', xc($TAG)) if $line =~ m#^>\s#;
+          }
         }
       }
     }
@@ -4543,16 +4588,16 @@ sub FormatAttrGuide
 sub FormatOtherHTMLsGuide
 {
 # if ($#_ > 4) {
-#   &FormatGuide('', '', '他のHTML');
+   &FormatGuide('', '', '他のHTML');
 # } else {
-    my @htmls;
-    my $last;
-    foreach (sort {${$::doctypes{$a}}{order} <=> ${$::doctypes{$b}}{order}} @_) {
-      my $html = (${$::doctypes{$rule}}{group} eq ${$::doctypes{$_}}{group})?
-                  ${$::doctypes{$_}}{abbr}: ${$::doctypes{$_}}{group};
-      push(@htmls, $last = $html) if $last ne $html;
-    }
-    ' '.&FormatGuide('', '', join('|', @htmls)).' ';
+#    my @htmls;
+#    my $last;
+#    foreach (sort {${$::doctypes{$a}}{order} <=> ${$::doctypes{$b}}{order}} @_) {
+#      my $html = (${$::doctypes{$rule}}{group} eq ${$::doctypes{$_}}{group})?
+#                  ${$::doctypes{$_}}{abbr}: ${$::doctypes{$_}}{group};
+#      push(@htmls, $last = $html) if $last ne $html;
+#    }
+#    ' '.&FormatGuide('', '', join('|', @htmls)).' ';
 # }
 }
 
@@ -4715,6 +4760,8 @@ sub WhineUnknownElement
           &Whine($., 'other-html-element', xc($TAG), &FormatOtherHTMLsGuide(@htmls));
           return 1;
         }
+      } else {
+        return 0 if $xhtml;
       }
       &Whine($., 'unknown-element', $tag);
       &::PushStat('UnknownElement', $tag) if $opt_stat;
@@ -4779,7 +4826,7 @@ sub WhineOmitEndTag
 
 sub Whine
 {
-  unless (defined(%messages)) { # デバグ用
+  unless (%messages) { # デバグ用
     print @_, "\n";
     return;
   }
@@ -5179,7 +5226,7 @@ sub ReadOptions
 
 sub ListWarnings(;\@)
 {
-  &ReadWarnings unless defined(%messages);
+  &ReadWarnings unless %messages;
   my $aref = shift;
   my %msgshort;
   foreach my $id (keys %shortid) { $msgshort{$shortid{$id}} = $id; }
@@ -5231,7 +5278,7 @@ sub CallCGI
 
 sub ReadWarnings
 {
-# return if defined(%messages);
+# return if %messages;
   my (@elem, $rel, $acc, $id, $default, $msg, $alias, $n, $nalias);
   my $i = 0;
   while (<DATA>) {
@@ -5779,10 +5826,13 @@ background:bg
   <$argv[0]> で $argv[1] 属性を指定したときは $argv[2] 属性も指定するようにしましょう。
 same-bgcolor:sbg
   ENABLE 3
-  <$argv[0]> の $argv[1] 属性の色指定が $argv[2] の色と同じです。
+  <$argv[0] $argv[1]> の色指定が $argv[2] の色と同じです。
 near-bgcolor:nbg
   ENABLE 3
-  <$argv[0]> の $argv[1] 属性の色指定と $argv[2] の色は$argv[3]が不十分です。
+  <$argv[0] $argv[1]> の色指定と $argv[2] の色は$argv[3]が不十分です。
+contrast:con contrast-aaa
+  ENABLE 3   1
+  <$argv[0] $argv[1]> の色指定と $argv[2] の色は輝度比($argv[3])が不十分です。
 repeated-id:ri
   ENABLE 7
   <$argv[0]> の $argv[1] 属性の値 `$argv[2]` は $argv[3]行目ですでに使われています。

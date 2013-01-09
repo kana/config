@@ -38,7 +38,8 @@
 #           0.36 2001/02/24 (A*|B*|C*) != (A|B|C)*
 #           0.37 2001/03/13 binmode STDOUT
 #           0.38 2008/02/19 HTML+ ISOlat1 ISOnum ISOdia SDATA 調整
-$VERSION = '0.38';
+#           0.39 2008/12/29 Undefined parameter entity を die から warn に
+$VERSION = '0.39';
 
 # Copyright (c) 1997 ISHINO Keiichiro. All rights reserved.
 
@@ -925,7 +926,7 @@ sub ExtendRefParam
   $param =~ /$nameStr/o; # % と ; を除く
   local($name) = $&;
   $param = ($paramFile{$name} or $paramEntities{$name}); # 空文字列かも知れない
-  die "$.: Undefined parameter entity '$param' (\%$name)\n" unless defined($param);
+  warn "$.: Undefined parameter entity \%$name\n" unless defined($param);
   if ($param =~ /^($charData)$/o) {
     # CDATA や NUMBER のときは実体参照を残す
     $parameters{$name} = $param;

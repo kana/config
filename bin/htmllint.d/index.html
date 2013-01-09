@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-2022-JP">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!--meta http-equiv="Keywords" content="k16, HTML, lint"-->
 <link rel="stylesheet" type="text/css" href="./htmllint.css">
 <link rel="contents" href="./index.html">
@@ -9,7 +9,7 @@
 <title>Another HTML-lint</title>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#660066" alink="#FF0000">
+<body>
 <div align="center" class="nav">
 [prev]
 [<a href="./sitemap.html">sitemap</a>]
@@ -19,88 +19,92 @@
 <h1><span>Another HTML-lint</span></h1>
 
 <table summary="toc" width="100%" border="0" class="contents">
-<tr><th abbr="contents" align="right"><a href="./index.html">$BL\<!(B</a>$B!!(B<br></th><td><a href="./introduction.html">$B$O$8$a$K(B</a>$B!!!!!!!!!!!!(B</td>
-    <td align="right">$B!!(B<a href="./htmllint.html">$B%2!<%H%&%'%$%5!<%t%#%9(B</a></td></tr>
-<tr><td></td><td><a href="./notice.html">$B$$$/$D$+$N3P$(=q$-(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="./htmllintl.html">$B4J0W%2!<%H%&%'%$(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgi$B$N;H$$J}(B</a></td>
-    <td align="right">$B!!!!!!!!!!!!!!(B<a href="./explain.html">$B7k2L$N2r@b(B</a></td></tr>
-<tr><td></td><td><a href="./use-htmllint.html">htmllint$B$N;H$$J}(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!(B<a href="./tagslist.html">$B%?%00lMw(B</a></td></tr>
-<tr><td></td><td><a href="./rulefile.html">$B5,B'%U%!%$%k$N@8@.(B</a>$B!!(B</td>
-    <td align="right">$B!!!!!!!!!!!!!!!!!!(B<a href="./colors.html">$B?'8+K\(B</a></td></tr>
-<tr><td></td><td><a href="./download.html">$B%@%&%s%m!<%I(B</a>$B!!!!!!!!(B</td></tr>
-<tr><td></td><td><a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B!!!!(B</td></tr>
-<tr><td></td><td><a href="./reference.html">$B;29M$^$G$K(B</a>$B!!!!!!!!!!(B</td>
-    <td align="right">$B!!!!(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B:n<T$K%S!<%k$r$*$4$k(B</a></td></tr>
-<tr><td></td><td><a href="./faq.html">$B$h$/$"$k<ALd$HEz(B</a>$B!!!!(B</td>
-    <td align="right">$B!!!!!!!!(B<a href="http://openlab.ring.gr.jp/k16/htmllint/index.html">$B%W%i%$%^%j%5%$%H(B</a></td></tr>
+<tr><th abbr="contents" align="right"><a href="./index.html">目次</a>　<br></th><td><a href="./introduction.html">はじめに</a>　　　　　　</td>
+    <td align="right">　<a href="./htmllint.html">ゲートウェイサーヴィス</a></td></tr>
+<tr><td></td><td><a href="./notice.html">いくつかの覚え書き</a>　</td>
+    <td align="right">　　　　<a href="./htmllintl.html">簡易ゲートウェイ</a></td></tr>
+<tr><td></td><td><a href="./use-htmllintcgi.html">htmllint.cgiの使い方</a></td>
+    <td align="right">　　　　　　　<a href="./explain.html">結果の解説</a></td></tr>
+<tr><td></td><td><a href="./use-htmllint.html">htmllintの使い方</a>　　</td>
+    <td align="right">　　　　　　　　<a href="./tagslist.html">タグ一覧</a></td></tr>
+<tr><td></td><td><a href="./rulefile.html">規則ファイルの生成</a>　</td>
+    <td align="right">　　　　　　　　　<a href="./colors.html">色見本</a></td></tr>
+<tr><td></td><td><a href="./download.html">ダウンロード</a>　　　　</td></tr>
+<tr><td></td><td><a href="./mailinglist.html">メーリングリスト</a>　　</td></tr>
+<tr><td></td><td><a href="./reference.html">参考までに</a>　　　　　</td>
+    <td align="right">　　<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">作者にビールをおごる</a></td></tr>
+<tr><td></td><td><a href="./faq.html">よくある質問と答</a>　　</td>
+    <td align="right">　　　　<a href="http://openlab.ring.gr.jp/k16/htmllint/index.html">プライマリサイト</a></td></tr>
 </table>
 
 <blockquote class="link-free"><hr class="none">
-Another HTML-lint $B$O4pK\E*$K$O%U%j!<$G$9!#(B<strong>$BHs1DMxL\E*$J$i$P(B</strong>$BL5CG$G:FMxMQ:F7G:\$7$F9=$$$^$;$s!#$=$N:]!"%W%i%$%^%j%5%$%H$X$N%j%s%/(B<!--$B$HCx:n8"I=<((B-->$B$r:o=|$7$F$O$J$j$^$;$s!#%5%$%H4IM}<T$N=j:_$HLd9g$;@h$rL@<($7$F$/$@$5$$!#9-9pI=<($b$7$J$$$G$/$@$5$$!#(B
-<a href="./faq.html#payment">$B1DMxL\E*$KMxMQ$9$k>l9g$O$3$A$i(B</a>$B$rFI$s$GMxMQNA$r$*;YJ'$$$/$@$5$$(B<!--a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">$B$*I[;\(B</a>$B$r$$$?$@$1$k$H=u$+$j$^$9(B-->$B!#(B
-$B9-9pI=<($rH<$&%5!<%t%#%9$rE83+$9$k$3$H$O6X$8$^$9!#(B<br>
-$B$3$N%5%$%H$O:n<T$N4IM}30$K$"$j$^$9!#$3$3$K%j%s%/$rD%$k>l9g$O!"$3$N%5%$%H$N4IM}<T$K$43NG'$/$@$5$$!#(B<a href="http://openlab.ring.gr.jp/k16/htmllint/index.html">$B%W%i%$%^%j%5%$%H(B</a>$B$X$N%j%s%/$O<+M3$K$J$5$C$F9=$$$^$;$s!#(B
-$B=q@REy$X$N7G:\$N>l9g!"$40lJs$/$@$5$k$HK\20$GN)$AFI$_%A%'%C%/$,$G$-$k$N$G$A$g$C$H4r$7$$$G$9!#(B
+Another HTML-lint は基本的にはフリーです。<strong>非営利目的ならば</strong>無断で再利用再掲載して構いません。その際、プライマリサイトへのリンク<!--と著作権表示-->を削除してはなりません。サイト管理者の所在と問合せ先を明示してください。広告表示もしないでください。
+<a href="./faq.html#payment">営利目的に利用する場合はこちら</a>を読んで利用料をお支払いください<!--a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR026605&amp;site=v&amp;sid=335404740">お布施</a>をいただけると助かります-->。
+広告表示を伴うサーヴィスを展開することは禁じます。<br>
+このサイトは作者の管理外にあります。ここにリンクを張る場合は、このサイトの管理者にご確認ください。<a href="http://openlab.ring.gr.jp/k16/htmllint/index.html">プライマリサイト</a>へのリンクは自由になさって構いません。
+<!--書籍等への掲載の場合、ご一報くださると本屋で立ち読みチェックができるのでちょっと嬉しいです。-->
 <br>
-<hr>$BCm0U(B: <!--a href="http://www.vector.co.jp/vpack/browse/person/an000106.html"--><a href="http://www.asahi-net.or.jp/~rh5k-isn/">$B$o$?$7(B</a>$B$O!">lKv$N0l2p$N$d$/$6$J%W%m%0%i%^$G$"$j!"(BHTML$B$N@lLg2H$G$b2?$G$b$"$j$^$;$s!#(BCGI$B$N@lLg2H$G$b$"$j$^$;$s!#%$%s%?%M%C%H$N@lLg2H$G$b$"$j$^$;$s!#(BHTML$B$J$I$K4X$9$k@lLgE*$J<ALd$K$O$*Ez$($G$-$^$;$s$,!"(B<a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B$KEj9F$9$l$P$I$J$?$+Ez$($F$/$@$5$k$+$bCN$l$^$;$s!#(B
-$B$J$*!"$o$?$7$X$NF?L>$N%@%$%l%/%H%a!<%k$O<u$1IU$1$^$;$s!J%9%Q%`07$$$G$9!K!#$-$A$s$HL>>h$C$F$/$@$5$$!#(B
-&#x2014; $B$3$3?tG/!"(BXSL$B$K4X$o$C$F$$$^$9(B &#x261E; <a href="http://www.antennahouse.com/">XSL Formatter</a>
-<br>$B$J$*!">CHq$5$l$?=5Kv$HLkCf$N$?$a$K(B<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">$B%S!<%kBe$/$i$$?6$kIq$C$F$d$m$&(B</a>$B!"$H$$$&J}$N(B<a href="./faq.html#beer">$B?=$7=P$O5q$_$^$;$s(B</a> <code>:-)</code>
+<hr>注意: <!--a href="http://www.vector.co.jp/vpack/browse/person/an000106.html"--><a href="http://www.asahi-net.or.jp/~rh5k-isn/">わたし</a>は、場末の一介のやくざなプログラマであり、HTMLの専門家でも何でもありません。CGIの専門家でもありません。インタネットの専門家でもありません。HTMLなどに関する専門的な質問にはお答えできませんが、<a href="./mailinglist.html">メーリングリスト</a>に投稿すればどなたか答えてくださるかも知れません。
+なお、わたしへの匿名のダイレクトメールは受け付けません（スパム扱いです）。きちんと名乗ってください。
+&#x2014; ここ数年、XSLに関わっています &#x261E; <a href="http://www.antenna.co.jp/AHF/">AH Formatter</a>
+<br>なお、消費された週末と夜中のために<a href="http://sw.vector.co.jp/swreg/detail.info?srno=SR011941&amp;site=v&amp;sid=335404740">ビール代くらい振る舞ってやろう</a>、という方の<a href="./faq.html#beer">申し出は拒みません</a> <code>:-)</code>
 <hr class="none"></blockquote>
 
 
 <hr class="none">
-<h2 class="title"><a name="changes">$B:G6a$N<g$JJQ99E@(B</a></h2>
+<h2 class="title"><a name="changes">最近の主な変更点</a></h2>
 <table summary="changed" border="0" class="changes">
 <col class="newimg"><col class="version"><col class="date">
-<tr><th abbr="general" align="left" colspan="2">$BA4HL(B</th></tr>
-<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2008/02/19</td><td><a href="./notice.html#htmlplus">HTML+</a>$B$N(BDTD$B$r99?7$7$^$7$?!#(B<!--$BK*C+MNM4(B--></td></tr>
-<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2005/03/12</td><td>$B%A%'%C%/%*%W%7%g%s$N%A%'%C%/%\%C%/%9$NA0$K%(%i!<$N=EMWEY$rI=<($7$^$7$?!#(B</td></tr>
-<!--tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2005/01/10</td><td>FAQ$B$K(B<a href="faq.html#famousesite">$B?7%M%?(B</a>$B!#(B</td></tr-->
-<!--tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2004/01/23</td><td>FAQ$B$K(B<a href="faq.html#detect-encoding">$B?7%M%?(B</a>$B$H(B<a href="faq.html#commercial">$B99?7%M%?(B</a>$B!#(B($B8e<T$O$I$&$b4*0c$$$7$F$$$k?M$,B?$$$N$GE#$r;I$7$H$/(B)</td></tr-->
-<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2000/03/25</td><td><a href="./download.html#download">$B%@%&%s%m!<%I%$%a!<%8(B</a>$B$K!"%U%k%Q%C%1!<%8$@$1$G$J$/%3%s%F%s%DJL$K:YJ,$7$?$b$N$bMQ0U$7$^$7$?!#(B</td></tr>
-<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1999/07/12</td><td>$B$h$&$d$/=E$$9x$r$"$2$F!"(B<a href="./mailinglist.html">$B%a!<%j%s%0%j%9%H(B</a>$B$rMQ0U$7$F$b$i$$$^$7$?!#$S$7$P$7%P%0Js9p$G$b$7$F$/$@$5$$!#(B</td></tr>
-<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1998/10/11</td><td>MSIE4.0$BMQ$K(B<a href="./htmllinte.html">DynamicHTML$B$rMQ$$$?%2!<%H%&%'%$(B</a>$B$r:n$C$F$_$^$7$?!#(B</td></tr>
-<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1998/01/06</td><td>Ring$B$X0\E>!#(B</td></tr>
-<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1997/06/24</td><td>$B1?MQ3+;O!#(B</td></tr>
+<tr><th abbr="general" align="left" colspan="2">全般</th></tr>
+<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2011/01/10</td><td>HTMLのエンコードをUTF-8に変更しました。これは、IEのバグによりISO-2022-JPが表示できなくなったためで、不本意な修正。</td></tr>
+<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2010/06/10</td><td>LZHによる配布を終了しました。ClassicMac版の配布も終了しました。</td></tr>
+<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2008/02/19</td><td><a href="./notice.html#htmlplus">HTML+</a>のDTDを更新しました。<!--蜂谷洋祐--></td></tr>
+<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2005/03/12</td><td>チェックオプションのチェックボックスの前にエラーの重要度を表示しました。</td></tr>
+<!--tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2005/01/10</td><td>FAQに<a href="faq.html#famousesite">新ネタ</a>。</td></tr-->
+<!--tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2004/01/23</td><td>FAQに<a href="faq.html#detect-encoding">新ネタ</a>と<a href="faq.html#commercial">更新ネタ</a>。(後者はどうも勘違いしている人が多いので釘を刺しとく)</td></tr-->
+<!--tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>2000/03/25</td><td><a href="./download.html#download">ダウンロードイメージ</a>に、フルパッケージだけでなくコンテンツ別に細分したものも用意しました。</td></tr-->
+<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1999/07/12</td><td>ようやく重い腰をあげて、<a href="./mailinglist.html">メーリングリスト</a>を用意してもらいました。びしばしバグ報告でもしてください。</td></tr>
+<!--tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1998/10/11</td><td>MSIE4.0用に<a href="./htmllinte.html">DynamicHTMLを用いたゲートウェイ</a>を作ってみました。</td></tr-->
+<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1998/01/06</td><td>Ringへ移転。</td></tr>
+<tr><td align="right" valign="top"></td><td></td><td valign="top" nowrap>1997/06/24</td><td>運用開始。</td></tr>
 
 <tr><th abbr="htmllint.pm" align="left" colspan="2">htmllint.pm</th></tr>
-<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>3.46</td><td valign="top" nowrap>2008/04/10</td><td>$B:FD4@0!#(B</td></tr>
-<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>3.45</td><td valign="top" nowrap>2008/04/09</td><td>UTF-8$B$r(BShift-JIS$B$K8mH=Dj$9$k$3$H$,$"$j!"B?>/D4@0$7$^$7$?!#(B</td></tr>
-<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>3.44</td><td valign="top" nowrap>2008/03/20</td><td>CGI$B$G$J$/$F$b(B -e u $B$K$h$C$FAjBP(BURL$B$NB8:_$r%A%'%C%/$G$-$k$h$&$K$7$^$7$?!#(B</td></tr>
+<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>3.58</td><td valign="top" nowrap>2010/11/15</td><td>Perl5.12での警告を修正しました。</td></tr>
+<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>3.57</td><td valign="top" nowrap>2009/05/21</td><td>空白などを含む不正スキームのときメッセージが正しくありませんでした。</td></tr>
+<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>3.56</td><td valign="top" nowrap>2009/05/01</td><td>&lt;pre&gt;内の文字参照のタブが警告されていませんでした。</td></tr>
 
 <tr><th abbr="htmllint.cgi" align="left" colspan="2">htmllint.cgi</th></tr>
-<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>1.21</td><td valign="top" nowrap>2006/01/28</td><td>HTTP_ACCEPT$B$r(B text/html, application/xhtml+xml, */*;q=0.1 $B$KJQ99$7$^$7$?!#(B</td></tr>
+<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>1.27</td><td valign="top" nowrap>2010/11/15</td><td>$KANJICODEの指定が効いていませんでした。</td></tr>
+<tr><td align="right" valign="top"></td><td align="right" valign="top" nowrap>1.24</td><td valign="top" nowrap>2008/09/26</td><td>結果のHTMLに&lt;mata /&gt;と書いていました。</td></tr>
 
 </table>
 
 <hr class="none">
-<h2 class="title"><a name="pendings">$B:#8e$N2]Bj(B</a></h2>
+<h2 class="title"><a name="pendings">今後の課題</a></h2>
 <ul class="pendings">
+<li><a href="http://www.w3.org/TR/WCAG20/">WCAG 2.0</a>
 <li><a href="http://www.w3.org/html/wg/html5/">HTML 5</a>
-<li>$BC/$+!"$b$C$HM%$l$?%W%m%0%i%`$r=q$$$F$/$@$5$$!#(B
-<li>XHTML1.1$B$N(B&lt;ruby&gt;$B$,$$$^$$$A!#(B
-<li>&lt;TABLE&gt;$B$^$o$j$$$m$$$m!#(B
+<li>誰か、もっと優れたプログラムを書いてください。
+<li>XHTML1.1の&lt;ruby&gt;がいまいち。
+<li>&lt;TABLE&gt;まわりいろいろ。
 <!--li>JIS X 0213:2000-->
-<!--li>$B=$I|5!G=!#(B-->
-<!--li>$B%^%/%mI=5-(B <code>&amp;{ ... };</code> $B$NI>2A!#(B-->
-<!--li>401$B$NG'>Z$,$&$^$/=hM}$G$-$J$$$+$J!#(B-->
-<li>$B7Y9p%a%C%;!<%8$N1QLu!#$a$s$I$/$5$$$7<+?.$b$J$$!#$@$$$?$$F14|$H$jB3$1$k%Q%o!<$b$J$$!#(B
+<!--li>修復機能。-->
+<!--li>マクロ表記 <code>&amp;{ ... };</code> の評価。-->
+<!--li>401の認証がうまく処理できないかな。-->
+<li>警告メッセージの英訳。めんどくさいし自信もない。だいたい同期とり続けるパワーもない。
 <!--
-<li>$B3+;O%?%0D>8e$H=*N;%?%0D>A0$N2~9T$OL57Y9p$K!#(B
-<li>HTML4.0$B$G$O(BCDATA$BB0@-$N@h9T8e9T$9$k6uGr$OL5;k$5$l$k!#(B
+<li>開始タグ直後と終了タグ直前の改行は無警告に。
+<li>HTML4.0ではCDATA属性の先行後行する空白は無視される。
 -->
-<!--li>JavaScript $B$NJ8K!%A%'%C%/$b$7$h$&$+!#$G$-$C$3$J$$$h!#(B-->
-<!--li>XML$B$J$s$F$I$&$7$h$&$+$J$!!#$3$l$bBgJQ$@!#:#$N:n$j$8$c$G$-$J$$$J!#(B-->
-<!--$B$I$A$i$+0lJ}$7$+=q$1$J$$%?%0$KBP$9$kH=Dj$,4E$$!#(B-->
-<!--&lt;AREA&gt;$B$N(BCOORDS$B$O!"(BDTD$B$G$O%3%s%^6h@Z$j$H$7$+=q$+$l$F$$$J$$$,!"<B:]$O6uGr6h@Z$j$G$b$h$$$h$&$@!#$^$?!"(BSHAPE=DEFAULT$B0J30$G$O(BCOORDS$B$N;XDj$OI,MW$i$7$$!#(B-->
+<!--li>JavaScript の文法チェックもしようか。できっこないよ。-->
+<!--li>XMLなんてどうしようかなぁ。これも大変だ。今の作りじゃできないな。-->
+<!--どちらか一方しか書けないタグに対する判定が甘い。-->
+<!--&lt;AREA&gt;のCOORDSは、DTDではコンマ区切りとしか書かれていないが、実際は空白区切りでもよいようだ。また、SHAPE=DEFAULT以外ではCOORDSの指定は必要らしい。-->
 </ul>
 
 <hr>
-<p align="center" class="insert-your-info"><em>$B$3$N%5%$%H$N1?1D$O:n<T$,9T$J$C$F$$$k$o$1$G$O$"$j$^$;$s$N$G$4Cm0U$/$@$5$$!#(B<br>$B:n<T$,4IM}$7$F$$$k$N$O(B<a href="http://openlab.ring.gr.jp/k16/htmllint/index.html">$B%W%i%$%^%j%5%$%H(B</a>$B$@$1$G$9!#(B<br>$B$3$N%5%$%H$N4IM}?M$O$=$NO"Mm@h$rL@5-$7$F$/$@$5$$!#L@5-$5$l$F$$$J$$%5%$%H$O@5$7$/$J$$MxMQ7ABV$G$9!#(B</em></p>
-<div align="center"><address>Updated: Apr 10, 2008<br>
+<p align="center" class="insert-your-info"><em>このサイトの運営は作者が行なっているわけではありませんのでご注意ください。<br>作者が管理しているのは<a href="http://openlab.ring.gr.jp/k16/htmllint/index.html">プライマリサイト</a>だけです。<br>このサイトの管理人はその連絡先を明記してください。明記されていないサイトは正しくない利用形態です。<br><a href="faq.html#payment">営利目的の利用は有料</a>です。</em><br>著作権表示を除き、HTMLの改変は自由に行なってください。</p>
+<div align="center"><address>Updated: Nov 28, 2011<br>
 Created: Jun 19, 1997
 &#xA9; by k16@chiba.email.ne.jp
 </address></div>
