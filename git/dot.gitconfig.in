@@ -85,9 +85,9 @@
 	rw = reset --hard ORIG_HEAD
 	rx = reset --mixed
 	s = show
-	s1 = show HEAD@{1}
-	s2 = show HEAD@{2}
-	s3 = show HEAD@{3}
+	s1 = show HEAD~1
+	s2 = show HEAD~2
+	s3 = show HEAD~3
 	sa = stash apply
 	sd = stash drop
 	since = <<<
