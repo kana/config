@@ -25,4 +25,49 @@ git remote add github "git@github.com:kana/$project_name.git"
 add_file README.md </dev/null
 git commit -am 'Initial commit'
 
+if [ "${project_name#vim-}" != "$project_name" ]
+then
+  add_file Gemfile <<'END'
+source 'https://rubygems.org'
+
+gem 'vim-flavor', '~> 1.1'
+END
+  git commit -am 'Add a Gemfile for development dependencies'
+
+  add_file Rakefile <<'END'
+#!/usr/bin/env rake
+
+task :ci => [:dump, :test]
+
+task :dump do
+  sh 'vim --version'
+end
+
+task :test do
+  sh 'bundle exec vim-flavor test'
+end
+END
+  git commit -am 'Add a Rakefile for routine works'
+
+  add_file VimFlavor <<'END'
+# No dependencies.
+END
+  git commit -am 'Add a VimFlavor for runtime dependencies'
+
+  add_file .travis.yml <<'END'
+language: ruby
+rvm:
+  - 2.0.0
+script: rake ci
+END
+  git commit -am 'Configure Travis CI to use vim-flavor'
+
+  add_file .gitignore <<'END'
+.vim-flavor
+Gemfile.lock
+VimFlavor.lock
+END
+  git commit -am 'Add a .gitignore for intermediate stuffs'
+fi
+
 # __END__
