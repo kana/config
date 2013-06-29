@@ -211,9 +211,6 @@ set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
 set directory=.,~/tmp
 set noequalalways
-set foldopen&
-  " Patch: http://github.com/kana/vim/commits/hack%2Ffoldopen-map
-silent! set foldopen+=map
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
