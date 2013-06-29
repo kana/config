@@ -52,10 +52,10 @@
 	ls = ls-files
 	m = merge --log
 	mb = merge-base
-	merge-to-integrate = !git m --no-ff
-	merge-to-pull = !git m --ff
-	mi = !git merge-to-integrate
-	mp = !git merge-to-pull
+	merge-to-integrate = !git mi
+	merge-to-pull = !git mp
+	mi = git merge --no-ff
+	mp = git merge --ff
 	pushall = <<<
 		for remote in $(
 			git config --get-regexp \
