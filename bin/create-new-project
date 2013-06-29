@@ -7,9 +7,7 @@ then
 fi
 project_name="$1"
 
-mkdir ~/Dropbox/working/$project_name.git
-cd ~/Dropbox/working/$project_name.git
-git init --bare
+git init --bare ~/Dropbox/working/$project_name.git
 
 echo 'Do not forget to create a repository on github!'
 
