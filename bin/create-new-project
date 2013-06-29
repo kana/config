@@ -11,13 +11,18 @@ git init --bare ~/Dropbox/working/$project_name.git
 
 echo 'Do not forget to create a repository on github!'
 
+add_file()
+{
+  cat >"$1"
+  git add "$1"
+}
+
 mkdir ~/working/$project_name
 cd ~/working/$project_name
 git init
 git remote add dropbox ~/Dropbox/working/$project_name.git
 git remote add github git@github.com:kana/$project_name.git
-touch README.md
-git add README.md
+add_file README.md </dev/null
 git commit -am 'Initial commit'
 
 # __END__
