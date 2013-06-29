@@ -18,24 +18,6 @@ git remote add dropbox ~/Dropbox/working/$project_name.git
 git remote add github git@github.com:kana/$project_name.git
 touch README.md
 git add README.md
-git submodule add ../mduem
-git submodule init
-cat <<'END' >Makefile
-# Makefile for usual Vim plugin
-
-REPOS_TYPE := vim-script
-INSTALLATION_DIR := $(HOME)/.vim
-TARGETS_STATIC = $(filter-out t/%,$(filter %.vim %.txt,$(all_files_in_repos)))
-TARGETS_ARCHIVED = $(all_files_in_repos) mduem/Makefile
-
-
-
-
-include mduem/Makefile
-
-# __END__
-END
-git add Makefile
-git commit -am 'Import mduem'
+git commit -am 'Initial commit'
 
 # __END__
