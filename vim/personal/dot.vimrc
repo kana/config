@@ -117,9 +117,6 @@
 " Absolute  "{{{2
 
 if !exists('s:loaded_my_vimrc')
-  " Don't reset twice on reloading - 'compatible' has SO many side effects.
-  set nocompatible  " to use many extensions of Vim.
-
   runtime flavors/bootstrap.vim
 endif
 
