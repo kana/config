@@ -249,7 +249,10 @@ set viminfo=<50,'10,h,r/a,n~/.viminfo
 let &statusline = ''
 let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
-let &statusline .= '[%{&l:fileencoding == "" ? &encoding : &l:fileencoding}]'
+let &statusline .= '['
+let &statusline .=   '%{&l:fileencoding == "" ? &encoding : &l:fileencoding}'
+let &statusline .=   '%{&l:bomb ? "/BOM" : ""}'
+let &statusline .= ']'
 let &statusline .= '[%{&l:fileformat}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
