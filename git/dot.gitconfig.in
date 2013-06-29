@@ -74,7 +74,8 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	review = <<<
-		git log -p --reverse "${1:master}..HEAD" --
+		test $# == 2 || echo 'Usage: git review INTEGRATED TOPIC'
+		git log -p --reverse "$1..$2" --
 	>>>
 	rh = reset --hard
 	ri = <<<
