@@ -7,36 +7,67 @@ then
 fi
 project_name="$1"
 
-mkdir ~/Dropbox/working/$project_name.git
-cd ~/Dropbox/working/$project_name.git
-git init --bare
+git init --bare "$HOME/Dropbox/working/$project_name.git"
 
 echo 'Do not forget to create a repository on github!'
 
-mkdir ~/working/$project_name
-cd ~/working/$project_name
+add_file()
+{
+  cat >"$1"
+  git add "$1"
+}
+
+mkdir "$HOME/working/$project_name"
+cd "$HOME/working/$project_name"
 git init
-git remote add dropbox ~/Dropbox/working/$project_name.git
-git remote add github git@github.com:kana/$project_name.git
-git remote add origin $PWD
-git submodule add ../mduem
-git submodule init
-cat <<'END' >Makefile
-# Makefile for usual Vim plugin
+git remote add dropbox "$HOME/Dropbox/working/$project_name.git"
+git remote add github "git@github.com:kana/$project_name.git"
+add_file README.md </dev/null
+git commit -am 'Initial commit'
 
-REPOS_TYPE := vim-script
-INSTALLATION_DIR := $(HOME)/.vim
-TARGETS_STATIC = $(filter-out t/%,$(filter %.vim %.txt,$(all_files_in_repos)))
-TARGETS_ARCHIVED = $(all_files_in_repos) mduem/Makefile
+if [ "${project_name#vim-}" != "$project_name" ]
+then
+  add_file Gemfile <<'END'
+source 'https://rubygems.org'
 
-
-
-
-include mduem/Makefile
-
-# __END__
+gem 'vim-flavor', '~> 1.1'
 END
-git add Makefile
-git commit -am 'Import mduem'
+  git commit -am 'Add a Gemfile for development dependencies'
+
+  add_file Rakefile <<'END'
+#!/usr/bin/env rake
+
+task :ci => [:dump, :test]
+
+task :dump do
+  sh 'vim --version'
+end
+
+task :test do
+  sh 'bundle exec vim-flavor test'
+end
+END
+  git commit -am 'Add a Rakefile for routine works'
+
+  add_file VimFlavor <<'END'
+# No dependencies.
+END
+  git commit -am 'Add a VimFlavor for runtime dependencies'
+
+  add_file .travis.yml <<'END'
+language: ruby
+rvm:
+  - 2.0.0
+script: rake ci
+END
+  git commit -am 'Configure Travis CI to use vim-flavor'
+
+  add_file .gitignore <<'END'
+.vim-flavor
+Gemfile.lock
+VimFlavor.lock
+END
+  git commit -am 'Add a .gitignore for intermediate stuffs'
+fi
 
 # __END__

@@ -117,9 +117,6 @@
 " Absolute  "{{{2
 
 if !exists('s:loaded_my_vimrc')
-  " Don't reset twice on reloading - 'compatible' has SO many side effects.
-  set nocompatible  " to use many extensions of Vim.
-
   runtime flavors/bootstrap.vim
 endif
 
@@ -214,9 +211,6 @@ set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
 set directory=.,~/tmp
 set noequalalways
-set foldopen&
-  " Patch: http://github.com/kana/vim/commits/hack%2Ffoldopen-map
-silent! set foldopen+=map
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
@@ -255,7 +249,11 @@ set viminfo=<50,'10,h,r/a,n~/.viminfo
 let &statusline = ''
 let &statusline .= '%<%f %h%m%r%w'
 let &statusline .= '%='
-let &statusline .= '[%{&l:fileencoding == "" ? &encoding : &l:fileencoding}]'
+let &statusline .= '['
+let &statusline .=   '%{&l:fileencoding == "" ? &encoding : &l:fileencoding}'
+let &statusline .=   '%{&l:bomb ? "/BOM" : ""}'
+let &statusline .= ']'
+let &statusline .= '[%{&l:fileformat}]'
 let &statusline .= '  %-14.(%l,%c%V%) %P'
 
 function! s:my_tabline()  "{{{
@@ -550,49 +548,6 @@ function! s:cmd_KeyboardLayout(physical_key, logical_key)
   let indirect_key = '<Plug>(physical-key-' . a:physical_key . ')'
   execute 'Allmap' a:logical_key indirect_key
   execute 'Allnoremap' indirect_key a:logical_key
-endfunction
-
-
-
-
-" OnFileType - wrapper of :autocmd FileType for compound 'filetype'  "{{{2
-"
-" To write a bit of customization per 'filetype', an easy way is to write some
-" ":autocmd"s like "autocmd FileType c".  But it doesn't match to compound
-" 'filetype' such as "c.doxygen".  So the pattern should be
-" "{c,*.c,c.*,*.c.*}", but it's hard to read and to write.  :OnFileType is
-" a wrapper for ":autocmd FileType" to support to write such customization.
-"
-" Note: If a:filetype contains one of the following characters:
-"               * ? { } [ ]
-"       a:filetype will be treated as-is to write customization for compound
-"       'filetype' with :OnFileType.
-"
-" Note: If a:filetype contains one or more ",", :OnFileType will be called for
-"       each ","-separated filetype in a:filetype.
-"
-" FIXME: syntax highlighting and completion.
-"
-" BUGS: This doesn't work for most cases because of the limit of the maximum
-"       number of arguments to a function.
-
-command! -nargs=+ OnFileType  call s:cmd_OnFileType(<f-args>)
-function! s:cmd_OnFileType(group, filetype, ...)
-  let group = (a:group == '-' ? '' : a:group)
-  let commands = join(a:000)
-
-  let SPECIAL_CHARS = '[*?{}[\]]'
-  if a:filetype !~ SPECIAL_CHARS && a:filetype =~ ','
-    for ft in split(a:filetype, ',')
-      call s:cmd_OnFileType(group, ft, commands)
-    endfor
-    return
-  endif
-  let filetype = (a:filetype =~ SPECIAL_CHARS
-  \               ? a:filetype
-  \               : substitute('{x,x.*,*.x,*.x.*}', 'x', a:filetype, 'g'))
-
-  execute 'autocmd' group 'FileType' filetype commands
 endfunction
 
 
@@ -2171,8 +2126,8 @@ function! s:search_the_selected_text_literaly(search_command)
   let reg_u = [@", getregtype('"')]
 
   normal! gvy
-  let @/ = @0
-  call histadd('/', '\V' . escape(@0, '\'))
+  let @/ = '\V' . escape(@0, '\')
+  call histadd('/', @/)
   execute 'normal!' a:search_command
   let v:searchforward = a:search_command ==# 'n'
 
@@ -2905,18 +2860,6 @@ function! s:on_User_plugin_skeleton_detect()
 
   return
 endfunction
-
-
-
-
-" smartinput  "{{{2
-
-call smartinput#map_to_trigger('i', '<Plug>(physical-key-;)',
-\                              '<Enter>',
-\                              '<Enter>')
-call smartinput#map_to_trigger('c', '<Plug>(physical-key-;)',
-\                              '<Enter>',
-\                              '<Enter>')
 
 
 

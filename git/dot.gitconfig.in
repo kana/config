@@ -10,12 +10,14 @@
 	pager = less -r
 	excludesfile = ~/.gitignore
 [alias]
+	ap = add -p
 	b = branch
 	ba = branch -a
 	br = branch -r
 	ci = commit
 	co = checkout
 	cob = checkout -b
+	cop = checkout -p
 	cp = cherry-pick
 	d = diff
 	db = diff HEAD
@@ -52,10 +54,10 @@
 	ls = ls-files
 	m = merge --log
 	mb = merge-base
-	merge-to-integrate = !git m --no-ff
-	merge-to-pull = !git m --ff
-	mi = !git merge-to-integrate
-	mp = !git merge-to-pull
+	merge-to-integrate = !git mi
+	merge-to-pull = !git mp
+	mi = merge --no-ff
+	mp = merge --ff
 	pushall = <<<
 		for remote in $(
 			git config --get-regexp \
@@ -72,7 +74,8 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	review = <<<
-		git log -p --reverse "${1:master}..HEAD" --
+		test $# == 2 || echo 'Usage: git review INTEGRATED TOPIC'
+		git log -p --reverse "$1..$2" --
 	>>>
 	rh = reset --hard
 	ri = <<<
@@ -81,13 +84,14 @@
 	rib = <<<
 		git rebase -i $(git merge-base "${1:-HEAD}" HEAD)
 	>>>
+	rp = reset -p
 	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
 	rx = reset --mixed
 	s = show
-	s1 = show HEAD@{1}
-	s2 = show HEAD@{2}
-	s3 = show HEAD@{3}
+	s1 = show HEAD~1
+	s2 = show HEAD~2
+	s3 = show HEAD~3
 	sa = stash apply
 	sd = stash drop
 	since = <<<
