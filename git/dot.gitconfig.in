@@ -56,8 +56,8 @@
 	mb = merge-base
 	merge-to-integrate = !git mi
 	merge-to-pull = !git mp
-	mi = git merge --no-ff
-	mp = git merge --ff
+	mi = merge --no-ff
+	mp = merge --ff
 	pushall = <<<
 		for remote in $(
 			git config --get-regexp \
