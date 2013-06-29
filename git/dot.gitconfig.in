@@ -10,12 +10,14 @@
 	pager = less -r
 	excludesfile = ~/.gitignore
 [alias]
+	ap = add -p
 	b = branch
 	ba = branch -a
 	br = branch -r
 	ci = commit
 	co = checkout
 	cob = checkout -b
+	cop = checkout -p
 	cp = cherry-pick
 	d = diff
 	db = diff HEAD
@@ -81,6 +83,7 @@
 	rib = <<<
 		git rebase -i $(git merge-base "${1:-HEAD}" HEAD)
 	>>>
+	rp = reset -p
 	rs = reset --soft
 	rw = reset --hard ORIG_HEAD
 	rx = reset --mixed
