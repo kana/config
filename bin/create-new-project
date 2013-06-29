@@ -16,6 +16,8 @@ cd ~/working/$project_name
 git init
 git remote add dropbox ~/Dropbox/working/$project_name.git
 git remote add github git@github.com:kana/$project_name.git
+touch README.md
+git add README.md
 git submodule add ../mduem
 git submodule init
 cat <<'END' >Makefile
