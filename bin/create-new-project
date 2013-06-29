@@ -7,7 +7,7 @@ then
 fi
 project_name="$1"
 
-git init --bare ~/Dropbox/working/$project_name.git
+git init --bare "~/Dropbox/working/$project_name.git"
 
 echo 'Do not forget to create a repository on github!'
 
@@ -17,11 +17,11 @@ add_file()
   git add "$1"
 }
 
-mkdir ~/working/$project_name
-cd ~/working/$project_name
+mkdir "~/working/$project_name"
+cd "~/working/$project_name"
 git init
-git remote add dropbox ~/Dropbox/working/$project_name.git
-git remote add github git@github.com:kana/$project_name.git
+git remote add dropbox "~/Dropbox/working/$project_name.git"
+git remote add github "git@github.com:kana/$project_name.git"
 add_file README.md </dev/null
 git commit -am 'Initial commit'
 
