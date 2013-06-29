@@ -2126,8 +2126,8 @@ function! s:search_the_selected_text_literaly(search_command)
   let reg_u = [@", getregtype('"')]
 
   normal! gvy
-  let @/ = @0
-  call histadd('/', '\V' . escape(@0, '\'))
+  let @/ = '\V' . escape(@0, '\')
+  call histadd('/', @/)
   execute 'normal!' a:search_command
   let v:searchforward = a:search_command ==# 'n'
 
