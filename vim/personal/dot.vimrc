@@ -720,6 +720,7 @@ function! s:cmd_Font_complete(arglead, cmdline, cursorpos)
   \   'Osaka-Mono:h15 antialias',
   \   'Osaka-Mono:h16 antialias',
   \   'PC98:h16 noantialias',
+  \   'Source\ Code\ Pro:h14 antialias',
   \ ]
 endfunction
 
