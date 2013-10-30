@@ -221,6 +221,9 @@ if exists('+guicursor')
   set guicursor&
   set guicursor=a:blinkwait4000-blinkon1500-blinkoff500
 endif
+if exists('+guifont')
+  set guifont=Source\ Code\ Pro:h14 antialias
+endif
 if exists('+guioptions')
   set guioptions=cgM
 endif
@@ -241,6 +244,9 @@ set showmode
 set updatetime=4000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
+if exists('+transparency')
+  set transparency=10
+endif
 set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
 set wildmenu
 set viminfo=<50,'10,h,r/a,n~/.viminfo
@@ -720,6 +726,7 @@ function! s:cmd_Font_complete(arglead, cmdline, cursorpos)
   \   'Osaka-Mono:h15 antialias',
   \   'Osaka-Mono:h16 antialias',
   \   'PC98:h16 noantialias',
+  \   'Source\ Code\ Pro:h14 antialias',
   \ ]
 endfunction
 
