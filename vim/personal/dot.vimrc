@@ -244,6 +244,9 @@ set showmode
 set updatetime=4000
 set title
 set titlestring=Vim:\ %f\ %h%r%m
+if exists('+transparency')
+  set transparency=10
+endif
 set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
 set wildmenu
 set viminfo=<50,'10,h,r/a,n~/.viminfo
