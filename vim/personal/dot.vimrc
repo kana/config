@@ -221,6 +221,9 @@ if exists('+guicursor')
   set guicursor&
   set guicursor=a:blinkwait4000-blinkon1500-blinkoff500
 endif
+if exists('+guifont')
+  set guifont=Source\ Code\ Pro:h14 antialias
+endif
 if exists('+guioptions')
   set guioptions=cgM
 endif
