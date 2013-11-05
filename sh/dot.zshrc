@@ -250,7 +250,7 @@ function prompt_setup() {
   PS1="
 $t_host $t_cwd$t_shlvl\$(prompt-git-head-name)
 $t_main"
-  PS_DECORATOR='YUKI.N'
+  PS_DECORATOR='^-^)/'
 }
 
 prompt_setup
