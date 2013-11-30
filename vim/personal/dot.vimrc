@@ -2421,6 +2421,14 @@ endfunction
 
 
 
+" html  "{{{2
+
+" Restore the indentation sytle in Vim 7.3 or earlier.
+let g:html_indent_inctags = 'html,head,body'
+
+
+
+
 " issue  "{{{2
 
 autocmd MyAutoCmd FileType issue
