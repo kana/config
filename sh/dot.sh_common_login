@@ -119,7 +119,9 @@ export GZIP='--best --name --verbose'
 
 # less  #{{{2
 # -P '[?eEOF:?pB%pB\%..]  .?f%f:(stdin).?m (%i of %m).?lb  %lb?L/%L..'
-export LESS='-P [?eEOF:?PB%PB\%..] --quit-if-one-screen'
+# Note that -P must be put at the last, because all characters after -P are
+# parsed as a prompt format.
+export LESS='--quit-if-one-screen -P [?eEOF:?PB%PB\%..]'
 case "$ENV_ACCESS" in
   summer)
     export JLESSCHARSET=japanese-sjis
