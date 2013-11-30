@@ -119,7 +119,9 @@ export GZIP='--best --name --verbose'
 
 # less  #{{{2
 # -P '[?eEOF:?pB%pB\%..]  .?f%f:(stdin).?m (%i of %m).?lb  %lb?L/%L..'
-export LESS='-P [?eEOF:?PB%PB\%..] --quit-if-one-screen'
+# TODO: What I really want is --no-init-if-one-screen to combine with
+# --quit-if-one-screen, but it doesn't exist.
+export LESS='-P [?eEOF:?PB%PB\%..]'
 case "$ENV_ACCESS" in
   summer)
     export JLESSCHARSET=japanese-sjis
