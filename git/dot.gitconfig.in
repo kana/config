@@ -9,6 +9,8 @@
 [core]
 	pager = less -r
 	excludesfile = ~/.gitignore
+[push]
+	default = current
 [alias]
 	ap = add -p
 	b = branch
