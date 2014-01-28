@@ -161,14 +161,13 @@ fi
 
 
 # Last resort  #{{{1
-# RVM: Ruby Version Manager  #{{{2
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-
 # VVM: Vim Version Manager  #{{{2
 [[ -s "$HOME/.vvm/etc/login" ]] && source "$HOME/.vvm/etc/login"
 
 
+# RVM: Ruby Version Manager  #{{{2
+# RVM complaints if its paths are not placed at first place in PATH.
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 
 # Workaround for Mac OS Lion's /etc/zshenv  #{{{2
