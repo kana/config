@@ -1,6 +1,7 @@
 # vim: filetype=screen
 
 escape ^Aa
+shell -${SHELL}  # for RVM
 term xterm-256color
 defbce on
 defscrollback 1000
