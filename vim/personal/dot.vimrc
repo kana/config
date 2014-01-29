@@ -1509,7 +1509,7 @@ function! s:emulate_meta_esc_behavior_in_terminal()
   "}}}
 
   for [key, modifiers] in keys
-    let k = matchstr(key, '^<\zs.*\ze>$\|.*')
+    let k = substitute(key, '\v^\<(.*)\>$', '\1', '')
 
     execute 'Allmap' '<M-'.k.'>'  '<Esc>'.key
     for m in s:modifier_combinations(modifiers)
