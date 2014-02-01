@@ -205,11 +205,11 @@ set autoindent
 set backspace=indent,eol,start
 set backup
 set backupcopy&
-set backupdir=.,~/tmp
+set backupdir=~/tmp/vim
 set backupskip&
 set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
-set directory=.,~/tmp
+set directory=~/tmp/vim
 set noequalalways
 set formatoptions=tcroqnlM1
 set formatlistpat&
@@ -319,6 +319,11 @@ augroup END
 call altercmd#load()
 call arpeggio#load()
 call idwintab#load()
+
+
+if !isdirectory($HOME . '/tmp/vim')
+  call mkdir($HOME . '/tmp/vim', 'p', 0700)
+endif
 
 
 
