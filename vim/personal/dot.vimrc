@@ -321,6 +321,11 @@ call arpeggio#load()
 call idwintab#load()
 
 
+if !isdirectory($HOME . '/tmp/vim')
+  call mkdir($HOME . '/tmp/vim', 'p', 0700)
+endif
+
+
 
 
 
