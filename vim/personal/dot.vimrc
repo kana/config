@@ -209,7 +209,7 @@ set backupdir=.,~/tmp
 set backupskip&
 set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
-set directory=.,~/tmp
+set directory=~/tmp/vim
 set noequalalways
 set formatoptions=tcroqnlM1
 set formatlistpat&
