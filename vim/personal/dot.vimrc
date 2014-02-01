@@ -205,7 +205,7 @@ set autoindent
 set backspace=indent,eol,start
 set backup
 set backupcopy&
-set backupdir=.,~/tmp
+set backupdir=~/tmp/vim
 set backupskip&
 set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
