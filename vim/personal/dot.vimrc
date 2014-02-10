@@ -1627,6 +1627,8 @@ Cnmap <silent> tsP  split \| tfirst
 Cnmap <silent> tsN  split \| tlast
 
   " FIXME: Define also in Visual mode -- but is it really useful?
+  " FIXME: These key mappings fail with E471 on Vim 7.4.052 or later,
+  "        but the error doesn't happen on Vim 7.3.918.
 Cnmap <silent> tsH  Split Left \| normal! <C-]>
 Cnmap <silent> tsJ  Split Bottom \| normal! <C-]>
 Cnmap <silent> tsK  Split Top \| normal! <C-]>
