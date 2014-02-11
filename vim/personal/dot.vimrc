@@ -318,7 +318,6 @@ augroup END
 
 call altercmd#load()
 call arpeggio#load()
-call idwintab#load()
 
 
 if !isdirectory($HOME . '/tmp/vim')
