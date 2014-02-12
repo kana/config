@@ -919,6 +919,22 @@ if !exists('s:loaded_my_vimrc')
   doautocmd MyAutoCmd TabEnter
 endif
 
+function! s:back_to_the_last_tabpage()
+  if tabpagenr('$') == 1
+    Hecho ErrorMsg 'There is only one tab page.  Nowhere to back.'
+    return
+  endif
+
+  let tn = tabpagenr()
+  let xs = []
+  noautocmd tabdo call add(xs, [reltimestr(t:entered_at), tabpagenr()])
+  noautocmd execute 'normal!' tn . 'gt'
+  call remove(xs, tn - 1)
+  call sort(xs)
+
+  execute 'normal!' xs[-1][1] . 'gt'
+endfunction
+
 
 
 
