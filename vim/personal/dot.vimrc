@@ -911,6 +911,17 @@ endfunction
 
 
 
+" Tabpage visit history  "{{{2
+
+autocmd MyAutoCmd TabEnter *  let t:entered_at = reltime()
+if !exists('s:loaded_my_vimrc')
+  " TabEnter will never be triggered for the initial tabpage.
+  doautocmd MyAutoCmd TabEnter
+endif
+
+
+
+
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
