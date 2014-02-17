@@ -24,5 +24,7 @@
 
 " {content}
 
+let b:undo_indent .= ...
+
 " __END__
 " vim: foldmethod=marker

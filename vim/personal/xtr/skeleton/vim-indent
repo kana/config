@@ -42,6 +42,8 @@ endif
 
 
 
+let b:undo_indent = ...
+
 let b:did_indent = 1
 
 " __END__

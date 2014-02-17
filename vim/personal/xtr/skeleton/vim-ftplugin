@@ -42,6 +42,8 @@ endif
 
 
 
+let b:undo_ftplugin = ...
+
 let b:did_ftplugin = 1
 
 " __END__
