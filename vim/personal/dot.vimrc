@@ -2376,28 +2376,6 @@ autocmd MyAutoCmd FileType gtd
 
 
 
-" help  "{{{2
-
-" J/K are experimental keys.
-autocmd MyAutoCmd FileType help
-\ call s:on_FileType_help()
-
-function! s:on_FileType_help()
-  if &l:readonly
-    call textobj#user#map('help', {
-    \   'any': {
-    \     'move-n': '<buffer> J',
-    \     'move-p': '<buffer> K',
-    \   }
-    \ })
-  endif
-
-  setlocal conceallevel=0
-endfunction
-
-
-
-
 " html  "{{{2
 
 " Restore the indentation sytle in Vim 7.3 or earlier.
