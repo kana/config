@@ -2376,56 +2376,6 @@ autocmd MyAutoCmd FileType gtd
 
 
 
-" help  "{{{2
-
-" Removed - not so useful.
-" let s:filetype_help_pattern_special = '<[^ <>]\+>'
-
-let s:filetype_help_pattern_link = '|[^ |]\+|'
-let s:filetype_help_pattern_option = '''[A-Za-z0-9_-]\{2,}'''
-let s:filetype_help_pattern_any = join([s:filetype_help_pattern_link,
-\                                       s:filetype_help_pattern_option],
-\                                      '\|')
-
-" J/K are experimental keys.
-autocmd MyAutoCmd FileType help
-\ call s:on_FileType_help()
-
-function! s:on_FileType_help()
-  call textobj#user#plugin('help', {
-  \      'any': {
-  \        '*pattern*': s:filetype_help_pattern_any,
-  \        'move-n': '<buffer> <LocalLeader>j',
-  \        'move-p': '<buffer> <LocalLeader>k',
-  \        'move-N': '<buffer> <LocalLeader>J',
-  \        'move-P': '<buffer> <LocalLeader>K',
-  \      },
-  \      'link': {
-  \        '*pattern*': s:filetype_help_pattern_link,
-  \        'move-n': '<buffer> <LocalLeader>f',
-  \        'move-p': '<buffer> <LocalLeader>r',
-  \        'move-N': '<buffer> <LocalLeader>F',
-  \        'move-P': '<buffer> <LocalLeader>R',
-  \      },
-  \      'option': {
-  \        '*pattern*': s:filetype_help_pattern_option,
-  \        'move-n': '<buffer> <LocalLeader>d',
-  \        'move-p': '<buffer> <LocalLeader>e',
-  \        'move-N': '<buffer> <LocalLeader>D',
-  \        'move-P': '<buffer> <LocalLeader>E',
-  \      },
-  \    })
-  if &l:readonly
-    map <buffer> J  <Plug>(textobj-help-any-n)
-    map <buffer> K  <Plug>(textobj-help-any-p)
-  endif
-
-  setlocal conceallevel=0
-endfunction
-
-
-
-
 " html  "{{{2
 
 " Restore the indentation sytle in Vim 7.3 or earlier.
