@@ -911,6 +911,33 @@ endfunction
 
 
 
+" Tabpage visit history  "{{{2
+
+autocmd MyAutoCmd TabEnter *  let t:entered_at = reltime()
+if !exists('s:loaded_my_vimrc')
+  " TabEnter will never be triggered for the initial tabpage.
+  doautocmd MyAutoCmd TabEnter
+endif
+
+function! s:back_to_the_last_tabpage()
+  if tabpagenr('$') == 1
+    Hecho ErrorMsg 'There is only one tab page.  Nowhere to back.'
+    return
+  endif
+
+  let tn = tabpagenr()
+  let xs = []
+  noautocmd tabdo call add(xs, [reltimestr(t:entered_at), tabpagenr()])
+  noautocmd execute 'normal!' tn . 'gt'
+  call remove(xs, tn - 1)
+  call sort(xs)
+
+  execute 'normal!' xs[-1][1] . 'gt'
+endfunction
+
+
+
+
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
@@ -1729,10 +1756,10 @@ Cnmap <silent> <C-t>j
 Cnmap <silent> <C-t>k  Qexecute tabprevious [count]
 Cnmap <silent> <C-t>K  tabfirst
 Cnmap <silent> <C-t>J  tablast
+Cnmap <silent> <C-t><C-t>  call <SID>back_to_the_last_tabpage()
 
 nmap <C-t><C-j>  <C-t>j
 nmap <C-t><C-k>  <C-t>k
-nmap <C-t><C-t>  <C-t>j
 
 " GNU screen like mappings.
 " Note that the numbers in {lhs}s are 0-origin.  See also 'tabline'.
