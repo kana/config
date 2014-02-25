@@ -58,7 +58,7 @@
     (print (format "syntax keyword schemeGaucheEtc ~a" symbol)))
 
   (define sort (cut sort-by <> symbol->string))
-  (define distinct (cut apply lset-adjoin eq? <>))
+  (define distinct (cut apply lset-adjoin eq? '() <>))
   (for-each
     (lambda (symbol)
       (define value (eval symbol (current-module)))
