@@ -2710,6 +2710,16 @@ nmap <Esc><C-k>  <Plug>(exjumplist-previous-buffer)
 
 
 
+" fakeclip  "{{{2
+
+" Use GNU screen rather than tmux if
+" * Both GNU screen and tmux are installed, and
+" * The current Vim (especially gVim) is not in sessions of both applications.
+let g:fakeclip_terminal_multiplexer_type = 'gnuscreen'
+
+
+
+
 " grex  "{{{2
 
 Arpeggio map od  <Plug>(operator-grex-delete)
