@@ -13,6 +13,7 @@
 	default = current
 [alias]
 	ap = add -p
+	au = add -u
 	b = branch
 	ba = branch -a
 	br = branch -r
