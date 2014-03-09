@@ -2297,23 +2297,25 @@ autocmd MyAutoCmd BufReadPost *
 
 
 " Adjust highlight settings according to the current colorscheme.
-autocmd MyAutoCmd ColorScheme *
-\   call s:extend_highlight('Pmenu', 'Normal', 'cterm=underline')
-\ | call s:extend_highlight('PmenuSel', 'Search', 'cterm=underline')
-\ | call s:extend_highlight('PmenuSbar', 'Normal', 'cterm=reverse')
-\ | call s:extend_highlight('PmenuThumb', 'Search', '')
-\
-\ | highlight TabLineSel
-\             term=bold,reverse
-\             cterm=bold,underline ctermfg=lightgray ctermbg=darkgray
-\ | highlight TabLine
-\             term=reverse
-\             cterm=NONE ctermfg=lightgray ctermbg=darkgray
-\ | highlight TabLineFill
-\             term=reverse
-\             cterm=NONE ctermfg=lightgray ctermbg=darkgray
-if !exists('s:loaded_my_vimrc')
-  doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
+if !has('gui_running')
+  autocmd MyAutoCmd ColorScheme *
+  \   call s:extend_highlight('Pmenu', 'Normal', 'cterm=underline')
+  \ | call s:extend_highlight('PmenuSel', 'Search', 'cterm=underline')
+  \ | call s:extend_highlight('PmenuSbar', 'Normal', 'cterm=reverse')
+  \ | call s:extend_highlight('PmenuThumb', 'Search', '')
+  \
+  \ | highlight TabLineSel
+  \             term=bold,reverse
+  \             cterm=bold,underline ctermfg=lightgray ctermbg=darkgray
+  \ | highlight TabLine
+  \             term=reverse
+  \             cterm=NONE ctermfg=lightgray ctermbg=darkgray
+  \ | highlight TabLineFill
+  \             term=reverse
+  \             cterm=NONE ctermfg=lightgray ctermbg=darkgray
+  if !exists('s:loaded_my_vimrc')
+    doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
+  endif
 endif
 
 
