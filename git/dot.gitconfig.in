@@ -16,6 +16,7 @@
 	au = add -u
 	b = branch
 	ba = branch -a
+	bd = branch -d
 	br = branch -r
 	ci = commit
 	co = checkout
