@@ -78,8 +78,12 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	review = <<<
-		test $# == 2 || echo 'Usage: git review INTEGRATED TOPIC'
-		git log -p --reverse "$1..$2" --
+		if [[ 1 -le $# && $# -le 2 ]]
+		then
+		  git log -p --reverse "$1..$2" --
+		else
+		  echo 'Usage: git review INTEGRATED [TOPIC]'
+		fi
 	>>>
 	rh = reset --hard
 	ri = <<<
