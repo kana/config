@@ -2186,6 +2186,7 @@ Cvmap <count> g/  global//print
 
 " Experimental: alternative <Esc>
 Allnoremap <C-@>  <Esc>
+Allnoremap <C-l>  <Esc>
 
   " c_<Esc> mapped from something doesn't work the same as
   " c_<Esc> directly typed by user.
