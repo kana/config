@@ -102,6 +102,7 @@
 	s3 = show HEAD~3
 	sa = stash apply
 	sd = stash drop
+	sf = show --format=fuller
 	since = <<<
 		git lg "$1..HEAD" --
 	>>>
