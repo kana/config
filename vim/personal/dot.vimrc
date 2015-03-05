@@ -211,6 +211,7 @@ set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinoptions=:0,t0,(0,W1s
 set directory=~/tmp/vim
 set noequalalways
+set expandtab
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
@@ -237,6 +238,7 @@ set laststatus=2  " always show status lines.
 if exists('+macmeta')
   set macmeta
 endif
+set modeline  " Some distros disable this by default.
 set mouse=a
 set ruler
 set showcmd
@@ -2186,6 +2188,7 @@ Cvmap <count> g/  global//print
 
 " Experimental: alternative <Esc>
 Allnoremap <C-@>  <Esc>
+Allnoremap <C-l>  <Esc>
 
   " c_<Esc> mapped from something doesn't work the same as
   " c_<Esc> directly typed by user.
