@@ -237,6 +237,7 @@ set laststatus=2  " always show status lines.
 if exists('+macmeta')
   set macmeta
 endif
+set modeline  " Some distros disable this by default.
 set mouse=a
 set ruler
 set showcmd
