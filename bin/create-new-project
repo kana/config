@@ -30,7 +30,7 @@ then
   add_file Gemfile <<'END'
 source 'https://rubygems.org'
 
-gem 'vim-flavor', '~> 1.1'
+gem 'vim-flavor', '~> 2.1'
 END
   git commit -am 'Add a Gemfile for development dependencies'
 
@@ -57,7 +57,7 @@ END
   add_file .travis.yml <<'END'
 language: ruby
 rvm:
-  - 2.1.0
+  - 2.1.5
 script: rake ci
 END
   git commit -am 'Configure Travis CI to use vim-flavor'
