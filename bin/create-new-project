@@ -30,7 +30,7 @@ then
   add_file Gemfile <<'END'
 source 'https://rubygems.org'
 
-gem 'vim-flavor', '~> 1.1'
+gem 'vim-flavor', '~> 2.1'
 END
   git commit -am 'Add a Gemfile for development dependencies'
 
