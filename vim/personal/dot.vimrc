@@ -2273,7 +2273,6 @@ function! s:on_FileType_any()
   \ cinoptions<
   \ cinwords<
   \ copyindent<
-  \ expandtab<
   \ indentexpr<
   \ indentkeys<
   \ lisp<
