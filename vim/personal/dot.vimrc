@@ -2281,7 +2281,6 @@ function! s:on_FileType_any()
   \ shiftround<
   \ shiftwidth<
   \ smartindent<
-  \ smarttab<
   \ softtabstop<
   \ tabstop<
   \ '
