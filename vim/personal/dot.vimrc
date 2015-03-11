@@ -2273,7 +2273,6 @@ function! s:on_FileType_any()
   \ cinoptions<
   \ cinwords<
   \ copyindent<
-  \ expandtab<
   \ indentexpr<
   \ indentkeys<
   \ lisp<
@@ -2282,7 +2281,6 @@ function! s:on_FileType_any()
   \ shiftround<
   \ shiftwidth<
   \ smartindent<
-  \ smarttab<
   \ softtabstop<
   \ tabstop<
   \ '
