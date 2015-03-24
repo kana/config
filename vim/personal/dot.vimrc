@@ -2826,6 +2826,17 @@ Arpeggio map or  <Plug>(operator-replace)
 
 
 
+" operator-siege  "{{{2
+
+map s  <Plug>(operator-siege-add)
+nmap ss  <Plug>(operator-siege-add)<Plug>(textobj-line-i)
+map S  <Plug>(operator-siege-add-with-indent)
+nmap cs  <Plug>(operator-siege-change)
+nmap ds  <Plug>(operator-siege-delete)
+
+
+
+
 " scratch  "{{{2
 
 nmap <Leader>s  <Plug>(scratch-open)
