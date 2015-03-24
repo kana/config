@@ -2834,6 +2834,8 @@ map S  <Plug>(operator-siege-add-with-indent)
 nmap cs  <Plug>(operator-siege-change)
 nmap ds  <Plug>(operator-siege-delete)
 
+" See also: plugin/operator-siege-config.vim
+
 
 
 
@@ -2889,18 +2891,6 @@ endfunction
 
 Objmap q  <Plug>(smarttill-t)
 Objmap Q  <Plug>(smarttill-T)
-
-
-
-
-" surround  "{{{2
-
-" The default mapping ys for <Plug>Ysurround is not consistent with
-" the default mappings of vi -- y is for yank.
-nmap s  <Plug>Ysurround
-nmap ss  <Plug>Yssurround
-
-" See also ~/.vim/plugin/surround_config.vim .
 
 
 
