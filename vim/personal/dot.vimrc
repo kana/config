@@ -2830,7 +2830,7 @@ Arpeggio map or  <Plug>(operator-replace)
 
 map s  <Plug>(operator-siege-add)
 nmap ss  <Plug>(operator-siege-add)<Plug>(textobj-line-i)
-map S  <Plug>(operator-siege-add-with-indent)
+vmap S  <Plug>(operator-siege-add-with-indent)
 nmap cs  <Plug>(operator-siege-change)
 nmap ds  <Plug>(operator-siege-delete)
 
