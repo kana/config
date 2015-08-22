@@ -2122,20 +2122,6 @@ inoremap <C-w>  <C-g>u<C-w>
 inoremap <C-u>  <C-g>u<C-u>
 
 
-" Make I/A available in characterwise-visual and linewise-visual.
-Fvmap <silent> I  <SID>force_blockwise_visual('I')
-Fvmap <silent> A  <SID>force_blockwise_visual('A')
-
-function! s:force_blockwise_visual(next_key)
-  if visualmode() ==# 'V'
-    execute "normal! `<0\<C-v>`>$"
-  else
-    execute "normal! `<\<C-v>`>"
-  endif
-  call feedkeys(a:next_key, 'n')
-endfunction
-
-
 " Like o/O, but insert additional [count] blank lines.
 " The default [count] is 0, so that they do the same as the default o/O.
 " I prefer this behavior to the default behavior of [count]o/O which repeats
