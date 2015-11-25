@@ -2347,6 +2347,14 @@ endif
 
 
 
+" coffee  "{{{2
+
+autocmd MyAutoCmd FileType coffee
+\ call s:set_short_indent()
+
+
+
+
 " css  "{{{2
 
 autocmd MyAutoCmd FileType css
