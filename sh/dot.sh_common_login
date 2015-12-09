@@ -82,6 +82,12 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
   if [ -d "$HOME/info" ]; then INFOPATH="$HOME/info:$INFOPATH"; fi
 fi
 
+# Max OS X El Capitan makes things complicated again.  See also sh/dot.zshenv.
+if [ "$CUSTOM_PATH" != '' ]  # Is the current process a subshell?
+then
+  PATH="$CUSTOM_PATH"
+fi
+
 
 
 
