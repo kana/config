@@ -57,8 +57,9 @@ END
   add_file .travis.yml <<'END'
 language: ruby
 rvm:
-  - 2.1.5
+  - 2.3.0
 script: rake ci
+sudo: false
 END
   git commit -am 'Configure Travis CI to use vim-flavor'
 
