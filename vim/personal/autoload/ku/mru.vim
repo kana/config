@@ -41,7 +41,10 @@ endfunction
 
 
 function! ku#mru#on_source_enter(source_name_ext)  "{{{2
-  let s:cached_items = map(copy(mru#list()), '{"word": v:val}')
+  let s:cached_items = map(
+  \   copy(mru#list()),
+  \   '{"word": fnamemodify(v:val, ":~:.")}'
+  \ )
 endfunction
 
 
