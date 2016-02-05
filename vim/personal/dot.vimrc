@@ -2796,6 +2796,7 @@ Cnmap <silent> [Space]kf  Ku file
 Cnmap <silent> [Space]kg  Ku metarw/git
 Cnmap <silent> [Space]kh  Ku history
 Cnmap <silent> [Space]kk  call ku#restart()
+Cnmap <silent> [Space]km  Ku mru
   " p is for packages.
 Cnmap <silent> [Space]kp  Ku bundle
 Cnmap <silent> [Space]kq  Ku quickfix
