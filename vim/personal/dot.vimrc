@@ -2426,6 +2426,14 @@ autocmd MyAutoCmd FileType lua
 
 
 
+" markdown  "{{{2
+
+autocmd MyAutoCmd FileType markdown
+\ setlocal expandtab shiftwidth=4 softtabstop=4
+
+
+
+
 " netrw  "{{{2
 "
 " Consider these buffers have "another" filetype=netrw.
