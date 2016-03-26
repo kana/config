@@ -655,10 +655,8 @@ function! s:cmd_SuspendWithAutomticCD()
     \              '''select another'''
     \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
     redraw!
-    let s:GNU_SCREEN_AVAILABLE_P = (v:shell_error == 0)
-  endif
-
-  if !s:GNU_SCREEN_AVAILABLE_P
+    " TODO: Show what happened on failure.
+  else
     suspend
   endif
 endfunction
