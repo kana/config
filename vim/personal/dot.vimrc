@@ -2416,6 +2416,14 @@ autocmd MyAutoCmd FileType issue
 
 
 
+" javascript  "{{{2
+
+autocmd MyAutoCmd FileType javascript
+\ call s:set_short_indent()
+
+
+
+
 " lua  "{{{2
 
 autocmd MyAutoCmd FileType lua
