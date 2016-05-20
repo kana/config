@@ -1695,7 +1695,7 @@ Cnmap <silent> qp  Qexecute colder [count]
 Cnmap <silent> qn  Qexecute cnewer [count]
 Cnmap <silent> qm  make
 Cnmap <noexec> qM  make<Space>
-Cnmap <noexec> q<Space>  make<Space>
+Cnmap <noexec> q<Space>  Grep<Space>
 Cnmap <noexec> qg  Grep<Space>
 
 
