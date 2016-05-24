@@ -1697,7 +1697,7 @@ Cnmap <silent> qwp  Qexecute lolder [count]
 Cnmap <silent> qwn  Qexecute lnewer [count]
 Cnmap <silent> qwm  lmake
 Cnmap <noexec> qwM  lmake<Space>
-Cnmap <noexec> qw<Space>  lmake<Space>
+Cnmap <noexec> qw<Space>  lgrep<Space>
 Cnmap <noexec> qwg  lgrep<Space>
 
 
