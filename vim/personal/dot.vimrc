@@ -298,11 +298,10 @@ function! s:my_tabline()  "{{{
 endfunction "}}}
 let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
 
-" To automatically detect the width and the height of the terminal,
-" the followings must not be set.
-"
-" set columns=80
-" set lines=25
+if has('gui_running')
+  set columns=161  " 80 + 1 + 80
+  set lines=999    " Maximize GUI window vertically
+endif
 
 
 let g:mapleader = ','
