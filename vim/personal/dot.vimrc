@@ -1753,10 +1753,8 @@ unlet i
 
 " Moving tabpages themselves.  "{{{3
 
-Cnmap <silent> <C-t>l
-\ execute 'tabmove' min([tabpagenr() + v:count1, tabpagenr('$')])
-Cnmap <silent> <C-t>h
-\ execute 'tabmove' max([tabpagenr() - v:count1 - 1, 0])
+Cnmap <silent> <C-t>l  tabmove +
+Cnmap <silent> <C-t>h  tabmove -
 Cnmap <silent> <C-t>L  tabmove
 Cnmap <silent> <C-t>H  tabmove 0
 
