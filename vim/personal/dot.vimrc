@@ -116,9 +116,10 @@
 " Basic  "{{{1
 " Absolute  "{{{2
 
-if !exists('s:loaded_my_vimrc')
-  runtime flavors/bootstrap.vim
-endif
+let s:my_after_path = split(&runtimepath, ',')[-1]
+execute 'set runtimepath-='.s:my_after_path
+packloadall  " To autoload plugins while sourcing this vimrc.
+execute 'set runtimepath+='.s:my_after_path
 
 
 function! s:SID_PREFIX()
