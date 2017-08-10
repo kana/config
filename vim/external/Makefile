@@ -14,7 +14,7 @@ install: $(2)
 $(2): $(1)
 	@echo 'INSTALL $(1)'
 	@rm -rf '$(2)'
-	@cd '$(1)' && git checkout-index -a -f --prefix='$(2)/'
+	@cd '$(1)' >/dev/null && git checkout-index -a -f --prefix='$(2)/'
 	@vim -u NONE -i NONE -n -N -e -s -c 'silent! helptags $(2)/doc | qall!'
 endef
 $(eval \
