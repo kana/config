@@ -116,11 +116,6 @@
 " Basic  "{{{1
 " Absolute  "{{{2
 
-if !exists('s:loaded_my_vimrc')
-  runtime flavors/bootstrap.vim
-endif
-
-
 function! s:SID_PREFIX()
  return matchstr(expand('<sfile>'), '<SNR>\d\+_')
 endfunction
@@ -306,6 +301,19 @@ endif
 
 let g:mapleader = ','
 let g:maplocalleader = '.'
+
+
+
+
+" Load plugins  "{{{2
+" Several plugins refer global variables which are set in this vimrc,
+" but this vimrc are written with features which are provided by some plugins.
+" So that plugins must be loaded at this timing, especially for <Leader>.
+
+let s:my_after_path = split(&runtimepath, ',')[-1]
+execute 'set runtimepath-='.s:my_after_path
+packloadall  " To autoload plugins while sourcing this vimrc.
+execute 'set runtimepath+='.s:my_after_path
 
 
 
