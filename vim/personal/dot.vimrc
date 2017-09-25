@@ -1176,7 +1176,11 @@ function! s:activate_terminal()  "{{{2
   if has('macunix')
     " There is alternative way to activate, but it's slow:
     " !osascript -e 'tell application "Terminal" to activate the front window'
-    silent !open -a Terminal
+    if isdirectory('/Applications/iTerm.app')
+      silent !open -a iTerm
+    else
+      silent !open -a Terminal
+    endif
   else
     " This platform is not supported.
   endif
