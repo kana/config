@@ -296,15 +296,15 @@ if where git &>/dev/null; then
       head_name="$(git symbolic-ref HEAD 2>/dev/null)"
     fi
     if [ -z "$head_name" ]; then
-      head_name="$(git branch | sed -e 's/^\* //;t;d')"
+      head_name="$(git branch | sed '/^\* /!d;s/^\* //')"
       if [ "$head_name" = '(no branch)' ]; then
         # "git branch" doesn't show the correct name of a branch after
         # "git checkout {commitish-and-not-the-head-of-a-branch}",
         # so we have to use another method to get the name of {commitish}.
         head_name="($(
           {
-            fgrep 'checkout: moving from ' "$git_dir/logs/HEAD" |
-            sed '$s/^.* to \([^ ]*\)$/\1/;t;d'
+            git reflog --grep-reflog 'checkout' -n1 HEAD |
+            sed 's/.* to //'
           } 2>/dev/null
         ))"
       elif [ "$head_name" = '' ]; then
