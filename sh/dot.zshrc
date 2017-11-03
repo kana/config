@@ -429,7 +429,7 @@ compinit
 _git  # FIXME: force loading as necessary
 source <(
   git config --global --list |
-    sed -e '/!/!s/^alias\.\([^=]*\)=\(.*\)$/\1 \2/;t;d' |
+    sed '/^alias\./!d;/!/d;s/^alias\.\([^=]*\)=\(.*\)$/\1 \2/' |
     awk '{
       print "_git-" $1 "() {"
       print "  _git-" $2 " \"\$@\""
