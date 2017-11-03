@@ -32,16 +32,18 @@ export ENV_ACCESS="$ENV_WORKING"
 export PATH MANPATH INFOPATH
 
 if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
-  # To use own versions prior to default (e.g. sed installed by homebrew)
+  # Prioritize homebrew'ed binaries over Mac defaults.
   PATH="/usr/local/bin:${PATH/:\/usr\/local\/bin:/:}"
+
+  # Prioritize coreutils withtout "g" prefix over prefixed ones.
+  if which brew >/dev/null; then
+    coreutils_path="$(brew --prefix coreutils)"
+    PATH="$coreutils_path/libexec/gnubin:$PATH"
+    MANPATH="$coreutils_path/libexec/gnuman:$MANPATH"
+  fi
 
   if [ -d "$HOME/.nodenv/bin" ]; then
     PATH="$HOME/.nodenv/bin:$PATH"
-  fi
-
-  # To use coreutils, installed by homebrew, without the prefix "g".
-  if which brew >/dev/null; then
-    PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
   fi
 
   # for cabal
