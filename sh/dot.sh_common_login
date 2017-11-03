@@ -148,6 +148,9 @@ if [ "$ENV_WORKING" = 'avril' ]; then
   export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
 fi
 
+# Suddenly perl can't find any module without this.
+export PERL5LIB=/System/Library/Perl/5.18
+
 
 # make  #{{{2
 if [ "$ENV_WORKING" = 'summer' ]; then
