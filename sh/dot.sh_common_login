@@ -41,10 +41,6 @@ export TZ=JST-9
 export CYGHOME="/c/cygwin$HOME"
 
 
-# cvs  #{{{2
-export CVS_RSH=ssh
-
-
 # gzip  #{{{2
 export GZIP='--best --name --verbose'
 
