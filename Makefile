@@ -4,9 +4,7 @@
 softwares_common := bin dotfiles git sh vim
 
 softwares := \
-	$(softwares_common) \
-	$(softwares_$(ENV_WORKING)) \
-	$(softwares_$(ENV_WORKING)_$(USER))
+	$(softwares_common)
 
 
 

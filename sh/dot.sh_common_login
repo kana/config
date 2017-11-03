@@ -1,89 +1,25 @@
 # Common rc file for login shells
-# Environment detection  #{{{1
-
-# What machine am I working on?
-  # BUGS: ad hoc conditions to determine.
-  # FIXME: Use hostname for this variable.
-  #        Currently the name of a system is used instead.
-if [ "${OSTYPE%%[^a-z]*}" = 'darwin' ]; then
-  export ENV_WORKING='avril'  # Home - MacBook
-elif [ "$OSTYPE" = 'cygwin' ]; then
-  export ENV_WORKING='summer'  # Home - Cygwin on Windows PC
-elif [ "$HOST" = 'colinux' ]; then
-  export ENV_WORKING='winter'  # Home - coLinux on Windows PC
-elif [ "$HOST" = 'chocolate' ]; then
-  export ENV_WORKING='chocolate'  # Office - Debian on VMWare Player on Windows
-else
-  export ENV_WORKING='linux'
-fi
-
-
-# What machine am I using to access $ENV_WORKING?
-  # FIXME: How to detect the right value?
-  # Currently, I don't often work with situations such as ENV_ACCESS !=
-  # ENV_WORKING.  So that it's useful to assume that both of them are the same.
-export ENV_ACCESS="$ENV_WORKING"
-
-
-
-
 # PATH  #{{{1
 
 export PATH MANPATH INFOPATH
 
 if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
-  # for MacPorts
-  if [ -d /opt/local ]; then
-    for i in /opt/local/{bin,sbin}; do
-      if [ -d "$i" ]; then
-        PATH="$i:$PATH"
-      fi
-    done
-    if [ -d "/opt/local/share/man" ]; then
-      MANPATH="/opt/local/share/man:$MANPATH"
-    fi
-  fi
-
-  # To use own versions prior to default (e.g. sed installed by homebrew)
+  # Prioritize homebrew'ed binaries over Mac defaults.
   PATH="/usr/local/bin:${PATH/:\/usr\/local\/bin:/:}"
+
+  # Prioritize coreutils withtout "g" prefix over prefixed ones.
+  if which brew >/dev/null; then
+    coreutils_path="$(brew --prefix coreutils)"
+    PATH="$coreutils_path/libexec/gnubin:$PATH"
+    MANPATH="$coreutils_path/libexec/gnuman:$MANPATH"
+  fi
 
   if [ -d "$HOME/.nodenv/bin" ]; then
     PATH="$HOME/.nodenv/bin:$PATH"
   fi
 
-  # To use coreutils, installed by homebrew, without the prefix "g".
-  if which brew >/dev/null; then
-    PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-  fi
-
-  # for cabal
-  if [ -d "$HOME/.cabal/bin" ]; then PATH="$HOME/.cabal/bin:$PATH"; fi
-
-  # for manually built applications - global
-  if [ -d /usr/local/apps ]; then
-    for i in /usr/local/apps/*; do
-      if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
-      if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
-      if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
-      if [ -d "$i/info" ]; then INFOPATH="$i/info:$INFOPATH"; fi
-    done
-  fi
-
-  # for manually built applications - per-user
-  if [ -d "$HOME/apps" ]; then
-    for i in "$HOME/apps/"*; do
-      if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
-      if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
-      if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
-      if [ -d "$i/info" ]; then INFOPATH="$i/info:$INFOPATH"; fi
-    done
-  fi
-
-  # for my own tools
+  # For my own tools
   if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
-  if [ -d "$HOME/man" ]; then MANPATH="$HOME/man:$MANPATH"; fi
-  if [ -d "$HOME/share/man" ]; then MANPATH="$HOME/share/man:$MANPATH"; fi
-  if [ -d "$HOME/info" ]; then INFOPATH="$HOME/info:$INFOPATH"; fi
 fi
 
 # Max OS X El Capitan makes things complicated again.  See also sh/dot.zshenv.
@@ -102,26 +38,6 @@ export PAGER=less
 export SHELL=$(which zsh)
 export TZ=JST-9
 
-case "$ENV_ACCESS" in
-  summer)
-    export TERM=rxvt-cygwin-native
-    export LANG=
-    ;;
-  linux|winter|*)
-    # export TERM=...  # Don't touch -- use the default values.
-    # export LANG=...  # Don't touch -- use the default values.
-    ;;
-esac
-
-export CYGHOME="/c/cygwin$HOME"
-
-
-# cvs  #{{{2
-export CVS_RSH=ssh
-if [ "$ENV_WORKING" = 'summer' ]; then
-  export CVSROOT=$HOME/var/cvsroot
-fi
-
 
 # gzip  #{{{2
 export GZIP='--best --name --verbose'
@@ -132,40 +48,15 @@ export GZIP='--best --name --verbose'
 # TODO: What I really want is --no-init-if-one-screen to combine with
 # --quit-if-one-screen, but it doesn't exist.
 export LESS='-P [?eEOF:?PB%PB\%..]'
-case "$ENV_ACCESS" in
-  summer)
-    export JLESSCHARSET=japanese-sjis
-    ;;
-  colinux|linux|*)
-    # Don't set.
-    ;;
-esac
 
 
 # Mac OS X  #{{{2
-if [ "$ENV_WORKING" = 'avril' ]; then
-  # To use pbcopy/pbpaste with UTF-8 encoding.
-  export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
-fi
 
+# To use pbcopy/pbpaste with UTF-8 encoding.
+export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
 
-# make  #{{{2
-if [ "$ENV_WORKING" = 'summer' ]; then
-  export MAKE_MODE=unix
-fi
-
-
-# X  #{{{2
-if [ "$ENV_WORKING" = 'linux' ] && [ -n "$DISPLAY" ]; then
-  setxkbmap us
-  xmodmap ~/.xmodmaprc
-  if ! xset q | grep $HOME >/dev/null; then
-    for dir in ~/share/fonts/*; do
-      xset fp+ $dir
-    done
-    xset fp rehash
-  fi
-fi
+# Suddenly perl can't find any module without this.
+export PERL5LIB=/System/Library/Perl/5.18
 
 
 
