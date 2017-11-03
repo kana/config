@@ -62,17 +62,7 @@ _set_up_prompt() {
     root) _c_user="$_c_red" ;;
     *) _c_user="$_c_green" ;;
   esac
-  local _c_host
-  case "$HOSTNAME" in
-    winter) _c_host="$_c_cyan" ;;
-    *)
-      if [ "$ENV_WORKING" != "$ENV_ACCESS" ]; then
-        _c_host="$_c_cyan"
-      else
-        _c_host="$_c_green"
-      fi
-      ;;
-  esac
+  local _c_host="$_c_green"
 
   local _prompt_title='\[\e]0;\u@\h \w\007\]'
   local _prompt_host="$_c_user\\u$_c_reset$_c_host@\\h$_c_reset"
@@ -122,80 +112,6 @@ alias ..='cd ..'
 
 alias afk='echo "Away From Keyboard ..."; while true; do date; sleep 5m; done'
 
-if [ "$ENV_WORKING" = 'winter' ]; then
-  alias mount-c='mount-x c'
-  alias umount-c='umount-x c'
-
-  #alias mount-c='mount-c-smbfs'
-  #alias umount-c='sudo umount /c'
-  alias mount-c-cofs='sudo mount -t cofs cofs0 /c -o defaults,noatime,noexec,user,uid=$USER,gid=users'
-  #alias mount-c-smbfs='sudo mount -t smbfs "//windows/C\$" /c -o defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER'
-
-  alias mount-x='mount-x-samba'
-  alias umount-x='umount-x-samba'
-
-  function mount-x-samba() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    sudo mount -t smbfs \
-         "//windows/$(echo "$1" | tr '[:lower:]' '[:upper:]')\$" "/$1" \
-         -o "defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER"
-  }
-  function umount-x-samba() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    sudo umount "/$1"
-  }
-
-  function mount-x-sshfs() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    sshfs "cygwin:/cygdrive/$1" "/$1"
-  }
-  function umount-x-sshfs() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    fusermount -u "/$1"
-  }
-
-  alias shutdown-colinux='sudo halt; exit'
-fi
-
-function backup-repos() {
-  local datetime=$(date '+%Y-%m-%dT%H-%M-%S')
-
-  for i in cereja config meta nicht vim
-  do
-    pushd ~/freq/latest/working/$i &>/dev/null
-      echo "Processing $i ..."
-      git gc
-      tar jcf /c/cygwin/home/$USER/var/$datetime-git-$i.tar.bz2 .git/
-      # # disabled, it's somewhat dangerous.
-      # # if dcommit is necessary, do it manually.
-      # git-svn dcommit
-    popd &>/dev/null
-  done
-
-  ssh cygwin <<END
-  pushd ~/var &>/dev/null
-    # # experimental: disabled to fully migrate to git.
-    # for i in cereja nicht repos vim
-    # do
-    #   tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
-    # done
-    cp -av $datetime-*.tar.bz2 /e/backup/repos/
-  popd &>/dev/null
-END
-}
-
 
 
 
@@ -208,19 +124,6 @@ END
 source ~/.bash.d/cdhist.sh
 
 
-case "$ENV_WORKING" in
-  chocolate|linux|summer)
-    BASH_COMPLETION=~/.bash.d/bash_completion
-    BASH_COMPLETION_DIR=~/.bash.d/NO_SUCH_DIR  # Don't use contrib for this.
-    ;;
-  winter)
-    BASH_COMPLETION=/etc/bash_completion
-    # BASH_COMPLETION_DIR=...  # Don't set - use the default value.
-    ;;
-  *)
-    # NOP
-    ;;
-esac
 if [ -n "$BASH_COMPLETION" ] && [ -r "$BASH_COMPLETION" ]; then
   source "$BASH_COMPLETION"
 fi

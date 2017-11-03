@@ -14,17 +14,7 @@ bindkey -v  # vi!  vi!
 
 # Parameters  #{{{1
 
-case "$ENV_WORKING" in
-  avril)
-    export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
-    ;;
-  summer)
-    export CDPATH="$(echo . ~/freq{,/latest{,/working,/u}} | tr ' ' ':')"
-    ;;
-  *)
-    export CDPATH="$(echo . ~/{working,} | tr ' ' ':')"
-    ;;
-esac
+export CDPATH="$(echo . ~/{working,Downloads,} | tr ' ' ':')"
 
 HISTFILE=~/.zsh_history
 
@@ -218,19 +208,7 @@ function prompt_setup() {
       c_user="$c_green"
       ;;
   esac
-  local c_host
-  case "$HOST" in
-    winter)
-      c_host="$c_cyan"
-      ;;
-    *)
-      if [ "$ENV_WORKING" != "$ENV_ACCESS" ]; then
-        c_host="$c_cyan"
-      else
-        c_host="$c_green"
-      fi
-      ;;
-  esac
+  local c_host="$c_green"
 
     # On Mac OS X, %m may be expanded to an IP address.
     # Use the computer name from System Preferences if available.
@@ -279,87 +257,6 @@ alias gs='git svn'
 alias screen='LANG= screen'
 
 alias ..='cd ..'
-
-
-
-
-# colinux only  #{{{2
-
-if [ "$ENV_WORKING" = 'winter' ]; then
-  alias shutdown-colinux='sudo halt; exit'
-
-  # mount wrappers  #{{{
-  alias mount-c='mount-x c'
-  alias umount-c='umount-x c'
-
-  #alias mount-c='mount-c-smbfs'
-  #alias umount-c='sudo umount /c'
-  alias mount-c-cofs='sudo mount -t cofs cofs0 /c -o defaults,noatime,noexec,user,uid=$USER,gid=users'
-  #alias mount-c-smbfs='sudo mount -t smbfs "//windows/C\$" /c -o defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER'
-
-  alias mount-x='mount-x-samba'
-  alias umount-x='umount-x-samba'
-
-  function mount-x-samba() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    sudo mount -t smbfs \
-         "//windows/$(echo "$1" | tr '[:lower:]' '[:upper:]')\$" "/$1" \
-         -o "defaults,noatime,user,uid=$USER,gid=users,fmask=0644,dmask=0755,username=$USER"
-  }
-  function umount-x-samba() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    sudo umount "/$1"
-  }
-
-  function mount-x-sshfs() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    sshfs "cygwin:/cygdrive/$1" "/$1"
-  }
-  function umount-x-sshfs() {
-    if [ $# != 1 ]; then
-      echo "Usage: $0 {drive-letter}"
-      return 1
-    fi
-    fusermount -u "/$1"
-  }
-  #}}}
-
-  function backup-repos() {  #{{{
-    local datetime=$(date '+%Y-%m-%dT%H-%M-%S')
-
-    for i in cereja config meta nicht vim
-    do
-      pushd ~/freq/latest/working/$i &>/dev/null
-        echo "Processing $i ..."
-        git gc
-        tar jcf /c/cygwin/home/$USER/var/$datetime-git-$i.tar.bz2 .git/
-        # # disabled, it's somewhat dangerous.
-        # # if dcommit is necessary, do it manually.
-        # git-svn dcommit
-      popd &>/dev/null
-    done
-
-    ssh cygwin <<END
-    pushd ~/var &>/dev/null
-      # # experimental: disabled to fully migrate to git.
-      # for i in cereja nicht repos vim
-      # do
-      #   tar jcf $datetime-svn-\$i.tar.bz2 svn-\$i/
-      # done
-      cp -av $datetime-*.tar.bz2 /e/backup/repos/
-    popd &>/dev/null
-END
-  }  #}}}
-fi
 
 
 

@@ -16,17 +16,6 @@ _check_then_source() {  # script-path
   fi
 }
 
-case "$ENV_WORKING" in
-  chocolate|summer|winter)
-    _check_then_source /etc/bash.bashrc
-    ;;
-  linux)
-    _check_then_source /etc/bashrc
-    ;;
-  *)
-    # nop
-    ;;
-esac
 _check_then_source ~/.bashrc
 
 unset -f _check_then_source

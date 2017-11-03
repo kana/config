@@ -125,12 +125,7 @@ endfunction
 
 " Encoding  "{{{2
 
-" To deal with Japanese language.
-if $ENV_WORKING ==# 'summer'
-  set encoding=japan
-else
-  set encoding=utf-8
-endif
+set encoding=utf-8
 
 if has('iconv')
   let s:enc_euc = 'euc-jp'
@@ -165,15 +160,6 @@ if has('iconv')
 
   unlet s:enc_euc
   unlet s:enc_jis
-endif
-
-
-if $ENV_ACCESS ==# 'summer'
-  set termencoding=cp932
-elseif has('gui_macvim')
-  " E617 - It's not possible to change 'termencoding' in MacVim.
-else  " fallback
-  set termencoding=  " same as 'encoding'
 endif
 
 
@@ -1372,19 +1358,12 @@ endfunction
 " FIXME: some mappings are not countable.
 " Physical/Logical keyboard layout declaration  "{{{2
 
-if $ENV_WORKING != 'summer' && $ENV_WORKING !=# 'winter'
-  " Semicolon and Return are swapped by KeyRemap4MacBook, Mayu or Kinesis on
-  " some environments.
-  KeyboardLayout ;  <Return>
-  KeyboardLayout :  <S-Return>
-  KeyboardLayout <Return>  ;
-  KeyboardLayout <S-Return>  :
-else
-  KeyboardLayout ;  ;
-  KeyboardLayout :  :
-  KeyboardLayout <Return>  <Return>
-  KeyboardLayout <S-Return>  <S-Return>
-endif
+" Semicolon and Return are swapped by KeyRemap4MacBook, Mayu or Kinesis on
+" some environments.
+KeyboardLayout ;  <Return>
+KeyboardLayout :  <S-Return>
+KeyboardLayout <Return>  ;
+KeyboardLayout <S-Return>  :
 
 " For ease of typing, treat <kEnter> as if it is a <Return> key.
 Allmap <kEnter>  <Return>
