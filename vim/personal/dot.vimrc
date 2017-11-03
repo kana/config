@@ -168,9 +168,6 @@ endif
 " Options  "{{{2
 
 if (1 < &t_Co || has('gui')) && has('syntax')
-  if &term ==# 'rxvt-cygwin-native'
-    set t_Co=256
-  endif
   syntax enable
   if !exists('g:colors_name')  " Don't override colorscheme on reloading.
     colorscheme nevfn

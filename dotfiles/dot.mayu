@@ -51,22 +51,6 @@ endif
 
 
 
-# Application Launcher  #{{{1
-# ===========================
-
-if (enable_launcher)
-  key C-M-C = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=connect",, ShowNormal)
-  key C-M-I = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=iview",, ShowNormal)
-  key C-M-J = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=jtrim",, ShowNormal)
-  key C-M-O = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=opera",, ShowNormal)
-  key C-M-L = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=latest",, ShowNormal)
-  key C-M-S = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=cygwin",, ShowNormal)
-  key C-M-S-L = &ShellExecute("open", "C:\\cygwin\\usr\\win\\bin\\bluewind\\bluewind.exe", "/Runcommand=limechat",, ShowNormal)
-endif
-
-
-
-
 # Explorer  #{{{1
 # ===============
 

@@ -38,8 +38,6 @@ export PAGER=less
 export SHELL=$(which zsh)
 export TZ=JST-9
 
-export CYGHOME="/c/cygwin$HOME"
-
 
 # gzip  #{{{2
 export GZIP='--best --name --verbose'
