@@ -46,34 +46,8 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
     PATH="$HOME/.nodenv/bin:$PATH"
   fi
 
-  # for cabal
-  if [ -d "$HOME/.cabal/bin" ]; then PATH="$HOME/.cabal/bin:$PATH"; fi
-
-  # for manually built applications - global
-  if [ -d /usr/local/apps ]; then
-    for i in /usr/local/apps/*; do
-      if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
-      if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
-      if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
-      if [ -d "$i/info" ]; then INFOPATH="$i/info:$INFOPATH"; fi
-    done
-  fi
-
-  # for manually built applications - per-user
-  if [ -d "$HOME/apps" ]; then
-    for i in "$HOME/apps/"*; do
-      if [ -d "$i/bin" ]; then PATH="$i/bin:$PATH"; fi
-      if [ -d "$i/man" ]; then MANPATH="$i/man:$MANPATH"; fi
-      if [ -d "$i/share/man" ]; then MANPATH="$i/share/man:$MANPATH"; fi
-      if [ -d "$i/info" ]; then INFOPATH="$i/info:$INFOPATH"; fi
-    done
-  fi
-
-  # for my own tools
+  # For my own tools
   if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
-  if [ -d "$HOME/man" ]; then MANPATH="$HOME/man:$MANPATH"; fi
-  if [ -d "$HOME/share/man" ]; then MANPATH="$HOME/share/man:$MANPATH"; fi
-  if [ -d "$HOME/info" ]; then INFOPATH="$HOME/info:$INFOPATH"; fi
 fi
 
 # Max OS X El Capitan makes things complicated again.  See also sh/dot.zshenv.
