@@ -4,9 +4,6 @@
 export PATH MANPATH INFOPATH
 
 if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
-  # Prioritize homebrew'ed binaries over Mac defaults.
-  PATH="/usr/local/bin:${PATH/:\/usr\/local\/bin:/:}"
-
   # Prioritize coreutils withtout "g" prefix over prefixed ones.
   if which brew >/dev/null; then
     coreutils_path="$(brew --prefix coreutils)"
