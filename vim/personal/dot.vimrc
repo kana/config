@@ -1934,6 +1934,7 @@ nnoremap <C-i>  <C-w>w
 nnoremap <Esc>i  <C-w>W
   " For other mappings (<Esc>{x} to <C-w>{x}).
 nmap <Esc>  <C-w>
+vmap <Esc>  <C-w>
 
 
 for i in ['H', 'J', 'K', 'L']
