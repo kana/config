@@ -1599,7 +1599,9 @@ Fnmap <silent> tsk  <SID>split_and_tag_jump('leftabove')
 Fnmap <silent> tsl  <SID>split_and_tag_jump('vertical rightbelow')
 
 function! s:split_and_tag_jump(direction)
-  execute a:direction 'split'
+  if len(taglist(expand('<cword>'))) >= 1
+    execute a:direction 'split'
+  endif
   execute 'normal!' "\<C-]>"
 endfunction
 
