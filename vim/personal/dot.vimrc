@@ -1846,9 +1846,8 @@ nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
 Operatormap [Space]c  <Plug>(operator-calculate-sum-of-fields)
 
-Cnmap <silent> [Space]e
-\              setlocal encoding? termencoding? fileencoding? fileencodings?
 Cnmap <silent> [Space]f  setlocal filetype? fileencoding? fileformat?
+\                                 encoding? termencoding? fileencodings?
 
 " Close a fold.
 nnoremap [Space]h  zc
