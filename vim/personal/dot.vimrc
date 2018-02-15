@@ -1615,10 +1615,6 @@ nmap t''  t'c
 " With :split  "{{{3
 
 nnoremap tst  <C-w>]
-Cnmap <silent> tsn  split \| tnext
-Cnmap <silent> tsp  split \| tpevious
-Cnmap <silent> tsP  split \| tfirst
-Cnmap <silent> tsN  split \| tlast
 
 " NB: <C-]> is not inserted also in Command-line mode since Vim 7.3.1235.
 Cnmap <silent> tsH  Split Left \| normal! <C-v><C-]>
