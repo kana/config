@@ -1566,6 +1566,8 @@ noremap! <Esc>?  :
 
 
 " Tag jumping  "{{{2
+" I've never used {Visual}CTRL-] and other variants.
+" So that custom key mappings are not defined in Visual mode.
 " Fallback  "{{{3
 
 " ``T'' is also disabled for consistency.
@@ -1580,7 +1582,6 @@ noremap [Space]T  T
 " Basic  "{{{3
 
 nnoremap tt  <C-]>
-vnoremap tt  <C-]>
 Cnmap <silent> tj  tag
 Cnmap <silent> tk  pop
 Cnmap <silent> tl  tags
@@ -1591,7 +1592,6 @@ Cnmap <silent> tN  tlast
 
 " additions, like Web browsers
 nmap <Plug>(physical-key-<Return>)  tt
-vmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
 Cnmap <noexec> t<Space>  tag<Space>
@@ -1600,7 +1600,6 @@ Cnmap <noexec> t<Space>  tag<Space>
 " With the preview window  "{{{3
 
 nnoremap t't  <C-w>}
-vnoremap t't  <C-w>}
 Cnmap <silent> t'n  ptnext
 Cnmap <silent> t'p  ptprevious
 Cnmap <silent> t'P  ptfirst
@@ -1616,14 +1615,12 @@ nmap t''  t'c
 " With :split  "{{{3
 
 nnoremap tst  <C-w>]
-vnoremap tst  <C-w>]
 Cnmap <silent> tsn  split \| tnext
 Cnmap <silent> tsp  split \| tpevious
 Cnmap <silent> tsP  split \| tfirst
 Cnmap <silent> tsN  split \| tlast
 
-  " FIXME: Define also in Visual mode -- but is it really useful?
-  " NB: <C-]> is not inserted also in Command-line mode since Vim 7.3.1235.
+" NB: <C-]> is not inserted also in Command-line mode since Vim 7.3.1235.
 Cnmap <silent> tsH  Split Left \| normal! <C-v><C-]>
 Cnmap <silent> tsJ  Split Bottom \| normal! <C-v><C-]>
 Cnmap <silent> tsK  Split Top \| normal! <C-v><C-]>
