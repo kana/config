@@ -223,6 +223,7 @@ set ruler
 set showcmd
 set showmode
 set updatetime=4000
+set tagcase=smart
 set title
 set titlestring=Vim:\ %f\ %h%r%m
 if exists('+transparency')
@@ -583,33 +584,6 @@ endfunction
 command! -bar -nargs=1 Source
 \   echo 'Sourcing ...' expand(<q-args>)
 \ | source <args>
-
-
-
-
-" Split - :split variants  "{{{2
-
-command! -bar -nargs=1 Split  call s:cmd_Split(<q-args>)
-function! s:cmd_Split(direction)
-  let DIRECTION_MODIFIER_TABLE = {
-  \   'Top': 'topleft',
-  \   'Bottom': 'botright',
-  \   'Left': 'vertical topleft',
-  \   'Right': 'vertical botright',
-  \   'above': 'leftabove',
-  \   'below': 'rightbelow',
-  \   'left': 'vertical leftabove',
-  \   'right': 'vertical rightbelow',
-  \ }
-
-  let modifier = get(DIRECTION_MODIFIER_TABLE, a:direction, 0)
-  if modifier is 0
-    echoerr 'Invalid direction:' string(a:direction)
-    return
-  endif
-
-  execute modifier 'split'
-endfunction
 
 
 
@@ -1340,6 +1314,13 @@ endfunction
 
 
 
+function! s:operator_eval(motion_wiseness)  "{{{2
+  execute 'normal!' "`[cv`]\<C-r>=\<C-r>-\<Return>\<Esc>"
+endfunction
+
+
+
+
 function! s:set_short_indent()  "{{{2
   setlocal expandtab softtabstop=2 shiftwidth=2
 endfunction
@@ -1565,6 +1546,8 @@ noremap! <Esc>?  :
 
 
 " Tag jumping  "{{{2
+" I've never used {Visual}CTRL-] and other variants.
+" So that custom key mappings are not defined in Visual mode.
 " Fallback  "{{{3
 
 " ``T'' is also disabled for consistency.
@@ -1579,7 +1562,6 @@ noremap [Space]T  T
 " Basic  "{{{3
 
 nnoremap tt  <C-]>
-vnoremap tt  <C-]>
 Cnmap <silent> tj  tag
 Cnmap <silent> tk  pop
 Cnmap <silent> tl  tags
@@ -1590,7 +1572,6 @@ Cnmap <silent> tN  tlast
 
 " additions, like Web browsers
 nmap <Plug>(physical-key-<Return>)  tt
-vmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
 Cnmap <noexec> t<Space>  tag<Space>
@@ -1599,7 +1580,6 @@ Cnmap <noexec> t<Space>  tag<Space>
 " With the preview window  "{{{3
 
 nnoremap t't  <C-w>}
-vnoremap t't  <C-w>}
 Cnmap <silent> t'n  ptnext
 Cnmap <silent> t'p  ptprevious
 Cnmap <silent> t'P  ptfirst
@@ -1615,22 +1595,22 @@ nmap t''  t'c
 " With :split  "{{{3
 
 nnoremap tst  <C-w>]
-vnoremap tst  <C-w>]
-Cnmap <silent> tsn  split \| tnext
-Cnmap <silent> tsp  split \| tpevious
-Cnmap <silent> tsP  split \| tfirst
-Cnmap <silent> tsN  split \| tlast
 
-  " FIXME: Define also in Visual mode -- but is it really useful?
-  " NB: <C-]> is not inserted also in Command-line mode since Vim 7.3.1235.
-Cnmap <silent> tsH  Split Left \| normal! <C-v><C-]>
-Cnmap <silent> tsJ  Split Bottom \| normal! <C-v><C-]>
-Cnmap <silent> tsK  Split Top \| normal! <C-v><C-]>
-Cnmap <silent> tsL  Split Right \| normal! <C-v><C-]>
-Cnmap <silent> tsh  Split left \| normal! <C-v><C-]>
-Cnmap <silent> tsj  Split below \| normal! <C-v><C-]>
-Cnmap <silent> tsk  Split above \| normal! <C-v><C-]>
-Cnmap <silent> tsl  Split right \| normal! <C-v><C-]>
+Fnmap <silent> tsH  <SID>split_and_tag_jump('vertical topleft')
+Fnmap <silent> tsJ  <SID>split_and_tag_jump('botright')
+Fnmap <silent> tsK  <SID>split_and_tag_jump('topleft')
+Fnmap <silent> tsL  <SID>split_and_tag_jump('vertical botright')
+Fnmap <silent> tsh  <SID>split_and_tag_jump('vertical leftabove')
+Fnmap <silent> tsj  <SID>split_and_tag_jump('rightbelow')
+Fnmap <silent> tsk  <SID>split_and_tag_jump('leftabove')
+Fnmap <silent> tsl  <SID>split_and_tag_jump('vertical rightbelow')
+
+function! s:split_and_tag_jump(direction)
+  if len(taglist(expand('<cword>'))) >= 1
+    execute a:direction 'split'
+  endif
+  execute 'normal!' "\<C-]>"
+endfunction
 
 
 
@@ -1871,11 +1851,11 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-Operatormap [Space]c  <Plug>(operator-my-calculate-sum-of-fields)
+Operatormap [Space]c  <Plug>(operator-calculate-sum-of-fields)
+Operatormap [Space]e  <Plug>(operator-eval)
 
-Cnmap <silent> [Space]e
-\              setlocal encoding? termencoding? fileencoding? fileencodings?
 Cnmap <silent> [Space]f  setlocal filetype? fileencoding? fileformat?
+\                                 encoding? termencoding? fileencodings?
 
 " Close a fold.
 nnoremap [Space]h  zc
@@ -1906,7 +1886,7 @@ Cnmap <silent> [Space]q  help quickref
 Cnmap <silent> [Space]r  registers
 
   " FIXME: ambiguous mappings - fix or not.
-Operatormap [Space]s  <Plug>(operator-my-sort)
+Operatormap [Space]s  <Plug>(operator-sort)
 omap [Space]s  g@
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
@@ -2015,31 +1995,32 @@ onoremap gv  :<C-u>normal! gv<Return>
 " Operators  "{{{2
 
 " Adjust the height of the current window as same as the selected range.
-call operator#user#define('my-adjust-window-height',
+call operator#user#define('adjust-window-height',
 \                         s:SID_PREFIX() . 'operator_adjust_window_height')
-map _  <Plug>(operator-my-adjust-window-height)
+map _  <Plug>(operator-adjust-window-height)
 
 
-call operator#user#define_ex_command('my-left', 'left')
-call operator#user#define_ex_command('my-right', 'right')
-call operator#user#define_ex_command('my-center', 'center')
-Arpeggio map oh  <Plug>(operator-my-left)
-Arpeggio map ol  <Plug>(operator-my-right)
-Arpeggio map om  <Plug>(operator-my-center)
+call operator#user#define_ex_command('left', 'left')
+call operator#user#define_ex_command('right', 'right')
+call operator#user#define_ex_command('center', 'center')
+Arpeggio map oh  <Plug>(operator-left)
+Arpeggio map ol  <Plug>(operator-right)
+Arpeggio map om  <Plug>(operator-center)
 
 
-call operator#user#define_ex_command('my-join', 'join')
-Arpeggio map oj  <Plug>(operator-my-join)
+call operator#user#define_ex_command('join', 'join')
+Arpeggio map oj  <Plug>(operator-join)
 
 
-call operator#user#define_ex_command('my-sort', 'sort')
-call operator#user#define('my-calculate-sum-of-fields',
+call operator#user#define_ex_command('sort', 'sort')
+call operator#user#define('calculate-sum-of-fields',
 \                         s:SID_PREFIX() . 'operator_calculate_sum_of_fields')
+call operator#user#define('eval', s:SID_PREFIX() . 'operator_eval')
 " User key mappings will be defined later - see [Space].
 
 
-call operator#user#define_ex_command('my-reverse', "global/^/move '[-1'")
-Arpeggio map OR  <Plug>(operator-my-reverse)
+call operator#user#define_ex_command('reverse', "global/^/move '[-1'")
+Arpeggio map OR  <Plug>(operator-reverse)
 
 
 
