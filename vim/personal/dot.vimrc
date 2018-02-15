@@ -1844,7 +1844,7 @@ Fnmap <silent> [Space]?  <SID>close_help_window()
 nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
-Operatormap [Space]c  <Plug>(operator-my-calculate-sum-of-fields)
+Operatormap [Space]c  <Plug>(operator-calculate-sum-of-fields)
 
 Cnmap <silent> [Space]e
 \              setlocal encoding? termencoding? fileencoding? fileencodings?
@@ -1879,7 +1879,7 @@ Cnmap <silent> [Space]q  help quickref
 Cnmap <silent> [Space]r  registers
 
   " FIXME: ambiguous mappings - fix or not.
-Operatormap [Space]s  <Plug>(operator-my-sort)
+Operatormap [Space]s  <Plug>(operator-sort)
 omap [Space]s  g@
 Cnmap <silent> [Space]s.  Source $MYVIMRC
 Cnmap <silent> [Space]ss  Source %
@@ -1988,31 +1988,31 @@ onoremap gv  :<C-u>normal! gv<Return>
 " Operators  "{{{2
 
 " Adjust the height of the current window as same as the selected range.
-call operator#user#define('my-adjust-window-height',
+call operator#user#define('adjust-window-height',
 \                         s:SID_PREFIX() . 'operator_adjust_window_height')
-map _  <Plug>(operator-my-adjust-window-height)
+map _  <Plug>(operator-adjust-window-height)
 
 
-call operator#user#define_ex_command('my-left', 'left')
-call operator#user#define_ex_command('my-right', 'right')
-call operator#user#define_ex_command('my-center', 'center')
-Arpeggio map oh  <Plug>(operator-my-left)
-Arpeggio map ol  <Plug>(operator-my-right)
-Arpeggio map om  <Plug>(operator-my-center)
+call operator#user#define_ex_command('left', 'left')
+call operator#user#define_ex_command('right', 'right')
+call operator#user#define_ex_command('center', 'center')
+Arpeggio map oh  <Plug>(operator-left)
+Arpeggio map ol  <Plug>(operator-right)
+Arpeggio map om  <Plug>(operator-center)
 
 
-call operator#user#define_ex_command('my-join', 'join')
-Arpeggio map oj  <Plug>(operator-my-join)
+call operator#user#define_ex_command('join', 'join')
+Arpeggio map oj  <Plug>(operator-join)
 
 
-call operator#user#define_ex_command('my-sort', 'sort')
-call operator#user#define('my-calculate-sum-of-fields',
+call operator#user#define_ex_command('sort', 'sort')
+call operator#user#define('calculate-sum-of-fields',
 \                         s:SID_PREFIX() . 'operator_calculate_sum_of_fields')
 " User key mappings will be defined later - see [Space].
 
 
-call operator#user#define_ex_command('my-reverse', "global/^/move '[-1'")
-Arpeggio map OR  <Plug>(operator-my-reverse)
+call operator#user#define_ex_command('reverse', "global/^/move '[-1'")
+Arpeggio map OR  <Plug>(operator-reverse)
 
 
 
