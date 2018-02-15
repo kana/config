@@ -1589,34 +1589,17 @@ nmap t''  t'c
 
 nnoremap tst  <C-w>]
 
-Fnmap <silent> tsH  <SID>split_and_tag_jump('Left')
-Fnmap <silent> tsJ  <SID>split_and_tag_jump('Bottom')
-Fnmap <silent> tsK  <SID>split_and_tag_jump('Top')
-Fnmap <silent> tsL  <SID>split_and_tag_jump('Right')
-Fnmap <silent> tsh  <SID>split_and_tag_jump('left')
-Fnmap <silent> tsj  <SID>split_and_tag_jump('below')
-Fnmap <silent> tsk  <SID>split_and_tag_jump('above')
-Fnmap <silent> tsl  <SID>split_and_tag_jump('right')
+Fnmap <silent> tsH  <SID>split_and_tag_jump('vertical topleft')
+Fnmap <silent> tsJ  <SID>split_and_tag_jump('botright')
+Fnmap <silent> tsK  <SID>split_and_tag_jump('topleft')
+Fnmap <silent> tsL  <SID>split_and_tag_jump('vertical botright')
+Fnmap <silent> tsh  <SID>split_and_tag_jump('vertical leftabove')
+Fnmap <silent> tsj  <SID>split_and_tag_jump('rightbelow')
+Fnmap <silent> tsk  <SID>split_and_tag_jump('leftabove')
+Fnmap <silent> tsl  <SID>split_and_tag_jump('vertical rightbelow')
 
 function! s:split_and_tag_jump(direction)
-  let DIRECTION_MODIFIER_TABLE = {
-  \   'Top': 'topleft',
-  \   'Bottom': 'botright',
-  \   'Left': 'vertical topleft',
-  \   'Right': 'vertical botright',
-  \   'above': 'leftabove',
-  \   'below': 'rightbelow',
-  \   'left': 'vertical leftabove',
-  \   'right': 'vertical rightbelow',
-  \ }
-
-  let modifier = get(DIRECTION_MODIFIER_TABLE, a:direction, 0)
-  if modifier is 0
-    echoerr 'Invalid direction:' string(a:direction)
-    return
-  endif
-
-  execute modifier 'split'
+  execute a:direction 'split'
   execute 'normal!' "\<C-]>"
 endfunction
 
