@@ -1616,15 +1616,18 @@ nmap t''  t'c
 
 nnoremap tst  <C-w>]
 
-" NB: <C-]> is not inserted also in Command-line mode since Vim 7.3.1235.
-Cnmap <silent> tsH  Split Left \| normal! <C-v><C-]>
-Cnmap <silent> tsJ  Split Bottom \| normal! <C-v><C-]>
-Cnmap <silent> tsK  Split Top \| normal! <C-v><C-]>
-Cnmap <silent> tsL  Split Right \| normal! <C-v><C-]>
-Cnmap <silent> tsh  Split left \| normal! <C-v><C-]>
-Cnmap <silent> tsj  Split below \| normal! <C-v><C-]>
-Cnmap <silent> tsk  Split above \| normal! <C-v><C-]>
-Cnmap <silent> tsl  Split right \| normal! <C-v><C-]>
+Fnmap <silent> tsH  <SID>split_and_tag_jump('Left')
+Fnmap <silent> tsJ  <SID>split_and_tag_jump('Bottom')
+Fnmap <silent> tsK  <SID>split_and_tag_jump('Top')
+Fnmap <silent> tsL  <SID>split_and_tag_jump('Right')
+Fnmap <silent> tsh  <SID>split_and_tag_jump('left')
+Fnmap <silent> tsj  <SID>split_and_tag_jump('below')
+Fnmap <silent> tsk  <SID>split_and_tag_jump('above')
+Fnmap <silent> tsl  <SID>split_and_tag_jump('right')
+
+function! s:split_and_tag_jump(direction)
+  execute 'Split' a:direction "| normal! \<C-]>"
+endfunction
 
 
 
