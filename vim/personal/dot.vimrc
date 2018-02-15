@@ -1314,6 +1314,13 @@ endfunction
 
 
 
+function! s:operator_eval(motion_wiseness)  "{{{2
+  execute 'normal!' "`[cv`]\<C-r>=\<C-r>-\<Return>\<Esc>"
+endfunction
+
+
+
+
 function! s:set_short_indent()  "{{{2
   setlocal expandtab softtabstop=2 shiftwidth=2
 endfunction
@@ -1845,6 +1852,7 @@ nnoremap [Space]A  A<C-r>=<SID>keys_to_insert_one_character()<Return>
 nnoremap [Space]a  a<C-r>=<SID>keys_to_insert_one_character()<Return>
 
 Operatormap [Space]c  <Plug>(operator-calculate-sum-of-fields)
+Operatormap [Space]e  <Plug>(operator-eval)
 
 Cnmap <silent> [Space]f  setlocal filetype? fileencoding? fileformat?
 \                                 encoding? termencoding? fileencodings?
@@ -2007,6 +2015,7 @@ Arpeggio map oj  <Plug>(operator-join)
 call operator#user#define_ex_command('sort', 'sort')
 call operator#user#define('calculate-sum-of-fields',
 \                         s:SID_PREFIX() . 'operator_calculate_sum_of_fields')
+call operator#user#define('eval', s:SID_PREFIX() . 'operator_eval')
 " User key mappings will be defined later - see [Space].
 
 
