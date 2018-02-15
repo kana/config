@@ -223,6 +223,7 @@ set ruler
 set showcmd
 set showmode
 set updatetime=4000
+set tagcase=smart
 set title
 set titlestring=Vim:\ %f\ %h%r%m
 if exists('+transparency')
