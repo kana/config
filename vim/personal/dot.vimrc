@@ -1586,7 +1586,7 @@ noremap [Space]T  T
 
 " Basic  "{{{3
 
-nnoremap tt  <C-]>
+nnoremap tt  :<C-u>call <SID>cmd_Tag(v:count, '', expand('<cword>'))<Return>
 Cnmap <silent> tj  tag
 Cnmap <silent> tk  pop
 Cnmap <silent> tl  tags
