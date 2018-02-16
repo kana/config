@@ -884,6 +884,36 @@ endfunction
 
 
 
+" :tag wrapper  "{{{2
+
+command! -bang -bar -complete=tag -count -nargs=? Tag
+\ call s:cmd_Tag(<count>, '<bang>', <q-args>)
+
+function! s:cmd_Tag(count, bang, ident)
+  call s:xtag(a:count, 'tag', a:bang, a:ident)
+endfunction
+
+function! s:xtag(count, command, bang, ident)
+  let s_count = a:count == 0 ? '' : a:count
+  if a:ident == ''
+    execute s_count a:command.a:bang
+    return
+  endif
+
+  if exists('b:guess_tag_priority')
+    let c = {b:guess_tag_priority}()
+    if c != 0
+      let s_count = c
+    endif
+  endif
+  execute s_count a:command.a:bang a:ident
+endfunction
+
+AlterCommand tag  Tag
+
+
+
+
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
@@ -1561,7 +1591,7 @@ noremap [Space]T  T
 
 " Basic  "{{{3
 
-nnoremap tt  <C-]>
+Fnmap <silent> tt  <SID>xtag(v:count, 'tag', '', expand('<cword>'))
 Cnmap <silent> tj  tag
 Cnmap <silent> tk  pop
 Cnmap <silent> tl  tags
@@ -1574,12 +1604,14 @@ Cnmap <silent> tN  tlast
 nmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
-Cnmap <noexec> t<Space>  tag<Space>
+Cnmap <noexec> t<Space>  Tag<Space>
 
 
 " With the preview window  "{{{3
 
-nnoremap t't  <C-w>}
+Fnmap <silent> t't  <SID>xtag(v:count, 'ptag', '', expand('<cword>'))
+Cnmap <silent> t'j  ptag
+Cnmap <silent> t'k  ppop
 Cnmap <silent> t'n  ptnext
 Cnmap <silent> t'p  ptprevious
 Cnmap <silent> t'P  ptfirst
@@ -1594,8 +1626,7 @@ nmap t''  t'c
 
 " With :split  "{{{3
 
-nnoremap tst  <C-w>]
-
+Fnmap <silent> tst  <SID>split_and_tag_jump('')
 Fnmap <silent> tsH  <SID>split_and_tag_jump('vertical topleft')
 Fnmap <silent> tsJ  <SID>split_and_tag_jump('botright')
 Fnmap <silent> tsK  <SID>split_and_tag_jump('topleft')
@@ -1606,10 +1637,11 @@ Fnmap <silent> tsk  <SID>split_and_tag_jump('leftabove')
 Fnmap <silent> tsl  <SID>split_and_tag_jump('vertical rightbelow')
 
 function! s:split_and_tag_jump(direction)
-  if len(taglist(expand('<cword>'))) >= 1
+  let cword = expand('<cword>')
+  if len(taglist(cword)) >= 1
     execute a:direction 'split'
   endif
-  execute 'normal!' "\<C-]>"
+  execute 'Tag' cword
 endfunction
 
 

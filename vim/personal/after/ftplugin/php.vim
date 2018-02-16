@@ -1,11 +1,8 @@
-" Vim additional indent: php
+" Vim additional ftplugin: php
 
-setlocal expandtab
-setlocal shiftwidth=4
-setlocal softtabstop=4
+let b:guess_tag_priority = 'tag#php#guess_tag_priority'
 
-" Indent settings will be automatically undone by my vimrc.
-" So that b:undo_indent is not configured in this script.
+let b:undo_ftplugin .= 'unlet b:guess_tag_priority'
 
 " __END__
 " vim: foldmethod=marker
