@@ -886,7 +886,8 @@ endfunction
 
 " :tag wrapper  "{{{2
 
-command! -bang -bar -complete=tag -count -nargs=? Tag  call s:cmd_Tag(<count>, '<bang>', <q-args>)
+command! -bang -bar -complete=tag -count -nargs=? Tag
+\ call s:cmd_Tag(<count>, '<bang>', <q-args>)
 
 function! s:cmd_Tag(count, bang, ident)
   call s:xtag(a:count, 'tag', a:bang, a:ident)
@@ -1590,7 +1591,7 @@ noremap [Space]T  T
 
 " Basic  "{{{3
 
-nnoremap tt  :<C-u>call <SID>xtag(v:count, 'tag', '', expand('<cword>'))<Return>
+Fnmap <silent> tt  <SID>xtag(v:count, 'tag', '', expand('<cword>'))
 Cnmap <silent> tj  tag
 Cnmap <silent> tk  pop
 Cnmap <silent> tl  tags
@@ -1608,7 +1609,7 @@ Cnmap <noexec> t<Space>  Tag<Space>
 
 " With the preview window  "{{{3
 
-nnoremap t't  :<C-u>call <SID>xtag(v:count, 'ptag', '', expand('<cword>'))<Return>
+Fnmap <silent> t't  <SID>xtag(v:count, 'ptag', '', expand('<cword>'))
 Cnmap <silent> t'j  ptag
 Cnmap <silent> t'k  ppop
 Cnmap <silent> t'n  ptnext
