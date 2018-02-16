@@ -6,7 +6,7 @@ function! tag#php#guess_tag_priority()  "{{{2
     return 0
   endif
 
-  let tags = s:ReorderTags(taglist(expand('<cword>')))
+  let tags = taglist(expand('<cword>'), expand('%'))
   for tag in tags
     if has_key(tag, 'class') && tag['class'] ==# class_name
       return index(tags, tag) + 1
@@ -69,24 +69,6 @@ function! s:_GetCurrentClassName()  "{{{2
   endif
   normal! W
   return expand('<cword>')
-endfunction
-
-
-
-
-function! s:ReorderTags(tags)  "{{{2
-  let cword = expand('<cword>')
-  let current_filename = expand('%:p')
-  let exact_tags_in_current_file = []
-  let other_tags = []
-  for tag in a:tags
-    if tag['name'] ==# cword && fnamemodify(tag['filename'], ':p') ==# current_filename
-      call add(exact_tags_in_current_file, tag)
-    else
-      call add(other_tags, tag)
-    endif
-  endfor
-  return exact_tags_in_current_file + other_tags
 endfunction
 
 
