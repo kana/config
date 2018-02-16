@@ -1599,7 +1599,7 @@ Cnmap <silent> tN  tlast
 nmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
-Cnmap <noexec> t<Space>  tag<Space>
+Cnmap <noexec> t<Space>  Tag<Space>
 
 
 " With the preview window  "{{{3
@@ -1619,8 +1619,7 @@ nmap t''  t'c
 
 " With :split  "{{{3
 
-nnoremap tst  <C-w>]
-
+Fnmap <silent> tst  <SID>split_and_tag_jump('')
 Fnmap <silent> tsH  <SID>split_and_tag_jump('vertical topleft')
 Fnmap <silent> tsJ  <SID>split_and_tag_jump('botright')
 Fnmap <silent> tsK  <SID>split_and_tag_jump('topleft')
@@ -1631,10 +1630,11 @@ Fnmap <silent> tsk  <SID>split_and_tag_jump('leftabove')
 Fnmap <silent> tsl  <SID>split_and_tag_jump('vertical rightbelow')
 
 function! s:split_and_tag_jump(direction)
-  if len(taglist(expand('<cword>'))) >= 1
+  let cword = expand('<cword>')
+  if len(taglist(cword)) >= 1
     execute a:direction 'split'
   endif
-  execute 'normal!' "\<C-]>"
+  execute 'Tag' cword
 endfunction
 
 
