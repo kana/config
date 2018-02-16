@@ -1609,6 +1609,8 @@ Cnmap <noexec> t<Space>  Tag<Space>
 " With the preview window  "{{{3
 
 nnoremap t't  :<C-u>call <SID>xtag(v:count, 'ptag', '', expand('<cword>'))<Return>
+Cnmap <silent> t'j  ptag
+Cnmap <silent> t'k  ppop
 Cnmap <silent> t'n  ptnext
 Cnmap <silent> t'p  ptprevious
 Cnmap <silent> t'P  ptfirst
