@@ -884,6 +884,31 @@ endfunction
 
 
 
+" :tag wrapper  "{{{2
+
+command! -bang -bar -complete=tag -count -nargs=? Tag  call s:cmd_Tag(<count>, '<bang>', <q-args>)
+
+function! s:cmd_Tag(count, bang, ident)
+  let s_count = a:count == 0 ? '' : a:count
+  if a:ident == ''
+    execute s_count 'tag'.a:bang
+    return
+  endif
+
+  if exists('b:guess_tag_priority')
+    let c = {b:guess_tag_priority}()
+    if c != 0
+      let s_count = c
+    endif
+  endif
+  execute s_count 'tag'.a:bang a:ident
+endfunction
+
+AlterCommand tag  Tag
+
+
+
+
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
