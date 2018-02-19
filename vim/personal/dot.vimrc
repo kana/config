@@ -891,13 +891,9 @@ command! -bang -bar -complete=tag -count -nargs=? Tag
 \ call s:cmd_Tag(<count>, '<bang>', <q-args>)
 
 function! s:cmd_Tag(count, bang, ident)
-  call s:xtag(a:count, 'tag', a:bang, a:ident)
-endfunction
-
-function! s:xtag(count, command, bang, ident)
   let s_count = a:count == 0 ? '' : a:count
   if a:ident == ''
-    execute s_count a:command.a:bang
+    execute s_count 'tag'.a:bang
     return
   endif
 
@@ -907,7 +903,7 @@ function! s:xtag(count, command, bang, ident)
       let s_count = c
     endif
   endif
-  execute s_count a:command.a:bang a:ident
+  execute s_count 'tag'.a:bang a:ident
 endfunction
 
 AlterCommand tag  Tag
@@ -1592,7 +1588,7 @@ noremap [Space]T  T
 
 " Basic  "{{{3
 
-Fnmap <silent> tt  <SID>xtag(v:count, 'tag', '', expand('<cword>'))
+Fnmap <silent> tt  <SID>cmd_Tag(v:count, '', expand('<cword>'))
 Cnmap <silent> tj  tag
 Cnmap <silent> tk  pop
 Cnmap <silent> tl  tags
@@ -1606,23 +1602,6 @@ nmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
 Cnmap <noexec> t<Space>  Tag<Space>
-
-
-" With the preview window  "{{{3
-
-Fnmap <silent> t't  <SID>xtag(v:count, 'ptag', '', expand('<cword>'))
-Cnmap <silent> t'j  ptag
-Cnmap <silent> t'k  ppop
-Cnmap <silent> t'n  ptnext
-Cnmap <silent> t'p  ptprevious
-Cnmap <silent> t'P  ptfirst
-Cnmap <silent> t'N  ptlast
-
-" although :pclose is not related to tag.
-" BUGS: t'' is not related to the default meaning of ''.
-Cnmap <silent> t'c  pclose
-nmap t'z  t'c
-nmap t''  t'c
 
 
 " With :split  "{{{3
