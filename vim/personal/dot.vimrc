@@ -188,6 +188,7 @@ set backupskip&
 set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 set cinkeys& cinkeys-=0#
 set cinoptions=:0,t0,(0,W1s
+set completeopt=menu
 set directory=~/tmp/vim
 set noequalalways
 set expandtab
