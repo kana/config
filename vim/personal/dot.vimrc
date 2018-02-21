@@ -2829,8 +2829,9 @@ function! s:on_User_plugin_skeleton_detect()
   if type !=# 'doc' && extension ==# 'vim'
     if after_p != ''
       execute 'SkeletonLoad' 'vim-additional-'._[2]
+    else
+      execute 'SkeletonLoad' 'vim-'._[2]
     endif
-    execute 'SkeletonLoad' 'vim-'._[2]
   endif
 
   return
