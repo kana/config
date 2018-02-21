@@ -885,32 +885,6 @@ endfunction
 
 
 
-" :tag wrapper  "{{{2
-
-command! -bang -bar -complete=tag -count -nargs=? Tag
-\ call s:cmd_Tag(<count>, '<bang>', <q-args>)
-
-function! s:cmd_Tag(count, bang, ident)
-  let s_count = a:count == 0 ? '' : a:count
-  if a:ident == ''
-    execute s_count 'tag'.a:bang
-    return
-  endif
-
-  if exists('b:guess_tag_priority')
-    let c = {b:guess_tag_priority}()
-    if c != 0
-      let s_count = c
-    endif
-  endif
-  execute s_count 'tag'.a:bang a:ident
-endfunction
-
-AlterCommand tag  Tag
-
-
-
-
 " Toggle options  "{{{2
 
 function! s:toggle_bell()
@@ -1588,7 +1562,7 @@ noremap [Space]T  T
 
 " Basic  "{{{3
 
-Fnmap <silent> tt  <SID>cmd_Tag(v:count, '', expand('<cword>'))
+nmap <silent> tt  <Plug>(tag-user-<C-]>)
 Cnmap <silent> tj  tag
 Cnmap <silent> tk  pop
 Cnmap <silent> tl  tags
@@ -1601,7 +1575,7 @@ Cnmap <silent> tN  tlast
 nmap <Plug>(physical-key-<Return>)  tt
 
 " addition, interactive use.
-Cnmap <noexec> t<Space>  Tag<Space>
+Cnmap <noexec> t<Space>  tag<Space>
 
 
 " With :split  "{{{3
@@ -1621,7 +1595,7 @@ function! s:split_and_tag_jump(direction)
   if len(taglist(cword)) >= 1
     execute a:direction 'split'
   endif
-  execute 'Tag' cword
+  execute 'normal' "\<Plug>(tag-user-\<C-]>)"
 endfunction
 
 

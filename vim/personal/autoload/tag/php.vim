@@ -1,19 +1,19 @@
 " tag#php - for smart tag jump
 " Interface  "{{{1
-function! tag#php#guess_tag_priority()  "{{{2
+function! tag#php#guess()  "{{{2
   let class_name = s:GuessClassName()
   if class_name == ''
-    return 0
+    return [0, 0]
   endif
 
   let tags = taglist(expand('<cword>'), expand('%'))
   for tag in tags
     if has_key(tag, 'class') && tag['class'] ==# class_name
-      return index(tags, tag) + 1
+      return [index(tags, tag) + 1, 0]
     endif
   endfor
 
-  return 0
+  return [0, 0]
 endfunction
 
 
