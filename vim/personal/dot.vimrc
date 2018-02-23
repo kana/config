@@ -1624,23 +1624,15 @@ Cnmap <noexec> t<Space>  tag<Space>
 
 " With :split  "{{{3
 
-Fnmap <silent> tst  <SID>split_and_tag_jump('')
-Fnmap <silent> tsH  <SID>split_and_tag_jump('vertical topleft')
-Fnmap <silent> tsJ  <SID>split_and_tag_jump('botright')
-Fnmap <silent> tsK  <SID>split_and_tag_jump('topleft')
-Fnmap <silent> tsL  <SID>split_and_tag_jump('vertical botright')
-Fnmap <silent> tsh  <SID>split_and_tag_jump('vertical leftabove')
-Fnmap <silent> tsj  <SID>split_and_tag_jump('rightbelow')
-Fnmap <silent> tsk  <SID>split_and_tag_jump('leftabove')
-Fnmap <silent> tsl  <SID>split_and_tag_jump('vertical rightbelow')
-
-function! s:split_and_tag_jump(direction)
-  let cword = expand('<cword>')
-  if len(taglist(cword)) >= 1
-    execute a:direction 'split'
-  endif
-  execute 'normal' "\<Plug>(tag-user-\<C-]>)"
-endfunction
+Fnmap <silent> tst  tag#user#jump(0, 'split')
+Fnmap <silent> tsH  tag#user#jump(0, 'vertical topleft split')
+Fnmap <silent> tsJ  tag#user#jump(0, 'botright split')
+Fnmap <silent> tsK  tag#user#jump(0, 'topleft split')
+Fnmap <silent> tsL  tag#user#jump(0, 'vertical botright split')
+Fnmap <silent> tsh  tag#user#jump(0, 'vertical leftabove split')
+Fnmap <silent> tsj  tag#user#jump(0, 'rightbelow split')
+Fnmap <silent> tsk  tag#user#jump(0, 'leftabove split')
+Fnmap <silent> tsl  tag#user#jump(0, 'vertical rightbelow split')
 
 
 
