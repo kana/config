@@ -78,11 +78,11 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	review = <<<
-		if [[ 1 -le $# && $# -le 2 ]]
+		if [[ 0 -le $# && $# -le 2 && "$1" != '-h' ]]
 		then
-		  git log -p --reverse "$1..$2" --
+		  git log -p --reverse "${1:-master}..${2:-HEAD}" --
 		else
-		  echo 'Usage: git review INTEGRATED [TOPIC]'
+		  echo 'Usage: git review [INTEGRATED=master] [TOPIC=HEAD]'
 		fi
 	>>>
 	rh = reset --hard
