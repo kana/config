@@ -17,6 +17,18 @@
 	b = branch
 	ba = branch -a
 	bd = branch -d
+	bgc = <<<
+		git branch --merged master |
+		  grep -v master |
+		  xargs git branch -d
+	>>>
+	bgcr = <<<
+		git branch --merged master -r |
+		  grep -v master |
+		  sed 's![^/]*/!!' |
+		  sort -u |
+		  xargs git pushall --delete
+	>>>
 	br = branch -r
 	ci = commit
 	co = checkout
@@ -62,6 +74,10 @@
 	merge-to-pull = !git mp
 	mi = merge --no-ff
 	mp = merge --ff-only
+	pullall = <<<
+		git fetch --all --prune
+		git merge --ff-only github/master
+	>>>
 	pushall = <<<
 		for remote in $(
 			git config --get-regexp \
