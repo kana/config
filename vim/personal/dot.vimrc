@@ -228,7 +228,7 @@ set tagcase=smart
 set title
 set titlestring=Vim:\ %f\ %h%r%m
 if exists('+transparency')
-  set transparency=10
+  set transparency=15
 endif
 set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
 set wildmenu
@@ -2310,6 +2310,16 @@ endfunction
 if !has('gui_running')  " 'paste'/autopaste is not used in GUI version.
   autocmd MyAutoCmd InsertLeave *  set nopaste
   autocmd MyAutoCmd CursorHoldI *  set nopaste | echo 'redraw the bottom line'
+endif
+
+
+if exists('+transparency')
+  let s:last_transparency = &transparency
+  autocmd MyAutoCmd FocusGained *
+  \   let &transparency = s:last_transparency
+  autocmd MyAutoCmd FocusLost *
+  \   let s:last_transparency = &transparency
+  \ | let &transparency = 20
 endif
 
 
