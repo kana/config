@@ -591,6 +591,8 @@ endfunction
 command! -bar -nargs=1 Source
 \   echo 'Sourcing ...' expand(<q-args>)
 \ | source <args>
+\ | redraw
+\ | echo 'Sourced ...' expand(<q-args>)
 
 
 
