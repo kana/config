@@ -209,9 +209,13 @@ if exists('+guioptions')
   set guioptions=cgM
 endif
 set history=100
-set hlsearch
-nohlsearch  " To avoid (re)highlighting the last search pattern
-            " whenever $MYVIMRC is (re)loaded.
+" Highlight matches.  But:
+" - Do not highlight matches according to the last session,
+" - Keep highlighting before and after reloading vimrc.
+if !v:vim_did_enter
+  set hlsearch
+  nohlsearch
+endif
 " set grepprg=... " See s:toggle_grepprg().
 set incsearch
 set laststatus=2  " always show status lines.
