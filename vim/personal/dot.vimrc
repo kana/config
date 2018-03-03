@@ -625,9 +625,10 @@ function! s:cmd_SuspendWithAutomticCD()
     " \015 = <C-m>
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
+    let vim_cwd = fnamemodify(getcwd(), ':~')
     silent execute '!screen -X eval'
     \              '''select another'''
-    \              '''stuff "A\025        cd \"'.getcwd().'\"\015"'''
+    \              '''stuff "A\025        cd '.vim_cwd.'\015"'''
     redraw!
     " TODO: Show what happened on failure.
   else
