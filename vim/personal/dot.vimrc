@@ -627,7 +627,7 @@ function! s:cmd_SuspendWithAutomticCD()
     " there are extra leading whitespaces in the cd script.
     silent execute '!screen -X eval'
     \              '''select another'''
-    \              '''stuff "A\025  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
+    \              '''stuff "A\025        cd \"'.getcwd().'\"\015"'''
     redraw!
     " TODO: Show what happened on failure.
   else
