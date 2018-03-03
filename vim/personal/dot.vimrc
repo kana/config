@@ -911,7 +911,7 @@ endfunction
 " Tabpage visit history  "{{{2
 
 autocmd MyAutoCmd TabEnter *  let t:entered_at = reltime()
-if !exists('s:loaded_my_vimrc')
+if !v:vim_did_enter
   " TabEnter will never be triggered for the initial tabpage.
   doautocmd MyAutoCmd TabEnter
 endif
@@ -959,7 +959,7 @@ function! s:toggle_grepprg()
   let &grepprg = VALUES[i]
   echo "'grepprg' =" &grepprg '(was' grepprg.')'
 endfunction
-if !exists('s:loaded_my_vimrc')
+if !v:vim_did_enter
   " Set 'grepprg' to my default value.  In this scope, 'grepprg' has Vim's
   " default value and it differs from what I want to use.  So that calling
   " s:toggle_grepprg() at here does set 'grepprg' to my default value.
@@ -2275,7 +2275,7 @@ if !has('gui_running')
   \ | highlight TabLineFill
   \             term=reverse
   \             cterm=NONE ctermfg=lightgray ctermbg=darkgray
-  if !exists('s:loaded_my_vimrc')
+  if !v:vim_did_enter
     doautocmd MyAutoCmd ColorScheme because-colorscheme-has-been-set-above.
   endif
 endif
@@ -2938,13 +2938,6 @@ let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
 
 " Fin.  "{{{1
-
-if !exists('s:loaded_my_vimrc')
-  let s:loaded_my_vimrc = 1
-endif
-
-
-
 
 set secure  " must be written at the last.  see :help 'secure'.
 
