@@ -278,7 +278,7 @@ function! s:my_tabline()  "{{{
 endfunction "}}}
 let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
 
-if has('gui_running')
+if has('gui_running') && !v:vim_did_enter
   set columns=161  " 80 + 1 + 80
   set lines=999    " Maximize GUI window vertically
 endif
