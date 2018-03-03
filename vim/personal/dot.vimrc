@@ -2723,6 +2723,13 @@ omap gy  <Plug>(operator-grex-yank)
 
 
 
+" komeshiro  "{{{2
+
+let g:komeshiro_delay = 5 * 60 * 1000
+
+
+
+
 " ku  "{{{2
 
 autocmd MyAutoCmd FileType ku  call ku#default_key_mappings(s:TRUE)
