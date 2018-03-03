@@ -4,6 +4,10 @@
 export PATH MANPATH INFOPATH
 
 if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
+  PATH="${PATH/:\/usr\/local\/bin/}"
+  PATH="${PATH/\/usr\/local\/bin:/}"
+  PATH="/usr/local/bin:$PATH"
+
   # Prioritize coreutils withtout "g" prefix over prefixed ones.
   if which brew >/dev/null; then
     coreutils_path="$(brew --prefix coreutils)"
