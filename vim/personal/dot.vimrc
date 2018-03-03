@@ -621,12 +621,13 @@ function! s:cmd_SuspendWithAutomticCD()
   if s:GNU_SCREEN_AVAILABLE_P
     call s:activate_terminal()
 
+    " \025 = <C-u>
     " \015 = <C-m>
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
     silent execute '!screen -X eval'
     \              '''select another'''
-    \              '''stuff "  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
+    \              '''stuff "A\025  cd \"'.getcwd().'\"  \#\#,vim-auto-cd\015"'''
     redraw!
     " TODO: Show what happened on failure.
   else
