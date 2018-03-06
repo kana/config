@@ -1317,6 +1317,20 @@ endfunction
 
 
 
+function! s:go_to_unmatched_bracket(direction, mode)  "{{{2
+  let c = a:mode ==# 'v' ? v:prevcount : v:count
+  normal! m'
+  for i in range(c ? c : 1)
+    call searchpair('\[', '', '\]', a:direction ==# 'n' ? 'W' : 'bW')
+  endfor
+  if a:mode ==# 'v'
+    normal! m'gv``
+  endif
+endfunction
+
+
+
+
 function! s:join_here(...)  "{{{2
   " like join (J), but move the next line into the cursor position.
 
@@ -2190,6 +2204,13 @@ noremap <Esc>(  [(
 noremap <Esc>)  ])
 noremap <Esc>{  [{
 noremap <Esc>}  ]}
+
+nnoremap <silent> <Esc>[  :<C-u>call <SID>go_to_unmatched_bracket('p', 'n')<Return>
+vnoremap <silent> <Esc>[  <Esc>:<C-u>call <SID>go_to_unmatched_bracket('p', 'v')<Return>
+onoremap <silent> <Esc>[  :<C-u>call <SID>go_to_unmatched_bracket('p', 'o')<Return>
+nnoremap <silent> <Esc>]  :<C-u>call <SID>go_to_unmatched_bracket('n', 'n')<Return>
+vnoremap <silent> <Esc>]  <Esc>:<C-u>call <SID>go_to_unmatched_bracket('n', 'v')<Return>
+onoremap <silent> <Esc>]  :<C-u>call <SID>go_to_unmatched_bracket('n', 'o')<Return>
 
 
 
