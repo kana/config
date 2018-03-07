@@ -940,6 +940,21 @@ endfunction
 
 
 
+" :WhatIDid  "{{{2
+
+command! -bar -nargs=0 WhatIDid  call s:cmd_WhatIDid()
+
+function! s:cmd_WhatIDid()
+  " Use the following command when git is fixed:
+  "
+  "     $ git diff --name-only master... ':(exclude,attr:-diff)'
+  "     fatal: BUG:tree-walk.c:946: unsupported magic 40
+  args `comm -23 <(git diff --name-only master...) <(git ls-files ':(attr:-diff)')`
+endfunction
+
+
+
+
 " Window-related stuffs  "{{{2
 
 " Are the windows :split'ed and :vsplit'ed?
