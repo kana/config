@@ -848,50 +848,6 @@ endfunction
 
 
 
-" :LoadFilesChangedInThisTopicBranch  "{{{2
-
-" for normal mode.  a:pattern is '/regexp' or '?regexp'.
-function! s:jump_section_n(pattern)
-  let pattern = a:pattern[1:]
-  let forward_p = a:pattern[0] == '/'
-  let flags = forward_p ? 'W' : 'Wb'
-
-  mark '
-  let i = 0
-  while i < v:count1
-    if search(pattern, flags) == 0
-      if forward_p
-        normal! G
-      else
-        normal! gg
-      endif
-      break
-    endif
-    let i = i + 1
-  endwhile
-endfunction
-
-
-" for visual mode.  a:motion is '[[', '[]', ']]' or ']['.
-function! s:jump_section_v(motion)
-  execute 'normal!' "gv\<Esc>"
-  execute 'normal' v:count1 . a:motion
-  let line = line('.')
-  let col = col('.')
-
-  normal! gv
-  call cursor(line, col)
-endfunction
-
-
-" for operator-pending mode.  a:motion is '[[', '[]', ']]' or ']['.
-function! s:jump_section_o(motion)
-  execute 'normal' v:count1 . a:motion
-endfunction
-
-
-
-
 " Sum numbers "{{{2
 
 command! -bang -bar -nargs=* -range Sum
