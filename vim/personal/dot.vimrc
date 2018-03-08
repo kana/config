@@ -2176,12 +2176,12 @@ noremap <Esc>)  ])
 noremap <Esc>{  [{
 noremap <Esc>}  ]}
 
-nnoremap <silent> <Esc>[  :<C-u>call <SID>go_to_unmatched_bracket('p', 'n')<Return>
-vnoremap <silent> <Esc>[  <Esc>:<C-u>call <SID>go_to_unmatched_bracket('p', 'v')<Return>
-onoremap <silent> <Esc>[  :<C-u>call <SID>go_to_unmatched_bracket('p', 'o')<Return>
-nnoremap <silent> <Esc>]  :<C-u>call <SID>go_to_unmatched_bracket('n', 'n')<Return>
-vnoremap <silent> <Esc>]  <Esc>:<C-u>call <SID>go_to_unmatched_bracket('n', 'v')<Return>
-onoremap <silent> <Esc>]  :<C-u>call <SID>go_to_unmatched_bracket('n', 'o')<Return>
+nnoremap <silent> <Esc><C-[>  :<C-u>call <SID>go_to_unmatched_bracket('p', 'n')<Return>
+vnoremap <silent> <Esc><C-[>  <Esc>:<C-u>call <SID>go_to_unmatched_bracket('p', 'v')<Return>
+onoremap <silent> <Esc><C-[>  :<C-u>call <SID>go_to_unmatched_bracket('p', 'o')<Return>
+nnoremap <silent> <Esc><C-]>  :<C-u>call <SID>go_to_unmatched_bracket('n', 'n')<Return>
+vnoremap <silent> <Esc><C-]>  <Esc>:<C-u>call <SID>go_to_unmatched_bracket('n', 'v')<Return>
+onoremap <silent> <Esc><C-]>  :<C-u>call <SID>go_to_unmatched_bracket('n', 'o')<Return>
 
 
 
