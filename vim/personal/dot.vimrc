@@ -223,7 +223,9 @@ if exists('+macmeta')
   set macmeta
 endif
 set modeline  " Some distros disable this by default.
-set mouse=a
+if has('gui_running')
+  set mouse=a
+endif
 set ruler
 set showcmd
 set showmode
