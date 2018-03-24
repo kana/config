@@ -26,11 +26,11 @@ add_file Rakefile <<'END'
 task :ci => [:dump, :test]
 
 task :dump do
-sh 'vim --version'
+  sh 'vim --version'
 end
 
 task :test do
-sh 'bundle exec vim-flavor test'
+  sh 'bundle exec vim-flavor test'
 end
 END
 git commit -am "$verb a Rakefile for routine works"
