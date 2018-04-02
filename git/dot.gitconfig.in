@@ -52,6 +52,7 @@
 	lgrr = !git --no-pager lg -n20
 	lgrrr = !git --no-pager lg -n30
 	lgrrrr = !git --no-pager lg -n40
+	lp = log -p
 	lr = <<<
 		n=10
 		a1="${1:-$n}"
