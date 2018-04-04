@@ -14,7 +14,7 @@
 [alias]
 	ap = add -p
 	au = add -u
-	b = branch
+	b = !git --no-pager branch
 	ba = branch -a
 	bd = branch -d
 	bgc = <<<
