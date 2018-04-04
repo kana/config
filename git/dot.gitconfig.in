@@ -19,12 +19,12 @@
 	bd = branch -d
 	bgc = <<<
 		git branch --merged master |
-		  grep -v master |
+		  grep -vw master |
 		  xargs git branch -d
 	>>>
 	bgcr = <<<
 		git branch --merged master -r |
-		  grep -v master |
+		  grep -vw master |
 		  sed 's![^/]*/!!' |
 		  sort -u |
 		  xargs git pushall --delete
