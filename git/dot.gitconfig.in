@@ -20,11 +20,13 @@
 	bgc = <<<
 		git branch --merged master |
 		  grep -vw master |
+		  grep -vF '*' |
 		  xargs git branch -d
 	>>>
 	bgcr = <<<
 		git branch --merged master -r |
 		  grep -vw master |
+		  grep -vF '*' |
 		  sed 's![^/]*/!!' |
 		  sort -u |
 		  xargs git pushall --delete
