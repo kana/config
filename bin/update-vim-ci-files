@@ -16,7 +16,7 @@ fi
 add_file Gemfile <<'END'
 source 'https://rubygems.org'
 
-gem 'vim-flavor', '~> 2.1'
+gem 'vim-flavor', '~> 3.0'
 END
 git commit -am "$verb a Gemfile for development dependencies"
 
@@ -35,10 +35,10 @@ end
 END
 git commit -am "$verb a Rakefile for routine works"
 
-add_file VimFlavor <<'END'
+add_file Flavorfile <<'END'
 # No dependencies.
 END
-git commit -am "$verb a VimFlavor for runtime dependencies"
+git commit -am "$verb a Flavorfile for runtime dependencies"
 
 add_file .travis.yml <<'END'
 language: vim
@@ -60,6 +60,6 @@ git commit -am "$verb Configure Travis CI to use vim-flavor"
 add_file .gitignore <<'END'
 .vim-flavor
 Gemfile.lock
-VimFlavor.lock
+Flavorfile.lock
 END
 git commit -am "$verb a .gitignore for intermediate stuffs"
