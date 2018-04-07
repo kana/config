@@ -2820,6 +2820,13 @@ Cnmap <silent> [Space]kw  Ku myproject
 
 
 
+" metarw-esa  "{{{2
+
+let g:metarw_esa_default_team_name = 'pixiv'
+
+
+
+
 " narrow  "{{{2
 
 Cmap <count> [Space]xn  Narrow
