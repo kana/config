@@ -2,25 +2,28 @@
 
 commit_file()
 {
-  cat >"$1"
-  git add "$1"
+  local file="$1"
+  local message="$2"
+
+  if [ -f "$file" ]
+  then
+    verb='Update'
+  else
+    verb='Add'
+  fi
+
+  cat >"$file"
+  git add "$file"
+  git commit -am "$verb a $file $message"
 }
 
-if [ -f Gemfile ]
-then
-  verb='Update'
-else
-  verb='Add'
-fi
-
-commit_file Gemfile <<'END'
+commit_file Gemfile 'for development dependencies' <<'END'
 source 'https://rubygems.org'
 
 gem 'vim-flavor', '~> 3.0'
 END
-git commit -am "$verb a Gemfile for development dependencies"
 
-commit_file Rakefile <<'END'
+commit_file Rakefile 'for routine works' <<'END'
 #!/usr/bin/env rake
 
 task :ci => [:dump, :test]
@@ -33,14 +36,12 @@ task :test do
   sh 'bundle exec vim-flavor test'
 end
 END
-git commit -am "$verb a Rakefile for routine works"
 
-commit_file Flavorfile <<'END'
+commit_file Flavorfile 'for runtime dependencies' <<'END'
 # No dependencies.
 END
-git commit -am "$verb a Flavorfile for runtime dependencies"
 
-commit_file .travis.yml <<'END'
+commit_file .travis.yml 'to use vim-flavor on Travis CI' <<'END'
 language: vim
 cache:
 directories:
@@ -55,11 +56,9 @@ before_install:
 - rvm use 2.5.0 --install --binary --fuzzy
 script: rake ci
 END
-git commit -am "$verb Configure Travis CI to use vim-flavor"
 
-commit_file .gitignore <<'END'
+commit_file .gitignore 'for intermediate stuffs' <<'END'
 .vim-flavor
 Gemfile.lock
 Flavorfile.lock
 END
-git commit -am "$verb a .gitignore for intermediate stuffs"
