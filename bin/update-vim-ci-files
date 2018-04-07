@@ -14,7 +14,7 @@ commit_file()
 
   cat >"$file"
   git add "$file"
-  git commit -am "$verb a $file $message"
+  git commit -m "$verb a $file $message" "$file"
 }
 
 commit_file Gemfile 'for development dependencies' <<'END'
