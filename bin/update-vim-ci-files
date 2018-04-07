@@ -1,6 +1,6 @@
 #!/bin/bash
 
-add_file()
+commit_file()
 {
   cat >"$1"
   git add "$1"
@@ -13,14 +13,14 @@ else
   verb='Add'
 fi
 
-add_file Gemfile <<'END'
+commit_file Gemfile <<'END'
 source 'https://rubygems.org'
 
 gem 'vim-flavor', '~> 3.0'
 END
 git commit -am "$verb a Gemfile for development dependencies"
 
-add_file Rakefile <<'END'
+commit_file Rakefile <<'END'
 #!/usr/bin/env rake
 
 task :ci => [:dump, :test]
@@ -35,12 +35,12 @@ end
 END
 git commit -am "$verb a Rakefile for routine works"
 
-add_file Flavorfile <<'END'
+commit_file Flavorfile <<'END'
 # No dependencies.
 END
 git commit -am "$verb a Flavorfile for runtime dependencies"
 
-add_file .travis.yml <<'END'
+commit_file .travis.yml <<'END'
 language: vim
 cache:
 directories:
@@ -57,7 +57,7 @@ script: rake ci
 END
 git commit -am "$verb Configure Travis CI to use vim-flavor"
 
-add_file .gitignore <<'END'
+commit_file .gitignore <<'END'
 .vim-flavor
 Gemfile.lock
 Flavorfile.lock
