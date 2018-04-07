@@ -2,11 +2,22 @@
 
 commit_file()
 {
+  local add_only=f
+  if [ "$1" = "--add-only" ]
+  then
+    add_only=t
+    shift
+  fi
   local file="$1"
   local message="$2"
 
   if [ -f "$file" ]
   then
+    if [ "$add_only" = 't' ]
+    then
+      echo "$file already exists.  Skipped to update it."
+      return
+    fi
     verb='Update'
   else
     verb='Add'
@@ -37,7 +48,7 @@ task :test do
 end
 END
 
-commit_file Flavorfile 'for runtime dependencies' <<'END'
+commit_file --add-only Flavorfile 'for runtime dependencies' <<'END'
 # No dependencies.
 END
 
