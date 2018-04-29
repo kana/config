@@ -372,14 +372,17 @@ endfunction
 command! -nargs=+ Allmap
 \   execute 'map' <q-args>
 \ | execute 'map!' <q-args>
+\ | execute 'tmap' <q-args>
 
 command! -nargs=+ Allnoremap
 \   execute 'noremap' <q-args>
 \ | execute 'noremap!' <q-args>
+\ | execute 'tnoremap' <q-args>
 
 command! -nargs=+ Allunmap
 \   execute 'unmap' <q-args>
 \ | execute 'unmap!' <q-args>
+\ | execute 'tunmap' <q-args>
 
 
 " Cmap - wrapper of :map to easily execute commands  "{{{3
