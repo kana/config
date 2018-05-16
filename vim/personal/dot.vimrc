@@ -277,7 +277,7 @@ function! s:my_tabline()  "{{{
   let s .= '%=%#TabLine#'
   let s .= '| '
   let s .= '%999X'
-  let branch_name = s:vcs_branch_name(getcwd())
+  let branch_name = g#get_branch_name(getcwd())
   let s .= (branch_name != '' ? branch_name : '?')
   let s .= '%X'
   return s
@@ -1082,80 +1082,6 @@ endfunction
 
 
 
-" VCS branch name  "{{{2
-" Returns the name of the current branch of the given directory.
-" BUGS: git is only supported.
-let s:_vcs_branch_name_cache = {}  " dir_path = [branch_name, cache_key]
-
-
-function! s:vcs_branch_name(dir)
-  let cache_entry = get(s:_vcs_branch_name_cache, a:dir, 0)
-  if cache_entry is 0
-  \  || cache_entry[1] !=# s:_vcs_branch_name_cache_key(a:dir)
-    unlet cache_entry
-    let cache_entry = s:_vcs_branch_name(a:dir)
-    let s:_vcs_branch_name_cache[a:dir] = cache_entry
-  endif
-
-  return cache_entry[0]
-endfunction
-
-
-function! s:_vcs_branch_name_cache_key(dir)
-  return getftime(a:dir . '/.git/HEAD') . getftime(a:dir . '/.git/MERGE_HEAD')
-endfunction
-
-
-function! s:_vcs_branch_name(dir)
-  let git_dir = a:dir . '/.git'
-
-  if isdirectory(git_dir)
-    if isdirectory(git_dir . '/rebase-apply')
-      if filereadable(git_dir . '/rebase-apply/rebasing')
-        let additional_info = 'REBASE'
-      elseif filereadable(git_dir . '/rebase-apply/applying')
-        let additional_info = 'AM'
-      else
-        let additional_info = 'AM/REBASE'
-      endif
-      let head_info = s:first_line(git_dir . '/HEAD')
-    elseif filereadable(git_dir . '/rebase-merge/interactive')
-      let additional_info = 'REBASE-i'
-      let head_info = s:first_line(git_dir . '/rebase-merge/head-name')
-    elseif isdirectory(git_dir . '/rebase-merge')
-      let additional_info = 'REBASE-m'
-      let head_info = s:first_line(git_dir . '/rebase-merge/head-name')
-    elseif filereadable(git_dir . '/MERGE_HEAD')
-      let additional_info = 'MERGING'
-      let head_info = s:first_line(git_dir . '/HEAD')
-    else  " Normal case
-      let additional_info = ''
-      let head_info = s:first_line(git_dir . '/HEAD')
-    endif
-
-    let branch_name = matchstr(head_info, '^\(ref: \)\?refs/heads/\zs\S\+\ze$')
-    if branch_name == ''
-      let lines = readfile(git_dir . '/logs/HEAD')
-      let co_lines = filter(lines, 'v:val =~# "checkout: moving from"')
-      let log = empty(co_lines) ? '' : co_lines[-1]
-      let branch_name = substitute(log, '^.* to \([^ ]*\)$', '\1', '')
-      if branch_name == ''
-        let branch_name = '(unknown)'
-      endif
-    endif
-    if additional_info != ''
-      let branch_name .= ' ' . '(' . additional_info . ')'
-    endif
-  else  " Not in a git repository.
-    let branch_name = '-'
-  endif
-
-  return [branch_name, s:_vcs_branch_name_cache_key(a:dir)]
-endfunction
-
-
-
-
 function! s:activate_terminal()  "{{{2
   if !has('gui_running')
     return
@@ -1264,14 +1190,6 @@ function! s:extend_highlight(target_group, original_group, new_settings)  "{{{2
   silent execute 'highlight' a:target_group 'NONE'
   \          '|' 'highlight' a:target_group original_settings
   \          '|' 'highlight' a:target_group a:new_settings
-endfunction
-
-
-
-
-function! s:first_line(file)  "{{{2
-  let lines = readfile(a:file, '', 1)
-  return 1 <= len(lines) ? lines[0] : ''
 endfunction
 
 
