@@ -84,7 +84,11 @@ let s:FALLBACK_EMOJIS = [
 " - Tail part of $branch might be truncated too.
 function! my#slacky_build_status_text()
   let branch = g#get_branch_name(getcwd())
-  let path = fnamemodify(bufname(''), ':~:.')
+  let bufname = bufname('')
+  if bufname == ''
+    let bufname = '[No Name]'
+  endif
+  let path = fnamemodify(bufname, ':~:.')
   let s_pos = ' (' . line('.') . ',' . col('.') . ')'
 
   let limit = 100
