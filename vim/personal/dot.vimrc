@@ -2825,6 +2825,14 @@ endfunction
 
 
 
+" slacky  "{{{2
+
+let g:slacky_build_status_text = 'my#slacky_build_status_text'
+let g:slacky_build_status_emoji = 'my#slacky_build_status_emoji'
+
+
+
+
 " smarttill  "{{{2
 
 Objmap q  <Plug>(smarttill-t)
