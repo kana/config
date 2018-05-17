@@ -21,6 +21,7 @@ let s:FILETYPE_RULE_MAP = {
 \   'markdown': ':markdown:',
 \   'php': ':php:',
 \   'scss': ':css3:',
+\   'sql': ':mysql:',
 \   'typescript': ':typescript:',
 \   'vim': ':vim-cleaner:',
 \ }
