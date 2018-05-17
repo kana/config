@@ -77,6 +77,8 @@ let s:FALLBACK_EMOJIS = [
 \   ':woa:',
 \ ]
 
+let s:VIMRUNTIME = fnamemodify($VIMRUNTIME, ':~')
+
 " Format: [$branch] $path ($line,$col)
 "
 " Note that:
@@ -89,6 +91,9 @@ function! my#slacky_build_status_text()
     let bufname = '[No Name]'
   endif
   let path = fnamemodify(bufname, ':~:.')
+  if path[:len(s:VIMRUNTIME) - 1] ==# s:VIMRUNTIME
+    let path = ':vim-cleaner:' . path[len(s:VIMRUNTIME):]
+  endif
   let s_pos = ' (' . line('.') . ',' . col('.') . ')'
 
   let limit = 100
