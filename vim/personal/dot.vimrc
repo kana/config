@@ -2660,7 +2660,7 @@ omap gy  <Plug>(operator-grex-yank)
 
 " komeshiro  "{{{2
 
-let g:komeshiro_delay = 5 * 60 * 1000
+let g:komeshiro_delay = 15 * 60 * 1000
 
 
 
