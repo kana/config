@@ -22,7 +22,7 @@ highlight MatchParen    guifg=#000000 guibg=#339933 gui=NONE
 highlight IncSearch     guifg=#000000 guibg=#ffcc00 gui=bold
 highlight Search        guifg=#000000 guibg=#cccc00 gui=NONE
 
-highlight LineNr        guifg=#666666 guibg=#111111 gui=NONE
+highlight LineNr        guifg=#666666 guibg=#111111 gui=NONE ctermfg=DarkGrey ctermbg=NONE
 highlight SignColumn    guifg=#000000 guibg=#111111 gui=NONE
 
 highlight FoldColumn    guifg=#666666 guibg=#111111 gui=NONE
