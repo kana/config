@@ -16,4 +16,10 @@ all: build
 	  $(MAKE) -C "./$$i" '$@'; \
 	done
 
+install-vim:
+	$(MAKE) -BC ./vim/external install
+
+update-vim:
+	$(MAKE) -BC ./vim/external update
+
 # __END__
