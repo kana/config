@@ -63,6 +63,11 @@ export PERL5LIB=/System/Library/Perl/5.18
 
 
 # Last resort  #{{{1
+# sdkman  #{{{2
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+
 # VVM: Vim Version Manager  #{{{2
 [[ -s "$HOME/.vvm/etc/login" ]] && source "$HOME/.vvm/etc/login"
 
