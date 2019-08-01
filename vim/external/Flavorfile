@@ -51,5 +51,6 @@ flavor 'kana/vim-xml-autons', '~> 0.0'
 flavor 'kana/vim-xml-move', '~> 0.0'
 flavor 'leafgarland/typescript-vim', branch: 'master'
 flavor 'posva/vim-vue', branch: 'master'
+flavor 'solarnz/thrift.vim', branch: 'master'
 
 # vim: filetype=ruby
