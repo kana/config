@@ -75,9 +75,8 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.vvm/etc/login" ]] && source "$HOME/.vvm/etc/login"
 
 
-# RVM: Ruby Version Manager  #{{{2
-# RVM complaints if its paths are not placed at first place in PATH.
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# rbenv  #{{{2
+which rbenv &>/dev/null && eval "$(rbenv init -)"
 
 
 # Workaround for Mac OS Lion's /etc/zshenv  #{{{2
