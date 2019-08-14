@@ -8,12 +8,15 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
   PATH="${PATH/\/usr\/local\/bin:/}"
   PATH="/usr/local/bin:$PATH"
 
-  # Prioritize coreutils withtout "g" prefix over prefixed ones.
-  if which brew >/dev/null; then
-    coreutils_path="$(brew --prefix coreutils)"
-    PATH="$coreutils_path/libexec/gnubin:$PATH"
-    MANPATH="$coreutils_path/libexec/gnuman:$MANPATH"
-  fi
+  # Use GNU utils without "g" prefix.
+  for dir in /usr/local/opt/*/libexec/gnubin
+  do
+    PATH="$dir:$PATH"
+  done
+  for dir in /usr/local/opt/*/libexec/gnuman
+  do
+    MANPATH="$dir:$MANPATH"
+  done
 
   if [ -d "$HOME/.nodenv/bin" ]; then
     PATH="$HOME/.nodenv/bin:$PATH"
