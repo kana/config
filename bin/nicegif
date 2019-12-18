@@ -1,0 +1,34 @@
+#!/bin/bash
+
+colors=256
+fps=30
+half=
+
+while true
+do
+  case "$1" in
+    '-c')
+      colors="$2"
+      shift 2
+      ;;
+    '-f')
+      fps="$2"
+      shift 2
+      ;;
+    '-2')
+      half=t
+      shift 1
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+ffmpeg -y -i "$1" -vf "palettegen=max_colors=$colors:reserve_transparent=1:stats_mode=full" "${1/.*/.png}"
+if [ "$half" = '' ]
+then
+  ffmpeg -y -i "$1" -i "${1/.*/.png}" -filter_complex 'paletteuse=dither=none:bayer_scale=0' -r "$fps" "${1/.*/.gif}"
+else
+  ffmpeg -y -i "$1" -i "${1/.*/.png}" -filter_complex '[0:v]scale=iw*.5:ih*.5,paletteuse=dither=none:bayer_scale=0' -r "$fps" "${1/.*/.gif}"
+fi
