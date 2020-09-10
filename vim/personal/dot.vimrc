@@ -2437,17 +2437,6 @@ function! s:on_FileType_vim()
   inoreabbrev <buffer> jw  while<Return>
                           \endwhile
                           \<Up><End>
-
-  " Fix the default syntax to properly highlight
-  " autoload#function() and dictionary.function().
-  syntax clear vimFunc
-  syntax match vimFunc
-  \ "\%([sS]:\|<[sS][iI][dD]>\|\<\%(\I\i*[#.]\)\+\)\=\I\i*\ze\s*("
-  \ contains=vimFuncName,vimUserFunc,vimCommand,vimNotFunc,vimExecute
-  syntax clear vimUserFunc
-  syntax match vimUserFunc contained
-  \ "\%([sS]:\|<[sS][iI][dD]>\|\<\%(\I\i*[#.]\)\+\)\i\+\|\<\u\i*\>\|\<if\>"
-  \ contains=vimNotation,vimCommand
 endfunction
 
 
