@@ -418,26 +418,6 @@ compinit
 
 # Misc.  #{{{2
 
-# Generate functions like the followings to enable the default completion of
-# zsh for user-defined aliases of git commands.  Because such aliases aren't
-# automatically recognized by zsh.
-#
-#   _git-$alias_name() {
-#     _git-$original_command "$@"
-#   }
-
-_git  # FIXME: force loading as necessary
-source <(
-  git config --global --list |
-    sed '/^alias\./!d;/!/d;s/^alias\.\([^=]*\)=\(.*\)$/\1 \2/' |
-    awk '{
-      print "_git-" $1 "() {"
-      print "  _git-" $2 " \"\$@\""
-      print "}"
-    }'
-)
-
-
 # Don't show matches as a list for _history-complete-older and
 # _history-complete-newer.  Because number of matches is usually very big so
 # the list for them is annoying.
