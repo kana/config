@@ -79,6 +79,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 which rbenv &>/dev/null && eval "$(rbenv init -)"
 
 
+# nodenv  #{{{2
+which nodenv &>/dev/null && eval "$(nodenv init -)"
+
+
 # Workaround for Mac OS Lion's /etc/zshenv  #{{{2
 # See also dot.zshenv.
 export CUSTOM_PATH="$PATH"
