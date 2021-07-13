@@ -83,6 +83,10 @@ which rbenv &>/dev/null && eval "$(rbenv init -)"
 which nodenv &>/dev/null && eval "$(nodenv init -)"
 
 
+# pyenv  #{{{2
+which pyenv &>/dev/null && eval "$(pyenv init -)"
+
+
 # Workaround for Mac OS Lion's /etc/zshenv  #{{{2
 # See also dot.zshenv.
 export CUSTOM_PATH="$PATH"
