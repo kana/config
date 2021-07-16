@@ -21,6 +21,7 @@
 		git branch --merged master |
 		  grep -vw master |
 		  grep -vF '*' |
+		  grep -vF '+' |
 		  xargs git branch -d
 	>>>
 	bgcr = <<<
