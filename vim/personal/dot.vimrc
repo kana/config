@@ -186,12 +186,19 @@ set backupcopy&
 set backupdir=~/tmp/vim
 set backupskip&
 set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
+if exists('+breakindent')
+  set breakindent
+  set breakindentopt=sbr,list:-1
+endif
 set cinkeys& cinkeys-=0#
 set cinoptions=:0,t0,(0,W1s
 set completeopt=menu
 set directory=~/tmp/vim
 set noequalalways
 set expandtab
+if exists('+fixendofline')
+  set nofixendofline
+endif
 set formatoptions=tcroqnlM1
 set formatlistpat&
 let &formatlistpat .= '\|^\s*[*+-]\s*'
