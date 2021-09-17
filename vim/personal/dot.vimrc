@@ -2583,44 +2583,6 @@ nmap <Esc>2  <F2>
 
 
 
-" bundle  "{{{2
-
-autocmd MyAutoCmd User BundleAvailability
-\ call bundle#return(s:available_bundles())
-
-autocmd MyAutoCmd User BundleUndefined!:*
-\ call bundle#return(s:files_in_a_bundle(bundle#name()))
-
-
-let s:BUNDLE_NAME_CURRENT_REPOSITORY = 'current-repository'
-function! s:available_bundles()
-  if s:git_controlled_directory_p()
-    return [s:BUNDLE_NAME_CURRENT_REPOSITORY]
-  else
-    return []
-  endif
-endfunction
-
-function! s:files_in_a_bundle(name)
-  if a:name ==# s:BUNDLE_NAME_CURRENT_REPOSITORY
-    return split(s:system('git ls-files'), "\n")
-  else
-    return []
-  endif
-endfunction
-
-function! s:system(command)
-  let _ = system(a:command)
-  if v:shell_error != 0
-    echoerr 'Command failed:' string(a:command)
-    let _ = ''
-  endif
-  return _
-endfunction
-
-
-
-
 " exjumplist  "{{{2
 
 " <C-j>/<C-k> for consistency with my UI key mappings on jumplist.
@@ -2650,13 +2612,6 @@ Arpeggio map oy  <Plug>(operator-grex-yank)
 nmap gy  <Plug>(operator-grex-yank)<Plug>(textobj-entire-a)
 vmap gy  <Plug>(operator-grex-yank)
 omap gy  <Plug>(operator-grex-yank)
-
-
-
-
-" komeshiro  "{{{2
-
-let g:komeshiro_delay = 15 * 60 * 1000
 
 
 
@@ -2726,20 +2681,11 @@ Cnmap <silent> [Space]kf  Ku file
 Cnmap <silent> [Space]kg  Ku metarw/git
 Cnmap <silent> [Space]kh  Ku history
 Cnmap <silent> [Space]kk  call ku#restart()
-Cnmap <silent> [Space]km  Ku mru
   " p is for packages.
-Cnmap <silent> [Space]kp  Ku bundle
 Cnmap <silent> [Space]kq  Ku quickfix
 Cnmap <silent> [Space]ks  Ku source
   " w is for ~/working.
 Cnmap <silent> [Space]kw  Ku myproject
-
-
-
-
-" metarw-esa  "{{{2
-
-let g:metarw_esa_default_team_name = 'pixiv'
 
 
 
@@ -2821,44 +2767,10 @@ endfunction
 
 
 
-" slacky  "{{{2
-
-let g:slacky_build_status_text = 'my#slacky_build_status_text'
-let g:slacky_build_status_emoji = 'my#slacky_build_status_emoji'
-
-
-
-
 " smarttill  "{{{2
 
 Objmap q  <Plug>(smarttill-t)
 Objmap Q  <Plug>(smarttill-T)
-
-
-
-
-" vcsi  "{{{2
-
-let g:vcsi_diff_in_commit_buffer_p = 1
-let g:vcsi_open_command = 'SplitNicely | enew'
-let g:vcsi_use_native_message_p = 1
-
-
-
-
-" wwwsearch  "{{{2
-
-Arpeggio map ow  <Plug>(operator-wwwsearch)
-
-Cnmap [Space]*  Wwwsearch -default <C-r><C-w>
-
-
-
-
-" xml_autons  "{{{2
-
-let g:AutoXMLns_Dict = {}
-let g:AutoXMLns_Dict['http://www.w3.org/2000/svg'] = 'svg11'
 
 
 
