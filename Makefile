@@ -22,4 +22,7 @@ install-vim:
 update-vim:
 	$(MAKE) -BC ./vim/external update
 
+install-runtime:
+	npm install -g typescript-language-server
+
 # __END__
