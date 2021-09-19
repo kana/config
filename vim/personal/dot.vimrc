@@ -284,7 +284,7 @@ function! s:my_tabline()  "{{{
   let s .= '%=%#TabLine#'
   let s .= '| '
   let s .= '%999X'
-  let branch_name = g#get_branch_name(getcwd())
+  let branch_name = g#branch#get_name(getcwd())
   let s .= (branch_name != '' ? branch_name : '?')
   let s .= '%X'
   return s
