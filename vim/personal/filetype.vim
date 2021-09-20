@@ -3,5 +3,5 @@ if exists('did_load_filetypes')
 endif
 
 augroup filetypedetect
-  autocmd! BufRead,BufNewFile *.md setfiletype markdown
+  " autocmd! BufRead,BufNewFile *.md setfiletype markdown
 augroup END
