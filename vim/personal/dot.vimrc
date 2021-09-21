@@ -610,27 +610,21 @@ command! -bar -nargs=1 Source
 
 
 " SuspendWithAutomticCD  "{{{2
-" Assumption: Use GNU screen.
+" Assumption: Use tmux.
 " Assumption: There is a window with the title "another".
-" FIXME: Open a (GNU screen) window for each directory.
 
-if !exists('s:GNU_SCREEN_AVAILABLE_P')
+function! s:is_tmux_available()
   if has('gui_running')
-    " In GUI, $WINDOW is not reliable, because GUI process is independent from
-    " GNU screen process.  Check availability of executable instead.
-    let s:GNU_SCREEN_AVAILABLE_P = executable('screen')
+    return v:false
   else
-    " In CUI, availability of executable is not reliable, because Vim may be
-    " invoked with "screen ssh example.com vim" and GNU screen may be
-    " available at example.com.  Check $WINDOW instead.
-    let s:GNU_SCREEN_AVAILABLE_P = len($WINDOW) != 0
+    return $TMUX != ''
   endif
-endif
+endfunction
 
 command! -bar -nargs=0 SuspendWithAutomticCD
 \ call s:cmd_SuspendWithAutomticCD()
 function! s:cmd_SuspendWithAutomticCD()
-  if s:GNU_SCREEN_AVAILABLE_P
+  if s:is_tmux_available()
     call s:activate_terminal()
 
     " \025 = <C-u>
@@ -638,11 +632,13 @@ function! s:cmd_SuspendWithAutomticCD()
     " To avoid adding the cd script into the command-line history,
     " there are extra leading whitespaces in the cd script.
     let vim_cwd = fnamemodify(getcwd(), ':~')
-    silent execute '!screen -X eval'
-    \              '''select another'''
-    \              '''stuff "A\025        cd '.vim_cwd.'\015"'''
-    redraw!
-    " TODO: Show what happened on failure.
+    let result = system(join([
+    \   'tmux select-window -t another',
+    \   'send-keys A C-u "    " cd " " ' .. shellescape(vim_cwd) .. ' C-m',
+    \ ], ' \; '))
+    if result != ''
+      Hechomsg ErrorMsg result
+    endif
   else
     suspend
   endif
