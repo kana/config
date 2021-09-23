@@ -2599,6 +2599,21 @@ let g:fakeclip_terminal_multiplexer_type = 'gnuscreen'
 
 
 
+" g  "{{{2
+
+nnoremap <Leader>va <Cmd>call g#vc#add('--', expand('%'))<CR>
+nnoremap <Leader>vc <Cmd>call g#vc#commit('-v', '--', expand('%'))<CR>
+nnoremap <Leader>vC <Cmd>call g#vc#commit('-av')<CR>
+nnoremap <Leader>vd <Cmd>call g#vc#diff('HEAD', '--', expand('%'))<CR>
+nnoremap <Leader>vD <Cmd>call g#vc#diff('HEAD')<CR>
+nnoremap <Leader>vf <Cmd>call g#vc#commit('--amend', '-v', '--', expand('%'))<CR>
+nnoremap <Leader>vF <Cmd>call g#vc#commit('--amend', '-av')<CR>
+nnoremap <Leader>vv <Cmd>call g#vc#restore('--', expand('%'))<CR>
+nnoremap <Leader>vV <Cmd>call g#vc#restore('--', '.')<CR>
+
+
+
+
 " grex  "{{{2
 
 Arpeggio map od  <Plug>(operator-grex-delete)
