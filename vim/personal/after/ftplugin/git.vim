@@ -22,9 +22,9 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-setlocal foldmethod=syntax
+setlocal foldmethod=syntax foldlevel=1
 
-let b:undo_ftplugin .= '| setlocal foldmethod<'
+let b:undo_ftplugin .= '| setlocal foldmethod< foldlevel<'
 
 " __END__
 " vim: foldmethod=marker
