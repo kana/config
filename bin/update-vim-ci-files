@@ -1,19 +1,25 @@
 #!/bin/bash
 
+set -euxo pipefail
+
 commit_file()
 {
-  local add_only=f
+  local add_only=0
   if [ "$1" = "--add-only" ]
   then
-    add_only=t
+    add_only=1
     shift
   fi
+
   local file="$1"
-  local message="$2"
+  local default_message_template='{verb} {file}'
+  local message_template="${2:-$default_message_template}"
+  local verb
+  local full_message
 
   if [ -f "$file" ]
   then
-    if [ "$add_only" = 't' ]
+    if [ "$add_only" = '1' ]
     then
       echo "$file already exists.  Skipped to update it."
       return
@@ -23,20 +29,65 @@ commit_file()
     verb='Add'
   fi
 
+  full_message="$message_template"
+  full_message="${full_message/\{verb\}/$verb}"
+  full_message="${full_message/\{file\}/$file}"
+
   cat >"$file"
   git add "$file"
-  git commit -m "$verb a $file $message" "$file"
+  git commit -m "$full_message" "$file"
 }
 
-commit_file Gemfile 'for development dependencies' <<'END'
+if ! git diff --quiet HEAD
+then
+  echo 'There are uncommitted changes.' >&2
+  exit 1
+fi
+
+for lockfile in VimFlavor.lock Flavorfile.lock Gemfile.lock
+do
+  if [ -f "$lockfile" ]
+  then
+    git rm "$lockfile"
+    git commit -m "Remove unexpected $lockfile"
+  fi
+done
+
+if [ -f VimFlavor ]
+then
+  git mv VimFlavor Flavorfile
+  git commit -m 'Use newer filename to declare dependencies'
+fi
+
+# TODO: Update iff the existing file specifies older version.
+
+commit_file .ruby-version <<'__END__'
+3.0.2
+__END__
+
+commit_file .vim-version <<'__END__'
+v8.2.3446
+__END__
+
+if [ -f Gemfile ]
+then
+  message='Use vim-flavor 4.0 or later'
+else
+  message='{verb} {file} for development dependencies'
+fi
+commit_file Gemfile "$message" <<'__END__'
 source 'https://rubygems.org'
 
-gem 'vim-flavor', '~> 3.0'
-END
+gem 'vim-flavor', '~> 4.0'
+__END__
 
-commit_file Rakefile 'for routine works' <<'END'
-#!/usr/bin/env rake
-
+if [ -f Rakefile ]
+then
+  message='Remove verbose lines from {file}'
+else
+  message='{verb} {file} for frequently used commands'
+fi
+commit_file Rakefile "$message" <<'__END__'
 task :ci => [:dump, :test]
 
 task :dump do
@@ -46,30 +97,74 @@ end
 task :test do
   sh 'bundle exec vim-flavor test'
 end
-END
+__END__
 
-commit_file --add-only Flavorfile 'for runtime dependencies' <<'END'
+commit_file --add-only Flavorfile '{verb} {file} for runtime dependencies' <<'__END__'
 # No dependencies.
-END
 
-commit_file .travis.yml 'to use vim-flavor on Travis CI' <<'END'
-language: vim
-cache:
-directories:
-  - $HOME/.rvm
-  - $HOME/.vvm
-before_install:
-- curl https://raw.githubusercontent.com/kana/vim-version-manager/master/bin/vvm | python - setup; true
-- source ~/.vvm/etc/login
-- vvm update_itself
-- vvm use vimorg--v8.1.0436 --install --with-features=huge
--
-- rvm use 2.5.0 --install --binary --fuzzy
-script: rake ci
-END
+# vim: filetype=ruby
+__END__
 
-commit_file .gitignore 'for intermediate stuffs' <<'END'
+if ! git grep --quiet 'filetype=ruby' Flavorfile
+then
+  echo '' >>Flavorfile
+  echo '# vim: filetype=ruby' >>Flavorfile
+  git commit -m 'Enable syntax highlighting in Flavorfile' Flavorfile
+fi
+
+commit_file .gitignore <<'__END__'
 .vim-flavor
-Gemfile.lock
 Flavorfile.lock
-END
+Gemfile.lock
+tags
+__END__
+
+mkdir -p .github/workflows/
+commit_file --add-only .github/workflows/ci.yml 'Set up GitHub Actions for CI' <<'__END__'
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: 0 0 * * *
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Get local Vim version
+      run: echo "local_vim_version=$(<.vim-version)" >>$GITHUB_ENV
+    - name: Set up Vim
+      uses: thinca/action-setup-vim@v1
+      with:
+        vim_version: ${{ github.event_name == 'schedule' && 'head' || env.local_vim_version }}
+        vim_type: vim
+        download: never # For some reason 'available' doesn't build from source as a fallback.
+    - name: Run tests
+      # 2>&1 required to avoid interleaved stdout and stderr in log.
+      run: rake ci 2>&1
+__END__
+
+commit_file --add-only .github/dependabot.yml <<'__END__'
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: increase
+__END__
+
+if [ -f .travis.yml ]
+then
+  git rm .travis.yml
+  git commit -m 'Farewell Travis CI'
+fi
