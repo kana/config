@@ -35,6 +35,11 @@ commit_file()
 
   cat >"$file"
   git add "$file"
+  if ! git commit --dry-run
+  then
+    echo "$file is already up to date.  Skipped."
+    return
+  fi
   git commit -m "$full_message" "$file"
 }
 
