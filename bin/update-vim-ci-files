@@ -51,7 +51,7 @@ fi
 
 for lockfile in VimFlavor.lock Flavorfile.lock Gemfile.lock
 do
-  if [ -f "$lockfile" ]
+  if [ "$(git ls-files "$lockfile" | wc -l)" = 1 ]
   then
     git rm "$lockfile"
     git commit -m "Remove unexpected $lockfile"
