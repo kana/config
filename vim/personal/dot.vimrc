@@ -200,8 +200,14 @@ if exists('+fixendofline')
   set nofixendofline
 endif
 set formatoptions=tcroqnlM1
-set formatlistpat&
-let &formatlistpat .= '\|^\s*[*+-]\s*'
+let &formatlistpat = '\v^\s*('
+\ .. join([
+\      '(\d+|\a)\.',
+\      '\(?(\d+|\a)\)',
+\      '\[?(\d+|\a)\]',
+\      '[*+-]'
+\    ], '|')
+\ .. ')\s*'
 if exists('+fuoptions')
   set fuoptions=maxhorz,maxvert
 endif
