@@ -1,5 +1,8 @@
 " Vim additional ftplugin: vim
 
+inoreabbrev <buffer> jd  def()<Return>
+                        \enddef
+                        \<Up><End><Left><Left>
 inoreabbrev <buffer> je  if<Return>
                         \else<Return>
                         \endif
@@ -23,6 +26,7 @@ inoreabbrev <buffer> jw  while<Return>
                         \<Up><End>
 
 function! b:.undo_after_ftplugin_vim()
+  iunabbrev <buffer> jd
   iunabbrev <buffer> je
   iunabbrev <buffer> jf
   iunabbrev <buffer> ji
