@@ -2589,6 +2589,10 @@ nnoremap <Leader>vF <Cmd>call g#vc#commit('--amend', '-av')<CR>
 nnoremap <Leader>vv <Cmd>call g#vc#restore('--', expand('%'))<CR>
 nnoremap <Leader>vV <Cmd>call g#vc#restore('--', '.')<CR>
 
+" :g<Space> => :G<Space>
+" :g/       => :g/
+AlterCommand g G
+
 
 
 
