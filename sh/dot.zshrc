@@ -296,16 +296,18 @@ if where git &>/dev/null; then
     fi
     if [ -z "$head_name" ]; then
       head_name="$(git branch | sed '/^\* /!d;s/^\* //')"
-      if [ "$head_name" = '(no branch)' ]; then
-        # "git branch" doesn't show the correct name of a branch after
-        # "git checkout {commitish-and-not-the-head-of-a-branch}",
-        # so we have to use another method to get the name of {commitish}.
-        head_name="($(
+      if [ "$head_name" = '(no branch)' ] || [ "${head_name##\(HEAD detached at *\)}" = '' ]; then
+        # Show more meaningful HEAD name instead.
+        # Note that reflog might be empty, e.g. just after "git worktree add".
+        reflog="$(
           {
             git reflog --grep-reflog 'checkout' -n1 HEAD |
             sed 's/.* to //'
           } 2>/dev/null
-        ))"
+        )"
+        if [ "$reflog" != '' ]; then
+          head_name="($reflog)"
+        fi
       elif [ "$head_name" = '' ]; then
         head_name='(just initialized; nothing commited)'
       fi
