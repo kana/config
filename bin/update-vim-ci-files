@@ -158,16 +158,6 @@ jobs:
       run: rake ci 2>&1
 __END__
 
-commit_file --add-only .github/dependabot.yml <<'__END__'
-version: 2
-updates:
-  - package-ecosystem: "bundler"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    versioning-strategy: increase
-__END__
-
 if [ -f .travis.yml ]
 then
   git rm .travis.yml
