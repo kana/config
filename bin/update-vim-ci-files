@@ -67,11 +67,11 @@ fi
 # TODO: Update iff the existing file specifies older version.
 
 commit_file .ruby-version <<'__END__'
-3.0.2
+3.2.2
 __END__
 
 commit_file .vim-version <<'__END__'
-v8.2.3446
+v9.0.612
 __END__
 
 if [ -f Gemfile ]
