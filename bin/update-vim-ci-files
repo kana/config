@@ -71,7 +71,7 @@ commit_file .ruby-version <<'__END__'
 __END__
 
 commit_file .vim-version <<'__END__'
-v9.0.612
+v9.0.0612
 __END__
 
 if [ -f Gemfile ]
