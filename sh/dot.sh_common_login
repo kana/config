@@ -4,16 +4,14 @@
 export PATH MANPATH INFOPATH
 
 if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
-  PATH="${PATH/:\/usr\/local\/bin/}"
-  PATH="${PATH/\/usr\/local\/bin:/}"
-  PATH="/usr/local/bin:$PATH"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
   # Use GNU utils without "g" prefix.
-  for dir in /usr/local/opt/*/libexec/gnubin
+  for dir in /opt/homebrew/opt/*/libexec/gnubin
   do
     PATH="$dir:$PATH"
   done
-  for dir in /usr/local/opt/*/libexec/gnuman
+  for dir in /opt/homebrew/opt/*/libexec/gnuman
   do
     MANPATH="$dir:$MANPATH"
   done
