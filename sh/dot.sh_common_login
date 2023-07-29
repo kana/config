@@ -3,7 +3,8 @@
 
 export PATH MANPATH INFOPATH
 
-if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
+if [ "${PATH/$HOME/}" = "$PATH" ] # if $HOME/bin is not in $PATH ...
+then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
   # Use GNU utils without "g" prefix.
@@ -16,12 +17,16 @@ if [ "${PATH/$HOME/}" = "$PATH" ]; then  # if $HOME/bin is not in $PATH ...
     MANPATH="$dir:$MANPATH"
   done
 
-  if [ -d "$HOME/.nodenv/bin" ]; then
+  if [ -d "$HOME/.nodenv/bin" ]
+  then
     PATH="$HOME/.nodenv/bin:$PATH"
   fi
 
   # For my own tools
-  if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
+  if [ -d "$HOME/bin" ]
+  then
+    PATH="$HOME/bin:$PATH"
+  fi
 fi
 
 # Max OS X El Capitan makes things complicated again.  See also sh/dot.zshenv.
