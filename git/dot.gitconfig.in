@@ -11,6 +11,8 @@
 	excludesfile = ~/.gitignore
 [push]
 	default = current
+[url "https://github.com/"]
+	insteadOf = git://github.com/
 [alias]
 	ap = add -p
 	au = add -u
