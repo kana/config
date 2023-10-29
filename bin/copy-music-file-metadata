@@ -48,6 +48,7 @@ function main()
     -i "$metadata_file" \
     -map 0 \
     -map_metadata 1 \
+    -map '1:v?' \
     ${additional_flags[@]:-} \
     -c copy \
     "$output_file"
