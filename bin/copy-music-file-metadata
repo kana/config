@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -euo pipefail
+
+function main()
+{
+  local encoder='null'
+
+  while true
+  do
+    case "$1" in
+      '--encoder')
+        encoder="$2"
+        shift 2
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  if [ "$#" != 3 ]
+  then
+    echo "Usage: $0 music metadata output"
+    exit 1
+  fi
+
+  local music_file="$1"
+  local metadata_file="$2"
+  local output_file="$3"
+
+  if [ "$encoder" == 'null' ]
+  then
+    encoder="$(ffprobe -loglevel quiet \
+                       -print_format json \
+                       -show_entries format_tags=encoder \
+                       "$music_file" |
+               jq -r .format.tags.encoder)"
+    if [ "$encoder" == 'null' ]
+    then
+      encoder='unknown'
+    fi
+  fi
+  local -a additional_flags=('-metadata:g' "encoding_tool=$encoder")
+
+  ffmpeg \
+    -i "$music_file" \
+    -i "$metadata_file" \
+    -map 0 \
+    -map_metadata 1 \
+    ${additional_flags[@]:-} \
+    -c copy \
+    "$output_file"
+}
+
+main "$@"
