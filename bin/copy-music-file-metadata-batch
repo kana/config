@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -euo pipefail
+
+function list_files()
+{
+  find "$1" -depth 1 -name "?*.*" |
+    sort |
+    cat -n |
+    sed 's/^  *//'
+}
+
+function main()
+{
+  local encoder='null'
+  local -a additional_flags
+
+  while true
+  do
+    case "$1" in
+      '--encoder')
+        additional_flags+=('--encoder' "$2")
+        shift 2
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  if [ "$#" != 3 ]
+  then
+    echo "Usage: $0 music_dir metadata_dir output_dir"
+    exit 1
+  fi
+
+  local music_dir="$1"
+  local metadata_dir="$2"
+  local output_dir="$3"
+  local music_file metadata_file output_file
+
+  join -t $'\t' -e 'empty' -o '1.2 2.2' <(list_files "$music_dir") <(list_files "$metadata_dir") |
+    while IFS=$'\t' read music_file metadata_file
+    do
+      output_file="$output_dir/$(basename "$music_file")"
+      echo "Processing $music_file ..."
+      copy-music-file-metadata \
+        --quiet \
+        ${additional_flags[@]:-} \
+        "$music_file" \
+        "$metadata_file" \
+        "$output_file"
+    done
+}
+
+main "$@"
