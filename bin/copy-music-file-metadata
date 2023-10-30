@@ -5,6 +5,7 @@ set -euo pipefail
 function main()
 {
   local encoder='null'
+  local -a additional_flags
 
   while true
   do
@@ -12,6 +13,10 @@ function main()
       '--encoder')
         encoder="$2"
         shift 2
+        ;;
+      '--quiet')
+        additional_flags+=('-loglevel' 'warning')
+        shift
         ;;
       *)
         break
@@ -41,7 +46,7 @@ function main()
       encoder='unknown'
     fi
   fi
-  local -a additional_flags=('-metadata:g' "encoding_tool=$encoder")
+  additional_flags+=('-metadata:g' "encoding_tool=$encoder")
 
   ffmpeg \
     -nostdin \
