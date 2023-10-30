@@ -44,6 +44,7 @@ function main()
   local -a additional_flags=('-metadata:g' "encoding_tool=$encoder")
 
   ffmpeg \
+    -nostdin \
     -i "$music_file" \
     -i "$metadata_file" \
     -map 0 \
