@@ -324,6 +324,13 @@ execute 'set runtimepath+='.s:my_after_path
 
 
 
+" Packages  "{{{2
+
+packadd! editorconfig
+
+
+
+
 " Misc.  "{{{2
 
 " Use this group for any autocmd defined in this file.
