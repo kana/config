@@ -251,7 +251,7 @@ if exists('+transparency')
 endif
 set ttimeoutlen=50  " Reduce annoying delay for key codes, especially <Esc>...
 set wildmenu
-set viminfo=<50,'10,h,r/a,n~/.viminfo
+set viminfo=<50,'100,h,r/a,n~/.viminfo
 
 " default 'statusline' with 'fileencoding'.
 let &statusline = ''
