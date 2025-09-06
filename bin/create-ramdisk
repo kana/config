@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+MB="${1:-100}"
+NUMSECTORS=$((MB * 1024 * 1024 / 512)) # A sector is 512 bytes.
+
+# "hdiutil attach" outputs extra spaces/tabs.  They must be removed.
+MYDEV="$(hdiutil attach -nomount "ram://$NUMSECTORS" | sed 's/[ \t]*$//')"
+
+diskutil eraseVolume APFS "ramdisk-${MB}mb" "$MYDEV"
