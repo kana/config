@@ -1,0 +1,5 @@
+#!/bin/bash
+
+godot='/Applications/Godot.app/Contents/MacOS/Godot'
+
+"$godot" --headless --script "$0.gd" -- "$1" "$2"
