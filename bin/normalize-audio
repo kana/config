@@ -1,0 +1,120 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+# Reference: https://developers.google.com/assistant/tools/audio-loudness
+
+TARGET_LUFS=-24 # Default.
+TP=-2.0 # Default
+LRA=7 # Default
+LRA=16
+DRY_RUN=false
+PREPARSED_JSON=
+
+while true
+do
+  case "$1" in
+    '--target-lufs')
+      TARGET_LUFS="$2"
+      shift 2
+      ;;
+    '--lra')
+      LRA="$2"
+      shift 2
+      ;;
+    '--dry-run')
+      DRY_RUN=true
+      shift 1
+      ;;
+    '--preparsed-json')
+      PREPARSED_JSON="$2"
+      shift 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+echo "[$PREPARSED_JSON]"
+
+function analyze_audio_bitrate()
+{
+  # Example line to be parsed:
+  # Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)
+  ffprobe "$1" 2>&1 |
+    grep Stream |
+    grep Audio |
+    head -n1 |
+    cut -d',' -f5 |
+    cut -d' ' -f2
+}
+audio_bitrate="$(analyze_audio_bitrate "$1")"
+
+function analyze_lufs()
+{
+  if [ "$PREPARSED_JSON" = '' ]
+  then
+    ffmpeg -i "$1" \
+      -map 0:a:0 \
+      -af "
+        loudnorm=I=$TARGET_LUFS
+        :TP=$TP
+        :LRA=$LRA
+        :dual_mono=true
+        :print_format=json
+      " \
+      -f null - 2>&1 |
+      tee >(cat >&2) |
+      sed -n '/^{$/,/^}$/p'
+  else
+    echo "$PREPARSED_JSON"
+  fi
+}
+
+json="$(analyze_lufs "$1")"
+# Example content:
+# {
+#   "input_i": "-24.32",
+#   "input_tp": "-12.34",
+#   "input_lra": "2.20",
+#   "input_thresh": "-34.33",
+#   "output_i": "-14.27",
+#   "output_tp": "-2.19",
+#   "output_lra": "2.10",
+#   "output_thresh": "-24.28",
+#   "normalization_type": "dynamic",
+#   "target_offset": "0.27"
+# }
+if [ "$DRY_RUN" = 'true' ]
+then
+  echo "$json" | jq
+  exit
+fi
+
+measured_i="$(echo "$json" | jq -r .input_i)"
+measured_tp="$(echo "$json" | jq -r .input_tp)"
+measured_lra="$(echo "$json" | jq -r .input_lra)"
+measured_thresh="$(echo "$json" | jq -r .input_thresh)"
+offset="$(echo "$json" | jq -r .target_offset)"
+
+dir="$(dirname "$1")"
+basename="$(basename "$1")"
+ext=".${basename/*./}"
+ffmpeg -i "$1" \
+  -map 0:v \
+  -map 0:a:0 \
+  -c:v copy \
+  -b:a "${audio_bitrate}k" \
+  -af "
+    loudnorm=I=$TARGET_LUFS
+    :TP=$TP
+    :LRA=$LRA
+    :measured_I=$measured_i
+    :measured_TP=$measured_tp
+    :measured_LRA=$measured_lra
+    :measured_thresh=$measured_thresh
+    :offset=$offset
+    :linear=true
+    :print_format=summary
+  " \
+  "$dir/,${basename/$ext/}-lufs$TARGET_LUFS$ext"
